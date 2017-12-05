@@ -67,6 +67,8 @@ namespace PKHeX.WinForms
 
             constants[cellstotal] = (ushort)NUD_Cells.Value;
             constants[cellscollected] = (ushort)NUD_Collected.Value;
+            if (SAV.USUM)
+                SAV.SetRecord(72, (int)NUD_Collected.Value);
 
             SAV.EventConsts = constants;
             Origin.SetData(SAV.Data, 0);

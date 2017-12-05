@@ -60,6 +60,8 @@
             this.L_C1 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.TB_EC = new System.Windows.Forms.TextBox();
+            this.L_EC = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
             this.SuspendLayout();
             // 
@@ -373,11 +375,33 @@
             this.label2.Text = "Current";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // TB_EC
+            // 
+            this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_EC.Location = new System.Drawing.Point(220, 4);
+            this.TB_EC.MaxLength = 8;
+            this.TB_EC.Name = "TB_EC";
+            this.TB_EC.Size = new System.Drawing.Size(60, 20);
+            this.TB_EC.TabIndex = 65;
+            this.TB_EC.Text = "12345678";
+            // 
+            // Label_EncryptionConstant
+            // 
+            this.L_EC.Location = new System.Drawing.Point(143, 5);
+            this.L_EC.Name = "L_EC";
+            this.L_EC.Size = new System.Drawing.Size(75, 15);
+            this.L_EC.TabIndex = 64;
+            this.L_EC.Text = "Starter EC:";
+            this.L_EC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_HallOfFame7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 201);
+            this.Controls.Add(this.TB_EC);
+            this.Controls.Add(this.L_EC);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CB_C6);
@@ -454,5 +478,7 @@
         private System.Windows.Forms.Label L_C1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox TB_EC;
+        private System.Windows.Forms.Label L_EC;
     }
 }

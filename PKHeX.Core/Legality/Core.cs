@@ -34,7 +34,6 @@ namespace PKHeX.Core
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra { get; set; }
         public static bool AllowGen1Tradeback { get; set; }
-        public static bool AllowGen2VCTransfer => true;
         public static bool AllowGen2VCCrystal => false;
         public static bool AllowGen2Crystal(bool Korean) => !Korean && (AllowGBCartEra || AllowGen2VCCrystal); // Pokemon Crystal was never released in Korea
         public static bool AllowGen2Crystal(PKM pkm) => AllowGen2Crystal(pkm.Korean);
@@ -401,7 +400,7 @@ namespace PKHeX.Core
         {
             List<int>[] Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
-                if (evoChains[i].Any())
+                if (evoChains[i].Length != 0)
                     Moves[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
                 else
                     Moves[i] = new List<int>();
@@ -578,7 +577,7 @@ namespace PKHeX.Core
             // Return moves that the pokemon could learn after evolving 
             var moves = new List<int>();
             for (int i = 1; i < evoChains.Length; i++)
-                if (evoChains[i].Any())
+                if (evoChains[i].Length != 0)
                     moves.AddRange(GetValidPostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
             if (pkm.GenNumber >= 6)
                 moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
@@ -1503,30 +1502,30 @@ namespace PKHeX.Core
 
                 // Remove future gen evolutions after a few special considerations, 
                 // it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
-                while (CompleteEvoChain.Any() && CompleteEvoChain.First().Species > maxspeciesgen)
+                while (CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Species > maxspeciesgen)
                 {   
                     // Eevee requires to level one time to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level bellow current
-                    if (CompleteEvoChain.First().Species == 700 && gen == 5)
+                    if (CompleteEvoChain[0].Species == 700 && gen == 5)
                         lvl--;
                     // This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5+
                     // We can deduce that it existed in gen 4 until met level,
                     // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
-                    if (gen == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_3 && CompleteEvoChain.First().RequiresLvlUp)
+                    if (gen == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && CompleteEvoChain[0].Species > MaxSpeciesID_3 && CompleteEvoChain[0].RequiresLvlUp)
                         lvl--;
                     // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level bellow gen 2 level
-                    if (gen == 1 && pkm.Format == 2 && lvl == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_1 && CompleteEvoChain.First().RequiresLvlUp)
+                    if (gen == 1 && pkm.Format == 2 && lvl == pkm.CurrentLevel && CompleteEvoChain[0].Species > MaxSpeciesID_1 && CompleteEvoChain[0].RequiresLvlUp)
                         lvl--;
                     CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
                 }
 
                 // Alolan form evolutions, remove from gens 1-6 chains
-                if (gen < 7 && pkm.Format >= 7 && CompleteEvoChain.Any() && CompleteEvoChain.First().Form > 0 && EvolveToAlolanForms.Contains(CompleteEvoChain.First().Species))
+                if (gen < 7 && pkm.Format >= 7 && CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Form > 0 && EvolveToAlolanForms.Contains(CompleteEvoChain[0].Species))
                     CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
 
-                if (!CompleteEvoChain.Any())
+                if (CompleteEvoChain.Length == 0)
                     continue;
 
-                GensEvoChains[gen] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain.First().Species, lvl);
+                GensEvoChains[gen] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain[0].Species, lvl);
                 if (gen > 2 && !pkm.HasOriginalMetLocation && gen >= pkm.GenNumber)
                     //Remove previous evolutions bellow transfer level
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
@@ -1561,12 +1560,12 @@ namespace PKHeX.Core
 
             int minindex = Math.Max(0, Array.FindIndex(vs, p => p.Species == minspec));
             Array.Resize(ref vs, minindex + 1);
-            var last = vs.Last();
+            var last = vs[vs.Length - 1];
             if (last.MinLevel > 1) // Last entry from vs is removed, turn next entry into the wild/hatched pokemon
             {
                 last.MinLevel = Encounter.LevelMin;
                 last.RequiresLvlUp = false;
-                var first = vs.First();
+                var first = vs[0];
                 if (!first.RequiresLvlUp)
                 {
                     if (first.MinLevel == 2)
@@ -1646,7 +1645,7 @@ namespace PKHeX.Core
                 r.AddRange(pkm.RelearnMoves);
 
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
-                if (vs[gen].Any())
+                if (vs[gen].Length != 0)
                     r.AddRange(GetValidMoves(pkm, Version, vs[gen], gen, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM));
 
             return r.Distinct();
@@ -1654,7 +1653,7 @@ namespace PKHeX.Core
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, DexLevel[] vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
-            if (!vs.Any())
+            if (vs.Length == 0)
                 return r;
             int species = pkm.Species;
 
@@ -1668,7 +1667,7 @@ namespace PKHeX.Core
                     // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
                     formcount = 4;
                 for (int i = 0; i < formcount; i++)
-                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
+                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs[0].Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
                 return r.Distinct();
             }

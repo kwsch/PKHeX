@@ -20,6 +20,7 @@ namespace PKHeX.Core
             SlotsGS = GetTables2(GameVersion.GS);
             SlotsC = GetTables2(GameVersion.C);
             SlotsGSC = GetTables2(GameVersion.GSC);
+            MarkEncounterAreaArray(SlotsGS, SlotsC, SlotsGSC, EncounterSafari_GSC, EncounterBCC_GSC);
             ReduceAreasSize(ref SlotsGS);
             ReduceAreasSize(ref SlotsC);
             ReduceAreasSize(ref SlotsGSC);
@@ -83,7 +84,6 @@ namespace PKHeX.Core
             MarkEncountersVersion(h_c, GameVersion.C);
 
             var extra = AddExtraTableSlots(c, h_c, f, bcc_c, safari_c);
-            MarkSlotLocation(ref extra);
             return extra;
         }
 

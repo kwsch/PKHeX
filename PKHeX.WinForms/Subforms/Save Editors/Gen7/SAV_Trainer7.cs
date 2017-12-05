@@ -155,6 +155,8 @@ namespace PKHeX.WinForms
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
                 CB_AlolaTime.SelectedValue = (int)time;
+            if (CB_AlolaTime.SelectedValue == null)
+                CB_AlolaTime.Enabled = false;
 
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
@@ -337,8 +339,7 @@ namespace PKHeX.WinForms
             SaveBattleTree();
             SaveTrainerAppearance();
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
-            if (SAV.SM)
-                SaveThrowType();
+            SaveThrowType();
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
 
@@ -439,6 +440,9 @@ namespace PKHeX.WinForms
         {
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
+
+            if (!SAV.SM) // unlock flags are in flag editor instead
+                return;
 
             const int unlockStart = 292;
             const int learnedStart = 3479;
@@ -747,7 +751,9 @@ namespace PKHeX.WinForms
             {069, "Items Reeled In"},
             // USUM
             {070, "Roto Lotos"},
+            {072, "Stickers Collected"},
             {073, "Mantine Surf BP Earned"},
+            {074, "Battle Agency Wins"},
 
             {100, "Champion Title Defense"},
             {104, "Moves used with No Effect"},
@@ -828,8 +834,10 @@ namespace PKHeX.WinForms
             // USUM
             {189, "Mantine Surf Plays"},
             {190, "Photo Club Photos saved"},
+            {191, "Battle Agency Battles"},
             {195, "Photo Club Sticker usage"},
             {196, "Photo Club Photo Shoots"},
+            {197, "Highest Wormhole Travel Distance"},
             {198, "Highest Mantine Surf BP Earned"},
         };
     }

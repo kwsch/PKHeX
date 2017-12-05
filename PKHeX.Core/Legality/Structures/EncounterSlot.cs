@@ -2,10 +2,11 @@
 {
     public class EncounterSlotPermissions
     {
-        public bool Static { get; set; }
-        public bool MagnetPull { get; set; }
+        public int StaticIndex { get; set; } = -1;
+        public int MagnetPullIndex { get; set; } = -1;
         public int StaticCount { get; set; }
         public int MagnetPullCount { get; set; }
+
         public bool AllowDexNav { get; set; }
         public bool Pressure { get; set; }
         public bool DexNav { get; set; }
@@ -13,13 +14,13 @@
         public bool BlackFlute { get; set; }
         public bool IsNormalLead => !(WhiteFlute || BlackFlute || DexNav);
         public bool IsDexNav => AllowDexNav && DexNav;
+        public EncounterSlotPermissions Clone() => (EncounterSlotPermissions)MemberwiseClone();
     }
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
     public class EncounterSlot : IEncounterable, IGeneration
     {
-        public int Location { get; set; } = -1;
         public int Species { get; set; }
         public int Form { get; set; }
         public int LevelMin { get; set; }
@@ -32,18 +33,20 @@
         internal EncounterSlotPermissions _perm;
         public EncounterSlotPermissions Permissions => _perm ?? (_perm = new EncounterSlotPermissions());
 
-        public virtual EncounterSlot Clone()
+        internal EncounterArea Area { get; set; }
+        public int Location => Area.Location;
+        public EncounterSlot Clone()
         {
-            return new EncounterSlot
-            {
-                Species = Species,
-                LevelMax = LevelMax,
-                LevelMin = LevelMin,
-                Type = Type,
-                SlotNumber = SlotNumber,
-                _perm = _perm
-            };
+            var slot = (EncounterSlot) MemberwiseClone();
+            if (_perm != null)
+                slot._perm = Permissions.Clone();
+            return slot;
         }
+
+        public bool FixedLevel => LevelMin == LevelMax;
+
+        public bool IsMatchStatic(int index, int count) => index == Permissions.StaticIndex && count == Permissions.StaticCount;
+        public bool IsMatchMagnet(int index, int count) => index == Permissions.MagnetPullIndex && count == Permissions.MagnetPullCount;
 
         public string Name
         {
@@ -69,20 +72,9 @@
         public int Rate;
         internal EncounterTime Time = EncounterTime.Any;
         public GameVersion Version = GameVersion.Any;
-        public override EncounterSlot Clone()
-        {
-            return new EncounterSlot1
-            {
-                Species = Species,
-                LevelMax = LevelMax,
-                LevelMin = LevelMin,
-                Type = Type,
-                SlotNumber = SlotNumber,
-                _perm = _perm,
-                Rate = Rate,
-                Time = Time,
-                Generation = Generation,
-            };
-        }
+    }
+    public class EncounterSlotMoves : EncounterSlot, IMoveset
+    {
+        public int[] Moves { get; set; }
     }
 }

@@ -324,6 +324,7 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x96); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x96); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
+        public byte[] HeldMailData { get => Data.Skip(0x9C).Take(0x38).ToArray(); set => value.CopyTo(Data, 0x9C); }
 
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
@@ -386,6 +387,10 @@ namespace PKHeX.Core
                 bk4.Data[0x68 + 2*i] = Data[0x68 + 2*i + 1];
                 bk4.Data[0x68 + 2*i + 1] = Data[0x68 + 2*i];
             }
+            if (AltForm != 0 && !PersonalTable.DP[Species].HasFormes)
+                bk4.AltForm = 0;
+            if (HeldItem > Legal.MaxItemID_4_DP)
+                bk4.HeldItem = 0;
             bk4.Sanity = 0x4000;
             bk4.RefreshChecksum();
             return bk4;
@@ -431,8 +436,8 @@ namespace PKHeX.Core
 
             // Met / Crown Data Detection
             pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Legal.CrownBeasts.Contains(pk5.Species)
-                ? (pk5.Species == 251 ? 30010 : 30012) // Celebi : Beast
-                : 30001; // Pokétransfer (not Crown)
+                ? (pk5.Species == 251 ? Legal.Transfer4_CelebiUnused : Legal.Transfer4_CrownUnused) // Celebi : Beast
+                : Legal.Transfer4; // Pokétransfer (not Crown)
             pk5.Egg_Location = Egg_Location;
             
             // Delete HGSS Data

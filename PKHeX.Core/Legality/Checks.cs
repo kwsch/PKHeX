@@ -355,14 +355,71 @@ namespace PKHeX.Core
                 return;
             }
             if (pkm.HGSS)
-                VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS);
-            else
             {
-                if (EncounterMatch.Species == 129) // Magikarp
-                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, pkm.Nickname);
-                else
-                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
+                int lang = pkm.Language;
+                if (EncounterMatch.Species == 25) // Pikachu
+                    lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
+                VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
             }
+            else // DPPt
+            {
+                int lang = pkm.Language;
+                if (EncounterMatch.Species == 129) // Magikarp
+                    lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
+                else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang
+                {
+                    int index = Array.IndexOf(Encounters4.TradeGift_DPPt, EncounterMatch);
+                    if (Encounters4.TradeDPPt[1][index] != pkm.Nickname) // not japanese
+                        lang = 2; // English
+                }
+                VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, lang);
+            }
+        }
+        private static int DetectTradeLanguageG4MeisterMagikarp(PKM pkm, int lang)
+        {
+            if (lang == (int)LanguageID.English)
+                return (int)LanguageID.German;
+
+            // All have German, regardless of origin version.
+            // Detect which language they originated from... roughly.
+            var table = Encounters4.TradeDPPt;
+            for (int i = 0; i < table.Length; i++)
+            {
+                if (table[i].Length == 0)
+                    continue;
+                // Nick @ 3, OT @ 7
+                if (table[i][7] != pkm.OT_Name)
+                    continue;
+                lang = i;
+                break;
+            }
+            if (lang == 2) // possible collision with EN/ES/IT. Check nickname
+                return pkm.Nickname == table[4][3] ? (int)LanguageID.Italian : (int)LanguageID.Spanish; // Spanish is same as English
+
+            return lang;
+        }
+        private static int DetectTradeLanguageG4SurgePikachu(PKM pkm, int lang)
+        {
+            if (lang == (int)LanguageID.French)
+                return (int)LanguageID.English;
+            
+            // All have English, regardless of origin version.
+            // Detect which language they originated from... roughly.
+            var table = Encounters4.TradeHGSS;
+            for (int i = 0; i < table.Length; i++)
+            {
+                if (table[i].Length == 0)
+                    continue;
+                // Nick @ 6, OT @ 18
+                if (table[i][18] != pkm.OT_Name)
+                    continue;
+                lang = i;
+                break;
+            }
+            if (lang == 2) // possible collision with ES/IT. Check nickname
+                return pkm.Nickname == table[4][6] ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
+
+            return lang;
         }
         private void VerifyTrade5()
         {
@@ -403,15 +460,8 @@ namespace PKHeX.Core
         private void VerifyTradeTable(string[][] ots, EncounterTrade[] table) => VerifyTradeTable(ots, table, pkm.Language);
         private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, int language)
         {
-            var validOT = language >= ots.Length ? ots[0] : ots[pkm.Language];
+            var validOT = language >= ots.Length ? ots[0] : ots[language];
             var index = Array.IndexOf(table, EncounterMatch);
-            VerifyTradeOTNick(validOT, index);
-        }
-        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, string nickname)
-        {
-            // edge case method for Foppa (DPPt Magikarp Trade)
-            var index = Array.IndexOf(table, EncounterMatch);
-            var validOT = ots.FirstOrDefault(z => index < z.Length && z[index] == nickname);
             VerifyTradeOTNick(validOT, index);
         }
         private void VerifyTradeOTOnly(string[] validOT)
@@ -442,7 +492,9 @@ namespace PKHeX.Core
             string nick = validOT[index];
             string OT = validOT[validOT.Length / 2 + index];
 
-            if (nick != pkm.Nickname && !(nick == "Quacklin’" && pkm.Nickname == "Quacklin'")) // apostrophe
+            if (nick != pkm.Nickname 
+                && !(nick == "Quacklin’" && pkm.Nickname == "Quacklin'") // apostrophe farfetch'd edge case
+                && ((EncounterTrade)EncounterMatch).IsNicknamed) // trades that are not nicknamed (but are present in a table with others being named)
                 AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
             else
                 AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
@@ -499,11 +551,12 @@ namespace PKHeX.Core
                     return;
                 }
             }
-            if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
+            if (EncounterMatch is EncounterSlot w)
             {
-                if (pkm.IVs.Count(iv => iv == 31) < 2)
+                bool force2 = w.Type == SlotType.FriendSafari || pkm.Gen7 && pkm.AbilityNumber == 4;
+                if (force2 && pkm.IVs.Count(iv => iv == 31) < 2)
                 {
-                    AddLine(Severity.Invalid, V29, CheckIdentifier.IVs);
+                    AddLine(Severity.Invalid, w.Type == SlotType.FriendSafari ? V29 : string.Format(V28, 2), CheckIdentifier.IVs);
                     return;
                 }
             }
@@ -598,7 +651,7 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
 
-            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || !Info.Game.Contains(GameVersion.C)))
+            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || pkm.Version != (int)GameVersion.C))
                 AddLine(Severity.Invalid, V408, CheckIdentifier.Trainer);
         }
         private void VerifyG1OTWithinBounds(string str)
@@ -730,9 +783,9 @@ namespace PKHeX.Core
 
         private void VerifyTransferLegalityG3()
         {
-            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+            if (pkm.Format == 4 && pkm.Met_Location != Legal.Transfer3) // Pal Park
                 AddLine(Severity.Invalid, V60, CheckIdentifier.Encounter);
-            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+            if (pkm.Format != 4 && pkm.Met_Location != Legal.Transfer4)
                 AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
         }
         private void VerifyTransferLegalityG4()
@@ -745,13 +798,13 @@ namespace PKHeX.Core
                 switch (pkm.Species)
                 {
                     case 251: // Celebi
-                        if (loc != 30010 && loc != 30011) // unused || used
+                        if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
                             AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
                         break;
                     case 243: // Raikou
                     case 244: // Entei
                     case 245: // Suicune
-                        if (loc != 30012 && loc != 30013) // unused || used
+                        if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
                             AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
                         break;
                     default:
@@ -911,7 +964,7 @@ namespace PKHeX.Core
             }
 
             List<string> result = RibbonVerifier.GetIncorrectRibbons(pkm, encounterContent, Info.Generation);
-            if (result.Any())
+            if (result.Count != 0)
                 AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
             else
                 AddLine(Severity.Valid, V602, CheckIdentifier.Ribbon);
@@ -1857,7 +1910,7 @@ namespace PKHeX.Core
             if (count <= 1 && pkm.AltForm == 0)
                 return; // no forms to check
 
-            if (pkm.AltForm >= count && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
+            if (!PersonalInfo.IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
             {
                 AddLine(Severity.Invalid, string.Format(V304, count-1, pkm.AltForm), CheckIdentifier.Form);
                 return;
@@ -1865,6 +1918,14 @@ namespace PKHeX.Core
 
             if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
                 VerifyFormFriendSafari();
+            else if (EncounterMatch is EncounterEgg)
+            {
+                if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm))
+                {
+                    AddLine(Severity.Invalid, V317, CheckIdentifier.Form);
+                    return;
+                }
+            }
 
             switch (pkm.Species)
             {
@@ -1911,7 +1972,7 @@ namespace PKHeX.Core
                     break;
                 case 647: // Keldeo
                     {
-                        if (pkm.Format == 5) // can mismatch in gen5 via BW tutor
+                        if (pkm.Gen5) // can mismatch in gen5 via BW tutor and transfer up
                             break;
                         int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                         bool noSword = index < 0;

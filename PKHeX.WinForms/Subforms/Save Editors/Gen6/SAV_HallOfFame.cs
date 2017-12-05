@@ -252,7 +252,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(Convert.ToUInt16(CB_Move2.SelectedValue)).CopyTo(data, offset + 0x06);
             BitConverter.GetBytes(Convert.ToUInt16(CB_Move3.SelectedValue)).CopyTo(data, offset + 0x08);
             BitConverter.GetBytes(Convert.ToUInt16(CB_Move4.SelectedValue)).CopyTo(data, offset + 0x0A);
-            BitConverter.GetBytes(Convert.ToUInt32(TB_EC.Text,16)).CopyTo(data, offset + 0x0C);
+            BitConverter.GetBytes(Util.GetHexValue(TB_EC.Text)).CopyTo(data, offset + 0x0C);
 
             BitConverter.GetBytes(Convert.ToUInt16(TB_TID.Text)).CopyTo(data, offset + 0x10);
             BitConverter.GetBytes(Convert.ToUInt16(TB_SID.Text)).CopyTo(data, offset + 0x12);

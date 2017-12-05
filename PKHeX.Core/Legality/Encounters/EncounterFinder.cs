@@ -46,6 +46,8 @@ namespace PKHeX.Core
                         break; // passes
                 }
 
+                if (!info.FrameMatches && info.EncounterMatch is EncounterSlot && pkm.Version != (int)GameVersion.CXD) // if false, all valid RNG frame matches have already been consumed
+                    info.Parse.Add(new CheckResult(Severity.Fishy, V400, CheckIdentifier.PID)); // todo for further confirmation
                 if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
                     info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
 

@@ -177,7 +177,7 @@ L_Secure2 = Secure Value 2:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! RibbonEditor = Ribbon Editor
+! RibbonEditor = 奖章
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
 B_All = 获得全部
@@ -186,7 +186,7 @@ B_Cancel = 取消
 B_Save = 保存
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
-! SuperTrainingEditor = Medal Editor
+! SuperTrainingEditor = 超级训练奖章
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
 B_All = 获得全部
@@ -232,7 +232,7 @@ L_Hits = 剩余点数:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! MemoryAmie = Memory / Amie Editor
+! MemoryAmie = 回忆/清爽乐
 - Change stuff below this line, not above.
 ---------------------Bottom UI-------------------------
 BTN_Cancel = 取消
@@ -259,14 +259,14 @@ L_Arguments = 关闭 ; 从未离开 ; 初训家 ; 前代 ; 回忆 ; 宝可梦 ; 
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
-! f2_Text = Special Characters
+! f2_Text = 特殊字符
 - Change stuff below this line, not above.
 -------------------------------------------------------
 -- No Elements to rename here.
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_PokeBlockORAS = Pokéblock Editor
+! SAV_PokeBlockORAS = 宝可方块
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Red = 红色宝可方块:
@@ -288,7 +288,7 @@ B_Save = 保存
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Link6 = Pokémon Link Tool
+! SAV_Link6 = 宝可梦连接工具
 - Change stuff below this line, not above.
 -------------------------------------------------------
 TAB_Main = 主界面
@@ -310,7 +310,7 @@ L_Item6 = 道具6:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
-! SuperTrain = Super Training Records
+! SuperTrain = 超级训练记录
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
 L_Records = 记录
@@ -326,7 +326,7 @@ B_Cancel = 取消
 B_Save = 保存
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_BerryField = Berry Field Viewer
+! SAV_BerryField = 树果田查看器
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Berry = 树果:
@@ -344,7 +344,7 @@ B_Save = 保存
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
-! SAV_BoxLayout = Box Layout Editor
+! SAV_BoxLayout = 盒子外观
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Unlocked = 已解锁:
@@ -356,7 +356,7 @@ L_BoxName = 盒子的名字:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_EventFlagsORAS = Event Flag Editor (ORAS)
+! SAV_EventFlagsORAS = 事件旗标编辑(ORAS)
 - Change stuff below this line, not above.
 ------------------------------------------------------
 L_Ash = 火山灰:
@@ -442,7 +442,7 @@ B_Cancel = 取消
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_EventFlagsXY = Event Flag Editor (XY)
+! SAV_EventFlagsXY = 事件旗标编辑(XY)
 - Change stuff below this line, not above.
 -------------------------------------------------------
 flag_2546 = 图鉴已获得
@@ -484,7 +484,7 @@ B_Cancel = 取消
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_PokedexORAS = Pokédex Editor (ORAS)
+! SAV_PokedexORAS = 图鉴编辑(ORAS)
 - Change stuff below this line, not above.
 ------------------------------------------------------
 L_goto = 转到:
@@ -517,7 +517,7 @@ B_Cancel = 取消
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_PokedexXY = Pokédex Editor (XY)
+! SAV_PokedexXY = 图鉴编辑(XY)
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_goto = 转到:
@@ -550,7 +550,7 @@ B_Cancel = 取消
 ! End
 -------------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_HallOfFame = Hall of Fame Editor
+! SAV_HallOfFame = 名人堂
 - Change stuff below this line, not above.
 -------------------------------------------------------
 B_CopyText = 复制文本
@@ -575,7 +575,7 @@ B_Close = 保存
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Inventory = Inventory Editor
+! SAV_Inventory = 物品栏
 - Change stuff below this line, not above.
 -------------------------------------------------------
 B_GiveAll = 获得所有
@@ -584,7 +584,7 @@ B_Cancel = 取消
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_OPower = O-Power Editor
+! SAV_OPower = O-Power
 - Change stuff below this line, not above.
 -------------------------------------------------------
 GB_Regular = 常规
@@ -621,7 +621,7 @@ B_Cancel = 取消
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Pokepuff = ‎Poké Puffs Editor
+! SAV_Pokepuff = 宝可泡芙
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Count = 计数:
@@ -633,7 +633,7 @@ B_Save = 保存
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_SecretBase = Secret Base Editor
+! SAV_SecretBase = 秘密基地
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_FlagsCaptured = 已获得旗标: 
@@ -678,7 +678,7 @@ L_PPUps = PP提升
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Trainer = Trainer Data Editor
+! SAV_Trainer = 训练家资料
 - Change stuff below this line, not above.
 -------------------------------------------------------
 Tab_Multiplayer = 多人游戏
@@ -760,7 +760,7 @@ L_Offset = (偏移)
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! SAV_Wondercard = Mystery Gift I/O
+! SAV_Wondercard = 神秘礼物导入导出
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_Details = 说明:
@@ -772,7 +772,7 @@ B_Save = 保存
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
-! ErrorWindow = Error
+! ErrorWindow = 错误
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_ProvideInfo = 提交错误报告时请提供以下信息: 

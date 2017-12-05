@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -33,6 +34,8 @@ namespace PKHeX.Core
             var FR_Slots = get("fr", "fr");
             var LG_Slots = get("lg", "lg");
 
+            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGUnown);
+
             ReduceAreasSize(ref R_Slots);
             ReduceAreasSize(ref S_Slots);
             ReduceAreasSize(ref E_Slots);
@@ -45,23 +48,13 @@ namespace PKHeX.Core
             MarkG3SlotsSafariZones(ref FR_Slots, SafariLocation_FRLG);
             MarkG3SlotsSafariZones(ref LG_Slots, SafariLocation_FRLG);
 
-            MarkEncountersStaticMagnetPull(ref R_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref S_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref E_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref FR_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref LG_Slots, PersonalTable.SM);
+            MarkEncountersStaticMagnetPull(E_Slots, PersonalTable.SM);
 
             SlotsR = AddExtraTableSlots(R_Slots, SlotsRSEAlt);
             SlotsS = AddExtraTableSlots(S_Slots, SlotsRSEAlt);
             SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
-            SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGAlt);
-            SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGAlt);
-
-            MarkSlotLocation(ref SlotsR);
-            MarkSlotLocation(ref SlotsS);
-            MarkSlotLocation(ref SlotsE);
-            MarkSlotLocation(ref SlotsFR);
-            MarkSlotLocation(ref SlotsLG);
+            SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGUnown);
+            SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGUnown);
         }
 
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
@@ -269,47 +262,44 @@ namespace PKHeX.Core
         };
 
         #region AltSlots
-        private static readonly int[] SafariZoneLocation_3 =
-        {
-            57, 136
-        };
         private static readonly EncounterArea[] SlotsRSEAlt =
         {
             // Swarm can be passed from R/S<->E via mixing records
+            // Encounter Percent is a 50% call
             new EncounterArea {
                 Location = 17, // Route 102
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm}, // Seedot (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm, Moves = new[] {117, 106, 073} /* Bide, Harden, Leech Seed */ }, // Seedot (E)
                 },},
             new EncounterArea {
                 Location = 29, // Route 114
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Nuzleaf (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {106, 074, 267, 073} /* Harden, Growth, Nature Power, Leech Seed */ }, // Nuzleaf (E)
                 },},
             new EncounterArea {
                 Location = 31, // Route 116
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Skitty (R/S)
-                    new EncounterSlot { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm}, // Skitty (E)
+                    new EncounterSlotMoves { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {045, 033} /* Growl, Tackle */ }, // Skitty (R/S)
+                    new EncounterSlotMoves { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm, Moves = new[] {045, 033, 039, 213} /* Growl, Tackle, Tail Whip, Attract */ }, // Skitty (E)
                 },},
             new EncounterArea {
                 Location = 32, // Route 117
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm}, // Seedot (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm, Moves = new[] {106, 074, 267, 073} /* Harden, Growth, Nature Power, Leech Seed */ }, // Seedot (E)
                 },},
             new EncounterArea {
                 Location = 35, // Route 120
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Swarm}, // Seedot (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Swarm, Moves = new[] {202, 218, 076, 073} /* Giga Drain, Frustration, Solar Beam, Leech Seed */ }, // Seedot (E)
                 },},
 
             // Feebas fishing spot
@@ -317,75 +307,32 @@ namespace PKHeX.Core
                 Location = 34, // Route 119
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Super_Rod } // Feebas
+                    new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
                 },},
         };
-        private static readonly EncounterArea[] SlotsFRLGAlt =
+        private static readonly EncounterArea[] SlotsFRLGUnown =
         {
-            new EncounterArea {
-                Location = 188, // Monean Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 0 }, // Unown A
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 26 }, // Unown ?
-                },},
-            new EncounterArea {
-                Location = 189, // Liptoo Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 2 }, // Unown C
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 3 }, // Unown D
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 7 }, // Unown H
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 14 }, // Unown O
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 20 }, // Unown U
-                },},
-            new EncounterArea {
-                Location = 190, // Weepth Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 4 }, // Unown E
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 8 }, // Unown I
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 13 }, // Unown N
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 18 }, // Unown S
-                },},
-            new EncounterArea {
-                Location = 191, // Dilford Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 9 }, // Unown J
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 11 }, // Unown L
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 15 }, // Unown P
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 16 }, // Unown Q
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 17 }, // Unown R
-                },},
-            new EncounterArea {
-                Location = 192, // Scufib Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 5 }, // Unown F
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 6 }, // Unown G
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 10 }, // Unown K
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 19 }, // Unown T
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 24 }, // Unown Y
-                },},
-            new EncounterArea {
-                Location = 193, // Rixy Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 1 }, // Unown B
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 12 }, // Unown M
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 21 }, // Unown V
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 22 }, // Unown W
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 23 }, // Unown X
-                },},
-            new EncounterArea {
-                Location = 194, // Viapois Chamber
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 25 }, // Unown Z
-                    new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 27 }, // Unown !
-                },}
+            GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,26 }), // 188 = Monean Chamber
+            GetUnownArea(189, new[] { 02,02,02,03,03,03,07,07,07,20,20,14 }), // 189 = Liptoo Chamber
+            GetUnownArea(190, new[] { 13,13,13,13,18,18,18,18,08,08,04,04 }), // 190 = Weepth Chamber
+            GetUnownArea(191, new[] { 15,15,11,11,09,09,17,17,17,16,16,16 }), // 191 = Dilford Chamber
+            GetUnownArea(192, new[] { 24,24,19,19,06,06,06,05,05,05,10,10 }), // 192 = Scufib Chamber
+            GetUnownArea(193, new[] { 21,21,21,22,22,22,23,23,12,12,01,01 }), // 193 = Rixy Chamber
+            GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,27 }), // 194 = Viapois Chamber
         };
+        private static EncounterArea GetUnownArea(int location, IReadOnlyList<int> SlotForms)
+        {
+            return new EncounterArea
+            {
+                Location = location,
+                Slots = SlotForms.Select((z, i) => new EncounterSlot
+                {
+                    Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass,
+                    SlotNumber = i,
+                    Form = SlotForms[i]
+                }).ToArray()
+            };
+        }
         #endregion
 
         #region Colosseum

@@ -780,9 +780,9 @@ namespace PKHeX.WinForms.Controls
                 minlvl = level;
 
             if (pkm.VC1)
-                location = 30013;
+                location = Legal.Transfer1;
             else if (pkm.VC2)
-                location = 30017;
+                location = Legal.Transfer2;
 
             if (!silent)
             {
@@ -1272,8 +1272,8 @@ namespace PKHeX.WinForms.Controls
                     switch (newTrack)
                     {
                         case GameVersion.GO: metLoc = 30012; break;
-                        case GameVersion.RBY: metLoc = 30013; break;
-                        case GameVersion.GSC: metLoc = 30017; break;
+                        case GameVersion.RBY: metLoc = Legal.Transfer1; break;
+                        case GameVersion.GSC: metLoc = Legal.Transfer2; break;
                     }
                     if (metLoc != 0)
                         CB_MetLocation.SelectedValue = metLoc;
@@ -2064,7 +2064,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void PopulateFilteredDataSources(SaveFile SAV)
         {
-            GameInfo.SetItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings);
+            GameInfo.SetItemDataSource(SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings, HaX);
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 

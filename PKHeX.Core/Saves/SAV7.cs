@@ -612,6 +612,11 @@ namespace PKHeX.Core
             get => Data[Misc + 0x130] & 0x1F;
             set => Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F));
         }
+        public uint StarterEncryptionConstant
+        {
+            get => BitConverter.ToUInt32(Data, Misc + 0x148);
+            set => SetData(BitConverter.GetBytes(value), Misc + 0x148);
+        }
         public int DaysFromRefreshed
         {
             get => Data[Misc + 0x123];
@@ -657,8 +662,8 @@ namespace PKHeX.Core
             }
         }
         public ushort FestaRank { get => BitConverter.ToUInt16(Data, JoinFestaData + 0x53A); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x53A); }
-        public ushort GetFestaMessage(int index) => Data[JoinFestaData + (index << 1)];
-        public void SetFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + (index << 1));
+        public ushort GetFestaMessage(int index) => BitConverter.ToUInt16(Data, JoinFestaData + index * 2);
+        public void SetFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + index * 2);
         public bool GetFestaPhraseUnlocked(int index) => Data[JoinFestaData + 0x2A50 + index] != 0; //index: 0 to 105:commonPhrases, 106:Lv100!
         public void SetFestaPhraseUnlocked(int index, bool value)
         {

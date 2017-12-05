@@ -192,8 +192,8 @@ namespace PKHeX.Tests.PKM
 
                 var type = SlotType.Grass;
                 var slots = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 };
-                Assert.IsTrue(slots.All(s => r2.Any(z => z.EncounterSlot(type) == s)), "Required slots not present.");
-                var slotsForType = r2.Where(z => !z.LevelSlotModified).Select(z => z.EncounterSlot(type)).Distinct().OrderBy(z => z);
+                Assert.IsTrue(slots.All(s => r2.Any(z => z.GetSlot(type) == s)), "Required slots not present.");
+                var slotsForType = r2.Where(z => !z.LevelSlotModified).Select(z => z.GetSlot(type)).Distinct().OrderBy(z => z);
                 Assert.IsTrue(slotsForType.SequenceEqual(slots), "Unexpected slots present.");
             }
             // Test for Method H and K

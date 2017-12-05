@@ -304,7 +304,9 @@ namespace PKHeX.Core
             032, // Via Nidoran-F
             313, // Via Illumise
 
+            172, // Via Pikachu
             173, // Via Clefairy
+            174, // Via Jigglypuff
             239, // Via Electabuzz
             240, // Via Magmar
             298, // Via Marill
@@ -313,6 +315,8 @@ namespace PKHeX.Core
             433, // Via Chimecho
             439, // Via Mr. Mime
             440, // Via Chansey
+
+            287, // Via Vigoroth
         };
         internal static readonly HashSet<int> Inherit_Dream = new HashSet<int>
         {

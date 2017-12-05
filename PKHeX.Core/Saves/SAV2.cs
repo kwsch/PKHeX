@@ -114,6 +114,7 @@ namespace PKHeX.Core
 
             // Enable Pokedex editing
             PokeDex = 0;
+            EventFlag = Offsets.EventFlag;
 
             if (!Exportable)
                 ClearBoxes();
@@ -219,6 +220,10 @@ namespace PKHeX.Core
         public override int MaxGameID => 99; // unused
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
+
+        // not correct, but whole contains. Data[EventFlag+0x22F]=Data[0x1A2F] means repel count.
+        protected override int EventFlagMax => Version == GameVersion.C ? 0x230 << 3 : base.EventFlagMax;
+        protected override int EventConstMax => Version == GameVersion.C ? 0 : base.EventConstMax;
 
         public override int BoxCount => Japanese ? 9 : 14;
         public override int MaxEV => 65535;

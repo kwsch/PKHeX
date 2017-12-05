@@ -6,7 +6,7 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         internal const int MaxSpeciesID_7 = 802;
-        internal const int MaxMoveID_7 = 720;
+        internal const int MaxMoveID_7 = 719;
         internal const int MaxItemID_7 = 920;
         internal const int MaxAbilityID_7 = 232;
         internal const int MaxBallID_7 = 0x1A; // 26
@@ -199,7 +199,7 @@ namespace PKHeX.Core
             276, 277, // Swellow
             451, 452, // Drapion
             531, // Audino
-            695, // Heliolisk
+            694, 695, // Heliolisk
             273, 274, 275, // Nuzleaf
             325, 326, // Gumpig
             459, 460, // Abomasnow
@@ -212,11 +212,18 @@ namespace PKHeX.Core
             618, // Stunfisk
             418, 419, // Floatzel
             194, 195, // Quagsire
+
+            100, 101 // Voltorb & Electrode
         };
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
             142, // Aerodacyl
-            137, 233, 474 // Porygon++
+            137, 233, 474, // Porygon++
+            138, 139, 140, 141,  // Gen1 Fossils
+            345, 346, 347, 348,  // Gen3 Fossils
+            408, 409, 410, 411,  // Gen4 Fossils
+            564, 565, 566, 567,  // Gen5 Fossils
+            696, 697, 698, 699,  // Gen6 Fossils
         };
 
         internal static readonly HashSet<int> PastGenAlolanScans = new HashSet<int>
@@ -328,8 +335,11 @@ namespace PKHeX.Core
             714,
 
             // Wormhole
-            333, 468, 561, 580, 276, 451, 531, 694, 273, 325,
+            333, 193, 561, 580, 276, 451, 531, 694, 273, 325,
             459, 307, 449, 557, 218, 688, 270, 618, 418, 194,
+
+            // Static Encounters
+            100,
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
@@ -550,10 +560,6 @@ namespace PKHeX.Core
             069, // White Flute
             070, // Shoal Salt
             071, // Shoal Shell
-            099, // Root Fossil
-            100, // Claw Fossil
-            101, // Helix Fossil
-            102, // Dome Fossil
             103, // Old Amber
             111, // Odd Keystone
             164, // Razz Berry
@@ -604,8 +610,6 @@ namespace PKHeX.Core
             588, // Relic Band
             589, // Relic Statue
             590, // Relic Crown
-            710, // Jaw Fossil
-            711, // Sail Fossil
             715, // Fairy Gem
         };
         #endregion

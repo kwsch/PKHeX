@@ -65,7 +65,7 @@ namespace PKHeX.Core
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
             var deferred = new List<IEncounterable>();
-            foreach (var z in GenerateRawEncounters3(pkm))
+            foreach (var z in GenerateRawEncounters3(pkm, info))
             {
                 if (z is EncounterSlot w && pkm.Version == 15)
                     info.PIDIV = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault() ?? info.PIDIV; 
@@ -87,11 +87,11 @@ namespace PKHeX.Core
             var deferredPIDIV = new List<IEncounterable>();
             var deferredEType = new List<IEncounterable>();
 
-            foreach (var z in GenerateRawEncounters4(pkm))
+            foreach (var z in GenerateRawEncounters4(pkm, info))
             {
                 if (!info.PIDIV.Type.IsCompatible4(z, pkm))
                     deferredPIDIV.Add(z);
-                else if (!IsEncounterTypeMatch(z, pkm.EncounterType))
+                else if (pkm.Format <= 6 && !IsEncounterTypeMatch(z, pkm.EncounterType))
                     deferredEType.Add(z);
                 else
                     yield return z;
@@ -180,7 +180,7 @@ namespace PKHeX.Core
         }
         private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
-            bool crystal = pkm.Format == 2 && pkm.Met_Location != 0;
+            bool crystal = pkm.Format == 2 && pkm.Met_Location != 0 || pkm.Format >= 7 && pkm.OT_Gender == 1;
             var g1i = new PeekEnumerator<GBEncounterData>(get1().GetEnumerator());
             var g2i = new PeekEnumerator<GBEncounterData>(get2().GetEnumerator());
             var deferred = new List<GBEncounterData>();
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             }
             IEnumerable<GBEncounterData> get2()
             {
-                if (!pkm.Gen1_NotTradeback && AllowGen2VCTransfer)
+                if (!pkm.Gen1_NotTradeback)
                     foreach (var z in GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC))
                         yield return z;
             }
@@ -263,7 +263,7 @@ namespace PKHeX.Core
             { yield return z; ++ctr; }
             // if (ctr != 0) yield break;
         }
-        private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm)
+        private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)
         {
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg; // egg events?
             if (wasEvent)
@@ -278,6 +278,8 @@ namespace PKHeX.Core
                 foreach (var z in GenerateEggs(pkm))
                     yield return z;
             }
+            foreach (var z in GetValidEncounterTrades(pkm))
+                yield return z;
 
             var deferred = new List<IEncounterable>();
             bool safariSport = pkm.Ball == 0x05 || pkm.Ball == 0x18; // never static encounters
@@ -289,10 +291,17 @@ namespace PKHeX.Core
                 else
                     yield return z;
             }
-            foreach (var z in GetValidEncounterTrades(pkm))
-                yield return z;
+            
+            var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
-                yield return z;
+            {
+                var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
+                if (frame != null || pkm.Species == 201) // Unown -- don't really care to figure this out
+                    yield return z;
+                else
+                    deferred.Add(z);
+            }
+            info.FrameMatches = false;
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safariSport)
@@ -301,9 +310,11 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
-        private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm)
+        private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
         {
             foreach (var z in GetValidGifts(pkm))
+                yield return z;
+            foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
             var deferred = new List<IEncounterable>();
@@ -316,10 +327,16 @@ namespace PKHeX.Core
                 else
                     yield return z;
             }
+            var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
-                yield return z;
-            foreach (var z in GetValidEncounterTrades(pkm))
-                yield return z;
+            {
+                var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
+                if (frame != null)
+                    yield return z;
+                else
+                    deferred.Add(z);
+            }
+            info.FrameMatches = false;
 
             if (pkm.Version != 15) // no eggs in C/XD
             foreach (var z in GenerateEggs(pkm))
@@ -1364,20 +1381,21 @@ namespace PKHeX.Core
             if (wc.PIDType == 2 && !pkm.IsShiny) return false;
             if (wc.PIDType == 3 && pkm.IsShiny) return false;
 
-            if (wc.CardID == 1624)
+            switch (wc.CardID)
             {
-                if (pkm.Species == 745 && pkm.AltForm != 2)
+                case 1624: // Rockruff
+                    if (pkm.Species == 745 && pkm.AltForm != 2)
+                        return false;
+                    if (pkm.Version == (int)GameVersion.US)
+                        return wc.Move3 == 424; // Fire Fang
+                    if (pkm.Version == (int)GameVersion.UM)
+                        return wc.Move3 == 422; // Thunder Fang
                     return false;
-                if (pkm.Version == (int)GameVersion.US)
-                    return wc.Move3 == 424; // Fire Fang
-                if (pkm.Version == (int)GameVersion.UM)
-                    return wc.Move3 == 422; // Thunder Fang
-                return false;
+                case 2046: // Ash Greninja
+                    return pkm.SM; // not USUM
             }
-
             return true;
         }
-
 
         // EncounterEgg
         private static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm)
@@ -1413,7 +1431,14 @@ namespace PKHeX.Core
             }
 
             // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
-            GameVersion tradePair() => (GameVersion) (((int) ver - 4 * gen) ^ 2 + 4 * gen);
+            GameVersion tradePair()
+            {
+                if (ver <= GameVersion.OR) // gen6
+                    return (GameVersion)((int)ver ^ 2);
+                if (ver <= GameVersion.MN) // gen7
+                    return ver + 2;
+                return ver - 2;
+            }
         }
 
         // Utility
@@ -1464,7 +1489,7 @@ namespace PKHeX.Core
             var vs = GetValidPreEvolutions(pkm);
             return (from area in GetEncounterSlots(pkm)
                 let slots = GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, ignoreLevel: true).ToArray()
-                where slots.Any()
+                where slots.Length != 0
                 select new EncounterArea
                 {
                     Location = area.Location,
@@ -1492,7 +1517,7 @@ namespace PKHeX.Core
         {
             if (pkm.VC1)
                 return GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
-            if (pkm.VC2)
+            if (pkm.VC2 && (pkm.Version != (int)GameVersion.C || AllowGen2VCCrystal))
                 return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
             return new EncounterInvalid(pkm);
         }
@@ -1505,7 +1530,7 @@ namespace PKHeX.Core
                 Ability = TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
                 Shiny = species == 151 ? (bool?)false : null,
                 Fateful = species == 151,
-                Location = 30013,
+                Location = Transfer1,
                 EggLocation = 0,
                 IV3 = true,
                 Level = pkmMetLevel,
@@ -1521,7 +1546,7 @@ namespace PKHeX.Core
                 Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
                 Shiny = species == 151 || species == 251 ? (bool?)false : null,
                 Fateful = species == 151 || species == 251,
-                Location = 30017,
+                Location = Transfer2,
                 EggLocation = 0,
                 IV3 = true,
                 Level = pkmMetLevel,

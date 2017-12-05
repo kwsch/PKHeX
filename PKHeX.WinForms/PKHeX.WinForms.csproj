@@ -498,6 +498,12 @@
     <Compile Include="Subforms\Save Editors\SAV_Inventory.Designer.cs">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_MailBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_MailBox.Designer.cs">
+      <DependentUpon>SAV_MailBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -711,6 +717,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_MailBox.resx">
+      <DependentUpon>SAV_MailBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_SimplePokedex.resx">
       <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>

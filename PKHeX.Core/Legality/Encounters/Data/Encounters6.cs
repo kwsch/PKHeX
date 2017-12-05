@@ -21,6 +21,7 @@ namespace PKHeX.Core
             var YSlots = GetEncounterTables(GameVersion.Y);
             MarkG6XYSlots(ref XSlots);
             MarkG6XYSlots(ref YSlots);
+            MarkEncounterAreaArray(SlotsXYAlt);
             SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
             SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
 
@@ -330,7 +331,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 650, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Adamant, IVs = new[] {20, 31, 20, 20, 20, 20}, }, // Chespin
             new EncounterTrade { Species = 653, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 20, 31, 20}, }, // Fennekin
 
-            new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, }, // Ralts
+            new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, IsNicknamed = false, }, // Ralts
         };
         internal static readonly EncounterTrade[] TradeGift_AO =
         {

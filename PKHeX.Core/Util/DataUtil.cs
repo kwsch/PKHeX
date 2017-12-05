@@ -245,7 +245,7 @@ namespace PKHeX.Core
         }
         public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
         {
-            if (allowed?.First() == null)
+            if (allowed?[0] == null)
                 allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
             return allowed.SelectMany(list => list
@@ -273,7 +273,7 @@ namespace PKHeX.Core
                 newlist.Add(new ComboItem { Text = inStrings[i], Value = i });
 
             newlist.AddRange(stringNum
-                .Select((z, i) => new ComboItem{ Text = inStrings[z], Value = stringVal[i]})
+                .Select((z, i) => new ComboItem { Text = inStrings[z], Value = stringVal[i] })
                 .OrderBy(z => z.Text));
             return newlist;
         }

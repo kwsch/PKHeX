@@ -381,7 +381,7 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
-                Version = (int)GameVersion.RD, // Default to red, for now?
+                Version = (int)GameVersion.RD, // Default to red
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,
@@ -394,7 +394,7 @@ namespace PKHeX.Core
                 Move2_PP = Move2_PP,
                 Move3_PP = Move3_PP,
                 Move4_PP = Move4_PP,
-                Met_Location = 30013, // "Kanto region", hardcoded.
+                Met_Location = Legal.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
                 OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
@@ -425,7 +425,6 @@ namespace PKHeX.Core
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
-            // Really? :(
             if (IsShiny)
                 pk7.SetShinyPID();
 

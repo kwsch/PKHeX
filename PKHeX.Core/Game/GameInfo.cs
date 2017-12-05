@@ -386,7 +386,7 @@ namespace PKHeX.Core
             #endregion
         }
 
-        public static void SetItemDataSource(bool HaX, int MaxItemID, IEnumerable<ushort> allowed, int generation, GameVersion game, GameStrings s)
+        public static void SetItemDataSource(int MaxItemID, IEnumerable<ushort> allowed, int generation, GameVersion game, GameStrings s, bool HaX = false)
         {
             string[] items = s.GetItemStrings(generation, game);
             ItemDataSource = Util.GetCBList(items, (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int) i)).ToArray());
@@ -478,14 +478,14 @@ namespace PKHeX.Core
 
             // Currently on a future game, return corresponding list for generation
             if (Version <= GameVersion.CXD && SaveFormat == 4)
-                return MetGen4.Where(loc => loc.Value == 0x37) // Pal Park to front
+                return MetGen4.Where(loc => loc.Value == Legal.Transfer3) // Pal Park to front
                     .Concat(MetGen4.Take(4))
-                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != 0x37)).ToList();
+                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Legal.Transfer3)).ToList();
 
             if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
-                return MetGen5.Where(loc => loc.Value == 30001)
+                return MetGen5.Where(loc => loc.Value == Legal.Transfer4)
                     .Concat(MetGen5.Take(3))
-                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != 30001)).ToList();
+                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Legal.Transfer4)).ToList();
 
             return MetGen6;
         }

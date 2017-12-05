@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -48,7 +47,7 @@ namespace PKHeX.WinForms.Controls
             if (pb.Image == null)
                 return;
             OriginalBackground = pb.BackgroundImage;
-            pb.BackgroundImage = CurrentBackground = Resources.slotHover;
+            pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0, 1);
             if (!DragActive)
                 SetCursor(Cursors.Hand, sender);
         }
@@ -325,7 +324,14 @@ namespace PKHeX.WinForms.Controls
             int o = slot.Offset;
             if (o < 0)
                 return slot.PKM;
-            return slot.IsParty ? SAV.GetPartySlot(o) : SAV.GetStoredSlot(o);
+
+            if (slot.IsParty)
+                return SAV.GetPartySlot(o);
+
+            var pk = SAV.GetStoredSlot(o);
+            pk.Slot = slot.Slot;
+            pk.Box = slot.Box;
+            return pk;
         }
         private void SetPKM(PKM pk, bool src, Image img) => SetPKM(pk, src ? DragInfo.Source : DragInfo.Destination, src, img);
         public void SetPKM(PKM pk, SlotChange slot, bool src, Image img)

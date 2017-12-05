@@ -77,38 +77,17 @@ namespace PKHeX.Core
 #endif
             {
                 PersonalInfo = table?.GetFormeEntry(pk.Species, pk.AltForm) ?? pk.PersonalInfo;
-                switch (pk.Format) // prior to storing GameVersion
-                {
-                    case 1: ParsePK1(pk); break;
-                    case 2: ParsePK1(pk); break;
-                }
+                ParseLegality(pk);
 
-                if (!Parse.Any())
-                switch (pk.GenNumber)
-                {
-                    case 3: ParsePK3(pk); break;
-                    case 4: ParsePK4(pk); break;
-                    case 5: ParsePK5(pk); break;
-                    case 6: ParsePK6(pk); break;
+                if (Parse.Count <= 0)
+                    return;
 
-                    case 1: case 2:
-                    case 7: ParsePK7(pk); break;
-                }
+                Valid = Parse.All(chk => chk.Valid) 
+                    && Info.Moves.All(m => m.Valid) 
+                    && Info.Relearn.All(m => m.Valid);
 
-                if (Parse.Count > 0)
-                {
-                    if (Parse.Any(chk => !chk.Valid))
-                        Valid = false;
-                    else if (Info.Moves.Any(m => m.Valid != true))
-                        Valid = false;
-                    else if (Info.Relearn.Any(m => m.Valid != true))
-                        Valid = false;
-                    else
-                        Valid = true;
-
-                    if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch == null)
-                        AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
-                }
+                if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch == null)
+                    AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
             }
 #if SUPPRESS
             catch (Exception e)
@@ -121,6 +100,24 @@ namespace PKHeX.Core
             }
 #endif
             Parsed = true;
+        }
+        private void ParseLegality(PKM pk)
+        {
+            if (pk.Format == 1 || pk.Format == 2) // prior to storing GameVersion
+            {
+                ParsePK1(pk);
+                return;
+            }
+            switch (pk.GenNumber)
+            {
+                case 3: ParsePK3(pk); return;
+                case 4: ParsePK4(pk); return;
+                case 5: ParsePK5(pk); return;
+                case 6: ParsePK6(pk); return;
+
+                case 1: case 2:
+                case 7: ParsePK7(pk); return;
+            }
         }
 
         private void AddLine(Severity s, string c, CheckIdentifier i)
@@ -289,8 +286,6 @@ namespace PKHeX.Core
                 VerifyConsoleRegion();
                 VerifyVersionEvolution();
             }
-
-            // SecondaryChecked = true;
         }
         private string GetLegalityReport()
         {

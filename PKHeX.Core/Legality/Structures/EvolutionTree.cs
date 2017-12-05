@@ -407,21 +407,23 @@ namespace PKHeX.Core
         public static List<EvolutionSet> GetArray(byte[] data)
         {
             var evos = new List<EvolutionSet>();
-            for (int i = 0; i <= Legal.MaxSpeciesIndex_4_HGSSPt; i++)
+            const int bpe = 6; // bytes per evolution entry
+            const int entries = 7; // 7 * 6 = 42, + 2 alignment bytes
+            const int size = 44; // bytes per species entry
+
+            int count = data.Length / size;
+            for (int i = 0; i < count; i++)
             {
-                /* 44 bytes per species, 
-                 * for every species 7 evolutions with 6 bytes per evolution, 
-                 * last 2 bytes of every specie is padding*/
-                int offset = i * 44;
+                int offset = i * size;
                 var m_list = new List<EvolutionMethod>();
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < entries; j++)
                 {
                     EvolutionMethod m = GetMethod(data, offset);
                     if (m != null)
                         m_list.Add(m);
                     else
                         break;
-                    offset += 6;
+                    offset += bpe;
                 }
                 evos.Add(new EvolutionSet4 { PossibleEvolutions = m_list.ToArray() });
             }
@@ -722,7 +724,7 @@ namespace PKHeX.Core
             dl.Last().RequiresLvlUp = false;
             return dl;
         }
-        private static void UpdateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
+        private static void UpdateMinValues(IReadOnlyList<DexLevel> dl, EvolutionMethod evo)
         {
             var last = dl.Last();
             if (evo.Level == 0 || !evo.RequiresLevelUp) // Evolutions like elemental stones, trade, etc
@@ -734,7 +736,7 @@ namespace PKHeX.Core
                     // Evolutions like frienship, pichu -> pikachu, eevee -> umbreon, etc
                     last.MinLevel = 2;
 
-                    var first = dl.First();
+                    var first = dl[0];
                     if (dl.Count > 1 && !first.RequiresLvlUp)
                         first.MinLevel = 2; // Raichu from Pikachu would have minimum level 1, but with Pichu included Raichu minimum level is 2
                 }
@@ -743,7 +745,7 @@ namespace PKHeX.Core
             {
                 last.MinLevel = evo.Level;
 
-                var first = dl.First();
+                var first = dl[0];
                 if (dl.Count > 1)
                 {
                     if (first.MinLevel < evo.Level && !first.RequiresLvlUp)

@@ -33,6 +33,7 @@
         public int Gender { get; private set; } = -1;
         public int AccumulatedChecksumEnd { get; private set; } = -1;
         public int OverallChecksumPosition { get; private set; } = -1;
+        public int EventFlag { get; private set; } = int.MinValue;
 
         public int PouchTMHM { get; private set; } = -1;
         public int PouchItem { get; private set; } = -1;
@@ -89,6 +90,8 @@
                     PouchKey  = 0x244A;
                     PouchBall = 0x2465;
                     PouchPC   = 0x247F;
+
+                    EventFlag = 0x2600;
                     break;
             }
         }
@@ -139,6 +142,8 @@
                     PouchKey  = 0x242C;
                     PouchBall = 0x2447;
                     PouchPC   = 0x2461;
+
+                    EventFlag = 0x1800;
                     break;
             }
         }

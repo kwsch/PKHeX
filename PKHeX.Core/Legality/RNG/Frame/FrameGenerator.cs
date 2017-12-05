@@ -10,8 +10,16 @@
         public readonly bool AllowLeads;
         public readonly FrameType FrameType = FrameType.None;
         public readonly RNG RNG;
+        public readonly bool Safari3;
+
         public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, RNG, lead);
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv) => new Frame(seed, FrameType, RNG, lead) {ESV = esv};
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, RNG, lead)
+        {
+            RandESV = esv,
+            RandLevel = lvl,
+            OriginSeed = origin,
+        };
 
         /// <summary>
         /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects.
@@ -33,6 +41,7 @@
                     DPPt = false;
                     FrameType = FrameType.MethodH;
                     RNG = pidiv.RNG;
+                    Safari3 = pk.Ball == 5 && !pk.FRLG;
 
                     if (ver != GameVersion.E)
                         return;

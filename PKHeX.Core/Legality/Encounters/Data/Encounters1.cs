@@ -38,6 +38,9 @@ namespace PKHeX.Core
             Array.Resize(ref table, table.Length + 1);
             table[table.Length - 1] = FishOldGood_RBY;
 
+            foreach (var arr in table)
+            foreach (var slot in arr.Slots)
+                slot.Area = arr;
             return table;
         }
 

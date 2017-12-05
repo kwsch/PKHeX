@@ -146,6 +146,9 @@ namespace PKHeX.WinForms
                 case GameVersion.FRLG:
                     gamePrefix = "frlg";
                     break;
+                case GameVersion.C:
+                    gamePrefix = "c";
+                    break;
                 default:
                     return null;
             }

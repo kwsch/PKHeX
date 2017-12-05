@@ -219,9 +219,10 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < BLOCK_COUNT; i++)
             {
-                byte[] chunk = Data.Skip(ABO + i*SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
-                ushort chk = SaveUtil.CRC32(chunk);
-                BitConverter.GetBytes(chk).CopyTo(Data, ABO + i*SIZE_BLOCK + 0xFF6);
+                int ofs = ABO + i * SIZE_BLOCK;
+                int len = chunkLength[BlockOrder[i]];
+                ushort chk = SaveUtil.CRC32(Data, ofs, len);
+                BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
         }
         public override bool ChecksumsValid
@@ -230,9 +231,10 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < BLOCK_COUNT; i++)
                 {
-                    byte[] chunk = Data.Skip(ABO + i * SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
-                    ushort chk = SaveUtil.CRC32(chunk);
-                    if (chk != BitConverter.ToUInt16(Data, ABO + i*SIZE_BLOCK + 0xFF6))
+                    int ofs = ABO + i * SIZE_BLOCK;
+                    int len = chunkLength[BlockOrder[i]];
+                    ushort chk = SaveUtil.CRC32(Data, ofs, len);
+                    if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
                         return false;
                 }
                 return true;
@@ -245,13 +247,13 @@ namespace PKHeX.Core
                 var list = new List<string>();
                 for (int i = 0; i < BLOCK_COUNT; i++)
                 {
-                    byte[] chunk = Data.Skip(ABO + i * SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
-                    ushort chk = SaveUtil.CRC32(chunk);
-                    ushort old = BitConverter.ToUInt16(Data, ABO + i*SIZE_BLOCK + 0xFF6);
-                    if (chk != old)
+                    int ofs = ABO + i * SIZE_BLOCK;
+                    int len = chunkLength[BlockOrder[i]];
+                    ushort chk = SaveUtil.CRC32(Data, ofs, len);
+                    if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
                         list.Add($"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid.");
                 }
-                return list.Any() ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
+                return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
         }
 
@@ -538,14 +540,14 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int caughtOffset = BlockOfs[0] + 0x28 + ofs;
+            int caughtOffset = BlockOfs[0] + 0x28;
             return GetFlag(caughtOffset + ofs, bit & 7);
         }
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
-            int ofs = bit / 8;
-            int caughtOffset = BlockOfs[0] + 0x28 + ofs;
+            int ofs = bit >> 3;
+            int caughtOffset = BlockOfs[0] + 0x28;
             SetFlag(caughtOffset + ofs, bit & 7, caught);
         }
 
@@ -553,13 +555,13 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int seenOffset = BlockOfs[0] + 0x5C + ofs;
+            int seenOffset = BlockOfs[0] + 0x5C;
             return GetFlag(seenOffset + ofs, bit & 7);
         }
         public override void SetSeen(int species, bool seen)
         {
             int bit = species - 1;
-            int ofs = bit / 8;
+            int ofs = bit >> 3;
 
             foreach (int o in SeenFlagOffsets)
                 SetFlag(o + ofs, bit & 7, seen);

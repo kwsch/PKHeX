@@ -28,21 +28,12 @@ namespace PKHeX.Core
 
             var D_Slots = EncounterArea.GetArray4DPPt(get("d", "da"));
             var P_Slots = EncounterArea.GetArray4DPPt(get("p", "pe"));
-            var Pt_Slots = EncounterArea.GetArray4DPPt(get("pt", "pt"));
+            var Pt_Slots = EncounterArea.GetArray4DPPt(get("pt", "pt"), true);
             var HG_Slots = EncounterArea.GetArray4HGSS(get("hg", "hg"));
             var SS_Slots = EncounterArea.GetArray4HGSS(get("ss", "ss"));
 
             var DP_Feebas = GetFeebasArea(D_Slots[10]);
             var Pt_Feebas = GetFeebasArea(Pt_Slots[10]);
-
-            MarkEncountersStaticMagnetPull(ref D_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref P_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref Pt_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref HG_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref SS_Slots, PersonalTable.SM);
-
-            var DP_Trophy = EncounterArea.GetTrophyArea(TrophyDP, new[] { 16, 18 });
-            var Pt_Trophy = EncounterArea.GetTrophyArea(TrophyPt, new[] { 22, 22 });
             var HG_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(get("hb_hg", "hg"));
             var SS_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(get("hb_ss", "ss"));
 
@@ -67,9 +58,13 @@ namespace PKHeX.Core
             MarkG4SlotsGreatMarsh(ref P_Slots, 52);
             MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
-            SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
-            SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
-            SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, DPPt_Unown, Pt_Trophy, Pt_Feebas);
+            MarkEncounterAreaArray(D_HoneyTrees_Slots, P_HoneyTrees_Slots, Pt_HoneyTrees_Slots,
+                DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Feebas, Pt_Feebas,
+                HG_Headbutt_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
+
+            SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Feebas);
+            SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Feebas);
+            SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, DPPt_Unown, Pt_Feebas);
             SlotsHG = AddExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
             SlotsSS = AddExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
@@ -78,12 +73,6 @@ namespace PKHeX.Core
             MarkDPPtEncounterTypeSlots(ref SlotsPt);
             MarkHGSSEncounterTypeSlots(ref SlotsHG);
             MarkHGSSEncounterTypeSlots(ref SlotsSS);
-
-            MarkSlotLocation(ref SlotsD);
-            MarkSlotLocation(ref SlotsP);
-            MarkSlotLocation(ref SlotsPt);
-            MarkSlotLocation(ref SlotsHG);
-            MarkSlotLocation(ref SlotsSS);
         }
 
         private static EncounterArea[] GetFeebasArea(EncounterArea template)
@@ -117,23 +106,26 @@ namespace PKHeX.Core
             MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
 
             const int Route209 = 24;
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, Route209, 1, EncounterType.Building_EnigmaStone);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, Route209, 1, EncounterType.Building_EnigmaStone);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, Route209, 1, EncounterType.Building_EnigmaStone);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
             const int StarkMountain = 84;
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, StarkMountain, 1, EncounterType.Cave_HallOfOrigin);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, StarkMountain, 1, EncounterType.Cave_HallOfOrigin);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, StarkMountain, 1, EncounterType.Cave_HallOfOrigin);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
             const int MtCoronet = 50;
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
             const int RuinsOfAlph = 209;
             MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
             MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
             const int MtSilver = 219;
             MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
             MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
+            const int Cianwood = 130;
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, Cianwood, EncounterType.RockSmash);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, Cianwood, EncounterType.RockSmash);
         }
 
         private static void MarkG4PokeWalker(EncounterStatic[] t)
@@ -166,6 +158,11 @@ namespace PKHeX.Core
                     foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(slotsnum).Select(slot => slot.Clone()))
                     {
                         swarmSlot.Species = SwarmSlot.Species;
+                        if (swarmSlot.Species == 303) // edge case, mawile is only swarm subject to magnet pull (no other steel types in area)
+                        {
+                            swarmSlot.Permissions.MagnetPullIndex = swarmSlot.SlotNumber;
+                            swarmSlot.Permissions.MagnetPullCount = 2;
+                        }
                         OutputSlots.Add(swarmSlot);
                     }
                 }
@@ -177,12 +174,8 @@ namespace PKHeX.Core
         private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
         {
             foreach (EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
-            {
-                foreach (EncounterSlot Slot in Area.Slots.Where(s => s.Species == Species))
-                {
-                    Slot.Form = form;
-                }
-            }
+            foreach (EncounterSlot Slot in Area.Slots.Where(s => s.Species == Species))
+                Slot.Form = form;
         }
         private static EncounterType GetEncounterTypeBySlotDPPt(SlotType Type, EncounterType GrassType)
         {
@@ -224,6 +217,8 @@ namespace PKHeX.Core
                 case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
 
                 case SlotType.Rock_Smash:
+                    if (GrassType == EncounterType.RockSmash)
+                        return EncounterType.RockSmash | EncounterType.Building_EnigmaStone;
                     if (HeadbuttType == EncounterType.Building_EnigmaStone)
                         return HeadbuttType;
                     if (GrassType == EncounterType.Cave_HallOfOrigin)
@@ -236,22 +231,7 @@ namespace PKHeX.Core
             }
             return EncounterType.None;
         }
-        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
-        {
-            // Area with two different encounter type for grass encounters
-            // SpecialEncounterFile is tall grass encounter type, the other files have the normal encounter type for this location
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
-                }
-            }
-        }
-        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, ICollection<int> SpecialEncounterFiles, EncounterType NormalEncounterType)
+        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFiles)
         {
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
@@ -291,7 +271,8 @@ namespace PKHeX.Core
                         EncounterType.TallGrass;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
+                    if (Slot.TypeEncounter == EncounterType.None) // not defined yet
+                        Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
                 }
             }
         }
@@ -333,7 +314,8 @@ namespace PKHeX.Core
                 var HeadbuttType = GetHeadbuttEncounterType(Area.Location);
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
+                    if (Slot.TypeEncounter == EncounterType.None) // not defined yet
+                        Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
                 }
             }
         }
@@ -362,7 +344,7 @@ namespace PKHeX.Core
             50, // Mt Coronet
             84, // Stark Mountain
         };
-        private static readonly HashSet<int> DPPt_MtCoronetExteriorEncounters = new HashSet<int>
+        private static readonly int[] DPPt_MtCoronetExteriorEncounters =
         {
             4, 5, 70
         };
@@ -1012,43 +994,42 @@ namespace PKHeX.Core
                 Slots = new[]
                 {
                     // Bug Contest Pre-National Pokédex
-                    new EncounterSlot { Species = 010, LevelMin = 07, LevelMax = 18, Type = SlotType.BugContest }, // Caterpie
-                    new EncounterSlot { Species = 011, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest }, // Metapod
-                    new EncounterSlot { Species = 012, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest }, // Butterfree
-                    new EncounterSlot { Species = 013, LevelMin = 07, LevelMax = 18, Type = SlotType.BugContest }, // Weedle
-                    new EncounterSlot { Species = 014, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest }, // Kakuna
-                    new EncounterSlot { Species = 015, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest }, // Beedrill
-                    new EncounterSlot { Species = 046, LevelMin = 10, LevelMax = 17, Type = SlotType.BugContest }, // Paras
-                    new EncounterSlot { Species = 048, LevelMin = 10, LevelMax = 16, Type = SlotType.BugContest }, // Venonat
-                    new EncounterSlot { Species = 123, LevelMin = 13, LevelMax = 14, Type = SlotType.BugContest }, // Scyther
-                    new EncounterSlot { Species = 127, LevelMin = 13, LevelMax = 14, Type = SlotType.BugContest }, // Pinsir
+                    new EncounterSlot { Species = 010, LevelMin = 07, LevelMax = 18, Type = SlotType.BugContest, SlotNumber = 0 }, // Caterpie
+                    new EncounterSlot { Species = 013, LevelMin = 07, LevelMax = 18, Type = SlotType.BugContest, SlotNumber = 1 }, // Weedle
+                    new EncounterSlot { Species = 011, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest, SlotNumber = 2 }, // Metapod
+                    new EncounterSlot { Species = 014, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest, SlotNumber = 3 }, // Kakuna
+                    new EncounterSlot { Species = 012, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest, SlotNumber = 4 }, // Butterfree
+                    new EncounterSlot { Species = 015, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest, SlotNumber = 5 }, // Beedrill
+                    new EncounterSlot { Species = 048, LevelMin = 10, LevelMax = 16, Type = SlotType.BugContest, SlotNumber = 6 }, // Venonat
+                    new EncounterSlot { Species = 046, LevelMin = 10, LevelMax = 17, Type = SlotType.BugContest, SlotNumber = 7 }, // Paras
+                    new EncounterSlot { Species = 123, LevelMin = 13, LevelMax = 14, Type = SlotType.BugContest, SlotNumber = 8 }, // Scyther
+                    new EncounterSlot { Species = 127, LevelMin = 13, LevelMax = 14, Type = SlotType.BugContest, SlotNumber = 9 }, // Pinsir
                     // Bug Contest Tuesday Post-National Pokédex
-                    new EncounterSlot { Species = 010, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Caterpie
-                    new EncounterSlot { Species = 011, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Metapod
-                    new EncounterSlot { Species = 012, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Butterfree
-                    new EncounterSlot { Species = 013, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Weedle
-                    new EncounterSlot { Species = 014, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Kakuna
-                    new EncounterSlot { Species = 015, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Beedrill
-                    new EncounterSlot { Species = 046, LevelMin = 27, LevelMax = 34, Type = SlotType.BugContest }, // Paras
-                    new EncounterSlot { Species = 048, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest }, // Venonat
-                    new EncounterSlot { Species = 123, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Scyther
-                    new EncounterSlot { Species = 127, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Pinsir
+                    new EncounterSlot { Species = 010, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 0 }, // Caterpie
+                    new EncounterSlot { Species = 013, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 1 }, // Weedle
+                    new EncounterSlot { Species = 011, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 2 }, // Metapod
+                    new EncounterSlot { Species = 014, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 3 }, // Kakuna
+                    new EncounterSlot { Species = 012, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest, SlotNumber = 4 }, // Butterfree
+                    new EncounterSlot { Species = 015, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest, SlotNumber = 5 }, // Beedrill
+                    new EncounterSlot { Species = 048, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest, SlotNumber = 6 }, // Venonat
+                    new EncounterSlot { Species = 046, LevelMin = 27, LevelMax = 34, Type = SlotType.BugContest, SlotNumber = 7 }, // Paras
+                    new EncounterSlot { Species = 123, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest, SlotNumber = 8 }, // Scyther
+                    new EncounterSlot { Species = 127, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest, SlotNumber = 9 }, // Pinsir
+
                     // Bug Contest Thursday and Saturday Post-National Pokédex
-                    new EncounterSlot { Species = 123, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Scyther
-                    new EncounterSlot { Species = 127, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Pinsir
-                    new EncounterSlot { Species = 265, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Wurmple
-                    new EncounterSlot { Species = 401, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Kricketot
-                    new EncounterSlot { Species = 402, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Kricketune
-                    new EncounterSlot { Species = 415, LevelMin = 27, LevelMax = 34, Type = SlotType.BugContest }, // Combee
-                    new EncounterSlot { Species = 290, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Nincada
-                    // Bug Contest Thursday Post-National Pokédex
-                    new EncounterSlot { Species = 266, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Silcoon
-                    new EncounterSlot { Species = 269, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest }, // Dustox
-                    new EncounterSlot { Species = 313, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Volbear
-                    // Bug Contest Saturday Post-National Pokédex
-                    new EncounterSlot { Species = 268, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Cascoon
-                    new EncounterSlot { Species = 267, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest }, // Beautifly
-                    new EncounterSlot { Species = 314, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Illumise
+                    new EncounterSlot { Species = 265, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 0 }, // Wurmple
+                    new EncounterSlot { Species = 266, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 1 }, // Silcoon (Thursday)
+                    new EncounterSlot { Species = 268, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 1 }, // Cascoon (Saturday)
+                    new EncounterSlot { Species = 290, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 2 }, // Nincada
+                    new EncounterSlot { Species = 313, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 3 }, // Volbeat (Thursday)
+                    new EncounterSlot { Species = 314, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest, SlotNumber = 3 }, // Illumise (Saturday)
+                    new EncounterSlot { Species = 401, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest, SlotNumber = 4 }, // Kricketot
+                    new EncounterSlot { Species = 402, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest, SlotNumber = 5 }, // Kricketune
+                    new EncounterSlot { Species = 269, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest, SlotNumber = 6 }, // Dustox (Thursday)
+                    new EncounterSlot { Species = 267, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest, SlotNumber = 6 }, // Beautifly (Saturday)
+                    new EncounterSlot { Species = 415, LevelMin = 27, LevelMax = 34, Type = SlotType.BugContest, SlotNumber = 7 }, // Combee
+                    new EncounterSlot { Species = 123, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest, SlotNumber = 8 }, // Scyther
+                    new EncounterSlot { Species = 127, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest, SlotNumber = 9 }, // Pinsir
                 }
             };
 
@@ -1388,7 +1369,6 @@ namespace PKHeX.Core
             new EncounterSlot { Species = 418, LevelMin = 44, LevelMax = 45, Type = SlotType.Grass_Safari }, // Buizel
         };
 
-        private static EncounterSlot[] ConcatAll(params EncounterSlot[][] arr) => arr.SelectMany(z => z).ToArray();
         private static readonly EncounterArea SlotsHGSS_SafariZone = new EncounterArea
         {
             // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon
@@ -1454,8 +1434,8 @@ namespace PKHeX.Core
             }).ToArray()
         };
 
-        private static readonly int[] TrophyDP = { 035, 039, 052, 113, 133, 137, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Porygon
-        private static readonly int[] TrophyPt = { 035, 039, 052, 113, 133, 132, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Ditto
+        internal static readonly int[] TrophyDP = { 035, 039, 052, 113, 133, 137, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Porygon
+        internal static readonly int[] TrophyPt = { 035, 039, 052, 113, 133, 132, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Ditto
 
         private static readonly int[] DP_GreatMarshAlt_Species =
         {

@@ -35,6 +35,7 @@
 
         public string Name => "In-game Trade";
         public bool Fateful { get; set; }
+        public bool IsNicknamed { get; set; } = true;
 
         public static readonly int[] DefaultMetLocation = 
         {

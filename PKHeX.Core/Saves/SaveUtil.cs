@@ -647,20 +647,33 @@ namespace PKHeX.Core
                 chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
             return (ushort)~chk;
         }
+        /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <param name="initial">Initial value for checksum</param>
+        /// <returns>Checksum</returns>
+        public static ushort CRC16(byte[] data, ushort initial = 0) => CRC16(data, 0, data.Length, initial);
         public static byte[] Resign7(byte[] sav7)
         {
             return MemeCrypto.Resign7(sav7);
         }
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="length">Length of array to checksum</param>
+        /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC32(byte[] data)
+        public static ushort CRC32(byte[] data, int start, int length, uint initial = 0)
         {
-            uint val = 0;
-            for (int i = 0; i < data.Length; i += 4)
+            uint val = initial;
+            for (int i = start; i < start + length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
             return (ushort)(val + (val >> 16));
         }
+        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <param name="initial">Initial value for checksum</param>
+        /// <returns>Checksum</returns>
+        public static ushort CRC32(byte[] data, uint initial = 0) => CRC32(data, 0, data.Length, initial);
         private static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
         {
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV

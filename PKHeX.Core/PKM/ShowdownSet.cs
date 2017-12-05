@@ -281,6 +281,19 @@ namespace PKHeX.Core
             Form = tmp[1].Trim();
             if (tmp.Length > 2)
                 Form += $" {tmp[2]}";
+
+            if (Species < 0) // failure to parse, check edge cases
+            {
+                var edge = new[] {784, 250}; // all species with dashes in English Name (Kommo-o & Ho-Oh)
+                foreach (var e in edge)
+                {
+                    if (!spec.StartsWith(species[e]))
+                        continue;
+                    Species = e;
+                    Form = tmp.Length > 1 ? tmp.Last() : string.Empty;
+                    return;
+                }
+            }
         }
         private void ParseSpeciesNickname(ref string line)
         {

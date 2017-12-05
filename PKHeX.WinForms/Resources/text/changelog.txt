@@ -1,7 +1,32 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/11/17 - New Update:
+17/11/25 - New Update:
+ - Legality:
+ - - Added: Gen2->Gen7 legality checking.
+ - - Added: US/UM Poké Pelago encounters.
+ - - Added: Spanish Legality translation data. Thanks @BlackPyoVic & JoseAbad!
+ - - Fixed: US/UM new Pokémon accessing legal movepools from S/M alternate forms. Thanks greenDarkness!
+ - - Changed: Sped up Wild Encounter pattern matching (internal rework).
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Gen2->Gen7 transfer emulation.
+ - Added: Festival Plaza/Battle Agency editor. Thanks pokecal!
+ - Added: More US/UM Event Flags for editing. Thanks SciresM & sora10pls!
+ - Added: Rotom OT name editing to Trainer Editor & alert if different from OT name.
+ - Fixed: Importing US/UM showdown sets now behaves correctly. Thanks sora10pls & Marty!
+ - Fixed: Updated Korean Gen2 encoding to match the official Transporter character codes.
+ - Fixed: Loading Gen1 save files no longer raises errors. Thanks ShadowMario3!
+ - Fixed: Gen3 roamer edits now save IVs as intended.
+ - Fixed: US/UM Z Crystals -> PKM sprite no longer chops the rightmost pixel.
+ - Fixed: Unsaved fields in PKMEditor now correctly block saving of the PKM from tabs.
+ - Fixed: Gen6 trainer coordinate saveback glitch fixed (similar to S/M's rumor).
+ - Fixed: Gen7 SM<->US/UM pkm compatibility checks updated to prevent invalid data from being set.
+ - Fixed: Gen5-- dragdrop no longer gives AltForm <= 0 messages.
+ - Changed: Mystery Gift sprite generation speed improved.
+ - Changed: French GUI Translation data updated. Thanks Ntonio36!
+ - Changed: C/XD Item names added. Thanks JoseAbad!
+
+17/11/17 - New Update: (56734) [837225]
  - Added: Ultra Sun & Ultra Moon Support
  - - Legality: Complete detection & validation.
  - - Added: Added all new US/UM content (Species, Moves, etc). Thanks SciresM & wwwwwwzx!

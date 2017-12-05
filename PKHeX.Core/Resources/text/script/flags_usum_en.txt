@@ -1,4 +1,4 @@
-4060	Is Alolan Champion/Can Receive Magearna Gift
+4060	Is Alolan Champion/Can Receive Gift Magearna
 4562	Been to Akala Island/Can Receive Partner Cap Pikachu
 4563	Received Partner Cap Pikachu
 0518	Received Surfing Pikachu
@@ -6,7 +6,7 @@
 0504	Received Gift Aerodactyl
 0654	Received Gift Type: Null (1)
 1101	Received Gift Type: Null (2)
-1476	Received Gift Cosmog
+0503	Received Gift Cosmog
 4447	Received Gift Magearna
 0269	Received Gift Poipole
 4420	Articuno Captured
@@ -62,4 +62,4 @@
 4444	Battle Style Learned: Left-Handed 
 4445	Battle Style Learned: Passionate 
 4446	Battle Style Learned: Idol 
-4447	Battle Style Learned: Nihilist
+4453	Battle Style Learned: Nihilist

@@ -123,7 +123,7 @@ namespace PKHeX.Core
                 if (SaveUtil.CRC16_CCITT(Data, c[1][0] + SBO, c[1][1] - c[1][0]) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
                     list.Add("Large block checksum is invalid");
 
-                return list.Any() ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
+                return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
         }
 
@@ -132,9 +132,8 @@ namespace PKHeX.Core
         private int storageBlock = -1; // Big Block
         private int hofBlock = -1; // Hall of Fame Block
         private int SBO => 0x40000 * storageBlock;
-        private int GBO => 0x40000 * generalBlock;
+        public int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
-        public int GetGBO => GBO;
         private void GetActiveGeneralBlock()
         {
             if (Version < 0)

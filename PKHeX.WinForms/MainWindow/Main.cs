@@ -100,7 +100,8 @@ namespace PKHeX.WinForms
             BAKprompt = false;
 
             CB_MainLanguage.Items.AddRange(main_langlist);
-            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase));
+            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
+                || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).EndsWith(nameof(HaX));
             PB_Legal.Visible = !HaX;
 
             int languageID = 1; // English

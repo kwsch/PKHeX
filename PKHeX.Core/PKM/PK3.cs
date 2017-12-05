@@ -151,6 +151,7 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x60); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
+        public sbyte HeldMailID { get => (sbyte)Data[0x55]; set => Data[0x55] = (byte)value; }
 
         // Generated Attributes
         public override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // 1/2 -> 0/1
@@ -226,7 +227,7 @@ namespace PKHeX.Core
                 PKRS_Days = PKRS_Days,
                 OT_Gender = OT_Gender,
                 MetDate = moment,
-                Met_Location = 0x37, // Pal Park
+                Met_Location = Legal.Transfer3, // Pal Park
 
                 RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
                 RibbonWinning     = RibbonWinning,

@@ -51,8 +51,12 @@ namespace PKHeX.Core
         public PIDIV PIDIV { get; set; }
 
         /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/>.</summary>
-        /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, at which time it is false.</remarks>
+        /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, after which it is false.</remarks>
         public bool PIDIVMatches { get; set; } = true;
+
+        /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/> with explicit <see cref="RNG"/> <see cref="Frame"/> matching.</summary>
+        /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="EncounterSlot"/> matches, after which it is false.</remarks>
+        public bool FrameMatches { get; set; } = true;
 
         public readonly bool Korean;
 

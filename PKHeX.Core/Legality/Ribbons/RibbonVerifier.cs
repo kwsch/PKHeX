@@ -255,7 +255,7 @@ namespace PKHeX.Core
             {
                 if (s7.RibbonBattleRoyale)
                     yield return new RibbonResult(nameof(s7.RibbonBattleRoyale));
-                if (s7.RibbonBattleTreeGreat)
+                if (s7.RibbonBattleTreeGreat && !(pkm.USUM || !pkm.IsUntraded))
                     yield return new RibbonResult(nameof(s7.RibbonBattleTreeGreat));
                 if (s7.RibbonBattleTreeMaster)
                     yield return new RibbonResult(nameof(s7.RibbonBattleTreeMaster));
