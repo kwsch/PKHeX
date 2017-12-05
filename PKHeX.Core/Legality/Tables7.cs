@@ -212,6 +212,8 @@ namespace PKHeX.Core
             618, // Stunfisk
             418, 419, // Floatzel
             194, 195, // Quagsire
+
+            100, 101 // Voltorb & Electrode
         };
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
@@ -335,6 +337,9 @@ namespace PKHeX.Core
             // Wormhole
             333, 193, 561, 580, 276, 451, 531, 694, 273, 325,
             459, 307, 449, 557, 218, 688, 270, 618, 418, 194,
+
+            // Static Encounters
+            100,
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
