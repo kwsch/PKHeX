@@ -245,7 +245,7 @@ namespace PKHeX.Core
         }
         public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
         {
-            if (allowed?.First() == null)
+            if (allowed?[0] == null)
                 allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
             return allowed.SelectMany(list => list

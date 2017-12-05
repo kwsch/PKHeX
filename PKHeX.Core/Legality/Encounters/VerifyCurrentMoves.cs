@@ -322,7 +322,7 @@ namespace PKHeX.Core
                 if (res[m].Valid && gen == 1)
                 {
                     learnInfo.Gen1Moves.Add(m);
-                    if (learnInfo.Gen2PreevoMoves.Any())
+                    if (learnInfo.Gen2PreevoMoves.Count != 0)
                         learnInfo.MixedGen12NonTradeback = true;
                 }
 
@@ -368,7 +368,7 @@ namespace PKHeX.Core
                 if (!learnInfo.Source.EggLevelUpSource.Contains(moves[m])) // Check if contains level-up egg moves from parents
                     continue;
 
-                if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Any() && moves[m] > Legal.MaxMoveID_1)
+                if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                 {
                     res[m] = new CheckMoveResult(MoveSource.InheritLevelUp, gen, Severity.Invalid, V334, CheckIdentifier.Move);
                     learnInfo.MixedGen12NonTradeback = true;
@@ -396,7 +396,7 @@ namespace PKHeX.Core
                 {
                     // To learn exclusive generation 1 moves the pokemon was tradeback, but it can't be trade to generation 1
                     // without removing moves above MaxMoveID_1, egg moves above MaxMoveID_1 and gen 1 moves are incompatible
-                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Any() && moves[m] > Legal.MaxMoveID_1)
+                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                     {
                         res[m] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
                         learnInfo.MixedGen12NonTradeback = true;
@@ -413,7 +413,7 @@ namespace PKHeX.Core
 
                 if (!learnInfo.Source.EggMoveSource.Contains(moves[m]))
                 {
-                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Any() && moves[m] > Legal.MaxMoveID_1)
+                    if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                     {
                         res[m] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
                         learnInfo.MixedGen12NonTradeback = true;
@@ -431,11 +431,11 @@ namespace PKHeX.Core
             // A pokemon could have normal egg moves and regular egg moves
             // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
             var RegularEggMovesLearned = learnInfo.EggMovesLearned.Union(learnInfo.LevelUpEggMoves).ToList();
-            if (RegularEggMovesLearned.Any() && learnInfo.EventEggMoves.Any())
+            if (RegularEggMovesLearned.Count != 0 && learnInfo.EventEggMoves.Count != 0)
             {
                 // Moves that are egg moves or event egg moves but not both
                 var IncompatibleEggMoves = RegularEggMovesLearned.Except(learnInfo.EventEggMoves).Union(learnInfo.EventEggMoves.Except(RegularEggMovesLearned)).ToList();
-                if (!IncompatibleEggMoves.Any())
+                if (IncompatibleEggMoves.Count == 0)
                     return;
                 foreach (int m in IncompatibleEggMoves)
                 {
@@ -448,7 +448,7 @@ namespace PKHeX.Core
                 }
             }
             // If there is no incompatibility with event egg check that there is no inherited move in gift eggs and event eggs
-            else if (RegularEggMovesLearned.Any() && (pkm.WasGiftEgg || pkm.WasEventEgg))
+            else if (RegularEggMovesLearned.Count != 0 && (pkm.WasGiftEgg || pkm.WasEventEgg))
             {
                 foreach (int m in RegularEggMovesLearned)
                 {
@@ -474,7 +474,7 @@ namespace PKHeX.Core
                         incompatible.Add(54);
                     if (moves.Contains(114))
                         incompatible.Add(114);
-                    if (incompatible.Any())
+                    if (incompatible.Count != 0)
                         incompatible.Add(151);
                     break;
 

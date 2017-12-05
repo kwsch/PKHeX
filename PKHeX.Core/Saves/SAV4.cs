@@ -123,7 +123,7 @@ namespace PKHeX.Core
                 if (SaveUtil.CRC16_CCITT(Data, c[1][0] + SBO, c[1][1] - c[1][0]) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
                     list.Add("Large block checksum is invalid");
 
-                return list.Any() ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
+                return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
         }
 

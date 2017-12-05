@@ -47,7 +47,7 @@ namespace PKHeX.Core
                 }
             }
 
-            CurrentSlot = SaveSlots.First();
+            CurrentSlot = SaveSlots[0];
 
             Personal = PersonalTable.DP;
             HeldItems = Legal.HeldItems_DP;

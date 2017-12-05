@@ -625,7 +625,7 @@ namespace PKHeX.Core
         public byte[] GetBoxBinary(int box) => BoxData.Skip(box*BoxSlotCount).Take(BoxSlotCount).SelectMany(pk => pk.EncryptedBoxData).ToArray();
         public bool SetPCBinary(byte[] data)
         {
-            if (LockedSlots.Any())
+            if (LockedSlots.Length != 0)
                 return false;
             if (data.Length != PCBinary.Length)
                 return false;

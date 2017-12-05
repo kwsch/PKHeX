@@ -724,7 +724,7 @@ namespace PKHeX.Core
             dl.Last().RequiresLvlUp = false;
             return dl;
         }
-        private static void UpdateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
+        private static void UpdateMinValues(IReadOnlyList<DexLevel> dl, EvolutionMethod evo)
         {
             var last = dl.Last();
             if (evo.Level == 0 || !evo.RequiresLevelUp) // Evolutions like elemental stones, trade, etc
@@ -736,7 +736,7 @@ namespace PKHeX.Core
                     // Evolutions like frienship, pichu -> pikachu, eevee -> umbreon, etc
                     last.MinLevel = 2;
 
-                    var first = dl.First();
+                    var first = dl[0];
                     if (dl.Count > 1 && !first.RequiresLvlUp)
                         first.MinLevel = 2; // Raichu from Pikachu would have minimum level 1, but with Pichu included Raichu minimum level is 2
                 }
@@ -745,7 +745,7 @@ namespace PKHeX.Core
             {
                 last.MinLevel = evo.Level;
 
-                var first = dl.First();
+                var first = dl[0];
                 if (dl.Count > 1)
                 {
                     if (first.MinLevel < evo.Level && !first.RequiresLvlUp)

@@ -1489,7 +1489,7 @@ namespace PKHeX.Core
             var vs = GetValidPreEvolutions(pkm);
             return (from area in GetEncounterSlots(pkm)
                 let slots = GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, ignoreLevel: true).ToArray()
-                where slots.Any()
+                where slots.Length != 0
                 select new EncounterArea
                 {
                     Location = area.Location,

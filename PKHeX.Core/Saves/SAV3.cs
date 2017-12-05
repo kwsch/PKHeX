@@ -253,7 +253,7 @@ namespace PKHeX.Core
                     if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
                         list.Add($"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid.");
                 }
-                return list.Any() ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
+                return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
         }
 

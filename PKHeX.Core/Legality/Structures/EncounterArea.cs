@@ -813,7 +813,7 @@ namespace PKHeX.Core
                     Slots = grass.Concat(water).ToArray()
                 };
             }
-            return areas.Where(area => area.Slots.Any()).ToArray();
+            return areas.Where(area => area.Slots.Length != 0).ToArray();
         }
         /// <summary>
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Pokémon Yellow (Generation 1) Fishing data.
@@ -944,7 +944,7 @@ namespace PKHeX.Core
             foreach (byte[] t in entries)
             {
                 EncounterArea Area = GetArea3(t);
-                if (Area.Slots.Any())
+                if (Area.Slots.Length != 0)
                     Areas.Add(Area);
             }
             return Areas.ToArray();

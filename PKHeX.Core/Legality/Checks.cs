@@ -964,7 +964,7 @@ namespace PKHeX.Core
             }
 
             List<string> result = RibbonVerifier.GetIncorrectRibbons(pkm, encounterContent, Info.Generation);
-            if (result.Any())
+            if (result.Count != 0)
                 AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
             else
                 AddLine(Severity.Valid, V602, CheckIdentifier.Ribbon);
