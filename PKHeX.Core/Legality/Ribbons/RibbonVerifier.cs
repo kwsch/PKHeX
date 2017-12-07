@@ -105,7 +105,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                artist = s6.RibbonCountMemoryContest > 4;
+                artist = s6.RibbonCountMemoryContest >= 4;
                 bool inhabited6 = 3 <= gen && gen <= 6;
 
                 var iterate = inhabited6
