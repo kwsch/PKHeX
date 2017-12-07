@@ -213,5 +213,56 @@ namespace PKHeX.Core
         public override int MaxEV => 252;
         public override int OTLength => 7;
         public override int NickLength => 10;
+
+        public bool IsOriginXD()
+        {
+            if (ShadowID != 0)
+                return true;
+            return IsOriginXD(Species, Met_Level);
+        }
+        public static bool IsOriginXD(int species, int metLevel)
+        {
+            switch (species)
+            {
+                case 296: // Makuhita    30 Colo 18 XD
+                case 297:
+                    return metLevel != 30;
+                case 175: // Togepi      20 Colo 25 XD, also 20 as Togetic in Colo
+                case 176:
+                    return metLevel != 20;
+                case 179: // Mareep      37 Colo 17 XD
+                case 180: // Flaafy      30 Colo
+                case 181:
+                    return metLevel != 37 && metLevel != 30;
+                case 219: // Magcargo    30 Colo 38 XD (Slugma in Colo)
+                    return metLevel != 30;
+                case 195: // Quagsire    30 Colo // ** Wooper XD
+                    return metLevel != 30;
+                case 334: // Altaria     33 Colo // 36 XD (Swablu in Colo)
+                    return metLevel != 33;
+                case 167: // Ledian      40 Colo // 10 Ledyba XD
+                    return metLevel != 40;
+                case 207: // Gligar      43 Colo // ** Gligar XD
+                    return metLevel != 43;
+                case 221: // Piloswine   43 Colo // 22 Swinub XD
+                    return metLevel != 43;
+                case 205: // Forretress  43 Colo // 20 Pineco XD
+                    return metLevel != 43;
+                case 168: // Ariados     43 Colo // 14 Spinarak XD
+                    return metLevel != 43;
+                case 229: // Houndoom    48 Colo // 17 Houndour XD
+                    return metLevel != 48;
+                case 217: // Ursaring    45 Colo // 11 Teddiursa XD
+                    return metLevel != 45;
+                case 212: // Scizor      50 Colo // 40 Scyther XD
+                    return metLevel != 50;
+                case 196: // Espeon
+                    return metLevel != 25;
+                case 197: // Umbreon
+                    return metLevel != 26;
+            }
+            // all other cases handled, if not in Colo's table it's from XD.
+            return !Legal.ValidSpecies_Colo.Contains(species);
+        }
     }
 }

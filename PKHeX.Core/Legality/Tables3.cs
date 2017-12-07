@@ -262,5 +262,78 @@ namespace PKHeX.Core
         {
             196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
         }));
+
+        /// <summary>
+        /// Species ID that can be originated from Colosseum (using only Generation 3 max Species ID values).
+        /// </summary>
+        internal static readonly HashSet<int> ValidSpecies_Colo = new HashSet<int>
+        {
+            025, // Pikachu
+            153, // Bayleef
+            154, // Meganium
+            156, // Quilava
+            157, // Typhlosion
+            159, // Croconaw
+            160, // Feraligatr
+            162, // Furret
+            164, // Noctowl
+            166, // Ledian
+            168, // Ariados
+            175, // Togepi
+            176, // Togetic
+            179, // Mareep
+            180, // Flaaffy
+            185, // Sudowoodo
+            188, // Skiploom
+            189, // Jumpluff
+            190, // Aipom
+            192, // Sunflora
+            193, // Yanma
+            195, // Quagsire
+            196, // Espeon
+            197, // Umbreon
+            198, // Murkrow
+            200, // Misdreavus
+            205, // Forretress
+            206, // Dunsparce
+            207, // Gligar
+            210, // Granbull
+            211, // Qwilfish
+            212, // Scizor
+            213, // Shuckle
+            214, // Heracross
+            215, // Sneasel
+            217, // Ursaring
+            218, // Slugma
+            219, // Magcargo
+            221, // Piloswine
+            223, // Remoraid
+            225, // Delibird
+            226, // Mantine
+            227, // Skarmory
+            229, // Houndoom
+            234, // Stantler
+            235, // Smeargle
+            237, // Hitmontop
+            241, // Miltank
+            243, // Raikou
+            244, // Entei
+            245, // Suicune
+            248, // Tyranitar
+            250, // Ho-Oh
+            251, // Celebi
+            296, // Makuhita
+            297, // Hariyama
+            307, // Meditite
+            308, // Medicham
+            311, // Plusle
+            329, // Vibrava
+            330, // Flygon
+            333, // Swablu
+            334, // Altaria
+            357, // Tropius
+            359, // Absol
+            376, // Metagross
+        };
     }
 }

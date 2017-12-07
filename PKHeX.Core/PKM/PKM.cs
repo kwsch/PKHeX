@@ -911,7 +911,7 @@ namespace PKHeX.Core
             if (GetType() == typeof(CK3))
                 return this;
             var pk = new CK3();
-            TransferPropertiesWithReflection(this, pk);
+            TransferPropertiesWithReflection(this is XK3 ? ConvertToPK3() : this, pk);
             pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
             pk.Stat_Level = pk.CurrentLevel;
             return pk;
@@ -927,7 +927,7 @@ namespace PKHeX.Core
             if (GetType() == typeof(XK3))
                 return this;
             var pk = new XK3();
-            TransferPropertiesWithReflection(this, pk);
+            TransferPropertiesWithReflection(this is CK3 ? ConvertToPK3() : this, pk);
             pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
             pk.Stat_Level = pk.CurrentLevel;
             return pk;
@@ -944,6 +944,11 @@ namespace PKHeX.Core
                 return this;
             var pk = new PK3();
             TransferPropertiesWithReflection(this, pk);
+
+            // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
+            if (this is XK3 xk3 && xk3.Version == 15 && xk3.IsOriginXD())
+                pk.FatefulEncounter = true;
+
             pk.RefreshChecksum();
             return pk;
         }
@@ -964,10 +969,6 @@ namespace PKHeX.Core
                 if (prop != null)
                     ReflectUtil.SetValue(Destination, property, prop);
             }
-
-            // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
-            if (Source is XK3 xk3 && xk3.Version == 15 && new LegalityAnalysis(xk3).Info.WasXD)
-                Destination.FatefulEncounter = true;
         }
 
         /// <summary>
