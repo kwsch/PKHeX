@@ -808,6 +808,7 @@ namespace PKHeX.WinForms
             {160, "Pelago Treasure Hunts"},
             {161, "Pelago Training Sessions"},
             {162, "Pelago Hot Spring Sessions"},
+            {165, "Special QR Code Scans"},
             {166, "Island Scans"},
             {167, "Rustling Bush Encounters"},
             {168, "Fly Shadow Encounters"},
@@ -832,6 +833,7 @@ namespace PKHeX.WinForms
             {187, "Catch a lot of Pokémon!"},
 
             // USUM
+            {188, "Ultra Wormhole Travels"},
             {189, "Mantine Surf Plays"},
             {190, "Photo Club Photos saved"},
             {191, "Battle Agency Battles"},
