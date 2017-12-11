@@ -190,6 +190,25 @@ namespace PKHeX.Core
         }
         private PK4 _pk;
 
+        /// <summary>
+        /// Double checks the encryption of the gift data for Pokemon data.
+        /// </summary>
+        /// <returns>True if data was encrypted, false if the data was not modified.</returns>
+        public bool VerifyPKEncryption()
+        {
+            if (!IsPokémon || BitConverter.ToUInt32(Data, 0x64 + 8) != 0)
+                return false;
+            EncryptPK();
+            return true;
+        }
+        private void EncryptPK()
+        {
+            byte[] ekdata = new byte[PKX.SIZE_4PARTY];
+            Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
+            PKX.EncryptArray45(ekdata);
+            ekdata.CopyTo(Data, 8);
+        }
+
         private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
         public override bool IsEgg { get => PGTGiftType == GiftType.PokémonEgg; set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }

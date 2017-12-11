@@ -610,10 +610,10 @@ namespace PKHeX.Core
             if (value == null)
                 return false;
             for (int i = 0; i < 8; i++) // 8 PGT
-                if ((value[i] as PGT)?.CardType != 0)
+                if (value[i] is PGT g && g.CardType != 0)
                     return true;
             for (int i = 8; i < 11; i++) // 3 PCD
-                if ((value[i] as PCD)?.Gift.CardType != 0)
+                if (value[i] is PCD d && d.Gift.CardType != 0)
                     return true;
             return false;
         }
@@ -626,8 +626,7 @@ namespace PKHeX.Core
             int[] cardMatch = new int[8];
             for (int i = 0; i < 8; i++)
             {
-                var pgt = value[i] as PGT;
-                if (pgt == null)
+                if (!(value[i] is PGT pgt))
                     continue;
 
                 if (pgt.CardType == 0) // empty
@@ -639,8 +638,7 @@ namespace PKHeX.Core
                 cardMatch[i] = pgt.Slot = 3;
                 for (byte j = 0; j < 3; j++)
                 {
-                    var pcd = value[8 + j] as PCD;
-                    if (pcd == null)
+                    if (!(value[8 + j] is PCD pcd))
                         continue;
 
                     // Check if data matches (except Slot @ 0x02)
@@ -670,6 +668,19 @@ namespace PKHeX.Core
                 bool available = IsMysteryGiftAvailable(value.Gifts);
                 MysteryGiftActive |= available;
                 value.Flags[2047] = available;
+
+                // Check encryption for each gift (decrypted wc4 sneaking in)
+                foreach (var g in value.Gifts)
+                {
+                    if (g is PGT pgt)
+                        pgt.VerifyPKEncryption();
+                    else if (g is PCD pcd)
+                    {
+                        var g = pcd.Gift;
+                        if (g.VerifyPKEncryption())
+                            pcd.Gift = g; // set encrypted gift back to PCD.
+                    }
+                }
 
                 MysteryGiftReceivedFlags = value.Flags;
                 MysteryGiftCards = value.Gifts;
