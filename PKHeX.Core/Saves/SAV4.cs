@@ -676,9 +676,9 @@ namespace PKHeX.Core
                         pgt.VerifyPKEncryption();
                     else if (g is PCD pcd)
                     {
-                        var g = pcd.Gift;
-                        if (g.VerifyPKEncryption())
-                            pcd.Gift = g; // set encrypted gift back to PCD.
+                        var dg = pcd.Gift;
+                        if (dg.VerifyPKEncryption())
+                            pcd.Gift = dg; // set encrypted gift back to PCD.
                     }
                 }
 
