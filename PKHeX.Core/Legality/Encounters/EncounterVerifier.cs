@@ -294,13 +294,16 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
                     break;
                 case 4:
-                    if (pkm.Species == 493 && s.Location == 086) // Azure Flute Arceus
-                        return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
-                    if (pkm.Species == 491 && s.Location == 079 && !pkm.Pt) // DP Darkrai
-                        return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
-                    if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
-                        return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
-                    if (s.Location == 193 && (s as EncounterStaticTyped)?.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
+                    switch (pkm.Species)
+                    {
+                        case 491 when s.Location == 079 && !pkm.Pt: // DP Darkrai
+                            return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
+                        case 492 when s.Location == 063 && !pkm.Pt:// DP Shaymin
+                            return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
+                        case 493 when s.Location == 086: // Azure Flute Arceus
+                            return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
+                    }
+                    if (s.Location == 193 && s is EncounterStaticTyped t && t.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:

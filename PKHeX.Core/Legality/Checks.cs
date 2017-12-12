@@ -280,7 +280,7 @@ namespace PKHeX.Core
 
                 if (!match)
                 {
-                    if ((EncounterMatch as MysteryGift)?.CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49)
+                    if (EncounterMatch is WC7 wc7 && wc7.CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49) // ash greninja
                         AddLine(Severity.Valid, V19, CheckIdentifier.Nickname);
                     else
                         AddLine(Severity.Invalid, V20, CheckIdentifier.Nickname);
@@ -333,8 +333,8 @@ namespace PKHeX.Core
         }
         private void VerifyTrade12()
         {
-            var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
-            if (et?.TID != 0) // Gen2 Trade
+            var et = (EncounterTrade)(EncounterOriginalGB ?? EncounterMatch);
+            if (et.TID != 0) // Gen2 Trade
                 return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
 
             if (!EncounterGenerator.IsEncounterTrade1Valid(pkm))
@@ -756,15 +756,11 @@ namespace PKHeX.Core
         }
         private void VerifyEncounterType()
         {
-            if (pkm.Format >= 7)
-                return;
-
             if (!Encounter.Valid)
                 return;
 
             EncounterType type = EncounterType.None;
             // Encounter type data is only stored for gen 4 encounters
-            // Gen 6 -> 7 transfer deletes encounter type data
             // All eggs have encounter type none, even if they are from static encounters
             if (pkm.Gen4 && !pkm.WasEgg)
             {
@@ -1569,7 +1565,7 @@ namespace PKHeX.Core
                 untraded &= gift.IsEgg;
             }
 
-            if (pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false)
+            if (EncounterMatch is EncounterLink link && link.OT == false)
                 untraded = false;
             else if (Info.Generation < 6)
                 untraded = false;

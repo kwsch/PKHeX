@@ -23,12 +23,10 @@ namespace PKHeX.Core
         }
         internal static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
         {
-            var event3 = encounterContent as IRibbonSetEvent3;
-            var event4 = encounterContent as IRibbonSetEvent4;
             var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-            if (event3 != null)
+            if (encounterContent is IRibbonSetEvent3 event3)
                 RibbonNames = RibbonNames.Except(event3.RibbonNames());
-            if (event4 != null)
+            if (encounterContent is IRibbonSetEvent4 event4)
                 RibbonNames = RibbonNames.Except(event4.RibbonNames());
 
             foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))

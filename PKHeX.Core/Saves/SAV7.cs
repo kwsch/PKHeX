@@ -1032,7 +1032,7 @@ namespace PKHeX.Core
         }
         protected override void SetPKM(PKM pkm)
         {
-            PK7 pk7 = pkm as PK7;
+            PK7 pk7 = (PK7)pkm;
             // Apply to this Save File
             int CT = pk7.CurrentHandler;
             DateTime Date = DateTime.Now;

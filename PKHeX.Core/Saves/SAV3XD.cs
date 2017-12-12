@@ -280,8 +280,8 @@ namespace PKHeX.Core
         public override PKM GetStoredSlot(int offset)
         {
             // Get Shadow Data
-            var pk = GetPKM(DecryptPKM(GetData(offset, SIZE_STORED))) as XK3;
-            if (pk?.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
+            var pk = (XK3)GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
+            if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
                 pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
             return pk;
         }

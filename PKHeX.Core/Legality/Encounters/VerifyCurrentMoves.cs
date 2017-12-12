@@ -11,10 +11,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyCurrentMoves
     {
-        public static CheckMoveResult[] VerifyMoves(PKM pkm, LegalInfo info, GameVersion game = GameVersion.Any)
+        public static CheckMoveResult[] VerifyMoves(PKM pkm, LegalInfo info)
         {
             int[] Moves = pkm.Moves;
-            var res = ParseMovesForEncounters(pkm, info, game, Moves);
+            var res = ParseMovesForEncounters(pkm, info, Moves);
 
             // Duplicate Moves Check
             VerifyNoEmptyDuplicates(Moves, res);
@@ -24,13 +24,10 @@ namespace PKHeX.Core
             return res;
         }
 
-        private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, GameVersion game, int[] Moves)
+        private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, int[] Moves)
         {
             if (pkm.Species == 235) // special handling for Smeargle
                 return ParseMovesForSmeargle(pkm, Moves, info); // Smeargle can have any moves except a few
-
-            // Iterate over encounters
-            bool pre3DS = info.Generation < 6;
 
             // gather valid moves for encounter species
             info.EncounterMoves = new ValidEncounterMoves(pkm, info);
@@ -52,14 +49,15 @@ namespace PKHeX.Core
                     UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
             }
 
-            var res = pre3DS
+            var res = info.Generation < 6
                 ? ParseMovesPre3DS(pkm, Moves, info)
                 : ParseMoves3DS(pkm, Moves, info);
 
             if (res.All(x => x.Valid))
                 return res;
 
-            if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // not valid, restore generation 1 and 2 moves
+            // not valid
+            if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // restore generation 1 and 2 moves
             {
                 info.EncounterMoves.LevelUpMoves[1] = defaultG1LevelMoves;
                 if (pkm.InhabitedGeneration(2))
@@ -142,7 +140,7 @@ namespace PKHeX.Core
                 int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
                 return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves, egg);
             }
-            var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm);
+            var NoMoveReminder = info.EncounterMatch is IGeneration g && (g.Generation == 1 || g.Generation == 2) && !Legal.AllowGen2MoveReminder(pkm);
             if (info.Generation <= 2 && NoMoveReminder)
                 return ParseMovesGenGB(pkm, Moves, info);
             if (info.EncounterMatch is EncounterEgg e)

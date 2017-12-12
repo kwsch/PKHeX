@@ -119,16 +119,6 @@ namespace PKHeX.Core
                 case 7: ParsePK7(pk); return;
             }
         }
-
-        private void AddLine(Severity s, string c, CheckIdentifier i)
-        {
-            AddLine(new CheckResult(s, c, i));
-        }
-        private void AddLine(CheckResult chk)
-        {
-            Parse.Add(chk);
-        }
-
         private void ParsePK1(PKM pk)
         {
             pkm = pk;
@@ -207,12 +197,14 @@ namespace PKHeX.Core
             UpdateChecks();
         }
 
+        private void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
+        private void AddLine(CheckResult chk) => Parse.Add(chk);
+
         private void UpdateVCTransferInfo()
         {
             EncounterOriginalGB = EncounterMatch;
             Info.EncounterMatch = EncounterGenerator.GetVCStaticTransferEncounter(pkm);
-            EncounterStatic s = Info.EncounterMatch as EncounterStatic;
-            if (s == null || !EncounterGenerator.IsVCStaticTransferEncounterValid(pkm, s))
+            if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
 
             foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB.Species, EncounterOriginalGB as GBEncounterData, s))
@@ -273,8 +265,8 @@ namespace PKHeX.Core
             VerifyMisc();
             VerifyGender();
             VerifyItem();
-            if (pkm.Format >= 4)
-                VerifyEncounterType();
+            if (pkm.Format <= 6 && pkm.Format >= 4)
+                VerifyEncounterType(); // Gen 6->7 transfer deletes encounter type data
             if (pkm.Format >= 6)
             {
                 History = VerifyHistory();
@@ -297,19 +289,19 @@ namespace PKHeX.Core
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
-                    lines.Add(string.Format(V191, vMoves[i].Judgement.Description(), i + 1, vMoves[i].Comment));
+                    lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (!vRelearn[i].Valid)
-                    lines.Add(string.Format(V192, vRelearn[i].Judgement.Description(), i + 1, vRelearn[i].Comment));
+                    lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
 
             if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
                 return V193;
             
             // Build result string...
             var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
-            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Judgement.Description(), chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
 
             if (lines.Count == 0)
                 return V190;
@@ -331,18 +323,18 @@ namespace PKHeX.Core
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
                 if (vMoves[i].Valid)
-                    lines.Add(string.Format(V191, vMoves[i].Judgement.Description(), i + 1, vMoves[i].Comment));
+                    lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (vRelearn[i].Valid)
-                    lines.Add(string.Format(V192, vRelearn[i].Judgement.Description(), i + 1, vRelearn[i].Comment));
+                    lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
 
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);
             
             var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Judgement.Description(), chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
 
             lines.AddRange(br);
             lines.Add(string.Format(V195, EncounterName));

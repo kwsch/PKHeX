@@ -212,7 +212,7 @@ namespace PKHeX.Core
                     int index = slot.LevelMin*2;
                     for (int j = 0; j < 2; j++) // load special slot info
                     {
-                        var s = slots[i + j] as EncounterSlot1;
+                        var s = (EncounterSlot1)slots[i + j];
                         s.Species = dl[index + j].Species;
                         s.LevelMin = s.LevelMax = dl[index + j].Level;
                         s.Type = slots[i - 1].Type; // special slots are never first in a set, so copy previous type
