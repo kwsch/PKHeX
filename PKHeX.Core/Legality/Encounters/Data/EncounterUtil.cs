@@ -96,7 +96,7 @@ namespace PKHeX.Core
             {
                 var slot = m[i];
                 slot.Permissions.MagnetPullIndex = i;
-                slot.Permissions.MagnetPullCount = s.Count;
+                slot.Permissions.MagnetPullCount = m.Count;
             }
         }
         internal static void MarkEncountersStaticMagnetPullPermutation(IEnumerable<EncounterSlot> grp, PersonalTable t, List<EncounterSlot> permuted)

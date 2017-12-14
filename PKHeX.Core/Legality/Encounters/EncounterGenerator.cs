@@ -281,13 +281,15 @@ namespace PKHeX.Core
             foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
-            var deferred = new List<IEncounterable>();
-            bool safariSport = pkm.Ball == 0x05 || pkm.Ball == 0x18; // never static encounters
+            var deferred = new LinkedList<IEncounterable>();
+            bool sport = pkm.Ball == 0x18; // never static encounters (conflict with non bcc / bcc)
+            bool safari = pkm.Ball == 0x05; // never static encounters
+            bool safariSport = safari || sport;
             if (!safariSport)
             foreach (var z in GetValidStaticEncounter(pkm))
             {
                 if (z.Gift && pkm.Ball != 4)
-                    deferred.Add(z);
+                    deferred.AddLast(z);
                 else
                     yield return z;
             }
@@ -295,19 +297,26 @@ namespace PKHeX.Core
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
             {
+                if (sport != z.Type.HasFlag(SlotType.BugContest))
+                {
+                    deferred.AddLast(z);
+                    continue;
+                }
+
                 var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
                 if (frame != null || pkm.Species == 201) // Unown -- don't really care to figure this out
                     yield return z;
                 else
-                    deferred.Add(z);
+                    deferred.AddFirst(z);
             }
             info.FrameMatches = false;
+
+            foreach (var z in deferred)
+                yield return z;
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safariSport)
             foreach (var z in GetValidStaticEncounter(pkm))
-                yield return z;
-            foreach (var z in deferred)
                 yield return z;
         }
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
@@ -317,13 +326,13 @@ namespace PKHeX.Core
             foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
-            var deferred = new List<IEncounterable>();
+            var deferred = new Queue<IEncounterable>();
             bool safari = pkm.Ball == 0x05; // never static encounters
             if (!safari)
             foreach (var z in GetValidStaticEncounter(pkm))
             {
                 if (z.Gift && pkm.Ball != 4)
-                    deferred.Add(z);
+                    deferred.Enqueue(z);
                 else
                     yield return z;
             }
@@ -334,7 +343,7 @@ namespace PKHeX.Core
                 if (frame != null)
                     yield return z;
                 else
-                    deferred.Add(z);
+                    deferred.Enqueue(z);
             }
             info.FrameMatches = false;
 
@@ -342,11 +351,11 @@ namespace PKHeX.Core
             foreach (var z in GenerateEggs(pkm))
                 yield return z;
 
+            foreach (var z in deferred)
+                yield return z;
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safari)
             foreach (var z in GetValidStaticEncounter(pkm))
-                yield return z;
-            foreach (var z in deferred)
                 yield return z;
         }
 
