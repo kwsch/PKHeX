@@ -514,7 +514,7 @@ namespace PKHeX.Core
             }
         }
         public virtual bool WasIngameTrade => Met_Location == 30001 || Gen4 && Egg_Location == 2001;
-        public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
+        public virtual bool IsUntraded => false;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
 
