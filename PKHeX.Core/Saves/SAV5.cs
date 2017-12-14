@@ -274,7 +274,7 @@ namespace PKHeX.Core
                         new BlockInfo(0x22A00, 0x0850, 0x23252, 0x25F78), // Entralink Forest pokémon data (60d)
                         new BlockInfo(0x23300, 0x0284, 0x23586, 0x25F7A), // ???
                         new BlockInfo(0x23600, 0x0010, 0x23612, 0x25F7C), // ???
-                        new BlockInfo(0x23700, 0x00a8, 0x237AA, 0x25F7E), // ???
+                        new BlockInfo(0x23700, 0x00a8, 0x237AA, 0x25F7E), // PWT related data
                         new BlockInfo(0x23800, 0x016c, 0x2396E, 0x25F80), // ???
                         new BlockInfo(0x23A00, 0x0080, 0x23A82, 0x25F82), // ???
                         new BlockInfo(0x23B00, 0x00fc, 0x23BFE, 0x25F84), // Hollow/Rival Block
@@ -611,6 +611,23 @@ namespace PKHeX.Core
         {
             get => BitConverter.ToUInt16(Data, BattleSubway);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleSubway);
+        }
+
+        public ushort GetPWTRecord(int id) => GetPWTRecord((PWTRecordID) id);
+        public ushort GetPWTRecord(PWTRecordID id)
+        {
+            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+                throw new ArgumentException(nameof(id));
+            int ofs = 0x2375C + (int)id * 2;
+            return BitConverter.ToUInt16(Data, ofs);
+        }
+        public void SetPWTRecord(int id, ushort value) => SetPWTRecord((PWTRecordID) id, value);
+        public void SetPWTRecord(PWTRecordID id, ushort value)
+        {
+            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+                throw new ArgumentException(nameof(id));
+            int ofs = 0x2375C + (int)id * 2;
+            SetData(BitConverter.GetBytes(value), ofs);
         }
 
         protected override void SetDex(PKM pkm)
