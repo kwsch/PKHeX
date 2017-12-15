@@ -226,7 +226,7 @@ namespace PKHeX.Core
             {
                 if (!IsNicknamed)
                 {
-                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7);
+                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7, Language);
                     if (lang == 9 || lang == 10)
                     {
                         StringConverter.SetString7(value, 12, lang, chinese: true).CopyTo(Data, 0x40);
