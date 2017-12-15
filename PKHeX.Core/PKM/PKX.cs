@@ -266,10 +266,14 @@ namespace PKHeX.Core
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="nick">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
+        /// <param name="priorlang">Language ID with a higher priority</param>
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int GetSpeciesNameLanguage(int species, string nick, int generation)
+        public static int GetSpeciesNameLanguage(int species, string nick, int generation, int priorlang = -1)
         {
             var langs = GetAvailableGameLanguages(generation);
+
+            if (langs.Contains(priorlang) && GetSpeciesNameGeneration(species, priorlang, generation) == nick)
+                return priorlang;
 
             foreach (var lang in langs)
                 if (GetSpeciesNameGeneration(species, lang, generation) == nick)
