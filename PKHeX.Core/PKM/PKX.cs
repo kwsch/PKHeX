@@ -251,7 +251,7 @@ namespace PKHeX.Core
             if (generation < 3)
                 return new[]
                 {
-                    (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German,
+                    (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish,
                     (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
                 };
             if (generation < 7)

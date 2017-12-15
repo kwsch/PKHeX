@@ -261,7 +261,7 @@ namespace PKHeX.Core
         }
         private static void ParseMovesByGeneration(PKM pkm, CheckMoveResult[] res, int gen, LegalInfo info, LearnInfo learnInfo, int last)
         {
-            GetHMCompatibility(pkm, learnInfo.Source.CurrentMoves, gen, res, out bool[] HMLearned, out bool KnowDefogWhirlpool);
+            GetHMCompatibility(pkm, res, gen, learnInfo.Source.CurrentMoves, out bool[] HMLearned, out bool KnowDefogWhirlpool);
             ParseMovesByGeneration(pkm, res, gen, info, learnInfo);
 
             if (gen == last)
@@ -287,7 +287,7 @@ namespace PKHeX.Core
             if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
                 ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, learnInfo.IncenseMoves, info);
         }
-        private static void ParseMovesByGeneration(PKM pkm, CheckMoveResult[] res, int gen, LegalInfo info, LearnInfo learnInfo)
+        private static void ParseMovesByGeneration(PKM pkm, IList<CheckMoveResult> res, int gen, LegalInfo info, LearnInfo learnInfo)
         {
             var moves = learnInfo.Source.CurrentMoves;
             bool native = gen == pkm.Format;
@@ -359,7 +359,7 @@ namespace PKHeX.Core
             // Also check if the base egg moves is a non tradeback move
             for (int m = 0; m < 4; m++)
             {
-                if (res[m]?.Valid ?? false) // Skip valid move
+                if (IsCheckValid(res[m])) // already validated
                     continue;
                 if (moves[m] == 0)
                     continue;
@@ -552,7 +552,7 @@ namespace PKHeX.Core
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
-                    if (res[m]?.Valid ?? false)
+                    if (IsCheckValid(res[m])) // already validated
                         continue;
 
                     if (!ShedinjaEvoMoves[gen].Contains(moves[m]))
@@ -613,21 +613,21 @@ namespace PKHeX.Core
             for (int m = 0; m < 4; m++)
                 res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(V385, SpeciesStrings[pkm.Species]), CheckIdentifier.Move);
         }
-        private static void GetHMCompatibility(PKM pkm, int[] moves, int gen, IReadOnlyList<CheckResult> res, out bool[] HMLearned, out bool KnowDefogWhirlpool)
+        private static void GetHMCompatibility(PKM pkm, IReadOnlyList<CheckResult> res, int gen, IReadOnlyList<int> moves, out bool[] HMLearned, out bool KnowDefogWhirlpool)
         {
             HMLearned = new bool[4];
             // Check if pokemon knows HM moves from generation 3 and 4 but are not valid yet, that means it cant learn the HMs in future generations
             if (gen == 4 && pkm.Format > 4)
             {
-                IsHMSource(ref HMLearned, Legal.HM_4_RemovePokeTransfer);
+                IsHMSource(HMLearned, Legal.HM_4_RemovePokeTransfer);
                 KnowDefogWhirlpool = moves.Where((m, i) => IsDefogWhirl(m) && IsCheckInvalid(res[i])).Count() == 2;
                 return;
             }
             KnowDefogWhirlpool = false;
             if (gen == 3 && pkm.Format > 3)
-                IsHMSource(ref HMLearned, Legal.HM_3);
+                IsHMSource(HMLearned, Legal.HM_3);
 
-            void IsHMSource(ref bool[] flags, ICollection<int> source)
+            void IsHMSource(IList<bool> flags, ICollection<int> source)
             {
                 for (int i = 0; i < 4; i++)
                     flags[i] = IsCheckInvalid(res[i]) && source.Contains(moves[i]);
