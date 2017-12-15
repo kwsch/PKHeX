@@ -180,7 +180,7 @@ namespace PKHeX.Core
             if (version <= 15 && version > 0) // single game
                 return version;
 
-            int rand = Util.Rand.Next(1);
+            int rand = Util.Rand.Next(2); // 0 or 1
             switch (version)
             {
                 case (int)GameVersion.FRLG:

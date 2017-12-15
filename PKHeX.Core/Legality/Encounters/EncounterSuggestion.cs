@@ -27,7 +27,7 @@ namespace PKHeX.Core
 
             return null;
         }
-        private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc)
+        private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = 1; // gen5+
             if (!pkm.IsNative)
@@ -41,21 +41,18 @@ namespace PKHeX.Core
                 Level = lvl,
             };
         }
-        private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc)
+        private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc = -1)
         {
             var slots = area.Slots.OrderBy(s => s.LevelMin);
             var first = slots.First();
-            var encounter = new EncounterStatic
+            return new EncounterStatic
             {
-                Location = area.Location,
+                Location = loc != -1 ? loc : area.Location,
                 Species = first.Species,
                 Level = first.LevelMin,
             };
-            if (loc != -1) // forced location
-                encounter.Location = loc;
-            return encounter;
         }
-        private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc)
+        private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc = -1)
         {
             if (loc == -1)
                 loc = s.Location;

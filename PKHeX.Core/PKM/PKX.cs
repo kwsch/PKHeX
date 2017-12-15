@@ -246,18 +246,13 @@ namespace PKHeX.Core
             var langs = GetAvailableGameLanguages(generation);
             return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
         }
-        private static IEnumerable<int> GetAvailableGameLanguages(int generation)
+        private static ICollection<int> GetAvailableGameLanguages(int generation)
         {
             if (generation < 3)
-                return new[]
-                {
-                    (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish,
-                    (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
-                };
+                return Legal.Languages_GB;
             if (generation < 7)
-                return Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
-
-            return Enumerable.Range(1, SpeciesLang.Length - 1);
+                return Legal.Languages_36;
+            return Legal.Languages_7;
         }
 
         /// <summary>

@@ -411,6 +411,14 @@ namespace PKHeX.Core
         public static readonly int[] Games_3e = { 3 };
         public static readonly int[] Games_3r = { 4, 5 };
         public static readonly int[] Games_3s = { 15 };
+        
+        public static readonly int[] Languages_GB = 
+        {
+            (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish,
+            (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
+        };
+        public static readonly int[] Languages_36 = Languages_GB.Concat(new[] { (int)LanguageID.Italian }).ToArray();
+        public static readonly int[] Languages_7 = Languages_36.Concat(new[] { (int)LanguageID.ChineseS, (int)LanguageID.ChineseT }).ToArray();
 
         #endregion
     }

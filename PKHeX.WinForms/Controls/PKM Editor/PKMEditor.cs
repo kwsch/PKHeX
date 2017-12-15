@@ -779,11 +779,6 @@ namespace PKHeX.WinForms.Controls
             if (minlvl < level)
                 minlvl = level;
 
-            if (pkm.VC1)
-                location = Legal.Transfer1;
-            else if (pkm.VC2)
-                location = Legal.Transfer2;
-
             if (!silent)
             {
                 var suggestion = new List<string> { "Suggested:" };
@@ -814,7 +809,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     pkm.OT_Memory = 2;
                     pkm.OT_Affection = 0;
-                    pkm.OT_Feeling = Util.Rand.Next(0, 9);
+                    pkm.OT_Feeling = Util.Rand.Next(0, 10);
                     pkm.OT_Intensity = 1;
                     pkm.OT_TextVar = pkm.XY ? 43 : 27; // riverside road : battling spot
                 }
