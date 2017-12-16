@@ -364,7 +364,6 @@ namespace PKHeX.Core
         public readonly int CGearInfoOffset, CGearDataOffset;
         private readonly int Trainer2, AdventureInfo, BattleSubway;
         public readonly int PokeDexLanguageFlags;
-        public override bool HasBoxWallpapers => false;
 
         // Daycare
         public override int DaycareSeedSize => 16;
