@@ -971,6 +971,8 @@ namespace PKHeX.Core
             {
                 if (p.PID != pkm.EncryptionConstant)
                     return false;
+                if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature) // gen5 BW only
+                    return false;
             }
             else
             {
@@ -1004,6 +1006,8 @@ namespace PKHeX.Core
             if (z.CurrentLevel != -1 && z.CurrentLevel > pkm.CurrentLevel)
                 return false;
 
+            if (z.Form != pkm.AltForm && !IsFormChangeable(pkm, pkm.Species))
+                return false;
             if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
                 return false;
             if (z.Egg_Location != pkm.Egg_Location)
