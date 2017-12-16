@@ -14,7 +14,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         public event LegalityRequest RequestEditorLegality;
-        public delegate void LegalityRequest(object sender, EventArgs args, PKM pkm);
+        public delegate void LegalityRequest(object sender, EventArgs e, PKM pkm);
 
         public void OmniClick(object sender, EventArgs e, Keys z)
         {

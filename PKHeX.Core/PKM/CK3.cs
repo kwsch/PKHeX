@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
-    public class CK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
+    public sealed class CK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -13,7 +13,7 @@ namespace PKHeX.Core
             0xE4, 0xE5, 0xE6, 0xE7, 0xCE,
             // 0xFC onwards unused?
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_3CSTORED;
+        public override int SIZE_PARTY => PKX.SIZE_3CSTORED;
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];

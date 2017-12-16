@@ -5,13 +5,13 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 4 <see cref="PKM"/> format, exclusively for Pokémon Battle Revolution. </summary>
     /// <remarks> Values are stored in Big Endian format rather than Little Endian. Beware. </remarks>
-    public class BK4 : PKM
+    public sealed class BK4 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4
     {
         public static readonly byte[] ExtraBytes =
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_4PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS[Species];

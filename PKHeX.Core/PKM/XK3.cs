@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon XD. </summary>
-    public class XK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
+    public sealed class XK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -12,7 +12,7 @@ namespace PKHeX.Core
             0x7A, 0x7B,
             0x7E, 0x7F
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_3XSTORED;
+        public override int SIZE_PARTY => PKX.SIZE_3XSTORED;
         public override int SIZE_STORED => PKX.SIZE_3XSTORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];

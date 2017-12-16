@@ -3,13 +3,13 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
-    public class PK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
+    public sealed class PK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
     {
         public static readonly byte[] ExtraBytes =
         {
             0x2A, 0x2B
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_3PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_3PARTY;
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];

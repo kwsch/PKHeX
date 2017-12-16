@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
-    public class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7
+    public sealed class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -12,7 +12,7 @@ namespace PKHeX.Core
             // 0x36, 0x37, // Unused Ribbons
             0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
@@ -589,26 +589,7 @@ namespace PKHeX.Core
         }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
-            return; // No geolocations are set, ever! -- except for bank. Don't set them anyway.
-            //// Allow the method to abort if the values are invalid
-            //if (GeoCountry < 0 || GeoRegion < 0)
-            //    return;
-            //
-            //// Trickle down
-            //Geo5_Country = Geo4_Country;
-            //Geo5_Region = Geo4_Region;
-            //
-            //Geo4_Country = Geo3_Country;
-            //Geo4_Region = Geo3_Region;
-            //
-            //Geo3_Country = Geo2_Country;
-            //Geo3_Region = Geo2_Region;
-            //
-            //Geo2_Country = Geo1_Country;
-            //Geo2_Region = Geo1_Region;
-            //
-            //Geo1_Country = GeoCountry;
-            //Geo1_Region = GeoRegion;
+            // No geolocations are set, ever! -- except for bank. Don't set them anyway.
         }
         public void TradeMemory(bool Bank)
         {

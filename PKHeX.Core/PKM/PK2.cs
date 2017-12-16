@@ -6,18 +6,17 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
-    public class PK2 : PKM
+    public sealed class PK2 : PKM
     {
-        // Internal use only
-        protected internal byte[] otname;
-        protected internal byte[] nick;
+        internal byte[] otname;
+        internal byte[] nick;
         public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
         public override bool Valid => Species <= 252;
 
-        public sealed override int SIZE_PARTY => PKX.SIZE_2PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_2PARTY;
         public override int SIZE_STORED => PKX.SIZE_2STORED;
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;

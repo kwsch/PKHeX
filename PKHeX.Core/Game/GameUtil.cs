@@ -97,7 +97,7 @@
                 case 4: return GameVersion.SS;
                 case 5: return GameVersion.W2;
                 case 6: return GameVersion.AS;
-                case 7: return GameVersion.MN;
+                case 7: return GameVersion.UM;
                 default:
                     return GameVersion.Unknown;
             }

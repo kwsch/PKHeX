@@ -4,13 +4,13 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
-    public class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4
+    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4
     {
         public static readonly byte[] ExtraBytes =
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_5PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int Format => 5;
         public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);

@@ -54,7 +54,7 @@ namespace PKHeX.WinForms.Controls
         public event EventHandler RequestShowdownImport;
         public event EventHandler RequestShowdownExport;
         public event ReturnSAVEventHandler SaveFileRequested;
-        public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs args);
+        public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip(), EVTip = new ToolTip();

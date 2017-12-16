@@ -14,7 +14,7 @@ namespace PKHeX.WinForms.Controls
     /// <summary>
     /// Manager class for moving slots.
     /// </summary>
-    public class SlotChangeManager : IDisposable
+    public sealed class SlotChangeManager : IDisposable
     {
         // Disposeables
         public readonly SAVEditor SE;
@@ -39,7 +39,7 @@ namespace PKHeX.WinForms.Controls
         public void SetCursor(Cursor z, object sender)
         {
             if (SE != null)
-                DragInfo.Cursor = (sender as Control).FindForm().Cursor = z;
+                DragInfo.Cursor = ((Control)sender).FindForm().Cursor = z;
         }
         public void MouseEnter(object sender, EventArgs e)
         {
@@ -307,7 +307,8 @@ namespace PKHeX.WinForms.Controls
             // Update SubViews
             foreach (var boxview in Boxes)
             {
-                if (boxview.CurrentBox != box && boxview.SlotPictureBoxes.Count == boxview.BoxSlotCount) continue;
+                if (boxview.CurrentBox != box && boxview.SlotPictureBoxes.Count == boxview.BoxSlotCount)
+                    continue;
                 var slots = boxview.SlotPictureBoxes;
                 for (int i = 0; i < slots.Count; i++)
                     slots[i].BackgroundImage = slot == i ? img : null;
