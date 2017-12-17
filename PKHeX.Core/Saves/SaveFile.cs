@@ -169,8 +169,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
                 if (value.Count != BoxCount*BoxSlotCount)
                     throw new ArgumentException($"Expected {BoxCount*BoxSlotCount}, got {value.Count}");
                 if (value.Any(pk => PKMType != pk.GetType()))
@@ -191,8 +189,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
                 if (value.Count == 0 || value.Count > 6)
                     throw new ArgumentException($"Expected 1-6, got {value.Count}");
                 if (value.Any(pk => PKMType != pk.GetType()))
@@ -499,7 +495,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected virtual int GetBoxWallpaperOffset(int box) { return -1; }
+        protected virtual int GetBoxWallpaperOffset(int box) => -1;
         public virtual int GetBoxWallpaper(int box)
         {
             int offset = GetBoxWallpaperOffset(box);
