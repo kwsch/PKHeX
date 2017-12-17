@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
             using (Graphics gr = Graphics.FromImage(img))
             {
-                gr.DrawImage(baseLayer, new Point(0, 0));
+                gr.DrawImage(baseLayer, new Rectangle(0, 0, baseLayer.Width, baseLayer.Height));
                 Image o = trans == 1f ? overLayer : ChangeOpacity(overLayer, trans);
                 gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
             }

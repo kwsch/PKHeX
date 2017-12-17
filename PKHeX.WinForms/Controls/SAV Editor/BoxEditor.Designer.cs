@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoxEditor));
             this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx30 = new System.Windows.Forms.PictureBox();
             this.bpkx29 = new System.Windows.Forms.PictureBox();
@@ -98,7 +97,6 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_Box.BackgroundImage")));
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx30);
             this.PAN_Box.Controls.Add(this.bpkx29);

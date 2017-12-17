@@ -341,7 +341,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void GetSlotFiller(int offset, PictureBox pb)
         {
-            if (SAV.GetData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))
+            if (SAV.IsRangeEmpty(offset, SAV.SIZE_STORED))
             {
                 // 00s present in slot.
                 pb.Image = null;

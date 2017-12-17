@@ -16,6 +16,7 @@ namespace PKHeX.WinForms.Controls
         public int BoxSlotCount { get; }
         public SlotChangeManager M { get; set; }
         public bool FlagIllegal { get; set; }
+        private const int SlotCount = 30;
 
         public BoxEditor()
         {
@@ -194,7 +195,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
         {
-            if (SAV.GetData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))
+            if (SAV.IsRangeEmpty(offset, SAV.SIZE_STORED))
             {
                 // 00s present in slot.
                 pb.Image = null;
@@ -224,12 +225,11 @@ namespace PKHeX.WinForms.Controls
             if (pb.Image == null)
                 return;
             int slot = GetSlot(pb);
-            int box = slot >= 30 ? -1 : CurrentBox;
-            if (SAV.IsSlotLocked(box, slot))
+            if (slot >= SlotCount || SAV.IsSlotLocked(CurrentBox, slot))
                 return;
 
             bool encrypt = ModifierKeys == Keys.Control;
-            M.HandleMovePKM(pb, slot, box, encrypt);
+            M.HandleMovePKM(pb, slot, CurrentBox, encrypt);
         }
         private void BoxSlot_DragDrop(object sender, DragEventArgs e)
         {
@@ -239,8 +239,7 @@ namespace PKHeX.WinForms.Controls
             // Abort if there is no Pokemon in the given slot.
             PictureBox pb = (PictureBox)sender;
             int slot = GetSlot(pb);
-            int box = slot >= 30 ? -1 : CurrentBox;
-            if (SAV.IsSlotLocked(box, slot) || slot >= 36)
+            if (slot >= SlotCount || SAV.IsSlotLocked(CurrentBox, slot))
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;

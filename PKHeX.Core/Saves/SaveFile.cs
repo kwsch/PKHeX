@@ -666,9 +666,6 @@ namespace PKHeX.Core
 
         public byte[] GetData(int Offset, int Length)
         {
-            if (Offset + Length > Data.Length)
-                return null;
-
             byte[] data = new byte[Length];
             Buffer.BlockCopy(Data, Offset, data, 0, Length);
             return data;
@@ -677,6 +674,13 @@ namespace PKHeX.Core
         {
             input.CopyTo(Data, Offset);
             Edited = true;
+        }
+        public bool IsRangeEmpty(int Offset, int Length)
+        {
+            for (int i = Offset; i < Offset + Length; i++)
+                if (Data[i] != 0)
+                    return false;
+            return true;
         }
 
         public abstract string GetString(int Offset, int Length);
