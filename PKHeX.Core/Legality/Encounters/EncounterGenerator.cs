@@ -413,103 +413,104 @@ namespace PKHeX.Core
             var deferred = new List<EncounterStatic>();
             foreach (EncounterStatic e in poss)
             {
-                if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
-                    continue;
-                if (pkm.WasEgg ^ e.EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3)
-                {
-                    if (!pkm.IsEgg)
-                        continue;
-                }
-                if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
-                {
-                    if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
-                        continue;
-                }
-                else if (pkm.VC || pkm.GenNumber <= 2 && e.EggLocation != 0) // Gen2 Egg
-                {
-                    if (pkm.Format <= 2)
-                    {
-                        if (pkm.IsEgg)
-                        {
-                            if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
-                                continue;
-                        }
-                        else
-                        {
-                            switch (pkm.Met_Level)
-                            {
-                                case 0:
-                                    if (pkm.Met_Location != 0)
-                                        continue;
-                                    break;
-                                case 1:
-                                    if (pkm.Met_Location == 0)
-                                        continue;
-                                    break;
-                                default:
-                                    if (pkm.Met_Location == 0)
-                                        continue;
-                                    break;
-                            }
-                        }
-                        lvl = 5; // met @ 1, hatch @ 5.
-                    }
-                }
-                else if (e.EggLocation != pkm.Egg_Location)
-                {
-                    switch (pkm.GenNumber)
-                    {
-                        case 4:
-                            if (pkm.Egg_Location != 2002) // Link Trade
-                                continue;
-                            break;
-                        default:
-                            if (pkm.Egg_Location != 30002) // Link Trade
-                                continue;
-                            break;
-                    }
-                }
-                if (pkm.HasOriginalMetLocation)
-                {
-                    if (!e.EggEncounter && e.Location != 0 && e.Location != pkm.Met_Location)
-                        continue;
-                    if (e.Level != lvl)
-                    {
-                        if (!(pkm.Format == 3 && e.EggEncounter && lvl == 0))
-                            continue;
-                    }
-                }
-                else if (e.Level > lvl)
-                    continue;
-                if (e.Gender != -1 && e.Gender != pkm.Gender)
-                    continue;
-                if (e.Form != pkm.AltForm && !e.SkipFormCheck && !IsFormChangeable(pkm, e.Species))
-                    continue;
-                if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+                if (!GetIsMatchStatic(pkm, e, lvl))
                     continue;
 
-                // Defer to EC/PID check
-                // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
-                // continue;
-
-                // Defer ball check to later
-                // if (e.Gift && pkm.Ball != 4) // PokéBall
-                // continue;
-
-                if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback)
-                    if (!IsValidCatchRatePK1(e, pk1))
-                        continue;
-
-                if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
-                    continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
-
-                if (pkm.FatefulEncounter ^ e.Fateful)
+                if (pkm.FatefulEncounter != e.Fateful)
                     deferred.Add(e);
                 else
                     yield return e;
             }
             foreach (var e in deferred)
                 yield return e;
+        }
+        private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, int lvl)
+        {
+            if (e.Nature != Nature.Random && pkm.Nature != (int) e.Nature)
+                return false;
+            if (pkm.WasEgg != e.EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3 && !pkm.IsEgg)
+                return false;
+
+            if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
+            {
+                if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
+                    return false;
+            }
+            else if (pkm.VC || pkm.GenNumber <= 2 && e.EggLocation != 0) // Gen2 Egg
+            {
+                if (pkm.Format <= 2)
+                {
+                    if (pkm.IsEgg)
+                    {
+                        if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
+                            return false;
+                    }
+                    else
+                    {
+                        switch (pkm.Met_Level)
+                        {
+                            case 0 when pkm.Met_Location != 0:
+                                return false;
+                            case 1 when pkm.Met_Location == 0:
+                                return false;
+                            default: if (pkm.Met_Location == 0)
+                                return false;
+                                break;
+                        }
+                    }
+                    lvl = 5; // met @ 1, hatch @ 5.
+                }
+            }
+            else if (e.EggLocation != pkm.Egg_Location)
+            {
+                switch (pkm.GenNumber)
+                {
+                    case 4:
+                        if (pkm.Egg_Location != 2002) // Link Trade
+                            return false;
+                        break;
+                    default:
+                        if (pkm.Egg_Location != 30002) // Link Trade
+                            return false;
+                        break;
+                }
+            }
+
+            if (pkm.HasOriginalMetLocation)
+            {
+                if (!e.EggEncounter && e.Location != 0 && e.Location != pkm.Met_Location)
+                    return false;
+                if (e.Level != lvl)
+                {
+                    if (!(pkm.Format == 3 && e.EggEncounter && lvl == 0))
+                        return false;
+                }
+            }
+            else if (e.Level > lvl)
+                return false;
+
+            if (e.Gender != -1 && e.Gender != pkm.Gender)
+                return false;
+            if (e.Form != pkm.AltForm && !e.SkipFormCheck && !IsFormChangeable(pkm, e.Species))
+                return false;
+            if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+                return false;
+
+            // Defer to EC/PID check
+            // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
+            // continue;
+
+            // Defer ball check to later
+            // if (e.Gift && pkm.Ball != 4) // PokéBall
+            // continue;
+
+            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback)
+                if (!IsValidCatchRatePK1(e, pk1))
+                    return false;
+
+            if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
+                return false;
+            return true;
         }
         private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
