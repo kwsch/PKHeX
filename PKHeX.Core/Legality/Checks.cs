@@ -102,7 +102,7 @@ namespace PKHeX.Core
                         break;
                     if (s.Gift || s.Roaming || s.Ability != 4)
                         break;
-                    if (s.NSparkle)
+                    if (s is EncounterStaticPID p && p.NSparkle)
                         break;
                     VerifyG5PID_IDCorrelation();
                     break;
@@ -603,7 +603,7 @@ namespace PKHeX.Core
             if (EncounterMatch is MysteryGift g && !g.IsEgg)
                 return; // Already matches Encounter information
 
-            if (EncounterMatch is EncounterStatic s && s.NSparkle)
+            if (EncounterMatch is EncounterStaticPID s && s.NSparkle)
                 return; // Already checked by VerifyMisc
 
             var ot = pkm.OT_Name;
@@ -2283,7 +2283,7 @@ namespace PKHeX.Core
         }
         private void VerifyNsPKM()
         {
-            bool req = EncounterMatch is EncounterStatic s && s.NSparkle;
+            bool req = EncounterMatch is EncounterStaticPID s && s.NSparkle;
             if (pkm.Format == 5)
             {
                 bool has = ((PK5)pkm).NPokémon;

@@ -543,8 +543,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 646, Level = 75, Location = 61,}, //Kyurem @ Giant Chasm
             //Event
             new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
-            new EncounterStatic { Species = 570, Level = 10, Location = 08, Gender = 0, }, // Zorua @ Castelia City
-            new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
+            new EncounterStatic { Species = 570, Level = 10, Location = 08, Shiny = false, Gender = 0, }, // Zorua @ Castelia City
+            new EncounterStatic { Species = 571, Level = 25, Location = 72, Shiny = false, Gender = 1, }, // Zoroark @ Lostlorn Forest
         };
 
         private static readonly EncounterStatic[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
@@ -610,21 +610,21 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = false, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
             new EncounterStatic { Species = 646, Level = 70, Location = 061, Form = 0}, // Kyurem @ Giant Chasm
             //N's Pokemon
-            new EncounterStatic { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, Nature = Nature.Timid }, //Purloin @ Route 2
-            new EncounterStatic { Species = 519, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Sassy }, //Pidove @ Pinwheel Forest
-            new EncounterStatic { Species = 532, Level = 13, Location = 33, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Timburr @ Pinwheel Forest
-            new EncounterStatic { Species = 535, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Modest }, //Tympole @ Pinwheel Forest
-            new EncounterStatic { Species = 527, Level = 55, Location = 53, NSparkle = true, Ability = 1, Nature = Nature.Timid }, //Woobat @ Wellspring Cave
-            new EncounterStatic { Species = 551, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Sandile @ Desert Resort
-            new EncounterStatic { Species = 554, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Darumaka @ Desert Resort
-            new EncounterStatic { Species = 555, Level = 35, Location = 34, NSparkle = true, Ability = 4, Nature = Nature.Calm }, //Darmanitan @ Desert Resort
-            new EncounterStatic { Species = 559, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Lax }, //Scaggy @ Desert Resort
-            new EncounterStatic { Species = 561, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Gentle }, //Sigilyph @ Desert Resort
-            new EncounterStatic { Species = 525, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Boldore @ Chargestone Cave
-            new EncounterStatic { Species = 595, Level = 28, Location = 37, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Joltik @ Chargestone Cave
-            new EncounterStatic { Species = 597, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Bashful }, //Ferroseed @ Chargestone Cave
-            new EncounterStatic { Species = 599, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Klink @ Chargestone Cave
-            new EncounterStatic { Species = 570, Level = 25, Location = 10, NSparkle = true, Ability = 1, Nature = Nature.Hasty, Gift = true} //N's Zorua @ Driftveil City
+            new EncounterStaticPID { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Timid }, // Purloin @ Route 2
+            new EncounterStaticPID { Species = 519, Level = 13, Location = 33, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Sassy }, // Pidove @ Pinwheel Forest
+            new EncounterStaticPID { Species = 532, Level = 13, Location = 33, NSparkle = true, Ability = 1, PID = 0xFF00003F, Nature = Nature.Rash }, // Timburr @ Pinwheel Forest
+            new EncounterStaticPID { Species = 535, Level = 13, Location = 33, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Modest }, // Tympole @ Pinwheel Forest
+            new EncounterStaticPID { Species = 527, Level = 55, Location = 53, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Timid }, // Woobat @ Wellspring Cave
+            new EncounterStaticPID { Species = 551, Level = 22, Location = 34, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Docile }, // Sandile @ Desert Resort
+            new EncounterStaticPID { Species = 554, Level = 22, Location = 34, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Naive }, // Darumaka @ Desert Resort
+            new EncounterStaticPID { Species = 555, Level = 35, Location = 34, NSparkle = true, Ability = 4, PID = 0xFF00007F, Nature = Nature.Calm }, // Darmanitan @ Desert Resort
+            new EncounterStaticPID { Species = 559, Level = 22, Location = 34, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Lax }, // Scraggy @ Desert Resort
+            new EncounterStaticPID { Species = 561, Level = 22, Location = 34, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Gentle }, // Sigilyph @ Desert Resort
+            new EncounterStaticPID { Species = 525, Level = 28, Location = 37, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Naive }, // Boldore @ Chargestone Cave
+            new EncounterStaticPID { Species = 595, Level = 28, Location = 37, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Docile }, // Joltik @ Chargestone Cave
+            new EncounterStaticPID { Species = 597, Level = 28, Location = 37, NSparkle = true, Ability = 1, PID = 0xFF00007F, Nature = Nature.Bashful }, // Ferroseed @ Chargestone Cave
+            new EncounterStaticPID { Species = 599, Level = 28, Location = 37, NSparkle = true, Ability = 1, PID = 0xFF000000, Nature = Nature.Rash }, // Klink @ Chargestone Cave
+            new EncounterStaticPID { Species = 570, Level = 25, Location = 10, NSparkle = true, Ability = 1, PID = 0xFF00001F, Nature = Nature.Hasty, Gift = true} // N's Zorua @ Driftveil City
         };
 
         private static readonly EncounterStatic[] Encounter_B2W2 = Encounter_DreamRadar.SelectMany(e => e.DreamRadarClone()).Concat(Encounter_B2W2_Regular).ToArray();

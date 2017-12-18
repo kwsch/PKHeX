@@ -430,6 +430,8 @@ namespace PKHeX.Core
                 return false;
             if (pkm.WasEgg != e.EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3 && !pkm.IsEgg)
                 return false;
+            if (e is EncounterStaticPID p && p.PID != pkm.PID)
+                return false;
 
             if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
             {
@@ -463,6 +465,14 @@ namespace PKHeX.Core
             }
             else if (e.EggLocation != pkm.Egg_Location)
             {
+                if (pkm.IsEgg) // unhatched
+                {
+                    if (e.EggLocation != pkm.Met_Location)
+                        return false;
+                    if (pkm.Egg_Location != 0)
+                        return false;
+                }
+                else
                 switch (pkm.GenNumber)
                 {
                     case 4:

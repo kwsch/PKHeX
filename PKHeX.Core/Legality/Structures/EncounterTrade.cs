@@ -33,7 +33,8 @@
         public int Ball { get; set; } = 4;
         public int CurrentLevel { get; set; } = -1;
 
-        public string Name => "In-game Trade";
+        private const string _name = "In-game Trade";
+        public string Name => _name;
         public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 

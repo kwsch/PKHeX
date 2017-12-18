@@ -37,10 +37,29 @@ namespace PKHeX.Core
         public bool Fateful { get; set; }
         public bool RibbonWishing { get; set; }
         public bool SkipFormCheck { get; set; }
-        public bool NSparkle { get; set; }
         public bool Roaming { get; set; }
         public bool EggEncounter => EggLocation > 0;
 
+        protected void CloneArrays()
+        {
+            // dereference original arrays with new copies
+            Moves = (int[])Moves?.Clone();
+            Relearn = (int[])Relearn.Clone();
+            IVs = (int[])IVs.Clone();
+            Contest = (int[])Contest.Clone();
+        }
+        private EncounterStatic Clone()
+        {
+            var result = (EncounterStatic)MemberwiseClone();
+            result.CloneArrays();
+            return result;
+        }
+        public virtual EncounterStatic Clone(int location)
+        {
+            var result = Clone();
+            result.Location = location;
+            return result;
+        }
         public EncounterStatic[] Clone(int[] locations)
         {
             EncounterStatic[] Encounters = new EncounterStatic[locations.Length];
@@ -49,72 +68,19 @@ namespace PKHeX.Core
             return Encounters;
         }
 
-        public virtual EncounterStatic Clone(int location)
-        {
-            return new EncounterStatic
-            {
-                Species = Species,
-                Level = Level,
-                Location = location,
-                Ability = Ability,
-                Form = Form,
-                Shiny = Shiny,
-                Relearn = Relearn,
-                Moves = Moves,
-                Gender = Gender,
-                EggLocation = EggLocation,
-                Nature = Nature,
-                Gift = Gift,
-                Ball = Ball,
-                Version = Version,
-                IVs = IVs,
-                IV3 = IV3,
-                Contest = Contest,
-                HeldItem = HeldItem,
-                Fateful = Fateful,
-                RibbonWishing = RibbonWishing,
-                SkipFormCheck = SkipFormCheck,
-                NSparkle = NSparkle,
-                Roaming = Roaming,
-                EggCycles = EggCycles,
-            };
-        }
-
         public IEnumerable<EncounterStatic> DreamRadarClone()
         {
             for (int i = 0; i < 8; i++)
                 yield return DreamRadarClone(5 * i + 5);  //Level from 5->40 depends on the number of badges
         }
-
         private EncounterStatic DreamRadarClone(int level)
         {
-            return new EncounterStatic
-            {
-                Species = Species,
-                Level = level,
-                Location = 30015, //Pokemon Dream Radar
-                Ability = Ability,
-                Form = Form,
-                Shiny = Shiny,
-                Relearn = Relearn,
-                Moves = Moves,
-                Gender = Gender,
-                EggLocation = EggLocation,
-                Nature = Nature,
-                Gift = true,    //Only
-                Ball = 25,      //Dream Ball
-                Version = Version,
-                IVs = IVs,
-                IV3 = IV3,
-                Contest = Contest,
-                HeldItem = HeldItem,
-                Fateful = Fateful,
-                RibbonWishing = RibbonWishing,
-                SkipFormCheck = SkipFormCheck,
-                NSparkle = NSparkle,
-                Roaming = Roaming,
-                EggCycles = EggCycles,
-            };
+            var result = Clone();
+            result.Level = level;
+            result.Location = 30015;// Pokemon Dream Radar
+            result.Gift = true;     // Only
+            result.Ball = 25;       // Dream Ball
+            return result;
         }
 
         public string Name
@@ -131,50 +97,67 @@ namespace PKHeX.Core
 
     public class EncounterStaticTyped : EncounterStatic
     {
-        public EncounterType TypeEncounter = EncounterType.None;
-
+        public EncounterType TypeEncounter { get; internal set; } = EncounterType.None;
+        private EncounterStaticTyped Clone()
+        {
+            var result = (EncounterStaticTyped)MemberwiseClone();
+            result.CloneArrays();
+            return result;
+        }
         public override EncounterStatic Clone(int location)
         {
-            return new EncounterStaticTyped
-            {
-                Species = Species,
-                Level = Level,
-                Location = location,
-                Ability = Ability,
-                Form = Form,
-                Shiny = Shiny,
-                Relearn = Relearn,
-                Moves = Moves,
-                Gender = Gender,
-                EggLocation = EggLocation,
-                Nature = Nature,
-                Gift = Gift,
-                Ball = Ball,
-                Version = Version,
-                IVs = IVs,
-                IV3 = IV3,
-                Contest = Contest,
-                HeldItem = HeldItem,
-                Fateful = Fateful,
-                RibbonWishing = RibbonWishing,
-                SkipFormCheck = SkipFormCheck,
-                NSparkle = NSparkle,
-                Roaming = Roaming,
-                EggCycles = EggCycles,
-                TypeEncounter = TypeEncounter,
-            };
+            var result = Clone();
+            result.Location = location;
+            return result;
         }
     }
 
     public class EncounterStaticShadow : EncounterStatic
     {
-        public EncounterLock[][] Locks = new EncounterLock[0][];
-        public int Gauge;
-        public bool EReader = false;
+        public EncounterLock[][] Locks { get; internal set; } = new EncounterLock[0][];
+        public int Gauge { get; internal set; }
+        public bool EReader { get; set; }
+        private EncounterStaticShadow Clone()
+        {
+            var result = (EncounterStaticShadow)MemberwiseClone();
+            result.CloneArrays();
+            result.CloneLocks();
+            return result;
+        }
+
+        private void CloneLocks()
+        {
+            Locks = new EncounterLock[Locks.Length][];
+            for (var i = 0; i < Locks.Length; i++)
+            {
+                Locks[i] = (EncounterLock[])Locks[i].Clone();
+                for (int j = 0; j < Locks[i].Length; j++)
+                    Locks[i][j] = Locks[i][j].Clone();
+            }
+        }
 
         public override EncounterStatic Clone(int location)
         {
-            throw new System.NotImplementedException();
+            var result = Clone();
+            result.Location = location;
+            return result;
+        }
+    }
+    public class EncounterStaticPID : EncounterStatic
+    {
+        public uint PID { get; set; }
+        public bool NSparkle { get; set; }
+        private EncounterStaticPID Clone()
+        {
+            var result = (EncounterStaticPID)MemberwiseClone();
+            result.CloneArrays();
+            return result;
+        }
+        public override EncounterStatic Clone(int location)
+        {
+            var result = Clone();
+            result.Location = location;
+            return result;
         }
     }
 }
