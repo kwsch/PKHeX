@@ -1185,6 +1185,10 @@ namespace PKHeX.Core
         public int UG_TrapsTriggered { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x1C); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x1C); }
         public int UG_Flags { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x34); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x34); }
 
+        // Apricorn Pouch
+        public int GetApricornCount(int i) => !HGSS ? -1 : Data[0xE558 + GBO + i];
+        public void SetApricornCount(int i, int count) => Data[0xE558 + GBO + i] = (byte)count;
+
         public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

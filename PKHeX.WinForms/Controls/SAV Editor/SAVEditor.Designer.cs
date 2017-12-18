@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAVEditor));
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
-            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.PB_Locked = new System.Windows.Forms.PictureBox();
@@ -113,6 +112,8 @@
             this.B_Roamer = new System.Windows.Forms.Button();
             this.B_FestivalPlaza = new System.Windows.Forms.Button();
             this.B_MailBox = new System.Windows.Forms.Button();
+            this.B_OpenApricorn = new System.Windows.Forms.Button();
+            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -176,17 +177,6 @@
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
-            // 
-            // Box
-            // 
-            this.Box.AllowDrop = true;
-            this.Box.CurrentBox = -1;
-            this.Box.FlagIllegal = false;
-            this.Box.Location = new System.Drawing.Point(26, 7);
-            this.Box.M = null;
-            this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(251, 185);
-            this.Box.TabIndex = 1;
             // 
             // Tab_PartyBattle
             // 
@@ -788,6 +778,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_Roamer);
             this.FLP_SAVtools.Controls.Add(this.B_FestivalPlaza);
             this.FLP_SAVtools.Controls.Add(this.B_MailBox);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenApricorn);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 88);
@@ -1056,6 +1047,28 @@
             this.B_MailBox.UseVisualStyleBackColor = true;
             this.B_MailBox.Click += new System.EventHandler(this.B_MailBox_Click);
             // 
+            // B_OpenApricorn
+            // 
+            this.B_OpenApricorn.Location = new System.Drawing.Point(189, 235);
+            this.B_OpenApricorn.Name = "B_OpenApricorn";
+            this.B_OpenApricorn.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenApricorn.TabIndex = 33;
+            this.B_OpenApricorn.Text = "Apricorns";
+            this.B_OpenApricorn.UseVisualStyleBackColor = true;
+            this.B_OpenApricorn.Click += new System.EventHandler(this.B_OpenApricorn_Click);
+            // 
+            // Box
+            // 
+            this.Box.AllowDrop = true;
+            this.Box.ControlsVisible = true;
+            this.Box.CurrentBox = -1;
+            this.Box.FlagIllegal = false;
+            this.Box.Location = new System.Drawing.Point(26, 7);
+            this.Box.M = null;
+            this.Box.Name = "Box";
+            this.Box.Size = new System.Drawing.Size(251, 185);
+            this.Box.TabIndex = 1;
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1194,5 +1207,6 @@
         private System.Windows.Forms.Button B_Roamer;
         private System.Windows.Forms.Button B_FestivalPlaza;
         private System.Windows.Forms.Button B_MailBox;
+        private System.Windows.Forms.Button B_OpenApricorn;
     }
 }

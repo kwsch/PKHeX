@@ -518,6 +518,7 @@ namespace PKHeX.WinForms.Controls
         private void B_CellsStickers_Click(object sender, EventArgs e) => new SAV_ZygardeCell(SAV).ShowDialog();
         private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6(SAV).ShowDialog();
         private void B_Roamer_Click(object sender, EventArgs e) => new SAV_Roamer3(SAV).ShowDialog();
+        private void B_OpenApricorn_Click(object sender, EventArgs e) => new SAV_Apricorn(SAV).ShowDialog();
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
             var form = SAV.Generation == 1 ? new SAV_EventReset1(SAV) as Form : new SAV_EventFlags(SAV);
@@ -1007,6 +1008,7 @@ namespace PKHeX.WinForms.Controls
                 B_Roamer.Enabled = sav is SAV3;
 
                 B_OpenHoneyTreeEditor.Enabled = sav.DP || sav.Pt;
+                B_OpenApricorn.Enabled = sav.HGSS;
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
                 B_FestivalPlaza.Enabled = sav.Generation == 7;
