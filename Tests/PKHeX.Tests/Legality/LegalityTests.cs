@@ -31,6 +31,7 @@ namespace PKHeX.Tests.Legality
                 folder = Directory.GetParent(folder).FullName;
 
             folder = Path.Combine(folder, "Legality");
+            Legal.AllowGBCartEra = true;
             VerifyAll(folder, "Legal", true);
             VerifyAll(folder, "Illegal", false);
         }
