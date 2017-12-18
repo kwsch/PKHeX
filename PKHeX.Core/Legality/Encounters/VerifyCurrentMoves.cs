@@ -140,8 +140,8 @@ namespace PKHeX.Core
                 int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
                 return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves, egg);
             }
-            var NoMoveReminder = info.EncounterMatch is IGeneration g && (g.Generation == 1 || g.Generation == 2) && !Legal.AllowGen2MoveReminder(pkm);
-            if (info.Generation <= 2 && NoMoveReminder)
+            if (info.Generation <= 2 && 
+                info.EncounterMatch is IGeneration g && (g.Generation == 1 || g.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm))) // fixed encounter moves without relearning
                 return ParseMovesGenGB(pkm, Moves, info);
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
