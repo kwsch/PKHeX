@@ -1964,7 +1964,8 @@ namespace PKHeX.WinForms.Controls
             CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, Math.Max(0, form));
 
             // Set Ability and Moves
-            CB_Ability.SelectedIndex = Math.Max(0, Array.IndexOf(pkm.PersonalInfo.Abilities, Set.Ability));
+            int abil = Math.Max(0, Array.IndexOf(pkm.PersonalInfo.Abilities, Set.Ability));
+            CB_Ability.SelectedIndex = Math.Min(CB_Ability.Items.Count - 1, abil);
             ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             ComboBox[] p = { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
             for (int i = 0; i < 4; i++)

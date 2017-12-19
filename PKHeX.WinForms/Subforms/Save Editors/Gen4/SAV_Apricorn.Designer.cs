@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Pokebean));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Apricorn));
             this.dgv = new System.Windows.Forms.DataGridView();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
@@ -101,7 +101,7 @@
             this.B_None.UseVisualStyleBackColor = true;
             this.B_None.Click += new System.EventHandler(this.B_None_Click);
             // 
-            // SAV_Pokebean
+            // SAV_Apricorn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -116,9 +116,9 @@
             this.MaximumSize = new System.Drawing.Size(240, 750);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(240, 300);
-            this.Name = "SAV_Pokebean";
+            this.Name = "SAV_Apricorn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "‎Poké Beans Editor";
+            this.Text = "Apricorn Editor";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
 
