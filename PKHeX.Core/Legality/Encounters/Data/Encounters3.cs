@@ -55,6 +55,9 @@ namespace PKHeX.Core
             SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
             SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGUnown);
             SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGUnown);
+
+            MarkEncountersGeneration(3, SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG, SlotsXD);
+            MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
         }
 
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)

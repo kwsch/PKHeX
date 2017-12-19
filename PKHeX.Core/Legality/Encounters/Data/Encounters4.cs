@@ -73,6 +73,9 @@ namespace PKHeX.Core
             MarkDPPtEncounterTypeSlots(ref SlotsPt);
             MarkHGSSEncounterTypeSlots(ref SlotsHG);
             MarkHGSSEncounterTypeSlots(ref SlotsSS);
+
+            MarkEncountersGeneration(4, SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS);
+            MarkEncountersGeneration(4, StaticD, StaticP, StaticPt, StaticHG, StaticSS, TradeGift_DPPt, TradeGift_HGSS);
         }
 
         private static EncounterArea[] GetFeebasArea(EncounterArea template)

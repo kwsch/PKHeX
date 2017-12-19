@@ -553,7 +553,7 @@ namespace PKHeX.Core
             }
             if (EncounterMatch is EncounterSlot w)
             {
-                bool force2 = w.Type == SlotType.FriendSafari || pkm.Gen7 && pkm.AbilityNumber == 4;
+                bool force2 = w.Type == SlotType.FriendSafari || w.Generation == 7 && pkm.AbilityNumber == 4;
                 if (force2 && pkm.IVs.Count(iv => iv == 31) < 2)
                 {
                     AddLine(Severity.Invalid, w.Type == SlotType.FriendSafari ? V29 : string.Format(V28, 2), CheckIdentifier.IVs);
@@ -1233,7 +1233,7 @@ namespace PKHeX.Core
             {
                 if (s.Gift)
                     VerifyBallEquals(s.Ball);
-                else if (pkm.Met_Location == 75 && pkm.Gen5) // DreamWorld
+                else if (s.Location == 75 && s.Generation == 5) // Entree Forest (Dream World)
                     VerifyBallEquals(Legal.DreamWorldBalls);
                 else
                     VerifyBallEquals(Legal.GetWildBalls(pkm));
@@ -1241,7 +1241,7 @@ namespace PKHeX.Core
             }
             if (EncounterMatch is EncounterSlot w)
             {
-                if (pkm.Met_Location == 30016 && pkm.Gen7) // Poké Pelago
+                if (w.Location == 30016 && w.Generation == 7) // Poké Pelago
                     VerifyBallEquals(4); // Pokeball
                 // For gen3/4 Safari Zones and BCC getValidWildEncounters already filter to not return
                 // mixed possible encounters between safari, BCC and other encounters

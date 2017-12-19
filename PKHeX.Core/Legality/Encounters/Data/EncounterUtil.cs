@@ -67,7 +67,7 @@ namespace PKHeX.Core
             return tables.SelectMany(s => s).GroupBy(l => l.Location)
                 .Select(t => t.Count() == 1
                     ? t.First() // only one table, just return the area
-                    : new EncounterArea { Location = t.First().Location, Slots = t.SelectMany(s => s.Slots).ToArray() })
+                    : new EncounterArea { Location = t.Key, Slots = t.SelectMany(s => s.Slots).ToArray() })
                 .ToArray();
         }
 
@@ -154,18 +154,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="EncounterStatic.Generation"/> value, for use in determining split-generation origins.
-        /// </summary>
-        /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
-        /// <param name="Encounters">Ingame encounter data</param>
-        /// <param name="Generation">Generation number to set</param>
-        internal static void MarkEncountersGeneration(IEnumerable<EncounterStatic> Encounters, int Generation)
-        {
-            foreach (EncounterStatic Encounter in Encounters)
-                Encounter.Generation = Generation;
-        }
-
-        /// <summary>
         /// Sets the <see cref="EncounterSlot1.Version"/> value, for use in determining split-generation origins.
         /// </summary>
         /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
@@ -179,16 +167,31 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="EncounterStatic.Generation"/> value, for use in determining split-generation origins.
+        /// Sets the <see cref="IGeneration.Generation"/> value.
         /// </summary>
-        /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
-        /// <param name="Areas">Ingame encounter data</param>
         /// <param name="Generation">Generation number to set</param>
-        internal static void MarkEncountersGeneration(IEnumerable<EncounterArea> Areas, int Generation)
+        /// <param name="Encounters">Ingame encounter data</param>
+        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<IGeneration>[] Encounters)
         {
-            foreach (EncounterArea Area in Areas)
-            foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Generation = Generation;
+            foreach (var table in Encounters)
+                MarkEncountersGeneration(Generation, table);
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IGeneration.Generation"/> value, for use in determining split-generation origins.
+        /// </summary>
+        /// <param name="Generation">Generation number to set</param>
+        /// <param name="Areas">Ingame encounter data</param>
+        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<EncounterArea>[] Areas)
+        {
+            foreach (var table in Areas)
+            foreach (var area in table)
+                MarkEncountersGeneration(Generation, area.Slots);
+        }
+        private static void MarkEncountersGeneration(int Generation, IEnumerable<IGeneration> Encounters)
+        {
+            foreach (IGeneration enc in Encounters)
+                enc.Generation = Generation;
         }
 
         /// <summary>
@@ -200,7 +203,7 @@ namespace PKHeX.Core
         {
             Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
             {
-                Location = a.First().Location,
+                Location = a.Key,
                 Slots = a.SelectMany(m => m.Slots).ToArray()
             }).ToArray();
         }

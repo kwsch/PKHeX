@@ -29,6 +29,9 @@ namespace PKHeX.Core
             SlotsO = GetEncounterTables(GameVersion.OR);
             MarkG6AOSlots(ref SlotsA);
             MarkG6AOSlots(ref SlotsO);
+
+            MarkEncountersGeneration(6, SlotsX, SlotsY, SlotsA, SlotsO);
+            MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {

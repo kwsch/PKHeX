@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
-    public abstract class MysteryGift : IEncounterable, IMoveset
+    public abstract class MysteryGift : IEncounterable, IMoveset, IGeneration
     {
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -153,5 +153,6 @@ namespace PKHeX.Core
         public bool Gen4 => Format == 4;
         public bool Gen3 => Format == 3;
         public virtual bool EggEncounter => IsEgg;
+        public int Generation { get => Format; set {} }
     }
 }

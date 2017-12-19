@@ -5,6 +5,6 @@
     /// </summary>
     internal interface IGeneration
     {
-        int Generation { get; }
+        int Generation { get; set; }
     }
 }

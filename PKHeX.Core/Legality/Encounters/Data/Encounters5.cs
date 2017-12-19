@@ -43,6 +43,9 @@ namespace PKHeX.Core
             SlotsW = AddExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
             SlotsB2 = AddExtraTableSlots(B2Slots, SlotsB2_Swarm, SlotsB2_HiddenGrotto);
             SlotsW2 = AddExtraTableSlots(W2Slots, SlotsW2_Swarm, SlotsW2_HiddenGrotto);
+
+            MarkEncountersGeneration(5, SlotsB, SlotsW, SlotsB2, SlotsW2);
+            MarkEncountersGeneration(5, StaticB, StaticW, StaticB2, StaticW2, TradeGift_BW, TradeGift_B2W2);
         }
 
         private static void MarkBWSwarmSlots(EncounterArea[] Areas)
