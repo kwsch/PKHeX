@@ -1155,7 +1155,7 @@ namespace PKHeX.Core
 
         // Pokewalker
         private int OFS_WALKER = int.MinValue;
-        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes((uint)0x7FFFFFFF), OFS_WALKER);
+        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes((uint)0x07FF_FFFF), OFS_WALKER);
         public bool[] PokewalkerCoursesUnlocked
         {
             get
