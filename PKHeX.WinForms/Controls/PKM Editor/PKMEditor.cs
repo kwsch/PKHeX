@@ -30,6 +30,8 @@ namespace PKHeX.WinForms.Controls
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
             foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
+
+            LoadShowdownSet = LoadShowdownSetDefault;
         }
 
         public PKM CurrentPKM { get => fieldsInitialized ? PreparePKM() : pkm; set => pkm = value; }
@@ -59,7 +61,7 @@ namespace PKHeX.WinForms.Controls
         private readonly PictureBox[] movePB, relearnPB;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip(), EVTip = new ToolTip();
         private SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
-        public bool PKMIsUnsaved => fieldsInitialized && fieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(PreparePKM().Data);
+        public bool PKMIsUnsaved => fieldsInitialized && fieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
         private bool forceValidation;
@@ -244,7 +246,7 @@ namespace PKHeX.WinForms.Controls
             fieldsLoaded = false;
             var cb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToArray();
+            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
             foreach (ComboBox c in cb)
             {
                 var index = WinFormsUtil.GetIndex(c);
@@ -354,32 +356,40 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             if (pkm.Format > 3 && fieldsLoaded) // has forms
-                pkm.AltForm = CB_Form.SelectedIndex;
+                pkm.AltForm = CB_Form.SelectedIndex; // update pkm field for form specific abilities
 
-            int[] abils = pkm.PersonalInfo.Abilities;
-            if (abils[1] == 0 && pkm.Format != 3)
-                abils[1] = abils[0];
-            string[] abilIdentifier = { " (1)", " (2)", " (H)" };
-            var ability_list = abils.Where(a => a != 0)
-                .Select((t, i) => new ComboItem
-                {
-                    Text = GameInfo.Strings.abilitylist[t] + abilIdentifier[i],
-                    Value = t
-                }).ToList();
-
-            if (!ability_list.Any())
-                ability_list.Add(new ComboItem {Value = 0, Text = GameInfo.Strings.abilitylist[0] + abilIdentifier[0]});
+            int abil = CB_Ability.SelectedIndex;
 
             bool tmp = fieldsLoaded;
             fieldsLoaded = false;
-            int abil = CB_Ability.SelectedIndex;
-
             CB_Ability.DisplayMember = "Text";
             CB_Ability.ValueMember = "Value";
-            CB_Ability.DataSource = ability_list;
-            CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+            CB_Ability.DataSource = GetAbilityList(pkm);
+            CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
             fieldsLoaded = tmp;
         }
+        private static int GetSafeIndex(ComboBox cb, int index) => Math.Max(0, Math.Min(cb.Items.Count - 1, index));
+
+        private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
+        private static List<ComboItem> GetAbilityList(PKM pkm)
+        {
+            var abils = pkm.PersonalInfo.Abilities;
+            if (abils[1] == 0 && pkm.Format != 3)
+                abils[1] = abils[0];
+
+            var list = abils.Where(a => a != 0).Select(GetItem).ToList();
+            if (list.Count == 0)
+                list.Add(GetItem(0, 0));
+
+            return list;
+
+            ComboItem GetItem(int ability, int index) => new ComboItem
+            {
+                Value = ability,
+                Text = GameInfo.Strings.abilitylist[ability] + abilIdentifier[index]
+            };
+        }
+
         private void SetIsShiny(object sender)
         {
             if (sender == TB_PID)
@@ -389,6 +399,7 @@ namespace PKHeX.WinForms.Controls
             else if (sender == TB_SID)
                 pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
 
+            // Recalculate shininiess
             bool isShiny = pkm.IsShiny;
 
             // Set the Controls
@@ -1943,7 +1954,10 @@ namespace PKHeX.WinForms.Controls
                 tab.DragDrop += drop;
             }
         }
-        public void LoadShowdownSet(ShowdownSet Set)
+
+        // ReSharper disable once FieldCanBeMadeReadOnly.Global
+        public Action<ShowdownSet> LoadShowdownSet;
+        private void LoadShowdownSetDefault(ShowdownSet Set)
         {
             CB_Species.SelectedValue = Set.Species;
             CHK_Nicknamed.Checked = Set.Nickname != null;

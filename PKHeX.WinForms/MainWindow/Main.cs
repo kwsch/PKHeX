@@ -475,7 +475,7 @@ namespace PKHeX.WinForms
             FileInfo fi = new FileInfo(path);
             if (!fi.Exists)
                 return;
-            if (fi.Length > 0x10009C && fi.Length != 0x380000 && ! SAV3GCMemoryCard.IsMemoryCardSize(fi.Length))
+            if (fi.Length > 0x10009C && fi.Length != SaveUtil.SIZE_G4BR && ! SAV3GCMemoryCard.IsMemoryCardSize(fi.Length)) // pbr/GC have size > 1MB
                 WinFormsUtil.Error("Input file is too large." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
             else if (fi.Length < 32)
                 WinFormsUtil.Error("Input file is too small." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
@@ -485,14 +485,14 @@ namespace PKHeX.WinForms
                 catch (Exception e) { WinFormsUtil.Error("Unable to load file.  It could be in use by another program.\nPath: " + path, e); return; }
 
                 #if DEBUG
-                OpenFile(input, path, ext, C_SAV.SAV);
+                OpenFile(input, path, ext);
                 #else
-                try { OpenFile(input, path, ext, C_SAV.SAV); }
+                try { OpenFile(input, path, ext); }
                 catch (Exception e) { WinFormsUtil.Error("Unable to load file.\nPath: " + path, e); }
                 #endif
             }
         }
-        private void OpenFile(byte[] input, string path, string ext, SaveFile currentSaveFile)
+        private void OpenFile(byte[] input, string path, string ext)
         {
             if (TryLoadXorpadSAV(input, path))
                 return;
@@ -500,7 +500,7 @@ namespace PKHeX.WinForms
                 return;
             if (TryLoadMemoryCard(input, path))
                 return;
-            if (TryLoadPKM(input, path, ext, currentSaveFile))
+            if (TryLoadPKM(input, ext))
                 return;
             if (TryLoadPCBoxBin(input))
                 return;
@@ -550,8 +550,7 @@ namespace PKHeX.WinForms
                 return true;
             }
 
-            OpenSAV(SaveUtil.GetVariantSAV(psdata), path);
-            return true;
+            return TryLoadSAV(psdata, path);
         }
         private bool TryLoadSAV(byte[] input, string path)
         {
@@ -574,7 +573,7 @@ namespace PKHeX.WinForms
             OpenSAV(sav, path);
             return true;
         }
-        private bool TryLoadPKM(byte[] input, string path, string ext, SaveFile SAV)
+        private bool TryLoadPKM(byte[] input, string ext)
         {
             var pk = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
             if (pk == null)
@@ -711,7 +710,8 @@ namespace PKHeX.WinForms
                 return null;
 
             var blank = sav.BlankPKM;
-            string path = Path.Combine(TemplatePath, $"{new DirectoryInfo(TemplatePath).Name}.{blank.Extension}");
+            var di = new DirectoryInfo(TemplatePath);
+            string path = Path.Combine(TemplatePath, $"{di.Name}.{blank.Extension}");
 
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
                 return null;
@@ -785,7 +785,7 @@ namespace PKHeX.WinForms
             string date = Resources.ProgramVersion;
 #endif
             string title = $"PKH{(HaX ? "a" : "e")}X ({date}) - {sav.GetType().Name}: ";
-            if (string.IsNullOrWhiteSpace(path)) // Blank save file
+            if (!sav.Exportable) // Blank save file
             {
                 sav.FilePath = null;
                 sav.FileName = "Blank Save File";
@@ -977,7 +977,7 @@ namespace PKHeX.WinForms
                 return;
 
             var sav = C_SAV.SAV;
-            if (TryLoadPKM(input, url, sav.Generation.ToString(), sav))
+            if (TryLoadPKM(input, sav.Generation.ToString()))
                 return;
             if (TryLoadMysteryGift(input, url, null))
                 return;
