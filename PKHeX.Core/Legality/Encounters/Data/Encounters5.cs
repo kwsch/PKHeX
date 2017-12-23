@@ -37,7 +37,7 @@ namespace PKHeX.Core
             MarkB2W2SwarmSlots(SlotsW2_Swarm);
             MarkG5HiddenGrottoSlots(SlotsB2_HiddenGrotto);
             MarkG5HiddenGrottoSlots(SlotsW2_HiddenGrotto);
-            MarkEncounterAreaArray(SlotsB_Swarm, SlotsW_Swarm, SlotsB2_Swarm, SlotsW2_Swarm, SlotsB2_HiddenGrotto, SlotsW2_HiddenGrotto);
+            MarkEncounterAreaArray(SlotsB_Swarm, SlotsW_Swarm, SlotsB2_Swarm, SlotsW2_Swarm, SlotsB2_HiddenGrotto, SlotsW2_HiddenGrotto, WhiteForestSlot);
 
             SlotsB = AddExtraTableSlots(BSlots, SlotsB_Swarm);
             SlotsW = AddExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);

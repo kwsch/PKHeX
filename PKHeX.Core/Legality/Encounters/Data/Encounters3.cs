@@ -34,7 +34,7 @@ namespace PKHeX.Core
             var FR_Slots = get("fr", "fr");
             var LG_Slots = get("lg", "lg");
 
-            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGUnown);
+            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGUnown, SlotsXD);
 
             ReduceAreasSize(ref R_Slots);
             ReduceAreasSize(ref S_Slots);

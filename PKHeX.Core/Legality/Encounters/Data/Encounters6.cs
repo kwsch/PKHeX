@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.EncounterUtil;
+﻿using System.Linq;
+using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -9,6 +10,7 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
         internal static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
+        internal static readonly ILookup<int, EncounterSlot> FriendSafari;
 
         static Encounters6()
         {
@@ -32,6 +34,28 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(6, SlotsX, SlotsY, SlotsA, SlotsO);
             MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
+
+            FriendSafari = GetFriendSafariArea();
+        }
+
+        private static ILookup<int, EncounterSlot> GetFriendSafariArea()
+        {
+            var area = new EncounterArea { Location = 148 };
+            EncounterSlot FriendSafariSlot(int d)
+            {
+                return new EncounterSlot
+                {
+                    Area = area,
+                    Generation = 6,
+                    Species = d,
+                    LevelMin = 30,
+                    LevelMax = 30,
+                    Form = 0,
+                    Type = SlotType.FriendSafari,
+                };
+            }
+            area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
+            return area.Slots.ToLookup(s => s.Species);
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
