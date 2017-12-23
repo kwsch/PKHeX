@@ -203,7 +203,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 44, }, // Amaura
 
             new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
-            new EncounterStatic { Species = 131, Level = 30, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
+            new EncounterStatic { Species = 131, Level = 30, Location = 62, Ability = 1, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
             new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = false, }, // Snorlax
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
