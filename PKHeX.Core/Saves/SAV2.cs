@@ -502,6 +502,67 @@ namespace PKHeX.Core
             // Give all Unown caught to prevent a crash on pokedex view
             for (int i = 1; i <= 26; i++)
                 Data[Offsets.PokedexSeen + 0x1F + i] = (byte)i;
+            if (UnownFirstSeen == 0) // Invalid
+                UnownFirstSeen = 1; // A
+        }
+        /// <summary>
+        /// Toggles the availability of Unown letter groups in the Wild
+        /// </summary>
+        /// <remarks>
+        /// Max value of 0x0F, 4 bitflags
+        /// 1 lsh 0: A, B, C, D, E, F, G, H, I, J, K
+        /// 1 lsh 1: L, M, N, O, P, Q, R
+        /// 1 lsh 2: S, T, U, V, W
+        /// 1 lsh 3: X, Y, Z
+        /// </remarks>
+        public int UnownUnlocked
+        {
+            get => Data[Offsets.PokedexSeen + 0x1F + 27];
+            set => Data[Offsets.PokedexSeen + 0x1F + 27] = (byte)value;
+        }
+        /// <summary>
+        /// Unlocks all Unown letters/forms in the wild.
+        /// </summary>
+        public void UnownUnlockAll() => UnownUnlocked = 0x0F; // all 4 bitflags
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: A, B, C, D, E, F, G, H, I, J, K
+        /// </summary>
+        public bool UnownUnlocked0
+        {
+            get => (UnownUnlocked & 1 << 0) == 1 << 0;
+            set => UnownUnlocked |= 1 << 0;
+        }
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: L, M, N, O, P, Q, R
+        /// </summary>
+        public bool UnownUnlocked1
+        {
+            get => (UnownUnlocked & 1 << 1) == 1 << 1;
+            set => UnownUnlocked |= 1 << 1;
+        }
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: S, T, U, V, W
+        /// </summary>
+        public bool UnownUnlocked2
+        {
+            get => (UnownUnlocked & 1 << 2) == 1 << 2;
+            set => UnownUnlocked |= 1 << 2;
+        }
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: X, Y, Z
+        /// </summary>
+        public bool UnownUnlocked3
+        {
+            get => (UnownUnlocked & 1 << 3) == 1 << 3;
+            set => UnownUnlocked |= 1 << 3;
+        }
+        /// <summary>
+        /// Chooses which Unown sprite to show in the regular Pokédex View
+        /// </summary>
+        public int UnownFirstSeen
+        {
+            get => Data[Offsets.PokedexSeen + 0x1F + 28];
+            set => Data[Offsets.PokedexSeen + 0x1F + 28] = (byte)value;
         }
         public override bool GetSeen(int species)
         {
