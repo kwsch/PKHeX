@@ -31,16 +31,8 @@ namespace PKHeX.Core
         public int SPC { get => Data[0x05]; set => Data[0x05] = (byte)value; }
         public override int SPA { get => SPC; set => SPC = value; }
         public override int SPD { get => SPC; set => SPC = value; }
-        public override int[] Types
-        {
-            get => new int[] { Data[0x06], Data[0x07] };
-            set
-            {
-                if (value?.Length != 2) return;
-                Data[0x06] = (byte)value[0];
-                Data[0x07] = (byte)value[1];
-            }
-        }
+        public override int Type1 { get => Data[0x06]; set => Data[0x06] = (byte)value; }
+        public override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
         public override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
         public override int BaseEXP { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int Move1 { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
@@ -60,18 +52,26 @@ namespace PKHeX.Core
 
         // Future game values, unused
         public override int[] Items { get => new[] { 0, 0 }; set { } }
-        public override int[] EggGroups { get => new[] { 0, 0 }; set { } }
+        public override int EggGroup1 { get => 0; set { } }
+        public override int EggGroup2 { get => 0; set { } }
         public override int[] Abilities { get => new[] { 0, 0 }; set { } }
         public override int Gender { get; set; }
         public override int HatchCycles { get => 0; set { } }
         public override int BaseFriendship { get => 0; set { } }
         public override int EscapeRate { get => 0; set { } }
         public override int Color { get => 0; set { } }
-
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
-            set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
+            set
+            {
+                if (value?.Length != 4) return;
+                Move1 = value[0];
+                Move2 = value[1];
+                Move3 = value[2];
+                Move4 = value[3]; 
+                
+            }
         }
     }
 }

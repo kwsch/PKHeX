@@ -30,39 +30,26 @@ namespace PKHeX.Core
         public override int SPE { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int SPA { get => Data[0x05]; set => Data[0x05] = (byte)value; }
         public override int SPD { get => Data[0x06]; set => Data[0x06] = (byte)value; }
-        public override int[] Types
-        {
-            get => new int[] { Data[0x07], Data[0x08] };
-            set
-            {
-                if (value?.Length != 2) return;
-                Data[0x07] = (byte)value[0];
-                Data[0x08] = (byte)value[1];
-            }
-        }
+        public override int Type1 { get => Data[0x06]; set => Data[0x06] = (byte)value; }
+        public override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
         public override int CatchRate { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public override int BaseEXP { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
-
-        public override int[] Items
-        {
-            get => new int[] { Data[0xB], Data[0xC] };
-            set
-            {
-                if (value?.Length != 2) return;
-                Data[0xB] = (byte) value[0];
-                Data[0xC] = (byte) value[1];
-            }
-        }
+        public int Item1 { get => Data[0xB]; set => Data[0xB] = (byte)value; }
+        public int Item2 { get => Data[0xC]; set => Data[0xC] = (byte)value; }
         public override int Gender { get => Data[0xD]; set => Data[0xD] = (byte)value; }
         public override int HatchCycles { get => Data[0xF]; set => Data[0xF] = (byte)value; }
         public override int EXPGrowth { get => Data[0x16]; set => Data[0x16] = (byte)value; }
-        public override int[] EggGroups
+        public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)(Data[0x17] & 0xF0 | value); }
+        public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)(Data[0x17] & 0x0F | value << 4); }
+
+        public override int[] Items
         {
-            get => new[] { Data[0x17] >> 4, Data[0x17] & 0xF };
+            get => new[] { Item1, Item2 };
             set
             {
                 if (value?.Length != 2) return;
-                Data[0x17] = (byte)(((value[0] & 0xF) << 4) | (value[1] & 0xF));
+                Item1 = value[0];
+                Item2 = value[1];
             }
         }
 

@@ -30,8 +30,6 @@ namespace PKHeX.Core
             SetBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
             return Data;
         }
-        
-        // No accessing for 3C-4B
 
         public int SpecialZ_Item { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
         public int SpecialZ_BaseMove { get => BitConverter.ToUInt16(Data, 0x4E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); }

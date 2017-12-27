@@ -22,8 +22,10 @@
         public abstract int EV_SPE { get; set; }
         public abstract int EV_SPA { get; set; }
         public abstract int EV_SPD { get; set; }
-
-        public abstract int[] Types { get; set; }
+        public abstract int Type1 { get; set; }
+        public abstract int Type2 { get; set; }
+        public abstract int EggGroup1 { get; set; }
+        public abstract int EggGroup2 { get; set; }
         public abstract int CatchRate { get; set; }
         public virtual int EvoStage { get; set; }
         public abstract int[] Items { get; set; }
@@ -31,7 +33,6 @@
         public abstract int HatchCycles { get; set; }
         public abstract int BaseFriendship { get; set; }
         public abstract int EXPGrowth { get; set; }
-        public abstract int[] EggGroups { get; set; }
         public abstract int [] Abilities { get; set; }
         public abstract int EscapeRate { get; set; }
         public virtual int FormeCount { get; set; } = 1;
@@ -42,6 +43,27 @@
 
         public virtual int Height { get; set; } = 0;
         public virtual int Weight { get; set; } = 0;
+
+        public int[] Types
+        {
+            get => new[] { Type1, Type2 };
+            set
+            {
+                if (value?.Length != 2) return;
+                Type1 = value[0];
+                Type2 = value[1];
+            }
+        }
+        public int[] EggGroups
+        {
+            get => new[] { EggGroup1, EggGroup2 };
+            set
+            {
+                if (value?.Length != 2) return;
+                EggGroup1 = (byte)value[0];
+                EggGroup2 = (byte)value[1];
+            }
+        }
 
         /// <summary>
         /// TM/HM learn compatibility flags for individual moves.
