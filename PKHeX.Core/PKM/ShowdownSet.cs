@@ -11,6 +11,7 @@ namespace PKHeX.Core
     {
         // String to Values
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+        private static readonly string[] genders = {"M", "F", ""};
         private const string Language = "en";
         private static readonly string[] types = Util.GetTypesList(Language);
         private static readonly string[] forms = Util.GetFormsList(Language);
@@ -20,7 +21,7 @@ namespace PKHeX.Core
         private static readonly string[] moves = Util.GetMovesList(Language);
         private static readonly string[] abilities = Util.GetAbilitiesList(Language);
         private static readonly string[] hptypes = types.Skip(1).ToArray();
-        private int MAX_SPECIES => species.Length-1;
+        private static int MAX_SPECIES => species.Length-1;
 
         // Default Set Data
         public string Nickname { get; set; }
@@ -226,6 +227,11 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
+        /// </summary>
+        /// <param name="pkm">PKM to convert to string</param>
+        /// <returns>Multi line set data</returns>
         public static string GetShowdownText(PKM pkm)
         {
             if (pkm.Species == 0)
@@ -242,7 +248,7 @@ namespace PKHeX.Core
                 IVs = pkm.IVs,
                 Moves = pkm.Moves,
                 Nature = pkm.Nature,
-                Gender = new[] { "M", "F", "" }[pkm.Gender < 2 ? pkm.Gender : 2],
+                Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2],
                 Friendship = pkm.CurrentFriendship,
                 Level = PKX.GetLevel(pkm.Species, pkm.EXP),
                 Shiny = pkm.IsShiny,
@@ -458,6 +464,42 @@ namespace PKHeX.Core
         private static string ReplaceAll(string original, string to, params string[] toBeReplaced)
         {
             return toBeReplaced.Aggregate(original, (current, v) => current.Replace(v, to));
+        }
+
+        public void ApplyToPKM(PKM pkm)
+        {
+            if (Species < 0)
+                return;
+            pkm.Species = Species;
+
+            if (Nickname != null && Nickname.Length <= pkm.NickLength)
+                pkm.Nickname = Nickname;
+            else
+                pkm.Nickname = PKX.GetSpeciesName(pkm.Species, pkm.Language);
+
+            int gender = PKX.GetGenderFromString(Gender);
+            pkm.Gender = Math.Max(0, gender);
+
+            var list = PKX.GetFormList(pkm.Species, types, forms, genders);
+            int formnum = Array.IndexOf(list, Form);
+            pkm.AltForm = Math.Max(0, formnum);
+
+            var abils = pkm.PersonalInfo.Abilities;
+            int index = Array.IndexOf(abils, Ability);
+            pkm.RefreshAbility(Math.Max(0, Math.Min(2, index)));
+
+            if (Shiny && !pkm.IsShiny)
+                pkm.SetShinyPID();
+            else if (!Shiny && pkm.IsShiny)
+                pkm.PID = Util.Rand32();
+
+            pkm.CurrentLevel = Level;
+            pkm.HeldItem = Math.Max(0, HeldItem);
+            pkm.CurrentFriendship = Friendship;
+            pkm.Nature = Nature;
+            pkm.EVs = EVs;
+            pkm.IVs = IVs;
+            pkm.Moves = Moves;
         }
     }
 }
