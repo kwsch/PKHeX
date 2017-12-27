@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         public PCD(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
         }
 
         public PGT Gift
@@ -158,7 +158,7 @@ namespace PKHeX.Core
 
         public PGT(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
         }
 
         public byte CardType { get => Data[0]; set => Data[0] = value; }

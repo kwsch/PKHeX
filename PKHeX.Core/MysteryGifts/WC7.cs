@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public WC7(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
             if (Data.Length == SizeFull)
             {
                 byte[] wc6 = new byte[Size];

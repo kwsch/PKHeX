@@ -38,14 +38,12 @@ namespace PKHeX.Core
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3XD(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3XD] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3XD];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 
             if (SaveUtil.GetIsG3XDSAV(Data) != GameVersion.XD)
                 return;
-
-            OriginalData = (byte[])Data.Clone();
 
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
@@ -121,7 +119,6 @@ namespace PKHeX.Core
                     PartyCount++;
         }
 
-        private readonly byte[] OriginalData;
         public override byte[] Write(bool DSV, bool GCI)
         {
             // Set Memo Back
@@ -136,7 +133,7 @@ namespace PKHeX.Core
             byte[] newSAV = SaveUtil.EncryptGC(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
-            byte[] newFile = (byte[])OriginalData.Clone();
+            byte[] newFile = (byte[])BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex * SLOT_SIZE, newSAV.Length);
 
             // Return the gci if Memory Card is not being exported

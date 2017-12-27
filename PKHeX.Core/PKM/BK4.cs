@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public BK4(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
             Data = PKX.ShuffleArray45(Data, sv);
             Identifier = ident;
@@ -33,7 +33,7 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new BK4(Encrypt());
+        public override PKM Clone() => new BK4((byte[])Encrypt().Clone());
 
         public string GetString(int Offset, int Count) => StringConverter.GetBEString4(Data, Offset, Count);
         public byte[] SetString(string value, int maxLength) => StringConverter.SetBEString4(value, maxLength);

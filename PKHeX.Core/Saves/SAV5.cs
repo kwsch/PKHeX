@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G5RAW] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G5RAW];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 

@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
         public SAV1(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G1RAW] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G1RAW];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 

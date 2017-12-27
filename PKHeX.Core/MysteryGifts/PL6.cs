@@ -19,7 +19,7 @@ namespace PKHeX.Core
         public readonly byte[] Data;
         public PL6(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
         }
         /// <summary>
         /// Pokémon Link Flag 
@@ -196,7 +196,7 @@ namespace PKHeX.Core
         public readonly byte[] Data;
         public PL6_PKM(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
         }
 
         public int TID {

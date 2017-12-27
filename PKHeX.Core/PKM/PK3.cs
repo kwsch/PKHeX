@@ -16,13 +16,13 @@ namespace PKHeX.Core
 
         public PK3(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new PK3(Data);
+        public override PKM Clone() => new PK3((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese);

@@ -19,13 +19,13 @@ namespace PKHeX.Core
 
         public PK7(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new PK7(Data);
+        public override PKM Clone() => new PK7((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);

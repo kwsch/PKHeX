@@ -42,7 +42,7 @@ namespace PKHeX.Core
 
         public SAV3(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3RAW] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3RAW];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 

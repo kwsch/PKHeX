@@ -38,7 +38,7 @@ namespace PKHeX.Core
 
         public PK1(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
         public override PKM Clone()
         {
-            PK1 new_pk1 = new PK1(Data, Identifier, Japanese);
+            PK1 new_pk1 = new PK1((byte[])Data.Clone(), Identifier, Japanese);
             Array.Copy(otname, 0, new_pk1.otname, 0, otname.Length);
             Array.Copy(nick, 0, new_pk1.nick, 0, nick.Length);
             return new_pk1;

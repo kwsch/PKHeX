@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3RSBox(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3BOX];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 

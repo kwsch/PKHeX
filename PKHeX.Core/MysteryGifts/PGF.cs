@@ -13,9 +13,7 @@ namespace PKHeX.Core
 
         public PGF(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
-            if (data == null) Data = new byte[Size];
-            else Data = (byte[])data.Clone();
+            Data = data ?? new byte[Size];
         }
 
         public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }

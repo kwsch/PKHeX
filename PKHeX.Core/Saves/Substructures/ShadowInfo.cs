@@ -51,7 +51,7 @@ namespace PKHeX.Core
         internal const int SIZE_ENTRY = 72;
         public ShadowInfoEntryXD(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[SIZE_ENTRY]);
+            Data = data ?? new byte[SIZE_ENTRY];
         }
 
         public bool IsSnagged => Data[0] >> 6 != 0;
@@ -70,7 +70,7 @@ namespace PKHeX.Core
         internal const int SIZE_ENTRY = 12;
         public ShadowInfoEntryColo(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[SIZE_ENTRY]);
+            Data = data ?? new byte[SIZE_ENTRY];
         }
         public uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
         public int Met_Location { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); }

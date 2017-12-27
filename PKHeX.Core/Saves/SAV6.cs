@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public override string Extension => "";
         public SAV6(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G6ORAS] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G6ORAS];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 

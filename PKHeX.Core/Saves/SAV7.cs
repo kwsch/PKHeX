@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public SAV7(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G7SM] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G7SM];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 

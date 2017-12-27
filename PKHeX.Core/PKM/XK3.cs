@@ -18,13 +18,13 @@ namespace PKHeX.Core
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
         public XK3(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new XK3(Data) {Purification = Purification};
+        public override PKM Clone() => new XK3((byte[])Data.Clone()) {Purification = Purification};
 
         private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);

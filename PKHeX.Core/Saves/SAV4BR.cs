@@ -17,9 +17,9 @@ namespace PKHeX.Core
         private const int SAVE_COUNT = 4;
         public SAV4BR(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G4BR] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G4BR];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !Data.All(z => z == 0);
 
             if (SaveUtil.GetIsG4BRSAV(Data) != GameVersion.BATREV)
                 return;

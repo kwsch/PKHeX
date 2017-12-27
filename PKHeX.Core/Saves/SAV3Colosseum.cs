@@ -46,14 +46,12 @@ namespace PKHeX.Core
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3Colosseum(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3COLO] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3COLO];
             BAK = (byte[])Data.Clone();
             Exportable = !Data.All(z => z == 0);
 
             if (SaveUtil.GetIsG3COLOSAV(Data) != GameVersion.COLO)
                 return;
-
-            OriginalData = (byte[])Data.Clone();
 
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
@@ -113,7 +111,6 @@ namespace PKHeX.Core
                     PartyCount++;
         }
 
-        private readonly byte[] OriginalData;
         public override byte[] Write(bool DSV, bool GCI)
         {
             StrategyMemo.FinalData.CopyTo(Data, Memo);
@@ -124,7 +121,7 @@ namespace PKHeX.Core
             byte[] newSAV = EncryptColosseum(Data, digest);
 
             // Put save slot back in original save data
-            byte[] newFile = (byte[])OriginalData.Clone();
+            byte[] newFile = (byte[])BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex*SLOT_SIZE, newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
