@@ -235,6 +235,7 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
+        public override bool HasNamableBoxes => true;
         
         // Checksums
         private ushort GetChecksum()
@@ -338,7 +339,8 @@ namespace PKHeX.Core
         }
         public int TextSpeed
         {
-            get => Options & 0x7; set
+            get => Options & 0x7;
+            set
             {
                 var new_speed = value;
                 if (new_speed > 7)
@@ -398,7 +400,7 @@ namespace PKHeX.Core
                         p.Items[i] = p.Items[ofs++];
                     }
                     while (ofs < p.Items.Length)
-                        p.Items[ofs++] = new InventoryItem { Count = 0, Index = 0 };
+                        p.Items[ofs++] = new InventoryItem();
                     p.SetPouchG1(ref Data);
                 }
             }
@@ -449,7 +451,9 @@ namespace PKHeX.Core
         }
         public override void SetBoxName(int box, string value)
         {
-            // Don't allow for custom box names
+            int len = Korean ? 17 : 9;
+            var data = SetString(value, len, len, 0x50);
+            SetData(data, Offsets.BoxNames + box * len);
         }
 
         public override PKM GetPKM(byte[] data)

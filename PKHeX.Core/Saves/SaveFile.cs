@@ -110,6 +110,7 @@ namespace PKHeX.Core
         public bool HasDaycare => Daycare > -1;
         public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
+        public virtual bool HasNamableBoxes => HasBoxWallpapers;
         public virtual bool HasSUBE => SUBE > -1 && !ORAS;
         public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;

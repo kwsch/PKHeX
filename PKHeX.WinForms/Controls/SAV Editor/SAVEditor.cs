@@ -989,7 +989,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenPokeBeans.Enabled = sav.Generation == 7;
                 B_CellsStickers.Enabled = sav.Generation == 7;
                 B_OUTPasserby.Enabled = sav.HasPSS;
-                B_OpenBoxLayout.Enabled = sav.HasBoxWallpapers;
+                B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
                 B_OpenSuperTraining.Enabled = sav.HasSuperTrain;
                 B_OpenHallofFame.Enabled = sav.HasHoF;

@@ -15,15 +15,18 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             editing = true;
-            
-            // Repopulate Wallpaper names
-            if (!LoadWallpaperNames())
+
+            if (!SAV.HasBoxWallpapers)
+                CB_BG.Visible = PAN_BG.Visible = false;
+            else if (!LoadWallpaperNames()) // Repopulate Wallpaper names
                 WinFormsUtil.Error("Box layout is not supported for this game.", "Please close the window.");
+
             LoadBoxNames();
             LoadFlags();
             LoadUnlockedCount();
 
             LB_BoxSelect.SelectedIndex = box;
+            editing = false;
         }
 
         private bool LoadWallpaperNames()
