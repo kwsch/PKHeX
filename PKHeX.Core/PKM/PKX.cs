@@ -241,12 +241,12 @@ namespace PKHeX.Core
         /// <param name="nick">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation)
+        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation = Generation)
         {
             var langs = GetAvailableGameLanguages(generation);
             return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
         }
-        private static ICollection<int> GetAvailableGameLanguages(int generation)
+        private static ICollection<int> GetAvailableGameLanguages(int generation = Generation)
         {
             if (generation < 3)
                 return Legal.Languages_GB;
@@ -263,7 +263,7 @@ namespace PKHeX.Core
         /// <param name="generation">Generation specific formatting option</param>
         /// <param name="priorlang">Language ID with a higher priority</param>
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int GetSpeciesNameLanguage(int species, string nick, int generation, int priorlang = -1)
+        public static int GetSpeciesNameLanguage(int species, string nick, int generation = Generation, int priorlang = -1)
         {
             var langs = GetAvailableGameLanguages(generation);
 
@@ -452,7 +452,6 @@ namespace PKHeX.Core
             for (int i = 232; i < 260; i += 2)
                 BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
 
-            // Done
             return ekx;
         }
 
@@ -543,7 +542,7 @@ namespace PKHeX.Core
 
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation)
+        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation)
         {
             if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
