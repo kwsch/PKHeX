@@ -24,7 +24,7 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new PK6((byte[])Data.Clone());
+        public override PKM Clone() => new PK6((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString6(value, maxLength);

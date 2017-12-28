@@ -65,7 +65,7 @@ namespace PKHeX.Core
         public override int MaxItemID => Version == GameVersion.HGSS ? Legal.MaxItemID_4_HGSS : Version == GameVersion.Pt ? Legal.MaxItemID_4_Pt : Legal.MaxItemID_4_DP;
         public override int MaxAbilityID => Legal.MaxAbilityID_4;
         public override int MaxBallID => Legal.MaxBallID_4;
-        public override int MaxGameID => 15; // Colo/XD
+        public override int MaxGameID => Legal.MaxGameID_4; // Colo/XD
 
         // Checksums
         private static int[][] GetChecksumOffsets(GameVersion g)
@@ -308,13 +308,13 @@ namespace PKHeX.Core
                     new InventoryPouch(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
                 };
                 foreach (var p in pouch)
-                    p.GetPouch(ref Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch(ref Data);
+                    p.SetPouch(Data);
             }
         }
 

@@ -932,13 +932,13 @@ namespace PKHeX.Core
                     new InventoryPouch(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
                 };
                 foreach (var p in pouch)
-                    p.GetPouch7(ref Data);
+                    p.GetPouch7(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch7(ref Data);
+                    p.SetPouch7(Data);
             }
         }
 

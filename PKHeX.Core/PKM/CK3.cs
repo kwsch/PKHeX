@@ -26,7 +26,7 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new CK3((byte[])Data.Clone());
+        public override PKM Clone() => new CK3((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);
@@ -203,7 +203,7 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_3;
         public override int MaxItemID => Legal.MaxItemID_3;
         public override int MaxBallID => Legal.MaxBallID_3;
-        public override int MaxGameID => 5;
+        public override int MaxGameID => Legal.MaxGameID_3;
         public override int MaxIV => 31;
         public override int MaxEV => 252;
         public override int OTLength => 7;

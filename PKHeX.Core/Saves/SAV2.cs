@@ -206,7 +206,7 @@ namespace PKHeX.Core
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
         protected override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-        public override PKM BlankPKM => new PK2(null, null, Japanese);
+        public override PKM BlankPKM => new PK2(jp: Japanese);
         public override Type PKMType => typeof(PK2);
 
         private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
@@ -384,7 +384,7 @@ namespace PKHeX.Core
                 };
                 foreach (var p in pouch)
                 {
-                    p.GetPouchG1(ref Data);
+                    p.GetPouchG1(Data);
                 }
                 return pouch;
             }
@@ -401,7 +401,7 @@ namespace PKHeX.Core
                     }
                     while (ofs < p.Items.Length)
                         p.Items[ofs++] = new InventoryItem();
-                    p.SetPouchG1(ref Data);
+                    p.SetPouchG1(Data);
                 }
             }
         }

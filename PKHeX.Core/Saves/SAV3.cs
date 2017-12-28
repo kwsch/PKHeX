@@ -200,7 +200,7 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_3;
         public override int MaxItemID => Legal.MaxItemID_3;
         public override int MaxBallID => Legal.MaxBallID_3;
-        public override int MaxGameID => 5;
+        public override int MaxGameID => Legal.MaxGameID_3;
 
         public override int BoxCount => 14;
         public override int MaxEV => 255;
@@ -417,14 +417,14 @@ namespace PKHeX.Core
                 {
                     if (p.Type != InventoryType.PCItems)
                         p.SecurityKey = SecurityKey;
-                    p.GetPouch(ref Data);
+                    p.GetPouch(Data);
                 }
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch(ref Data);
+                    p.SetPouch(Data);
             }
         }
 

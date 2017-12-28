@@ -82,10 +82,10 @@ namespace PKHeX.Core
 
         public override int MaxMoveID => 467;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
-        public override int MaxAbilityID => 123;
-        public override int MaxItemID => 536;
-        public override int MaxBallID => 0x18;
-        public override int MaxGameID => 15;
+        public override int MaxAbilityID => Legal.MaxAbilityID_4;
+        public override int MaxItemID => Legal.MaxItemID_4_HGSS;
+        public override int MaxBallID => Legal.MaxBallID_4;
+        public override int MaxGameID => Legal.MaxGameID_4;
 
         public override int MaxEV => 255;
         public override int Generation => 4;

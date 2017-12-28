@@ -144,12 +144,12 @@ namespace PKHeX.Core
         public override PKM BlankPKM => new CK3();
         public override Type PKMType => typeof(CK3);
 
-        public override int MaxMoveID => 354;
+        public override int MaxMoveID => Legal.MaxMoveID_3;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => 77;
-        public override int MaxItemID => 547;
-        public override int MaxBallID => 0xC;
-        public override int MaxGameID => 5;
+        public override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public override int MaxBallID => Legal.MaxBallID_3;
+        public override int MaxItemID => Legal.MaxItemID_3_COLO;
+        public override int MaxGameID => Legal.MaxGameID_3;
         
         public override int MaxEV => 255;
         public override int Generation => 3;

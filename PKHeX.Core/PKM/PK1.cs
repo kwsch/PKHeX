@@ -47,13 +47,11 @@ namespace PKHeX.Core
             nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
         }
 
-        public override PKM Clone()
+        public override PKM Clone() => new PK1((byte[])Data.Clone(), Identifier, Japanese)
         {
-            PK1 new_pk1 = new PK1((byte[])Data.Clone(), Identifier, Japanese);
-            Array.Copy(otname, 0, new_pk1.otname, 0, otname.Length);
-            Array.Copy(nick, 0, new_pk1.nick, 0, nick.Length);
-            return new_pk1;
-        }
+            otname = (byte[])otname.Clone(),
+            nick = (byte[])nick.Clone(),
+        };
         public override string Nickname
         {
             get => StringConverter.GetString1(nick, 0, nick.Length, Japanese);

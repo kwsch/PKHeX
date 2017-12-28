@@ -9,8 +9,11 @@ namespace PKHeX.Core
         internal const int MaxSpeciesID_3 = 386;
         internal const int MaxMoveID_3 = 354;
         internal const int MaxItemID_3 = 374;
+        internal const int MaxItemID_3_COLO = 547;
+        internal const int MaxItemID_3_XD = 593;
         internal const int MaxAbilityID_3 = 77;
         internal const int MaxBallID_3 = 0xC;
+        internal const int MaxGameID_3 = 5; // LG
         /// <summary>
         /// Generation 3 -> Generation 4 Transfer Location (Pal Park)
         /// </summary>
