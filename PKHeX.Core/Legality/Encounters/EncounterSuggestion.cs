@@ -30,7 +30,7 @@ namespace PKHeX.Core
         private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = 1; // gen5+
-            if (!pkm.IsNative)
+            if (!pkm.IsNative && pkm.GenNumber < 5)
                 lvl = pkm.CurrentLevel; // be generous with transfer conditions
             else if (pkm.Format < 5) // and native
                 lvl = 0;
