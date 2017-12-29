@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -410,7 +411,7 @@ namespace PKHeX.Core
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
+                Crypt(pkx, ref seed, i);
 
             // Deshuffle
             pkx = ShuffleArray(pkx, sv);
@@ -419,7 +420,7 @@ namespace PKHeX.Core
             seed = pv;
             if (pkx.Length <= 232) return pkx;
             for (int i = 232; i < 260; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
+                Crypt(pkx, ref seed, i);
 
             return pkx;
         }
@@ -442,7 +443,7 @@ namespace PKHeX.Core
 
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 232; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
+                Crypt(ekx, ref seed, i);
 
             // If no party stats, return.
             if (ekx.Length <= 232) return ekx;
@@ -450,7 +451,7 @@ namespace PKHeX.Core
             // Encrypt the Party Stats
             seed = pv;
             for (int i = 232; i < 260; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
+                Crypt(ekx, ref seed, i);
 
             return ekx;
         }
@@ -649,7 +650,7 @@ namespace PKHeX.Core
 
             // Decrypt Blocks with RNG Seed
             for (int i = 8; i < 136; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkm, i);
+                Crypt(pkm, ref seed, i);
 
             // Deshuffle
             pkm = ShuffleArray45(pkm, sv);
@@ -658,7 +659,7 @@ namespace PKHeX.Core
             seed = pv;
             if (pkm.Length <= 136) return pkm;
             for (int i = 136; i < pkm.Length; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkm, i);
+                Crypt(pkm, ref seed, i);
 
             return pkm;
         }
@@ -682,7 +683,7 @@ namespace PKHeX.Core
 
             // Encrypt Blocks with RNG Seed
             for (int i = 8; i < 136; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekm, i);
+                Crypt(ekm, ref seed, i);
 
             // If no party stats, return.
             if (ekm.Length <= 136) return ekm;
@@ -690,10 +691,20 @@ namespace PKHeX.Core
             // Encrypt the Party Stats
             seed = pv;
             for (int i = 136; i < ekm.Length; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekm, i);
+                Crypt(ekm, ref seed, i);
 
             // Done
             return ekm;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void Crypt(byte[] data, ref uint seed, int i)
+        {
+            var val = data[i] | data[i + 1] << 8;
+            seed = 0x41C64E6D * seed + 0x00006073;
+            val ^= (ushort)(seed >> 16);
+            data[i] = (byte)val;
+            data[i + 1] = (byte)(val >> 8);
         }
 
         /// <summary>
