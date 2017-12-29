@@ -1960,11 +1960,11 @@ namespace PKHeX.Core
         {
             if (str.Length == 0)
                 return str;
-            var s = str.Replace("\u2019", "\u0027"); // farfetch'd
-            s = s.Replace("\uE08F", "\u2640"); // ♀ (gen6+)
-            s = s.Replace("\uE08E", "\u2642"); // ♂ (gen6+)
-            s = s.Replace("\u246E", "\u2640"); // ♀ (gen5)
-            s = s.Replace("\u246D", "\u2642"); // ♂ (gen5)
+            var s = str.Replace('\u2019', '\u0027'); // farfetch'd
+            s = s.Replace('\uE08F', '\u2640'); // ♀ (gen6+)
+            s = s.Replace('\uE08E', '\u2642'); // ♂ (gen6+)
+            s = s.Replace('\u246E', '\u2640'); // ♀ (gen5)
+            s = s.Replace('\u246D', '\u2642'); // ♂ (gen5)
             return s;
         }
 
@@ -1972,36 +1972,34 @@ namespace PKHeX.Core
         /// Converts full width to half width when appropriate
         /// </summary>
         /// <param name="str">Input string to set.</param>
-        /// <param name="generation"></param>
-        /// <param name="species"></param>
-        /// <param name="nicknamed"></param>
+        /// <param name="generation">Generation specific context</param>
         /// <returns></returns>
-        private static string UnSanitizeString(string str, int generation, int species = -1, bool nicknamed = true)
+        private static string UnSanitizeString(string str, int generation)
         {
             var s = str;
             if (generation >= 6)
-                s = str.Replace("\u0027", "\u2019"); // farfetch'd
+                s = str.Replace('\u0027', '\u2019'); // farfetch'd
 
             if (generation == 5 || generation == 4)
             {
-                s = s.Replace("\u2640", "\u246E"); // ♀
-                s = s.Replace("\u2642", "\u246D"); // ♂
+                s = s.Replace('\u2640', '\u246E'); // ♀
+                s = s.Replace('\u2642', '\u246D'); // ♂
                 return s;
             }
 
-            bool foreign = true;
-            if ((species == 029 || species == 032) && !nicknamed)
-                foreign = str[0] != 'N'; // idoran
-            else if (nicknamed)
-                foreign = str.Select(c => c >> 12).Any(c => c != 0 && c != 0xE);
+            var langcontext = str.Where(c => !FullToHalf.Contains(c));
+            bool fullwidth = langcontext.Select(c => c >> 12) // select the group the char belongs to
+                .Any(c => c != 0 /* Latin */ && c != 0xE /* Special Symbols */);
+
+            if (fullwidth) // jp/ko/zh strings
+                return s; // keep as full width
 
             // Convert back to half width
-            if (foreign)
-                return s;
-            s = s.Replace("\u2640", "\uE08F"); // ♀
-            s = s.Replace("\u2642", "\uE08E"); // ♂
+            s = s.Replace('\u2640', '\uE08F'); // ♀
+            s = s.Replace('\u2642', '\uE08E'); // ♂
             return s;
         }
+        private static readonly char[] FullToHalf = {'\u2640', '\u2642'};
 
         /// <summary>
         /// Trims a string at the first instance of a 0xFFFF terminator.
