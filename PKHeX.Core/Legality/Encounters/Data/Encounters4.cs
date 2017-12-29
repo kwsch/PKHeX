@@ -899,7 +899,7 @@ namespace PKHeX.Core
             Encounter_HGSS_Regular).ToArray();
         #endregion
         #region Trade Tables
-        internal static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
+        internal static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", null, "Eulalia" };
         private static readonly EncounterTrade[] RanchGifts =
         {
             new EncounterTradePID { Species = 025, Level = 18, Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, Version = GameVersion.D, Location = 0068, Gender = 0, PID = 323975838, CurrentLevel = 20, }, // Pikachu
