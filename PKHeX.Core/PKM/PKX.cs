@@ -377,83 +377,108 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Data to shuffle</param>
         /// <param name="sv">Block Shuffle order</param>
+        /// <param name="blockSize">Size of shuffling chunks</param>
         /// <returns>Shuffled byte array</returns>
-        public static byte[] ShuffleArray(byte[] data, uint sv)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte[] ShuffleArray(byte[] data, uint sv, int blockSize)
         {
-            byte[] sdata = new byte[data.Length];
-            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
-
-            // Shuffle Away!
+            byte[] sdata = (byte[])data.Clone();
             for (int block = 0; block < 4; block++)
-                Array.Copy(data, 8 + 56*blockPosition[block][sv], sdata, 8 + 56*block, 56);
-
-            // Fill the Battle Stats back
-            if (data.Length > 232)
-                Array.Copy(data, 232, sdata, 232, 28);
-
+                Array.Copy(data, 8 + blockSize * blockPosition[block][sv], sdata, 8 + blockSize * block, blockSize);
             return sdata;
         }
 
         /// <summary>
         /// Decrypts a 232 byte + party stat byte array.
         /// </summary>
-        /// <param name="ekx">Encrypted <see cref="PKM"/> data.</param>
+        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
         /// <returns>Decrypted <see cref="PKM"/> data.</returns>
         /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] DecryptArray(byte[] ekx)
+        public static byte[] DecryptArray(byte[] ekm)
         {
-            byte[] pkx = (byte[])ekx.Clone();
-
-            uint pv = BitConverter.ToUInt32(pkx, 0);
+            uint pv = BitConverter.ToUInt32(ekm, 0);
             uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            uint seed = pv;
-
-            // Decrypt Blocks with RNG Seed
-            for (int i = 8; i < 232; i += 2)
-                Crypt(pkx, ref seed, i);
-
-            // Deshuffle
-            pkx = ShuffleArray(pkx, sv);
-
-            // Decrypt the Party Stats
-            seed = pv;
-            if (pkx.Length <= 232) return pkx;
-            for (int i = 232; i < 260; i += 2)
-                Crypt(pkx, ref seed, i);
-
-            return pkx;
+            CryptPKM(ekm, pv, SIZE_6BLOCK);
+            return ShuffleArray(ekm, sv, SIZE_6BLOCK);
         }
 
         /// <summary>
         /// Encrypts a 232 byte + party stat byte array.
         /// </summary>
-        /// <param name="pkx">Decrypted <see cref="PKM"/> data.</param>
-        public static byte[] EncryptArray(byte[] pkx)
+        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
+        public static byte[] EncryptArray(byte[] pkm)
         {
-            // Shuffle
-            uint pv = BitConverter.ToUInt32(pkx, 0);
+            uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            byte[] ekx = (byte[])pkx.Clone();
+            byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_6BLOCK);
+            CryptPKM(ekm, pv, SIZE_6BLOCK);
+            return ekm;
+        }
 
-            ekx = ShuffleArray(ekx, blockPositionInvert[sv]);
+        /// <summary>
+        /// Decrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
+        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
+        public static byte[] DecryptArray45(byte[] ekm)
+        {
+            uint pv = BitConverter.ToUInt32(ekm, 0);
+            uint chk = BitConverter.ToUInt16(ekm, 6);
+            uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            uint seed = pv;
+            CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
+            return ShuffleArray(ekm, sv, SIZE_4BLOCK);
+        }
 
-            // Encrypt Blocks with RNG Seed
-            for (int i = 8; i < 232; i += 2)
-                Crypt(ekx, ref seed, i);
+        /// <summary>
+        /// Encrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
+        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
+        public static byte[] EncryptArray45(byte[] pkm)
+        {
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint chk = BitConverter.ToUInt16(pkm, 6);
+            uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            // If no party stats, return.
-            if (ekx.Length <= 232) return ekx;
+            byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_4BLOCK);
+            CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
+            return ekm;
+        }
 
-            // Encrypt the Party Stats
-            seed = pv;
-            for (int i = 232; i < 260; i += 2)
-                Crypt(ekx, ref seed, i);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CryptPKM(byte[] data, uint pv, int blockSize)
+        {
+            const int start = 8;
+            int end = 4 * blockSize + start;
+            CryptArray(data, pv, 8, end); // Blocks
+            CryptArray(data, pv, end, data.Length); // Party Stats
+        }
 
-            return ekx;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CryptPKM45(byte[] data, uint pv, uint chk, int blockSize)
+        {
+            const int start = 8;
+            int end = 4 * blockSize + start;
+            CryptArray(data, chk, start, end); // Blocks
+            CryptArray(data, pv, end, data.Length); // Party Stats
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CryptArray(byte[] data, uint seed, int start, int end)
+        {
+            for (int i = start; i < end; i += 2)
+                Crypt(data, ref seed, i);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void Crypt(byte[] data, ref uint seed, int i)
+        {
+            seed = 0x41C64E6D * seed + 0x00006073;
+            data[i] ^= (byte)(seed >> 16);
+            data[i + 1] ^= (byte)(seed >> 24);
         }
 
         /// <summary>
@@ -610,102 +635,6 @@ namespace PKHeX.Core
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
-
-        /// <summary>
-        /// Shuffles a 136 byte array containing <see cref="PKM"/> data.
-        /// </summary>
-        /// <param name="data">Data to shuffle</param>
-        /// <param name="sv">Block Shuffle order</param>
-        /// <returns>Shuffled byte array</returns>
-        public static byte[] ShuffleArray45(byte[] data, uint sv)
-        {
-            byte[] sdata = new byte[data.Length];
-            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
-
-            // Shuffle Away!
-            for (int block = 0; block < 4; block++)
-                Array.Copy(data, 8 + 32 * blockPosition[block][sv], sdata, 8 + 32 * block, 32);
-
-            // Fill the Battle Stats back
-            if (data.Length > 136)
-                Array.Copy(data, 136, sdata, 136, data.Length - 136);
-
-            return sdata;
-        }
-
-        /// <summary>
-        /// Decrypts a 136 byte + party stat byte array.
-        /// </summary>
-        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
-        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
-        public static byte[] DecryptArray45(byte[] ekm)
-        {
-            byte[] pkm = (byte[])ekm.Clone();
-
-            uint pv = BitConverter.ToUInt32(pkm, 0);
-            uint chk = BitConverter.ToUInt16(pkm, 6);
-            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
-
-            uint seed = chk;
-
-            // Decrypt Blocks with RNG Seed
-            for (int i = 8; i < 136; i += 2)
-                Crypt(pkm, ref seed, i);
-
-            // Deshuffle
-            pkm = ShuffleArray45(pkm, sv);
-
-            // Decrypt the Party Stats
-            seed = pv;
-            if (pkm.Length <= 136) return pkm;
-            for (int i = 136; i < pkm.Length; i += 2)
-                Crypt(pkm, ref seed, i);
-
-            return pkm;
-        }
-
-        /// <summary>
-        /// Encrypts a 136 byte + party stat byte array.
-        /// </summary>
-        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
-        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] EncryptArray45(byte[] pkm)
-        {
-            uint pv = BitConverter.ToUInt32(pkm, 0);
-            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
-
-            uint chk = BitConverter.ToUInt16(pkm, 6);
-            byte[] ekm = (byte[])pkm.Clone();
-
-            ekm = ShuffleArray45(ekm, blockPositionInvert[sv]);
-
-            uint seed = chk;
-
-            // Encrypt Blocks with RNG Seed
-            for (int i = 8; i < 136; i += 2)
-                Crypt(ekm, ref seed, i);
-
-            // If no party stats, return.
-            if (ekm.Length <= 136) return ekm;
-
-            // Encrypt the Party Stats
-            seed = pv;
-            for (int i = 136; i < ekm.Length; i += 2)
-                Crypt(ekm, ref seed, i);
-
-            // Done
-            return ekm;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void Crypt(byte[] data, ref uint seed, int i)
-        {
-            var val = data[i] | data[i + 1] << 8;
-            seed = 0x41C64E6D * seed + 0x00006073;
-            val ^= (ushort)(seed >> 16);
-            data[i] = (byte)val;
-            data[i + 1] = (byte)(val >> 8);
-        }
 
         /// <summary>
         /// Gets the Unown Forme ID from PID.

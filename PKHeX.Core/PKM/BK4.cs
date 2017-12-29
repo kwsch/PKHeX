@@ -24,7 +24,7 @@ namespace PKHeX.Core
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            Data = PKX.ShuffleArray45(Data, sv);
+            Data = PKX.ShuffleArray(Data, sv, PKX.SIZE_4BLOCK);
             Identifier = ident;
             if (Sanity != 0 && Species <= MaxSpeciesID && !ChecksumValid) // We can only hope
                 RefreshChecksum();
@@ -388,7 +388,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.ShuffleArray45(Data, PKX.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24]);
+            return PKX.ShuffleArray(Data, PKX.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24], PKX.SIZE_4BLOCK);
         }
 
         public PK4 ConvertToPK4()
