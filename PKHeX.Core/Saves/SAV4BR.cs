@@ -163,7 +163,8 @@ namespace PKHeX.Core
                     {
                         ushort val = BigEndian.ToUInt16(input, ofs + i*2);
                         val -= keys[i];
-                        BigEndian.GetBytes(val).CopyTo(output, ofs + i*2);
+                        output[ofs + i * 2] = (byte)(val >> 8);
+                        output[ofs + i * 2 + 1] = (byte)val;
                     }
                     keys = SaveUtil.AdvanceGCKeys(keys);
                 }
@@ -188,7 +189,8 @@ namespace PKHeX.Core
                     {
                         ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                         val += keys[i];
-                        BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                        output[ofs + i * 2] = (byte)(val >> 8);
+                        output[ofs + i * 2 + 1] = (byte)val;
                     }
                     keys = SaveUtil.AdvanceGCKeys(keys);
                 }

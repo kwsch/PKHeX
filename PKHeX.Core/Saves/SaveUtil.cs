@@ -298,24 +298,36 @@ namespace PKHeX.Core
             if (BitConverter.ToUInt16(data, 0xF626) == CRC16_CCITT(data, 0, 0xF618))
                 return GameVersion.HGSS;
 
+            bool validSequence(byte[] pattern, int shift = 0)
+            {
+                int ofs = BitConverter.ToUInt16(pattern, 0) - 0xC + shift;
+                for (int i = 0; i < 10; i++)
+                    if (data[i + ofs] != pattern[i])
+                        return false;
+                return true;
+            }
+
             // General Block Checksum is invalid, check for block identifiers
-            if (data.Skip(0xC0F4).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_DP))
                 return GameVersion.DP;
-            if (data.Skip(0xCF20).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_Pt))
                 return GameVersion.Pt;
-            if (data.Skip(0xF61C).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_HS))
                 return GameVersion.HGSS;
 
             // Check the other save
-            if (data.Skip(0xC0F4 + 0x40000).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_DP, 0x40000))
                 return GameVersion.DP;
-            if (data.Skip(0xCF20 + 0x40000).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_Pt, 0x40000))
                 return GameVersion.Pt;
-            if (data.Skip(0xF61C + 0x40000).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_HS, 0x40000))
                 return GameVersion.HGSS;
 
             return GameVersion.Invalid;
         }
+        private static readonly byte[] BlockPattern_General_DP = { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
+        private static readonly byte[] BlockPattern_General_Pt = { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
+        private static readonly byte[] BlockPattern_General_HS = { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
         /// <summary>Determines the type of 4th gen Battle Revolution</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
@@ -956,7 +968,8 @@ namespace PKHeX.Core
                 {
                     ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                     val -= keys[i];
-                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                    output[ofs + i * 2] = (byte)(val >> 8);
+                    output[ofs + i * 2 + 1] = (byte)val;
                 }
                 keys = AdvanceGCKeys(keys);
             }
@@ -971,7 +984,8 @@ namespace PKHeX.Core
                 {
                     ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                     val += keys[i];
-                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                    output[ofs + i * 2] = (byte)(val >> 8);
+                    output[ofs + i * 2 + 1] = (byte)val;
                 }
                 keys = AdvanceGCKeys(keys);
             }
