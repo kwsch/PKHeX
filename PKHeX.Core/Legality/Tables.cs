@@ -246,7 +246,9 @@ namespace PKHeX.Core
             719,
             723, 724, 725, 726, 727, 728
         };
-        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves)); // Struggle & Chatter
+
+        internal static readonly int[] UnreleasedMoves = {617, 721}; // Light of Ruin & Plasma Fists
+        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves).Concat(UnreleasedMoves)); // Struggle & Chatter
 
         public static readonly HashSet<int> Legends = new HashSet<int>
         {
