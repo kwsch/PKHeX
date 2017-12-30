@@ -889,12 +889,11 @@ namespace PKHeX.WinForms.Controls
             ToggleViewReset();
             ToggleViewSubEditors(SAV);
 
-            int BoxTab = tabBoxMulti.TabPages.IndexOf(Tab_Box);
-            int PartyTab = tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle);
-
             bool WindowTranslationRequired = false;
             WindowTranslationRequired |= ToggleViewBox(SAV);
+            int BoxTab = tabBoxMulti.TabPages.IndexOf(Tab_Box);
             WindowTranslationRequired |= ToggleViewParty(SAV, BoxTab);
+            int PartyTab = tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle);
             WindowTranslationRequired |= ToggleViewDaycare(SAV, BoxTab, PartyTab);
             SetPKMBoxes();   // Reload all of the PKX Windows
 
@@ -956,7 +955,6 @@ namespace PKHeX.WinForms.Controls
         }
         private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
         {
-
             if (!sav.HasDaycare)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_Other))
