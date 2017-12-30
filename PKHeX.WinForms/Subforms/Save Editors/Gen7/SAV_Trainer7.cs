@@ -475,7 +475,7 @@ namespace PKHeX.WinForms
             SAV.SetSurfScore(3, (int)NUD_Surf3.Value);
 
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
-                && TB_RotomOT.Text != SAV.OT // manually changed
+                && TB_OTName.Text != SAV.OT // manually changed
                 && DialogResult.Yes == // wants to update
                 WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rotom OT does not match OT name. Update Rotom OT name with OT name?"))
                 SAV.RotomOT = TB_OTName.Text;
