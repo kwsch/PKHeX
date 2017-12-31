@@ -393,10 +393,12 @@ namespace PKHeX.Core
         };
         internal static readonly HashSet<int> Ban_Gen3Ball_7 = new HashSet<int>
         {
+            489, // Phione
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
         internal static readonly HashSet<int> Ban_Gen4Ball_7 = new HashSet<int>
         {
+            489, // Phione
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
         internal static readonly HashSet<int> Ban_SafariBallHidden_7 = new HashSet<int>
