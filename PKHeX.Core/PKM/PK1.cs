@@ -23,7 +23,7 @@ namespace PKHeX.Core
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
 
         private string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength, Japanese);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength - 1, Japanese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }

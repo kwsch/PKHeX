@@ -33,8 +33,8 @@ namespace PKHeX.Core
         private byte[] SetString(string value, int maxLength)
         {
             if (Korean)
-                return StringConverter.SetString2KOR(value, maxLength);
-            return StringConverter.SetString1(value, maxLength, Japanese);
+                return StringConverter.SetString2KOR(value, maxLength - 1);
+            return StringConverter.SetString1(value, maxLength - 1, Japanese);
         }
 
         // Trash Bytes
