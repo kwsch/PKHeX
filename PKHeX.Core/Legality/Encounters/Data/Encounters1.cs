@@ -99,6 +99,9 @@ namespace PKHeX.Core
             
             new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.RB }, // Eevee
             new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.YW }, // Eevee (Different initial moves)
+            
+            new EncounterStatic { Species = 100, Level = 40, Version = GameVersion.RBY }, // Voltorb (Power Plant)
+            new EncounterStatic { Species = 101, Level = 43, Version = GameVersion.RBY }, // Electrode (Power Plant)
 
             // Yellow Only -- duplicate encounters with a higher level
             // new EncounterStatic { Species = 001, Level = 10, Version = GameVersion.YW }, // Bulbasaur (Cerulean City)
