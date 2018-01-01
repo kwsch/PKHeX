@@ -109,12 +109,13 @@ namespace PKHeX.Core
         }
         private static IEnumerable<GBEncounterData> GenerateRawEncounters12(PKM pkm, GameVersion game)
         {
-            var gen = game == GameVersion.RBY ? 1 : 2;
+            bool gsc = GameVersion.GSC.Contains(game);
+            var gen = gsc ? 2 : 1;
 
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
-            var maxspeciesorigin = game == GameVersion.GSC ? MaxSpeciesID_2 : MaxSpeciesID_1;
+            var maxspeciesorigin = gsc ? MaxSpeciesID_2 : MaxSpeciesID_1;
             DexLevel[] vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin).ToArray();
             HashSet<int> species = new HashSet<int>(vs.Select(p => p.Species).ToList());
 
@@ -143,7 +144,7 @@ namespace PKHeX.Core
                         deferred.Add(s);
                     continue;
                 }
-                if (game == GameVersion.GSC && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
+                if (gsc && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
                     continue;
                 yield return new GBEncounterData(pkm, gen, s, s.Version);
             }
@@ -154,7 +155,7 @@ namespace PKHeX.Core
                 yield return new GBEncounterData(pkm, gen, e, e.Version);
             }
 
-            if (game == GameVersion.GSC || game == GameVersion.C)
+            if (gsc)
             {
                 bool WasEgg = !pkm.Gen1_NotTradeback && GetWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
                 if (WasEgg)
