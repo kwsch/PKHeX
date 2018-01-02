@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
-    public abstract class MysteryGift : IEncounterable, IMoveset, IGeneration
+    public abstract class MysteryGift : IEncounterable, IMoveset, IGeneration, ILocation
     {
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -142,6 +142,7 @@ namespace PKHeX.Core
         public abstract int TID { get; set; }
         public abstract int SID { get; set; }
         public abstract string OT_Name { get; set; }
+        public abstract int Location { get; set; }
 
         public abstract int Level { get; set; }
         public int LevelMin => Level;
@@ -154,5 +155,6 @@ namespace PKHeX.Core
         public bool Gen3 => Format == 3;
         public virtual bool EggEncounter => IsEgg;
         public int Generation { get => Format; set {} }
+        public abstract int EggLocation { get; set; }
     }
 }

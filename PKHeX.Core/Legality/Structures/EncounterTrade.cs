@@ -6,7 +6,7 @@
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public class EncounterTrade : IEncounterable, IMoveset, IGeneration
+    public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
@@ -28,7 +28,7 @@
         public int Gender { get; set; } = -1;
         public int OTGender { get; set; } = -1;
         public bool EggEncounter => false;
-        public int Egg_Location { get; set; }
+        public int EggLocation { get; set; }
         public bool EvolveOnTrade { get; set; }
         public int Ball { get; set; } = 4;
         public int CurrentLevel { get; set; } = -1;

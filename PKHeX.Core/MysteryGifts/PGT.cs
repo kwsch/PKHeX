@@ -90,6 +90,8 @@ namespace PKHeX.Core
         public override int TID { get => Gift.TID; set => Gift.TID = value; }
         public override int SID { get => Gift.SID; set => Gift.SID = value; }
         public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
+        public override int Location { get => Gift.Location; set => Gift.Location = value; }
+        public override int EggLocation { get => Gift.EggLocation; set => Gift.EggLocation = value; }
 
         public bool GiftEquals(PGT pgt)
         {
@@ -226,6 +228,8 @@ namespace PKHeX.Core
         public override int TID { get => (ushort)PK.TID; set => PK.TID = value; }
         public override int SID { get => (ushort)PK.SID; set => PK.SID = value; }
         public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
+        public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
+        public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
 
         public override PKM ConvertToPKM(SaveFile SAV)
         {

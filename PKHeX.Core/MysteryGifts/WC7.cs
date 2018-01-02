@@ -180,7 +180,7 @@ namespace PKHeX.Core
         public int PIDType {
             get => Data[0xA3];
             set => Data[0xA3] = (byte)value; }
-        public int EggLocation {
+        public override int EggLocation {
             get => BitConverter.ToUInt16(Data, 0xA4);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA4); }
         public int MetLocation  {
@@ -277,6 +277,7 @@ namespace PKHeX.Core
             }
         }
         public bool IsNicknamed => Nickname.Length > 0 || IsEgg;
+        public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
 
         public override int[] Moves
         {

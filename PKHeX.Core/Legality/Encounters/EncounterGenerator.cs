@@ -1033,7 +1033,7 @@ namespace PKHeX.Core
                 return false;
             if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
                 return false;
-            if (z.Egg_Location != pkm.Egg_Location)
+            if (z.EggLocation != pkm.Egg_Location)
                 return false;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
             //    countinue;
@@ -1217,7 +1217,7 @@ namespace PKHeX.Core
             {
                 if (wc.Met_Level != pkm.Met_Level)
                     return false;
-                if (wc.Met_Location != pkm.Met_Location && (!wc.IsEgg || pkm.IsEgg))
+                if (wc.Location != pkm.Met_Location && (!wc.IsEgg || pkm.IsEgg))
                     return false;
             }
             else

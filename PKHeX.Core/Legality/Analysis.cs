@@ -64,6 +64,14 @@ namespace PKHeX.Core
                 return $"{enc.GetEncounterTypeName()} ({SpeciesStrings[enc.Species]})";
             }
         }
+        private string EncounterLocation
+        {
+            get
+            {
+                var enc = (EncounterOriginalGB ?? EncounterMatch) as ILocation;
+                return enc?.GetEncounterLocation(Info.Generation);
+            }
+        }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
@@ -338,6 +346,9 @@ namespace PKHeX.Core
 
             lines.AddRange(br);
             lines.Add(string.Format(V195, EncounterName));
+            var loc = EncounterLocation;
+            if (!string.IsNullOrEmpty(loc))
+                lines.Add(string.Format(V196, "Location", loc));
             if (pkm.VC)
                 lines.Add(string.Format(V196, nameof(GameVersion), Info.Game));
             var pidiv = Info.PIDIV ?? MethodFinder.Analyze(pkm);

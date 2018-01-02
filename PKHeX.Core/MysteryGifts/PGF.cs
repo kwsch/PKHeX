@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-        public ushort EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes(value).CopyTo(Data, 0x38); }
+        public override int EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x38); }
         public ushort MetLocation { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
         public int MetLevel { get => Data[0x3C]; set => Data[0x3C] = (byte)value; }
         public int CNT_Cool { get => Data[0x3D]; set => Data[0x3D] = (byte)value; }
@@ -143,7 +143,7 @@ namespace PKHeX.Core
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
         public override bool IsShiny => PIDType == 2;
-
+        public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
         public override int[] Moves => new[] { Move1, Move2, Move3, Move4 };
         public override bool IsPokémon { get => CardType == 1; set { if (value) CardType = 1; } }
         public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }

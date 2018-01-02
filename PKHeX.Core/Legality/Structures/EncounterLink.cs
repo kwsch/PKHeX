@@ -3,7 +3,7 @@
     /// <summary>
     /// Pokémon Link Encounter Data
     /// </summary>
-    public class EncounterLink : IEncounterable, IRibbonSetEvent4, IMoveset
+    public class EncounterLink : IEncounterable, IRibbonSetEvent4, IMoveset, ILocation
     {
         public int Species { get; set; }
         public int Level { get; set; }
@@ -16,7 +16,9 @@
         public int[] RelearnMoves = new int[4];
         public bool? Shiny { get; set; } = false;
         public bool OT { get; set; } = true; // Receiver is OT?
+
         public bool EggEncounter => false;
+        public int EggLocation { get => 0; set { } }
 
         public bool XY { get; set; }
         public bool ORAS { get; set; }

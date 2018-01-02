@@ -22,7 +22,8 @@ namespace PKHeX.Core
         public int OT_Gender { get; set; } = 3;
         public override int TID { get; set; }
         public override int SID { get; set; }
-        public int Met_Location { get; internal set; } = 255;
+        public override int Location { get; set; } = 255;
+        public override int EggLocation { get => 0; set {} }
         public int Version { get; set; }
         public int Language { get; set; } = -1;
         public override int Species { get; set; }
@@ -66,7 +67,7 @@ namespace PKHeX.Core
             {
                 Species = Species,
                 Met_Level = Met_Level,
-                Met_Location = Met_Location,
+                Met_Location = Location,
                 Ball = 4,
 
                 EXP = PKX.GetEXP(Level, Species),
