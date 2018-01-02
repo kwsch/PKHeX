@@ -461,7 +461,8 @@ namespace PKHeX.Core
                                 break;
                         }
                     }
-                    lvl = 5; // met @ 1, hatch @ 5.
+                    if (pkm.Met_Level == 1)
+                        lvl = 5; // met @ 1, hatch @ 5.
                 }
             }
             else if (e.EggLocation != pkm.Egg_Location)
