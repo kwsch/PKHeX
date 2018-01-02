@@ -45,14 +45,14 @@ namespace PKHeX.WinForms
             if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
                 form = GetDeoxysForm();
 
-            string file = PKX.GetResourceStringSprite(species, form, gender, generation);
+            string file = PKX.GetResourceStringSprite(species, form, gender, shiny, generation);
 
             // Redrawing logic
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
             if (FormConverter.IsTotemForm(species, form))
             {
                 form = FormConverter.GetTotemBaseForm(species, form);
-                file = PKX.GetResourceStringSprite(species, form, gender, generation);
+                file = PKX.GetResourceStringSprite(species, form, gender, shiny, generation);
                 baseImage = (Image)Resources.ResourceManager.GetObject(file);
                 baseImage = ImageUtil.ToGrayscale(baseImage);
             }

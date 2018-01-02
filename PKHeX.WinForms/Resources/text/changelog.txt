@@ -1,5 +1,8 @@
-﻿PKHeX - By Kaphotics
+PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
+
+18/01/01 - trainboy2019 Fork Changes:
+ - Added: Shiny box sprites. Thanks @msikma for the sprites!
 
 17/12/05 - New Update:
  - Legality:

@@ -568,7 +568,7 @@ namespace PKHeX.Core
 
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation)
+        public static string GetResourceStringSprite(int species, int form, int gender, bool shiny, int generation = Generation)
         {
             if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
@@ -581,6 +581,9 @@ namespace PKHeX.Core
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
                 file += "c"; // Cap
+
+            if (shiny == true)
+                file += "s"; //Shiny
 
             return file;
         }
