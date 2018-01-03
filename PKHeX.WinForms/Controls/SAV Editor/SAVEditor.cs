@@ -43,9 +43,9 @@ namespace PKHeX.WinForms.Controls
             ResetNonBoxSlots();
         }
 
-        public SAVEditor(SaveFile sav = null)
+        public SAVEditor()
         {
-            var z = Task.Run(() => sav ?? SaveUtil.GetBlankSAV(GameVersion.US, "PKHeX"));
+            var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.US, "PKHeX"));
             InitializeComponent();
             var SupplementarySlots = new[]
             {
