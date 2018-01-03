@@ -249,7 +249,8 @@ namespace PKHeX.WinForms
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
             SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
             C_SAV.FlagIllegal = Menu_FlagIllegal.Checked = Settings.FlagIllegal;
-            Menu_ModifyUnset.Checked = Settings.ModifyUnset;
+            PKX.AllowShinySprite = Menu_ModifyUnset.Checked = Settings.ShinySprites;
+            Menu_ShinySprites.Checked = Settings.ShinySprites;
 
             // Select Language
             string l = Settings.Language;
@@ -353,7 +354,13 @@ namespace PKHeX.WinForms
         private void MainMenuModifyDex(object sender, EventArgs e) => Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
         private void MainMenuModifyUnset(object sender, EventArgs e) => Settings.Default.ModifyUnset = Menu_ModifyUnset.Checked;
         private void MainMenuModifyPKM(object sender, EventArgs e) => Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
-        private void MainMenuFlagIllegal(object sender, EventArgs e) => C_SAV.FlagIllegal = Settings.Default.FlagIllegal = Menu_FlagIllegal.Checked;
+        private void MainMenuFlagIllegal(object sender, EventArgs e) => Settings.Default.FlagIllegal = C_SAV.FlagIllegal = Menu_FlagIllegal.Checked;
+        private void MainMenuShinySprites(object sender, EventArgs e)
+        {
+            Settings.Default.ShinySprites = PKX.AllowShinySprite = Menu_ShinySprites.Checked;
+            C_SAV.ReloadSlots();
+            PKME_Tabs_UpdatePreviewSprite(sender, e);
+        }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)
         {

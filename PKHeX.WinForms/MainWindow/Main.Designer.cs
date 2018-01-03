@@ -71,6 +71,7 @@
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
             this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
+            this.Menu_ShinySprites = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
@@ -315,6 +316,8 @@
             this.Menu_Language,
             this.Menu_Modify,
             this.Menu_Unicode,
+            this.Menu_ShinySprites,
+            this.Menu_FlagIllegal,
             this.Menu_About});
             this.Menu_Options.Name = "Menu_Options";
             this.Menu_Options.Size = new System.Drawing.Size(61, 20);
@@ -341,7 +344,6 @@
             this.Menu_Modify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_ModifyDex,
             this.Menu_ModifyPKM,
-            this.Menu_FlagIllegal,
             this.Menu_ModifyUnset,
             this.Menu_Undo,
             this.Menu_Redo});
@@ -489,6 +491,15 @@
             this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
             this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
             // 
+            // Menu_ShinySprites
+            // 
+            this.Menu_ShinySprites.Checked = true;
+            this.Menu_ShinySprites.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ShinySprites.Name = "Menu_ShinySprites";
+            this.Menu_ShinySprites.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ShinySprites.Text = "Shiny Sprites";
+            this.Menu_ShinySprites.Click += new System.EventHandler(this.MainMenuShinySprites);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -563,6 +574,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Redo;
         private System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShinySprites;
     }
 }
 

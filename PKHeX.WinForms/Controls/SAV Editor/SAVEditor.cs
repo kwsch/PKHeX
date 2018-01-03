@@ -34,9 +34,13 @@ namespace PKHeX.WinForms.Controls
             set
             {
                 Box.FlagIllegal = value && !HaX;
-                UpdateBoxViewers(all: true);
-                ResetNonBoxSlots();
+                ReloadSlots();
             }
+        }
+        public void ReloadSlots()
+        {
+            UpdateBoxViewers(all: true);
+            ResetNonBoxSlots();
         }
 
         public SAVEditor(SaveFile sav = null)
