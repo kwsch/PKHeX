@@ -568,21 +568,27 @@ namespace PKHeX.Core
 
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation)
+        private const string ResourceSeparator = "_";
+        private const string ResourcePikachuCap = "c";
+        private const string ResourceShiny = "s";
+        public static bool AllowShinySprite = false;
+        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
         {
-            if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
+            if (Legal.SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            string file = $"_{species}";
-            if (form > 0) // Alt Form Handling
-                file += $"_{form}";
-            else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-                file += $"_{gender}";
+            var sb = new System.Text.StringBuilder();
+            { sb.Append(ResourceSeparator); sb.Append(species); }
+            if (form > 0)
+            { sb.Append(ResourceSeparator); sb.Append(form); }
+            else if (gender == 1 && Legal.SpeciesGenderedSprite.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
+            { sb.Append(ResourceSeparator); sb.Append(gender); }
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
-                file += "c"; // Cap
-
-            return file;
+                sb.Append(ResourcePikachuCap);
+            if (shiny && AllowShinySprite)
+                sb.Append(ResourceShiny);
+            return sb.ToString();
         }
 
         /// <summary>

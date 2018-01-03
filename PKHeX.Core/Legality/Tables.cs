@@ -35,6 +35,28 @@ namespace PKHeX.Core
             315, 407, // Roselia
             358, // Chimecho
         };
+        /// <summary>
+        /// Species that show their default Species sprite regardless of current <see cref="PKM.AltForm"/>
+        /// </summary>
+        public static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
+        {
+            414, // Mothim
+            493, // Arceus
+            664, // Scatterbug
+            665, // Spewpa
+            773, // Silvally
+            778, // Mimikyu
+        };
+        /// <summary>
+        /// Species that show a <see cref="PKM.Gender"/> specific Sprite
+        /// </summary>
+        public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
+        {
+            521, // Unfezant
+            592, // Frillish
+            593, // Jellicent
+            668, // Pyroar
+        };
         public static readonly HashSet<int> FormChange = new HashSet<int> // Pokémon that can change form and retain it
         {
             386, // Deoxys
