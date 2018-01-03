@@ -45,20 +45,26 @@ namespace PKHeX.WinForms
             if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
                 form = GetDeoxysForm();
 
-            string file = PKX.GetResourceStringSprite(species, form, gender, generation);
+            string file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
 
             // Redrawing logic
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
             if (FormConverter.IsTotemForm(species, form))
             {
                 form = FormConverter.GetTotemBaseForm(species, form);
-                file = PKX.GetResourceStringSprite(species, form, gender, generation);
+                file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
                 baseImage = (Image)Resources.ResourceManager.GetObject(file);
                 baseImage = ImageUtil.ToGrayscale(baseImage);
             }
             if (baseImage == null)
             {
-                baseImage = (Image) Resources.ResourceManager.GetObject($"_{species}");
+                if (shiny) // try again without shiny
+                {
+                    file = PKX.GetResourceStringSprite(species, form, gender, generation);
+                    baseImage = (Image)Resources.ResourceManager.GetObject(file);
+                }
+                if (baseImage == null)
+                    baseImage = (Image) Resources.ResourceManager.GetObject($"_{species}");
                 baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
             }
             if (isegg)
