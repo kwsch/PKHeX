@@ -39,6 +39,8 @@ Use the Debug or Release build configurations when building using the .NET Frame
 
 PKHeX's QR code generation code is taken from [QRCoder](https://github.com/codebude/QRCoder), which is licensed under [the MIT license](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
 
+PKHeX's shiny sprite collection is taken from [pokesprite](https://github.com/msikma/pokesprite), which is licensed under [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).
+
 ### IDE
 
 PKHeX can be opened with IDEs such as [Visual Studio](https://www.visualstudio.com/) or [MonoDevelop](http://www.monodevelop.com/) by opening the .sln or .csproj file.
