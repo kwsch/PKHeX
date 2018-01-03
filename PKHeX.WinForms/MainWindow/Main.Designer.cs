@@ -494,6 +494,7 @@
             // Menu_ShinySprites
             // 
             this.Menu_ShinySprites.Checked = true;
+            this.Menu_ShinySprites.CheckOnClick = true;
             this.Menu_ShinySprites.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_ShinySprites.Name = "Menu_ShinySprites";
             this.Menu_ShinySprites.Size = new System.Drawing.Size(152, 22);
