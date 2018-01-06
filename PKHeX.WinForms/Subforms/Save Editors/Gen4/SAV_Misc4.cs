@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -98,8 +99,9 @@ namespace PKHeX.WinForms
         private int[] FlyDestC;
         private void ReadMain()
         {
+            NUD_Coin.Value = SAV.Coin;
             int[] FlyDestD;
-            System.Collections.Generic.List<ComboItem> metLocationList;
+            List<ComboItem> metLocationList;
             switch (SAV.Version)
             {
                 case GameVersion.D:
@@ -143,6 +145,7 @@ namespace PKHeX.WinForms
         }
         private void SaveMain()
         {
+            SAV.Coin = (uint)NUD_Coin.Value;
             uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
             {

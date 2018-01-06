@@ -354,6 +354,11 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(Data, Trainer1 + 0x14);
             set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14);
         }
+        public uint Coin
+        {
+            get => BitConverter.ToUInt32(Data, Trainer1 + 0x20);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20);
+        }
         public override int Gender
         {
             get => Data[Trainer1 + 0x18];

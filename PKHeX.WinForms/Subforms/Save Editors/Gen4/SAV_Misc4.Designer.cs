@@ -98,6 +98,8 @@
             this.L_CastleRank01 = new System.Windows.Forms.Label();
             this.TAB_Walker = new System.Windows.Forms.TabPage();
             this.B_UnlockCourses = new System.Windows.Forms.Button();
+            this.NUD_Coin = new System.Windows.Forms.NumericUpDown();
+            this.L_Coin = new System.Windows.Forms.Label();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
@@ -136,6 +138,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
             this.TAB_Walker.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -173,6 +176,8 @@
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.NUD_Coin);
+            this.TAB_Main.Controls.Add(this.L_Coin);
             this.TAB_Main.Controls.Add(this.L_CurrentMap);
             this.TAB_Main.Controls.Add(this.L_UGFlags);
             this.TAB_Main.Controls.Add(this.NUD_UGFlags);
@@ -1118,6 +1123,32 @@
             this.B_UnlockCourses.UseVisualStyleBackColor = true;
             this.B_UnlockCourses.Click += new System.EventHandler(this.B_UnlockCourses_Click);
             // 
+            // NUD_Coin
+            // 
+            this.NUD_Coin.Location = new System.Drawing.Point(129, 9);
+            this.NUD_Coin.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Coin.Name = "NUD_Coin";
+            this.NUD_Coin.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Coin.TabIndex = 9;
+            this.NUD_Coin.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
+            // L_Coin
+            // 
+            this.L_Coin.Location = new System.Drawing.Point(87, 6);
+            this.L_Coin.Name = "L_Coin";
+            this.L_Coin.Size = new System.Drawing.Size(40, 22);
+            this.L_Coin.TabIndex = 10;
+            this.L_Coin.Text = "Coin:";
+            this.L_Coin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Misc4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1171,6 +1202,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
             this.TAB_Walker.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1246,5 +1278,7 @@
         private System.Windows.Forms.Label L_CurrentMap;
         private System.Windows.Forms.TabPage TAB_Walker;
         private System.Windows.Forms.Button B_UnlockCourses;
+        private System.Windows.Forms.NumericUpDown NUD_Coin;
+        private System.Windows.Forms.Label L_Coin;
     }
 }
