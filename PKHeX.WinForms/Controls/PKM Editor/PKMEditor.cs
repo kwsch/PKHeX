@@ -2022,11 +2022,14 @@ namespace PKHeX.WinForms.Controls
             TB_SPDEV.Text = Set.EVs[5].ToString();
             TB_SPEEV.Text = Set.EVs[3].ToString();
 
-            // Reset IV/EVs
-            UpdateRandomPID(null, null);
             UpdateRandomEC(null, null);
+            if (Set.Shiny && !pkm.IsShiny)
+                UpdateShiny(true);
+            else if (!Set.Shiny && pkm.IsShiny)
+                UpdateRandomPID(BTN_RerollPID, null);
+            else
+                UpdateRandomPID(null, null);
 
-            if (Set.Shiny) UpdateShiny(true);
             pkm = PreparePKM();
             UpdateLegality();
 
