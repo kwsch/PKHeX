@@ -431,6 +431,8 @@ namespace PKHeX.Core
                 case 718 when ability == 211:
                     return "-C"; // Power Construct
 
+                case 741 when form == "Pom Pom":
+                    return "Pom-Pom";
                 case 744 when ability == 020: // Rockruff-1
                     return "Dusk";
 
