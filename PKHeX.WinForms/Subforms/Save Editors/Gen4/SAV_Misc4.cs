@@ -100,6 +100,7 @@ namespace PKHeX.WinForms
         private void ReadMain()
         {
             NUD_Coin.Value = SAV.Coin;
+            NUD_Coin.Maximum = SAV.HGSS ? 9_999 : 50_000;
             int[] FlyDestD;
             List<ComboItem> metLocationList;
             switch (SAV.Version)
