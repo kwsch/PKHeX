@@ -2189,6 +2189,11 @@ namespace PKHeX.Core
                     if (pk4.PokéathlonStat != 0)
                         AddLine(Severity.Invalid, V415, CheckIdentifier.Egg);
                 }
+                if (pkm is PK3)
+                {
+                    if (pkm.Language != 1) // All Eggs are Japanese and flagged specially for localized string
+                        AddLine(Severity.Invalid, string.Format(V5, LanguageID.Japanese, (LanguageID)pkm.Language), CheckIdentifier.Egg);
+                }
             }
 
             if (!Encounter.Valid)

@@ -2082,8 +2082,10 @@ namespace PKHeX.WinForms.Controls
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
             var languages = Util.GetUnsortedCBList("languages");
-            if (SAV.Generation < 7)
-                languages = languages.Where(l => l.Value <= (int)LanguageID.Korean).ToList();
+            if (SAV.Generation == 3)
+                languages.RemoveAll(l => l.Value >= (int)LanguageID.Korean);
+            else if (SAV.Generation < 7)
+                languages.RemoveAll(l => l.Value > (int)LanguageID.Korean);
             CB_Language.DataSource = languages;
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
