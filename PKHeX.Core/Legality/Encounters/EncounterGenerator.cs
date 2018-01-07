@@ -249,6 +249,7 @@ namespace PKHeX.Core
             {
                 foreach (var z in GenerateEggs(pkm))
                 { yield return z; ++ctr; }
+                if (ctr == 0) yield break;
             }
 
             foreach (var z in GetValidStaticEncounter(pkm))
@@ -604,6 +605,8 @@ namespace PKHeX.Core
         }
         private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, bool DexNav = false, int lvl = -1, bool ignoreLevel = false)
         {
+            if (pkm.WasEgg)
+                return Enumerable.Empty<EncounterSlot>();
             if (lvl < 0)
                 lvl = GetMinLevelEncounter(pkm);
             if (lvl <= 0)
