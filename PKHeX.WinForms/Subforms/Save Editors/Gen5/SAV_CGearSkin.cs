@@ -117,19 +117,31 @@ namespace PKHeX.WinForms
 
             bgdata = CGearBackground.CGBtoPSK(bgdata, SAV.B2W2);
 
-            Array.Copy(bgdata, 0, SAV.Data, SAV.CGearDataOffset, bgdata.Length);
-            ushort chk = SaveUtil.CRC16_CCITT(bgdata);
-            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 2);
-            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x100);
+            byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
 
-            ushort skinchkval = SaveUtil.CRC16_CCITT(SAV.Data, bgdata.Length + 0x100, 4);
-            BitConverter.GetBytes(skinchkval).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x112);
+            bgdata.CopyTo(SAV.Data, SAV.CGearDataOffset);
+            ushort chk = SaveUtil.CRC16_CCITT(bgdata);
+            var chkbytes = BitConverter.GetBytes(chk);
+            int footer = SAV.CGearDataOffset + bgdata.Length;
+
+            BitConverter.GetBytes((ushort)1).CopyTo(SAV.Data, footer); // block updated once
+            chkbytes.CopyTo(SAV.Data, footer + 2); // checksum
+            chkbytes.CopyTo(SAV.Data, footer + 0x100); // second checksum
+
+            ushort skinchkval = SaveUtil.CRC16_CCITT(SAV.Data, footer + 0x100, 4);
+            dlcfooter.CopyTo(SAV.Data, footer + 0x104);
+            BitConverter.GetBytes(skinchkval).CopyTo(SAV.Data, footer + 0x112);
 
             // Indicate in the save file that data is present
             BitConverter.GetBytes((ushort)0xC21E).CopyTo(SAV.Data, 0x19438);
 
-            SAV.Data[SAV.CGearInfoOffset + 0x26] = 1; // data present
-            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearInfoOffset + 0x24);
+            int info = SAV.CGearInfoOffset + 0x24;
+            if (SAV.B2W2)
+                info += 0x10;
+            chkbytes.CopyTo(SAV.Data, info);
+            SAV.Data[info + 2] = 1; // data present
+            int flag = SAV.CGearDataOffset + (SAV.B2W2 ? 0x6C : 0x54);
+            SAV.Data[flag] = 1; // data present
 
             Origin.SetData(SAV.Data, 0);
             Close();
