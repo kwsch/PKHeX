@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -56,7 +57,10 @@ namespace PKHeX.WinForms
             Tiles = new Tile[0xFF];
             for (int i = 0; i < 0xFF; i++)
             {
-                Tiles[i] = new Tile(Region1.Skip(i * Tile.SIZE_TILE).Take(Tile.SIZE_TILE).ToArray());
+                byte[] tiledata = new byte[Tile.SIZE_TILE];
+                Array.Copy(Region1, i * Tile.SIZE_TILE, tiledata, 0, Tile.SIZE_TILE);
+
+                Tiles[i] = new Tile(tiledata);
                 Tiles[i].SetTile(ColorPalette);
             }
 
@@ -136,16 +140,17 @@ namespace PKHeX.WinForms
             BitmapData bData = img.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             byte[] data = new byte[bData.Stride * bData.Height];
             Marshal.Copy(bData.Scan0, data, 0, data.Length);
-
-            int bpp = bData.Stride/Width;
             img.UnlockBits(bData);
+
+            const int bpp = 4;
+            Debug.Assert(data.Length == Width * Height * bpp);
+
             // get colors
-            Color[] colors = new Color[Width*Height];
-            for (int i = 0; i < data.Length; i += bpp)
-            {
-                uint val = BitConverter.ToUInt32(data, i);
-                colors[i/bpp] = GetRGB555_32(val);
-            }
+            uint[] pixels = new uint[data.Length / bpp];
+            Color[] colors = new Color[pixels.Length];
+            Buffer.BlockCopy(data, 0, pixels, 0, data.Length);
+            for (int i = 0; i < pixels.Length; i++)
+                colors[i] = GetRGB555_32(pixels[i]);
             
             Color[] Palette = colors.Distinct().ToArray();
             if (Palette.Length > 0x10)
@@ -346,7 +351,6 @@ namespace PKHeX.WinForms
         private static ushort GetRGB555(Color c)
         {
             int val = 0;
-            // val += c.A >> 8; // unused
             val |= Convert8to5(c.R) << 0;
             val |= Convert8to5(c.G) << 5;
             val |= Convert8to5(c.B) << 10;
