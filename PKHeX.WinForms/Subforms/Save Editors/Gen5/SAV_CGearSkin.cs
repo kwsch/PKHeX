@@ -17,16 +17,10 @@ namespace PKHeX.WinForms
             SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
 
-            SAV = (Origin = sav).Clone() as SAV5;
-
             bool cgearPresent = SAV.Data[SAV.CGearInfoOffset + 0x26] == 1;
             byte[] data = new byte[CGearBackground.SIZE_CGB];
             if (cgearPresent)
-            {
                 Array.Copy(SAV.Data, SAV.CGearDataOffset, data, 0, CGearBackground.SIZE_CGB);
-                if (!CGearBackground.IsCGB(data))
-                    data = CGearBackground.PSKtoCGB(data, SAV.B2W2);
-            }
             bg = new CGearBackground(data);
 
             PB_Background.Image = bg.GetImage();
@@ -82,23 +76,24 @@ namespace PKHeX.WinForms
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            var len = new FileInfo(ofd.FileName).Length;
+            var path = ofd.FileName;
+            var len = new FileInfo(path).Length;
             if (len != CGearBackground.SIZE_CGB)
             {
                 WinFormsUtil.Error($"Incorrect size, got {len} bytes, expected {CGearBackground.SIZE_CGB} bytes.");
                 return;
             }
 
-            byte[] data = File.ReadAllBytes(ofd.FileName);
-            if (!CGearBackground.IsCGB(data))
-            {
-                bool B2W2 = data[0x2000] != 0x00;
-                data = CGearBackground.PSKtoCGB(data, B2W2);
-            }
+            byte[] data = File.ReadAllBytes(path);
+            LoadBackground(data);
+        }
 
+        private void LoadBackground(byte[] data)
+        {
             bg = new CGearBackground(data);
             PB_Background.Image = bg.GetImage();
         }
+
         private void B_ExportCGB_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
@@ -109,18 +104,14 @@ namespace PKHeX.WinForms
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
-            byte[] data = bg.Write();
+            byte[] data = bg.GetCGB();
             File.WriteAllBytes(sfd.FileName, data);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            byte[] bgdata = bg.Write();
+            byte[] bgdata = bg.GetPSK(SAV.B2W2);
             if (bgdata.SequenceEqual(new byte[CGearBackground.SIZE_CGB]))
                 return;
-
-            // Data present
-
-            bgdata = CGearBackground.CGBtoPSK(bgdata, SAV.B2W2);
 
             byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
 

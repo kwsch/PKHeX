@@ -78,6 +78,18 @@ namespace PKHeX.WinForms
             ptr = bmpData.Scan0;
             data = new byte[bmp.Width * bmp.Height * 4];
         }
+        public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = 4, PixelFormat format = PixelFormat.Format32bppArgb)
+        {
+            return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
+        }
+        public static byte[] GetPixelData(Bitmap bitmap)
+        {
+            var argbData = new byte[bitmap.Width * bitmap.Height * 4];
+            var bd = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            Marshal.Copy(bd.Scan0, argbData, 0, bitmap.Width * bitmap.Height * 4);
+            bitmap.UnlockBits(bd);
+            return argbData;
+        }
         private static void SetAllTransparencyTo(byte[] data, double trans)
         {
             for (int i = 0; i < data.Length; i += 4)

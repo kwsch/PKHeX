@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace PKHeX.WinForms
 {
@@ -46,6 +44,12 @@ namespace PKHeX.WinForms
             if (data.Length != SIZE_CGB)
                 return;
 
+            // decode for easy handling
+            if (!IsCGB(data))
+                _psk = data = PSKtoCGB(data);
+            else
+                _cgb = data;
+
             byte[] Region1 = data.Take(0x1FE0).ToArray();
             byte[] ColorData = data.Skip(0x1FE0).Take(0x20).ToArray();
             byte[] Region2 = data.Skip(0x2000).Take(0x600).ToArray();
@@ -66,6 +70,12 @@ namespace PKHeX.WinForms
 
             Map = new TileMap(Region2);
         }
+
+        private byte[] _cgb;
+        private byte[] _psk;
+
+        public byte[] GetCGB() => _cgb ?? Write();
+        public byte[] GetPSK(bool B2W2) => _psk ?? CGBtoPSK(Write(), B2W2);
 
         public byte[] Write()
         {
@@ -100,11 +110,12 @@ namespace PKHeX.WinForms
             {
                 int index = BitConverter.ToUInt16(cgb, i);
                 int val = IndexToVal(index, shiftVal);
-                BitConverter.GetBytes((ushort)val).CopyTo(psk, i);
+                psk[i] = (byte)val;
+                psk[i + 1] = (byte)(val >> 8);
             }
             return psk;
         }
-        public static byte[] PSKtoCGB(byte[] psk, bool B2W2)
+        public static byte[] PSKtoCGB(byte[] psk)
         {
             byte[] cgb = (byte[])psk.Clone();
             for (int i = 0x2000; i < 0x2600; i += 2)
@@ -144,11 +155,7 @@ namespace PKHeX.WinForms
                 throw new ArgumentException($"Invalid image height. Expected {Height} pixels high.");
 
             // get raw bytes of image
-            BitmapData bData = img.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            byte[] data = new byte[bData.Stride * bData.Height];
-            Marshal.Copy(bData.Scan0, data, 0, data.Length);
-            img.UnlockBits(bData);
-
+            byte[] data = ImageUtil.GetPixelData(img);
             const int bpp = 4;
             Debug.Assert(data.Length == Width * Height * bpp);
 
@@ -207,6 +214,8 @@ namespace PKHeX.WinForms
             Map = tm;
             ColorPalette = Palette;
             Tiles = tilelist.ToArray();
+            _psk = null;
+            _cgb = null;
         }
 
         private sealed class Tile : IDisposable
@@ -310,16 +319,13 @@ namespace PKHeX.WinForms
             }
             internal byte[] Write()
             {
-                using (MemoryStream ms = new MemoryStream())
-                using (BinaryWriter bw = new BinaryWriter(ms))
+                byte[] data = new byte[TileChoices.Length * 2];
+                for (int i = 0; i < data.Length; i += 2)
                 {
-                    for (int i = 0; i < TileChoices.Length; i++)
-                    {
-                        bw.Write((byte)TileChoices[i]);
-                        bw.Write((byte)Rotations[i]);
-                    }
-                    return ms.ToArray();
+                    data[i] = (byte)TileChoices[i/2];
+                    data[i+1] = (byte)Rotations[i/2];
                 }
+                return data;
             }
         }
 
