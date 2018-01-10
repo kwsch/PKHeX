@@ -20,9 +20,14 @@ namespace PKHeX.WinForms
             SAV = (Origin = sav).Clone() as SAV5;
 
             bool cgearPresent = SAV.Data[SAV.CGearInfoOffset + 0x26] == 1;
-            bg = new CGearBackground(cgearPresent ?
-                CGearBackground.PSKtoCGB(SAV.Data.Skip(SAV.CGearDataOffset).Take(CGearBackground.SIZE_CGB).ToArray(), SAV.B2W2)
-                : new byte[CGearBackground.SIZE_CGB]);
+            byte[] data = new byte[CGearBackground.SIZE_CGB];
+            if (cgearPresent)
+            {
+                Array.Copy(SAV.Data, SAV.CGearDataOffset, data, 0, CGearBackground.SIZE_CGB);
+                if (!CGearBackground.IsCGB(data))
+                    data = CGearBackground.PSKtoCGB(data, SAV.B2W2);
+            }
+            bg = new CGearBackground(data);
 
             PB_Background.Image = bg.GetImage();
             WinFormsUtil.Alert("Editor is incomplete.", "No guarantee of functionality.");

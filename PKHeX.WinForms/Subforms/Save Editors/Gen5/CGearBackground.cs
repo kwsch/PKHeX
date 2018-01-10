@@ -83,7 +83,14 @@ namespace PKHeX.WinForms
 
         public static bool IsCGB(byte[] data)
         {
-            return data.Length == SIZE_CGB && data[0x2001] == 0;
+            if (data.Length != SIZE_CGB)
+                return false;
+
+            // check odd bytes for anything not rotation flag
+            for (int i = 0x2000; i < 0x2600; i += 2)
+                if ((data[i + 1] & ~0b1100) != 0)
+                    return false;
+            return true;
         }
         public static byte[] CGBtoPSK(byte[] cgb, bool B2W2)
         {
