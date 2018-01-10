@@ -1106,6 +1106,26 @@ namespace PKHeX.Core
                 default: return Enumerable.Empty<int>();
             }
         }
+        internal static int GetDebutGeneration(int species)
+        {
+            if (species <= 0)
+                return 0;
+            if (species <= MaxSpeciesID_1)
+                return 1;
+            if (species <= MaxSpeciesID_2)
+                return 2;
+            if (species <= MaxSpeciesID_3)
+                return 3;
+            if (species <= MaxSpeciesID_4)
+                return 4;
+            if (species <= MaxSpeciesID_5)
+                return 5;
+            if (species <= MaxSpeciesID_6)
+                return 6;
+            if (species <= MaxSpeciesID_7_USUM)
+                return 7;
+            return -1;
+        }
 
         internal static int GetMaxLanguageID(int generation)
         {

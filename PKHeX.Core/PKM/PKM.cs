@@ -321,8 +321,9 @@ namespace PKHeX.Core
                 if (VC1) return 1;
                 if (VC2) return 2;
                 return -1;
-            } 
+            }
         }
+        public int DebutGeneration => Legal.GetDebutGeneration(Species);
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
