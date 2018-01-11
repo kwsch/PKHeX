@@ -809,16 +809,16 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, int baseSpecies, GBEncounterData encounter, EncounterStatic transfer)
+        private static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer)
         {
             // Check existing EncounterMatch
             if (encounter == null || transfer == null)
                 yield break; // Avoid duplicate invaild message
 
-            if (encounter.Encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
+            if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
             {
                 bool exceptions = false;
-                exceptions |= v.Version == GameVersion.VCEvents && baseSpecies == 151 && pkm.TID == 22796;
+                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == 151 && pkm.TID == 22796;
                 if (!exceptions)
                     yield return new CheckResult(Severity.Invalid, V79, CheckIdentifier.Encounter);
             }
@@ -828,8 +828,22 @@ namespace PKHeX.Core
             if (pkm.Egg_Location != transfer.EggLocation)
                 yield return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
 
-            if (baseSpecies == 150 && pkm.Moves.Contains(6)) // pay day
+            if (encounter.Species == 150 && pkm.Moves.Contains(6)) // pay day
                 yield return new CheckResult(Severity.Invalid, V82, CheckIdentifier.Encounter);
+
+            bool checkShiny = pkm.VC2 || pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1;
+            if (!checkShiny)
+                yield break;
+            if (pkm.Gender == 1) // female
+            {
+                if (pkm.PersonalInfo.Gender == 31 && pkm.IsShiny) // impossible gender-shiny
+                    yield return new CheckResult(Severity.Invalid, V209, CheckIdentifier.PID);
+            }
+            else if (pkm.Species == 201) // unown
+            {
+                if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
+                    yield return new CheckResult(Severity.Invalid, V209, CheckIdentifier.PID);
+            }
         }
         #endregion
         private void VerifyLevel()
@@ -2093,15 +2107,6 @@ namespace PKHeX.Core
                 VerifyMiscEggCommon();
                 if (pkm.PKRS_Cured || pkm.PKRS_Infected)
                     AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
-            }
-
-            if (pkm.Format > 2)
-            {
-                // Female Shinies for a 12.5%-F species are not possible with the 'correct' correlation
-                // Original Transporter code generated a random nature (VC1 only), so we can ignore in this case
-                bool checkShiny = pkm.VC2 || pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1;
-                if (checkShiny && pkm.Gender == 1 && pkm.PersonalInfo.Gender == 31 && pkm.IsShiny)
-                    AddLine(Severity.Invalid, V209, CheckIdentifier.PID);
             }
 
             if (!(pkm is PK1 pk1))

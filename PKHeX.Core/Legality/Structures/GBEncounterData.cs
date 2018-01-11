@@ -18,19 +18,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 1/2 Encounter Data wrapper for storing supplemental information about the encounter.
     /// </summary>
-    public class GBEncounterData : IEncounterable
+    internal class GBEncounterData
     {
         private readonly int Level;
         public readonly GameVersion Game;
         public readonly int Generation;
         internal readonly GBEncounterType Type;
         public readonly IEncounterable Encounter;
-
-        public int Species => Encounter.Species;
-        public string Name => Encounter.Name;
-        public bool EggEncounter => Encounter.EggEncounter;
-        public int LevelMin => Encounter.LevelMin;
-        public int LevelMax => Encounter.LevelMax;
 
         // Egg encounter
         public GBEncounterData(int species, GameVersion game)

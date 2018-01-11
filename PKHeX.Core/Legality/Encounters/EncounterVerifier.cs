@@ -47,9 +47,8 @@ namespace PKHeX.Core
         }
         private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
         {
-            var encounter = info.EncounterMatch;
-            var EncounterMatch = encounter is GBEncounterData g ? g.Encounter : encounter;
-            if (encounter.EggEncounter)
+            var EncounterMatch = info.EncounterMatch;
+            if (EncounterMatch.EggEncounter)
             {
                 pkm.WasEgg = true;
                 return VerifyEncounterEgg(pkm, EncounterMatch);

@@ -215,7 +215,7 @@ namespace PKHeX.Core
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
 
-            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB.Species, EncounterOriginalGB as GBEncounterData, s))
+            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB, s))
                 AddLine(z);
         }
         private void UpdateInfo()
@@ -249,7 +249,7 @@ namespace PKHeX.Core
         }
         private void UpdateTypeInfo()
         {
-            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && (EncounterMatch as GBEncounterData)?.Generation != pkm.GenNumber)
+            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncounterMatch is IGeneration g && g.Generation != pkm.GenNumber)
                 // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
                 pkm.TradebackStatus = TradebackType.WasTradeback;
 
