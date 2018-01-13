@@ -504,7 +504,7 @@ namespace PKHeX.Core
 
             if (e.Gender != -1 && e.Gender != pkm.Gender)
                 return false;
-            if (e.Form != pkm.AltForm && !e.SkipFormCheck && !IsFormChangeable(pkm, e.Species))
+            if (e.Form != pkm.AltForm && !e.SkipFormCheck && !IsFormChangeable(pkm, e.Species, e.Form))
                 return false;
             if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
@@ -1032,7 +1032,7 @@ namespace PKHeX.Core
             if (z.CurrentLevel != -1 && z.CurrentLevel > pkm.CurrentLevel)
                 return false;
 
-            if (z.Form != pkm.AltForm && !IsFormChangeable(pkm, pkm.Species))
+            if (z.Form != pkm.AltForm && !IsFormChangeable(pkm, pkm.Species, z.Form))
                 return false;
             if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
                 return false;
@@ -1263,7 +1263,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species)))
+            if (wc.AltForm != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species, wc.AltForm)))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;
@@ -1305,7 +1305,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) return false;
+            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species, wc.Form))) return false;
 
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
@@ -1336,7 +1336,7 @@ namespace PKHeX.Core
                 if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
                 if (wc.Language != 0 && wc.Language != pkm.Language) return false;
             }
-            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) return false;
+            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species, wc.Form))) return false;
 
             if (wc.IsEgg)
             {
@@ -1381,7 +1381,7 @@ namespace PKHeX.Core
                 if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
                 if (wc.Language != 0 && wc.Language != pkm.Language) return false;
             }
-            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species)))
+            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species, wc.Form)))
             {
                 if (wc.Species == 744 && wc.Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
                 {
