@@ -262,6 +262,7 @@
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Apricorn.Designer.cs">
       <DependentUpon>SAV_Apricorn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen5\CGearExtensions.cs" />
     <Compile Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -353,7 +354,6 @@
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Underground.Designer.cs">
       <DependentUpon>SAV_Underground.cs</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Save Editors\Gen5\CGearBackground.cs" />
     <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.cs">
       <SubType>Form</SubType>
     </Compile>

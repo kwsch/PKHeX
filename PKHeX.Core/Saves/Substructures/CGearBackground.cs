@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
     public class CGearBackground
     {
@@ -74,8 +72,8 @@ namespace PKHeX.WinForms
             Map = new TileMap(Region2);
         }
 
-        private byte[] _cgb;
-        private byte[] _psk;
+        private readonly byte[] _cgb;
+        private readonly byte[] _psk;
         private byte[] GetCGB() => _cgb ?? Write();
         private byte[] GetPSK() => _psk ?? CGBtoPSK(Write());
         public byte[] GetSkin(bool B2W2) => B2W2 ? GetCGB() : GetPSK();
@@ -94,9 +92,9 @@ namespace PKHeX.WinForms
             return data;
         }
 
-        private static bool IsCGB(byte[] data)
+        private static bool IsCGB(IReadOnlyList<byte> data)
         {
-            if (data.Length != SIZE_CGB)
+            if (data.Count != SIZE_CGB)
                 return false;
 
             // check odd bytes for anything not rotation flag
@@ -148,105 +146,19 @@ namespace PKHeX.WinForms
             return cgb;
         }
 
-        private int[] ColorPalette;
-        private Tile[] Tiles;
-        private TileMap Map;
-        
-        public Bitmap GetImage()
+        private readonly int[] ColorPalette;
+        public Tile[] Tiles { get; }
+        public TileMap Map { get; }
+
+        public sealed class Tile
         {
-            Bitmap img = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-
-            // Fill Data
-            using (Graphics g = Graphics.FromImage(img))
-            for (int i = 0; i < Map.TileChoices.Length; i++)
-            {
-                int x = (i*8)%Width;
-                int y = 8*((i*8)/Width);
-
-                Bitmap b = Tiles[Map.TileChoices[i] % Tiles.Length].Rotate(Map.Rotations[i]);
-                g.DrawImage(b, new Point(x, y));
-            }
-            return img;
-        }
-        public void SetImage(Bitmap img)
-        {
-            if (img.Width != Width)
-                throw new ArgumentException($"Invalid image width. Expected {Width} pixels wide.");
-            if (img.Height != Height)
-                throw new ArgumentException($"Invalid image height. Expected {Height} pixels high.");
-
-            // get raw bytes of image
-            byte[] data = ImageUtil.GetPixelData(img);
-            const int bpp = 4;
-            Debug.Assert(data.Length == Width * Height * bpp);
-
-            // get colors
-            int[] pixels = new int[data.Length / bpp];
-            int[] colors = new int[pixels.Length];
-            Buffer.BlockCopy(data, 0, pixels, 0, data.Length);
-            for (int i = 0; i < pixels.Length; i++)
-                colors[i] = GetRGB555_32(pixels[i]);
-            
-            var Palette = colors.Distinct().ToArray();
-            if (Palette.Length > 0x10)
-                throw new ArgumentException($"Too many unique colors. Expected <= 16, got {Palette.Length}");
-
-            // Build Tiles
-            Tile[] tiles = new Tile[0x300];
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                int x = (i*8)%Width;
-                int y = 8*((i*8)/Width);
-
-                Tile t = new Tile();
-                for (uint ix = 0; ix < 8; ix++)
-                    for (uint iy = 0; iy < 8; iy++)
-                    {
-                        int index = (int)(y + iy)*Width + (int)(x + ix);
-                        int c = colors[index];
-
-                        t.ColorChoices[ix%8 + iy*8] = Array.IndexOf(Palette, c);
-                    }
-                t.SetTile(Palette);
-                tiles[i] = t;
-            }
-
-            List<Tile> tilelist = new List<Tile> {tiles[0]};
-            TileMap tm = new TileMap(new byte[2*Width*Height/64]);
-            for (int i = 1; i < tm.TileChoices.Length; i++)
-            {
-                for (int j = 0; j < tilelist.Count; j++)
-                {
-                    int rotVal = tiles[i].GetRotationValue(tilelist[j].ColorChoices);
-                    if (rotVal <= -1) continue;
-                    tm.TileChoices[i] = j;
-                    tm.Rotations[i] = rotVal;
-                    goto next;
-                }
-                if (tilelist.Count == 0xFF)
-                    throw new ArgumentException($"Too many unique tiles. Expected < 256, ran out of tiles at {i + 1} of {tm.TileChoices.Length}");
-                tilelist.Add(tiles[i]);
-                tm.TileChoices[i] = tilelist.Count - 1;
-
-                next:;
-            }
-
-            // Finished!
-            Map = tm;
-            ColorPalette = Palette;
-            Tiles = tilelist.ToArray();
-            _psk = null;
-            _cgb = null;
-        }
-
-        private sealed class Tile : IDisposable
-        {
-            public const int SIZE_TILE = 0x20;
+            internal const int SIZE_TILE = 0x20;
             private const int TileWidth = 8;
             private const int TileHeight = 8;
-            public readonly int[] ColorChoices;
-            private Bitmap img;
-            public void Dispose() => img.Dispose();
+            internal readonly int[] ColorChoices;
+            private byte[] PixelData;
+            private byte[] PixelDataX;
+            private byte[] PixelDataY;
 
             internal Tile(byte[] data = null)
             {
@@ -264,10 +176,9 @@ namespace PKHeX.WinForms
             }
             internal void SetTile(int[] Palette)
             {
-                var tileData = GetTileData(Palette);
-                img = ImageUtil.GetBitmap(tileData, TileWidth, TileHeight);
+                PixelData = GetTileData(Palette);
             }
-            private byte[] GetTileData(int[] Palette)
+            private byte[] GetTileData(IReadOnlyList<int> Palette)
             {
                 const int pixels = TileWidth * TileHeight;
                 byte[] data = new byte[pixels * 4];
@@ -295,18 +206,57 @@ namespace PKHeX.WinForms
                 return data;
             }
 
-            internal Bitmap Rotate(int rotFlip)
+            public byte[] Rotate(int rotFlip)
             {
                 if (rotFlip == 0)
-                    return img;
-                Bitmap tile = (Bitmap)img.Clone();
+                    return PixelData;
                 if ((rotFlip & 4) > 0)
-                    tile.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                    return PixelDataX ?? (PixelDataX = FlipX(PixelData, TileWidth));
                 if ((rotFlip & 8) > 0)
-                    tile.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                return tile;
+                    return PixelDataY ?? (PixelDataY = FlipY(PixelData, TileHeight));
+                return PixelData;
             }
+            private static byte[] FlipX(IReadOnlyList<byte> data, int width, int bpp = 4)
+            {
+                byte[] result = new byte[data.Count];
+                int pixels = data.Count / bpp;
+                for (int i = 0; i < pixels; i++)
+                {
+                    int x = i % width;
+                    int y = i / width;
 
+                    x = width - x - 1; // flip x
+                    int dest = (y * width + x) * bpp;
+
+                    var o = 4 * i;
+                    result[dest + 0] = data[o + 0];
+                    result[dest + 1] = data[o + 1];
+                    result[dest + 2] = data[o + 2];
+                    result[dest + 3] = data[o + 3];
+                }
+                return result;
+            }
+            private static byte[] FlipY(IReadOnlyList<byte> data, int height, int bpp = 4)
+            {
+                byte[] result = new byte[data.Count];
+                int pixels = data.Count / bpp;
+                int width = pixels / height;
+                for (int i = 0; i < pixels; i++)
+                {
+                    int x = i % width;
+                    int y = i / width;
+
+                    y = height - y - 1; // flip x
+                    int dest = (y * width + x) * bpp;
+
+                    var o = 4 * i;
+                    result[dest + 0] = data[o + 0];
+                    result[dest + 1] = data[o + 1];
+                    result[dest + 2] = data[o + 2];
+                    result[dest + 3] = data[o + 3];
+                }
+                return result;
+            }
             internal int GetRotationValue(int[] tileColors)
             {
                 // Check all rotation types
@@ -334,7 +284,8 @@ namespace PKHeX.WinForms
                 return 12;
             }
         }
-        private sealed class TileMap
+
+        public sealed class TileMap
         {
             public readonly int[] TileChoices;
             public readonly int[] Rotations;
@@ -395,9 +346,9 @@ namespace PKHeX.WinForms
         }
         private static ushort GetRGB555(int v)
         {
-            var R = (v >> 16) & 0x1F;
-            var G = (v >> 8) & 0x1F;
-            var B = (v >> 0) & 0x1F;
+            var R = (byte)(v >> 16);
+            var G = (byte)(v >> 8);
+            var B = (byte)(v >> 0);
 
             int val = 0;
             val |= Convert8to5(R) << 0;
@@ -409,5 +360,114 @@ namespace PKHeX.WinForms
                                                       0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
                                                       0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
                                                       0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
+
+        /// <summary>
+        /// Creates a new C-Gear Background object from an input image data byte array
+        /// </summary>
+        /// <param name="data">Image data</param>
+        /// <param name="bpp">Bytes per pixel</param>
+        /// <returns>new C-Gear Background object</returns>
+        public static CGearBackground GetBackground(byte[] data, int bpp = 4)
+        {
+            int[] pixels = new int[data.Length / bpp];
+            Buffer.BlockCopy(data, 0, pixels, 0, data.Length);
+            var colors = GetColorData(pixels);
+
+            var Palette = colors.Distinct().ToArray();
+            if (Palette.Length > 0x10)
+                throw new ArgumentException($"Too many unique colors. Expected <= 16, got {Palette.Length}");
+
+            var tiles = GetTiles(colors, Palette);
+            GetTileList(tiles, out List<Tile> tilelist, out TileMap tm);
+            if (tilelist.Count >= 0xFF)
+                throw new ArgumentException($"Too many unique tiles. Expected < 256, received {tilelist.Count}.");
+
+            // Finished!
+            return new CGearBackground(Palette, tilelist.ToArray(), tm);
+        }
+        private static int[] GetColorData(IReadOnlyList<int> pixels)
+        {
+            int[] colors = new int[pixels.Count];
+            for (int i = 0; i < pixels.Count; i++)
+                colors[i] = GetRGB555_32(pixels[i]);
+            return colors;
+        }
+        private static Tile[] GetTiles(IReadOnlyList<int> colors, int[] Palette)
+        {
+            var tiles = new Tile[0x300];
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                int x = (i * 8) % Width;
+                int y = 8 * ((i * 8) / Width);
+
+                var t = new Tile();
+                for (uint ix = 0; ix < 8; ix++)
+                for (uint iy = 0; iy < 8; iy++)
+                {
+                    int index = (int)(y + iy) * Width + (int)(x + ix);
+                    int c = colors[index];
+
+                    t.ColorChoices[ix % 8 + iy * 8] = Array.IndexOf(Palette, c);
+                }
+                t.SetTile(Palette);
+                tiles[i] = t;
+            }
+
+            return tiles;
+        }
+        private static void GetTileList(IReadOnlyList<Tile> tiles, out List<Tile> tilelist, out TileMap tm)
+        {
+            tilelist = new List<Tile> { tiles[0] };
+            tm = new TileMap(new byte[2 * Width * Height / 64]);
+
+            // start at 1 as the 0th tile is always non-duplicate
+            for (int i = 1; i < tm.TileChoices.Length; i++)
+                FindPossibleRotatedTile(tiles[i], tilelist, tm, i);
+
+        }
+        private static void FindPossibleRotatedTile(Tile t, IList<Tile> tilelist, TileMap tm, int tileIndex)
+        {
+            // Test all tiles currently in the list
+            for (int j = 0; j < tilelist.Count; j++)
+            {
+                int rotVal = t.GetRotationValue(tilelist[j].ColorChoices);
+                if (rotVal <= -1)
+                    continue;
+                tm.TileChoices[tileIndex] = j;
+                tm.Rotations[tileIndex] = rotVal;
+                return;
+            }
+
+            // No tile found, add to list
+            tm.TileChoices[tileIndex] = tilelist.Count - 1;
+            tm.Rotations[tileIndex] = 0;
+            tilelist.Add(t);
+        }
+        private CGearBackground(int[] Palette, Tile[] tilelist, TileMap tm)
+        {
+            Map = tm;
+            ColorPalette = Palette;
+            Tiles = tilelist;
+        }
+
+        public byte[] GetImageData()
+        {
+            byte[] data = new byte[4 * Width * Height];
+            for (int i = 0; i < Map.TileChoices.Length; i++)
+            {
+                int x = (i * 8) % Width;
+                int y = 8 * ((i * 8) / Width);
+                var choice = Map.TileChoices[i] % (Tiles.Length + 1);
+                var tile = Tiles[choice];
+                var tileData = tile.Rotate(Map.Rotations[i]);
+                for (int iy = 0; iy < 8; iy++)
+                {
+                    int src = iy * (4 * 8);
+                    int dest = ((y+iy) * Width + x) * 4;
+                    Array.Copy(tileData, src, data, dest, 4*8);
+                }
+            }
+            return data;
+        }
     }
 }
