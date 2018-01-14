@@ -57,7 +57,7 @@ namespace PKHeX.WinForms
             byte[] ColorData = data.Skip(0x1FE0).Take(0x20).ToArray();
             byte[] Region2 = data.Skip(0x2000).Take(0x600).ToArray();
 
-            ColorPalette = new Color[0x10];
+            ColorPalette = new int[0x10];
             for (int i = 0; i < 0x10; i++)
                 ColorPalette[i] = GetRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
 
@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
             return cgb;
         }
 
-        private Color[] ColorPalette;
+        private int[] ColorPalette;
         private Tile[] Tiles;
         private TileMap Map;
         
@@ -181,13 +181,13 @@ namespace PKHeX.WinForms
             Debug.Assert(data.Length == Width * Height * bpp);
 
             // get colors
-            uint[] pixels = new uint[data.Length / bpp];
-            Color[] colors = new Color[pixels.Length];
+            int[] pixels = new int[data.Length / bpp];
+            int[] colors = new int[pixels.Length];
             Buffer.BlockCopy(data, 0, pixels, 0, data.Length);
             for (int i = 0; i < pixels.Length; i++)
                 colors[i] = GetRGB555_32(pixels[i]);
             
-            Color[] Palette = colors.Distinct().ToArray();
+            var Palette = colors.Distinct().ToArray();
             if (Palette.Length > 0x10)
                 throw new ArgumentException($"Too many unique colors. Expected <= 16, got {Palette.Length}");
 
@@ -203,7 +203,7 @@ namespace PKHeX.WinForms
                     for (uint iy = 0; iy < 8; iy++)
                     {
                         int index = (int)(y + iy)*Width + (int)(x + ix);
-                        Color c = colors[index];
+                        int c = colors[index];
 
                         t.ColorChoices[ix%8 + iy*8] = Array.IndexOf(Palette, c);
                     }
@@ -262,17 +262,28 @@ namespace PKHeX.WinForms
                     ColorChoices[i*2+1] = data[i] >> 4;
                 }
             }
-            internal void SetTile(Color[] Palette)
+            internal void SetTile(int[] Palette)
             {
-                img = new Bitmap(8, 8);
-                for (int x = 0; x < 8; x++)
-                    for (int y = 0; y < 8; y++)
-                    {
-                        var index = ColorChoices[x%8 + y*8];
-                        var choice = Palette[index];
-                        img.SetPixel(x, y, choice);
-                    }
+                var tileData = GetTileData(Palette);
+                img = ImageUtil.GetBitmap(tileData, TileWidth, TileHeight);
             }
+            private byte[] GetTileData(int[] Palette)
+            {
+                const int pixels = TileWidth * TileHeight;
+                byte[] data = new byte[pixels * 4];
+                for (int i = 0; i < pixels; i++)
+                {
+                    var choice = ColorChoices[i];
+                    var val = Palette[choice];
+                    var o = 4 * i;
+                    data[o + 0] = (byte)(val & 0xFF);
+                    data[o + 1] = (byte)(val >> 8 & 0xFF);
+                    data[o + 2] = (byte)(val >> 16 & 0xFF);
+                    data[o + 3] = (byte)(val >> 24 & 0xFF);
+                }
+                return data;
+            }
+
             internal byte[] Write()
             {
                 byte[] data = new byte[SIZE_TILE];
@@ -363,26 +374,35 @@ namespace PKHeX.WinForms
             while (colorval > Convert5To8[i]) i++;
             return i;
         }
-        private static Color GetRGB555_32(uint val)
+        private static int GetRGB555_32(int val)
         {
-            int R = (int)(val >> 0 >> 3) & 0x1F;
-            int G = (int)(val >> 8 >> 3) & 0x1F;
-            int B = (int)(val >> 16 >> 3) & 0x1F;
-            return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
+            var R = (val >> 0 >> 3) & 0x1F;
+            var G = (val >> 8 >> 3) & 0x1F;
+            var B = (val >> 16 >> 3) & 0x1F;
+            return 0xFF << 24 | R << 16 | G << 8 | B;
         }
-        private static Color GetRGB555_16(ushort val)
+        private static int GetRGB555_16(ushort val)
         {
             int R = (val >> 0) & 0x1F;
             int G = (val >> 5) & 0x1F;
             int B = (val >> 10) & 0x1F;
-            return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
+
+            R = Convert5To8[R];
+            G = Convert5To8[G];
+            B = Convert5To8[B];
+
+            return 0xFF << 24 | R << 16 | G << 8 | B;
         }
-        private static ushort GetRGB555(Color c)
+        private static ushort GetRGB555(int v)
         {
+            var R = (v >> 16) & 0x1F;
+            var G = (v >> 8) & 0x1F;
+            var B = (v >> 0) & 0x1F;
+
             int val = 0;
-            val |= Convert8to5(c.R) << 0;
-            val |= Convert8to5(c.G) << 5;
-            val |= Convert8to5(c.B) << 10;
+            val |= Convert8to5(R) << 0;
+            val |= Convert8to5(G) << 5;
+            val |= Convert8to5(B) << 10;
             return (ushort)val;
         }
         private static readonly int[] Convert5To8 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
