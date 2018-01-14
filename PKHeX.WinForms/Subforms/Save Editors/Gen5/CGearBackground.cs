@@ -30,12 +30,12 @@ namespace PKHeX.WinForms
         * The tiles are chosen based on the 16bit index of the tile.
         * 0x300 * 2 = 0x600!
         * 
-        * CGearBackgrounds tilemap (when stored) employs odd obfuscation.
-        * BW obfuscates by adding 0xA0A0, B2W2 adds 0xA000
+        * CGearBackgrounds tilemap (when stored on BW) employs some obfuscation.
+        * BW obfuscates by adding 0xA0A0.
         * The obfuscated number is then tweaked by adding 15*(i/17)
         * To reverse, use a similar reverse calculation
         * PSK files are basically raw game rips (obfuscated)
-        * CGB files are un-obfuscated.
+        * CGB files are un-obfuscated / B2W2.
         * Due to BW and B2W2 using different obfuscation adds, PSK files are incompatible between the versions.
         */
         
@@ -46,7 +46,10 @@ namespace PKHeX.WinForms
 
             // decode for easy handling
             if (!IsCGB(data))
-                _psk = data = PSKtoCGB(data);
+            {
+                _psk = data;
+                data = PSKtoCGB(data);
+            }
             else
                 _cgb = data;
 
@@ -73,11 +76,11 @@ namespace PKHeX.WinForms
 
         private byte[] _cgb;
         private byte[] _psk;
+        private byte[] GetCGB() => _cgb ?? Write();
+        private byte[] GetPSK() => _psk ?? CGBtoPSK(Write());
+        public byte[] GetSkin(bool B2W2) => B2W2 ? GetCGB() : GetPSK();
 
-        public byte[] GetCGB() => _cgb ?? Write();
-        public byte[] GetPSK(bool B2W2) => _psk ?? CGBtoPSK(Write(), B2W2);
-
-        public byte[] Write()
+        private byte[] Write()
         {
             byte[] data = new byte[SIZE_CGB];
             for (int i = 0; i < Tiles.Length; i++)
@@ -91,7 +94,7 @@ namespace PKHeX.WinForms
             return data;
         }
 
-        public static bool IsCGB(byte[] data)
+        private static bool IsCGB(byte[] data)
         {
             if (data.Length != SIZE_CGB)
                 return false;
@@ -102,27 +105,45 @@ namespace PKHeX.WinForms
                     return false;
             return true;
         }
-        public static byte[] CGBtoPSK(byte[] cgb, bool B2W2)
+        private static byte[] CGBtoPSK(byte[] cgb)
         {
             byte[] psk = (byte[])cgb.Clone();
-            int shiftVal = B2W2 ? 0xA000 : 0xA0A0;
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                int index = BitConverter.ToUInt16(cgb, i);
-                int val = IndexToVal(index, shiftVal);
+                var tileVal = BitConverter.ToUInt16(cgb, i);
+                int val = GetPSKValue(tileVal);
+
                 psk[i] = (byte)val;
                 psk[i + 1] = (byte)(val >> 8);
             }
             return psk;
         }
-        public static byte[] PSKtoCGB(byte[] psk)
+        private static int GetPSKValue(ushort val)
+        {
+            int rot = val & 0xFF00;
+            int tile = val & 0x00FF;
+            if (tile == 0xFF) // invalid tile?
+                tile = 0;
+            
+            int result = tile + 15 * (tile / 17)
+                         + 0xA0A0
+                         + rot;
+            return result;
+        }
+        private static byte[] PSKtoCGB(byte[] psk)
         {
             byte[] cgb = (byte[])psk.Clone();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
                 int val = BitConverter.ToUInt16(psk, i);
                 int index = ValToIndex(val);
-                BitConverter.GetBytes((ushort)index).CopyTo(cgb, i);
+
+                byte tile = (byte)index;
+                byte rot = (byte)(index >> 8);
+                if (tile == 0xFF)
+                    tile = 0;
+                cgb[i] = tile;
+                cgb[i + 1] = rot;
             }
             return cgb;
         }
@@ -329,11 +350,6 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static int IndexToVal(int index, int shiftVal)
-        {
-            int val = index + shiftVal;
-            return val + 15*(index/17);
-        }
         private static int ValToIndex(int val)
         {
             if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)

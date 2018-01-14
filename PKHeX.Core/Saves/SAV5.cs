@@ -728,5 +728,52 @@ namespace PKHeX.Core
                 PadToSize = maxLength + 1;
             return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
         }
+
+
+        // DLC
+        private int CGearSkinInfoOffset => CGearInfoOffset + (B2W2 ? 0x10 : 0) + 0x24;
+        private bool CGearSkinPresent
+        {
+            get => Data[CGearSkinInfoOffset + 2] == 1;
+            set => Data[CGearSkinInfoOffset + 2] = Data[Trainer1 + (B2W2 ? 0x6C : 0x54)] = (byte) (value ? 1 : 0);
+        }
+        public byte[] CGearSkinData
+        {
+            get
+            {
+                byte[] data = new byte[0x2600];
+                if (CGearSkinPresent)
+                    Array.Copy(Data, CGearDataOffset, data, 0, data.Length);
+                return data;
+            }
+            set
+            {
+                if (value == null)
+                    return; // no clearing
+                byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
+
+                byte[] bgdata = value;
+                SetData(bgdata, CGearDataOffset);
+
+                ushort chk = SaveUtil.CRC16_CCITT(bgdata);
+                var chkbytes = BitConverter.GetBytes(chk);
+                int footer = CGearDataOffset + bgdata.Length;
+
+                BitConverter.GetBytes((ushort)1).CopyTo(Data, footer); // block updated once
+                chkbytes.CopyTo(Data, footer + 2); // checksum
+                chkbytes.CopyTo(Data, footer + 0x100); // second checksum
+                dlcfooter.CopyTo(Data, footer + 0x102);
+                ushort skinchkval = SaveUtil.CRC16_CCITT(Data, footer + 0x100, 4);
+                BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
+
+                // Indicate in the save file that data is present
+                BitConverter.GetBytes((ushort)0xC21E).CopyTo(Data, 0x19438);
+
+                chkbytes.CopyTo(Data, CGearSkinInfoOffset);
+                CGearSkinPresent = true;
+
+                Edited = true;
+            }
+        }
     }
 }

@@ -17,14 +17,10 @@ namespace PKHeX.WinForms
             SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
 
-            bool cgearPresent = SAV.Data[SAV.CGearInfoOffset + 0x26] == 1;
-            byte[] data = new byte[CGearBackground.SIZE_CGB];
-            if (cgearPresent)
-                Array.Copy(SAV.Data, SAV.CGearDataOffset, data, 0, CGearBackground.SIZE_CGB);
+            byte[] data = SAV.CGearSkinData;
             bg = new CGearBackground(data);
 
             PB_Background.Image = bg.GetImage();
-            WinFormsUtil.Alert("Editor is incomplete.", "No guarantee of functionality.");
         }
 
         private CGearBackground bg;
@@ -85,11 +81,6 @@ namespace PKHeX.WinForms
             }
 
             byte[] data = File.ReadAllBytes(path);
-            LoadBackground(data);
-        }
-
-        private void LoadBackground(byte[] data)
-        {
             bg = new CGearBackground(data);
             PB_Background.Image = bg.GetImage();
         }
@@ -104,42 +95,17 @@ namespace PKHeX.WinForms
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
-            byte[] data = bg.GetCGB();
+            byte[] data = bg.GetSkin(true);
             File.WriteAllBytes(sfd.FileName, data);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            byte[] bgdata = bg.GetPSK(SAV.B2W2);
-            if (bgdata.SequenceEqual(new byte[CGearBackground.SIZE_CGB]))
-                return;
-
-            byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
-
-            bgdata.CopyTo(SAV.Data, SAV.CGearDataOffset);
-            ushort chk = SaveUtil.CRC16_CCITT(bgdata);
-            var chkbytes = BitConverter.GetBytes(chk);
-            int footer = SAV.CGearDataOffset + bgdata.Length;
-
-            BitConverter.GetBytes((ushort)1).CopyTo(SAV.Data, footer); // block updated once
-            chkbytes.CopyTo(SAV.Data, footer + 2); // checksum
-            chkbytes.CopyTo(SAV.Data, footer + 0x100); // second checksum
-
-            ushort skinchkval = SaveUtil.CRC16_CCITT(SAV.Data, footer + 0x100, 4);
-            dlcfooter.CopyTo(SAV.Data, footer + 0x104);
-            BitConverter.GetBytes(skinchkval).CopyTo(SAV.Data, footer + 0x112);
-
-            // Indicate in the save file that data is present
-            BitConverter.GetBytes((ushort)0xC21E).CopyTo(SAV.Data, 0x19438);
-
-            int info = SAV.CGearInfoOffset + 0x24;
-            if (SAV.B2W2)
-                info += 0x10;
-            chkbytes.CopyTo(SAV.Data, info);
-            SAV.Data[info + 2] = 1; // data present
-            int flag = SAV.CGearDataOffset + (SAV.B2W2 ? 0x6C : 0x54);
-            SAV.Data[flag] = 1; // data present
-
-            Origin.SetData(SAV.Data, 0);
+            byte[] bgdata = bg.GetSkin(SAV.B2W2);
+            if (!bgdata.All(z => z == 0))
+            {
+                SAV.CGearSkinData = bgdata;
+                Origin.SetData(SAV.Data, 0);
+            }
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
