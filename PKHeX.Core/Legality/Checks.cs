@@ -1948,11 +1948,10 @@ namespace PKHeX.Core
                     }
                     if (Info.Generation == 7 && pkm.AltForm != 0 ^ Type == typeof(MysteryGift))
                     {
-                        if (EncounterMatch is WC7 gift && gift.Form != pkm.AltForm)
-                        {
-                            AddLine(Severity.Invalid, V307, CheckIdentifier.Form);
-                            return;
-                        }
+                        bool gift = EncounterMatch is WC7 g && g.Form != pkm.AltForm;
+                        var msg = gift ? V307 : V317;
+                        AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
+                        return;
                     }
                     break;
                 case 201 when Info.Generation == 2 && pkm.AltForm >= 26:
