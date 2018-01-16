@@ -161,11 +161,8 @@ namespace PKHeX.Core
                 var CurSig = new byte[MemeCryptoSignatureLength];
                 Buffer.BlockCopy(sav7, MemeCryptoOffset, CurSig, 0, MemeCryptoSignatureLength);
 
-                var ChecksumTableSignature = new byte[ChecksumSignatureLength];
-                Buffer.BlockCopy(sav7, ChecksumTableOffset, ChecksumTableSignature, 0, ChecksumSignatureLength);
-
-                var newSig = new byte[MemeCryptoSignatureLength];
-                sha256.ComputeHash(ChecksumTableSignature).CopyTo(newSig, 0);
+                var newSig = sha256.ComputeHash(sav7, ChecksumTableOffset, ChecksumSignatureLength);
+                Array.Resize(ref newSig, MemeCryptoSignatureLength);
 
                 if (VerifyMemeData(CurSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
                 {
