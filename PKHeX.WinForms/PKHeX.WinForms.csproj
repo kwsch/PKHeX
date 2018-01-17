@@ -191,6 +191,12 @@
       <DependentUpon>SAVEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SAV Editor\SlotChangeInfo.cs" />
+    <Compile Include="Controls\SAV Editor\SlotList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\SlotList.Designer.cs">
+      <DependentUpon>SlotList.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -576,6 +582,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SAV Editor\SAVEditor.resx">
       <DependentUpon>SAVEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SAV Editor\SlotList.resx">
+      <DependentUpon>SlotList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
