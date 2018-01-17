@@ -350,7 +350,6 @@ namespace PKHeX.WinForms.Controls
                 // 00s present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Transparent;
-                pb.Visible = true;
                 return;
             }
             PKM p = SAV.GetStoredSlot(offset);
@@ -359,14 +358,12 @@ namespace PKHeX.WinForms.Controls
                 // Bad Egg present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Red;
-                pb.Visible = true;
                 return;
             }
 
             int slot = GetSlot(pb);
             pb.Image = GetSprite(p, slot);
             pb.BackColor = Color.Transparent;
-            pb.Visible = true;
         }
 
         private void ClickBoxSort(object sender, EventArgs e)
