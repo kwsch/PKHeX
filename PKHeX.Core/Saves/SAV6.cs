@@ -32,7 +32,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV6(Data); }
+        public override SaveFile Clone() { return new SAV6((byte[])Data.Clone()); }
         
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
