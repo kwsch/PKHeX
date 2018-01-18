@@ -1939,14 +1939,26 @@ namespace PKHeX.Core
 
             switch (pkm.Species)
             {
-                case 25: // Pikachu
-                    if (Info.Generation == 6 && pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
+                case 25 when Info.Generation == 6: // Pikachu Cosplay
+                    if (pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
                     {
                         string msg = Type == typeof(EncounterStatic) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
-                    if (Info.Generation == 7 && pkm.AltForm != 0 ^ Type == typeof(MysteryGift))
+                    break;
+                case 25 when Info.Generation == 7: // Pikachu Cap
+                    bool IsValidPikachuCap()
+                    {
+                        switch (EncounterMatch)
+                        {
+                            default: return pkm.AltForm == 0;
+                            case WC7 wc7: return wc7.Form == pkm.AltForm;
+                            case EncounterStatic s: return s.Form == pkm.AltForm;
+                        }
+                    }
+
+                    if (!IsValidPikachuCap())
                     {
                         bool gift = EncounterMatch is WC7 g && g.Form != pkm.AltForm;
                         var msg = gift ? V307 : V317;
