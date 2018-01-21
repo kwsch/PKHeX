@@ -108,26 +108,24 @@ namespace PKHeX.WinForms.Controls
         // Generic Subfunctions //
         public int GetPKMOffset(int slot, int box = -1)
         {
-            if (slot < 30) // Box Slot
+            if (slot < (int)SlotIndex.Party) // Box Slot
                 return Box.GetOffset(slot, box);
-            slot -= 30;
-            if (slot < 6) // Party Slot
-                return SAV.GetPartyOffset(slot);
-            slot -= 6;
-            if (slot < 6) // Battle Box Slot
-                return SAV.BattleBox + slot * SAV.SIZE_STORED;
-            slot -= 6;
-            if (slot < 2) // Daycare
-                return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot);
-            slot -= 2;
-            if (slot == 0) // GTS
+
+            if (slot < (int)SlotIndex.BattleBox) // Party Slot
+                return SAV.GetPartyOffset(slot - (int)SlotIndex.Party);
+            if (slot < (int)SlotIndex.Daycare) // Battle Box Slot
+                return SAV.BattleBox + (slot - (int)SlotIndex.BattleBox) * SAV.SIZE_STORED;
+
+            if (slot < (int)SlotIndex.GTS) // Daycare
+                return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot - (int)SlotIndex.Daycare);
+            if (slot == (int)SlotIndex.Fused) // GTS
                 return SAV.GTS;
             slot -= 1;
-            if (slot == 0) // Fused
+            if (slot == (int)SlotIndex.SUBE) // Fused
                 return SAV.Fused;
             slot -= 1;
-            if (slot < 3) // SUBE
-                return SAV.SUBE + slot * (SAV.SIZE_STORED + 4);
+            if (slot < (int)SlotIndex.SUBE + 3) // SUBE
+                return SAV.SUBE + (slot - (int)SlotIndex.SUBE) * (SAV.SIZE_STORED + 4);
             return -1;
         }
         public int GetSlot(object sender) => Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
@@ -153,7 +151,7 @@ namespace PKHeX.WinForms.Controls
             ResetNonBoxSlots();
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
-            if (M?.colorizedslot >= 30)
+            if (M?.colorizedslot >= (int)SlotIndex.Party)
                 SlotPictureBoxes[M.colorizedslot].BackgroundImage = M.colorizedcolor;
         }
         private void ResetNonBoxSlots()
@@ -166,28 +164,28 @@ namespace PKHeX.WinForms.Controls
         private void ResetMiscSlots()
         {
             if (SAV.HasGTS) // GTS
-                GetSlotFiller(SAV.GTS, SlotPictureBoxes[44]);
+                GetSlotFiller(SAV.GTS, SlotPictureBoxes[(int)SlotIndex.GTS]);
             
             if (SAV.HasFused) // Fused
-                GetSlotFiller(SAV.Fused, SlotPictureBoxes[45]);
+                GetSlotFiller(SAV.Fused, SlotPictureBoxes[(int)SlotIndex.Fused]);
 
             if (SAV.HasSUBE) // SUBE
                 for (int i = 0; i < 3; i++)
                 {
                     int offset = SAV.SUBE + i * (SAV.SIZE_STORED + 4);
+                    var pb = SlotPictureBoxes[(int) SlotIndex.SUBE + i];
                     if (BitConverter.ToUInt64(SAV.Data, offset) != 0)
-                        GetSlotFiller(offset, SlotPictureBoxes[46 + i]);
-                    else SlotPictureBoxes[46 + i].Image = null;
+                        GetSlotFiller(offset, pb);
+                    else pb.Image = null;
                 }
         }
-
         private void ResetParty()
         {
             if (!SAV.HasParty)
                 return;
 
             for (int i = 0; i < 6; i++)
-                GetSlotFiller(SAV.GetPartyOffset(i), SlotPictureBoxes[i + 30]);
+                GetSlotFiller(SAV.GetPartyOffset(i), SlotPictureBoxes[i + (int)SlotIndex.Party]);
         }
         private void ResetBattleBox()
         {
@@ -195,7 +193,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             for (int i = 0; i < 6; i++)
-                GetSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
+                GetSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + (int)SlotIndex.BattleBox]);
         }
         private void ResetDaycare()
         {
@@ -208,7 +206,8 @@ namespace PKHeX.WinForms.Controls
 
             for (int i = 0; i < 2; i++)
             {
-                GetSlotFiller(SAV.GetDaycareSlotOffset(SAV.DaycareIndex, i), SlotPictureBoxes[i + 42]);
+                var pb = SlotPictureBoxes[i + (int)SlotIndex.Daycare];
+                GetSlotFiller(SAV.GetDaycareSlotOffset(SAV.DaycareIndex, i), pb);
                 uint? exp = SAV.GetDaycareEXP(SAV.DaycareIndex, i);
                 TB_SlotEXP[i].Visible = L_SlotEXP[i].Visible = exp != null;
                 TB_SlotEXP[i].Text = exp.ToString();
@@ -219,7 +218,7 @@ namespace PKHeX.WinForms.Controls
                 else
                 {
                     L_SlotOccupied[i].Text = $"{i + 1}: ✘";
-                    SlotPictureBoxes[i + 42].Image = ImageUtil.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
+                    pb.Image = ImageUtil.ChangeOpacity(pb.Image, 0.6);
                 }
             }
 
@@ -242,17 +241,17 @@ namespace PKHeX.WinForms.Controls
             {
                 var party = SAV.PartyData;
                 for (int i = 0; i < party.Count; i++)
-                    SlotPictureBoxes[i + 30].Image = GetSprite(party[i], i + 30);
+                    SlotPictureBoxes[i + (int)SlotIndex.Party].Image = GetSprite(party[i], i + (int)SlotIndex.Party);
                 for (int i = party.Count; i < 6; i++)
-                    SlotPictureBoxes[i + 30].Image = null;
+                    SlotPictureBoxes[i + (int)SlotIndex.Party].Image = null;
             }
             if (SAV.HasBattleBox)
             {
                 var battle = SAV.BattleBoxData;
                 for (int i = 0; i < battle.Count; i++)
-                    SlotPictureBoxes[i + 36].Image = GetSprite(battle[i], i + 36);
+                    SlotPictureBoxes[i + (int)SlotIndex.BattleBox].Image = GetSprite(battle[i], i + (int)SlotIndex.BattleBox);
                 for (int i = battle.Count; i < 6; i++)
-                    SlotPictureBoxes[i + 36].Image = null;
+                    SlotPictureBoxes[i + (int)SlotIndex.BattleBox].Image = null;
             }
         }
         public void ClickUndo()
@@ -261,7 +260,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             SlotChange change = UndoStack.Pop();
-            if (change.Slot >= 30)
+            if (change.Slot >= (int)SlotIndex.Party)
                 return;
 
             RedoStack.Push(new SlotChange
@@ -280,7 +279,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             SlotChange change = RedoStack.Pop();
-            if (change.Slot >= 30)
+            if (change.Slot >= (int)SlotIndex.Party)
                 return;
 
             UndoStack.Push(new SlotChange
@@ -432,7 +431,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void ClickClone(object sender, EventArgs e)
         {
-            if (GetSlot(sender) > 30)
+            if (GetSlot(sender) >= (int)SlotIndex.Party)
                 return; // only perform action if cloning to boxes
             RequestCloneData?.Invoke(sender, e);
         }
@@ -1069,7 +1068,7 @@ namespace PKHeX.WinForms.Controls
             if (pb.Image == null)
                 return;
             int slot = GetSlot(pb);
-            int box = slot >= 30 ? -1 : Box.CurrentBox;
+            int box = slot >= (int)SlotIndex.Party ? -1 : Box.CurrentBox;
             if (SAV.IsSlotLocked(box, slot))
                 return;
 
@@ -1083,8 +1082,8 @@ namespace PKHeX.WinForms.Controls
 
             PictureBox pb = (PictureBox)sender;
             int slot = GetSlot(pb);
-            int box = slot >= 30 ? -1 : Box.CurrentBox;
-            if (SAV.IsSlotLocked(box, slot) || slot >= 36)
+            int box = slot >= (int)SlotIndex.Party ? -1 : Box.CurrentBox;
+            if (SAV.IsSlotLocked(box, slot) || slot >= (int)SlotIndex.BattleBox)
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
@@ -1152,6 +1151,17 @@ namespace PKHeX.WinForms.Controls
         {
             new SAV_MailBox(SAV).ShowDialog();
             ResetParty();
+        }
+
+        private enum SlotIndex
+        {
+            Box = 0,        // -> 29 [30]
+            Party = 30,     // -> 35 [6]
+            BattleBox = 36, // -> 41 [6]
+            Daycare = 42,
+            GTS = 44,
+            Fused = 45,
+            SUBE = 46,
         }
     }
 }
