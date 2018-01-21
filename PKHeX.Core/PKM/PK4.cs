@@ -438,7 +438,9 @@ namespace PKHeX.Core
             pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Legal.CrownBeasts.Contains(pk5.Species)
                 ? (pk5.Species == 251 ? Legal.Transfer4_CelebiUnused : Legal.Transfer4_CrownUnused) // Celebi : Beast
                 : Legal.Transfer4; // Pokétransfer (not Crown)
-            pk5.Egg_Location = Egg_Location;
+
+            // Egg Location is not modified; when clearing Pt/HGSS egg data, the location will revert to Faraway Place
+            // pk5.Egg_Location = Egg_Location;
             
             // Delete HGSS Data
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);

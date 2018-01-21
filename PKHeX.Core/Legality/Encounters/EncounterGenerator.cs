@@ -475,17 +475,34 @@ namespace PKHeX.Core
                     if (pkm.Egg_Location != 0)
                         return false;
                 }
-                else
-                switch (pkm.GenNumber)
+                else if (pkm.Gen4)
                 {
-                    case 4:
-                        if (pkm.Egg_Location != 2002) // Link Trade
+                    if (pkm.Egg_Location != 2002) // Link Trade
+                    {
+                        // check Pt/HGSS data
+                        if (pkm.Format <= 4)
+                            return false; // must match
+                        if (e.EggLocation >= 3000 || e.EggLocation <= 2010) // non-Pt/HGSS egg gift
                             return false;
-                        break;
-                    default:
-                        if (pkm.Egg_Location != 30002) // Link Trade
+
+                        // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
+                        if (pkm.Egg_Location != 3002) // Faraway Place
                             return false;
-                        break;
+                    }
+                }
+                else
+                {
+                    if (pkm.Egg_Location != 30002) // Link Trade
+                        return false;
+                }
+            }
+            else if (e.EggLocation != 0 && pkm.Gen4)
+            {
+                // Check the inverse scenario for 4->5 eggs
+                if (e.EggLocation < 3000 && e.EggLocation > 2010) // Pt/HGSS egg gift
+                {
+                    if (pkm.Format > 4)
+                        return false; // locations match when it shouldn't
                 }
             }
 
