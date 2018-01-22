@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms
@@ -10,22 +9,7 @@ namespace PKHeX.WinForms
     {
         public static Bitmap GetBitmap(CGearBackground bg)
         {
-            const int Width = CGearBackground.Width;
-            const int Height = CGearBackground.Height;
-            Bitmap img = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-
-            // Fill Data
-            using (Graphics g = Graphics.FromImage(img))
-            for (int i = 0; i < bg.Map.TileChoices.Length; i++)
-            {
-                int x = (i * 8) % Width;
-                int y = 8 * ((i * 8) / Width);
-                var tile = bg.Tiles[bg.Map.TileChoices[i] % bg.Tiles.Length];
-                var tileData = tile.Rotate(bg.Map.Rotations[i]);
-                Bitmap b = ImageUtil.GetBitmap(tileData, 8, 8);
-                g.DrawImage(b, new Point(x, y));
-            }
-            return img;
+            return ImageUtil.GetBitmap(bg.GetImageData(), CGearBackground.Width, CGearBackground.Height);
         }
         public static CGearBackground GetCGearBackground(Bitmap img)
         {

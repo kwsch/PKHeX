@@ -78,8 +78,10 @@ namespace PKHeX.WinForms
             ptr = bmpData.Scan0;
             data = new byte[bmp.Width * bmp.Height * 4];
         }
-        public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = 0x20, PixelFormat format = PixelFormat.Format32bppArgb)
+        public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = -1, PixelFormat format = PixelFormat.Format32bppArgb)
         {
+            if (stride == -1 && format == PixelFormat.Format32bppArgb)
+                stride = 4 * width; // defaults
             return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
         }
         public static byte[] GetPixelData(Bitmap bitmap)
