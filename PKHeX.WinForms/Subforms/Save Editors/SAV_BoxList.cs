@@ -13,7 +13,6 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
 
-
             // initialize boxes dynamically
             var sav = p.SAV;
 
@@ -23,12 +22,10 @@ namespace PKHeX.WinForms
             AllowDrop = true;
             AddEvents();
             CenterToParent();
-            p.ParentForm.TopMost = true;
             FormClosing += (sender, e) =>
             {
                 foreach (var b in Boxes)
                     b.M.Boxes.Remove(b);
-                p.ParentForm.TopMost = false;
             };
         }
 
@@ -65,10 +62,12 @@ namespace PKHeX.WinForms
             int height = Math.Min(5, (int)Math.Ceiling(sqrt));
             int width = (int)Math.Ceiling((float)count / height);
             Debug.Assert(height * width >= count);
+            width = Math.Min(4, width);
 
             var padWidth = Boxes[0].Margin.Horizontal * 2 + 1;
+            Width = (Boxes[0].Width + padWidth) * width - padWidth/2 + 0x10;
+
             var padHeight = Boxes[0].Margin.Vertical * 2 + 1;
-            Width = (Boxes[0].Width + padWidth) * width - padWidth/2;
             Height = (Boxes[0].Height + padHeight) * height - padHeight/2;
         }
 
