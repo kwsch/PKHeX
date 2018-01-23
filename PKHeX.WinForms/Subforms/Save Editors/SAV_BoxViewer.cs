@@ -22,6 +22,7 @@ namespace PKHeX.WinForms
                 Cursor = DefaultCursor;
                 System.Media.SystemSounds.Asterisk.Play();
             };
+            Owner = p.ParentForm;
 
             foreach (PictureBox pb in Box.SlotPictureBoxes)
                 pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;

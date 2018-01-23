@@ -22,6 +22,7 @@ namespace PKHeX.WinForms
             AllowDrop = true;
             AddEvents();
             CenterToParent();
+            Owner = p.ParentForm;
             FormClosing += (sender, e) =>
             {
                 foreach (var b in Boxes)
