@@ -305,10 +305,18 @@ namespace PKHeX.WinForms.Controls
         public void SetColor(int box, int slot, Image img)
         {
             // Update SubViews
-            foreach (var boxview in Boxes)
+            for (int b = 0; b < Boxes.Count; b++)
             {
-                if (boxview.CurrentBox != box && boxview.SlotPictureBoxes.Count == boxview.BoxSlotCount)
-                    continue;
+                var boxview = Boxes[b];
+                if (boxview.CurrentBox != box)
+                {
+                    if (b > 0 || slot < 30)
+                    {
+                        foreach (var s in boxview.SlotPictureBoxes)
+                            s.BackgroundImage = null;
+                        continue;
+                    }
+                }
                 var slots = boxview.SlotPictureBoxes;
                 for (int i = 0; i < slots.Count; i++)
                     slots[i].BackgroundImage = slot == i ? img : null;
