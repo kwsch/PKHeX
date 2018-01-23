@@ -53,6 +53,11 @@ namespace PKHeX.WinForms.Controls
             get => CB_BoxSelect.Enabled;
             set => CB_BoxSelect.Enabled = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = value;
         }
+        public bool ControlsEnabled
+        {
+            get => CB_BoxSelect.Enabled;
+            set => CB_BoxSelect.Enabled = B_BoxLeft.Enabled = B_BoxRight.Enabled = value;
+        }
         public int CurrentBox
         {
             get => CB_BoxSelect.SelectedIndex;

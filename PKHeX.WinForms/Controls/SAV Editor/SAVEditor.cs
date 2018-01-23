@@ -422,11 +422,19 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (!SAV.HasBox)
                 return;
-            if (ModifierKeys != Keys.Shift)
+            if (ModifierKeys == Keys.Shift)
             {
                 if (M.Boxes.Count > 1) // subview open
-                { var z = M.Boxes[1].ParentForm; z.CenterToForm(ParentForm); z.BringToFront(); return; }
+                {
+                    // close all subviews
+                    for (int i = 1; i < M.Boxes.Count; i++)
+                        M.Boxes[i].ParentForm.Close();
+                }
+                new SAV_BoxList(this, M).Show();
+                return;
             }
+            if (M.Boxes.Count > 1) // subview open
+            { var z = M.Boxes[1].ParentForm; z.CenterToForm(ParentForm); z.BringToFront(); return; }
             new SAV_BoxViewer(this, M).Show();
         }
         private void ClickClone(object sender, EventArgs e)

@@ -480,6 +480,12 @@
     <Compile Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.Designer.cs">
       <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxList.Designer.cs">
+      <DependentUpon>SAV_BoxList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\SAV_BoxViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -723,6 +729,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.resx">
       <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxList.resx">
+      <DependentUpon>SAV_BoxList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxViewer.resx">
       <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
