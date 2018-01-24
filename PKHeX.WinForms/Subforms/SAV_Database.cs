@@ -426,8 +426,6 @@ namespace PKHeX.WinForms
                     res = res.Where(pk => pk.Format <= 2);
                 if (format >= 3 && format <= 6) // 3-6
                     res = res.Where(pk => pk.Format >= 3);
-                if (format >= 7) // 1,3-6,7
-                    res = res.Where(pk => pk.Format != 2);
             }
 
             switch (CB_Generation.SelectedIndex)
