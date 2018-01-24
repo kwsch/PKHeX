@@ -98,7 +98,7 @@ namespace PKHeX.WinForms.Controls
                 pb.BackgroundImage = M.colorizedcolor;
         }
 
-        public void ResetBoxNames()
+        public void ResetBoxNames(int box = -1)
         {
             if (!SAV.HasBox)
                 return;
@@ -110,8 +110,10 @@ namespace PKHeX.WinForms.Controls
                 catch { getBoxNamesDefault(); }
             }
 
-            if (SAV.CurrentBox < CB_BoxSelect.Items.Count)
+            if (box < 0 && SAV.CurrentBox < CB_BoxSelect.Items.Count)
                 CurrentBox = SAV.CurrentBox; // restore selected box
+            else
+                CurrentBox = box;
 
             void getBoxNamesFromSave()
             {
@@ -169,6 +171,12 @@ namespace PKHeX.WinForms.Controls
                 return true;
             }
             return false;
+        }
+        public void ClearEvents()
+        {
+            B_BoxRight.Click -= ClickBoxRight;
+            B_BoxLeft.Click -= ClickBoxLeft;
+            CB_BoxSelect.SelectedIndexChanged -= GetBox;
         }
 
         public int GetSlot(object sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+
+using PKHeX.Core;
 using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms
@@ -41,7 +43,7 @@ namespace PKHeX.WinForms
             };
         }
 
-        private void AddControls(SAVEditor p, SlotChangeManager m, Core.SaveFile sav)
+        private void AddControls(SAVEditor p, SlotChangeManager m, SaveFile sav)
         {
             for (int i = 0; i < sav.BoxCount; i++)
             {
@@ -50,9 +52,27 @@ namespace PKHeX.WinForms
                     pb.ContextMenuStrip = p.SlotPictureBoxes[0].ContextMenuStrip;
                 boxEditor.Setup(m);
                 boxEditor.CurrentBox = i;
-                boxEditor.ControlsEnabled = false;
+                boxEditor.CB_BoxSelect.Enabled = false;
                 Boxes.Add(boxEditor);
                 FLP_Boxes.Controls.Add(Boxes[i]);
+            }
+
+            // Setup swapping
+            foreach (var box in Boxes)
+            {
+                box.ClearEvents();
+                box.B_BoxLeft.Click += (s, e) =>
+                {
+                    int index = Boxes.FindIndex(z => z == ((Button)s).Parent);
+                    int other = (index + Boxes.Count - 1) % Boxes.Count;
+                    m.SwapBoxes(index, other);
+                };
+                box.B_BoxRight.Click += (s, e) =>
+                {
+                    int index = Boxes.FindIndex(z => z == ((Button)s).Parent);
+                    int other = (index + 1) % Boxes.Count;
+                    m.SwapBoxes(index, other);
+                };
             }
         }
 

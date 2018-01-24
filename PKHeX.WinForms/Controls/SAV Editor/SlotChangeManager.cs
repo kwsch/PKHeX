@@ -403,6 +403,22 @@ namespace PKHeX.WinForms.Controls
             SE.SetParty();
         }
 
+        // Utility
+        public void SwapBoxes(int index, int other)
+        {
+            if (index == other)
+                return;
+            SAV.SwapBox(index, other);
+
+            foreach (var box in Boxes)
+            {
+                if (box.CurrentBox != index && box.CurrentBox != other)
+                    continue;
+                box.ResetSlots();
+                box.ResetBoxNames(box.CurrentBox);
+            }
+        }
+
         public void Dispose()
         {
             SE?.Dispose();

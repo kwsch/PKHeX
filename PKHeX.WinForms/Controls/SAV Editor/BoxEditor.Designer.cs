@@ -574,8 +574,8 @@
         private System.Windows.Forms.PictureBox bpkx3;
         private System.Windows.Forms.PictureBox bpkx2;
         private System.Windows.Forms.PictureBox bpkx1;
-        private System.Windows.Forms.Button B_BoxRight;
-        private System.Windows.Forms.Button B_BoxLeft;
-        private System.Windows.Forms.ComboBox CB_BoxSelect;
+        public System.Windows.Forms.Button B_BoxRight;
+        public System.Windows.Forms.Button B_BoxLeft;
+        public System.Windows.Forms.ComboBox CB_BoxSelect;
     }
 }
