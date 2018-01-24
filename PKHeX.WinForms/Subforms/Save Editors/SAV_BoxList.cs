@@ -45,7 +45,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < sav.BoxCount; i++)
             {
-                var boxEditor = new BoxEditor { Name = $"BE_Box{i:00}" };
+                var boxEditor = new BoxEditor { Name = $"BE_Box{i:00}", Margin = new Padding(1) };
                 foreach (PictureBox pb in boxEditor.SlotPictureBoxes)
                     pb.ContextMenuStrip = p.SlotPictureBoxes[0].ContextMenuStrip;
                 boxEditor.Setup(m);
