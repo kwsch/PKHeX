@@ -1220,10 +1220,16 @@ namespace PKHeX.WinForms.Controls
             if (CHK_Cured.Checked) return;
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
             if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; Label_PKRSdays.Visible = CB_PKRSDays.Visible = false; }
-            else if (CB_PKRSStrain.SelectedIndex == 0) { CB_PKRSStrain.SelectedIndex = 1; Label_PKRSdays.Visible = CB_PKRSDays.Visible = true; UpdatePKRSCured(sender, e); }
+            else if (CB_PKRSStrain.SelectedIndex == 0)
+            {
+                CB_PKRSStrain.SelectedIndex = CB_PKRSDays.SelectedIndex = 1;
+                Label_PKRSdays.Visible = CB_PKRSDays.Visible = true;
+                UpdatePKRSCured(sender, e);
+            }
 
             // if not cured yet, days > 0
-            if (CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0) CB_PKRSDays.SelectedIndex++;
+            if (CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0 && !CHK_Cured.Checked)
+                CB_PKRSDays.SelectedIndex++;
         }
         private void UpdateCountry(object sender, EventArgs e)
         {
