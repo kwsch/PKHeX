@@ -34,8 +34,7 @@ namespace PKHeX.Core
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra { get; set; }
         public static bool AllowGen1Tradeback { get; set; }
-        public static bool AllowGen2VCCrystal => false;
-        public static bool AllowGen2Crystal(bool Korean) => !Korean && (AllowGBCartEra || AllowGen2VCCrystal); // Pokemon Crystal was never released in Korea
+        public static bool AllowGen2Crystal(bool Korean) => !Korean; // Pokemon Crystal was never released in Korea
         public static bool AllowGen2Crystal(PKM pkm) => AllowGen2Crystal(pkm.Korean);
         public static bool AllowGen2MoveReminder(PKM pkm) => !pkm.Korean && AllowGBCartEra; // Pokemon Stadium 2 was never released in Korea
 

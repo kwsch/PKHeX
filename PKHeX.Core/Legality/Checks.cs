@@ -651,7 +651,7 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
 
-            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || pkm.Format > 2 && !Legal.AllowGen2VCCrystal))
+            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || pkm.Format > 2))
                 AddLine(Severity.Invalid, V408, CheckIdentifier.Trainer);
         }
         private void VerifyG1OTWithinBounds(string str)

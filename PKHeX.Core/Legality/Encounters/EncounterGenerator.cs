@@ -1573,7 +1573,7 @@ namespace PKHeX.Core
         {
             if (pkm.VC1)
                 return GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
-            if (pkm.VC2 && (pkm.Version != (int)GameVersion.C || AllowGen2VCCrystal))
+            if (pkm.VC2)
                 return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
             return new EncounterInvalid(pkm);
         }
