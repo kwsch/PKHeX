@@ -692,9 +692,9 @@ namespace PKHeX.Core
 
                         case (int)GameVersion.FR:
                         case (int)GameVersion.LG:
-                            return s.Roaming ? val == PIDType.Method_1_Roamer : val == PIDType.Method_1; // roamer glitch
+                            return s.Roaming ? val.IsRoamerPIDIV(pkm) : val == PIDType.Method_1; // roamer glitch
                         default: // RS, roamer glitch && RSBox s/w emulation => method 4 available
-                            return s.Roaming ? val == PIDType.Method_1_Roamer : MethodH14.Any(z => z == val);
+                            return s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Any(z => z == val);
                     }
                 case EncounterSlot w:
                     if (pkm.Version == 15)
@@ -703,6 +703,17 @@ namespace PKHeX.Core
                 default:
                     return val == PIDType.None;
             }
+        }
+        private static bool IsRoamerPIDIV(this PIDType val, PKM pkm)
+        {
+            // Roamer PIDIV is always Method 1.
+            // M1 is checked before M1R. A M1R PIDIV can also be a M1 PIDIV, so check that collision.
+            if (PIDType.Method_1_Roamer == val)
+                return true;
+            if (PIDType.Method_1 != val)
+                return false;
+            var IVs = pkm.IVs;
+            return !(IVs.Skip(2).Any(iv => iv != 0) || IVs[1] > 7);
         }
         public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
         {
