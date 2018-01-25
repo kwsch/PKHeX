@@ -1226,10 +1226,6 @@ namespace PKHeX.WinForms.Controls
                 Label_PKRSdays.Visible = CB_PKRSDays.Visible = true;
                 UpdatePKRSCured(sender, e);
             }
-
-            // if not cured yet, days > 0
-            if (CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0 && !CHK_Cured.Checked)
-                CB_PKRSDays.SelectedIndex++;
         }
         private void UpdateCountry(object sender, EventArgs e)
         {

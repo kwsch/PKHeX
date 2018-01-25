@@ -464,8 +464,8 @@ namespace PKHeX.WinForms
             if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
             if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            if (CHK_IsEgg.CheckState == CheckState.Checked && string.IsNullOrWhiteSpace(MT_ESV.Text))
-                res = res.Where(pk => pk.PSV == Convert.ToInt16(MT_ESV.Text));
+            if (CHK_IsEgg.CheckState == CheckState.Checked && int.TryParse(MT_ESV.Text, out int esv))
+                res = res.Where(pk => pk.PSV == esv);
 
             // Tertiary Searchables
             res = FilterByLVL(res, CB_Level.SelectedIndex, TB_Level.Text);
