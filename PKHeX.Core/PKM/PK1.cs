@@ -34,7 +34,14 @@ namespace PKHeX.Core
         public override bool Japanese => otname.Length == STRLEN_J;
         public override bool Korean => false;
 
-        public override string FileName => $"{Species:000} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
+        public override string FileName
+        {
+            get
+            {
+                string star = IsShiny ? " ★" : "";
+                return $"{Species:000}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
+            }
+        }
 
         public PK1(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
