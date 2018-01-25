@@ -363,6 +363,11 @@ namespace PKHeX.WinForms
                 .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
                 .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
                 .Distinct());
+
+            // Load stats for pkm who do not have any
+            foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
+                pk.SetStats(pk.GetStats(pk.PersonalInfo));
+
             try
             {
                 BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
