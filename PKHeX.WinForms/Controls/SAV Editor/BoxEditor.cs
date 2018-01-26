@@ -124,7 +124,7 @@ namespace PKHeX.WinForms.Controls
             void getBoxNamesDefault()
             {
                 CB_BoxSelect.Items.Clear();
-                for (int i = 0; i <= SAV.BoxCount; i++)
+                for (int i = 0; i < SAV.BoxCount; i++)
                     CB_BoxSelect.Items.Add($"Box {i+1}");
             }
         }
