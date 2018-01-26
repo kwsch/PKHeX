@@ -1606,7 +1606,7 @@ namespace PKHeX.Core
                 EggLocation = 0,
                 IV3 = true,
                 Level = pkmMetLevel,
-                Version = GameVersion.GS
+                Version = GameVersion.GSC
             };
         }
         internal static bool IsEncounterTrade1Valid(PKM pkm)

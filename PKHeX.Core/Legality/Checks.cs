@@ -544,7 +544,7 @@ namespace PKHeX.Core
             {
                 int IVCount = 3;
                 if (s.Version == GameVersion.RBY && pkm.Species == 151 // VC Mew
-                    || s.Version == GameVersion.C && pkm.Species == 251) // VC Celebi
+                    || s.Version == GameVersion.GSC && pkm.Species == 251) // VC Celebi
                     IVCount = 5;
                 if (pkm.IVs.Count(iv => iv == 31) < IVCount)
                 {
