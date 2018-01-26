@@ -543,8 +543,9 @@ namespace PKHeX.Core
             if (EncounterMatch is EncounterStatic s && s.IV3)
             {
                 int IVCount = 3;
-                if (s.Version == GameVersion.RBY && pkm.Species == 151)
-                    IVCount = 5; // VC Mew
+                if (s.Version == GameVersion.RBY && pkm.Species == 151 // VC Mew
+                    || s.Version == GameVersion.C && pkm.Species == 251) // VC Celebi
+                    IVCount = 5;
                 if (pkm.IVs.Count(iv => iv == 31) < IVCount)
                 {
                     AddLine(Severity.Invalid, string.Format(V28, IVCount), CheckIdentifier.IVs);
