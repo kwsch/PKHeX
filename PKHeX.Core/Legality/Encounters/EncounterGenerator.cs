@@ -137,14 +137,14 @@ namespace PKHeX.Core
                     deferred.Add(s);
                     continue;
                 }
-                if (s.Version == GameVersion.EventsGBGen2 && s.Species != 251)
+                if (s.Version == GameVersion.EventsGBGen2)
                 {
                     // no Gen2 events outside of Japan besides Celebi
                     if (pkm.Japanese)
                         deferred.Add(s);
                     continue;
                 }
-                if (gsc && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
+                if (gsc && pkm.Format == 2 && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
                     continue;
                 yield return new GBEncounterData(pkm, gen, s, s.Version);
             }
@@ -1600,7 +1600,7 @@ namespace PKHeX.Core
                 Species = species,
                 Gift = true, // Forces Poké Ball
                 Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = species == 151 || species == 251 ? (bool?)false : null,
+                Shiny = species == 151 ? (bool?)false : null,
                 Fateful = species == 151 || species == 251,
                 Location = Transfer2,
                 EggLocation = 0,
