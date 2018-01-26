@@ -1261,10 +1261,11 @@ namespace PKHeX.WinForms.Controls
         private void UpdateOriginGame(object sender, EventArgs e)
         {
             GameVersion Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
-
             // check if differs
             GameVersion newTrack = GameUtil.GetMetLocationVersionGroup(Version);
-            if (pkm.Format < 3)
+            if (newTrack == GameVersion.GSC && pkm.Format >= 7)
+                newTrack = GameVersion.USUM;
+            else if (pkm.Format < 3)
                 newTrack = GameVersion.GSC;
             if (newTrack != origintrack)
             {

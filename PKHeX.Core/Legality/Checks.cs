@@ -628,7 +628,7 @@ namespace PKHeX.Core
                 AddLine(Severity.Fishy, V417, CheckIdentifier.Trainer);
 
             if (pkm.VC)
-                VerifyG1OT();
+                VerifyOTG1();
 
             if (Legal.CheckWordFilter)
             {
@@ -638,7 +638,7 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Trainer);
             }
         }
-        private void VerifyG1OT()
+        private void VerifyOTG1()
         {
             string tr = pkm.OT_Name;
 
@@ -907,6 +907,22 @@ namespace PKHeX.Core
                 AddLine(Severity.Fishy, V87, CheckIdentifier.Level);
             else
                 AddLine(Severity.Valid, V88, CheckIdentifier.Level);
+        }
+        private void VerifyLevelG1()
+        {
+            if (pkm.IsEgg)
+            {
+                int elvl = Legal.GetEggHatchLevel(pkm);
+                if (elvl != pkm.CurrentLevel)
+                    AddLine(Severity.Invalid, string.Format(V52, elvl), CheckIdentifier.Level);
+                return;
+            }
+            if (pkm.Met_Location != 0) // crystal
+            {
+                int lvl = pkm.CurrentLevel;
+                if (lvl < pkm.Met_Level)
+                    AddLine(Severity.Invalid, V85, CheckIdentifier.Level);
+            }
 
             // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
             // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked

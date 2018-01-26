@@ -16,19 +16,19 @@ namespace PKHeX.Core
             if (info.Generation < 6 || pkm.VC1)
                 return VerifyRelearnNone(pkm, info);
 
-            if (info.EncounterMatch is EncounterLink l)
-                return VerifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
-            if (info.EncounterMatch is MysteryGift g)
-                return VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
-            if (info.EncounterMatch is EncounterStatic s)
-                return VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
-
-            if (info.EncounterMatch is EncounterEgg e)
-                return VerifyRelearnEggBase(pkm, info, e);
-
-            if (pkm.RelearnMove1 != 0 && info.EncounterMatch is EncounterSlot z && z.Permissions.DexNav && EncounterGenerator.IsDexNavValid(pkm))
-                return VerifyRelearnDexNav(pkm, info);
-
+            switch (info.EncounterMatch)
+            {
+                case EncounterLink l:
+                    return VerifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
+                case MysteryGift g:
+                    return VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
+                case EncounterStatic s:
+                    return VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
+                case EncounterEgg e:
+                    return VerifyRelearnEggBase(pkm, info, e);
+                case EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav && EncounterGenerator.IsDexNavValid(pkm):
+                    return VerifyRelearnDexNav(pkm, info);
+            }
             return VerifyRelearnNone(pkm, info);
         }
 

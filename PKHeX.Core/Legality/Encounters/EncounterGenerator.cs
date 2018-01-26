@@ -182,8 +182,8 @@ namespace PKHeX.Core
         private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
             bool crystal = pkm.Format == 2 && pkm.Met_Location != 0 || pkm.Format >= 7 && pkm.OT_Gender == 1;
-            var g1i = new PeekEnumerator<GBEncounterData>(get1().GetEnumerator());
-            var g2i = new PeekEnumerator<GBEncounterData>(get2().GetEnumerator());
+            var g1i = new PeekEnumerator<GBEncounterData>(get1());
+            var g2i = new PeekEnumerator<GBEncounterData>(get2());
             var deferred = new List<GBEncounterData>();
             while (g2i.PeekIsNext() || g1i.PeekIsNext())
             {

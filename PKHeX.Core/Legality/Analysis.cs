@@ -139,7 +139,8 @@ namespace PKHeX.Core
             VerifyNickname();
             VerifyDVs();
             VerifyEVs();
-            VerifyG1OT();
+            VerifyLevelG1();
+            VerifyOTG1();
             VerifyMiscG1();
         }
         private void ParsePK3(PKM pk)

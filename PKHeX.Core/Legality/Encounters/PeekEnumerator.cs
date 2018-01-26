@@ -43,6 +43,7 @@ namespace PKHeX.Core
         #endregion
         
         public PeekEnumerator(IEnumerator<T> enumerator) => Enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
+        public PeekEnumerator(IEnumerable<T> enumerable) => Enumerator = enumerable.GetEnumerator();
 
         /// <summary>
         /// Fetch the next element, if not already performed.

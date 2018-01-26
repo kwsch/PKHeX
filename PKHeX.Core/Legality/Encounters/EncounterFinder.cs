@@ -25,7 +25,7 @@ namespace PKHeX.Core
             LegalInfo info = new LegalInfo(pkm);
             var encounters = EncounterGenerator.GetEncounters(pkm, info);
 
-            using (var encounter = new PeekEnumerator<IEncounterable>(encounters.GetEnumerator()))
+            using (var encounter = new PeekEnumerator<IEncounterable>(encounters))
             {
                 if (!encounter.PeekIsNext())
                     return VerifyWithoutEncounter(pkm, info);
