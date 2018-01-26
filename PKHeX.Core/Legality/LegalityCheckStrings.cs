@@ -201,7 +201,7 @@ namespace PKHeX.Core
         public static string V78 {get; set;} = "Unable to match to a Mystery Gift in the database."; // Invalid
         public static string V80 {get; set;} = "Unable to match an encounter from origin game."; // Invalid
         public static string V81 {get; set;} = "Invalid Transfer Met Location."; // Invalid
-        public static string V82 {get; set;} = "Mewtwo cannot be transferred while knowing Pay Day."; // Invalid
+        public static string V82 {get; set;} = "Incompatible transfer move."; // Invalid
 
         public static string V88 {get; set;} = "Current level is not below met level.";
         public static string V83 {get; set;} = "Met Level does not match Mystery Gift level.";

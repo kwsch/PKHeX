@@ -452,12 +452,8 @@ namespace PKHeX.Core
             {
                 var moves = pk7.Moves;
                 var index = Array.IndexOf(moves, 6);
-                if (index != -1)
-                {
-                    moves[index] = 0;
-                    pk7.Moves = moves;
-                    pk7.FixMoves();
-                }
+                if (index != -1) // convert from GSC to preserve moves since Pay Day cannot transfer 1->7 (but can 2->7)
+                    return ConvertToPK2().ConvertToPK7();
             }
             
             pk7.RefreshChecksum();

@@ -475,6 +475,18 @@ namespace PKHeX.Core
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
 
+            // Dizzy Punch cannot be transferred
+            {
+                var moves = pk7.Moves;
+                var index = Array.IndexOf(moves, 146); // Dizzy Punch
+                if (index != -1)
+                {
+                    moves[index] = 0;
+                    pk7.Moves = moves;
+                    pk7.FixMoves();
+                }
+            }
+
             pk7.RefreshChecksum();
             return pk7;
         }

@@ -809,7 +809,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer)
+        private static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             // Check existing EncounterMatch
             if (encounter == null || transfer == null)
@@ -828,8 +828,29 @@ namespace PKHeX.Core
             if (pkm.Egg_Location != transfer.EggLocation)
                 yield return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
 
-            if (encounter.Species == 150 && pkm.Moves.Contains(6)) // pay day
-                yield return new CheckResult(Severity.Invalid, V82, CheckIdentifier.Encounter);
+            // Flag Moves that cannot be transferred
+            if (encounter.Species == 150 && pkm.VC1)
+            {
+                // can't have pay day if transferred from VC1
+                int index = Array.IndexOf(pkm.Moves, 6); // pay day
+                if (index >= 0)
+                {
+                    var chk = Moves[index];
+                    if (chk.Generation == 1) // not obtained from a future gen
+                        Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, V82, CheckIdentifier.Move);
+                }
+            }
+            else if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
+            {
+                // can't have Dizzy Punch at all
+                int index = Array.IndexOf(pkm.Moves, 146); // Dizzy Punch
+                if (index >= 0)
+                {
+                    var chk = Moves[index];
+                    if (chk.Generation == 2) // not obtained from a future gen
+                        Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, V82, CheckIdentifier.Move);
+                }
+            }
 
             bool checkShiny = pkm.VC2 || pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1;
             if (!checkShiny)

@@ -215,7 +215,7 @@ namespace PKHeX.Core
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
 
-            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB, s))
+            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
                 AddLine(z);
         }
         private void UpdateInfo()
