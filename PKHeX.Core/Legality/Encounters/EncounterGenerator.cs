@@ -132,20 +132,25 @@ namespace PKHeX.Core
             foreach (var s in GetValidStaticEncounter(pkm, game).Where(z => species.Contains(z.Species)))
             {
                 // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
-                if (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2)
+                switch (s.Version)
                 {
-                    deferred.Add(s);
-                    continue;
-                }
-                if (s.Version == GameVersion.EventsGBGen2)
-                {
-                    // no Gen2 events outside of Japan besides Celebi
-                    if (pkm.Japanese)
+                    case GameVersion.Stadium:
+                    case GameVersion.Stadium2:
                         deferred.Add(s);
-                    continue;
+                        continue;
+                    case GameVersion.EventsGBGen2:
+                        if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
+                            continue;
+                        if (pkm.Japanese)
+                            deferred.Add(s);
+                        continue;
+                    case GameVersion.C when gsc && pkm.Format == 2: // Crystal specific data needs to be present
+                        if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
+                            continue;
+                        if (s.Species == 251 && AllowGBCartEra) // no celebi, the GameVersion.EventsGBGen2 will pass thru
+                            continue;
+                        break;
                 }
-                if (gsc && pkm.Format == 2 && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
-                    continue;
                 yield return new GBEncounterData(pkm, gen, s, s.Version);
             }
             foreach (var e in GetValidWildEncounters(pkm, game).OfType<EncounterSlot1>())
