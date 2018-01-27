@@ -1,3 +1,4 @@
 0190	Kurt can check GS Ball
 0191	Kurt ready to return GS Ball (combine with above Flag)
 0192	GS Ball can be inserted into Ilex Forest Shrine
+0830	Received Odd Egg
