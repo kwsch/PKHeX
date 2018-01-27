@@ -179,7 +179,7 @@ namespace PKHeX.WinForms
                 int offset = SAV.GetBoxOffset(box) + slot*SAV.SIZE_STORED;
                 PKM pkSAV = SAV.GetStoredSlot(offset);
 
-                if (!pkSAV.Data.Take(pkSAV.SIZE_STORED).SequenceEqual(pk.Data)) // data still exists in SAV, unmodified
+                if (!pkSAV.DecryptedBoxData.SequenceEqual(pk.DecryptedBoxData)) // data still exists in SAV, unmodified
                 {
                     WinFormsUtil.Error("Database slot data does not match save data!", "Don't move Pokémon after initializing the Database, please re-open the Database viewer.");
                     return;
