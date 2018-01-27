@@ -667,7 +667,7 @@ namespace PKHeX.Core
                 if (str.Length > 5)
                     AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
             }
-            else if (pkm is PK2 pk2 && pk2.Korean)
+            else if (pkm.Korean && StringConverter.GetIsG2Korean(str))
             {
                 if (str.Length > 5)
                     AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
@@ -688,6 +688,11 @@ namespace PKHeX.Core
             {
                 if (str.Length > 5)
                     AddLine(Severity.Invalid, V1, CheckIdentifier.Trainer);
+            }
+            else if (pkm.Korean && StringConverter.GetIsG2Korean(str))
+            {
+                if (str.Length > 5)
+                    AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
             }
             else
             {
