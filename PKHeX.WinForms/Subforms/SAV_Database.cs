@@ -529,11 +529,11 @@ namespace PKHeX.WinForms
             switch (option)
             {
                 case 0: break; // Any (Do nothing)
-                case 1: // <=
+                case 3: // <=
                     return res.Where(pk => pk.Stat_Level <= level);
                 case 2: // == 
                     return res.Where(pk => pk.Stat_Level == level);
-                case 3: // >=
+                case 1: // >=
                     return res.Where(pk => pk.Stat_Level >= level);
             }
             return res;
