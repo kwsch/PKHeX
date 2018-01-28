@@ -381,20 +381,15 @@ namespace PKHeX.Core
 
             if (e.Version == GameVersion.Stadium)
             {
-                switch (e.Species)
-                {
-                    default:
-                        return Stadium_CatchRate.Contains(catch_rate);
-                    case 054: // Psyduck
-                        // Amnesia Psyduck has different catch rates depending on language
-                        return catch_rate == (pk1.Japanese ? 167 : 168);
-                }
+                // Amnesia Psyduck has different catch rates depending on language
+                if (e.Species == 054)
+                    return catch_rate == (pk1.Japanese ? 167 : 168);
+                return Stadium_CatchRate.Contains(catch_rate);
             }
 
             // Encounters can have different Catch Rates (RBG vs Y)
-            var rate = e.Version == GameVersion.Y
-                ? PersonalTable.Y[e.Species].CatchRate
-                : PersonalTable.RB[e.Species].CatchRate;
+            var table = e.Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            var rate = table[e.Species].CatchRate;
             return catch_rate == rate;
         }
         private static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
