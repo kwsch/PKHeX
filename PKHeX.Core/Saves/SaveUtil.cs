@@ -1137,5 +1137,25 @@ namespace PKHeX.Core
 
             return true;
         }
+
+        /// <summary>
+        /// Sets the details of a path to a <see cref="SaveFile"/> object.
+        /// </summary>
+        /// <param name="sav">Save File to set path details to.</param>
+        /// <param name="path">Full Path of the file</param>
+        public static void SetFileInfo(this SaveFile sav, string path)
+        {
+            if (!sav.Exportable) // Blank save file
+            {
+                sav.FilePath = null;
+                sav.FileName = "Blank Save File";
+                return;
+            }
+
+            sav.FilePath = Path.GetDirectoryName(path);
+            sav.FileName = Path.GetExtension(path) == ".bak"
+                ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
+                : Path.GetFileName(path);
+        }
     }
 }

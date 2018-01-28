@@ -736,7 +736,8 @@ namespace PKHeX.WinForms
             if (sav == null || sav.Version == GameVersion.Invalid)
             { WinFormsUtil.Error("Invalid save file loaded. Aborting.", path); return; }
 
-            if (!SanityCheckSAV(ref sav, path))
+            sav.SetFileInfo(path);
+            if (!SanityCheckSAV(ref sav))
                 return;
             StoreLegalSaveGameData(sav);
             PKMUtil.Initialize(sav); // refresh sprite generator
@@ -751,7 +752,7 @@ namespace PKHeX.WinForms
 
             ResetSAVPKMEditors(sav);
 
-            Text = GetProgramTitle(sav, path);
+            Text = GetProgramTitle(sav);
             TryBackupExportCheck(sav, path);
 
             PKMConverter.UpdateConfig(sav.SubRegion, sav.Country, sav.ConsoleRegion, sav.OT, sav.Gender, sav.Language);
@@ -783,7 +784,7 @@ namespace PKHeX.WinForms
             PKME_Tabs.TemplateFields(LoadTemplate(sav));
             sav.Edited = false;
         }
-        private static string GetProgramTitle(SaveFile sav, string path)
+        private static string GetProgramTitle(SaveFile sav)
         {
 #if DEBUG
             var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
@@ -793,16 +794,7 @@ namespace PKHeX.WinForms
 #endif
             string title = $"PKH{(HaX ? "a" : "e")}X ({date}) - {sav.GetType().Name}: ";
             if (!sav.Exportable) // Blank save file
-            {
-                sav.FilePath = null;
-                sav.FileName = "Blank Save File";
                 return title + $"{sav.FileName} [{sav.OT} ({sav.Version})]";
-            }
-
-            sav.FilePath = Path.GetDirectoryName(path);
-            sav.FileName = Path.GetExtension(path) == ".bak"
-                ? Path.GetFileName(path).Split(new[] {" ["}, StringSplitOptions.None)[0]
-                : Path.GetFileName(path);
             return title + $"{Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName))}"; // more descriptive
         }
         private static bool TryBackupExportCheck(SaveFile sav, string path)
@@ -827,12 +819,12 @@ namespace PKHeX.WinForms
                 "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             return false;
         }
-        private static bool SanityCheckSAV(ref SaveFile sav, string path)
+        private static bool SanityCheckSAV(ref SaveFile sav)
         {
             // Finish setting up the save file.
             if (sav.Generation < 3)
             {
-                bool vc = path.EndsWith("dat");
+                bool vc = sav.FileName.EndsWith("dat");
                 Legal.AllowGBCartEra = !vc; // physical cart selected
                 Legal.AllowGen1Tradeback = true;
                 if (Legal.AllowGBCartEra && sav.Generation == 1)
