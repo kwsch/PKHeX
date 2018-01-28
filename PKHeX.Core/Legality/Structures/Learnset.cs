@@ -35,33 +35,24 @@ namespace PKHeX.Core
         /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
         /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
         /// <param name="level">The level the Pokémon was encountered at.</param>
-        /// <param name="count">The amount of move slots to return.</param>
         /// <returns>Array of Move IDs</returns>
-        public int[] GetEncounterMoves(int level, int count = 4)
+        public int[] GetEncounterMoves(int level)
         {
-            if (count == 0 || Moves.Length == 0)
-                return new int[0];
-            int end = Array.FindLastIndex(Levels, z => z <= level);
-            if (end < 0)
-                return new int[0];
-
-            // Moves can be duplicated in the learnset.
-            // When generating the encounter, loop backwards until all moves are filled or no moves are left.
-            // Insert moves in reverse so that the first move is from the earliest position in the learnset.
-            int[] result = new int[count];
-            var list = new List<int>{Moves[end]};
-            while (end-- > 0)
+            const int count = 4;
+            IList<int> moves = new int[count];
+            int ctr = 0;
+            for (int i = 0; i < Moves.Length; i++)
             {
-                int move = Moves[end];
-                if (list.Contains(move))
+                if (Levels[i] > level)
+                    break;
+                int move = Moves[i];
+                if (moves.Contains(move))
                     continue;
 
-                list.Insert(0, move);
-                if (list.Count == count)
-                    break;
+                moves[ctr++] = move;
+                ctr &= 3;
             }
-            list.CopyTo(result);
-            return result;
+            return (int[])moves;
         }
         /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
         /// <remarks>Helps determine the minimum level an encounter can be at.</remarks>
