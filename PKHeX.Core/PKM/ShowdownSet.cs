@@ -334,7 +334,10 @@ namespace PKHeX.Core
                 string type = moveString.Remove(0, 13);
                 type = ReplaceAll(type, string.Empty, "[", "]", "(", ")"); // Trim out excess data
                 int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
-                if (hpVal >= 0)
+
+                if (IVs.Any(z => z != 31))
+                { } // don't modify IVs
+                else if (hpVal >= 0)
                     IVs = PKX.SetHPIVs(hpVal, IVs); // Get IVs
                 else
                     InvalidLines.Add($"Invalid Hidden Power Type: {type}");
