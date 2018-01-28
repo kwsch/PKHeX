@@ -366,7 +366,10 @@ namespace PKHeX.WinForms
 
             // Load stats for pkm who do not have any
             foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
+            {
+                pk.Stat_Level = pk.CurrentLevel;
                 pk.SetStats(pk.GetStats(pk.PersonalInfo));
+            }
 
             try
             {
