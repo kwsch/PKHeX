@@ -18563,6 +18563,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _744_1s {
+            get {
+                object obj = ResourceManager.GetObject("_744_1s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _744s {
             get {
                 object obj = ResourceManager.GetObject("_744s", resourceCulture);
@@ -22892,15 +22902,17 @@ namespace PKHeX.WinForms.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
-        ///http://projectpokemon.org/pkhex
+        ///http://projectpokemon.org/pkhex/
         ///
-        ///17/12/05 - New Update:
+        ///17/01/28 - New Update:
         /// - Legality:
-        /// - - Added: RNG Frame checking for Gen3/4 Wild Captures (hold ctrl to see if it doesn&apos;t pass)
-        /// - - Added: French Legality translation data. Thanks @Ntonio36!
+        /// - - Added: Crystal transfer legality.
         /// - - Changed: Another round of legality check updates. Thanks (so many different users)!
-        /// - Added: Event flag editing for Crystal/GS. Thanks @pokecal!
-        /// - Added: US/UM Starter Encryption Constant editing (for Pokemon League cutscene) in HoF editor. Thanks  [rest of string was truncated]&quot;;.
+        /// - Added: Shiny recolored sprites for all pkm that are shiny. Thanks @msikma (dada)!
+        /// - Added: All Box viewer (hold shift and double click the Box Tab). Can switch entire boxes!
+        /// - Added: Gen5 C-Gear Skin editing.
+        /// - Added: Gen5 Box Name/Wallpaper editing.
+        /// - Added: Gen4 Coin Case  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {

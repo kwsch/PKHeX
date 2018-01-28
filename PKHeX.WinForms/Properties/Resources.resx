@@ -9160,4 +9160,7 @@
   <data name="_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Shiny Pokemon Sprites\_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="_744_1s" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Shiny Pokemon Sprites\744-1s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
