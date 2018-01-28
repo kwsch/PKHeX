@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-17/12/05 - New Update:
+18/01/28 - New Update:
+ - Legality:
+ - - Added: Crystal transfer legality.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Shiny recolored sprites for all pkm that are shiny. Thanks @msikma (dada)!
+ - Added: All Box viewer (hold shift and double click the Box Tab). Can switch entire boxes!
+ - Added: Gen5 C-Gear Skin editing.
+ - Added: Gen5 Box Name/Wallpaper editing.
+ - Added: Gen4 Coin Case editing. Thanks @sora10pls!
+ - Added: Gen2 Event Flag editing for Crystal GS Ball event. Thanks @sora10pls!
+ - Fixed: Gen7 Roto Powers can now be held items. Thanks @ReignOfComputer!
+ - Fixed: Gen6 Super Training record indexes are no longer off by two. Thanks @Ammako!
+ - Fixed: Gen4 Pokewalker course unlock-all no longer sets 8 bits too many.
+ - Fixed: Gen3 Importing showdown sets no longer errors for non-specified abilities.
+ - Fixed: Gen2 Unown Dex not setting a valid first-seen unown forme. Thanks BeyondTheHorizon!
+ - Fixed: Database view search/delete behavior fixed. Thanks @NinFanBoyFTW!
+ - Fixed: Loading non-mainseries games no longer causes some tabs to load incorrectly.
+ - Changed: Updated internals for faster data handling (pkm crypto, save loading).
+ - Changed: Updated JP/KO translation files. Thanks @smileynation & lilymaniac!
+ - Changed: Updated pkrs/pentagon sprites. Thanks @sora10pls!
+
+17/12/05 - New Update: (105544) [989568]
  - Legality:
  - - Added: RNG Frame checking for Gen3/4 Wild Captures (hold ctrl to see if it doesn't pass)
  - - Added: French Legality translation data. Thanks @Ntonio36!
