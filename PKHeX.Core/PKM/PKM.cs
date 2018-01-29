@@ -964,10 +964,10 @@ namespace PKHeX.Core
             // Only transfer declared properties not defined in PKM.cs but in the actual type
             var SourceProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Source.GetType());
             var DestinationProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Destination.GetType());
-            foreach (string property in SourceProperties.Intersect(DestinationProperties))
+            foreach (string property in SourceProperties.Intersect(DestinationProperties).Reverse())
             {
                 var prop = ReflectUtil.GetValue(this, property);
-                if (prop != null)
+                if (prop != null && !(prop is byte[]))
                     ReflectUtil.SetValue(Destination, property, prop);
             }
         }

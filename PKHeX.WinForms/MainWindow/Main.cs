@@ -39,7 +39,10 @@ namespace PKHeX.WinForms
             Show();
             WindowState = FormWindowState.Normal;
             if (HaX)
+            {
+                PKMConverter.AllowIncompatibleConversion = true;
                 WinFormsUtil.Alert("Illegal mode activated.", "Please behave.");
+            }
             else if (showChangelog)
                 new About().ShowDialog();
 
@@ -100,8 +103,10 @@ namespace PKHeX.WinForms
             BAKprompt = false;
 
             CB_MainLanguage.Items.AddRange(main_langlist);
-            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
+            HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
                 || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).EndsWith(nameof(HaX));
+
+            PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
             PB_Legal.Visible = !HaX;
 
             int languageID = 1; // English

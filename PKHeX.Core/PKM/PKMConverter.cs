@@ -16,6 +16,7 @@ namespace PKHeX.Core
         public static string OT_Name { get; private set; } = "PKHeX";
         public static int OT_Gender { get; private set; } // Male
         public static int Language { get; private set; } = 1; // en
+        public static bool AllowIncompatibleConversion { private get; set; }
 
         public static void UpdateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER, int LANGUAGE)
         {
@@ -213,6 +214,21 @@ namespace PKHeX.Core
                 return pk;
             }
 
+            var pkm = ConvertPKM(pk, PKMType, fromType, out comment);
+            if (!AllowIncompatibleConversion || pkm != null)
+                return pkm;
+
+            // Try Incompatible Conversion
+            pkm = GetBlank(PKMType);
+            TransferProperties(pk, pkm);
+            if (!SaveUtil.IsPKMCompatibleWithModifications(pkm))
+                return null;
+            comment = "Converted via reflection.";
+            return pkm;
+        }
+
+        private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, out string comment)
+        {
             if (IsNotTransferrable(pk, out comment))
                 return null;
 
@@ -226,6 +242,17 @@ namespace PKHeX.Core
                 return null;
             }
 
+            var pkm = ConvertPKM(pk, PKMType, fromType, toFormat, ref comment);
+
+            comment = pkm == null
+                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
+                : $"Converted from {fromType.Name} to {PKMType.Name}.";
+            return pkm;
+        }
+
+
+        private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, int toFormat, ref string comment)
+        {
             PKM pkm = pk.Clone();
             if (pkm.IsEgg)
                 ForceHatchPKM(pkm);
@@ -246,7 +273,7 @@ namespace PKHeX.Core
                         if (pk.Species > 151)
                         {
                             comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, pkm.Japanese ? 1 : 2)} to {PKMType.Name}";
-                            return null;
+                            return pkm;
                         }
                         pkm = ((PK2)pk).ConvertToPK1();
                         pkm.ClearInvalidMoves();
@@ -295,7 +322,7 @@ namespace PKHeX.Core
                     if (pkm.Species == 25 && pkm.AltForm != 0) // cosplay pikachu
                     {
                         comment = "Cannot transfer Cosplay Pikachu forward.";
-                        return null;
+                        return pkm;
                     }
                     pkm = ((PK6) pkm).ConvertToPK7();
                     if (toFormat == 7)
@@ -304,11 +331,6 @@ namespace PKHeX.Core
                 case nameof(PK7):
                     break;
             }
-
-            comment = pkm == null
-                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
-                : $"Converted from {fromType.Name} to {PKMType.Name}.";
-
             return pkm;
         }
 
@@ -426,7 +448,8 @@ namespace PKHeX.Core
             {
                 pkm = null;
                 c = $"Can't load {pk.GetType().Name}s to Gen{target.Format} saves.";
-                return false;
+                if (!AllowIncompatibleConversion)
+                    return false;
             }
             if (target.Format < 3 && pk.Japanese != target.Japanese)
             {
@@ -434,7 +457,8 @@ namespace PKHeX.Core
                 var strs = new[] { "International", "Japanese" };
                 var val = target.Japanese ? 0 : 1;
                 c = $"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.";
-                return false;
+                if (!AllowIncompatibleConversion)
+                    return false;
             }
             pkm = ConvertToType(pk, target.GetType(), out c);
             Debug.WriteLine(c);

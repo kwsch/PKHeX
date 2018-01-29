@@ -1132,8 +1132,35 @@ namespace PKHeX.Core
                 pk.ClearInvalidMoves();
             if (pk.EVs.Any(ev => ev > SAV.MaxEV))
                 pk.EVs = pk.EVs.Select(ev => Math.Min(SAV.MaxEV, ev)).ToArray();
-            if (pk.IVs.Any(ev => ev > SAV.MaxEV))
+            if (pk.IVs.Any(iv => iv > SAV.MaxIV))
                 pk.IVs = pk.IVs.Select(iv => Math.Min(SAV.MaxIV, iv)).ToArray();
+
+            return true;
+        }
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="PKM"/>, and makes any necessary modifications to force compatibility.
+        /// </summary>
+        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format. 
+        /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
+        /// <param name="pk">PKM input that is to be sanity checked.</param>
+        /// <returns>Indication whether or not the PKM is compatible.</returns>
+        public static bool IsPKMCompatibleWithModifications(PKM pk)
+        {
+            if (pk.Species > pk.MaxSpeciesID)
+                return false;
+
+            if (pk.HeldItem > pk.MaxItemID)
+                pk.HeldItem = 0;
+            if (pk.Nickname.Length > pk.NickLength)
+                pk.Nickname = pk.Nickname.Substring(0, pk.NickLength);
+            if (pk.OT_Name.Length > pk.OTLength)
+                pk.OT_Name = pk.OT_Name.Substring(0, pk.OTLength);
+            if (pk.Moves.Any(move => move > pk.MaxMoveID))
+                pk.ClearInvalidMoves();
+            if (pk.EVs.Any(ev => ev > pk.MaxEV))
+                pk.EVs = pk.EVs.Select(ev => Math.Min(pk.MaxEV, ev)).ToArray();
+            if (pk.IVs.Any(iv => iv > pk.MaxIV))
+                pk.IVs = pk.IVs.Select(iv => Math.Min(pk.MaxIV, iv)).ToArray();
 
             return true;
         }
