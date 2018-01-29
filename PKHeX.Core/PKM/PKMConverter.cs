@@ -446,7 +446,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of <see cref="PKM"/> instance desired.</param>
         /// <returns>New instance of a blank <see cref="PKM"/> object.</returns>
-        public static PKM GetBlank(Type t) => (PKM)Activator.CreateInstance(t, Enumerable.Repeat(null as PKM, t.GetTypeInfo().DeclaredConstructors.First().GetParameters().Length).ToArray());
+        public static PKM GetBlank(Type t)
+        {
+            var constructors = t.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
+            var argCount = constructors.First().GetParameters().Length;
+            return (PKM)Activator.CreateInstance(t, new object[argCount]);
+        }
 
         public static void TransferProperties(PKM source, PKM dest)
         {
