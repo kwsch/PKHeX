@@ -2314,7 +2314,7 @@ namespace PKHeX.Core
             if (g is PGF p && p.IsShiny)
             {
                 Info.PIDIV = MethodFinder.Analyze(pkm);
-                if (Info.PIDIV.Type != PIDType.G5MGShiny)
+                if (Info.PIDIV.Type != PIDType.G5MGShiny && pkm.Egg_Location != 30003)
                     AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
             }
 

@@ -1316,8 +1316,13 @@ namespace PKHeX.Core
             }
             else
             {
-                if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30003) // traded
-                    return false;
+                if (wc.EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30003)
+                        return false;
+                }
+                else if (wc.PIDType == 0 && pkm.IsShiny)
+                    return false; // can't be traded away for unshiny
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -1357,8 +1362,13 @@ namespace PKHeX.Core
 
             if (wc.IsEgg)
             {
-                if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
-                    return false;
+                if (wc.EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30002)
+                        return false;
+                }
+                else if (wc.PIDType == 0 && pkm.IsShiny)
+                    return false; // can't be traded away for unshiny
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -1410,8 +1420,13 @@ namespace PKHeX.Core
 
             if (wc.IsEgg)
             {
-                if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
-                    return false;
+                if (wc.EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30002)
+                        return false;
+                }
+                else if (wc.PIDType == 0 && pkm.IsShiny)
+                    return false; // can't be traded away for unshiny
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
