@@ -447,14 +447,6 @@ namespace PKHeX.Core
             }
             
             pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
-
-            if (pk7.Species == 150) // Pay Day Mewtwo
-            {
-                var moves = pk7.Moves;
-                var index = Array.IndexOf(moves, 6);
-                if (index != -1) // convert from GSC to preserve moves since Pay Day cannot transfer 1->7 (but can 2->7)
-                    return ConvertToPK2().ConvertToPK7();
-            }
             
             pk7.RefreshChecksum();
             return pk7;
