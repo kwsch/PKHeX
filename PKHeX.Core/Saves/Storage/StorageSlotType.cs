@@ -9,5 +9,6 @@
         GTS,
         Fused,
         Misc,
+        Resort,
     }
 }

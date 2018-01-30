@@ -320,7 +320,8 @@ namespace PKHeX.Core
         public int FashionLength { get; set; } = int.MinValue;
         private int Record { get; set; } = int.MinValue;
 
-        private const int ResortCount = 93;
+        public const int ResortCount = 93;
+        public int GetResortSlotOffset(int slot) => Resort + 0x16 + slot * SIZE_STORED;
         public PKM[] ResortPKM
         {
             get
@@ -328,7 +329,7 @@ namespace PKHeX.Core
                 PKM[] data = new PKM[ResortCount];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] = GetPKM(GetData(Resort + 0x12 + i * SIZE_STORED, SIZE_STORED));
+                    data[i] = GetPKM(GetData(GetResortSlotOffset(i), SIZE_STORED));
                     data[i].Identifier = $"Resort Slot {i}";
                 }
                 return data;
@@ -339,7 +340,7 @@ namespace PKHeX.Core
                     throw new ArgumentException();
 
                 for (int i = 0; i < value.Length; i++)
-                    SetStoredSlot(value[i], Resort + 0x12 + i*SIZE_STORED);
+                    SetStoredSlot(value[i], GetResortSlotOffset(i));
             }
         }
 
