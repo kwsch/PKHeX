@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -8,35 +10,56 @@ namespace PKHeX.WinForms.Controls
         public IReadOnlyList<PictureBox> SlotPictureBoxes => slots;
 
         private readonly List<PictureBox> slots = new List<PictureBox>();
-        private int SlotCount => slots.Count;
+        private IList<StorageSlotOffset> SlotOffsets;
+        public int SlotCount { get; private set; }
+        public SlotChangeManager M { get; set; }
 
         public SlotList()
         {
             InitializeComponent();
         }
 
-        public int GetSlot(object sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
-        public void AddSlots(int count)
+        public IEnumerable<PictureBox> Initialize(IList<StorageSlotOffset> list, Action<Control> enableDragDropContext)
         {
-            for (int i = SlotCount; i < count; i++)
-                slots.Add(GetPictureBox(i));
+            SlotOffsets = list;
+            return LoadSlots(list.Count, enableDragDropContext);
         }
 
-        private int _slotsperrow;
-        public int SlotsPerRow
+        public IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)
         {
-            get => _slotsperrow;
-            set
+            int before = SlotCount;
+            SlotCount = after;
+            int diff = after - before;
+            if (diff > 0)
             {
-                _slotsperrow = value;
-                Width = value * (SlotWidth + 2 + PadPixels) - PadPixels;
-                Height = (SlotCount / value + 1) * (SlotHeight + PadPixels) - PadPixels;
+                AddSlots(diff);
+                for (int i = before; i < after; i++)
+                {
+                    var slot = slots[i];
+                    enableDragDropContext(slot);
+                    FLP_Slots.Controls.Add(slot);
+                    yield return slot;
+                }
+            }
+            else
+            {
+                for (int i = before - 1; i >= after; i--)
+                    FLP_Slots.Controls.Remove(slots[i]);
             }
         }
 
+        public int GetSlot(object sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public void AddSlots(int count)
+        {
+            for (int i = 0; i < count; i++)
+                slots.Add(GetPictureBox(i));
+        }
+        public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
+
+
         private const int PadPixels = 2;
-        private const int SlotWidth = 30;
-        private const int SlotHeight = 40;
+        private const int SlotWidth = 40;
+        private const int SlotHeight = 30;
         private static PictureBox GetPictureBox(int index)
         {
             return new PictureBox
@@ -45,6 +68,7 @@ namespace PKHeX.WinForms.Controls
                 Width = SlotWidth + 2,
                 Height = SlotHeight + 2,
                 AllowDrop = true,
+                Margin = new Padding(PadPixels),
                 SizeMode = PictureBoxSizeMode.CenterImage,
                 Name = $"bpkm{index}",
             };

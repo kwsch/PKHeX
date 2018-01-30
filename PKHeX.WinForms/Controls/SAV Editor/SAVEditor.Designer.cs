@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAVEditor));
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
+            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.PB_Locked = new System.Windows.Forms.PictureBox();
@@ -51,6 +52,7 @@
             this.ppkx5 = new System.Windows.Forms.PictureBox();
             this.ppkx6 = new System.Windows.Forms.PictureBox();
             this.Tab_Other = new System.Windows.Forms.TabPage();
+            this.SL_Extra = new PKHeX.WinForms.Controls.SlotList();
             this.GB_Daycare = new System.Windows.Forms.GroupBox();
             this.L_XP2 = new System.Windows.Forms.Label();
             this.L_XP1 = new System.Windows.Forms.Label();
@@ -63,15 +65,7 @@
             this.dcpkx2 = new System.Windows.Forms.PictureBox();
             this.dcpkx1 = new System.Windows.Forms.PictureBox();
             this.DayCare_HasEgg = new System.Windows.Forms.CheckBox();
-            this.GB_GTS = new System.Windows.Forms.GroupBox();
-            this.gtspkx = new System.Windows.Forms.PictureBox();
-            this.GB_Fused = new System.Windows.Forms.GroupBox();
-            this.fusedpkx = new System.Windows.Forms.PictureBox();
             this.L_ReadOnlyOther = new System.Windows.Forms.Label();
-            this.GB_SUBE = new System.Windows.Forms.GroupBox();
-            this.subepkx1 = new System.Windows.Forms.PictureBox();
-            this.subepkx2 = new System.Windows.Forms.PictureBox();
-            this.subepkx3 = new System.Windows.Forms.PictureBox();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
             this.CB_SaveSlot = new System.Windows.Forms.ComboBox();
             this.L_SaveSlot = new System.Windows.Forms.Label();
@@ -113,7 +107,6 @@
             this.B_FestivalPlaza = new System.Windows.Forms.Button();
             this.B_MailBox = new System.Windows.Forms.Button();
             this.B_OpenApricorn = new System.Windows.Forms.Button();
-            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -136,14 +129,6 @@
             this.GB_Daycare.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).BeginInit();
-            this.GB_GTS.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gtspkx)).BeginInit();
-            this.GB_Fused.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fusedpkx)).BeginInit();
-            this.GB_SUBE.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).BeginInit();
             this.Tab_SAV.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             this.FLP_SAVtools.SuspendLayout();
@@ -177,6 +162,19 @@
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
+            // 
+            // Box
+            // 
+            this.Box.AllowDrop = true;
+            this.Box.ControlsEnabled = true;
+            this.Box.ControlsVisible = true;
+            this.Box.CurrentBox = -1;
+            this.Box.FlagIllegal = false;
+            this.Box.Location = new System.Drawing.Point(26, 7);
+            this.Box.M = null;
+            this.Box.Name = "Box";
+            this.Box.Size = new System.Drawing.Size(251, 185);
+            this.Box.TabIndex = 1;
             // 
             // Tab_PartyBattle
             // 
@@ -374,17 +372,23 @@
             // 
             // Tab_Other
             // 
+            this.Tab_Other.Controls.Add(this.SL_Extra);
             this.Tab_Other.Controls.Add(this.GB_Daycare);
-            this.Tab_Other.Controls.Add(this.GB_GTS);
-            this.Tab_Other.Controls.Add(this.GB_Fused);
             this.Tab_Other.Controls.Add(this.L_ReadOnlyOther);
-            this.Tab_Other.Controls.Add(this.GB_SUBE);
             this.Tab_Other.Location = new System.Drawing.Point(4, 22);
             this.Tab_Other.Name = "Tab_Other";
             this.Tab_Other.Size = new System.Drawing.Size(302, 199);
             this.Tab_Other.TabIndex = 2;
             this.Tab_Other.Text = "Other";
             this.Tab_Other.UseVisualStyleBackColor = true;
+            // 
+            // SL_Extra
+            // 
+            this.SL_Extra.Dock = System.Windows.Forms.DockStyle.Right;
+            this.SL_Extra.Location = new System.Drawing.Point(227, 0);
+            this.SL_Extra.Name = "SL_Extra";
+            this.SL_Extra.Size = new System.Drawing.Size(75, 199);
+            this.SL_Extra.TabIndex = 30;
             // 
             // GB_Daycare
             // 
@@ -509,46 +513,6 @@
             this.DayCare_HasEgg.Text = "Egg Available";
             this.DayCare_HasEgg.UseVisualStyleBackColor = true;
             // 
-            // GB_GTS
-            // 
-            this.GB_GTS.Controls.Add(this.gtspkx);
-            this.GB_GTS.Location = new System.Drawing.Point(227, 4);
-            this.GB_GTS.Name = "GB_GTS";
-            this.GB_GTS.Size = new System.Drawing.Size(60, 60);
-            this.GB_GTS.TabIndex = 26;
-            this.GB_GTS.TabStop = false;
-            this.GB_GTS.Text = "GTS";
-            // 
-            // gtspkx
-            // 
-            this.gtspkx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gtspkx.Location = new System.Drawing.Point(9, 18);
-            this.gtspkx.Name = "gtspkx";
-            this.gtspkx.Size = new System.Drawing.Size(42, 32);
-            this.gtspkx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.gtspkx.TabIndex = 23;
-            this.gtspkx.TabStop = false;
-            // 
-            // GB_Fused
-            // 
-            this.GB_Fused.Controls.Add(this.fusedpkx);
-            this.GB_Fused.Location = new System.Drawing.Point(227, 70);
-            this.GB_Fused.Name = "GB_Fused";
-            this.GB_Fused.Size = new System.Drawing.Size(60, 60);
-            this.GB_Fused.TabIndex = 25;
-            this.GB_Fused.TabStop = false;
-            this.GB_Fused.Text = "Fused";
-            // 
-            // fusedpkx
-            // 
-            this.fusedpkx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.fusedpkx.Location = new System.Drawing.Point(9, 18);
-            this.fusedpkx.Name = "fusedpkx";
-            this.fusedpkx.Size = new System.Drawing.Size(42, 32);
-            this.fusedpkx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.fusedpkx.TabIndex = 24;
-            this.fusedpkx.TabStop = false;
-            // 
             // L_ReadOnlyOther
             // 
             this.L_ReadOnlyOther.ForeColor = System.Drawing.Color.Red;
@@ -558,48 +522,6 @@
             this.L_ReadOnlyOther.TabIndex = 29;
             this.L_ReadOnlyOther.Text = "This tab is read only.";
             this.L_ReadOnlyOther.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // GB_SUBE
-            // 
-            this.GB_SUBE.Controls.Add(this.subepkx1);
-            this.GB_SUBE.Controls.Add(this.subepkx2);
-            this.GB_SUBE.Controls.Add(this.subepkx3);
-            this.GB_SUBE.Location = new System.Drawing.Point(227, 136);
-            this.GB_SUBE.Name = "GB_SUBE";
-            this.GB_SUBE.Size = new System.Drawing.Size(60, 60);
-            this.GB_SUBE.TabIndex = 27;
-            this.GB_SUBE.TabStop = false;
-            this.GB_SUBE.Text = "OldMan";
-            // 
-            // subepkx1
-            // 
-            this.subepkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx1.Location = new System.Drawing.Point(9, 18);
-            this.subepkx1.Name = "subepkx1";
-            this.subepkx1.Size = new System.Drawing.Size(42, 32);
-            this.subepkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx1.TabIndex = 18;
-            this.subepkx1.TabStop = false;
-            // 
-            // subepkx2
-            // 
-            this.subepkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx2.Location = new System.Drawing.Point(62, 19);
-            this.subepkx2.Name = "subepkx2";
-            this.subepkx2.Size = new System.Drawing.Size(42, 34);
-            this.subepkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx2.TabIndex = 19;
-            this.subepkx2.TabStop = false;
-            // 
-            // subepkx3
-            // 
-            this.subepkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.subepkx3.Location = new System.Drawing.Point(109, 19);
-            this.subepkx3.Name = "subepkx3";
-            this.subepkx3.Size = new System.Drawing.Size(42, 34);
-            this.subepkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.subepkx3.TabIndex = 20;
-            this.subepkx3.TabStop = false;
             // 
             // Tab_SAV
             // 
@@ -1057,18 +979,6 @@
             this.B_OpenApricorn.UseVisualStyleBackColor = true;
             this.B_OpenApricorn.Click += new System.EventHandler(this.B_OpenApricorn_Click);
             // 
-            // Box
-            // 
-            this.Box.AllowDrop = true;
-            this.Box.ControlsVisible = true;
-            this.Box.CurrentBox = -1;
-            this.Box.FlagIllegal = false;
-            this.Box.Location = new System.Drawing.Point(26, 7);
-            this.Box.M = null;
-            this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(251, 185);
-            this.Box.TabIndex = 1;
-            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1102,17 +1012,6 @@
             this.GB_Daycare.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).EndInit();
-            this.GB_GTS.ResumeLayout(false);
-            this.GB_GTS.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gtspkx)).EndInit();
-            this.GB_Fused.ResumeLayout(false);
-            this.GB_Fused.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fusedpkx)).EndInit();
-            this.GB_SUBE.ResumeLayout(false);
-            this.GB_SUBE.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subepkx3)).EndInit();
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
             this.GB_SAVtools.ResumeLayout(false);
@@ -1157,15 +1056,7 @@
         private System.Windows.Forms.PictureBox dcpkx2;
         private System.Windows.Forms.PictureBox dcpkx1;
         private System.Windows.Forms.CheckBox DayCare_HasEgg;
-        private System.Windows.Forms.GroupBox GB_GTS;
-        private System.Windows.Forms.PictureBox gtspkx;
-        private System.Windows.Forms.GroupBox GB_Fused;
-        private System.Windows.Forms.PictureBox fusedpkx;
         private System.Windows.Forms.Label L_ReadOnlyOther;
-        private System.Windows.Forms.GroupBox GB_SUBE;
-        private System.Windows.Forms.PictureBox subepkx1;
-        private System.Windows.Forms.PictureBox subepkx2;
-        private System.Windows.Forms.PictureBox subepkx3;
         private System.Windows.Forms.TabPage Tab_SAV;
         private System.Windows.Forms.ComboBox CB_SaveSlot;
         private System.Windows.Forms.Label L_SaveSlot;
@@ -1208,5 +1099,6 @@
         private System.Windows.Forms.Button B_FestivalPlaza;
         private System.Windows.Forms.Button B_MailBox;
         private System.Windows.Forms.Button B_OpenApricorn;
+        private SlotList SL_Extra;
     }
 }
