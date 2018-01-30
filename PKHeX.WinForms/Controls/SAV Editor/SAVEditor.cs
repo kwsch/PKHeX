@@ -151,8 +151,8 @@ namespace PKHeX.WinForms.Controls
             ResetNonBoxSlots();
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
-            if (M?.colorizedslot >= (int)SlotIndex.Party)
-                SlotPictureBoxes[M.colorizedslot].BackgroundImage = M.colorizedcolor;
+            if (M?.ColorizedSlot >= (int)SlotIndex.Party)
+                SlotPictureBoxes[M.ColorizedSlot].BackgroundImage = M.ColorizedColor;
         }
         private void ResetNonBoxSlots()
         {

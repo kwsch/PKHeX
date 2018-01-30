@@ -94,8 +94,8 @@ namespace PKHeX.WinForms.Controls
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
 
-            if (M != null && M.colorizedbox == box && M.colorizedslot == slot)
-                pb.BackgroundImage = M.colorizedcolor;
+            if (M != null && M.ColorizedBox == box && M.ColorizedSlot == slot)
+                pb.BackgroundImage = M.ColorizedColor;
         }
 
         public void ResetBoxNames(int box = -1)
@@ -135,7 +135,7 @@ namespace PKHeX.WinForms.Controls
             int boxbgval = SAV.GetBoxWallpaper(box);
             PAN_Box.BackgroundImage = SAV.WallpaperImage(boxbgval);
 
-            int slot = M?.colorizedbox == box ? M.colorizedslot : -1;
+            int slot = M?.ColorizedBox == box ? M.ColorizedSlot : -1;
 
             for (int i = 0; i < BoxSlotCount; i++)
             {
@@ -144,7 +144,7 @@ namespace PKHeX.WinForms.Controls
                     GetSlotFiller(boxoffset + SAV.SIZE_STORED * i, pb, box, i);
                 else
                     pb.Visible = false;
-                pb.BackgroundImage = slot == i ? M?.colorizedcolor : null;
+                pb.BackgroundImage = slot == i ? M?.ColorizedColor : null;
             }
         }
         public bool SaveBoxBinary()

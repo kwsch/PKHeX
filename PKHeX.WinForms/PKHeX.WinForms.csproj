@@ -190,7 +190,6 @@
     <Compile Include="Controls\SAV Editor\SAVEditor.Designer.cs">
       <DependentUpon>SAVEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SAV Editor\SlotChangeInfo.cs" />
     <Compile Include="Controls\SAV Editor\SlotList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -224,7 +223,6 @@
     <Compile Include="Controls\PKM Editor\EditPK7.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\SAV Editor\SlotChange.cs" />
     <Compile Include="Controls\PKM Editor\PKMEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

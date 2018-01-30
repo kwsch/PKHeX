@@ -1,8 +1,6 @@
-﻿using PKHeX.Core;
-
-namespace PKHeX.WinForms
+﻿namespace PKHeX.Core
 {
-    public class SlotChange
+    public class SlotChange : StorageSlotOffset
     {
         /// <summary> Parent of the object that initiated the slot change. </summary>
         public object Parent { get; set; }
@@ -10,7 +8,6 @@ namespace PKHeX.WinForms
         /// <summary> Original Data of the slot. </summary>
         public byte[] OriginalData { get; set; }
 
-        public int Offset { get; set; } = -1;
         public int Slot { get; set; } = -1;
         public int Box { get; set; } = -1;
         public PKM PKM { get; set; }

@@ -20,13 +20,14 @@ namespace PKHeX.WinForms.Controls
         public readonly SAVEditor SE;
         private Image OriginalBackground;
         private Image CurrentBackground;
-        public Image colorizedcolor;
+
+        public Image ColorizedColor { get; private set; }
+        public int ColorizedBox { get; private set; } = -1;
+        public int ColorizedSlot { get; private set; } = -1;
 
         private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
-        public int colorizedbox = -1;
-        public int colorizedslot = -1;
         public event DragEventHandler RequestExternalDragDrop;
 
         public SlotChangeManager(SAVEditor se)
@@ -34,7 +35,7 @@ namespace PKHeX.WinForms.Controls
             SE = se;
             Reset();
         }
-        public void Reset() { DragInfo = new SlotChangeInfo(SAV); colorizedbox = colorizedslot = -1; }
+        public void Reset() { DragInfo = new SlotChangeInfo(SAV); ColorizedBox = ColorizedSlot = -1; }
         public bool DragActive => DragInfo.DragDropInProgress || !DragInfo.LeftMouseIsDown;
         public void SetCursor(Cursor z, object sender)
         {
@@ -321,9 +322,9 @@ namespace PKHeX.WinForms.Controls
                 for (int i = 0; i < slots.Count; i++)
                     slots[i].BackgroundImage = slot == i ? img : null;
             }
-            colorizedbox = box;
-            colorizedslot = slot;
-            colorizedcolor = img;
+            ColorizedBox = box;
+            ColorizedSlot = slot;
+            ColorizedColor = img;
         }
 
         // PKM Get Set
@@ -424,7 +425,7 @@ namespace PKHeX.WinForms.Controls
             SE?.Dispose();
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
-            colorizedcolor?.Dispose();
+            ColorizedColor?.Dispose();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using PKHeX.Core;
-
-namespace PKHeX.WinForms
+﻿namespace PKHeX.Core
 {
     public class SlotChangeInfo
     {
@@ -26,7 +24,7 @@ namespace PKHeX.WinForms
         public void Reset()
         {
             LeftMouseIsDown = RightMouseIsDown = DragDropInProgress = false;
-            Source = new SlotChange {OriginalData = BlankData};
+            Source = new SlotChange { OriginalData = BlankData };
             Destination = new SlotChange();
             Cursor = CurrentPath = null;
         }
