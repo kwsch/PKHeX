@@ -12,6 +12,7 @@ namespace PKHeX.Core
         // String to Values
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         private static readonly string[] genders = {"M", "F", ""};
+        private static readonly string[] genderForms = {"", "F", ""};
         private const string Language = "en";
         private static readonly string[] types = Util.GetTypesList(Language);
         private static readonly string[] forms = Util.GetFormsList(Language);
@@ -34,6 +35,7 @@ namespace PKHeX.Core
         public bool Shiny { get; private set; }
         public int Friendship { get; private set; } = 255;
         public int Nature { get; private set; }
+        public int FormIndex { get; private set; }
         public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
         public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
         public int[] Moves { get; private set; } = {0, 0, 0, 0};
@@ -148,6 +150,9 @@ namespace PKHeX.Core
 
             // Showdown Quirks
             Form = ConvertFormFromShowdown(Form, Species, Ability);
+            // Set Form
+            string[] formStrings = PKX.GetFormList(Species, types, forms, genderForms);
+            FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form ?? "")));
         }
 
         public string Text => GetText();
@@ -237,7 +242,7 @@ namespace PKHeX.Core
             if (pkm.Species == 0)
                 return string.Empty;
 
-            string[] Forms = PKX.GetFormList(pkm.Species, types, forms, new[] {"", "F", ""}, pkm.Format);
+            string[] Forms = PKX.GetFormList(pkm.Species, types, forms, genderForms, pkm.Format);
             ShowdownSet Set = new ShowdownSet
             {
                 Nickname = pkm.Nickname,
@@ -252,6 +257,7 @@ namespace PKHeX.Core
                 Friendship = pkm.CurrentFriendship,
                 Level = PKX.GetLevel(pkm.Species, pkm.EXP),
                 Shiny = pkm.IsShiny,
+                FormIndex = pkm.AltForm,
                 Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty,
             };
 

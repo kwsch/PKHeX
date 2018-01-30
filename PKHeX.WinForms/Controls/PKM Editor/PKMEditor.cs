@@ -1973,12 +1973,7 @@ namespace PKHeX.WinForms.Controls
                 Label_Gender.ForeColor = GetGenderColor(Gender);
             }
 
-            // Set Form
-            string[] formStrings = PKX.GetFormList(Set.Species,
-                Util.GetTypesList("en"),
-                Util.GetFormsList("en"), gendersymbols, pkm.Format);
-            int form = Array.FindIndex(formStrings, z => z.Contains(Set.Form ?? ""));
-            CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, Math.Max(0, form));
+            CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, Set.FormIndex);
 
             // Set Ability and Moves
             int abil = Math.Max(0, Array.IndexOf(pkm.PersonalInfo.Abilities, Set.Ability));
