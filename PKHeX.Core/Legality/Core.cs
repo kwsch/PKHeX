@@ -1648,7 +1648,8 @@ namespace PKHeX.Core
                 return new List<DexLevel>
                 {
                     new DexLevel { Species = 292, Level = lvl, MinLevel = 20 },
-                    new DexLevel { Species = 290, Level = lvl - 1, MinLevel = 1 }
+                    new DexLevel { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 } 
+                    // Shedinja spawns after evolving, which is after level up moves were prompted. Not for future generations.
                 };
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
