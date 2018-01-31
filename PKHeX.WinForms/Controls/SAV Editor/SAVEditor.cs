@@ -127,7 +127,14 @@ namespace PKHeX.WinForms.Controls
             slot -= 30+6+6+2;
             return SL_Extra.GetSlotOffset(slot);
         }
-        public int GetSlot(object sender) => Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
+        public int GetSlot(object sender)
+        {
+            int slot = Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
+            if (slot < 0) // check extra slots
+                slot = SL_Extra.GetSlot(sender) + SlotPictureBoxes.Length;
+            return slot;
+        }
+
         public int SwapBoxesViewer(int viewBox)
         {
             int mainBox = Box.CurrentBox;
@@ -1005,7 +1012,7 @@ namespace PKHeX.WinForms.Controls
                 B_FestivalPlaza.Enabled = sav.Generation == 7;
                 B_MailBox.Enabled = sav.Generation >= 2 && sav.Generation <= 5;
 
-                var slots = SL_Extra.Initialize(sav.GetExtraSlots(), InitializeDragDrop);
+                var slots = SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
                 Box.SlotPictureBoxes.AddRange(slots);
             }
             else

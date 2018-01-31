@@ -65,6 +65,8 @@ namespace PKHeX.Core
         }
         private static List<StorageSlotOffset> GetExtraSlots6(SAV6 sav)
         {
+            if (sav.ORASDEMO)
+                return None;
             var list = new List<StorageSlotOffset>
             {
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},

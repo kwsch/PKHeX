@@ -33,6 +33,7 @@
             // 
             // FLP_Slots
             // 
+            this.FLP_Slots.AutoScroll = true;
             this.FLP_Slots.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Slots.Location = new System.Drawing.Point(0, 0);
             this.FLP_Slots.Name = "FLP_Slots";

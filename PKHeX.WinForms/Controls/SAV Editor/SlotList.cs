@@ -9,17 +9,62 @@ namespace PKHeX.WinForms.Controls
     {
         public IReadOnlyList<PictureBox> SlotPictureBoxes => slots;
 
+        private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
+        private readonly LabelType[] Labels = new LabelType[names.Length];
         private readonly List<PictureBox> slots = new List<PictureBox>();
-        private IList<StorageSlotOffset> SlotOffsets;
+        private List<StorageSlotOffset> SlotOffsets = new List<StorageSlotOffset>();
         public int SlotCount { get; private set; }
         public SlotChangeManager M { get; set; }
 
         public SlotList()
         {
             InitializeComponent();
+            AddLabels();
         }
 
-        public IEnumerable<PictureBox> Initialize(IList<StorageSlotOffset> list, Action<Control> enableDragDropContext)
+        private void AddLabels()
+        {
+            for (var i = 0; i < names.Length; i++)
+            {
+                var name = names[i];
+                Enum.TryParse<StorageSlotType>(name, out var val);
+                var label = new LabelType
+                {
+                    Name = $"L_{name}",
+                    Text = name,
+                    Type = val,
+                    AutoSize = true,
+                    Visible = false,
+                };
+                Labels[i] = label;
+                FLP_Slots.Controls.Add(label);
+                FLP_Slots.SetFlowBreak(label, true);
+            }
+        }
+        private class LabelType : Label
+        {
+            public StorageSlotType Type;
+        }
+
+        private void SetLabelVisibility()
+        {
+            foreach (var l in Labels)
+            {
+                int index = SlotOffsets.FindIndex(z => z.Type == l.Type);
+                if (index < 0)
+                {
+                    l.Visible = false;
+                    continue;
+                }
+                int pos = FLP_Slots.Controls.IndexOf(slots[index]);
+                if (pos > FLP_Slots.Controls.IndexOf(l))
+                    pos--;
+                FLP_Slots.Controls.SetChildIndex(l, pos);
+                l.Visible = true;
+            }
+        }
+
+        public IEnumerable<PictureBox> Initialize(List<StorageSlotOffset> list, Action<Control> enableDragDropContext)
         {
             SlotOffsets = list;
             return LoadSlots(list.Count, enableDragDropContext);
@@ -38,6 +83,7 @@ namespace PKHeX.WinForms.Controls
                     var slot = slots[i];
                     enableDragDropContext(slot);
                     FLP_Slots.Controls.Add(slot);
+                    FLP_Slots.SetFlowBreak(slot, true);
                     yield return slot;
                 }
             }
@@ -46,6 +92,7 @@ namespace PKHeX.WinForms.Controls
                 for (int i = before - 1; i >= after; i--)
                     FLP_Slots.Controls.Remove(slots[i]);
             }
+            SetLabelVisibility();
         }
 
         public int GetSlot(object sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
