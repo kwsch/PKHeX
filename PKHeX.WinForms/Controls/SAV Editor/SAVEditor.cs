@@ -1017,7 +1017,7 @@ namespace PKHeX.WinForms.Controls
             }
             else
             {
-                foreach (var _ in SL_Extra.LoadSlots(0, null)) { }
+                SL_Extra.HideAllSlots();
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())

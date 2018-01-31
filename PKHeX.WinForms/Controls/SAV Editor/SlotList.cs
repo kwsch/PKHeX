@@ -22,6 +22,80 @@ namespace PKHeX.WinForms.Controls
             AddLabels();
         }
 
+        /// <summary>
+        /// Initializes the extra slot viewers with a list of offsets and sets up event handling.
+        /// </summary>
+        /// <param name="list">Extra slots to show</param>
+        /// <param name="enableDragDropContext">Events to set up</param>
+        /// <remarks>Uses an object pool for viewers (only generates as needed)</remarks>
+        /// <returns>A list of picture boxes that were added to the view pool</returns>
+        public IEnumerable<PictureBox> Initialize(List<StorageSlotOffset> list, Action<Control> enableDragDropContext)
+        {
+            SlotOffsets = list;
+            return LoadSlots(list.Count, enableDragDropContext);
+        }
+
+        /// <summary>
+        /// Hides all slots from the <see cref="SlotList"/>.
+        /// </summary>
+        public void HideAllSlots() => LoadSlots(0, null);
+
+        public int GetSlot(object sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
+
+        private IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)
+        {
+            var generated = new List<PictureBox>();
+            int before = SlotCount;
+            SlotCount = after;
+            int diff = after - before;
+            if (diff > 0)
+            {
+                AddSlots(diff);
+                for (int i = before; i < after; i++)
+                {
+                    var slot = slots[i];
+                    enableDragDropContext(slot);
+                    FLP_Slots.Controls.Add(slot);
+                    FLP_Slots.SetFlowBreak(slot, true);
+                    generated.Add(slot);
+                }
+            }
+            else
+            {
+                for (int i = before - 1; i >= after; i--)
+                    FLP_Slots.Controls.Remove(slots[i]);
+            }
+            SetLabelVisibility();
+            return generated;
+        }
+
+        private void AddSlots(int count)
+        {
+            for (int i = 0; i < count; i++)
+                slots.Add(GetPictureBox(i));
+        }
+        private const int PadPixels = 2;
+        private const int SlotWidth = 40;
+        private const int SlotHeight = 30;
+        private static PictureBox GetPictureBox(int index)
+        {
+            return new PictureBox
+            {
+                BorderStyle = BorderStyle.FixedSingle,
+                Width = SlotWidth + 2,
+                Height = SlotHeight + 2,
+                AllowDrop = true,
+                Margin = new Padding(PadPixels),
+                SizeMode = PictureBoxSizeMode.CenterImage,
+                Name = $"bpkm{index}",
+            };
+        }
+
+        private class LabelType : Label
+        {
+            public StorageSlotType Type;
+        }
         private void AddLabels()
         {
             for (var i = 0; i < names.Length; i++)
@@ -41,11 +115,6 @@ namespace PKHeX.WinForms.Controls
                 FLP_Slots.SetFlowBreak(label, true);
             }
         }
-        private class LabelType : Label
-        {
-            public StorageSlotType Type;
-        }
-
         private void SetLabelVisibility()
         {
             foreach (var l in Labels)
@@ -62,63 +131,6 @@ namespace PKHeX.WinForms.Controls
                 FLP_Slots.Controls.SetChildIndex(l, pos);
                 l.Visible = true;
             }
-        }
-
-        public IEnumerable<PictureBox> Initialize(List<StorageSlotOffset> list, Action<Control> enableDragDropContext)
-        {
-            SlotOffsets = list;
-            return LoadSlots(list.Count, enableDragDropContext);
-        }
-
-        public IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)
-        {
-            int before = SlotCount;
-            SlotCount = after;
-            int diff = after - before;
-            if (diff > 0)
-            {
-                AddSlots(diff);
-                for (int i = before; i < after; i++)
-                {
-                    var slot = slots[i];
-                    enableDragDropContext(slot);
-                    FLP_Slots.Controls.Add(slot);
-                    FLP_Slots.SetFlowBreak(slot, true);
-                    yield return slot;
-                }
-            }
-            else
-            {
-                for (int i = before - 1; i >= after; i--)
-                    FLP_Slots.Controls.Remove(slots[i]);
-            }
-            SetLabelVisibility();
-        }
-
-        public int GetSlot(object sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
-        public void AddSlots(int count)
-        {
-            for (int i = 0; i < count; i++)
-                slots.Add(GetPictureBox(i));
-        }
-        public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
-
-
-        private const int PadPixels = 2;
-        private const int SlotWidth = 40;
-        private const int SlotHeight = 30;
-        private static PictureBox GetPictureBox(int index)
-        {
-            return new PictureBox
-            {
-                BorderStyle = BorderStyle.FixedSingle,
-                Width = SlotWidth + 2,
-                Height = SlotHeight + 2,
-                AllowDrop = true,
-                Margin = new Padding(PadPixels),
-                SizeMode = PictureBoxSizeMode.CenterImage,
-                Name = $"bpkm{index}",
-            };
         }
     }
 }
