@@ -31,7 +31,7 @@ namespace PKHeX.Core
         {
             Generation = 2;
             Game = game;
-            Encounter = new EncounterEgg { Species = species, Game = game, Level = Level };
+            Encounter = new EncounterEgg { Species = species, Game = game, Level = 5 };
             Type = GBEncounterType.EggEncounter;
         }
         

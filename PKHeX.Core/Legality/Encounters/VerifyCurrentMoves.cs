@@ -39,7 +39,7 @@ namespace PKHeX.Core
             var defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
             var defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
             var defaultTradeback = pkm.TradebackStatus;
-            if (EncounterMatchGen != null)
+            if (EncounterMatchGen?.Generation <= 2)
             {
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
                 UptateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
@@ -57,7 +57,7 @@ namespace PKHeX.Core
                 return res;
 
             // not valid
-            if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // restore generation 1 and 2 moves
+            if (EncounterMatchGen?.Generation <= 2) // restore generation 1 and 2 moves
             {
                 info.EncounterMoves.LevelUpMoves[1] = defaultG1LevelMoves;
                 if (pkm.InhabitedGeneration(2))
