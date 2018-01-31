@@ -86,6 +86,8 @@ namespace PKHeX.WinForms.Controls
 
                 m.SetPKM(pk, info, true, Resources.slotSet);
             }
+            else
+                return;
 
             editor.LastData = pk.Data;
             m.SE.RedoStack.Clear(); m.SE.Menu_Redo.Enabled = false;
@@ -169,6 +171,15 @@ namespace PKHeX.WinForms.Controls
                 loc.Parent = b.FindForm();
                 sender = ctrl;
                 return b.M;
+            }
+            if (obj is SlotList s)
+            {
+                const int shift = 44;
+                loc.Slot = s.GetSlot(sender) + shift;
+                loc.Offset = s.GetSlotOffset(loc.Slot - shift);
+                loc.Parent = s.FindForm();
+                sender = ctrl;
+                return s.M;
             }
             obj = obj.Parent.Parent;
             if (obj is SAVEditor z)

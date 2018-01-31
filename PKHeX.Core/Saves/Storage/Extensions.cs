@@ -24,6 +24,20 @@ namespace PKHeX.Core
         }
         public static List<StorageSlotOffset> GetExtraSlots(this SaveFile sav, bool all = false)
         {
+            var slots = GetExtraSlotsUnsafe(sav, all);
+            for (int i = 0; i < slots.Count;)
+            {
+                if (slots[i].Offset < 0)
+                    slots.RemoveAt(i);
+                else
+                    ++i;
+            }
+            return slots;
+        }
+
+        private static readonly List<StorageSlotOffset> None = new List<StorageSlotOffset>();
+        private static List<StorageSlotOffset> GetExtraSlotsUnsafe(SaveFile sav, bool all)
+        {
             switch (sav)
             {
                 default: return None;
@@ -33,12 +47,8 @@ namespace PKHeX.Core
                 case SAV7 sav7: return GetExtraSlots7(sav7, all);
             }
         }
-
-        private static readonly List<StorageSlotOffset> None = new List<StorageSlotOffset>();
         private static List<StorageSlotOffset> GetExtraSlots4(SAV4 sav)
         {
-            if (sav.GTS < 0)
-                return None;
             return new List<StorageSlotOffset>
             {
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
@@ -54,6 +64,8 @@ namespace PKHeX.Core
         }
         private static List<StorageSlotOffset> GetExtraSlots6(SAV6 sav)
         {
+            if (sav.ORASDEMO)
+                return None;
             var list = new List<StorageSlotOffset>
             {
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},

@@ -33,6 +33,7 @@
             // 
             // FLP_Slots
             // 
+            this.FLP_Slots.AutoScroll = true;
             this.FLP_Slots.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Slots.Location = new System.Drawing.Point(0, 0);
             this.FLP_Slots.Name = "FLP_Slots";
@@ -41,8 +42,7 @@
             // 
             // SlotList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.FLP_Slots);
             this.Name = "SlotList";
             this.Size = new System.Drawing.Size(86, 32);
