@@ -56,12 +56,11 @@ namespace PKHeX.Core
         }
         private static List<StorageSlotOffset> GetExtraSlots5(SAV5 sav)
         {
-            var list = new List<StorageSlotOffset>
+            return new List<StorageSlotOffset>
             {
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
                 new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.Fused}
             };
-            return list;
         }
         private static List<StorageSlotOffset> GetExtraSlots6(SAV6 sav)
         {
