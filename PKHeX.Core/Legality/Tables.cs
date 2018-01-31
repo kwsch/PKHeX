@@ -439,10 +439,15 @@ namespace PKHeX.Core
         public static readonly int[] Languages_GB = 
         {
             (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish,
+            (int) LanguageID.Italian,
             (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
         };
-        public static readonly int[] Languages_36 = Languages_GB.Concat(new[] { (int)LanguageID.Italian }).ToArray();
-        public static readonly int[] Languages_7 = Languages_36.Concat(new[] { (int)LanguageID.ChineseS, (int)LanguageID.ChineseT }).ToArray();
+        public static readonly int[] Languages_3 = 
+        {
+            (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish, (int) LanguageID.Italian,
+        };
+        public static readonly int[] Languages_46 = Languages_GB;
+        public static readonly int[] Languages_7 = Languages_46.Concat(new[] { (int)LanguageID.ChineseS, (int)LanguageID.ChineseT }).ToArray();
 
         #endregion
     }

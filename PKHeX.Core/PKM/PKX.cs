@@ -251,8 +251,10 @@ namespace PKHeX.Core
         {
             if (generation < 3)
                 return Legal.Languages_GB;
+            if (generation < 4)
+                return Legal.Languages_3;
             if (generation < 7)
-                return Legal.Languages_36;
+                return Legal.Languages_46;
             return Legal.Languages_7;
         }
 
