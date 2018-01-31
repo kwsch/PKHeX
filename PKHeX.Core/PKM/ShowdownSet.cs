@@ -285,14 +285,13 @@ namespace PKHeX.Core
             if ((Species = Array.IndexOf(species, spec)) >= 0) // success, nothing else!
                 return;
 
-            string[] tmp = spec.Split(new[] { "-" }, StringSplitOptions.None);
-            if (tmp.Length < 2)
+            // Forme string present.
+            int end = spec.LastIndexOf('-');
+            if (end < 0)
                 return;
 
-            Species = Array.IndexOf(species, tmp[0].Trim());
-            Form = tmp[1].Trim();
-            if (tmp.Length > 2)
-                Form += $" {tmp[2]}";
+            Species = Array.IndexOf(species, spec.Substring(0, end).Trim());
+            Form = spec.Substring(end);
 
             if (Species < 0) // failure to parse, check edge cases
             {
@@ -302,7 +301,7 @@ namespace PKHeX.Core
                     if (!spec.StartsWith(species[e]))
                         continue;
                     Species = e;
-                    Form = tmp.Length > 1 ? tmp.Last() : string.Empty;
+                    Form = spec.Substring(species[e].Length);
                     return;
                 }
             }
@@ -324,7 +323,10 @@ namespace PKHeX.Core
                 n1 = line.Substring(end + 2);
             }
 
-            bool inverted = Array.IndexOf(species, n2.Replace(" ", string.Empty)) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
+            int dash = n2.LastIndexOf('-');
+            if (dash < 0) dash = n2.Length;
+            bool inverted = Array.IndexOf(species, n2.Replace(" ", string.Empty)) > -1 
+              || (Species = Array.IndexOf(species, n2.Substring(0, dash))) > 0;
             line = inverted ? n2 : n1;
             Nickname = inverted ? n1 : n2;
         }
