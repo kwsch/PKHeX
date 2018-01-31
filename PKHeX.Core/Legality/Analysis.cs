@@ -69,7 +69,7 @@ namespace PKHeX.Core
             get
             {
                 var enc = (EncounterOriginalGB ?? EncounterMatch) as ILocation;
-                return enc?.GetEncounterLocation(Info.Generation);
+                return enc?.GetEncounterLocation(Info.Generation, pkm.Version);
             }
         }
 

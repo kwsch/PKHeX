@@ -16,11 +16,18 @@
                 ? encounter.Location 
                 : encounter.EggLocation;
         }
-        internal static string GetEncounterLocation(this ILocation Encounter, int gen)
+        internal static string GetEncounterLocation(this ILocation Encounter, int gen, int version = -1)
         {
             int loc = Encounter.GetLocation();
             if (loc < 0)
                 return null;
+
+            if (version == 15) // handle C/XD locations
+            {
+                var locs = GameInfo.Strings.metCXD_00000;
+                return loc >= locs.Length ? null : locs[loc];
+            }
+
             return GameInfo.GetLocationName(loc != Encounter.Location, loc, gen, gen);
         }
     }
