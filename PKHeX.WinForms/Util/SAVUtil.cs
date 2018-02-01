@@ -87,60 +87,130 @@ namespace PKHeX.WinForms
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
-        /// <returns></returns>
-        public static bool LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        /// <param name="all">Enumerate all files even in sub-folders.</param>
+        /// <returns>True if any files are imported.</returns>
+        public static bool LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null, bool all = false)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
             { result = "Invalid path specified."; return false; }
+
+            var opt = all ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            var filepaths = Directory.EnumerateFiles(path, "*.*", opt);
+            return SAV.LoadBoxes(filepaths, out result, boxStart, boxClear, noSetb);
+        }
+        /// <summary>
+        /// Loads a folder of files to the <see cref="SaveFile"/>.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> to load folder to.</param>
+        /// <param name="filepaths">Files to load <see cref="PKM"/> files from.</param>
+        /// <param name="result">Result message from the method.</param>
+        /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
+        /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
+        /// <returns>True if any files are imported.</returns>
+        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<string> filepaths, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        {
+            int generation = SAV.Generation;
+            var pks = GetPKMsFromPaths(filepaths, generation);
+            return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
+        }
+        /// <summary>
+        /// Loads a folder of files to the <see cref="SaveFile"/>.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> to load folder to.</param>
+        /// <param name="gifts">Gifts to load <see cref="PKM"/> files from.</param>
+        /// <param name="result">Result message from the method.</param>
+        /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
+        /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
+        /// <returns>True if any files are imported.</returns>
+        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<MysteryGift> gifts, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        {
+            var pks = gifts.Select(z => z.ConvertToPKM(SAV));
+            return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
+        }
+        /// <summary>
+        /// Loads a folder of files to the <see cref="SaveFile"/>.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> to load folder to.</param>
+        /// <param name="pks">Unconverted <see cref="PKM"/> objects to load.</param>
+        /// <param name="result">Result message from the method.</param>
+        /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
+        /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
+        /// <returns>True if any files are imported.</returns>
+        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<PKM> pks, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        {
             if (!SAV.HasBox)
             { result = "Save file does not have boxes."; return false; }
-            
+
+            var compat = GetPKMForSaveFile(SAV, pks);
             if (boxClear)
                 SAV.ClearBoxes(boxStart);
 
-            int startCount = boxStart*SAV.BoxSlotCount;
-            int maxCount = SAV.BoxCount*SAV.BoxSlotCount;
-            int ctr = startCount;
-            int pastctr = 0;
-            var filepaths = Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly);
-
-            foreach (var file in filepaths)
+            int ctr = SAV.ImportPKMs(compat, boxStart, noSetb);
+            if (ctr <= 0)
             {
-                if (!PKX.IsPKM(new FileInfo(file).Length))
-                    continue;
+                result = "No files loaded.";
+                return false;
+            }
 
-                // Check for format compatibility with save; if transfer is necessary => convert.
-                // format conversion comment
-                byte[] data = File.ReadAllBytes(file);
-                PKM temp = PKMConverter.GetPKMfromBytes(data, prefer: SAV.Generation);
-                PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
+            result = $"Loaded {ctr} files to boxes.";
+            return true;
+        }
+
+        private static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, int boxStart, bool? noSetb)
+        {
+            int startCount = boxStart * SAV.BoxSlotCount;
+            int maxCount = SAV.BoxCount * SAV.BoxSlotCount;
+            int i = startCount;
+            int getbox() => i / SAV.BoxSlotCount;
+            int getslot() => i % SAV.BoxSlotCount;
+
+            foreach (var pk in compat)
+            {
+                int box = getbox();
+                int slot = getslot();
+                while (SAV.IsSlotLocked(box, slot))
+                {
+                    ++i;
+                    box = getbox();
+                    slot = getslot();
+                }
+
+                int offset = SAV.GetBoxOffset(box) + slot * SAV.SIZE_STORED;
+                SAV.SetStoredSlot(pk, offset, noSetb);
+
+                if (++i == maxCount) // Boxes full!
+                    break;
+            }
+            i -= startCount; // actual imported count
+            return i;
+        }
+        private static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> filepaths, int generation)
+        {
+            return filepaths
+                .Where(file => PKX.IsPKM(new FileInfo(file).Length))
+                .Select(File.ReadAllBytes)
+                .Select(data => PKMConverter.GetPKMfromBytes(data, prefer: generation))
+                .Where(temp => temp != null);
+        }
+        private static IEnumerable<PKM> GetPKMForSaveFile(this SaveFile SAV, IEnumerable<PKM> pks)
+        {
+            var savtype = SAV.PKMType;
+            foreach (var temp in pks)
+            {
+                PKM pk = PKMConverter.ConvertToType(temp, savtype, out string c);
 
                 if (pk == null)
                 { Debug.WriteLine(c); continue; }
 
-                if (SAV.IsPKMCompatible(pk).Length > 0)
+                var compat = SAV.IsPKMCompatible(pk);
+                if (compat.Length > 0)
                     continue;
 
-                while (SAV.IsSlotLocked(ctr/SAV.BoxSlotCount, ctr%SAV.BoxSlotCount))
-                    ctr++;
-
-                int offset = SAV.GetBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount*SAV.SIZE_STORED;
-                SAV.SetStoredSlot(pk, offset, noSetb);
-                if (pk.Format != temp.Format) // Transferred
-                    pastctr++;
-                if (++ctr == maxCount) // Boxes full!
-                    break;
+                yield return pk;
             }
-
-            ctr -= startCount; // actual imported count
-            if (ctr <= 0)
-            { result = "No files loaded"; return false; }
-
-            result = $"Loaded {ctr} files to boxes.";
-            if (pastctr > 0)
-                result += Environment.NewLine + $"Conversion successful for {pastctr} past generation files.";
-
-            return true;
         }
 
         /// <summary>
