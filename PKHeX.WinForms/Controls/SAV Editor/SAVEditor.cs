@@ -1010,7 +1010,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
                 B_FestivalPlaza.Enabled = sav.Generation == 7;
-                B_MailBox.Enabled = sav.Generation >= 2 && sav.Generation <= 5;
+                B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 var slots = SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
                 Box.SlotPictureBoxes.AddRange(slots);
