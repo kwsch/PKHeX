@@ -55,8 +55,9 @@ namespace PKHeX.Core
             // SIZES_2 covers gen2 sizes since there's so many
             SIZE_G1RAW, SIZE_G1BAT
         };
+        private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
 
-        private static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
+    private static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
         internal static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
         internal static readonly string[] HEADER_XD =     { "GXXJ","GXXE","GXXP" }; // NTSC-J, NTSC-U, PAL
         internal static readonly string[] HEADER_RSBOX =  { "GPXJ","GPXE","GPXP" }; // NTSC-J, NTSC-U, PAL
@@ -1044,15 +1045,43 @@ namespace PKHeX.Core
         /// Creates a <see cref="SaveFile"/> via decryption using a stored xorpad.
         /// </summary>
         /// <param name="input">Encrypted byte array of savedata to decrypt.</param>
-        /// <param name="XORpads">Array of possible paths to check for xorpad compatibility.</param>
+        /// <param name="xorpadPaths">Possible paths to check for xorpad compatibility.</param>
         /// <returns>Returns a <see cref="SaveFile"/> if decryption was successful, else null.</returns>
-        public static SaveFile GetSAVfromXORpads(byte[] input, IEnumerable<string> XORpads)
+        public static SaveFile GetSAVfromXORpads(byte[] input, IEnumerable<string> xorpadPaths)
         {
             byte[] savID = new byte[0x10];
             Array.Copy(input, 0x10, savID, 0, 0x10);
-            int[] sizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM };
 
-            foreach (var file in XORpads)
+            var pads = GetXorpadsFromFiles(xorpadPaths);
+            foreach (var xorpad in pads)
+            {
+                // Check if encrypted 00's match save
+                if (!xorpad.Skip(0x10).Take(0x10).SequenceEqual(savID))
+                    continue;
+
+                DecryptFromXorpad(input, xorpad);
+                var main = GetMainFromSaveContainer(input);
+                if (main == null)
+                    continue;
+
+                // Save file is now decrypted!
+                var SAV = GetVariantSAV(main);
+                if (SAV == null)
+                    continue;
+
+                return SAV;
+            }
+            return null; // no xorpad compatible
+        }
+
+        /// <summary>
+        /// Filters the specified files and returns a list of valid enumerable xorpads (keystreams).
+        /// </summary>
+        /// <param name="files">Files that may (or may not) be xorpads.</param>
+        /// <returns>Valid xorpads to enumerate.</returns>
+        public static IEnumerable<byte[]> GetXorpadsFromFiles(IEnumerable<string> files)
+        {
+            foreach (var file in files)
             {
                 // Check if xorpad
                 FileInfo fi = new FileInfo(file);
@@ -1064,7 +1093,7 @@ namespace PKHeX.Core
                 var length = fi.Length;
                 if (length != 0x10009C && length != 0x100000)
                     continue;
-                
+
                 // Fix xorpad alignment
                 byte[] xorpad = File.ReadAllBytes(file);
                 if (xorpad.Length == 0x10009C) // Trim off Powersaves' header
@@ -1072,41 +1101,39 @@ namespace PKHeX.Core
                     Array.Copy(xorpad, 0x9C, xorpad, 0, 0x100000);
                     Array.Resize(ref xorpad, 0x100000);
                 }
-
-                // Check if encrypted 00's match save
-                if (!xorpad.Skip(0x10).Take(0x10).SequenceEqual(savID))
-                    continue;
-
-                // Set up Decrypted File
-                const int mainOffset = 0x5400;
-                int maxSize = sizes.Max();
-                byte[] decryptedPS = new byte[maxSize];
-                Array.Copy(input, mainOffset, decryptedPS, 0, decryptedPS.Length);
-
-                // xor through and decrypt
-                for (int z = 0; z < decryptedPS.Length; z++)
-                    decryptedPS[z] ^= xorpad[mainOffset + z];
-
-                // Weakly check the validity of the decrypted content
-                int i; for (i = 0; i < sizes.Length; i++)
-                {
-                    if (BitConverter.ToUInt32(decryptedPS, sizes[i] - 0x1F0) != BEEF)
-                        continue;
-                    Array.Resize(ref decryptedPS, sizes[i]);
-                    break;
-                }
-                if (i == sizes.Length)
-                    continue;
-                
-                // Save file is now decrypted!
-                var SAV = GetVariantSAV(decryptedPS);
-                if (SAV == null)
-                    continue;
-
-                SAV.FileName = file;
-                return SAV;
+                yield return xorpad;
             }
-            return null; // no xorpad compatible
+        }
+        /// <summary>
+        /// Decrypts an input array with a xorpad.
+        /// </summary>
+        /// <param name="input">Input byte array which will be decrypted in place.</param>
+        /// <param name="xorpad">Keystream data</param>
+        public static void DecryptFromXorpad(IList<byte> input, IReadOnlyList<byte> xorpad)
+        {
+            for (int z = 0; z < input.Count; z++)
+                input[z] ^= xorpad[z];
+        }
+        /// <summary>
+        /// Gets the "main" save file from an input data array.
+        /// </summary>
+        /// <param name="input">Input data array</param>
+        /// <returns>Output data array containing raw save data</returns>
+        public static byte[] GetMainFromSaveContainer(byte[] input)
+        {
+            // Check the validity of the decrypted content by finding the checksum block
+            const int mainOffset = 0x5400;
+            foreach (int size in mainSizes.OrderByDescending(z => z))
+            {
+                int chkBlockOffset = mainOffset + size - 0x1F0;
+                if (BitConverter.ToUInt32(input, chkBlockOffset) != BEEF)
+                    continue;
+
+                byte[] data = new byte[size];
+                Buffer.BlockCopy(input, mainOffset, data, 0, size);
+                return data;
+            }
+            return null;
         }
 
         /// <summary>
@@ -1180,9 +1207,15 @@ namespace PKHeX.Core
             }
 
             sav.FilePath = Path.GetDirectoryName(path);
-            sav.FileName = Path.GetExtension(path) == ".bak"
-                ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
-                : Path.GetFileName(path);
+            sav.FileName = Path.GetFileName(path);
+            if (!sav.FileName.EndsWith(".bak"))
+                return;
+
+            // trim off any bak details to get original file name
+            int index = sav.FileName.LastIndexOf(" [", StringComparison.Ordinal);
+            if (index < 0)
+                return;
+            sav.FileName = sav.FileName.Substring(0, index);
         }
     }
 }
