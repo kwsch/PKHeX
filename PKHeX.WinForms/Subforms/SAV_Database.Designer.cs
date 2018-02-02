@@ -99,10 +99,12 @@
             this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchLegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchIllegal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchClones = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
             this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx66 = new System.Windows.Forms.PictureBox();
@@ -156,8 +158,7 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.Menu_SearchClones = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -926,7 +927,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = Properties.Resources.exit;
+            this.Menu_Exit.Image = global::PKHeX.WinForms.Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -941,6 +942,7 @@
             this.Menu_OpenDB,
             this.Menu_Report,
             this.Menu_Export,
+            this.Menu_Import,
             this.Menu_DeleteClones});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
@@ -955,9 +957,9 @@
             this.Menu_SearchIllegal,
             this.Menu_SearchClones,
             this.Menu_SearchAdvanced});
-            this.Menu_SearchSettings.Image = Properties.Resources.settings;
+            this.Menu_SearchSettings.Image = global::PKHeX.WinForms.Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
-            this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
+            this.Menu_SearchSettings.Size = new System.Drawing.Size(209, 22);
             this.Menu_SearchSettings.Text = "Search Settings";
             // 
             // Menu_SearchBoxes
@@ -996,6 +998,13 @@
             this.Menu_SearchIllegal.Size = new System.Drawing.Size(207, 22);
             this.Menu_SearchIllegal.Text = "Show Illegal";
             // 
+            // Menu_SearchClones
+            // 
+            this.Menu_SearchClones.CheckOnClick = true;
+            this.Menu_SearchClones.Name = "Menu_SearchClones";
+            this.Menu_SearchClones.Size = new System.Drawing.Size(207, 22);
+            this.Menu_SearchClones.Text = "Clones Only";
+            // 
             // Menu_SearchAdvanced
             // 
             this.Menu_SearchAdvanced.CheckOnClick = true;
@@ -1007,27 +1016,35 @@
             // 
             // Menu_OpenDB
             // 
-            this.Menu_OpenDB.Image = Properties.Resources.folder;
+            this.Menu_OpenDB.Image = global::PKHeX.WinForms.Properties.Resources.folder;
             this.Menu_OpenDB.Name = "Menu_OpenDB";
-            this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
+            this.Menu_OpenDB.Size = new System.Drawing.Size(209, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
             this.Menu_OpenDB.Click += new System.EventHandler(this.OpenDB);
             // 
             // Menu_Report
             // 
-            this.Menu_Report.Image = Properties.Resources.report;
+            this.Menu_Report.Image = global::PKHeX.WinForms.Properties.Resources.report;
             this.Menu_Report.Name = "Menu_Report";
-            this.Menu_Report.Size = new System.Drawing.Size(197, 22);
+            this.Menu_Report.Size = new System.Drawing.Size(209, 22);
             this.Menu_Report.Text = "Create Data Report";
             this.Menu_Report.Click += new System.EventHandler(this.GenerateDBReport);
             // 
             // Menu_Export
             // 
-            this.Menu_Export.Image = Properties.Resources.export;
+            this.Menu_Export.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_Export.Name = "Menu_Export";
-            this.Menu_Export.Size = new System.Drawing.Size(197, 22);
+            this.Menu_Export.Size = new System.Drawing.Size(209, 22);
             this.Menu_Export.Text = "Export Results to Folder";
             this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
+            // 
+            // Menu_DeleteClones
+            // 
+            this.Menu_DeleteClones.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
+            this.Menu_DeleteClones.Name = "Menu_DeleteClones";
+            this.Menu_DeleteClones.Size = new System.Drawing.Size(209, 22);
+            this.Menu_DeleteClones.Text = "Delete Clones";
+            this.Menu_DeleteClones.Click += new System.EventHandler(this.Menu_DeleteClones_Click);
             // 
             // P_Results
             // 
@@ -1042,7 +1059,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);
@@ -1818,20 +1835,13 @@
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 
-            // Menu_SearchClones
+            // Menu_Import
             // 
-            this.Menu_SearchClones.CheckOnClick = true;
-            this.Menu_SearchClones.Name = "Menu_SearchClones";
-            this.Menu_SearchClones.Size = new System.Drawing.Size(207, 22);
-            this.Menu_SearchClones.Text = "Clones Only";
-            // 
-            // Menu_DeleteClones
-            // 
-            this.Menu_DeleteClones.Image = Properties.Resources.nocheck;
-            this.Menu_DeleteClones.Name = "Menu_DeleteClones";
-            this.Menu_DeleteClones.Size = new System.Drawing.Size(197, 22);
-            this.Menu_DeleteClones.Text = "Delete Clones";
-            this.Menu_DeleteClones.Click += new System.EventHandler(this.Menu_DeleteClones_Click);
+            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
+            this.Menu_Import.Name = "Menu_Import";
+            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
+            this.Menu_Import.Text = "Import Results to SaveFile";
+            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
             // 
             // SAV_Database
             // 
@@ -2068,5 +2078,6 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchAdvanced;
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchClones;
         private System.Windows.Forms.ToolStripMenuItem Menu_DeleteClones;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Import;
     }
 }

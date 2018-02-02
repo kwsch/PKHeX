@@ -725,8 +725,20 @@ namespace PKHeX.WinForms.Controls
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Export Checksum Info to Clipboard?"))
                 Clipboard.SetText(SAV.ChecksumInfo);
         }
-        
+
         // File I/O
+        public bool GetBulkImportSettings(out bool clearAll, out bool? noSetb)
+        {
+            clearAll = false; noSetb = false;
+            DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Clear subsequent boxes when importing data?",
+                "If you only want to overwrite for new data, press no.");
+            if (dr == DialogResult.Cancel)
+                return false;
+
+            clearAll = dr == DialogResult.Yes;
+            noSetb = GetPKMSetOverride();
+            return true;
+        }
         private bool? GetPKMSetOverride()
         {
             var yn = ModifyPKM ? "Yes" : "No";
@@ -871,12 +883,8 @@ namespace PKHeX.WinForms.Controls
             if (!Directory.Exists(path))
                 return false;
 
-            DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Clear subsequent boxes when importing data?", "If you only want to overwrite for new data, press no.");
-            if (dr == DialogResult.Cancel)
+            if (!GetBulkImportSettings(out bool clearAll, out bool? noSetb))
                 return false;
-
-            bool clearAll = dr == DialogResult.Yes;
-            bool? noSetb = GetPKMSetOverride();
 
             SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, noSetb);
             SetPKMBoxes();

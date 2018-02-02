@@ -15,9 +15,11 @@ namespace PKHeX.WinForms
     {
         private readonly PKMEditor PKME_Tabs;
         private readonly SaveFile SAV;
+        private readonly SAVEditor BoxView;
         public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
             SAV = sav.SAV;
+            BoxView = sav;
             PKME_Tabs = tabs;
             InitializeComponent();
 
@@ -364,6 +366,19 @@ namespace PKHeX.WinForms
             if (!Menu_SearchAdvanced.Checked)
             { Size = MinimumSize; RTB_Instructions.Clear(); }
             else Size = MaximumSize;
+        }
+        private void Menu_Import_Click(object sender, EventArgs e)
+        {
+            if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
+                return;
+
+            int box = BoxView.Box.CurrentBox;
+            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, noSetb))
+                return;
+
+            BoxView.SetPKMBoxes();
+            BoxView.UpdateBoxViewers();
+            WinFormsUtil.Alert(result);
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e)
