@@ -244,11 +244,12 @@ namespace PKHeX.Core
                     return res;
             }
 
-            if (pkm.Species == 292 && info.EncounterMatch.Species != 292)
+            if (pkm.Species == 292 && info.EncounterMatch.Species != 292 && !(info.EncounterMatch is EncounterEgg))
             {
                 // Ignore Shedinja if the Encounter was also a Shedinja, assume null Encounter as a Nincada egg
                 // Check Shedinja evolved moves from Ninjask after egg moves
                 // Those moves could also be inherited egg moves
+                if (info.Generation <= 4) // 3 or 4
                 ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves);
             }
 
@@ -545,17 +546,17 @@ namespace PKHeX.Core
         }
         private static void ParseShedinjaEvolveMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves)
         {
-            List<int>[] ShedinjaEvoMoves = Legal.GetShedinjaEvolveMoves(pkm);
             var ShedinjaEvoMovesLearned = new List<int>();
             for (int gen = Math.Min(pkm.Format, 4); gen >= 3; gen--)
             {
+                var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, generation: gen);
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
                     if (IsCheckValid(res[m])) // already validated
                         continue;
 
-                    if (!ShedinjaEvoMoves[gen].Contains(moves[m]))
+                    if (!ninjaskMoves.Contains(moves[m]))
                         continue;
 
                     res[m] = new CheckMoveResult(MoveSource.ShedinjaEvo, gen, Severity.Valid, native ? V355 : string.Format(V356, gen), CheckIdentifier.Move);
@@ -563,11 +564,33 @@ namespace PKHeX.Core
                 }
             }
 
-            if (ShedinjaEvoMovesLearned.Count <= 1)
+            if (ShedinjaEvoMovesLearned.Count > 1)
+            {
+                // Can't have more than one Ninjask exclusive move on Shedinja
+                foreach (int m in ShedinjaEvoMovesLearned)
+                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, V357, CheckIdentifier.Move);
                 return;
+            }
 
-            foreach (int m in ShedinjaEvoMovesLearned)
-                res[m] = new CheckMoveResult(res[m], Severity.Invalid, V357, CheckIdentifier.Move);
+            // Double check that the Ninjask move level isn't less than any Nincada move level
+            int move = ShedinjaEvoMovesLearned[0];
+            int g = res[move].Generation;
+            int levelJ = Legal.GetShedinjaMoveLevel(291, moves[move], g);
+
+            for (int m = 0; m < 4; m++)
+            {
+                if (m == move)
+                    continue;
+                if (res[m].Source != MoveSource.LevelUp)
+                    continue;
+                int levelS = Legal.GetShedinjaMoveLevel(292, moves[m], res[m].Generation);
+                if (levelS > 0)
+                    continue;
+
+                int levelN = Legal.GetShedinjaMoveLevel(290, moves[m], res[m].Generation);
+                if (levelN > levelJ)
+                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(V366, SpeciesStrings[290], SpeciesStrings[291]), CheckIdentifier.Move);
+            }
         }
         private static void ParseEvolutionLevelupMove(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> IncenseMovesLearned, LegalInfo info)
         {

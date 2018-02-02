@@ -436,16 +436,12 @@ namespace PKHeX.Core
                 r.AddRange(GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm, version));
             return r.Distinct();
         }
-        internal static List<int>[] GetShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
+        internal static IList<int> GetShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
         {
-            var size = pkm.Format > 3 ? 4 : 3;
-            List<int>[] r = new List<int>[size + 1];
-            for (int i = 1; i <= size; i++)
-                r[i] = new List<int>();
             if (lvl == -1)
                 lvl = pkm.CurrentLevel;
             if (pkm.Species != 292 || lvl < 20)
-                return r;
+                return new List<int>();
 
             // If nincada evolves into Ninjask an learn in the evolution a move from ninjask learnset pool
             // Shedinja would appear with that move learned. Only one move above level 20 allowed, only in generations 3 and 4
@@ -454,17 +450,23 @@ namespace PKHeX.Core
                 case 0: // Default (both)
                 case 3: // Ninjask have the same learnset in every gen 3 games
                     if (pkm.InhabitedGeneration(3))
-                        r[3] = LevelUpE[291].GetMoves(lvl, 20).ToList();
+                        return LevelUpE[291].GetMoves(lvl, 20).ToList();
 
                     if (generation == 0)
                         goto case 4;
                     break;
                 case 4: // Ninjask have the same learnset in every gen 4 games
                     if (pkm.InhabitedGeneration(4))
-                        r[4] = LevelUpPt[291].GetMoves(lvl, 20).ToList();
+                        return LevelUpPt[291].GetMoves(lvl, 20);
                     break;
             }
-            return r;
+            return new List<int>();
+        }
+        internal static int GetShedinjaMoveLevel(int species, int move, int generation)
+        {
+            var src = generation == 4 ? LevelUpPt : LevelUpE;
+            var moves = src[species];
+            return moves.GetLevelLearnMove(move);
         }
         internal static int[] GetBaseEggMoves(PKM pkm, int species, GameVersion gameSource, int lvl)
         {
