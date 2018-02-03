@@ -902,16 +902,18 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Applies all shared properties from <see cref="Source"/> to <see cref="Destination"/>.
+        /// Applies all shared properties from the current <see cref="PKM"/> to <see cref="Destination"/> <see cref="PKM"/>.
         /// </summary>
-        /// <param name="Source"><see cref="PKM"/> that supplies property values.</param>
         /// <param name="Destination"><see cref="PKM"/> that receives property values.</param>
-        public void TransferPropertiesWithReflection(PKM Source, PKM Destination)
+        public void TransferPropertiesWithReflection(PKM Destination)
         {
             // Only transfer declared properties not defined in PKM.cs but in the actual type
-            var SourceProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Source.GetType());
+            var SourceProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(GetType());
             var DestinationProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Destination.GetType());
-            foreach (string property in SourceProperties.Intersect(DestinationProperties))
+
+            // Transfer properties in the order they are defined in the destination PKM format for best conversion
+            var shared = DestinationProperties.Intersect(SourceProperties);
+            foreach (string property in shared)
             {
                 var prop = ReflectUtil.GetValue(this, property);
                 if (prop != null && !(prop is byte[]))

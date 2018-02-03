@@ -220,7 +220,7 @@ namespace PKHeX.Core
 
             // Try Incompatible Conversion
             pkm = GetBlank(PKMType);
-            TransferProperties(pk, pkm);
+            pk.TransferPropertiesWithReflection(pkm);
             if (!SaveUtil.IsPKMCompatibleWithModifications(pkm))
                 return null;
             comment = "Converted via reflection.";
@@ -454,11 +454,6 @@ namespace PKHeX.Core
             var constructors = t.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
             var argCount = constructors.First().GetParameters().Length;
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
-        }
-
-        public static void TransferProperties(PKM source, PKM dest)
-        {
-            source.TransferPropertiesWithReflection(source, dest);
         }
     }
 }
