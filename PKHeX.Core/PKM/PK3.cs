@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
-    public sealed class PK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
+    public sealed class PK3 : _K3
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -22,6 +22,7 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
+        public PK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new PK3((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
@@ -31,25 +32,16 @@ namespace PKHeX.Core
         public override byte[] Nickname_Trash { get => GetData(0x08, 10); set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }
         public override byte[] OT_Trash { get => GetData(0x14, 7); set { if (value?.Length == 7) value.CopyTo(Data, 0x14); } }
 
-        // Future Attributes
-        public override uint EncryptionConstant { get => PID; set { } }
-        public override int Nature { get => (int)(PID % 25); set { } }
-        public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
-
-        public override bool IsNicknamed { get => PKX.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
-        public override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
-        public override int Characteristic => -1;
-        public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[AbilityBit && abils[1] != 0 ? 1 : 0]; } set { } }
-        public override int CurrentHandler { get => 0; set { } }
-        public override int Egg_Location { get => 0; set { } }
+        // At top for System.Reflection execution order hack
+        public override bool IsEgg { get => egg; set => egg = value; }
+        public override int Language { get => lang; set => lang = value; }
 
         // 0x20 Intro
         public override uint PID { get => BitConverter.ToUInt32(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
         public override int TID { get => BitConverter.ToUInt16(Data, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04); }
         public override int SID { get => BitConverter.ToUInt16(Data, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); }
         public override string Nickname { get => GetString(0x08, 10); set => SetString(IsEgg ? "タマゴ" : value, 10).CopyTo(Data, 0x08); }
-        public override int Language { get => BitConverter.ToUInt16(Data, 0x12) & 0xFF; set => BitConverter.GetBytes((ushort)(IsEgg ? 0x601 : value | 0x200)).CopyTo(Data, 0x12); }
+        private int lang{ get => BitConverter.ToUInt16(Data, 0x12) & 0xFF; set => BitConverter.GetBytes((ushort)(IsEgg ? 0x601 : value | 0x200)).CopyTo(Data, 0x12); }
         public override string OT_Name { get => GetString(0x14, 7); set => SetString(value, 7).CopyTo(Data, 0x14); }
         public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); protected set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
         public override ushort Checksum { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C); }
@@ -115,35 +107,36 @@ namespace PKHeX.Core
         public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
         public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
         public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
-        public override bool IsEgg { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
+        private bool egg { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
         public bool AbilityBit { get => IV32 >> 31 == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (uint)(value ? 1 << 31 : 0); }
 
         private uint RIB0 { get => BitConverter.ToUInt32(Data, 0x4C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x4C); }
-        public int RibbonCountG3Cool        { get => (int)(RIB0 >> 00) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7) << 00); }
-        public int RibbonCountG3Beauty      { get => (int)(RIB0 >> 03) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7) << 03); }
-        public int RibbonCountG3Cute        { get => (int)(RIB0 >> 06) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7) << 06); }
-        public int RibbonCountG3Smart       { get => (int)(RIB0 >> 09) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7) << 09); }
-        public int RibbonCountG3Tough       { get => (int)(RIB0 >> 12) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7) << 12); }
-        public bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 15 : 0)); }
-        public bool RibbonWinning           { get => (RIB0 & (1 << 16)) == 1 << 16; set => RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 16 : 0)); }
-        public bool RibbonVictory           { get => (RIB0 & (1 << 17)) == 1 << 17; set => RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 17 : 0)); }
-        public bool RibbonArtist            { get => (RIB0 & (1 << 18)) == 1 << 18; set => RIB0 = (uint)(RIB0 & ~(1 << 18) | (uint)(value ? 1 << 18 : 0)); }
-        public bool RibbonEffort            { get => (RIB0 & (1 << 19)) == 1 << 19; set => RIB0 = (uint)(RIB0 & ~(1 << 19) | (uint)(value ? 1 << 19 : 0)); }
-        public bool RibbonChampionBattle    { get => (RIB0 & (1 << 20)) == 1 << 20; set => RIB0 = (uint)(RIB0 & ~(1 << 20) | (uint)(value ? 1 << 20 : 0)); }
-        public bool RibbonChampionRegional  { get => (RIB0 & (1 << 21)) == 1 << 21; set => RIB0 = (uint)(RIB0 & ~(1 << 21) | (uint)(value ? 1 << 21 : 0)); }
-        public bool RibbonChampionNational  { get => (RIB0 & (1 << 22)) == 1 << 22; set => RIB0 = (uint)(RIB0 & ~(1 << 22) | (uint)(value ? 1 << 22 : 0)); }
-        public bool RibbonCountry           { get => (RIB0 & (1 << 23)) == 1 << 23; set => RIB0 = (uint)(RIB0 & ~(1 << 23) | (uint)(value ? 1 << 23 : 0)); }
-        public bool RibbonNational          { get => (RIB0 & (1 << 24)) == 1 << 24; set => RIB0 = (uint)(RIB0 & ~(1 << 24) | (uint)(value ? 1 << 24 : 0)); }
-        public bool RibbonEarth             { get => (RIB0 & (1 << 25)) == 1 << 25; set => RIB0 = (uint)(RIB0 & ~(1 << 25) | (uint)(value ? 1 << 25 : 0)); }
-        public bool RibbonWorld             { get => (RIB0 & (1 << 26)) == 1 << 26; set => RIB0 = (uint)(RIB0 & ~(1 << 26) | (uint)(value ? 1 << 26 : 0)); }
-        public bool Unused1 { get => (RIB0 & (1 << 27)) == 1 << 27; set => RIB0 = (uint)(RIB0 & ~(1 << 27) | (uint)(value ? 1 << 27 : 0)); }
-        public bool Unused2 { get => (RIB0 & (1 << 28)) == 1 << 28; set => RIB0 = (uint)(RIB0 & ~(1 << 28) | (uint)(value ? 1 << 28 : 0)); }
-        public bool Unused3 { get => (RIB0 & (1 << 29)) == 1 << 29; set => RIB0 = (uint)(RIB0 & ~(1 << 29) | (uint)(value ? 1 << 29 : 0)); }
-        public bool Unused4 { get => (RIB0 & (1 << 30)) == 1 << 30; set => RIB0 = (uint)(RIB0 & ~(1 << 30) | (uint)(value ? 1 << 30 : 0)); }
+        public override int RibbonCountG3Cool        { get => (int)(RIB0 >> 00) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7) << 00); }
+        public override int RibbonCountG3Beauty      { get => (int)(RIB0 >> 03) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7) << 03); }
+        public override int RibbonCountG3Cute        { get => (int)(RIB0 >> 06) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7) << 06); }
+        public override int RibbonCountG3Smart       { get => (int)(RIB0 >> 09) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7) << 09); }
+        public override int RibbonCountG3Tough       { get => (int)(RIB0 >> 12) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7) << 12); }
+        public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (uint)(RIB0 & ~(1 << 15) | (uint)(value ? 1 << 15 : 0)); }
+        public override bool RibbonWinning           { get => (RIB0 & (1 << 16)) == 1 << 16; set => RIB0 = (uint)(RIB0 & ~(1 << 16) | (uint)(value ? 1 << 16 : 0)); }
+        public override bool RibbonVictory           { get => (RIB0 & (1 << 17)) == 1 << 17; set => RIB0 = (uint)(RIB0 & ~(1 << 17) | (uint)(value ? 1 << 17 : 0)); }
+        public override bool RibbonArtist            { get => (RIB0 & (1 << 18)) == 1 << 18; set => RIB0 = (uint)(RIB0 & ~(1 << 18) | (uint)(value ? 1 << 18 : 0)); }
+        public override bool RibbonEffort            { get => (RIB0 & (1 << 19)) == 1 << 19; set => RIB0 = (uint)(RIB0 & ~(1 << 19) | (uint)(value ? 1 << 19 : 0)); }
+        public override bool RibbonChampionBattle    { get => (RIB0 & (1 << 20)) == 1 << 20; set => RIB0 = (uint)(RIB0 & ~(1 << 20) | (uint)(value ? 1 << 20 : 0)); }
+        public override bool RibbonChampionRegional  { get => (RIB0 & (1 << 21)) == 1 << 21; set => RIB0 = (uint)(RIB0 & ~(1 << 21) | (uint)(value ? 1 << 21 : 0)); }
+        public override bool RibbonChampionNational  { get => (RIB0 & (1 << 22)) == 1 << 22; set => RIB0 = (uint)(RIB0 & ~(1 << 22) | (uint)(value ? 1 << 22 : 0)); }
+        public override bool RibbonCountry           { get => (RIB0 & (1 << 23)) == 1 << 23; set => RIB0 = (uint)(RIB0 & ~(1 << 23) | (uint)(value ? 1 << 23 : 0)); }
+        public override bool RibbonNational          { get => (RIB0 & (1 << 24)) == 1 << 24; set => RIB0 = (uint)(RIB0 & ~(1 << 24) | (uint)(value ? 1 << 24 : 0)); }
+        public override bool RibbonEarth             { get => (RIB0 & (1 << 25)) == 1 << 25; set => RIB0 = (uint)(RIB0 & ~(1 << 25) | (uint)(value ? 1 << 25 : 0)); }
+        public override bool RibbonWorld             { get => (RIB0 & (1 << 26)) == 1 << 26; set => RIB0 = (uint)(RIB0 & ~(1 << 26) | (uint)(value ? 1 << 26 : 0)); }
+        public override bool Unused1 { get => (RIB0 & (1 << 27)) == 1 << 27; set => RIB0 = (uint)(RIB0 & ~(1 << 27) | (uint)(value ? 1 << 27 : 0)); }
+        public override bool Unused2 { get => (RIB0 & (1 << 28)) == 1 << 28; set => RIB0 = (uint)(RIB0 & ~(1 << 28) | (uint)(value ? 1 << 28 : 0)); }
+        public override bool Unused3 { get => (RIB0 & (1 << 29)) == 1 << 29; set => RIB0 = (uint)(RIB0 & ~(1 << 29) | (uint)(value ? 1 << 29 : 0)); }
+        public override bool Unused4 { get => (RIB0 & (1 << 30)) == 1 << 30; set => RIB0 = (uint)(RIB0 & ~(1 << 30) | (uint)(value ? 1 << 30 : 0)); }
         public override bool FatefulEncounter { get => RIB0 >> 31 == 1; set => RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); }
         #endregion
 
         public override int Stat_Level { get => Data[0x54]; set => Data[0x54] = (byte)value; }
+        public sbyte HeldMailID { get => (sbyte)Data[0x55]; set => Data[0x55] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0x58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x58); }
         public override int Stat_ATK { get => BitConverter.ToUInt16(Data, 0x5A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5A); }
@@ -151,29 +144,10 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x60); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
-        public sbyte HeldMailID { get => (sbyte)Data[0x55]; set => Data[0x55] = (byte)value; }
 
         // Generated Attributes
         public override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // 1/2 -> 0/1
-        public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
-        public override int TSV => (TID ^ SID) >> 3;
         public override bool Japanese => IsEgg || Language == (int)LanguageID.Japanese;
-        public override bool WasEvent => Met_Location == 255; // Fateful
-        public override bool WasIngameTrade => Met_Location == 254; // Trade
-        public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
-        public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
-        
-        // Maximums
-        public override int MaxMoveID => Legal.MaxMoveID_3;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => Legal.MaxAbilityID_3;
-        public override int MaxItemID => Legal.MaxItemID_3;
-        public override int MaxBallID => Legal.MaxBallID_3;
-        public override int MaxGameID => Legal.MaxGameID_3;
-        public override int MaxIV => 31;
-        public override int MaxEV => 255;
-        public override int OTLength => 7;
-        public override int NickLength => 10;
 
         protected override byte[] Encrypt()
         {
@@ -304,6 +278,21 @@ namespace PKHeX.Core
 
             pk4.RefreshChecksum();
             return pk4;
+        }
+
+        public XK3 ConvertToXK3()
+        {
+            var pk = ConvertTo<XK3>();
+            pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
+            pk.Stat_Level = pk.CurrentLevel;
+            return pk;
+        }
+        public CK3 ConvertToCK3()
+        {
+            var pk = ConvertTo<CK3>();
+            pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
+            pk.Stat_Level = pk.CurrentLevel;
+            return pk;
         }
     }
 }

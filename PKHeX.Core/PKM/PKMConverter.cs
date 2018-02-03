@@ -280,19 +280,20 @@ namespace PKHeX.Core
                     }
                     break;
                 case nameof(CK3):
+                    pkm = ((CK3)pkm).ConvertToPK3();
+                    goto case nameof(PK3); // fall through
                 case nameof(XK3):
-                    // interconverting C/XD needs to visit main series format
-                    // ends up stripping purification/shadow etc stats
-                    pkm = pkm.ConvertToPK3();
+                    pkm = ((XK3)pkm).ConvertToPK3();
                     goto case nameof(PK3); // fall through
                 case nameof(PK3):
-                    if (toFormat == 3) // Gen3 Inter-trading
+                    if (toFormat == 3)
                     {
-                        pkm = InterConvertPK3(pkm, PKMType);
+                        if (PKMType == typeof(CK3))
+                            pkm = ((PK3)pkm).ConvertToCK3();
+                        else if (PKMType == typeof(XK3))
+                            pkm = ((PK3)pkm).ConvertToXK3();
                         break;
                     }
-                    if (fromType.Name != nameof(PK3))
-                        pkm = pkm.ConvertToPK3();
 
                     pkm = ((PK3) pkm).ConvertToPK4();
                     if (toFormat == 4)
@@ -353,28 +354,6 @@ namespace PKHeX.Core
                 case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
                     comment = "Cannot transfer Spiky-Eared Pichu forward.";
                     return true;
-            }
-        }
-
-        /// <summary>
-        /// Converts a PKM from one Generation 3 format to another. If it matches the destination format, the conversion will automatically return.
-        /// </summary>
-        /// <param name="pk">PKM to convert</param>
-        /// <param name="desiredFormatType">Format/Type to convert to</param>
-        /// <remarks><see cref="PK3"/>, <see cref="CK3"/>, and <see cref="XK3"/> are supported.</remarks>
-        /// <returns>Converted PKM</returns>
-        private static PKM InterConvertPK3(PKM pk, Type desiredFormatType)
-        {
-            // if already converted it instantly returns
-            switch (desiredFormatType.Name)
-            {
-                case nameof(CK3):
-                    return pk.ConvertToCK3();
-                case nameof(XK3):
-                    return pk.ConvertToXK3();
-                case nameof(PK3):
-                    return pk.ConvertToPK3();
-                default: throw new FormatException();
             }
         }
 

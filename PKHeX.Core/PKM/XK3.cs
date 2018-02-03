@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon XD. </summary>
-    public sealed class XK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
+    public sealed class XK3 : _K3, IShadowPKM
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -24,6 +24,7 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
+        public XK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new XK3((byte[])Data.Clone(), Identifier) {Purification = Purification};
 
         private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
@@ -32,19 +33,6 @@ namespace PKHeX.Core
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x4E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x4E); } }
         public override byte[] OT_Trash { get => GetData(0x38, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x38); } }
-
-        // Future Attributes
-        public override uint EncryptionConstant { get => PID; set { } }
-        public override int Nature { get => (int)(PID % 25); set { } }
-        public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
-
-        public override bool IsNicknamed { get => PKX.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
-        public override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
-        public override int Characteristic => -1;
-        public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-        public override int Ability { get { int[] abils = PersonalTable.RS.GetAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
-        public override int CurrentHandler { get => 0; set { } }
-        public override int Egg_Location { get => 0; set { } }
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
@@ -96,22 +84,22 @@ namespace PKHeX.Core
         private string Nickname2 { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
         // 0x7A-0x7B Unknown
         private ushort RIB0 { get => BigEndian.ToUInt16(Data, 0x7C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x7C); }
-        public bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)(RIB0 & ~(1 << 15) | (ushort)(value ? 1 << 15 : 0)); }
-        public bool RibbonWinning           { get => (RIB0 & (1 << 14)) == 1 << 14; set => RIB0 = (ushort)(RIB0 & ~(1 << 14) | (ushort)(value ? 1 << 14 : 0)); }
-        public bool RibbonVictory           { get => (RIB0 & (1 << 13)) == 1 << 13; set => RIB0 = (ushort)(RIB0 & ~(1 << 13) | (ushort)(value ? 1 << 13 : 0)); }
-        public bool RibbonArtist            { get => (RIB0 & (1 << 12)) == 1 << 12; set => RIB0 = (ushort)(RIB0 & ~(1 << 12) | (ushort)(value ? 1 << 12 : 0)); }
-        public bool RibbonEffort            { get => (RIB0 & (1 << 11)) == 1 << 11; set => RIB0 = (ushort)(RIB0 & ~(1 << 11) | (ushort)(value ? 1 << 11 : 0)); }
-        public bool RibbonChampionBattle    { get => (RIB0 & (1 << 10)) == 1 << 10; set => RIB0 = (ushort)(RIB0 & ~(1 << 10) | (ushort)(value ? 1 << 10 : 0)); }
-        public bool RibbonChampionRegional  { get => (RIB0 & (1 << 09)) == 1 << 09; set => RIB0 = (ushort)(RIB0 & ~(1 << 09) | (ushort)(value ? 1 << 09 : 0)); }
-        public bool RibbonChampionNational  { get => (RIB0 & (1 << 08)) == 1 << 08; set => RIB0 = (ushort)(RIB0 & ~(1 << 08) | (ushort)(value ? 1 << 08 : 0)); }
-        public bool RibbonCountry           { get => (RIB0 & (1 << 07)) == 1 << 07; set => RIB0 = (ushort)(RIB0 & ~(1 << 07) | (ushort)(value ? 1 << 07 : 0)); }
-        public bool RibbonNational          { get => (RIB0 & (1 << 06)) == 1 << 06; set => RIB0 = (ushort)(RIB0 & ~(1 << 06) | (ushort)(value ? 1 << 06 : 0)); }
-        public bool RibbonEarth             { get => (RIB0 & (1 << 05)) == 1 << 05; set => RIB0 = (ushort)(RIB0 & ~(1 << 05) | (ushort)(value ? 1 << 05 : 0)); }
-        public bool RibbonWorld             { get => (RIB0 & (1 << 04)) == 1 << 04; set => RIB0 = (ushort)(RIB0 & ~(1 << 04) | (ushort)(value ? 1 << 04 : 0)); }
-        public bool Unused1                 { get => (RIB0 & (1 << 03)) == 1 << 03; set => RIB0 = (ushort)(RIB0 & ~(1 << 03) | (ushort)(value ? 1 << 03 : 0)); }
-        public bool Unused2                 { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = (ushort)(RIB0 & ~(1 << 02) | (ushort)(value ? 1 << 02 : 0)); }
-        public bool Unused3                 { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = (ushort)(RIB0 & ~(1 << 01) | (ushort)(value ? 1 << 01 : 0)); }
-        public bool Unused4                 { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = (ushort)(RIB0 & ~(1 << 00) | (ushort)(value ? 1 << 00 : 0)); }
+        public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)(RIB0 & ~(1 << 15) | (ushort)(value ? 1 << 15 : 0)); }
+        public override bool RibbonWinning           { get => (RIB0 & (1 << 14)) == 1 << 14; set => RIB0 = (ushort)(RIB0 & ~(1 << 14) | (ushort)(value ? 1 << 14 : 0)); }
+        public override bool RibbonVictory           { get => (RIB0 & (1 << 13)) == 1 << 13; set => RIB0 = (ushort)(RIB0 & ~(1 << 13) | (ushort)(value ? 1 << 13 : 0)); }
+        public override bool RibbonArtist            { get => (RIB0 & (1 << 12)) == 1 << 12; set => RIB0 = (ushort)(RIB0 & ~(1 << 12) | (ushort)(value ? 1 << 12 : 0)); }
+        public override bool RibbonEffort            { get => (RIB0 & (1 << 11)) == 1 << 11; set => RIB0 = (ushort)(RIB0 & ~(1 << 11) | (ushort)(value ? 1 << 11 : 0)); }
+        public override bool RibbonChampionBattle    { get => (RIB0 & (1 << 10)) == 1 << 10; set => RIB0 = (ushort)(RIB0 & ~(1 << 10) | (ushort)(value ? 1 << 10 : 0)); }
+        public override bool RibbonChampionRegional  { get => (RIB0 & (1 << 09)) == 1 << 09; set => RIB0 = (ushort)(RIB0 & ~(1 << 09) | (ushort)(value ? 1 << 09 : 0)); }
+        public override bool RibbonChampionNational  { get => (RIB0 & (1 << 08)) == 1 << 08; set => RIB0 = (ushort)(RIB0 & ~(1 << 08) | (ushort)(value ? 1 << 08 : 0)); }
+        public override bool RibbonCountry           { get => (RIB0 & (1 << 07)) == 1 << 07; set => RIB0 = (ushort)(RIB0 & ~(1 << 07) | (ushort)(value ? 1 << 07 : 0)); }
+        public override bool RibbonNational          { get => (RIB0 & (1 << 06)) == 1 << 06; set => RIB0 = (ushort)(RIB0 & ~(1 << 06) | (ushort)(value ? 1 << 06 : 0)); }
+        public override bool RibbonEarth             { get => (RIB0 & (1 << 05)) == 1 << 05; set => RIB0 = (ushort)(RIB0 & ~(1 << 05) | (ushort)(value ? 1 << 05 : 0)); }
+        public override bool RibbonWorld             { get => (RIB0 & (1 << 04)) == 1 << 04; set => RIB0 = (ushort)(RIB0 & ~(1 << 04) | (ushort)(value ? 1 << 04 : 0)); }
+        public override bool Unused1                 { get => (RIB0 & (1 << 03)) == 1 << 03; set => RIB0 = (ushort)(RIB0 & ~(1 << 03) | (ushort)(value ? 1 << 03 : 0)); }
+        public override bool Unused2                 { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = (ushort)(RIB0 & ~(1 << 02) | (ushort)(value ? 1 << 02 : 0)); }
+        public override bool Unused3                 { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = (ushort)(RIB0 & ~(1 << 01) | (ushort)(value ? 1 << 01 : 0)); }
+        public override bool Unused4                 { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = (ushort)(RIB0 & ~(1 << 00) | (ushort)(value ? 1 << 00 : 0)); }
         // 0x7E-0x7F Unknown
 
         // Moves
@@ -182,45 +170,44 @@ namespace PKHeX.Core
         public override int CNT_Cute { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }
         public override int CNT_Smart { get => Data[0xB1]; set => Data[0xB1] = (byte)value; }
         public override int CNT_Tough { get => Data[0xB2]; set => Data[0xB2] = (byte)value; }
-        public int RibbonCountG3Cool { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
-        public int RibbonCountG3Beauty { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
-        public int RibbonCountG3Cute { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
-        public int RibbonCountG3Smart { get => Data[0xB6]; set => Data[0xB6] = (byte)value; }
-        public int RibbonCountG3Tough { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
+        public override int RibbonCountG3Cool { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
+        public override int RibbonCountG3Beauty { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
+        public override int RibbonCountG3Cute { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
+        public override int RibbonCountG3Smart { get => Data[0xB6]; set => Data[0xB6] = (byte)value; }
+        public override int RibbonCountG3Tough { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
 
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xBA); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xBA); }
         
         // Purification information is stored in the save file and accessed based on the Shadow ID.
         public int Purification { get; set; }
 
-        // Generated Attributes
-        public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
-        public override int TSV => (TID ^ SID) >> 3;
-        public override bool Japanese => Language == (int)LanguageID.Japanese;
-
         protected override byte[] Encrypt()
         {
             return (byte[])Data.Clone();
         }
-        // Maximums
-        public override int MaxMoveID => Legal.MaxMoveID_3;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => Legal.MaxAbilityID_3;
-        public override int MaxItemID => Legal.MaxItemID_3;
-        public override int MaxBallID => Legal.MaxBallID_3;
-        public override int MaxGameID => Legal.MaxGameID_3;
-        public override int MaxIV => 31;
-        public override int MaxEV => 252;
-        public override int OTLength => 7;
-        public override int NickLength => 10;
 
-        public bool IsOriginXD()
+        public PK3 ConvertToPK3()
+        {
+            var pk = ConvertTo<PK3>();
+            if (Version == 15)
+            {
+                // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
+                if (ShadowID != 0)
+                    pk.RibbonEarth = true; // must be purified before trading away; force purify
+                if (IsOriginXD())
+                    pk.FatefulEncounter = true;
+            }
+            pk.RefreshChecksum();
+            return pk;
+        }
+
+        private bool IsOriginXD()
         {
             if (ShadowID != 0)
                 return true;
             return IsOriginXD(Species, Met_Level);
         }
-        public static bool IsOriginXD(int species, int metLevel)
+        private static bool IsOriginXD(int species, int metLevel)
         {
             switch (species)
             {
