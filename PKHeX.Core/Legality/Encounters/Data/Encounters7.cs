@@ -445,8 +445,8 @@ namespace PKHeX.Core
                 },
             }
         };
-        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 627, LevelMin = 37, LevelMax = 55 }, /* Rufflet SUN  */ } } };
-        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 629, LevelMin = 37, LevelMax = 55 }, /* Vullaby MOON */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 627, LevelMin = 01, LevelMax = 55 }, /* Rufflet SUN  */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 629, LevelMin = 01, LevelMax = 55 }, /* Vullaby MOON */ } } };
 
         private static readonly EncounterArea[] Encounter_Pelago_UU =
         {
