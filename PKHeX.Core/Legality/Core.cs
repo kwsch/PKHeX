@@ -1265,13 +1265,13 @@ namespace PKHeX.Core
             // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
             return 4 > info.Moves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
         }
-        internal static bool IsFormChangeable(PKM pkm, int species, int form)
+        internal static bool IsFormChangeable(PKM pkm, int species)
         {
             if (FormChange.Contains(species))
                 return true;
             if (IsEvolvedFormChange(pkm))
                 return true;
-            if (species == 718 && pkm.InhabitedGeneration(7) && form != 1)
+            if (species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
                 return true;
             return false;
         }
