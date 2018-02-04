@@ -32,17 +32,25 @@ namespace PKHeX.Core
             public uint Seed;
         }
 
+        public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
+        {
+            var locks = new Stack<NPCLock>(lockList);
+            var pids = new Stack<uint>();
+            originSeed = RNG.XDRNG.Reverse(originSeed, 2);
+            return FindLockSeed(originSeed, locks, null, pids, XD, out origin);
+        }
+
         // Recursively iterates to visit possible locks until all locks (or none) are satisfied.
-        public static bool FindLockSeed(uint seed, RNG RNG, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out uint origin)
+        private static bool FindLockSeed(uint seed, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out uint origin)
         {
             if (Locks.Count == 0)
-                return VerifyNPC(seed, RNG, PIDs, XD, out origin);
+                return VerifyNPC(seed, PIDs, XD, out origin);
 
             var l = Locks.Pop();
-            foreach (var poss in FindPossibleLockFrames(seed, RNG, l, prior))
+            foreach (var poss in FindPossibleLockFrames(seed, l, prior))
             {
                 PIDs.Push(poss.PID); // possible match
-                if (FindLockSeed(poss.Seed, RNG, Locks, l, PIDs, XD, out origin))
+                if (FindLockSeed(poss.Seed, Locks, l, PIDs, XD, out origin))
                     return true; // all locks are satisfied
                 PIDs.Pop(); // no match, remove
             }
@@ -52,55 +60,53 @@ namespace PKHeX.Core
             return false;
         }
 
-        // Restriction Checking
-        private static IEnumerable<SeedPID> FindPossibleLockFrames(uint seed, RNG RNG, NPCLock l, NPCLock prior)
+        private static IEnumerable<SeedPID> FindPossibleLockFrames(uint seed, NPCLock l, NPCLock prior)
         {
-            // todo: check for premature breaks
+            uint prev0 = seed;
+            uint prev1 = RNG.XDRNG.Prev(prev0);
+            uint pid = (prev1 & 0xFFFF0000) | (prev0 >> 16);
+
+            if (prior == null)
+            {
+                if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+                    yield return new SeedPID { Seed = RNG.XDRNG.Reverse(prev1, 6), PID = pid };
+                yield break;
+            }
             do
             {
-                // todo: generate PKM for checking
-                uint pid = 0;
-                int gender = 0;
-                int abil = 0;
-                uint origin = 0; // possible to defer calc to yield?
-
-                if (prior == null)
-                {
-                    if (MatchesLock(l, pid, gender, abil))
-                        yield return new SeedPID { Seed = origin, PID = pid };
-                    yield break;
-                }
-                if (MatchesLock(prior, pid, gender, abil))
+                if (MatchesLock(prior, pid, PKX.GetGenderFromPID(prior.Species, pid)))
                     yield break; // prior lock breaks our chain!
-                if (MatchesLock(l, pid, gender, abil))
-                    yield return new SeedPID { Seed = origin, PID = pid };
+                if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+                    yield return new SeedPID { Seed = RNG.XDRNG.Reverse(prev1, 6), PID = pid };
 
+                prev0 = RNG.XDRNG.Prev(prev1);
+                prev1 = RNG.XDRNG.Prev(prev0);
+                pid = (prev1 & 0xFFFF0000) | (prev0 >> 16);
             } while (true);
 
         }
-        private static bool VerifyNPC(uint seed, RNG RNG, IEnumerable<uint> PIDs, bool XD, out uint origin)
+        private static bool VerifyNPC(uint seed, IEnumerable<uint> PIDs, bool XD, out uint origin)
         {
-            // todo: get trainer TID/SID/Origin Seed
-            origin = 0;
-            var tid = 0;
-            var sid = 0;
+            var seed1 = RNG.XDRNG.Prev(seed);
+            origin = RNG.XDRNG.Prev(seed1);
+            var tid = seed1 >> 16;
+            var sid = seed >> 16;
 
             // verify none are shiny
             foreach (var pid in PIDs)
                 if (IsShiny(tid, sid, pid))
-                    return false;
+                    return true; // todo
             return true;
         }
 
         // Helpers
+        private static bool IsShiny(uint TID, uint SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
-        private static bool MatchesLock(NPCLock k, uint PID, int Gender, int AbilityNumber)
+        private static bool MatchesLock(NPCLock k, uint PID, int Gender)
         {
             if (k.Nature != null && k.Nature != PID % 25)
                 return false;
             if (k.Gender != null && k.Gender != Gender)
-                return false;
-            if (k.Ability != null && k.Ability != AbilityNumber)
                 return false;
             return true;
         }
