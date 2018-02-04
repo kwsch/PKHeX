@@ -1503,6 +1503,7 @@ namespace PKHeX.Core
             36, // Route 221
             37, // Route 222
             47, // Valley Windworks 
+            48, // Eterna Forest
             49, // Fuego Ironworks
             58, // Floaroma Meadow
         };
