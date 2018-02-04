@@ -291,7 +291,7 @@ namespace PKHeX.Core
                 return;
 
             Species = Array.IndexOf(species, spec.Substring(0, end).Trim());
-            Form = spec.Substring(end);
+            Form = spec.Substring(end + 1);
 
             if (Species < 0) // failure to parse, check edge cases
             {
