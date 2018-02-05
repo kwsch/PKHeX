@@ -674,7 +674,7 @@ namespace PKHeX.WinForms
             if (MC.HasRSBOX) games.Add(new ComboItem { Text = "RS Box", Value = (int)GameVersion.RSBOX });
 
             WinFormsUtil.Alert("Multiple games detected", "Select a game to edit.");
-            var dialog = new SAV_GameSelect(games.ToArray());
+            var dialog = new SAV_GameSelect(games);
             dialog.ShowDialog();
             return dialog.Result;
         }
