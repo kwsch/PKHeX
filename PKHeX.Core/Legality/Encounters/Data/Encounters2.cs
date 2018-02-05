@@ -143,6 +143,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 100, Level = 23, Location = 036, Version = GameVersion.GSC }, // Voltorb @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 101, Level = 23, Location = 036, Version = GameVersion.GSC }, // Electrode @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 143, Level = 50, Location = 061, Version = GameVersion.GSC }, // Snorlax @ Vermillion City
+
+            new EncounterStatic { Species = 211, Level = 05, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Old Rod)
+            new EncounterStatic { Species = 211, Level = 20, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Good Rod)
+            new EncounterStatic { Species = 211, Level = 40, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Super Rod)
             
             new EncounterStatic { Species = 083, Level = 05, Moves = new [] { 226, 14, 97, 163 }, Version = GameVersion.Stadium2 }, // Stadium 2 Baton Pass Farfetch'd
             new EncounterStatic { Species = 207, Level = 05, Moves = new [] { 89, 68, 17 }, Version = GameVersion.Stadium2 }, // Stadium 2 Earthquake Gligar
@@ -189,6 +193,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 147, Level = 10, Version = GameVersion.GS }, // Dratini @ Goldenrod City (Game Corner)
             new EncounterStatic { Species = 023, Level = 10, Version = GameVersion.GS }, // Ekans @ Goldenrod City (Game Corner) (Gold)
             new EncounterStatic { Species = 027, Level = 10, Version = GameVersion.GS }, // Sandshrew @ Goldenrod City (Game Corner) (Silver)
+
+            new EncounterStatic { Species = 223, Level = 05, Version = GameVersion.GS }, // Remoraid Swarm @ Route 44 (Old Rod)
+            new EncounterStatic { Species = 223, Level = 20, Version = GameVersion.GS }, // Remoraid Swarm @ Route 44 (Good Rod)
+            new EncounterStatic { Species = 223, Level = 40, Version = GameVersion.GS }, // Remoraid Swarm @ Route 44 (Super Rod)
         };
 
         private static readonly EncounterStatic[] Encounter_C_Exclusive =
