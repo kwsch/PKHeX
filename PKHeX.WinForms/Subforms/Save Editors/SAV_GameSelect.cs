@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             CB_Game.DisplayMember = nameof(ComboItem.Text);
             CB_Game.ValueMember = nameof(ComboItem.Value);
-            CB_Game.DataSource = new BindingSource(items, null);
+            CB_Game.DataSource = new BindingSource(items.ToList(), null);
             CB_Game.SelectedIndex = 0;
             CB_Game.Focus();
         }
