@@ -25,24 +25,10 @@ namespace PKHeX.Core
             switch (info.Generation)
             {
                 case 1:
-                case 2:
-                    foreach (var enc in GetEncounters12(pkm, info))
-                        yield return enc;
-                    yield break;
-                case 3:
-                    // info.PIDIV = MethodFinder.Analyze(pkm);
-                    foreach (var enc in GetEncounters3(pkm, info))
-                        yield return enc;
-                    yield break;
-                case 4:
-                    // info.PIDIV = MethodFinder.Analyze(pkm);
-                    foreach (var enc in GetEncounters4(pkm, info))
-                        yield return enc;
-                    yield break;
-                default:
-                    foreach (var enc in GenerateRawEncounters(pkm))
-                        yield return enc;
-                    yield break;
+                case 2: return GetEncounters12(pkm, info);
+                case 3: return GetEncounters3(pkm, info);
+                case 4: return GetEncounters4(pkm, info);
+                default: return GenerateRawEncounters(pkm);
             }
         }
 
@@ -581,44 +567,33 @@ namespace PKHeX.Core
 
             int lvl = GetMinLevelEncounter(pkm);
             if (lvl <= 0)
-                yield break;
+                return Enumerable.Empty<EncounterSlot>();
             var s = GetRawEncounterSlots(pkm, lvl, gameSource);
             bool IsSafariBall = pkm.Ball == 5;
             bool IsSportsBall = pkm.Ball == 0x18;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
             int species = pkm.Species;
 
-            var deferred = new List<EncounterSlot>();
-            foreach (EncounterSlot slot in s)
+            bool IsDeferred(EncounterSlot slot)
             {
-                // check for petty rejection scenarios that will be flagged by other legality checks
-                // defer these edge case scenarios in the event that a later encounter ends up passing
-                if (slot.Species == 265 && species != 265 && !IsWurmpleEvoValid(pkm)) { } // bad wurmple evolution
-                else if (IsHidden ^ IsHiddenAbilitySlot(slot)) { } // ability mismatch
-                else if (IsSafariBall ^ IsSafariSlot(slot.Type)) { } // Safari Zone only ball
-                else if (IsSportsBall ^ slot.Type == SlotType.BugContest) { } // BCC only ball
-                else
-                {
-                    yield return slot;
-                    continue;
-                }
-                deferred.Add(slot);
+                if (slot.Species == 265 && species != 265 && !IsWurmpleEvoValid(pkm))
+                    return true; // bad wurmple evolution
+                if (IsHidden ^ IsHiddenAbilitySlot(slot))
+                    return true; // ability mismatch
+                if (IsSafariBall ^ IsSafariSlot(slot.Type))
+                    return true; // Safari Zone only ball
+                if (IsSportsBall ^ slot.Type == SlotType.BugContest)
+                    return true;
+                return false; // BCC only ball
             }
-            foreach (var d in deferred)
-                yield return d;
+            return s.OrderBy(IsDeferred); // non-deferred first
         }
         private static IEnumerable<EncounterSlot> GetValidFriendSafari(PKM pkm)
         {
-            if (!pkm.XY)
-                yield break;
-            if (pkm.Met_Location != 148) // Friend Safari
-                yield break;
-            if (pkm.Met_Level != 30)
-                yield break;
-
+            if (!pkm.XY || pkm.Met_Location != 148 || pkm.Met_Level != 30) // Friend Safari
+                return Enumerable.Empty<EncounterSlot>();
             var vs = GetValidPreEvolutions(pkm).Where(d => d.Level >= 30);
-            foreach (var slot in vs.SelectMany(z => Encounters6.FriendSafari[z.Species]))
-                yield return slot;
+            return vs.SelectMany(z => Encounters6.FriendSafari[z.Species]);
         }
         private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, bool DexNav = false, int lvl = -1, bool ignoreLevel = false)
         {
