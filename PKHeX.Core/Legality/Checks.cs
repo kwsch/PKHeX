@@ -10,7 +10,12 @@ namespace PKHeX.Core
         private void VerifyGender()
         {
             if (pkm.PersonalInfo.Gender == 255 && pkm.Gender != 2)
-                AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
+            {
+                // DP/HGSS shedinja glitch -- only generation 4 spawns
+                bool ignore = pkm.Species == 292 && pkm.Format == 4 && pkm.Met_Level != pkm.CurrentLevel;
+                if (!ignore)
+                    AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
+            }
 
             // Check for PID relationship to Gender & Nature if applicable
             int gen = Info.Generation;
@@ -20,11 +25,21 @@ namespace PKHeX.Core
                 return;
 
             bool genderValid = pkm.IsGenderValid();
-            if (!genderValid && pkm.Format > 5 && (pkm.Species == 183 || pkm.Species == 184))
+            if (!genderValid)
             {
-                var gv = pkm.PID & 0xFF;
-                if (gv > 63 && pkm.Gender == 1) // evolved from azurill after transferring to keep gender
-                    genderValid = true;
+                if (pkm.Format == 4 && pkm.Species == 292) // Shedinja glitch
+                {
+                    // should match original gender
+                    var gender = PKX.GetGenderFromPIDAndRatio(pkm.PID, 0x7F); // 50-50
+                    if (gender == pkm.Gender)
+                        genderValid = true;
+                }
+                else if (pkm.Format > 5 && (pkm.Species == 183 || pkm.Species == 184))
+                {
+                    var gv = pkm.PID & 0xFF;
+                    if (gv > 63 && pkm.Gender == 1) // evolved from azurill after transferring to keep gender
+                        genderValid = true;
+                }
             }
             else if (3 <= Info.Generation && Info.Generation <= 5)
             {
