@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public int Species;
         public uint? Nature = null;
         public uint? Gender = null;
-        public uint? Ability = null;
+        public bool Shadow = false;
     }
 
     /// <summary>
@@ -26,71 +26,85 @@ namespace PKHeX.Core
     public static class LockFinder
     {
         // Message Passing
-        private sealed class SeedPID
+        private struct SeedFrame
         {
             public uint PID;
-            public uint Seed;
+            public int FrameID;
         }
 
         public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
         {
             var locks = new Stack<NPCLock>(lockList);
             var pids = new Stack<uint>();
-            originSeed = RNG.XDRNG.Reverse(originSeed, 2);
-            return FindLockSeed(originSeed, locks, null, pids, XD, out origin);
+            var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
+            var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var originFrame);
+            origin = cache.GetSeed(originFrame);
+            return result;
         }
 
         // Recursively iterates to visit possible locks until all locks (or none) are satisfied.
-        private static bool FindLockSeed(uint seed, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out uint origin)
+        private static bool FindLockSeed(FrameCache cache, int ctr, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out int originFrame)
         {
             if (Locks.Count == 0)
-                return VerifyNPC(seed, PIDs, XD, out origin);
+                return VerifyNPC(cache, ctr, PIDs, XD, out originFrame);
 
             var l = Locks.Pop();
-            foreach (var poss in FindPossibleLockFrames(seed, l, prior))
+            foreach (var poss in FindPossibleLockFrames(cache, ctr, l, prior))
             {
                 PIDs.Push(poss.PID); // possible match
-                if (FindLockSeed(poss.Seed, Locks, l, PIDs, XD, out origin))
+                if (FindLockSeed(cache, poss.FrameID, Locks, l, PIDs, XD, out originFrame))
                     return true; // all locks are satisfied
                 PIDs.Pop(); // no match, remove
             }
-            Locks.Push(l); // return the lock, lock is impossible
 
-            origin = seed;
+            Locks.Push(l); // return the lock, lock is impossible
+            originFrame = 0;
             return false;
         }
 
-        private static IEnumerable<SeedPID> FindPossibleLockFrames(uint seed, NPCLock l, NPCLock prior)
+        private static IEnumerable<SeedFrame> FindPossibleLockFrames(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
         {
-            uint prev0 = seed;
-            uint prev1 = RNG.XDRNG.Prev(prev0);
-            uint pid = (prev1 & 0xFFFF0000) | (prev0 >> 16);
+            if (prior == null || prior.Shadow)
+                return GetSingleLockFrame(cache, ctr, l);
 
-            if (prior == null)
-            {
-                if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
-                    yield return new SeedPID { Seed = RNG.XDRNG.Reverse(prev1, 6), PID = pid };
-                yield break;
-            }
+            return GetComplexLockFrame(cache, ctr, l, prior);
+        }
+        private static IEnumerable<SeedFrame> GetSingleLockFrame(FrameCache cache, int ctr, NPCLock l)
+        {
+            uint pid = cache[ctr + 1] << 16 | cache[ctr];
+            if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+                yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
+        }
+        private static IEnumerable<SeedFrame> GetComplexLockFrame(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
+        {
+            // Since the prior(next) lock is generated 7+2*n frames after, the worst case break is 7 frames after the PID.
+            // Continue reversing until a sequential generation case is found.
+
+            // Check 
+
+            int start = ctr;
             do
             {
-                if (MatchesLock(prior, pid, PKX.GetGenderFromPID(prior.Species, pid)))
-                    yield break; // prior lock breaks our chain!
+                int p7 = ctr - 7;
+                if (p7 > start)
+                {
+                    uint cid = cache[p7 + 1] << 16 | cache[p7];
+                    if (MatchesLock(prior, cid, PKX.GetGenderFromPID(prior.Species, cid)))
+                        yield break;
+                }
+                uint pid = cache[ctr + 1] << 16 | cache[ctr];
                 if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
-                    yield return new SeedPID { Seed = RNG.XDRNG.Reverse(prev1, 6), PID = pid };
+                    yield return new SeedFrame { FrameID = ctr + 6, PID = pid};
 
-                prev0 = RNG.XDRNG.Prev(prev1);
-                prev1 = RNG.XDRNG.Prev(prev0);
-                pid = (prev1 & 0xFFFF0000) | (prev0 >> 16);
+                ctr += 2;
             } while (true);
-
         }
-        private static bool VerifyNPC(uint seed, IEnumerable<uint> PIDs, bool XD, out uint origin)
+
+        private static bool VerifyNPC(FrameCache cache, int ctr, IEnumerable<uint> PIDs, bool XD, out int originFrame)
         {
-            var seed1 = RNG.XDRNG.Prev(seed);
-            origin = RNG.XDRNG.Prev(seed1);
-            var tid = seed1 >> 16;
-            var sid = seed >> 16;
+            originFrame = ctr+2;
+            var tid = cache[ctr+1];
+            var sid = cache[ctr];
 
             // verify none are shiny
             foreach (var pid in PIDs)
