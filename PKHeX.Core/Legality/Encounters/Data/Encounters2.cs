@@ -267,7 +267,7 @@ namespace PKHeX.Core
             new[] { "デンジ", "CHRIS" },
             new[] { "モリオ", "FOREST" },
 
-            new[] { "セイジ", "MANIA" },
+            new[] { "マニア", "MANIA" },
             new[] { "ユウジ", "RANDY" },
         };
     }

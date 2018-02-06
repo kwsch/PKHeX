@@ -907,7 +907,8 @@ namespace PKHeX.Core
                     continue;
 
                 int index = Array.IndexOf(Encounters2.TradeGift_GSC, z);
-                if (Encounters2.TradeGift_GSC_OTs[index].All(ot => ot != pkm.OT_Name))
+                int lang = pkm.Japanese ? 0 : 1;
+                if (Encounters2.TradeGift_GSC_OTs[index][lang] != pkm.OT_Name)
                     continue;
 
                 yield return z;
