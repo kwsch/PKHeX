@@ -256,19 +256,15 @@ namespace PKHeX.Core
         };
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
-            new[] { "コンタ", "KYLE" },
-            new[] { "ナオキ", "MIKE" },
-            new[] { "ゲン", "TIM" },
-            new[] { "ミサコ", "EMY" },
-            new[] { "キヨミ", "KIM" },
-            new[] { "デンジ", "CHRIS" },
-
-            new[] { "ミサコ", "EMY" },
-            new[] { "デンジ", "CHRIS" },
-            new[] { "モリオ", "FOREST" },
-
-            new[] { "マニア", "MANIA" },
-            new[] { "ユウジ", "RANDY" },
+            new string[0],                        // 0 - None
+            Util.GetStringList("tradegsc", "ja"), // 1
+            Util.GetStringList("tradegsc", "en"), // 2
+            Util.GetStringList("tradegsc", "fr"), // 3
+            Util.GetStringList("tradegsc", "it"), // 4
+            Util.GetStringList("tradegsc", "de"), // 5
+            new string[0],                        // 6 - None
+            Util.GetStringList("tradegsc", "es"), // 7
+            Util.GetStringList("tradegsc", "ko"), // 8
         };
     }
 }

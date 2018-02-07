@@ -907,8 +907,15 @@ namespace PKHeX.Core
                     continue;
 
                 int index = Array.IndexOf(Encounters2.TradeGift_GSC, z);
-                int lang = pkm.Japanese ? 0 : 1;
-                if (Encounters2.TradeGift_GSC_OTs[index][lang] != pkm.OT_Name)
+                int otIndex = Encounters2.TradeGift_GSC.Length + index;
+                bool valid;
+                if (pkm.Japanese)
+                    valid = Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Japanese][otIndex] == pkm.OT_Name;
+                else if (pkm.Korean)
+                    valid = Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Korean][otIndex] == pkm.OT_Name;
+                else
+                    valid = Array.FindIndex(Encounters2.TradeGift_GSC_OTs, 2, 6, arr => arr.Length > index && arr[otIndex] == pkm.OT_Name) >= 0;
+                if (!valid)
                     continue;
 
                 yield return z;
