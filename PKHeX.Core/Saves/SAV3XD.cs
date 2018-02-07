@@ -133,7 +133,7 @@ namespace PKHeX.Core
             byte[] newSAV = SaveUtil.EncryptGC(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
-            byte[] newFile = (byte[])BAK.Clone();
+            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex * SLOT_SIZE, newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
