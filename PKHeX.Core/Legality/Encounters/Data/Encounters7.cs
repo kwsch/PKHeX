@@ -223,7 +223,7 @@ namespace PKHeX.Core
             },
             new EncounterStatic // Pikachu (Pretty Wing), should probably be a fake mystery gift as it has OT details
             {
-                Gift = true, Species = 25, Level = 21, Location = 40005, Shiny = false, Form = 7, HeldItem = 571, Ability = 1,
+                Gift = true, Species = 25, Level = 21, Location = 40005, Form = 7, HeldItem = 571, Ability = 1,
                 Fateful = true, RibbonWishing = true, Relearn = new[] {85, 98, 87, 231}, Nature = Nature.Hardy,
             },
 
