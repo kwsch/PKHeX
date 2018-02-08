@@ -590,6 +590,11 @@ namespace PKHeX.Core
             var tr = ot.Sum(z => z);
             return (ushort)(val + tr);
         }
+        public void UnlockAllDecorations()
+        {
+            for (int i = 676; i <= 721; i++)
+                SetEventFlag(i, true);
+        }
 
         public override string GetString(int Offset, int Count)
         {
