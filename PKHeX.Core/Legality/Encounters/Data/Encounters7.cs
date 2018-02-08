@@ -221,11 +221,6 @@ namespace PKHeX.Core
                 Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true, HeldItem = 795, Ability = 2,
                 Fateful = true, RibbonWishing = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
             },
-            new EncounterStatic // Pikachu (Pretty Wing), should probably be a fake mystery gift as it has OT details
-            {
-                Gift = true, Species = 25, Level = 21, Location = 40005, Form = 7, HeldItem = 571, Ability = 1,
-                Fateful = true, RibbonWishing = true, Relearn = new[] {85, 98, 87, 231}, Nature = Nature.Hardy,
-            },
 
             new EncounterStatic { Gift = true, Species = 718, Form = 0, Level = 50, Shiny = false, Location = 118, IV3 = true, }, // Zygarde
             new EncounterStatic { Gift = true, Species = 718, Form = 1, Level = 50, Shiny = false, Location = 118, IV3 = true, }, // Zygarde
