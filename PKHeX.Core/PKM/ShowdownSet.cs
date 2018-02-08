@@ -145,9 +145,6 @@ namespace PKHeX.Core
                 }
             }
 
-            IVs = IVsSpeedFirst;
-            EVs = EVsSpeedFirst;
-
             // Showdown Quirks
             Form = ConvertFormFromShowdown(Form, Species, Ability);
             // Set Form
@@ -221,11 +218,7 @@ namespace PKHeX.Core
                 var str = $"- {moves[move]}";
                 if (move == 237) // Hidden Power
                 {
-                    int hp = 0;
-                    for (int i = 0; i < 6; i++)
-                        hp |= (IVs[i] & 1) << i;
-                    hp *= 0xF;
-                    hp /= 0x3F;
+                    int hp = GetHiddenPowerType(IVsSpeedFirst);
                     str += $" [{hptypes[hp]}]";
                 }
                 yield return str;
@@ -344,7 +337,10 @@ namespace PKHeX.Core
                 int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
 
                 if (IVs.Any(z => z != 31))
-                { } // don't modify IVs
+                {
+                    if (!SetIVsForHiddenPower(hpVal, IVs))
+                        InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
+                }
                 else if (hpVal >= 0)
                     IVs = PKX.SetHPIVs(hpVal, IVs); // Get IVs
                 else
@@ -352,6 +348,56 @@ namespace PKHeX.Core
             }
             moveString = "Hidden Power";
             return moveString;
+        }
+        private static int GetHiddenPowerType(IReadOnlyList<int> IVs)
+        {
+            int hp = 0;
+            for (int i = 0; i < 6; i++)
+                hp |= (IVs[i] & 1) << i;
+            hp *= 0xF;
+            hp /= 0x3F;
+            return hp;
+        }
+        private static bool SetIVsForHiddenPower(int hpVal, int[] IVs)
+        {
+            if (IVs.All(z => z == 31))
+            {
+                PKX.SetHPIVs(hpVal, IVs); // Get IVs
+                return true;
+            }
+
+            int current = GetHiddenPowerType(IVs);
+            if (current == hpVal)
+                return true; // no mods necessary
+
+            // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
+            var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
+            var permutations = GetPermutations(flawless, flawless.Length);
+            foreach (var permute in permutations)
+            {
+                var list = permute.ToList();
+                foreach (var item in list)
+                {
+                    IVs[item] ^= 1;
+                    if (hpVal == GetHiddenPowerType(IVs))
+                        return true;
+                }
+
+                // flip back
+                foreach (var item in list)
+                    IVs[item] ^= 1;
+            }
+            return false; // can't force hidden power?
+        }
+        private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IList<T> list, int length)
+        {
+            // https://stackoverflow.com/a/10630026
+            if (length == 1)
+                return list.Select(t => new[] { t });
+
+            return GetPermutations(list, length - 1)
+                .SelectMany(t => list.Where(e => !t.Contains(e)),
+                    (t1, t2) => t1.Concat(new[] { t2 }));
         }
         private void ParseLineEVs(string line)
         {
@@ -367,6 +413,7 @@ namespace PKHeX.Core
                 else
                     InvalidLines.Add($"Unknown EV Type input: {evlist[i * 2]}");
             }
+            EVs = EVsSpeedFirst;
         }
         private void ParseLineIVs(string line)
         {
@@ -382,6 +429,7 @@ namespace PKHeX.Core
                 else
                     InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");
             }
+            IVs = IVsSpeedFirst;
         }
         private static string ConvertFormToShowdown(string form, int spec)
         {
