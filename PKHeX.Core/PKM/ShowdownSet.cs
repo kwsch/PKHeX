@@ -218,7 +218,7 @@ namespace PKHeX.Core
                 var str = $"- {moves[move]}";
                 if (move == 237) // Hidden Power
                 {
-                    int hp = GetHiddenPowerType(IVsSpeedFirst);
+                    int hp = GetHiddenPowerType(IVs);
                     str += $" [{hptypes[hp]}]";
                 }
                 yield return str;
