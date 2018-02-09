@@ -101,7 +101,7 @@ namespace PKHeX.Core
             if (pkm.PID == 0)
                 AddLine(Severity.Fishy, V207, CheckIdentifier.PID);
 
-            if (Info.Generation >= 6 && pkm.PID == pkm.EncryptionConstant)
+            if ((Info.Generation >= 6 || Info.Generation < 3 && pkm.Format >= 7) && pkm.PID == pkm.EncryptionConstant)
                 AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
             switch (EncounterMatch)

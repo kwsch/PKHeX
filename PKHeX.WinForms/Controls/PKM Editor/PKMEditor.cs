@@ -1043,7 +1043,7 @@ namespace PKHeX.WinForms.Controls
             TB_PID.Text = pkm.PID.ToString("X8");
             SetIsShiny(null);
             UpdateSprite();
-            if (pkm.GenNumber < 6 && pkm.Format >= 6)
+            if (pkm.Format >= 6 && 3 <= pkm.GenNumber && pkm.GenNumber <= 5)
                 TB_EC.Text = TB_PID.Text;
         }
         private void UpdateRandomEC(object sender, EventArgs e)
