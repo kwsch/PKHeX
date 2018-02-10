@@ -371,23 +371,40 @@ namespace PKHeX.Core
                 return true; // no mods necessary
 
             // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
+            int[] best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
+            if (best == null)
+                return false; // can't force hidden power?
+
+            // set IVs back to array
+            for (int i = 0; i < IVs.Length; i++)
+                IVs[i] = best[i];
+            return true;
+        }
+        private static int[] GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
+        {
             var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
             var permutations = GetPermutations(flawless, flawless.Length);
+            int flawedCount = 0;
+            int[] best = null;
             foreach (var permute in permutations)
             {
-                var list = permute.ToList();
-                foreach (var item in list)
+                var ivs = (int[])IVs.Clone();
+                foreach (var item in permute)
                 {
-                    IVs[item] ^= 1;
-                    if (hpVal == GetHiddenPowerType(IVs))
-                        return true;
-                }
+                    ivs[item] ^= 1;
+                    if (hpVal != GetHiddenPowerType(ivs))
+                        continue;
 
-                // flip back
-                foreach (var item in list)
-                    IVs[item] ^= 1;
+                    int ct = ivs.Count(z => z == 31);
+                    if (ct <= flawedCount)
+                        break; // any further flaws are always worse
+
+                    flawedCount = ct;
+                    best = ivs;
+                    break; // any further flaws are always worse
+                }
             }
-            return false; // can't force hidden power?
+            return best;
         }
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IList<T> list, int length)
         {
