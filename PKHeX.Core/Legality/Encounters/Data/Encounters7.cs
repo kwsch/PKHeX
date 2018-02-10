@@ -364,10 +364,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 101, Level = 60, Location = 224, Ability = 1, Shiny = false, }, // Electrode @ Team Rocket's Castle
 
             // Crabrawler in Berry Piles
-            new EncounterStatic { Species = 739, Level = 10, Location = 012, }, // Route 2
             new EncounterStatic { Species = 739, Level = 25, Location = 106, }, // Route 10
             new EncounterStatic { Species = 739, Level = 28, Location = 110, }, // Ula'ula Beach
-            new EncounterStatic { Species = 739, Level = 30, Location = 118, }, // Route 16
+            new EncounterStatic { Species = 739, Level = 31, Location = 118, }, // Route 16
             new EncounterStatic { Species = 739, Level = 32, Location = 120, }, // Route 17
         };
         internal static readonly EncounterTrade[] TradeGift_USUM =
