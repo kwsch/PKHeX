@@ -866,6 +866,12 @@ namespace PKHeX.Core
                         break; // form now set
                     }
                 }
+                else if (pkm.Species == 172 && HGSS) // Pichu (HGSS Only)
+                {
+                    int form = pkm.AltForm == 1 ? 2 : pkm.Gender;
+                    CheckInsertForm(ref forms, form);
+                    SetForms(pkm.Species, forms);
+                }
                 else
                 {
                     CheckInsertForm(ref forms, pkm.AltForm);

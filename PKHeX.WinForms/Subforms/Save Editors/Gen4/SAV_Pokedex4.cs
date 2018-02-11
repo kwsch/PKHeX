@@ -137,14 +137,23 @@ namespace PKHeX.WinForms
             if (forms == null)
                 return;
 
-            string[] formNames = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms,
-                Main.GenderSymbols, 4);
-            var seen = forms.Where(z => (byte)z != 0xFF).Select((v, i) => formNames[forms[i]]).ToArray();
+            string[] formNames = GetFormNames4Dex(species);
+
+            var seen = forms.Where(z => z < forms.Length).Select((v, i) => formNames[forms[i]]).ToArray();
             var not = formNames.Where(z => !seen.Contains(z)).ToArray();
 
             LB_Form.Items.AddRange(seen);
             LB_NForm.Items.AddRange(not);
         }
+
+        private static string[] GetFormNames4Dex(int species)
+        {
+            string[] formNames = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 4);
+            if (species == 172)
+                formNames = new[] { MALE, FEMALE, formNames[1] }; // Spiky
+            return formNames;
+        }
+
         private void SetEntry()
         {
             if (species < 0)
@@ -210,7 +219,7 @@ namespace PKHeX.WinForms
             if (forms != null)
             {
                 int[] arr = new int[LB_Form.Items.Count];
-                string[] formNames = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 4);
+                string[] formNames = GetFormNames4Dex(species);
                 for (int i = 0; i < LB_Form.Items.Count; i++)
                     arr[i] = Array.IndexOf(formNames, (string)LB_Form.Items[i]);
                 SAV.SetForms(species, arr);

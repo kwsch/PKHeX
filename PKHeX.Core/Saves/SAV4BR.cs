@@ -149,11 +149,10 @@ namespace PKHeX.Core
         public static byte[] DecryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
+            ushort[] keys = new ushort[4];
             for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
             {
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
-
-                ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
                     keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
 
@@ -175,11 +174,10 @@ namespace PKHeX.Core
         private static byte[] EncryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
+            ushort[] keys = new ushort[4];
             for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
             {
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
-
-                ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
                     keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
 

@@ -431,16 +431,20 @@ namespace PKHeX.WinForms.Controls
         private void LoadAbility4(PKM pk)
         {
             int[] abils = pk.PersonalInfo.Abilities;
-            int abil = Array.IndexOf(abils, pk.Ability);
+            var index = GetAbilityIndex4(pk, abils);
 
-            if (abil < 0)
-                CB_Ability.SelectedIndex = 0;
-            if (abil == 2)
-                CB_Ability.SelectedIndex = 2;
-            else if (abils[0] == abils[1] || abils[1] == 0)
-                CB_Ability.SelectedIndex = pk.PIDAbility;
-            else
-                CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
+            CB_Ability.SelectedIndex = Math.Min(CB_Ability.Items.Count - 1, index);
+        }
+        private static int GetAbilityIndex4(PKM pk, int[] abils)
+        {
+            int abilityIndex = Array.IndexOf(abils, pk.Ability);
+            if (abilityIndex < 0)
+                return 0;
+            if (abilityIndex >= 2)
+                return 2;
+            if (abils[0] == abils[1] || abils[1] == 0)
+                return pk.PIDAbility;
+            return abilityIndex;
         }
     }
 }
