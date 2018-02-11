@@ -98,6 +98,11 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpUSUM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
 
         // Setup Help
+        static Legal()
+        {
+            // Misc Fixes to Data pertaining to legality constraints
+            EggMovesUSUM[198].Moves = EggMovesUSUM[198].Moves.Take(15).ToArray(); // Remove Punishment from USUM Murkrow (no species can pass it #1829)
+        }
         private static HashSet<MysteryGift> GetPCDDB(byte[] bin)
         {
             var db = new HashSet<MysteryGift>();
