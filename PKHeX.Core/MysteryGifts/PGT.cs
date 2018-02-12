@@ -236,7 +236,7 @@ namespace PKHeX.Core
             if (!IsPokémon)
                 return null;
 
-            PK4 pk4 = new PK4(PK.Data) {Sanity = 0};
+            PK4 pk4 = new PK4((byte[])PK.Data.Clone()) {Sanity = 0};
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = SAV.OT;
