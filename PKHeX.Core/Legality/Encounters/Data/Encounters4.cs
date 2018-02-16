@@ -281,6 +281,9 @@ namespace PKHeX.Core
         }
         private static EncounterType GetHeadbuttEncounterType(int Location)
         {
+            if (Location == 195 || Location == 196) // Route 47/48
+                return EncounterType.DialgaPalkia | EncounterType.TallGrass;
+
             // Routes with trees adjacent to water tiles
             var allowsurf = HGSS_SurfingHeadbutt_Locations.Contains(Location);
             // Cities
