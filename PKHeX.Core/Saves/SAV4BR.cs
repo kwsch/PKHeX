@@ -69,10 +69,13 @@ namespace PKHeX.Core
 
         public readonly List<int> SaveSlots;
         public readonly string[] SaveNames;
-        public int CurrentSlot;
-        protected override int Box { // 4 save slots, data reading depends on current slot
-            get => 0x978 + 0x6FF00 * CurrentSlot;
-            set { }
+
+        private int _currentSlot;
+        public int CurrentSlot
+        {
+            get => _currentSlot;
+            // 4 save slots, data reading depends on current slot
+            set => Box = 0x978 + 0x6FF00 * (_currentSlot = value);
         }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;

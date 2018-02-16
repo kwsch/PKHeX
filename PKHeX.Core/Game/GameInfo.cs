@@ -237,6 +237,7 @@ namespace PKHeX.Core
                     if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
                         metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
                 }
+                Array.Copy(metSM_00000, 194, metSM_00000_good, 194, 4); // Restore Island Names (unused)
                 metSM_00000_good.CopyTo(metSM_00000, 0);
 
                 metSM_30000[0] += $" ({NPC})";      // Anything from an NPC

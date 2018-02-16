@@ -130,7 +130,7 @@ namespace PKHeX.Core
         public virtual int MaxShadowID => 0;
 
         // Offsets
-        protected virtual int Box { get; set; } = int.MinValue;
+        protected int Box { get; set; } = int.MinValue;
         protected int Party { get; set; } = int.MinValue;
         protected int Trainer1 { get; set; } = int.MinValue;
         protected int Daycare { get; set; } = int.MinValue;
