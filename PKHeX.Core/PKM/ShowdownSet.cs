@@ -290,7 +290,7 @@ namespace PKHeX.Core
             Form = spec.Substring(end + 1);
 
             if (Species >= 0)
-                return false;
+                return true;
 
             // failure to parse, check edge cases
             var edge = new[] {784, 250}; // all species with dashes in English Name (Kommo-o & Ho-Oh)
@@ -300,7 +300,7 @@ namespace PKHeX.Core
                     continue;
                 Species = e;
                 Form = spec.Substring(species[e].Length);
-                return false;
+                return true;
             }
 
             // Version Megas
