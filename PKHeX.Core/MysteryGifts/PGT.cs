@@ -207,7 +207,7 @@ namespace PKHeX.Core
         {
             byte[] ekdata = new byte[PKX.SIZE_4PARTY];
             Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
-            PKX.EncryptArray45(ekdata);
+            ekdata = PKX.EncryptArray45(ekdata);
             ekdata.CopyTo(Data, 8);
         }
 
