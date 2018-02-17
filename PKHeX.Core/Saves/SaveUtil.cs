@@ -912,7 +912,7 @@ namespace PKHeX.Core
                 case 080: return 202; // 2 Slowbro
                 case 208: return 204; // 2 Steelix
                 case 254: return 206; // 2 Sceptile
-                case 360: return 208; // 2 Swampert
+                case 260: return 208; // 2 Swampert
                 case 302: return 210; // 2 Sableye
                 case 319: return 212; // 2 Sharpedo
                 case 323: return 214; // 2 Camerupt

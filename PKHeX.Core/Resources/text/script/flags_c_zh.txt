@@ -3,3 +3,4 @@
 0192	GS球能放入桐树林祠堂
 0830	已接收 奇异的蛋
 0832	已接收 GS球
+1873	Captured Red Gyarados
