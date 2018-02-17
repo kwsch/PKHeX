@@ -3,3 +3,4 @@
 0192	GS Ball can be inserted into Ilex Forest Shrine
 0830	Received Odd Egg
 0832	Received GS Ball
+1873	Captured Red Gyarados
