@@ -331,7 +331,7 @@ namespace PKHeX.WinForms
 
             CB_Form.DisplayMember = "Text";
             CB_Form.ValueMember = "Value";
-            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols).ToList();
+            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
         }
         private void UpdateSpecies(object sender, EventArgs e)
         {

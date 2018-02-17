@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
             int f = SAV.B2W2 ? SaveUtil.GetDexFormIndexB2W2(species, fc) : SaveUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols);
+            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             if (forms.Length < 1)
                 return;
             

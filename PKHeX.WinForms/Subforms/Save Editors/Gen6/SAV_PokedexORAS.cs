@@ -131,7 +131,7 @@ namespace PKHeX.WinForms
             int f = SaveUtil.GetDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols);
+            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             if (forms.Length < 1)
                 return;
 
