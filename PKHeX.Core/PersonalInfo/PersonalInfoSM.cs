@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -15,12 +14,12 @@ namespace PKHeX.Core
                 return;
             Data = data;
 
-            TMHM = GetBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
-            TypeTutors = GetBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
+            TMHM = GetBits(Data, 0x28, 0x10); // 36-39
+            TypeTutors = GetBits(Data, 0x38, 0x4); // 40
 
             SpecialTutors = new[]
             {
-                GetBits(Data.Skip(0x3C).Take(0x0A).ToArray()),
+                GetBits(Data, 0x3C, 0x0A),
             };
         }
         public override byte[] Write()

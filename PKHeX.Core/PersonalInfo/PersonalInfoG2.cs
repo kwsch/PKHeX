@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
@@ -15,7 +13,7 @@ namespace PKHeX.Core
                 return;
 
             Data = data;
-            TMHM = GetBits(Data.Skip(0x18).Take(0x8).ToArray());
+            TMHM = GetBits(Data, 0x18, 0x8);
         }
         public override byte[] Write()
         {

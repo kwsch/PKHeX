@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the Black 2 & White 2 games.
@@ -15,14 +13,14 @@ namespace PKHeX.Core
             Data = data;
 
             // Unpack TMHM & Tutors
-            TMHM = GetBits(Data.Skip(0x28).Take(0x10).ToArray());
-            TypeTutors = GetBits(Data.Skip(0x38).Take(0x4).ToArray());
+            TMHM = GetBits(Data, 0x28, 0x10);
+            TypeTutors = GetBits(Data, 0x3, 0x4);
             SpecialTutors = new[]
             {
-                GetBits(Data.Skip(0x3C).Take(0x04).ToArray()),
-                GetBits(Data.Skip(0x40).Take(0x04).ToArray()),
-                GetBits(Data.Skip(0x44).Take(0x04).ToArray()),
-                GetBits(Data.Skip(0x48).Take(0x04).ToArray()),
+                GetBits(Data, 0x3C, 0x04),
+                GetBits(Data, 0x40, 0x04),
+                GetBits(Data, 0x44, 0x04),
+                GetBits(Data, 0x48, 0x04),
             };
         }
 
