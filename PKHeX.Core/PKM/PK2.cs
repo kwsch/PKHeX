@@ -81,7 +81,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (!IsNicknamed)
+                if (!IsNicknamed && Nickname == value)
                     return;
 
                 byte[] strdata = SetString(value, StringLength);

@@ -64,7 +64,7 @@ namespace PKHeX.Core
             get => StringConverter.GetString1(nick, 0, nick.Length, Japanese);
             set
             {
-                if (!IsNicknamed)
+                if (!IsNicknamed && Nickname == value)
                     return;
 
                 byte[] strdata = SetString(value, StringLength);
