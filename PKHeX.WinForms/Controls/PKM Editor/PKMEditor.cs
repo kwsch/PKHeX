@@ -1994,14 +1994,19 @@ namespace PKHeX.WinForms.Controls
             TB_Level.Text = Set.Level.ToString();
             TB_Friendship.Text = Set.Friendship.ToString();
 
-            if (pkm.Format >= 7 && pkm.CurrentLevel == 100) // hyper train IVs as appropriate
+            if (pkm.Format >= 7) // hyper train IVs as appropriate
             {
-                pkm.HT_HP = Set.IVs[0] != 31;
-                pkm.HT_ATK = Set.IVs[1] != 31 && Set.IVs[1] > 2;
-                pkm.HT_DEF = Set.IVs[2] != 31;
-                pkm.HT_SPA = Set.IVs[4] != 31;
-                pkm.HT_SPD = Set.IVs[5] != 31;
-                pkm.HT_SPE = Set.IVs[3] != 31 & Set.IVs[3] > 2;
+                if (Set.Level < 100)
+                    pkm.HyperTrainFlags = 0;
+                else
+                { 
+                    pkm.HT_HP = Set.IVs[0] != 31;
+                    pkm.HT_ATK = Set.IVs[1] != 31 && Set.IVs[1] > 2;
+                    pkm.HT_DEF = Set.IVs[2] != 31;
+                    pkm.HT_SPA = Set.IVs[4] != 31;
+                    pkm.HT_SPD = Set.IVs[5] != 31;
+                    pkm.HT_SPE = Set.IVs[3] != 31 & Set.IVs[3] > 2;
+                }
             }
 
             // Set IVs
