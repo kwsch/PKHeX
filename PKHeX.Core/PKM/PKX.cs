@@ -624,21 +624,22 @@ namespace PKHeX.Core
         /// <remarks>
         /// There are other IV combinations to achieve the same Hidden Power Type.
         /// These are just precomputed for fast modification.
+        /// Individual Values (H/A/B/S/C/D)
         /// </remarks>
         public static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
-            { 0, 0, 0, 0, 0, 1 }, // Flying
-            { 1, 1, 0, 0, 0, 1 }, // Poison
-            { 1, 1, 1, 0, 0, 1 }, // Ground
-            { 1, 1, 0, 1, 0, 0 }, // Rock
-            { 1, 0, 0, 1, 0, 1 }, // Bug
-            { 1, 0, 1, 1, 0, 1 }, // Ghost
-            { 1, 1, 1, 1, 0, 1 }, // Steel
-            { 1, 0, 1, 0, 1, 0 }, // Fire
-            { 1, 0, 0, 0, 1, 1 }, // Water
-            { 1, 0, 1, 0, 1, 1 }, // Grass
-            { 1, 1, 1, 0, 1, 1 }, // Electric
-            { 1, 0, 1, 1, 1, 0 }, // Psychic
+            { 0, 0, 0, 1, 0, 0 }, // Flying
+            { 1, 1, 0, 1, 0, 0 }, // Poison
+            { 1, 1, 1, 1, 0, 0 }, // Ground
+            { 1, 1, 0, 0, 1, 0 }, // Rock
+            { 1, 0, 0, 1, 1, 0 }, // Bug
+            { 1, 0, 1, 1, 1, 0 }, // Ghost
+            { 1, 1, 1, 1, 1, 0 }, // Steel
+            { 1, 0, 1, 0, 0, 1 }, // Fire
+            { 1, 0, 0, 1, 0, 1 }, // Water
+            { 1, 0, 1, 1, 0, 1 }, // Grass
+            { 1, 1, 1, 1, 0, 1 }, // Electric
+            { 1, 0, 1, 0, 1, 1 }, // Psychic
             { 1, 0, 0, 1, 1, 1 }, // Ice
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark

@@ -978,7 +978,7 @@ namespace PKHeX.WinForms.Controls
             int[] ivs =
             {
                 Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text),
-                Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text), Util.ToInt32(TB_SPEIV.Text)
+                Util.ToInt32(TB_SPEIV.Text), Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text)
             };
 
             // Change IVs to match the new Hidden Power
@@ -986,9 +986,9 @@ namespace PKHeX.WinForms.Controls
             TB_HPIV.Text = newIVs[0].ToString();
             TB_ATKIV.Text = newIVs[1].ToString();
             TB_DEFIV.Text = newIVs[2].ToString();
-            TB_SPAIV.Text = newIVs[3].ToString();
-            TB_SPDIV.Text = newIVs[4].ToString();
-            TB_SPEIV.Text = newIVs[5].ToString();
+            TB_SPAIV.Text = newIVs[4].ToString();
+            TB_SPDIV.Text = newIVs[5].ToString();
+            TB_SPEIV.Text = newIVs[3].ToString();
 
             // Refresh View
             changingFields = false;
