@@ -652,24 +652,25 @@ namespace PKHeX.Core
             0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040
         };
 
-        /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
+        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
         /// <param name="start">Offset to start checksum at</param>
         /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length, ushort initial = 0)
+        public static ushort CRC16(byte[] data, int start, int length, ushort initial)
         {
             ushort chk = (ushort)~initial;
             for (var i = start; i < start + length; i++)
                 chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
             return (ushort)~chk;
         }
-        /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
+        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="initial">Initial value for checksum</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="length">Length of array to checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, ushort initial = 0) => CRC16(data, 0, data.Length, initial);
+        public static ushort CRC16(byte[] data, int start, int length) => CRC16(data, start, length, 0);
         public static byte[] Resign7(byte[] sav7)
         {
             return MemeCrypto.Resign7(sav7);

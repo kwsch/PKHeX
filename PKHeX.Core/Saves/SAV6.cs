@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -22,7 +20,7 @@ namespace PKHeX.Core
             Exportable = !Data.All(z => z == 0);
 
             // Load Info
-            GetBlockInfo();
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, SaveUtil.CRC16_CCITT);
             GetSAVOffsets();
 
             HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
@@ -60,93 +58,12 @@ namespace PKHeX.Core
         public override bool HasGeolocation => true;
 
         // Blocks & Offsets
-        private int BlockInfoOffset;
-        private BlockInfo[] Blocks;
-        private void GetBlockInfo()
-        {
-            BlockInfoOffset = Data.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(Data, BlockInfoOffset) != SaveUtil.BEEF)
-                BlockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-            int count = (Data.Length - BlockInfoOffset - 0x8) / 8;
-            BlockInfoOffset += 4;
+        private readonly int BlockInfoOffset;
+        private readonly BlockInfo[] Blocks;
+        protected override void SetChecksums() => Blocks.SetChecksums(Data);
+        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
-            Blocks = new BlockInfo[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                Blocks[i] = new BlockInfo
-                {
-                    Offset = CurrentPosition,
-                    Length = BitConverter.ToInt32(Data, BlockInfoOffset + 0 + 8 * i),
-                    ID = BitConverter.ToUInt16(Data, BlockInfoOffset + 4 + 8 * i),
-                    Checksum = BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + 8 * i)
-                };
-
-                // Expand out to nearest 0x200
-                CurrentPosition += Blocks[i].Length % 0x200 == 0 ? Blocks[i].Length : 0x200 - Blocks[i].Length % 0x200 + Blocks[i].Length;
-
-                if ((Blocks[i].ID != 0) || i == 0) continue;
-                count = i;
-                break;
-            }
-            // Fix Final Array Lengths
-            Array.Resize(ref Blocks, count);
-        }
-        protected override void SetChecksums()
-        {
-            // Check for invalid block lengths
-            if (Blocks.Length < 3) // arbitrary...
-            {
-                Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
-                return;
-            }
-            // Apply checksums
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                { Debug.WriteLine("Block {0} has invalid offset/length value.", i); return; }
-                byte[] array = new byte[Blocks[i].Length];
-                Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                BitConverter.GetBytes(SaveUtil.CRC16_CCITT(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
-            }
-        }
-        public override bool ChecksumsValid
-        {
-            get
-            {
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                        return false;
-                    byte[] array = new byte[Blocks[i].Length];
-                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                    if (SaveUtil.CRC16_CCITT(array) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
-                        return false;
-                }
-                return true;
-            }
-        }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                var list = new List<string>();
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                        return $"Block {i} Invalid Offset/Length.";
-                    byte[] array = new byte[Blocks[i].Length];
-                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                    if (SaveUtil.CRC16_CCITT(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
-                        continue;
-
-                    list.Add($"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}");
-                }
-                // Return Outputs
-                list.Add($"SAV: {Blocks.Length - list.Count}/{Blocks.Length}");
-                return string.Join(Environment.NewLine, list);
-            }   
-        }
         public override ulong? Secure1
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
@@ -1065,10 +982,10 @@ namespace PKHeX.Core
         public override string MiscSaveChecks()
         {
             string r = "";
-            byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
-                if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
+                if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
+                    continue;
                 r = $"0x200 chunk @ 0x{i*0x200:X5} is FF'd."
                     + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
 
@@ -1083,11 +1000,7 @@ namespace PKHeX.Core
             }
             return r;
         }
-        public override string MiscSaveInfo()
-        {
-            return string.Join(Environment.NewLine,
-                Blocks.Select(b => $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}"));
-        }
+        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
 
         public override string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
