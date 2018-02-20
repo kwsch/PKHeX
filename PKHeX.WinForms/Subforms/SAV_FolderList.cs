@@ -60,7 +60,7 @@ namespace PKHeX.WinForms
             if (!File.Exists(loc))
                 yield break;
 
-            string[] lines = File.ReadAllLines(loc);
+            var lines = File.ReadLines(loc);
             foreach (var line in lines)
             {
                 var split = line.Split('\t');
