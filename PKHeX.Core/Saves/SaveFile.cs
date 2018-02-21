@@ -25,7 +25,7 @@ namespace PKHeX.Core
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public byte[] Header { protected get; set; } = new byte[0]; // .gci
         public bool Japanese { get; protected set; }
-        protected string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
+        protected virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
         public virtual bool IndeterminateGame => false;
         public virtual bool IndeterminateSubVersion => false;
         public abstract string Extension { get; }

@@ -264,20 +264,42 @@ namespace PKHeX.Core
             get => Data[Japanese ? 0x2712 : 0x271C];
             set => Data[Japanese ? 0x2712 : 0x271C] = value;
         }
+        private int PlayedTimeOffset => Japanese ? 0x2CA0 : 0x2CED;
+
+        protected override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {SaveUtil.CRC16_CCITT(Data):X4}";
         public override int PlayedHours
         {
-            get => BitConverter.ToUInt16(Data, Japanese ? 0x2CA0 : 0x2CED);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x2CA0 : 0x2CED);
+            get => Data[PlayedTimeOffset + 0];
+            set
+            {
+                if (value >= byte.MaxValue) // Set 255:00:00.00 and flag
+                {
+                    PlayedMaximum = true;
+                    value = byte.MaxValue;
+                    PlayedMinutes = PlayedSeconds = PlayedFrames = 0;
+                }
+                Data[PlayedTimeOffset + 0] = (byte) value;
+            }
+        }
+        public bool PlayedMaximum
+        {
+            get => Data[PlayedTimeOffset + 1] != 0;
+            set => Data[PlayedTimeOffset + 1] = (byte)(value ? 1 : 0);
         }
         public override int PlayedMinutes
         {
-            get => Data[Japanese ? 0x2CA2 : 0x2CEF];
-            set => Data[Japanese ? 0x2CA2 : 0x2CEF] = (byte)value;
+            get => Data[PlayedTimeOffset + 2];
+            set => Data[PlayedTimeOffset + 2] = (byte)value;
         }
         public override int PlayedSeconds
         {
-            get => Data[Japanese ? 0x2CA3 : 0x2CF0];
-            set => Data[Japanese ? 0x2CA3 : 0x2CF0] = (byte)value;
+            get => Data[PlayedTimeOffset + 3];
+            set => Data[PlayedTimeOffset + 3] = (byte)value;
+        }
+        public int PlayedFrames
+        {
+            get => Data[PlayedTimeOffset + 4];
+            set => Data[PlayedTimeOffset + 4] = (byte)value;
         }
 
         public int Badges
