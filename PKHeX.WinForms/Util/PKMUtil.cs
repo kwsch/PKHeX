@@ -21,14 +21,10 @@ namespace PKHeX.WinForms
         {
             switch (Game)
             {
-                default:
-                    return 0;
-                case GameVersion.FR: // Attack
-                    return 1;
-                case GameVersion.LG: // Defense
-                    return 2;
-                case GameVersion.E: // Speed
-                    return 3;
+                default: return 0; 
+                case GameVersion.FR: return 1; // Attack
+                case GameVersion.LG: return 2; // Defense
+                case GameVersion.E:  return 3; // Speed
             }
         }
 
@@ -64,7 +60,7 @@ namespace PKHeX.WinForms
                     baseImage = (Image)Resources.ResourceManager.GetObject(file);
                 }
                 if (baseImage == null)
-                    baseImage = (Image) Resources.ResourceManager.GetObject($"_{species}");
+                    baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
                 baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
             }
             if (isegg)

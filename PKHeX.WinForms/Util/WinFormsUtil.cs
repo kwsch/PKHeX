@@ -20,7 +20,7 @@ namespace PKHeX.WinForms
                 return; // no translation data retrieved
 
             // Find Starting Point
-            int start = GetTranslationStart(rawlist, form.Name);
+            int start = Array.FindIndex(rawlist, z => z.StartsWith($"{FormStart} {form.Name}"));
             if (start < 0) // no form info found
                 return;
 
@@ -59,13 +59,6 @@ namespace PKHeX.WinForms
             // No file => abort this function and don't translate UI.
             return rawlist?.Length > 0; 
         }
-        private static int GetTranslationStart(IReadOnlyList<string> rawlist, string name)
-        {
-            for (int i = 0; i < rawlist.Count; i++)
-                if (rawlist[i].StartsWith($"{FormStart} {name}"))
-                    return i;
-            return -1;
-        }
         private static List<string> GetTranslationList(IReadOnlyList<string> rawlist, int start)
         {
             List<string> stringdata = new List<string>();
@@ -76,7 +69,7 @@ namespace PKHeX.WinForms
                 if (line[0] == Comment) continue; // Keep translating if line is a comment line
                 if (line[0] == FormStart) // Stop if we have reached the end of translation
                     break;
-                stringdata.Add(rawlist[i]); // Add the entry to process later.
+                stringdata.Add(line); // Add the entry to process later.
             }
             return stringdata;
         }
@@ -163,11 +156,10 @@ namespace PKHeX.WinForms
         {
             foreach (var dropDownItem in item.DropDownItems.OfType<ToolStripMenuItem>())
             {
-                if (dropDownItem.HasDropDownItems)
-                    foreach (ToolStripMenuItem subItem in GetToolsStripDropDownItems(dropDownItem))
-                        yield return subItem;
-
                 yield return dropDownItem;
+                if (!dropDownItem.HasDropDownItems) continue;
+                foreach (ToolStripMenuItem subItem in GetToolsStripDropDownItems(dropDownItem))
+                    yield return subItem;
             }
         }
 
@@ -228,8 +220,7 @@ namespace PKHeX.WinForms
 
         public static void PanelScroll(object sender, ScrollEventArgs e)
         {
-            var p = sender as Panel;
-            if (e.NewValue < 0)
+            if (!(sender is Panel p) || e.NewValue < 0)
                 return;
             switch (e.ScrollOrientation)
             {
@@ -251,17 +242,11 @@ namespace PKHeX.WinForms
         }
         #endregion
 
-        public static bool IsClickonceDeployed
-        {
-            get
-            {
 #if CLICKONCE
-                return System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed;
+        public static bool IsClickonceDeployed => System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed;
 #else
-                return false;
+        public static bool IsClickonceDeployed => false;
 #endif
-            }
-        }
 
         /// <summary>
         /// Opens a dialog to open a <see cref="SaveFile"/>, <see cref="PKM"/> file, or any other supported file.
@@ -269,7 +254,7 @@ namespace PKHeX.WinForms
         /// <param name="Extensions">Misc extensions of <see cref="PKM"/> files supported by the SAV.</param>
         /// <param name="path">Output result path</param>
         /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
-        public static bool OpenSAVPKMDialog(string[] Extensions, out string path)
+        public static bool OpenSAVPKMDialog(IEnumerable<string> Extensions, out string path)
         {
             string supported = string.Join(";", Extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
             OpenFileDialog ofd = new OpenFileDialog
@@ -311,12 +296,11 @@ namespace PKHeX.WinForms
         public static bool SavePKMDialog(PKM pk)
         {
             string pkx = pk.Extension;
-            string ekx = 'e' + pkx.Substring(1, pkx.Length - 1);
-            bool allowEncrypted = pk.Format > 2 && pkx[0] == 'p' || pkx[0] == 'b';
+            bool allowEncrypted = pk.Format > 3 || pk is PK3;
             SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.{ekx}" : "") +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1, pkx.Length - 1)}" : "") +
                          "|Binary File|*.bin" +
                          "|All Files|*.*",
                 DefaultExt = pkx,
@@ -324,31 +308,28 @@ namespace PKHeX.WinForms
             };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
-            string path = sfd.FileName;
-            string ext = Path.GetExtension(path);
 
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                string bakpath = $"{path}.bak";
-                if (!File.Exists(bakpath))
-                {
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(bakpath, backupfile);
-                }
-            }
-
-            if (new[] { ".ekx", $".{ekx}", ".bin" }.Contains(ext))
-                File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] {$".{pkx}"}.Contains(ext))
-                File.WriteAllBytes(path, pk.DecryptedBoxData);
-            else
-            {
-                Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
-                File.WriteAllBytes(path, pk.EncryptedPartyData);
-            }
+            SavePKM(pk, sfd.FileName, pkx);
             return true;
         }
+        private static void SavePKM(PKM pk, string path, string pkx)
+        {
+            SaveBackup(path);
+            string ext = Path.GetExtension(path);
+            var data = $".{pkx}" == ext ? pk.DecryptedBoxData : pk.EncryptedPartyData;
+            File.WriteAllBytes(path, data);
+        }
+        private static void SaveBackup(string path)
+        {
+            if (!File.Exists(path))
+                return;
+
+            // File already exists, save a .bak
+            string bakpath = $"{path}.bak";
+            if (!File.Exists(bakpath))
+                File.Move(path, bakpath);
+        }
+
         /// <summary>
         /// Opens a dialog to save a <see cref="SaveFile"/> file.
         /// </summary>
@@ -428,16 +409,11 @@ namespace PKHeX.WinForms
         {
             switch (Format)
             {
-                case 4:
-                    return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4|All Files|*.*";
-                case 5:
-                    return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
-                case 6:
-                    return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
-                case 7:
-                    return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
-                default:
-                    return "";
+                case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4|All Files|*.*";
+                case 5: return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
+                case 6: return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
+                case 7: return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
+                default: return string.Empty;
             }
         }
     }

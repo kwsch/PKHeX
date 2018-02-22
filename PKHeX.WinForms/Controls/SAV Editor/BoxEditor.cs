@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -21,15 +20,14 @@ namespace PKHeX.WinForms.Controls
         public BoxEditor()
         {
             InitializeComponent();
-            SlotPictureBoxes = new List<PictureBox>();
-            SlotPictureBoxes.AddRange(new[]
+            SlotPictureBoxes = new List<PictureBox>
             {
                 bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
                 bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
                 bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
                 bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
                 bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-            });
+            };
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
