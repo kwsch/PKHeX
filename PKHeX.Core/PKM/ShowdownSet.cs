@@ -535,9 +535,9 @@ namespace PKHeX.Core
                     return $"C-{form}";
 
                 // Necrozma
-                case 800 when form == "Dusk Mane":
+                case 800 when form == "Dusk-Mane":
                     return "Dusk";
-                case 800 when form == "Dawn Wings":
+                case 800 when form == "Dawn-Wings":
                     return "Dawn";
 
                 default:
