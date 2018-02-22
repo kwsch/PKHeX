@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -487,10 +487,6 @@ namespace PKHeX.Core
                     if (form.StartsWith("M-"))
                         return "Meteor";
                     return form.Replace("C-", string.Empty);
-                case 800 when form == "Dusk": // Necrozma
-                    return $"{form}-Mane";
-                case 800 when form == "Dawn": // Necrozma
-                    return $"{form}-Wings";
 
                 case 676: // Furfrou
                 case 658: // Greninja
@@ -535,9 +531,9 @@ namespace PKHeX.Core
                     return $"C-{form}";
 
                 // Necrozma
-                case 800 when form == "Dusk Mane":
+                case 800 when form == "Dusk-Mane":
                     return "Dusk";
-                case 800 when form == "Dawn Wings":
+                case 800 when form == "Dawn-Wings":
                     return "Dawn";
 
                 default:
