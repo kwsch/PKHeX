@@ -300,7 +300,7 @@ namespace PKHeX.WinForms
             SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1, pkx.Length - 1)}" : "") +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : "") +
                          "|Binary File|*.bin" +
                          "|All Files|*.*",
                 DefaultExt = pkx,

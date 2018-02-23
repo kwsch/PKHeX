@@ -316,6 +316,11 @@ namespace PKHeX.WinForms.Controls
                 CB_Country.SelectedValue = SAV.Country;
                 CB_SubRegion.SelectedValue = SAV.SubRegion;
             }
+
+            // Copy OT trash bytes for sensitive games (Gen1/2)
+                 if (SAV is SAV1 s1 && pkm is PK1 p1) p1.OT_Trash = s1.OT_Trash;
+            else if (SAV is SAV2 s2 && pkm is PK2 p2) p2.OT_Trash = s2.OT_Trash;
+
             UpdateNickname(null, null);
         }
         private void SetDetailsHT(SaveFile SAV)
