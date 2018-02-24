@@ -986,7 +986,14 @@ namespace PKHeX.WinForms.Controls
         }
         private void ToggleViewSubEditors(SaveFile sav)
         {
-            if (sav.Exportable) // Actual save file
+            if (!sav.Exportable || sav is BulkStorage)
+            {
+                GB_SAVtools.Visible = false;
+                B_JPEG.Visible = false;
+                SL_Extra.HideAllSlots();
+                return;
+            }
+
             {
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = sav.HasBattleBox;
                 GB_Daycare.Visible = sav.HasDaycare;
@@ -1022,10 +1029,6 @@ namespace PKHeX.WinForms.Controls
 
                 var slots = SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
                 Box.SlotPictureBoxes.AddRange(slots);
-            }
-            else
-            {
-                SL_Extra.HideAllSlots();
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -7,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public class BulkStorage : SaveFile
     {
-        public BulkStorage(byte[] data, Type t, int start, int slotsPerBox = 30)
+        protected BulkStorage(byte[] data, Type t, int start, int slotsPerBox = 30)
         {
             Box = start;
             Data = data;
@@ -16,11 +17,14 @@ namespace PKHeX.Core
             blank = PKMConverter.GetBlank(t);
             var slots = (Data.Length - Box) / blank.SIZE_STORED;
             BoxCount = slots / SlotsPerBox;
+
+            Exportable = !Data.All(z => z == 0);
+            BAK = (byte[])Data.Clone();
         }
 
         private readonly int SlotsPerBox;
         
-        public override string BAKName => $"{FileName} [{SaveUtil.CRC16(Data, Box, Data.Length - Box)}].bak";
+        public override string BAKName => $"{FileName} [{SaveUtil.CRC16(Data, Box, Data.Length - Box):X4}].bak";
         public override SaveFile Clone() => new BulkStorage((byte[])Data.Clone(), PKMType, Box, SlotsPerBox);
         public override string Filter { get; } = "All Files|*.*";
         public override string Extension { get; } = ".bin";

@@ -41,6 +41,9 @@ namespace PKHeX.Core
         public const int SIZE_G2EMU_J = 0x10030;
         public const int SIZE_G1RAW = 0x8000;
         public const int SIZE_G1BAT = 0x802C;
+
+        // Bank Binaries
+        public const int SIZE_G7BANK = 0xACA48;
         private static readonly HashSet<int> SIZES_2 = new HashSet<int>
         {
             SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
@@ -53,7 +56,9 @@ namespace PKHeX.Core
             SIZE_G4BR, SIZE_G4RAW,
             SIZE_G3BOX, SIZE_G3BOXGCI, SIZE_G3COLO, SIZE_G3COLOGCI, SIZE_G3XD, SIZE_G3XDGCI, SIZE_G3RAW, SIZE_G3RAWHALF,
             // SIZES_2 covers gen2 sizes since there's so many
-            SIZE_G1RAW, SIZE_G1BAT
+            SIZE_G1RAW, SIZE_G1BAT,
+
+            SIZE_G7BANK,
         };
         private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
 
@@ -90,6 +95,9 @@ namespace PKHeX.Core
                 return GameVersion.RSBOX;
             if (GetIsG4BRSAV(data) != GameVersion.Invalid)
                 return GameVersion.BATREV;
+
+            if (GetIsBank7(data))
+                return GameVersion.USUM;
 
             return GameVersion.Invalid;
         }
@@ -406,6 +414,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
+        private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
@@ -433,6 +442,9 @@ namespace PKHeX.Core
                 case GameVersion.XD:        sav = new SAV3XD(data); break;
                 case GameVersion.RSBOX:     sav = new SAV3RSBox(data); break;
                 case GameVersion.BATREV:    sav = new SAV4BR(data); break;
+
+                // Bulk Storage
+                case GameVersion.USUM:      sav = Bank7.GetBank7(data); break;
                 
                 // No pattern matched
                 default: return null;
