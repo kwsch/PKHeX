@@ -1471,7 +1471,7 @@ namespace PKHeX.Core
             {
                 if (!Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
-                else if (pkm.AbilityNumber == 4 && (Lineage.Contains(029) || Lineage.Contains(032))) // Nido
+                else if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(Lineage[0] | pkm.AltForm << 11)) // Nido & Flabébé blue
                     AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
@@ -1519,6 +1519,12 @@ namespace PKHeX.Core
 
             if (ball == 26)
             {
+                if (Lineage[0] == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                {
+                    // Can't obtain Flabébé-Blue with Hidden Ability in wild
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                    return;
+                }
                 if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e) && !Legal.PastGenAlolanNativesUncapturable.Contains(e)))
                 {
                     AddLine(Severity.Valid, V123, CheckIdentifier.Ball);

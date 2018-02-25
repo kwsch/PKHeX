@@ -551,6 +551,13 @@ namespace PKHeX.Core
             711 + (2 << 11), //Gourgeist-Large
         };
 
+        internal static readonly HashSet<int> Ban_NoHidden7Apricorn = new HashSet<int>
+        {
+            029, // Nidoran
+            032, // Nidoran
+            669 + (3 << 11), // Flabébé-Blue
+        };
+
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_7 = new HashSet<int>
         {
