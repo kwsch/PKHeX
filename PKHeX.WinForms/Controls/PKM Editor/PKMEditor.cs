@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class PKMEditor : UserControl
+    public partial class PKMEditor : UserControl, IMainEditor
     {
         public PKMEditor()
         {
@@ -31,19 +31,30 @@ namespace PKHeX.WinForms.Controls
             foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
+            Stats.SetMainEditor(this);
             LoadShowdownSet = LoadShowdownSetDefault;
         }
 
-        public PKM CurrentPKM { get => fieldsInitialized ? PreparePKM() : pkm; set => pkm = value; }
+        private void UpdateStats() => Stats.UpdateStats();
+        private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
+        private void SavePartyStats(PKM pk)
+        {
+            Stats.SavePartyStats(pk);
+            pk.Stat_Level = CurrentLevel;
+        }
+
+        public PKM CurrentPKM { get => FieldsInitialized ? PreparePKM() : pkm; set => pkm = value; }
         public bool ModifyPKM { private get; set; } = true;
-        public bool Unicode { private get; set; } = true;
-        public bool HaX { private get; set; }
+        public bool Unicode { get; set; } = true;
+        public bool HaX { get; set; }
         public byte[] LastData { private get; set; }
 
-        private PKM pkm;
-        private bool fieldsInitialized;
-        private bool fieldsLoaded;
-        private bool changingFields;
+        public PKM pkm { get; private set; }
+        public bool FieldsInitialized { get; private set; }
+        public bool FieldsLoaded { get; private set; }
+        public bool ChangingFields { get; set; }
+        public int CurrentLevel => Convert.ToInt32((HaX ? MT_Level : TB_Level).Text);
+
         private GameVersion origintrack;
         private Action GetFieldsfromPKM;
         private Func<PKM> GetPKMfromFields;
@@ -59,9 +70,9 @@ namespace PKHeX.WinForms.Controls
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip(), EVTip = new ToolTip();
+        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
         private SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
-        public bool PKMIsUnsaved => fieldsInitialized && fieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
+        public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
         private bool forceValidation;
@@ -94,7 +105,7 @@ namespace PKHeX.WinForms.Controls
                 Control c = cb.Parent; while (!(c is TabPage)) c = c.Parent;
                 tabMain.SelectedTab = c as TabPage;
             }
-            else if (pkm.Format >= 3 && Convert.ToUInt32(TB_EVTotal.Text) > 510 && !CHK_HackedStats.Checked)
+            else if (!Stats.Valid)
                 tabMain.SelectedTab = Tab_Stats;
             else if (WinFormsUtil.GetIndex(CB_Species) == 0)
                 tabMain.SelectedTab = Tab_Main;
@@ -108,7 +119,7 @@ namespace PKHeX.WinForms.Controls
         public void InitializeFields()
         {
             // Now that the ComboBoxes are ready, load the data.
-            fieldsInitialized = true;
+            FieldsInitialized = true;
             PopulateFields(pkm);
         }
 
@@ -184,15 +195,15 @@ namespace PKHeX.WinForms.Controls
             if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, CurrentPKM, out string c, out pk))
             { WinFormsUtil.Alert(c); return; }
 
-            bool oldInit = fieldsInitialized;
-            fieldsInitialized = fieldsLoaded = false;
+            bool oldInit = FieldsInitialized;
+            FieldsInitialized = FieldsLoaded = false;
 
             pkm = pk.Clone();
 
             try { GetFieldsfromPKM(); }
-            finally { fieldsInitialized = oldInit; }
+            finally { FieldsInitialized = oldInit; }
 
-            UpdateIVs(null, null);
+            Stats.UpdateIVs(null, null);
             UpdatePKRSInfected(null, null);
             UpdatePKRSCured(null, null);
 
@@ -202,16 +213,9 @@ namespace PKHeX.WinForms.Controls
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
                 if (pk.Stat_HPMax != 0) // stats present
-                {
-                    Stat_HP.Text = pk.Stat_HPCurrent.ToString();
-                    Stat_ATK.Text = pk.Stat_ATK.ToString();
-                    Stat_DEF.Text = pk.Stat_DEF.ToString();
-                    Stat_SPA.Text = pk.Stat_SPA.ToString();
-                    Stat_SPD.Text = pk.Stat_SPD.ToString();
-                    Stat_SPE.Text = pk.Stat_SPE.ToString();
-                }
+                    Stats.LoadPartyStats(pk);
             }
-            fieldsLoaded = true;
+            FieldsLoaded = true;
 
             SetMarkings();
             UpdateLegality();
@@ -220,7 +224,7 @@ namespace PKHeX.WinForms.Controls
         }
         public void UpdateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             Legality = la ?? new LegalityAnalysis(pkm, RequestSaveFile.Personal);
@@ -242,8 +246,8 @@ namespace PKHeX.WinForms.Controls
             if (skipMoveRepop)
                 return;
             // Resort moves
-            bool tmp = fieldsLoaded;
-            fieldsLoaded = false;
+            bool tmp = FieldsLoaded;
+            FieldsLoaded = false;
             var cb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             var moves = Legality.AllSuggestedMovesAndRelearn;
             var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
@@ -255,7 +259,7 @@ namespace PKHeX.WinForms.Controls
                 if (c.Visible)
                     c.SelectionLength = 0; // flicker hack
             }
-            fieldsLoaded |= tmp;
+            FieldsLoaded |= tmp;
             LegalityChanged?.Invoke(Legality.Valid, null);
         }
         public void UpdateUnicode(string[] symbols)
@@ -281,7 +285,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateSprite()
         {
-            if (fieldsLoaded && fieldsInitialized && !forceValidation)
+            if (FieldsLoaded && FieldsInitialized && !forceValidation)
                 UpdatePreviewSprite?.Invoke(this, null);
         }
 
@@ -360,18 +364,18 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 3) // no abilities
                 return;
 
-            if (pkm.Format > 3 && fieldsLoaded) // has forms
+            if (pkm.Format > 3 && FieldsLoaded) // has forms
                 pkm.AltForm = CB_Form.SelectedIndex; // update pkm field for form specific abilities
 
             int abil = CB_Ability.SelectedIndex;
 
-            bool tmp = fieldsLoaded;
-            fieldsLoaded = false;
+            bool tmp = FieldsLoaded;
+            FieldsLoaded = false;
             CB_Ability.DisplayMember = "Text";
             CB_Ability.ValueMember = "Value";
             CB_Ability.DataSource = GetAbilityList(pkm);
             CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
-            fieldsLoaded = tmp;
+            FieldsLoaded = tmp;
         }
         private static int GetSafeIndex(ComboBox cb, int index) => Math.Max(0, Math.Min(cb.Items.Count - 1, index));
 
@@ -417,22 +421,25 @@ namespace PKHeX.WinForms.Controls
         private void SetMarkings()
         {
             double getOpacity(bool b) => b ? 1 : 0.175;
+            Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage 
+                : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
+
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             for (int i = 0; i < pba.Length; i++)
-                pba[i].Image = ImageUtil.ChangeOpacity(pba[i].InitialImage, getOpacity(pkm.Markings[i] != 0));
+                pba[i].Image = changeOpacity(pba[i], getOpacity(pkm.Markings[i] != 0));
 
-            PB_MarkShiny.Image = ImageUtil.ChangeOpacity(PB_MarkShiny.InitialImage, getOpacity(!BTN_Shinytize.Enabled));
-            PB_MarkCured.Image = ImageUtil.ChangeOpacity(PB_MarkCured.InitialImage, getOpacity(CHK_Cured.Checked));
+            PB_MarkShiny.Image = changeOpacity(PB_MarkShiny, getOpacity(!BTN_Shinytize.Enabled));
+            PB_MarkCured.Image = changeOpacity(PB_MarkCured, getOpacity(CHK_Cured.Checked));
 
-            PB_MarkPentagon.Image = ImageUtil.ChangeOpacity(PB_MarkPentagon.InitialImage, getOpacity(pkm.Gen6));
+            PB_MarkPentagon.Image = changeOpacity(PB_MarkPentagon, getOpacity(pkm.Gen6));
 
             // Gen7 Markings
             if (pkm.Format != 7)
                 return;
 
-            PB_MarkAlola.Image = ImageUtil.ChangeOpacity(PB_MarkAlola.InitialImage, getOpacity(pkm.Gen7));
-            PB_MarkVC.Image = ImageUtil.ChangeOpacity(PB_MarkVC.InitialImage, getOpacity(pkm.VC));
-            PB_MarkHorohoro.Image = ImageUtil.ChangeOpacity(PB_MarkHorohoro.InitialImage, getOpacity(pkm.Horohoro));
+            PB_MarkAlola.Image = changeOpacity(PB_MarkAlola, getOpacity(pkm.Gen7));
+            PB_MarkVC.Image = changeOpacity(PB_MarkVC, getOpacity(pkm.VC));
+            PB_MarkHorohoro.Image = changeOpacity(PB_MarkHorohoro, getOpacity(pkm.Horohoro));
 
             var markings = pkm.Markings;
             for (int i = 0; i < pba.Length; i++)
@@ -458,48 +465,12 @@ namespace PKHeX.WinForms.Controls
         private void UpdateGender()
         {
             int cg = PKX.GetGenderFromString(Label_Gender.Text);
-            int gt = pkm.PersonalInfo.Gender;
-
-            int Gender;
-            if (gt == 255)      // Genderless
-                Gender = 2;
-            else if (gt == 254) // Female Only
-                Gender = 1;
-            else if (gt == 0)  // Male Only
-                Gender = 0;
-            else if (cg == 2 || WinFormsUtil.GetIndex(CB_GameOrigin) < 24)
-                Gender = (Util.GetHexValue(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
-            else
-                Gender = cg;
+            int Gender = GetSaneGender(pkm, cg);
 
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = GetGenderColor(Gender);
         }
-        private void UpdateStats()
-        {
-            // Generate the stats.
-            if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
-            {
-                pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
-                LoadPartyStats(pkm);
-            }
 
-            // Recolor the Stat Labels based on boosted stats.
-            {
-                int incr = pkm.Nature / 5;
-                int decr = pkm.Nature % 5;
-
-                Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
-                // Reset Label Colors
-                foreach (Label label in labarray)
-                    label.ResetForeColor();
-
-                // Set Colored StatLabels only if Nature isn't Neutral
-                if (incr == decr || incr >= labarray.Length) return;
-                labarray[incr].ForeColor = Color.Red;
-                labarray[decr].ForeColor = Color.Blue;
-            }
-        }
         private void SetCountrySubRegion(ComboBox CB, string type)
         {
             int index = CB.SelectedIndex;
@@ -509,7 +480,7 @@ namespace PKHeX.WinForms.Controls
 
             CB.DataSource = Util.GetCBList(type, cl);
 
-            if (index > 0 && index < CB.Items.Count && fieldsInitialized)
+            if (index > 0 && index < CB.Items.Count && FieldsInitialized)
                 CB.SelectedIndex = index;
         }
 
@@ -540,13 +511,12 @@ namespace PKHeX.WinForms.Controls
             int newGender = PKX.GetGenderFromString(Label_Gender.Text) ^ 1;
             if (pkm.Format <= 2)
             {
-                do { TB_ATKIV.Text = (pkm.IV_ATK = (int)(Util.Rand32() & pkm.MaxIV)).ToString(); }
-                while (PKX.GetGenderFromString(Label_Gender.Text = gendersymbols[pkm.Gender]) != newGender);
+                Stats.SetATKIVGender(newGender);
                 SetIsShiny(null);
             }
             else if (pkm.Format <= 4)
             {
-                if (fieldsLoaded)
+                if (FieldsLoaded)
                     pkm.Species = WinFormsUtil.GetIndex(CB_Species);
                 pkm.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
                 pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
@@ -566,10 +536,10 @@ namespace PKHeX.WinForms.Controls
         }
         private void ClickPPUps(object sender, EventArgs e)
         {
-            CB_PPu1.SelectedIndex = ModifierKeys != Keys.Control && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
-            CB_PPu2.SelectedIndex = ModifierKeys != Keys.Control && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
-            CB_PPu3.SelectedIndex = ModifierKeys != Keys.Control && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
-            CB_PPu4.SelectedIndex = ModifierKeys != Keys.Control && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
+            CB_PPu1.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
+            CB_PPu2.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
+            CB_PPu3.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
+            CB_PPu4.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
         }
         private void ClickMarking(object sender, EventArgs e)
         {
@@ -595,53 +565,6 @@ namespace PKHeX.WinForms.Controls
                     return;
             }
             SetMarkings();
-        }
-        private void ClickStatLabel(object sender, MouseEventArgs e)
-        {
-            if (!(ModifierKeys == Keys.Control || ModifierKeys == Keys.Alt))
-                return;
-
-            if (sender == Label_SPC)
-                sender = Label_SPA;
-            int index = Array.IndexOf(new[] { Label_HP, Label_ATK, Label_DEF, Label_SPA, Label_SPD, Label_SPE }, sender);
-
-            if (ModifierKeys == Keys.Alt) // EV
-            {
-                var mt = new[] { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV }[index];
-                if (e.Button == MouseButtons.Left) // max
-                    mt.Text = pkm.Format >= 3
-                        ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(mt.Text), 0), 252).ToString()
-                        : ushort.MaxValue.ToString();
-                else // min
-                    mt.Text = 0.ToString();
-            }
-            else
-                new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV }[index].Text =
-                    (e.Button == MouseButtons.Left ? pkm.MaxIV : 0).ToString();
-        }
-        private void ClickIV(object sender, EventArgs e)
-        {
-            if (ModifierKeys == Keys.Control)
-                if (pkm.Format < 7)
-                    ((MaskedTextBox)sender).Text = pkm.MaxIV.ToString();
-                else
-                {
-                    var index = Array.IndexOf(new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV }, sender);
-                    pkm.HyperTrainInvert(index);
-                    UpdateIVs(sender, e);
-                }
-            else if (ModifierKeys == Keys.Alt)
-                ((MaskedTextBox)sender).Text = 0.ToString();
-        }
-        private void ClickEV(object sender, EventArgs e)
-        {
-            MaskedTextBox mt = (MaskedTextBox)sender;
-            if (ModifierKeys == Keys.Control) // EV
-                mt.Text = pkm.Format >= 3
-                    ? Math.Min(Math.Max(510 - Util.ToInt32(TB_EVTotal.Text) + Util.ToInt32(mt.Text), 0), 252).ToString()
-                    : ushort.MaxValue.ToString();
-            else if (ModifierKeys == Keys.Alt)
-                mt.Text = 0.ToString();
         }
         private void ClickOT(object sender, EventArgs e) => SetDetailsOT(SaveFileRequested?.Invoke(this, e));
         private void ClickCT(object sender, EventArgs e) => SetDetailsHT(SaveFileRequested?.Invoke(this, e));
@@ -836,95 +759,16 @@ namespace PKHeX.WinForms.Controls
 
             return true;
         }
-        private void UpdateIVs(object sender, EventArgs e)
+
+        public void UpdateIVsGB(bool skipForm)
         {
-            if (changingFields || !fieldsInitialized) return;
-            if (sender != null && Util.ToInt32(((MaskedTextBox)sender).Text) > pkm.MaxIV)
-                ((MaskedTextBox)sender).Text = pkm.MaxIV.ToString("00");
+            Label_Gender.Text = gendersymbols[pkm.Gender];
+            Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
+            if (pkm.Species == 201 && !skipForm) // Unown
+                CB_Form.SelectedIndex = pkm.AltForm;
 
-            changingFields = true;
-
-            // Update IVs
-            pkm.IV_HP = Util.ToInt32(TB_HPIV.Text);
-            pkm.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
-            pkm.IV_DEF = Util.ToInt32(TB_DEFIV.Text);
-            pkm.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
-            pkm.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
-            pkm.IV_SPD = Util.ToInt32(TB_SPDIV.Text);
-
-            var IV_Boxes = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV };
-            var HT_Vals = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
-            for (int i = 0; i < IV_Boxes.Length; i++)
-                if (HT_Vals[i])
-                    IV_Boxes[i].BackColor = Color.LightGreen;
-                else
-                    IV_Boxes[i].ResetBackColor();
-
-            if (pkm.Format < 3)
-            {
-                TB_HPIV.Text = pkm.IV_HP.ToString();
-                TB_SPDIV.Text = TB_SPAIV.Text;
-                if (pkm.Format <= 2)
-                {
-                    Label_Gender.Text = gendersymbols[pkm.Gender];
-                    Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
-                    if (pkm.Species == 201 && e != null) // Unown
-                        CB_Form.SelectedIndex = pkm.AltForm;
-                }
-                SetIsShiny(null);
-                UpdateSprite();
-            }
-
-            CB_HPType.SelectedValue = pkm.HPType;
-            changingFields = false;
-
-            // Potential Reading
-            var arr = Unicode 
-                ? new[] {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"} 
-                : new[] {"+", "++", "+++", "++++"};
-            L_Potential.Text = arr[pkm.PotentialRating];
-
-            TB_IVTotal.Text = pkm.IVs.Sum().ToString();
-
-            int characteristic = pkm.Characteristic;
-            L_Characteristic.Visible = Label_CharacteristicPrefix.Visible = characteristic > -1;
-            if (characteristic > -1)
-                L_Characteristic.Text = GameInfo.Strings.characteristics[pkm.Characteristic];
-            UpdateStats();
-        }
-        private void UpdateEVs(object sender, EventArgs e)
-        {
-            if (sender is MaskedTextBox m)
-            {
-                if (Util.ToInt32(m.Text) > pkm.MaxEV)
-                { m.Text = pkm.MaxEV.ToString(); return; } // recursive on text set
-            }
-
-            changingFields = true;
-            if (sender == TB_HPEV) pkm.EV_HP = Util.ToInt32(TB_HPEV.Text);
-            else if (sender == TB_ATKEV) pkm.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
-            else if (sender == TB_DEFEV) pkm.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
-            else if (sender == TB_SPEEV) pkm.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
-            else if (sender == TB_SPAEV) pkm.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
-            else if (sender == TB_SPDEV) pkm.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
-
-            if (pkm.Format < 3)
-                TB_SPDEV.Text = TB_SPAEV.Text;
-
-            int evtotal = pkm.EVs.Sum();
-
-            if (evtotal > 510) // Background turns Red
-                TB_EVTotal.BackColor = Color.Red;
-            else if (evtotal == 510) // Maximum EVs
-                TB_EVTotal.BackColor = Color.Honeydew;
-            else if (evtotal == 508) // Fishy EVs
-                TB_EVTotal.BackColor = Color.LightYellow;
-            else TB_EVTotal.BackColor = TB_IVTotal.BackColor;
-
-            TB_EVTotal.Text = evtotal.ToString();
-            EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
-            changingFields = false;
-            UpdateStats();
+            SetIsShiny(null);
+            UpdateSprite();
         }
         private void UpdateBall(object sender, EventArgs e)
         {
@@ -932,9 +776,9 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateEXPLevel(object sender, EventArgs e)
         {
-            if (changingFields || !fieldsInitialized) return;
+            if (ChangingFields || !FieldsInitialized) return;
 
-            changingFields = true;
+            ChangingFields = true;
             if (sender == TB_EXP)
             {
                 // Change the Level
@@ -967,73 +811,20 @@ namespace PKHeX.WinForms.Controls
                 if (Level <= 100)
                     TB_EXP.Text = PKX.GetEXP(Level, WinFormsUtil.GetIndex(CB_Species)).ToString();
             }
-            changingFields = false;
-            if (fieldsLoaded) // store values back
+            ChangingFields = false;
+            if (FieldsLoaded) // store values back
             {
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
                 pkm.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
             }
-            UpdateStats();
+            Stats.UpdateStats();
             UpdateLegality();
-        }
-        private void UpdateHPType(object sender, EventArgs e)
-        {
-            if (changingFields || !fieldsInitialized) return;
-            changingFields = true;
-            int[] ivs =
-            {
-                Util.ToInt32(TB_HPIV.Text), Util.ToInt32(TB_ATKIV.Text), Util.ToInt32(TB_DEFIV.Text),
-                Util.ToInt32(TB_SPEIV.Text), Util.ToInt32(TB_SPAIV.Text), Util.ToInt32(TB_SPDIV.Text)
-            };
-
-            // Change IVs to match the new Hidden Power
-            int[] newIVs = PKX.SetHPIVs(WinFormsUtil.GetIndex(CB_HPType), ivs);
-            TB_HPIV.Text = newIVs[0].ToString();
-            TB_ATKIV.Text = newIVs[1].ToString();
-            TB_DEFIV.Text = newIVs[2].ToString();
-            TB_SPAIV.Text = newIVs[4].ToString();
-            TB_SPDIV.Text = newIVs[5].ToString();
-            TB_SPEIV.Text = newIVs[3].ToString();
-
-            // Refresh View
-            changingFields = false;
-            UpdateIVs(null, null);
-        }
-        private void UpdateRandomIVs(object sender, EventArgs e)
-        {
-            changingFields = true;
-            if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift) // Max IVs
-            {
-                TB_HPIV.Text = TB_ATKIV.Text = TB_DEFIV.Text = TB_SPAIV.Text = TB_SPDIV.Text = TB_SPEIV.Text = pkm.MaxIV.ToString();
-            }
-            else
-            {
-                var IVs = pkm.SetRandomIVs();
-                var IVBoxes = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV };
-                for (int i = 0; i < 6; i++)
-                    IVBoxes[i].Text = IVs[i].ToString();
-            }
-            changingFields = false;
-            UpdateIVs(null, e);
-        }
-        private void UpdateRandomEVs(object sender, EventArgs e)
-        {
-            changingFields = true;
-
-            var tb = new[] { TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV };
-            bool zero = ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift;
-            var evs = zero ? new uint[6] : PKX.GetRandomEVs(pkm.Format);
-            for (int i = 0; i < 6; i++)
-                tb[i].Text = evs[i].ToString();
-
-            changingFields = false;
-            UpdateEVs(null, null);
         }
         private void UpdateRandomPID(object sender, EventArgs e)
         {
             if (pkm.Format < 3)
                 return;
-            if (fieldsLoaded)
+            if (FieldsLoaded)
                 pkm.PID = Util.GetHexValue(TB_PID.Text);
 
             if (sender == Label_Gender)
@@ -1061,26 +852,6 @@ namespace PKHeX.WinForms.Controls
             TB_EC.Text = EC.ToString("X8");
             UpdateLegality();
         }
-        private void UpdateHackedStats(object sender, EventArgs e)
-        {
-            var stats = new[] {Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE};
-            foreach (var s in stats)
-                s.Enabled = CHK_HackedStats.Enabled;
-            if (!CHK_HackedStats.Checked)
-                UpdateStats();
-        }
-        private void UpdateHackedStatText(object sender, EventArgs e)
-        {
-            if (!CHK_HackedStats.Checked || !(sender is TextBox tb))
-                return;
-
-            string text = tb.Text;
-            if (string.IsNullOrWhiteSpace(text))
-                tb.Text = "0";
-
-            if (Convert.ToUInt32(text) > ushort.MaxValue)
-                tb.Text = "65535";
-        }
         private void Update255_MTB(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox tb)) return;
@@ -1089,16 +860,16 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateForm(object sender, EventArgs e)
         {
-            if (CB_Form == sender && fieldsLoaded)
+            if (CB_Form == sender && FieldsLoaded)
                 pkm.AltForm = CB_Form.SelectedIndex;
 
             UpdateGender();
-            UpdateStats();
+            Stats.UpdateStats();
             // Repopulate Abilities if Species Form has different abilities
             SetAbilityList();
 
             // Gender Forms
-            if (WinFormsUtil.GetIndex(CB_Species) == 201 && fieldsLoaded)
+            if (WinFormsUtil.GetIndex(CB_Species) == 201 && FieldsLoaded)
             {
                 if (pkm.Format == 3)
                 {
@@ -1109,7 +880,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     int desiredForm = CB_Form.SelectedIndex;
                     while (pkm.AltForm != desiredForm)
-                        UpdateRandomIVs(null, null);
+                        Stats.UpdateRandomIVs(null, null);
                 }
             }
             else if (PKX.GetGenderFromString(CB_Form.Text) < 2)
@@ -1118,22 +889,22 @@ namespace PKHeX.WinForms.Controls
                     Label_Gender.Text = gendersymbols[PKX.GetGenderFromString(CB_Form.Text)];
             }
 
-            if (changingFields)
+            if (ChangingFields)
                 return;
-            changingFields = true;
+            ChangingFields = true;
             MT_Form.Text = CB_Form.SelectedIndex.ToString();
-            changingFields = false;
+            ChangingFields = false;
 
             UpdateSprite();
         }
         private void UpdateHaXForm(object sender, EventArgs e)
         {
-            if (changingFields)
+            if (ChangingFields)
                 return;
-            changingFields = true;
+            ChangingFields = true;
             int form = pkm.AltForm = Util.ToInt32(MT_Form.Text);
             CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
-            changingFields = false;
+            ChangingFields = false;
 
             UpdateSprite();
         }
@@ -1185,7 +956,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdatePKRSCured(object sender, EventArgs e)
         {
-            if (!fieldsInitialized) return;
+            if (!FieldsInitialized) return;
             // Cured PokeRus is toggled
             if (CHK_Cured.Checked)
             {
@@ -1220,7 +991,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdatePKRSInfected(object sender, EventArgs e)
         {
-            if (!fieldsInitialized) return;
+            if (!FieldsInitialized) return;
             if (CHK_Cured.Checked && !CHK_Infected.Checked) { CHK_Cured.Checked = false; return; }
             if (CHK_Cured.Checked) return;
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
@@ -1241,13 +1012,13 @@ namespace PKHeX.WinForms.Controls
         private void UpdateSpecies(object sender, EventArgs e)
         {
             // Get Species dependent information
-            if (fieldsLoaded)
+            if (FieldsLoaded)
                 pkm.Species = WinFormsUtil.GetIndex(CB_Species);
             SetAbilityList();
             SetForms();
             UpdateForm(null, null);
 
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             // Recalculate EXP for Given Level
@@ -1279,7 +1050,7 @@ namespace PKHeX.WinForms.Controls
                 CB_MetLocation.ValueMember = "Value";
                 CB_MetLocation.DataSource = new BindingSource(met_list, null);
 
-                if (fieldsLoaded)
+                if (FieldsLoaded)
                 {
                     int metLoc = 0; // transporter or pal park for past gen pkm
                     if (pkm.Format >= 7) // check transfer scenarios
@@ -1299,7 +1070,7 @@ namespace PKHeX.WinForms.Controls
                 CB_EggLocation.DisplayMember = "Text";
                 CB_EggLocation.ValueMember = "Value";
                 CB_EggLocation.DataSource = new BindingSource(egg_list, null);
-                if (fieldsLoaded)
+                if (FieldsLoaded)
                     CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
 
                 origintrack = newTrack;
@@ -1310,7 +1081,7 @@ namespace PKHeX.WinForms.Controls
                     width = 2 * width;
                 CB_MetLocation.DropDownWidth = width;
 
-                if (!fieldsLoaded)
+                if (!FieldsLoaded)
                     CB_GameOrigin.Focus(); // hacky validation forcing
             }
 
@@ -1325,7 +1096,7 @@ namespace PKHeX.WinForms.Controls
                     CB_EncounterType.SelectedValue = 0;
             }
 
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
             pkm.Version = (int)Version;
             SetMarkings(); // Set/Remove KB marking
@@ -1354,23 +1125,13 @@ namespace PKHeX.WinForms.Controls
         {
             if (sender != CB_Nature) return;
             int nature = WinFormsUtil.GetIndex(CB_Nature);
-            int incr = nature / 5;
-            int decr = nature % 5;
-
-            Label[] labarray = { Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD };
-            // Reset Label Colors
-            foreach (Label label in labarray)
-                label.ResetForeColor();
-
-            // Set Colored StatLabels only if Nature isn't Neutral
-            NatureTip.SetToolTip(CB_Nature,
-                incr != decr
-                    ? $"+{labarray[incr].Text} / -{labarray[decr].Text}".Replace(":", "")
-                    : "-/-");
+            string text = Stats.UpdateNatureModification(nature);
+            NatureTip.SetToolTip(CB_Nature, text);
         }
+
         private void UpdateIsNicknamed(object sender, EventArgs e)
         {
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             pkm.Nickname = TB_Nickname.Text;
@@ -1404,7 +1165,7 @@ namespace PKHeX.WinForms.Controls
 
             int lang = WinFormsUtil.GetIndex(CB_Language);
 
-            if (!fieldsInitialized || CHK_Nicknamed.Checked)
+            if (!FieldsInitialized || CHK_Nicknamed.Checked)
                 return;
 
             // Fetch Current Species and set it as Nickname Text
@@ -1478,7 +1239,7 @@ namespace PKHeX.WinForms.Controls
             Label_HatchCounter.Visible = CHK_IsEgg.Checked && pkm.Format > 1;
             Label_Friendship.Visible = !CHK_IsEgg.Checked && pkm.Format > 1;
 
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             pkm.IsEgg = CHK_IsEgg.Checked;
@@ -1537,7 +1298,7 @@ namespace PKHeX.WinForms.Controls
             GB_EggConditions.Enabled = CHK_AsEgg.Checked;
             if (CHK_AsEgg.Checked)
             {
-                if (!fieldsLoaded)
+                if (!FieldsLoaded)
                     return;
 
                 CAL_EggDate.Value = DateTime.Now;
@@ -1585,13 +1346,8 @@ namespace PKHeX.WinForms.Controls
             else
             {
                 pkm.SetShinyIVs();
-                changingFields = true;
-                TB_ATKIV.Text = pkm.IV_ATK.ToString();
-                TB_DEFIV.Text = pkm.IV_DEF.ToString();
-                TB_SPEIV.Text = pkm.IV_SPE.ToString();
-                TB_SPAIV.Text = pkm.IV_SPA.ToString();
-                changingFields = false;
-                UpdateIVs(null, null);
+                Stats.LoadIVs(pkm.IVs);
+                Stats.UpdateIVs(null, null);
             }
 
             SetIsShiny(null);
@@ -1625,43 +1381,42 @@ namespace PKHeX.WinForms.Controls
 
             SetIsShiny(sender);
             UpdateSprite();
-            UpdateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed. 
-            TB_PID.Select(60, 0);   // position cursor at end of field
-            if (pkm.Format <= 4 && fieldsLoaded)
+            Stats.UpdateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed.
+            if (pkm.Format <= 4 && FieldsLoaded)
             {
-                fieldsLoaded = false;
+                FieldsLoaded = false;
                 pkm.PID = Util.GetHexValue(TB_PID.Text);
                 CB_Nature.SelectedValue = pkm.Nature;
                 Label_Gender.Text = gendersymbols[pkm.Gender];
                 Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
-                fieldsLoaded = true;
+                FieldsLoaded = true;
             }
         }
         private void UpdateShadowID(object sender, EventArgs e)
         {
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
             FLP_Purification.Visible = NUD_ShadowID.Value > 0;
         }
         private void UpdatePurification(object sender, EventArgs e)
         {
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
-            fieldsLoaded = false;
+            FieldsLoaded = false;
             CHK_Shadow.Checked = NUD_Purification.Value > 0;
-            fieldsLoaded = true;
+            FieldsLoaded = true;
         }
         private void UpdateShadowCHK(object sender, EventArgs e)
         {
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
-            fieldsLoaded = false;
+            FieldsLoaded = false;
             NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
-            fieldsLoaded = true;
+            FieldsLoaded = true;
         }
         private void ValidateComboBox(object sender)
         {
-            if (!fieldsInitialized)
+            if (!FieldsInitialized)
                 return;
             ComboBox cb = sender as ComboBox;
             if (cb == null)
@@ -1684,10 +1439,10 @@ namespace PKHeX.WinForms.Controls
         }
         private void ValidateComboBox2(object sender, EventArgs e)
         {
-            if (!fieldsInitialized)
+            if (!FieldsInitialized)
                 return;
             ValidateComboBox(sender, null);
-            if (fieldsLoaded)
+            if (FieldsLoaded)
             {
                 if (sender == CB_Ability && pkm.Format >= 6)
                     TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
@@ -1702,14 +1457,14 @@ namespace PKHeX.WinForms.Controls
                     UpdateLegality();
             }
             UpdateNatureModification(sender, null);
-            UpdateIVs(null, null); // updating Nature will trigger stats to update as well
+            Stats.UpdateIVs(null, null); // updating Nature will trigger stats to update as well
         }
         private void ValidateMove(object sender, EventArgs e)
         {
-            if (!fieldsInitialized)
+            if (!FieldsInitialized)
                 return;
             ValidateComboBox(sender);
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
@@ -1742,7 +1497,7 @@ namespace PKHeX.WinForms.Controls
         private void ValidateLocation(object sender, EventArgs e)
         {
             ValidateComboBox(sender);
-            if (!fieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             pkm.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
@@ -1811,7 +1566,7 @@ namespace PKHeX.WinForms.Controls
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
             GB_Markings.Visible = gen >= 3;
             BTN_Ribbons.Visible = gen >= 3;
-            CB_HPType.Enabled = CB_Form.Enabled = gen >= 3;
+            CB_Form.Enabled = gen >= 3;
             BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = gen >= 3;
 
             FLP_FriendshipForm.Visible = gen >= 2;
@@ -1830,70 +1585,21 @@ namespace PKHeX.WinForms.Controls
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
             FLP_EncounterType.Visible = gen >= 4 && gen <= 6;
             FLP_TimeOfDay.Visible = gen == 2;
-
-            // Stats
-            FLP_StatsTotal.Visible = gen >= 3;
-            FLP_Characteristic.Visible = gen >= 3;
-            FLP_HPType.Visible = gen >= 2;
-
+            
             Contest.ToggleInterface(gen);
+            Stats.ToggleInterface(gen);
 
-            ToggleStats(gen);
             CenterSubEditors();
-        }
-        private void ToggleStats(int gen)
-        {
-            if (pkm.Format == 1)
-            {
-                FLP_SpD.Visible = false;
-                Label_SPA.Visible = false;
-                Label_SPC.Visible = true;
-                TB_HPIV.Enabled = false;
-                MaskedTextBox[] evControls = {TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV};
-                foreach (var ctrl in evControls)
-                {
-                    ctrl.Mask = "00000";
-                    ctrl.Size = Stat_HP.Size;
-                }
-            }
-            else if (gen == 2)
-            {
-                FLP_SpD.Visible = true;
-                Label_SPA.Visible = true;
-                Label_SPC.Visible = false;
-                TB_SPDEV.Enabled = TB_SPDIV.Enabled = false;
-                TB_HPIV.Enabled = false;
-                MaskedTextBox[] evControls = {TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV};
-                foreach (var ctrl in evControls)
-                {
-                    ctrl.Mask = "00000";
-                    ctrl.Size = Stat_HP.Size;
-                }
-            }
-            else
-            {
-                FLP_SpD.Visible = true;
-                Label_SPA.Visible = true;
-                Label_SPC.Visible = false;
-                TB_SPDEV.Enabled = TB_SPDIV.Enabled = true;
-                TB_HPIV.Enabled = true;
-                MaskedTextBox[] evControls = {TB_SPAEV, TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPDEV};
-                foreach (var ctrl in evControls)
-                {
-                    ctrl.Mask = "000";
-                    ctrl.Size = TB_ExtraByte.Size;
-                }
-            }
         }
         private bool FinalizeInterface(SaveFile sav)
         {
-            bool init = fieldsInitialized;
-            fieldsInitialized = fieldsLoaded = false;
+            bool init = FieldsInitialized;
+            FieldsInitialized = FieldsLoaded = false;
 
             bool TranslationRequired = false;
             PopulateFilteredDataSources(sav);
             PopulateFields(pkm);
-            fieldsInitialized |= init;
+            FieldsInitialized |= init;
 
             // SAV Specific Limits
             TB_OT.MaxLength = pkm.OTLength;
@@ -1910,7 +1616,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Common HaX Interface
-            CHK_HackedStats.Enabled = CHK_HackedStats.Visible = MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
+            MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
             TB_Level.Visible = !HaX;
 
             // Setup PKM Preparation/Extra Bytes
@@ -1998,37 +1704,11 @@ namespace PKHeX.WinForms.Controls
             // Set Level and Friendship
             TB_Level.Text = Set.Level.ToString();
             TB_Friendship.Text = Set.Friendship.ToString();
-
-            if (pkm.Format >= 7) // hyper train IVs as appropriate
-            {
-                if (Set.Level < 100)
-                    pkm.HyperTrainFlags = 0;
-                else
-                { 
-                    pkm.HT_HP = Set.IVs[0] != 31;
-                    pkm.HT_ATK = Set.IVs[1] != 31 && Set.IVs[1] > 2;
-                    pkm.HT_DEF = Set.IVs[2] != 31;
-                    pkm.HT_SPA = Set.IVs[4] != 31;
-                    pkm.HT_SPD = Set.IVs[5] != 31;
-                    pkm.HT_SPE = Set.IVs[3] != 31 & Set.IVs[3] > 2;
-                }
-            }
+            SetSuggestedHyperTrainingData(pkm, Set.IVs);
 
             // Set IVs
-            TB_HPIV.Text = Set.IVs[0].ToString();
-            TB_ATKIV.Text = Set.IVs[1].ToString();
-            TB_DEFIV.Text = Set.IVs[2].ToString();
-            TB_SPAIV.Text = Set.IVs[4].ToString();
-            TB_SPDIV.Text = Set.IVs[5].ToString();
-            TB_SPEIV.Text = Set.IVs[3].ToString();
-
-            // Set EVs
-            TB_HPEV.Text = Set.EVs[0].ToString();
-            TB_ATKEV.Text = Set.EVs[1].ToString();
-            TB_DEFEV.Text = Set.EVs[2].ToString();
-            TB_SPAEV.Text = Set.EVs[4].ToString();
-            TB_SPDEV.Text = Set.EVs[5].ToString();
-            TB_SPEEV.Text = Set.EVs[3].ToString();
+            Stats.LoadIVs(Set.IVs);
+            Stats.LoadEVs(Set.EVs);
 
             UpdateRandomEC(null, null);
             if (Set.Shiny && !pkm.IsShiny)
@@ -2044,17 +1724,18 @@ namespace PKHeX.WinForms.Controls
             if (Legality.Info.Relearn.Any(z => !z.Valid))
                 SetSuggestedRelearnMoves(silent: true);
         }
+
         public void ChangeLanguage(SaveFile sav, PKM pk)
         {
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;
 
-            bool alreadyInit = fieldsInitialized;
-            fieldsInitialized = false;
+            bool alreadyInit = FieldsInitialized;
+            FieldsInitialized = false;
             InitializeLanguage(sav);
             CenterSubEditors();
             PopulateFields(pk); // put data back in form
-            fieldsInitialized |= alreadyInit;
+            FieldsInitialized |= alreadyInit;
         }
         public void FlickerInterface()
         {
@@ -2067,7 +1748,7 @@ namespace PKHeX.WinForms.Controls
             ComboBox[] cbs =
             {
                 CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
-                CB_Nature, CB_EncounterType, CB_GameOrigin, CB_HPType
+                CB_Nature, CB_EncounterType, CB_GameOrigin,
             };
             foreach (var cb in cbs) { cb.DisplayMember = "Text"; cb.ValueMember = "Value"; }
 
@@ -2078,8 +1759,10 @@ namespace PKHeX.WinForms.Controls
             GameInfo.InitializeDataSources(GameInfo.Strings);
 
             CB_EncounterType.DataSource = Util.GetCBList(GameInfo.Strings.encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
-            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray(), null);
             CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
+
+            // Sub editors
+            Stats.InitializeDataSources();
 
             PopulateFilteredDataSources(SAV);
         }
@@ -2108,6 +1791,37 @@ namespace PKHeX.WinForms.Controls
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
+        }
+
+        private static int GetSaneGender(PKM pkm, int cg)
+        {
+            int gt = pkm.PersonalInfo.Gender;
+            if (gt == 255)  // Genderless
+                return 2;
+            if (gt == 254) // Female Only
+                return 1;
+            if (gt == 0)  // Male Only
+                return 0;
+            if (cg == 2 || pkm.GenNumber < 6)
+                return (byte)pkm.PID <= gt ? 1 : 0;
+            return cg;
+        }
+        private static void SetSuggestedHyperTrainingData(PKM pkm, int[] IVs)
+        {
+            if (pkm.Format < 7)
+                return;
+            if (pkm.CurrentLevel < 100)
+            {
+                pkm.HyperTrainFlags = 0;
+                return;
+            }
+
+            pkm.HT_HP = IVs[0] != 31;
+            pkm.HT_ATK = IVs[1] != 31 && IVs[1] > 2;
+            pkm.HT_DEF = IVs[2] != 31;
+            pkm.HT_SPE = IVs[3] != 31 && IVs[3] > 2;
+            pkm.HT_SPA = IVs[4] != 31;
+            pkm.HT_SPD = IVs[5] != 31;
         }
     }
 }

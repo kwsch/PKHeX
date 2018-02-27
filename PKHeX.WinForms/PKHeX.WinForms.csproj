@@ -150,6 +150,13 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PKM Editor\IMainEditor.cs" />
+    <Compile Include="Controls\PKM Editor\StatEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\StatEditor.Designer.cs">
+      <DependentUpon>StatEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PKM Editor\ContestStat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -569,6 +576,9 @@
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\PKM Editor\StatEditor.resx">
+      <DependentUpon>StatEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PKM Editor\ContestStat.resx">
       <DependentUpon>ContestStat.cs</DependentUpon>
     </EmbeddedResource>

@@ -334,6 +334,8 @@ namespace PKHeX.Core
         public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
         public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
+        public int IVTotal => IVs.Sum();
+        public int EVTotal => EVs.Sum();
         /// <summary>
         /// Swaps bits at a given position
         /// </summary>
@@ -535,17 +537,19 @@ namespace PKHeX.Core
         /// Toggles the Hyper Training flag for a given stat.
         /// </summary>
         /// <param name="stat">Battle Stat (H/A/B/S/C/D)</param>
-        public void HyperTrainInvert(int stat)
+        /// <returns>Final Hyper Training Flag value</returns>
+        public bool HyperTrainInvert(int stat)
         {
             switch (stat)
             {
-                case 0: HT_HP ^= true; break;
-                case 1: HT_ATK ^= true; break;
-                case 2: HT_DEF ^= true; break;
-                case 3: HT_SPA ^= true; break;
-                case 4: HT_SPD ^= true; break;
-                case 5: HT_SPE ^= true; break;
+                case 0: return HT_HP ^= true;
+                case 1: return HT_ATK ^= true;
+                case 2: return HT_DEF ^= true;
+                case 3: return HT_SPE ^= true;
+                case 4: return HT_SPA ^= true;
+                case 5: return HT_SPD ^= true;
             }
+            return false;
         }
 
         /// <summary>

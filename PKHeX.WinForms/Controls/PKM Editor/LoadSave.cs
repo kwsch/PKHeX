@@ -63,35 +63,7 @@ namespace PKHeX.WinForms.Controls
             pk.PKRS_Days = CB_PKRSDays.SelectedIndex;
             pk.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
         }
-
-        private void LoadPartyStats(PKM pk)
-        {
-            Stat_HP.Text = pk.Stat_HPCurrent.ToString();
-            Stat_ATK.Text = pk.Stat_ATK.ToString();
-            Stat_DEF.Text = pk.Stat_DEF.ToString();
-            Stat_SPA.Text = pk.Stat_SPA.ToString();
-            Stat_SPD.Text = pk.Stat_SPD.ToString();
-            Stat_SPE.Text = pk.Stat_SPE.ToString();
-        }
-        private void SavePartyStats(PKM pk)
-        {
-            int size = pk.SIZE_PARTY;
-            if (pk.Data.Length != size)
-                Array.Resize(ref pk.Data, size);
-
-            pk.Stat_HPCurrent = Util.ToInt32(Stat_HP.Text);
-            pk.Stat_HPMax = Util.ToInt32(Stat_HP.Text);
-            pk.Stat_ATK = Util.ToInt32(Stat_ATK.Text);
-            pk.Stat_DEF = Util.ToInt32(Stat_DEF.Text);
-            pk.Stat_SPE = Util.ToInt32(Stat_SPE.Text);
-            pk.Stat_SPA = Util.ToInt32(Stat_SPA.Text);
-            pk.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
-
-            pk.Stat_Level = HaX
-                ? (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue)
-                : Util.ToInt32(TB_Level.Text);
-        }
-
+        
         private void LoadContestStats(PKM pk)
         {
             Contest.Cool = pk.CNT_Cool;
@@ -111,44 +83,8 @@ namespace PKHeX.WinForms.Controls
             pk.CNT_Sheen = Contest.Sheen;
         }
 
-        private void LoadIVs(PKM pk)
-        {
-            TB_HPIV.Text = pk.IV_HP.ToString();
-            TB_ATKIV.Text = pk.IV_ATK.ToString();
-            TB_DEFIV.Text = pk.IV_DEF.ToString();
-            TB_SPEIV.Text = pk.IV_SPE.ToString();
-            TB_SPAIV.Text = pk.IV_SPA.ToString();
-            TB_SPDIV.Text = pk.IV_SPD.ToString();
-            CB_HPType.SelectedValue = pk.HPType;
-        }
-        private void SaveIVs(PKM pk)
-        {
-            pk.IV_HP = Util.ToInt32(TB_HPIV.Text);
-            pk.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
-            pk.IV_DEF = Util.ToInt32(TB_DEFIV.Text);
-            pk.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
-            pk.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
-            pk.IV_SPD = Util.ToInt32(TB_SPDIV.Text);
-        }
-
-        private void LoadEVs(PKM pk)
-        {
-            TB_HPEV.Text = pk.EV_HP.ToString();
-            TB_ATKEV.Text = pk.EV_ATK.ToString();
-            TB_DEFEV.Text = pk.EV_DEF.ToString();
-            TB_SPEEV.Text = pk.EV_SPE.ToString();
-            TB_SPAEV.Text = pk.EV_SPA.ToString();
-            TB_SPDEV.Text = pk.EV_SPD.ToString();
-        }
-        private void SaveEVs(PKM pk)
-        {
-            pk.EV_HP = Util.ToInt32(TB_HPEV.Text);
-            pk.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
-            pk.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
-            pk.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
-            pk.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
-            pk.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
-        }
+        private void LoadIVs(PKM pk) => Stats.LoadIVs(pk.IVs);
+        private void LoadEVs(PKM pk) => Stats.LoadEVs(pk.EVs);
 
         private void LoadMoves(PKM pk)
         {
@@ -239,8 +175,6 @@ namespace PKHeX.WinForms.Controls
             SaveSpeciesLevelEXP(pk);
             SaveNickname(pk);
             SaveOTID(pk);
-            SaveIVs(pk);
-            SaveEVs(pk);
             SaveMoves(pk);
         }
 

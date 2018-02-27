@@ -284,11 +284,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
-        public static uint[] GetRandomEVs(int generation = Generation)
+        public static int[] GetRandomEVs(int generation = Generation)
         {
             if (generation > 2)
             {
-                uint[] evs = new uint[6];
+                var evs = new int[6];
                 do
                 {
                     evs[0] = (byte)Math.Min(Util.Rand32() % 300, 252); // bias two to get maybe 252
@@ -303,9 +303,9 @@ namespace PKHeX.Core
             }
             else
             {
-                uint[] evs = new uint[6];
+                var evs = new int[6];
                 for (int i = 0; i < evs.Length; i++)
-                    evs[i] = Util.Rand32() & ushort.MaxValue;
+                    evs[i] = Util.Rand.Next(ushort.MaxValue + 1);
                 return evs;
             }
         }
