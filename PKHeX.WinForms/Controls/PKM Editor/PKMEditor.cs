@@ -536,10 +536,10 @@ namespace PKHeX.WinForms.Controls
         }
         private void ClickPPUps(object sender, EventArgs e)
         {
-            CB_PPu1.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
-            CB_PPu2.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
-            CB_PPu3.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
-            CB_PPu4.SelectedIndex = ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
+            CB_PPu1.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
+            CB_PPu2.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
+            CB_PPu3.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
+            CB_PPu4.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
         }
         private void ClickMarking(object sender, EventArgs e)
         {
