@@ -77,8 +77,6 @@ namespace PKHeX.WinForms.Controls
         }
         public void UpdateIVs(object sender, EventArgs e)
         {
-            if (ChangingFields)
-                return;
             if (sender is MaskedTextBox m)
             {
                 int value = Util.ToInt32(m.Text);
@@ -105,9 +103,12 @@ namespace PKHeX.WinForms.Controls
                 MainEditor.UpdateIVsGB(sender == null);
             }
 
-            ChangingFields = true;
-            CB_HPType.SelectedValue = pkm.HPType;
-            ChangingFields = false;
+            if (!ChangingFields)
+            {
+                ChangingFields = true;
+                CB_HPType.SelectedValue = pkm.HPType;
+                ChangingFields = false;
+            }
 
             // Potential Reading
             L_Potential.Text = pkm.GetPotentialString(MainEditor.Unicode);
@@ -180,17 +181,10 @@ namespace PKHeX.WinForms.Controls
             if (ChangingFields || !FieldsInitialized)
                 return;
 
-            ChangingFields = true;
-
             // Change IVs to match the new Hidden Power
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
             int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs);
             LoadIVs(newIVs);
-
-            ChangingFields = false;
-
-            // Refresh View
-            UpdateIVs(null, null);
         }
         private void ClickStatLabel(object sender, MouseEventArgs e)
         {
