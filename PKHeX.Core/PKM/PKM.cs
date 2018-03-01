@@ -720,9 +720,8 @@ namespace PKHeX.Core
             Stats[3] = (ushort)(((HT_SPE ? 31 : IV_SPE) + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
 
             // Account for nature
-            int incr = Nature / 5 + 1;
-            int decr = Nature % 5 + 1;
-            if (incr == decr || incr >= Stats.Length) return Stats;
+            if (PKX.GetNatureModification(Nature, out int incr, out int decr))
+                return Stats;
             Stats[incr] *= 11; Stats[incr] /= 10;
             Stats[decr] *= 9; Stats[decr] /= 10;
             return Stats;

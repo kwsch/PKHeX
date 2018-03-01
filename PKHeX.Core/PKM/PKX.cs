@@ -353,6 +353,20 @@ namespace PKHeX.Core
                 return 1;
             return 2;
         }
+
+        /// <summary>
+        /// Gets the nature modification values and checks if they are equal.
+        /// </summary>
+        /// <param name="nature">Nature</param>
+        /// <param name="incr">Increased stat</param>
+        /// <param name="decr">Decreased stat</param>
+        /// <returns>True if nature modification values are equal</returns>
+        public static bool GetNatureModification(int nature, out int incr, out int decr)
+        {
+            incr = nature / 5 + 1;
+            decr = nature % 5 + 1;
+            return incr == decr;
+        }
         
         /// <summary>
         /// Positions for shuffling.
@@ -838,11 +852,17 @@ namespace PKHeX.Core
         /// <param name="list">Source list to copy from</param>
         /// <param name="dest">Destination list/array</param>
         /// <param name="start">Starting point to copy to</param>
-        public static void CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, int start = 0)
+        /// <returns>Count of <see cref="T"/> copied.</returns>
+        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, int start = 0)
         {
-            int ctr = 0;
+            int ctr = start;
             foreach (var z in list)
-                dest[start + ctr++] = z;
+            {
+                if (dest.Count <= ctr)
+                    break;
+                dest[ctr++] = z;
+            }
+            return ctr - start;
         }
 
         /// <summary>

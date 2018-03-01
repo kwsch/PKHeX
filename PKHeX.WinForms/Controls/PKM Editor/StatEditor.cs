@@ -259,12 +259,8 @@ namespace PKHeX.WinForms.Controls
             foreach (var label in L_Stats.Skip(1))
                 label.ResetForeColor();
 
-            // Recolor the Stat Labels based on boosted stats.
-            int incr = nature / 5 + 1;
-            int decr = nature % 5 + 1;
-
             // Set Colored StatLabels only if Nature isn't Neutral
-            if (incr == decr || incr >= L_Stats.Length)
+            if (PKX.GetNatureModification(nature, out int incr, out int decr))
                 return;
             L_Stats[incr].ForeColor = Color.Red;
             L_Stats[decr].ForeColor = Color.Blue;
@@ -275,11 +271,8 @@ namespace PKHeX.WinForms.Controls
             foreach (var label in L_Stats.Skip(1))
                 label.ResetForeColor();
 
-            int incr = nature / 5 + 1;
-            int decr = nature % 5 + 1;
-
             // Set Colored StatLabels only if Nature isn't Neutral
-            if (incr == decr || incr >= L_Stats.Length)
+            if (PKX.GetNatureModification(nature, out int incr, out int decr))
                 return "-/-";
             return $"+{L_Stats[incr].Text} / -{L_Stats[decr].Text}".Replace(":", "");
         }
