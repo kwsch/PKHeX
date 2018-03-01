@@ -142,9 +142,9 @@ namespace PKHeX.Core
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (GetData(0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(0x00000, 10).All(z => z == 0xFF))
             { generalBlock = 1; return; }
-            if (GetData(0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(0x40000, 10).All(z => z == 0xFF))
             { generalBlock = 0; return; }
 
             // Check SaveCount for current save
@@ -166,9 +166,9 @@ namespace PKHeX.Core
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (GetData(ofs + 0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(ofs + 0x00000, 10).All(z => z == 0xFF))
             { storageBlock = 1; return; }
-            if (GetData(ofs + 0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(ofs + 0x40000, 10).All(z => z == 0xFF))
             { storageBlock = 0; return; }
 
             storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;

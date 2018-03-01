@@ -184,7 +184,7 @@ namespace PKHeX.Core
                 if ((_pk = value) == null)
                     return;
 
-                var pkdata = value.Data.SequenceEqual(new byte[value.Data.Length])
+                var pkdata = value.Data.All(z => z == 0)
                     ? value.Data
                     : PKX.EncryptArray45(value.Data);
                 pkdata.CopyTo(Data, 8);

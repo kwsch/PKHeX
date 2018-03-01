@@ -396,7 +396,7 @@ namespace PKHeX.WinForms
 
             public static IEnumerable<StringInstruction> GetFilters(IEnumerable<string> lines)
             {
-                var raw = GetRelevantStrings(lines, new[] { '!', '=' });
+                var raw = GetRelevantStrings(lines, '!', '=');
                 return from line in raw
                     let eval = line[0] == '='
                     let split = line.Substring(1).Split('=')
@@ -405,13 +405,13 @@ namespace PKHeX.WinForms
             }
             public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
             {
-                var raw = GetRelevantStrings(lines, new[] { '.' }).Select(line => line.Substring(1));
+                var raw = GetRelevantStrings(lines, '.').Select(line => line.Substring(1));
                 return from line in raw
                     select line.Split('=') into split
                     where split.Length == 2
                     select new StringInstruction { PropertyName = split[0], PropertyValue = split[1] };
             }
-            private static IEnumerable<string> GetRelevantStrings(IEnumerable<string> lines, IEnumerable<char> pieces)
+            private static IEnumerable<string> GetRelevantStrings(IEnumerable<string> lines, params char[] pieces)
             {
                 return lines
                     .Where(line => !string.IsNullOrEmpty(line))
@@ -634,8 +634,7 @@ namespace PKHeX.WinForms
                 PKM.SetRandomIVs();
                 return;
             }
-            int MaxIV = PKM.Format <= 2 ? 15 : 31;
-            ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, Util.Rand32() & MaxIV);
+            ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, Util.Rand32() & PKM.MaxIV);
         }
     }
 
@@ -689,9 +688,9 @@ namespace PKHeX.WinForms
         {
             if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
             {
-                return DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue)
-    ? new DateTime?(dateValue)
-    : null;
+                if (DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
+                    return dateValue;
+                return null;
             }
 
             // Convert.ChangeType is suitable for most things
