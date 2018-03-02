@@ -590,15 +590,22 @@ namespace PKHeX.Core
                 if (IVs != null)
                 {
                     var pkIVs = pkm.IVs;
-                    bool valid = true;
-                    for (int i = 0; i < 6; i++)
-                        if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
-                            valid = false;
-                    if (!valid)
-                        AddLine(Severity.Invalid, V30, CheckIdentifier.IVs);
-                    bool IV3 = IVs[0] == 0xFE;
-                    if (IV3 && pkm.IVs.Count(iv => iv == 31) < 3)
-                        AddLine(Severity.Invalid, string.Format(V28, 3), CheckIdentifier.IVs);
+                    var ivflag = IVs.FirstOrDefault(iv => (byte)(iv - 0xFC) < 3);
+                    if (ivflag == 0) // Random IVs
+                    {
+                        bool valid = true;
+                        for (int i = 0; i < 6; i++)
+                            if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
+                                valid = false;
+                        if (!valid)
+                            AddLine(Severity.Invalid, V30, CheckIdentifier.IVs);
+                    }
+                    else
+                    {
+                        int IVCount = ivflag - 0xFB;  // IV2/IV3
+                        if (pkIVs.Count(iv => iv == 31) < IVCount)
+                            AddLine(Severity.Invalid, string.Format(V28, IVCount), CheckIdentifier.IVs);
+                    }
                 }
             }
             if (pkm.IVs.Sum() == 0)
