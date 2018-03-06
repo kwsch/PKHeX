@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using static PKHeX.Core.Encounters1;
 using static PKHeX.Core.Encounters2;
@@ -9,28 +8,12 @@ using static PKHeX.Core.Encounters4;
 using static PKHeX.Core.Encounters5;
 using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
-using static PKHeX.Core.EncountersWC3;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        /// <summary>Event Database for Generation 3</summary>
-        public static MysteryGift[] MGDB_G3 { get; private set; } = new MysteryGift[0];
-
-        /// <summary>Event Database for Generation 4</summary>
-        public static MysteryGift[] MGDB_G4 { get; private set; } = new MysteryGift[0];
-
-        /// <summary>Event Database for Generation 5</summary>
-        public static MysteryGift[] MGDB_G5 { get; private set; } = new MysteryGift[0];
-
-        /// <summary>Event Database for Generation 6</summary>
-        public static MysteryGift[] MGDB_G6 { get; private set; } = new MysteryGift[0];
-
-        /// <summary>Event Database for Generation 7</summary>
-        public static MysteryGift[] MGDB_G7 { get; private set; } = new MysteryGift[0];
-
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra { get; set; }
         public static bool AllowGen1Tradeback { get; set; }
@@ -93,9 +76,9 @@ namespace PKHeX.Core
 
         // Gen 7
         private static readonly EggMoves[] EggMovesSM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
-        private static readonly Learnset[] LevelUpSM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+        private static readonly Learnset[] LevelUpSM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
         private static readonly EggMoves[] EggMovesUSUM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
-        private static readonly Learnset[] LevelUpUSUM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
+        private static readonly Learnset[] LevelUpUSUM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
 
         // Setup Help
         static Legal()
@@ -103,92 +86,8 @@ namespace PKHeX.Core
             // Misc Fixes to Data pertaining to legality constraints
             EggMovesUSUM[198].Moves = EggMovesUSUM[198].Moves.Take(15).ToArray(); // Remove Punishment from USUM Murkrow (no species can pass it #1829)
         }
-        private static HashSet<MysteryGift> GetPCDDB(byte[] bin)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < bin.Length; i += PCD.Size)
-            {
-                byte[] data = new byte[PCD.Size];
-                Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
-                db.Add(new PCD(data));
-            }
-            return db;
-        }
-        private static HashSet<MysteryGift> GetPGFDB(byte[] bin)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < bin.Length; i += PGF.Size)
-            {
-                byte[] data = new byte[PGF.Size];
-                Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
-                db.Add(new PGF(data));
-            }
-            return db;
-        }
-        private static HashSet<MysteryGift> GetWC6DB(byte[] wc6bin, byte[] wc6full)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < wc6bin.Length; i += WC6.Size)
-            {
-                byte[] data = new byte[WC6.Size];
-                Buffer.BlockCopy(wc6bin, i, data, 0, WC6.Size);
-                db.Add(new WC6(data));
-            }
-            for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
-            {
-                byte[] data = new byte[WC6.SizeFull];
-                Buffer.BlockCopy(wc6full, i, data, 0, WC6.SizeFull);
-                db.Add(new WC6(data));
-            }
-            return db;
-        }
-        private static HashSet<MysteryGift> GetWC7DB(byte[] wc7bin, byte[] wc7full)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < wc7bin.Length; i += WC7.Size)
-            {
-                byte[] data = new byte[WC7.Size];
-                Buffer.BlockCopy(wc7bin, i, data, 0, WC7.Size);
-                db.Add(new WC7(data));
-            }
-            for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
-            {
-                byte[] data = new byte[WC7.SizeFull];
-                Buffer.BlockCopy(wc7full, i, data, 0, WC7.SizeFull);
-                db.Add(new WC7(data));
-            }
-            return db;
-        }
-        public static void RefreshMGDB(string localDbPath)
-        {
-            var g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
-            var g5 = GetPGFDB(Util.GetBinaryResource("pgf.pkl"));
-            var g6 = GetWC6DB(Util.GetBinaryResource("wc6.pkl"), Util.GetBinaryResource("wc6full.pkl"));
-            var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
 
-            if (Directory.Exists(localDbPath))
-                foreach (var file in Directory.EnumerateFiles(localDbPath, "*", SearchOption.AllDirectories))
-                {
-                    var fi = new FileInfo(file);
-                    if (!MysteryGift.IsMysteryGift(fi.Length))
-                        continue;
-
-                    var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
-                    switch (gift?.Format)
-                    {
-                        case 4: g4.Add(gift); continue;
-                        case 5: g5.Add(gift); continue;
-                        case 6: g6.Add(gift); continue;
-                        case 7: g7.Add(gift); continue;
-                    }
-                }
-
-            MGDB_G3 = Encounter_WC3; // hardcoded
-            MGDB_G4 = g4.ToArray();
-            MGDB_G5 = g5.ToArray();
-            MGDB_G6 = g6.ToArray();
-            MGDB_G7 = g7.ToArray();
-        }
+        public static void RefreshMGDB(string localDbPath) => EncounterEvent.RefreshMGDB(localDbPath);
 
         // Moves
         internal static int[] GetMinLevelLearnMove(int species, int Generation, List<int> moves)

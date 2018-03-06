@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
         public Main()
         {
             new Task(() => new SplashScreen().ShowDialog()).Start();
-            new Task(RefreshMGDB).Start();
+            new Task(() => Legal.RefreshMGDB(MGDatabasePath)).Start();
             InitializeComponent();
 
             FormLoadCheckForUpdates();
@@ -730,10 +730,6 @@ namespace PKHeX.WinForms
 
             var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
             return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path); // no sneaky plz; reuse string
-        }
-        private static void RefreshMGDB()
-        {
-            Legal.RefreshMGDB(MGDatabasePath);
         }
 
         private void OpenSAV(SaveFile sav, string path)
