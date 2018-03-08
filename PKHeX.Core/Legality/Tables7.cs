@@ -533,15 +533,6 @@ namespace PKHeX.Core
             768, // Golisopod
 
             // No Encounter
-            722, // Rowlet
-            723, // Dartrix
-            724, // Decidueye
-            725, // Litten
-            726, // Torracat
-            727, // Incineroar
-            728, // Popplio
-            729, // Brionne
-            730, // Primarina
             774, // Minior
 
             //Pre-Gen
