@@ -215,11 +215,39 @@ namespace PKHeX.Core
             foreach (var area in areas)
                 MarkEncounterAreas(area);
         }
-        internal static void MarkEncounterAreas(params EncounterArea[] areas)
+        private static void MarkEncounterAreas(params EncounterArea[] areas)
         {
             foreach (var area in areas)
             foreach (var slot in area.Slots)
                 slot.Area = area;
+        }
+
+        internal static EncounterStatic Clone(this EncounterStatic s, int location)
+        {
+            var result = s.Clone();
+            result.Location = location;
+            return result;
+        }
+        internal static EncounterStatic[] Clone(this EncounterStatic s, int[] locations)
+        {
+            EncounterStatic[] Encounters = new EncounterStatic[locations.Length];
+            for (int i = 0; i < locations.Length; i++)
+                Encounters[i] = s.Clone(locations[i]);
+            return Encounters;
+        }
+        internal static IEnumerable<EncounterStatic> DreamRadarClone(this EncounterStatic s)
+        {
+            for (int i = 0; i < 8; i++)
+                yield return s.DreamRadarClone(5 * i + 5);  // Level from 5->40 depends on the number of badges
+        }
+        private static EncounterStatic DreamRadarClone(this EncounterStatic s, int level)
+        {
+            var result = s.Clone(level);
+            result.Level = level;
+            result.Location = 30015;// Pokemon Dream Radar
+            result.Gift = true;     // Only
+            result.Ball = 25;       // Dream Ball
+            return result;
         }
     }
 }

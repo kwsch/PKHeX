@@ -513,6 +513,10 @@ namespace PKHeX.Core
             if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
+            for (int i = 0; i < 6; i++)
+                if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
+                    return false;
+
             // Defer to EC/PID check
             // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
             // continue;
@@ -1578,7 +1582,7 @@ namespace PKHeX.Core
         }
         private static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
-            return new EncounterStatic
+            var enc = new EncounterStatic
             {
                 Species = species,
                 Gift = true, // Forces Poké Ball
@@ -1587,14 +1591,15 @@ namespace PKHeX.Core
                 Fateful = species == 151,
                 Location = Transfer1,
                 EggLocation = 0,
-                IV3 = true,
                 Level = pkmMetLevel,
                 Version = GameVersion.RBY
             };
+            enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
+            return enc;
         }
         private static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
         {
-            return new EncounterStatic
+            var enc = new EncounterStatic
             {
                 Species = species,
                 Gift = true, // Forces Poké Ball
@@ -1603,10 +1608,11 @@ namespace PKHeX.Core
                 Fateful = species == 151 || species == 251,
                 Location = Transfer2,
                 EggLocation = 0,
-                IV3 = true,
                 Level = pkmMetLevel,
                 Version = GameVersion.GSC
             };
+            enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
+            return enc;
         }
         internal static bool IsEncounterTrade1Valid(PKM pkm)
         {

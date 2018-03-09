@@ -28,19 +28,12 @@ namespace PKHeX.Core
         {
             switch (info.EncounterMatch)
             {
-                case EncounterEgg e:
-                    pkm.WasEgg = true;
-                    return VerifyEncounterEgg(pkm, e);
-                case EncounterLink l:
-                    return VerifyEncounterLink(pkm, l);
-                case EncounterTrade t:
-                    return VerifyEncounterTrade(pkm, t);
-                case EncounterSlot w:
-                    return VerifyEncounterWild(pkm, w);
-                case EncounterStatic s:
-                    return VerifyEncounterStatic(pkm, s);
-                case MysteryGift g:
-                    return VerifyEncounterEvent(pkm, g);
+                case EncounterEgg e:    return VerifyEncounterEgg(pkm, e);
+                case EncounterLink l:   return VerifyEncounterLink(pkm, l);
+                case EncounterTrade t:  return VerifyEncounterTrade(pkm, t);
+                case EncounterSlot w:   return VerifyEncounterWild(pkm, w);
+                case EncounterStatic s: return VerifyEncounterStatic(pkm, s);
+                case MysteryGift g:     return VerifyEncounterEvent(pkm, g);
                 default:
                     return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
             }
@@ -129,6 +122,7 @@ namespace PKHeX.Core
         // Eggs
         private static CheckResult VerifyEncounterEgg(PKM pkm, IEncounterable egg)
         {
+            pkm.WasEgg = true;
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);

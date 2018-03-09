@@ -72,7 +72,7 @@ namespace PKHeX.Core
         public int GetLevelLearnMove(int move)
         {
             int index = Array.IndexOf(Moves, move);
-            return index < 0 ? 0 : Levels[index];
+            return index < 0 ? index : Levels[index];
         }
     }
 }

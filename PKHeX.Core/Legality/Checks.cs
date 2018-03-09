@@ -555,15 +555,11 @@ namespace PKHeX.Core
         }
         private void VerifyIVs()
         {
-            if (EncounterMatch is EncounterStatic s && s.IV3)
+            if (EncounterMatch is EncounterStatic s)
             {
-                int IVCount = 3;
-                if (s.Version == GameVersion.RBY && pkm.Species == 151 // VC Mew
-                    || s.Version == GameVersion.GSC && pkm.Species == 251) // VC Celebi
-                    IVCount = 5;
-                if (pkm.IVs.Count(iv => iv == 31) < IVCount)
+                if (s.FlawlessIVCount != 0 && pkm.IVs.Count(iv => iv == 31) < s.FlawlessIVCount)
                 {
-                    AddLine(Severity.Invalid, string.Format(V28, IVCount), CheckIdentifier.IVs);
+                    AddLine(Severity.Invalid, string.Format(V28, s.FlawlessIVCount), CheckIdentifier.IVs);
                     return;
                 }
             }

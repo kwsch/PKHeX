@@ -90,60 +90,52 @@ namespace PKHeX.Core
         public static void RefreshMGDB(string localDbPath) => EncounterEvent.RefreshMGDB(localDbPath);
 
         // Moves
-        internal static int[] GetMinLevelLearnMove(int species, int Generation, List<int> moves)
+        internal static int[] GetMinLevelLearnMoveG1(int species, List<int> moves)
         {
             var r = new int[moves.Count];
-            switch (Generation)
+
+            int index = PersonalTable.RB.GetFormeIndex(species, 0);
+            if (index == 0)
+                return r;
+
+            var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
+            var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
+
+            for (int m = 0; m < moves.Count; m++)
             {
-                case 1:
-                    {
-                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
-                        if (index == 0)
-                            return r;
-
-                        var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
-                        var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
-
-                        for (int m = 0; m < moves.Count; m++)
-                        {
-                            if (pi_rb.Contains(moves[m]) || pi_y.Contains(moves[m]))
-                                r[m] = 1;
-                            else
-                            {
-                                var rb_level = LevelUpRB[index].GetLevelLearnMove(moves[m]);
-                                var y_level = LevelUpY[index].GetLevelLearnMove(moves[m]);
-                                // 0 means it is not learned in that game, select the other game
-                                r[m] = rb_level == 0 ? y_level :
-                                       y_level == 0 ? rb_level :
-                                       Math.Min(rb_level, y_level);
-                            }
-                        }
-                        break;
-                    }
+                if (pi_rb.Contains(moves[m]) || pi_y.Contains(moves[m]))
+                    r[m] = 1;
+                else
+                {
+                    var rb_level = LevelUpRB[index].GetLevelLearnMove(moves[m]);
+                    var y_level = LevelUpY[index].GetLevelLearnMove(moves[m]);
+                    // < 0 means it is not learned in that game, select the other game
+                    if (rb_level < 0)
+                        r[m] = y_level;
+                    else if (y_level < 0)
+                        r[m] = rb_level;
+                    else
+                        r[m] = Math.Min(rb_level, y_level);
+                }
             }
             return r;
         }
-        internal static int[] GetMaxLevelLearnMove(int species, int Generation, List<int> moves)
+        internal static int[] GetMaxLevelLearnMoveG1(int species, List<int> moves)
         {
             var r = new int[moves.Count];
-            switch (Generation)
+
+            int index = PersonalTable.RB.GetFormeIndex(species, 0);
+            if (index == 0)
+                return r;
+
+            var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
+            var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
+
+            for (int m = 0; m < moves.Count; m++)
             {
-                case 1:
-                    {
-                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
-                        if (index == 0)
-                            return r;
-
-                        var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
-                        var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
-
-                        for (int m = 0; m < moves.Count; m++)
-                        {
-                            bool start = pi_rb.Contains(moves[m]) && pi_y.Contains(moves[m]);
-                            r[m] = start ? 1 : Math.Max(LevelUpRB[index].GetLevelLearnMove(moves[m]), LevelUpY[index].GetLevelLearnMove(moves[m]));
-                        }
-                        break;
-                    }
+                bool start = pi_rb.Contains(moves[m]) && pi_y.Contains(moves[m]);
+                r[m] = start ? 1 : Math.Max(GetHighest(LevelUpRB), GetHighest(LevelUpY));
+                int GetHighest(IReadOnlyList<Learnset> learn) => learn[index].GetLevelLearnMove(moves[m]);
             }
             return r;
         }
@@ -513,7 +505,7 @@ namespace PKHeX.Core
                 var list = i >= index ? preevomoves : evomoves;
                 list.AddRange(moves);
             }
-            return preevomoves.Where(z => !evomoves.Contains(z)).Distinct().ToList();
+            return preevomoves.Except(evomoves).Distinct().ToList();
         }
 
         // Encounter
@@ -590,7 +582,7 @@ namespace PKHeX.Core
             }
             // Initial Moves could be duplicated in the level up table
             // level up table moves have preference
-            var moves = InitialMoves.Where(p => p != 0 && !LevelUpMoves.Any(m => m == p)).ToList();
+            var moves = InitialMoves.Where(p => p != 0).Except(LevelUpMoves).ToList();
             // If all of the personal table moves can't be included, the last moves have preference.
             int pop = moves.Count - diff;
             if (pop > 0)

@@ -519,8 +519,8 @@ namespace PKHeX.Core
             {
                 previousspecies = species[133];
                 var ExclusiveMoves = Legal.GetExclusiveMoves(133, pkm.Species, 1, tmhm, moves, pkm.Korean);
-                var EeveeLevels = Legal.GetMinLevelLearnMove(133, 1, ExclusiveMoves[0]);
-                var EvoLevels = Legal.GetMaxLevelLearnMove(pkm.Species, 1, ExclusiveMoves[1]);
+                var EeveeLevels = Legal.GetMinLevelLearnMoveG1(133, ExclusiveMoves[0]);
+                var EvoLevels = Legal.GetMaxLevelLearnMoveG1(pkm.Species, ExclusiveMoves[1]);
 
                 for (int i = 0; i < ExclusiveMoves[0].Count; i++)
                 {

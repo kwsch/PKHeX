@@ -360,12 +360,12 @@ namespace PKHeX.Core
         /// <param name="nature">Nature</param>
         /// <param name="incr">Increased stat</param>
         /// <param name="decr">Decreased stat</param>
-        /// <returns>True if nature modification values are equal</returns>
+        /// <returns>True if nature modification values are equal or the Nature is out of range.</returns>
         public static bool GetNatureModification(int nature, out int incr, out int decr)
         {
             incr = nature / 5 + 1;
             decr = nature % 5 + 1;
-            return incr == decr;
+            return incr == decr || nature >= 25; // invalid
         }
         
         /// <summary>

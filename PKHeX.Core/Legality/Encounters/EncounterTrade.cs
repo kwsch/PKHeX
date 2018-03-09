@@ -43,23 +43,4 @@
             0, 126, 254, 2001, 30002, 30001, 30001,
         };
     }
-
-    /// <summary>
-    /// Trade Encounter data with a fixed PID.
-    /// </summary>
-    public class EncounterTradePID : EncounterTrade
-    {
-        public uint PID;
-    }
-
-    /// <summary>
-    /// Trade Encounter data with a fixed Catch Rate
-    /// </summary>
-    /// <remarks>
-    /// Generation 1 specific value used in detecting unmodified/untraded Generation 1 Trade Encounter data.
-    /// </remarks>
-    public class EncounterTradeCatchRate : EncounterTrade
-    {
-        public uint Catch_Rate;
-    }
 }
