@@ -12,9 +12,7 @@
         public int Location { get; set; } = 30011;
         public int Ability { get; set; } = 1;
         public int Ball { get; set; } = 4; // Pokéball
-        public bool Fateful { get; set; } = false;
-        public int[] RelearnMoves = new int[4];
-        public bool? Shiny { get; set; } = false;
+        public int[] RelearnMoves { get; set; } = new int[4];
         public bool OT { get; set; } = true; // Receiver is OT?
 
         public bool EggEncounter => false;

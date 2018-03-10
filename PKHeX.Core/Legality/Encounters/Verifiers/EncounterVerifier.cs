@@ -337,7 +337,7 @@ namespace PKHeX.Core
             if (pkm.AO && !enc.ORAS)
                 return new CheckResult(Severity.Invalid, V45, CheckIdentifier.Encounter);
 
-            if (enc.Shiny != null && (bool)enc.Shiny ^ pkm.IsShiny)
+            if (pkm.IsShiny)
                 return new CheckResult(Severity.Invalid, V47, CheckIdentifier.Encounter);
 
             return pkm.FatefulEncounter
