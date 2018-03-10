@@ -513,6 +513,7 @@ namespace PKHeX.Core
             if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
+            if (e.Generation > 2 || pkm.Format <= 2) // 1,2->7 regenerates IVs, only check if original IVs still exist
             for (int i = 0; i < 6; i++)
                 if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
                     return false;
