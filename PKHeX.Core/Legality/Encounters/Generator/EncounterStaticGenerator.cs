@@ -7,39 +7,16 @@ namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
-        {
-            var catch_rate = pk1.Catch_Rate;
-            // Pure gen 1, trades can be filter by catch rate
-            if (pk1.Species == 25 || pk1.Species == 26)
-            {
-                if (catch_rate == 190) // Red Blue Pikachu, is not a static encounter
-                    return false;
-                if (catch_rate == 163 && e.Level == 5) // Light Ball (Yellow) starter
-                    return true;
-            }
-
-            if (e.Version == GameVersion.Stadium)
-            {
-                // Amnesia Psyduck has different catch rates depending on language
-                if (e.Species == 054)
-                    return catch_rate == (pk1.Japanese ? 167 : 168);
-                return Stadium_CatchRate.Contains(catch_rate);
-            }
-
-            // Encounters can have different Catch Rates (RBG vs Y)
-            var table = e.Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
-            var rate = table[e.Species].CatchRate;
-            return catch_rate == rate;
-        }
-
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            // Get possible encounters
-            IEnumerable<EncounterStatic> poss = GetStaticEncounters(pkm, gameSource: gameSource);
+            return GetStaticEncounters(pkm, gameSource: gameSource);
+        }
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
+            var poss = GetPossible(pkm, gameSource: gameSource);
 
             int lvl = GetMinLevelEncounter(pkm);
             if (lvl < 0)
@@ -50,6 +27,7 @@ namespace PKHeX.Core
             foreach (var z in enc)
                 yield return z;
         }
+
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
         {
             // check for petty rejection scenarios that will be flagged by other legality checks
@@ -210,8 +188,7 @@ namespace PKHeX.Core
                     return GetStatic(pkm, table);
             }
         }
-
-        public static IEnumerable<EncounterStatic> GetStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin = -1, int lvl = -1, bool skip = false)
+        private static IEnumerable<EncounterStatic> GetStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin = -1, int lvl = -1, bool skip = false)
         {
             IEnumerable<DexLevel> dl = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: lvl, skipChecks: skip);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
@@ -276,6 +253,31 @@ namespace PKHeX.Core
         internal static bool IsVCStaticTransferEncounterValid(PKM pkm, EncounterStatic e)
         {
             return pkm.Met_Location == e.Location && pkm.Egg_Location == e.EggLocation;
+        }
+        private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
+        {
+            var catch_rate = pk1.Catch_Rate;
+            // Pure gen 1, trades can be filter by catch rate
+            if (pk1.Species == 25 || pk1.Species == 26)
+            {
+                if (catch_rate == 190) // Red Blue Pikachu, is not a static encounter
+                    return false;
+                if (catch_rate == 163 && e.Level == 5) // Light Ball (Yellow) starter
+                    return true;
+            }
+
+            if (e.Version == GameVersion.Stadium)
+            {
+                // Amnesia Psyduck has different catch rates depending on language
+                if (e.Species == 054)
+                    return catch_rate == (pk1.Japanese ? 167 : 168);
+                return Stadium_CatchRate.Contains(catch_rate);
+            }
+
+            // Encounters can have different Catch Rates (RBG vs Y)
+            var table = e.Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            var rate = table[e.Species].CatchRate;
+            return catch_rate == rate;
         }
     }
 }

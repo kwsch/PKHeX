@@ -7,16 +7,36 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftGenerator
     {
-        // MysteryGift
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
+        {
+            int maxSpecies = GetMaxSpeciesOrigin(pkm.Format);
+            var vs = GetValidPreEvolutions(pkm, maxSpecies).ToArray();
+            var table = GetTable(pkm.GenNumber);
+            return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+        }
         public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm)
         {
-            switch (pkm.GenNumber)
+            int gen = pkm.GenNumber;
+            var table = GetTable(gen);
+            switch (gen)
             {
-                case 3: return GetMatchingWC3(pkm, MGDB_G3);
-                case 4: return GetMatchingPCD(pkm, MGDB_G4);
-                case 5: return GetMatchingPGF(pkm, MGDB_G5);
-                case 6: return GetMatchingWC6(pkm, MGDB_G6);
-                case 7: return GetMatchingWC7(pkm, MGDB_G7);
+                case 3: return GetMatchingWC3(pkm, table);
+                case 4: return GetMatchingPCD(pkm, table);
+                case 5: return GetMatchingPGF(pkm, table);
+                case 6: return GetMatchingWC6(pkm, table);
+                case 7: return GetMatchingWC7(pkm, table);
+                default: return Enumerable.Empty<MysteryGift>();
+            }
+        }
+        private static IEnumerable<MysteryGift> GetTable(int generation)
+        {
+            switch (generation)
+            {
+                case 3: return MGDB_G3;
+                case 4: return MGDB_G4;
+                case 5: return MGDB_G5;
+                case 6: return MGDB_G6;
+                case 7: return MGDB_G7;
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
@@ -49,7 +69,7 @@ namespace PKHeX.Core
             if (IsRangerManaphy(pkm))
             {
                 if (pkm.Language != (int)LanguageID.Korean) // never korean
-                    yield return new PGT { Data = { [0] = 7, [8] = 1 } };
+                    yield return RangerManaphy;
                 yield break;
             }
 
@@ -409,6 +429,7 @@ namespace PKHeX.Core
         }
 
         // Utility
+        private static readonly PGT RangerManaphy = new PGT {Data = {[0] = 7, [8] = 1}};
         private static bool IsRangerManaphy(PKM pkm)
         {
             var egg = pkm.Egg_Location;

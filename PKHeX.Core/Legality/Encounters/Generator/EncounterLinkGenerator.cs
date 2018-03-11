@@ -5,13 +5,15 @@ namespace PKHeX.Core
 {
     public static class EncounterLinkGenerator
     {
-        // EncounterLink
-        public static IEnumerable<EncounterLink> GetValidLinkGifts(PKM pkm)
+        public static IEnumerable<EncounterLink> GetPossible(PKM pkm)
         {
             if (pkm.GenNumber != 6)
                 return Enumerable.Empty<EncounterLink>();
-            var gifts = Encounters6.LinkGifts6.Where(g => g.Species == pkm.Species);
-            return gifts.Where(g => g.Level == pkm.Met_Level);
+            return Encounters6.LinkGifts6.Where(g => g.Species == pkm.Species);
+        }
+        public static IEnumerable<EncounterLink> GetValidLinkGifts(PKM pkm)
+        {
+            return GetPossible(pkm).Where(g => g.Level == pkm.Met_Level);
         }
     }
 }

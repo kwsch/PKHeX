@@ -8,16 +8,30 @@ namespace PKHeX.Core
 {
     public static class EncounterSlotGenerator
     {
+        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
+            int maxspeciesorigin = GetMaxSpecies(gameSource);
+            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
 
-        // EncounterSlot
+            var possibleAreas = GetEncounterSlots(pkm, gameSource);
+            return possibleAreas.SelectMany(area => area.Slots).Where(z => vs.Any(v => v.Species == z.Species));
+        }
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, GameVersion gameSource = GameVersion.Any)
         {
-            int maxspeciesorigin = -1;
-            if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
-            else if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
-
+            int maxspeciesorigin = GetMaxSpecies(gameSource);
             var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
-            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, lvl: lvl));
+
+            var possibleAreas = GetEncounterAreas(pkm, gameSource);
+            return possibleAreas.SelectMany(area => GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, lvl: lvl));
+        }
+
+        private static int GetMaxSpecies(GameVersion gameSource)
+        {
+            if (gameSource == GameVersion.RBY)
+                return MaxSpeciesID_1;
+            if (GameVersion.GSC.Contains(gameSource))
+                return MaxSpeciesID_2;
+            return -1;
         }
 
         public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
@@ -57,7 +71,7 @@ namespace PKHeX.Core
             return vs.SelectMany(z => Encounters6.FriendSafari[z.Species]);
         }
 
-        public static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, bool DexNav = false, int lvl = -1, bool ignoreLevel = false)
+        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, bool DexNav = false, int lvl = -1, bool ignoreLevel = false)
         {
             if (pkm.WasEgg)
                 return Enumerable.Empty<EncounterSlot>();

@@ -25,7 +25,7 @@ namespace PKHeX.Core
             {
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies };
                 if (gen > 5 && pkm.WasTradedEgg)
-                    yield return new EncounterEgg { Game = tradePair(), Level = lvl, Species = baseSpecies };
+                    yield return new EncounterEgg { Game = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies };
             }
 
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
@@ -36,18 +36,18 @@ namespace PKHeX.Core
             {
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
                 if (gen > 5 && pkm.WasTradedEgg)
-                    yield return new EncounterEgg { Game = tradePair(), Level = lvl, Species = baseSpecies, SplitBreed = true };
+                    yield return new EncounterEgg { Game = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies, SplitBreed = true };
             }
+        }
 
-            // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
-            GameVersion tradePair()
-            {
-                if (ver <= GameVersion.OR) // gen6
-                    return (GameVersion)((int)ver ^ 2);
-                if (ver <= GameVersion.MN) // gen7
-                    return ver + 2;
-                return ver - 2;
-            }
+        // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
+        private static GameVersion GetOtherTradePair(GameVersion ver)
+        {
+            if (ver <= GameVersion.OR) // gen6
+                return (GameVersion)((int)ver ^ 2);
+            if (ver <= GameVersion.MN) // gen7
+                return ver + 2;
+            return ver - 2;
         }
     }
 }
