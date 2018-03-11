@@ -397,59 +397,5 @@ namespace PKHeX.WinForms.Controls
             var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
             return arr[pkm.PotentialRating];
         }
-
-        public static void SetEV(this PKM pk, int index, int value)
-        {
-            switch (index)
-            {
-                case 0: pk.EV_HP = value; break;
-                case 1: pk.EV_ATK = value; break;
-                case 2: pk.EV_DEF = value; break;
-                case 3: pk.EV_SPE = value; break;
-                case 4: pk.EV_SPA = value; break;
-                case 5: pk.EV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-        public static void SetIV(this PKM pk, int index, int value)
-        {
-            switch (index)
-            {
-                case 0: pk.IV_HP = value; break;
-                case 1: pk.IV_ATK = value; break;
-                case 2: pk.IV_DEF = value; break;
-                case 3: pk.IV_SPE = value; break;
-                case 4: pk.IV_SPA = value; break;
-                case 5: pk.IV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        public static void SetATKIVGender(this PKM pk, int gender)
-        {
-            do { pk.IV_ATK = (int)(Util.Rand32() & pk.MaxIV); }
-            while (pk.Gender != gender);
-        }
-
-        public static int GetMaximumEV(this PKM pkm, int index)
-        {
-            if (pkm.Format < 3)
-                return ushort.MaxValue;
-
-            var EVs = pkm.EVs;
-            EVs[index] = 0;
-            var sum = EVs.Sum();
-            int remaining = 510 - sum;
-            var newEV = Math.Min(Math.Max(remaining, 0), 252);
-            return newEV;
-        }
-        public static int GetMaximumIV(this PKM pkm, int index, bool Allow30 = false)
-        {
-            if (pkm.IVs[index] == pkm.MaxIV && Allow30)
-                return pkm.MaxIV - 1;
-            return pkm.MaxIV;
-        }
     }
 }

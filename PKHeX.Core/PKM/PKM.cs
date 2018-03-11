@@ -400,6 +400,16 @@ namespace PKHeX.Core
                 if (value.Length > 3) RelearnMove4 = value[3];
             }
         }
+        public int[] Contest
+        {
+            get => new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen };
+            set
+            {
+                if (value?.Length != 6) return;
+                CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2];
+                CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5];
+            }
+        }
         public int PIDAbility
         {
             get

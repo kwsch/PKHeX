@@ -513,9 +513,14 @@ namespace PKHeX.Core
             if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
-            if (e.Generation > 2 || pkm.Format <= 2) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            if (e.IVs != null && (e.Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
             for (int i = 0; i < 6; i++)
                 if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
+                    return false;
+
+            if (e.Contest != null)
+            for (int i = 0; i < 6; i++)
+                if (e.Contest[i] > pkm.Contest[i])
                     return false;
 
             // Defer to EC/PID check
@@ -907,7 +912,7 @@ namespace PKHeX.Core
                     continue;
                 if (z.Gender >= 0 && z.Gender != pkm.Gender && pkm.Format <= 2)
                     continue;
-                if (z.IVs[0] >= 0 && !z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
+                if (z.IVs != null && !z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
                     continue;
                 if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                     continue;
@@ -995,6 +1000,7 @@ namespace PKHeX.Core
         }
         private static bool IsEncounterTradeValid(PKM pkm, EncounterTrade z, int lvl)
         {
+            if (z.IVs != null)
             for (int i = 0; i < 6; i++)
                 if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
                     return false;
@@ -1046,6 +1052,11 @@ namespace PKHeX.Core
                 return false;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
             //    countinue;
+
+            if (z.Contest != null)
+            for (int i = 0; i < 6; i++)
+                if (z.Contest[i] > pkm.Contest[i])
+                    return false;
 
             return true;
         }

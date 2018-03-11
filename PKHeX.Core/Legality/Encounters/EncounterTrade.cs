@@ -21,8 +21,8 @@
         public int TID { get; set; }
         public int SID { get; set; }
         public GameVersion Version { get; set; } = GameVersion.Any;
-        public int[] IVs { get; set; } = { -1, -1, -1, -1, -1, -1 };
-        public int[] Contest { get; set; } = { 0, 0, 0, 0, 0, 0 };
+        public int[] IVs { get; set; }
+        public int[] Contest { get; set; }
         public int Form { get; set; }
         public bool Shiny { get; set; } = false;
         public int Gender { get; set; } = -1;

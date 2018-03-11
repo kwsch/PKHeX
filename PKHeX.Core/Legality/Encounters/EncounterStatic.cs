@@ -26,10 +26,10 @@
         public bool Gift { get; set; }
         public int Ball { get; set; } = 4; // Only checked when is Gift
         public GameVersion Version = GameVersion.Any;
-        public int[] IVs { get; set; } = { -1, -1, -1, -1, -1, -1 };
+        public int[] IVs { get; set; }
         public int FlawlessIVCount { get; internal set; }
         public bool IV3 { set => FlawlessIVCount = value ? 3 : 0; }
-        public int[] Contest { get; set; } = { 0, 0, 0, 0, 0, 0 };
+        public int[] Contest { get; set; }
         public int HeldItem { get; set; }
         public int EggCycles { get; set; }
 
@@ -44,8 +44,8 @@
             // dereference original arrays with new copies
             Moves = (int[])Moves?.Clone();
             Relearn = (int[])Relearn.Clone();
-            IVs = (int[])IVs.Clone();
-            Contest = (int[])Contest.Clone();
+            IVs = (int[])IVs?.Clone();
+            Contest = (int[])Contest?.Clone();
         }
         internal virtual EncounterStatic Clone()
         {

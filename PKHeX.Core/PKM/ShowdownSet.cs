@@ -217,10 +217,7 @@ namespace PKHeX.Core
             {
                 var str = $"- {moves[move]}";
                 if (move == 237) // Hidden Power
-                {
-                    int hp = GetHiddenPowerType(IVs);
-                    str += $" [{hptypes[hp]}]";
-                }
+                    str += $" [{hptypes[HiddenPower.GetType(IVs)]}]";
                 yield return str;
             }
         }
@@ -354,7 +351,7 @@ namespace PKHeX.Core
 
                 if (IVs.Any(z => z != 31))
                 {
-                    if (!SetIVsForHiddenPower(hpVal, IVs))
+                    if (!HiddenPower.SetIVsForType(hpVal, IVs))
                         InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
                 }
                 else if (hpVal >= 0)
@@ -364,73 +361,6 @@ namespace PKHeX.Core
             }
             moveString = "Hidden Power";
             return moveString;
-        }
-        private static int GetHiddenPowerType(IReadOnlyList<int> IVs)
-        {
-            int hp = 0;
-            for (int i = 0; i < 6; i++)
-                hp |= (IVs[i] & 1) << i;
-            hp *= 0xF;
-            hp /= 0x3F;
-            return hp;
-        }
-        private static bool SetIVsForHiddenPower(int hpVal, int[] IVs)
-        {
-            if (IVs.All(z => z == 31))
-            {
-                PKX.SetHPIVs(hpVal, IVs); // Get IVs
-                return true;
-            }
-
-            int current = GetHiddenPowerType(IVs);
-            if (current == hpVal)
-                return true; // no mods necessary
-
-            // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
-            int[] best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
-            if (best == null)
-                return false; // can't force hidden power?
-
-            // set IVs back to array
-            for (int i = 0; i < IVs.Length; i++)
-                IVs[i] = best[i];
-            return true;
-        }
-        private static int[] GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
-        {
-            var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
-            var permutations = GetPermutations(flawless, flawless.Length);
-            int flawedCount = 0;
-            int[] best = null;
-            foreach (var permute in permutations)
-            {
-                var ivs = (int[])IVs.Clone();
-                foreach (var item in permute)
-                {
-                    ivs[item] ^= 1;
-                    if (hpVal != GetHiddenPowerType(ivs))
-                        continue;
-
-                    int ct = ivs.Count(z => z == 31);
-                    if (ct <= flawedCount)
-                        break; // any further flaws are always worse
-
-                    flawedCount = ct;
-                    best = ivs;
-                    break; // any further flaws are always worse
-                }
-            }
-            return best;
-        }
-        private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IList<T> list, int length)
-        {
-            // https://stackoverflow.com/a/10630026
-            if (length == 1)
-                return list.Select(t => new[] { t });
-
-            return GetPermutations(list, length - 1)
-                .SelectMany(t => list.Where(e => !t.Contains(e)),
-                    (t1, t2) => t1.Concat(new[] { t2 }));
         }
         private void ParseLineEVs(string line)
         {
@@ -562,42 +492,6 @@ namespace PKHeX.Core
         private static string ReplaceAll(string original, string to, params string[] toBeReplaced)
         {
             return toBeReplaced.Aggregate(original, (current, v) => current.Replace(v, to));
-        }
-
-        public void ApplyToPKM(PKM pkm)
-        {
-            if (Species < 0)
-                return;
-            pkm.Species = Species;
-
-            if (Nickname != null && Nickname.Length <= pkm.NickLength)
-                pkm.Nickname = Nickname;
-            else
-                pkm.Nickname = PKX.GetSpeciesName(pkm.Species, pkm.Language);
-
-            int gender = PKX.GetGenderFromString(Gender);
-            pkm.Gender = Math.Max(0, gender);
-
-            var list = PKX.GetFormList(pkm.Species, types, forms, genders);
-            int formnum = Array.IndexOf(list, Form);
-            pkm.AltForm = Math.Max(0, formnum);
-
-            var abils = pkm.PersonalInfo.Abilities;
-            int index = Array.IndexOf(abils, Ability);
-            pkm.RefreshAbility(Math.Max(0, Math.Min(2, index)));
-
-            if (Shiny && !pkm.IsShiny)
-                pkm.SetShinyPID();
-            else if (!Shiny && pkm.IsShiny)
-                pkm.PID = Util.Rand32();
-
-            pkm.CurrentLevel = Level;
-            pkm.HeldItem = Math.Max(0, HeldItem);
-            pkm.CurrentFriendship = Friendship;
-            pkm.Nature = Nature;
-            pkm.EVs = EVs;
-            pkm.IVs = IVs;
-            pkm.Moves = Moves;
         }
     }
 }

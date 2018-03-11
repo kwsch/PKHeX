@@ -26,6 +26,16 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
 
+            // Commonly reused Control arrays
+            Moves = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
+            Relearn = new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 };
+            PPUps = new[] { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
+            MovePP = new[] { TB_PP1, TB_PP2, TB_PP3, TB_PP4 };
+            ValidationRequired = Moves.Concat(Relearn).Concat(new[]
+            {
+                CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
+                CB_MetLocation, CB_EggLocation, CB_Ball, // Met Tab
+            }).ToArray();
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
             foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
@@ -33,6 +43,7 @@ namespace PKHeX.WinForms.Controls
 
             Stats.SetMainEditor(this);
             LoadShowdownSet = LoadShowdownSetDefault;
+
         }
 
         private void UpdateStats() => Stats.UpdateStats();
@@ -75,6 +86,9 @@ namespace PKHeX.WinForms.Controls
         public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
+        private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
+        private readonly MaskedTextBox[] MovePP;
+
         private bool forceValidation;
         public PKM PreparePKM(bool click = true)
         {
@@ -92,14 +106,8 @@ namespace PKHeX.WinForms.Controls
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
-            ComboBox[] cba = {
-                CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
-                CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
-                CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
-                CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
-            };
 
-            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
+            var cb = ValidationRequired.FirstOrDefault(c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
             if (cb != null)
             {
                 Control c = cb.Parent; while (!(c is TabPage)) c = c.Parent;
@@ -232,6 +240,7 @@ namespace PKHeX.WinForms.Controls
             {
                 PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
                     PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = false;
+                LegalityChanged?.Invoke(Legality.Valid, null);
                 return;
             }
 
@@ -248,10 +257,9 @@ namespace PKHeX.WinForms.Controls
             // Resort moves
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            var cb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             var moves = Legality.AllSuggestedMovesAndRelearn;
             var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
-            foreach (ComboBox c in cb)
+            foreach (var c in Moves)
             {
                 var index = WinFormsUtil.GetIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
@@ -465,8 +473,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateGender()
         {
             int cg = PKX.GetGenderFromString(Label_Gender.Text);
-            int Gender = GetSaneGender(pkm, cg);
-
+            int Gender = pkm.GetSaneGender(cg);
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = GetGenderColor(Gender);
         }
@@ -660,25 +667,16 @@ namespace PKHeX.WinForms.Controls
                     return false;
             }
 
-            CB_Move1.SelectedValue = m[0];
-            CB_Move2.SelectedValue = m[1];
-            CB_Move3.SelectedValue = m[2];
-            CB_Move4.SelectedValue = m[3];
+            pkm.Moves = m;
+            pkm.SetPPUps(m);
+            LoadMoves(pkm);
             return true;
         }
         private bool SetSuggestedRelearnMoves(bool silent = false)
         {
             if (pkm.Format < 6)
                 return false;
-
-            int[] m = Legality.GetSuggestedRelearn();
-            if (m.All(z => z == 0))
-                if (!pkm.WasEgg && !pkm.WasEvent && !pkm.WasEventEgg && !pkm.WasLink)
-                {
-                    var encounter = Legality.GetSuggestedMetInfo();
-                    if (encounter != null)
-                        m = encounter.Relearn;
-                }
+            int[] m = pkm.GetSuggestedRelearnMoves(Legality);
 
             if (pkm.RelearnMoves.SequenceEqual(m))
                 return false;
@@ -720,17 +718,7 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var suggestion = new List<string> { "Suggested:" };
-                if (pkm.Format >= 3)
-                {
-                    var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                    var locstr = met_list.FirstOrDefault(loc => loc.Value == location).Text;
-                    suggestion.Add($"Met Location: {locstr}");
-                    suggestion.Add($"Met Level: {level}");
-                }
-                if (pkm.CurrentLevel < minlvl)
-                    suggestion.Add($"Current Level: {minlvl}");
-
+                List<string> suggestion = GetSuggestionMessage(pkm, level, location, minlvl);
                 if (suggestion.Count == 1) // no suggestion
                     return false;
 
@@ -910,23 +898,21 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdatePP(object sender, EventArgs e)
         {
-            ComboBox[] cbs = { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
-            ComboBox[] pps = { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
-            MaskedTextBox[] tbs = { TB_PP1, TB_PP2, TB_PP3, TB_PP4 };
-            int index = Array.IndexOf(cbs, sender);
+            if (!(sender is ComboBox cb))
+                return;
+            int index = Array.IndexOf(Moves, cb);
             if (index < 0)
-                index = Array.IndexOf(pps, sender);
+                index = Array.IndexOf(PPUps, cb);
             if (index < 0)
                 return;
 
-            int move = WinFormsUtil.GetIndex(cbs[index]);
-            int pp = pps[index].SelectedIndex;
-            if (move == 0 && pp != 0)
-            {
-                pps[index].SelectedIndex = 0;
-                return; // recursively triggers
-            }
-            tbs[index].Text = pkm.GetMovePP(move, pp).ToString();
+            int move = WinFormsUtil.GetIndex(Moves[index]);
+            var ppctrl = PPUps[index];
+            int ppups = ppctrl.SelectedIndex;
+            if (move <= 0)
+                ppctrl.SelectedIndex = 0;
+            else
+                MovePP[index].Text = pkm.GetMovePP(move, ppups).ToString();
         }
         private void UpdatePKRSstrain(object sender, EventArgs e)
         {
@@ -1104,13 +1090,13 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateExtraByteValue(object sender, EventArgs e)
         {
-            if (CB_ExtraBytes.Items.Count == 0)
+            if (CB_ExtraBytes.Items.Count == 0 || !(sender is MaskedTextBox mtb))
                 return;
             // Changed Extra Byte's Value
-            if (Util.ToInt32(((MaskedTextBox)sender).Text) > byte.MaxValue)
-                ((MaskedTextBox)sender).Text = "255";
+            if (Util.ToInt32(mtb.Text) > byte.MaxValue)
+                mtb.Text = "255";
 
-            int value = Util.ToInt32(TB_ExtraByte.Text);
+            int value = Util.ToInt32(mtb.Text);
             int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
             pkm.Data[offset] = (byte)value;
         }
@@ -1269,8 +1255,7 @@ namespace PKHeX.WinForms.Controls
 
                 // Wipe egg memories
                 if (pkm.Format >= 6 && ModifyPKM)
-                    pkm.OT_Memory = pkm.OT_Affection = pkm.OT_Feeling = pkm.OT_Intensity = pkm.OT_TextVar =
-                    pkm.HT_Memory = pkm.HT_Affection = pkm.HT_Feeling = pkm.HT_Intensity = pkm.HT_TextVar = 0;
+                    pkm.ClearMemories();
             }
             else // Not Egg
             {
@@ -1467,12 +1452,12 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
+            if (Moves.Contains(sender)) // Move
                 UpdatePP(sender, e);
 
             // Legality
-            pkm.Moves = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Select(WinFormsUtil.GetIndex).ToArray();
-            pkm.RelearnMoves = new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 }.Select(WinFormsUtil.GetIndex).ToArray();
+            pkm.Moves = Moves.Select(WinFormsUtil.GetIndex).ToArray();
+            pkm.RelearnMoves = Relearn.Select(WinFormsUtil.GetIndex).ToArray();
             UpdateLegality(skipMoveRepop: true);
         }
         private void ValidateMovePaint(object sender, DrawItemEventArgs e)
@@ -1673,56 +1658,9 @@ namespace PKHeX.WinForms.Controls
         public Action<ShowdownSet> LoadShowdownSet;
         private void LoadShowdownSetDefault(ShowdownSet Set)
         {
-            CB_Species.SelectedValue = Set.Species;
-            CHK_Nicknamed.Checked = Set.Nickname != null;
-            if (Set.Nickname != null)
-                TB_Nickname.Text = Set.Nickname;
-            if (Set.Gender != null)
-            {
-                int Gender = PKX.GetGenderFromString(Set.Gender);
-                Label_Gender.Text = gendersymbols[Gender];
-                Label_Gender.ForeColor = GetGenderColor(Gender);
-            }
-
-            CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, Set.FormIndex);
-
-            // Set Ability and Moves
-            int abil = Math.Max(0, Array.IndexOf(pkm.PersonalInfo.Abilities, Set.Ability));
-            CB_Ability.SelectedIndex = Math.Min(CB_Ability.Items.Count - 1, abil);
-            ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
-            ComboBox[] p = { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
-            for (int i = 0; i < 4; i++)
-            {
-                m[i].SelectedValue = Set.Moves[i];
-                p[i].SelectedIndex = Set.Moves[i] != 0 ? 3 : 0; // max PP
-            }
-
-            // Set Item and Nature
-            CB_HeldItem.SelectedValue = Set.HeldItem < 0 ? 0 : Set.HeldItem;
-            CB_Nature.SelectedValue = Set.Nature < 0 ? 0 : Set.Nature;
-
-            // Set Level and Friendship
-            TB_Level.Text = Set.Level.ToString();
-            TB_Friendship.Text = Set.Friendship.ToString();
-            SetSuggestedHyperTrainingData(pkm, Set.IVs);
-
-            // Set IVs
-            Stats.LoadIVs(Set.IVs);
-            Stats.LoadEVs(Set.EVs);
-
-            UpdateRandomEC(null, null);
-            if (Set.Shiny && !pkm.IsShiny)
-                UpdateShiny(true);
-            else if (!Set.Shiny && pkm.IsShiny)
-                UpdateRandomPID(BTN_RerollPID, null);
-            else
-                UpdateRandomPID(null, null);
-
-            pkm = PreparePKM();
-            UpdateLegality();
-
-            if (Legality.Info.Relearn.Any(z => !z.Valid))
-                SetSuggestedRelearnMoves(silent: true);
+            var pk = PreparePKM();
+            pk.ApplySetDetails(Set);
+            PopulateFields(pk);
         }
 
         public void ChangeLanguage(SaveFile sav, PKM pk)
@@ -1786,42 +1724,26 @@ namespace PKHeX.WinForms.Controls
 
             // Set the Move ComboBoxes too..
             GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
-            foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
+            foreach (var cb in Moves.Concat(Relearn))
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
         }
 
-        private static int GetSaneGender(PKM pkm, int cg)
+        private static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minlvl)
         {
-            int gt = pkm.PersonalInfo.Gender;
-            if (gt == 255)  // Genderless
-                return 2;
-            if (gt == 254) // Female Only
-                return 1;
-            if (gt == 0)  // Male Only
-                return 0;
-            if (cg == 2 || pkm.GenNumber < 6)
-                return (byte)pkm.PID <= gt ? 1 : 0;
-            return cg;
-        }
-        private static void SetSuggestedHyperTrainingData(PKM pkm, int[] IVs)
-        {
-            if (pkm.Format < 7)
-                return;
-            if (pkm.CurrentLevel < 100)
+            var suggestion = new List<string> { "Suggested:" };
+            if (pkm.Format >= 3)
             {
-                pkm.HyperTrainFlags = 0;
-                return;
+                var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
+                var locstr = met_list.FirstOrDefault(loc => loc.Value == location).Text;
+                suggestion.Add($"Met Location: {locstr}");
+                suggestion.Add($"Met Level: {level}");
             }
-
-            pkm.HT_HP = IVs[0] != 31;
-            pkm.HT_ATK = IVs[1] != 31 && IVs[1] > 2;
-            pkm.HT_DEF = IVs[2] != 31;
-            pkm.HT_SPE = IVs[3] != 31 && IVs[3] > 2;
-            pkm.HT_SPA = IVs[4] != 31;
-            pkm.HT_SPD = IVs[5] != 31;
+            if (pkm.CurrentLevel < minlvl)
+                suggestion.Add($"Current Level: {minlvl}");
+            return suggestion;
         }
     }
 }
