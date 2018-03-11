@@ -17,11 +17,11 @@ namespace PKHeX.Core
             if (pkm.WasEgg)
                 return GetSuggestedEncounterEgg(pkm, loc);
 
-            var w = EncounterGenerator.GetCaptureLocation(pkm);
+            var w = EncounterSlotGenerator.GetCaptureLocation(pkm);
             if (w != null)
                 return GetSuggestedEncounterWild(w, loc);
 
-            var s = EncounterGenerator.GetStaticLocation(pkm);
+            var s = EncounterStaticGenerator.GetStaticLocation(pkm);
             if (s != null)
                 return GetSuggestedEncounterStatic(s, loc);
 

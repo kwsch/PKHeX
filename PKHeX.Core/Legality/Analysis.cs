@@ -212,8 +212,8 @@ namespace PKHeX.Core
         private void UpdateVCTransferInfo()
         {
             EncounterOriginalGB = EncounterMatch;
-            Info.EncounterMatch = EncounterGenerator.GetVCStaticTransferEncounter(pkm);
-            if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterGenerator.IsVCStaticTransferEncounterValid(pkm, s))
+            Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm);
+            if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
 
             foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))

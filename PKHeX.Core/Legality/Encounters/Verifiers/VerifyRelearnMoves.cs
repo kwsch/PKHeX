@@ -26,7 +26,7 @@ namespace PKHeX.Core
                     return VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
                 case EncounterEgg e:
                     return VerifyRelearnEggBase(pkm, info, e);
-                case EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav && EncounterGenerator.IsDexNavValid(pkm):
+                case EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav && EncounterSlotGenerator.IsDexNavValid(pkm):
                     return VerifyRelearnDexNav(pkm, info);
             }
             return VerifyRelearnNone(pkm, info);

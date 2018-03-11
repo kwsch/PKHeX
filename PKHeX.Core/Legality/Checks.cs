@@ -1310,7 +1310,7 @@ namespace PKHeX.Core
                 // For gen3/4 Safari Zones and BCC getValidWildEncounters already filter to not return
                 // mixed possible encounters between safari, BCC and other encounters
                 // That means is the first encounter is not safari then there is no safari encounter in the array
-                else if (3 <= Info.Generation && Info.Generation <= 4 && EncounterGenerator.IsSafariSlot(w.Type))
+                else if (3 <= Info.Generation && Info.Generation <= 4 && EncounterSlotGenerator.IsSafariSlot(w.Type))
                     VerifyBallEquals(5); // Safari Ball
                 else if (Info.Generation == 4 && w.Type == SlotType.BugContest)
                     VerifyBallEquals(0x18); // Sport Ball
