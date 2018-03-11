@@ -106,7 +106,7 @@ namespace PKHeX.Core
             // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
             // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
             // OT name is stored at the top of the first block.
-            Japanese = BitConverter.ToInt16(data, BlockOfs[0] + 0x6) == 0;
+            Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0;
 
             switch (Version)
             {
