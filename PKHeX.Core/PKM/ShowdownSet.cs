@@ -53,28 +53,30 @@ namespace PKHeX.Core
                 return;
 
             string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-            for (int i = 0; i < lines.Length; i++) lines[i] = lines[i].Replace("'", "’").Trim(); // Sanitize apostrophes
-
-            lines = lines.Where(line => line.Length > 2).ToArray();
-
-            if (lines.Length < 3)
+            LoadLines(lines);
+        }
+        public ShowdownSet(IEnumerable<string> lines)
+        {
+            if (lines == null)
                 return;
+            LoadLines(lines);
+        }
+        private void LoadLines(IEnumerable<string> lines)
+        {
+            lines = lines.Select(z => z.Replace("'", "’").Trim()); // Sanitize apostrophes
+            lines = lines.Where(z => z.Length > 2);
 
-            // Seek for start of set
-            int start = Array.FindIndex(lines, line => line.Contains(" @ "));
+            ParseLines(lines);
 
-            if (start != -1) // Has Item -- skip to start.
-                lines = lines.Skip(start).Take(lines.Length - start).ToArray();
-            else // Has no Item -- try parsing the first line anyway.
-            {
-                ParseFirstLine(lines[0]);
-                if (Species < -1)
-                    return; // Abort if no text is found
-
-                lines = lines.Skip(1).Take(lines.Length - 1).ToArray();
-            }
+            // Showdown Quirks
+            Form = ConvertFormFromShowdown(Form, Species, Ability);
+            // Set Form
+            string[] formStrings = PKX.GetFormList(Species, types, forms, genderForms);
+            FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form ?? "")));
+        }
+        private void ParseLines(IEnumerable<string> lines)
+        {
             int movectr = 0;
-            // Detect relevant data
             foreach (string line in lines)
             {
                 if (line.StartsWith("-"))
@@ -87,7 +89,7 @@ namespace PKHeX.Core
                         Moves[movectr++] = move;
 
                     if (movectr == 4)
-                        break; // End of moves
+                        return; // End of moves, end of set data
                     continue;
                 }
 
@@ -144,12 +146,6 @@ namespace PKHeX.Core
                     }
                 }
             }
-
-            // Showdown Quirks
-            Form = ConvertFormFromShowdown(Form, Species, Ability);
-            // Set Form
-            string[] formStrings = PKX.GetFormList(Species, types, forms, genderForms);
-            FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form ?? "")));
         }
 
         public string Text => GetText();
@@ -492,6 +488,26 @@ namespace PKHeX.Core
         private static string ReplaceAll(string original, string to, params string[] toBeReplaced)
         {
             return toBeReplaced.Aggregate(original, (current, v) => current.Replace(v, to));
+        }
+
+        /// <summary>
+        /// Fetches <see cref="ShowdownSet"/> data from the input <see cref="lines"/>.
+        /// </summary>
+        /// <param name="lines">Raw lines containing numerous multi-line set data.</param>
+        /// <returns><see cref="ShowdownSet"/> objects until <see cref="lines"/> is consumed.</returns>
+        public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines)
+        {
+            var setLines = new List<string>(8);
+            foreach (var line in lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    setLines.Add(line);
+                    continue;
+                }
+                yield return new ShowdownSet(setLines);
+                setLines.Clear();
+            }
         }
     }
 }
