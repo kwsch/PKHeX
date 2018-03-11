@@ -118,14 +118,14 @@ namespace PKHeX.Core
         {
             // Get slots where pokemon can exist with respect to the evolution chain
             if (ignoreLevel)
-                return slots.Where(slot => vs.Any(evo => evo.Species == slot.Species)).ToList();
+                return slots.Where(slot => vs.Any(evo => evo.Species == slot.Species));
 
             slots = slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin - df));
             // Get slots where pokemon can exist with respect to level constraints
             if (pkm.HasOriginalMetLocation)
-                return slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.Permissions.AllowDexNav ? dn : df)).ToList();
+                return slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.Permissions.AllowDexNav ? dn : df));
             // check for any less than current level
-            return slots.Where(slot => slot.LevelMin <= lvl).ToList();
+            return slots.Where(slot => slot.LevelMin <= lvl);
         }
         private static IEnumerable<EncounterSlot> GetFilteredSlotsByForm(PKM pkm, IEnumerable<EncounterSlot> encounterSlots)
         {
@@ -146,14 +146,20 @@ namespace PKHeX.Core
                     yield break;
             }
 
-            var slots = new List<EncounterSlot>();
+            EncounterSlot slotMax = null;
+            void CachePressureSlot(EncounterSlot s)
+            {
+                if (slotMax != null && s.LevelMax > slotMax.LevelMax)
+                    slotMax = s;
+            }
+
             if (AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
             {
                 foreach (var slot in encounterSlots)
                 {
                     if (species == slot.Species ? slot.Form == form : slot.Form == 0)
                         yield return slot;
-                    slots.Add(slot);
+                    CachePressureSlot(slot);
                 }
             }
             else if (ShouldMatchSlotForm()) // match slot form
@@ -162,7 +168,7 @@ namespace PKHeX.Core
                 {
                     if (slot.Form == form)
                         yield return slot;
-                    slots.Add(slot);
+                    CachePressureSlot(slot);
                 }
             }
             else
@@ -170,13 +176,12 @@ namespace PKHeX.Core
                 foreach (var slot in encounterSlots)
                 {
                     yield return slot; // no form checking
-                    slots.Add(slot);
+                    CachePressureSlot(slot);
                 }
             }
 
             // Filter for Form Specific
             // Pressure Slot
-            EncounterSlot slotMax = slots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
             if (slotMax == null)
                 yield break; // yield break;
 
@@ -197,12 +202,12 @@ namespace PKHeX.Core
         }
         private static IEnumerable<EncounterSlot> GetFilteredSlots6DexNav(PKM pkm, int lvl, IEnumerable<EncounterSlot> encounterSlots, int fluteBoost)
         {
-            var slots = new List<EncounterSlot>();
+            EncounterSlot slotMax = null;
             foreach (EncounterSlot s in encounterSlots)
             {
                 if (WildForms.Contains(pkm.Species) && s.Form != pkm.AltForm)
                 {
-                    slots.Add(s);
+                    CachePressureSlot(s);
                     continue;
                 }
                 bool nav = s.Permissions.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
@@ -216,10 +221,16 @@ namespace PKHeX.Core
                 if (slot.LevelMax != lvl && slot.Permissions.AllowDexNav)
                     slot.Permissions.DexNav = true;
                 yield return slot;
-                slots.Add(s);
+
+                CachePressureSlot(slot);
+            }
+
+            void CachePressureSlot(EncounterSlot s)
+            {
+                if (slotMax != null && s.LevelMax > slotMax.LevelMax)
+                    slotMax = s;
             }
             // Pressure Slot
-            EncounterSlot slotMax = slots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
             if (slotMax != null)
                 yield return GetPressureSlot(slotMax, pkm);
         }
