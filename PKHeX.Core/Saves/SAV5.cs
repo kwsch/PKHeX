@@ -405,7 +405,7 @@ namespace PKHeX.Core
                 return;
             if (pkm.Species > MaxSpeciesID)
                 return;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return;
             if (PokeDex < 0)
                 return;

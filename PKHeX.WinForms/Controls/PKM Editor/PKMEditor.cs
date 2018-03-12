@@ -1666,7 +1666,7 @@ namespace PKHeX.WinForms.Controls
         public void ChangeLanguage(SaveFile sav, PKM pk)
         {
             // Force an update to the met locations
-            origintrack = GameVersion.Unknown;
+            origintrack = GameVersion.Invalid;
 
             bool alreadyInit = FieldsInitialized;
             FieldsInitialized = false;

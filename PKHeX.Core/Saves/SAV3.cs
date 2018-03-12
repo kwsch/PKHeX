@@ -187,7 +187,6 @@ namespace PKHeX.Core
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
-        public override bool IndeterminateGame => Version == GameVersion.Unknown;
         public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
@@ -529,7 +528,7 @@ namespace PKHeX.Core
                 return false;
             if (species > MaxSpeciesID)
                 return false;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return false;
             if (BlockOfs.Any(z => z < 0))
                 return false;

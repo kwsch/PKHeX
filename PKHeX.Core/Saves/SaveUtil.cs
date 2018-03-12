@@ -974,7 +974,7 @@ namespace PKHeX.Core
                 case 9: return (int)GameVersion.R;
                 case 10: return (int)GameVersion.E;
                 case 11: return (int)GameVersion.CXD;
-                default: return (int)GameVersion.Unknown;
+                default: return (int)GameVersion.Invalid;
             }
         }
 

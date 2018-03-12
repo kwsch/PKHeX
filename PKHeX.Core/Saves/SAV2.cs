@@ -484,7 +484,7 @@ namespace PKHeX.Core
                 return false;
             if (species > MaxSpeciesID)
                 return false;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return false;
             return true;
         }

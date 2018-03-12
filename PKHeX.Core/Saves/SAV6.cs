@@ -242,7 +242,7 @@ namespace PKHeX.Core
                     case 26: return GameVersion.AS;
                     case 27: return GameVersion.OR;
                 }
-                return GameVersion.Unknown;
+                return GameVersion.Invalid;
             }
         }
         
@@ -710,7 +710,7 @@ namespace PKHeX.Core
                 return;
             if (pkm.Species > MaxSpeciesID)
                 return;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return;
 
             const int brSize = 0x60;

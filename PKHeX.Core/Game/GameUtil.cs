@@ -99,7 +99,7 @@
                 case 6: return GameVersion.AS;
                 case 7: return GameVersion.UM;
                 default:
-                    return GameVersion.Unknown;
+                    return GameVersion.Invalid;
             }
         }
         public static int GetGeneration(GameVersion game)

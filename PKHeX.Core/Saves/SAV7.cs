@@ -275,7 +275,7 @@ namespace PKHeX.Core
                     case 32: return GameVersion.US;
                     case 33: return GameVersion.UM;
                 }
-                return GameVersion.Unknown;
+                return GameVersion.Invalid;
             }
         }
         
@@ -970,7 +970,7 @@ namespace PKHeX.Core
         }
         protected override void SetDex(PKM pkm)
         {
-            if (PokeDex < 0 || Version == GameVersion.Unknown) // sanity
+            if (PokeDex < 0 || Version == GameVersion.Invalid) // sanity
                 return;
             if (pkm.Species == 0 || pkm.Species > MaxSpeciesID) // out of range
                 return;
