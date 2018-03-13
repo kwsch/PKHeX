@@ -319,12 +319,18 @@ namespace PKHeX.Core
 
             if (IVs == null)
                 IVs = pk.IVs;
+            pk.Markings = IVs.Select(MarkingMethod(pk)).ToArray();
+        }
 
-            var remapper = pk.Format < 7 ? (Func<int, int>)GetSimpleMarking : GetComplexMarking;
-            pk.Markings = IVs.Select(remapper).ToArray();
+        public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
+        private static Func<int, int, int> FlagHighLow(PKM pk)
+        {
+            if (pk.Format < 7)
+                return GetSimpleMarking;
+            return GetComplexMarking;
 
-            int GetSimpleMarking(int val) => val == 31 ? 1 : 0;
-            int GetComplexMarking(int val)
+            int GetSimpleMarking(int val, int index) => val == 31 ? 1 : 0;
+            int GetComplexMarking(int val, int index)
             {
                 if (val == 31 || val == 1)
                     return 1;
