@@ -8,6 +8,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class CommonEdits
     {
+        public static bool ShowdownSetIVMarkings { get; set; } = true;
+
         /// <summary>
         /// Sets the <see cref="PKM.Nickname"/> to the provided value.
         /// </summary>
@@ -167,7 +169,13 @@ namespace PKHeX.Core
         public static void SetGender(this PKM pk, string gender)
         {
             if (gender == null)
+            {
+                int cg = pk.Gender;
+                int sane = pk.GetSaneGender(cg);
+                if (cg != sane)
+                    pk.Gender = sane;
                 return;
+            }
 
             int Gender = PKX.GetGenderFromString(gender);
             pk.SetGender(Gender);
@@ -271,8 +279,9 @@ namespace PKHeX.Core
             pk.IVs = Set.IVs;
             pk.EVs = Set.EVs;
 
-            pk.ApplyMarkings();
             pk.SetSuggestedHyperTrainingData(Set.IVs);
+            if (ShowdownSetIVMarkings)
+                pk.SetMarkings();
 
             pk.SetNickname(Set.Nickname);
             pk.SetGender(Set.Gender);
@@ -303,7 +312,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void ApplyMarkings(this PKM pk, int[] IVs = null)
+        public static void SetMarkings(this PKM pk, int[] IVs = null)
         {
             if (pk.Format <= 3)
                 return; // no markings (gen3 only has 4; can't mark stats intelligently
