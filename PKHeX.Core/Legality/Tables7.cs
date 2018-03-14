@@ -546,6 +546,8 @@ namespace PKHeX.Core
         {
             029, // Nidoran
             032, // Nidoran
+            100, // Voltorb
+            436, // Bronzor
             669 + (3 << 11), // Flabébé-Blue
         };
 
