@@ -368,7 +368,8 @@ namespace PKHeX.Core
         private static void ForceHatchPKM(PKM pkm)
         {
             pkm.IsEgg = false;
-            pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format);
+            pkm.SetNickname();
+            pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
             var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
             if (loc >= 0)
                 pkm.Met_Location = loc;
