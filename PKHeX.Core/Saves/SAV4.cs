@@ -1041,6 +1041,11 @@ namespace PKHeX.Core
                 else
                     Forms[i] = val;
             }
+
+            // (BitsPerForm > 1) was already handled, handle (BitsPerForm == 1)
+            if (BitsPerForm == 1 && Forms[0] == Forms[1] && Forms[0] == 1)
+                Forms[0] = Forms[1] = -1;
+
             return Forms;
         }
         private static uint SetDexFormValues(int[] Forms, int BitsPerForm, int readCt)
