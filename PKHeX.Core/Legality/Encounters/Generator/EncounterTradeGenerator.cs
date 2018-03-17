@@ -146,7 +146,7 @@ namespace PKHeX.Core
             }
             else
             {
-                if (z.Shiny ^ pkm.IsShiny)
+                if (!z.Shiny.IsValid(pkm))
                     return false;
                 if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
                     return false;

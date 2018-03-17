@@ -823,7 +823,7 @@ namespace PKHeX.Core
             Location = 214,
             Moves = new[] { 344, 270, 207, 220 },
             TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,
-            Shiny = false
+            Shiny = Shiny.Never
         };
         private static readonly EncounterStatic[] Encounter_HGSS_Regular =
         {
@@ -868,7 +868,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 109, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Koffing 
 
             //Stationary
-            new EncounterStaticTyped { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = true }, //Gyarados @ Lake of Rage
+            new EncounterStaticTyped { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = Shiny.Always }, //Gyarados @ Lake of Rage
             new EncounterStaticTyped { Species = 131, Level = 20, Location = 210, TypeEncounter = EncounterType.Surfing_Fishing, }, //Lapras @ Union Cave Friday Only
             new EncounterStaticTyped { Species = 101, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, //Electrode @ Team Rocket HQ
             new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11

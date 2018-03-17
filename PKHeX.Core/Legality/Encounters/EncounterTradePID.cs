@@ -6,5 +6,6 @@
     public class EncounterTradePID : EncounterTrade
     {
         public uint PID;
+        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
     }
 }

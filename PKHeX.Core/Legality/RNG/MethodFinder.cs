@@ -722,7 +722,7 @@ namespace PKHeX.Core
                 case EncounterStatic s:
                     if (s == Encounters4.SpikyEaredPichu || s.Location == 233 && s.Gift) // Pokewalker
                         return val == PIDType.Pokewalker;
-                    if (s.Shiny == true)
+                    if (s.Shiny == Shiny.Always)
                         return val == PIDType.ChainShiny;
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
                         return true;

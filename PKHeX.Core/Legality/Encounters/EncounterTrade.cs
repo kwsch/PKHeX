@@ -24,7 +24,7 @@
         public int[] IVs { get; set; }
         public int[] Contest { get; set; }
         public int Form { get; set; }
-        public bool Shiny { get; set; } = false;
+        public virtual Shiny Shiny { get; set; } = Shiny.Never;
         public int Gender { get; set; } = -1;
         public int OTGender { get; set; } = -1;
         public bool EggEncounter => false;

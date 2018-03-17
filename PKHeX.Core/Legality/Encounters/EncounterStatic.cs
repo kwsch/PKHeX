@@ -18,7 +18,7 @@
         public int Location { get; set; }
         public int Ability { get; set; }
         public int Form { get; set; }
-        public bool? Shiny { get; set; } // false = never, true = always, null = possible
+        public virtual Shiny Shiny { get; set; } = Shiny.Random;
         public int[] Relearn { get; set; } = new int[4];
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }

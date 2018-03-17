@@ -311,9 +311,8 @@ namespace PKHeX.Core
                 if (wc.TID != pkm.TID) return false;
                 if (wc.OT_Name != pkm.OT_Name) return false;
                 if (wc.OTGender != pkm.OT_Gender) return false;
-                if (wc.PIDType == 0 && pkm.PID != wc.PID) return false;
-                if (wc.PIDType == 2 && !pkm.IsShiny) return false;
-                if (wc.PIDType == 3 && pkm.IsShiny) return false;
+                if (wc.PIDType == Shiny.FixedValue && pkm.PID != wc.PID) return false;
+                if (!wc.PIDType.IsValid(pkm)) return false;
                 if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) return false;
                 if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
                 if (wc.Language != 0 && wc.Language != pkm.Language) return false;
@@ -392,6 +391,7 @@ namespace PKHeX.Core
             }
             else
             {
+                if (!wc.PIDType.IsValid(pkm)) return false;
                 if (wc.EggLocation != pkm.Egg_Location) return false;
                 if (wc.MetLocation != pkm.Met_Location) return false;
             }
@@ -408,9 +408,6 @@ namespace PKHeX.Core
             if (wc.CNT_Smart > pkm.CNT_Smart) return false;
             if (wc.CNT_Tough > pkm.CNT_Tough) return false;
             if (wc.CNT_Sheen > pkm.CNT_Sheen) return false;
-
-            if (wc.PIDType == 2 && !pkm.IsShiny) return false;
-            if (wc.PIDType == 3 && pkm.IsShiny) return false;
 
             switch (wc.CardID)
             {

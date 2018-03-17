@@ -76,7 +76,7 @@ namespace PKHeX.Core
             {
                 s.Location = 75;  //Entree Forest
                 s.Ability = PersonalTable.B2W2.GetAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
-                s.Shiny = false;
+                s.Shiny = Shiny.Never;
             }
 
             // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
@@ -137,32 +137,32 @@ namespace PKHeX.Core
 
         private static readonly EncounterStatic[] Encounter_DreamRadar =
         {
-            new EncounterStatic { Shiny=false, Species=120, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=137, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=174, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=175, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=213, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=238, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=280, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=333, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=425, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=436, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=442, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=447, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=479,},             // Rotom has no HA
-            new EncounterStatic { Shiny=false, Species=517, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=561, Ability = 4 },
-            new EncounterStatic { Shiny=false, Species=641, Ability = 4, Form = 1}, //Tornadus-T
-            new EncounterStatic { Shiny=false, Species=642, Ability = 4, Form = 1}, //Thundurus-T
-            new EncounterStatic { Shiny=false, Species=645, Ability = 4, Form = 1}, //Landorus-T
-            new EncounterStatic { Shiny=false, Species=249, Ability = 4 }, //SS
-            new EncounterStatic { Shiny=false, Species=250, Ability = 4 }, //HG
-            new EncounterStatic { Shiny=false, Species=483, Ability = 4 }, //D
-            new EncounterStatic { Shiny=false, Species=484, Ability = 4 }, //P
-            new EncounterStatic { Shiny=false, Species=487, Ability = 4 }, //Pt
-            new EncounterStatic { Shiny=false, Species=079, Ability = 4 }, //Slowpoke
-            new EncounterStatic { Shiny=false, Species=163, Ability = 4 }, //Hoothoot
-            new EncounterStatic { Shiny=false, Species=374, Ability = 4 }, //Beldum
+            new EncounterStatic { Shiny=Shiny.Never, Species=120, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=137, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=174, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=175, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=213, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=238, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=280, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=333, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=425, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=436, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=442, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=447, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=479,},             // Rotom has no HA
+            new EncounterStatic { Shiny=Shiny.Never, Species=517, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=561, Ability = 4 },
+            new EncounterStatic { Shiny=Shiny.Never, Species=641, Ability = 4, Form = 1}, //Tornadus-T
+            new EncounterStatic { Shiny=Shiny.Never, Species=642, Ability = 4, Form = 1}, //Thundurus-T
+            new EncounterStatic { Shiny=Shiny.Never, Species=645, Ability = 4, Form = 1}, //Landorus-T
+            new EncounterStatic { Shiny=Shiny.Never, Species=249, Ability = 4 }, //SS
+            new EncounterStatic { Shiny=Shiny.Never, Species=250, Ability = 4 }, //HG
+            new EncounterStatic { Shiny=Shiny.Never, Species=483, Ability = 4 }, //D
+            new EncounterStatic { Shiny=Shiny.Never, Species=484, Ability = 4 }, //P
+            new EncounterStatic { Shiny=Shiny.Never, Species=487, Ability = 4 }, //Pt
+            new EncounterStatic { Shiny=Shiny.Never, Species=079, Ability = 4 }, //Slowpoke
+            new EncounterStatic { Shiny=Shiny.Never, Species=163, Ability = 4 }, //Hoothoot
+            new EncounterStatic { Shiny=Shiny.Never, Species=374, Ability = 4 }, //Beldum
         };
 
         #endregion
@@ -538,16 +538,16 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 638, Level = 42, Location = 74,}, //Cobalion @ Guidance Chamber
             new EncounterStatic { Species = 639, Level = 42, Location = 73,}, //Terrakion @ Trial Chamber
             new EncounterStatic { Species = 640, Level = 42, Location = 55,}, //Virizion @ Rumination Field
-            new EncounterStatic { Species = 643, Level = 50, Location = 45, Shiny = false, Version = GameVersion.B, }, //Reshiram @ N'Castle
-            new EncounterStatic { Species = 643, Level = 50, Location = 39, Shiny = false, Version = GameVersion.B, }, //Reshiram @ Dragonspiral Tower
-            new EncounterStatic { Species = 644, Level = 50, Location = 45, Shiny = false, Version = GameVersion.W, }, //Zekrom @ N'Castle
-            new EncounterStatic { Species = 644, Level = 50, Location = 39, Shiny = false, Version = GameVersion.W, }, //Zekrom @ Dragonspiral Tower
+            new EncounterStatic { Species = 643, Level = 50, Location = 45, Shiny = Shiny.Never, Version = GameVersion.B, }, //Reshiram @ N'Castle
+            new EncounterStatic { Species = 643, Level = 50, Location = 39, Shiny = Shiny.Never, Version = GameVersion.B, }, //Reshiram @ Dragonspiral Tower
+            new EncounterStatic { Species = 644, Level = 50, Location = 45, Shiny = Shiny.Never, Version = GameVersion.W, }, //Zekrom @ N'Castle
+            new EncounterStatic { Species = 644, Level = 50, Location = 39, Shiny = Shiny.Never, Version = GameVersion.W, }, //Zekrom @ Dragonspiral Tower
             new EncounterStatic { Species = 645, Level = 70, Location = 70,}, //Landorus @ Abundant Shrine
             new EncounterStatic { Species = 646, Level = 75, Location = 61,}, //Kyurem @ Giant Chasm
             //Event
-            new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
-            new EncounterStatic { Species = 570, Level = 10, Location = 08, Shiny = false, Gender = 0, }, // Zorua @ Castelia City
-            new EncounterStatic { Species = 571, Level = 25, Location = 72, Shiny = false, Gender = 1, }, // Zoroark @ Lostlorn Forest
+            new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = Shiny.Never}, // Victini @ Liberty Garden
+            new EncounterStatic { Species = 570, Level = 10, Location = 08, Shiny = Shiny.Never, Gender = 0, }, // Zorua @ Castelia City
+            new EncounterStatic { Species = 571, Level = 25, Location = 72, Shiny = Shiny.Never, Gender = 1, }, // Zoroark @ Lostlorn Forest
         };
 
         private static readonly EncounterStatic[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
@@ -574,8 +574,8 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 1, }, //HA Deerling @ Route 6
             new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 2, }, //HA Deerling @ Route 6
             new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 3, }, //HA Deerling @ Route 6
-            new EncounterStatic { Gift = true, Species = 443, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
-            new EncounterStatic { Gift = true, Species = 147, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
+            new EncounterStatic { Gift = true, Species = 443, Level = 01, Shiny = Shiny.Always, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
+            new EncounterStatic { Gift = true, Species = 147, Level = 01, Shiny = Shiny.Always, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
             new EncounterStatic { Gift = true, Species = 129, Level = 05, Location = 68, }, // Magikarp @ Marvelous Bridge
             new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
             //Stationary
@@ -589,7 +589,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 637, Level = 35, Location = 35, }, // Volcarona @ Relic Castle
             new EncounterStatic { Species = 637, Level = 65, Location = 35, }, // Volcarona @ Relic Castle
             new EncounterStatic { Species = 558, Level = 42, Location = 141, }, // Crustle @ Seaside Cave
-            new EncounterStatic { Species = 612, Level = 60, Location = 147, Shiny = true}, // Haxorus @ Nature Preserve
+            new EncounterStatic { Species = 612, Level = 60, Location = 147, Shiny = Shiny.Always}, // Haxorus @ Nature Preserve
             //Stationary Legendary
             new EncounterStatic { Species = 377, Level = 65, Location = 150,}, //Regirock @ Rock Peak Chamber
             new EncounterStatic { Species = 378, Level = 65, Location = 151,}, //Regice @ Iceberg Chamber
@@ -609,8 +609,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 639, Level = 65, Location = 127,}, // Terrakion @ Route 22
             new EncounterStatic { Species = 640, Level = 45, Location = 024,}, // Virizion @ Route 11
             new EncounterStatic { Species = 640, Level = 65, Location = 024,}, // Virizion @ Route 11
-            new EncounterStatic { Species = 643, Level = 70, Location = 039, Shiny = false, Version = GameVersion.W2, }, // Reshiram @ Dragonspiral Tower
-            new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = false, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
+            new EncounterStatic { Species = 643, Level = 70, Location = 039, Shiny = Shiny.Never, Version = GameVersion.W2, }, // Reshiram @ Dragonspiral Tower
+            new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = Shiny.Never, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
             new EncounterStatic { Species = 646, Level = 70, Location = 061, Form = 0}, // Kyurem @ Giant Chasm
             //N's Pokemon
             new EncounterStaticPID { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, PID = 0xFF01007F, Nature = Nature.Timid }, // Purloin @ Route 2

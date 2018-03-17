@@ -107,7 +107,7 @@ namespace PKHeX.Core
             switch (EncounterMatch)
             {
                 case EncounterStatic s:
-                    if (s.Shiny != null && (bool)s.Shiny ^ pkm.IsShiny)
+                    if (!s.Shiny.IsValid(pkm))
                         AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
                     
                     // gen5 correlation
@@ -2339,7 +2339,7 @@ namespace PKHeX.Core
         private void VerifyWC3Shiny(WC3 g3)
         {
             // check for shiny locked gifts
-            if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
+            if (!g3.Shiny.IsValid(pkm))
                 AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
         }
         private void VerifyFatefulIngameActive()

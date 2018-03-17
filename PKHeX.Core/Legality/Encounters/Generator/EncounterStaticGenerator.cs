@@ -209,7 +209,7 @@ namespace PKHeX.Core
                 Species = species,
                 Gift = true, // Forces Poké Ball
                 Ability = TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = species == 151 ? (bool?)false : null,
+                Shiny = species == 151 ? Shiny.Never : Shiny.Random,
                 Fateful = species == 151,
                 Location = Transfer1,
                 EggLocation = 0,
@@ -226,7 +226,7 @@ namespace PKHeX.Core
                 Species = species,
                 Gift = true, // Forces Poké Ball
                 Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = species == 151 ? (bool?)false : null,
+                Shiny = species == 151 ? Shiny.Never : Shiny.Random,
                 Fateful = species == 151 || species == 251,
                 Location = Transfer2,
                 EggLocation = 0,
