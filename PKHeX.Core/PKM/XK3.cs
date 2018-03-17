@@ -193,7 +193,7 @@ namespace PKHeX.Core
             {
                 // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
                 if (ShadowID != 0)
-                    pk.RibbonEarth = true; // must be purified before trading away; force purify
+                    pk.RibbonNational = true; // must be purified before trading away; force purify
                 if (IsOriginXD())
                     pk.FatefulEncounter = true;
             }
