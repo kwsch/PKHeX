@@ -24,7 +24,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G7SM];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             // Load Info
             Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, SaveUtil.CRC16);

@@ -21,7 +21,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G1RAW];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (data == null)
                 Version = GameVersion.RBY;
@@ -202,6 +202,8 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
+
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
 
         // Checksums
         protected override void SetChecksums()

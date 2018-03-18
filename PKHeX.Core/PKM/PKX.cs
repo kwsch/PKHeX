@@ -897,5 +897,32 @@ namespace PKHeX.Core
                 .ThenBy(p => p.Gender) // gender sorted
                 .ThenBy(p => p.IsNicknamed);
         }
+
+        internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
+        internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
+        internal static bool IsPKMPresentGBA(byte[] data, int offset)
+        {
+            if (BitConverter.ToUInt32(data, offset) != 0) // PID
+                return true;
+            ushort species = BitConverter.ToUInt16(data, offset + 0x20);
+            return species != 0;
+        }
+        internal static bool IsPKMPresent(byte[] data, int offset)
+        {
+            if (BitConverter.ToUInt32(data, offset) != 0) // PID
+                return true;
+            ushort species = BitConverter.ToUInt16(data, offset + 8);
+            return species != 0;
+        }
+        public static Func<byte[], int, bool> GetFuncIsPKMPresent(PKM blank)
+        {
+            if (blank.Format >= 4)
+                return IsPKMPresent;
+            if (blank.Format <= 2)
+                return IsPKMPresentGB;
+            if (blank is PK3)
+                return IsPKMPresentGBA;
+            return IsPKMPresentGC;
+        }
     }
 }

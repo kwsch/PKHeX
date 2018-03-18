@@ -18,8 +18,10 @@ namespace PKHeX.Core
             var slots = (Data.Length - Box) / blank.SIZE_STORED;
             BoxCount = slots / SlotsPerBox;
 
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
             BAK = (byte[])Data.Clone();
+
+            GetIsPKMPresent = PKX.GetFuncIsPKMPresent(blank);
         }
 
         private readonly int SlotsPerBox;
@@ -51,6 +53,9 @@ namespace PKHeX.Core
         public override int OTLength => blank.OTLength;
         public override int NickLength => blank.NickLength;
         public bool BigEndian => blank is BK4 || blank is XK3 || blank is CK3;
+
+        private readonly Func<byte[], int, bool> GetIsPKMPresent;
+        public override bool IsPKMPresent(int Offset) => GetIsPKMPresent(Data, Offset);
 
         public override int BoxCount { get; }
         protected override void SetChecksums() { }

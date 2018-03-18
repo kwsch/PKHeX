@@ -23,7 +23,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G2RAW_U];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (data == null)
                 Version = GameVersion.C;
@@ -220,6 +220,8 @@ namespace PKHeX.Core
         public override int MaxGameID => 99; // unused
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
+
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
 
         // not correct, but whole contains. Data[EventFlag+0x22F]=Data[0x1A2F] means repel count.
         protected override int EventFlagMax => Version == GameVersion.C ? 0x230 << 3 : base.EventFlagMax;

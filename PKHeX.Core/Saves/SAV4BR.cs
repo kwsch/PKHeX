@@ -19,7 +19,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G4BR];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (SaveUtil.GetIsG4BRSAV(Data) != GameVersion.BATREV)
                 return;

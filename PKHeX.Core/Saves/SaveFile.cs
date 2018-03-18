@@ -679,6 +679,7 @@ namespace PKHeX.Core
                     return false;
             return true;
         }
+        public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
 
         public abstract string GetString(int Offset, int Length);
         public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);

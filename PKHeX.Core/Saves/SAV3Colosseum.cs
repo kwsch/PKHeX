@@ -48,7 +48,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G3COLO];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (SaveUtil.GetIsG3COLOSAV(Data) != GameVersion.COLO)
                 return;
@@ -159,6 +159,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
 
         public override int BoxCount => 3;
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGC(Data, Offset);
 
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();

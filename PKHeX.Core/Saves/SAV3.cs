@@ -44,7 +44,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G3RAW];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (data == null)
                 Version = GameVersion.FRLG;
@@ -212,6 +212,8 @@ namespace PKHeX.Core
         protected override int EventConstMax => EventConst > 0 ? 0x100 : int.MinValue;
 
         public override bool HasParty => true;
+
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
 
         // Checksums
         protected override void SetChecksums()

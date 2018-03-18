@@ -26,7 +26,7 @@ namespace PKHeX.Core
         {
             Data = data ?? new byte[SaveUtil.SIZE_G3BOX];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (SaveUtil.GetIsG3BOXSAV(Data) != GameVersion.RSBOX)
                 return;
@@ -114,6 +114,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
 
         // Checksums
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
