@@ -15,6 +15,11 @@ namespace PKHeX.WinForms.Controls
             MT_IVs   = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV};
             MT_Stats = new[] {Stat_HP, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD};
             L_Stats  = new[] {Label_HP, Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD};
+            MT_Base  = new[] {TB_HPBase, TB_ATKBase, TB_DEFBase, TB_SPEBase, TB_SPABase, TB_SPDBase};
+
+            TB_BST.ResetForeColor();
+            TB_IVTotal.ForeColor = MT_EVs[0].ForeColor;
+            TB_EVTotal.ForeColor = MT_EVs[0].ForeColor;
         }
 
         private IMainEditor MainEditor { get; set; }
@@ -26,7 +31,7 @@ namespace PKHeX.WinForms.Controls
         public bool Valid => pkm.Format < 3 || Convert.ToUInt32(TB_EVTotal.Text) <= 510 || CHK_HackedStats.Checked;
 
         private readonly Label[] L_Stats;
-        private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_Stats;
+        private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_Stats, MT_Base;
         private readonly ToolTip EVTip = new ToolTip();
         private PKM pkm => MainEditor.pkm;
         private bool[] HTs => new[] {pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPE, pkm.HT_SPA, pkm.HT_SPD};
@@ -230,11 +235,44 @@ namespace PKHeX.WinForms.Controls
             // Generate the stats.
             if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
             {
-                pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
+                var pi = pkm.PersonalInfo;
+                pkm.SetStats(pkm.GetStats(pi));
+                LoadBST(pi);
                 LoadPartyStats(pkm);
             }
             RecolorStatLabels(pkm.Nature);
         }
+
+        private void LoadBST(PersonalInfo pi)
+        {
+            var stats = new[] {pi.HP, pi.ATK, pi.DEF, pi.SPE, pi.SPA, pi.SPD};
+            for (int i = 0; i < stats.Length; i++)
+            {
+                MT_Base[i].Text = stats[i].ToString("000");
+                MT_Base[i].BackColor = MapColor(stats[i]);
+            }
+            TB_BST.Text = pi.BST.ToString("000");
+            TB_BST.BackColor = MapColor((int)stats.Average()*2);
+        }
+        private static Color MapColor(int v)
+        {
+            const float maxval = 180; // shift the green cap down
+            float x = 100f * v / maxval;
+            if (x > 100)
+                x = 100;
+            double red = 255f * (x > 50 ? 1 - 2 * (x - 50) / 100.0 : 1.0);
+            double green = 255f * (x > 50 ? 1.0 : 2 * x / 100.0);
+
+            return Blend(Color.FromArgb((int)red, (int)green, 0), Color.White, 0.4);
+        }
+        private static Color Blend(Color color, Color backColor, double amount)
+        {
+            byte r = (byte)(color.R * amount + backColor.R * (1 - amount));
+            byte g = (byte)(color.G * amount + backColor.G * (1 - amount));
+            byte b = (byte)(color.B * amount + backColor.B * (1 - amount));
+            return Color.FromArgb(r, g, b);
+        }
+
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
             ChangingFields = true;

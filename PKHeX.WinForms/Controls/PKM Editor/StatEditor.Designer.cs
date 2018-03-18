@@ -33,24 +33,28 @@
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.Label_IVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HP = new System.Windows.Forms.Label();
             this.FLP_HPRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_HPBase = new System.Windows.Forms.MaskedTextBox();
             this.TB_HPIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_HPEV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_HP = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Atk = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_ATK = new System.Windows.Forms.Label();
             this.FLP_AtkRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_ATKBase = new System.Windows.Forms.MaskedTextBox();
             this.TB_ATKIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_ATKEV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_ATK = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Def = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_DEF = new System.Windows.Forms.Label();
             this.FLP_DefRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_DEFBase = new System.Windows.Forms.MaskedTextBox();
             this.TB_DEFIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_DEFEV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_DEF = new System.Windows.Forms.MaskedTextBox();
@@ -59,24 +63,28 @@
             this.Label_SPA = new System.Windows.Forms.Label();
             this.Label_SPC = new System.Windows.Forms.Label();
             this.FLP_SpARight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_SPABase = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPAIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPAEV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPA = new System.Windows.Forms.MaskedTextBox();
             this.FLP_SpD = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPD = new System.Windows.Forms.Label();
             this.FLP_SpDRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_SPDBase = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPDIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPDEV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPD = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Spe = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPE = new System.Windows.Forms.Label();
             this.FLP_SpeRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_SPEBase = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPEIV = new System.Windows.Forms.MaskedTextBox();
             this.TB_SPEEV = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPE = new System.Windows.Forms.MaskedTextBox();
             this.FLP_StatsTotal = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Total = new System.Windows.Forms.Label();
             this.FLP_StatsTotalRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_BST = new System.Windows.Forms.TextBox();
             this.TB_IVTotal = new System.Windows.Forms.TextBox();
             this.TB_EVTotal = new System.Windows.Forms.TextBox();
             this.L_Potential = new System.Windows.Forms.Label();
@@ -86,9 +94,9 @@
             this.FLP_Characteristic = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
             this.L_Characteristic = new System.Windows.Forms.Label();
-            this.BTN_RandomEVs = new System.Windows.Forms.Button();
-            this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.PAN_BTN = new System.Windows.Forms.Panel();
+            this.BTN_RandomIVs = new System.Windows.Forms.Button();
+            this.BTN_RandomEVs = new System.Windows.Forms.Button();
             this.FLP_Stats.SuspendLayout();
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
@@ -152,19 +160,18 @@
             this.FLP_HackedStats.Location = new System.Drawing.Point(0, 0);
             this.FLP_HackedStats.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HackedStats.Name = "FLP_HackedStats";
-            this.FLP_HackedStats.Size = new System.Drawing.Size(107, 21);
+            this.FLP_HackedStats.Size = new System.Drawing.Size(78, 21);
             this.FLP_HackedStats.TabIndex = 122;
             // 
             // CHK_HackedStats
             // 
-            this.CHK_HackedStats.AutoSize = true;
             this.CHK_HackedStats.Enabled = false;
             this.CHK_HackedStats.Location = new System.Drawing.Point(0, 3);
             this.CHK_HackedStats.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_HackedStats.Name = "CHK_HackedStats";
-            this.CHK_HackedStats.Size = new System.Drawing.Size(91, 17);
+            this.CHK_HackedStats.Size = new System.Drawing.Size(75, 17);
             this.CHK_HackedStats.TabIndex = 18;
-            this.CHK_HackedStats.Text = "Hacked Stats";
+            this.CHK_HackedStats.Text = "Hacked";
             this.CHK_HackedStats.UseVisualStyleBackColor = true;
             this.CHK_HackedStats.Visible = false;
             this.CHK_HackedStats.CheckedChanged += new System.EventHandler(this.UpdateHackedStats);
@@ -172,18 +179,29 @@
             // FLP_StatsHeaderRight
             // 
             this.FLP_StatsHeaderRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_StatsHeaderRight.Controls.Add(this.label1);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_IVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_EVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_Stats);
-            this.FLP_StatsHeaderRight.Location = new System.Drawing.Point(107, 0);
+            this.FLP_StatsHeaderRight.Location = new System.Drawing.Point(78, 0);
             this.FLP_StatsHeaderRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_StatsHeaderRight.Name = "FLP_StatsHeaderRight";
             this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_StatsHeaderRight.TabIndex = 123;
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 21);
+            this.label1.TabIndex = 30;
+            this.label1.Text = "Base";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Label_IVs
             // 
-            this.Label_IVs.Location = new System.Drawing.Point(0, 0);
+            this.Label_IVs.Location = new System.Drawing.Point(34, 0);
             this.Label_IVs.Margin = new System.Windows.Forms.Padding(0);
             this.Label_IVs.Name = "Label_IVs";
             this.Label_IVs.Size = new System.Drawing.Size(30, 21);
@@ -193,7 +211,7 @@
             // 
             // Label_EVs
             // 
-            this.Label_EVs.Location = new System.Drawing.Point(30, 0);
+            this.Label_EVs.Location = new System.Drawing.Point(64, 0);
             this.Label_EVs.Margin = new System.Windows.Forms.Padding(0);
             this.Label_EVs.Name = "Label_EVs";
             this.Label_EVs.Size = new System.Drawing.Size(35, 21);
@@ -203,7 +221,7 @@
             // 
             // Label_Stats
             // 
-            this.Label_Stats.Location = new System.Drawing.Point(65, 0);
+            this.Label_Stats.Location = new System.Drawing.Point(99, 0);
             this.Label_Stats.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Stats.Name = "Label_Stats";
             this.Label_Stats.Size = new System.Drawing.Size(35, 21);
@@ -227,7 +245,7 @@
             this.Label_HP.Location = new System.Drawing.Point(0, 0);
             this.Label_HP.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HP.Name = "Label_HP";
-            this.Label_HP.Size = new System.Drawing.Size(110, 21);
+            this.Label_HP.Size = new System.Drawing.Size(80, 21);
             this.Label_HP.TabIndex = 19;
             this.Label_HP.Text = "HP:";
             this.Label_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -236,19 +254,35 @@
             // FLP_HPRight
             // 
             this.FLP_HPRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_HPRight.Controls.Add(this.TB_HPBase);
             this.FLP_HPRight.Controls.Add(this.TB_HPIV);
             this.FLP_HPRight.Controls.Add(this.TB_HPEV);
             this.FLP_HPRight.Controls.Add(this.Stat_HP);
-            this.FLP_HPRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_HPRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_HPRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HPRight.Name = "FLP_HPRight";
             this.FLP_HPRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_HPRight.TabIndex = 121;
             // 
+            // TB_HPBase
+            // 
+            this.TB_HPBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_HPBase.Enabled = false;
+            this.TB_HPBase.Location = new System.Drawing.Point(0, 0);
+            this.TB_HPBase.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_HPBase.Mask = "000";
+            this.TB_HPBase.Name = "TB_HPBase";
+            this.TB_HPBase.PromptChar = ' ';
+            this.TB_HPBase.ReadOnly = true;
+            this.TB_HPBase.Size = new System.Drawing.Size(28, 20);
+            this.TB_HPBase.TabIndex = 46;
+            this.TB_HPBase.TabStop = false;
+            this.TB_HPBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_HPIV
             // 
             this.TB_HPIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPIV.Location = new System.Drawing.Point(0, 0);
+            this.TB_HPIV.Location = new System.Drawing.Point(35, 0);
             this.TB_HPIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_HPIV.Mask = "00";
             this.TB_HPIV.Name = "TB_HPIV";
@@ -261,7 +295,7 @@
             // TB_HPEV
             // 
             this.TB_HPEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPEV.Location = new System.Drawing.Point(28, 0);
+            this.TB_HPEV.Location = new System.Drawing.Point(63, 0);
             this.TB_HPEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_HPEV.Mask = "000";
             this.TB_HPEV.Name = "TB_HPEV";
@@ -275,7 +309,7 @@
             // 
             this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_HP.Enabled = false;
-            this.Stat_HP.Location = new System.Drawing.Point(62, 0);
+            this.Stat_HP.Location = new System.Drawing.Point(97, 0);
             this.Stat_HP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_HP.Mask = "00000";
             this.Stat_HP.Name = "Stat_HP";
@@ -301,7 +335,7 @@
             this.Label_ATK.Location = new System.Drawing.Point(0, 0);
             this.Label_ATK.Margin = new System.Windows.Forms.Padding(0);
             this.Label_ATK.Name = "Label_ATK";
-            this.Label_ATK.Size = new System.Drawing.Size(110, 21);
+            this.Label_ATK.Size = new System.Drawing.Size(80, 21);
             this.Label_ATK.TabIndex = 20;
             this.Label_ATK.Text = "Atk:";
             this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -310,19 +344,35 @@
             // FLP_AtkRight
             // 
             this.FLP_AtkRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_AtkRight.Controls.Add(this.TB_ATKBase);
             this.FLP_AtkRight.Controls.Add(this.TB_ATKIV);
             this.FLP_AtkRight.Controls.Add(this.TB_ATKEV);
             this.FLP_AtkRight.Controls.Add(this.Stat_ATK);
-            this.FLP_AtkRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_AtkRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_AtkRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_AtkRight.Name = "FLP_AtkRight";
             this.FLP_AtkRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_AtkRight.TabIndex = 123;
             // 
+            // TB_ATKBase
+            // 
+            this.TB_ATKBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_ATKBase.Enabled = false;
+            this.TB_ATKBase.Location = new System.Drawing.Point(0, 0);
+            this.TB_ATKBase.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_ATKBase.Mask = "000";
+            this.TB_ATKBase.Name = "TB_ATKBase";
+            this.TB_ATKBase.PromptChar = ' ';
+            this.TB_ATKBase.ReadOnly = true;
+            this.TB_ATKBase.Size = new System.Drawing.Size(28, 20);
+            this.TB_ATKBase.TabIndex = 47;
+            this.TB_ATKBase.TabStop = false;
+            this.TB_ATKBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_ATKIV
             // 
             this.TB_ATKIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKIV.Location = new System.Drawing.Point(0, 0);
+            this.TB_ATKIV.Location = new System.Drawing.Point(35, 0);
             this.TB_ATKIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_ATKIV.Mask = "00";
             this.TB_ATKIV.Name = "TB_ATKIV";
@@ -335,7 +385,7 @@
             // TB_ATKEV
             // 
             this.TB_ATKEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKEV.Location = new System.Drawing.Point(28, 0);
+            this.TB_ATKEV.Location = new System.Drawing.Point(63, 0);
             this.TB_ATKEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_ATKEV.Mask = "000";
             this.TB_ATKEV.Name = "TB_ATKEV";
@@ -349,7 +399,7 @@
             // 
             this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_ATK.Enabled = false;
-            this.Stat_ATK.Location = new System.Drawing.Point(62, 0);
+            this.Stat_ATK.Location = new System.Drawing.Point(97, 0);
             this.Stat_ATK.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_ATK.Mask = "00000";
             this.Stat_ATK.Name = "Stat_ATK";
@@ -375,7 +425,7 @@
             this.Label_DEF.Location = new System.Drawing.Point(0, 0);
             this.Label_DEF.Margin = new System.Windows.Forms.Padding(0);
             this.Label_DEF.Name = "Label_DEF";
-            this.Label_DEF.Size = new System.Drawing.Size(110, 21);
+            this.Label_DEF.Size = new System.Drawing.Size(80, 21);
             this.Label_DEF.TabIndex = 21;
             this.Label_DEF.Text = "Def:";
             this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -384,19 +434,35 @@
             // FLP_DefRight
             // 
             this.FLP_DefRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_DefRight.Controls.Add(this.TB_DEFBase);
             this.FLP_DefRight.Controls.Add(this.TB_DEFIV);
             this.FLP_DefRight.Controls.Add(this.TB_DEFEV);
             this.FLP_DefRight.Controls.Add(this.Stat_DEF);
-            this.FLP_DefRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_DefRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_DefRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_DefRight.Name = "FLP_DefRight";
             this.FLP_DefRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_DefRight.TabIndex = 123;
             // 
+            // TB_DEFBase
+            // 
+            this.TB_DEFBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_DEFBase.Enabled = false;
+            this.TB_DEFBase.Location = new System.Drawing.Point(0, 0);
+            this.TB_DEFBase.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_DEFBase.Mask = "000";
+            this.TB_DEFBase.Name = "TB_DEFBase";
+            this.TB_DEFBase.PromptChar = ' ';
+            this.TB_DEFBase.ReadOnly = true;
+            this.TB_DEFBase.Size = new System.Drawing.Size(28, 20);
+            this.TB_DEFBase.TabIndex = 48;
+            this.TB_DEFBase.TabStop = false;
+            this.TB_DEFBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_DEFIV
             // 
             this.TB_DEFIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFIV.Location = new System.Drawing.Point(0, 0);
+            this.TB_DEFIV.Location = new System.Drawing.Point(35, 0);
             this.TB_DEFIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_DEFIV.Mask = "00";
             this.TB_DEFIV.Name = "TB_DEFIV";
@@ -409,7 +475,7 @@
             // TB_DEFEV
             // 
             this.TB_DEFEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFEV.Location = new System.Drawing.Point(28, 0);
+            this.TB_DEFEV.Location = new System.Drawing.Point(63, 0);
             this.TB_DEFEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_DEFEV.Mask = "000";
             this.TB_DEFEV.Name = "TB_DEFEV";
@@ -423,7 +489,7 @@
             // 
             this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_DEF.Enabled = false;
-            this.Stat_DEF.Location = new System.Drawing.Point(62, 0);
+            this.Stat_DEF.Location = new System.Drawing.Point(97, 0);
             this.Stat_DEF.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_DEF.Mask = "00000";
             this.Stat_DEF.Name = "Stat_DEF";
@@ -453,7 +519,7 @@
             this.FLP_SpALeft.Location = new System.Drawing.Point(0, 0);
             this.FLP_SpALeft.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpALeft.Name = "FLP_SpALeft";
-            this.FLP_SpALeft.Size = new System.Drawing.Size(110, 21);
+            this.FLP_SpALeft.Size = new System.Drawing.Size(80, 21);
             this.FLP_SpALeft.TabIndex = 124;
             // 
             // Label_SPA
@@ -461,7 +527,7 @@
             this.Label_SPA.Location = new System.Drawing.Point(0, 0);
             this.Label_SPA.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPA.Name = "Label_SPA";
-            this.Label_SPA.Size = new System.Drawing.Size(110, 21);
+            this.Label_SPA.Size = new System.Drawing.Size(80, 21);
             this.Label_SPA.TabIndex = 22;
             this.Label_SPA.Text = "SpA:";
             this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -469,7 +535,7 @@
             // 
             // Label_SPC
             // 
-            this.Label_SPC.Location = new System.Drawing.Point(0, 21);
+            this.Label_SPC.Location = new System.Drawing.Point(-30, 21);
             this.Label_SPC.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPC.Name = "Label_SPC";
             this.Label_SPC.Size = new System.Drawing.Size(110, 21);
@@ -481,19 +547,35 @@
             // FLP_SpARight
             // 
             this.FLP_SpARight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_SpARight.Controls.Add(this.TB_SPABase);
             this.FLP_SpARight.Controls.Add(this.TB_SPAIV);
             this.FLP_SpARight.Controls.Add(this.TB_SPAEV);
             this.FLP_SpARight.Controls.Add(this.Stat_SPA);
-            this.FLP_SpARight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_SpARight.Location = new System.Drawing.Point(80, 0);
             this.FLP_SpARight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpARight.Name = "FLP_SpARight";
             this.FLP_SpARight.Size = new System.Drawing.Size(162, 21);
             this.FLP_SpARight.TabIndex = 123;
             // 
+            // TB_SPABase
+            // 
+            this.TB_SPABase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_SPABase.Enabled = false;
+            this.TB_SPABase.Location = new System.Drawing.Point(0, 0);
+            this.TB_SPABase.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_SPABase.Mask = "000";
+            this.TB_SPABase.Name = "TB_SPABase";
+            this.TB_SPABase.PromptChar = ' ';
+            this.TB_SPABase.ReadOnly = true;
+            this.TB_SPABase.Size = new System.Drawing.Size(28, 20);
+            this.TB_SPABase.TabIndex = 49;
+            this.TB_SPABase.TabStop = false;
+            this.TB_SPABase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_SPAIV
             // 
             this.TB_SPAIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAIV.Location = new System.Drawing.Point(0, 0);
+            this.TB_SPAIV.Location = new System.Drawing.Point(35, 0);
             this.TB_SPAIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_SPAIV.Mask = "00";
             this.TB_SPAIV.Name = "TB_SPAIV";
@@ -506,7 +588,7 @@
             // TB_SPAEV
             // 
             this.TB_SPAEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAEV.Location = new System.Drawing.Point(28, 0);
+            this.TB_SPAEV.Location = new System.Drawing.Point(63, 0);
             this.TB_SPAEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_SPAEV.Mask = "000";
             this.TB_SPAEV.Name = "TB_SPAEV";
@@ -520,7 +602,7 @@
             // 
             this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPA.Enabled = false;
-            this.Stat_SPA.Location = new System.Drawing.Point(62, 0);
+            this.Stat_SPA.Location = new System.Drawing.Point(97, 0);
             this.Stat_SPA.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_SPA.Mask = "00000";
             this.Stat_SPA.Name = "Stat_SPA";
@@ -546,7 +628,7 @@
             this.Label_SPD.Location = new System.Drawing.Point(0, 0);
             this.Label_SPD.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPD.Name = "Label_SPD";
-            this.Label_SPD.Size = new System.Drawing.Size(110, 21);
+            this.Label_SPD.Size = new System.Drawing.Size(80, 21);
             this.Label_SPD.TabIndex = 23;
             this.Label_SPD.Text = "SpD:";
             this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -555,19 +637,35 @@
             // FLP_SpDRight
             // 
             this.FLP_SpDRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_SpDRight.Controls.Add(this.TB_SPDBase);
             this.FLP_SpDRight.Controls.Add(this.TB_SPDIV);
             this.FLP_SpDRight.Controls.Add(this.TB_SPDEV);
             this.FLP_SpDRight.Controls.Add(this.Stat_SPD);
-            this.FLP_SpDRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_SpDRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_SpDRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpDRight.Name = "FLP_SpDRight";
             this.FLP_SpDRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_SpDRight.TabIndex = 123;
             // 
+            // TB_SPDBase
+            // 
+            this.TB_SPDBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_SPDBase.Enabled = false;
+            this.TB_SPDBase.Location = new System.Drawing.Point(0, 0);
+            this.TB_SPDBase.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_SPDBase.Mask = "000";
+            this.TB_SPDBase.Name = "TB_SPDBase";
+            this.TB_SPDBase.PromptChar = ' ';
+            this.TB_SPDBase.ReadOnly = true;
+            this.TB_SPDBase.Size = new System.Drawing.Size(28, 20);
+            this.TB_SPDBase.TabIndex = 50;
+            this.TB_SPDBase.TabStop = false;
+            this.TB_SPDBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_SPDIV
             // 
             this.TB_SPDIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDIV.Location = new System.Drawing.Point(0, 0);
+            this.TB_SPDIV.Location = new System.Drawing.Point(35, 0);
             this.TB_SPDIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_SPDIV.Mask = "00";
             this.TB_SPDIV.Name = "TB_SPDIV";
@@ -580,7 +678,7 @@
             // TB_SPDEV
             // 
             this.TB_SPDEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDEV.Location = new System.Drawing.Point(28, 0);
+            this.TB_SPDEV.Location = new System.Drawing.Point(63, 0);
             this.TB_SPDEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_SPDEV.Mask = "000";
             this.TB_SPDEV.Name = "TB_SPDEV";
@@ -594,7 +692,7 @@
             // 
             this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPD.Enabled = false;
-            this.Stat_SPD.Location = new System.Drawing.Point(62, 0);
+            this.Stat_SPD.Location = new System.Drawing.Point(97, 0);
             this.Stat_SPD.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_SPD.Mask = "00000";
             this.Stat_SPD.Name = "Stat_SPD";
@@ -620,7 +718,7 @@
             this.Label_SPE.Location = new System.Drawing.Point(0, 0);
             this.Label_SPE.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SPE.Name = "Label_SPE";
-            this.Label_SPE.Size = new System.Drawing.Size(110, 21);
+            this.Label_SPE.Size = new System.Drawing.Size(80, 21);
             this.Label_SPE.TabIndex = 24;
             this.Label_SPE.Text = "Spe:";
             this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -629,19 +727,35 @@
             // FLP_SpeRight
             // 
             this.FLP_SpeRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_SpeRight.Controls.Add(this.TB_SPEBase);
             this.FLP_SpeRight.Controls.Add(this.TB_SPEIV);
             this.FLP_SpeRight.Controls.Add(this.TB_SPEEV);
             this.FLP_SpeRight.Controls.Add(this.Stat_SPE);
-            this.FLP_SpeRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_SpeRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_SpeRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpeRight.Name = "FLP_SpeRight";
             this.FLP_SpeRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_SpeRight.TabIndex = 123;
             // 
+            // TB_SPEBase
+            // 
+            this.TB_SPEBase.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_SPEBase.Enabled = false;
+            this.TB_SPEBase.Location = new System.Drawing.Point(0, 0);
+            this.TB_SPEBase.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_SPEBase.Mask = "000";
+            this.TB_SPEBase.Name = "TB_SPEBase";
+            this.TB_SPEBase.PromptChar = ' ';
+            this.TB_SPEBase.ReadOnly = true;
+            this.TB_SPEBase.Size = new System.Drawing.Size(28, 20);
+            this.TB_SPEBase.TabIndex = 51;
+            this.TB_SPEBase.TabStop = false;
+            this.TB_SPEBase.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_SPEIV
             // 
             this.TB_SPEIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEIV.Location = new System.Drawing.Point(0, 0);
+            this.TB_SPEIV.Location = new System.Drawing.Point(35, 0);
             this.TB_SPEIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_SPEIV.Mask = "00";
             this.TB_SPEIV.Name = "TB_SPEIV";
@@ -654,7 +768,7 @@
             // TB_SPEEV
             // 
             this.TB_SPEEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEEV.Location = new System.Drawing.Point(28, 0);
+            this.TB_SPEEV.Location = new System.Drawing.Point(63, 0);
             this.TB_SPEEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_SPEEV.Mask = "000";
             this.TB_SPEEV.Name = "TB_SPEEV";
@@ -668,7 +782,7 @@
             // 
             this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Stat_SPE.Enabled = false;
-            this.Stat_SPE.Location = new System.Drawing.Point(62, 0);
+            this.Stat_SPE.Location = new System.Drawing.Point(97, 0);
             this.Stat_SPE.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Stat_SPE.Mask = "00000";
             this.Stat_SPE.Name = "Stat_SPE";
@@ -694,7 +808,7 @@
             this.Label_Total.Location = new System.Drawing.Point(0, 0);
             this.Label_Total.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Total.Name = "Label_Total";
-            this.Label_Total.Size = new System.Drawing.Size(110, 21);
+            this.Label_Total.Size = new System.Drawing.Size(80, 21);
             this.Label_Total.TabIndex = 25;
             this.Label_Total.Text = "Total:";
             this.Label_Total.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -702,43 +816,60 @@
             // FLP_StatsTotalRight
             // 
             this.FLP_StatsTotalRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_StatsTotalRight.Controls.Add(this.TB_BST);
             this.FLP_StatsTotalRight.Controls.Add(this.TB_IVTotal);
             this.FLP_StatsTotalRight.Controls.Add(this.TB_EVTotal);
             this.FLP_StatsTotalRight.Controls.Add(this.L_Potential);
-            this.FLP_StatsTotalRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_StatsTotalRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_StatsTotalRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_StatsTotalRight.Name = "FLP_StatsTotalRight";
             this.FLP_StatsTotalRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_StatsTotalRight.TabIndex = 123;
             // 
+            // TB_BST
+            // 
+            this.TB_BST.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_BST.Enabled = false;
+            this.TB_BST.Location = new System.Drawing.Point(0, 0);
+            this.TB_BST.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.TB_BST.MaxLength = 3;
+            this.TB_BST.Name = "TB_BST";
+            this.TB_BST.ReadOnly = true;
+            this.TB_BST.Size = new System.Drawing.Size(28, 20);
+            this.TB_BST.TabIndex = 43;
+            this.TB_BST.TabStop = false;
+            this.TB_BST.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_IVTotal
             // 
             this.TB_IVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_IVTotal.Location = new System.Drawing.Point(0, 0);
+            this.TB_IVTotal.Location = new System.Drawing.Point(35, 0);
             this.TB_IVTotal.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_IVTotal.MaxLength = 3;
             this.TB_IVTotal.Name = "TB_IVTotal";
             this.TB_IVTotal.ReadOnly = true;
             this.TB_IVTotal.Size = new System.Drawing.Size(22, 20);
             this.TB_IVTotal.TabIndex = 41;
+            this.TB_IVTotal.TabStop = false;
             this.TB_IVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TB_EVTotal
             // 
             this.TB_EVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_EVTotal.Location = new System.Drawing.Point(28, 0);
+            this.TB_EVTotal.Location = new System.Drawing.Point(63, 0);
             this.TB_EVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_EVTotal.MaxLength = 3;
             this.TB_EVTotal.Name = "TB_EVTotal";
             this.TB_EVTotal.ReadOnly = true;
             this.TB_EVTotal.Size = new System.Drawing.Size(28, 20);
             this.TB_EVTotal.TabIndex = 18;
+            this.TB_EVTotal.TabStop = false;
             this.TB_EVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_Potential
             // 
             this.L_Potential.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.L_Potential.Location = new System.Drawing.Point(59, 0);
+            this.L_Potential.Location = new System.Drawing.Point(94, 0);
             this.L_Potential.Margin = new System.Windows.Forms.Padding(0);
             this.L_Potential.Name = "L_Potential";
             this.L_Potential.Size = new System.Drawing.Size(67, 21);
@@ -811,15 +942,15 @@
             this.L_Characteristic.Text = "(char)";
             this.L_Characteristic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // BTN_RandomEVs
+            // PAN_BTN
             // 
-            this.BTN_RandomEVs.Location = new System.Drawing.Point(137, 3);
-            this.BTN_RandomEVs.Name = "BTN_RandomEVs";
-            this.BTN_RandomEVs.Size = new System.Drawing.Size(92, 23);
-            this.BTN_RandomEVs.TabIndex = 105;
-            this.BTN_RandomEVs.Text = "Randomize EVs";
-            this.BTN_RandomEVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
+            this.PAN_BTN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
+            this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
+            this.PAN_BTN.Location = new System.Drawing.Point(3, 214);
+            this.PAN_BTN.Name = "PAN_BTN";
+            this.PAN_BTN.Size = new System.Drawing.Size(267, 31);
+            this.PAN_BTN.TabIndex = 132;
             // 
             // BTN_RandomIVs
             // 
@@ -831,17 +962,17 @@
             this.BTN_RandomIVs.UseVisualStyleBackColor = true;
             this.BTN_RandomIVs.Click += new System.EventHandler(this.UpdateRandomIVs);
             // 
-            // PAN_BTN
+            // BTN_RandomEVs
             // 
-            this.PAN_BTN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
-            this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
-            this.PAN_BTN.Location = new System.Drawing.Point(3, 214);
-            this.PAN_BTN.Name = "PAN_BTN";
-            this.PAN_BTN.Size = new System.Drawing.Size(267, 31);
-            this.PAN_BTN.TabIndex = 132;
+            this.BTN_RandomEVs.Location = new System.Drawing.Point(137, 3);
+            this.BTN_RandomEVs.Name = "BTN_RandomEVs";
+            this.BTN_RandomEVs.Size = new System.Drawing.Size(92, 23);
+            this.BTN_RandomEVs.TabIndex = 105;
+            this.BTN_RandomEVs.Text = "Randomize EVs";
+            this.BTN_RandomEVs.UseVisualStyleBackColor = true;
+            this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
             // 
-            // StatPanel
+            // StatEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -851,7 +982,6 @@
             this.FLP_Stats.ResumeLayout(false);
             this.FLP_StatHeader.ResumeLayout(false);
             this.FLP_HackedStats.ResumeLayout(false);
-            this.FLP_HackedStats.PerformLayout();
             this.FLP_StatsHeaderRight.ResumeLayout(false);
             this.FLP_HP.ResumeLayout(false);
             this.FLP_HPRight.ResumeLayout(false);
@@ -945,5 +1075,13 @@
         private System.Windows.Forms.Button BTN_RandomEVs;
         private System.Windows.Forms.Button BTN_RandomIVs;
         private System.Windows.Forms.Panel PAN_BTN;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.MaskedTextBox TB_HPBase;
+        private System.Windows.Forms.MaskedTextBox TB_ATKBase;
+        private System.Windows.Forms.MaskedTextBox TB_DEFBase;
+        private System.Windows.Forms.MaskedTextBox TB_SPABase;
+        private System.Windows.Forms.MaskedTextBox TB_SPDBase;
+        private System.Windows.Forms.MaskedTextBox TB_SPEBase;
+        private System.Windows.Forms.TextBox TB_BST;
     }
 }
