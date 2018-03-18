@@ -53,10 +53,10 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = PKMUtil.GetSprite(s, f, 0, 0, false, false, SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = s > 721 || Legal.PastGenAlolanNatives.Contains(s);
-            row.Cells[r].Style.BackColor = MapColor((int)((p.BST - 175) / 3f));
+            row.Cells[r].Style.BackColor = MapColor((int)((Math.Max(p.BST - 175, 0)) / 3f));
             row.Cells[r++].Value = p.BST.ToString("000");
-            row.Cells[r++].Value = PKMUtil.GetTypeSprite(p.Types[0]);
-            row.Cells[r++].Value = p.Types[0] == p.Types[1] ? Resources.slotTrans : PKMUtil.GetTypeSprite(p.Types[1]);
+            row.Cells[r++].Value = PKMUtil.GetTypeSprite((int)((MoveType)p.Types[0]).GetMoveTypeGeneration(SAV.Generation));
+            row.Cells[r++].Value = p.Types[0] == p.Types[1] ? Resources.slotTrans : PKMUtil.GetTypeSprite((int)((MoveType)p.Types[1]).GetMoveTypeGeneration(SAV.Generation));
             row.Cells[r].Style.BackColor = MapColor(p.HP);
             row.Cells[r++].Value = p.HP.ToString("000");
             row.Cells[r].Style.BackColor = MapColor(p.ATK);
@@ -71,7 +71,7 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = p.SPE.ToString("000");
             row.Cells[r++].Value = abilities[p.Abilities[0]];
             row.Cells[r++].Value = abilities[p.Abilities[1]];
-            row.Cells[r].Value = abilities[p.Abilities[2]];
+            row.Cells[r].Value = abilities[p.Abilities.Length <= 2 ? 0 : p.Abilities[2]];
             DGV.Rows.Add(row);
         }
         private static Color MapColor(int v)

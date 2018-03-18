@@ -28,8 +28,8 @@
         public override int SPE { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public override int SPA { get => Data[0x05]; set => Data[0x05] = (byte)value; }
         public override int SPD { get => Data[0x06]; set => Data[0x06] = (byte)value; }
-        public override int Type1 { get => Data[0x06]; set => Data[0x06] = (byte)value; }
-        public override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
+        public override int Type1 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
+        public override int Type2 { get => Data[0x08]; set => Data[0x08] = (byte)value; }
         public override int CatchRate { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public override int BaseEXP { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
         public int Item1 { get => Data[0xB]; set => Data[0xB] = (byte)value; }
