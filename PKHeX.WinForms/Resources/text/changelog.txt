@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/01/28 - New Update:
+18/03/19 - New Update:
+ - Legality: 
+ - - Added: Fixed IVs for Static Encounters are now checked.
+ - - Fixed: Shedinja family handling. Thanks @ultima-soul, @Lusamine, @OmegaDonut, @admiral-fish & @Marty-D!
+ - - Changed: Pay Day Mewtwo is now legal (official transporter rules were updated). Thanks @Real96 & sora10pls!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Base Stats are now displayed in the Stat editor tab, along with color highlighting.
+ - Added: Mass PKM Import to Save File from Mystery Gift Database (and PKM Database).
+ - Fixed: Importing a showdown set with a Hidden Power that does not specify IVs will find a valid IV set.
+ - Fixed: WC6/7 IV generation now matches the games. Thanks @wwwwwwzx!
+ - Fixed: Gen6+ Swampert Pokédex Forme flags now set correctly. Thanks @sora10pls!
+ - Fixed: Gen4 Pokédex editing for Formes no longer throws errors. Thanks Ammako!
+ - Fixed: Gen4- KChart no longer throws errors when loaded from a Generation 4 and below save file.
+ - Fixed: Gen3 Ruby/Sapphire Roamer data is now editable. Thanks TetsuyaGR!
+ - Fixed: Gen1 PlayTime is now set correctly. Thanks @Asia81!
+ - Fixed: PKM Converter force hatched eggs now set their base friendship correctly.
+ - Changed: PKM Converter for Gen3 is now faster (no longer uses Reflection).
+ - Changed: PKM Converter now allows backwards conversion if HaX is enabled.
+ - Changed: Reworked a few GUI Controls for easier handling.
+ - Changed: Updated JP/CHS translation files. Thanks @smileynation & @wwwwwwzx!
+
+18/01/28 - New Update: (72341) [1061909]
  - Legality:
  - - Added: Crystal transfer legality.
  - - Changed: Another round of legality check updates. Thanks (so many different users)!
