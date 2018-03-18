@@ -251,8 +251,9 @@ namespace PKHeX.WinForms.Controls
                 MT_Base[i].Text = stats[i].ToString("000");
                 MT_Base[i].BackColor = MapColor(stats[i]);
             }
-            TB_BST.Text = pi.BST.ToString("000");
-            TB_BST.BackColor = MapColor((int)stats.Average()*2);
+            var bst = pi.BST;
+            TB_BST.Text = bst.ToString("000");
+            TB_BST.BackColor = MapColor((int)(Math.Max(0, bst - 175) / 3f));
         }
         private static Color MapColor(int v)
         {
