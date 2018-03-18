@@ -895,11 +895,12 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 484, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, //Palkia @ Sinjoh Ruins
             new EncounterStaticTyped { Species = 487, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Form = 1 }, //Giratina @ Sinjoh Ruins
         };
-        private static readonly EncounterStatic[] Encounter_HGSS = Encounter_HGSS_KantoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Grass)).Concat(
-            Encounter_HGSS_KantoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Surf))).Concat(
-            Encounter_HGSS_JohtoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Grass))).Concat(
-            Encounter_HGSS_JohtoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Surf))).Concat(
-            Encounter_HGSS_Regular).ToArray();
+        private static readonly EncounterStatic[] Encounter_HGSS = ConcatAll(
+            Encounter_HGSS_KantoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Grass)),
+            Encounter_HGSS_KantoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Surf)),
+            Encounter_HGSS_JohtoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Grass)),
+            Encounter_HGSS_JohtoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Surf)),
+            Encounter_HGSS_Regular);
         #endregion
         #region Trade Tables
         internal static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", null, "Eulalia" };

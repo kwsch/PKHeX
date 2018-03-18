@@ -208,7 +208,7 @@ namespace PKHeX.Core
             }).ToArray();
         }
 
-        internal static T[] ConcatAll<T>(params T[][] arr) => arr.SelectMany(z => z).ToArray();
+        internal static T[] ConcatAll<T>(params IEnumerable<T>[] arr) => arr.SelectMany(z => z).ToArray();
 
         internal static void MarkEncounterAreaArray(params EncounterArea[][] areas)
         {
