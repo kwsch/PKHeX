@@ -579,7 +579,7 @@ namespace PKHeX.Core
 
             for (int m = 0; m < 4; m++)
             {
-                if (m == move)
+                if (m != move)
                     continue;
                 if (res[m].Source != MoveSource.LevelUp)
                     continue;
