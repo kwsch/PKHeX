@@ -115,12 +115,9 @@ namespace PKHeX.Core
                     return z => new PersonalInfoXY(z);
                 case GameVersion.ORAS:
                     return z => new PersonalInfoORAS(z);
-                case GameVersion.SM:
-                    return z => new PersonalInfoSM(z);
-                case GameVersion.USUM:
+                default:
                     return z => new PersonalInfoSM(z);
             }
-            return null;
         }
         private static int GetEntrySize(GameVersion format)
         {
@@ -180,7 +177,7 @@ namespace PKHeX.Core
                 HGSS[i].AddTypeTutors(tutors[i]);
         }
 
-        private PersonalTable(byte[] data, GameVersion format)
+        public PersonalTable(byte[] data, GameVersion format)
         {
             Func<byte[], PersonalInfo> get = GetConstructor(format);
             int size = GetEntrySize(format);
