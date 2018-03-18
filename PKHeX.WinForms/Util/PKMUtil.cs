@@ -96,8 +96,10 @@ namespace PKHeX.WinForms
         {
             return Resources.ResourceManager.GetObject(name.Replace("CountG3", "G3").ToLower()) as Image;
         }
-        public static Image GetTypeSprite(int type)
+        public static Image GetTypeSprite(int type, int generation = PKX.Generation)
         {
+            if (generation <= 2)
+                type = (int)((MoveType)type).GetMoveTypeGeneration(generation);
             return Resources.ResourceManager.GetObject($"type_icon_{type:00}") as Image;
         }
 

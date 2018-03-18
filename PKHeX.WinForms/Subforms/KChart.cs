@@ -55,8 +55,8 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = s > 721 || Legal.PastGenAlolanNatives.Contains(s);
             row.Cells[r].Style.BackColor = MapColor((int)((Math.Max(p.BST - 175, 0)) / 3f));
             row.Cells[r++].Value = p.BST.ToString("000");
-            row.Cells[r++].Value = PKMUtil.GetTypeSprite((int)((MoveType)p.Types[0]).GetMoveTypeGeneration(SAV.Generation));
-            row.Cells[r++].Value = p.Types[0] == p.Types[1] ? Resources.slotTrans : PKMUtil.GetTypeSprite((int)((MoveType)p.Types[1]).GetMoveTypeGeneration(SAV.Generation));
+            row.Cells[r++].Value = PKMUtil.GetTypeSprite(p.Types[0], SAV.Generation);
+            row.Cells[r++].Value = p.Types[0] == p.Types[1] ? Resources.slotTrans : PKMUtil.GetTypeSprite(p.Types[1], SAV.Generation);
             row.Cells[r].Style.BackColor = MapColor(p.HP);
             row.Cells[r++].Value = p.HP.ToString("000");
             row.Cells[r].Style.BackColor = MapColor(p.ATK);

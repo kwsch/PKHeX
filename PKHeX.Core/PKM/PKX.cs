@@ -11,7 +11,7 @@ namespace PKHeX.Core
     public static class PKX
     {
         private static readonly PersonalTable Personal = PersonalTable.USUM;
-        private const int Generation = 7;
+        public const int Generation = 7;
 
         internal const int SIZE_1ULIST = 69;
         internal const int SIZE_1JLIST = 59;
