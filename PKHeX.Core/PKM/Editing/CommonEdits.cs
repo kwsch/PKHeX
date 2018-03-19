@@ -148,17 +148,34 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetPPUps(this PKM pk, int[] Moves = null)
+        public static void SetMaximumPPUps(this PKM pk, int[] Moves = null)
         {
             if (Moves == null)
                 Moves = pk.Moves;
 
-            pk.Move1_PP = pk.GetMovePP(Moves[0], pk.Move1_PPUps = GetPPUpCount(Moves[0]));
-            pk.Move2_PP = pk.GetMovePP(Moves[1], pk.Move2_PPUps = GetPPUpCount(Moves[1]));
-            pk.Move3_PP = pk.GetMovePP(Moves[2], pk.Move3_PPUps = GetPPUpCount(Moves[2]));
-            pk.Move4_PP = pk.GetMovePP(Moves[3], pk.Move4_PPUps = GetPPUpCount(Moves[3]));
+            pk.Move1_PPUps = GetPPUpCount(Moves[0]);
+            pk.Move2_PPUps = GetPPUpCount(Moves[1]);
+            pk.Move3_PPUps = GetPPUpCount(Moves[2]);
+            pk.Move4_PPUps = GetPPUpCount(Moves[3]);
 
+            pk.SetMaximumPPCurrent(Moves);
             int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
+        }
+
+        /// <summary>
+        /// Updates the individual PP count values for each moveslot based on the maximum possible value.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
+        public static void SetMaximumPPCurrent(this PKM pk, int[] Moves = null)
+        {
+            if (Moves == null)
+                Moves = pk.Moves;
+
+            pk.Move1_PP = pk.GetMovePP(Moves[0], pk.Move1_PPUps);
+            pk.Move2_PP = pk.GetMovePP(Moves[1], pk.Move2_PPUps);
+            pk.Move3_PP = pk.GetMovePP(Moves[2], pk.Move3_PPUps);
+            pk.Move4_PP = pk.GetMovePP(Moves[3], pk.Move4_PPUps);
         }
 
         /// <summary>
