@@ -823,7 +823,7 @@
             this.FLP_StatsTotalRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_StatsTotalRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_StatsTotalRight.Name = "FLP_StatsTotalRight";
-            this.FLP_StatsTotalRight.Size = new System.Drawing.Size(162, 21);
+            this.FLP_StatsTotalRight.Size = new System.Drawing.Size(190, 21);
             this.FLP_StatsTotalRight.TabIndex = 123;
             // 
             // TB_BST
@@ -872,7 +872,7 @@
             this.L_Potential.Location = new System.Drawing.Point(94, 0);
             this.L_Potential.Margin = new System.Windows.Forms.Padding(0);
             this.L_Potential.Name = "L_Potential";
-            this.L_Potential.Size = new System.Drawing.Size(67, 21);
+            this.L_Potential.Size = new System.Drawing.Size(96, 21);
             this.L_Potential.TabIndex = 42;
             this.L_Potential.Text = "(potential)";
             this.L_Potential.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -974,8 +974,7 @@
             // 
             // StatEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.FLP_Stats);
             this.Name = "StatEditor";
             this.Size = new System.Drawing.Size(270, 247);
