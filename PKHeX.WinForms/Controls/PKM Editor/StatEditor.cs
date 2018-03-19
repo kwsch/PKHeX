@@ -158,7 +158,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateHackedStats(object sender, EventArgs e)
         {
             foreach (var s in MT_Stats)
-                s.Enabled = CHK_HackedStats.Enabled;
+                s.Enabled = CHK_HackedStats.Checked;
             if (!CHK_HackedStats.Checked)
                 UpdateStats();
         }

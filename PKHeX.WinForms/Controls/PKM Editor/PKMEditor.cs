@@ -127,6 +127,7 @@ namespace PKHeX.WinForms.Controls
         public void InitializeFields()
         {
             // Now that the ComboBoxes are ready, load the data.
+            Stats.SetMainEditor(this);
             FieldsInitialized = true;
             PopulateFields(pkm);
         }
