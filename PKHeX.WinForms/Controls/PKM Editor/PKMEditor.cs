@@ -669,7 +669,15 @@ namespace PKHeX.WinForms.Controls
 
             pkm.Moves = m;
             pkm.SetPPUps(m);
+            CB_Move1.SelectedIndexChanged -= ValidateMove;
+            CB_Move2.SelectedIndexChanged -= ValidateMove;
+            CB_Move3.SelectedIndexChanged -= ValidateMove;
+            CB_Move4.SelectedIndexChanged -= ValidateMove;
             LoadMoves(pkm);
+            CB_Move1.SelectedIndexChanged += ValidateMove;
+            CB_Move2.SelectedIndexChanged += ValidateMove;
+            CB_Move3.SelectedIndexChanged += ValidateMove;
+            CB_Move4.SelectedIndexChanged += ValidateMove;
             return true;
         }
         private bool SetSuggestedRelearnMoves(bool silent = false)
