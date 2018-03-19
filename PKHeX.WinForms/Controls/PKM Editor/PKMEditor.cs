@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -14,6 +16,9 @@ namespace PKHeX.WinForms.Controls
         public PKMEditor()
         {
             InitializeComponent();
+            string[] args = Environment.GetCommandLineArgs();
+            HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
+                || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).EndsWith(nameof(HaX));
             Legality = new LegalityAnalysis(pkm = new PK7());
             SetPKMFormatMode(pkm.Format);
 
@@ -669,7 +674,15 @@ namespace PKHeX.WinForms.Controls
 
             pkm.Moves = m;
             pkm.SetPPUps(m);
+            CB_Move1.SelectedIndexChanged -= ValidateMove;
+            CB_Move2.SelectedIndexChanged -= ValidateMove;
+            CB_Move3.SelectedIndexChanged -= ValidateMove;
+            CB_Move4.SelectedIndexChanged -= ValidateMove;
             LoadMoves(pkm);
+            CB_Move1.SelectedIndexChanged += ValidateMove;
+            CB_Move2.SelectedIndexChanged += ValidateMove;
+            CB_Move3.SelectedIndexChanged += ValidateMove;
+            CB_Move4.SelectedIndexChanged += ValidateMove;
             return true;
         }
         private bool SetSuggestedRelearnMoves(bool silent = false)
