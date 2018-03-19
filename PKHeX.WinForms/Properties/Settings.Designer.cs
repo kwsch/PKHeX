@@ -130,5 +130,17 @@ namespace PKHeX.WinForms.Properties {
                 this["ShinySprites"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ApplyMarkings {
+            get {
+                return ((bool)(this["ApplyMarkings"]));
+            }
+            set {
+                this["ApplyMarkings"] = value;
+            }
+        }
     }
 }

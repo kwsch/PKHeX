@@ -251,6 +251,7 @@ namespace PKHeX.WinForms
 
             PKME_Tabs.Unicode = Unicode = Menu_Unicode.Checked = Settings.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
+            Menu_ApplyMarkings.Checked = CommonEdits.ShowdownSetIVMarkings = Settings.ApplyMarkings;
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
             SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
             C_SAV.FlagIllegal = Menu_FlagIllegal.Checked = Settings.FlagIllegal;
@@ -355,6 +356,10 @@ namespace PKHeX.WinForms
         {
             Settings.Default.Unicode = PKME_Tabs.Unicode = Unicode = Menu_Unicode.Checked;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
+        }
+        private void MainMenuMarkings(object sender, EventArgs e)
+        {
+            Settings.Default.ApplyMarkings = CommonEdits.ShowdownSetIVMarkings = Menu_ApplyMarkings.Checked;
         }
         private void MainMenuModifyDex(object sender, EventArgs e) => Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
         private void MainMenuModifyUnset(object sender, EventArgs e) => Settings.Default.ModifyUnset = Menu_ModifyUnset.Checked;
