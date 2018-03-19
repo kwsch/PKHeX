@@ -29,7 +29,6 @@
         
         public void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,18 +59,19 @@
             this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_FlagIllegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyUnset = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShinySprites = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_FlagIllegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
+            this.Menu_ApplyMarkings = new System.Windows.Forms.ToolStripMenuItem();
             this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
-            this.Menu_ShinySprites = new System.Windows.Forms.ToolStripMenuItem();
+            this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
@@ -178,10 +178,11 @@
             this.Menu_ShowdownImportPKM,
             this.Menu_ShowdownExportPKM,
             this.Menu_ShowdownExportParty,
-            this.Menu_ShowdownExportBattleBox});
+            this.Menu_ShowdownExportBattleBox,
+            this.Menu_ApplyMarkings});
             this.Menu_Showdown.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Showdown.Image")));
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -233,7 +234,7 @@
             this.Menu_BatchEditor});
             this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -306,7 +307,7 @@
             this.Menu_Folder.Name = "Menu_Folder";
             this.Menu_Folder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.Menu_Folder.ShowShortcutKeys = false;
-            this.Menu_Folder.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Folder.Size = new System.Drawing.Size(152, 22);
             this.Menu_Folder.Text = "Open Folder";
             this.Menu_Folder.Click += new System.EventHandler(this.MainMenuFolder);
             // 
@@ -329,7 +330,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Language.Image")));
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -349,7 +350,7 @@
             this.Menu_Redo});
             this.Menu_Modify.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Modify.Image")));
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -371,14 +372,6 @@
             this.Menu_ModifyPKM.Size = new System.Drawing.Size(189, 22);
             this.Menu_ModifyPKM.Text = "Modify PKM Info";
             this.Menu_ModifyPKM.Click += new System.EventHandler(this.MainMenuModifyPKM);
-            // 
-            // Menu_FlagIllegal
-            // 
-            this.Menu_FlagIllegal.CheckOnClick = true;
-            this.Menu_FlagIllegal.Name = "Menu_FlagIllegal";
-            this.Menu_FlagIllegal.Size = new System.Drawing.Size(189, 22);
-            this.Menu_FlagIllegal.Text = "Flag Legality";
-            this.Menu_FlagIllegal.Click += new System.EventHandler(this.MainMenuFlagIllegal);
             // 
             // Menu_ModifyUnset
             // 
@@ -414,9 +407,27 @@
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.MainMenuUnicode);
+            // 
+            // Menu_ShinySprites
+            // 
+            this.Menu_ShinySprites.Checked = true;
+            this.Menu_ShinySprites.CheckOnClick = true;
+            this.Menu_ShinySprites.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ShinySprites.Name = "Menu_ShinySprites";
+            this.Menu_ShinySprites.Size = new System.Drawing.Size(152, 22);
+            this.Menu_ShinySprites.Text = "Shiny Sprites";
+            this.Menu_ShinySprites.Click += new System.EventHandler(this.MainMenuShinySprites);
+            // 
+            // Menu_FlagIllegal
+            // 
+            this.Menu_FlagIllegal.CheckOnClick = true;
+            this.Menu_FlagIllegal.Name = "Menu_FlagIllegal";
+            this.Menu_FlagIllegal.Size = new System.Drawing.Size(152, 22);
+            this.Menu_FlagIllegal.Text = "Flag Legality";
+            this.Menu_FlagIllegal.Click += new System.EventHandler(this.MainMenuFlagIllegal);
             // 
             // Menu_About
             // 
@@ -424,7 +435,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(139, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.MainMenuAbout);
             // 
@@ -438,7 +449,6 @@
             this.dragout.TabIndex = 60;
             this.dragout.TabStop = false;
             this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragoutDrop);
-            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(Main.Dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Dragout_MouseDown);
             this.dragout.MouseEnter += new System.EventHandler(this.DragoutEnter);
             this.dragout.MouseLeave += new System.EventHandler(this.DragoutLeave);
@@ -465,41 +475,45 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // PKME_Tabs
+            // Menu_ApplyMarkings
             // 
-            this.PKME_Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PKME_Tabs.Location = new System.Drawing.Point(8, 27);
-            this.PKME_Tabs.Name = "PKME_Tabs";
-            this.PKME_Tabs.Size = new System.Drawing.Size(280, 325);
-            this.PKME_Tabs.TabIndex = 103;
-            this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
-            this.PKME_Tabs.UpdatePreviewSprite += new System.EventHandler(this.PKME_Tabs_UpdatePreviewSprite);
-            this.PKME_Tabs.RequestShowdownImport += new System.EventHandler(this.PKME_Tabs_RequestShowdownImport);
-            this.PKME_Tabs.RequestShowdownExport += new System.EventHandler(this.PKME_Tabs_RequestShowdownExport);
-            this.PKME_Tabs.SaveFileRequested += new PKHeX.WinForms.Controls.PKMEditor.ReturnSAVEventHandler(this.PKME_Tabs_SaveFileRequested);
+            this.Menu_ApplyMarkings.Checked = true;
+            this.Menu_ApplyMarkings.CheckOnClick = true;
+            this.Menu_ApplyMarkings.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_ApplyMarkings.Name = "Menu_ApplyMarkings";
+            this.Menu_ApplyMarkings.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ApplyMarkings.Text = "Apply Markings on Import";
+            this.Menu_ApplyMarkings.Click += new System.EventHandler(this.MainMenuMarkings);
             // 
             // C_SAV
             // 
             this.C_SAV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.C_SAV.FlagIllegal = false;
             this.C_SAV.Location = new System.Drawing.Point(292, 26);
             this.C_SAV.Name = "C_SAV";
             this.C_SAV.Size = new System.Drawing.Size(310, 326);
             this.C_SAV.TabIndex = 104;
-            this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
             this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
+            this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
             // 
-            // Menu_ShinySprites
+            // PKME_Tabs
             // 
-            this.Menu_ShinySprites.Checked = true;
-            this.Menu_ShinySprites.CheckOnClick = true;
-            this.Menu_ShinySprites.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_ShinySprites.Name = "Menu_ShinySprites";
-            this.Menu_ShinySprites.Size = new System.Drawing.Size(152, 22);
-            this.Menu_ShinySprites.Text = "Shiny Sprites";
-            this.Menu_ShinySprites.Click += new System.EventHandler(this.MainMenuShinySprites);
+            this.PKME_Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PKME_Tabs.ChangingFields = false;
+            this.PKME_Tabs.HaX = false;
+            this.PKME_Tabs.Location = new System.Drawing.Point(8, 27);
+            this.PKME_Tabs.Name = "PKME_Tabs";
+            this.PKME_Tabs.Size = new System.Drawing.Size(280, 325);
+            this.PKME_Tabs.TabIndex = 103;
+            this.PKME_Tabs.Unicode = true;
+            this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
+            this.PKME_Tabs.UpdatePreviewSprite += new System.EventHandler(this.PKME_Tabs_UpdatePreviewSprite);
+            this.PKME_Tabs.RequestShowdownImport += new System.EventHandler(this.PKME_Tabs_RequestShowdownImport);
+            this.PKME_Tabs.RequestShowdownExport += new System.EventHandler(this.PKME_Tabs_RequestShowdownExport);
+            this.PKME_Tabs.SaveFileRequested += new PKHeX.WinForms.Controls.PKMEditor.ReturnSAVEventHandler(this.PKME_Tabs_SaveFileRequested);
             // 
             // Main
             // 
@@ -522,7 +536,6 @@
             this.Text = "PKHeX";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(Main.Main_DragEnter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
@@ -576,6 +589,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShinySprites;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ApplyMarkings;
     }
 }
 
