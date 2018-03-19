@@ -670,7 +670,9 @@ namespace PKHeX.WinForms.Controls
 
             pkm.Moves = m;
             pkm.SetPPUps(m);
+            FieldsLoaded = false;
             LoadMoves(pkm);
+            FieldsLoaded = true;
             return true;
         }
         private bool SetSuggestedRelearnMoves(bool silent = false)
