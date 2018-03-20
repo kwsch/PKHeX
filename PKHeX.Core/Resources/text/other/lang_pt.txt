@@ -30,6 +30,7 @@ Menu_ShowdownImportPKM = Import Set from Clipboard
 Menu_ShowdownExportPKM = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_ApplyMarkings = Apply Markings on Import
 Menu_Data = Dados
 Menu_LoadBoxes = Carregar Boxes
 Menu_DumpBoxes = Despejar Boxes

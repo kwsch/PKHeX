@@ -30,6 +30,7 @@ Menu_ShowdownImportPKM = クリップボードから読み込む
 Menu_ShowdownExportPKM = Export Set to Clipboard
 Menu_ShowdownExportParty = Export Party to Clipboard
 Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_ApplyMarkings = Apply Markings on Import
 Menu_Data = データ
 Menu_LoadBoxes = ロードボックス
 Menu_DumpBoxes = ダンプボックス

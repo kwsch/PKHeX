@@ -30,6 +30,7 @@ Menu_ShowdownImportPKM = Importer set Showdown
 Menu_ShowdownExportPKM = Exporter set Showdown
 Menu_ShowdownExportParty = Exporter équipe
 Menu_ShowdownExportBattleBox = Exporter la Boîte de Combat
+Menu_ApplyMarkings = Appliquer des marques de l'importation
 Menu_Data = Données
 Menu_LoadBoxes = Charger Boîtes
 Menu_DumpBoxes = Dumper Boîtes

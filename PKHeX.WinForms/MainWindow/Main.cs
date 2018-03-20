@@ -921,6 +921,8 @@ namespace PKHeX.WinForms
         {
             if (CB_MainLanguage.SelectedIndex < 8)
                 CurrentLanguage = GameInfo.Language2Char((uint)CB_MainLanguage.SelectedIndex);
+            else if (CB_MainLanguage.SelectedIndex == 8)
+                CurrentLanguage = GameInfo.Language2Char((uint)9);
 
             // Set the culture (makes it easy to pass language to other forms)
             Settings.Default.Language = CurrentLanguage;
