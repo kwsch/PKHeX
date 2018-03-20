@@ -303,7 +303,7 @@ namespace PKHeX.Core
             pk.SetNickname(Set.Nickname);
             pk.SetGender(Set.Gender);
             pk.SetAltForm(Set.FormIndex);
-            pk.SetPPUps(Set.Moves);
+            pk.SetMaximumPPUps(Set.Moves);
             pk.SetAbility(Set.Ability);
             pk.SetNature(Set.Nature);
             pk.SetIsShiny(Set.Shiny);
