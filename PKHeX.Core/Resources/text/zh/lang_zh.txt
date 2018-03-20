@@ -30,6 +30,7 @@ Menu_ShowdownImportPKM = 从剪贴板导入宝可梦
 Menu_ShowdownExportPKM = 导出宝可梦到剪贴板
 Menu_ShowdownExportParty = 导出同行队伍到剪贴板
 Menu_ShowdownExportBattleBox = 导出战斗盒子到剪贴板
+Menu_ApplyMarkings = 导入时标记
 Menu_Data = 数据
 Menu_LoadBoxes = 加载盒子信息
 Menu_DumpBoxes = 导出盒子信息

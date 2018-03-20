@@ -30,6 +30,7 @@ Menu_ShowdownImportPKM = Importiere Set aus Zwischenablage
 Menu_ShowdownExportPKM = Exportiere Set in Zwischenablage
 Menu_ShowdownExportParty = Exportiere Team in Zwischenablage
 Menu_ShowdownExportBattleBox = Exportiere Kampf-Box in Zwischenablage
+Menu_ApplyMarkings = Apply Markings on Import
 Menu_Data = Daten
 Menu_LoadBoxes = Lade Boxen
 Menu_DumpBoxes = Dumpe Boxen

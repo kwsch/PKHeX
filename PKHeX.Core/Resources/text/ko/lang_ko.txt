@@ -30,6 +30,7 @@ Menu_ShowdownImportPKM = 클립보드에서 세트 가져오기
 Menu_ShowdownExportPKM = 클립보드로 세트 내보내기
 Menu_ShowdownExportParty = 클립보드로 파티 내보내기
 Menu_ShowdownExportBattleBox = 클립보드로 배틀 박스 내보내기
+Menu_ApplyMarkings = 가져오기 중 마킹하기
 Menu_Data = 데이터
 Menu_LoadBoxes = 박스 불러오기
 Menu_DumpBoxes = 박스 덤프
