@@ -163,6 +163,25 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Updates the <see cref="PKM.Moves"/> and updates the current PP counts.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="Moves"><see cref="PKM.Moves"/> to set. Will be resized if 4 entries are not present.</param>
+        /// <param name="maxPP">Option to maximize PP Ups</param>
+        public static void SetMoves(this PKM pk, int[] Moves, bool maxPP = false)
+        {
+            if (Moves.Length != 4)
+                Array.Resize(ref Moves, 4);
+
+            pk.Moves = Moves;
+            if (maxPP)
+                pk.SetMaximumPPUps(Moves);
+            else
+                pk.SetMaximumPPCurrent(Moves);
+            pk.FixMoves();
+        }
+
+        /// <summary>
         /// Updates the individual PP count values for each moveslot based on the maximum possible value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>

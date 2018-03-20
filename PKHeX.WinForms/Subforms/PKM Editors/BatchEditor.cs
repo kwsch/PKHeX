@@ -555,8 +555,7 @@ namespace PKHeX.WinForms
                 case nameof(PKM.Moves):
                     var moves = info.SuggestedMoves;
                     Util.Shuffle(moves);
-                    Array.Resize(ref moves, 4);
-                    PKM.Moves = moves;
+                    PKM.SetMoves(moves);
                     return true;
 
                 default:

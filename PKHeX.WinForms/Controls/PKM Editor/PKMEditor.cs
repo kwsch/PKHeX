@@ -668,8 +668,7 @@ namespace PKHeX.WinForms.Controls
                     return false;
             }
 
-            pkm.Moves = m;
-            pkm.SetMaximumPPCurrent(m);
+            pkm.SetMoves(m);
             FieldsLoaded = false;
             LoadMoves(pkm);
             FieldsLoaded = true;
