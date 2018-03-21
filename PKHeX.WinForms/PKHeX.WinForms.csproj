@@ -575,6 +575,7 @@
     <Compile Include="Util\QRCoder\QRCodeData.cs" />
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\SAVUtil.cs" />
+    <Compile Include="Util\WinFormsTranslator.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
     <EmbeddedResource Include="Controls\PKM Editor\StatEditor.resx">
       <DependentUpon>StatEditor.cs</DependentUpon>
