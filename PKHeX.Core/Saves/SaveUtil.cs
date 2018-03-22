@@ -709,6 +709,12 @@ namespace PKHeX.Core
         {
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
+                if (input.Length == 0x800A4) // Action Replay
+                {
+                    header = input.Take(0xA4).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                    return;
+                }
                 if (!FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length)))
                     return;
                 footer = input.Skip(SIZE_G4RAW).ToArray();
