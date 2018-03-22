@@ -34,6 +34,18 @@ namespace PKHeX.Core
             return -1;
         }
 
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters34(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            int lvl = GetMinLevelEncounter(pkm);
+            if (lvl <= 0)
+                return Enumerable.Empty<EncounterSlot>();
+            var s = GetRawEncounterSlots(pkm, lvl, gameSource);
+
+            return s; // defer deferrals to the method consuming this collection
+        }
         public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -43,25 +55,36 @@ namespace PKHeX.Core
             if (lvl <= 0)
                 return Enumerable.Empty<EncounterSlot>();
             var s = GetRawEncounterSlots(pkm, lvl, gameSource);
+
             bool IsSafariBall = pkm.Ball == 5;
-            bool IsSportsBall = pkm.Ball == 0x18;
+            bool IsSportBall = pkm.Ball == 0x18;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
             int species = pkm.Species;
 
-            bool IsDeferred(EncounterSlot slot)
-            {
-                if (slot.Species == 265 && species != 265 && !IsWurmpleEvoValid(pkm))
-                    return true; // bad wurmple evolution
-                if (IsHidden ^ IsHiddenAbilitySlot(slot))
-                    return true; // ability mismatch
-                if (IsSafariBall ^ IsSafariSlot(slot.Type))
-                    return true; // Safari Zone only ball
-                if (IsSportsBall ^ slot.Type == SlotType.BugContest)
-                    return true;
-                return false; // BCC only ball
-            }
-            return s.OrderBy(IsDeferred); // non-deferred first
+            return s.OrderBy(slot => slot.IsDeferred(species, pkm, IsSafariBall, IsSportBall, IsHidden)); // non-deferred first
         }
+        public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
+        {
+            return slot.IsDeferredWurmple(currentSpecies, pkm) 
+                || slot.IsDeferredSafari(IsSafariBall);
+        }
+        public static bool IsDeferred4(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall)
+        {
+            return slot.IsDeferredWurmple(currentSpecies, pkm) 
+                || slot.IsDeferredSafari(IsSafariBall) 
+                || slot.IsDeferredSport(IsSportBall);
+        }
+        private static bool IsDeferred(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall, bool IsHidden)
+        {
+            return slot.IsDeferredWurmple(currentSpecies, pkm) 
+                || slot.IsDeferredHiddenAbility(IsHidden)
+                || slot.IsDeferredSafari(IsSafariBall) 
+                || slot.IsDeferredSport(IsSportBall);
+        }
+        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !IsWurmpleEvoValid(pkm);
+        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != slot.Type.HasFlag(SlotType.Safari);
+        private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != slot.Type.HasFlag(SlotType.BugContest);
+        private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
 
         public static IEnumerable<EncounterSlot> GetValidFriendSafari(PKM pkm)
         {
@@ -338,7 +361,7 @@ namespace PKHeX.Core
             return evoVal == wIndex;
         }
 
-        private static bool IsHiddenAbilitySlot(EncounterSlot slot)
+        private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
         {
             return slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
         }

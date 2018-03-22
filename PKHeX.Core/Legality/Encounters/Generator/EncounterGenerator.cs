@@ -280,7 +280,7 @@ namespace PKHeX.Core
             foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
-            var deferred = new LinkedList<IEncounterable>();
+            var deferIncompat = new Queue<IEncounterable>();
             bool sport = pkm.Ball == 0x18; // never static encounters (conflict with non bcc / bcc)
             bool safari = pkm.Ball == 0x05; // never static encounters
             bool safariSport = safari || sport;
@@ -288,34 +288,43 @@ namespace PKHeX.Core
             foreach (var z in GetValidStaticEncounter(pkm))
             {
                 if (z.Gift && pkm.Ball != 4)
-                    deferred.AddLast(z);
+                    deferIncompat.Enqueue(z);
                 else
                     yield return z;
             }
             
+            int species = pkm.Species;
+            var deferNoFrame = new Queue<IEncounterable>();
+            var deferFrame = new Queue<IEncounterable>();
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters(pkm))
+            foreach (var z in GetValidWildEncounters34(pkm))
             {
-                if (sport != z.Type.HasFlag(SlotType.BugContest))
-                {
-                    deferred.AddLast(z);
-                    continue;
-                }
-                if (safari != z.Type.HasFlag(SlotType.Safari))
-                {
-                    deferred.AddLast(z);
-                    continue;
-                }
-
+                bool defer = z.IsDeferred4(species, pkm, safari, sport);
                 var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
-                if (frame != null || pkm.Species == 201) // Unown -- don't really care to figure this out
-                    yield return z;
-                else
-                    deferred.AddFirst(z);
+                if (defer)
+                {
+                    if (frame != null)
+                        deferFrame.Enqueue(z);
+                    else
+                        deferIncompat.Enqueue(z);
+                    continue;
+                }
+                if (frame == null)
+                {
+                    deferNoFrame.Enqueue(z);
+                    continue;
+                }
+                yield return z;
             }
             info.FrameMatches = false;
+            foreach (var z in deferNoFrame)
+                yield return z;
+            info.FrameMatches = true;
+            foreach (var z in deferFrame)
+                yield return z;
+            info.FrameMatches = false;
 
-            foreach (var z in deferred)
+            foreach (var z in deferIncompat)
                 yield return z;
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
@@ -330,37 +339,53 @@ namespace PKHeX.Core
             foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
-            var deferred = new Queue<IEncounterable>();
+            var deferIncompat = new Queue<IEncounterable>();
             bool safari = pkm.Ball == 0x05; // never static encounters
             if (!safari)
             foreach (var z in GetValidStaticEncounter(pkm))
             {
                 if (z.Gift && pkm.Ball != 4)
-                    deferred.Enqueue(z);
+                    deferIncompat.Enqueue(z);
                 else
                     yield return z;
             }
+            
+            int species = pkm.Species;
+            var deferNoFrame = new Queue<IEncounterable>();
+            var deferFrame = new Queue<IEncounterable>();
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters(pkm))
+            foreach (var z in GetValidWildEncounters34(pkm))
             {
-                if (safari != z.Type.HasFlag(SlotType.Safari))
+                bool defer = z.IsDeferred3(species, pkm, safari);
+                var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
+                if (defer)
                 {
-                    deferred.Enqueue(z);
+                    if (frame != null)
+                        deferFrame.Enqueue(z);
+                    else
+                        deferIncompat.Enqueue(z);
                     continue;
                 }
-                var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
-                if (frame != null)
-                    yield return z;
-                else
-                    deferred.Enqueue(z);
+                if (frame == null)
+                {
+                    deferNoFrame.Enqueue(z);
+                    continue;
+                }
+                yield return z;
             }
+            info.FrameMatches = false;
+            foreach (var z in deferNoFrame)
+                yield return z;
+            info.FrameMatches = true;
+            foreach (var z in deferFrame)
+                yield return z;
             info.FrameMatches = false;
 
             if (pkm.Version != 15) // no eggs in C/XD
             foreach (var z in GenerateEggs(pkm))
                 yield return z;
 
-            foreach (var z in deferred)
+            foreach (var z in deferIncompat)
                 yield return z;
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safari)
