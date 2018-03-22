@@ -323,6 +323,18 @@ namespace PKHeX.Core
             return PKX.EncryptArray45(Data);
         }
 
+        // Synthetic Trading Logic
+        public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
+        {
+            // Eggs do not have any modifications done if they are traded
+            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+            {
+                SetLinkTradeEgg(Day, Month, Year, 2002);
+                return true;
+            }
+            return false;
+        }
+
         public BK4 ConvertToBK4()
         {
             BK4 bk4 = ConvertTo<BK4>();

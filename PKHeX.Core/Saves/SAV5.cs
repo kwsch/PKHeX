@@ -249,6 +249,14 @@ namespace PKHeX.Core
         {
             return PKX.DecryptArray45(data);
         }
+        protected override void SetPKM(PKM pkm)
+        {
+            var pk5 = (PK5)pkm;
+            // Apply to this Save File
+            DateTime Date = DateTime.Now;
+            if (pk5.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+                pkm.RefreshChecksum();
+        }
         
         // Mystery Gift
         public override MysteryGiftAlbum GiftAlbum

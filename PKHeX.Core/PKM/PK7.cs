@@ -544,7 +544,7 @@ namespace PKHeX.Core
         {
             // Eggs do not have any modifications done if they are traded
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-                UpdateEgg(Day, Month, Year);
+                SetLinkTradeEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
             else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
                 TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
@@ -580,13 +580,6 @@ namespace PKHeX.Core
                 TradeMemory(Bank);
         }
         // Misc Updates
-        private void UpdateEgg(int Day, int Month, int Year)
-        {
-            Met_Location = 30002;
-            Met_Day = Day;
-            Met_Month = Month;
-            Met_Year = Year - 2000;
-        }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
             // No geolocations are set, ever! -- except for bank. Don't set them anyway.

@@ -584,6 +584,15 @@ namespace PKHeX.Core
             return PKX.DecryptArray45(data);
         }
 
+        protected override void SetPKM(PKM pkm)
+        {
+            var pk4 = (PK4)pkm;
+            // Apply to this Save File
+            DateTime Date = DateTime.Now;
+            if (pk4.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+                pkm.RefreshChecksum();
+        }
+
         // Daycare
         public override int GetDaycareSlotOffset(int loc, int slot)
         {

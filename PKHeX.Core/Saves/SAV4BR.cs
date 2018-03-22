@@ -148,6 +148,14 @@ namespace PKHeX.Core
         }
 
         protected override void SetDex(PKM pkm) { }
+        protected override void SetPKM(PKM pkm)
+        {
+            var pk4 = (BK4)pkm;
+            // Apply to this Save File
+            DateTime Date = DateTime.Now;
+            if (pk4.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+                pkm.RefreshChecksum();
+        }
 
         public static byte[] DecryptPBRSaveData(byte[] input)
         {

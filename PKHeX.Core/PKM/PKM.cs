@@ -767,6 +767,21 @@ namespace PKHeX.Core
         public abstract PKM Clone();
 
         /// <summary>
+        /// Sets Link Trade data for an <see cref="IsEgg"/>.
+        /// </summary>
+        /// <param name="day">Day the <see cref="PKM"/> was traded.</param>
+        /// <param name="month">Month the <see cref="PKM"/> was traded.</param>
+        /// <param name="y">Day the <see cref="PKM"/> was traded.</param>
+        /// <param name="location">Link Trade location value.</param>
+        protected void SetLinkTradeEgg(int day, int month, int y, int location = 30002)
+        {
+            Met_Day = day;
+            Met_Month = month;
+            Met_Year = y - 2000;
+            Met_Location = location;
+        }
+
+        /// <summary>
         /// Gets the PP of a Move ID with consideration of the amount of PP Ups applied.
         /// </summary>
         /// <param name="move">Move ID</param>
