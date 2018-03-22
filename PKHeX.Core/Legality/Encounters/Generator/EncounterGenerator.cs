@@ -301,6 +301,11 @@ namespace PKHeX.Core
                     deferred.AddLast(z);
                     continue;
                 }
+                if (safari != z.Type.HasFlag(SlotType.Safari))
+                {
+                    deferred.AddLast(z);
+                    continue;
+                }
 
                 var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
                 if (frame != null || pkm.Species == 201) // Unown -- don't really care to figure this out
@@ -338,6 +343,11 @@ namespace PKHeX.Core
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
             {
+                if (safari != z.Type.HasFlag(SlotType.Safari))
+                {
+                    deferred.Enqueue(z);
+                    continue;
+                }
                 var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
                 if (frame != null)
                     yield return z;
