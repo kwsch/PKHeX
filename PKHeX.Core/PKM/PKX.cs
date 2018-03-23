@@ -367,6 +367,19 @@ namespace PKHeX.Core
             decr = nature % 5 + 1;
             return incr == decr || nature >= 25; // invalid
         }
+
+        /// <summary>
+        /// Updates stats according to the specified nature.
+        /// </summary>
+        /// <param name="Stats">Current stats to amplify if appropriate</param>
+        /// <param name="nature">Nature</param>
+        public static void ModifyStatsForNature(ushort[] Stats, int nature)
+        {
+            if (GetNatureModification(nature, out int incr, out int decr))
+                return;
+            Stats[incr] *= 11; Stats[incr] /= 10;
+            Stats[decr] *= 9; Stats[decr] /= 10;
+        }
         
         /// <summary>
         /// Positions for shuffling.
