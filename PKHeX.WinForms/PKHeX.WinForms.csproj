@@ -563,6 +563,12 @@
     <Compile Include="Subforms\SAV_MysteryGiftDB.Designer.cs">
       <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\SettingsEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SettingsEditor.Designer.cs">
+      <DependentUpon>SettingsEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\FontUtil.cs" />
@@ -774,6 +780,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_MysteryGiftDB.resx">
       <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SettingsEditor.resx">
+      <DependentUpon>SettingsEditor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">
