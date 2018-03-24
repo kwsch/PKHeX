@@ -185,10 +185,8 @@ namespace PKHeX.Core
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
             //    countinue;
 
-            if (z.Contest != null)
-                for (int i = 0; i < 6; i++)
-                    if (z.Contest[i] > pkm.Contest[i])
-                        return false;
+            if (pkm.IsContestBelow(z))
+                return false;
 
             return true;
         }

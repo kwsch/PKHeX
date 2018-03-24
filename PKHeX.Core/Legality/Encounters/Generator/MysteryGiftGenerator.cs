@@ -248,12 +248,8 @@ namespace PKHeX.Core
             if (wc.PID == 1 && pkm.IsShiny) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (wc.CNT_Cool > pkm.CNT_Cool) return false;
-            if (wc.CNT_Beauty > pkm.CNT_Beauty) return false;
-            if (wc.CNT_Cute > pkm.CNT_Cute) return false;
-            if (wc.CNT_Smart > pkm.CNT_Smart) return false;
-            if (wc.CNT_Tough > pkm.CNT_Tough) return false;
-            if (wc.CNT_Sheen > pkm.CNT_Sheen) return false;
+            if (pkm.IsContestBelow(wc))
+                return false;
 
             return true;
         }
@@ -294,12 +290,8 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 2 && wc.Gender != pkm.Gender) return false;
 
-            if (wc.CNT_Cool > pkm.CNT_Cool) return false;
-            if (wc.CNT_Beauty > pkm.CNT_Beauty) return false;
-            if (wc.CNT_Cute > pkm.CNT_Cute) return false;
-            if (wc.CNT_Smart > pkm.CNT_Smart) return false;
-            if (wc.CNT_Tough > pkm.CNT_Tough) return false;
-            if (wc.CNT_Sheen > pkm.CNT_Sheen) return false;
+            if (pkm.IsContestBelow(wc))
+                return false;
 
             return true;
         }
@@ -343,12 +335,8 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (wc.CNT_Cool > pkm.CNT_Cool) return false;
-            if (wc.CNT_Beauty > pkm.CNT_Beauty) return false;
-            if (wc.CNT_Cute > pkm.CNT_Cute) return false;
-            if (wc.CNT_Smart > pkm.CNT_Smart) return false;
-            if (wc.CNT_Tough > pkm.CNT_Tough) return false;
-            if (wc.CNT_Sheen > pkm.CNT_Sheen) return false;
+            if (pkm.IsContestBelow(wc))
+                return false;
 
             return true;
         }
@@ -402,12 +390,8 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (wc.CNT_Cool > pkm.CNT_Cool) return false;
-            if (wc.CNT_Beauty > pkm.CNT_Beauty) return false;
-            if (wc.CNT_Cute > pkm.CNT_Cute) return false;
-            if (wc.CNT_Smart > pkm.CNT_Smart) return false;
-            if (wc.CNT_Tough > pkm.CNT_Tough) return false;
-            if (wc.CNT_Sheen > pkm.CNT_Sheen) return false;
+            if (pkm.IsContestBelow(wc))
+                return false;
 
             switch (wc.CardID)
             {

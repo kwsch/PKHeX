@@ -6,7 +6,7 @@
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation
+    public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
@@ -29,7 +29,15 @@
         public int[] IVs { get; set; }
         public int FlawlessIVCount { get; internal set; }
         public bool IV3 { set => FlawlessIVCount = value ? 3 : 0; }
-        public int[] Contest { get; set; }
+
+        public int[] Contest { set => this.SetContestStats(value); }
+        public int CNT_Cool { get; set; }
+        public int CNT_Beauty { get; set; }
+        public int CNT_Cute { get; set; }
+        public int CNT_Smart { get; set; }
+        public int CNT_Tough { get; set; }
+        public int CNT_Sheen { get; set; }
+
         public int HeldItem { get; set; }
         public int EggCycles { get; set; }
 
@@ -45,7 +53,6 @@
             Moves = (int[])Moves?.Clone();
             Relearn = (int[])Relearn.Clone();
             IVs = (int[])IVs?.Clone();
-            Contest = (int[])Contest?.Clone();
         }
         internal virtual EncounterStatic Clone()
         {

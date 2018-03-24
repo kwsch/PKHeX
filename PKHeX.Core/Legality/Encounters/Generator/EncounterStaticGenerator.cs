@@ -151,10 +151,8 @@ namespace PKHeX.Core
                     if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
                         return false;
 
-            if (e.Contest != null)
-                for (int i = 0; i < 6; i++)
-                    if (e.Contest[i] > pkm.Contest[i])
-                        return false;
+            if (pkm.IsContestBelow(e))
+                return false;
 
             // Defer to EC/PID check
             // if (e.Shiny != null && e.Shiny != pkm.IsShiny)

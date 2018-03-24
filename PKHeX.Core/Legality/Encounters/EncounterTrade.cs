@@ -6,7 +6,7 @@
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation
+    public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
@@ -22,7 +22,13 @@
         public int SID { get; set; }
         public GameVersion Version { get; set; } = GameVersion.Any;
         public int[] IVs { get; set; }
-        public int[] Contest { get; set; }
+        public int[] Contest { set => this.SetContestStats(value); }
+        public int CNT_Cool { get; set; }
+        public int CNT_Beauty { get; set; }
+        public int CNT_Cute { get; set; }
+        public int CNT_Smart { get; set; }
+        public int CNT_Tough { get; set; }
+        public int CNT_Sheen { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Never;
         public int Gender { get; set; } = -1;
