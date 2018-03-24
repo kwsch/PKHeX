@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,19 +10,22 @@ namespace PKHeX.WinForms
 {
     public partial class SettingsEditor : Form
     {
-        public SettingsEditor()
+        public SettingsEditor(object obj, params string[] blacklist)
         {
             InitializeComponent();
-            LoadSettings();
+            SettingsObject = obj;
+            LoadSettings(blacklist);
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            this.CenterToForm(Parent);
+            this.CenterToForm(FindForm());
         }
         private void SettingsEditor_FormClosing(object sender, FormClosingEventArgs e) => SaveSettings();
 
-        private void LoadSettings()
+        private readonly object SettingsObject;
+        private void LoadSettings(IEnumerable<string> blacklist)
         {
-            var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(typeof(Settings));
+            var type = SettingsObject.GetType();
+            var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type).Except(blacklist);
             foreach (var p in props)
             {
                 var state = ReflectUtil.GetValue(Settings.Default, p);
@@ -38,7 +42,7 @@ namespace PKHeX.WinForms
         private void SaveSettings()
         {
             foreach (var s in FLP_Settings.Controls.OfType<Control>())
-                ReflectUtil.SetValue(Settings.Default, s.Name, GetValue(s));
+                ReflectUtil.SetValue(SettingsObject, s.Name, GetValue(s));
         }
 
         private static CheckBox GetCheckBox(string name, bool state) => new CheckBox
