@@ -9,9 +9,30 @@ namespace PKHeX.Core
 
         public Mail3(SAV3 sav, int index)
         {
-            DataOffset = index * SIZE + sav.GetBlockOffset(3) + 0xCE0;
+            GetMailBlockOffset(sav.Version, index, out int block, out int offset);
+            DataOffset = index * SIZE + sav.GetBlockOffset(block) + offset;
             Data = sav.GetData(DataOffset, SIZE);
         }
+
+        private static void GetMailBlockOffset(GameVersion game, int index, out int block, out int offset)
+        {
+            block = 3;
+            if (game == GameVersion.E)
+                offset = 0xCE0;
+            else if (GameVersion.RS.Contains(game))
+                offset = 0xC4C;
+            else // FRLG
+            {
+                if (index >= 12)
+                {
+                    block = 4;
+                    offset = 0;
+                }
+                else
+                    offset = 0xDD0;
+            }
+        }
+
         public Mail3()
         {
             Data = new byte[SIZE];
