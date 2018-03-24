@@ -150,17 +150,6 @@
         N7MbRmG+g+WNbMUAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="Menu_ExportBAK.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EwAACxMBAJqcGAAAAQxJREFUOE+lk0tKA0EQhgcUH7fIUpBEUAleL6+ViEKiwVWukAuE3MKQLENWXiA+
-        o9/XTMs4pAeJP3xMd01VdVVPTbZFZzCEObzCGyxyWx2KauXPoCN4hA18JfiEW9iHdm4LMngKGtZwA+dw
-        CAf5ug/voI/VxaRBnuxmCacaEroCD4jBIYE9W7YvqoJVB4rBIYGX48KyqxR7LvPTj32m5G2XAyPhU7nw
-        wnbSvxPEFi7Cbgc9gAkckL9qBMb03DTAz/gC5VHdJmfhAxzxmgZ1D2ZcgQlTuoRn0LerIcoLnIAvrOQO
-        dD4Gx7wJA/BUfcawB7+ko5VU/UyWfg3+TEl5D542A6uRJ7CqEygoy74BMMpgsfyc5z4AAAAASUVORK5C
-        YII=
-</value>
-  </data>
   <data name="Menu_ExportSAV.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
@@ -303,17 +292,6 @@
         C9xgpBSzO8b2SrELuIQ0YSarYQ7SeNqSI2gHW2VyPXzZiVhn+LbcyWyGJN9mgUOiTuEWHNkmeIB8kPIp
         nU1eyELH08QaTITtKI+G7cKNsPeh/MlJjq038Tlioa0TbWNe25N/LS7L8XTCHBLbJP62H1a8uaIs+wRz
         uYzQHrOc0AAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="Menu_Modify.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EwAACxMBAJqcGAAAAQxJREFUOE+V071KA0EUhuHRFMbGgIhRkFSmDYi1kBQGcifWFpJchk0aEZIyEUWw
-        EUkp3oGlIFaB1IKKRt9vObMsh11wP3hgOPOzM7uzoSDr+MCvWaBUWoiToy0UpoEz7GAN5/AL9FHBnrU1
-        Ns0VNOgLb9bO84pva18iyRH8wP/4wQHCjRW8CTpoY2o17wJhGzMrRJrsc43smDtsIMkqsp9NT/Y5Ruz/
-        xArS6O3GlyPatk8Xsf8dmpNkEw+InaIz+9wiO+YJ+whjK3g6s7atJ/vJ0SPCIZZWKKuHJCOooIv0Yu08
-        umQ6v9r3SLOLU9ShLzKAnzxEFTWcoInC6J77BXRjS+UZc6Ot5/yNIfwBdF+Mwpmwi9MAAAAASUVORK5C
-        YII=
 </value>
   </data>
   <data name="Menu_About.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -22904,15 +22904,13 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///17/01/28 - New Update:
-        /// - Legality:
-        /// - - Added: Crystal transfer legality.
+        ///18/03/19 - New Update:
+        /// - Legality: 
+        /// - - Added: Fixed IVs for Static Encounters are now checked.
+        /// - - Fixed: Shedinja family handling. Thanks @ultima-soul, @Lusamine, @OmegaDonut, @admiral-fish &amp; @Marty-D!
+        /// - - Changed: Pay Day Mewtwo is now legal (official transporter rules were updated). Thanks @Real96 &amp; sora10pls!
         /// - - Changed: Another round of legality check updates. Thanks (so many different users)!
-        /// - Added: Shiny recolored sprites for all pkm that are shiny. Thanks @msikma (dada)!
-        /// - Added: All Box viewer (hold shift and double click the Box Tab). Can switch entire boxes!
-        /// - Added: Gen5 C-Gear Skin editing.
-        /// - Added: Gen5 Box Name/Wallpaper editing.
-        /// - Added: Gen4 Coin Case  [rest of string was truncated]&quot;;.
+        /// - Added: Base Stats are now displayed  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -28061,7 +28059,7 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20171205.
+        ///   Looks up a localized string similar to 20180319.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -28085,6 +28083,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap rare_icon_alt {
             get {
                 object obj = ResourceManager.GetObject("rare_icon_alt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap redo {
+            get {
+                object obj = ResourceManager.GetObject("redo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -797,6 +797,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\Program\redo.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\744-1s.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\unknowns.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\eggs.png" />

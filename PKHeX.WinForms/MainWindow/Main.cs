@@ -142,19 +142,6 @@ namespace PKHeX.WinForms
             // ToolTips for Drag&Drop
             new ToolTip().SetToolTip(dragout, "PKM QuickSave");
 
-            Menu_Modify.DropDown.Closing += (sender, e) =>
-            {
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
-            Menu_Options.DropDown.Closing += (sender, e) =>
-            {
-                if (!Menu_Unicode.Selected)
-                    return;
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
-
             // Box to Tabs D&D
             dragout.AllowDrop = true;
 
@@ -249,14 +236,13 @@ namespace PKHeX.WinForms
             var Settings = Properties.Settings.Default;
             Settings.Upgrade();
 
-            PKME_Tabs.Unicode = Unicode = Menu_Unicode.Checked = Settings.Unicode;
+            PKME_Tabs.Unicode = Unicode = Settings.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
-            Menu_ApplyMarkings.Checked = CommonEdits.ShowdownSetIVMarkings = Settings.ApplyMarkings;
-            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
-            SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
-            C_SAV.FlagIllegal = Menu_FlagIllegal.Checked = Settings.FlagIllegal;
-            PKX.AllowShinySprite = Menu_ModifyUnset.Checked = Settings.ShinySprites;
-            Menu_ShinySprites.Checked = Settings.ShinySprites;
+            CommonEdits.ShowdownSetIVMarkings = Settings.ApplyMarkings;
+            SaveFile.SetUpdateDex = Settings.SetUpdateDex;
+            SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = Settings.SetUpdatePKM;
+            C_SAV.FlagIllegal = Settings.FlagIllegal;
+            PKX.AllowShinySprite = Settings.ShinySprites;
 
             // Select Language
             string l = Settings.Language;
@@ -352,24 +338,23 @@ namespace PKHeX.WinForms
 
             new SAV_MysteryGiftDB(PKME_Tabs, C_SAV).Show();
         }
-        private void MainMenuUnicode(object sender, EventArgs e)
+
+        private void MainMenuSettings(object sender, EventArgs e)
         {
-            Settings.Default.Unicode = PKME_Tabs.Unicode = Unicode = Menu_Unicode.Checked;
+            new SettingsEditor(Settings.Default, nameof(Settings.Default.BAKPrompt)).ShowDialog();
+
+            // Update final settings
+            PKX.AllowShinySprite = Settings.Default.ShinySprites;
+            SaveFile.SetUpdateDex = Settings.Default.SetUpdateDex;
+            SaveFile.SetUpdatePKM = Settings.Default.SetUpdatePKM;
+            CommonEdits.ShowdownSetIVMarkings = Settings.Default.ApplyMarkings;
+            PKME_Tabs.Unicode = Unicode = Settings.Default.Unicode;
+            C_SAV.FlagIllegal = Settings.Default.FlagIllegal;
+
             PKME_Tabs.UpdateUnicode(GenderSymbols);
-        }
-        private void MainMenuMarkings(object sender, EventArgs e)
-        {
-            Settings.Default.ApplyMarkings = CommonEdits.ShowdownSetIVMarkings = Menu_ApplyMarkings.Checked;
-        }
-        private void MainMenuModifyDex(object sender, EventArgs e) => Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
-        private void MainMenuModifyUnset(object sender, EventArgs e) => Settings.Default.ModifyUnset = Menu_ModifyUnset.Checked;
-        private void MainMenuModifyPKM(object sender, EventArgs e) => Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
-        private void MainMenuFlagIllegal(object sender, EventArgs e) => Settings.Default.FlagIllegal = C_SAV.FlagIllegal = Menu_FlagIllegal.Checked;
-        private void MainMenuShinySprites(object sender, EventArgs e)
-        {
-            Settings.Default.ShinySprites = PKX.AllowShinySprite = Menu_ShinySprites.Checked;
-            C_SAV.ReloadSlots();
             PKME_Tabs_UpdatePreviewSprite(sender, e);
+            if (C_SAV.SAV.HasBox)
+                C_SAV.ReloadSlots();
         }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)
@@ -775,7 +760,7 @@ namespace PKHeX.WinForms
             C_SAV.SAV = sav;
 
             // Initialize Overall Info
-            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = C_SAV.SAV.HasBox;
+            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = C_SAV.SAV.HasBox;
 
             // Initialize Subviews
             bool WindowTranslationRequired = false;
@@ -922,7 +907,7 @@ namespace PKHeX.WinForms
             if (CB_MainLanguage.SelectedIndex < 8)
                 CurrentLanguage = GameInfo.Language2Char((uint)CB_MainLanguage.SelectedIndex);
             else if (CB_MainLanguage.SelectedIndex == 8)
-                CurrentLanguage = GameInfo.Language2Char((uint)9);
+                CurrentLanguage = GameInfo.Language2Char(9);
 
             // Set the culture (makes it easy to pass language to other forms)
             Settings.Default.Language = CurrentLanguage;
@@ -944,6 +929,8 @@ namespace PKHeX.WinForms
             GameInfo.Strings = GameInfo.GetStrings(l);
 
             // Update Legality Strings
+            // WinFormsTranslator.UpdateAll("en", new[] {"ja", "fr", "it", "de", "es", "ko", "zh", "pt"});
+            // WinFormsTranslator.DumpAll();
             // Clipboard.SetText(string.Join(Environment.NewLine, Util.GetLocalization(typeof(LegalityCheckStrings))));
             Task.Run(() => {
                     var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2);
