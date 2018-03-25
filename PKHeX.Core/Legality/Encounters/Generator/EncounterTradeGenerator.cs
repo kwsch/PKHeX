@@ -159,7 +159,7 @@ namespace PKHeX.Core
                 return false;
             if (pkm.HasOriginalMetLocation)
             {
-                var loc = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[pkm.GenNumber - 1];
+                var loc = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[z.Generation - 1];
                 if (loc != pkm.Met_Location)
                     return false;
                 if (pkm.Format < 5)
