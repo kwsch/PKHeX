@@ -59,6 +59,7 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
+        public override int MaxCoins => 50_000;
 
         public override int MaxMoveID => Legal.MaxMoveID_4;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
