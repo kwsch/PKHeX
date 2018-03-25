@@ -133,14 +133,9 @@ namespace PKHeX.Core
                             else
                                 Nature = nature;
                         }
-                        else // Fallback
+                        else // First Line does not contain an item
                         {
-                            string speciesstr = line.Split('(')[0].Trim();
-                            int spec = Array.IndexOf(species, speciesstr);
-                            if (spec < 1)
-                                InvalidLines.Add(speciesstr);
-                            else
-                                Species = spec;
+                            ParseFirstLine(line.Trim());
                         }
                         break;
                     }
