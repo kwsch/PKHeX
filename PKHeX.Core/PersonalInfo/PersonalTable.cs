@@ -312,7 +312,7 @@ namespace PKHeX.Core
         /// <returns>Indication that the combination exists in the table.</returns>
         public bool IsValidTypeCombination(int Type1, int Type2)
         {
-            return Table.Any(p => p.Types[0] == Type1 && p.Types[1] == Type2);
+            return Table.Any(p => p.IsValidTypeCombination(Type1, Type2));
         }
     }
 }

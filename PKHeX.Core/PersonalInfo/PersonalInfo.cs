@@ -147,5 +147,9 @@
                 return true;
             return forme < FormeCount;
         }
+        public bool IsValidTypeCombination(int type1, int type2) => Type1 == type1 && Type2 == type2;
+        public bool IsType(int type1) => Type1 == type1 || Type2 == type1;
+        public bool IsType(int type1, int type2) => (Type1 == type1 || Type2 == type1) && (Type1 == type2 || Type2 == type2);
+        public bool IsEggGroup(int group) => EggGroup1 == group || EggGroup2 == group;
     }
 }

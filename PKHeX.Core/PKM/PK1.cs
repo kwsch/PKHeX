@@ -174,8 +174,8 @@ namespace PKHeX.Core
                     if (Enumerable.Range(baseSpecies, count).All(z => Rate != PersonalTable.RB[z].CatchRate))
                         Catch_Rate = PersonalTable.RB[value].CatchRate;
                 }
-                Type_A = PersonalInfo.Types[0];
-                Type_B = PersonalInfo.Types[1];
+                Type_A = PersonalInfo.Type1;
+                Type_B = PersonalInfo.Type2;
             }
         }
 

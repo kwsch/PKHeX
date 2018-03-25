@@ -145,10 +145,10 @@ namespace PKHeX.Core
             m = new List<EncounterSlot>();
             foreach (EncounterSlot Slot in grp)
             {
-                var types = t[Slot.Species].Types;
-                if (types[0] == steel || types[1] == steel)
+                var p = t[Slot.Species];
+                if (p.IsType(steel))
                     m.Add(Slot);
-                if (types[0] == electric || types[1] == electric)
+                if (p.IsType(electric))
                     s.Add(Slot);
             }
         }

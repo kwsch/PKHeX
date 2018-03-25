@@ -2207,8 +2207,8 @@ namespace PKHeX.Core
             }
             else // Types must match species types
             {
-                var Type_A_Match = Type_A == PersonalTable.RB[pkm.Species].Types[0];
-                var Type_B_Match = Type_B == PersonalTable.RB[pkm.Species].Types[1];
+                var Type_A_Match = Type_A == PersonalTable.RB[pkm.Species].Type1;
+                var Type_B_Match = Type_B == PersonalTable.RB[pkm.Species].Type2;
 
                 AddLine(Type_A_Match ? Severity.Valid : Severity.Invalid, Type_A_Match ? V392 : V389, CheckIdentifier.Misc);
                 AddLine(Type_B_Match ? Severity.Valid : Severity.Invalid, Type_B_Match ? V393 : V390, CheckIdentifier.Misc);

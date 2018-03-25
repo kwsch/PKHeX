@@ -364,7 +364,11 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
+        public int Status { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
+        public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
+        public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
+        // 0xEF unused
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0xF0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0xF2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); }
         public override int Stat_ATK { get => BitConverter.ToUInt16(Data, 0xF4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF4); }
