@@ -7,7 +7,7 @@ namespace PKHeX.Core
     public static class EncounterEggGenerator
     {
         // EncounterEgg
-        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm)
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
             if (NoHatchFromEgg.Contains(pkm.Species))
                 yield break;
@@ -24,7 +24,7 @@ namespace PKHeX.Core
             if (baseSpecies <= max)
             {
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies };
-                if (gen > 5 && pkm.WasTradedEgg)
+                if (gen > 5 && (pkm.WasTradedEgg || all))
                     yield return new EncounterEgg { Game = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies };
             }
 
@@ -35,7 +35,7 @@ namespace PKHeX.Core
             if (baseSpecies <= max)
             {
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
-                if (gen > 5 && pkm.WasTradedEgg)
+                if (gen > 5 && (pkm.WasTradedEgg || all))
                     yield return new EncounterEgg { Game = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies, SplitBreed = true };
             }
         }

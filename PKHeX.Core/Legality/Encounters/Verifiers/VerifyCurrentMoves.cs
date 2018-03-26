@@ -807,7 +807,7 @@ namespace PKHeX.Core
                     break;
             }
         }
-        private static int[] GetGenMovesCheckOrder(PKM pkm)
+        public static int[] GetGenMovesCheckOrder(PKM pkm)
         {
             if (pkm.Format < 3)
                 return GetGenMovesCheckOrderGB(pkm, pkm.Format);
