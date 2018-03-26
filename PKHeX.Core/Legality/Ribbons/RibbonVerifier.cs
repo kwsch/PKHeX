@@ -169,9 +169,17 @@ namespace PKHeX.Core
             foreach (var p in iter)
                 yield return p;
 
-            bool allContest = s6.RibbonBitsContest().All(z => z);
+            var contest = s6.RibbonBitsContest();
+            bool allContest = contest.All(z => z);
             if (allContest ^ s6.RibbonContestStar && !(untraded && pkm.XY)) // if not already checked
                 yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
+
+            // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
+            var affect = pkm.OT_Affection;
+            var contMemory = s6.RibbonNamesContest();
+            var present = contMemory.Where((z, i) => contest[i]).Where((z, i) => affect < 20 * (i+1));
+            foreach (var rib in present)
+                yield return new RibbonResult(rib);
 
             const int mem_Chatelaine = 30;
             bool hasChampMemory = pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine;
