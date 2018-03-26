@@ -395,11 +395,6 @@ namespace PKHeX.WinForms.Controls
                 }
             }
 
-            if (pk.Stat_HPMax == 0) // Without Stats (Box)
-            {
-                pk.SetStats(pk.GetStats(SAV.Personal.GetFormeEntry(pk.Species, pk.AltForm)));
-                pk.Stat_Level = pk.CurrentLevel;
-            }
             SAV.SetPartySlot(pk, o);
             SE.SetParty();
         }

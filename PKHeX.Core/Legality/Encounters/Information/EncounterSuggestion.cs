@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for providing suggested property values with respect to the input data.
     /// </summary>
-    internal static class EncounterSuggestion
+    public static class EncounterSuggestion
     {
         public static EncounterStatic GetSuggestedMetInfo(PKM pkm)
         {
@@ -120,16 +120,22 @@ namespace PKHeX.Core
         /// <remarks>
         /// Returns -1 if the met location is not overriden with a transfer location
         /// </remarks>
-        private static int GetSuggestedTransferLocation(PKM pkm)
+        public static int GetSuggestedTransferLocation(PKM pkm)
         {
             if (pkm.HasOriginalMetLocation)
                 return -1;
+            if (pkm.Version == (int) GameVersion.GO)
+                return 30012;
             if (pkm.VC1)
                 return Legal.Transfer1;
             if (pkm.VC2)
                 return Legal.Transfer2;
             if (pkm.Format == 4) // Pal Park
                 return Legal.Transfer3;
+
+            if (pkm.GenNumber >= 5)
+                return -1;
+
             if (pkm.Format >= 5) // Transporter
             {
                 return pkm.Gen4 && pkm.FatefulEncounter && Legal.CrownBeasts.Contains(pkm.Species)

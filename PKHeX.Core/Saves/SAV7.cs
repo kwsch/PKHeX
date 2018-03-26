@@ -1049,6 +1049,7 @@ namespace PKHeX.Core
         }
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
+            base.SetPartyValues(pkm, isParty);
             uint duration = 0;
             if (isParty && pkm.AltForm != 0)
                 switch (pkm.Species)

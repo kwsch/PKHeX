@@ -1,4 +1,3 @@
-using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls

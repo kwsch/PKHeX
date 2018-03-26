@@ -649,7 +649,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected virtual void SetPartyValues(PKM pkm, bool isParty) { }
+        protected virtual void SetPartyValues(PKM pkm, bool isParty)
+        {
+            if (!isParty)
+                return;
+            if (pkm.Stat_HPMax != 0) // Stats already present
+                return;
+            pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
+            pkm.Stat_Level = pkm.CurrentLevel;
+        }
         protected virtual void SetPKM(PKM pkm) { }
         protected virtual void SetDex(PKM pkm) { }
         public virtual bool GetSeen(int species) => false;

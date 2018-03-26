@@ -14,5 +14,14 @@
 
         public bool IsParty => 30 <= Slot && Slot < 36;
         public bool IsValid => Slot > -1 && (Box > -1 || IsParty);
+
+        public SlotChange() { }
+        public SlotChange(SlotChange info, SaveFile sav)
+        {
+            Box = info.Box;
+            Slot = info.Slot;
+            Offset = info.Offset;
+            PKM = sav.GetStoredSlot(info.Offset);
+        }
     }
 }

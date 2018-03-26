@@ -43,7 +43,6 @@ namespace PKHeX.WinForms.Controls
 
             Stats.SetMainEditor(this);
             LoadShowdownSet = LoadShowdownSetDefault;
-
         }
 
         private void UpdateStats() => Stats.UpdateStats();
@@ -380,8 +379,7 @@ namespace PKHeX.WinForms.Controls
 
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            CB_Ability.DisplayMember = "Text";
-            CB_Ability.ValueMember = "Value";
+            InitializeBinding(CB_Ability);
             CB_Ability.DataSource = GetAbilityList(pkm);
             CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
             FieldsLoaded = tmp;
@@ -735,13 +733,7 @@ namespace PKHeX.WinForms.Controls
                 CB_MetLocation.SelectedValue = location;
 
                 if (pkm.GenNumber == 6 && pkm.WasEgg && ModifyPKM)
-                {
-                    pkm.OT_Memory = 2;
-                    pkm.OT_Affection = 0;
-                    pkm.OT_Feeling = Util.Rand.Next(0, 10);
-                    pkm.OT_Intensity = 1;
-                    pkm.OT_TextVar = pkm.XY ? 43 : 27; // riverside road : battling spot
-                }
+                    pkm.SetHatchMemory6();
             }
 
             if (pkm.CurrentLevel < minlvl)
@@ -1034,29 +1026,19 @@ namespace PKHeX.WinForms.Controls
             if (newTrack != origintrack)
             {
                 var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
-                CB_MetLocation.DisplayMember = "Text";
-                CB_MetLocation.ValueMember = "Value";
+                InitializeBinding(CB_MetLocation);
                 CB_MetLocation.DataSource = new BindingSource(met_list, null);
 
                 if (FieldsLoaded)
                 {
-                    int metLoc = 0; // transporter or pal park for past gen pkm
-                    if (pkm.Format >= 7) // check transfer scenarios
-                    switch (newTrack)
-                    {
-                        case GameVersion.GO: metLoc = 30012; break;
-                        case GameVersion.RBY: metLoc = Legal.Transfer1; break;
-                        case GameVersion.GSC: metLoc = Legal.Transfer2; break;
-                    }
-                    if (metLoc != 0)
-                        CB_MetLocation.SelectedValue = metLoc;
-                    else
-                        CB_MetLocation.SelectedIndex = metLoc;
+                    SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
+                    pkm.Version = (int)Version;
+                    int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(pkm);
+                    CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
                 }
 
                 var egg_list = GameInfo.GetLocationList(Version, pkm.Format, egg: true);
-                CB_EggLocation.DisplayMember = "Text";
-                CB_EggLocation.ValueMember = "Value";
+                InitializeBinding(CB_EggLocation);
                 CB_EggLocation.DataSource = new BindingSource(egg_list, null);
                 if (FieldsLoaded)
                     CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
@@ -1076,9 +1058,7 @@ namespace PKHeX.WinForms.Controls
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             if (pkm.Format >= 4)
             {
-                bool g4 = Version >= GameVersion.HG && Version <= GameVersion.Pt;
-                if ((int)Version == 9) // invalid
-                    g4 = false;
+                bool g4 = pkm.Gen4;
                 CB_EncounterType.Visible = Label_EncounterType.Visible = g4 && pkm.Format < 7;
                 if (!g4)
                     CB_EncounterType.SelectedValue = 0;
@@ -1087,7 +1067,6 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
             pkm.Version = (int)Version;
-            SetMarkings(); // Set/Remove KB marking
             UpdateLegality();
         }
         private void UpdateExtraByteValue(object sender, EventArgs e)
@@ -1690,7 +1669,8 @@ namespace PKHeX.WinForms.Controls
                 CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
                 CB_Nature, CB_EncounterType, CB_GameOrigin,
             };
-            foreach (var cb in cbs) { cb.DisplayMember = "Text"; cb.ValueMember = "Value"; }
+            foreach (var cb in cbs)
+                InitializeBinding(cb);
 
             // Set the various ComboBox DataSources up with their allowed entries
             SetCountrySubRegion(CB_Country, "countries");
@@ -1728,7 +1708,7 @@ namespace PKHeX.WinForms.Controls
             GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
-                cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                InitializeBinding(cb);
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
         }
@@ -1746,6 +1726,11 @@ namespace PKHeX.WinForms.Controls
             if (pkm.CurrentLevel < minlvl)
                 suggestion.Add($"Current Level: {minlvl}");
             return suggestion;
+        }
+        private static void InitializeBinding(ListControl cb)
+        {
+            cb.DisplayMember = nameof(ComboItem.Text);
+            cb.ValueMember = nameof(ComboItem.Value);
         }
     }
 }

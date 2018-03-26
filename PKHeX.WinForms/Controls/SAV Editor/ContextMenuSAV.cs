@@ -74,13 +74,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (info.Slot < 30)
                 {
-                    m.SE.UndoStack.Push(new SlotChange
-                    {
-                        Box = info.Box,
-                        Slot = info.Slot,
-                        Offset = info.Offset,
-                        PKM = sav.GetStoredSlot(info.Offset)
-                    });
+                    m.SE.UndoStack.Push(new SlotChange(info, sav));
                     m.SE.Menu_Undo.Enabled = true;
                 }
 
@@ -116,13 +110,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (info.Slot < 30)
                 {
-                    m.SE.UndoStack.Push(new SlotChange
-                    {
-                        Box = info.Box,
-                        Slot = info.Slot,
-                        Offset = info.Offset,
-                        PKM = sav.GetStoredSlot(info.Offset)
-                    });
+                    m.SE.UndoStack.Push(new SlotChange(info, sav));
                     m.SE.Menu_Undo.Enabled = true;
                 }
                 m.SetPKM(sav.BlankPKM, info, true, Resources.slotDel);

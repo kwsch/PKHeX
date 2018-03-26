@@ -479,5 +479,18 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="hptype">Desired Hidden Power typing.</param>
         public static void SetHiddenPower(this PKM pk, MoveType hptype) => pk.SetHiddenPower((int) hptype);
+
+        /// <summary>
+        /// Sets the Memory details to a Hatched Egg's memories.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void SetHatchMemory6(this PKM pk)
+        {
+            pk.OT_Memory = 2;
+            pk.OT_Affection = 0;
+            pk.OT_Feeling = Util.Rand.Next(0, 10);
+            pk.OT_Intensity = 1;
+            pk.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
+        }
     }
 }

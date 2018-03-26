@@ -373,6 +373,8 @@ namespace PKHeX.Core
             var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
             if (loc >= 0)
                 pkm.Met_Location = loc;
+            if (pkm.Gen6)
+                pkm.SetHatchMemory6();
         }
 
         /// <summary>
