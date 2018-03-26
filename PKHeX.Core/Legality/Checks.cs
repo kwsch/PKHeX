@@ -1581,7 +1581,8 @@ namespace PKHeX.Core
             {
                 if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
-                if (pkm.OT_Affection != 0)
+                // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
+                if (pkm.OT_Affection != 0 && ((pkm.AO || !pkm.IsUntraded) && (pkm.OT_Affection == 255 || pkm.OT_Affection % 20 != 0)))
                     return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
