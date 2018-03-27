@@ -90,8 +90,10 @@ namespace PKHeX.Core
         public override int TID { get => Gift.TID; set => Gift.TID = value; }
         public override int SID { get => Gift.SID; set => Gift.SID = value; }
         public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
-        public override int Location { get => Gift.Location; set => Gift.Location = value; }
-        public override int EggLocation { get => Gift.EggLocation; set => Gift.EggLocation = value; }
+        
+        // ILocation overrides
+        public override int Location { get => IsEgg ? 0 : Gift.EggLocation + 3000; set { } }
+        public override int EggLocation { get => IsEgg ? Gift.EggLocation + 3000 : 0; set { } }
 
         public bool GiftEquals(PGT pgt)
         {

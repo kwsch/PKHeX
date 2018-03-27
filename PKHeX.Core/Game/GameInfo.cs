@@ -590,6 +590,7 @@ namespace PKHeX.Core
                     {
                         case 0: return Strings.metHGSS_00000;
                         case 2: return Strings.metHGSS_02000;
+                        case 3: return Strings.metHGSS_03000;
                         default: return null;
                     }
                 case 5:
