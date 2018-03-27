@@ -1117,7 +1117,7 @@ namespace PKHeX.Core
 
             if (EncounterMatch is EncounterTrade z && EncounterAbility == 1 << abilval && z.Species == pkm.Species) // Edge case (Static PID?)
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
-            else if (EncounterMatch is PCD d && d.Species == pkm.Species && d.Gift.PK.Ability == EncounterAbility) // Edge case (PID ability gift mismatch)
+            else if (EncounterMatch is PCD d && d.Species == pkm.Species && pkm.Ability == EncounterAbility) // Edge case (PID ability gift mismatch)
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
             else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4 && EncounterAbility != 4) // Ability Capsule can change between 1/2
                 AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
