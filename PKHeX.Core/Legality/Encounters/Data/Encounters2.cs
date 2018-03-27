@@ -26,6 +26,8 @@ namespace PKHeX.Core
             ReduceAreasSize(ref SlotsGSC);
             MarkEncountersGeneration(2, SlotsGS, SlotsC, SlotsGSC);
             MarkEncountersGeneration(2, StaticGS, StaticC, StaticGSC, TradeGift_GSC);
+
+            MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
         }
 
         private static EncounterArea[] GetTables2(GameVersion Version)

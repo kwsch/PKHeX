@@ -18,6 +18,11 @@ namespace PKHeX.Core
             SlotsRBY = GetAreas();
             MarkEncountersGeneration(1, SlotsRBY);
             MarkEncountersGeneration(1, StaticRBY, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
+
+            var trades = TradeGift_RBY_Common.Concat(TradeGift_RBY_NoTradeback).Concat(TradeGift_RBY_Tradeback);
+            var names = new[] {null, "トレーナー", "TRAINER", "TRAINER", "TRAINER", "TRAINER", null, "TRAINER", null};
+            foreach (var t in trades)
+                t.TrainerNames = names;
         }
 
         private static EncounterArea[] GetAreas()

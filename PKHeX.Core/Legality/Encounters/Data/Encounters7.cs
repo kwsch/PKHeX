@@ -47,6 +47,9 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(7, SlotsSN, SlotsMN, SlotsUS, SlotsUM);
             MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM, TradeGift_SM, TradeGift_USUM);
+
+            MarkEncounterTradeStrings(TradeGift_SM, TradeSM);
+            MarkEncounterTradeStrings(TradeGift_USUM, TradeUSUM);
         }
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {

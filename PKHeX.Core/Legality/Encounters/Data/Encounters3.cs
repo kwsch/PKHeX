@@ -58,6 +58,9 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(3, SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG, SlotsXD);
             MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
+
+            MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
+            MarkEncounterTradeStrings(TradeGift_FRLG, TradeFRLG);
         }
 
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)

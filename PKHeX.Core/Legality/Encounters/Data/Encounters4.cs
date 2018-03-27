@@ -76,6 +76,9 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(4, SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS);
             MarkEncountersGeneration(4, StaticD, StaticP, StaticPt, StaticHG, StaticSS, TradeGift_DPPt, TradeGift_HGSS);
+
+            MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
+            MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);
         }
 
         private static EncounterArea[] GetFeebasArea(EncounterArea template)

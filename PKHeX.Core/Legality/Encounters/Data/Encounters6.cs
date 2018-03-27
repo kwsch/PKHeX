@@ -36,6 +36,8 @@ namespace PKHeX.Core
             MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
 
             FriendSafari = GetFriendSafariArea();
+            MarkEncounterTradeStrings(TradeGift_XY, TradeXY);
+            MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
         }
 
         private static ILookup<int, EncounterSlot> GetFriendSafariArea()

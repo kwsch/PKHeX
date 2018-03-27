@@ -46,6 +46,11 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(5, SlotsB, SlotsW, SlotsB2, SlotsW2);
             MarkEncountersGeneration(5, StaticB, StaticW, StaticB2, StaticW2, TradeGift_BW, TradeGift_B2W2);
+
+            MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
+            MarkEncounterTradeStrings(TradeGift_B2W2_Regular, TradeB2W2);
+            foreach (var t in TradeGift_B2W2_YancyCurtis)
+                t.TrainerNames = t.OTGender == 0 ? TradeOT_B2W2_M : TradeOT_B2W2_F;
         }
 
         private static void MarkBWSwarmSlots(EncounterArea[] Areas)
