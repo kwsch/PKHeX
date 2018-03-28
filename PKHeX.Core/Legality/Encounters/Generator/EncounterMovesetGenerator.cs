@@ -12,7 +12,7 @@ namespace PKHeX.Core
         /// <summary>
         /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
         /// </summary>
-        private static readonly GameVersion[] Versions = ((GameVersion[]) Enum.GetValues(typeof(GameVersion))).Where(z => z < GameVersion.RB).Reverse().ToArray();
+        private static readonly GameVersion[] Versions = ((GameVersion[]) Enum.GetValues(typeof(GameVersion))).Where(z => z < GameVersion.RB && z > 0).Reverse().ToArray();
 
         /// <summary>
         /// Gets possible encounters that allow all moves requested to be learned.

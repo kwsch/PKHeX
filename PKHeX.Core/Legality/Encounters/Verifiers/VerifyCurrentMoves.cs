@@ -819,7 +819,7 @@ namespace PKHeX.Core
         private static int[] GetGenMovesOrderVC(PKM pkm)
         {
             // VC case: check transfer games in reverse order (8, 7..) then past games.
-            int[] xfer = GetGenMovesOrder(pkm.Format, pkm.GenNumber);
+            int[] xfer = GetGenMovesOrder(pkm.Format, 7);
             int[] past = GetGenMovesCheckOrderGB(pkm, pkm.GenNumber);
             int end = xfer.Length;
             Array.Resize(ref xfer, xfer.Length + past.Length);
