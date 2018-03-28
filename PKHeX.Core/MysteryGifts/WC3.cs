@@ -60,9 +60,8 @@ namespace PKHeX.Core
             set => _metLevel = value;
         }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
-            var pi = SAV.Personal.GetFormeEntry(Species, 0);
             PK3 pk = new PK3
             {
                 Species = Species,
@@ -82,6 +81,7 @@ namespace PKHeX.Core
 
                 FatefulEncounter = Fateful,
             };
+            var pi = pk.PersonalInfo;
 
             if (Version == 0)
             {

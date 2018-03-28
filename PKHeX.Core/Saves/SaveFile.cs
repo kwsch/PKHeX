@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
-    public abstract class SaveFile
+    public abstract class SaveFile : ITrainerInfo
     {
         public static bool SetUpdateDex { protected get; set; } = true;
         public static bool SetUpdatePKM { protected get; set; } = true;

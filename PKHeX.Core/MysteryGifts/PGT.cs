@@ -112,7 +112,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             return Gift.ConvertToPKM(SAV);
         }
@@ -233,7 +233,7 @@ namespace PKHeX.Core
         public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
         public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             if (!IsPokémon)
                 return null;
