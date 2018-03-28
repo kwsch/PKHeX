@@ -496,7 +496,7 @@ namespace PKHeX.Core
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)
-                OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
             Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
             Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;

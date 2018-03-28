@@ -105,8 +105,7 @@ namespace PKHeX.WinForms
                     GB_M_OT.Text = $"{args[3]} {pkm.OT_Name}: {args[2]}"; // Past Gen OT : OTNAME
                     GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}"; // Memories with : HTNAME
                     enable = false;
-                    // Reset to no memory
-                    M_OT_Affection.Text = "0";
+                    // Reset to no memory -- don't reset affection as ORAS can raise it
                     CB_OTQual.SelectedIndex = CB_OTFeel.SelectedIndex = 0;
                     CB_OTVar.SelectedValue = CB_OTMemory.SelectedValue = 0;
                 }
@@ -125,7 +124,8 @@ namespace PKHeX.WinForms
                     else
                         GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}";
                 }
-                RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
+                RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = enable;
+                M_OT_Affection.Enabled = true;
             }
             else
                 GB_M_OT.Text = GB_M_CT.Text = $"N/A: {GameInfo.Strings.eggname}";
