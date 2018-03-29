@@ -306,9 +306,9 @@ namespace PKHeX.WinForms.Controls
                 return Color.Red;
             return CB_Species.ForeColor;
         }
-        private void SetDetailsOT(SaveFile SAV)
+        private void SetDetailsOT(ITrainerInfo SAV)
         {
-            if (SAV?.Exportable != true)
+            if (!(SAV.OT?.Length > 0))
                 return;
 
             // Get Save Information
@@ -322,7 +322,7 @@ namespace PKHeX.WinForms.Controls
                 CB_GameOrigin.SelectedValue = SAV.Game;
             if (SAV.Language >= 0)
                 CB_Language.SelectedValue = SAV.Language;
-            if (SAV.HasGeolocation)
+            if (SAV.ConsoleRegion != 0)
             {
                 CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
                 CB_Country.SelectedValue = SAV.Country;
@@ -335,9 +335,9 @@ namespace PKHeX.WinForms.Controls
 
             UpdateNickname(null, null);
         }
-        private void SetDetailsHT(SaveFile SAV)
+        private void SetDetailsHT(ITrainerInfo SAV)
         {
-            if (SAV?.Exportable != true)
+            if (!(SAV.OT?.Length > 0))
                 return;
 
             if (TB_OTt2.Text.Length > 0)
@@ -1611,13 +1611,10 @@ namespace PKHeX.WinForms.Controls
             if (CB_GameOrigin.Items.Count > 0)
                 CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;
-            TB_OT.Text = "PKHeX";
-            TB_TID.Text = 12345.ToString();
-            TB_SID.Text = 54321.ToString();
-            int curlang = GameInfo.Language();
-            CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
+            var info = new SimpleTrainerInfo{Language = Math.Max(0, WinFormsUtil.GetIndex(CB_Language))};
+            SetDetailsOT(info);
+
             CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
-            CB_Country.SelectedIndex = Math.Min(0, CB_Country.Items.Count - 1);
             CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
             CB_Species.SelectedValue = pkm.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
