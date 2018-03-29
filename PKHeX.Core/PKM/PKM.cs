@@ -387,17 +387,23 @@ namespace PKHeX.Core
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
-            set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
+            set
+            {
+                Move1 = value.Length > 0 ? value[0] : 0;
+                Move2 = value.Length > 1 ? value[1] : 0;
+                Move3 = value.Length > 2 ? value[2] : 0;
+                Move4 = value.Length > 3 ? value[3] : 0;
+            }
         }
         public int[] RelearnMoves
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
             set
             {
-                if (value.Length > 0) RelearnMove1 = value[0];
-                if (value.Length > 1) RelearnMove2 = value[1];
-                if (value.Length > 2) RelearnMove3 = value[2];
-                if (value.Length > 3) RelearnMove4 = value[3];
+                RelearnMove1 = value.Length > 0 ? value[0] : 0;
+                RelearnMove2 = value.Length > 1 ? value[1] : 0;
+                RelearnMove3 = value.Length > 2 ? value[2] : 0;
+                RelearnMove4 = value.Length > 3 ? value[3] : 0;
             }
         }
         public int[] Contest
