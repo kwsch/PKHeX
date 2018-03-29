@@ -29,11 +29,7 @@ namespace PKHeX.Core
         }
         private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
-            int lvl = 1; // gen5+
-            if (!pkm.IsNative && pkm.GenNumber < 5)
-                lvl = pkm.CurrentLevel; // be generous with transfer conditions
-            else if (pkm.Format < 5) // and native
-                lvl = 0;
+            int lvl = GetSuggestedEncounterEggMetLevel(pkm);
             return new EncounterStatic
             {
                 Species = Legal.GetBaseSpecies(pkm),
@@ -41,6 +37,23 @@ namespace PKHeX.Core
                 Level = lvl,
             };
         }
+
+        public static int GetSuggestedEncounterEggMetLevel(PKM pkm)
+        {
+            if (!pkm.IsNative && pkm.GenNumber < 5)
+                return pkm.CurrentLevel; // be generous with transfer conditions
+            if (pkm.Format < 5) // and native
+                return 0;
+            return 1; // gen5+
+        }
+
+        public static int GetSuggestedEncounterEggLocationEgg(PKM pkm, bool traded = false)
+        {
+            if (pkm.Gen4)
+                return traded ? 2002 : 2000;
+            return traded ? 30002 : 60002;
+        }
+
         private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc = -1)
         {
             var slots = area.Slots.OrderBy(s => s.LevelMin);
