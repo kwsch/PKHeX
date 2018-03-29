@@ -27,7 +27,16 @@ namespace PKHeX.Tests.Simulator
             Assert.IsTrue(!encs.Any());
             pk7.HT_Name = "PKHeX";
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            Assert.IsTrue(encs.Any());
+            var first = encs.FirstOrDefault();
+            Assert.IsTrue(first != null);
+
+            var egg = (EncounterEgg)first;
+            var info = new SimpleTrainerInfo();
+            var pk = egg.ConvertToPKM(info);
+            Assert.IsTrue(pk.Species != set.Species);
+
+            var la = new LegalityAnalysis(pk);
+            Assert.IsTrue(la.Valid);
         }
 
         private const string SetGlaceonUSUMTutor =
