@@ -30,7 +30,9 @@ namespace PKHeX.Core
             var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Game);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
-            pk.SetRandomIVs();
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+
+            pk.SetRandomIVs(flawless: 3);
 
             if (pk.Format <= 2 && Game != GameVersion.C)
                 return pk;
@@ -56,6 +58,7 @@ namespace PKHeX.Core
             {
                 pk.HT_Name = SAV.OT;
                 pk.HT_Gender = SAV.Gender;
+                pk.HT_Friendship = pk.OT_Friendship;
                 if (SAV.Generation == 6)
                 {
                     pk.Geo1_Country = SAV.Country;

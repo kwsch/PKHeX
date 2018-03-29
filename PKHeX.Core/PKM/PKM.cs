@@ -903,13 +903,13 @@ namespace PKHeX.Core
         /// Randomizes the IVs within game constraints.
         /// </summary>
         /// <returns>Randomized IVs if desired.</returns>
-        public int[] SetRandomIVs()
+        public int[] SetRandomIVs(int? flawless = null)
         {
             int[] ivs = new int[6];
             for (int i = 0; i < 6; i++)
                 ivs[i] = (int)(Util.Rand32() & MaxIV);
 
-            int count = GetFlawlessIVCount();
+            int count = flawless ?? GetFlawlessIVCount();
             if (count != 0)
             {
                 for (int i = 0; i < count; i++)
