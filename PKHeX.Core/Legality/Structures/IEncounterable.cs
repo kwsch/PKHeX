@@ -10,6 +10,8 @@
         bool EggEncounter { get; }
         int LevelMin { get; }
         int LevelMax { get; }
+
+        PKM ConvertToPKM(ITrainerInfo SAV);
     }
 
     public static partial class Extensions

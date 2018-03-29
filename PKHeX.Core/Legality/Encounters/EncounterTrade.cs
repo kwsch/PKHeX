@@ -53,5 +53,7 @@
         {
             0, 126, 254, 2001, 30002, 30001, 30001,
         };
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }

@@ -36,5 +36,7 @@
         public bool RibbonWorld { get; set; }
         public bool RibbonChampionWorld { get; set; }
         public bool RibbonSouvenir { get; set; }
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }

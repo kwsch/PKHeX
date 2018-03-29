@@ -63,5 +63,7 @@
 
         private const string _name = "Static Encounter";
         public string Name => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }

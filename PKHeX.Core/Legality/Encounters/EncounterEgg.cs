@@ -14,5 +14,7 @@
 
         public GameVersion Game;
         public bool SplitBreed;
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }

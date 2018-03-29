@@ -189,7 +189,7 @@ namespace PKHeX.Core
     /// This Template object is very similar to the <see cref="WC6"/> structure and similar objects, in that the structure offsets are ordered the same.
     /// This template object is only present in Generation 6 save files.
     /// </remarks>
-    public class PL6_PKM : IEncounterable, IRibbonSetEvent3, IRibbonSetEvent4
+    public class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4
     {
         internal const int Size = 0xA0;
 

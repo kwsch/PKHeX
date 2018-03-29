@@ -60,5 +60,7 @@
                 return $"{wild} {Type.ToString().Replace("_", " ")}";
             }
         }
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }
