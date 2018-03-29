@@ -458,5 +458,10 @@ namespace PKHeX.Core
             var argCount = constructors.First().GetParameters().Length;
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
         }
+        public static PKM GetBlank(int gen)
+        {
+            var type = Type.GetType($"PKHeX.Core.PK{gen}");
+            return GetBlank(type);
+        }
     }
 }
