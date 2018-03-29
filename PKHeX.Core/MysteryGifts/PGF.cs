@@ -171,7 +171,7 @@ namespace PKHeX.Core
                 Nature = Nature != 0xFF ? Nature : (int)(Util.Rand32() % 25),
                 Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
-                Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.Rand32() & 0x3] : OriginGame,
+                Version = OriginGame == 0 ? SAV.Game : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
                 Ball = Ball,
                 Move1 = Move1,
@@ -210,6 +210,9 @@ namespace PKHeX.Core
 
                 FatefulEncounter = true,
             };
+            if (SAV.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
+                pk.Version = (int)GameVersion.W + Util.Rand.Next(4);
+
             pk.Move1_PP = pk.GetMovePP(Move1, 0);
             pk.Move2_PP = pk.GetMovePP(Move2, 0);
             pk.Move3_PP = pk.GetMovePP(Move3, 0);

@@ -187,7 +187,7 @@ namespace PKHeX.Core
                 case (int)GameVersion.FRLG:
                     return (int)GameVersion.FR + rand; // or LG
                 case (int)GameVersion.RS:
-                    return (int)GameVersion.R + rand; // or S
+                    return (int)GameVersion.S + rand; // or R
                 default:
                     throw new Exception($"Unknown GameVersion: {version}");
             }

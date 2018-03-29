@@ -375,6 +375,10 @@ namespace PKHeX.Core
 
                 EVs = EVs,
             };
+
+            if (SAV.Generation > 7 && OriginGame == 0) // Gen8+, give random gen7 game
+                pk.Version = (int)GameVersion.SN + Util.Rand.Next(4);
+
             pk.Move1_PP = pk.GetMovePP(Move1, 0);
             pk.Move2_PP = pk.GetMovePP(Move2, 0);
             pk.Move3_PP = pk.GetMovePP(Move3, 0);
