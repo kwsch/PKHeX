@@ -34,5 +34,22 @@ namespace PKHeX.Core
             pk.Region = info.SubRegion;
             pk.ConsoleRegion = info.ConsoleRegion;
         }
+
+        public static void ApplyHandlingTrainerInfo(this ITrainerInfo SAV, PKM pk)
+        {
+            if (pk.Format == SAV.Generation)
+                return;
+
+            pk.HT_Name = SAV.OT;
+            pk.HT_Gender = SAV.Gender;
+            pk.HT_Friendship = pk.OT_Friendship;
+            pk.CurrentHandler = 1;
+
+            if (SAV.Generation == 6)
+            {
+                pk.Geo1_Country = SAV.Country;
+                pk.Geo1_Region = SAV.SubRegion;
+            }
+        }
     }
 }

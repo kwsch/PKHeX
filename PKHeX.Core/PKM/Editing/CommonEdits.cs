@@ -191,10 +191,10 @@ namespace PKHeX.Core
             if (Moves == null)
                 Moves = pk.Moves;
 
-            pk.Move1_PP = pk.GetMovePP(Moves[0], pk.Move1_PPUps);
-            pk.Move2_PP = pk.GetMovePP(Moves[1], pk.Move2_PPUps);
-            pk.Move3_PP = pk.GetMovePP(Moves[2], pk.Move3_PPUps);
-            pk.Move4_PP = pk.GetMovePP(Moves[3], pk.Move4_PPUps);
+            pk.Move1_PP = Moves.Length <= 0 ? 0 : pk.GetMovePP(Moves[0], pk.Move1_PPUps);
+            pk.Move2_PP = Moves.Length <= 1 ? 0 : pk.GetMovePP(Moves[1], pk.Move2_PPUps);
+            pk.Move3_PP = Moves.Length <= 2 ? 0 : pk.GetMovePP(Moves[2], pk.Move3_PPUps);
+            pk.Move4_PP = Moves.Length <= 3 ? 0 : pk.GetMovePP(Moves[3], pk.Move4_PPUps);
         }
 
         /// <summary>

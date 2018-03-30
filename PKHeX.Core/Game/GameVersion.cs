@@ -43,6 +43,17 @@
 
     public static partial class Extensions
     {
+        public static int GetGeneration(this GameVersion g)
+        {
+            if (GameVersion.Gen1.Contains(g)) return 1;
+            if (GameVersion.Gen2.Contains(g)) return 2;
+            if (GameVersion.Gen3.Contains(g)) return 3;
+            if (GameVersion.Gen4.Contains(g)) return 4;
+            if (GameVersion.Gen5.Contains(g)) return 5;
+            if (GameVersion.Gen6.Contains(g)) return 6;
+            if (GameVersion.Gen7.Contains(g)) return 7;
+            return -1;
+        }
         public static bool Contains(this GameVersion g1, GameVersion g2)
         {
             if (g1 == g2 || g1 == GameVersion.Any)

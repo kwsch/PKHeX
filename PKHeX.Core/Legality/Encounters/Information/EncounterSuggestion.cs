@@ -49,9 +49,17 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggLocationEgg(PKM pkm, bool traded = false)
         {
-            if (pkm.Gen4)
-                return traded ? 2002 : 2000;
-            return traded ? 30002 : 60002;
+            switch (pkm.GenNumber)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    return 0;
+                case 4:
+                    return traded ? 2002 : 2000;
+                default:
+                    return traded ? 30002 : 60002;
+            }
         }
 
         private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc = -1)
@@ -124,6 +132,13 @@ namespace PKHeX.Core
                 case GameVersion.US:
                 case GameVersion.UM:
                     return 50; // Route 4
+
+                case GameVersion.GD:
+                case GameVersion.SV:
+                case GameVersion.C:
+                case GameVersion.GSC:
+                case GameVersion.RBY:
+                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : 16; // Goldenrod City (if crystal)
             }
             return -1;
         }

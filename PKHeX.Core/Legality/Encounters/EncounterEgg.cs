@@ -19,11 +19,12 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo SAV)
         {
-            var pk = PKMConverter.GetBlank(SAV.Generation);
+            int gen = Game.GetGeneration();
+            var pk = PKMConverter.GetBlank(gen);
             SAV.ApplyToPKM(pk);
 
             pk.Species = Species;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, pk.Language, SAV.Generation);
+            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)Game;
 
@@ -42,30 +43,23 @@ namespace PKHeX.Core
             pk.Ball = 4;
 
             pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
-            pk.Met_Location = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
+            pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
 
             if (pk.Format < 4)
                 return pk;
 
             bool traded = (int)Game == SAV.Game;
-            pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
-            pk.EggMetDate = pk.MetDate = DateTime.Today;
+            var today = pk.MetDate = DateTime.Today;
+            if (pk.GenNumber >= 4)
+            {
+                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+                pk.EggMetDate = today;
+            }
 
             if (pk.Format < 6)
                 return pk;
-
-            if (pk.Format != SAV.Generation)
-            {
-                pk.HT_Name = SAV.OT;
-                pk.HT_Gender = SAV.Gender;
-                pk.HT_Friendship = pk.OT_Friendship;
-                if (SAV.Generation == 6)
-                {
-                    pk.Geo1_Country = SAV.Country;
-                    pk.Geo1_Region = SAV.SubRegion;
-                }
-            }
-            if (SAV.Generation == 6)
+            SAV.ApplyHandlingTrainerInfo(pk);
+            if (pk.Gen6)
                 pk.SetHatchMemory6();
 
             pk.SetRandomEC();
