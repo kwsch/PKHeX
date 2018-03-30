@@ -26,10 +26,10 @@ namespace PKHeX.Core
         protected override void SetChecksum(byte[] data)
         {
             var chk = GetChecksum(data, Offset, Length);
-            data[0] = (byte)(chk >> 24);
-            data[1] = (byte)(chk >> 16);
-            data[2] = (byte)(chk >> 8);
-            data[3] = (byte)(chk >> 0);
+            data[Offset + 0] = (byte)(chk >> 24);
+            data[Offset + 1] = (byte)(chk >> 16);
+            data[Offset + 2] = (byte)(chk >> 8);
+            data[Offset + 3] = (byte)(chk >> 0);
         }
 
         private uint GetChecksum(byte[] data)
@@ -45,7 +45,7 @@ namespace PKHeX.Core
             ushort chk = 0; // initial value
             for (int j = start; j < length; j += 2)
                 chk += BigEndian.ToUInt16(data, j);
-            return (uint)(chk << 16 | (0xF004 - chk));
+            return (uint)(chk << 16 | (ushort)(0xF004 - chk));
         }
     }
 }
