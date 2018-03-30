@@ -37,6 +37,10 @@ namespace PKHeX.Tests.Simulator
 
             var la = new LegalityAnalysis(pk);
             Assert.IsTrue(la.Valid);
+
+            var test = EncounterMovesetGenerator.GeneratePKMs(pk7, info);
+            var la2 = new LegalityAnalysis(test.First());
+            Assert.IsTrue(la2.Valid);
         }
 
         private const string SetGlaceonUSUMTutor =

@@ -15,6 +15,32 @@ namespace PKHeX.Core
         private static readonly GameVersion[] Versions = ((GameVersion[]) Enum.GetValues(typeof(GameVersion))).Where(z => z < GameVersion.RB && z > 0).Reverse().ToArray();
 
         /// <summary>
+        /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned.
+        /// </summary>
+        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
+        /// <param name="info">Trainer information of the receiver.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
+        /// <param name="versions">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
+        /// <returns>A consumable <see cref="PKM"/> list of possible results.</returns>
+        public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int[] moves = null, params GameVersion[] versions)
+        {
+            var m = moves ?? pk.Moves;
+            var vers = versions?.Length >= 1 ? versions : Versions.Where(z => z <= (GameVersion) pk.MaxGameID);
+            foreach (var ver in vers)
+            {
+                var encs = GenerateVersionEncounters(pk, m, ver);
+                foreach (var enc in encs)
+                {
+                    var result = enc.ConvertToPKM(info);
+                    result.Version = (int)ver; // some encounters don't have explicit versions defined, provide one
+                    if (result.GenNumber <= 2)
+                        result.SID = 0;
+                    yield return result;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets possible encounters that allow all moves requested to be learned.
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
@@ -23,7 +49,9 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves = null, params GameVersion[] versions)
         {
-            return (versions ?? Versions).SelectMany(ver => GenerateVersionEncounters(pk, moves ?? pk.Moves, ver));
+            var m = moves ?? pk.Moves;
+            var vers = versions?.Length >= 1 ? versions : Versions.Where(z => z <= (GameVersion)pk.MaxGameID);
+            return vers.SelectMany(ver => GenerateVersionEncounters(pk, m, ver));
         }
 
         /// <summary>
