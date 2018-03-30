@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Pokémon Link Encounter Data
@@ -37,6 +39,58 @@
         public bool RibbonChampionWorld { get; set; }
         public bool RibbonSouvenir { get; set; }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
+        public PKM ConvertToPKM(ITrainerInfo SAV)
+        {
+            const int gen = 6;
+            int version = GetCompatibleVersion(SAV.Game);
+            int lang = SAV.Language > (int) LanguageID.ChineseT ? (int) LanguageID.English : SAV.Language;
+            var pk = new PK6
+            {
+                EncryptionConstant = Util.Rand32(),
+                Species = Species,
+                Language = lang,
+                CurrentLevel = Level,
+                Version = version,
+                PID = Util.Rand32(),
+                Nickname = PKX.GetSpeciesNameGeneration(Species, lang, gen),
+                Ball = Ball,
+                Met_Level = Level,
+                Met_Location = Location,
+                MetDate = DateTime.Today
+            };
+
+            SAV.ApplyToPKM(pk);
+            pk.Language = lang;
+
+            var moves = Moves.Length != 0 ? Moves : Legal.GetEncounterMoves(pk, Level, (GameVersion)version);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+            pk.SetRandomIVs(flawless: 3);
+            pk.RefreshAbility(Ability);
+            SAV.ApplyHandlingTrainerInfo(pk);
+            if (RelearnMoves != null)
+                pk.RelearnMoves = RelearnMoves;
+            if (RibbonClassic)
+                pk.RibbonClassic = true;
+            if (!OT)
+                SAV.ApplyHandlingTrainerInfo(pk);
+
+            return pk;
+        }
+
+        private int GetCompatibleVersion(int savGame)
+        {
+            if (XY)
+            {
+                if (savGame == (int)GameVersion.X || savGame == (int)GameVersion.Y)
+                    return savGame;
+                return (int) GameVersion.X + Util.Rand.Next(2);
+            }
+            // AO
+            if (savGame == (int)GameVersion.OR || savGame == (int)GameVersion.AS)
+                return savGame;
+            return (int)GameVersion.AS + Util.Rand.Next(2);
+        }
     }
 }
