@@ -261,5 +261,11 @@ namespace PKHeX.Core
             }
             string[] getNames(int i, IEnumerable<string[]> names) => names?.Select(z => z?.Length > i ? z[i] : null).ToArray();
         }
+
+        internal static void MarkEncounterGame(IEnumerable<IVersion> table, GameVersion version)
+        {
+            foreach (var t in table.Where(z => z.Version == GameVersion.Any))
+                t.Version = version;
+        }
     }
 }

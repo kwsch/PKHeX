@@ -19,7 +19,7 @@
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
-    public class EncounterSlot : IEncounterable, IGeneration, ILocation
+    public class EncounterSlot : IEncounterable, IGeneration, ILocation, IVersion
     {
         public int Species { get; set; }
         public int Form { get; set; }
@@ -31,8 +31,9 @@
         public int Generation { get; set; } = -1;
         internal EncounterSlotPermissions _perm;
         public EncounterSlotPermissions Permissions => _perm ?? (_perm = new EncounterSlotPermissions());
+        public GameVersion Version { get; set; }
 
-        internal EncounterArea Area { get; set; }
+        internal EncounterArea Area { private get; set; }
         public int Location { get => Area.Location; set { } }
         public bool EggEncounter => false;
         public int EggLocation { get => 0; set { } }

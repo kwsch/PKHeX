@@ -6,7 +6,7 @@
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats
+    public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
@@ -25,7 +25,7 @@
         public Nature Nature { get; set; } = Nature.Random;
         public bool Gift { get; set; }
         public int Ball { get; set; } = 4; // Only checked when is Gift
-        public GameVersion Version = GameVersion.Any;
+        public GameVersion Version { get; set; } = GameVersion.Any;
         public int[] IVs { get; set; }
         public int FlawlessIVCount { get; internal set; }
         public bool IV3 { set => FlawlessIVCount = value ? 3 : 0; }

@@ -6,7 +6,7 @@
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats
+    public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }

@@ -332,9 +332,9 @@ namespace PKHeX.Core
             if (enc == null)
                 return new CheckResult(Severity.Invalid, V43, CheckIdentifier.Encounter);
 
-            if (pkm.XY && !enc.XY)
+            if (pkm.XY && !enc.CanBeReceivedBy(GameVersion.XY))
                 return new CheckResult(Severity.Invalid, V44, CheckIdentifier.Encounter);
-            if (pkm.AO && !enc.ORAS)
+            if (pkm.AO && !enc.CanBeReceivedBy(GameVersion.ORAS))
                 return new CheckResult(Severity.Invalid, V45, CheckIdentifier.Encounter);
 
             if (pkm.IsShiny)

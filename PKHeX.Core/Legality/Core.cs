@@ -2195,5 +2195,31 @@ namespace PKHeX.Core
             var index = table.GetFormeIndex(pk.Species, pk.AltForm);
             return learn[index].GetEncounterMoves(level);
         }
+
+        public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any)
+        {
+            switch (generation)
+            {
+                case 1:
+                case 2:
+                    if (Languages_GB.Contains((int)prefer) && (prefer != LanguageID.Korean || game == GameVersion.C))
+                        return prefer;
+                    return LanguageID.English;
+                case 3:
+                    if (Languages_3.Contains((int) prefer))
+                        return prefer;
+                    return LanguageID.English;
+                case 4:
+                case 5:
+                case 6:
+                    if (Languages_46.Contains((int)prefer))
+                        return prefer;
+                    return LanguageID.English;
+                default:
+                    if (Languages_7.Contains((int)prefer))
+                        return prefer;
+                    return LanguageID.English;
+            }
+        }
     }
 }

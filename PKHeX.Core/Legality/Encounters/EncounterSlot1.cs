@@ -11,6 +11,5 @@
     {
         public int Rate;
         internal EncounterTime Time = EncounterTime.Any;
-        public GameVersion Version = GameVersion.Any;
     }
 }
