@@ -25,8 +25,8 @@
         // Game Groupings (SaveFile type)
         /*SAV1*/ RB, RBY,
         /*SAV2*/ GS, GSC,
-        /*SAV3*/ RS, FRLG, RSBOX, COLO, XD,
-        /*SAV4*/ DP, HGSS, BATREV,
+        /*SAV3*/ RS, RSE, FRLG, RSBOX, COLO, XD,
+        /*SAV4*/ DP, DPPt, HGSS, BATREV,
         /*SAV5*/ BW, B2W2,
         /*SAV6*/ XY, ORASDEMO, ORAS,
         /*SAV7*/ SM, USUM,
@@ -84,17 +84,21 @@
                     return g2 == GameVersion.Stadium || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.EventsGBGen2;
 
                 case GameVersion.RS: return g2 == GameVersion.R || g2 == GameVersion.S;
+                case GameVersion.RSE:
+                    return GameVersion.RS.Contains(g2) || g2 == GameVersion.E;
                 case GameVersion.FRLG: return g2 == GameVersion.FR || g2 == GameVersion.LG;
                 case GameVersion.CXD: return g2 == GameVersion.COLO || g2 == GameVersion.XD;
                 case GameVersion.RSBOX: return GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2);
                 case GameVersion.Gen3:
-                    return GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2) || GameVersion.CXD.Contains(g2) || g2 == GameVersion.RSBOX;
+                    return GameVersion.RSE.Contains(g2) || GameVersion.FRLG.Contains(g2) || GameVersion.CXD.Contains(g2) || g2 == GameVersion.RSBOX;
 
                 case GameVersion.DP: return g2 == GameVersion.D || g2 == GameVersion.P;
                 case GameVersion.HGSS: return g2 == GameVersion.HG || g2 == GameVersion.SS;
+                case GameVersion.DPPt:
+                    return GameVersion.DP.Contains(g2) || g2 == GameVersion.Pt;
                 case GameVersion.BATREV: return GameVersion.DP.Contains(g2) || g2 == GameVersion.Pt || GameVersion.HGSS.Contains(g2);
                 case GameVersion.Gen4:
-                    return GameVersion.DP.Contains(g2) || g2 == GameVersion.Pt || GameVersion.HGSS.Contains(g2) || g2 == GameVersion.BATREV;
+                    return GameVersion.DPPt.Contains(g2) || GameVersion.HGSS.Contains(g2) || g2 == GameVersion.BATREV;
 
                 case GameVersion.BW: return g2 == GameVersion.B || g2 == GameVersion.W;
                 case GameVersion.B2W2: return g2 == GameVersion.B2 || g2 == GameVersion.W2;

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     public interface IVersion
     {
@@ -12,12 +14,26 @@
         {
             if (ver.CanBeReceivedBy(prefer) || ver.Version <= GameVersion.Unknown)
                 return prefer;
-            return ver.GetVersion();
+            return ver.GetSingleVersion();
         }
 
-        private static GameVersion GetVersion(this IVersion ver)
+        internal static void SetVersion(this IEnumerable<IVersion> arr, GameVersion game) 
+        {
+            foreach (var z in arr)
+                if (z.Version <= 0)
+                    z.Version = game;
+        }
+        internal static void SetVersion(this IEnumerable<EncounterArea> arr, GameVersion game)
+        {
+            foreach (var area in arr)
+                area.Slots.SetVersion(game);
+        }
+
+        private static GameVersion GetSingleVersion(this IVersion ver)
         {
             const int max = (int) GameVersion.RB;
+            if ((int)ver.Version < max)
+                return ver.Version;
             while (true) // this isn't optimal, but is low maintenance
             {
                 var game = (GameVersion)Util.Rand.Next(1, max);
