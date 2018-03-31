@@ -23,9 +23,9 @@ namespace PKHeX.Core
             int lvl = gen < 4 ? 5 : 1;
             if (baseSpecies <= max)
             {
-                yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies };
+                yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies };
                 if (gen > 5 && (pkm.WasTradedEgg || all))
-                    yield return new EncounterEgg { Game = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies };
+                    yield return new EncounterEgg { Version = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies };
             }
 
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
@@ -34,9 +34,9 @@ namespace PKHeX.Core
             baseSpecies = GetBaseSpecies(pkm, 1);
             if (baseSpecies <= max)
             {
-                yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
+                yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
                 if (gen > 5 && (pkm.WasTradedEgg || all))
-                    yield return new EncounterEgg { Game = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies, SplitBreed = true };
+                    yield return new EncounterEgg { Version = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies, SplitBreed = true };
             }
         }
 

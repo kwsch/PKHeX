@@ -89,18 +89,18 @@ namespace PKHeX.Core
             // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
             var AllowLevelUp = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
             int BaseLevel = AllowLevelUp ? 100 : e.LevelMin;
-            var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, BaseLevel);
+            var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, BaseLevel);
 
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo 
-                ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray() 
+                ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray() 
                 : new int[0];
 
-            var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game);
+            var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
-            bool volt = (info.Generation > 3 || e.Game == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
+            bool volt = (info.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             var Special = volt && EventEggMoves.Length == 0 ? new[] { 344 } : new int[0]; // Volt Tackle for bred Pichu line
 
             var source = new MoveParseSource
@@ -200,7 +200,7 @@ namespace PKHeX.Core
             };
 
             if (info.EncounterMatch is EncounterEgg e)
-                source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game);
+                source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
 
             CheckMoveResult[] res = ParseMoves(pkm, source, info);
 
