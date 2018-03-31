@@ -492,5 +492,13 @@ namespace PKHeX.Core
             pk.OT_Intensity = 1;
             pk.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
         }
+
+        public static void SetRandomMemory6(this PKM pk)
+        {
+            // for lack of better randomization :)
+            pk.OT_Memory = 63;
+            pk.OT_Intensity = 6;
+            pk.OT_Feeling = 3;
+        }
     }
 }

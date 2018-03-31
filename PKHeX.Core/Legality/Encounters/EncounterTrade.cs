@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Trade Encounter data
@@ -54,6 +56,67 @@
             0, 126, 254, 2001, 30002, 30001, 30001,
         };
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
+        public PKM ConvertToPKM(ITrainerInfo SAV)
+        {
+            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
+            int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
+            var pk = PKMConverter.GetBlank(Generation);
+
+            pk.EncryptionConstant = Util.Rand32();
+            pk.Species = Species;
+            pk.Language = lang;
+            pk.CurrentLevel = level;
+            pk.Version = (int)version;
+            pk.PID = Util.Rand32();
+            pk.Ball = Ball;
+            pk.Met_Level = LevelMin;
+            pk.Met_Location = Location;
+            pk.MetDate = DateTime.Today;
+
+            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
+            pk.Nature = nature;
+            int gender = Gender < 0 ? Util.Rand.Next(2) : Gender;
+            pk.Gender = pk.GetSaneGender(gender);
+            pk.AltForm = Form;
+
+            SAV.ApplyToPKM(pk);
+            pk.TID = TID;
+            pk.SID = SID;
+            pk.OT_Name = GetOT(lang) ?? SAV.OT;
+            pk.OT_Gender = GetOT(lang) != null ? OTGender : SAV.Gender;
+            pk.SetNickname(GetNickname(lang));
+            pk.Language = lang;
+
+            pk.RefreshAbility(Ability >> 1);
+
+            if (IVs != null)
+                pk.SetRandomIVs(IVs, 0);
+            else
+                pk.SetRandomIVs(flawless: 3);
+
+            if (pk.Format == 6)
+                pk.SetRandomMemory6();
+
+            if (pk is PK1 pk1 && this is EncounterTradeCatchRate c)
+                pk1.Catch_Rate = (int)c.Catch_Rate;
+
+            this.CopyContestStatsTo(pk);
+
+            var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+            if (Fateful)
+                pk.FatefulEncounter = true;
+
+            if (pk.Format < 6)
+                return pk;
+
+            SAV.ApplyHandlingTrainerInfo(pk);
+            pk.SetRandomEC();
+
+            return pk;
+        }
     }
 }

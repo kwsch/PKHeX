@@ -42,5 +42,15 @@
                 return false;
             return true;
         }
+
+        public static void CopyContestStatsTo(this IContestStats source, IContestStats dest)
+        {
+            dest.CNT_Cool = source.CNT_Cool;
+            dest.CNT_Beauty = source.CNT_Beauty;
+            dest.CNT_Cute = source.CNT_Cute;
+            dest.CNT_Smart = source.CNT_Smart;
+            dest.CNT_Tough = source.CNT_Tough;
+            dest.CNT_Sheen = source.CNT_Sheen;
+        }
     }
 }

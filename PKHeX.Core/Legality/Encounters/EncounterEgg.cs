@@ -28,6 +28,9 @@ namespace PKHeX.Core
             pk.CurrentLevel = Level;
             pk.Version = (int)Version;
 
+            int gender = Util.Rand.Next(2);
+            pk.Gender = pk.GetSaneGender(gender);
+
             var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);

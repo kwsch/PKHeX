@@ -66,7 +66,6 @@ namespace PKHeX.Core
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.SetRandomIVs(flawless: 3);
             pk.RefreshAbility(Ability);
-            SAV.ApplyHandlingTrainerInfo(pk);
             if (RelearnMoves != null)
                 pk.RelearnMoves = RelearnMoves;
             if (RibbonClassic)

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Static Encounter Data
@@ -64,6 +66,87 @@
         private const string _name = "Static Encounter";
         public string Name => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
+        public PKM ConvertToPKM(ITrainerInfo SAV)
+        {
+            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
+            int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            int level = LevelMin;
+            var pk = PKMConverter.GetBlank(Generation);
+
+            pk.EncryptionConstant = Util.Rand32();
+            pk.Species = Species;
+            pk.Language = lang;
+            pk.CurrentLevel = level;
+            pk.Version = (int)version;
+            pk.PID = Util.Rand32();
+            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
+            pk.Ball = Ball;
+            pk.Met_Level = level;
+            pk.Met_Location = Location;
+            var today = DateTime.Today;
+            pk.MetDate = today;
+            if (EggEncounter)
+            {
+                pk.Egg_Location = EggLocation;
+                pk.EggMetDate = today;
+            }
+
+            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
+            pk.Nature = nature;
+            int gender = Gender < 0 ? Util.Rand.Next(2) : Gender;
+            pk.Gender = pk.GetSaneGender(gender);
+            pk.AltForm = Form;
+
+            SAV.ApplyToPKM(pk);
+            pk.Language = lang;
+
+            pk.RefreshAbility(Ability >> 1);
+
+            if (IVs != null)
+                pk.SetRandomIVs(IVs, FlawlessIVCount);
+            else
+                pk.SetRandomIVs(flawless: FlawlessIVCount);
+
+            switch (pk.Format)
+            {
+                case 3:
+                case 4:
+                    PIDGenerator.SetValuesFromSeed(pk, Roaming ? PIDType.Method_1_Roamer : PIDType.Method_1, Util.Rand32());
+                    if (this is EncounterStaticTyped t)
+                        pk.EncounterType = t.TypeEncounter.GetIndex();
+                    break;
+                case 6:
+                    pk.SetRandomMemory6();
+                    break;
+            }
+
+            if (this is EncounterStaticPID pid)
+            {
+                pk.PID = pid.PID;
+                if (pk is PK5 pk5)
+                    pk5.NPokémon = pid.NSparkle;
+            }
+
+            this.CopyContestStatsTo(pk);
+
+            var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+            if (pk.Format >= 6 && Relearn != null)
+                pk.RelearnMoves = Relearn;
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+            if (Fateful)
+                pk.FatefulEncounter = true;
+
+            if (pk.Format < 6)
+                return pk;
+            if (RibbonWishing && pk is IRibbonSetEvent4 e4)
+                e4.RibbonWishing = true;
+
+            SAV.ApplyHandlingTrainerInfo(pk);
+            pk.SetRandomEC();
+
+            return pk;
+        }
     }
 }

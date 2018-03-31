@@ -922,6 +922,22 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Randomizes the IVs within game constraints.
+        /// </summary>
+        /// <returns>Randomized IVs if desired.</returns>
+        public int[] SetRandomIVs(int[] template, int? flawless = null)
+        {
+            int count = flawless ?? GetFlawlessIVCount();
+            int[] ivs = new int[6];
+            do
+            {
+                for (int i = 0; i < 6; i++)
+                    ivs[i] = template[i] < 0 ? (int) (Util.Rand32() & MaxIV) : template[i];
+            } while (ivs.Count(z => z == MaxIV) < count);
+            return ivs;
+        }
+
+        /// <summary>
         /// Gets the amount of flawless IVs that the <see cref="PKM"/> should have.
         /// </summary>
         /// <returns>Count of IVs that should be max.</returns>
