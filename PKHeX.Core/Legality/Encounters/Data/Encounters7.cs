@@ -50,6 +50,15 @@ namespace PKHeX.Core
 
             MarkEncounterTradeStrings(TradeGift_SM, TradeSM);
             MarkEncounterTradeStrings(TradeGift_USUM, TradeUSUM);
+
+            SlotsSN.SetVersion(GameVersion.SN);
+            SlotsMN.SetVersion(GameVersion.MN);
+            SlotsUS.SetVersion(GameVersion.US);
+            SlotsUM.SetVersion(GameVersion.UM);
+            Encounter_SM.SetVersion(GameVersion.SM);
+            Encounter_USUM.SetVersion(GameVersion.USUM);
+            TradeGift_SM.SetVersion(GameVersion.SM);
+            TradeGift_USUM.SetVersion(GameVersion.USUM);
         }
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {

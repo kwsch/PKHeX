@@ -79,6 +79,20 @@ namespace PKHeX.Core
 
             MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
             MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);
+
+            DP_GreatMarshAlt.SetVersion(GameVersion.DP);
+            DPPt_Unown.SetVersion(GameVersion.DPPt);
+            DP_Feebas.SetVersion(GameVersion.DP);
+            SlotsHGSSAlt.SetVersion(GameVersion.HGSS);
+            SlotsD.SetVersion(GameVersion.D);
+            SlotsP.SetVersion(GameVersion.P);
+            SlotsPt.SetVersion(GameVersion.Pt);
+            SlotsHG.SetVersion(GameVersion.HG);
+            SlotsSS.SetVersion(GameVersion.SS);
+            Encounter_DPPt.SetVersion(GameVersion.DPPt);
+            Encounter_HGSS.SetVersion(GameVersion.HGSS);
+            TradeGift_DPPt.SetVersion(GameVersion.DPPt);
+            TradeGift_HGSS.SetVersion(GameVersion.HGSS);
         }
 
         private static EncounterArea[] GetFeebasArea(EncounterArea template)

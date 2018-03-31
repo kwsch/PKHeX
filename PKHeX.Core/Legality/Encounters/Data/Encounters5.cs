@@ -51,6 +51,17 @@ namespace PKHeX.Core
             MarkEncounterTradeStrings(TradeGift_B2W2_Regular, TradeB2W2);
             foreach (var t in TradeGift_B2W2_YancyCurtis)
                 t.TrainerNames = t.OTGender == 0 ? TradeOT_B2W2_M : TradeOT_B2W2_F;
+
+            BW_DreamWorld.SetVersion(GameVersion.BW);
+            B2W2_DreamWorld.SetVersion(GameVersion.B2W2);
+            SlotsB.SetVersion(GameVersion.B);
+            SlotsW.SetVersion(GameVersion.W);
+            SlotsB2.SetVersion(GameVersion.B2);
+            SlotsW2.SetVersion(GameVersion.W2);
+            Encounter_BW.SetVersion(GameVersion.BW);
+            Encounter_B2W2.SetVersion(GameVersion.B2W2);
+            TradeGift_BW.SetVersion(GameVersion.BW);
+            TradeGift_B2W2.SetVersion(GameVersion.B2W2);
         }
 
         private static void MarkBWSwarmSlots(EncounterArea[] Areas)

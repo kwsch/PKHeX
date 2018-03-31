@@ -22,7 +22,13 @@ namespace PKHeX.Core
             var trades = TradeGift_RBY_Common.Concat(TradeGift_RBY_NoTradeback).Concat(TradeGift_RBY_Tradeback);
             var names = new[] {null, "トレーナー", "TRAINER", "TRAINER", "TRAINER", "TRAINER", null, "TRAINER", null};
             foreach (var t in trades)
+            {
                 t.TrainerNames = names;
+                t.Version = GameVersion.RBY;
+            }
+
+            SlotsRBY.SetVersion(GameVersion.RBY);
+            StaticRBY.SetVersion(GameVersion.RBY);
         }
 
         private static EncounterArea[] GetAreas()

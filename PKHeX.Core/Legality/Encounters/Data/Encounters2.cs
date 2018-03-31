@@ -28,6 +28,14 @@ namespace PKHeX.Core
             MarkEncountersGeneration(2, StaticGS, StaticC, StaticGSC, TradeGift_GSC);
 
             MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
+
+            SlotsGSC.SetVersion(GameVersion.GSC);
+            SlotsGS.SetVersion(GameVersion.GS);
+            SlotsC.SetVersion(GameVersion.C);
+            StaticGSC.SetVersion(GameVersion.GSC);
+            StaticGS.SetVersion(GameVersion.GS);
+            StaticC.SetVersion(GameVersion.C);
+            TradeGift_GSC.SetVersion(GameVersion.GSC);
         }
 
         private static EncounterArea[] GetTables2(GameVersion Version)

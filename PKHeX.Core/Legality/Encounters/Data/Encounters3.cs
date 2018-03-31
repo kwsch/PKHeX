@@ -61,6 +61,21 @@ namespace PKHeX.Core
 
             MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
             MarkEncounterTradeStrings(TradeGift_FRLG, TradeFRLG);
+
+            SlotsRSEAlt.SetVersion(GameVersion.RSE);
+            SlotsFRLGUnown.SetVersion(GameVersion.FRLG);
+            SlotsR.SetVersion(GameVersion.R);
+            SlotsS.SetVersion(GameVersion.S);
+            SlotsE.SetVersion(GameVersion.E);
+            SlotsFR.SetVersion(GameVersion.FR);
+            SlotsLG.SetVersion(GameVersion.LG);
+            Encounter_RSE.SetVersion(GameVersion.RSE);
+            Encounter_FRLG.SetVersion(GameVersion.FRLG);
+            TradeGift_RSE.SetVersion(GameVersion.RSE);
+            TradeGift_FRLG.SetVersion(GameVersion.FRLG);
+            Encounter_Colo.SetVersion(GameVersion.COLO);
+            Encounter_XD.SetVersion(GameVersion.XD);
+            SlotsXD.SetVersion(GameVersion.XD);
         }
 
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)

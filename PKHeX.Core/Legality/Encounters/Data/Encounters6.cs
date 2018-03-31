@@ -38,6 +38,17 @@ namespace PKHeX.Core
             FriendSafari = GetFriendSafariArea();
             MarkEncounterTradeStrings(TradeGift_XY, TradeXY);
             MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
+
+            SlotsXYAlt.SetVersion(GameVersion.XY);
+            FriendSafari.SelectMany(z => z).SetVersion(GameVersion.XY);
+            SlotsX.SetVersion(GameVersion.X);
+            SlotsY.SetVersion(GameVersion.Y);
+            SlotsA.SetVersion(GameVersion.AS);
+            SlotsO.SetVersion(GameVersion.OR);
+            Encounter_XY.SetVersion(GameVersion.XY);
+            Encounter_AO.SetVersion(GameVersion.ORAS);
+            TradeGift_XY.SetVersion(GameVersion.XY);
+            TradeGift_AO.SetVersion(GameVersion.ORAS);
         }
 
         private static ILookup<int, EncounterSlot> GetFriendSafariArea()
