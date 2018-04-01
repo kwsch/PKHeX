@@ -29,6 +29,8 @@ namespace PKHeX.Core
             pk.Version = (int)Version;
 
             var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
+            if (moves.Length == 0)
+                moves = Legal.GetEncounterMoves(pk, Level, Version);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
