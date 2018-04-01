@@ -82,8 +82,18 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
-            pk.PID = Util.Rand32();
-            pk.Gender = gender = pk.GetSaneGender(gender);
+
+            if (3 <= pk.Format && pk.Format <= 5)
+            {
+                pk.SetPIDGender(gender);
+                pk.Gender = pk.GetSaneGender(gender);
+            }
+            else
+            {
+                pk.PID = Util.Rand32();
+                pk.Gender = pk.GetSaneGender(gender);
+                pk.Nature = nature;
+            }
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
             pk.Met_Level = level;
@@ -95,7 +105,6 @@ namespace PKHeX.Core
                 pk.EggMetDate = today;
             }
 
-            pk.Nature = nature;
             pk.AltForm = Form;
 
             pk.Language = lang;
@@ -124,6 +133,7 @@ namespace PKHeX.Core
             if (this is EncounterStaticPID pid)
             {
                 pk.PID = pid.PID;
+                pk.Gender = pk.GetSaneGender(gender);
                 if (pk is PK5 pk5)
                     pk5.NPokémon = pid.NSparkle;
             }
