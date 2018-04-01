@@ -303,13 +303,16 @@ namespace PKHeX.Core
                 if (gen <= 2)
                 {
                     if (gen == 2 && !native && move > Legal.MaxMoveID_1 && pkm.VC1)
+                    {
                         res[m] = new CheckMoveResult(MoveSource.Unknown, gen, Severity.Invalid, V176, CheckIdentifier.Move);
-                    else if (gen == 2 && learnInfo.EggMovesLearned.Contains(move))
+                        continue;
+                    }
+                    if (gen == 2 && learnInfo.Source.EggMoveSource.Contains(move))
                         res[m] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Valid, V171, CheckIdentifier.Move);
                     else if (learnInfo.Source.Base.Contains(move))
                         res[m] = new CheckMoveResult(MoveSource.Initial, gen, Severity.Valid, native ? V361 : string.Format(V362, gen), CheckIdentifier.Move);
                 }
-                else if (info.EncounterMoves.LevelUpMoves[gen].Contains(move))
+                if (info.EncounterMoves.LevelUpMoves[gen].Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.LevelUp, gen, Severity.Valid, native ? V177 : string.Format(V330, gen), CheckIdentifier.Move);
                 else if (info.EncounterMoves.TMHMMoves[gen].Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.TMHM, gen, Severity.Valid, native ? V173 : string.Format(V331, gen), CheckIdentifier.Move);
