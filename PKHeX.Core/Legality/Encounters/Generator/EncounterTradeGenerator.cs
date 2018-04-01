@@ -36,16 +36,11 @@ namespace PKHeX.Core
         }
         private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
         {
-            switch (gameSource)
-            {
-                case GameVersion.RBY:
-                    return !AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
-                case GameVersion.GSC:
-                case GameVersion.C:
-                    return Encounters2.TradeGift_GSC;
-                default:
-                    return null;
-            }
+            if (GameVersion.RBY.Contains(gameSource))
+                return !AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
+            if (GameVersion.GSC.Contains(gameSource))
+                return Encounters2.TradeGift_GSC;
+            return null;
         }
         private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
         {

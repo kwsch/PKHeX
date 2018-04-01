@@ -71,9 +71,9 @@ namespace PKHeX.Core
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation);
             int gender = Util.Rand.Next(2);
-            pk.Gender = pk.GetSaneGender(gender);
-
             int nature = Util.Rand.Next(25);
+            SAV.ApplyToPKM(pk);
+
             pk.Nature = nature;
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
@@ -81,13 +81,12 @@ namespace PKHeX.Core
             pk.CurrentLevel = level;
             pk.Version = (int) version;
             pk.PID = Util.Rand32();
+            pk.Gender = gender = pk.GetSaneGender(gender);
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = 4;
             pk.Met_Level = level;
             pk.Met_Location = Location;
             pk.MetDate = DateTime.Today;
-
-            SAV.ApplyToPKM(pk);
             pk.Language = lang;
 
             pk.SetRandomIVs(flawless: 3);
@@ -111,6 +110,11 @@ namespace PKHeX.Core
                     PIDGenerator.SetValuesFromSeed(pk, PIDType.Method_1, Util.Rand32());
                     if (pk.Format == 4)
                         pk.EncounterType = TypeEncounter.GetIndex();
+                    pk.Gender = pk.GetSaneGender(gender);
+                    break;
+                case 5:
+                    if (Type == SlotType.HiddenGrotto)
+                        pk.RefreshAbility(2);
                     break;
                 case 6:
                     pk.SetRandomMemory6();

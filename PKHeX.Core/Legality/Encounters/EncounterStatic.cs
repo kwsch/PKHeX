@@ -72,6 +72,10 @@ namespace PKHeX.Core
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation);
+            int gender = Gender < 0 ? Util.Rand.Next(2) : Gender;
+            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
+            var today = DateTime.Today;
+            SAV.ApplyToPKM(pk);
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
@@ -79,11 +83,11 @@ namespace PKHeX.Core
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.PID = Util.Rand32();
+            pk.Gender = gender = pk.GetSaneGender(gender);
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
             pk.Met_Level = level;
             pk.Met_Location = Location;
-            var today = DateTime.Today;
             pk.MetDate = today;
             if (EggEncounter)
             {
@@ -91,13 +95,9 @@ namespace PKHeX.Core
                 pk.EggMetDate = today;
             }
 
-            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
             pk.Nature = nature;
-            int gender = Gender < 0 ? Util.Rand.Next(2) : Gender;
-            pk.Gender = pk.GetSaneGender(gender);
             pk.AltForm = Form;
 
-            SAV.ApplyToPKM(pk);
             pk.Language = lang;
 
             pk.RefreshAbility(Ability >> 1);
@@ -114,6 +114,7 @@ namespace PKHeX.Core
                     PIDGenerator.SetValuesFromSeed(pk, Roaming ? PIDType.Method_1_Roamer : PIDType.Method_1, Util.Rand32());
                     if (this is EncounterStaticTyped t)
                         pk.EncounterType = t.TypeEncounter.GetIndex();
+                    pk.Gender = pk.GetSaneGender(gender);
                     break;
                 case 6:
                     pk.SetRandomMemory6();

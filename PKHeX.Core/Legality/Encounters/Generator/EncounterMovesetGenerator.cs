@@ -32,9 +32,11 @@ namespace PKHeX.Core
                 foreach (var enc in encs)
                 {
                     var result = enc.ConvertToPKM(info);
-                    result.Version = (int)ver; // some encounters don't have explicit versions defined, provide one
-                    if (result.GenNumber <= 2)
-                        result.SID = 0;
+#if DEBUG
+                    var la = new LegalityAnalysis(result);
+                    if (!la.Valid)
+                        throw new Exception();
+#endif
                     yield return result;
                 }
             }
@@ -98,6 +100,7 @@ namespace PKHeX.Core
         {
             // generate possible eggs
             var eggs = GetEggs(pk, needs, version);
+            if (!GameVersion.CXD.Contains(version))
             foreach (var egg in eggs)
                 yield return egg;
 

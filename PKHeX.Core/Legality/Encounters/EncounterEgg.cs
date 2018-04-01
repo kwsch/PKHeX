@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo SAV)
         {
-            int gen = Version.GetGeneration();
+            int gen = Math.Max(2, Version.GetGeneration());
             var pk = PKMConverter.GetBlank(gen);
             SAV.ApplyToPKM(pk);
 
@@ -27,9 +27,6 @@ namespace PKHeX.Core
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)Version;
-
-            int gender = Util.Rand.Next(2);
-            pk.Gender = pk.GetSaneGender(gender);
 
             var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
             pk.Moves = moves;
@@ -41,15 +38,31 @@ namespace PKHeX.Core
             if (pk.Format <= 2 && Version != GameVersion.C)
                 return pk;
 
-            pk.PID = Util.Rand32();
-            pk.RefreshAbility(Util.Rand.Next(2));
-            pk.Ball = 4;
-
             pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
             pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
 
-            if (pk.Format < 4)
+            if (pk.Format < 3)
                 return pk;
+
+            pk.Ball = 4;
+
+            int gender = Util.Rand.Next(2);
+            int nature = Util.Rand.Next(25);
+
+            gender = pk.GetSaneGender(gender);
+            if (pk.Format <= 5)
+            {
+                pk.SetPIDGender(gender);
+                pk.SetPIDNature(nature);
+                pk.RefreshAbility(pk.PIDAbility);
+            }
+            else
+            {
+                pk.PID = Util.Rand32();
+                pk.Nature = nature;
+                pk.Gender = gender;
+                pk.RefreshAbility(Util.Rand.Next(2));
+            }
 
             bool traded = (int)Version == SAV.Game;
             var today = pk.MetDate = DateTime.Today;
@@ -61,7 +74,6 @@ namespace PKHeX.Core
 
             if (pk.Format < 6)
                 return pk;
-            SAV.ApplyHandlingTrainerInfo(pk);
             if (pk.Gen6)
                 pk.SetHatchMemory6();
 

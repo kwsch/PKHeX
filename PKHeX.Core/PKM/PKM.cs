@@ -700,6 +700,8 @@ namespace PKHeX.Core
             int[] abilities = PersonalInfo.Abilities;
             if (n < abilities.Length)
                 Ability = abilities[n];
+            if (this is PK5 pk5)
+                pk5.HiddenAbility = n == 2;
         }
 
         /// <summary>

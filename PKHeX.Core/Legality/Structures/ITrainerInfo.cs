@@ -25,7 +25,7 @@ namespace PKHeX.Core
         {
             pk.OT_Name = info.OT;
             pk.TID = info.TID;
-            pk.SID = info.SID;
+            pk.SID = pk.Format < 3 || pk.VC ? 0 : info.SID;
             pk.OT_Gender = info.Gender;
             pk.Language = info.Language;
             pk.Version = info.Game;
@@ -45,7 +45,7 @@ namespace PKHeX.Core
             pk.HT_Friendship = pk.OT_Friendship;
             pk.CurrentHandler = 1;
 
-            if (SAV.Generation == 6)
+            if (pk.Format == 6)
             {
                 pk.Geo1_Country = SAV.Country;
                 pk.Geo1_Region = SAV.SubRegion;
