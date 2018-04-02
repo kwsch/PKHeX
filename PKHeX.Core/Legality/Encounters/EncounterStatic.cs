@@ -96,9 +96,16 @@ namespace PKHeX.Core
             }
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
-            pk.Met_Level = level;
-            pk.Met_Location = Location;
-            pk.MetDate = today;
+            if (pk.Format > 2 || Version == GameVersion.C)
+            {
+                pk.Met_Location = Location;
+                pk.Met_Level = level;
+                if (Version == GameVersion.C && pk is PK2 pk2)
+                    pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+
+                if (pk.Format >= 4)
+                    pk.MetDate = DateTime.Today;
+            }
             if (EggEncounter)
             {
                 pk.Egg_Location = EggLocation;

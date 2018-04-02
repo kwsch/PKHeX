@@ -84,9 +84,17 @@ namespace PKHeX.Core
             pk.Gender = gender = pk.GetSaneGender(gender);
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = 4;
-            pk.Met_Level = level;
-            pk.Met_Location = Location;
-            pk.MetDate = DateTime.Today;
+
+            if (pk.Format > 2 || Version == GameVersion.C)
+            {
+                pk.Met_Location = Location;
+                pk.Met_Level = level;
+                if (Version == GameVersion.C && pk is PK2 pk2 && this is EncounterSlot1 slot)
+                    pk2.Met_TimeOfDay = slot.Time.RandomValidTime();
+
+                if (pk.Format >= 4)
+                    pk.MetDate = DateTime.Today;
+            }
             pk.Language = lang;
 
             pk.SetRandomIVs(flawless: 3);
