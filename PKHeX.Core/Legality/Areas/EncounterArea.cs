@@ -216,7 +216,7 @@ namespace PKHeX.Core
                         s.Species = dl[index + j].Species;
                         s.LevelMin = s.LevelMax = dl[index + j].Level;
                         s.Type = slots[i - 1].Type; // special slots are never first in a set, so copy previous type
-                        s.Time = j == 0 ? EncounterTime.MorningDay : EncounterTime.Night;
+                        s.Time = j == 0 ? EncounterTime.Morning | EncounterTime.Day : EncounterTime.Night;
                     }
                 }
                 area.Slots = slots;

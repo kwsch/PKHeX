@@ -328,8 +328,8 @@ namespace PKHeX.Core
                     return slots;
 
                 case 2:
-                    if (pkm is PK2 pk2 && pk2.Met_Day != 0)
-                        return slots.Where(slot => ((EncounterSlot1)slot).Time.Contains(pk2.Met_Day));
+                    if (pkm is PK2 pk2 && pk2.Met_TimeOfDay != 0)
+                        return slots.Where(slot => ((EncounterSlot1)slot).Time.Contains(pk2.Met_TimeOfDay));
                     return slots;
 
                 default:
