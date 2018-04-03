@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -148,6 +149,8 @@ namespace PKHeX.Core
             this.CopyContestStatsTo(pk);
 
             var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
+            if (pk.Format == 1 && moves.All(z => z == 0))
+                moves = (PersonalTable.RB[Species] as PersonalInfoG1).Moves;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             if (pk.Format >= 6 && Relearn != null)
