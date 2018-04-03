@@ -17,9 +17,10 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public BatchEditor(PKM pk, SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             pkmref = pk;
             SAV = sav;
-            InitializeComponent();
             DragDrop += TabMain_DragDrop;
             DragEnter += TabMain_DragEnter;
 

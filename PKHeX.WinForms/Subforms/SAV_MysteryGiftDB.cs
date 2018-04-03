@@ -18,10 +18,19 @@ namespace PKHeX.WinForms
         private readonly SAVEditor BoxView;
         public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
+            InitializeComponent();
+
+            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View" };
+            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift" };
+            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM" };
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
+
             SAV = sav.SAV;
             BoxView = sav;
             PKME_Tabs = tabs;
-            InitializeComponent();
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
@@ -59,18 +68,10 @@ namespace PKHeX.WinForms
             var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
-            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem("Save Gift");
-            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem("Save PKM");
-
             // Assign event handlers
             mnuView.Click += ClickView;
             mnuSaveMG.Click += ClickSaveMG;
             mnuSavePK.Click += ClickSavePK;
-
-            // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)

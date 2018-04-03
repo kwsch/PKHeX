@@ -12,9 +12,9 @@ namespace PKHeX.WinForms
         private readonly SAV3 SAV;
         public SAV_Misc3(SaveFile sav)
         {
-            SAV = (SAV3)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV3)(Origin = sav).Clone();
 
             if (SAV.FRLG || SAV.E)
                 ReadJoyful();

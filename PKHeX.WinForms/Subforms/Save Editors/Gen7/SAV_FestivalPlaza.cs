@@ -12,9 +12,9 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV;
         public SAV_FestivalPlaza(SaveFile sav)
         {
+            InitializeComponent();
             SAV = (SAV7)(Origin = sav).Clone();
             editing = true;
-            InitializeComponent();
             typeMAX = SAV.USUM ? 0x7F : 0x7C;
             TB_PlazaName.Text = SAV.FestivalPlazaName;
             if (SAV.USUM)

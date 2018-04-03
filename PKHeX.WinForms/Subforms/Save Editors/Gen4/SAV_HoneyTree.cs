@@ -11,9 +11,9 @@ namespace PKHeX.WinForms
         private readonly SAV4 SAV;
         public SAV_HoneyTree(SaveFile sav)
         {
-            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV4)(Origin = sav).Clone();
 
             if (SAV.DP)
                 Table = HoneyTree.TableDP;

@@ -11,9 +11,9 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_BoxLayout(SaveFile sav, int box)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
             editing = true;
 
             if (!SAV.HasBoxWallpapers)

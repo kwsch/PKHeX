@@ -14,8 +14,9 @@ namespace PKHeX.WinForms
         private readonly SAV5 SAV;
         public SAV_CGearSkin(SaveFile sav)
         {
-            SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV5)(Origin = sav).Clone();
 
             byte[] data = SAV.CGearSkinData;
             bg = new CGearBackground(data);

@@ -18,9 +18,10 @@ namespace PKHeX.WinForms
 
         public KChart(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = sav;
             alolanOnly = SAV.Generation == 7 && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Alolan Dex only?");
-            InitializeComponent();
 
             Array.Resize(ref species, SAV.Personal.TableLength);
 

@@ -11,9 +11,9 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_OPower(SaveFile sav)
         {
-            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
             LoadData();
         }
 

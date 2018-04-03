@@ -10,9 +10,9 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_SimplePokedex(SaveFile sav)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
             seen = new bool[SAV.MaxSpeciesID];
             caught = new bool[SAV.MaxSpeciesID];
 

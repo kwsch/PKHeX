@@ -9,9 +9,9 @@ namespace PKHeX.WinForms
     {
         public SAV_Pokebean(SaveFile sav)
         {
-            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV7)(Origin = sav).Clone();
 
             var colors = new[] {"Red", "Blue", "Light Blue", "Green", "Yellow", "Purple", "Orange"};
             var beans = new List<string>();

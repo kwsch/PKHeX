@@ -12,15 +12,15 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_Link6(SaveFile sav)
         {
-            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
             foreach (var cb in TAB_Items.Controls.OfType<ComboBox>())
             {
                 cb.DisplayMember = "Text";
                 cb.ValueMember = "Value";
                 cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= SAV.MaxItemID).ToArray(), null);
             }
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             byte[] data = SAV.LinkBlock;
             if (data == null)
             {

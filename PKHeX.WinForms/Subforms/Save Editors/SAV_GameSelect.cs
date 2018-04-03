@@ -13,6 +13,7 @@ namespace PKHeX.WinForms
         public SAV_GameSelect(IEnumerable<ComboItem> items)
         {
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             CB_Game.DisplayMember = nameof(ComboItem.Text);
             CB_Game.ValueMember = nameof(ComboItem.Value);
             CB_Game.DataSource = new BindingSource(items.ToList(), null);

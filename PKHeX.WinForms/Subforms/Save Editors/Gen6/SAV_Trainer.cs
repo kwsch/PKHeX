@@ -12,8 +12,9 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_Trainer(SaveFile sav)
         {
-            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
             if (Main.Unicode)
                 try
                 {
@@ -23,7 +24,6 @@ namespace PKHeX.WinForms
                 }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
 
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             CB_Gender.Items.Clear();

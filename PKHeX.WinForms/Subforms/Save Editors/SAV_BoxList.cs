@@ -14,6 +14,7 @@ namespace PKHeX.WinForms
         public SAV_BoxList(SAVEditor p, SlotChangeManager m)
         {
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             // initialize boxes dynamically
             var sav = p.SAV;

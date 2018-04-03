@@ -12,6 +12,7 @@ namespace PKHeX.WinForms
         {
             pkm = pk;
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_SuperTrain.Padding = TLP_DistSuperTrain.Padding = new Padding(0, 0, vertScrollWidth, 0);
 
@@ -22,7 +23,6 @@ namespace PKHeX.WinForms
             TLP_DistSuperTrain.Scroll += WinFormsUtil.PanelScroll;
             PopulateRegimens("SuperTrain", TLP_SuperTrain, reglist);
             PopulateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             TLP_SuperTrain.ResumeLayout();
             TLP_DistSuperTrain.ResumeLayout();
             

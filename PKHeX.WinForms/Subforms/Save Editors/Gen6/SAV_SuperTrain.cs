@@ -11,14 +11,14 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_SuperTrain(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6)(Origin = sav).Clone();
             trba = GameInfo.Strings.trainingbags;
             trba[0] = "---";
             offsetTime = SAV.SuperTrain + 0x08;
             offsetSpec = SAV.SuperTrain + 0x188;
             offsetVal = SAV.SuperTrain + 0x18A;
-            InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             string[] stages = GameInfo.Strings.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 32; i++)

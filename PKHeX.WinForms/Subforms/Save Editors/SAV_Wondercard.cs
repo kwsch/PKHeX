@@ -14,9 +14,9 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_Wondercard(SaveFile sav, MysteryGift g = null)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
             mga = SAV.GiftAlbum;
             
             switch (SAV.Generation)

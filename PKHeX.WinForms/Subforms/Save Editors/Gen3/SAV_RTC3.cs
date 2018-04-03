@@ -10,9 +10,9 @@ namespace PKHeX.WinForms
         private readonly SAV3 SAV;
         public SAV_RTC3(SaveFile sav)
         {
-            SAV = (SAV3)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV3)(Origin = sav).Clone();
 
             ClockInitial = SAV.ClockInitial;
             ClockElapsed = SAV.ClockElapsed;

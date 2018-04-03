@@ -12,9 +12,9 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_Inventory(SaveFile sav)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
             itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version);
 
             for (int i = 0; i < itemlist.Length; i++)

@@ -8,9 +8,9 @@ namespace PKHeX.WinForms
     {
         public SAV_Apricorn(SaveFile sav)
         {
-            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV4)(Origin = sav).Clone();
 
             Setup();
         }

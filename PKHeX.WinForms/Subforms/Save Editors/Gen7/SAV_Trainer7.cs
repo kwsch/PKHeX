@@ -12,14 +12,14 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV;
         public SAV_Trainer7(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV7)(Origin = sav).Clone();
             Loading = true;
-            InitializeComponent();
             if (Main.Unicode)
             try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
 
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             CB_Gender.Items.Clear();

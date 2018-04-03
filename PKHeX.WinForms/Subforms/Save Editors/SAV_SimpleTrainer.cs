@@ -11,10 +11,10 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_SimpleTrainer(SaveFile sav)
         {
-            SAV = (Origin = sav).Clone();
-            Loading = true;
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
+            Loading = true;
 
             cba = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8};
             TB_OTName.MaxLength = SAV.OTLength;

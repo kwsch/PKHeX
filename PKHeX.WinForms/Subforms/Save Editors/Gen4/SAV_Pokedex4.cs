@@ -12,10 +12,10 @@ namespace PKHeX.WinForms
         private readonly SAV4 SAV;
         public SAV_Pokedex4(SaveFile sav)
         {
-            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
-            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
+            SAV = (SAV4)(Origin = sav).Clone();
 
             editing = true;
             // Clear Listbox and ComboBox

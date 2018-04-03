@@ -15,9 +15,10 @@ namespace PKHeX.WinForms
         private readonly SAV4 SAV;
         public SAV_Misc4(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             int ofsFlag;
             SAV = (SAV4)(Origin = sav).Clone();
-            InitializeComponent();
 
             int GBO = SAV.GBO;
             switch (SAV.Version)

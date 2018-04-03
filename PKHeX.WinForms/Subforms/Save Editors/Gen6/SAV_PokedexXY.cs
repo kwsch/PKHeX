@@ -13,11 +13,11 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_PokedexXY(SaveFile sav)
         {
-            SAV = (Origin = sav).Clone() as SAV6;
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             editing = true;
             // Clear Listbox and ComboBox

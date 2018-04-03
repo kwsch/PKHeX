@@ -12,8 +12,9 @@ namespace PKHeX.WinForms
         private readonly SAV5 SAV;
         public SAV_Misc5(SaveFile sav)
         {
-            SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV5)(Origin = sav).Clone();
             ReadMain();
             if (SAV.B2W2) ReadEntralink();
             else TC_Misc.Controls.Remove(TAB_Entralink);

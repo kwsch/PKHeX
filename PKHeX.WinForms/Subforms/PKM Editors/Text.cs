@@ -12,10 +12,10 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public TrashEditor(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
         {
-            SAV = sav;
             InitializeComponent();
-            bigendian = new[] { GameVersion.COLO, GameVersion.XD, GameVersion.BATREV, }.Contains(SAV.Version);
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = sav;
+            bigendian = new[] { GameVersion.COLO, GameVersion.XD, GameVersion.BATREV, }.Contains(SAV.Version);
 
             FinalString = TB_NN.Text;
             Raw = FinalBytes = raw;

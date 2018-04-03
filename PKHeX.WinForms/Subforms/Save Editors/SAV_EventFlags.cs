@@ -15,8 +15,9 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_EventFlags(SaveFile sav)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
 
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;

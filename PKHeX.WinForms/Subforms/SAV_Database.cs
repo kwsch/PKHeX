@@ -20,10 +20,18 @@ namespace PKHeX.WinForms
         private readonly PKMEditor PKME_Tabs;
         public SAV_Database(PKMEditor f1, SAVEditor saveditor)
         {
+            InitializeComponent();
+
+            ToolStripMenuItem mnuView = new ToolStripMenuItem {Name = "mnuView", Text = "View"};
+            ToolStripMenuItem mnuDelete = new ToolStripMenuItem {Name = "mnuDelete", Text = "Delete" };
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
+
             SAV = saveditor.SAV;
             BoxView = saveditor;
             PKME_Tabs = f1;
-            InitializeComponent();
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
@@ -66,16 +74,11 @@ namespace PKHeX.WinForms
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
             PopulateComboBoxes();
 
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
-            ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
-
             // Assign event handlers
             mnuView.Click += ClickView;
             mnuDelete.Click += ClickDelete;
 
             // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
