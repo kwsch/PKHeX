@@ -74,7 +74,7 @@ namespace PKHeX.WinForms
                             foreach (var obj in GetToolStripMenuItems(z.ContextMenuStrip))
                                 yield return obj;
 
-                        if (z is ComboBox || z is TextBox || z is MaskedTextBox || z is LinkLabel)
+                        if (z is ComboBox || z is TextBox || z is MaskedTextBox || z is LinkLabel || z is NumericUpDown)
                             break; // undesirable to modify, ignore
 
                         if (!string.IsNullOrWhiteSpace(z.Text))
@@ -132,6 +132,27 @@ namespace PKHeX.WinForms
             var results = Context.Select(z => new {Lang = z.Key, Lines = z.Value.Write()});
             foreach (var c in results)
                 File.WriteAllLines(GetTranslationFileNameExternal(c.Lang), c.Lines);
+        }
+
+        public static void LoadAllForms()
+        {
+            var q = from t in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                where t.BaseType == typeof(Form)
+                select t;
+            foreach (var t in q)
+            {
+                var constructors = t.GetConstructors();
+                if (constructors.Length == 0)
+                { System.Console.WriteLine($"skipped {t.Name}"); continue; }
+                var argCount = constructors.First().GetParameters().Length;
+                if (argCount <= 0)
+                { System.Console.WriteLine($"skipped {t.Name}"); continue; }
+                try
+                {
+                    var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);
+                }
+                catch { }
+            }
         }
     }
 
