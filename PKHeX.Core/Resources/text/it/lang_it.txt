@@ -320,8 +320,7 @@ SAV_EventFlags.GB_Constants=Event Constants
 SAV_EventFlags.GB_Flags=Event Flags
 SAV_EventFlags.GB_FlagStatus=Check Status
 SAV_EventFlags.GB_Researcher=FlagDiff Researcher
-SAV_EventFlags.L_EventFlagWarn=Altering Event Flags may impact other story events.
-Save file backups are recommended.
+SAV_EventFlags.L_EventFlagWarn=Altering Event Flags may impact other story events. Save file backups are recommended.
 SAV_EventFlags.L_IsSet=IsSet:
 SAV_EventFlags.L_Stats=Constant:
 SAV_EventFlags.L_UnSet=UnSet:
