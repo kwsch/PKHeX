@@ -96,7 +96,7 @@ namespace PKHeX.Core
         /// Makes a <see cref="PKM"/> shiny.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <returns>Returns <see cref="bool.True"/> if the <see cref="PKM"/> data was modified.</returns>
+        /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
         public static bool SetShiny(this PKM pk)
         {
             if (pk.IsShiny)
@@ -113,7 +113,7 @@ namespace PKHeX.Core
         /// Makes a <see cref="PKM"/> not-shiny.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <returns>Returns <see cref="bool.True"/> if the <see cref="PKM"/> data was modified.</returns>
+        /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
         public static bool SetUnshiny(this PKM pk)
         {
             if (!pk.IsShiny)

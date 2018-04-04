@@ -37,6 +37,7 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
+        public override bool IsShiny => Shiny == Shiny.Always;
 
         // Description
         public override string CardTitle { get; set; } = "Generation 3 Event";
