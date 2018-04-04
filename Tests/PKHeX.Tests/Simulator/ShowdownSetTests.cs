@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PKHeX.Core;
 
@@ -14,7 +15,8 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetParse()
         {
             var set = new ShowdownSet(SetGlaceonUSUMTutor);
-            Assert.AreEqual(SetGlaceonUSUMTutor, set.Text);
+            string Sanitize(string str) => str.Replace("\r\n", "").Replace("\n", "");
+            Assert.IsTrue(Sanitize(SetGlaceonUSUMTutor) == Sanitize(set.Text));
         }
 
         [TestMethod]
@@ -43,6 +45,22 @@ namespace PKHeX.Tests.Simulator
             {
                 var la2 = new LegalityAnalysis(t);
                 Assert.IsTrue(la2.Valid);
+            }
+        }
+
+        //[TestMethod]
+        //[TestCategory(SimulatorParse)]
+        public void TestGenerate()
+        {
+            for (int i = 1; i <= 807; i++)
+            {
+                var tr = new SimpleTrainerInfo();
+                var pk = new PK7 { Species = i };
+                var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr);
+                Debug.WriteLine($"Starting {i:000}");
+                bool v = ez.Select(p => new LegalityAnalysis(p)).All(la => la.Valid);
+                Debug.WriteLine($"Finished {i:000}");
+                Debug.Assert(v);
             }
         }
 
