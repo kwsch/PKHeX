@@ -127,26 +127,30 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static void DumpAll()
+        public static void DumpAll(params string[] banlist)
         {
             var results = Context.Select(z => new {Lang = z.Key, Lines = z.Value.Write()});
             foreach (var c in results)
-                File.WriteAllLines(GetTranslationFileNameExternal(c.Lang), c.Lines);
+            {
+                var lang = c.Lang;
+                var fn = GetTranslationFileNameExternal(lang);
+                var lines = c.Lines;
+                var result = lines.Where(z => !banlist.Any(z.Contains));
+                File.WriteAllLines(fn, result);
+            }
         }
 
-        public static void LoadAllForms()
+        public static void LoadAllForms(params string[] banlist)
         {
             var q = from t in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
-                where t.BaseType == typeof(Form)
+                where t.BaseType == typeof(Form) && !banlist.Contains(t.Name)
                 select t;
             foreach (var t in q)
             {
                 var constructors = t.GetConstructors();
                 if (constructors.Length == 0)
-                { System.Console.WriteLine($"skipped {t.Name}"); continue; }
+                { System.Console.WriteLine($"No constructors: {t.Name}"); continue; }
                 var argCount = constructors.First().GetParameters().Length;
-                if (argCount <= 0)
-                { System.Console.WriteLine($"skipped {t.Name}"); continue; }
                 try
                 {
                     var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);
@@ -154,14 +158,39 @@ namespace PKHeX.WinForms
                 catch { }
             }
         }
+
+        public static void SetRemovalMode(bool status = true)
+        {
+            foreach (TranslationContext c in Context.Values)
+            {
+                c.RemoveUsedKeys = status;
+                c.AddNew = !status;
+            }
+        }
+
+        public static void RemoveAll(string defaultLanguage, params string[] banlist)
+        {
+            var badKeys = Context[defaultLanguage];
+            var split = badKeys.Write().Select(z => z.Split(TranslationContext.Separator)[0])
+                .Where(l => !banlist.Any(l.StartsWith)).ToArray();
+            foreach (var c in Context)
+            {
+                var lang = c.Key;
+                var fn = GetTranslationFileNameExternal(lang);
+                var lines = File.ReadAllLines(fn);
+                var result = lines.Where(l => !split.Any(s => l.StartsWith(s + TranslationContext.Separator)));
+                File.WriteAllLines(fn, result);
+            }
+        }
     }
 
     public class TranslationContext
     {
-        public bool AddNew { get; set; } = true;
-        public bool RemoveUsedKeys { get; set; } = false;
+        public bool AddNew { private get; set; } = true;
+        public bool RemoveUsedKeys { private get; set; }
+        public const char Separator = '=';
         private readonly Dictionary<string, string> Translation = new Dictionary<string, string>();
-        public TranslationContext(IEnumerable<string> content, char separator = '=')
+        public TranslationContext(IEnumerable<string> content, char separator = Separator)
         {
             var entries = content.Select(z => z.Split(separator)).Where(z => z.Length == 2);
             foreach (var r in entries.Where(z => !Translation.ContainsKey(z[0])))
@@ -181,7 +210,7 @@ namespace PKHeX.WinForms
             return fallback;
         }
 
-        public IEnumerable<string> Write(char separator = '=')
+        public IEnumerable<string> Write(char separator = Separator)
         {
             return Translation.Select(z => $"{z.Key}{separator}{z.Value}").OrderBy(z => z.Contains(".")).ThenBy(z => z);
         }

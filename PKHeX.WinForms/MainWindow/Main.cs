@@ -929,10 +929,6 @@ namespace PKHeX.WinForms
             GameInfo.Strings = GameInfo.GetStrings(l);
 
             // Update Legality Strings
-            // WinFormsTranslator.LoadAllForms();
-            // WinFormsTranslator.UpdateAll("en", new[] {"ja", "fr", "it", "de", "es", "ko", "zh", "pt"});
-            // WinFormsTranslator.DumpAll();
-            // Clipboard.SetText(string.Join(Environment.NewLine, Util.GetLocalization(typeof(LegalityCheckStrings))));
             Task.Run(() => {
                     var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2);
                     Util.SetLocalization(typeof(LegalityCheckStrings), lang);
