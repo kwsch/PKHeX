@@ -33,7 +33,7 @@
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
             this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
             this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.Label_Base = new System.Windows.Forms.Label();
             this.Label_IVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
@@ -179,7 +179,7 @@
             // FLP_StatsHeaderRight
             // 
             this.FLP_StatsHeaderRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatsHeaderRight.Controls.Add(this.label1);
+            this.FLP_StatsHeaderRight.Controls.Add(this.Label_Base);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_IVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_EVs);
             this.FLP_StatsHeaderRight.Controls.Add(this.Label_Stats);
@@ -189,15 +189,15 @@
             this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(162, 21);
             this.FLP_StatsHeaderRight.TabIndex = 123;
             // 
-            // label1
+            // Label_Base
             // 
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 21);
-            this.label1.TabIndex = 30;
-            this.label1.Text = "Base";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Label_Base.Location = new System.Drawing.Point(0, 0);
+            this.Label_Base.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_Base.Name = "Label_Base";
+            this.Label_Base.Size = new System.Drawing.Size(34, 21);
+            this.Label_Base.TabIndex = 30;
+            this.Label_Base.Text = "Base";
+            this.Label_Base.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Label_IVs
             // 
@@ -1074,7 +1074,7 @@
         private System.Windows.Forms.Button BTN_RandomEVs;
         private System.Windows.Forms.Button BTN_RandomIVs;
         private System.Windows.Forms.Panel PAN_BTN;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Label_Base;
         private System.Windows.Forms.MaskedTextBox TB_HPBase;
         private System.Windows.Forms.MaskedTextBox TB_ATKBase;
         private System.Windows.Forms.MaskedTextBox TB_DEFBase;
