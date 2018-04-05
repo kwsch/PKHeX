@@ -29,7 +29,6 @@ namespace PKHeX.WinForms
         private static readonly string[] Banlist =
         {
             nameof(SplashScreen),
-            "Main.label1=", // idk why this pops up but it does
             "Gender=", // editor gender labels
             "BTN_Shinytize", // ☆
             "Main.B_Box", // << and >> arrows

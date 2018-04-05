@@ -139,6 +139,7 @@ Main.Label_3DSRegion=3DS Region:
 Main.Label_Ability=Ability:
 Main.Label_ATK=Atk:
 Main.Label_Ball=Ball:
+Main.Label_Base=Base
 Main.Label_Beauty=Beauty
 Main.Label_CharacteristicPrefix=Characteristic:
 Main.Label_Clever=Clever

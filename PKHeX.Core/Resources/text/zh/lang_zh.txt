@@ -139,6 +139,7 @@ Main.Label_3DSRegion=3DS区域:
 Main.Label_Ability=特性:
 Main.Label_ATK=攻击:
 Main.Label_Ball=精灵球种类:
+Main.Label_Base=种族值
 Main.Label_Beauty=美丽
 Main.Label_CharacteristicPrefix=个性:
 Main.Label_Clever=聪明
