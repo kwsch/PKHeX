@@ -281,10 +281,10 @@ namespace PKHeX.Core
                 return true;
 
             // failure to parse, check edge cases
-            var edge = new[] {784, 250}; // all species with dashes in English Name (Kommo-o & Ho-Oh)
+            var edge = new[] {784, 250, 032, 029}; // all species with dashes in English Name (Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F)
             foreach (var e in edge)
             {
-                if (!spec.StartsWith(species[e]))
+                if (!spec.StartsWith(species[e].Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
                 Species = e;
                 Form = spec.Substring(species[e].Length);
