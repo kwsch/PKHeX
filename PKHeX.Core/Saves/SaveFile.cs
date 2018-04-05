@@ -596,7 +596,7 @@ namespace PKHeX.Core
             if (BoxEnd > BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart));
 
-            var Sorted = PKX.SortPKMs(Section);
+            var Sorted = Section.OrderBySpecies();
 
             Sorted.CopyTo(BD, start);
             BoxData = BD;

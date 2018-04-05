@@ -895,22 +895,6 @@ namespace PKHeX.Core
             }
         }
 
-        /// <summary>
-        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects according to common-usage.
-        /// </summary>
-        /// <param name="list">Source list to sort</param>
-        /// <returns>Enumerable list that is sorted</returns>
-        public static IEnumerable<PKM> SortPKMs(IEnumerable<PKM> list)
-        {
-            return list
-                .OrderBy(p => p.Species == 0) // empty slots at end
-                .ThenBy(p => p.IsEgg) // eggs to the end
-                .ThenBy(p => p.Species) // species sorted
-                .ThenBy(p => p.AltForm) // altforms sorted
-                .ThenBy(p => p.Gender) // gender sorted
-                .ThenBy(p => p.IsNicknamed);
-        }
-
         internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
         internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
         internal static bool IsPKMPresentGBA(byte[] data, int offset)
