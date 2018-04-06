@@ -7,6 +7,8 @@ using PKHeX.Core;
 using PKHeX.WinForms.Properties;
 using System.ComponentModel;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor : UserControl, IMainEditor
@@ -196,7 +198,7 @@ namespace PKHeX.WinForms.Controls
         public void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false) => LoadFieldsFromPKM(pk, focus, skipConversionCheck);
         private void LoadFieldsFromPKM(PKM pk, bool focus = true, bool skipConversionCheck = true)
         {
-            if (pk == null) { WinFormsUtil.Error("Attempted to load a null file."); return; }
+            if (pk == null) { WinFormsUtil.Error(MsgPKMLoadNull); return; }
             if (focus)
                 Tab_Main.Focus();
 
@@ -645,7 +647,7 @@ namespace PKHeX.WinForms.Controls
             if (m == null)
             {
                 if (!silent)
-                    WinFormsUtil.Alert("Suggestions are not enabled for this PKM format.");
+                    WinFormsUtil.Alert(MsgPKMSuggestionFormat);
                 return false;
             }
 
@@ -660,9 +662,9 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]);
+                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? MsgProgramError : GameInfo.Strings.movelist[v]);
                 string r = string.Join(Environment.NewLine, movestrings);
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, r))
                     return false;
             }
 
@@ -683,9 +685,9 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]);
+                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? MsgProgramError : GameInfo.Strings.movelist[v]);
                 string r = string.Join(Environment.NewLine, movestrings);
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, r))
                     return false;
             }
 
@@ -701,7 +703,7 @@ namespace PKHeX.WinForms.Controls
             if (encounter == null || pkm.Format >= 3 && encounter.Location < 0)
             {
                 if (!silent)
-                    WinFormsUtil.Alert("Unable to provide a suggestion.");
+                    WinFormsUtil.Alert(MsgPKMSuggestionNone);
                 return false;
             }
 
@@ -1712,16 +1714,16 @@ namespace PKHeX.WinForms.Controls
 
         private static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minlvl)
         {
-            var suggestion = new List<string> { "Suggested:" };
+            var suggestion = new List<string> { MsgPKMSuggestionStart };
             if (pkm.Format >= 3)
             {
                 var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
                 var locstr = met_list.FirstOrDefault(loc => loc.Value == location).Text;
-                suggestion.Add($"Met Location: {locstr}");
-                suggestion.Add($"Met Level: {level}");
+                suggestion.Add($"{MsgPKMSuggestionMetLocation} {locstr}");
+                suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");
             }
             if (pkm.CurrentLevel < minlvl)
-                suggestion.Add($"Current Level: {minlvl}");
+                suggestion.Add($"{MsgPKMSuggestionLevel} {minlvl}");
             return suggestion;
         }
         private static void InitializeBinding(ListControl cb)

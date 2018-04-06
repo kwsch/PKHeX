@@ -383,6 +383,7 @@
             this.dragout.TabIndex = 60;
             this.dragout.TabStop = false;
             this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragoutDrop);
+            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.Dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Dragout_MouseDown);
             this.dragout.MouseEnter += new System.EventHandler(this.DragoutEnter);
             this.dragout.MouseLeave += new System.EventHandler(this.DragoutLeave);
