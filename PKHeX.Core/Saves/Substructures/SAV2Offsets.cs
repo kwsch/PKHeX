@@ -162,8 +162,8 @@
             JohtoBadges = 0x23DC;
             BoxNames = 0x26FF;
             Party = 0x28CC;
-            PokedexCaught = 0x2AAE;
-            PokedexSeen = 0x2ACE;
+            PokedexCaught = 0x2A8E;
+            PokedexSeen = 0x2AAE;
             CurrentBox = 0x2DAE;
             CurrentBoxIndex = 0x26FC;
             Gender = -1; // No gender in GS
