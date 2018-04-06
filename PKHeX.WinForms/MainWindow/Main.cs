@@ -489,7 +489,7 @@ namespace PKHeX.WinForms
                 OpenFile(input, path, ext);
                 #else
                 try { OpenFile(input, path, ext); }
-                catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail, path, e); }
+                catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
                 #endif
             }
         }
