@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -109,6 +110,19 @@ namespace PKHeX.Core
             return list.InitialSortBy()
                 .ThenByDescending(trainer.IsOriginalHandler) // true first
                 .ThenBy(p => p.Species)
+                .FinalSortBy();
+        }
+
+        /// <summary>
+        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects based on the provided filter operations.
+        /// </summary>
+        /// <param name="list">Source list to sort</param>
+        /// <param name="filters">Filter operations to sort with (sorted with ThenBy after the initial sort).</param>
+        /// <returns>Enumerable list that is sorted</returns>
+        public static IEnumerable<PKM> OrderByCustom(this IEnumerable<PKM> list, params Func<PKM, IComparable>[] filters)
+        {
+            var init = list.InitialSortBy();
+            return filters.Aggregate(init, (current, f) => current.ThenBy(f))
                 .FinalSortBy();
         }
 
