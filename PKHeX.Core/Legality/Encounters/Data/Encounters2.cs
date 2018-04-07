@@ -259,7 +259,7 @@ namespace PKHeX.Core
 
             new EncounterTrade { Species = 085, Level = 10, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [wild]
             new EncounterTrade { Species = 178, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
-            new EncounterTrade { Species = 082, Level = 16, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [wild]
+            new EncounterTrade { Species = 082, Level = 05, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
             
             new EncounterTrade { Species = 021, Level = 10, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
             new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free

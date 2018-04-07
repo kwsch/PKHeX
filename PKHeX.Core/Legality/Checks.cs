@@ -373,14 +373,24 @@ namespace PKHeX.Core
             {
                 int lang = pkm.Language;
                 if (EncounterMatch.Species == 25) // Pikachu
+                {
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
+                    // flag korean magikarp on gen4 saves since the pkm.Language is German
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean)
+                        AddLine(Severity.Invalid, string.Format(V610, V611, V612), CheckIdentifier.Language);
+                }
                 VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
             }
             else // DPPt
             {
                 int lang = pkm.Language;
                 if (EncounterMatch.Species == 129) // Magikarp
+                {
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
+                    // flag korean magikarp on gen4 saves since the pkm.Language is German
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean)
+                        AddLine(Severity.Invalid, string.Format(V610, V611, V612), CheckIdentifier.Language);
+                }
                 else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang
                 {
                     int index = Array.IndexOf(Encounters4.TradeGift_DPPt, EncounterMatch);
@@ -408,8 +418,8 @@ namespace PKHeX.Core
                 lang = i;
                 break;
             }
-            if (lang == 2) // possible collision with EN/ES/IT. Check nickname
-                return pkm.Nickname == table[4][3] ? (int)LanguageID.Italian : (int)LanguageID.Spanish; // Spanish is same as English
+            if (lang == 2) // possible collision with FR/ES/DE. Check nickname
+                return pkm.Nickname == table[3][3] ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
 
             return lang;
         }
@@ -677,7 +687,7 @@ namespace PKHeX.Core
         {
             if (StringConverter.GetIsG1English(str))
             {
-                if (str.Length > 7)
+                if (str.Length > 7 && !((EncounterOriginalGB ?? EncounterMatch) is EncounterTrade)) // OT already verified; GER shuckle has 8 chars
                     AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
             }
             else if (StringConverter.GetIsG1Japanese(str))
