@@ -94,6 +94,8 @@ namespace PKHeX.Core
                 pk.Version = GetRandomVersion(Version);
             }
             int lang = GetSafeLanguage(SAV.Language, Language);
+            if (lang > (int)LanguageID.Korean)
+                lang = (int)LanguageID.English;
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg) // ugly workaround for character table interactions
             {
