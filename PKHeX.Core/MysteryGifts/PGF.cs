@@ -213,10 +213,7 @@ namespace PKHeX.Core
             if (SAV.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
                 pk.Version = (int)GameVersion.W + Util.Rand.Next(4);
 
-            pk.Move1_PP = pk.GetMovePP(Move1, 0);
-            pk.Move2_PP = pk.GetMovePP(Move2, 0);
-            pk.Move3_PP = pk.GetMovePP(Move3, 0);
-            pk.Move4_PP = pk.GetMovePP(Move4, 0);
+            pk.SetMaximumPPCurrent();
             if (IsEgg) // User's
             {
                 pk.TID = SAV.TID;

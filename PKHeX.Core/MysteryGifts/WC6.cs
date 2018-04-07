@@ -350,10 +350,7 @@ namespace PKHeX.Core
 
                 EVs = EVs,
             };
-            pk.Move1_PP = pk.GetMovePP(Move1, 0);
-            pk.Move2_PP = pk.GetMovePP(Move2, 0);
-            pk.Move3_PP = pk.GetMovePP(Move3, 0);
-            pk.Move4_PP = pk.GetMovePP(Move4, 0);
+            pk.SetMaximumPPCurrent();
 
             pk.MetDate = Date ?? DateTime.Now;
 
@@ -422,11 +419,11 @@ namespace PKHeX.Core
                     break;
                 case Shiny.Always: // Random Shiny
                     pk.PID = Util.Rand32();
-                    pk.PID = (uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF));
+                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
                     break;
                 case Shiny.Never: // Random Nonshiny
                     pk.PID = Util.Rand32();
-                    if ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF)) < 16) pk.PID ^= 0x10000000;
+                    if (pk.IsShiny) pk.PID ^= 0x10000000;
                     break;
             }
 

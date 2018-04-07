@@ -94,8 +94,6 @@ namespace PKHeX.Core
                 pk.Version = GetRandomVersion(Version);
             }
             int lang = GetSafeLanguage(SAV.Language, Language);
-            if (lang > (int)LanguageID.Korean)
-                lang = (int)LanguageID.English;
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg) // ugly workaround for character table interactions
             {
@@ -162,10 +160,7 @@ namespace PKHeX.Core
             }
 
             pk.Moves = Moves;
-            pk.Move1_PP = pk.GetMovePP(Moves[0], 0);
-            pk.Move2_PP = pk.GetMovePP(Moves[1], 0);
-            pk.Move3_PP = pk.GetMovePP(Moves[2], 0);
-            pk.Move4_PP = pk.GetMovePP(Moves[3], 0);
+            pk.SetMaximumPPCurrent(Moves);
             pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
             pk.RefreshChecksum();
             return pk;
@@ -175,7 +170,7 @@ namespace PKHeX.Core
         {
             if (supplied >= 1)
                 return supplied;
-            if (hatchLang < 0)
+            if (hatchLang < 0 || hatchLang > 8) // ko
                 return 2;
             return hatchLang;
         }
