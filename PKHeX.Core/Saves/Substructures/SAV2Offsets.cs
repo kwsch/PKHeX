@@ -156,7 +156,7 @@
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
 
-            TimePlayed = 0x204E;
+            TimePlayed = 0x204D;
             Palette = 0x2065;
             Money = 0x23D3;
             JohtoBadges = 0x23DC;
