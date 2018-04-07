@@ -248,7 +248,9 @@ namespace PKHeX.Core
             pk4.RibbonG3ToughMaster   |= RibbonCountG3Tough > 3;
 
             // Yay for reusing string buffers!
-            StringConverter.G4TransferTrashBytes[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
+            var trash = StringConverter.G4TransferTrashBytes;
+            if (pk4.Language < trash.Length)
+                trash[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
             pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, pk4.Format) : Nickname;
             Buffer.BlockCopy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
             pk4.OT_Name = OT_Name;
