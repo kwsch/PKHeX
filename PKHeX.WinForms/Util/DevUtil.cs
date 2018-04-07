@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -48,7 +50,21 @@ namespace PKHeX.WinForms
 
         public static void DumpLegalityStrings()
         {
-            Clipboard.SetText(string.Join(Environment.NewLine, Util.GetLocalization(typeof(LegalityCheckStrings))));
+            var langs = new[] {DefaultLanguage}.Concat(Languages);
+            foreach (var lang in langs)
+            {
+                Util.SetLocalization(typeof(LegalityCheckStrings), lang);
+                var entries = Util.GetLocalization(typeof(LegalityCheckStrings));
+                var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
+                    .GroupBy(z => z.Variable.Length) // fancy sort!
+                    .OrderBy(z => z.Key) // sort by length (V1 = 2, V100 = 4)
+                    .SelectMany(z => z.OrderBy(n => n.Variable)) // select sets from ordered Names
+                    .Select(z => z.Line); // sorted lines
+
+                var fn = $"{nameof(LegalityCheckStrings)}_{lang}.txt";
+                File.WriteAllLines(fn, export);
+                Util.SetLocalization(typeof(LegalityCheckStrings), DefaultLanguage);
+            }
         }
     }
     #endif
