@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using QRCoder;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms
 {
     public partial class QR : Form
@@ -71,9 +73,9 @@ namespace PKHeX.WinForms
 
         private void PB_QR_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy QR Image to Clipboard?")) return;
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage)) return;
             try { Clipboard.SetImage(PB_QR.BackgroundImage); }
-            catch { WinFormsUtil.Alert("Failed to set Image to Clipboard"); }
+            catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
         }
         
         // QR Utility
@@ -86,21 +88,21 @@ namespace PKHeX.WinForms
         internal static byte[] GetQRData(string address)
         {
             // Fetch data from QR code...
-            try { if (address.Length < 4 || !address.StartsWith("http")) { WinFormsUtil.Alert("Clipboard text is not a valid URL:", address); return null; } }
-            catch { WinFormsUtil.Alert("Clipboard text is not a valid URL:", address); return null; }
+            try { if (address.Length < 4 || !address.StartsWith("http")) { WinFormsUtil.Alert(MsgQRUrlFailPath, address); return null; } }
+            catch { WinFormsUtil.Alert(MsgQRUrlFailPath, address); return null; }
             string webURL = DecodeAPI + HttpUtility.UrlEncode(address);
             string data;
             try
             {
                 data = NetUtil.GetStringFromURL(webURL);
-                if (data.Contains("could not find")) { WinFormsUtil.Alert("Reader could not find QR data in the image."); return null; }
-                if (data.Contains("filetype not supported")) { WinFormsUtil.Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
+                if (data.Contains("could not find")) { WinFormsUtil.Alert(MsgQRUrlFailImage); return null; }
+                if (data.Contains("filetype not supported")) { WinFormsUtil.Alert(MsgQRUrlFailType, address); return null; }
             }
-            catch { WinFormsUtil.Alert("Unable to connect to the internet to decode QR code."); return null; }
+            catch { WinFormsUtil.Alert(MsgQRUrlFailConnection); return null; }
 
             // Quickly convert the json response to a data string
             try { return DecodeQRJson(data); }
-            catch (Exception e) { WinFormsUtil.Alert("QR string to Data failed.", e.Message); return null; }
+            catch (Exception e) { WinFormsUtil.Alert(MsgQRUrlFailConvert, e.Message); return null; }
         }
         private static byte[] DecodeQRJson(string data)
         {
@@ -141,10 +143,10 @@ namespace PKHeX.WinForms
             }
             catch
             {
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Unable to connect to the internet to receive QR code.", "Copy QR URL to Clipboard?"))
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRUrlFailConnection, MsgQRClipboardUrl))
                     return null;
                 try { Clipboard.SetText(webURL); }
-                catch { WinFormsUtil.Alert("Failed to set text to Clipboard"); }
+                catch { WinFormsUtil.Alert(MsgClipboardFailWrite); }
             }
             return null;
         }

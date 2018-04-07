@@ -6,6 +6,8 @@ using System.Media;
 using System.Windows.Forms;
 using PKHeX.Core;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms.Controls
 {
     public partial class BoxEditor : UserControl
@@ -148,9 +150,9 @@ namespace PKHeX.WinForms.Controls
         public bool SaveBoxBinary()
         {
             DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                "Yes: Export All Boxes" + Environment.NewLine +
-                $"No: Export {CurrentBoxName} (Box {CurrentBox + 1})" + Environment.NewLine +
-                "Cancel: Abort");
+                MsgSaveBoxExportYes + Environment.NewLine +
+                string.Format(MsgSaveBoxExportNo, CurrentBoxName, CurrentBox + 1) + Environment.NewLine +
+                MsgSaveBoxExportCancel);
 
             if (dr == DialogResult.Yes)
             {

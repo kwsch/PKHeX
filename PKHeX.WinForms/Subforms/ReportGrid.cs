@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -134,24 +135,24 @@ namespace PKHeX.WinForms
         }
         private void GetContextMenu()
         {
-            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = "Hide Column", };
+            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide, };
             mnuHide.Click += (sender, e) =>
             {
                 int c = dgData.SelectedCells.Count;
                 if (c == 0)
-                { WinFormsUtil.Alert("No cells/Columns selected."); return; }
+                { WinFormsUtil.Alert(MsgReportColumnHideFail); return; }
 
                 for (int i = 0; i < c; i++)
                     dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
             };
-            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = "Restore Columns", };
+            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore, };
             mnuRestore.Click += (sender, e) =>
             {
                 int c = dgData.ColumnCount;
                 for (int i = 0; i < c; i++)
                     dgData.Columns[i].Visible = true;
 
-                WinFormsUtil.Alert("Column visibility restored.");
+                WinFormsUtil.Alert(MsgReportColumnRestoreSuccess);
             };
 
             ContextMenuStrip mnu = new ContextMenuStrip();
@@ -204,7 +205,7 @@ namespace PKHeX.WinForms
         }
         private void PromptSaveCSV(object sender, FormClosingEventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save all the data to CSV?") != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
                 return;
             SaveFileDialog savecsv = new SaveFileDialog
             {
@@ -234,7 +235,7 @@ namespace PKHeX.WinForms
                 return base.ProcessCmdKey(ref msg, keyData);
 
             string data = dgData.GetClipboardContent().GetText();
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy as formatted table?");
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportTable);
             if (dr != DialogResult.Yes)
             {
                 Clipboard.SetText(data);

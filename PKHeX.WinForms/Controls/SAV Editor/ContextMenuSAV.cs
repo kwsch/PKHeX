@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms.Controls
 {
     public partial class ContextMenuSAV : UserControl
@@ -45,9 +47,9 @@ namespace PKHeX.WinForms.Controls
             var editor = m.SE.PKME_Tabs;
             var sav = m.SE.SAV;
             if (info.IsParty && editor.IsEmptyOrEgg && sav.IsPartyAllEggs(info.Slot - 30) && !m.SE.HaX)
-            { WinFormsUtil.Alert("Can't have empty/egg party."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotEmpty); return; }
             if (m.SE.SAV.IsSlotLocked(info.Box, info.Slot))
-            { WinFormsUtil.Alert("Can't set to locked slot."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
             if (!editor.VerifiedPKM())
                 return;
@@ -55,7 +57,7 @@ namespace PKHeX.WinForms.Controls
             PKM pk = editor.PreparePKM();
 
             string[] errata = sav.IsPKMCompatible(pk);
-            if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), "Continue?"))
+            if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
                 return;
 
             if (info.Slot >= 30)
@@ -97,9 +99,9 @@ namespace PKHeX.WinForms.Controls
 
             var sav = m.SE.SAV;
             if (info.IsParty && sav.IsPartyAllEggs(info.Slot - 30) && !m.SE.HaX)
-            { WinFormsUtil.Alert("Can't delete this slot."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotEmpty); return; }
             if (sav.IsSlotLocked(info.Box, info.Slot))
-            { WinFormsUtil.Alert("Can't delete locked slot."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
             if (info.Slot >= 30 && info.Slot < 36) // Party
             {

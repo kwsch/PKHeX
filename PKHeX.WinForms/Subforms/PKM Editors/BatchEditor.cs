@@ -6,9 +6,10 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using PKHeX.Core;
-using System.Reflection;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -25,14 +26,14 @@ namespace PKHeX.WinForms
             DragEnter += TabMain_DragEnter;
 
             CB_Format.Items.Clear();
-            CB_Format.Items.Add("Any");
+            CB_Format.Items.Add(MsgAny);
             foreach (Type t in types) CB_Format.Items.Add(t.Name.ToLower());
-            CB_Format.Items.Add("All");
+            CB_Format.Items.Add(MsgAll);
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
-            new ToolTip().SetToolTip(CB_Property, "Property of a given PKM to modify.");
-            new ToolTip().SetToolTip(L_PropType, "PropertyType of the currently loaded PKM in the main window.");
-            new ToolTip().SetToolTip(L_PropValue, "PropertyValue of the currently loaded PKM in the main window.");
+            new ToolTip().SetToolTip(CB_Property, MsgBEToolTipPropName);
+            new ToolTip().SetToolTip(L_PropType, MsgBEToolTipPropType);
+            new ToolTip().SetToolTip(L_PropValue, MsgBEToolTipPropValue);
         }
         private static string[][] GetPropArray()
         {
@@ -94,7 +95,7 @@ namespace PKHeX.WinForms
         private void B_Add_Click(object sender, EventArgs e)
         {
             if (CB_Property.SelectedIndex < 0)
-            { WinFormsUtil.Alert("Invalid property selected."); return; }
+            { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
             char[] prefix = { '.', '=', '!' };
             string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
@@ -149,28 +150,28 @@ namespace PKHeX.WinForms
         private void RunBackgroundWorker()
         {
             if (RTB_Instructions.Lines.Any(line => line.Length == 0))
-            { WinFormsUtil.Error("Line length error in instruction list."); return; }
+            { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
 
             var sets = StringInstructionSet.GetBatchSets(RTB_Instructions.Lines).ToArray();
             if (sets.Any(s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
-            { WinFormsUtil.Error("Empty Filter Value detected."); return; }
+            { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
 
             if (sets.Any(z => !z.Instructions.Any()))
-            { WinFormsUtil.Error("No instructions defined for a modification set."); return; }
+            { WinFormsUtil.Error(MsgBEInstructionNone); return; }
 
             var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
             if (emptyVal.Any())
             {
                 string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
-                string invalid = $"Empty Property Value{(emptyVal.Length > 1 ? "s" : "")} detected:" + Environment.NewLine + props;
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, "Continue?"))
+                string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue))
                     return;
             }
 
             string destPath = null;
             if (RB_Path.Checked)
             {
-                WinFormsUtil.Alert("Please select the folder where the files will be saved to.", "This can be the same folder as the source of PKM files.");
+                WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
                 var fbd = new FolderBrowserDialog();
                 var dr = fbd.ShowDialog();
                 if (dr != DialogResult.OK)
@@ -205,9 +206,9 @@ namespace PKHeX.WinForms
                 ctr /= sets.Length;
                 len /= sets.Length;
                 string maybe = sets.Length == 1 ? string.Empty : "~";
-                string result = $"Modified {maybe}{ctr}/{len} files.";
+                string result = string.Format(MsgBEModifySuccess, maybe, ctr, len);
                 if (err > 0)
-                    result += Environment.NewLine + $"{maybe}{err} files ignored due to an internal error.";
+                    result += $"{Environment.NewLine}{maybe}" + string.Format(MsgBEModifyFailError, err); 
                 WinFormsUtil.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 SetupProgressBar(0);
@@ -289,7 +290,8 @@ namespace PKHeX.WinForms
             if (!pkm.Valid || pkm.Locked)
             {
                 len++;
-                Debug.WriteLine("Skipped a pkm due to disallowed input: " + (pkm.Locked ? "Locked." : "Not Valid."));
+                var reason = pkm.Locked ? "Locked." : "Not Valid.";
+                Debug.WriteLine($"{MsgBEModifyFailBlocked} {reason}");
                 return false;
             }
 
@@ -480,7 +482,7 @@ namespace PKHeX.WinForms
                     if (IsPKMFiltered(pkm, cmd, info, out result))
                         return result; // why it was filtered out
                 }
-                catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                catch { Debug.WriteLine(MsgBEModifyFailCompare, cmd.PropertyName, cmd.PropertyValue); }
             }
 
             foreach (var cmd in Instructions)
@@ -489,7 +491,7 @@ namespace PKHeX.WinForms
                 {
                     result = SetPKMProperty(PKM, info, cmd);
                 }
-                catch { Debug.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                catch { Debug.WriteLine(MsgBEModifyFail, cmd.PropertyName, cmd.PropertyValue); }
             }
             return result;
         }

@@ -506,7 +506,7 @@ namespace PKHeX.WinForms.Controls
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
             if (!SAV.HasBox)
-            { WinFormsUtil.Alert(MsgSaveBoxExportFailNone); return; }
+            { WinFormsUtil.Alert(MsgSaveBoxFailNone); return; }
             Box.SaveBoxBinary();
         }
 

@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms
 {
     public static class WinFormsUtil
@@ -188,7 +190,7 @@ namespace PKHeX.WinForms
         {
             // Chunk Error Checking
             string err = SAV.MiscSaveChecks();
-            if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
+            if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, MsgSaveExportContinue) != DialogResult.Yes)
                 return false;
 
             SaveFileDialog main = new SaveFileDialog
@@ -207,19 +209,19 @@ namespace PKHeX.WinForms
             if (SAV.HasBox)
                 SAV.CurrentBox = CurrentBox;
 
-            bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
-            bool gci = Path.GetExtension(main.FileName)?.ToLower() == ".gci";
+            var ext = Path.GetExtension(main.FileName)?.ToLower();
+            bool dsv = ext == ".dsv";
+            bool gci = ext == ".gci";
             try
             {
                 File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
                 SAV.Edited = false;
-                Alert("SAV exported to:", main.FileName);
+                Alert(MsgSaveExportSuccessPath, main.FileName);
             }
             catch (Exception x)
             {
                 if (x is UnauthorizedAccessException || x is FileNotFoundException || x is IOException)
-                    Error("Unable to save." + Environment.NewLine + x.Message,
-                        "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
+                    Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
                 else throw;
             }
             return true;

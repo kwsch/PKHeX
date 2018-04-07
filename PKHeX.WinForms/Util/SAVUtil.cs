@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -24,7 +25,7 @@ namespace PKHeX.WinForms
         {
             var boxdata = SAV.BoxData;
             if (boxdata == null)
-            { result = "Invalid Box Data, unable to dump."; return false; }
+            { result = MsgSaveBoxExportInvalid; return false; }
 
             int ctr = 0;
             foreach (PKM pk in boxdata)
@@ -34,7 +35,7 @@ namespace PKHeX.WinForms
 
                 ctr++;
                 string fileName = Util.CleanFileName(pk.FileName);
-                string boxfolder = "";
+                string boxfolder = string.Empty;
                 if (boxFolders)
                 {
                     boxfolder = SAV.GetBoxName(pk.Box - 1);
@@ -44,7 +45,7 @@ namespace PKHeX.WinForms
                     File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
             }
 
-            result = $"Dumped Boxes ({ctr} pkm) to path:" + Environment.NewLine + path;
+            result = string.Format(MsgSaveBoxExportPathCount, ctr) + Environment.NewLine + path;
             return true;
         }
 
@@ -60,7 +61,7 @@ namespace PKHeX.WinForms
         {
             var boxdata = SAV.BoxData;
             if (boxdata == null)
-            { result = "Invalid Box Data, unable to dump."; return false; }
+            { result = MsgSaveBoxExportInvalid; return false; }
 
             int ctr = 0;
             foreach (PKM pk in boxdata)
@@ -74,7 +75,7 @@ namespace PKHeX.WinForms
                     File.WriteAllBytes(Path.Combine(path, fileName), pk.DecryptedBoxData);
             }
 
-            result = $"Dumped Box ({ctr} pkm) to path:" + Environment.NewLine + path;
+            result = string.Format(MsgSaveBoxExportPathCount, ctr) + Environment.NewLine + path;
             return true;
         }
 
@@ -92,7 +93,7 @@ namespace PKHeX.WinForms
         public static bool LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null, bool all = false)
         {
             if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
-            { result = "Invalid path specified."; return false; }
+            { result = MsgSaveBoxExportPathInvalid; return false; }
 
             var opt = all ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             var filepaths = Directory.EnumerateFiles(path, "*.*", opt);
@@ -142,7 +143,7 @@ namespace PKHeX.WinForms
         public static bool LoadBoxes(this SaveFile SAV, IEnumerable<PKM> pks, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
         {
             if (!SAV.HasBox)
-            { result = "Save file does not have boxes."; return false; }
+            { result = MsgSaveBoxFailNone; return false; }
 
             var compat = GetPKMForSaveFile(SAV, pks);
             if (boxClear)
@@ -151,11 +152,11 @@ namespace PKHeX.WinForms
             int ctr = SAV.ImportPKMs(compat, boxStart, noSetb);
             if (ctr <= 0)
             {
-                result = "No files loaded.";
+                result = MsgSaveBoxImportNoFiles;
                 return false;
             }
 
-            result = $"Loaded {ctr} files to boxes.";
+            result = string.Format(MsgSaveBoxImportSuccess, ctr);
             return true;
         }
 
@@ -228,30 +229,30 @@ namespace PKHeX.WinForms
                 ushort held = (ushort)pkm.HeldItem;
 
                 if (held > GameInfo.Strings.itemlist.Length)
-                    errata.Add($"Item Index beyond range: {held}");
+                    errata.Add($"{MsgIndexItemRange} {held}");
                 else if (held > SAV.MaxItemID)
-                    errata.Add($"Game can't obtain item: {GameInfo.Strings.itemlist[held]}");
+                    errata.Add($"{MsgIndexItemGame} {GameInfo.Strings.itemlist[held]}");
                 else if (!pkm.CanHoldItem(SAV.HeldItems))
-                    errata.Add($"Game can't hold item: {GameInfo.Strings.itemlist[held]}");
+                    errata.Add($"{MsgIndexItemHeld} {GameInfo.Strings.itemlist[held]}");
             }
 
             if (pkm.Species > GameInfo.Strings.specieslist.Length)
-                errata.Add($"Species Index beyond range: {pkm.Species}");
+                errata.Add($"{MsgIndexSpeciesRange} {pkm.Species}");
             else if (SAV.MaxSpeciesID < pkm.Species)
-                errata.Add($"Game can't obtain species: {GameInfo.Strings.specieslist[pkm.Species]}");
+                errata.Add($"{MsgIndexSpeciesGame} {GameInfo.Strings.specieslist[pkm.Species]}");
 
             if (!SAV.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
                 errata.Add(string.Format(LegalityCheckStrings.V304, Math.Max(0, SAV.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
 
             if (pkm.Moves.Any(m => m > GameInfo.Strings.movelist.Length))
-                errata.Add($"Item Index beyond range: {string.Join(", ", pkm.Moves.Where(m => m > GameInfo.Strings.movelist.Length).Select(m => m.ToString()))}");
+                errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pkm.Moves.Where(m => m > GameInfo.Strings.movelist.Length).Select(m => m.ToString()))}");
             else if (pkm.Moves.Any(m => m > SAV.MaxMoveID))
-                errata.Add($"Game can't have move: {string.Join(", ", pkm.Moves.Where(m => m > SAV.MaxMoveID).Select(m => GameInfo.Strings.movelist[m]))}");
+                errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pkm.Moves.Where(m => m > SAV.MaxMoveID).Select(m => GameInfo.Strings.movelist[m]))}");
 
             if (pkm.Ability > GameInfo.Strings.abilitylist.Length)
-                errata.Add($"Ability Index beyond range: {pkm.Ability}");
+                errata.Add($"{MsgIndexAbilityRange} {pkm.Ability}");
             else if (pkm.Ability > SAV.MaxAbilityID)
-                errata.Add($"Game can't have ability: {GameInfo.Strings.abilitylist[pkm.Ability]}");
+                errata.Add($"{MsgIndexAbilityGame} {GameInfo.Strings.abilitylist[pkm.Ability]}");
 
             return errata.ToArray();
         }

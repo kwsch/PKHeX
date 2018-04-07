@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -157,12 +158,13 @@ namespace PKHeX.WinForms
                 var incorrectPouch = invalid.Where(item => item.Index < itemlist.Length).ToArray();
 
                 if (outOfBounds.Any())
-                    WinFormsUtil.Error("Unknown item detected.",
+                    WinFormsUtil.Error(MsgItemPouchUnknown,
                         $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");
                 if (!Main.HaX && incorrectPouch.Any())
-                    WinFormsUtil.Alert($"The following item(s) have been removed from {pouch.Type} pouch.",
-                        string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])), 
-                        "If you save changes, the item(s) will no longer be in the pouch.");
+                    WinFormsUtil.Alert(
+                        string.Format(MsgItemPouchRemoved, pouch.Type),
+                        string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])),
+                        MsgItemPouchWarning);
 
                 pouch.Sanitize(Main.HaX, itemlist.Length - 1);
                 GetBag(dgv, pouch);
@@ -295,8 +297,8 @@ namespace PKHeX.WinForms
             bool resize = legalitems.Length > p.Items.Length;
             if (resize)
             {
-                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Pouch is too small for all items.",
-                    "Yes: Give by Item ID" + Environment.NewLine + "No: Random assortment");
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgItemPouchSizeSmall,
+                    string.Format(MsgItemPouchRandom, Environment.NewLine));
                 if (dr == DialogResult.Cancel)
                     return;
                 if (dr == DialogResult.No)
@@ -363,7 +365,7 @@ namespace PKHeX.WinForms
                 if (HasNew)
                     dgv.Rows[i].Cells[c].Value = false;
             }
-            WinFormsUtil.Alert("Items cleared.");
+            WinFormsUtil.Alert(MsgItemCleared);
         }
         private void ModifyAllItems(object sender, EventArgs e)
         {
@@ -382,7 +384,7 @@ namespace PKHeX.WinForms
                     dgv.Rows[i].Cells[1].Value = IsItemCount1((ushort)itemindex, SAV) ? 1 : NUD_Count.Value;
 
             }
-            WinFormsUtil.Alert("Item count modified.");
+            WinFormsUtil.Alert(MsgItemPouchCountUpdated);
         }
         private void B_Sort_Click(object sender, EventArgs e)
         {

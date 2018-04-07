@@ -23,12 +23,21 @@ namespace PKHeX.Core
         public static string MsgSettingsResetPrompt { get; set; } = "Yes to delete the program settings, or No to close the program.";
         public static string MsgSettingsResetSuccess { get; set; } = "Program settings have been deleted.";
 
+        public static string MsgAny { get; set; } = "Any";
+        public static string MsgAll { get; set; } = "All";
         public static string MsgYes { get; set; } = "Yes";
         public static string MsgNo { get; set; } = "No";
+        public static string MsgContinue { get; set; } = "Continue?";
 
         public static string MsgGameColosseum { get; set; } = "Colosseum";
         public static string MsgGameXD { get; set; } = "XD";
         public static string MsgGameRSBOX { get; set; } = "RS Box";
+
+        public static string MsgFileDeleteCount { get; set; } = "{0} files deleted.";
+        public static string MsgFolderNotFound { get; set; } = "Can't find folder:";
+        public static string MsgWindowClose { get; set; } = "The current window will now close.";
+
+        public static string MsgResearchRequired { get; set; } = "Needs more research.";
 
         #endregion
 
@@ -60,8 +69,9 @@ namespace PKHeX.Core
         public static string MsgFileSize { get; set; } = "File Size: {0} bytes";
         public static string MsgFileSizeLarge { get; set; } = "Input file is too large.";
         public static string MsgFileSizeSmall { get; set; } = "Input file is too small.";
+        public static string MsgFileWriteFail { get; set; } = "Unable to save file.";
         public static string MsgFileWriteProtected { get; set; } = "File's location is write protected:";
-        public static string MsgFileWriteProtectedAdvice { get; set; } = "If the path is a removable disk (SD card), please ensure the write protection switch is not set.";
+        public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
         public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
         public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size.";
         public static string MsgPKMConvertFail { get; set; } = "Conversion failed.";
@@ -83,11 +93,6 @@ namespace PKHeX.Core
         public static string MsgLegalityAllowTradebacks { get; set; } = "Generation 1 Save File detected. Allow tradebacks from Generation 2 for legality purposes?";
         public static string MsgLegalityAllowTradebacksYes { get; set; } = "Yes: Allow Generation 2 tradeback learnsets";
         public static string MsgLegalityAllowTradebacksNo { get; set; } = "No: Don't allow Generation 2 tradeback learnsets";
-
-        public static string MsgQRDecodeFail { get; set; } = "Decoded data not a valid PKM/Gift.";
-        public static string MsgQRDecodeSize { get; set; } = "QR Data Size: {0} bytes";
-        public static string MsgQRDeprecated { get; set; } = "QR codes are deprecated in favor of other methods.";
-        public static string MsgQRAlternative { get; set; } = "Consider utilizing homebrew or on-the-fly RAM editing custom firmware (PKMN-NTR).";
 
         public static string MsgBackupCreateLocation { get; set; } = "PKHeX can perform automatic backups if you create a folder with the name '{0}' in the same folder as PKHeX's executable.";
         public static string MsgBackupCreateQuestion { get; set; } = "Would you like to create the backup folder now?";
@@ -117,6 +122,13 @@ namespace PKHeX.Core
         #endregion
 
         #region Save Editor
+
+        public static string MsgSaveExportSuccessPath { get; set; } = "SAV exported to:";
+        public static string MsgSaveExportContinue { get; set; } = "Continue saving?";
+
+        public static string MsgSaveSlotEmpty { get; set; } = "Can't have an empty/egg party.";
+        public static string MsgSaveSlotLocked { get; set; } = "Can't modify a locked slot.";
+
         public static string MsgSaveBackup { get; set; } = "Saved Backup of current SAV to:";
         public static string MsgSaveCurrentGeneration { get; set; } = "Current SAV Generation: {0}";
 
@@ -134,11 +146,19 @@ namespace PKHeX.Core
         public static string MsgSaveBoxClearAllFailBattle { get; set; } = "Battle Box slots prevent the clearing of all boxes.";
         public static string MsgSaveBoxClearAllSuccess { get; set; } = "Boxes cleared!";
 
-        public static string MsgSaveBoxExportFailNone { get; set; } = "The currently loaded save file does not have boxes to export from!";
+        public static string MsgSaveBoxFailNone { get; set; } = "The currently loaded save file does not have boxes!";
+        public static string MsgSaveBoxExportYes { get; set; } = "Yes: Export All Boxes";
+        public static string MsgSaveBoxExportNo { get; set; } = "No: Export {0} (Box {1})";
+        public static string MsgSaveBoxExportCancel { get; set; } = "Cancel: Abort";
+        public static string MsgSaveBoxExportInvalid { get; set; } = "Invalid Box Data, unable to dump.";
+        public static string MsgSaveBoxExportPathCount { get; set; } = "Dumped Box(es) ( {0} pkm) to path:";
+        public static string MsgSaveBoxExportPathInvalid { get; set; } = "Invalid path specified.";
         public static string MsgSaveBoxImportModifyIntro { get; set; } = "PKM Loading overrides:";
         public static string MsgSaveBoxImportModifyYes { get; set; } = "Yes - Modify .pk* when set to SAV";
         public static string MsgSaveBoxImportModifyCurrent { get; set; } = "Cancel - Use current settings ({0})";
         public static string MsgSaveBoxImportModifyNo { get; set; } = "No - Don't modify .pk*";
+        public static string MsgSaveBoxImportNoFiles { get; set; } = "No files loaded.";
+        public static string MsgSaveBoxImportSuccess { get; set; } = "Loaded  {0} files to boxes.";
         public static string MsgSaveBoxImportClear { get; set; } = "Clear subsequent boxes when importing data?";
         public static string MsgSaveBoxImportClearNo { get; set; } = "If you only want to overwrite for new data, press no.";
         public static string MsgSaveBoxImportPCBinary { get; set; } = "PC Binary loaded.";
@@ -164,6 +184,136 @@ namespace PKHeX.Core
         public static string MsgSaveChecksumFailEdited { get; set; } = "Save has been edited. Cannot integrity check.";
         public static string MsgSaveChecksumValid { get; set; } = "Checksums are valid.";
         public static string MsgSaveChecksumFailExport { get; set; } = "Export Checksum Info to Clipboard?";
+
+        public static string MsgIndexItemRange { get; set; } = "Item Index beyond range:";
+        public static string MsgIndexItemGame { get; set; } = "Game can't obtain item:";
+        public static string MsgIndexItemHeld { get; set; } = "Game can't hold item:";
+        public static string MsgIndexSpeciesRange { get; set; } = "Species Index beyond range:";
+        public static string MsgIndexSpeciesGame { get; set; } = "Game can't obtain species:";
+        public static string MsgIndexMoveRange { get; set; } = "Move Index beyond range:";
+        public static string MsgIndexMoveGame { get; set; } = "Game can't obtain move:";
+        public static string MsgIndexAbilityRange { get; set; } = "Ability Index beyond range:";
+        public static string MsgIndexAbilityGame { get; set; } = "Ability Index beyond range:";
+
+        #endregion
+
+        #region QR Codes
+
+        public static string MsgQRDecodeFail { get; set; } = "Decoded data not a valid PKM/Gift.";
+        public static string MsgQRDecodeSize { get; set; } = "QR Data Size: {0} bytes";
+        public static string MsgQRDeprecated { get; set; } = "QR codes are deprecated in favor of other methods.";
+        public static string MsgQRAlternative { get; set; } = "Consider utilizing homebrew or on-the-fly RAM editing custom firmware (PKMN-NTR).";
+        public static string MsgQRClipboardUrl { get; set; } = "Copy QR URL to Clipboard?";
+        public static string MsgQRClipboardImage { get; set; } = "Copy QR Image to Clipboard?";
+        public static string MsgQRClipboardFail { get; set; } = "Failed to set Image to Clipboard";
+        public static string MsgQRUrlFailPath { get; set; } = "Clipboard text is not a valid URL:";
+        public static string MsgQRUrlFailImage { get; set; } = "Reader could not find QR data in the image.";
+        public static string MsgQRUrlFailType { get; set; } = "Input URL is not valid. Double check that it is an image (jpg/png).";
+        public static string MsgQRUrlFailConnection { get; set; } = "Unable to connect to the internet to decode QR code.";
+        public static string MsgQRUrlFailConvert { get; set; } = "QR string to Data failed.";
+
+        #endregion
+
+        #region Database
+
+        public static string MsgDBDeleteFailBackup { get; set; } = "Can't delete from a backup save.";
+        public static string MsgDBDeleteFailModified { get; set; } = "Database slot data does not match save data!";
+        public static string MsgDBDeleteFailWarning { get; set; } = "Don't move Pokémon after initializing the Database, please re-open the Database viewer.";
+        public static string MsgDBAddFailExistsFile { get; set; } = "File already exists in database!";
+        public static string MsgDBAddFailExistsPKM { get; set; } = "Pokémon already exists in database.";
+        public static string MsgDBAddFromTabsSuccess { get; set; } = "Added Pokémon from tabs to database.";
+        public static string MsgDBCreateReportPrompt { get; set; } = "Generate a Report on all data?";
+        public static string MsgDBCreateReportWarning { get; set; } = "This may take a while...";
+        public static string MsgDBCreateReportFail { get; set; } = "No results to export.";
+        public static string MsgDBExportResultsPrompt { get; set; } = "Export results to a folder?";
+        public static string MsgDBSearchLegalityWordfilter { get; set; } = "Check wordfilter legality?";
+        public static string MsgDBSearchFail { get; set; } = "No data source to search!";
+        public static string MsgDBSearchNone { get; set; } = "No results found!";
+        public static string MsgDBDeleteCloneWarning { get; set; } = "Deleting clones from database is not reversible.";
+        public static string MsgDBDeleteCloneAdvice { get; set; } = "If a PKM is deemed a clone, only the newest file (date modified) will be kept.";
+        public static string MsgDBDeleteCloneFail { get; set; } = "Unable to delete clone:";
+        public static string MsgDBDeleteCloneNone { get; set; } = "No clones detected or deleted.";
+        public static string MsgExportWC3DataFail { get; set; } = "Unable to save WC3 data. No data to save!";
+
+        #endregion
+
+        #region Batch Editor
+
+        public static string MsgBEToolTipPropName { get; set; } = "Property of a given PKM to modify.";
+        public static string MsgBEToolTipPropType { get; set; } = "PropertyType of the currently loaded PKM in the main window.";
+        public static string MsgBEToolTipPropValue { get; set; } = "PropertyValue of the currently loaded PKM in the main window.";
+
+        public static string MsgBEFilterEmpty { get; set; } = "Empty Filter Value detected.";
+        public static string MsgBEPropertyEmpty { get; set; } = "Empty Property Value(s) detected:";
+        public static string MsgBEPropertyInvalid { get; set; } = "Invalid property selected.";
+        public static string MsgBEInstructionInvalid { get; set; } = "Line length error in instruction list.";
+        public static string MsgBEInstructionNone { get; set; } = "No instructions defined for a modification set.";
+
+        public static string MsgBEModifySuccess { get; set; } = "Modified {0}{1}/{2} files.";
+        public static string MsgBEModifyFailBlocked { get; set; } = "Skipped a file due to disallowed value:";
+        public static string MsgBEModifyFailError { get; set; } = "{0} files ignored due to an internal error.";
+        public static string MsgBEModifyFail { get; set; } = "Unable to modify {0} to {1}.";
+        public static string MsgBEModifyFailCompare { get; set; } = "Unable to compare {0} to {1}.";
+
+        public static string MsgExportFolder { get; set; } = "Please select the folder where the files will be saved to.";
+        public static string MsgExportFolderAdvice { get; set; } = "This can be the same folder as the source of PKM files.";
+
+        #endregion
+
+        #region Misc
+
+        public static string MsgReportExportTable { get; set; } = "Copy as formatted table?";
+        public static string MsgReportExportCSV { get; set; } = "Save all the data to CSV?";
+        public static string MsgReportColumnHide { get; set; } = "Hide Column";
+        public static string MsgReportColumnRestore { get; set; } = "Restore Columns";
+        public static string MsgReportColumnHideFail { get; set; } = "No cells/Columns selected.";
+        public static string MsgReportColumnRestoreSuccess { get; set; } = "Column visibility restored.";
+
+        #endregion
+
+        #region Mystery Gift
+
+        public static string MsgMsyteryGiftUsedAlert { get; set; } = "Mystery Gift is marked as USED and will not be able to be picked up in-game.";
+        public static string MsgMysteryGiftUsedFix { get; set; } = "Do you want to remove the USED flag so that it is UNUSED?";
+        public static string MsgMysteryGiftInvalid { get; set; } = "File is not a Mystery Gift:";
+        public static string MsgMysteryGiftTypeUnexpected { get; set; } = "Expected Mystery Gift Type(s):";
+        public static string MsgMysteryGiftTypeDetails { get; set; } = "Gift Details are not compatible with the save file.";
+        public static string MsgMysteryGiftTypeIncompatible { get; set; } = "Gift type is not compatible with the save file.";
+        public static string MsgMysteryGiftParseFail { get; set; } = "Unable to create gift description.";
+        public static string MsgMysteryGiftParseTypeUnknown { get; set; } = "Unknown Mystery Gift Type!";
+
+        public static string MsgMysteryGiftSlotEmpty { get; set; } = "Empty Slot. No data!";
+        public static string MsgMysteryGiftSlotFail { get; set; } = "Unable to insert the Mystery Gift.";
+        public static string MsgMysteryGiftSlotNone { get; set; } = "No Mystery Gift data found in loaded slot!";
+        public static string MsgMysteryGiftSlotSpecialReject { get; set; } = "Does this Mystery Gift really belong to this game?";
+        public static string MsgMysteryGiftSlotAlternate { get; set; } = "{0} gift was set to to a {1} slot instead.";
+        public static string MsgMysteryGiftSlotFailSwap { get; set; } = "Can't swap a {0} with a {1}.";
+
+        public static string MsgMysteryGiftQRTypeLength { get; set; } = "Decoded data length not valid for loaded save file.";
+        public static string MsgMysteryGiftQRRecieved { get; set; } = "QR Gift Type:";
+        public static string MsgMysteryGiftQRDataSize { get; set; } = "QR Data Size:";
+        public static string MsgMysteryGiftQREonTicket { get; set; } = "Eon Ticket Mystery Gift will not import correctly when received via QR.";
+        public static string MsgMysteryGiftQREonTicketAdvice { get; set; } = "Inject the Eon Ticket Mystery Gift to the save file instead.";
+
+        #endregion
+
+        #region Inventory
+
+        public static string MsgItemPouchUnknown { get; set; } = "Unknown item detected.";
+        public static string MsgItemPouchCountUpdated { get; set; } = "Item count modified.";
+        public static string MsgItemCleared { get; set; } = "Items cleared.";
+        public static string MsgItemPouchSizeSmall { get; set; } = "Pouch is too small for all items.";
+        public static string MsgItemPouchRandom { get; set; } = "Yes: Give by Item ID{0}No: Random assortment";
+        public static string MsgItemPouchWarning { get; set; } = "If you save changes, the item(s) will no longer be in the pouch.";
+        public static string MsgItemPouchRemoved { get; set; } = "The following item(s) have been removed from the {0} pouch.";
+
+        #endregion
+
+        #region Misc
+
+        public static string MsgSaveDifferentTypes { get; set; } = "Save File types are different.";
+        public static string MsgSaveDifferentVersions { get; set; } = "Save File versions are not the same.";
+        public static string MsgSaveNumberInvalid { get; set; } = "Save File {0} is not valid.";
 
         #endregion
     }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -64,7 +65,7 @@ namespace PKHeX.WinForms
             
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
-            L_Viewed.Text = ""; // invis for now
+            L_Viewed.Text = string.Empty; // invis for now
             var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
@@ -87,6 +88,7 @@ namespace PKHeX.WinForms
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
         private readonly PictureBox[] PKXBOXES;
@@ -99,7 +101,7 @@ namespace PKHeX.WinForms
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
-        private const int MAXFORMAT = 7;
+        private const int MAXFORMAT = PKX.Generation;
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -130,7 +132,7 @@ namespace PKHeX.WinForms
             var gift = Results[index];
             if (gift.Data == null) // WC3
             {
-                WinFormsUtil.Alert("Unable to save WC3 data. No data to save!");
+                WinFormsUtil.Alert(MsgExportWC3DataFail);
                 return;
             }
             WinFormsUtil.SaveMGDialog(gift);
@@ -157,13 +159,13 @@ namespace PKHeX.WinForms
         {
             // Set the Text
             CB_HeldItem.DisplayMember =
-            CB_Species.DisplayMember = "Text";
+            CB_Species.DisplayMember = nameof(ComboItem.Text);
 
             // Set the Value
             CB_HeldItem.ValueMember =
-            CB_Species.ValueMember = "Value";
+            CB_Species.ValueMember = nameof(ComboItem.Value);
 
-            var Any = new ComboItem {Text = "Any", Value = -1};
+            var Any = new ComboItem {Text = MsgAny, Value = -1};
 
             var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0);
@@ -180,7 +182,7 @@ namespace PKHeX.WinForms
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                 {
-                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                    cb.DisplayMember = nameof(ComboItem.Text); cb.ValueMember = nameof(ComboItem.Value);
                     cb.DataSource = new BindingSource(DS_Move, null);
                 }
             }
@@ -223,9 +225,9 @@ namespace PKHeX.WinForms
         private void Menu_Export_Click(object sender, EventArgs e)
         {
             if (Results == null || Results.Count == 0)
-            { WinFormsUtil.Alert("No results to export."); return; }
+            { WinFormsUtil.Alert(MsgDBCreateReportFail); return; }
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Export to a folder?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -291,7 +293,7 @@ namespace PKHeX.WinForms
                         select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
 
                 if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-                { WinFormsUtil.Error("Empty Filter Value detected."); return; }
+                { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
 
                 res = res.Where(gift => // Compare across all filters
                 {
@@ -309,7 +311,7 @@ namespace PKHeX.WinForms
 
             var results = res.ToArray();
             if (results.Length == 0)
-                WinFormsUtil.Alert("No results found!");
+                WinFormsUtil.Alert(MsgDBSearchNone);
 
             SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
