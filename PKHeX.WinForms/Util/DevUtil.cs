@@ -48,22 +48,28 @@ namespace PKHeX.WinForms
             nameof(SettingsEditor),
         };
 
-        public static void DumpLegalityStrings()
+
+        public static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings));
+        public static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
+        private static void DumpStrings(Type t, bool sort = false)
         {
             var langs = new[] {DefaultLanguage}.Concat(Languages);
             foreach (var lang in langs)
             {
-                Util.SetLocalization(typeof(LegalityCheckStrings), lang);
-                var entries = Util.GetLocalization(typeof(LegalityCheckStrings));
+                Util.SetLocalization(t, lang);
+                var entries = Util.GetLocalization(t);
                 var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
                     .GroupBy(z => z.Variable.Length) // fancy sort!
                     .OrderBy(z => z.Key) // sort by length (V1 = 2, V100 = 4)
                     .SelectMany(z => z.OrderBy(n => n.Variable)) // select sets from ordered Names
                     .Select(z => z.Line); // sorted lines
 
-                var fn = $"{nameof(LegalityCheckStrings)}_{lang}.txt";
+                if (!sort) // discard linq
+                    export = entries;
+
+                var fn = $"{t.Name}_{lang}.txt";
                 File.WriteAllLines(fn, export);
-                Util.SetLocalization(typeof(LegalityCheckStrings), DefaultLanguage);
+                Util.SetLocalization(t, DefaultLanguage);
             }
         }
     }
