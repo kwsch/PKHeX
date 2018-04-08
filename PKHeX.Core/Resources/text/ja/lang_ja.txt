@@ -1,4 +1,4 @@
-BatchEditor=Batch Editor
+﻿BatchEditor=Batch Editor
 ErrorWindow=Error
 KChart=KChart
 Main=PKHeX
@@ -115,8 +115,8 @@ Main.L_BattleBox=バトルボックス
 Main.L_Box=ボックス
 Main.L_Daycare=育て屋
 Main.L_DaycareSeed=シード値
-Main.L_DC1=1: 
-Main.L_DC2=2: 
+Main.L_DC1=1:
+Main.L_DC2=2:
 Main.L_Fused=Fused
 Main.L_GameSync=ゲームシンク ID:
 Main.L_GTS=GTS

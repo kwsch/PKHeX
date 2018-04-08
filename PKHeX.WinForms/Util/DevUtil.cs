@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -11,7 +12,18 @@ namespace PKHeX.WinForms
     {
         private static readonly string[] Languages = {"ja", "fr", "it", "de", "es", "ko", "zh", "pt"};
         private const string DefaultLanguage = "en";
-        public static void UpdateTranslations()
+
+        /// <summary>
+        /// Call this to update all translatable resources (Program Messages, Legality Text, Program GUI)
+        /// </summary>
+        public static void UpdateAll()
+        {
+            DumpStringsMessage();
+            DumpStringsLegality();
+            UpdateTranslations();
+        }
+
+        private static void UpdateTranslations()
         {
             WinFormsTranslator.LoadAllForms(LoadBanlist); // populate with every possible control
             WinFormsTranslator.UpdateAll(DefaultLanguage, Languages); // propagate to others
@@ -19,6 +31,24 @@ namespace PKHeX.WinForms
             WinFormsTranslator.SetRemovalMode(); // remove used keys, don't add any
             WinFormsTranslator.LoadAllForms(LoadBanlist); // de-populate
             WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
+
+            // Move translated files from the debug exe loc to their project location
+            var files = Directory.GetFiles(Application.StartupPath);
+            var dir = GetResourcePath();
+            foreach (var f in files)
+            {
+                var fn = Path.GetFileName(f);
+                if (!fn.EndsWith(".txt"))
+                    continue;
+                if (!fn.StartsWith("lang_"))
+                    continue;
+
+                string lang = fn.Substring(5, fn.Length - (5+4));
+                var loc = GetFileLocationInText("lang", dir, lang);
+                if (File.Exists(f))
+                    File.Delete(loc);
+                File.Move(f, loc);
+            }
 
             Application.Exit();
         }
@@ -49,10 +79,11 @@ namespace PKHeX.WinForms
         };
 
 
-        public static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings));
-        public static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
+        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings));
+        private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
         private static void DumpStrings(Type t, bool sort = false)
         {
+            var dir = GetResourcePath();
             var langs = new[] {DefaultLanguage}.Concat(Languages);
             foreach (var lang in langs)
             {
@@ -67,10 +98,31 @@ namespace PKHeX.WinForms
                 if (!sort) // discard linq
                     export = entries;
 
-                var fn = $"{t.Name}_{lang}.txt";
-                File.WriteAllLines(fn, export);
+                var location = GetFileLocationInText(t.Name, dir, lang);
+                File.WriteAllLines(location, export);
                 Util.SetLocalization(t, DefaultLanguage);
             }
+        }
+
+        private static string GetFileLocationInText(string fileType, string dir, string lang)
+        {
+            var path = Path.Combine(dir, lang);
+            if (!Directory.Exists(path))
+                path = Path.Combine(dir, "other");
+
+            var fn = $"{fileType}_{lang}.txt";
+            return Path.Combine(path, fn);
+        }
+
+        private static string GetResourcePath()
+        {
+            var path = Application.StartupPath;
+            const string projname = "PKHeX\\";
+            var pos = path.LastIndexOf(projname, StringComparison.Ordinal);
+            var str = path.Substring(0, pos + projname.Length);
+            var coreFolder = Path.Combine(str, "PKHeX.Core", "Resources", "text");
+            
+            return coreFolder;
         }
     }
     #endif
