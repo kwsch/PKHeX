@@ -215,7 +215,6 @@ MsgMysteryGiftSlotAlternate = {0} gift was set to to a {1} slot instead.
 MsgMysteryGiftSlotFailSwap = Can't swap a {0} with a {1}.
 MsgMysteryGiftQRTypeLength = Decoded data length not valid for loaded save file.
 MsgMysteryGiftQRRecieved = QR Gift Type:
-MsgMysteryGiftQRDataSize = QR Data Size:
 MsgMysteryGiftQREonTicket = Eon Ticket Mystery Gift will not import correctly when received via QR.
 MsgMysteryGiftQREonTicketAdvice = Inject the Eon Ticket Mystery Gift to the save file instead.
 MsgItemPouchUnknown = Unknown item detected.
