@@ -906,7 +906,10 @@ namespace PKHeX.WinForms.Controls
             var ppctrl = PPUps[index];
             int ppups = ppctrl.SelectedIndex;
             if (move <= 0)
+            {
                 ppctrl.SelectedIndex = 0;
+                MovePP[index].Text = 0.ToString();
+            }
             else
                 MovePP[index].Text = pkm.GetMovePP(move, ppups).ToString();
         }
