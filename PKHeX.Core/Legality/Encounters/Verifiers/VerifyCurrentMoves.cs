@@ -244,14 +244,8 @@ namespace PKHeX.Core
                     return res;
             }
 
-            if (pkm.Species == 292 && info.EncounterMatch.Species != 292 && !(info.EncounterMatch is EncounterEgg))
-            {
-                // Ignore Shedinja if the Encounter was also a Shedinja, assume null Encounter as a Nincada egg
-                // Check Shedinja evolved moves from Ninjask after egg moves
-                // Those moves could also be inherited egg moves
-                if (info.Generation <= 4) // 3 or 4
+            if (pkm.Species == 292 && info.Generation <= 4)
                 ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves);
-            }
 
             for (int m = 0; m < 4; m++)
             {

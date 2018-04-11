@@ -4,7 +4,7 @@ using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms
 {
-    public partial class SAV_BoxViewer : Form
+    public sealed partial class SAV_BoxViewer : Form
     {
         private readonly SAVEditor parent;
         public SAV_BoxViewer(SAVEditor p, SlotChangeManager m)

@@ -10,7 +10,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
-    public partial class SAV_EventFlags : Form
+    public sealed partial class SAV_EventFlags : Form
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
