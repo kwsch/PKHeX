@@ -278,7 +278,7 @@ namespace PKHeX.Core
                 ushort chr = value[i];
                 byte val = SetG3Char(chr, jp);
                 if (val == 0xFF || chr == 0xFF)
-                { Array.Resize(ref strdata, i); break; }
+                { Array.Resize(ref strdata, i + 1); break; }
                 strdata[i] = val;
             }
             if (strdata.Length > 0)
@@ -548,6 +548,8 @@ namespace PKHeX.Core
         /// <returns>Encoded value.</returns>
         private static ushort ConvertChar2ValueG4(ushort chr)
         {
+            if (chr == 0x27) // apostrophe, used by Farfetch'd 
+                return 0x1B3; // here rather than in static constructor to prevent byte[]->str outputting ’ instead of '
             return G4CharId.TryGetValue(chr, out int index) 
                 ? G4Values[index] : ushort.MaxValue;
         }
