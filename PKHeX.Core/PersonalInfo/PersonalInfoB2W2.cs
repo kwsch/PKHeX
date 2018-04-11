@@ -14,7 +14,7 @@
 
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x28, 0x10);
-            TypeTutors = GetBits(Data, 0x3, 0x4);
+            TypeTutors = GetBits(Data, 0x38, 0x4);
             SpecialTutors = new[]
             {
                 GetBits(Data, 0x3C, 0x04),
