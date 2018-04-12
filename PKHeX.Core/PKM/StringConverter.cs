@@ -201,7 +201,7 @@ namespace PKHeX.Core
                     arr.Add(val);
                 }
             }
-            while (arr.Count >= maxLength)
+            while (arr.Count > maxLength)
                 arr.RemoveAt(arr.Count - 1);
             arr.Add(0x50); // terminator
             while (arr.Count < padTo)
