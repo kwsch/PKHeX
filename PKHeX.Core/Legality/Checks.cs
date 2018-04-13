@@ -358,7 +358,12 @@ namespace PKHeX.Core
         private void VerifyTrade3()
         {
             if (pkm.FRLG)
-                VerifyTradeTable(Encounters3.TradeFRLG, Encounters3.TradeGift_FRLG);
+            {
+                int lang = pkm.Language;
+                if (EncounterMatch.Species == 124) // Jynx
+                    lang = DetectTradeLanguageG3DANTAEJynx(pkm, lang);
+                VerifyTradeTable(Encounters3.TradeFRLG, Encounters3.TradeGift_FRLG, lang);
+            }
             else
                 VerifyTradeTable(Encounters3.TradeRSE, Encounters3.TradeGift_RSE);
         }
@@ -399,6 +404,15 @@ namespace PKHeX.Core
                 }
                 VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, lang);
             }
+        }
+        private static int DetectTradeLanguageG3DANTAEJynx(PKM pk, int lang)
+        {
+            if (lang != (int)LanguageID.Italian)
+                return lang;
+
+            if (pk.Version == (int) GameVersion.LG)
+                lang = (int)LanguageID.English; // translation error; OT was not localized => same as English
+            return lang;
         }
         private static int DetectTradeLanguageG4MeisterMagikarp(PKM pkm, int lang)
         {
