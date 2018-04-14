@@ -2190,7 +2190,7 @@ namespace PKHeX.Core
             if (pkm.Format >= 7 && Info.Generation < 7 && pkm.AltForm != 0)
             {
                 if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species) 
-                    || Legal.AlolanVariantEvolutions12.Contains(EncounterMatch.Species))
+                    || Legal.AlolanVariantEvolutions12.Contains((EncounterOriginalGB ?? EncounterMatch).Species))
                 { AddLine(Severity.Invalid, V317, CheckIdentifier.Form); return; }
             }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
