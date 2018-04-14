@@ -1627,7 +1627,7 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is MysteryGift mg && mg.Format < 6 && pkm.Format >= 6)
             {
-                if (pkm.OT_Affection != 0)
+                if (pkm.OT_Affection != 0 && IsInvalidContestAffection())
                     return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
