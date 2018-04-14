@@ -598,6 +598,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 590, Level = 29, Location = 19, }, // Foongus @ Route 6
             new EncounterStatic { Species = 591, Level = 43, Location = 24, }, // Amoonguss @ Route 11
             new EncounterStatic { Species = 591, Level = 47, Location = 127, }, // Amoonguss @ Route 22
+            new EncounterStatic { Species = 591, Level = 56, Location = 128, }, // Amoonguss @ Route 23
             new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.B2, Gender = 0,}, // HA Jellicent @ Undella Bay Mon Only
             new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.W2, Gender = 1,}, // HA Jellicent @ Undella Bay Thurs Only
             new EncounterStatic { Species = 628, Level = 25, Location = 17, Ability = 4, Version = GameVersion.W2, Gender = 0,}, // HA Braviary @ Route 4 Mon Only
