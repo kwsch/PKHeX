@@ -1595,7 +1595,7 @@ namespace PKHeX.Core
                 if (pkm.Format < 6)
                     return new CheckResult(Severity.Valid, V128, CheckIdentifier.History);
 
-                if (pkm.OT_Affection != 0 && IsInvalidContestAffection())
+                if (pkm.OT_Affection != 0 && Info.Generation <= 2 || IsInvalidContestAffection())
                     return new CheckResult(Severity.Invalid, V129, CheckIdentifier.History);
                 if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
                     return new CheckResult(Severity.Invalid, V130, CheckIdentifier.History);
