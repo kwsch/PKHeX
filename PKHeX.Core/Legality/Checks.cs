@@ -2070,6 +2070,8 @@ namespace PKHeX.Core
                             form = Array.IndexOf(Legal.Arceus_Plate, item) + 1;
                         else if (777 <= item && item <= 793)
                             form = Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
+                        if (pkm.Format == 4 && form >= 9)
+                            form++; // ??? type Form shifts everything by 1
 
                         if (form != pkm.AltForm)
                             AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
