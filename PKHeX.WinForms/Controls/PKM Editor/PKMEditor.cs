@@ -746,6 +746,8 @@ namespace PKHeX.WinForms.Controls
 
         public void UpdateIVsGB(bool skipForm)
         {
+            if (!FieldsLoaded)
+                return;
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
             if (pkm.Species == 201 && !skipForm) // Unown
@@ -864,7 +866,11 @@ namespace PKHeX.WinForms.Controls
                 {
                     int desiredForm = CB_Form.SelectedIndex;
                     while (pkm.AltForm != desiredForm)
+                    {
+                        FieldsLoaded = false;
                         Stats.UpdateRandomIVs(null, null);
+                        FieldsLoaded = true;
+                    }
                 }
             }
             else if (PKX.GetGenderFromString(CB_Form.Text) < 2)
