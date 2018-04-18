@@ -706,9 +706,9 @@ namespace PKHeX.Core
                     if (evo.Species > maxSpeciesTree)
                         species = pkm.Species - Chain.Count + i;
 
-                    dl.Add(evo.GetDexLevel(species, lvl));
                     if (evo.RequiresLevelUp)
                         lvl--;
+                    dl.Add(evo.GetDexLevel(species, lvl));
                     break;
                 }
                 if (!oneValid)
@@ -716,17 +716,19 @@ namespace PKHeX.Core
             }
 
             // Remove future gen preevolutions, no munchlax in a gen3 snorlax, no pichu in a gen1 vc raichu, etc
-            if (dl.Any(d => d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
+            var last = dl[dl.Count - 1];
+            if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
                 dl.RemoveAt(dl.Count - 1); 
 
             // Last species is the wild/hatched species, the minimum is 1 because it has not evolved from previous species
-            dl.Last().MinLevel = 1;
-            dl.Last().RequiresLvlUp = false;
+            last = dl[dl.Count - 1];
+            last.MinLevel = 1;
+            last.RequiresLvlUp = false;
             return dl;
         }
         private static void UpdateMinValues(IReadOnlyList<DexLevel> dl, EvolutionMethod evo)
         {
-            var last = dl.Last();
+            var last = dl[dl.Count - 1];
             if (evo.Level == 0 || !evo.RequiresLevelUp) // Evolutions like elemental stones, trade, etc
             {
                 if (!evo.RequiresLevelUp)
