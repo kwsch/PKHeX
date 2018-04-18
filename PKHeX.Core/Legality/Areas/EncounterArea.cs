@@ -84,6 +84,9 @@ namespace PKHeX.Core
                 rates[i] = data[ofs++];
             
             var slots = ReadSlots(data, ref ofs, slotSets * slotCount, t, rates[0]);
+            if (slotSets <= 1)
+                return slots;
+
             for (int i = 0; i < slotCount; i++)
             {
                 slots[i].Time = EncounterTime.Morning;
