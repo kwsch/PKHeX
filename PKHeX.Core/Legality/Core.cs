@@ -1590,8 +1590,9 @@ namespace PKHeX.Core
                 return r.Distinct();
             }
 
-            foreach (DexLevel evo in vs)
+            for (var i = 0; i < vs.Length; i++)
             {
+                DexLevel evo = vs[i];
                 var minlvlevo1 = 1;
                 var minlvlevo2 = 1;
                 if (Generation == 1)
@@ -1608,7 +1609,11 @@ namespace PKHeX.Core
                     if (evo.MinLevel > 1)
                         minlvlevo2 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
                 }
-                r.AddRange(GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
+                var maxLevel = evo.Level;
+                if (i != 0 && vs[i - 1].RequiresLvlUp) // evolution
+                    ++maxLevel; // allow lvlmoves from the level it evolved to the next species
+                r.AddRange(GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, moveTutor, Version,
+                    LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
             }
 
             if (pkm.Format <= 3)
