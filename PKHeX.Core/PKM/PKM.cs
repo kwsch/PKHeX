@@ -500,6 +500,22 @@ namespace PKHeX.Core
             }
             set => _WasEgg = value;
         }
+        public bool WasBredEgg
+        {
+            get
+            {
+                int loc = Egg_Location;
+                switch (GenNumber)
+                {
+                    case 4: return loc == 02000 || loc == 02002 || loc == 03002 && PtHGSS; // faraway
+                    case 5: return loc == 60002 || loc == 30003;
+                    case 6:
+                    case 7: return loc == 60002 || loc == 30002;
+                    default: return _WasEgg; // Gen 1/2 and pal park Gen 3
+                }
+            }
+            set => _WasEgg = value;
+        }
         public virtual bool WasGiftEgg
         {
             get

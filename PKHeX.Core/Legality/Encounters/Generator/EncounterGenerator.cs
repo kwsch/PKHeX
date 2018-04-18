@@ -242,7 +242,7 @@ namespace PKHeX.Core
                 if (ctr != 0) yield break;
             }
 
-            if (pkm.WasEgg)
+            if (pkm.WasBredEgg)
             {
                 foreach (var z in GenerateEggs(pkm))
                 { yield return z; ++ctr; }
@@ -272,7 +272,7 @@ namespace PKHeX.Core
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
-            if (pkm.WasEgg)
+            if (pkm.WasBredEgg)
             {
                 foreach (var z in GenerateEggs(pkm))
                     yield return z;
