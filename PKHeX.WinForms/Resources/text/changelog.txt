@@ -1,7 +1,31 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/03/19 - New Update:
+18/04/18 - New Update:
+ - Translations:
+ - - Resources are now more accessible for translation. Want to better localize PKHeX to your native language?
+ - - Locate the following files in the repo for the desired language (example: English)
+ - - LegalityCheckStrings_en.txt (Legality parsing messages)
+ - - MessageStrings_en.txt (Program message popup/alerts)
+ - - lang_en.txt (Program GUI display)
+ - Legality:
+ - - Fixed: Accounted for OR/AS OT affection glitch & related side effects regarding ribbons. Thanks @WyrXIII & @sora10pls!
+ - - Fixed: Crystal met time of day is now checked correctly.
+ - - Fixed: B2W2 special move tutors are no longer randomly permitted (offset was being read incorrectly). Thanks @srwawin!
+ - - Fixed: GB In-game trade minimum level & LG Italian Jynx oddities now have correct handling. Thanks (so many different users)!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Setting to enable/disable automatic stat marking when importing a showdown set.
+ - Added: Work in progress Encounter -> PKM generator. Probably won't be available for general users for a little while...
+ - Changed: Reworked language translation assets to a simpler format; main UI messages can now be translated.
+ - Changed: Updated Chinese, Spanish, and Japanese translations. Thanks wwwwwwzx, egzonqj, & @smileynation!
+ - Changed: Importing mystery gifts now gives a more random game version if imported to future generation saves.
+ - Fixed: Importing an egg to a future generation now sets the base friendship instead of keeping the hatch counter value.
+ - Fixed: Gen4 Coin case max now uses the correct maximum value. Thanks smileynation!
+ - Fixed: Gen4 Wallpaper names now match the actual ingame names (one pair was swapped). Thanks smileynation!
+ - Fixed: Gen3 Mail editor now works for non-Emerald games. Thanks @Bl4ckSh4rk!
+ - Fixed: Gen2 Unown forme editing no longer has a slow GUI update response. Thanks @Narithegreat!
+
+18/03/19 - New Update: (43913) [1105812]
  - Legality: 
  - - Added: Fixed IVs for Static Encounters are now checked.
  - - Fixed: Shedinja family handling. Thanks @ultima-soul, @Lusamine, @OmegaDonut, @admiral-fish & @Marty-D!
