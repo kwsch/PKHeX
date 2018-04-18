@@ -1094,16 +1094,19 @@ namespace PKHeX.Core
             var lineage = table.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Contains(evolution.Flag)); // Trade Evolutions
         }
-        internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1)
+        internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
             var curr = GetValidPreEvolutions(pkm);
-            var poss = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            var min = curr.FirstOrDefault(z => z.Species == minSpecies);
+            if (min != null && min.Level < minLevel)
+                return false;
+            IEnumerable<DexLevel> poss = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (minSpecies != -1)
                 poss = poss.Reverse().SkipWhile(z => z.Species != minSpecies); // collection is reversed, we only care about count
             else if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, 1)))
-                return curr.Count() >= poss.Count() - 1;
-            return curr.Count() >= poss.Count();
+                return curr.Count >= poss.Count() - 1;
+            return curr.Count >= poss.Count();
         }
         internal static bool IsEvolutionValidWithMove(PKM pkm, LegalInfo info)
         {
@@ -1533,7 +1536,7 @@ namespace PKHeX.Core
 
             int[] getMoves(Learnset[] moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
         }
-        internal static IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
+        internal static IList<DexLevel> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;

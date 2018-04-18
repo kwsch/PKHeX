@@ -34,7 +34,7 @@ namespace PKHeX.Core
                 return true;
             if (info.EncounterMatch.EggEncounter && species == 350 && pkm.Format >= 5 && !pkm.IsUntraded) // Prism Scale
                 return true;
-            if (!Legal.IsEvolutionValid(pkm, info.EncounterMatch.Species))
+            if (!Legal.IsEvolutionValid(pkm, info.EncounterMatch.Species, info.EncounterMatch.LevelMin))
                 return false;
             // If current species evolved with a move evolution and encounter species is not current species check if the evolution by move is valid
             // Only the evolution by move is checked, if there is another evolution before the evolution by move is covered in IsEvolutionValid
