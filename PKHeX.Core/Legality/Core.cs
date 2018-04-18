@@ -301,14 +301,14 @@ namespace PKHeX.Core
                     Moves[i] = new List<int>();
             return Moves;
         }
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
             return GetValidMoves(pkm, version, evoChains, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, DexLevel[] evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel> evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
@@ -1192,10 +1192,10 @@ namespace PKHeX.Core
             int count = 1;
             for (int i = 100; i >= startLevel; i--)
             {
-                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks:true).ToArray();
-                if (evos.Length < count) // lost an evolution, prior level was minimum current level
+                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks:true);
+                if (evos.Count < count) // lost an evolution, prior level was minimum current level
                     return evos.Max(evo => evo.Level) + 1;
-                count = evos.Length;
+                count = evos.Count;
             }
             return startLevel;
         }
@@ -1270,13 +1270,13 @@ namespace PKHeX.Core
             int tree = generation != -1 ? generation : pkm.Format;
             var table = EvolutionTree.GetEvolutionTree(tree);
             int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : - 1;
-            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
+            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true);
 
             switch (skipOption)
             {
                 case -1: return pkm.Species;
-                case 1: return evos.Length <= 1 ? pkm.Species : evos[evos.Length - 2].Species;
-                default: return evos.Length <= 0 ? pkm.Species : evos.Last().Species;
+                case 1: return evos.Count <= 1 ? pkm.Species : evos[evos.Count - 2].Species;
+                default: return evos.Count <= 0 ? pkm.Species : evos.Last().Species;
             }
         }
         private static int GetMaxLevelGeneration(PKM pkm)
@@ -1556,22 +1556,22 @@ namespace PKHeX.Core
             var et = EvolutionTree.GetEvolutionTree(tree);
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<DexLevel[]> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IList<DexLevel>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
             if (Relearn && pkm.Format >= 6)
                 r.AddRange(pkm.RelearnMoves);
 
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
-                if (vs[gen].Length != 0)
+                if (vs[gen].Count != 0)
                     r.AddRange(GetValidMoves(pkm, Version, vs[gen], gen, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM));
 
             return r.Distinct();
         }
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, DexLevel[] vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IList<DexLevel> vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
-            if (vs.Length == 0)
+            if (vs.Count == 0)
                 return r;
             int species = pkm.Species;
 
@@ -1590,7 +1590,7 @@ namespace PKHeX.Core
                 return r.Distinct();
             }
 
-            for (var i = 0; i < vs.Length; i++)
+            for (var i = 0; i < vs.Count; i++)
             {
                 DexLevel evo = vs[i];
                 var minlvlevo1 = 1;

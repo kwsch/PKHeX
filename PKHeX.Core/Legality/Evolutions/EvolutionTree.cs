@@ -201,7 +201,7 @@ namespace PKHeX.Core
 
             return Personal.GetFormeIndex(evolvesToSpecies, evolvesToForm);
         }
-        public IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
+        public IList<DexLevel> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             int index = GetIndex(pkm);
             if (maxSpeciesOrigin <= 0)
@@ -683,7 +683,7 @@ namespace PKHeX.Core
             Chain.Insert(0, evo);
         }
 
-        public IEnumerable<DexLevel> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
+        public IList<DexLevel> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
         {
             int lvl = maxLevel;
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };

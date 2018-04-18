@@ -79,7 +79,7 @@ namespace PKHeX.Core
         {
             pk.Version = (int)version;
             var et = EvolutionTree.GetEvolutionTree(PKX.Generation);
-            var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true).ToArray();
+            var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
 
             var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);
             var canlearn = gens.SelectMany(z => Legal.GetValidMoves(pk, dl, z));
