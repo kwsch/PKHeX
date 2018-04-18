@@ -1104,15 +1104,20 @@ namespace PKHeX.Core
 
             if (Encounter.Valid)
             {
-                // Check Ability Mismatches
-                int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
-                                        (EncounterMatch as EncounterTrade)?.Ability ??
-                                        (EncounterMatch as PCD)?.Gift.PK.Ability ??
-                                        (EncounterMatch as EncounterLink)?.Ability;
+                if (EncounterMatch is PCD d)
+                {
+                    if (VerifyAbilityPCD(d, AbilityUnchanged, abilities))
+                        return;
+                }
+                else // Check Ability Mismatches
+                { 
+                    int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
+                                            (EncounterMatch as EncounterTrade)?.Ability ??
+                                            (EncounterMatch as EncounterLink)?.Ability;
 
-                if (EncounterAbility != null && VerifySetAbility(EncounterAbility, AbilityUnchanged, abilities, abilval))
-                    return; // result added via VerifySetAbility
-
+                    if (EncounterAbility != null && VerifySetAbility(EncounterAbility, AbilityUnchanged, abilities, abilval))
+                        return; // result added via VerifySetAbility
+                }
                 switch (Info.Generation)
                 {
                     case 5: VerifyAbility5(abilities); break;
@@ -1128,6 +1133,22 @@ namespace PKHeX.Core
             else
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
         }
+        private bool VerifyAbilityPCD(PCD pcd, bool? abilityUnchanged, int[] abilities)
+        {
+            if (pcd.Species == pkm.Species && pkm.Ability == pcd.Gift.PK.Ability) // Edge case (PID ability gift mismatch)
+                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+            else if (pkm.Format >= 6 && abilities[0] == abilities[1] && pkm.AbilityNumber == 1)
+                AddLine(Severity.Valid, V115, CheckIdentifier.Ability); // gen3-5 transfer with same ability -> 1st ability that matches
+            else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) // Ability Capsule can change between 1/2
+                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+            else
+            {
+                if (!(abilityUnchanged ?? false))
+                    return false;
+                AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
+            }
+            return true;
+        }
         private bool VerifySetAbility(int? EncounterAbility, bool? AbilityUnchanged, int[] abilities, int abilval)
         {
             if (pkm.AbilityNumber == 4 && EncounterAbility != 4)
@@ -1140,8 +1161,6 @@ namespace PKHeX.Core
                 return false;
 
             if (EncounterMatch is EncounterTrade z && EncounterAbility == 1 << abilval && z.Species == pkm.Species) // Edge case (Static PID?)
-                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
-            else if (EncounterMatch is PCD d && d.Species == pkm.Species && pkm.Ability == EncounterAbility) // Edge case (PID ability gift mismatch)
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
             else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4 && EncounterAbility != 4) // Ability Capsule can change between 1/2
                 AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
