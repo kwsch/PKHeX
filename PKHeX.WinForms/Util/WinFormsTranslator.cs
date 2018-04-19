@@ -186,7 +186,7 @@ namespace PKHeX.WinForms
 
     public class TranslationContext
     {
-        public bool AddNew { private get; set; } = true;
+        public bool AddNew { private get; set; }
         public bool RemoveUsedKeys { private get; set; }
         public const char Separator = '=';
         private readonly Dictionary<string, string> Translation = new Dictionary<string, string>();

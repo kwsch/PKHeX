@@ -25,6 +25,7 @@ namespace PKHeX.WinForms
 
         private static void UpdateTranslations()
         {
+            WinFormsTranslator.SetRemovalMode(false); // add mode
             WinFormsTranslator.LoadAllForms(LoadBanlist); // populate with every possible control
             WinFormsTranslator.UpdateAll(DefaultLanguage, Languages); // propagate to others
             WinFormsTranslator.DumpAll(Banlist); // dump current to file
