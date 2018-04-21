@@ -329,7 +329,7 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             var legal = new LegalityAnalysis(pk);
-            if (legal.Info.Relearn.Any(z => !z.Valid))
+            if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);
         }
 
