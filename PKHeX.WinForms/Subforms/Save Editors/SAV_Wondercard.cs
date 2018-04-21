@@ -489,9 +489,13 @@ namespace PKHeX.WinForms
             {
                 try
                 {
+                    int TID7() => (int)((uint)(gift.TID | (gift.SID << 16)) % 1000000);
+                    int SID7() => (int)((uint)(gift.TID | (gift.SID << 16)) / 1000000);
+                    var id = gift.Format < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{SID7():D4}]{TID7():D6}";
+
                     var first =
                         $"{GameInfo.Strings.specieslist[gift.Species]} @ {GameInfo.Strings.itemlist[gift.HeldItem]}  --- "
-                        + (gift.IsEgg ? GameInfo.Strings.eggname : $"{gift.OT_Name} - {gift.TID:00000}/{gift.SID:00000}");
+                        + (gift.IsEgg ? GameInfo.Strings.eggname : $"{gift.OT_Name} - {id}");
                     result.Add(first);
                     result.Add(string.Join(" / ", gift.Moves.Select(z => GameInfo.Strings.movelist[z])));
                     
