@@ -576,7 +576,7 @@ namespace PKHeX.WinForms
         }
         private bool TryLoadPKM(byte[] input, string ext)
         {
-            var pk = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
+            var pk = PKMConverter.GetPKMfromBytes(input, prefer: PKX.GetPKMFormatFromExtension(ext, C_SAV.SAV.Generation));
             if (pk == null)
                 return false;
             

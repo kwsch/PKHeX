@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -235,8 +234,9 @@ namespace PKHeX.WinForms.Controls
 
             byte[] data = File.ReadAllBytes(file);
             MysteryGift mg = MysteryGift.GetMysteryGift(data, fi.Extension);
-            PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data,
-                           prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - '0') & 0xF : SAV.Generation);
+            if (fi.Extension.Length > 0 || !int.TryParse(fi.Extension[fi.Extension.Length - 1].ToString(), out var prefer))
+                prefer = SAV.Generation;
+            PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data, prefer: prefer);
 
             PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
             if (pk == null)

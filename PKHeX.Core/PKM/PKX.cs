@@ -823,6 +823,31 @@ namespace PKHeX.Core
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Roughly detects the PKM format from the file's extension.
+        /// </summary>
+        /// <param name="ext">File extension.</param>
+        /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
+        /// <returns>Format hint that the file is.</returns>
+        public static int GetPKMFormatFromExtension(string ext, int prefer)
+        {
+            return ext?.Length > 1
+                ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer) 
+                : prefer;
+        }
+        /// <summary>
+        /// Roughly detects the PKM format from the file's extension.
+        /// </summary>
+        /// <param name="last">Last character of the file's extensio.n</param>
+        /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
+        /// <returns>Format hint that the file is.</returns>
+        public static int GetPKMFormatFromExtension(char last, int prefer)
+        {
+            if ('1' <= last && last <= '9')
+                return last - '0';
+            return last == 'x' ? 6 : prefer;
+        }
+
         // Extensions
         /// <summary>
         /// Gets the Location Name for the <see cref="PKM"/>

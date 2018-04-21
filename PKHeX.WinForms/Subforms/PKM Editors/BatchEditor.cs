@@ -276,7 +276,7 @@ namespace PKHeX.WinForms
                     continue;
                 }
 
-                int format = fi.Extension.Length > 0 ? (fi.Extension.Last() - '0') & 0xF : SAV.Generation;
+                int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
                 if (ProcessPKM(pkm, Filters, Instructions))
