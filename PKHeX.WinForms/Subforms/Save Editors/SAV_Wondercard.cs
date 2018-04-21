@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
                 if (Visible && g.GiftUsed && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgMsyteryGiftUsedAlert, MsgMysteryGiftUsedFix))
                     g.GiftUsed = false;
 
-                RTB.Lines = GetDescription(g).ToArray();
+                RTB.Lines = g.GetDescription().ToArray();
                 PB_Preview.Image = g.Sprite();
                 mg = g;
             }
@@ -157,8 +157,11 @@ namespace PKHeX.WinForms
         }
         private void ClickSet(object sender, EventArgs e)
         {
-            if (!IsSpecialWonderCard(mg))
+            if (!mg.IsCardCompatible(SAV, out var msg))
+            {
+                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, msg);
                 return;
+            }
 
             sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(pba, sender);
@@ -270,26 +273,6 @@ namespace PKHeX.WinForms
             }
             SetGiftBoxes();
         }
-
-        private bool IsSpecialWonderCard(MysteryGift g)
-        {
-            if (SAV.Generation != 6)
-                return true;
-
-            if (g is WC6)
-            {
-                if (g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
-                {
-                    if (!SAV.ORAS || ((SAV6)SAV).EonTicket < 0)
-                        goto reject;
-                    BitConverter.GetBytes(WC6.EonTicketConst).CopyTo(SAV.Data, ((SAV6)SAV).EonTicket);
-                }
-            }
-
-            return true;
-            reject: WinFormsUtil.Alert(MsgMysteryGiftSlotFail, MsgMysteryGiftSlotSpecialReject);
-            return false;
-        }
         
         private void ClickQR(object sender, EventArgs e)
         {
@@ -322,7 +305,7 @@ namespace PKHeX.WinForms
             if (qr == null)
                 return;
 
-            string desc = $"({mg.Type}) {string.Join(Environment.NewLine, GetDescription(mg))}";
+            string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 
             new QR(qr, PB_Preview.Image, null, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
         }
@@ -466,66 +449,6 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
         }
         private int wc_slot = -1;
-        private static IEnumerable<string> GetDescription(MysteryGift gift)
-        {
-            if (gift.Empty)
-                return new[] { MsgMysteryGiftSlotEmpty };
-
-            var result = new List<string> {gift.CardHeader};
-            if (gift.IsItem)
-            {
-                result.Add($"Item: {GameInfo.Strings.itemlist[gift.ItemID]} (Quantity: {gift.Quantity})");
-                if (gift is WC7 wc7)
-                {
-                    var ind = 1;
-                    while (wc7.GetItem(ind) != 0)
-                    {
-                        result.Add($"Item: {GameInfo.Strings.itemlist[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
-                        ind++;
-                    }
-                }
-            }
-            else if (gift.IsPokémon)
-            {
-                try
-                {
-                    int TID7() => (int)((uint)(gift.TID | (gift.SID << 16)) % 1000000);
-                    int SID7() => (int)((uint)(gift.TID | (gift.SID << 16)) / 1000000);
-                    var id = gift.Format < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{SID7():D4}]{TID7():D6}";
-
-                    var first =
-                        $"{GameInfo.Strings.specieslist[gift.Species]} @ {GameInfo.Strings.itemlist[gift.HeldItem]}  --- "
-                        + (gift.IsEgg ? GameInfo.Strings.eggname : $"{gift.OT_Name} - {id}");
-                    result.Add(first);
-                    result.Add(string.Join(" / ", gift.Moves.Select(z => GameInfo.Strings.movelist[z])));
-                    
-                    if (gift is WC7 wc7)
-                    {
-                        var addItem = wc7.AdditionalItem;
-                        if (addItem != 0)
-                            result.Add($"+ {GameInfo.Strings.itemlist[addItem]}");
-                    }
-                }
-                catch { result.Add(MsgMysteryGiftParseFail); }
-            }
-            else if (gift.IsBP)
-            {
-                result.Add($"BP: {gift.BP}");
-            }
-            else if (gift.IsBean)
-            {
-                result.Add($"Bean ID: {gift.Bean}");
-                result.Add($"Quantity: {gift.Quantity}");
-            }
-            else { result.Add(MsgMysteryGiftParseTypeUnknown); }
-            if (gift is WC7 w7)
-            {
-                result.Add($"Repeatable: {w7.GiftRepeatable}");
-                result.Add($"Collected: {w7.GiftUsed}");
-                result.Add($"Once Per Day: {w7.GiftOncePerDay}");
-            }
-            return result;
-        }
 
         // UI Generation
         private List<PictureBox> PopulateViewGiftsG4()

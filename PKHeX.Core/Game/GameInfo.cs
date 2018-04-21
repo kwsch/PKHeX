@@ -35,7 +35,7 @@ namespace PKHeX.Core
         }
 
         // String providing
-        public class GameStrings
+        public class GameStrings : IBasicStrings
         {
             // PKM Info
             public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
@@ -55,6 +55,14 @@ namespace PKHeX.Core
             public readonly string[] wallpapernames, puffs;
             public readonly string eggname;
             private readonly string lang;
+
+            public string EggName => eggname;
+            public string[] Species => specieslist;
+            public string[] Item => itemlist;
+            public string[] Move => movelist;
+            public string[] Ability => abilitylist;
+            public string[] Types => types;
+            public string[] Natures => natures;
 
             public GameStrings(string l)
             {
