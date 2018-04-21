@@ -588,7 +588,7 @@ namespace PKHeX.Core
         }
         public virtual bool IsSlotInBattleTeam(int box, int slot) => false;
 
-        public void SortBoxes(int BoxStart = 0, int BoxEnd = -1)
+        public void SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null)
         {
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
@@ -596,7 +596,7 @@ namespace PKHeX.Core
             if (BoxEnd > BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart));
 
-            var Sorted = Section.OrderBySpecies();
+            var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
 
             Sorted.CopyTo(BD, start);
             BoxData = BD;
