@@ -109,6 +109,10 @@ namespace PKHeX.Core
         {
             return list.InitialSortBy()
                 .ThenByDescending(trainer.IsOriginalHandler) // true first
+                .ThenBy(p => p.OT_Name)
+                .ThenBy(p => p.OT_Gender)
+                .ThenBy(p => p.TID)
+                .ThenBy(p => p.SID)
                 .ThenBy(p => p.Species)
                 .FinalSortBy();
         }
