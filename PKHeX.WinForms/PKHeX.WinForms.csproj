@@ -203,6 +203,7 @@
     <Compile Include="Controls\SAV Editor\SlotList.Designer.cs">
       <DependentUpon>SlotList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\Sorter.cs" />
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>

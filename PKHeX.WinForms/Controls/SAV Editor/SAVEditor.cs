@@ -13,7 +13,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class SAVEditor : UserControl
+    public partial class SAVEditor : UserControl, ISortableDisplay
     {
         public SaveFile SAV;
         public readonly PictureBox[] SlotPictureBoxes;
@@ -21,6 +21,7 @@ namespace PKHeX.WinForms.Controls
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         public readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
         public readonly ContextMenuSAV menu = new ContextMenuSAV();
+        public readonly ContextMenuStrip SortMenu;
 
         public bool HaX;
         public bool ModifyPKM;
@@ -73,6 +74,7 @@ namespace PKHeX.WinForms.Controls
 
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
+            SortMenu = this.GetSortStrip();
         }
         private void InitializeDragDrop(Control pb)
         {
@@ -361,52 +363,60 @@ namespace PKHeX.WinForms.Controls
             pb.BackColor = Color.Transparent;
         }
 
-        private void ClickBoxSort(object sender, EventArgs e)
+        #region Box Manipulation
+        private void ClickBoxSort(object sender, MouseEventArgs e)
         {
-            if (tabBoxMulti.SelectedTab != Tab_Box)
+            if (tabBoxMulti.SelectedTab != Tab_Box || !e.Button.HasFlag(MouseButtons.Right))
                 return;
-            if (!SAV.HasBox)
+            if (!tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition)))
                 return;
-
-            string modified;
-            bool all = false;
-            if (ModifierKeys == (Keys.Alt | Keys.Shift) && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveBoxClearAll))
-            {
-                if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
-                { WinFormsUtil.Alert(MsgSaveBoxClearAllFailBattle); return; }
-                SAV.ClearBoxes();
-                modified = MsgSaveBoxClearAllSuccess;
-                all = true;
-            }
-            else if (ModifierKeys == Keys.Alt && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveBoxClearCurrent))
-            {
-                if (SAV.IsAnySlotLockedInBox(Box.CurrentBox, Box.CurrentBox))
-                { WinFormsUtil.Alert(MsgSaveBoxClearCurrentFailBattle); return; }
-                SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox + 1);
-                modified = MsgSaveBoxClearCurrentSuccess;
-            }
-            else if (ModifierKeys == (Keys.Control | Keys.Shift) && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveBoxSortAll))
-            {
-                if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
-                { WinFormsUtil.Alert(MsgSaveBoxSortAllFailBattle); return; }
-                SAV.SortBoxes();
-                modified = MsgSaveBoxSortAllSuccess;
-                all = true;
-            }
-            else if (ModifierKeys == Keys.Control && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveBoxSortCurrent))
-            {
-                if (SAV.IsAnySlotLockedInBox(Box.CurrentBox, Box.CurrentBox))
-                { WinFormsUtil.Alert(MsgSaveBoxSortCurrentFailBattle); return; }
-                SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox + 1);
-                modified = MsgSaveBoxSortCurrentSuccess;
-            }
-            else
+            var pt = Tab_Box.PointToScreen(new Point(0, 0));
+            SortMenu.Show(pt);
+        }
+        public void ClearAll()
+        {
+            if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxClearAll, MsgSaveBoxClearAllFailBattle))
                 return;
-
+            SAV.ClearBoxes();
+            FinishBoxManipulation(MsgSaveBoxClearAllSuccess, true);
+        }
+        public void ClearCurrent()
+        {
+            if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxClearCurrent, MsgSaveBoxClearCurrentFailBattle))
+                return;
+            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox + 1);
+            FinishBoxManipulation(MsgSaveBoxClearCurrentSuccess, false);
+        }
+        public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
+        {
+            if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxSortAll, MsgSaveBoxSortAllFailBattle))
+                return;
+            SAV.SortBoxes(0, SAV.BoxCount - 1, sorter);
+            FinishBoxManipulation(MsgSaveBoxSortAllSuccess, true);
+        }
+        public void SortCurrent(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
+        {
+            if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxSortCurrent, MsgSaveBoxSortCurrentFailBattle))
+                return;
+            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox + 1, sorter);
+            FinishBoxManipulation(MsgSaveBoxSortCurrentSuccess, false);
+        }
+        private void FinishBoxManipulation(string message, bool all)
+        {
             SetPKMBoxes();
             UpdateBoxViewers(all);
-            WinFormsUtil.Alert(modified);
+            WinFormsUtil.Alert(message);
         }
+        private bool CanManipulateRegion(int start, int end, string prompt, string fail)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
+                return false;
+            if (!SAV.IsAnySlotLockedInBox(start, end))
+                return true;
+            WinFormsUtil.Alert(fail);
+            return false;
+        }
+        #endregion
         private void ClickBoxDouble(object sender, MouseEventArgs e)
         {
             if (tabBoxMulti.SelectedTab == Tab_SAV)

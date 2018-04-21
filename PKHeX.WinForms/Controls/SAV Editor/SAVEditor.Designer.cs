@@ -148,7 +148,7 @@
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 101;
-            this.tabBoxMulti.Click += new System.EventHandler(this.ClickBoxSort);
+            this.tabBoxMulti.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ClickBoxSort);
             this.tabBoxMulti.DragOver += new System.Windows.Forms.DragEventHandler(this.MultiDragOver);
             this.tabBoxMulti.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ClickBoxDouble);
             // 

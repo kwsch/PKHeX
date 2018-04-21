@@ -53,10 +53,7 @@ Doubleclick on the SAV Tab: Auto-detect/Reload latest save.
 
 // Boxes
 
-Control-Click Box Tab: Sort Current Box contents.
-Control-Shift-Click Box Tab: Sort All Boxes.
-Alt-Click Box Tab: Delete Current Box contents.
-Alt-Shift-Click Box Tab: Delete All Boxes.
+Right click on Box Tab: Clear/Sort Box contents. Hold shift when selecting the action to apply to ALL boxes.
 
 Control-RightClick a Box Slot to show extra options (ie Legality check)
 Control-Drag a Box Slot to Copy-Overwrite
