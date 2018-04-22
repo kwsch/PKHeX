@@ -77,7 +77,7 @@ namespace PKHeX.Core
         public static IEnumerable<PKM> OrderByUsage(this IEnumerable<PKM> list)
         {
             return list.InitialSortBy()
-                .ThenBy(GetFriendshipDelta) // friendship raised evaluation
+                .ThenByDescending(GetFriendshipDelta) // friendship raised evaluation
                 .ThenBy(p => p.Species)
                 .FinalSortBy();
         }
