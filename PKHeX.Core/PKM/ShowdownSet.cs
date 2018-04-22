@@ -256,9 +256,8 @@ namespace PKHeX.Core
                 Gender = last3.Substring(1, 1);
                 line = line.Substring(0, line.Length - 3);
             }
-            
-            // Meowstic Edge Case
-            if (line == "Meowstic") Gender = "M";
+            else if (line.Contains(species[678])) // Meowstic Edge Case with no gender provided
+                Gender = "M";
             
             // Nickname Detection
             if (line.Contains("(") && line.Contains(")"))
