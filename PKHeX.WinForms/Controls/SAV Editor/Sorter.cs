@@ -14,13 +14,13 @@ namespace PKHeX.WinForms.Controls
             {
                 GetItem("mnu_ClearBox", "Clear", Clear),
                 GetItem("mnu_SortBoxSpecies", "Sort: SpeciesID", () => Sort(PKMSorting.OrderBySpecies)),
-                GetItem("mnu_SortBoxSpecies", "Sort: SpeciesIDRev", () => Sort(PKMSorting.OrderByDescendingSpecies)),
-                GetItem("mnu_SortBoxSpecies", "Sort: Level Low->High", () => Sort(PKMSorting.OrderByLevel)),
-                GetItem("mnu_SortBoxSpecies", "Sort: Level High->Low", () => Sort(PKMSorting.OrderByDescendingLevel)),
-                GetItem("mnu_SortBoxSpecies", "Sort: Date", () => Sort(PKMSorting.OrderByDateObtained)),
-                GetItem("mnu_SortBoxSpecies", "Sort: Usage", () => Sort(PKMSorting.OrderByDescendingLevel)),
-                GetItem("mnu_SortBoxSpecies", "Sort: SpeciesName", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species))),
-                GetItem("mnu_SortBoxSpecies", "Sort: Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV))),
+                GetItem("mnu_SortBoxSpeciesRev", "Sort: SpeciesIDRev", () => Sort(PKMSorting.OrderByDescendingSpecies)),
+                GetItem("mnu_SortBoxLevel", "Sort: Level Low->High", () => Sort(PKMSorting.OrderByLevel)),
+                GetItem("mnu_SortBoxLevelRev", "Sort: Level High->Low", () => Sort(PKMSorting.OrderByDescendingLevel)),
+                GetItem("mnu_SortBoxDate", "Sort: Date", () => Sort(PKMSorting.OrderByDateObtained)),
+                GetItem("mnu_SortBoxUsage", "Sort: Usage", () => Sort(PKMSorting.OrderByDescendingLevel)),
+                GetItem("mnu_SortBoxName", "Sort: SpeciesName", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species))),
+                GetItem("mnu_SortBoxOwner", "Sort: Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV))),
             };
             sortMenu.Items.AddRange(options);
 
