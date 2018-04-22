@@ -331,6 +331,7 @@ namespace PKHeX.Core
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);
+            pk.RefreshChecksum();
         }
 
         /// <summary>
