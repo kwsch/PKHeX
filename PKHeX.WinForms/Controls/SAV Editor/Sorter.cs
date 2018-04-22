@@ -23,6 +23,7 @@ namespace PKHeX.WinForms.Controls
                 GetItem("mnu_SortBoxUsage", "Sort: Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart),
                 GetItem("mnu_SortBoxName", "Sort: Species Name", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species)), Resources.alphaAZ),
                 GetItem("mnu_SortBoxOwner", "Sort: Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users),
+                GetItem("mnu_SortBoxRandom", "Sort: Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.showdown),
             };
             sortMenu.Items.AddRange(options);
 
