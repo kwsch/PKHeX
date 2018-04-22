@@ -109,10 +109,7 @@ namespace PKHeX.Core
         {
             return list.InitialSortBy()
                 .ThenByDescending(trainer.IsOriginalHandler) // true first
-                .ThenBy(p => p.OT_Name)
-                .ThenBy(p => p.OT_Gender)
-                .ThenBy(p => p.TID)
-                .ThenBy(p => p.SID)
+                .OrderByTrainer()
                 .ThenBy(p => p.Species)
                 .FinalSortBy();
         }
@@ -152,6 +149,18 @@ namespace PKHeX.Core
                 .ThenBy(p => p.Gender) // gender sorted
                 .ThenBy(p => p.IsNicknamed);
             return postSorted;
+        }
+
+        /// <summary>
+        /// Common mid-filtering grouping of PKM data according to the Original Trainer details.
+        /// </summary>
+        /// <param name="list">Output list of <see cref="PKM"/> data.</param>
+        private static IOrderedEnumerable<PKM> OrderByTrainer(this IOrderedEnumerable<PKM> list)
+        {
+            return list.ThenBy(p => p.OT_Name)
+                .ThenBy(p => p.OT_Gender)
+                .ThenBy(p => p.TID)
+                .ThenBy(p => p.SID);
         }
 
         /// <summary>
