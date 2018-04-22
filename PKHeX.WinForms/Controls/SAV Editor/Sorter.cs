@@ -15,13 +15,13 @@ namespace PKHeX.WinForms.Controls
             var options = new[]
             {
                 GetItem("mnu_ClearBox", "Clear", Clear, Resources.nocheck),
-                GetItem("mnu_SortBoxSpecies", "Sort: SpeciesID", () => Sort(PKMSorting.OrderBySpecies), Resources.numlohi),
-                GetItem("mnu_SortBoxSpeciesRev", "Sort: SpeciesIDRev", () => Sort(PKMSorting.OrderByDescendingSpecies), Resources.numhilo),
-                GetItem("mnu_SortBoxLevel", "Sort: Level Low->High", () => Sort(PKMSorting.OrderByLevel), Resources.vallohi),
-                GetItem("mnu_SortBoxLevelRev", "Sort: Level High->Low", () => Sort(PKMSorting.OrderByDescendingLevel), Resources.valhilo),
-                GetItem("mnu_SortBoxDate", "Sort: Date", () => Sort(PKMSorting.OrderByDateObtained), Resources.date),
+                GetItem("mnu_SortBoxSpecies", "Sort: Pokédex No.", () => Sort(PKMSorting.OrderBySpecies), Resources.numlohi),
+                GetItem("mnu_SortBoxSpeciesRev", "Sort: Pokédex No. (Reverse)", () => Sort(PKMSorting.OrderByDescendingSpecies), Resources.numhilo),
+                GetItem("mnu_SortBoxLevel", "Sort: Level (Low to High)", () => Sort(PKMSorting.OrderByLevel), Resources.vallohi),
+                GetItem("mnu_SortBoxLevelRev", "Sort: Level (High to Low)", () => Sort(PKMSorting.OrderByDescendingLevel), Resources.valhilo),
+                GetItem("mnu_SortBoxDate", "Sort: Met Date", () => Sort(PKMSorting.OrderByDateObtained), Resources.date),
                 GetItem("mnu_SortBoxUsage", "Sort: Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart),
-                GetItem("mnu_SortBoxName", "Sort: SpeciesName", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species)), Resources.alphaAZ),
+                GetItem("mnu_SortBoxName", "Sort: Species Name", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species)), Resources.alphaAZ),
                 GetItem("mnu_SortBoxOwner", "Sort: Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users),
             };
             sortMenu.Items.AddRange(options);
