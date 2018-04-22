@@ -21233,6 +21233,26 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap alphaAZ {
+            get {
+                object obj = ResourceManager.GetObject("alphaAZ", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap alphaZA {
+            get {
+                object obj = ResourceManager.GetObject("alphaZA", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap anti_pokerus_icon {
             get {
                 object obj = ResourceManager.GetObject("anti_pokerus_icon", resourceCulture);
@@ -22904,13 +22924,15 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///18/03/19 - New Update:
-        /// - Legality: 
-        /// - - Added: Fixed IVs for Static Encounters are now checked.
-        /// - - Fixed: Shedinja family handling. Thanks @ultima-soul, @Lusamine, @OmegaDonut, @admiral-fish &amp; @Marty-D!
-        /// - - Changed: Pay Day Mewtwo is now legal (official transporter rules were updated). Thanks @Real96 &amp; sora10pls!
-        /// - - Changed: Another round of legality check updates. Thanks (so many different users)!
-        /// - Added: Base Stats are now displayed  [rest of string was truncated]&quot;;.
+        ///18/04/18 - New Update:
+        /// - Translations:
+        /// - - Resources are now more accessible for translation. Want to better localize PKHeX to your native language?
+        /// - - Locate the following files in the repo for the desired language (example: English)
+        /// - - LegalityCheckStrings_en.txt (Legality parsing messages)
+        /// - - MessageStrings_en.txt (Program message popup/alerts)
+        /// - - lang_en.txt (Program GUI display)
+        /// - Legality:
+        /// - - Fixed: Accounted for OR/AS OT a [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -22944,6 +22966,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap database {
             get {
                 object obj = ResourceManager.GetObject("database", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap date {
+            get {
+                object obj = ResourceManager.GetObject("date", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -23094,6 +23126,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap gift {
             get {
                 object obj = ResourceManager.GetObject("gift", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap heart {
+            get {
+                object obj = ResourceManager.GetObject("heart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -28021,6 +28063,26 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap numhilo {
+            get {
+                object obj = ResourceManager.GetObject("numhilo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap numlohi {
+            get {
+                object obj = ResourceManager.GetObject("numlohi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap open {
             get {
                 object obj = ResourceManager.GetObject("open", resourceCulture);
@@ -28059,11 +28121,21 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20180319.
+        ///   Looks up a localized string similar to 20180417.
         /// </summary>
         internal static string ProgramVersion {
             get {
                 return ResourceManager.GetString("ProgramVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap qr {
+            get {
+                object obj = ResourceManager.GetObject("qr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -30219,6 +30291,36 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap user {
+            get {
+                object obj = ResourceManager.GetObject("user", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap users {
+            get {
+                object obj = ResourceManager.GetObject("users", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap valhilo {
+            get {
+                object obj = ResourceManager.GetObject("valhilo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap valid {
             get {
                 object obj = ResourceManager.GetObject("valid", resourceCulture);
@@ -30229,9 +30331,29 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap vallohi {
+            get {
+                object obj = ResourceManager.GetObject("vallohi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap vc {
             get {
                 object obj = ResourceManager.GetObject("vc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap wand {
+            get {
+                object obj = ResourceManager.GetObject("wand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

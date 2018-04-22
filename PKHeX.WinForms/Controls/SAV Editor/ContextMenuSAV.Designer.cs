@@ -45,34 +45,38 @@
             this.mnuDelete,
             this.mnuLegality});
             this.mnuVSD.Name = "mnuVSD";
-            this.mnuVSD.Size = new System.Drawing.Size(116, 92);
+            this.mnuVSD.Size = new System.Drawing.Size(153, 114);
             this.mnuVSD.Opening += new System.ComponentModel.CancelEventHandler(this.MenuOpening);
             // 
             // mnuView
             // 
+            this.mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(115, 22);
+            this.mnuView.Size = new System.Drawing.Size(152, 22);
             this.mnuView.Text = "View";
-            this.mnuView.Click += new System.EventHandler(ContextMenuSAV.ClickView);
+            this.mnuView.Click += new System.EventHandler(this.ClickView);
             // 
             // mnuSet
             // 
+            this.mnuSet.Image = global::PKHeX.WinForms.Properties.Resources.exit;
             this.mnuSet.Name = "mnuSet";
-            this.mnuSet.Size = new System.Drawing.Size(115, 22);
+            this.mnuSet.Size = new System.Drawing.Size(152, 22);
             this.mnuSet.Text = "Set";
-            this.mnuSet.Click += new System.EventHandler(ContextMenuSAV.ClickSet);
+            this.mnuSet.Click += new System.EventHandler(this.ClickSet);
             // 
             // mnuDelete
             // 
+            this.mnuDelete.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
             this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(115, 22);
+            this.mnuDelete.Size = new System.Drawing.Size(152, 22);
             this.mnuDelete.Text = "Delete";
-            this.mnuDelete.Click += new System.EventHandler(ContextMenuSAV.ClickDelete);
+            this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
             // 
             // mnuLegality
             // 
+            this.mnuLegality.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.mnuLegality.Name = "mnuLegality";
-            this.mnuLegality.Size = new System.Drawing.Size(115, 22);
+            this.mnuLegality.Size = new System.Drawing.Size(152, 22);
             this.mnuLegality.Text = "Legality";
             this.mnuLegality.Click += new System.EventHandler(this.ClickShowLegality);
             // 

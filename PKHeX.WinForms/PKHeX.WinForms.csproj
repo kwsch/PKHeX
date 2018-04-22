@@ -799,6 +799,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\Program\alphaZA.png" />
+    <None Include="Resources\img\Program\alpaZA.png" />
+    <None Include="Resources\img\Program\wand.png" />
+    <None Include="Resources\img\Program\alphaAZ.png" />
+    <None Include="Resources\img\Program\heart.png" />
+    <None Include="Resources\img\Program\date.png" />
+    <None Include="Resources\img\Program\vallohi.png" />
+    <None Include="Resources\img\Program\valhilo.png" />
+    <None Include="Resources\img\Program\users.png" />
+    <None Include="Resources\img\Program\user.png" />
+    <None Include="Resources\img\Program\qr.png" />
+    <None Include="Resources\img\Program\numlohi.png" />
+    <None Include="Resources\img\Program\numhilo.png" />
+    <None Include="Resources\img\Program\magic-wand.png" />
     <None Include="Resources\img\Program\redo.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\744-1s.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\unknowns.png" />

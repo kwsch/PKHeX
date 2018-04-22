@@ -27,7 +27,7 @@ namespace PKHeX.WinForms.Controls
                 case Keys.Alt: ClickDelete(sender, e); break;
             }
         }
-        private static void ClickView(object sender, EventArgs e)
+        private void ClickView(object sender, EventArgs e)
         {
             SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
@@ -38,7 +38,7 @@ namespace PKHeX.WinForms.Controls
             m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false, true);
             m.SetColor(info.Box, info.Slot, Resources.slotView);
         }
-        private static void ClickSet(object sender, EventArgs e)
+        private void ClickSet(object sender, EventArgs e)
         {
             SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
@@ -88,7 +88,7 @@ namespace PKHeX.WinForms.Controls
             editor.LastData = pk.Data;
             m.SE.RedoStack.Clear(); m.SE.Menu_Redo.Enabled = false;
         }
-        private static void ClickDelete(object sender, EventArgs e)
+        private void ClickDelete(object sender, EventArgs e)
         {
             SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)

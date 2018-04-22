@@ -43,26 +43,29 @@
             this.mnuLQR,
             this.mnuLSave});
             this.mnuL.Name = "mnuL";
-            this.mnuL.Size = new System.Drawing.Size(122, 70);
+            this.mnuL.Size = new System.Drawing.Size(153, 92);
             // 
             // mnuLLegality
             // 
+            this.mnuLLegality.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.mnuLLegality.Name = "mnuLLegality";
-            this.mnuLLegality.Size = new System.Drawing.Size(121, 22);
+            this.mnuLLegality.Size = new System.Drawing.Size(152, 22);
             this.mnuLLegality.Text = "Legality";
             this.mnuLLegality.Click += new System.EventHandler(this.ClickShowLegality);
             // 
             // mnuLQR
             // 
+            this.mnuLQR.Image = global::PKHeX.WinForms.Properties.Resources.qr;
             this.mnuLQR.Name = "mnuLQR";
-            this.mnuLQR.Size = new System.Drawing.Size(121, 22);
+            this.mnuLQR.Size = new System.Drawing.Size(152, 22);
             this.mnuLQR.Text = "QR!";
             this.mnuLQR.Click += new System.EventHandler(this.ClickShowQR);
             // 
             // mnuLSave
             // 
+            this.mnuLSave.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
             this.mnuLSave.Name = "mnuLSave";
-            this.mnuLSave.Size = new System.Drawing.Size(121, 22);
+            this.mnuLSave.Size = new System.Drawing.Size(152, 22);
             this.mnuLSave.Text = "Save as...";
             this.mnuLSave.Click += new System.EventHandler(this.ClickSaveAs);
             // 
