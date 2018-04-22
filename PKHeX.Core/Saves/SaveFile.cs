@@ -617,6 +617,21 @@ namespace PKHeX.Core
                     SetData(blank, offset + SIZE_STORED * p);
             }
         }
+        public void ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
+        {
+            if (BoxEnd < 0)
+                BoxEnd = BoxCount;
+            var BD = BoxData;
+            for (int b = BoxStart; b < BoxEnd; b++)
+            for (int s = 0; s < BoxSlotCount; s++)
+            {
+                if (IsSlotLocked(b, s))
+                    continue;
+                var index = b * BoxSlotCount + s;
+                action(BD[index]);
+            }
+            BoxData = BD;
+        }
 
         public byte[] PCBinary => BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray();
         public byte[] GetBoxBinary(int box) => BoxData.Skip(box*BoxSlotCount).Take(BoxSlotCount).SelectMany(pk => pk.EncryptedBoxData).ToArray();

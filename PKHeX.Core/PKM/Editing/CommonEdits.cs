@@ -482,6 +482,26 @@ namespace PKHeX.Core
         public static void SetHiddenPower(this PKM pk, MoveType hptype) => pk.SetHiddenPower((int) hptype);
 
         /// <summary>
+        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
+        /// </summary>
+        /// <param name="pkm">PKM to apply hatch details to</param>
+        /// <param name="reHatch">Re-hatch already hatched <see cref="PKM"/> inputs</param>
+        public static void ForceHatchPKM(this PKM pkm, bool reHatch = false)
+        {
+            if (!pkm.IsEgg && !reHatch)
+                return;
+            pkm.IsEgg = false;
+            pkm.SetNickname();
+            pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
+            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
+            if (loc >= 0)
+                pkm.Met_Location = loc;
+            pkm.MetDate = DateTime.Today;
+            if (pkm.Gen6)
+                pkm.SetHatchMemory6();
+        }
+
+        /// <summary>
         /// Sets the Memory details to a Hatched Egg's memories.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>

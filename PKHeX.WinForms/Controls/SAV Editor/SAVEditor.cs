@@ -401,19 +401,33 @@ namespace PKHeX.WinForms.Controls
             SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox + 1, sorter);
             FinishBoxManipulation(MsgSaveBoxSortCurrentSuccess, false);
         }
+        public void ModifyAll(Action<PKM> action)
+        {
+            SAV.ModifyBoxes(action, 0, SAV.BoxCount - 1);
+            FinishBoxManipulation(null, true);
+            SystemSounds.Asterisk.Play();
+        }
+        public void ModifyCurrent(Action<PKM> action)
+        {
+            SAV.ModifyBoxes(action, Box.CurrentBox, Box.CurrentBox + 1);
+            FinishBoxManipulation(null, true);
+            SystemSounds.Asterisk.Play();
+        }
         private void FinishBoxManipulation(string message, bool all)
         {
             SetPKMBoxes();
             UpdateBoxViewers(all);
-            WinFormsUtil.Alert(message);
+            if (message != null)
+                WinFormsUtil.Alert(message);
         }
         private bool CanManipulateRegion(int start, int end, string prompt, string fail)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
+            if (prompt != null && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
                 return false;
             if (!SAV.IsAnySlotLockedInBox(start, end))
                 return true;
-            WinFormsUtil.Alert(fail);
+            if (fail != null)
+                WinFormsUtil.Alert(fail);
             return false;
         }
         #endregion

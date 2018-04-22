@@ -255,7 +255,7 @@ namespace PKHeX.Core
         {
             PKM pkm = pk.Clone();
             if (pkm.IsEgg)
-                ForceHatchPKM(pkm);
+                pkm.ForceHatchPKM();
 
             switch (fromType.Name)
             {
@@ -355,26 +355,6 @@ namespace PKHeX.Core
                     comment = "Cannot transfer Spiky-Eared Pichu forward.";
                     return true;
             }
-        }
-
-        /// <summary>
-        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
-        /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        /// <remarks>
-        /// <see cref="PKM.IsEgg"/> is not checked; can be abused to re-hatch already hatched <see cref="PKM"/> inputs.
-        /// <see cref="PKM.MetDate"/> is not modified; must be updated manually if desired.
-        /// </remarks>
-        private static void ForceHatchPKM(PKM pkm)
-        {
-            pkm.IsEgg = false;
-            pkm.SetNickname();
-            pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
-            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
-            if (loc >= 0)
-                pkm.Met_Location = loc;
-            if (pkm.Gen6)
-                pkm.SetHatchMemory6();
         }
 
         /// <summary>

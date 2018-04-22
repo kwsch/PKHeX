@@ -24,6 +24,7 @@ namespace PKHeX.WinForms.Controls
                 GetItem("mnu_SortBoxName", "Sort: Species Name", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species)), Resources.alphaAZ),
                 GetItem("mnu_SortBoxOwner", "Sort: Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users),
                 GetItem("mnu_SortBoxRandom", "Sort: Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.showdown),
+                GetItem("mnu_ModifyHatch", "Modify: Hatch Eggs", () => Modify(z => z.ForceHatchPKM()), Resources.wand),
             };
             sortMenu.Items.AddRange(options);
 
@@ -41,6 +42,14 @@ namespace PKHeX.WinForms.Controls
                     sav.SortAll(sorter);
                 else
                     sav.SortCurrent(sorter);
+            }
+
+            void Modify(Action<PKM> action)
+            {
+                if (Control.ModifierKeys.HasFlag(Keys.Shift))
+                    sav.ModifyAll(action);
+                else
+                    sav.ModifyCurrent(action);
             }
 
             return sortMenu;
