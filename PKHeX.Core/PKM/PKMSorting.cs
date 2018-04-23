@@ -108,7 +108,8 @@ namespace PKHeX.Core
         public static IEnumerable<PKM> OrderByOwnership(this IEnumerable<PKM> list, ITrainerInfo trainer)
         {
             return list.InitialSortBy()
-                .ThenByDescending(trainer.IsOriginalHandler) // true first
+                .ThenByDescending(p => trainer.IsOriginalHandler(p, ((GameVersion)trainer.Game).IsValid())) // true first
+                .ThenByDescending(p => string.Equals(p.OT_Name, trainer.OT, StringComparison.CurrentCultureIgnoreCase))
                 .OrderByTrainer()
                 .ThenBy(p => p.Species)
                 .FinalSortBy();
@@ -168,12 +169,13 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="trainer">The <see cref="ITrainerInfo"/> requesting the check.</param>
         /// <param name="pk">Pokémon data</param>
+        /// <param name="checkGame">Toggle to check the game's version or not</param>
         /// <returns>True if OT, false if not OT.</returns>
-        private static bool IsOriginalHandler(this ITrainerInfo trainer, PKM pk)
+        private static bool IsOriginalHandler(this ITrainerInfo trainer, PKM pk, bool checkGame)
         {
             if (pk.Format >= 6)
                 return pk.CurrentHandler != 1;
-            if (trainer.Game != pk.Version)
+            if (checkGame && trainer.Game != pk.Version)
                 return false;
             if (trainer.TID != pk.TID || trainer.SID != pk.SID)
                 return false;

@@ -120,5 +120,6 @@
                 default: return false;
             }
         }
+        public static bool IsValid(this GameVersion g) => 0 < g && g <= GameVersion.RB;
     }
 }
