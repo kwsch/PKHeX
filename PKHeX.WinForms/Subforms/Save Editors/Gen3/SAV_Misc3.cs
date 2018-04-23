@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
 
                     BERRIES_IN_ROW = SAV.GetBlockOffset(0) + 0x210;
                     BERRIES_SCORE = SAV.GetBlockOffset(0) + 0x20c;
-                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0x214;
+                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0x212;
                     break;
                 case GameVersion.FRLG:
                     JUMPS_IN_ROW = SAV.GetBlockOffset(0) + 0xB00;
@@ -116,7 +116,7 @@ namespace PKHeX.WinForms
 
                     BERRIES_IN_ROW = SAV.GetBlockOffset(0) + 0xB14;
                     BERRIES_SCORE = SAV.GetBlockOffset(0) + 0xB10;
-                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0xB18;
+                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0xB16;
                     break;
             }
             TB_J1.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, JUMPS_IN_ROW)).ToString();
