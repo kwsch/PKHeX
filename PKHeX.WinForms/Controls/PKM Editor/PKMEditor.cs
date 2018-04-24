@@ -513,9 +513,6 @@ namespace PKHeX.WinForms.Controls
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
 
-            if (gt >= 255) return;
-            // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
-
             int newGender = PKX.GetGenderFromString(Label_Gender.Text) ^ 1;
             if (pkm.Format <= 2)
             {

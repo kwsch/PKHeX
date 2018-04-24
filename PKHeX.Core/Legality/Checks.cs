@@ -9,10 +9,11 @@ namespace PKHeX.Core
     {
         private void VerifyGender()
         {
-            if (pkm.PersonalInfo.Gender == 255 && pkm.Gender != 2)
+            var gr = pkm.PersonalInfo.Gender;
+            if (gr == 255 && pkm.Gender != 2)
             {
                 // DP/HGSS shedinja glitch -- only generation 4 spawns
-                bool ignore = pkm.Species == 292 && pkm.Format == 4 && pkm.Met_Level != pkm.CurrentLevel;
+                bool ignore = pkm.Format == 4 && pkm.Species == 292 && pkm.Met_Level != pkm.CurrentLevel;
                 if (!ignore)
                     AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
             }
@@ -22,7 +23,12 @@ namespace PKHeX.Core
 
             bool PIDGender = 3 <= gen && gen <= 5;
             if (!PIDGender)
+            {
+                // Check fixed gender cases
+                if ((gr == 254 || gr == 0) && (gr == 0 ? 0 : 1) != pkm.Gender)
+                    AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
                 return;
+            }
 
             bool genderValid = pkm.IsGenderValid();
             if (!genderValid)
@@ -41,7 +47,7 @@ namespace PKHeX.Core
                         genderValid = true;
                 }
             }
-            else if (3 <= Info.Generation && Info.Generation <= 5)
+            else
             {
                 // check for mixed->fixed gender incompatibility by checking the gender of the original species
                 if (Legal.FixedGenderFromBiGender.Contains(EncounterMatch.Species) && pkm.Gender != 2) // shedinja
