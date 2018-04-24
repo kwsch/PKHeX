@@ -366,10 +366,18 @@ namespace PKHeX.WinForms.Controls
         #region Box Manipulation
         private void ClickBoxSort(object sender, MouseEventArgs e)
         {
-            if (tabBoxMulti.SelectedTab != Tab_Box || !e.Button.HasFlag(MouseButtons.Right))
+            if (tabBoxMulti.SelectedTab != Tab_Box)
                 return;
             if (!tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition)))
                 return;
+            if (!e.Button.HasFlag(MouseButtons.Right))
+            {
+                if (ModifierKeys.HasFlag(Keys.Alt))
+                    SortMenu.Items[0].PerformClick(); // Clear
+                else if (ModifierKeys.HasFlag(Keys.Control))
+                    SortMenu.Items[1].PerformClick(); // Sort
+                return;
+            }
             var pt = Tab_Box.PointToScreen(new Point(0, 0));
             SortMenu.Show(pt);
         }
