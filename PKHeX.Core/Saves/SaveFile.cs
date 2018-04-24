@@ -593,8 +593,8 @@ namespace PKHeX.Core
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
             var Section = BD.Skip(start);
-            if (BoxEnd > BoxStart)
-                Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart));
+            if (BoxEnd >= BoxStart)
+                Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
             var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
 
@@ -604,13 +604,13 @@ namespace PKHeX.Core
         public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1)
         {
             if (BoxEnd < 0)
-                BoxEnd = BoxCount;
+                BoxEnd = BoxCount - 1;
 
             var blank = BlankPKM.EncryptedBoxData;
             if (this is SAV3RSBox)
                 Array.Resize(ref blank, blank.Length + 4); // 00000 TID/SID at end
 
-            for (int i = BoxStart; i < BoxEnd; i++)
+            for (int i = BoxStart; i <= BoxEnd; i++)
             {
                 int offset = GetBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
@@ -620,9 +620,9 @@ namespace PKHeX.Core
         public void ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
             if (BoxEnd < 0)
-                BoxEnd = BoxCount;
+                BoxEnd = BoxCount - 1;
             var BD = BoxData;
-            for (int b = BoxStart; b < BoxEnd; b++)
+            for (int b = BoxStart; b <= BoxEnd; b++)
             for (int s = 0; s < BoxSlotCount; s++)
             {
                 if (IsSlotLocked(b, s))

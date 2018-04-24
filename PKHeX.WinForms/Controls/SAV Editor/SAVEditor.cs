@@ -392,32 +392,32 @@ namespace PKHeX.WinForms.Controls
         {
             if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxClearCurrent, MsgSaveBoxClearCurrentFailBattle))
                 return;
-            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox + 1);
+            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox);
             FinishBoxManipulation(MsgSaveBoxClearCurrentSuccess, false);
         }
         public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
         {
             if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxSortAll, MsgSaveBoxSortAllFailBattle))
                 return;
-            SAV.SortBoxes(0, SAV.BoxCount - 1, sorter);
+            SAV.SortBoxes(sortMethod: sorter);
             FinishBoxManipulation(MsgSaveBoxSortAllSuccess, true);
         }
         public void SortCurrent(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
         {
             if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxSortCurrent, MsgSaveBoxSortCurrentFailBattle))
                 return;
-            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox + 1, sorter);
+            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox, sorter);
             FinishBoxManipulation(MsgSaveBoxSortCurrentSuccess, false);
         }
         public void ModifyAll(Action<PKM> action)
         {
-            SAV.ModifyBoxes(action, 0, SAV.BoxCount - 1);
+            SAV.ModifyBoxes(action);
             FinishBoxManipulation(null, true);
             SystemSounds.Asterisk.Play();
         }
         public void ModifyCurrent(Action<PKM> action)
         {
-            SAV.ModifyBoxes(action, Box.CurrentBox, Box.CurrentBox + 1);
+            SAV.ModifyBoxes(action, Box.CurrentBox, Box.CurrentBox);
             FinishBoxManipulation(null, true);
             SystemSounds.Asterisk.Play();
         }
