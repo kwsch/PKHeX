@@ -604,7 +604,21 @@ namespace PKHeX.Core
             },
         };
 
-        internal static readonly EncounterStatic[] Encounter_CXD = Encounter_Colo.Concat(Encounter_XD).ToArray();
+        private static readonly int[] MirorBXDLocations =
+        {
+            090, // Rock
+            091, // Oasis
+            092, // Cave
+            113, // Pyrite Town
+            059, // Realgam Tower
+        };
+        internal static readonly EncounterStatic[] Encounter_CXD = Encounter_Colo.Concat(Encounter_XD.SelectMany(CloneMirorB)).ToArray();
+        private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
+        {
+            yield return arg;
+            foreach (int loc in MirorBXDLocations)
+                yield return arg.Clone(loc);
+        }
 
         #endregion
     }
