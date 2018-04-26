@@ -103,7 +103,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 3)
             {
                 TB_HPIV.Text = pkm.IV_HP.ToString();
-                TB_SPDIV.Text = TB_SPAIV.Text;
+                TB_SPDIV.Text = pkm.IV_SPD.ToString();
 
                 MainEditor.UpdateIVsGB(sender == null);
             }
