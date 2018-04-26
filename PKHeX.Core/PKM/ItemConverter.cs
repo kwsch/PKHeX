@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Logic for converting Item IDs between the generation specific value sets.
@@ -28,6 +30,32 @@
         /// <param name="g2val">Generation 2 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
         public static ushort GetG4Item(byte g2val) => g2val > arr2.Length ? NaN : arr2[g2val];
+
+        /// <summary>
+        /// Converts a Generation 4+ Item ID to Generation 3 Item ID.
+        /// </summary>
+        /// <param name="g4val">Generation 4+ Item ID.</param>
+        /// <returns>Generation 3 Item ID.</returns>
+        public static ushort GetG3Item(ushort g4val)
+        {
+            if (g4val == NaN)
+                return 0;
+            int index = Array.IndexOf(arr3, g4val);
+            return (ushort)Math.Max(0, index);
+        }
+
+        /// <summary>
+        /// Converts a Generation 4+ Item ID to Generation 2 Item ID.
+        /// </summary>
+        /// <param name="g4val">Generation 4+ Item ID.</param>
+        /// <returns>Generation 2 Item ID.</returns>
+        public static byte GetG2Item(ushort g4val)
+        {
+            if (g4val == NaN)
+                return 0;
+            int index = Array.IndexOf(arr2, g4val);
+            return (byte)Math.Max(0, index);
+        }
 
         #region Item Mapping Tables
         /// <summary> Gen2 items (index) and their corresponding Gen4 item ID (value) </summary>

@@ -60,6 +60,8 @@ namespace PKHeX.Core
         /// <param name="abil">Desired <see cref="PKM.Ability"/> to set.</param>
         public static void SetAbility(this PKM pk, int abil)
         {
+            if (abil < 0)
+                return;
             var abilities = pk.PersonalInfo.Abilities;
             int abilIndex = Array.IndexOf(abilities, abil);
             abilIndex = Math.Max(0, abilIndex);
@@ -309,7 +311,7 @@ namespace PKHeX.Core
         {
             pk.Species = Set.Species;
             pk.Moves = Set.Moves;
-            pk.HeldItem = Set.HeldItem < 0 ? 0 : Set.HeldItem;
+            pk.ApplyHeldItem(Set.HeldItem, Set.Format);
             pk.CurrentLevel = Set.Level;
             pk.CurrentFriendship = Set.Friendship;
             pk.IVs = Set.IVs;
@@ -332,6 +334,54 @@ namespace PKHeX.Core
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);
             pk.RefreshChecksum();
+        }
+
+        /// <summary>
+        /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index & format.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="item">Held Item to apply</param>
+        /// <param name="format">Format required for importing</param>
+        public static void ApplyHeldItem(this PKM pk, int item, int format)
+        {
+            if (item <= 0)
+            {
+                pk.HeldItem = 0;
+                return;
+            }
+
+            if (format <= 3 && pk.Format != format)
+            {
+                if (pk.Format > 3) // try remapping
+                {
+                    item = format == 2 ? ItemConverter.GetG4Item((byte) item) : ItemConverter.GetG4Item((ushort) item);
+                    pk.ApplyHeldItem(item, pk.Format);
+                    return;
+                }
+
+                if (pk.Format > format) // can't set past gen items
+                {
+                    pk.HeldItem = 0;
+                    return;
+                }
+
+                // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
+                item = ItemConverter.GetG4Item((ushort) item);
+                item = ItemConverter.GetG2Item((ushort) item);
+                if (item == 0 || item < 0)
+                {
+                    pk.HeldItem = 0;
+                    return;
+                }
+            }
+
+            switch (pk.Format)
+            {
+                case 3: pk.HeldItem = ItemConverter.GetG3Item((ushort)item); break;
+                case 2: pk.HeldItem = ItemConverter.GetG2Item((ushort)item); break;
+                case 1: pk.HeldItem = 0; break;
+                default: pk.HeldItem = item; break;
+            }
         }
 
         /// <summary>

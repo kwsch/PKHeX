@@ -14,10 +14,13 @@ namespace PKHeX.Core
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};
         private const string Language = "en";
+        private const int LanguageID = 2;
         private static readonly string[] types = Util.GetTypesList(Language);
         private static readonly string[] forms = Util.GetFormsList(Language);
         private static readonly string[] species = Util.GetSpeciesList(Language);
         private static readonly string[] items = Util.GetItemsList(Language);
+        private static readonly string[] g2items = Util.GetStringList("ItemsG2", Language);
+        private static readonly string[] g3items = Util.GetStringList("ItemsG3", Language);
         private static readonly string[] natures = Util.GetNaturesList(Language);
         private static readonly string[] moves = Util.GetMovesList(Language);
         private static readonly string[] abilities = Util.GetAbilitiesList(Language);
@@ -27,10 +30,11 @@ namespace PKHeX.Core
         // Default Set Data
         public string Nickname { get; set; }
         public int Species { get; private set; } = -1;
+        public int Format { get; private set; } = PKX.Generation;
         public string Form { get; private set; }
         public string Gender { get; private set; }
         public int HeldItem { get; private set; }
-        public int Ability { get; private set; }
+        public int Ability { get; private set; } = -1;
         public int Level { get; private set; } = 100;
         public bool Shiny { get; private set; }
         public int Friendship { get; private set; } = 255;
@@ -116,12 +120,8 @@ namespace PKHeX.Core
                         {
                             string[] pieces = line.Split(new[] {" @ "}, StringSplitOptions.None);
                             string itemstr = pieces.Last().Trim();
-                            int item = Array.IndexOf(items, itemstr);
-                            if (item < 0)
-                                InvalidLines.Add($"Unknown Item: {itemstr}");
-                            else
-                                HeldItem = item;
 
+                            ParseItemStr(itemstr);
                             ParseFirstLine(pieces[0]);
                         }
                         else if (brokenline[0].Contains("Nature"))
@@ -141,6 +141,28 @@ namespace PKHeX.Core
                     }
                 }
             }
+        }
+
+        private void ParseItemStr(string itemstr)
+        {
+            int item = Array.IndexOf(items, itemstr);
+            if (item >= 0)
+            {
+                HeldItem = item;
+                return;
+            }
+            if ((item = Array.IndexOf(g3items, itemstr)) >= 0)
+            {
+                HeldItem = item;
+                Format = 3;
+            }
+            if ((item = Array.IndexOf(g2items, itemstr)) >= 0)
+            {
+                HeldItem = item;
+                Format = 2;
+            }
+            else
+                InvalidLines.Add($"Unknown Item: {itemstr}");
         }
 
         public string Text => GetText();
@@ -184,11 +206,24 @@ namespace PKHeX.Core
             if (!string.IsNullOrWhiteSpace(form))
                 specForm += $"-{form.Replace("Mega ", "Mega-")}";
 
-            string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}";
+            string result = Nickname != null && PKX.GetSpeciesNameGeneration(Species, LanguageID, Format) != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}";
             if (!string.IsNullOrEmpty(Gender))
                 result += $" ({Gender})";
-            if (HeldItem > 0 && HeldItem < items.Length)
-                result += $" @ {items[HeldItem]}";
+            if (HeldItem > 0)
+            {
+                switch (Format)
+                {
+                    case 2: if (HeldItem < g2items.Length)
+                        result += $" @ {g2items[HeldItem]}";
+                        break;
+                    case 3: if (HeldItem < g3items.Length)
+                        result += $" @ {g3items[HeldItem]}";
+                        break;
+                    default: if (HeldItem < items.Length)
+                        result += $" @ {items[HeldItem]}";
+                        break;
+                }
+            }
             return result;
         }
         private static bool GetStringStats(out IEnumerable<string> result, int[] stats, int ignore)
@@ -240,6 +275,7 @@ namespace PKHeX.Core
                 Shiny = pkm.IsShiny,
                 FormIndex = pkm.AltForm,
                 Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty,
+                Format = pkm.Format,
             };
 
             if (Set.Form == "F")

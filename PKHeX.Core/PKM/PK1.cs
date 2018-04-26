@@ -273,7 +273,7 @@ namespace PKHeX.Core
         public override int Characteristic => -1;
         public override int MarkValue { get => 0; protected set { } }
         public override int CurrentFriendship { get => 0; set { } }
-        public override int Ability { get => 0; set { } }
+        public override int Ability { get => -1; set { } }
         public override int CurrentHandler { get => 0; set { } }
         public override int Met_Location { get => 0; set { } }
         public override int Egg_Location { get => 0; set { } }
