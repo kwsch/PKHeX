@@ -1806,17 +1806,23 @@ namespace PKHeX.Core
         {
             int m = 0;
             int t = 0;
+            int i = 0;
+            int f = 0;
             string resultPrefix = "";
             switch (handler)
             {
                 case 0:
                     m = pkm.OT_Memory;
                     t = pkm.OT_TextVar;
+                    i = pkm.OT_Intensity;
+                    f = pkm.OT_Feeling;
                     resultPrefix = V205;
                     break;
                 case 1:
                     m = pkm.HT_Memory;
                     t = pkm.HT_TextVar;
+                    i = pkm.HT_Intensity;
+                    f = pkm.HT_Feeling;
                     resultPrefix = V206;
                     break;
             }
@@ -1836,6 +1842,12 @@ namespace PKHeX.Core
 
             if (m == 49 && (t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
                 return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
+
+            if (i < Legal.MemoryMinIntensity[m])
+                return new CheckResult(Severity.Invalid, string.Format(V254, resultPrefix, Legal.MemoryMinIntensity[m]), CheckIdentifier.Memory);
+
+            if (m != 4 && (Legal.MemoryFeelings[m] & (1 << f)) == 0)
+                return new CheckResult(Severity.Invalid, string.Format(V255, resultPrefix), CheckIdentifier.Memory);
 
             return new CheckResult(Severity.Valid, string.Format(V155, resultPrefix), CheckIdentifier.Memory);
         }
