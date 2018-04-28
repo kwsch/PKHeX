@@ -47,6 +47,7 @@ namespace PKHeX.Core
             {
                 pk.Geo1_Country = SAV.Country;
                 pk.Geo1_Region = SAV.SubRegion;
+                ((PK6)pk).TradeMemory(true);
             }
         }
     }
