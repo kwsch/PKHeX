@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -246,7 +247,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zapdos
             new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Moltres
         };
-        private static readonly EncounterStatic[] Encounter_AO =
+        private static readonly EncounterStatic[] Encounter_AO_Regular =
         {
             new EncounterStatic { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
             new EncounterStatic { Gift = true, Species = 255, Level = 5, Location = 204, }, // Torchic
@@ -276,11 +277,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 566, Level = 20, Location = 190, }, // Archen
             new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 190, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 190, }, // Amaura
-
-            new EncounterStatic { Species = 25, Level = 20, Location = 178, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = Shiny.Never, SkipFormCheck = true }, // Pikachu
-            new EncounterStatic { Species = 25, Level = 20, Location = 180, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = Shiny.Never, SkipFormCheck = true }, // Pikachu
-            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = Shiny.Never, SkipFormCheck = true }, // Pikachu
-            new EncounterStatic { Species = 25, Level = 20, Location = 194, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = Shiny.Never, SkipFormCheck = true }, // Pikachu
 
             new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Wynaut
             new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Togepi
@@ -356,6 +352,18 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new EncounterStatic { Species = 628, Level = 45, Location = 348 }, // Braviary
         };
+        private static readonly EncounterStatic[] Encounter_AO = ConcatAll(Encounter_AO_Regular, PermuteCosplayPikachu().ToArray());
+        private static IEnumerable<EncounterStatic> PermuteCosplayPikachu()
+        {
+            var CosplayPikachu = new EncounterStatic
+            {
+                Species = 25, Level = 20, Gender = 1, Ability = 4, IV3 = true,
+                Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
+            };
+            foreach (int loc in new[] { 178, 180, 186, 194 })
+            for (int f = 1; f <= 6; f++)
+            { var pk = CosplayPikachu.Clone(loc); pk.Form = f; yield return pk; }
+        }
         #endregion
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_XY =
