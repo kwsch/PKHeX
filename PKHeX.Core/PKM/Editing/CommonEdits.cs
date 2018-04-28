@@ -559,7 +559,7 @@ namespace PKHeX.Core
         {
             pk.OT_Memory = 2;
             pk.OT_Affection = 0;
-            Legal.GetRandomFeeling(pk.OT_Memory);
+            pk.OT_Feeling = Legal.GetRandomFeeling(pk.OT_Memory);
             pk.OT_Intensity = 1;
             pk.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
         }
@@ -569,7 +569,7 @@ namespace PKHeX.Core
             // for lack of better randomization :)
             pk.OT_Memory = 63;
             pk.OT_Intensity = 6;
-            Legal.GetRandomFeeling(pk.OT_Memory);
+            pk.OT_Feeling = Legal.GetRandomFeeling(pk.OT_Memory);
         }
     }
 }
