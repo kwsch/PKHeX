@@ -559,7 +559,7 @@ namespace PKHeX.Core
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             HT_Intensity = 1;
-            HT_Feeling = Util.Rand.Next(0, Bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
+            HT_Feeling = Legal.GetRandomFeeling(HT_Memory, Bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
         }
 
         // Legality Properties

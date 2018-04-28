@@ -2229,5 +2229,16 @@ namespace PKHeX.Core
                     return LanguageID.English;
             }
         }
+
+        public static int GetRandomFeeling(int memory, int max = 24)
+        {
+            var bits = MemoryFeelings[memory];
+            while (true)
+            {
+                int feel = Util.Rand.Next(0, max);
+                if ((bits & (1 << feel)) != 0)
+                    return feel;
+            }
+        }
     }
 }

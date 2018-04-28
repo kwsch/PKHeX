@@ -596,7 +596,7 @@ namespace PKHeX.Core
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = 0; // Somewhere (Bank)
             HT_Intensity = 1;
-            HT_Feeling = Util.Rand.Next(0, 10); // 0-9 Bank
+            HT_Feeling = Legal.GetRandomFeeling(HT_Memory, 10); // 0-9 Bank
         }
 
         // Legality Properties

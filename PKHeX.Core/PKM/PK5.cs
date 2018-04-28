@@ -493,7 +493,7 @@ namespace PKHeX.Core
             pk6.Geo1_Country = PKMConverter.Country;
             pk6.HT_Intensity = 1;
             pk6.HT_Memory = 4;
-            pk6.HT_Feeling = (int)(Util.Rand32() % 10);
+            pk6.HT_Feeling = Legal.GetRandomFeeling(pk6.HT_Memory);
             // When transferred, friendship gets reset.
             pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 
