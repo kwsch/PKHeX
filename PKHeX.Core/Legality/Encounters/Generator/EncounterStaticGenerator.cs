@@ -12,7 +12,8 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            return GetStaticEncounters(pkm, gameSource: gameSource);
+            var encs = GetStaticEncounters(pkm, gameSource: gameSource);
+            return encs.Where(e => AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -77,7 +78,7 @@ namespace PKHeX.Core
                             case 1 when pkm.Met_Location == 0:
                                 return false;
                             default:
-                                if (pkm.Met_Location == 0)
+                                if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
                                     return false;
                                 break;
                         }
