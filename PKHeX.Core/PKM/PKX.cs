@@ -863,26 +863,6 @@ namespace PKHeX.Core
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
             return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
         }
-        public static string[] GetQRLines(this PKM pkm)
-        {
-            var s = GameInfo.Strings;
-            // Summarize
-            string filename = pkm.Nickname;
-            if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
-                filename += $" ({s.specieslist[pkm.Species]})";
-            
-            string header = $"{filename} [{s.abilitylist[pkm.Ability]}] lv{pkm.Stat_Level} @ {s.itemlist[pkm.HeldItem]} -- {s.natures[pkm.Nature]}";
-            string moves = string.Join(" / ", pkm.Moves.Select(move => move < s.movelist.Length ? s.movelist[move] : "ERROR"));
-            string IVs = $"IVs: {pkm.IV_HP:00}/{pkm.IV_ATK:00}/{pkm.IV_DEF:00}/{pkm.IV_SPA:00}/{pkm.IV_SPD:00}/{pkm.IV_SPE:00}";
-            string EVs = $"EVs: {pkm.EV_HP:00}/{pkm.EV_ATK:00}/{pkm.EV_DEF:00}/{pkm.EV_SPA:00}/{pkm.EV_SPD:00}/{pkm.EV_SPE:00}";
-
-            return new[]
-            {
-                header,
-                moves,
-                IVs + "   " + EVs,
-            };
-        }
 
         /// <summary>
         /// Copies an <see cref="Enumerable"/> list to the destination list, with an option to copy to a starting point.

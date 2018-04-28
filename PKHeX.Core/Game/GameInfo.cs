@@ -256,7 +256,7 @@ namespace PKHeX.Core
 
             private string[] Get(string ident) => GetStrings(ident, lang);
 
-            public string[] GetItemStrings(int generation, GameVersion game)
+            public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any)
             {
                 switch (generation)
                 {
