@@ -138,10 +138,7 @@ namespace PKHeX.WinForms
 
             // Display Data
             TB_OTName.Text = OT_NAME;
-
-            MT_TID.Text = SAV.TID.ToString("00000");
-            MT_SID.Text = SAV.SID.ToString("00000");
-            MT_G7TID.Text = SAV.TrainerID7.ToString("000000");
+            trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
 
             CB_Country.SelectedValue = SAV.Country;
@@ -356,8 +353,6 @@ namespace PKHeX.WinForms
             SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
             
-            SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
-            SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
             SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
@@ -502,17 +497,6 @@ namespace PKHeX.WinForms
             var d = new TrashEditor(tb, null, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
-        }
-        private void ShowTSV(object sender, EventArgs e)
-        {
-            SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
-            SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
-            int tsv = (SAV.TID ^ SAV.SID) >> 4;
-            string IDstr = $"TSV: {tsv:0000}";
-            if (SAV.Generation > 6) // always true for G7
-                IDstr += Environment.NewLine + $"G7TID: {SAV.TrainerID7:000000}";
-            Tip1.SetToolTip(MT_TID, IDstr);
-            Tip2.SetToolTip(MT_SID, IDstr);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -680,13 +664,6 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
                 CLB_MapUnmask.SetItemChecked(i, true);
-        }
-
-        private void B_GenTID_Click(object sender, EventArgs e)
-        {
-            var tuple = SaveUtil.GetTIDSID(Util.ToUInt32(MT_G7TID.Text), ModifierKeys == Keys.Control);
-            MT_TID.Text = tuple.Item1.ToString("D5");
-            MT_SID.Text = tuple.Item2.ToString("D5");
         }
 
         private readonly Dictionary<int, string> RecordList = new Dictionary<int, string>

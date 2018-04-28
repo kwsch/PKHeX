@@ -16,13 +16,23 @@ namespace PKHeX.WinForms.Controls
 
         public void UpdateTSV()
         {
-            if (!(Trainer is PKM pkm))
+            var tsv = GetTSV();
+            if (tsv < 0)
                 return;
-            string IDstr = $"TSV: {pkm.TSV:d4}";
+            string IDstr = $"TSV: {tsv:d4}";
             TSVTooltip.SetToolTip(TB_TID, IDstr);
             TSVTooltip.SetToolTip(TB_SID, IDstr);
             TSVTooltip.SetToolTip(TB_TID7, IDstr);
             TSVTooltip.SetToolTip(TB_SID7, IDstr);
+        }
+        private int GetTSV()
+        {
+            if (Format <= 2)
+                return -1;
+            var xor = Trainer.SID ^ Trainer.TID;
+            if (Format <= 5)
+                return xor >> 3;
+            return xor >> 4;
         }
         public void LoadIDValues(ITrainerID tr)
         {

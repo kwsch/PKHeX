@@ -67,7 +67,7 @@
             // 
             this.TB_TID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_TID.Location = new System.Drawing.Point(33, 3);
-            this.TB_TID.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.TB_TID.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
             this.TB_TID.Mask = "00000";
             this.TB_TID.Name = "TB_TID";
             this.TB_TID.Size = new System.Drawing.Size(40, 20);
@@ -81,7 +81,7 @@
             // 
             this.TB_TID7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_TID7.Location = new System.Drawing.Point(76, 3);
-            this.TB_TID7.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.TB_TID7.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
             this.TB_TID7.Mask = "000000";
             this.TB_TID7.Name = "TB_TID7";
             this.TB_TID7.Size = new System.Drawing.Size(42, 20);
@@ -94,7 +94,7 @@
             // Label_SID
             // 
             this.Label_SID.AutoSize = true;
-            this.Label_SID.Location = new System.Drawing.Point(3, 32);
+            this.Label_SID.Location = new System.Drawing.Point(3, 29);
             this.Label_SID.Margin = new System.Windows.Forms.Padding(3, 6, 2, 0);
             this.Label_SID.Name = "Label_SID";
             this.Label_SID.Size = new System.Drawing.Size(28, 13);
@@ -105,8 +105,8 @@
             // TB_SID
             // 
             this.TB_SID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SID.Location = new System.Drawing.Point(33, 29);
-            this.TB_SID.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.TB_SID.Location = new System.Drawing.Point(33, 26);
+            this.TB_SID.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
             this.TB_SID.Mask = "00000";
             this.TB_SID.Name = "TB_SID";
             this.TB_SID.Size = new System.Drawing.Size(40, 20);
@@ -119,8 +119,8 @@
             // TB_SID7
             // 
             this.TB_SID7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SID7.Location = new System.Drawing.Point(76, 29);
-            this.TB_SID7.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.TB_SID7.Location = new System.Drawing.Point(76, 26);
+            this.TB_SID7.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
             this.TB_SID7.Mask = "0000";
             this.TB_SID7.Name = "TB_SID7";
             this.TB_SID7.Size = new System.Drawing.Size(30, 20);
