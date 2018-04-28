@@ -289,6 +289,8 @@ namespace PKHeX.Core
         public static string V198 {get; set;} = "{0} Memory: Intensity should be index {1}.";
         public static string V199 {get; set;} = "{0} Memory: TextVar should be index {1}.";
         public static string V200 {get; set;} = "{0} Memory: Feeling should be index {1}.";
+        public static string V254 {get; set;} = "{0} Memory: Intensity should be at least {1}.";
+        public static string V255 {get; set;} = "{0} Memory: Invalid Feeling.";
 
         public static string V168 {get; set;} = "Duplicate Move.";
         public static string V176 {get; set;} = "Invalid Move.";
