@@ -39,15 +39,12 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Text = pk.OT_Name;
             Label_OTGender.Text = gendersymbols[pk.OT_Gender];
             Label_OTGender.ForeColor = GetGenderColor(pk.OT_Gender);
-            TB_TID.Text = $"{pk.TID:00000}";
-            TB_SID.Text = $"{pk.SID:00000}";
+            TID_Trainer.LoadIDValues(pk);
         }
         private void SaveOTID(PKM pk)
         {
             pk.OT_Name = TB_OT.Text;
             pk.OT_Gender = PKX.GetGenderFromString(Label_OTGender.Text);
-            pk.TID = Util.ToInt32(TB_TID.Text);
-            pk.SID = Util.ToInt32(TB_SID.Text);
         }
 
         private void LoadPKRS(PKM pk)
@@ -343,11 +340,9 @@ namespace PKHeX.WinForms.Controls
 
             uint EC = Util.GetHexValue(TB_EC.Text);
             uint PID = Util.GetHexValue(TB_PID.Text);
-            uint SID = Util.ToUInt32(TB_SID.Text);
-            uint TID = Util.ToUInt32(TB_TID.Text);
             uint LID = PID & 0xFFFF;
             uint HID = PID >> 16;
-            uint XOR = TID ^ LID ^ SID ^ HID;
+            uint XOR = (uint)(pkm.TID ^ LID ^ pkm.SID ^ HID);
 
             // Ensure we don't have a shiny.
             if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)

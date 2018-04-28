@@ -45,6 +45,7 @@ namespace PKHeX.WinForms.Controls
 
             Stats.SetMainEditor(this);
             LoadShowdownSet = LoadShowdownSetDefault;
+            TID_Trainer.UpdatedID += Update_ID;
         }
 
         private void UpdateStats() => Stats.UpdateStats();
@@ -82,7 +83,7 @@ namespace PKHeX.WinForms.Controls
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
+        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip();
         private SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
@@ -278,7 +279,7 @@ namespace PKHeX.WinForms.Controls
             if (!Unicode)
             {
                 BTN_Shinytize.Text = "*";
-                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = Label_TID.Font;
+                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = GB_OT.Font;
             }
             else
             {
@@ -317,8 +318,7 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Text = SAV.OT;
             Label_OTGender.Text = gendersymbols[SAV.Gender & 1];
             Label_OTGender.ForeColor = GetGenderColor(SAV.Gender & 1);
-            TB_TID.Text = SAV.TID.ToString("00000");
-            TB_SID.Text = SAV.SID.ToString("00000");
+            TID_Trainer.LoadInfo(SAV);
 
             if (SAV.Game >= 0)
                 CB_GameOrigin.SelectedValue = SAV.Game;
@@ -412,10 +412,6 @@ namespace PKHeX.WinForms.Controls
         {
             if (sender == TB_PID)
                 pkm.PID = Util.GetHexValue(TB_PID.Text);
-            else if (sender == TB_TID)
-                pkm.TID = (int)Util.ToUInt32(TB_TID.Text);
-            else if (sender == TB_SID)
-                pkm.SID = (int)Util.ToUInt32(TB_SID.Text);
 
             // Recalculate shininiess
             bool isShiny = pkm.IsShiny;
@@ -1061,6 +1057,12 @@ namespace PKHeX.WinForms.Controls
 
                 if (!FieldsLoaded)
                     CB_GameOrigin.Focus(); // hacky validation forcing
+
+                if (FieldsLoaded)
+                {
+                    pkm.Version = (int)Version;
+                    TID_Trainer.LoadIDValues(pkm);
+                }
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
@@ -1232,7 +1234,7 @@ namespace PKHeX.WinForms.Controls
                 bool isTraded = false;
                 var SAV = SaveFileRequested?.Invoke(this, e);
                 if (SAV != null)
-                    isTraded = SAV.OT != TB_OT.Text || SAV.TID != Util.ToInt32(TB_TID.Text) || SAV.SID != Util.ToInt32(TB_SID.Text);
+                    isTraded = SAV.OT != TB_OT.Text || SAV.TID != pkm.TID || SAV.SID != pkm.SID;
                 CB_MetLocation.SelectedIndex = isTraded ? 2 : 0;
 
                 if (!CHK_Nicknamed.Checked)
@@ -1293,8 +1295,6 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateShiny(bool PID)
         {
-            pkm.TID = Util.ToInt32(TB_TID.Text);
-            pkm.SID = Util.ToInt32(TB_SID.Text);
             pkm.PID = Util.GetHexValue(TB_PID.Text);
             pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
             pkm.Gender = PKX.GetGenderFromString(Label_Gender.Text);
@@ -1314,7 +1314,7 @@ namespace PKHeX.WinForms.Controls
                 else
                 {
                     pkm.SetShinySID();
-                    TB_SID.Text = pkm.SID.ToString();
+                    TID_Trainer.UpdateSID();
                 }
             }
             else
@@ -1333,12 +1333,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 6)
                 return;
 
-            string IDstr = $"TSV: {pkm.TSV:d4}";
-            if (pkm.Format > 6)
-                IDstr += Environment.NewLine + $"G7TID: ({pkm.TrainerSID7:d4}){pkm.TrainerID7:d6}";
-
-            Tip1.SetToolTip(TB_TID, IDstr);
-            Tip2.SetToolTip(TB_SID, IDstr);
+            TID_Trainer.UpdateTSV();
 
             pkm.PID = Util.GetHexValue(TB_PID.Text);
             Tip3.SetToolTip(TB_PID, $"PSV: {pkm.PSV:d4}");
@@ -1348,10 +1343,6 @@ namespace PKHeX.WinForms.Controls
             // Trim out nonhex characters
             TB_PID.Text = Util.GetHexValue(TB_PID.Text).ToString("X8");
             TB_EC.Text = Util.GetHexValue(TB_EC.Text).ToString("X8");
-
-            // Max TID/SID is 65535
-            if (Util.ToUInt32(TB_TID.Text) > ushort.MaxValue) TB_TID.Text = "65535";
-            if (Util.ToUInt32(TB_SID.Text) > ushort.MaxValue) TB_SID.Text = "65535";
 
             SetIsShiny(sender);
             UpdateSprite();
@@ -1519,8 +1510,6 @@ namespace PKHeX.WinForms.Controls
         }
         private void ToggleInterface(int gen)
         {
-            Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
-
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6;
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = gen >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = gen >= 6;
@@ -1541,7 +1530,7 @@ namespace PKHeX.WinForms.Controls
             GB_Markings.Visible = gen >= 3;
             BTN_Ribbons.Visible = gen >= 3;
             CB_Form.Enabled = gen >= 3;
-            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = gen >= 3;
+            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = gen >= 3;
 
             FLP_FriendshipForm.Visible = gen >= 2;
             FLP_HeldItem.Visible = gen >= 2;

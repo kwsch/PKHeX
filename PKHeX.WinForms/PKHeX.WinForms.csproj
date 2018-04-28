@@ -172,6 +172,12 @@
     <Compile Include="Controls\PKM Editor\ShinyLeaf.Designer.cs">
       <DependentUpon>ShinyLeaf.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PKM Editor\TrainerID.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\TrainerID.Designer.cs">
+      <DependentUpon>TrainerID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SAV Editor\BoxEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -593,6 +599,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PKM Editor\ShinyLeaf.resx">
       <DependentUpon>ShinyLeaf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PKM Editor\TrainerID.resx">
+      <DependentUpon>TrainerID.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SAV Editor\BoxEditor.resx">
       <DependentUpon>BoxEditor.cs</DependentUpon>
