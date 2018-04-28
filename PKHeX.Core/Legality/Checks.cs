@@ -1871,7 +1871,7 @@ namespace PKHeX.Core
             if (!History.Valid)
                 return;
 
-            if (Info.Generation < 6)
+            if (Info.Generation < 6 || pkm.IsEgg)
             {
                 VerifyOTMemoryIs(new [] {0, 0, 0, 0}); // empty
                 return;
