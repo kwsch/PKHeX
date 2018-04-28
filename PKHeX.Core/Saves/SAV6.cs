@@ -247,15 +247,15 @@ namespace PKHeX.Core
         }
         
         // Player Information
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, TrainerCard + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, TrainerCard + 2);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 2);
         }
         public override int Game
         {

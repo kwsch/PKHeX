@@ -362,8 +362,8 @@ namespace PKHeX.Core
         public virtual int Gender { get; set; }
         public virtual int Language { get => -1; set { } }
         public virtual int Game { get => -1; set { } }
-        public virtual ushort TID { get; set; }
-        public virtual ushort SID { get; set; }
+        public virtual int TID { get; set; }
+        public virtual int SID { get; set; }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public virtual string OT { get; set; } = "PKHeX";
         public virtual int PlayedHours { get; set; }

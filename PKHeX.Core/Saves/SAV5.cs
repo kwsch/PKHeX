@@ -310,15 +310,15 @@ namespace PKHeX.Core
             get => GetString(Trainer1 + 0x4, 16);
             set => SetString(value, OTLength).CopyTo(Data, Trainer1 + 0x4);
         }
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14 + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x14 + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 2);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14 + 2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x14 + 2);
         }
         public override uint Money
         {

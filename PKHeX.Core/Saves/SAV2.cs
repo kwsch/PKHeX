@@ -282,15 +282,11 @@ namespace PKHeX.Core
                 Data[Offsets.Palette] = (byte) value;
             }
         }
-        public override ushort TID
+        public override int TID
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes(value).CopyTo(Data, Offsets.Trainer1);
+            get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
         }
-        public override ushort SID
-        {
-            get => 0;
-            set { }
-        }
+        public override int SID { get => 0; set { } }
         public override int PlayedHours
         {
             get => BigEndian.ToUInt16(Data, Offsets.TimePlayed);

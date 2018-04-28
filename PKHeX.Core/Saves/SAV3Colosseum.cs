@@ -351,8 +351,8 @@ namespace PKHeX.Core
         // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
         public override string OT { get => GetString(0x78, 20); set { SetString(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
         private string OT2 { get => GetString(0x8C, 20); set => SetString(value, 10).CopyTo(Data, 0x8C); }
-        public override ushort SID { get => BigEndian.ToUInt16(Data, 0xA4); set => BigEndian.GetBytes(value).CopyTo(Data, 0xA4); }
-        public override ushort TID { get => BigEndian.ToUInt16(Data, 0xA6); set => BigEndian.GetBytes(value).CopyTo(Data, 0xA6); }
+        public override int SID { get => BigEndian.ToUInt16(Data, 0xA4); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xA4); }
+        public override int TID { get => BigEndian.ToUInt16(Data, 0xA6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xA6); }
 
         public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
         public override uint Money { get => BigEndian.ToUInt32(Data, 0xAFC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xAFC); }

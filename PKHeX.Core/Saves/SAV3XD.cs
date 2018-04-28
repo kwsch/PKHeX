@@ -237,8 +237,8 @@ namespace PKHeX.Core
         // Trainer Info
         public override GameVersion Version { get => GameVersion.XD; protected set { } }
         public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(value, 10).CopyTo(Data, Trainer1 + 0x00); }
-        public override ushort SID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2C); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2C); }
-        public override ushort TID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2E); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2E); }
+        public override int SID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x2C); }
+        public override int TID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x2E); }
 
         public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
         public override uint Money { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E4); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E4); }

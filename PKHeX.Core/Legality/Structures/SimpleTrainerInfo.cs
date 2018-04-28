@@ -3,8 +3,8 @@
     public class SimpleTrainerInfo : ITrainerInfo
     {
         public string OT { get; set; } = "PKHeX";
-        public ushort TID { get; set; } = 12345;
-        public ushort SID { get; set; } = 54321;
+        public int TID { get; set; } = 12345;
+        public int SID { get; set; } = 54321;
         public int Gender { get; set; } = 0;
         public int Language { get; set; } = (int)LanguageID.English;
 

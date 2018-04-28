@@ -287,15 +287,15 @@ namespace PKHeX.Core
             get => Data[BlockOfs[0] + 8];
             set => Data[BlockOfs[0] + 8] = (byte)value;
         }
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xA + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xA + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xA + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xC);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xC);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xC);
         }
         public override int PlayedHours
         {

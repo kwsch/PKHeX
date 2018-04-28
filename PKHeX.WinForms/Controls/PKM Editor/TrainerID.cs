@@ -11,39 +11,42 @@ namespace PKHeX.WinForms.Controls
         public event EventHandler UpdatedID;
 
         private int Format = -1;
-        private PKM pkm;
+        private ITrainerID Trainer;
         private readonly ToolTip TSVTooltip = new ToolTip();
 
         public void UpdateTSV()
         {
+            if (!(Trainer is PKM pkm))
+                return;
             string IDstr = $"TSV: {pkm.TSV:d4}";
             TSVTooltip.SetToolTip(TB_TID, IDstr);
             TSVTooltip.SetToolTip(TB_SID, IDstr);
             TSVTooltip.SetToolTip(TB_TID7, IDstr);
             TSVTooltip.SetToolTip(TB_SID7, IDstr);
         }
-        public void LoadIDValues(PKM pk)
+        public void LoadIDValues(ITrainerID tr)
         {
-            pkm = pk;
-            SetFormat(pkm.GenNumber);
+            Trainer = tr;
+            int format = tr is PKM p ? p.GenNumber : tr is SaveFile s ? s.Generation : -1;
+            SetFormat(format);
             LoadValues();
         }
         public void UpdateSID() => LoadValues();
         public void LoadInfo(ITrainerInfo info)
         {
-            pkm.TID = info.TID;
-            pkm.SID = info.SID;
+            Trainer.TID = info.TID;
+            Trainer.SID = info.SID;
             LoadValues();
         }
 
         private void LoadValues()
         {
             if (Format <= 2)
-                TB_TID.Text = pkm.TID.ToString();
+                TB_TID.Text = Trainer.TID.ToString();
             else if (Format <= 6)
-                LoadTID(pkm.TID, pkm.SID);
+                LoadTID(Trainer.TID, Trainer.SID);
             else
-                LoadTID7(pkm.TID, pkm.SID);
+                LoadTID7(Trainer.TID, Trainer.SID);
         }
         private void LoadTID(int tid, int sid)
         {
@@ -113,9 +116,9 @@ namespace PKHeX.WinForms.Controls
                     mt.Text = (val = ushort.MaxValue).ToString();
 
                 if (mt == TB_TID)
-                    pkm.TID = val;
+                    Trainer.TID = val;
                 else
-                    pkm.SID = val;
+                    Trainer.SID = val;
             }
 
             UpdatedID?.Invoke(sender, e);
@@ -129,8 +132,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            pkm.SID = (ushort)(repack >> 16);
-            pkm.TID = (ushort)repack;
+            Trainer.SID = (ushort)(repack >> 16);
+            Trainer.TID = (ushort)repack;
         }
     }
 }

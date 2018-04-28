@@ -249,16 +249,12 @@ namespace PKHeX.Core
             get => 0;
             set { }
         }
-        public override ushort TID
+        public override int TID
         {
             get => BigEndian.ToUInt16(Data, Japanese ? 0x25FB : 0x2605);
-            set => BigEndian.GetBytes(value).CopyTo(Data, Japanese ? 0x25FB : 0x2605);
+            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x25FB : 0x2605);
         }
-        public override ushort SID
-        {
-            get => 0;
-            set { }
-        }
+        public override int SID { get => 0; set { } }
 
         public bool Yellow => Starter == 0x54; // Pikachu
         public int Starter => Data[Japanese ? 0x29B9 : 0x29C3];
