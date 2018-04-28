@@ -19,7 +19,12 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo SAV)
         {
-            int gen = Math.Max(2, Version.GetGeneration());
+            int gen = Version.GetGeneration();
+            if (gen < 2)
+            {
+                gen = 2;
+                Version = GameVersion.C;
+            }
             var pk = PKMConverter.GetBlank(gen);
             SAV.ApplyToPKM(pk);
 

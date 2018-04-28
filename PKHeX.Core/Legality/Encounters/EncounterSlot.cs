@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -79,11 +80,12 @@ namespace PKHeX.Core
             pk.Species = Species;
             pk.Language = lang;
             pk.CurrentLevel = level;
-            pk.Version = (int) version;
+            pk.Version = (int)version;
             pk.PID = Util.Rand32();
             pk.Gender = gender = pk.GetSaneGender(gender);
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
-            pk.Ball = 4;
+            pk.Ball = GetBall(); 
+
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
@@ -130,6 +132,8 @@ namespace PKHeX.Core
             }
 
             var moves = this is EncounterSlotMoves m ? m.Moves : Legal.GetEncounterMoves(pk, level, version);
+            if (pk.Format == 1 && moves.All(z => z == 0))
+                moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
@@ -140,6 +144,14 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             return pk;
+        }
+        private int GetBall()
+        {
+            if (Type == SlotType.BugContest)
+                return 24; // Sport
+            if (Type.HasFlag(SlotType.Safari))
+                return 5; // Safari
+            return 4; // Poké Ball
         }
     }
 }
