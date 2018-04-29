@@ -70,8 +70,11 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.PID = Util.Rand32();
             pk.Ball = Ball;
-            pk.Met_Level = LevelMin;
-            pk.Met_Location = Location;
+            if (pk.Format != 2 || version == GameVersion.C)
+            {
+                pk.Met_Level = LevelMin;
+                pk.Met_Location = Location;
+            }
             pk.MetDate = DateTime.Today;
 
             int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
