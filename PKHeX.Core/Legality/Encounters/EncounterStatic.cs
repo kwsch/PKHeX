@@ -83,20 +83,9 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
-
-            if (3 <= pk.Format && pk.Format <= 5)
-            {
-                pk.SetPIDGender(gender);
-                pk.Gender = pk.GetSaneGender(gender);
-            }
-            else
-            {
-                pk.PID = Util.Rand32();
-                pk.Gender = pk.GetSaneGender(gender);
-                pk.Nature = nature;
-            }
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
+
             if (pk.Format > 2 || Version == GameVersion.C)
             {
                 pk.Met_Location = Location;
@@ -114,29 +103,7 @@ namespace PKHeX.Core
             }
 
             pk.AltForm = Form;
-
             pk.Language = lang;
-
-            pk.RefreshAbility(Ability >> 1);
-
-            if (IVs != null)
-                pk.SetRandomIVs(IVs, FlawlessIVCount);
-            else
-                pk.SetRandomIVs(flawless: FlawlessIVCount);
-
-            switch (pk.Format)
-            {
-                case 3:
-                case 4:
-                    PIDGenerator.SetValuesFromSeed(pk, Roaming ? PIDType.Method_1_Roamer : PIDType.Method_1, Util.Rand32());
-                    if (this is EncounterStaticTyped t)
-                        pk.EncounterType = t.TypeEncounter.GetIndex();
-                    pk.Gender = pk.GetSaneGender(gender);
-                    break;
-                case 6:
-                    pk.SetRandomMemory6();
-                    break;
-            }
 
             if (this is EncounterStaticPID pid)
             {
@@ -144,6 +111,28 @@ namespace PKHeX.Core
                 pk.Gender = pk.GetSaneGender(gender);
                 if (pk is PK5 pk5)
                     pk5.NPokémon = pid.NSparkle;
+            }
+            else
+                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability, gender);
+
+            if (IVs != null)
+                pk.SetRandomIVs(IVs, FlawlessIVCount);
+            else if (FlawlessIVCount > 0)
+                pk.SetRandomIVs(flawless: FlawlessIVCount);
+
+            switch (pk.Format)
+            {
+                case 3:
+                    if (this is EncounterStaticShadow)
+                        ((PK3)pk).RibbonNational = true;
+                    break;
+                case 4:
+                    if (this is EncounterStaticTyped t)
+                        pk.EncounterType = t.TypeEncounter.GetIndex();
+                    break;
+                case 6:
+                    pk.SetRandomMemory6();
+                    break;
             }
 
             this.CopyContestStatsTo(pk);

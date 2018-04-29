@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public static class PIDGenerator
     {
@@ -19,7 +21,14 @@
             if (skipIV2Frame)
                 D = rng.Next(D);
 
-            pk.IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
+            var IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
+            if (type == PIDType.Method_1_Roamer)
+            {
+                IVs[1] &= 7;
+                for (int i = 2; i < 6; i++)
+                    IVs[i] = 0;
+            }
+            pk.IVs = IVs;
         }
         private static void SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
         {
@@ -149,6 +158,111 @@
             if ((PID & 0x10000) != av << 16)
                 PID ^= 0x10000;
             return PID;
+        }
+
+        public static void SetRandomWildPID(PKM pk, int gen, int nature, int ability, int gender)
+        {
+            ability >>= 1;
+            switch (gen)
+            {
+                case 3:
+                case 4:
+                    SetRandomWildPID4(pk, nature, ability, gender);
+                    break;
+                case 5:
+                    SetRandomWildPID5(pk, nature, ability, gender);
+                    break;
+                default:
+                    SetRandomWildPID(pk, nature, ability, gender);
+                    break;
+            }
+        }
+
+        private static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, bool roam = false)
+        {
+            pk.RefreshAbility(ability);
+            var type = GetPIDType(pk, roam);
+            var method = type == PIDType.CXD ? (Action<PKM, uint>)SetValuesFromSeedXDRNG : (pkm, seed) => SetValuesFromSeedLCRNG(pkm, type, seed);
+            while (true)
+            {
+                uint seed = Util.Rand32();
+                method(pk, seed);
+
+                if (pk.GetSaneGender(gender) != gender)
+                    continue;
+
+                if (pk.Nature != nature)
+                    continue;
+
+                if (((seed >> 0) & 1) != ability)
+                    continue;
+                return;
+            }
+        }
+
+        private static PIDType GetPIDType(PKM pk, bool roam)
+        {
+            if (roam)
+                return PIDType.Method_1_Roamer;
+            if (pk.Version == 15)
+                return PIDType.CXD;
+            if (pk.GenNumber == 3 && pk.Species == 201)
+                return PIDType.Method_1_Unown + Util.Rand.Next(0, 3);
+
+            return PIDType.Method_1;
+        }
+        private static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender)
+        {
+            var tidbit = (pk.TID ^ pk.SID) & 1;
+            pk.RefreshAbility(ability);
+            pk.Gender = gender;
+            pk.Nature = nature;
+
+            if (ability == 2)
+                ability = 0;
+
+            while (true)
+            {
+                uint seed = Util.Rand32();
+                var bitxor = (seed >> 31) ^ (seed & 1);
+                if (bitxor != tidbit)
+                    seed ^= 1;
+
+                if (seed % 25 != nature)
+                    continue;
+                if (((seed >> 16) & 1) != ability)
+                    continue;
+
+                pk.PID = seed;
+                if (pk.GetSaneGender(gender) != gender)
+                    continue;
+
+                SetRandomIVs(pk);
+                return;
+            }
+        }
+
+        private static void SetRandomWildPID(PKM pk, int nature, int ability, int gender)
+        {
+            uint seed = Util.Rand32();
+            pk.PID = seed;
+            pk.Nature = nature;
+            pk.Gender = gender;
+            pk.RefreshAbility(ability);
+            SetRandomIVs(pk);
+        }
+
+        private static void SetRandomIVs(PKM pk)
+        {
+            pk.IVs = new[]
+            {
+                Util.Rand.Next(32),
+                Util.Rand.Next(32),
+                Util.Rand.Next(32),
+                Util.Rand.Next(32),
+                Util.Rand.Next(32),
+                Util.Rand.Next(32),
+            };
         }
     }
 }

@@ -75,17 +75,14 @@ namespace PKHeX.Core
             int nature = Util.Rand.Next(25);
             SAV.ApplyToPKM(pk);
 
-            pk.Nature = nature;
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
-            pk.PID = Util.Rand32();
-            pk.Gender = gender = pk.GetSaneGender(gender);
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
-            pk.Ball = GetBall(); 
-
+            pk.Ball = GetBall();
+            gender = pk.GetSaneGender(gender);
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
@@ -99,7 +96,8 @@ namespace PKHeX.Core
             }
             pk.Language = lang;
 
-            pk.SetRandomIVs(flawless: 3);
+
+            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Util.Rand.Next(0, 2), gender);
 
             if (Permissions.IsDexNav)
             {
@@ -117,7 +115,6 @@ namespace PKHeX.Core
             {
                 case 3:
                 case 4:
-                    PIDGenerator.SetValuesFromSeed(pk, PIDType.Method_1, Util.Rand32());
                     if (pk.Format == 4)
                         pk.EncounterType = TypeEncounter.GetIndex();
                     pk.Gender = pk.GetSaneGender(gender);

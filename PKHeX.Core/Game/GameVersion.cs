@@ -87,6 +87,8 @@
                 case GameVersion.RSE:
                     return GameVersion.RS.Contains(g2) || g2 == GameVersion.E;
                 case GameVersion.FRLG: return g2 == GameVersion.FR || g2 == GameVersion.LG;
+                case GameVersion.COLO:
+                case GameVersion.XD: return g2 == GameVersion.CXD;
                 case GameVersion.CXD: return g2 == GameVersion.COLO || g2 == GameVersion.XD;
                 case GameVersion.RSBOX: return GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2);
                 case GameVersion.Gen3:
