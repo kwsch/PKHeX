@@ -80,6 +80,7 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
+            pk.AltForm = Form;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = GetBall();
             gender = pk.GetSaneGender(gender);

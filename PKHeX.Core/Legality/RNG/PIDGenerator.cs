@@ -136,16 +136,18 @@ namespace PKHeX.Core
                 case PIDType.PokeSpot:
                     return SetRandomPIDIV;
 
+                case PIDType.G5MGShiny:
+                    return SetValuesFromSeedMG5Shiny;
+
+                case PIDType.Pokewalker:
+                    return (pk, seed) => pk.PID = GetPokeWalkerPID(pk.TID, pk.SID, seed%24, pk.Gender, pk.PersonalInfo.Gender);
+
                 // others: unimplemented
                 case PIDType.CuteCharm:
                     break;
                 case PIDType.ChainShiny:
                     break;
                 case PIDType.G4MGAntiShiny:
-                    break;
-                case PIDType.G5MGShiny:
-                    break;
-                case PIDType.Pokewalker:
                     break;
             }
             return (pk, seed) => { };
@@ -159,8 +161,60 @@ namespace PKHeX.Core
             return PID;
         }
 
+        public static uint GetPokeWalkerPID(int TID, int SID, uint nature, int gender, int gr)
+        {
+            if (nature >= 24)
+                nature = 0;
+            uint pid = (uint)((TID ^ SID) >> 8 ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
+            // Ensure nature is set to required nature without affecting shininess
+            pid += nature - pid % 25;
+
+            // Ensure Gender is set to required gender without affecting other properties
+            // If Gender is modified, modify the ability if appropriate
+            int currentGender = gender;
+            if (currentGender != 2) // either m/f
+            {
+                var pidGender = (pid & 0xFF) < gr ? 1 : 0;
+                if (currentGender != pidGender)
+                {
+                    if (currentGender == 0) // Male
+                    {
+                        pid += (uint)(((gr - (pid & 0xFF)) / 25 + 1) * 25);
+                        if ((nature & 1) != (pid & 1))
+                            pid += 25;
+                    }
+                    else
+                    {
+                        pid -= (uint)((((pid & 0xFF) - gr) / 25 + 1) * 25);
+                        if ((nature & 1) != (pid & 1))
+                            pid -= 25;
+                    }
+                }
+            }
+            return pid;
+        }
+
+        public static void SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
+        {
+            var gv = seed >> 24;
+            var av = seed & 1;
+            pk.PID = GetMG5ShinyPID(gv, av, pk.TID, pk.SID);
+            SetRandomIVs(pk);
+        }
+
         public static void SetRandomWildPID(PKM pk, int gen, int nature, int ability, int gender, PIDType specific = PIDType.None)
         {
+            if (specific == PIDType.Pokewalker)
+            {
+                pk.Gender = gender;
+                do
+                {
+                    pk.PID = GetPokeWalkerPID(pk.TID, pk.SID, (uint) nature, gender, pk.PersonalInfo.Gender);
+                } while (!pk.IsGenderValid());
+                pk.RefreshAbility((int)(pk.PID & 1));
+                SetRandomIVs(pk);
+                return;
+            }
             switch (gen)
             {
                 case 3:

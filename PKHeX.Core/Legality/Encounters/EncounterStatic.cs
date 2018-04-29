@@ -115,7 +115,7 @@ namespace PKHeX.Core
             else
             {
                 var pidtype = GetPIDType();
-                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability >> 1, gender);
+                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability >> 1, gender, pidtype);
             }
 
             if (IVs != null)
