@@ -282,7 +282,7 @@ namespace PKHeX.Core
                 if (pkm.Version == 15 && encounterContent is EncounterStaticShadow s)
                 {
                     // only require national ribbon if no longer on origin game
-                    bool xd = !Encounters3.Encounter_Colo.Contains(s);
+                    bool xd = s.Version == GameVersion.XD;
                     eb[1] = !(xd && pkm is XK3 x && !x.RibbonNational || !xd && pkm is CK3 c && !c.RibbonNational);
                 }
             }

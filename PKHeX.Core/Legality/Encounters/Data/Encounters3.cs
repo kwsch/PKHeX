@@ -357,7 +357,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Colosseum
-        internal static readonly EncounterStatic[] Encounter_Colo =
+        private static readonly EncounterStatic[] Encounter_Colo =
         {
             // Colosseum Starters: Gender locked to male
             new EncounterStatic { Gift = true, Species = 196, Level = 25, Location = 254, Gender = 0 }, // Espeon
@@ -462,7 +462,16 @@ namespace PKHeX.Core
 
         #region XD
 
-        internal static readonly EncounterStatic[] Encounter_XD =
+        private static readonly int[] MirorBXDLocations =
+        {
+            090, // Rock
+            091, // Oasis
+            092, // Cave
+            113, // Pyrite Town
+            059, // Realgam Tower
+        };
+
+        private static readonly EncounterStatic[] Encounter_XD = new[]
         {
             new EncounterStatic { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
             new EncounterStatic { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
@@ -577,7 +586,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Fateful = true, Species = 144, Level = 50, Gauge = 10000, Moves = new[] {326,215,114,058}, Location = 074 }, // Articuno: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow { Fateful = true, Species = 145, Level = 50, Gauge = 10000, Moves = new[] {326,226,319,085}, Location = 074 }, // Zapdos: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow { Fateful = true, Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162 }, // Dragonite: Wanderer Miror B. @ Gateon Port
-        };
+        }.SelectMany(CloneMirorB).ToArray();
 
         internal static readonly EncounterArea[] SlotsXD =
         {
@@ -603,16 +612,7 @@ namespace PKHeX.Core
                 }
             },
         };
-
-        private static readonly int[] MirorBXDLocations =
-        {
-            090, // Rock
-            091, // Oasis
-            092, // Cave
-            113, // Pyrite Town
-            059, // Realgam Tower
-        };
-        internal static readonly EncounterStatic[] Encounter_CXD = Encounter_Colo.Concat(Encounter_XD.SelectMany(CloneMirorB)).ToArray();
+        internal static readonly EncounterStatic[] Encounter_CXD = ConcatAll(Encounter_Colo, Encounter_XD);
         private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
         {
             yield return arg;

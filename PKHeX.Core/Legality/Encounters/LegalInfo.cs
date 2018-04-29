@@ -32,7 +32,7 @@ namespace PKHeX.Core
         private IEncounterable _match;
 
         /// <summary>Indicates whether or not the <see cref="PKM"/> originated from <see cref="GameVersion.XD"/>.</summary>
-        public bool WasXD => pkm?.Version == 15 && EncounterMatch != null && !Encounters3.Encounter_Colo.Contains(EncounterMatch);
+        public bool WasXD => pkm?.Version == 15 && EncounterMatch is IVersion v && v.Version == GameVersion.XD;
 
         /// <summary>Base Relearn Moves for the <see cref="EncounterMatch"/>.</summary>
         public int[] RelearnBase { get; set; }
