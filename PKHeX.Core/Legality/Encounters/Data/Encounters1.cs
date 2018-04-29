@@ -40,7 +40,7 @@ namespace PKHeX.Core
             var ylw_fish = EncounterArea.GetArray1_FY(Util.GetBinaryResource("encounter_yellow_f.pkl"));
 
             MarkEncountersVersion(red_gw, GameVersion.RD);
-            MarkEncountersVersion(blu_gw, GameVersion.BW);
+            MarkEncountersVersion(blu_gw, GameVersion.BU);
             MarkEncountersVersion(ylw_gw, GameVersion.YW);
             MarkEncountersVersion(rb_fish, GameVersion.RB);
             MarkEncountersVersion(ylw_fish, GameVersion.YW);

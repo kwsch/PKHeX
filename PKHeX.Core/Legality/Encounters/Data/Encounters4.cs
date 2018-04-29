@@ -154,6 +154,7 @@ namespace PKHeX.Core
             {
                 s.Location = 233;  //Pokéwalker
                 s.Gift = true;    //Pokeball only
+                s.Version = GameVersion.HGSS;
             }
         }
         private static void MarkG4SlotsGreatMarsh(ref EncounterArea[] Areas, int location)

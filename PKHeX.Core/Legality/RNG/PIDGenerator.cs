@@ -103,45 +103,43 @@ namespace PKHeX.Core
 
         public static void SetValuesFromSeed(PKM pk, PIDType type, uint seed)
         {
-            switch (type)
+            var method = GetGeneratorMethod(type);
+            method(pk, seed);
+        }
+        private static Action<PKM, uint> GetGeneratorMethod(PIDType t)
+        {
+            switch (t)
             {
                 case PIDType.Channel:
-                    SetValuesFromSeedChannel(pk, seed);
-                    break;
+                    return SetValuesFromSeedChannel;
                 case PIDType.CXD:
-                    SetValuesFromSeedXDRNG(pk, seed);
-                    break;
+                    return SetValuesFromSeedXDRNG;
 
                 case PIDType.Method_1:
                 case PIDType.Method_2:
                 case PIDType.Method_4:
-                    SetValuesFromSeedLCRNG(pk, type, seed);
-                    break;
+                case PIDType.Method_1_Unown:
+                case PIDType.Method_2_Unown:
+                case PIDType.Method_4_Unown:
+                case PIDType.Method_1_Roamer:
+                    return (pk, seed) => SetValuesFromSeedLCRNG(pk, t, seed);
 
                 case PIDType.BACD_R:
                 case PIDType.BACD_R_A:
                 case PIDType.BACD_R_S:
-                    SetValuesFromSeedBACD(pk, type, seed);
-                    break;
+                    return (pk, seed) => SetValuesFromSeedBACD(pk, t, seed & 0xFFFF);
                 case PIDType.BACD_U:
                 case PIDType.BACD_U_A:
                 case PIDType.BACD_U_S:
-                    SetValuesFromSeedBACD(pk, type, seed);
-                    break;
+                    return (pk, seed) => SetValuesFromSeedBACD(pk, t, seed);
+
+                case PIDType.PokeSpot:
+                    return SetRandomPIDIV;
 
                 // others: unimplemented
-                case PIDType.ChainShiny:
-                    break;
-                case PIDType.Method_1_Unown:
-                case PIDType.Method_2_Unown:
-                case PIDType.Method_4_Unown:
-                    break;
-                case PIDType.Method_1_Roamer:
-                    break;
-
                 case PIDType.CuteCharm:
                     break;
-                case PIDType.PokeSpot:
+                case PIDType.ChainShiny:
                     break;
                 case PIDType.G4MGAntiShiny:
                     break;
@@ -150,6 +148,7 @@ namespace PKHeX.Core
                 case PIDType.Pokewalker:
                     break;
             }
+            return (pk, seed) => { };
         }
 
         public static uint GetMG5ShinyPID(uint gval, uint av, int TID, int SID)
@@ -160,14 +159,13 @@ namespace PKHeX.Core
             return PID;
         }
 
-        public static void SetRandomWildPID(PKM pk, int gen, int nature, int ability, int gender)
+        public static void SetRandomWildPID(PKM pk, int gen, int nature, int ability, int gender, PIDType specific = PIDType.None)
         {
-            ability >>= 1;
             switch (gen)
             {
                 case 3:
                 case 4:
-                    SetRandomWildPID4(pk, nature, ability, gender);
+                    SetRandomWildPID4(pk, nature, ability, gender, specific);
                     break;
                 case 5:
                     SetRandomWildPID5(pk, nature, ability, gender);
@@ -178,15 +176,26 @@ namespace PKHeX.Core
             }
         }
 
-        private static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, bool roam = false)
+        /// <summary>
+        /// Generates a <see cref="PKM.PID"/> and <see cref="PKM.IVs"/> that are unrelated.
+        /// </summary>
+        /// <param name="pkm">Pokémon to modify.</param>
+        /// <param name="seed">Seed which is used for the <see cref="PKM.PID"/>.</param>
+        private static void SetRandomPIDIV(PKM pkm, uint seed)
+        {
+            pkm.PID = seed;
+            SetRandomIVs(pkm);
+        }
+
+        private static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
         {
             pk.RefreshAbility(ability);
-            var type = GetPIDType(pk, roam);
-            var method = type == PIDType.CXD ? (Action<PKM, uint>)SetValuesFromSeedXDRNG : (pkm, seed) => SetValuesFromSeedLCRNG(pkm, type, seed);
+            var type = GetPIDType(pk, specific);
+            var method = GetGeneratorMethod(type);
+
             while (true)
             {
-                uint seed = Util.Rand32();
-                method(pk, seed);
+                method(pk, Util.Rand32());
 
                 if (pk.GetSaneGender(gender) != gender)
                     continue;
@@ -194,16 +203,16 @@ namespace PKHeX.Core
                 if (pk.Nature != nature)
                     continue;
 
-                if (((seed >> 0) & 1) != ability)
+                if ((pk.PID & 1) != ability)
                     continue;
                 return;
             }
         }
 
-        private static PIDType GetPIDType(PKM pk, bool roam)
+        private static PIDType GetPIDType(PKM pk, PIDType specific)
         {
-            if (roam)
-                return PIDType.Method_1_Roamer;
+            if (specific != PIDType.None)
+                return specific;
             if (pk.Version == 15)
                 return PIDType.CXD;
             if (pk.GenNumber == 3 && pk.Species == 201)

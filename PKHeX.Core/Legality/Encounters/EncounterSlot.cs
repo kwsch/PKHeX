@@ -96,8 +96,8 @@ namespace PKHeX.Core
             }
             pk.Language = lang;
 
-
-            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Util.Rand.Next(0, 2), gender);
+            var pidtype = GetPIDType();
+            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Util.Rand.Next(0, 2), gender, pidtype);
 
             if (Permissions.IsDexNav)
             {
@@ -105,10 +105,6 @@ namespace PKHeX.Core
                 var eggMoves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
                 if (eggMoves.Length > 0)
                     pk.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
-            }
-            else
-            {
-                pk.RefreshAbility(Util.Rand.Next(2));
             }
 
             switch (pk.Format)
@@ -142,6 +138,14 @@ namespace PKHeX.Core
 
             return pk;
         }
+
+        private PIDType GetPIDType()
+        {
+            if (Version == GameVersion.XD)
+                return PIDType.PokeSpot;
+            return PIDType.None; // depends on format, let the program auto-detect.
+        }
+
         private int GetBall()
         {
             if (Type == SlotType.BugContest)

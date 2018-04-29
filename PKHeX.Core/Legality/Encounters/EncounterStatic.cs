@@ -113,7 +113,10 @@ namespace PKHeX.Core
                     pk5.NPokémon = pid.NSparkle;
             }
             else
-                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability, gender);
+            {
+                var pidtype = GetPIDType();
+                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability >> 1, gender);
+            }
 
             if (IVs != null)
                 pk.SetRandomIVs(IVs, FlawlessIVCount);
@@ -157,6 +160,15 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             return pk;
+        }
+
+        private PIDType GetPIDType()
+        {
+            if (Roaming)
+                return PIDType.Method_1_Roamer;
+            if (Version == GameVersion.HGSS && Location == 233) // Pokéwalker
+                return PIDType.Pokewalker;
+            return PIDType.None;
         }
     }
 }
