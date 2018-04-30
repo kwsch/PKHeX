@@ -24,7 +24,8 @@ namespace PKHeX.Core
             foreach (var t in trades)
             {
                 t.TrainerNames = names;
-                t.Version = GameVersion.RBY;
+                if (t.Version == GameVersion.Any)
+                    t.Version = GameVersion.RBY;
             }
 
             SlotsRBY.SetVersion(GameVersion.RBY);
