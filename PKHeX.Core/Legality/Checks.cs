@@ -2302,7 +2302,7 @@ namespace PKHeX.Core
                     if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium || EncounterMatch is EncounterTradeCatchRate)
                         // Encounters detected by the catch rate, cant be invalid if match this encounters
                         AddLine(Severity.Valid, V398, CheckIdentifier.Misc);
-                    if (pkm.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate || Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && catch_rate == PersonalTable.RB[pkm.Species].CatchRate)
+                    else if (pkm.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate || Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && catch_rate == PersonalTable.RB[pkm.Species].CatchRate)
                         AddLine(Severity.Invalid, V396, CheckIdentifier.Misc);
                     else if (!Info.EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
                         AddLine(Severity.Invalid, pkm.Gen1_NotTradeback ? V397 : V399, CheckIdentifier.Misc);

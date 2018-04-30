@@ -117,6 +117,9 @@ namespace PKHeX.Core
             if (Fateful)
                 pk.FatefulEncounter = true;
 
+            if (EvolveOnTrade)
+                ++pk.Species;
+
             if (pk.Format < 6)
                 return pk;
 

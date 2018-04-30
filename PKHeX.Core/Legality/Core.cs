@@ -2157,6 +2157,8 @@ namespace PKHeX.Core
                 return false;
             if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
+            if (Savegame_Version == GameVersion.Any)
+                return false;
             var IsYellow = Savegame_Version == GameVersion.YW;
             if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
@@ -2181,6 +2183,8 @@ namespace PKHeX.Core
         }
         internal static bool IsOutsider(PKM pkm)
         {
+            if (Savegame_Version == GameVersion.Any)
+                return false;
             var Outsider = Savegame_TID != pkm.TID || Savegame_OT != pkm.OT_Name;
             if (pkm.Format <= 2)
                 return Outsider;

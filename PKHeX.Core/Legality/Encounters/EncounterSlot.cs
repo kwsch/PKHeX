@@ -112,6 +112,9 @@ namespace PKHeX.Core
 
             switch (pk.Format)
             {
+                case 1 when Species == 64 && Version == GameVersion.YW: // Kadabra
+                    ((PK1)pk).Catch_Rate = 96;
+                    break;
                 case 3:
                 case 4:
                     if (pk.Format == 4)
