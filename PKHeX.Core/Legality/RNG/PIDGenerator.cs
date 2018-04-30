@@ -266,6 +266,7 @@ namespace PKHeX.Core
         private static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
         {
             pk.RefreshAbility(ability);
+            pk.Gender = gender;
             var type = GetPIDType(pk, specific);
             var method = GetGeneratorMethod(type);
 

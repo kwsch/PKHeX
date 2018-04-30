@@ -255,8 +255,12 @@ namespace PKHeX.Core
             var slots = EncounterSlotGenerator.GetPossible(pk);
             foreach (var slot in slots)
             {
-                if (slot.Generation == 2 && slot.Type.HasFlag(SlotType.Headbutt))
+                if (slot.Generation == 2)
                 {
+                    if (slot.Type.HasFlag(SlotType.Safari))
+                        continue;
+
+                    if (slot.Type.HasFlag(SlotType.Headbutt))
                     if (Legal.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree)
                         continue;
                 }
