@@ -71,19 +71,17 @@ namespace PKHeX.Core
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation);
-            int gender = Util.Rand.Next(2);
             int nature = Util.Rand.Next(25);
             SAV.ApplyToPKM(pk);
 
-            pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
+            int gender = pk.PersonalInfo.RandomGender;
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.AltForm = Form;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = GetBall();
-            gender = pk.GetSaneGender(gender);
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
@@ -97,8 +95,12 @@ namespace PKHeX.Core
             }
             pk.Language = lang;
 
+            var ability = Util.Rand.Next(0, 2);
             var pidtype = GetPIDType();
-            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Util.Rand.Next(0, 2), gender, pidtype);
+            if (pidtype == PIDType.PokeSpot)
+                PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
+            else
+                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
 
             if (Permissions.IsDexNav)
             {
@@ -128,6 +130,8 @@ namespace PKHeX.Core
             var moves = this is EncounterSlotMoves m ? m.Moves : Legal.GetEncounterMoves(pk, level, version);
             if (pk.Format == 1 && moves.All(z => z == 0))
                 moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
+            else if (Version == GameVersion.XD)
+                pk.FatefulEncounter = true;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;

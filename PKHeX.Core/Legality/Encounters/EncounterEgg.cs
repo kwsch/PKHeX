@@ -53,14 +53,15 @@ namespace PKHeX.Core
 
             pk.Ball = 4;
 
-            int gender = Util.Rand.Next(2);
+            int gender = pk.PersonalInfo.RandomGender;
             int nature = Util.Rand.Next(25);
 
-            gender = pk.GetSaneGender(gender);
             if (pk.Format <= 5)
             {
                 pk.SetPIDGender(gender);
+                pk.Gender = gender;
                 pk.SetPIDNature(nature);
+                pk.Nature = nature;
                 pk.RefreshAbility(pk.PIDAbility);
             }
             else

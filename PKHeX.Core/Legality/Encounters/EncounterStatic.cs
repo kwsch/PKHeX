@@ -73,13 +73,13 @@ namespace PKHeX.Core
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation);
-            int gender = Gender < 0 ? Util.Rand.Next(2) : Gender;
             int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
             var today = DateTime.Today;
             SAV.ApplyToPKM(pk);
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
+            int gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;

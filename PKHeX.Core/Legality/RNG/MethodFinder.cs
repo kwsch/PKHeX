@@ -424,33 +424,8 @@ namespace PKHeX.Core
             if (nature == 24) // impossible nature
                 return GetNonMatch(out pidiv);
 
-            uint pid = (uint)((pk.TID ^ pk.SID) >> 8 ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
-            // Ensure nature is set to required nature without affecting shininess
-            pid += nature - pid % 25;
+            uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, pk.Gender, pk.PersonalInfo.Gender);
 
-            // Ensure Gender is set to required gender without affecting other properties
-            // If Gender is modified, modify the ability if appropriate
-            int currentGender = pk.Gender;
-            if (currentGender != 2) // either m/f
-            {
-                var gr = pk.PersonalInfo.Gender;
-                var pidGender = (pid & 0xFF) < gr ? 1 : 0;
-                if (currentGender != pidGender)
-                {
-                    if (currentGender == 0) // Male
-                    {
-                        pid += (uint) (((gr - (pid & 0xFF)) / 25 + 1) * 25);
-                        if ((nature & 1) != (pid & 1))
-                            pid += 25;
-                    }
-                    else
-                    {
-                        pid -= (uint) ((((pid & 0xFF) - gr) / 25 + 1) * 25);
-                        if ((nature & 1) != (pid & 1))
-                            pid -= 25;
-                    }
-                }
-            }
             if (pid != oldpid)
                 return GetNonMatch(out pidiv);
             pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.Pokewalker};
@@ -646,36 +621,42 @@ namespace PKHeX.Core
             foreach (var seed in seeds)
             {
                 // check for valid encounter slot info
-                var esv = (seed>>16)%100;
-                switch (slot)
-                {
-                    case 0:
-                        if (esv < 50) break; // valid
-                        continue;
-                    case 1:
-                        if (esv >= 50 && esv < 85) break; // valid
-                        continue;
-                    case 2:
-                        if (esv >= 85) break;
-                        continue;
-                    default:
-                        continue;
-                }
-
-                // check for valid activation
-                var s = RNG.XDRNG.Prev(seed);
-                if ((s>>16)%3 != 0)
-                {
-                    if ((s>>16)%100 < 10) // can't fail a munchlax/bonsly encounter check
-                        continue;
-                    s = RNG.XDRNG.Prev(s);
-                    if ((s>>16)%3 != 0) // can't activate even if generous
-                        continue;
-                }
+                if (!IsPokeSpotActivation(slot, seed, out uint s))
+                    continue;
                 yield return new PIDIV {OriginSeed = s, RNG = RNG.XDRNG, Type = PIDType.PokeSpot};
             }
         }
+        public static bool IsPokeSpotActivation(int slot, uint seed, out uint s)
+        {
+            s = seed;
+            var esv = (seed >> 16) % 100;
+            switch (slot)
+            {
+                case 0:
+                    if (esv < 50) break; // valid
+                    return false;
+                case 1:
+                    if (esv >= 50 && esv < 85) break; // valid
+                    return false;
+                case 2:
+                    if (esv >= 85) break;
+                    return false;
+                default:
+                    return false;
+            }
 
+            // check for valid activation
+            s = RNG.XDRNG.Prev(seed);
+            if ((s >> 16) % 3 != 0)
+            {
+                if ((s >> 16) % 100 < 10) // can't fail a munchlax/bonsly encounter check
+                    return false;
+                s = RNG.XDRNG.Prev(s);
+                if ((s >> 16) % 3 != 0) // can't activate even if generous
+                    return false;
+            }
+            return true;
+        }
         public static bool IsCompatible3(this PIDType val, IEncounterable encounter, PKM pkm)
         {
             switch (encounter)

@@ -957,6 +957,8 @@ namespace PKHeX.Core
                 for (int i = 0; i < 6; i++)
                     ivs[i] = template[i] < 0 ? (int) (Util.Rand32() & MaxIV) : template[i];
             } while (ivs.Count(z => z == MaxIV) < count);
+
+            IVs = ivs;
             return ivs;
         }
 

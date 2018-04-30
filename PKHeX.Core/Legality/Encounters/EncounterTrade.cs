@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -48,8 +49,8 @@ namespace PKHeX.Core
 
         public string[] Nicknames { get; internal set; }
         public string[] TrainerNames { get; internal set; }
-        public string GetNickname(int language) => Nicknames?.Length < language ? Nicknames[language] : null;
-        public string GetOT(int language) => TrainerNames?.Length < language ? TrainerNames[language] : null;
+        public string GetNickname(int language) => Nicknames?.Length > language ? Nicknames[language] : null;
+        public string GetOT(int language) => TrainerNames?.Length > language ? TrainerNames[language] : null;
 
         public static readonly int[] DefaultMetLocation = 
         {
@@ -61,33 +62,34 @@ namespace PKHeX.Core
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
+            if (level == 0)
+                level = 25; // avoid some cases
             var pk = PKMConverter.GetBlank(Generation);
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
-            pk.Language = lang;
             pk.CurrentLevel = level;
-            pk.Version = (int)version;
-            pk.PID = Util.Rand32();
+            pk.PID = this is EncounterTradePID p ? p.PID : Util.Rand32();
             pk.Ball = Ball;
             if (pk.Format != 2 || version == GameVersion.C)
             {
-                pk.Met_Level = LevelMin;
-                pk.Met_Location = Location;
+                pk.Met_Level = level;
+                pk.Met_Location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
             }
             pk.MetDate = DateTime.Today;
 
+            SAV.ApplyToPKM(pk);
             int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
             pk.Nature = nature;
-            int gender = Gender < 0 ? Util.Rand.Next(2) : Gender;
-            pk.Gender = pk.GetSaneGender(gender);
+            pk.Version = (int)version;
+            pk.Gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
             pk.AltForm = Form;
 
-            SAV.ApplyToPKM(pk);
+            pk.Language = lang;
             pk.TID = TID;
             pk.SID = SID;
             pk.OT_Name = GetOT(lang) ?? SAV.OT;
-            pk.OT_Gender = GetOT(lang) != null ? OTGender : SAV.Gender;
+            pk.OT_Gender = GetOT(lang) != null ? Math.Max(0, OTGender) : SAV.Gender;
             pk.SetNickname(GetNickname(lang));
             pk.Language = lang;
 
@@ -107,6 +109,8 @@ namespace PKHeX.Core
             this.CopyContestStatsTo(pk);
 
             var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
+            if (pk.Format == 1 && moves.All(z => z == 0))
+                moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
@@ -119,7 +123,50 @@ namespace PKHeX.Core
             SAV.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
 
+            if (pk.Format == 7)
+                SetSMOTMemory(pk);
+
             return pk;
+        }
+
+        private void UpdateEdgeCase(PKM pkm)
+        {
+            switch (Generation)
+            {
+                case 3 when Species == 124 && pkm.Version == (int) GameVersion.LG && pkm.Language == (int) LanguageID.Italian:
+                    // Italian LG Jynx untranslated from English name
+                    pkm.OT_Name = GetOT(2);
+                    pkm.SetNickname(GetNickname(2));
+                    break;
+
+                case 4 when Version == GameVersion.DPPt && Species == 129: // Meister Magikarp
+                    // Has German Language ID for all except German origin, which is English
+                    pkm.Language = (int)(pkm.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
+                    break;
+
+                case 4 when Version == GameVersion.DPPt && (pkm.Version == (int)GameVersion.D || pkm.Version == (int)GameVersion.P):
+                    // DP English origin are Japanese lang
+                    pkm.Language = 1;
+                    break;
+
+                case 4 when Version == GameVersion.HGSS && Species == 25: // Pikachu
+                    // Has English Language ID for all except English origin, which is French
+                    pkm.Language = (int)(pkm.Language == (int)LanguageID.English ? LanguageID.French : LanguageID.English);
+                    break;
+
+                case 5 when Version == GameVersion.BW && pkm.Language == 1:
+                    // Trades for JPN games have language ID of 0, not 1.
+                    pkm.Language = 0;
+                    break;
+            }
+        }
+
+        private static void SetSMOTMemory(PKM pk)
+        {
+            pk.OT_Memory = 1;
+            pk.OT_Intensity = 3;
+            pk.OT_TextVar = 40;
+            pk.OT_Feeling = 5;
         }
     }
 }

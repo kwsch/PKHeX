@@ -24,6 +24,7 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="PKM"/> list of possible results.</returns>
         public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int[] moves = null, params GameVersion[] versions)
         {
+            pk.TID = info.TID;
             var m = moves ?? pk.Moves;
             var vers = versions?.Length >= 1 ? versions : Versions.Where(z => z <= (GameVersion) pk.MaxGameID);
             foreach (var ver in vers)
@@ -254,6 +255,11 @@ namespace PKHeX.Core
             var slots = EncounterSlotGenerator.GetPossible(pk);
             foreach (var slot in slots)
             {
+                if (slot.Generation == 2 && slot.Type.HasFlag(SlotType.Headbutt))
+                {
+                    if (Legal.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree)
+                        continue;
+                }
                 if (needs.Count == 0)
                 {
                     yield return slot;

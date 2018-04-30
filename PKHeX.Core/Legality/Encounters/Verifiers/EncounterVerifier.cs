@@ -100,15 +100,10 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
         }
-        private static CheckResult VerifyWildEncounterCrystalHeadbutt(PKM pkm, EncounterSlot encounter)
+        private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot encounter)
         {
-            var Area = Legal.GetCrystalTreeArea(encounter);
-            if (Area == null)  // Failsafe, every area with headbutt encounters has a tree area
-                return new CheckResult(Severity.Invalid, V605, CheckIdentifier.Encounter);
-
-            var table = Area.GetTrees(encounter.Type);
-            var trainerpivot = pkm.TID % 10;
-            switch (table[trainerpivot])
+            var tree = Legal.GetGSCHeadbuttAvailability(encounter, tr.TID);
+            switch (tree)
             {
                 case TreeEncounterAvailable.ValidTree:
                     return new CheckResult(Severity.Valid, V604, CheckIdentifier.Encounter);

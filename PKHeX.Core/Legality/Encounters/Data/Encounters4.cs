@@ -79,6 +79,8 @@ namespace PKHeX.Core
 
             MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
             MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);
+            foreach (var t in RanchGifts)
+                t.TrainerNames = RanchOTNames;
 
             DP_GreatMarshAlt.SetVersion(GameVersion.DP);
             DPPt_Unown.SetVersion(GameVersion.DPPt);

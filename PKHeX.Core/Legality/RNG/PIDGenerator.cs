@@ -153,6 +153,27 @@ namespace PKHeX.Core
             return (pk, seed) => { };
         }
 
+        public static void SetRandomPokeSpotPID(PKM pk, int nature, int gender, int ability, int slot)
+        {
+            while (true)
+            {
+                var seed = Util.Rand32();
+                if (!MethodFinder.IsPokeSpotActivation(slot, seed, out var _))
+                    continue;
+
+                var rng = RNG.XDRNG;
+                var D = rng.Next(seed); // PID
+                var E = rng.Next(D); // PID
+
+                pk.PID = D & 0xFFFF0000 | E >> 16;
+                if (!IsValidCriteria4(pk, nature, ability, gender))
+                    continue;
+
+                pk.SetRandomIVs();
+                return;
+            }
+        }
+
         public static uint GetMG5ShinyPID(uint gval, uint av, int TID, int SID)
         {
             uint PID = (uint)((TID ^ SID ^ gval) << 16 | gval);
@@ -172,24 +193,25 @@ namespace PKHeX.Core
             // Ensure Gender is set to required gender without affecting other properties
             // If Gender is modified, modify the ability if appropriate
             int currentGender = gender;
-            if (currentGender != 2) // either m/f
+            if (currentGender == 2)
+                return pid;
+
+            // either m/f
+            var pidGender = (pid & 0xFF) < gr ? 1 : 0;
+            if (currentGender == pidGender)
+                return pid;
+
+            if (currentGender == 0) // Male
             {
-                var pidGender = (pid & 0xFF) < gr ? 1 : 0;
-                if (currentGender != pidGender)
-                {
-                    if (currentGender == 0) // Male
-                    {
-                        pid += (uint)(((gr - (pid & 0xFF)) / 25 + 1) * 25);
-                        if ((nature & 1) != (pid & 1))
-                            pid += 25;
-                    }
-                    else
-                    {
-                        pid -= (uint)((((pid & 0xFF) - gr) / 25 + 1) * 25);
-                        if ((nature & 1) != (pid & 1))
-                            pid -= 25;
-                    }
-                }
+                pid += (uint)(((gr - (pid & 0xFF)) / 25 + 1) * 25);
+                if ((nature & 1) != (pid & 1))
+                    pid += 25;
+            }
+            else
+            {
+                pid -= (uint)((((pid & 0xFF) - gr) / 25 + 1) * 25);
+                if ((nature & 1) != (pid & 1))
+                    pid -= 25;
             }
             return pid;
         }
@@ -250,17 +272,24 @@ namespace PKHeX.Core
             while (true)
             {
                 method(pk, Util.Rand32());
-
-                if (pk.GetSaneGender(gender) != gender)
-                    continue;
-
-                if (pk.Nature != nature)
-                    continue;
-
-                if ((pk.PID & 1) != ability)
+                if (!IsValidCriteria4(pk, nature, ability, gender))
                     continue;
                 return;
             }
+        }
+
+        private static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
+        {
+            if (pk.GetSaneGender(gender) != gender)
+                return false;
+
+            if (pk.Nature != nature)
+                return false;
+
+            if ((pk.PID & 1) != ability)
+                return false;
+
+            return true;
         }
 
         private static PIDType GetPIDType(PKM pk, PIDType specific)

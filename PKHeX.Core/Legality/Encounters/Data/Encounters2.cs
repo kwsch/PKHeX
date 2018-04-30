@@ -250,19 +250,19 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
-            new EncounterTrade { Species = 095, Level = 03, Location = 126, Gender = 0, TID = 48926, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
-            new EncounterTrade { Species = 066, Level = 05, Location = 126, Gender = 1, TID = 37460, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
-            new EncounterTrade { Species = 100, Level = 05, Location = 126, Gender = 2, TID = 29189, IVs = new[] {08, 09, 08, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
-            new EncounterTrade { Species = 112, Level = 10, Location = 126, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [wild]
-            new EncounterTrade { Species = 142, Level = 05, Location = 126, Gender = 0, TID = 26491, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
-            new EncounterTrade { Species = 078, Level = 14, Location = 126, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
+            new EncounterTrade { Species = 095, Level = 03, Gender = 0, TID = 48926, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
+            new EncounterTrade { Species = 066, Level = 05, Gender = 1, TID = 37460, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
+            new EncounterTrade { Species = 100, Level = 05, Gender = 2, TID = 29189, IVs = new[] {08, 09, 08, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
+            new EncounterTrade { Species = 112, Level = 10, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [wild]
+            new EncounterTrade { Species = 142, Level = 05, Gender = 0, TID = 26491, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
+            new EncounterTrade { Species = 078, Level = 14, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
 
-            new EncounterTrade { Species = 085, Level = 10, Location = 126, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [wild]
-            new EncounterTrade { Species = 178, Level = 15, Location = 126, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
-            new EncounterTrade { Species = 082, Level = 05, Location = 126, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
+            new EncounterTrade { Species = 085, Level = 10, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [wild]
+            new EncounterTrade { Species = 178, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
+            new EncounterTrade { Species = 082, Level = 05, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
             
-            new EncounterTrade { Species = 021, Level = 10, Location = 126, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
-            new EncounterTrade { Species = 213, Level = 15, Location = 126, TID = 00518 }, // Shuckle @ Cianwood City for free
+            new EncounterTrade { Species = 021, Level = 10, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
+            new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
         };
         internal static readonly string[][] TradeGift_GSC_OTs =
         {

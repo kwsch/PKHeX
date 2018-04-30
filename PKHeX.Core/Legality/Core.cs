@@ -2191,9 +2191,15 @@ namespace PKHeX.Core
             return Outsider;
         }
 
-        internal static TreesArea GetCrystalTreeArea(EncounterSlot Slot)
+        internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
         {
-            return HeadbuttTreesC.FirstOrDefault(a => a.Location == Slot.Location);
+            var Area = HeadbuttTreesC.FirstOrDefault(a => a.Location == encounter.Location);
+            if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
+                return TreeEncounterAvailable.Impossible;
+
+            var table = Area.GetTrees(encounter.Type);
+            var trainerpivot = TID % 10;
+            return table[trainerpivot];
         }
 
         public static int[] GetEncounterMoves(PKM pk, int level, GameVersion version)
