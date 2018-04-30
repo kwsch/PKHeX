@@ -93,7 +93,10 @@ namespace PKHeX.Core
             pk.SetNickname(GetNickname(lang));
             pk.Language = lang;
 
-            pk.RefreshAbility(Ability >> 1);
+            if (this is EncounterTradePID a && a.Generation == 4)
+                pk.RefreshAbility((int)(pk.PID & 1));
+            else
+                pk.RefreshAbility(Ability >> 1);
 
             if (IVs != null)
                 pk.SetRandomIVs(IVs, 0);
@@ -123,7 +126,7 @@ namespace PKHeX.Core
             if (pk.Format < 6)
                 return pk;
 
-            SAV.ApplyHandlingTrainerInfo(pk);
+            SAV.ApplyHandlingTrainerInfo(pk, force: true);
             pk.SetRandomEC();
 
             if (pk.Format == 7)

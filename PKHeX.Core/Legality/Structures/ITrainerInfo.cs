@@ -33,9 +33,9 @@ namespace PKHeX.Core
             pk.ConsoleRegion = info.ConsoleRegion;
         }
 
-        public static void ApplyHandlingTrainerInfo(this ITrainerInfo SAV, PKM pk)
+        public static void ApplyHandlingTrainerInfo(this ITrainerInfo SAV, PKM pk, bool force = false)
         {
-            if (pk.Format == SAV.Generation)
+            if (pk.Format == SAV.Generation && !force)
                 return;
 
             pk.HT_Name = SAV.OT;
