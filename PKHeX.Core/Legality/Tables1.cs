@@ -83,7 +83,7 @@ namespace PKHeX.Core
         };
         internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new HashSet<int>
         {
-            12, 18, 31, 34, 36, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
+            12, 18, 31, 34, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
         };
         internal static readonly int[] Stadium_CatchRate =
         {

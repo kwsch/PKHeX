@@ -15,6 +15,8 @@ namespace PKHeX.Core
                 yield break; // no totem eggs
 
             int gen = pkm.GenNumber;
+            if (gen <= 1)
+                yield break; // can't get eggs
             // version is a true indicator for all generation 3-5 origins
             var ver = (GameVersion)pkm.Version;
             int max = GetMaxSpeciesOrigin(gen);

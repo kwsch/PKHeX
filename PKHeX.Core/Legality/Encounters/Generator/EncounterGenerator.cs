@@ -191,7 +191,7 @@ namespace PKHeX.Core
                     deferred.Add(obj);
                 else
                     yield return obj;
-
+                pkm.WasEgg = false;
                 move.MoveNext();
             }
             foreach (var z in deferred)
