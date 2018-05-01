@@ -395,18 +395,18 @@ namespace PKHeX.WinForms.Controls
             SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox, criteria);
             FinishBoxManipulation(MsgSaveBoxClearCurrentSuccess, false);
         }
-        public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
+        public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, bool reverse)
         {
             if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxSortAll, MsgSaveBoxSortAllFailBattle))
                 return;
-            SAV.SortBoxes(sortMethod: sorter);
+            SAV.SortBoxes(sortMethod: sorter, reverse: reverse);
             FinishBoxManipulation(MsgSaveBoxSortAllSuccess, true);
         }
-        public void SortCurrent(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
+        public void SortCurrent(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, bool reverse)
         {
             if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxSortCurrent, MsgSaveBoxSortCurrentFailBattle))
                 return;
-            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox, sorter);
+            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox, sorter, reverse: reverse);
             FinishBoxManipulation(MsgSaveBoxSortCurrentSuccess, false);
         }
         public void ModifyAll(Action<PKM> action)

@@ -71,10 +71,11 @@ namespace PKHeX.WinForms.Controls
 
             void Sort(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
             {
+                bool reverse = Control.ModifierKeys.HasFlag(Keys.Control);
                 if (Control.ModifierKeys.HasFlag(Keys.Shift))
-                    sav.SortAll(sorter);
+                    sav.SortAll(sorter, reverse);
                 else
-                    sav.SortCurrent(sorter);
+                    sav.SortCurrent(sorter, reverse);
             }
 
             void Modify(Action<PKM> action)

@@ -129,6 +129,19 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects in reverse.
+        /// </summary>
+        /// <param name="list">Source list to revese sort</param>
+        /// <returns>Enumerable list that is sorted</returns>
+        public static IEnumerable<PKM> ReverseSort(this IEnumerable<PKM> list)
+        {
+            int i = 0;
+            return list.InitialSortBy()
+                .ThenByDescending(z => i++)
+                .FinalSortBy();
+        }
+
+        /// <summary>
         /// Common pre-filtering of <see cref="PKM"/> data.
         /// </summary>
         /// <param name="list">Input list of <see cref="PKM"/> data.</param>
