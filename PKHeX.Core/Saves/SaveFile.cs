@@ -601,7 +601,7 @@ namespace PKHeX.Core
             Sorted.CopyTo(BD, start);
             BoxData = BD;
         }
-        public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1)
+        public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
         {
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
@@ -614,7 +614,17 @@ namespace PKHeX.Core
             {
                 int offset = GetBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
-                    SetData(blank, offset + SIZE_STORED * p);
+                {
+                    var ofs = offset + SIZE_STORED * p;
+                    if (deleteCriteria != null)
+                    {
+                        var pk = GetStoredSlot(ofs);
+                        if (!deleteCriteria(pk))
+                            continue;
+                    }
+
+                    SetData(blank, ofs);
+                }
             }
         }
         public void ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
