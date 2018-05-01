@@ -1610,7 +1610,7 @@ namespace PKHeX.WinForms.Controls
             CB_Move1.SelectedValue = 1;
             var info = new SimpleTrainerInfo{Language = Math.Max(0, WinFormsUtil.GetIndex(CB_Language))};
             if (info.Language == 0)
-                info.Language = 2;
+                info.Language = (int)LanguageID.English;
             SetDetailsOT(info);
 
             CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);

@@ -46,6 +46,9 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.SortBoxAdvanced, GetItem("Usage", "Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart));
             AddItem(Level.SortBoxAdvanced, GetItem("Training", "Training", () => Sort(list => list.OrderByCustom(pk => pk.MaxEV * 6 - pk.EVTotal)), Resources.showdown));
             AddItem(Level.SortBoxAdvanced, GetItem("Owner", "Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users));
+            AddItem(Level.SortBoxAdvanced, GetItem("Type", "Type", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)), Resources.main));
+            AddItem(Level.SortBoxAdvanced, GetItem("Version", "Version", () => Sort(list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version)), Resources.numlohi));
+            AddItem(Level.SortBoxAdvanced, GetItem("BST", "BST", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.BST)), Resources.vallohi));
             AddItem(Level.SortBoxAdvanced, GetItem("Legal", "Legal", () => Sort(list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)), Resources.export));
 
             AddItem(Level.Modify, GetItem("HatchEggs", "Hatch Eggs", () => Modify(z => z.ForceHatchPKM()), Resources.about));
