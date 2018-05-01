@@ -171,7 +171,7 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon data</param>
         /// <param name="checkGame">Toggle to check the game's version or not</param>
         /// <returns>True if OT, false if not OT.</returns>
-        private static bool IsOriginalHandler(this ITrainerInfo trainer, PKM pk, bool checkGame)
+        public static bool IsOriginalHandler(this ITrainerInfo trainer, PKM pk, bool checkGame)
         {
             if (pk.Format >= 6)
                 return pk.CurrentHandler != 1;

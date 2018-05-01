@@ -13,7 +13,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class SAVEditor : UserControl, ISortableDisplay
+    public partial class SAVEditor : UserControl
     {
         public SaveFile SAV;
         public readonly PictureBox[] SlotPictureBoxes;
@@ -381,18 +381,18 @@ namespace PKHeX.WinForms.Controls
             var pt = Tab_Box.PointToScreen(new Point(0, 0));
             SortMenu.Show(pt);
         }
-        public void ClearAll()
+        public void ClearAll(Func<PKM, bool> criteria)
         {
             if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxClearAll, MsgSaveBoxClearAllFailBattle))
                 return;
-            SAV.ClearBoxes();
+            SAV.ClearBoxes(deleteCriteria: criteria);
             FinishBoxManipulation(MsgSaveBoxClearAllSuccess, true);
         }
-        public void ClearCurrent()
+        public void ClearCurrent(Func<PKM, bool> criteria)
         {
             if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxClearCurrent, MsgSaveBoxClearCurrentFailBattle))
                 return;
-            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox);
+            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox, criteria);
             FinishBoxManipulation(MsgSaveBoxClearCurrentSuccess, false);
         }
         public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
