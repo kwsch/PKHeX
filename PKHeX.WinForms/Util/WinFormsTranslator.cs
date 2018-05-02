@@ -34,9 +34,19 @@ namespace PKHeX.WinForms
             foreach (var c in translatable)
             {
                 if (c is Control r)
-                    r.Text = context.GetTranslatedText($"{formname}.{r.Name}", r.Text);
+                {
+                    var current = r.Text;
+                    var updated = context.GetTranslatedText($"{formname}.{r.Name}", current);
+                    if (!ReferenceEquals(current, updated))
+                        r.Text = updated;
+                }
                 else if (c is ToolStripItem t)
-                    t.Text = context.GetTranslatedText($"{formname}.{t.Name}", t.Text);
+                {
+                    var current = t.Text;
+                    var updated = context.GetTranslatedText($"{formname}.{t.Name}", current);
+                    if (!ReferenceEquals(current, updated))
+                        t.Text = updated;
+                }
             }
             form.ResumeLayout();
         }
