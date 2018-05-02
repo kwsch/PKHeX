@@ -31,7 +31,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             AddItem(Level.Delete, GetItem("All", "Clear", () => Clear(), Resources.nocheck));
-            AddItem(Level.Delete, GetItem("Eggs", "Eggs", () => Clear(pk => pk.IsEgg), Resources.about));
+            AddItem(Level.Delete, GetItem("Eggs", "Eggs", () => Clear(pk => Control.ModifierKeys == Keys.Control != pk.IsEgg), Resources.about));
             AddItem(Level.Delete, GetItem("Foreign", "Foreign", () => Clear(pk => !sav.SAV.IsOriginalHandler(pk, pk.Format > 2)), Resources.users));
             AddItem(Level.Delete, GetItem("Untrained", "Untrained", () => Clear(pk => pk.EVTotal == 0), Resources.gift));
             AddItem(Level.Delete, GetItem("Itemless", "No Held Item", () => Clear(pk => pk.HeldItem == 0), Resources.main));
@@ -43,7 +43,8 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.SortBox, GetItem("LevelRev", "Level (High to Low)", () => Sort(PKMSorting.OrderByDescendingLevel), Resources.valhilo));
             AddItem(Level.SortBox, GetItem("Date", "Met Date", () => Sort(PKMSorting.OrderByDateObtained), Resources.date));
             AddItem(Level.SortBox, GetItem("Name", "Species Name", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species)), Resources.alphaAZ));
-            AddItem(Level.SortBox, GetItem("Random", "Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.showdown));
+            AddItem(Level.SortBox, GetItem("Shiny", "Shiny", () => Sort(list => list.OrderByCustom(pk => !pk.IsShiny)), Resources.showdown));
+            AddItem(Level.SortBox, GetItem("Random", "Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.wand));
 
             AddItem(Level.SortBoxAdvanced, GetItem("Usage", "Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart));
             AddItem(Level.SortBoxAdvanced, GetItem("Potential", "IV Potential", () => Sort(list => list.OrderByCustom(pk => pk.MaxIV * 6 - pk.IVTotal)), Resources.numhilo));
