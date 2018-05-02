@@ -552,6 +552,29 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Maximizes the <see cref="PKM.CurrentFriendship"/>. If the <see cref="PKM.IsEgg"/>, the hatch counter is set to 1.
+        /// </summary>
+        /// <param name="pkm">PKM to apply hatch details to</param>
+        public static void MaximizeFriendship(this PKM pkm)
+        {
+            if (pkm.IsEgg)
+                pkm.OT_Friendship = 1;
+            else
+                pkm.CurrentFriendship = byte.MaxValue;
+        }
+
+        /// <summary>
+        /// Maximizes the <see cref="PKM.CurrentLevel"/>. If the <see cref="PKM.IsEgg"/>, the <see cref="PKM"/> is ignored.
+        /// </summary>
+        /// <param name="pkm">PKM to apply hatch details to</param>
+        public static void MaximizeLevel(this PKM pkm)
+        {
+            if (pkm.IsEgg)
+                return;
+            pkm.CurrentLevel = 100;
+        }
+
+        /// <summary>
         /// Sets the Memory details to a Hatched Egg's memories.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>

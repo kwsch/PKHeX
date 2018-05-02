@@ -14,7 +14,7 @@ namespace PKHeX.WinForms.Controls
             var sortMenu = new ContextMenuStrip();
             foreach (Level z in Enum.GetValues(typeof(Level)))
             {
-                var ctrl = new ToolStripMenuItem(z.ToString(), GetImage(z));
+                var ctrl = new ToolStripMenuItem {Name = $"mnu_{z}", Text = z.ToString(), Image = GetImage(z)};
                 sortMenu.Items.Add(ctrl);
             }
 
@@ -34,6 +34,8 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.Delete, GetItem("Eggs", "Eggs", () => Clear(pk => pk.IsEgg), Resources.about));
             AddItem(Level.Delete, GetItem("Foreign", "Foreign", () => Clear(pk => !sav.SAV.IsOriginalHandler(pk, pk.Format > 2)), Resources.users));
             AddItem(Level.Delete, GetItem("Untrained", "Untrained", () => Clear(pk => pk.EVTotal == 0), Resources.gift));
+            AddItem(Level.Delete, GetItem("Itemless", "No Held Item", () => Clear(pk => pk.HeldItem == 0), Resources.main));
+            AddItem(Level.Delete, GetItem("Illegal", "Illegal", () => Clear(pk => Control.ModifierKeys == Keys.Control != !new LegalityAnalysis(pk).Valid), Resources.export));
 
             AddItem(Level.SortBox, GetItem("Species", "Pokédex No.", () => Sort(PKMSorting.OrderBySpecies), Resources.numlohi));
             AddItem(Level.SortBox, GetItem("SpeciesRev", "Pokédex No. (Reverse)", () => Sort(PKMSorting.OrderByDescendingSpecies), Resources.numhilo));
@@ -44,20 +46,23 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.SortBox, GetItem("Random", "Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.showdown));
 
             AddItem(Level.SortBoxAdvanced, GetItem("Usage", "Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart));
-            AddItem(Level.SortBoxAdvanced, GetItem("Training", "Training", () => Sort(list => list.OrderByCustom(pk => pk.MaxEV * 6 - pk.EVTotal)), Resources.showdown));
+            AddItem(Level.SortBoxAdvanced, GetItem("Potential", "IV Potential", () => Sort(list => list.OrderByCustom(pk => pk.MaxIV * 6 - pk.IVTotal)), Resources.numhilo));
+            AddItem(Level.SortBoxAdvanced, GetItem("Training", "EV Training", () => Sort(list => list.OrderByCustom(pk => pk.MaxEV * 6 - pk.EVTotal)), Resources.showdown));
             AddItem(Level.SortBoxAdvanced, GetItem("Owner", "Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users));
             AddItem(Level.SortBoxAdvanced, GetItem("Type", "Type", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)), Resources.main));
             AddItem(Level.SortBoxAdvanced, GetItem("Version", "Version", () => Sort(list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version)), Resources.numlohi));
-            AddItem(Level.SortBoxAdvanced, GetItem("BST", "BST", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.BST)), Resources.vallohi));
+            AddItem(Level.SortBoxAdvanced, GetItem("BST", "Base Stat Total", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.BST)), Resources.vallohi));
             AddItem(Level.SortBoxAdvanced, GetItem("Legal", "Legal", () => Sort(list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)), Resources.export));
 
             AddItem(Level.Modify, GetItem("HatchEggs", "Hatch Eggs", () => Modify(z => z.ForceHatchPKM()), Resources.about));
-            AddItem(Level.Modify, GetItem("MaxFriendship", "Max Friendship", () => Modify(z => z.CurrentFriendship = byte.MaxValue), Resources.heart));
+            AddItem(Level.Modify, GetItem("MaxFriendship", "Max Friendship", () => Modify(z => z.MaximizeFriendship()), Resources.heart));
+            AddItem(Level.Modify, GetItem("MaxLevel", "Max Level", () => Modify(z => z.MaximizeLevel()), Resources.showdown));
+            AddItem(Level.Modify, GetItem("RemoveItem", "Delete Held Item", () => Modify(z => z.HeldItem = 0), Resources.gift));
 
             void AddItem(Level v, ToolStripItem t)
             {
                 var item = (ToolStripMenuItem)sortMenu.Items[(int) v];
-                t.Name = $"mnu_{v}{t.Name}";
+                t.Name = $"{item.Name}{t.Name}";
                 item.DropDownItems.Add(t);
             }
 
