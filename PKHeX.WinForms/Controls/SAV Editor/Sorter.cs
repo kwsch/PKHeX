@@ -32,6 +32,7 @@ namespace PKHeX.WinForms.Controls
 
             AddItem(Level.Delete, GetItem("All", "Clear", () => Clear(), Resources.nocheck));
             AddItem(Level.Delete, GetItem("Eggs", "Eggs", () => Clear(pk => Control.ModifierKeys == Keys.Control != pk.IsEgg), Resources.about));
+            AddItem(Level.Delete, GetItem("PastGen", "Past Generation", () => Clear(pk => pk.GenNumber != sav.SAV.Generation), Resources.bak));
             AddItem(Level.Delete, GetItem("Foreign", "Foreign", () => Clear(pk => !sav.SAV.IsOriginalHandler(pk, pk.Format > 2)), Resources.users));
             AddItem(Level.Delete, GetItem("Untrained", "Untrained", () => Clear(pk => pk.EVTotal == 0), Resources.gift));
             AddItem(Level.Delete, GetItem("Itemless", "No Held Item", () => Clear(pk => pk.HeldItem == 0), Resources.main));
