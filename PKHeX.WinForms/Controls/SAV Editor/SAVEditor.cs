@@ -373,9 +373,9 @@ namespace PKHeX.WinForms.Controls
             if (!e.Button.HasFlag(MouseButtons.Right))
             {
                 if (ModifierKeys.HasFlag(Keys.Alt))
-                    SortMenu.Items[0].PerformClick(); // Clear
+                    ((ToolStripMenuItem)SortMenu.Items[0]).DropDownItems[0].PerformClick(); // Clear
                 else if (ModifierKeys.HasFlag(Keys.Control))
-                    SortMenu.Items[1].PerformClick(); // Sort
+                    ((ToolStripMenuItem)SortMenu.Items[1]).DropDownItems[0].PerformClick(); // Sort
                 return;
             }
             var pt = Tab_Box.PointToScreen(new Point(0, 0));
