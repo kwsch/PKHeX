@@ -37,7 +37,15 @@ namespace PKHeX.WinForms.Controls
         public void LoadIDValues(ITrainerID tr)
         {
             Trainer = tr;
-            int format = tr is PKM p ? p.GenNumber : tr is SaveFile s ? s.Generation : -1;
+            int format;
+            if (tr is PKM p)
+            {
+                format = p.GenNumber;
+                if (format < 3 && p.Format >= 7) // VC
+                    format = 4; // use TID/SID 16bit style
+            }
+            else
+                format = tr is SaveFile s ? s.Generation : -1;
             SetFormat(format);
             LoadValues();
         }
