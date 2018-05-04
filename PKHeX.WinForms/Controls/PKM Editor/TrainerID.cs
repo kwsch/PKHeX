@@ -20,6 +20,11 @@ namespace PKHeX.WinForms.Controls
             if (tsv < 0)
                 return;
             string IDstr = $"TSV: {tsv:d4}";
+            var repack = Trainer.SID * 1_000_000 + Trainer.TID;
+            string supplement = Format < 7
+                ? $"G7ID: ({repack / 1_000_000:D4}){repack % 1_000_000:D6}"
+                : $"ID: {Trainer.TID:D5}/{Trainer.SID:D5}";
+            IDstr += Environment.NewLine + supplement;
             TSVTooltip.SetToolTip(TB_TID, IDstr);
             TSVTooltip.SetToolTip(TB_SID, IDstr);
             TSVTooltip.SetToolTip(TB_TID7, IDstr);
