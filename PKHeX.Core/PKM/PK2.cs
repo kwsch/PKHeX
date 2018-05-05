@@ -6,18 +6,17 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
-    public class PK2 : PKM
+    public sealed class PK2 : PKM
     {
-        // Internal use only
-        protected internal byte[] otname;
-        protected internal byte[] nick;
+        internal byte[] otname;
+        internal byte[] nick;
         public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
         public override bool Valid => Species <= 252;
 
-        public sealed override int SIZE_PARTY => PKX.SIZE_2PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_2PARTY;
         public override int SIZE_STORED => PKX.SIZE_2STORED;
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;
@@ -34,8 +33,8 @@ namespace PKHeX.Core
         private byte[] SetString(string value, int maxLength)
         {
             if (Korean)
-                return StringConverter.SetString2KOR(value, maxLength);
-            return StringConverter.SetString1(value, maxLength, Japanese);
+                return StringConverter.SetString2KOR(value, maxLength - 1);
+            return StringConverter.SetString1(value, maxLength - 1, Japanese);
         }
 
         // Trash Bytes
@@ -57,7 +56,7 @@ namespace PKHeX.Core
 
         public PK2(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
@@ -66,14 +65,12 @@ namespace PKHeX.Core
             nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
         }
 
-        public override PKM Clone()
+        public override PKM Clone() => new PK2((byte[])Data.Clone(), Identifier, Japanese)
         {
-            PK2 new_pk2 = new PK2(Data, Identifier, Japanese);
-            Array.Copy(otname, 0, new_pk2.otname, 0, otname.Length);
-            Array.Copy(nick, 0, new_pk2.nick, 0, nick.Length);
-            new_pk2.IsEgg = IsEgg;
-            return new_pk2;
-        }
+            otname = (byte[])otname.Clone(),
+            nick = (byte[])nick.Clone(),
+            IsEgg = IsEgg,
+        };
         public override string Nickname
         {
             get
@@ -84,7 +81,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (!IsNicknamed)
+                if (!IsNicknamed && Nickname == value)
                     return;
 
                 byte[] strdata = SetString(value, StringLength);
@@ -349,7 +346,7 @@ namespace PKHeX.Core
         public override int PSV => 0xFFFF;
         public override int Characteristic => -1;
         public override int MarkValue { get => 0; protected set { } }
-        public override int Ability { get => 0; set { } }
+        public override int Ability { get => -1; set { } }
         public override int CurrentHandler { get => 0; set { } }
         public override int Egg_Location { get => 0; set { } }
         public override int OT_Friendship { get => 0; set { } }
@@ -477,6 +474,18 @@ namespace PKHeX.Core
             pk7.OT_Gender = OT_Gender; // Crystal
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+
+            // Dizzy Punch cannot be transferred
+            {
+                var moves = pk7.Moves;
+                var index = Array.IndexOf(moves, 146); // Dizzy Punch
+                if (index != -1)
+                {
+                    moves[index] = 0;
+                    pk7.Moves = moves;
+                    pk7.FixMoves();
+                }
+            }
 
             pk7.RefreshChecksum();
             return pk7;

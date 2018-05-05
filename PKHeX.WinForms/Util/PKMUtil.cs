@@ -21,14 +21,10 @@ namespace PKHeX.WinForms
         {
             switch (Game)
             {
-                default:
-                    return 0;
-                case GameVersion.FR: // Attack
-                    return 1;
-                case GameVersion.LG: // Defense
-                    return 2;
-                case GameVersion.E: // Speed
-                    return 3;
+                default: return 0; 
+                case GameVersion.FR: return 1; // Attack
+                case GameVersion.LG: return 2; // Defense
+                case GameVersion.E:  return 3; // Speed
             }
         }
 
@@ -45,20 +41,26 @@ namespace PKHeX.WinForms
             if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
                 form = GetDeoxysForm();
 
-            string file = PKX.GetResourceStringSprite(species, form, gender, generation);
+            string file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
 
             // Redrawing logic
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
             if (FormConverter.IsTotemForm(species, form))
             {
                 form = FormConverter.GetTotemBaseForm(species, form);
-                file = PKX.GetResourceStringSprite(species, form, gender, generation);
+                file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
                 baseImage = (Image)Resources.ResourceManager.GetObject(file);
                 baseImage = ImageUtil.ToGrayscale(baseImage);
             }
             if (baseImage == null)
             {
-                baseImage = (Image) Resources.ResourceManager.GetObject($"_{species}");
+                if (shiny) // try again without shiny
+                {
+                    file = PKX.GetResourceStringSprite(species, form, gender, generation);
+                    baseImage = (Image)Resources.ResourceManager.GetObject(file);
+                }
+                if (baseImage == null)
+                    baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
                 baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
             }
             if (isegg)
@@ -94,8 +96,10 @@ namespace PKHeX.WinForms
         {
             return Resources.ResourceManager.GetObject(name.Replace("CountG3", "G3").ToLower()) as Image;
         }
-        public static Image GetTypeSprite(int type)
+        public static Image GetTypeSprite(int type, int generation = PKX.Generation)
         {
+            if (generation <= 2)
+                type = (int)((MoveType)type).GetMoveTypeGeneration(generation);
             return Resources.ResourceManager.GetObject($"type_icon_{type:00}") as Image;
         }
 

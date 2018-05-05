@@ -31,6 +31,7 @@ namespace PKHeX.Tests.Legality
                 folder = Directory.GetParent(folder).FullName;
 
             folder = Path.Combine(folder, "Legality");
+            Legal.AllowGBCartEra = true;
             VerifyAll(folder, "Legal", true);
             VerifyAll(folder, "Illegal", false);
         }
@@ -48,7 +49,7 @@ namespace PKHeX.Tests.Legality
                 Assert.IsTrue(PKX.IsPKM(fi.Length), $"Invalid file in {fi.Directory.Name} folder.");
 
                 var data = File.ReadAllBytes(file);
-                var format = file[file.Length - 1] - '0';
+                var format = PKX.GetPKMFormatFromExtension(file[file.Length - 1], -1);
                 if (format > 10)
                     format = 6;
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);

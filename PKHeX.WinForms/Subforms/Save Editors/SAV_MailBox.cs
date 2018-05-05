@@ -13,11 +13,12 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_MailBox(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (Origin = sav).Clone();
             Gen = SAV.Generation;
             p = SAV.PartyData;
             editing = true;
-            InitializeComponent();
 
             Messages = new[]
             {

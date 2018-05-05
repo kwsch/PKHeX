@@ -6,25 +6,24 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
-    public class PK1 : PKM
+    public sealed class PK1 : PKM
     {
-        // Internal use only
-        protected internal byte[] otname;
-        protected internal byte[] nick;
+        internal byte[] otname;
+        internal byte[] nick;
         public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
         public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
-        public sealed override int SIZE_PARTY => PKX.SIZE_1PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_1PARTY;
         public override int SIZE_STORED => PKX.SIZE_1STORED;
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
 
         private string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength, Japanese);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength - 1, Japanese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }
@@ -35,11 +34,18 @@ namespace PKHeX.Core
         public override bool Japanese => otname.Length == STRLEN_J;
         public override bool Korean => false;
 
-        public override string FileName => $"{Species:000} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
+        public override string FileName
+        {
+            get
+            {
+                string star = IsShiny ? " ★" : "";
+                return $"{Species:000}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
+            }
+        }
 
         public PK1(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
@@ -48,19 +54,17 @@ namespace PKHeX.Core
             nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
         }
 
-        public override PKM Clone()
+        public override PKM Clone() => new PK1((byte[])Data.Clone(), Identifier, Japanese)
         {
-            PK1 new_pk1 = new PK1(Data, Identifier, Japanese);
-            Array.Copy(otname, 0, new_pk1.otname, 0, otname.Length);
-            Array.Copy(nick, 0, new_pk1.nick, 0, nick.Length);
-            return new_pk1;
-        }
+            otname = (byte[])otname.Clone(),
+            nick = (byte[])nick.Clone(),
+        };
         public override string Nickname
         {
             get => StringConverter.GetString1(nick, 0, nick.Length, Japanese);
             set
             {
-                if (!IsNicknamed)
+                if (!IsNicknamed && Nickname == value)
                     return;
 
                 byte[] strdata = SetString(value, StringLength);
@@ -154,23 +158,25 @@ namespace PKHeX.Core
 
 
         #region Stored Attributes
+        public int SpeciesID1 { get => Data[0]; set => Data[0] = (byte)value; } // raw access
         public override int Species
         {
-            get => SpeciesConverter.GetG1Species(Data[0]);
+            get => SpeciesConverter.GetG1Species(SpeciesID1);
             set
             {
-                Data[0] = (byte)SpeciesConverter.SetG1Species(value);
+                SpeciesID1 = (byte)SpeciesConverter.SetG1Species(value);
 
                 // Before updating catch rate, check if non-standard
                 if (TradebackStatus != TradebackType.WasTradeback && !CatchRateIsItem && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
                 {
                     int baseSpecies = Legal.GetBaseSpecies(this);
                     int Rate = Catch_Rate;
-                    if (Enumerable.Range(baseSpecies, value).All(z => Rate != PersonalTable.RB[z].CatchRate))
+                    int count = value - baseSpecies + 1;
+                    if (Enumerable.Range(baseSpecies, count).All(z => Rate != PersonalTable.RB[z].CatchRate))
                         Catch_Rate = PersonalTable.RB[value].CatchRate;
                 }
-                Type_A = PersonalInfo.Types[0];
-                Type_B = PersonalInfo.Types[1];
+                Type_A = PersonalInfo.Type1;
+                Type_B = PersonalInfo.Type2;
             }
         }
 
@@ -268,7 +274,7 @@ namespace PKHeX.Core
         public override int Characteristic => -1;
         public override int MarkValue { get => 0; protected set { } }
         public override int CurrentFriendship { get => 0; set { } }
-        public override int Ability { get => 0; set { } }
+        public override int Ability { get => -1; set { } }
         public override int CurrentHandler { get => 0; set { } }
         public override int Met_Location { get => 0; set { } }
         public override int Egg_Location { get => 0; set { } }
@@ -442,18 +448,6 @@ namespace PKHeX.Core
             }
             
             pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
-
-            if (pk7.Species == 150) // Pay Day Mewtwo
-            {
-                var moves = pk7.Moves;
-                var index = Array.IndexOf(moves, 6);
-                if (index != -1)
-                {
-                    moves[index] = 0;
-                    pk7.Moves = moves;
-                    pk7.FixMoves();
-                }
-            }
             
             pk7.RefreshChecksum();
             return pk7;

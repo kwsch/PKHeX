@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
-    public class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7
+    public sealed class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -12,20 +12,20 @@ namespace PKHeX.Core
             // 0x36, 0x37, // Unused Ribbons
             0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
         public PK7(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new PK7(Data);
+        public override PKM Clone() => new PK7((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);
@@ -78,7 +78,7 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x10);
         }
         public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
-        public override int AbilityNumber { get => Data[0x15]; set => Data[0x15] = (byte)value; }
+        public override int AbilityNumber { get => Data[0x15] & 7; set => Data[0x15] = (byte)(Data[0x15] & ~7 | value & 7); }
         public override int MarkValue { get => BitConverter.ToUInt16(Data, 0x16); protected set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); }
         public override uint PID
         {
@@ -226,7 +226,7 @@ namespace PKHeX.Core
             {
                 if (!IsNicknamed)
                 {
-                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7);
+                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7, Language);
                     if (lang == 9 || lang == 10)
                     {
                         StringConverter.SetString7(value, 12, lang, chinese: true).CopyTo(Data, 0x40);
@@ -364,7 +364,11 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
+        public int Status { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
+        public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
+        public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
+        // 0xEF unused
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0xF0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0xF2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); }
         public override int Stat_ATK { get => BitConverter.ToUInt16(Data, 0xF4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF4); }
@@ -403,7 +407,8 @@ namespace PKHeX.Core
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
-        
+        public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
+
         // Complex Generated Attributes
         public override int Characteristic
         {
@@ -491,7 +496,7 @@ namespace PKHeX.Core
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)
-                OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
             Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
             Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;
@@ -543,7 +548,7 @@ namespace PKHeX.Core
         {
             // Eggs do not have any modifications done if they are traded
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-                UpdateEgg(Day, Month, Year);
+                SetLinkTradeEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
             else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
                 TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
@@ -579,35 +584,9 @@ namespace PKHeX.Core
                 TradeMemory(Bank);
         }
         // Misc Updates
-        private void UpdateEgg(int Day, int Month, int Year)
-        {
-            Met_Location = 30002;
-            Met_Day = Day;
-            Met_Month = Month;
-            Met_Year = Year - 2000;
-        }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
-            return; // No geolocations are set, ever! -- except for bank. Don't set them anyway.
-            //// Allow the method to abort if the values are invalid
-            //if (GeoCountry < 0 || GeoRegion < 0)
-            //    return;
-            //
-            //// Trickle down
-            //Geo5_Country = Geo4_Country;
-            //Geo5_Region = Geo4_Region;
-            //
-            //Geo4_Country = Geo3_Country;
-            //Geo4_Region = Geo3_Region;
-            //
-            //Geo3_Country = Geo2_Country;
-            //Geo3_Region = Geo2_Region;
-            //
-            //Geo2_Country = Geo1_Country;
-            //Geo2_Region = Geo1_Region;
-            //
-            //Geo1_Country = GeoCountry;
-            //Geo1_Region = GeoRegion;
+            // No geolocations are set, ever! -- except for bank. Don't set them anyway.
         }
         public void TradeMemory(bool Bank)
         {
@@ -617,7 +596,7 @@ namespace PKHeX.Core
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = 0; // Somewhere (Bank)
             HT_Intensity = 1;
-            HT_Feeling = Util.Rand.Next(0, 9); // 0-9 Bank
+            HT_Feeling = Legal.GetRandomFeeling(HT_Memory, 10); // 0-9 Bank
         }
 
         // Legality Properties

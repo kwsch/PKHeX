@@ -13,6 +13,7 @@ namespace PKHeX.WinForms
         public SAV_EventReset1(SaveFile sav)
         {
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             Overworld = new G1OverworldSpawner((SAV1)sav);
 
             InitializeButtons();

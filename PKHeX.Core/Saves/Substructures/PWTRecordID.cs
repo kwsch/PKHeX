@@ -1,0 +1,35 @@
+﻿namespace PKHeX.Core
+{
+    public enum PWTRecordID
+    {
+        Normal,
+        Fighting,
+        Flying,
+        Poison,
+        Ground,
+        Rock,
+        Bug,
+        Ghost,
+        Steel,
+        Fire,
+        Water,
+        Grass,
+        Electric,
+        Psychic,
+        Ice,
+        Dragon,
+        Dark,
+        Champion,
+        Driftveil,
+        Unova,
+        Kanto,
+        Johto,
+        Hoenn,
+        Sinnoh,
+        World,
+        Rental,
+        RentalMaster,
+        Mix,
+        MixMaster
+    }
+}

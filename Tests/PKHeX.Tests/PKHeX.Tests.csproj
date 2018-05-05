@@ -73,7 +73,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Legality\LegalityTests.cs" />
-    <Compile Include="PKM\DateTestPKM.cs" />
     <Compile Include="PKM\PIDIVTests.cs" />
     <Compile Include="PKM\PKMTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +83,7 @@
     </Compile>
     <Compile Include="Saves\MemeCrypto\MemeCryptoTests.cs" />
     <Compile Include="Saves\SMTests.cs" />
+    <Compile Include="Simulator\ShowdownSetTests.cs" />
     <Compile Include="Util\DataUtilTests.cs" />
     <Compile Include="Util\DateUtilTests.cs" />
   </ItemGroup>

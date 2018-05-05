@@ -22,20 +22,22 @@ namespace PKHeX.Core
         public int OT_Gender { get; set; } = 3;
         public override int TID { get; set; }
         public override int SID { get; set; }
-        public int Met_Location { get; internal set; } = 255;
+        public override int Location { get; set; } = 255;
+        public override int EggLocation { get => 0; set {} }
         public int Version { get; set; }
         public int Language { get; set; } = -1;
         public override int Species { get; set; }
         public override bool IsEgg { get; set; }
         public override int[] Moves { get; set; } = new int[0];
         public bool NotDistributed { get; set; }
-        public bool? Shiny { get; set; } // null = allow, false = never, true = always
+        public Shiny Shiny { get; set; } = Shiny.Random;
         public bool Fateful { get; set; } // Obedience Flag
 
         // Mystery Gift Properties
         public override int Format => 3;
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
+        public override bool IsShiny => Shiny == Shiny.Always;
 
         // Description
         public override string CardTitle { get; set; } = "Generation 3 Event";
@@ -59,14 +61,13 @@ namespace PKHeX.Core
             set => _metLevel = value;
         }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
-            var pi = SAV.Personal.GetFormeEntry(Species, 0);
             PK3 pk = new PK3
             {
                 Species = Species,
                 Met_Level = Met_Level,
-                Met_Location = Met_Location,
+                Met_Location = Location,
                 Ball = 4,
 
                 EXP = PKX.GetEXP(Level, Species),
@@ -81,6 +82,7 @@ namespace PKHeX.Core
 
                 FatefulEncounter = Fateful,
             };
+            var pi = pk.PersonalInfo;
 
             if (Version == 0)
             {
@@ -158,10 +160,7 @@ namespace PKHeX.Core
             }
 
             pk.Moves = Moves;
-            pk.Move1_PP = pk.GetMovePP(Moves[0], 0);
-            pk.Move2_PP = pk.GetMovePP(Moves[1], 0);
-            pk.Move3_PP = pk.GetMovePP(Moves[2], 0);
-            pk.Move4_PP = pk.GetMovePP(Moves[3], 0);
+            pk.SetMaximumPPCurrent(Moves);
             pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
             pk.RefreshChecksum();
             return pk;
@@ -171,7 +170,7 @@ namespace PKHeX.Core
         {
             if (supplied >= 1)
                 return supplied;
-            if (hatchLang < 0)
+            if (hatchLang < 0 || hatchLang > 8) // ko
                 return 2;
             return hatchLang;
         }
@@ -180,13 +179,13 @@ namespace PKHeX.Core
             if (version <= 15 && version > 0) // single game
                 return version;
 
-            int rand = Util.Rand.Next(1);
+            int rand = Util.Rand.Next(2); // 0 or 1
             switch (version)
             {
                 case (int)GameVersion.FRLG:
                     return (int)GameVersion.FR + rand; // or LG
                 case (int)GameVersion.RS:
-                    return (int)GameVersion.R + rand; // or S
+                    return (int)GameVersion.S + rand; // or R
                 default:
                     throw new Exception($"Unknown GameVersion: {version}");
             }

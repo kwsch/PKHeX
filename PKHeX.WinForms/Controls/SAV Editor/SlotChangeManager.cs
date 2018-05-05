@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -14,19 +13,20 @@ namespace PKHeX.WinForms.Controls
     /// <summary>
     /// Manager class for moving slots.
     /// </summary>
-    public class SlotChangeManager : IDisposable
+    public sealed class SlotChangeManager : IDisposable
     {
         // Disposeables
         public readonly SAVEditor SE;
         private Image OriginalBackground;
         private Image CurrentBackground;
-        public Image colorizedcolor;
+
+        public Image ColorizedColor { get; private set; }
+        public int ColorizedBox { get; private set; } = -1;
+        public int ColorizedSlot { get; private set; } = -1;
 
         private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
-        public int colorizedbox = -1;
-        public int colorizedslot = -1;
         public event DragEventHandler RequestExternalDragDrop;
 
         public SlotChangeManager(SAVEditor se)
@@ -34,12 +34,12 @@ namespace PKHeX.WinForms.Controls
             SE = se;
             Reset();
         }
-        public void Reset() { DragInfo = new SlotChangeInfo(SAV); colorizedbox = colorizedslot = -1; }
+        public void Reset() { DragInfo = new SlotChangeInfo(SAV); ColorizedBox = ColorizedSlot = -1; }
         public bool DragActive => DragInfo.DragDropInProgress || !DragInfo.LeftMouseIsDown;
         public void SetCursor(Cursor z, object sender)
         {
             if (SE != null)
-                DragInfo.Cursor = (sender as Control).FindForm().Cursor = z;
+                DragInfo.Cursor = ((Control)sender).FindForm().Cursor = z;
         }
         public void MouseEnter(object sender, EventArgs e)
         {
@@ -234,8 +234,9 @@ namespace PKHeX.WinForms.Controls
 
             byte[] data = File.ReadAllBytes(file);
             MysteryGift mg = MysteryGift.GetMysteryGift(data, fi.Extension);
-            PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data,
-                           prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - '0') & 0xF : SAV.Generation);
+            if (fi.Extension.Length > 0 || !int.TryParse(fi.Extension[fi.Extension.Length - 1].ToString(), out var prefer))
+                prefer = SAV.Generation;
+            PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data, prefer: prefer);
 
             PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
             if (pk == null)
@@ -305,16 +306,25 @@ namespace PKHeX.WinForms.Controls
         public void SetColor(int box, int slot, Image img)
         {
             // Update SubViews
-            foreach (var boxview in Boxes)
+            for (int b = 0; b < Boxes.Count; b++)
             {
-                if (boxview.CurrentBox != box && boxview.SlotPictureBoxes.Count == boxview.BoxSlotCount) continue;
+                var boxview = Boxes[b];
+                if (boxview.CurrentBox != box)
+                {
+                    if (b > 0 || slot < 30)
+                    {
+                        foreach (var s in boxview.SlotPictureBoxes)
+                            s.BackgroundImage = null;
+                        continue;
+                    }
+                }
                 var slots = boxview.SlotPictureBoxes;
                 for (int i = 0; i < slots.Count; i++)
                     slots[i].BackgroundImage = slot == i ? img : null;
             }
-            colorizedbox = box;
-            colorizedslot = slot;
-            colorizedcolor = img;
+            ColorizedBox = box;
+            ColorizedSlot = slot;
+            ColorizedColor = img;
         }
 
         // PKM Get Set
@@ -385,13 +395,24 @@ namespace PKHeX.WinForms.Controls
                 }
             }
 
-            if (pk.Stat_HPMax == 0) // Without Stats (Box)
-            {
-                pk.SetStats(pk.GetStats(SAV.Personal.GetFormeEntry(pk.Species, pk.AltForm)));
-                pk.Stat_Level = pk.CurrentLevel;
-            }
             SAV.SetPartySlot(pk, o);
             SE.SetParty();
+        }
+
+        // Utility
+        public void SwapBoxes(int index, int other)
+        {
+            if (index == other)
+                return;
+            SAV.SwapBox(index, other);
+
+            foreach (var box in Boxes)
+            {
+                if (box.CurrentBox != index && box.CurrentBox != other)
+                    continue;
+                box.ResetSlots();
+                box.ResetBoxNames(box.CurrentBox);
+            }
         }
 
         public void Dispose()
@@ -399,7 +420,7 @@ namespace PKHeX.WinForms.Controls
             SE?.Dispose();
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
-            colorizedcolor?.Dispose();
+            ColorizedColor?.Dispose();
         }
     }
 }

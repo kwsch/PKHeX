@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
-    public abstract class SaveFile
+    public abstract class SaveFile : ITrainerInfo
     {
         public static bool SetUpdateDex { protected get; set; } = true;
         public static bool SetUpdatePKM { protected get; set; } = true;
@@ -25,8 +25,8 @@ namespace PKHeX.Core
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public byte[] Header { protected get; set; } = new byte[0]; // .gci
         public bool Japanese { get; protected set; }
-        protected string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
-        public virtual bool IndeterminateGame => false;
+        protected virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
+        public bool IndeterminateGame => Version == GameVersion.Unknown;
         public virtual bool IndeterminateSubVersion => false;
         public abstract string Extension { get; }
         public virtual string[] PKMExtensions => PKM.Extensions.Where(f => 
@@ -110,6 +110,7 @@ namespace PKHeX.Core
         public bool HasDaycare => Daycare > -1;
         public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
+        public virtual bool HasNamableBoxes => HasBoxWallpapers;
         public virtual bool HasSUBE => SUBE > -1 && !ORAS;
         public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
@@ -129,7 +130,7 @@ namespace PKHeX.Core
         public virtual int MaxShadowID => 0;
 
         // Offsets
-        protected virtual int Box { get; set; } = int.MinValue;
+        protected int Box { get; set; } = int.MinValue;
         protected int Party { get; set; } = int.MinValue;
         protected int Trainer1 { get; set; } = int.MinValue;
         protected int Daycare { get; set; } = int.MinValue;
@@ -169,8 +170,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
                 if (value.Count != BoxCount*BoxSlotCount)
                     throw new ArgumentException($"Expected {BoxCount*BoxSlotCount}, got {value.Count}");
                 if (value.Any(pk => PKMType != pk.GetType()))
@@ -191,8 +190,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException();
                 if (value.Count == 0 || value.Count > 6)
                     throw new ArgumentException($"Expected 1-6, got {value.Count}");
                 if (value.Any(pk => PKMType != pk.GetType()))
@@ -365,8 +362,8 @@ namespace PKHeX.Core
         public virtual int Gender { get; set; }
         public virtual int Language { get => -1; set { } }
         public virtual int Game { get => -1; set { } }
-        public virtual ushort TID { get; set; }
-        public virtual ushort SID { get; set; }
+        public virtual int TID { get; set; }
+        public virtual int SID { get; set; }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public virtual string OT { get; set; } = "PKHeX";
         public virtual int PlayedHours { get; set; }
@@ -499,7 +496,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected virtual int GetBoxWallpaperOffset(int box) { return -1; }
+        protected virtual int GetBoxWallpaperOffset(int box) => -1;
         public virtual int GetBoxWallpaper(int box)
         {
             int offset = GetBoxWallpaperOffset(box);
@@ -591,34 +588,61 @@ namespace PKHeX.Core
         }
         public virtual bool IsSlotInBattleTeam(int box, int slot) => false;
 
-        public void SortBoxes(int BoxStart = 0, int BoxEnd = -1)
+        public void SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
         {
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
             var Section = BD.Skip(start);
-            if (BoxEnd > BoxStart)
-                Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart));
+            if (BoxEnd >= BoxStart)
+                Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
-            var Sorted = PKX.SortPKMs(Section);
+            var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
+            if (reverse)
+                Sorted = Sorted.ReverseSort();
 
             Sorted.CopyTo(BD, start);
             BoxData = BD;
         }
-        public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1)
+        public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
         {
             if (BoxEnd < 0)
-                BoxEnd = BoxCount;
+                BoxEnd = BoxCount - 1;
 
             var blank = BlankPKM.EncryptedBoxData;
             if (this is SAV3RSBox)
                 Array.Resize(ref blank, blank.Length + 4); // 00000 TID/SID at end
 
-            for (int i = BoxStart; i < BoxEnd; i++)
+            for (int i = BoxStart; i <= BoxEnd; i++)
             {
                 int offset = GetBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
-                    SetData(blank, offset + SIZE_STORED * p);
+                {
+                    var ofs = offset + SIZE_STORED * p;
+                    if (deleteCriteria != null)
+                    {
+                        var pk = GetStoredSlot(ofs);
+                        if (!deleteCriteria(pk))
+                            continue;
+                    }
+
+                    SetData(blank, ofs);
+                }
             }
+        }
+        public void ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
+        {
+            if (BoxEnd < 0)
+                BoxEnd = BoxCount - 1;
+            var BD = BoxData;
+            for (int b = BoxStart; b <= BoxEnd; b++)
+            for (int s = 0; s < BoxSlotCount; s++)
+            {
+                if (IsSlotLocked(b, s))
+                    continue;
+                var index = b * BoxSlotCount + s;
+                action(BD[index]);
+            }
+            BoxData = BD;
         }
 
         public byte[] PCBinary => BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray();
@@ -652,7 +676,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected virtual void SetPartyValues(PKM pkm, bool isParty) { }
+        protected virtual void SetPartyValues(PKM pkm, bool isParty)
+        {
+            if (!isParty)
+                return;
+            if (pkm.Stat_HPMax != 0) // Stats already present
+                return;
+            pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
+            pkm.Stat_Level = pkm.CurrentLevel;
+        }
         protected virtual void SetPKM(PKM pkm) { }
         protected virtual void SetDex(PKM pkm) { }
         public virtual bool GetSeen(int species) => false;
@@ -666,9 +698,6 @@ namespace PKHeX.Core
 
         public byte[] GetData(int Offset, int Length)
         {
-            if (Offset + Length > Data.Length)
-                return null;
-
             byte[] data = new byte[Length];
             Buffer.BlockCopy(Data, Offset, data, 0, Length);
             return data;
@@ -678,6 +707,14 @@ namespace PKHeX.Core
             input.CopyTo(Data, Offset);
             Edited = true;
         }
+        public bool IsRangeEmpty(int Offset, int Length)
+        {
+            for (int i = Offset; i < Offset + Length; i++)
+                if (Data[i] != 0)
+                    return false;
+            return true;
+        }
+        public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
 
         public abstract string GetString(int Offset, int Length);
         public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);

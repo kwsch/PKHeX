@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,7 @@ namespace PKHeX.Core
     public static class PKX
     {
         private static readonly PersonalTable Personal = PersonalTable.USUM;
-        private const int Generation = 7;
+        public const int Generation = 7;
 
         internal const int SIZE_1ULIST = 69;
         internal const int SIZE_1JLIST = 59;
@@ -241,23 +242,20 @@ namespace PKHeX.Core
         /// <param name="nick">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation)
+        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation = Generation)
         {
             var langs = GetAvailableGameLanguages(generation);
             return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
         }
-        private static IEnumerable<int> GetAvailableGameLanguages(int generation)
+        private static ICollection<int> GetAvailableGameLanguages(int generation = Generation)
         {
             if (generation < 3)
-                return new[]
-                {
-                    (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German,
-                    (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
-                };
+                return Legal.Languages_GB;
+            if (generation < 4)
+                return Legal.Languages_3;
             if (generation < 7)
-                return Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
-
-            return Enumerable.Range(1, SpeciesLang.Length - 1);
+                return Legal.Languages_46;
+            return Legal.Languages_7;
         }
 
         /// <summary>
@@ -266,10 +264,14 @@ namespace PKHeX.Core
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="nick">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
+        /// <param name="priorlang">Language ID with a higher priority</param>
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int GetSpeciesNameLanguage(int species, string nick, int generation)
+        public static int GetSpeciesNameLanguage(int species, string nick, int generation = Generation, int priorlang = -1)
         {
             var langs = GetAvailableGameLanguages(generation);
+
+            if (langs.Contains(priorlang) && GetSpeciesNameGeneration(species, priorlang, generation) == nick)
+                return priorlang;
 
             foreach (var lang in langs)
                 if (GetSpeciesNameGeneration(species, lang, generation) == nick)
@@ -282,11 +284,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
-        public static uint[] GetRandomEVs(int generation = Generation)
+        public static int[] GetRandomEVs(int generation = Generation)
         {
             if (generation > 2)
             {
-                uint[] evs = new uint[6];
+                var evs = new int[6];
                 do
                 {
                     evs[0] = (byte)Math.Min(Util.Rand32() % 300, 252); // bias two to get maybe 252
@@ -301,9 +303,9 @@ namespace PKHeX.Core
             }
             else
             {
-                uint[] evs = new uint[6];
+                var evs = new int[6];
                 for (int i = 0; i < evs.Length; i++)
-                    evs[i] = Util.Rand32() & ushort.MaxValue;
+                    evs[i] = Util.Rand.Next(ushort.MaxValue + 1);
                 return evs;
             }
         }
@@ -351,6 +353,33 @@ namespace PKHeX.Core
                 return 1;
             return 2;
         }
+
+        /// <summary>
+        /// Gets the nature modification values and checks if they are equal.
+        /// </summary>
+        /// <param name="nature">Nature</param>
+        /// <param name="incr">Increased stat</param>
+        /// <param name="decr">Decreased stat</param>
+        /// <returns>True if nature modification values are equal or the Nature is out of range.</returns>
+        public static bool GetNatureModification(int nature, out int incr, out int decr)
+        {
+            incr = nature / 5 + 1;
+            decr = nature % 5 + 1;
+            return incr == decr || nature >= 25; // invalid
+        }
+
+        /// <summary>
+        /// Updates stats according to the specified nature.
+        /// </summary>
+        /// <param name="Stats">Current stats to amplify if appropriate</param>
+        /// <param name="nature">Nature</param>
+        public static void ModifyStatsForNature(ushort[] Stats, int nature)
+        {
+            if (GetNatureModification(nature, out int incr, out int decr))
+                return;
+            Stats[incr] *= 11; Stats[incr] /= 10;
+            Stats[decr] *= 9; Stats[decr] /= 10;
+        }
         
         /// <summary>
         /// Positions for shuffling.
@@ -377,84 +406,108 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Data to shuffle</param>
         /// <param name="sv">Block Shuffle order</param>
+        /// <param name="blockSize">Size of shuffling chunks</param>
         /// <returns>Shuffled byte array</returns>
-        public static byte[] ShuffleArray(byte[] data, uint sv)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte[] ShuffleArray(byte[] data, uint sv, int blockSize)
         {
-            byte[] sdata = new byte[data.Length];
-            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
-
-            // Shuffle Away!
+            byte[] sdata = (byte[])data.Clone();
             for (int block = 0; block < 4; block++)
-                Array.Copy(data, 8 + 56*blockPosition[block][sv], sdata, 8 + 56*block, 56);
-
-            // Fill the Battle Stats back
-            if (data.Length > 232)
-                Array.Copy(data, 232, sdata, 232, 28);
-
+                Array.Copy(data, 8 + blockSize * blockPosition[block][sv], sdata, 8 + blockSize * block, blockSize);
             return sdata;
         }
 
         /// <summary>
         /// Decrypts a 232 byte + party stat byte array.
         /// </summary>
-        /// <param name="ekx">Encrypted <see cref="PKM"/> data.</param>
+        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
         /// <returns>Decrypted <see cref="PKM"/> data.</returns>
         /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] DecryptArray(byte[] ekx)
+        public static byte[] DecryptArray(byte[] ekm)
         {
-            byte[] pkx = (byte[])ekx.Clone();
-
-            uint pv = BitConverter.ToUInt32(pkx, 0);
+            uint pv = BitConverter.ToUInt32(ekm, 0);
             uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            uint seed = pv;
-
-            // Decrypt Blocks with RNG Seed
-            for (int i = 8; i < 232; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
-
-            // Deshuffle
-            pkx = ShuffleArray(pkx, sv);
-
-            // Decrypt the Party Stats
-            seed = pv;
-            if (pkx.Length <= 232) return pkx;
-            for (int i = 232; i < 260; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
-
-            return pkx;
+            CryptPKM(ekm, pv, SIZE_6BLOCK);
+            return ShuffleArray(ekm, sv, SIZE_6BLOCK);
         }
 
         /// <summary>
         /// Encrypts a 232 byte + party stat byte array.
         /// </summary>
-        /// <param name="pkx">Decrypted <see cref="PKM"/> data.</param>
-        public static byte[] EncryptArray(byte[] pkx)
+        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
+        public static byte[] EncryptArray(byte[] pkm)
         {
-            // Shuffle
-            uint pv = BitConverter.ToUInt32(pkx, 0);
+            uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            byte[] ekx = (byte[])pkx.Clone();
+            byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_6BLOCK);
+            CryptPKM(ekm, pv, SIZE_6BLOCK);
+            return ekm;
+        }
 
-            ekx = ShuffleArray(ekx, blockPositionInvert[sv]);
+        /// <summary>
+        /// Decrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
+        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
+        public static byte[] DecryptArray45(byte[] ekm)
+        {
+            uint pv = BitConverter.ToUInt32(ekm, 0);
+            uint chk = BitConverter.ToUInt16(ekm, 6);
+            uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            uint seed = pv;
+            CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
+            return ShuffleArray(ekm, sv, SIZE_4BLOCK);
+        }
 
-            // Encrypt Blocks with RNG Seed
-            for (int i = 8; i < 232; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
+        /// <summary>
+        /// Encrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
+        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
+        public static byte[] EncryptArray45(byte[] pkm)
+        {
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint chk = BitConverter.ToUInt16(pkm, 6);
+            uint sv = (pv >> 0xD & 0x1F) % 24;
 
-            // If no party stats, return.
-            if (ekx.Length <= 232) return ekx;
+            byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_4BLOCK);
+            CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
+            return ekm;
+        }
 
-            // Encrypt the Party Stats
-            seed = pv;
-            for (int i = 232; i < 260; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekx, i);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CryptPKM(byte[] data, uint pv, int blockSize)
+        {
+            const int start = 8;
+            int end = 4 * blockSize + start;
+            CryptArray(data, pv, 8, end); // Blocks
+            CryptArray(data, pv, end, data.Length); // Party Stats
+        }
 
-            // Done
-            return ekx;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CryptPKM45(byte[] data, uint pv, uint chk, int blockSize)
+        {
+            const int start = 8;
+            int end = 4 * blockSize + start;
+            CryptArray(data, chk, start, end); // Blocks
+            CryptArray(data, pv, end, data.Length); // Party Stats
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CryptArray(byte[] data, uint seed, int start, int end)
+        {
+            for (int i = start; i < end; i += 2)
+                Crypt(data, ref seed, i);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void Crypt(byte[] data, ref uint seed, int i)
+        {
+            seed = 0x41C64E6D * seed + 0x00006073;
+            data[i] ^= (byte)(seed >> 16);
+            data[i + 1] ^= (byte)(seed >> 24);
         }
 
         /// <summary>
@@ -544,21 +597,27 @@ namespace PKHeX.Core
 
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation)
+        private const string ResourceSeparator = "_";
+        private const string ResourcePikachuCap = "c";
+        private const string ResourceShiny = "s";
+        public static bool AllowShinySprite = false;
+        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
         {
-            if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
+            if (Legal.SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            string file = $"_{species}";
-            if (form > 0) // Alt Form Handling
-                file += $"_{form}";
-            else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-                file += $"_{gender}";
+            var sb = new System.Text.StringBuilder();
+            { sb.Append(ResourceSeparator); sb.Append(species); }
+            if (form > 0)
+            { sb.Append(ResourceSeparator); sb.Append(form); }
+            else if (gender == 1 && Legal.SpeciesGenderedSprite.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
+            { sb.Append(ResourceSeparator); sb.Append(gender); }
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
-                file += "c"; // Cap
-
-            return file;
+                sb.Append(ResourcePikachuCap);
+            if (shiny && AllowShinySprite)
+                sb.Append(ResourceShiny);
+            return sb.ToString();
         }
 
         /// <summary>
@@ -592,111 +651,26 @@ namespace PKHeX.Core
         /// <remarks>
         /// There are other IV combinations to achieve the same Hidden Power Type.
         /// These are just precomputed for fast modification.
+        /// Individual Values (H/A/B/S/C/D)
         /// </remarks>
         public static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
-            { 0, 0, 0, 0, 0, 1 }, // Flying
-            { 1, 1, 0, 0, 0, 1 }, // Poison
-            { 1, 1, 1, 0, 0, 1 }, // Ground
-            { 1, 1, 0, 1, 0, 0 }, // Rock
-            { 1, 0, 0, 1, 0, 1 }, // Bug
-            { 1, 0, 1, 1, 0, 1 }, // Ghost
-            { 1, 1, 1, 1, 0, 1 }, // Steel
-            { 1, 0, 1, 0, 1, 0 }, // Fire
-            { 1, 0, 0, 0, 1, 1 }, // Water
-            { 1, 0, 1, 0, 1, 1 }, // Grass
-            { 1, 1, 1, 0, 1, 1 }, // Electric
-            { 1, 0, 1, 1, 1, 0 }, // Psychic
+            { 0, 0, 0, 1, 0, 0 }, // Flying
+            { 1, 1, 0, 1, 0, 0 }, // Poison
+            { 1, 1, 1, 1, 0, 0 }, // Ground
+            { 1, 1, 0, 0, 1, 0 }, // Rock
+            { 1, 0, 0, 1, 1, 0 }, // Bug
+            { 1, 0, 1, 1, 1, 0 }, // Ghost
+            { 1, 1, 1, 1, 1, 0 }, // Steel
+            { 1, 0, 1, 0, 0, 1 }, // Fire
+            { 1, 0, 0, 1, 0, 1 }, // Water
+            { 1, 0, 1, 1, 0, 1 }, // Grass
+            { 1, 1, 1, 1, 0, 1 }, // Electric
+            { 1, 0, 1, 0, 1, 1 }, // Psychic
             { 1, 0, 0, 1, 1, 1 }, // Ice
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
-
-        /// <summary>
-        /// Shuffles a 136 byte array containing <see cref="PKM"/> data.
-        /// </summary>
-        /// <param name="data">Data to shuffle</param>
-        /// <param name="sv">Block Shuffle order</param>
-        /// <returns>Shuffled byte array</returns>
-        public static byte[] ShuffleArray45(byte[] data, uint sv)
-        {
-            byte[] sdata = new byte[data.Length];
-            Array.Copy(data, sdata, 8); // Copy unshuffled bytes
-
-            // Shuffle Away!
-            for (int block = 0; block < 4; block++)
-                Array.Copy(data, 8 + 32 * blockPosition[block][sv], sdata, 8 + 32 * block, 32);
-
-            // Fill the Battle Stats back
-            if (data.Length > 136)
-                Array.Copy(data, 136, sdata, 136, data.Length - 136);
-
-            return sdata;
-        }
-
-        /// <summary>
-        /// Decrypts a 136 byte + party stat byte array.
-        /// </summary>
-        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
-        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
-        public static byte[] DecryptArray45(byte[] ekm)
-        {
-            byte[] pkm = (byte[])ekm.Clone();
-
-            uint pv = BitConverter.ToUInt32(pkm, 0);
-            uint chk = BitConverter.ToUInt16(pkm, 6);
-            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
-
-            uint seed = chk;
-
-            // Decrypt Blocks with RNG Seed
-            for (int i = 8; i < 136; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkm, i);
-
-            // Deshuffle
-            pkm = ShuffleArray45(pkm, sv);
-
-            // Decrypt the Party Stats
-            seed = pv;
-            if (pkm.Length <= 136) return pkm;
-            for (int i = 136; i < pkm.Length; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkm, i);
-
-            return pkm;
-        }
-
-        /// <summary>
-        /// Encrypts a 136 byte + party stat byte array.
-        /// </summary>
-        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
-        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] EncryptArray45(byte[] pkm)
-        {
-            uint pv = BitConverter.ToUInt32(pkm, 0);
-            uint sv = ((pv & 0x3E000) >> 0xD) % 24;
-
-            uint chk = BitConverter.ToUInt16(pkm, 6);
-            byte[] ekm = (byte[])pkm.Clone();
-
-            ekm = ShuffleArray45(ekm, blockPositionInvert[sv]);
-
-            uint seed = chk;
-
-            // Encrypt Blocks with RNG Seed
-            for (int i = 8; i < 136; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekm, i);
-
-            // If no party stats, return.
-            if (ekm.Length <= 136) return ekm;
-
-            // Encrypt the Party Stats
-            seed = pv;
-            for (int i = 136; i < ekm.Length; i += 2)
-                BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(ekm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(ekm, i);
-
-            // Done
-            return ekm;
-        }
 
         /// <summary>
         /// Gets the Unown Forme ID from PID.
@@ -849,6 +823,31 @@ namespace PKHeX.Core
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Roughly detects the PKM format from the file's extension.
+        /// </summary>
+        /// <param name="ext">File extension.</param>
+        /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
+        /// <returns>Format hint that the file is.</returns>
+        public static int GetPKMFormatFromExtension(string ext, int prefer)
+        {
+            return ext?.Length > 1
+                ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer) 
+                : prefer;
+        }
+        /// <summary>
+        /// Roughly detects the PKM format from the file's extension.
+        /// </summary>
+        /// <param name="last">Last character of the file's extensio.n</param>
+        /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
+        /// <returns>Format hint that the file is.</returns>
+        public static int GetPKMFormatFromExtension(char last, int prefer)
+        {
+            if ('1' <= last && last <= '9')
+                return last - '0';
+            return last == 'x' ? 6 : prefer;
+        }
+
         // Extensions
         /// <summary>
         /// Gets the Location Name for the <see cref="PKM"/>
@@ -864,26 +863,6 @@ namespace PKHeX.Core
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
             return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
         }
-        public static string[] GetQRLines(this PKM pkm)
-        {
-            var s = GameInfo.Strings;
-            // Summarize
-            string filename = pkm.Nickname;
-            if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
-                filename += $" ({s.specieslist[pkm.Species]})";
-            
-            string header = $"{filename} [{s.abilitylist[pkm.Ability]}] lv{pkm.Stat_Level} @ {s.itemlist[pkm.HeldItem]} -- {s.natures[pkm.Nature]}";
-            string moves = string.Join(" / ", pkm.Moves.Select(move => move < s.movelist.Length ? s.movelist[move] : "ERROR"));
-            string IVs = $"IVs: {pkm.IV_HP:00}/{pkm.IV_ATK:00}/{pkm.IV_DEF:00}/{pkm.IV_SPA:00}/{pkm.IV_SPD:00}/{pkm.IV_SPE:00}";
-            string EVs = $"EVs: {pkm.EV_HP:00}/{pkm.EV_ATK:00}/{pkm.EV_DEF:00}/{pkm.EV_SPA:00}/{pkm.EV_SPD:00}/{pkm.EV_SPE:00}";
-
-            return new[]
-            {
-                header,
-                moves,
-                IVs + "   " + EVs,
-            };
-        }
 
         /// <summary>
         /// Copies an <see cref="Enumerable"/> list to the destination list, with an option to copy to a starting point.
@@ -891,11 +870,17 @@ namespace PKHeX.Core
         /// <param name="list">Source list to copy from</param>
         /// <param name="dest">Destination list/array</param>
         /// <param name="start">Starting point to copy to</param>
-        public static void CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, int start = 0)
+        /// <returns>Count of <see cref="T"/> copied.</returns>
+        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, int start = 0)
         {
-            int ctr = 0;
+            int ctr = start;
             foreach (var z in list)
-                dest[start + ctr++] = z;
+            {
+                if (dest.Count <= ctr)
+                    break;
+                dest[ctr++] = z;
+            }
+            return ctr - start;
         }
 
         /// <summary>
@@ -915,20 +900,31 @@ namespace PKHeX.Core
             }
         }
 
-        /// <summary>
-        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects according to common-usage.
-        /// </summary>
-        /// <param name="list">Source list to sort</param>
-        /// <returns>Enumerable list that is sorted</returns>
-        public static IEnumerable<PKM> SortPKMs(IEnumerable<PKM> list)
+        internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
+        internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
+        internal static bool IsPKMPresentGBA(byte[] data, int offset)
         {
-            return list
-                .OrderBy(p => p.Species == 0) // empty slots at end
-                .ThenBy(p => p.IsEgg) // eggs to the end
-                .ThenBy(p => p.Species) // species sorted
-                .ThenBy(p => p.AltForm) // altforms sorted
-                .ThenBy(p => p.Gender) // gender sorted
-                .ThenBy(p => p.IsNicknamed);
+            if (BitConverter.ToUInt32(data, offset) != 0) // PID
+                return true;
+            ushort species = BitConverter.ToUInt16(data, offset + 0x20);
+            return species != 0;
+        }
+        internal static bool IsPKMPresent(byte[] data, int offset)
+        {
+            if (BitConverter.ToUInt32(data, offset) != 0) // PID
+                return true;
+            ushort species = BitConverter.ToUInt16(data, offset + 8);
+            return species != 0;
+        }
+        public static Func<byte[], int, bool> GetFuncIsPKMPresent(PKM blank)
+        {
+            if (blank.Format >= 4)
+                return IsPKMPresent;
+            if (blank.Format <= 2)
+                return IsPKMPresentGB;
+            if (blank is PK3)
+                return IsPKMPresentGBA;
+            return IsPKMPresentGC;
         }
     }
 }

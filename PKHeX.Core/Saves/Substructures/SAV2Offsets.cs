@@ -156,14 +156,14 @@
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
 
-            TimePlayed = 0x204E;
+            TimePlayed = 0x204D;
             Palette = 0x2065;
             Money = 0x23D3;
             JohtoBadges = 0x23DC;
             BoxNames = 0x26FF;
             Party = 0x28CC;
-            PokedexCaught = 0x2AAE;
-            PokedexSeen = 0x2ACE;
+            PokedexCaught = 0x2A8E;
+            PokedexSeen = 0x2AAE;
             CurrentBox = 0x2DAE;
             CurrentBoxIndex = 0x26FC;
             Gender = -1; // No gender in GS

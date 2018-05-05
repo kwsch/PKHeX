@@ -21,9 +21,9 @@ namespace PKHeX.Core
 
         public SAV2(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G2RAW_U] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G2RAW_U];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (data == null)
                 Version = GameVersion.C;
@@ -206,7 +206,7 @@ namespace PKHeX.Core
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
         protected override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-        public override PKM BlankPKM => new PK2(null, null, Japanese);
+        public override PKM BlankPKM => new PK2(jp: Japanese);
         public override Type PKMType => typeof(PK2);
 
         private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
@@ -220,6 +220,8 @@ namespace PKHeX.Core
         public override int MaxGameID => 99; // unused
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
+
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
 
         // not correct, but whole contains. Data[EventFlag+0x22F]=Data[0x1A2F] means repel count.
         protected override int EventFlagMax => Version == GameVersion.C ? 0x230 << 3 : base.EventFlagMax;
@@ -235,6 +237,7 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
+        public override bool HasNamableBoxes => true;
         
         // Checksums
         private ushort GetChecksum()
@@ -267,6 +270,7 @@ namespace PKHeX.Core
             get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
             set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
         }
+        public byte[] OT_Trash { get => GetData(Offsets.Trainer1 + 2, 11); set { if (value?.Length == 11) SetData(value, Offsets.Trainer1 + 2); } }
         public override int Gender
         {
             get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
@@ -278,15 +282,11 @@ namespace PKHeX.Core
                 Data[Offsets.Palette] = (byte) value;
             }
         }
-        public override ushort TID
+        public override int TID
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes(value).CopyTo(Data, Offsets.Trainer1);
+            get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
         }
-        public override ushort SID
-        {
-            get => 0;
-            set { }
-        }
+        public override int SID { get => 0; set { } }
         public override int PlayedHours
         {
             get => BigEndian.ToUInt16(Data, Offsets.TimePlayed);
@@ -338,7 +338,8 @@ namespace PKHeX.Core
         }
         public int TextSpeed
         {
-            get => Options & 0x7; set
+            get => Options & 0x7;
+            set
             {
                 var new_speed = value;
                 if (new_speed > 7)
@@ -382,7 +383,7 @@ namespace PKHeX.Core
                 };
                 foreach (var p in pouch)
                 {
-                    p.GetPouchG1(ref Data);
+                    p.GetPouchG1(Data);
                 }
                 return pouch;
             }
@@ -398,8 +399,8 @@ namespace PKHeX.Core
                         p.Items[i] = p.Items[ofs++];
                     }
                     while (ofs < p.Items.Length)
-                        p.Items[ofs++] = new InventoryItem { Count = 0, Index = 0 };
-                    p.SetPouchG1(ref Data);
+                        p.Items[ofs++] = new InventoryItem();
+                    p.SetPouchG1(Data);
                 }
             }
         }
@@ -449,7 +450,9 @@ namespace PKHeX.Core
         }
         public override void SetBoxName(int box, string value)
         {
-            // Don't allow for custom box names
+            int len = Korean ? 17 : 9;
+            var data = SetString(value, len, len, 0x50);
+            SetData(data, Offsets.BoxNames + box * len);
         }
 
         public override PKM GetPKM(byte[] data)
@@ -479,7 +482,7 @@ namespace PKHeX.Core
                 return false;
             if (species > MaxSpeciesID)
                 return false;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return false;
             return true;
         }
@@ -502,6 +505,67 @@ namespace PKHeX.Core
             // Give all Unown caught to prevent a crash on pokedex view
             for (int i = 1; i <= 26; i++)
                 Data[Offsets.PokedexSeen + 0x1F + i] = (byte)i;
+            if (UnownFirstSeen == 0) // Invalid
+                UnownFirstSeen = 1; // A
+        }
+        /// <summary>
+        /// Toggles the availability of Unown letter groups in the Wild
+        /// </summary>
+        /// <remarks>
+        /// Max value of 0x0F, 4 bitflags
+        /// 1 lsh 0: A, B, C, D, E, F, G, H, I, J, K
+        /// 1 lsh 1: L, M, N, O, P, Q, R
+        /// 1 lsh 2: S, T, U, V, W
+        /// 1 lsh 3: X, Y, Z
+        /// </remarks>
+        public int UnownUnlocked
+        {
+            get => Data[Offsets.PokedexSeen + 0x1F + 27];
+            set => Data[Offsets.PokedexSeen + 0x1F + 27] = (byte)value;
+        }
+        /// <summary>
+        /// Unlocks all Unown letters/forms in the wild.
+        /// </summary>
+        public void UnownUnlockAll() => UnownUnlocked = 0x0F; // all 4 bitflags
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: A, B, C, D, E, F, G, H, I, J, K
+        /// </summary>
+        public bool UnownUnlocked0
+        {
+            get => (UnownUnlocked & 1 << 0) == 1 << 0;
+            set => UnownUnlocked |= 1 << 0;
+        }
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: L, M, N, O, P, Q, R
+        /// </summary>
+        public bool UnownUnlocked1
+        {
+            get => (UnownUnlocked & 1 << 1) == 1 << 1;
+            set => UnownUnlocked |= 1 << 1;
+        }
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: S, T, U, V, W
+        /// </summary>
+        public bool UnownUnlocked2
+        {
+            get => (UnownUnlocked & 1 << 2) == 1 << 2;
+            set => UnownUnlocked |= 1 << 2;
+        }
+        /// <summary>
+        /// Flag that determines if Unown Letters are available in the wild: X, Y, Z
+        /// </summary>
+        public bool UnownUnlocked3
+        {
+            get => (UnownUnlocked & 1 << 3) == 1 << 3;
+            set => UnownUnlocked |= 1 << 3;
+        }
+        /// <summary>
+        /// Chooses which Unown sprite to show in the regular Pokédex View
+        /// </summary>
+        public int UnownFirstSeen
+        {
+            get => Data[Offsets.PokedexSeen + 0x1F + 28];
+            set => Data[Offsets.PokedexSeen + 0x1F + 28] = (byte)value;
         }
         public override bool GetSeen(int species)
         {
@@ -524,6 +588,11 @@ namespace PKHeX.Core
             var ot = Data.Skip(Offsets.Trainer1 + 2).TakeWhile((z, i) => i < 5 && z != 0x50);
             var tr = ot.Sum(z => z);
             return (ushort)(val + tr);
+        }
+        public void UnlockAllDecorations()
+        {
+            for (int i = 676; i <= 721; i++)
+                SetEventFlag(i, true);
         }
 
         public override string GetString(int Offset, int Count)

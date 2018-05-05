@@ -34,7 +34,7 @@ namespace PKHeX.Core
             var FR_Slots = get("fr", "fr");
             var LG_Slots = get("lg", "lg");
 
-            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGUnown);
+            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGUnown, SlotsXD);
 
             ReduceAreasSize(ref R_Slots);
             ReduceAreasSize(ref S_Slots);
@@ -55,6 +55,27 @@ namespace PKHeX.Core
             SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
             SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGUnown);
             SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGUnown);
+
+            MarkEncountersGeneration(3, SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG, SlotsXD);
+            MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
+
+            MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
+            MarkEncounterTradeStrings(TradeGift_FRLG, TradeFRLG);
+
+            SlotsRSEAlt.SetVersion(GameVersion.RSE);
+            SlotsFRLGUnown.SetVersion(GameVersion.FRLG);
+            SlotsR.SetVersion(GameVersion.R);
+            SlotsS.SetVersion(GameVersion.S);
+            SlotsE.SetVersion(GameVersion.E);
+            SlotsFR.SetVersion(GameVersion.FR);
+            SlotsLG.SetVersion(GameVersion.LG);
+            Encounter_RSE.SetVersion(GameVersion.RSE);
+            Encounter_FRLG.SetVersion(GameVersion.FRLG);
+            TradeGift_RSE.SetVersion(GameVersion.RSE);
+            TradeGift_FRLG.SetVersion(GameVersion.FRLG);
+            Encounter_Colo.SetVersion(GameVersion.COLO);
+            Encounter_XD.SetVersion(GameVersion.XD);
+            SlotsXD.SetVersion(GameVersion.XD);
         }
 
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
@@ -336,7 +357,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Colosseum
-        internal static readonly EncounterStatic[] Encounter_Colo =
+        private static readonly EncounterStatic[] Encounter_Colo =
         {
             // Colosseum Starters: Gender locked to male
             new EncounterStatic { Gift = true, Species = 196, Level = 25, Location = 254, Gender = 0 }, // Espeon
@@ -441,7 +462,16 @@ namespace PKHeX.Core
 
         #region XD
 
-        internal static readonly EncounterStatic[] Encounter_XD =
+        private static readonly int[] MirorBXDLocations =
+        {
+            090, // Rock
+            091, // Oasis
+            092, // Cave
+            113, // Pyrite Town
+            059, // Realgam Tower
+        };
+
+        private static readonly EncounterStatic[] Encounter_XD = new[]
         {
             new EncounterStatic { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
             new EncounterStatic { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
@@ -556,7 +586,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Fateful = true, Species = 144, Level = 50, Gauge = 10000, Moves = new[] {326,215,114,058}, Location = 074 }, // Articuno: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow { Fateful = true, Species = 145, Level = 50, Gauge = 10000, Moves = new[] {326,226,319,085}, Location = 074 }, // Zapdos: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow { Fateful = true, Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162 }, // Dragonite: Wanderer Miror B. @ Gateon Port
-        };
+        }.SelectMany(CloneMirorB).ToArray();
 
         internal static readonly EncounterArea[] SlotsXD =
         {
@@ -582,8 +612,13 @@ namespace PKHeX.Core
                 }
             },
         };
-
-        internal static readonly EncounterStatic[] Encounter_CXD = Encounter_Colo.Concat(Encounter_XD).ToArray();
+        internal static readonly EncounterStatic[] Encounter_CXD = ConcatAll(Encounter_Colo, Encounter_XD);
+        private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
+        {
+            yield return arg;
+            foreach (int loc in MirorBXDLocations)
+                yield return arg.Clone(loc);
+        }
 
         #endregion
     }

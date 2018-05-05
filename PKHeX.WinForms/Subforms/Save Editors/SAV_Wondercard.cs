@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -14,9 +15,9 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         public SAV_Wondercard(SaveFile sav, MysteryGift g = null)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
             mga = SAV.GiftAlbum;
             
             switch (SAV.Generation)
@@ -80,19 +81,16 @@ namespace PKHeX.WinForms
             try
             {
                 // only check if the form is visible (not opening)
-                if (Visible && g.GiftUsed && DialogResult.Yes ==
-                        WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                            "Wonder Card is marked as USED and will not be able to be picked up in-game.",
-                            "Do you want to remove the USED flag so that it is UNUSED?"))
+                if (Visible && g.GiftUsed && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgMsyteryGiftUsedAlert, MsgMysteryGiftUsedFix))
                     g.GiftUsed = false;
 
-                RTB.Lines = GetDescription(g).ToArray();
+                RTB.Lines = g.GetDescription().ToArray();
                 PB_Preview.Image = g.Sprite();
                 mg = g;
             }
             catch (Exception e)
             {
-                WinFormsUtil.Error("Loading of data failed... is this really a Wonder Card?", e);
+                WinFormsUtil.Error(MsgMysteryGiftParseTypeUnknown, e);
                 RTB.Clear();
             }
         }
@@ -126,7 +124,7 @@ namespace PKHeX.WinForms
             MysteryGift g = MysteryGift.GetMysteryGift(File.ReadAllBytes(path), Path.GetExtension(path));
             if (g == null)
             {
-                WinFormsUtil.Error("File is not a Mystery Gift:", path);
+                WinFormsUtil.Error(MsgMysteryGiftInvalid, path);
                 return;
             }
             ViewGiftData(g);
@@ -159,10 +157,13 @@ namespace PKHeX.WinForms
         }
         private void ClickSet(object sender, EventArgs e)
         {
-            if (!IsSpecialWonderCard(mg))
+            if (!mg.IsCardCompatible(SAV, out var msg))
+            {
+                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, msg);
                 return;
+            }
 
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
@@ -174,7 +175,7 @@ namespace PKHeX.WinForms
                 mg = pcd.Gift;
             else if (mg.Type != mga.Gifts[index].Type)
             {
-                WinFormsUtil.Alert("Can't set slot here.", $"{mg.Type} != {mga.Gifts[index].Type}");
+                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{mg.Type} != {mga.Gifts[index].Type}");
                 return;
             }
             SetBackground(index, Properties.Resources.slotSet);
@@ -258,39 +259,19 @@ namespace PKHeX.WinForms
                 long len = new FileInfo(path).Length;
                 if (len > 0x1000) // arbitrary
                 {
-                    WinFormsUtil.Alert("File is not a Mystery Gift.", path);
+                    WinFormsUtil.Alert(MsgMysteryGiftInvalid, path);
                     return;
                 }
                 MysteryGift g = MysteryGift.GetMysteryGift(File.ReadAllBytes(path), Path.GetExtension(path));
                 if (g == null)
                 {
-                    WinFormsUtil.Error("File is not a Mystery Gift:", path);
+                    WinFormsUtil.Error(MsgMysteryGiftInvalid, path);
                     return;
                 }
                 ViewGiftData(g);
                 return;
             }
             SetGiftBoxes();
-        }
-
-        private bool IsSpecialWonderCard(MysteryGift g)
-        {
-            if (SAV.Generation != 6)
-                return true;
-
-            if (g is WC6)
-            {
-                if (g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
-                {
-                    if (!SAV.ORAS || ((SAV6)SAV).EonTicket < 0)
-                        goto reject;
-                    BitConverter.GetBytes(WC6.EonTicketConst).CopyTo(SAV.Data, ((SAV6)SAV).EonTicket);
-                }
-            }
-
-            return true;
-            reject: WinFormsUtil.Alert("Unable to insert the Mystery Gift.", "Does this Mystery Gift really belong to this game?");
-            return false;
         }
         
         private void ClickQR(object sender, EventArgs e)
@@ -308,14 +289,14 @@ namespace PKHeX.WinForms
         }
         private void ExportQRFromView()
         {
-            if (mg.Data.SequenceEqual(new byte[mg.Data.Length]))
+            if (mg.Data.All(z => z == 0))
             {
-                WinFormsUtil.Alert("No wondercard data found in loaded slot!");
+                WinFormsUtil.Alert(MsgMysteryGiftSlotNone);
                 return;
             }
             if (SAV.Generation == 6 && mg.ItemID == 726 && mg.IsItem)
             {
-                WinFormsUtil.Alert("Eon Ticket Wonder Cards will not function properly", "Inject to the save file instead.");
+                WinFormsUtil.Alert(MsgMysteryGiftQREonTicket, MsgMysteryGiftQREonTicketAdvice);
                 return;
             }
 
@@ -324,9 +305,9 @@ namespace PKHeX.WinForms
             if (qr == null)
                 return;
 
-            string desc = $"({mg.Type}) {GetDescription(mg)}";
+            string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 
-            new QR(qr, PB_Preview.Image, null, desc + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
+            new QR(qr, PB_Preview.Image, null, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
         }
         private void ImportQRToView(string url)
         {
@@ -339,13 +320,13 @@ namespace PKHeX.WinForms
             string giftType = gift.Type;
 
             if (mga.Gifts.All(card => card.Data.Length != data.Length))
-                WinFormsUtil.Alert("Decoded data not valid for loaded save file.", $"QR Data Size: 0x{data.Length:X}");
+                WinFormsUtil.Alert(MsgMysteryGiftQRTypeLength, $"{MsgQRDecodeSize} 0x{data.Length:X}");
             else if (types.All(type => type != giftType))
-                WinFormsUtil.Alert("Gift type is not compatible with the save file.",
-                    $"QR Gift Type: {gift.Type}" + Environment.NewLine + $"Expected Types: {string.Join(", ", types)}");
+                WinFormsUtil.Alert(MsgMysteryGiftTypeIncompatible,
+                    $"{MsgMysteryGiftQRRecieved} {gift.Type}{Environment.NewLine}{MsgMysteryGiftTypeUnexpected} {string.Join(", ", types)}");
             else if (gift.Species > SAV.MaxSpeciesID || gift.Moves.Any(move => move > SAV.MaxMoveID) ||
                      gift.HeldItem > SAV.MaxItemID)
-                WinFormsUtil.Alert("Gift Details are not compatible with the save file.");
+                WinFormsUtil.Alert(MsgMysteryGiftTypeDetails);
             else
                 ViewGiftData(gift);
         }
@@ -401,7 +382,7 @@ namespace PKHeX.WinForms
                 if (files.Length < 1)
                     return;
                 if (PCD.Size < (int)new FileInfo(files[0]).Length)
-                { WinFormsUtil.Alert("Data size invalid.", files[0]); return; }
+                { WinFormsUtil.Alert(MsgFileUnsupported, files[0]); return; }
                 
                 byte[] data = File.ReadAllBytes(files[0]);
                 MysteryGift gift = MysteryGift.GetMysteryGift(data, new FileInfo(files[0]).Extension);
@@ -410,7 +391,7 @@ namespace PKHeX.WinForms
                     gift = (gift as PCD).Gift;
                 else if (gift.Type != mga.Gifts[index].Type)
                 {
-                    WinFormsUtil.Alert("Can't set slot here.", $"{gift.Type} != {mga.Gifts[index].Type}");
+                    WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {mga.Gifts[index].Type}");
                     return;
                 }
                 SetBackground(index, Properties.Resources.slotSet);
@@ -429,10 +410,10 @@ namespace PKHeX.WinForms
                     // set the PGT to the PGT slot instead
                     ViewGiftData(s2);
                     ClickSet(pba[index], null);
-                    { WinFormsUtil.Alert($"Set {s2.Type} gift to {s1.Type} slot."); return; }
+                    { WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotAlternate, s2.Type, s1.Type)); return; }
                 }
                 if (s1.Type != s2.Type)
-                { WinFormsUtil.Alert($"Can't swap {s2.Type} with {s1.Type}."); return; }
+                { WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotFailSwap, s2.Type, s1.Type)); return; }
                 mga.Gifts[wc_slot] = s1;
                 mga.Gifts[index] = s2;
 
@@ -468,62 +449,6 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
         }
         private int wc_slot = -1;
-        private static IEnumerable<string> GetDescription(MysteryGift gift)
-        {
-            if (gift.Empty)
-                return new[] {"Empty Slot. No data!"};
-
-            var result = new List<string> {gift.CardHeader};
-            if (gift.IsItem)
-            {
-                result.Add($"Item: {GameInfo.Strings.itemlist[gift.ItemID]} (Quantity: {gift.Quantity})");
-                if (gift is WC7 wc7)
-                {
-                    var ind = 1;
-                    while (wc7.GetItem(ind) != 0)
-                    {
-                        result.Add($"Item: {GameInfo.Strings.itemlist[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
-                        ind++;
-                    }
-                }
-            }
-            else if (gift.IsPokémon)
-            {
-                try
-                {
-                    var first =
-                        $"{GameInfo.Strings.specieslist[gift.Species]} @ {GameInfo.Strings.itemlist[gift.HeldItem]}  --- "
-                        + (gift.IsEgg ? GameInfo.Strings.eggname : $"{gift.OT_Name} - {gift.TID:00000}/{gift.SID:00000}");
-                    result.Add(first);
-                    result.Add(string.Join(" / ", gift.Moves.Select(z => GameInfo.Strings.movelist[z])));
-                    
-                    if (gift is WC7 wc7)
-                    {
-                        var addItem = wc7.AdditionalItem;
-                        if (addItem != 0)
-                            result.Add($"+ {GameInfo.Strings.itemlist[addItem]}");
-                    }
-                }
-                catch { result.Add("Unable to create gift description."); }
-            }
-            else if (gift.IsBP)
-            {
-                result.Add($"BP: {gift.BP}");
-            }
-            else if (gift.IsBean)
-            {
-                result.Add($"Bean ID: {gift.Bean}");
-                result.Add($"Quantity: {gift.Quantity}");
-            }
-            else { result.Add("Unknown Wonder Card Type!"); }
-            if (gift is WC7 w7)
-            {
-                result.Add($"Repeatable: {w7.GiftRepeatable}");
-                result.Add($"Collected: {w7.GiftUsed}");
-                result.Add($"Once Per Day: {w7.GiftOncePerDay}");
-            }
-            return result;
-        }
 
         // UI Generation
         private List<PictureBox> PopulateViewGiftsG4()

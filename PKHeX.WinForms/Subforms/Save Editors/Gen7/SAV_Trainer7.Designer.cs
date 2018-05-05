@@ -35,10 +35,6 @@
             this.L_TrainerName = new System.Windows.Forms.Label();
             this.MT_Money = new System.Windows.Forms.MaskedTextBox();
             this.L_Money = new System.Windows.Forms.Label();
-            this.L_TID = new System.Windows.Forms.Label();
-            this.L_SID = new System.Windows.Forms.Label();
-            this.MT_TID = new System.Windows.Forms.MaskedTextBox();
-            this.MT_SID = new System.Windows.Forms.MaskedTextBox();
             this.L_Saying5 = new System.Windows.Forms.Label();
             this.L_Saying4 = new System.Windows.Forms.Label();
             this.L_Saying3 = new System.Windows.Forms.Label();
@@ -106,9 +102,6 @@
             this.Tab_Overview = new System.Windows.Forms.TabPage();
             this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.L_Vivillon = new System.Windows.Forms.Label();
-            this.B_GenTID = new System.Windows.Forms.Button();
-            this.L_G7TID = new System.Windows.Forms.Label();
-            this.MT_G7TID = new System.Windows.Forms.MaskedTextBox();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
             this.NUD_Stat = new System.Windows.Forms.NumericUpDown();
             this.NUD_FC = new System.Windows.Forms.NumericUpDown();
@@ -200,6 +193,8 @@
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
             this.Tab_Ultra = new System.Windows.Forms.TabPage();
+            this.TB_RotomOT = new System.Windows.Forms.TextBox();
+            this.L_RotomOT = new System.Windows.Forms.Label();
             this.GB_Surf = new System.Windows.Forms.GroupBox();
             this.L_Surf3 = new System.Windows.Forms.Label();
             this.L_Surf2 = new System.Windows.Forms.Label();
@@ -209,8 +204,7 @@
             this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
-            this.TB_RotomOT = new System.Windows.Forms.TextBox();
-            this.L_RotomOT = new System.Windows.Forms.Label();
+            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -313,48 +307,6 @@
             this.L_Money.Size = new System.Drawing.Size(16, 13);
             this.L_Money.TabIndex = 5;
             this.L_Money.Text = "$:";
-            // 
-            // L_TID
-            // 
-            this.L_TID.Location = new System.Drawing.Point(9, 31);
-            this.L_TID.Name = "L_TID";
-            this.L_TID.Size = new System.Drawing.Size(38, 13);
-            this.L_TID.TabIndex = 6;
-            this.L_TID.Text = "TID:";
-            this.L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_SID
-            // 
-            this.L_SID.Location = new System.Drawing.Point(9, 54);
-            this.L_SID.Name = "L_SID";
-            this.L_SID.Size = new System.Drawing.Size(38, 13);
-            this.L_SID.TabIndex = 7;
-            this.L_SID.Text = "SID:";
-            this.L_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // MT_TID
-            // 
-            this.MT_TID.Location = new System.Drawing.Point(53, 30);
-            this.MT_TID.Mask = "00000";
-            this.MT_TID.Name = "MT_TID";
-            this.MT_TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_TID.Size = new System.Drawing.Size(39, 20);
-            this.MT_TID.TabIndex = 8;
-            this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_TID.TextChanged += new System.EventHandler(this.ChangeFFFF);
-            this.MT_TID.MouseHover += new System.EventHandler(this.ShowTSV);
-            // 
-            // MT_SID
-            // 
-            this.MT_SID.Location = new System.Drawing.Point(53, 51);
-            this.MT_SID.Mask = "00000";
-            this.MT_SID.Name = "MT_SID";
-            this.MT_SID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_SID.Size = new System.Drawing.Size(39, 20);
-            this.MT_SID.TabIndex = 9;
-            this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_SID.TextChanged += new System.EventHandler(this.ChangeFFFF);
-            this.MT_SID.MouseHover += new System.EventHandler(this.ShowTSV);
             // 
             // L_Saying5
             // 
@@ -863,11 +815,9 @@
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.trainerID1);
             this.Tab_Overview.Controls.Add(this.CB_Vivillon);
             this.Tab_Overview.Controls.Add(this.L_Vivillon);
-            this.Tab_Overview.Controls.Add(this.B_GenTID);
-            this.Tab_Overview.Controls.Add(this.L_G7TID);
-            this.Tab_Overview.Controls.Add(this.MT_G7TID);
             this.Tab_Overview.Controls.Add(this.GB_Stats);
             this.Tab_Overview.Controls.Add(this.CB_AlolaTime);
             this.Tab_Overview.Controls.Add(this.L_AlolaTime);
@@ -876,13 +826,9 @@
             this.Tab_Overview.Controls.Add(this.CB_Gender);
             this.Tab_Overview.Controls.Add(this.CB_Game);
             this.Tab_Overview.Controls.Add(this.L_TrainerName);
-            this.Tab_Overview.Controls.Add(this.L_TID);
             this.Tab_Overview.Controls.Add(this.MT_Money);
-            this.Tab_Overview.Controls.Add(this.L_SID);
             this.Tab_Overview.Controls.Add(this.L_Money);
             this.Tab_Overview.Controls.Add(this.L_Language);
-            this.Tab_Overview.Controls.Add(this.MT_TID);
-            this.Tab_Overview.Controls.Add(this.MT_SID);
             this.Tab_Overview.Controls.Add(this.L_3DSReg);
             this.Tab_Overview.Controls.Add(this.CB_Language);
             this.Tab_Overview.Controls.Add(this.L_Region);
@@ -916,35 +862,6 @@
             this.L_Vivillon.TabIndex = 64;
             this.L_Vivillon.Text = "Vivillon:";
             this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // B_GenTID
-            // 
-            this.B_GenTID.Location = new System.Drawing.Point(124, 75);
-            this.B_GenTID.Name = "B_GenTID";
-            this.B_GenTID.Size = new System.Drawing.Size(68, 20);
-            this.B_GenTID.TabIndex = 63;
-            this.B_GenTID.Text = "Generate";
-            this.B_GenTID.UseVisualStyleBackColor = true;
-            this.B_GenTID.Click += new System.EventHandler(this.B_GenTID_Click);
-            // 
-            // L_G7TID
-            // 
-            this.L_G7TID.Location = new System.Drawing.Point(-1, 78);
-            this.L_G7TID.Name = "L_G7TID";
-            this.L_G7TID.Size = new System.Drawing.Size(48, 13);
-            this.L_G7TID.TabIndex = 61;
-            this.L_G7TID.Text = "G7TID:";
-            this.L_G7TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // MT_G7TID
-            // 
-            this.MT_G7TID.Location = new System.Drawing.Point(53, 75);
-            this.MT_G7TID.Mask = "000000";
-            this.MT_G7TID.Name = "MT_G7TID";
-            this.MT_G7TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_G7TID.Size = new System.Drawing.Size(65, 20);
-            this.MT_G7TID.TabIndex = 62;
-            this.MT_G7TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // GB_Stats
             // 
@@ -2104,6 +2021,26 @@
             this.Tab_Ultra.Text = "Ultra";
             this.Tab_Ultra.UseVisualStyleBackColor = true;
             // 
+            // TB_RotomOT
+            // 
+            this.TB_RotomOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_RotomOT.Location = new System.Drawing.Point(85, 117);
+            this.TB_RotomOT.MaxLength = 12;
+            this.TB_RotomOT.Name = "TB_RotomOT";
+            this.TB_RotomOT.Size = new System.Drawing.Size(93, 20);
+            this.TB_RotomOT.TabIndex = 4;
+            this.TB_RotomOT.Text = "WWWWWWWWWWWW";
+            this.TB_RotomOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_RotomOT
+            // 
+            this.L_RotomOT.Location = new System.Drawing.Point(12, 114);
+            this.L_RotomOT.Name = "L_RotomOT";
+            this.L_RotomOT.Size = new System.Drawing.Size(67, 32);
+            this.L_RotomOT.TabIndex = 5;
+            this.L_RotomOT.Text = "Rotom OT Name:";
+            this.L_RotomOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // GB_Surf
             // 
             this.GB_Surf.Controls.Add(this.L_Surf3);
@@ -2222,25 +2159,12 @@
             0,
             0});
             // 
-            // TB_RotomOT
+            // trainerID1
             // 
-            this.TB_RotomOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_RotomOT.Location = new System.Drawing.Point(85, 117);
-            this.TB_RotomOT.MaxLength = 12;
-            this.TB_RotomOT.Name = "TB_RotomOT";
-            this.TB_RotomOT.Size = new System.Drawing.Size(93, 20);
-            this.TB_RotomOT.TabIndex = 4;
-            this.TB_RotomOT.Text = "WWWWWWWWWWWW";
-            this.TB_RotomOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // L_RotomOT
-            // 
-            this.L_RotomOT.Location = new System.Drawing.Point(12, 114);
-            this.L_RotomOT.Name = "L_RotomOT";
-            this.L_RotomOT.Size = new System.Drawing.Size(67, 32);
-            this.L_RotomOT.TabIndex = 5;
-            this.L_RotomOT.Text = "Rotom OT Name:";
-            this.L_RotomOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.trainerID1.Location = new System.Drawing.Point(6, 26);
+            this.trainerID1.Name = "trainerID1";
+            this.trainerID1.Size = new System.Drawing.Size(90, 64);
+            this.trainerID1.TabIndex = 66;
             // 
             // SAV_Trainer7
             // 
@@ -2318,10 +2242,6 @@
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.MaskedTextBox MT_Money;
         private System.Windows.Forms.Label L_Money;
-        private System.Windows.Forms.Label L_TID;
-        private System.Windows.Forms.Label L_SID;
-        private System.Windows.Forms.MaskedTextBox MT_TID;
-        private System.Windows.Forms.MaskedTextBox MT_SID;
         private System.Windows.Forms.Label L_Saying5;
         private System.Windows.Forms.Label L_Saying4;
         private System.Windows.Forms.Label L_Saying3;
@@ -2454,9 +2374,6 @@
         private System.Windows.Forms.Label L_Value;
         private System.Windows.Forms.Label L_Offset;
         private System.Windows.Forms.ComboBox CB_Fashion;
-        private System.Windows.Forms.Button B_GenTID;
-        private System.Windows.Forms.Label L_G7TID;
-        private System.Windows.Forms.MaskedTextBox MT_G7TID;
         private System.Windows.Forms.TextBox TB_PlazaName;
         private System.Windows.Forms.Label L_PlazaName;
         private System.Windows.Forms.Label L_Vivillon;
@@ -2494,5 +2411,6 @@
         private System.Windows.Forms.NumericUpDown NUD_Surf0;
         private System.Windows.Forms.TextBox TB_RotomOT;
         private System.Windows.Forms.Label L_RotomOT;
+        private Controls.TrainerID trainerID1;
     }
 }

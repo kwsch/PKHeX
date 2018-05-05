@@ -23,12 +23,10 @@ namespace PKHeX.Core
         }
         internal static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
         {
-            var event3 = encounterContent as IRibbonSetEvent3;
-            var event4 = encounterContent as IRibbonSetEvent4;
             var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-            if (event3 != null)
+            if (encounterContent is IRibbonSetEvent3 event3)
                 RibbonNames = RibbonNames.Except(event3.RibbonNames());
-            if (event4 != null)
+            if (encounterContent is IRibbonSetEvent4 event4)
                 RibbonNames = RibbonNames.Except(event4.RibbonNames());
 
             foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
@@ -105,7 +103,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                artist = s6.RibbonCountMemoryContest > 4;
+                artist = s6.RibbonCountMemoryContest >= 4;
                 bool inhabited6 = 3 <= gen && gen <= 6;
 
                 var iterate = inhabited6
@@ -171,9 +169,17 @@ namespace PKHeX.Core
             foreach (var p in iter)
                 yield return p;
 
-            bool allContest = s6.RibbonBitsContest().All(z => z);
+            var contest = s6.RibbonBitsContest();
+            bool allContest = contest.All(z => z);
             if (allContest ^ s6.RibbonContestStar && !(untraded && pkm.XY)) // if not already checked
                 yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
+
+            // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
+            var affect = pkm.OT_Affection;
+            var contMemory = s6.RibbonNamesContest();
+            var present = contMemory.Where((z, i) => contest[i]).Where((z, i) => affect < 20 * (i+1));
+            foreach (var rib in present)
+                yield return new RibbonResult(rib);
 
             const int mem_Chatelaine = 30;
             bool hasChampMemory = pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine;
@@ -276,7 +282,7 @@ namespace PKHeX.Core
                 if (pkm.Version == 15 && encounterContent is EncounterStaticShadow s)
                 {
                     // only require national ribbon if no longer on origin game
-                    bool xd = !Encounters3.Encounter_Colo.Contains(s);
+                    bool xd = s.Version == GameVersion.XD;
                     eb[1] = !(xd && pkm is XK3 x && !x.RibbonNational || !xd && pkm is CK3 c && !c.RibbonNational);
                 }
             }

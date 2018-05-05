@@ -35,6 +35,28 @@ namespace PKHeX.Core
             315, 407, // Roselia
             358, // Chimecho
         };
+        /// <summary>
+        /// Species that show their default Species sprite regardless of current <see cref="PKM.AltForm"/>
+        /// </summary>
+        public static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
+        {
+            414, // Mothim
+            493, // Arceus
+            664, // Scatterbug
+            665, // Spewpa
+            773, // Silvally
+            778, // Mimikyu
+        };
+        /// <summary>
+        /// Species that show a <see cref="PKM.Gender"/> specific Sprite
+        /// </summary>
+        public static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
+        {
+            521, // Unfezant
+            592, // Frillish
+            593, // Jellicent
+            668, // Pyroar
+        };
         public static readonly HashSet<int> FormChange = new HashSet<int> // Pokémon that can change form and retain it
         {
             386, // Deoxys
@@ -246,7 +268,9 @@ namespace PKHeX.Core
             719,
             723, 724, 725, 726, 727, 728
         };
-        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves)); // Struggle & Chatter
+
+        internal static readonly int[] UnreleasedMoves = {617, 721}; // Light of Ruin & Plasma Fists
+        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves).Concat(UnreleasedMoves)); // Struggle & Chatter
 
         public static readonly HashSet<int> Legends = new HashSet<int>
         {
@@ -411,6 +435,19 @@ namespace PKHeX.Core
         public static readonly int[] Games_3e = { 3 };
         public static readonly int[] Games_3r = { 4, 5 };
         public static readonly int[] Games_3s = { 15 };
+        
+        public static readonly int[] Languages_GB = 
+        {
+            (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish,
+            (int) LanguageID.Italian,
+            (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
+        };
+        public static readonly int[] Languages_3 = 
+        {
+            (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish, (int) LanguageID.Italian,
+        };
+        public static readonly int[] Languages_46 = Languages_GB;
+        public static readonly int[] Languages_7 = Languages_46.Concat(new[] { (int)LanguageID.ChineseS, (int)LanguageID.ChineseT }).ToArray();
 
         #endregion
     }

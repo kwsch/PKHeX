@@ -24,12 +24,18 @@ namespace PKHeX.Core
             ReduceAreasSize(ref SlotsGS);
             ReduceAreasSize(ref SlotsC);
             ReduceAreasSize(ref SlotsGSC);
-            MarkEncountersGeneration(SlotsGS, 2);
-            MarkEncountersGeneration(SlotsC, 2);
-            MarkEncountersGeneration(SlotsGSC, 2);
-            MarkEncountersGeneration(StaticGS, 2);
-            MarkEncountersGeneration(StaticC, 2);
-            MarkEncountersGeneration(StaticGSC, 2);
+            MarkEncountersGeneration(2, SlotsGS, SlotsC, SlotsGSC);
+            MarkEncountersGeneration(2, StaticGS, StaticC, StaticGSC, TradeGift_GSC);
+
+            MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
+
+            SlotsGSC.SetVersion(GameVersion.GSC);
+            SlotsGS.SetVersion(GameVersion.GS);
+            SlotsC.SetVersion(GameVersion.C);
+            StaticGSC.SetVersion(GameVersion.GSC);
+            StaticGS.SetVersion(GameVersion.GS);
+            StaticC.SetVersion(GameVersion.C);
+            TradeGift_GSC.SetVersion(GameVersion.GSC);
         }
 
         private static EncounterArea[] GetTables2(GameVersion Version)
@@ -141,12 +147,16 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 185, Level = 20, Location = 020, Version = GameVersion.GSC }, // Sudowoodo @ Route 36
             new EncounterStatic { Species = 236, Level = 10, Location = 035, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
             
-            new EncounterStatic { Species = 130, Level = 30, Location = 038, Version = GameVersion.GSC, Shiny = true, }, // Gyarados @ Lake of Rage
+            new EncounterStatic { Species = 130, Level = 30, Location = 038, Version = GameVersion.GSC, Shiny = Shiny.Always, }, // Gyarados @ Lake of Rage
             new EncounterStatic { Species = 074, Level = 21, Location = 036, Version = GameVersion.GSC }, // Geodude @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 109, Level = 21, Location = 036, Version = GameVersion.GSC }, // Koffing @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 100, Level = 23, Location = 036, Version = GameVersion.GSC }, // Voltorb @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 101, Level = 23, Location = 036, Version = GameVersion.GSC }, // Electrode @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 143, Level = 50, Location = 061, Version = GameVersion.GSC }, // Snorlax @ Vermillion City
+
+            new EncounterStatic { Species = 211, Level = 05, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Old Rod)
+            new EncounterStatic { Species = 211, Level = 20, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Good Rod)
+            new EncounterStatic { Species = 211, Level = 40, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Super Rod)
             
             new EncounterStatic { Species = 083, Level = 05, Moves = new [] { 226, 14, 97, 163 }, Version = GameVersion.Stadium2 }, // Stadium 2 Baton Pass Farfetch'd
             new EncounterStatic { Species = 207, Level = 05, Moves = new [] { 89, 68, 17 }, Version = GameVersion.Stadium2 }, // Stadium 2 Earthquake Gligar
@@ -193,25 +203,30 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 147, Level = 10, Version = GameVersion.GS }, // Dratini @ Goldenrod City (Game Corner)
             new EncounterStatic { Species = 023, Level = 10, Version = GameVersion.GS }, // Ekans @ Goldenrod City (Game Corner) (Gold)
             new EncounterStatic { Species = 027, Level = 10, Version = GameVersion.GS }, // Sandshrew @ Goldenrod City (Game Corner) (Silver)
+
+            new EncounterStatic { Species = 223, Level = 05, Version = GameVersion.GS }, // Remoraid Swarm @ Route 44 (Old Rod)
+            new EncounterStatic { Species = 223, Level = 20, Version = GameVersion.GS }, // Remoraid Swarm @ Route 44 (Good Rod)
+            new EncounterStatic { Species = 223, Level = 40, Version = GameVersion.GS }, // Remoraid Swarm @ Route 44 (Super Rod)
         };
 
         private static readonly EncounterStatic[] Encounter_C_Exclusive =
         {
             new EncounterStatic { Species = 245, Level = 40, Location = 023, Version = GameVersion.C }, // Suicune @ Tin Tower
             
-            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Pichu Dizzy Punch
-            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Cleffa Dizzy Punch
-            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Igglybuff Dizzy Punch
-            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Tyrogue Dizzy Punch
-            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Smoochum Dizzy Punch
-            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Elekid Dizzy Punch
-            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Magby Dizzy Punch
+            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Pichu Dizzy Punch
+            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Cleffa Dizzy Punch
+            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Igglybuff Dizzy Punch
+            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Tyrogue Dizzy Punch
+            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Smoochum Dizzy Punch
+            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Elekid Dizzy Punch
+            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Magby Dizzy Punch
             
             new EncounterStatic { Species = 147, Level = 15, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
             
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
-            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.EventsGBGen2 }, // Celebi @ Ilex Forest
+            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.C }, // Celebi @ Ilex Forest (VC)
+            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.EventsGBGen2 }, // Celebi @ Ilex Forest (GBC)
 
             new EncounterStatic { Species = 137, Level = 15, Location = 071, Version = GameVersion.C }, // Porygon @ Celadon Game Corner
             new EncounterStatic { Species = 025, Level = 25, Location = 071, Version = GameVersion.C }, // Pikachu @ Celadon Game Corner
@@ -235,35 +250,31 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
-            new EncounterTrade { Species = 095, Generation = 2, Level = 03, Gender = 0, TID = 48926, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
-            new EncounterTrade { Species = 066, Generation = 2, Level = 05, Gender = 1, TID = 37460, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
-            new EncounterTrade { Species = 100, Generation = 2, Level = 05, Gender = 2, TID = 29189, IVs = new[] {08, 09, 08, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
-            new EncounterTrade { Species = 112, Generation = 2, Level = 30, Gender = 0, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [blue jp game corner]
-            new EncounterTrade { Species = 142, Generation = 2, Level = 05, Gender = 0, TID = 26491, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
-            new EncounterTrade { Species = 078, Generation = 2, Level = 14, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
+            new EncounterTrade { Species = 095, Level = 03, Gender = 0, TID = 48926, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
+            new EncounterTrade { Species = 066, Level = 05, Gender = 1, TID = 37460, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
+            new EncounterTrade { Species = 100, Level = 05, Gender = 2, TID = 29189, IVs = new[] {08, 09, 08, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
+            new EncounterTrade { Species = 112, Level = 10, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [wild]
+            new EncounterTrade { Species = 142, Level = 05, Gender = 0, TID = 26491, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
+            new EncounterTrade { Species = 078, Level = 14, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
 
-            new EncounterTrade { Species = 085, Generation = 2, Level = 30, Gender = 0, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [blue jp game corner]
-            new EncounterTrade { Species = 178, Generation = 2, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
-            new EncounterTrade { Species = 082, Generation = 2, Level = 16, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [wild]
+            new EncounterTrade { Species = 085, Level = 10, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [wild]
+            new EncounterTrade { Species = 178, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
+            new EncounterTrade { Species = 082, Level = 05, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
             
-            new EncounterTrade { Species = 213, Generation = 2, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
-            new EncounterTrade { Species = 021, Generation = 2, Level = 10, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
+            new EncounterTrade { Species = 021, Level = 10, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
+            new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
         };
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
-            new[] { "コンタ", "KYLE" },
-            new[] { "ナオキ", "MIKE" },
-            new[] { "ゲン", "TIM" },
-            new[] { "ミサコ", "EMY" },
-            new[] { "キヨミ", "KIM" },
-            new[] { "デンジ", "CHRIS" },
-
-            new[] { "ミサコ", "EMY" },
-            new[] { "デンジ", "CHRIS" },
-            new[] { "モリオ", "FOREST" },
-
-            new[] { "セイジ", "MANIA" },
-            new[] { "ユウジ", "RANDY" },
+            new string[0],                        // 0 - None
+            Util.GetStringList("tradegsc", "ja"), // 1
+            Util.GetStringList("tradegsc", "en"), // 2
+            Util.GetStringList("tradegsc", "fr"), // 3
+            Util.GetStringList("tradegsc", "it"), // 4
+            Util.GetStringList("tradegsc", "de"), // 5
+            new string[0],                        // 6 - None
+            Util.GetStringList("tradegsc", "es"), // 7
+            Util.GetStringList("tradegsc", "ko"), // 8
         };
     }
 }

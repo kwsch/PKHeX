@@ -1,4 +1,6 @@
-﻿using static PKHeX.Core.EncounterUtil;
+﻿using System.Collections.Generic;
+using System.Linq;
+using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -9,6 +11,7 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
         internal static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
+        internal static readonly ILookup<int, EncounterSlot> FriendSafari;
 
         static Encounters6()
         {
@@ -29,6 +32,44 @@ namespace PKHeX.Core
             SlotsO = GetEncounterTables(GameVersion.OR);
             MarkG6AOSlots(ref SlotsA);
             MarkG6AOSlots(ref SlotsO);
+
+            MarkEncountersGeneration(6, SlotsX, SlotsY, SlotsA, SlotsO);
+            MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
+
+            FriendSafari = GetFriendSafariArea();
+            MarkEncounterTradeStrings(TradeGift_XY, TradeXY);
+            MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
+
+            SlotsXYAlt.SetVersion(GameVersion.XY);
+            FriendSafari.SelectMany(z => z).SetVersion(GameVersion.XY);
+            SlotsX.SetVersion(GameVersion.X);
+            SlotsY.SetVersion(GameVersion.Y);
+            SlotsA.SetVersion(GameVersion.AS);
+            SlotsO.SetVersion(GameVersion.OR);
+            Encounter_XY.SetVersion(GameVersion.XY);
+            Encounter_AO.SetVersion(GameVersion.ORAS);
+            TradeGift_XY.SetVersion(GameVersion.XY);
+            TradeGift_AO.SetVersion(GameVersion.ORAS);
+        }
+
+        private static ILookup<int, EncounterSlot> GetFriendSafariArea()
+        {
+            var area = new EncounterArea { Location = 148 };
+            EncounterSlot FriendSafariSlot(int d)
+            {
+                return new EncounterSlot
+                {
+                    Area = area,
+                    Generation = 6,
+                    Species = d,
+                    LevelMin = 30,
+                    LevelMax = 30,
+                    Form = 0,
+                    Type = SlotType.FriendSafari,
+                };
+            }
+            area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
+            return area.Slots.ToLookup(s => s.Species);
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -175,10 +216,10 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 44, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 44, }, // Amaura
 
-            new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
-            new EncounterStatic { Species = 131, Level = 30, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
+            new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = Shiny.Never }, // Lucario
+            new EncounterStatic { Species = 131, Level = 30, Location = 62, Ability = 1, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
-            new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = false, }, // Snorlax
+            new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = Shiny.Never, }, // Snorlax
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
             new EncounterStatic { Species = 569, Level = 36, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 37, Location = 142 }, // Garbodor
@@ -196,17 +237,17 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 354, Level = 49, Location = 98 }, // Banette
             new EncounterStatic { Species = 354, Level = 50, Location = 98 }, // Banette
             
-            new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = false, IV3 = true }, // Xerneas
-            new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = false, IV3 = true }, // Yveltal
-            new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = false, IV3 = true }, // Zygarde
+            new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = Shiny.Never, IV3 = true }, // Xerneas
+            new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = Shiny.Never, IV3 = true }, // Yveltal
+            new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zygarde
             
-            new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = false, IV3 = true }, // Mewtwo
+            new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Mewtwo
 
-            new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = false, IV3 = true }, // Articuno
-            new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = false, IV3 = true }, // Zapdos
-            new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = false, IV3 = true }, // Moltres
+            new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Articuno
+            new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zapdos
+            new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Moltres
         };
-        private static readonly EncounterStatic[] Encounter_AO =
+        private static readonly EncounterStatic[] Encounter_AO_Regular =
         {
             new EncounterStatic { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
             new EncounterStatic { Gift = true, Species = 255, Level = 5, Location = 204, }, // Torchic
@@ -237,11 +278,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 190, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 190, }, // Amaura
 
-            new EncounterStatic { Species = 25, Level = 20, Location = 178, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
-            new EncounterStatic { Species = 25, Level = 20, Location = 180, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
-            new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
-            new EncounterStatic { Species = 25, Level = 20, Location = 194, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
-
             new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Wynaut
             new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Togepi
             new EncounterStatic { Species = 374, Level = 1, Location = 196, Ability = 1, IVs = new[] {-1, -1, 31, -1, -1, 31}, Gift = true }, // Beldum
@@ -253,10 +289,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Ability = 1, Gift = true, IV3 = true }, // Latias
             new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Ability = 1, Gift = true, IV3 = true }, // Latios
 
-            new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = false, IV3 = true }, // Kyogre
-            new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = false, IV3 = true }, // Groudon
-            new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = false, IV3 = true }, // Rayquaza
-            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = false, IV3 = true, Fateful = true }, // Deoxys
+            new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = Shiny.Never, IV3 = true }, // Kyogre
+            new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = Shiny.Never, IV3 = true }, // Groudon
+            new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = Shiny.Never, IV3 = true }, // Rayquaza
+            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = Shiny.Never, IV3 = true, Fateful = true }, // Deoxys
 
             new EncounterStatic { Species = 377, Level = 40, Location = 278, IV3 = true }, // Regirock
             new EncounterStatic { Species = 378, Level = 40, Location = 306, IV3 = true }, // Regice
@@ -316,6 +352,18 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new EncounterStatic { Species = 628, Level = 45, Location = 348 }, // Braviary
         };
+        private static readonly EncounterStatic[] Encounter_AO = ConcatAll(Encounter_AO_Regular, PermuteCosplayPikachu().ToArray());
+        private static IEnumerable<EncounterStatic> PermuteCosplayPikachu()
+        {
+            var CosplayPikachu = new EncounterStatic
+            {
+                Species = 25, Level = 20, Gender = 1, Ability = 4, IV3 = true,
+                Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
+            };
+            foreach (int loc in new[] { 178, 180, 186, 194 })
+            for (int f = 1; f <= 6; f++)
+            { var pk = CosplayPikachu.Clone(loc); pk.Form = f; yield return pk; }
+        }
         #endregion
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_XY =
@@ -344,18 +392,18 @@ namespace PKHeX.Core
 
         internal static readonly EncounterLink[] LinkGifts6 =
         {
-            new EncounterLink { Species = 154, Level = 50, Ability = 4, XY = true, ORAS = true }, // Meganium
-            new EncounterLink { Species = 157, Level = 50, Ability = 4, XY = true, ORAS = true }, // Typhlosion
-            new EncounterLink { Species = 160, Level = 50, Ability = 4, XY = true, ORAS = true, Moves = new [] {8} }, // Feraligatr with Ice Punch (not relearn)
+            new EncounterLink { Species = 154, Level = 50, Ability = 4, }, // Meganium
+            new EncounterLink { Species = 157, Level = 50, Ability = 4, }, // Typhlosion
+            new EncounterLink { Species = 160, Level = 50, Ability = 4, Moves = new [] {8} }, // Feraligatr with Ice Punch (not relearn)
 
-            new EncounterLink { Species = 251, Level = 10, Ability = 1, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, XY = true }, // Celebi
+            new EncounterLink { Species = 251, Level = 10, Ability = 1, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, Version = GameVersion.XY }, // Celebi
 
-            new EncounterLink { Species = 377, Level = 50, Ability = 4, RelearnMoves = new[] {153, 8, 444, 359}, XY = true, ORAS = true }, // Regirock
-            new EncounterLink { Species = 378, Level = 50, Ability = 4, RelearnMoves = new[] {85, 133, 58, 258}, XY = true, ORAS = true }, // Regice
-            new EncounterLink { Species = 379, Level = 50, Ability = 4, RelearnMoves = new[] {442, 157, 356, 334}, XY = true, ORAS = true }, // Registeel
+            new EncounterLink { Species = 377, Level = 50, Ability = 4, RelearnMoves = new[] {153, 8, 444, 359}, }, // Regirock
+            new EncounterLink { Species = 378, Level = 50, Ability = 4, RelearnMoves = new[] {85, 133, 58, 258}, }, // Regice
+            new EncounterLink { Species = 379, Level = 50, Ability = 4, RelearnMoves = new[] {442, 157, 356, 334}, }, // Registeel
 
-            new EncounterLink { Species = 208, Level = 40, Ability = 1, RibbonClassic = false, ORAS = true, OT = false }, // Steelix
-            new EncounterLink { Species = 362, Level = 40, Ability = 1, RibbonClassic = false, ORAS = true, OT = false }, // Glalie
+            new EncounterLink { Species = 208, Level = 40, Ability = 1, RibbonClassic = false, Version = GameVersion.ORAS, OT = false }, // Steelix
+            new EncounterLink { Species = 362, Level = 40, Ability = 1, RibbonClassic = false, Version = GameVersion.ORAS, OT = false }, // Glalie
         };
         #endregion
     }

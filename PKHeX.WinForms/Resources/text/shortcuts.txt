@@ -19,7 +19,7 @@ CTRL-SHIFT-T: Export Showdown Set
 Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.
 - Nickname/OT box: Bring up the ingame-special characters.
-- Individual IVs: Set IV to max. (toggles Hyper Training in Gen7 onwards)
+- Individual IVs: Set IV to max (or max-1 if already max).
 - Individual EVs: Set EV to max.
 - Randomize IVs: Set all IVs to max.
 - Randomize EVs: Set all EVs to 0.
@@ -35,6 +35,7 @@ Alt + Click on...
 
 Shift + Click on...
 - Preview Sprite to bring up a QR for the viewed Pokémon.
+- Individual IVs: Hyper Train the IV (toggles Hyper Training in Gen7 onwards)
 
 Hold Control when dragging to save encrypted (ekx).
 
@@ -52,10 +53,7 @@ Doubleclick on the SAV Tab: Auto-detect/Reload latest save.
 
 // Boxes
 
-Control-Click Box Tab: Sort Current Box contents.
-Control-Shift-Click Box Tab: Sort All Boxes.
-Alt-Click Box Tab: Delete Current Box contents.
-Alt-Shift-Click Box Tab: Delete All Boxes.
+Right click on Box Tab: Clear/Sort Box contents. Hold shift when selecting the action to apply to ALL boxes.
 
 Control-RightClick a Box Slot to show extra options (ie Legality check)
 Control-Drag a Box Slot to Copy-Overwrite

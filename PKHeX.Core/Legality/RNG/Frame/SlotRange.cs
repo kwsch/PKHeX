@@ -150,7 +150,7 @@ namespace PKHeX.Core
             if (slot.Type.IsSweetScentType())
                 return true;
             return true; // todo
-            return GetCanEncounter(slot, frameType, rand, lead);
+            //return GetCanEncounter(slot, frameType, rand, lead);
         }
         private static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {

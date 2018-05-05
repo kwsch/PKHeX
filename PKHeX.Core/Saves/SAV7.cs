@@ -22,12 +22,14 @@ namespace PKHeX.Core
 
         public SAV7(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G7SM] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G7SM];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             // Load Info
-            GetBlockInfo();
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, SaveUtil.CRC16);
+            if (Exportable)
+                CanReadChecksums();
             GetSAVOffsets();
 
             HeldItems = USUM ? Legal.HeldItems_USUM : Legal.HeldItems_SM;
@@ -49,7 +51,7 @@ namespace PKHeX.Core
         }
         
         // Configuration
-        public override SaveFile Clone() { return new SAV7(Data); }
+        public override SaveFile Clone() { return new SAV7((byte[])Data.Clone()); }
         
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
@@ -79,44 +81,12 @@ namespace PKHeX.Core
         public override bool HasGeolocation => true;
 
         // Blocks & Offsets
-        private int BlockInfoOffset;
-        private BlockInfo[] Blocks;
-        private void GetBlockInfo()
-        {
-            BlockInfoOffset = Data.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(Data, BlockInfoOffset) != SaveUtil.BEEF)
-                BlockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-            int count = (Data.Length - BlockInfoOffset - 0x8) / 8;
-            BlockInfoOffset += 4;
-
-            Blocks = new BlockInfo[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                Blocks[i] = new BlockInfo
-                {
-                    Offset = CurrentPosition,
-                    Length = BitConverter.ToInt32(Data, BlockInfoOffset + 0 + 8 * i),
-                    ID = BitConverter.ToUInt16(Data, BlockInfoOffset + 4 + 8 * i),
-                    Checksum = BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + 8 * i)
-                };
-
-                // Expand out to nearest 0x200
-                CurrentPosition += Blocks[i].Length % 0x200 == 0 ? Blocks[i].Length : 0x200 - Blocks[i].Length % 0x200 + Blocks[i].Length;
-
-                if ((Blocks[i].ID != 0) || i == 0) continue;
-                count = i;
-                break;
-            }
-            // Fix Final Array Lengths
-            Array.Resize(ref Blocks, count);
-
-            if (Exportable)
-                CanReadChecksums();
-        }
-
+        private readonly int BlockInfoOffset;
+        private readonly BlockInfo[] Blocks;
         private bool IsMemeCryptoApplied = true;
         private const int MemeCryptoBlock = 36;
+        public override bool ChecksumsValid => CanReadChecksums() && Blocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => CanReadChecksums() ? Blocks.GetChecksumInfo(Data) : string.Empty;
         private bool CanReadChecksums()
         {
             if (Blocks.Length <= MemeCryptoBlock)
@@ -132,61 +102,11 @@ namespace PKHeX.Core
         {
             if (!CanReadChecksums())
                 return;
-            // Apply checksums
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                { Debug.WriteLine($"Block {i} has invalid offset/length value."); return; }
-
-                ushort chk = SaveUtil.CRC16(Data, Blocks[i].Offset, Blocks[i].Length);
-                BitConverter.GetBytes(chk).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
-            }
-            
+            Blocks.SetChecksums(Data);
             Data = SaveUtil.Resign7(Data);
             IsMemeCryptoApplied = true;
         }
-        public override bool ChecksumsValid
-        {
-            get
-            {
-                if (!CanReadChecksums())
-                    return false;
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                        return false;
-                    ushort chk = SaveUtil.CRC16(Data, Blocks[i].Offset, Blocks[i].Length);
-                    if (chk != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
-                        return false;
-                }
-                return true;
-            }
-        }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                if (!CanReadChecksums())
-                    return string.Empty;
 
-                int invalid = 0;
-                var sb = new StringBuilder();
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                        return $"Block {i} Invalid Offset/Length.";
-                    ushort chk = SaveUtil.CRC16(Data, Blocks[i].Offset, Blocks[i].Length);
-                    if (chk == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
-                        continue;
-
-                    invalid++;
-                    sb.AppendLine($"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}");
-                }
-                // Return Outputs
-                sb.AppendLine($"SAV: {Blocks.Length - invalid}/{Blocks.Length}");
-                return sb.ToString();
-            }
-        }
         public override ulong? Secure1
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
@@ -320,7 +240,8 @@ namespace PKHeX.Core
         public int FashionLength { get; set; } = int.MinValue;
         private int Record { get; set; } = int.MinValue;
 
-        private const int ResortCount = 93;
+        public const int ResortCount = 93;
+        public int GetResortSlotOffset(int slot) => Resort + 0x16 + slot * SIZE_STORED;
         public PKM[] ResortPKM
         {
             get
@@ -328,7 +249,7 @@ namespace PKHeX.Core
                 PKM[] data = new PKM[ResortCount];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] = GetPKM(GetData(Resort + 0x12 + i * SIZE_STORED, SIZE_STORED));
+                    data[i] = GetPKM(GetData(GetResortSlotOffset(i), SIZE_STORED));
                     data[i].Identifier = $"Resort Slot {i}";
                 }
                 return data;
@@ -339,7 +260,7 @@ namespace PKHeX.Core
                     throw new ArgumentException();
 
                 for (int i = 0; i < value.Length; i++)
-                    SetStoredSlot(value[i], Resort + 0x12 + i*SIZE_STORED);
+                    SetStoredSlot(value[i], GetResortSlotOffset(i));
             }
         }
 
@@ -354,20 +275,20 @@ namespace PKHeX.Core
                     case 32: return GameVersion.US;
                     case 33: return GameVersion.UM;
                 }
-                return GameVersion.Unknown;
+                return GameVersion.Invalid;
             }
         }
         
         // Player Information
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, TrainerCard + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, TrainerCard + 2);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 2);
         }
         public override int Game
         {
@@ -932,13 +853,13 @@ namespace PKHeX.Core
                     new InventoryPouch(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
                 };
                 foreach (var p in pouch)
-                    p.GetPouch7(ref Data);
+                    p.GetPouch7(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch7(ref Data);
+                    p.SetPouch7(Data);
             }
         }
 
@@ -1032,7 +953,7 @@ namespace PKHeX.Core
         }
         protected override void SetPKM(PKM pkm)
         {
-            PK7 pk7 = pkm as PK7;
+            PK7 pk7 = (PK7)pkm;
             // Apply to this Save File
             int CT = pk7.CurrentHandler;
             DateTime Date = DateTime.Now;
@@ -1049,7 +970,7 @@ namespace PKHeX.Core
         }
         protected override void SetDex(PKM pkm)
         {
-            if (PokeDex < 0 || Version == GameVersion.Unknown) // sanity
+            if (PokeDex < 0 || Version == GameVersion.Invalid) // sanity
                 return;
             if (pkm.Species == 0 || pkm.Species > MaxSpeciesID) // out of range
                 return;
@@ -1128,6 +1049,7 @@ namespace PKHeX.Core
         }
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
+            base.SetPartyValues(pkm, isParty);
             uint duration = 0;
             if (isParty && pkm.AltForm != 0)
                 switch (pkm.Species)
@@ -1501,10 +1423,10 @@ namespace PKHeX.Core
             var r = new StringBuilder();
 
             // FFFF checks
-            byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
-                if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
+                if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
+                    continue;
                 r.AppendLine($"0x200 chunk @ 0x{i*0x200:X5} is FF'd.");
                 r.AppendLine("Cyber will screw up (as of August 31st 2014).");
                 r.AppendLine();
@@ -1520,11 +1442,7 @@ namespace PKHeX.Core
             }
             return r.ToString();
         }
-        public override string MiscSaveInfo()
-        {
-            return string.Join(Environment.NewLine,
-                Blocks.Select(b => $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}"));
-        }
+        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
         public bool MegaUnlocked
         {
             get => (Data[TrainerCard + 0x78] & 0x01) != 0;

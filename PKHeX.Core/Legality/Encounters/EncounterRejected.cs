@@ -20,5 +20,7 @@ namespace PKHeX.Core
             Encounter = encounter;
             Check = check;
         }
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }

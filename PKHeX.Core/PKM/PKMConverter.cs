@@ -16,6 +16,7 @@ namespace PKHeX.Core
         public static string OT_Name { get; private set; } = "PKHeX";
         public static int OT_Gender { get; private set; } // Male
         public static int Language { get; private set; } = 1; // en
+        public static bool AllowIncompatibleConversion { private get; set; }
 
         public static void UpdateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER, int LANGUAGE)
         {
@@ -213,6 +214,21 @@ namespace PKHeX.Core
                 return pk;
             }
 
+            var pkm = ConvertPKM(pk, PKMType, fromType, out comment);
+            if (!AllowIncompatibleConversion || pkm != null)
+                return pkm;
+
+            // Try Incompatible Conversion
+            pkm = GetBlank(PKMType);
+            pk.TransferPropertiesWithReflection(pkm);
+            if (!SaveUtil.IsPKMCompatibleWithModifications(pkm))
+                return null;
+            comment = "Converted via reflection.";
+            return pkm;
+        }
+
+        private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, out string comment)
+        {
             if (IsNotTransferrable(pk, out comment))
                 return null;
 
@@ -226,9 +242,20 @@ namespace PKHeX.Core
                 return null;
             }
 
+            var pkm = ConvertPKM(pk, PKMType, fromType, toFormat, ref comment);
+
+            comment = pkm == null
+                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
+                : $"Converted from {fromType.Name} to {PKMType.Name}.";
+            return pkm;
+        }
+
+
+        private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, int toFormat, ref string comment)
+        {
             PKM pkm = pk.Clone();
             if (pkm.IsEgg)
-                ForceHatchPKM(pkm);
+                pkm.ForceHatchPKM();
 
             switch (fromType.Name)
             {
@@ -246,26 +273,27 @@ namespace PKHeX.Core
                         if (pk.Species > 151)
                         {
                             comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, pkm.Japanese ? 1 : 2)} to {PKMType.Name}";
-                            return null;
+                            return pkm;
                         }
                         pkm = ((PK2)pk).ConvertToPK1();
                         pkm.ClearInvalidMoves();
                     }
                     break;
                 case nameof(CK3):
+                    pkm = ((CK3)pkm).ConvertToPK3();
+                    goto case nameof(PK3); // fall through
                 case nameof(XK3):
-                    // interconverting C/XD needs to visit main series format
-                    // ends up stripping purification/shadow etc stats
-                    pkm = pkm.ConvertToPK3();
+                    pkm = ((XK3)pkm).ConvertToPK3();
                     goto case nameof(PK3); // fall through
                 case nameof(PK3):
-                    if (toFormat == 3) // Gen3 Inter-trading
+                    if (toFormat == 3)
                     {
-                        pkm = InterConvertPK3(pkm, PKMType);
+                        if (PKMType == typeof(CK3))
+                            pkm = ((PK3)pkm).ConvertToCK3();
+                        else if (PKMType == typeof(XK3))
+                            pkm = ((PK3)pkm).ConvertToXK3();
                         break;
                     }
-                    if (fromType.Name != nameof(PK3))
-                        pkm = pkm.ConvertToPK3();
 
                     pkm = ((PK3) pkm).ConvertToPK4();
                     if (toFormat == 4)
@@ -295,7 +323,7 @@ namespace PKHeX.Core
                     if (pkm.Species == 25 && pkm.AltForm != 0) // cosplay pikachu
                     {
                         comment = "Cannot transfer Cosplay Pikachu forward.";
-                        return null;
+                        return pkm;
                     }
                     pkm = ((PK6) pkm).ConvertToPK7();
                     if (toFormat == 7)
@@ -304,11 +332,6 @@ namespace PKHeX.Core
                 case nameof(PK7):
                     break;
             }
-
-            comment = pkm == null
-                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
-                : $"Converted from {fromType.Name} to {PKMType.Name}.";
-
             return pkm;
         }
 
@@ -332,45 +355,6 @@ namespace PKHeX.Core
                     comment = "Cannot transfer Spiky-Eared Pichu forward.";
                     return true;
             }
-        }
-
-        /// <summary>
-        /// Converts a PKM from one Generation 3 format to another. If it matches the destination format, the conversion will automatically return.
-        /// </summary>
-        /// <param name="pk">PKM to convert</param>
-        /// <param name="desiredFormatType">Format/Type to convert to</param>
-        /// <remarks><see cref="PK3"/>, <see cref="CK3"/>, and <see cref="XK3"/> are supported.</remarks>
-        /// <returns>Converted PKM</returns>
-        private static PKM InterConvertPK3(PKM pk, Type desiredFormatType)
-        {
-            // if already converted it instantly returns
-            switch (desiredFormatType.Name)
-            {
-                case nameof(CK3):
-                    return pk.ConvertToCK3();
-                case nameof(XK3):
-                    return pk.ConvertToXK3();
-                case nameof(PK3):
-                    return pk.ConvertToPK3();
-                default: throw new FormatException();
-            }
-        }
-
-        /// <summary>
-        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
-        /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        /// <remarks>
-        /// <see cref="PKM.IsEgg"/> is not checked; can be abused to re-hatch already hatched <see cref="PKM"/> inputs.
-        /// <see cref="PKM.MetDate"/> is not modified; must be updated manually if desired.
-        /// </remarks>
-        private static void ForceHatchPKM(PKM pkm)
-        {
-            pkm.IsEgg = false;
-            pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format);
-            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
-            if (loc >= 0)
-                pkm.Met_Location = loc;
         }
 
         /// <summary>
@@ -426,7 +410,8 @@ namespace PKHeX.Core
             {
                 pkm = null;
                 c = $"Can't load {pk.GetType().Name}s to Gen{target.Format} saves.";
-                return false;
+                if (!AllowIncompatibleConversion)
+                    return false;
             }
             if (target.Format < 3 && pk.Japanese != target.Japanese)
             {
@@ -434,7 +419,8 @@ namespace PKHeX.Core
                 var strs = new[] { "International", "Japanese" };
                 var val = target.Japanese ? 0 : 1;
                 c = $"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.";
-                return false;
+                if (!AllowIncompatibleConversion)
+                    return false;
             }
             pkm = ConvertToType(pk, target.GetType(), out c);
             Debug.WriteLine(c);
@@ -446,11 +432,16 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of <see cref="PKM"/> instance desired.</param>
         /// <returns>New instance of a blank <see cref="PKM"/> object.</returns>
-        public static PKM GetBlank(Type t) => (PKM)Activator.CreateInstance(t, Enumerable.Repeat(null as PKM, t.GetTypeInfo().DeclaredConstructors.First().GetParameters().Length).ToArray());
-
-        public static void TransferProperties(PKM source, PKM dest)
+        public static PKM GetBlank(Type t)
         {
-            source.TransferPropertiesWithReflection(source, dest);
+            var constructors = t.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
+            var argCount = constructors.First().GetParameters().Length;
+            return (PKM)Activator.CreateInstance(t, new object[argCount]);
+        }
+        public static PKM GetBlank(int gen)
+        {
+            var type = Type.GetType($"PKHeX.Core.PK{gen}");
+            return GetBlank(type);
         }
     }
 }

@@ -14,18 +14,14 @@ namespace PKHeX.WinForms
         private readonly SAV5 SAV;
         public SAV_CGearSkin(SaveFile sav)
         {
-            SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV5)(Origin = sav).Clone();
 
-            SAV = (Origin = sav).Clone() as SAV5;
+            byte[] data = SAV.CGearSkinData;
+            bg = new CGearBackground(data);
 
-            bool cgearPresent = SAV.Data[SAV.CGearInfoOffset + 0x26] == 1;
-            bg = new CGearBackground(cgearPresent ?
-                CGearBackground.PSKtoCGB(SAV.Data.Skip(SAV.CGearDataOffset).Take(CGearBackground.SIZE_CGB).ToArray(), SAV.B2W2)
-                : new byte[CGearBackground.SIZE_CGB]);
-
-            PB_Background.Image = bg.GetImage();
-            WinFormsUtil.Alert("Editor is incomplete.", "No guarantee of functionality.");
+            PB_Background.Image = CGearExtensions.GetBitmap(bg);
         }
 
         private CGearBackground bg;
@@ -45,8 +41,8 @@ namespace PKHeX.WinForms
 
             try
             {
-                bg.SetImage(img);
-                PB_Background.Image = bg.GetImage();
+                bg = CGearExtensions.GetCGearBackground(img);
+                PB_Background.Image = CGearExtensions.GetBitmap(bg);
             }
             catch (Exception ex)
             {
@@ -77,23 +73,19 @@ namespace PKHeX.WinForms
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            var len = new FileInfo(ofd.FileName).Length;
+            var path = ofd.FileName;
+            var len = new FileInfo(path).Length;
             if (len != CGearBackground.SIZE_CGB)
             {
                 WinFormsUtil.Error($"Incorrect size, got {len} bytes, expected {CGearBackground.SIZE_CGB} bytes.");
                 return;
             }
 
-            byte[] data = File.ReadAllBytes(ofd.FileName);
-            if (!CGearBackground.IsCGB(data))
-            {
-                bool B2W2 = data[0x2000] != 0x00;
-                data = CGearBackground.PSKtoCGB(data, B2W2);
-            }
-
+            byte[] data = File.ReadAllBytes(path);
             bg = new CGearBackground(data);
-            PB_Background.Image = bg.GetImage();
+            PB_Background.Image = CGearExtensions.GetBitmap(bg);
         }
+
         private void B_ExportCGB_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog
@@ -104,34 +96,17 @@ namespace PKHeX.WinForms
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
-            byte[] data = bg.Write();
+            byte[] data = bg.GetSkin(true);
             File.WriteAllBytes(sfd.FileName, data);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            byte[] bgdata = bg.Write();
-            if (bgdata.SequenceEqual(new byte[CGearBackground.SIZE_CGB]))
-                return;
-
-            // Data present
-
-            bgdata = CGearBackground.CGBtoPSK(bgdata, SAV.B2W2);
-
-            Array.Copy(bgdata, 0, SAV.Data, SAV.CGearDataOffset, bgdata.Length);
-            ushort chk = SaveUtil.CRC16_CCITT(bgdata);
-            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 2);
-            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x100);
-
-            ushort skinchkval = SaveUtil.CRC16_CCITT(SAV.Data, bgdata.Length + 0x100, 4);
-            BitConverter.GetBytes(skinchkval).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x112);
-
-            // Indicate in the save file that data is present
-            BitConverter.GetBytes((ushort)0xC21E).CopyTo(SAV.Data, 0x19438);
-
-            SAV.Data[SAV.CGearInfoOffset + 0x26] = 1; // data present
-            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearInfoOffset + 0x24);
-
-            Origin.SetData(SAV.Data, 0);
+            byte[] bgdata = bg.GetSkin(SAV.B2W2);
+            if (!bgdata.All(z => z == 0))
+            {
+                SAV.CGearSkinData = bgdata;
+                Origin.SetData(SAV.Data, 0);
+            }
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

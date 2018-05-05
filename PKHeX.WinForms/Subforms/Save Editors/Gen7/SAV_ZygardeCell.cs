@@ -11,8 +11,9 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV;
         public SAV_ZygardeCell(SaveFile sav)
         {
-            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV7)(Origin = sav).Clone();
 
             // Constants @ 0x1C00
             // Cell Data @ 0x1D8C

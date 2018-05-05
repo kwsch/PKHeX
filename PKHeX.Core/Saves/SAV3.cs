@@ -42,9 +42,9 @@ namespace PKHeX.Core
 
         public SAV3(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3RAW] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3RAW];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (data == null)
                 Version = GameVersion.FRLG;
@@ -106,7 +106,7 @@ namespace PKHeX.Core
             // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
             // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
             // OT name is stored at the top of the first block.
-            Japanese = BitConverter.ToInt16(data, BlockOfs[0] + 0x6) == 0;
+            Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0;
 
             switch (Version)
             {
@@ -187,7 +187,6 @@ namespace PKHeX.Core
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
-        public override bool IndeterminateGame => Version == GameVersion.Unknown;
         public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
@@ -200,7 +199,7 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_3;
         public override int MaxItemID => Legal.MaxItemID_3;
         public override int MaxBallID => Legal.MaxBallID_3;
-        public override int MaxGameID => 5;
+        public override int MaxGameID => Legal.MaxGameID_3;
 
         public override int BoxCount => 14;
         public override int MaxEV => 255;
@@ -213,6 +212,8 @@ namespace PKHeX.Core
         protected override int EventConstMax => EventConst > 0 ? 0x100 : int.MinValue;
 
         public override bool HasParty => true;
+
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
 
         // Checksums
         protected override void SetChecksums()
@@ -286,15 +287,15 @@ namespace PKHeX.Core
             get => Data[BlockOfs[0] + 8];
             set => Data[BlockOfs[0] + 8] = (byte)value;
         }
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xA + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xA + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xA + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xC);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xC);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xC);
         }
         public override int PlayedHours
         {
@@ -417,14 +418,14 @@ namespace PKHeX.Core
                 {
                     if (p.Type != InventoryType.PCItems)
                         p.SecurityKey = SecurityKey;
-                    p.GetPouch(ref Data);
+                    p.GetPouch(Data);
                 }
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch(ref Data);
+                    p.SetPouch(Data);
             }
         }
 
@@ -529,7 +530,7 @@ namespace PKHeX.Core
                 return false;
             if (species > MaxSpeciesID)
                 return false;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return false;
             if (BlockOfs.Any(z => z < 0))
                 return false;

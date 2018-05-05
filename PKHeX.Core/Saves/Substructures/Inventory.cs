@@ -22,10 +22,7 @@ namespace PKHeX.Core
         public bool New;
         public bool FreeSpace;
         public int Index, Count;
-        public InventoryItem Clone()
-        {
-            return new InventoryItem {Count = Count, Index = Index, New = New};
-        }
+        public InventoryItem Clone() => (InventoryItem) MemberwiseClone();
 
         // Check Pouch Compatibility
         public bool Valid(ushort[] LegalItems, bool HaX, int MaxItemID)
@@ -60,7 +57,7 @@ namespace PKHeX.Core
             PouchDataSize = size > -1 ? size : legal.Length;
         }
 
-        public void GetPouch(ref byte[] Data)
+        public void GetPouch(byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
@@ -73,7 +70,7 @@ namespace PKHeX.Core
             }
             Items = items;
         }
-        public void SetPouch(ref byte[] Data)
+        public void SetPouch(byte[] Data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -84,7 +81,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i*4 + 2);
             }
         }
-        public void GetPouch7(ref byte[] Data)
+        public void GetPouch7(byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
@@ -104,7 +101,7 @@ namespace PKHeX.Core
             Items = items;
             OriginalItems = Items.Select(i => i.Clone()).ToArray();
         }
-        public void SetPouch7(ref byte[] Data, bool setNEW = false)
+        public void SetPouch7(byte[] Data, bool setNEW = false)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -150,7 +147,7 @@ namespace PKHeX.Core
             }
         }
 
-        public void GetPouchG1(ref byte[] Data)
+        public void GetPouchG1(byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             if (Type == InventoryType.TMHMs)
@@ -209,7 +206,7 @@ namespace PKHeX.Core
             Items = items;
 
         }
-        public void SetPouchG1(ref byte[] Data)
+        public void SetPouchG1(byte[] Data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");

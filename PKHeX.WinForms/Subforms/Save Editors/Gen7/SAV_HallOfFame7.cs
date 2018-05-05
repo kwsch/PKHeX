@@ -11,9 +11,9 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV;
         public SAV_HallOfFame7(SaveFile sav)
         {
-            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV7)(Origin = sav).Clone();
             entries = new[]
             {
                 CB_F1, CB_F2, CB_F3, CB_F4, CB_F5, CB_F6,

@@ -17,9 +17,9 @@ namespace PKHeX.Core
         private const int SAVE_COUNT = 4;
         public SAV4BR(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G4BR] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G4BR];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (SaveUtil.GetIsG4BRSAV(Data) != GameVersion.BATREV)
                 return;
@@ -69,10 +69,13 @@ namespace PKHeX.Core
 
         public readonly List<int> SaveSlots;
         public readonly string[] SaveNames;
-        public int CurrentSlot;
-        protected override int Box { // 4 save slots, data reading depends on current slot
-            get => 0x978 + 0x6FF00 * CurrentSlot;
-            set { }
+
+        private int _currentSlot;
+        public int CurrentSlot
+        {
+            get => _currentSlot;
+            // 4 save slots, data reading depends on current slot
+            set => Box = 0x978 + 0x6FF00 * (_currentSlot = value);
         }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
@@ -82,10 +85,10 @@ namespace PKHeX.Core
 
         public override int MaxMoveID => 467;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
-        public override int MaxAbilityID => 123;
-        public override int MaxItemID => 536;
-        public override int MaxBallID => 0x18;
-        public override int MaxGameID => 15;
+        public override int MaxAbilityID => Legal.MaxAbilityID_4;
+        public override int MaxItemID => Legal.MaxItemID_4_HGSS;
+        public override int MaxBallID => Legal.MaxBallID_4;
+        public override int MaxGameID => Legal.MaxGameID_4;
 
         public override int MaxEV => 255;
         public override int Generation => 4;
@@ -145,15 +148,22 @@ namespace PKHeX.Core
         }
 
         protected override void SetDex(PKM pkm) { }
+        protected override void SetPKM(PKM pkm)
+        {
+            var pk4 = (BK4)pkm;
+            // Apply to this Save File
+            DateTime Date = DateTime.Now;
+            if (pk4.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+                pkm.RefreshChecksum();
+        }
 
         public static byte[] DecryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
+            ushort[] keys = new ushort[4];
             for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
             {
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
-
-                ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
                     keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
 
@@ -163,7 +173,8 @@ namespace PKHeX.Core
                     {
                         ushort val = BigEndian.ToUInt16(input, ofs + i*2);
                         val -= keys[i];
-                        BigEndian.GetBytes(val).CopyTo(output, ofs + i*2);
+                        output[ofs + i * 2] = (byte)(val >> 8);
+                        output[ofs + i * 2 + 1] = (byte)val;
                     }
                     keys = SaveUtil.AdvanceGCKeys(keys);
                 }
@@ -174,11 +185,10 @@ namespace PKHeX.Core
         private static byte[] EncryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
+            ushort[] keys = new ushort[4];
             for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
             {
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
-
-                ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
                     keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
 
@@ -188,7 +198,8 @@ namespace PKHeX.Core
                     {
                         ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                         val += keys[i];
-                        BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                        output[ofs + i * 2] = (byte)(val >> 8);
+                        output[ofs + i * 2 + 1] = (byte)val;
                     }
                     keys = SaveUtil.AdvanceGCKeys(keys);
                 }

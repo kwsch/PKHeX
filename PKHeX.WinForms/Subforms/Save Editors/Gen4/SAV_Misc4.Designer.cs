@@ -33,6 +33,8 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
             this.TAB_Main = new System.Windows.Forms.TabPage();
+            this.NUD_Coin = new System.Windows.Forms.NumericUpDown();
+            this.L_Coin = new System.Windows.Forms.Label();
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_UGFlags = new System.Windows.Forms.Label();
             this.NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
@@ -100,6 +102,7 @@
             this.B_UnlockCourses = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.GB_FlyDest.SuspendLayout();
@@ -173,6 +176,8 @@
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.NUD_Coin);
+            this.TAB_Main.Controls.Add(this.L_Coin);
             this.TAB_Main.Controls.Add(this.L_CurrentMap);
             this.TAB_Main.Controls.Add(this.L_UGFlags);
             this.TAB_Main.Controls.Add(this.NUD_UGFlags);
@@ -189,6 +194,32 @@
             this.TAB_Main.UseVisualStyleBackColor = true;
             this.TAB_Main.DragDrop += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragDrop);
             this.TAB_Main.DragEnter += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragEnter);
+            // 
+            // NUD_Coin
+            // 
+            this.NUD_Coin.Location = new System.Drawing.Point(122, 9);
+            this.NUD_Coin.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Coin.Name = "NUD_Coin";
+            this.NUD_Coin.Size = new System.Drawing.Size(51, 20);
+            this.NUD_Coin.TabIndex = 9;
+            this.NUD_Coin.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_Coin
+            // 
+            this.L_Coin.Location = new System.Drawing.Point(80, 6);
+            this.L_Coin.Name = "L_Coin";
+            this.L_Coin.Size = new System.Drawing.Size(40, 22);
+            this.L_Coin.TabIndex = 10;
+            this.L_Coin.Text = "Coin:";
+            this.L_Coin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_CurrentMap
             // 
@@ -227,7 +258,7 @@
             // 
             // NUD_BP
             // 
-            this.NUD_BP.Location = new System.Drawing.Point(34, 8);
+            this.NUD_BP.Location = new System.Drawing.Point(30, 8);
             this.NUD_BP.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -244,7 +275,7 @@
             // 
             // L_BP
             // 
-            this.L_BP.Location = new System.Drawing.Point(3, 6);
+            this.L_BP.Location = new System.Drawing.Point(-1, 6);
             this.L_BP.Name = "L_BP";
             this.L_BP.Size = new System.Drawing.Size(30, 22);
             this.L_BP.TabIndex = 1;
@@ -1132,6 +1163,7 @@
             this.Text = "Misc Editor";
             this.TC_Misc.ResumeLayout(false);
             this.TAB_Main.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).EndInit();
             this.GB_FlyDest.ResumeLayout(false);
@@ -1246,5 +1278,7 @@
         private System.Windows.Forms.Label L_CurrentMap;
         private System.Windows.Forms.TabPage TAB_Walker;
         private System.Windows.Forms.Button B_UnlockCourses;
+        private System.Windows.Forms.NumericUpDown NUD_Coin;
+        private System.Windows.Forms.Label L_Coin;
     }
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -20,10 +21,18 @@ namespace PKHeX.WinForms
         private readonly PKMEditor PKME_Tabs;
         public SAV_Database(PKMEditor f1, SAVEditor saveditor)
         {
+            InitializeComponent();
+
+            ToolStripMenuItem mnuView = new ToolStripMenuItem {Name = "mnuView", Text = "View"};
+            ToolStripMenuItem mnuDelete = new ToolStripMenuItem {Name = "mnuDelete", Text = "Delete" };
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
+
             SAV = saveditor.SAV;
             BoxView = saveditor;
             PKME_Tabs = f1;
-            InitializeComponent();
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
@@ -61,21 +70,16 @@ namespace PKHeX.WinForms
             
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
-            L_Viewed.Text = ""; // invis for now
+            L_Viewed.Text = string.Empty; // invis for now
             var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
             PopulateComboBoxes();
-
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
-            ToolStripMenuItem mnuDelete = new ToolStripMenuItem("Delete");
 
             // Assign event handlers
             mnuView.Click += ClickView;
             mnuDelete.Click += ClickDelete;
 
             // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
@@ -91,6 +95,7 @@ namespace PKHeX.WinForms
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
 
@@ -104,7 +109,7 @@ namespace PKHeX.WinForms
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
-        private const int MAXFORMAT = 7;
+        private const int MAXFORMAT = PKX.Generation;
         private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
         private static string Hash(PKM pk)
         {
@@ -161,7 +166,7 @@ namespace PKHeX.WinForms
 #if LOADALL
             if (path.StartsWith(EXTERNAL_SAV))
             {
-                WinFormsUtil.Alert("Can't delete from a backup save.");
+                WinFormsUtil.Alert(MsgDBDeleteFailBackup);
                 return;
             }
 #endif
@@ -179,9 +184,9 @@ namespace PKHeX.WinForms
                 int offset = SAV.GetBoxOffset(box) + slot*SAV.SIZE_STORED;
                 PKM pkSAV = SAV.GetStoredSlot(offset);
 
-                if (!pkSAV.Data.SequenceEqual(pk.Data)) // data still exists in SAV, unmodified
+                if (!pkSAV.DecryptedBoxData.SequenceEqual(pk.DecryptedBoxData)) // data still exists in SAV, unmodified
                 {
-                    WinFormsUtil.Error("Database slot data does not match save data!", "Don't move Pokémon after initializing the Database, please re-open the Database viewer.");
+                    WinFormsUtil.Error(MsgDBDeleteFailModified, MsgDBDeleteFailWarning);
                     return;
                 }
                 var change = new SlotChange {Box = box, Offset = offset, Slot = slot};
@@ -209,7 +214,7 @@ namespace PKHeX.WinForms
 
             if (RawDB.Any(p => p.Identifier == path))
             {
-                WinFormsUtil.Alert("File already exists in database!");
+                WinFormsUtil.Alert(MsgDBAddFailExistsFile);
                 return;
             }
 
@@ -221,7 +226,7 @@ namespace PKHeX.WinForms
             RawDB = new List<PKM>(RawDB);
             int post = RawDB.Count;
             if (pre == post)
-            { WinFormsUtil.Alert("Pokémon already exists in database."); return; }
+            { WinFormsUtil.Alert(MsgDBAddFailExistsPKM); return; }
             Results.Add(pk);
 
             // Refresh database view.
@@ -232,7 +237,7 @@ namespace PKHeX.WinForms
                 SCR_Box.Maximum += 1;
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
             FillPKXBoxes(SCR_Box.Value);
-            WinFormsUtil.Alert("Added Pokémon from tabs to database.");
+            WinFormsUtil.Alert(MsgDBAddFromTabsSuccess);
         }
         private void PopulateComboBoxes()
         {
@@ -242,7 +247,7 @@ namespace PKHeX.WinForms
             CB_Ability.DisplayMember =
             CB_Nature.DisplayMember =
             CB_GameOrigin.DisplayMember =
-            CB_HPType.DisplayMember = "Text";
+            CB_HPType.DisplayMember = nameof(ComboItem.Text);
 
             // Set the Value
             CB_HeldItem.ValueMember =
@@ -250,9 +255,9 @@ namespace PKHeX.WinForms
             CB_Ability.ValueMember =
             CB_Nature.ValueMember =
             CB_GameOrigin.ValueMember =
-            CB_HPType.ValueMember = "Value";
+            CB_HPType.ValueMember = nameof(ComboItem.Value);
 
-            var Any = new ComboItem {Text = "Any", Value = -1};
+            var Any = new ComboItem {Text = MsgAny, Value = -1};
 
             var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;
@@ -279,7 +284,7 @@ namespace PKHeX.WinForms
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                 {
-                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                    cb.DisplayMember = nameof(ComboItem.Text); cb.ValueMember = nameof(ComboItem.Value);
                     cb.DataSource = new BindingSource(DS_Move, null);
                 }
             }
@@ -291,7 +296,7 @@ namespace PKHeX.WinForms
         {
             CHK_Shiny.Checked = CHK_IsEgg.Checked = true;
             CHK_Shiny.CheckState = CHK_IsEgg.CheckState = CheckState.Indeterminate;
-            MT_ESV.Text = "";
+            MT_ESV.Text = string.Empty;
             CB_HeldItem.SelectedIndex = 0;
             CB_Species.SelectedIndex = 0;
             CB_Ability.SelectedIndex = 0;
@@ -299,7 +304,7 @@ namespace PKHeX.WinForms
             CB_HPType.SelectedIndex = 0;
 
             CB_Level.SelectedIndex = 0;
-            TB_Level.Text = "";
+            TB_Level.Text = string.Empty;
             CB_EVTrain.SelectedIndex = 0;
             CB_IV.SelectedIndex = 0;
 
@@ -316,7 +321,7 @@ namespace PKHeX.WinForms
         }
         private void GenerateDBReport(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Generate a Report on all data?", "This may take a while...")
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBCreateReportPrompt, MsgDBCreateReportWarning)
                 != DialogResult.Yes)
                 return;
 
@@ -333,7 +338,9 @@ namespace PKHeX.WinForms
             {
                 FileInfo fi = new FileInfo(file);
                 if (!fi.Extension.Contains(".pk") || !PKX.IsPKM(fi.Length)) return;
-                var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - '0') & 0xF);
+                var data = File.ReadAllBytes(file);
+                var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
+                var pk = PKMConverter.GetPKMfromBytes(data, file, prefer);
                 if (pk != null)
                     dbTemp.Add(pk);
             });
@@ -363,6 +370,14 @@ namespace PKHeX.WinForms
                 .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
                 .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
                 .Distinct());
+
+            // Load stats for pkm who do not have any
+            foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
+            {
+                pk.Stat_Level = pk.CurrentLevel;
+                pk.SetStats(pk.GetStats(pk.PersonalInfo));
+            }
+
             try
             {
                 BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
@@ -379,9 +394,9 @@ namespace PKHeX.WinForms
         private void Menu_Export_Click(object sender, EventArgs e)
         {
             if (Results == null || Results.Count == 0)
-            { WinFormsUtil.Alert("No results to export."); return; }
+            { WinFormsUtil.Alert(MsgDBCreateReportFail); return; }
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Export to a folder?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -393,6 +408,19 @@ namespace PKHeX.WinForms
 
             foreach (PKM pkm in Results)
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedBoxData);
+        }
+        private void Menu_Import_Click(object sender, EventArgs e)
+        {
+            if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
+                return;
+
+            int box = BoxView.Box.CurrentBox;
+            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, noSetb))
+                return;
+
+            BoxView.SetPKMBoxes();
+            BoxView.UpdateBoxViewers();
+            WinFormsUtil.Alert(result);
         }
 
         // View Updates
@@ -426,8 +454,6 @@ namespace PKHeX.WinForms
                     res = res.Where(pk => pk.Format <= 2);
                 if (format >= 3 && format <= 6) // 3-6
                     res = res.Where(pk => pk.Format >= 3);
-                if (format >= 7) // 1,3-6,7
-                    res = res.Where(pk => pk.Format != 2);
             }
 
             switch (CB_Generation.SelectedIndex)
@@ -466,8 +492,8 @@ namespace PKHeX.WinForms
             if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
             if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            if (CHK_IsEgg.CheckState == CheckState.Checked && string.IsNullOrWhiteSpace(MT_ESV.Text))
-                res = res.Where(pk => pk.PSV == Convert.ToInt16(MT_ESV.Text));
+            if (CHK_IsEgg.CheckState == CheckState.Checked && int.TryParse(MT_ESV.Text, out int esv))
+                res = res.Where(pk => pk.PSV == esv);
 
             // Tertiary Searchables
             res = FilterByLVL(res, CB_Level.SelectedIndex, TB_Level.Text);
@@ -526,11 +552,11 @@ namespace PKHeX.WinForms
             switch (option)
             {
                 case 0: break; // Any (Do nothing)
-                case 1: // <=
+                case 3: // <=
                     return res.Where(pk => pk.Stat_Level <= level);
                 case 2: // == 
                     return res.Where(pk => pk.Stat_Level == level);
-                case 3: // >=
+                case 1: // >=
                     return res.Where(pk => pk.Stat_Level >= level);
             }
             return res;
@@ -578,7 +604,7 @@ namespace PKHeX.WinForms
             var search = SearchDatabase();
 
             bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
-            if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Check wordfilter legality?") == DialogResult.No)
+            if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
                 Legal.CheckWordFilter = false;
             var results = await Task.Run(() => search.ToArray());
             Legal.CheckWordFilter = true;
@@ -586,9 +612,9 @@ namespace PKHeX.WinForms
             if (results.Length == 0)
             {
                 if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
-                    WinFormsUtil.Alert("No data source to search!", "No results found!");
+                    WinFormsUtil.Alert(MsgDBSearchFail, MsgDBSearchNone);
                 else
-                    WinFormsUtil.Alert("No results found!");
+                    WinFormsUtil.Alert(MsgDBSearchNone);
             }
             SetResults(new List<PKM>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
@@ -641,7 +667,7 @@ namespace PKHeX.WinForms
         private void ChangeLevel(object sender, EventArgs e)
         {
             if (CB_Level.SelectedIndex == 0)
-                TB_Level.Text = "";
+                TB_Level.Text = string.Empty;
         }
         private void ChangeGame(object sender, EventArgs e)
         {
@@ -693,8 +719,8 @@ namespace PKHeX.WinForms
         private void Menu_DeleteClones_Click(object sender, EventArgs e)
         {
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                "Deleting clones from database is not reversible." + Environment.NewLine +
-                "If a PKM is deemed a clone, only the newest file (date modified) will be kept.", "Continue?");
+                MsgDBDeleteCloneWarning + Environment.NewLine +
+                MsgDBDeleteCloneAdvice, MsgContinue);
 
             if (dr != DialogResult.Yes)
                 return;
@@ -706,13 +732,13 @@ namespace PKHeX.WinForms
             foreach (var pk in clones)
             {
                 try { File.Delete(pk.Identifier); ++deleted; }
-                catch { WinFormsUtil.Error("Unable to delete clone:" + Environment.NewLine + pk.Identifier); }
+                catch { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + pk.Identifier); }
             }
 
             if (deleted == 0)
-            { WinFormsUtil.Alert("No clones detected or deleted."); return; }
+            { WinFormsUtil.Alert(MsgDBDeleteCloneNone); return; }
 
-            WinFormsUtil.Alert($"{deleted} files deleted.", "The form will now close.");
+            WinFormsUtil.Alert(string.Format(MsgFileDeleteCount, deleted), MsgWindowClose);
             Close();
         }
     }

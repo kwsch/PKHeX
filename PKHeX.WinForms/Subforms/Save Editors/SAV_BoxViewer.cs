@@ -4,7 +4,7 @@ using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms
 {
-    public partial class SAV_BoxViewer : Form
+    public sealed partial class SAV_BoxViewer : Form
     {
         private readonly SAVEditor parent;
         public SAV_BoxViewer(SAVEditor p, SlotChangeManager m)
@@ -22,6 +22,7 @@ namespace PKHeX.WinForms
                 Cursor = DefaultCursor;
                 System.Media.SystemSounds.Asterisk.Play();
             };
+            Owner = p.ParentForm;
 
             foreach (PictureBox pb in Box.SlotPictureBoxes)
                 pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;

@@ -6,17 +6,19 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
-    public partial class SAV_EventFlags : Form
+    public sealed partial class SAV_EventFlags : Form
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
         public SAV_EventFlags(SaveFile sav)
         {
-            SAV = (Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (Origin = sav).Clone();
 
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;
@@ -42,7 +44,7 @@ namespace PKHeX.WinForms
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
-            Text = $"Event Flag Editor ({gamePrefix.ToUpper()})";
+            Text = $"{Text} ({gamePrefix.ToUpper()})";
 
             if (CB_Stats.Items.Count > 0)
                 CB_Stats.SelectedIndex = 0;
@@ -158,7 +160,7 @@ namespace PKHeX.WinForms
         {
             if (list == null || list.Length == 0)
             {
-                TLP_Flags.Controls.Add(new Label { Text = "Needs more research.", Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+                TLP_Flags.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
                 return;
             }
 
@@ -220,7 +222,7 @@ namespace PKHeX.WinForms
         {
             if (list == null || list.Length == 0)
             {
-                TLP_Const.Controls.Add(new Label { Text = "Needs more research.", Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+                TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
                 return;
             }
 
@@ -252,7 +254,7 @@ namespace PKHeX.WinForms
             }
             if (num.Count == 0)
             {
-                TLP_Const.Controls.Add(new Label { Text = "Needs more research.", Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+                TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
                 return;
             }
 
@@ -434,18 +436,18 @@ namespace PKHeX.WinForms
         }
         private void DiffSaves()
         {
-            if (!File.Exists(TB_OldSAV.Text)) { WinFormsUtil.Alert("Save 1 path invalid."); return; }
-            if (!File.Exists(TB_NewSAV.Text)) { WinFormsUtil.Alert("Save 2 path invalid."); return; }
-            if (new FileInfo(TB_OldSAV.Text).Length > 0x100000) { WinFormsUtil.Alert("Save 1 file invalid."); return; }
-            if (new FileInfo(TB_NewSAV.Text).Length > 0x100000) { WinFormsUtil.Alert("Save 2 file invalid."); return; }
+            if (!File.Exists(TB_OldSAV.Text)) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
+            if (!File.Exists(TB_NewSAV.Text)) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
+            if (new FileInfo(TB_OldSAV.Text).Length > 0x100000) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
+            if (new FileInfo(TB_NewSAV.Text).Length > 0x100000) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
 
             SaveFile s1 = SaveUtil.GetVariantSAV(File.ReadAllBytes(TB_OldSAV.Text));
             SaveFile s2 = SaveUtil.GetVariantSAV(File.ReadAllBytes(TB_NewSAV.Text));
-            if (s1 == null) { WinFormsUtil.Alert("Save 1 file invalid."); return; }
-            if (s2 == null) { WinFormsUtil.Alert("Save 2 file invalid."); return; }
+            if (s1 == null) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
+            if (s2 == null) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
 
-            if (s1.GetType() != s2.GetType()) { WinFormsUtil.Alert("Save types are different.", $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
-            if (s1.Version != s2.Version) { WinFormsUtil.Alert("Save versions are different.", $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
+            if (s1.GetType() != s2.GetType()) { WinFormsUtil.Alert(MsgSaveDifferentTypes, $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
+            if (s1.Version != s2.Version) { WinFormsUtil.Alert(MsgSaveDifferentVersions, $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
 
             string tbIsSet = "";
             string tbUnSet = "";
@@ -454,7 +456,9 @@ namespace PKHeX.WinForms
                 bool[] oldBits = s1.EventFlags;
                 bool[] newBits = s2.EventFlags;
                 if (oldBits.Length != newBits.Length)
-                { WinFormsUtil.Alert("Event flag lengths for games are different.", $"S1: {(GameVersion)s1.Game}", $"S2: {(GameVersion)s2.Game}"); return; }
+                    throw new Exception("Event flag lengths for games are different." +
+                                        $"{Environment.NewLine}S1: {(GameVersion)s1.Game}" +
+                                        $"{Environment.NewLine}S2: {(GameVersion)s2.Game}");
 
                 for (int i = 0; i < oldBits.Length; i++)
                 {

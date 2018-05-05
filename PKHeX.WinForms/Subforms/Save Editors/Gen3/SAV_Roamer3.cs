@@ -11,9 +11,9 @@ namespace PKHeX.WinForms
 
         public SAV_Roamer3(SaveFile sav)
         {
-            Reader = new Roamer3((SAV3)sav);
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            Reader = new Roamer3((SAV3)sav);
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";

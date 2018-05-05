@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -9,15 +10,21 @@ namespace PKHeX.Core
         {
             return (uint)Rand.Next(1 << 30) << 2 | (uint)Rand.Next(1 << 2);
         }
-        public static void Shuffle<T>(T[] array)
+
+        /// <summary>
+        /// Shuffles the order of items within a collection of items.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="items">Item collection</param>
+        public static void Shuffle<T>(IList<T> items)
         {
-            int n = array.Length;
+            int n = items.Count;
             for (int i = 0; i < n; i++)
             {
-                int r = i + (int)(Rand.NextDouble() * (n - i));
-                T t = array[r];
-                array[r] = array[i];
-                array[i] = t;
+                int r = i + Rand.Next(n-i);
+                T t = items[r];
+                items[r] = items[i];
+                items[i] = t;
             }
         }
     }

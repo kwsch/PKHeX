@@ -11,18 +11,18 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_SuperTrain(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6)(Origin = sav).Clone();
             trba = GameInfo.Strings.trainingbags;
             trba[0] = "---";
             offsetTime = SAV.SuperTrain + 0x08;
             offsetSpec = SAV.SuperTrain + 0x188;
             offsetVal = SAV.SuperTrain + 0x18A;
-            InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             string[] stages = GameInfo.Strings.trainingstage;
             listBox1.Items.Clear();
-            for (int i = 0; i < 30; i++)
-                listBox1.Items.Add($"{(i + 1):00} - {stages[i + 2]}");
+            for (int i = 0; i < 32; i++)
+                listBox1.Items.Add($"{i+1:00} - {stages[i]}");
 
             Setup();
         }
@@ -95,13 +95,17 @@ namespace PKHeX.WinForms
             }
             catch { }
         }
+
+        private bool loading = true;
         private void ChangeListRecordSelection(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
+            loading = true;
             TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * index).ToString();
             TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + 4 * index).ToString();
             CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * index);
+            loading = false;
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -132,19 +136,19 @@ namespace PKHeX.WinForms
         private void ChangeRecordSpecies(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0 || loading) return;
             BitConverter.GetBytes(WinFormsUtil.GetIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + 4 * index);
         }
         private void ChangeRecordVal(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0 || loading) return;
             try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(SAV.Data, offsetVal + 4 * index); } catch { }
         }
         private void ChangeRecordTime(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0 || loading) return;
             try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(SAV.Data, offsetTime + 4 * index); } catch { }
         }
     }

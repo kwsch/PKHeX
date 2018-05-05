@@ -97,9 +97,41 @@
                 case 4: return GameVersion.SS;
                 case 5: return GameVersion.W2;
                 case 6: return GameVersion.AS;
-                case 7: return GameVersion.MN;
+                case 7: return GameVersion.UM;
                 default:
-                    return GameVersion.Unknown;
+                    return GameVersion.Invalid;
+            }
+        }
+        public static int GetGeneration(GameVersion game)
+        {
+            game = GetMetLocationVersionGroup(game); // get group
+            switch (game)
+            {
+                default: return -1;
+
+                case GameVersion.RBY: return 1;
+                case GameVersion.GSC: return 2;
+
+                case GameVersion.CXD:
+                case GameVersion.RS: case GameVersion.E:
+                case GameVersion.FR: case GameVersion.LG:
+                    return 3;
+
+                case GameVersion.DP: case GameVersion.Pt:
+                case GameVersion.HGSS:
+                    return 4;
+
+                case GameVersion.BW:
+                case GameVersion.B2W2:
+                    return 5;
+
+                case GameVersion.XY:
+                case GameVersion.ORAS:
+                    return 6;
+
+                case GameVersion.SM:
+                case GameVersion.USUM:
+                    return 7;
             }
         }
     }

@@ -144,7 +144,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<string> DumpStrings(Type t)
         {
-            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "V");
+            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "");
             return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p).ToString()}");
         }
 
@@ -186,7 +186,7 @@ namespace PKHeX.Core
 
                 try
                 {
-                    ReflectUtil.SetValue(t, prop.ToUpper(), value);
+                    ReflectUtil.SetValue(t, prop, value);
                 }
                 catch
                 {

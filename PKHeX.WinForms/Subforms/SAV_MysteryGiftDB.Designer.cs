@@ -132,6 +132,7 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
+            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -899,7 +900,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = Properties.Resources.exit;
+            this.Menu_Exit.Image = global::PKHeX.WinForms.Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -912,7 +913,8 @@
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SearchSettings,
             this.Menu_OpenDB,
-            this.Menu_Export});
+            this.Menu_Export,
+            this.Menu_Import});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
             this.Menu_Tools.Text = "Tools";
@@ -921,9 +923,9 @@
             // 
             this.Menu_SearchSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SearchAdvanced});
-            this.Menu_SearchSettings.Image = Properties.Resources.settings;
+            this.Menu_SearchSettings.Image = global::PKHeX.WinForms.Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
-            this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
+            this.Menu_SearchSettings.Size = new System.Drawing.Size(209, 22);
             this.Menu_SearchSettings.Text = "Search Settings";
             // 
             // Menu_SearchAdvanced
@@ -937,17 +939,17 @@
             // 
             // Menu_OpenDB
             // 
-            this.Menu_OpenDB.Image = Properties.Resources.folder;
+            this.Menu_OpenDB.Image = global::PKHeX.WinForms.Properties.Resources.folder;
             this.Menu_OpenDB.Name = "Menu_OpenDB";
-            this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
+            this.Menu_OpenDB.Size = new System.Drawing.Size(209, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
             this.Menu_OpenDB.Click += new System.EventHandler(this.OpenDB);
             // 
             // Menu_Export
             // 
-            this.Menu_Export.Image = Properties.Resources.export;
+            this.Menu_Export.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_Export.Name = "Menu_Export";
-            this.Menu_Export.Size = new System.Drawing.Size(197, 22);
+            this.Menu_Export.Size = new System.Drawing.Size(209, 22);
             this.Menu_Export.Text = "Export Results to Folder";
             this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
             // 
@@ -964,7 +966,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);
@@ -1460,6 +1462,14 @@
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 
+            // Menu_Import
+            // 
+            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
+            this.Menu_Import.Name = "Menu_Import";
+            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
+            this.Menu_Import.Text = "Import Results to SaveFile";
+            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
+            // 
             // SAV_MysteryGiftDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1667,5 +1677,6 @@
         private System.Windows.Forms.ComboBox CB_Format;
         private System.Windows.Forms.RichTextBox RTB_Instructions;
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchAdvanced;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Import;
     }
 }

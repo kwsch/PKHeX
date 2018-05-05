@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
             using (Graphics gr = Graphics.FromImage(img))
             {
-                gr.DrawImage(baseLayer, new Point(0, 0));
+                gr.DrawImage(baseLayer, new Rectangle(0, 0, baseLayer.Width, baseLayer.Height));
                 Image o = trans == 1f ? overLayer : ChangeOpacity(overLayer, trans);
                 gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
             }
@@ -77,6 +77,20 @@ namespace PKHeX.WinForms
             bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             ptr = bmpData.Scan0;
             data = new byte[bmp.Width * bmp.Height * 4];
+        }
+        public static Bitmap GetBitmap(byte[] data, int width, int height, int stride = -1, PixelFormat format = PixelFormat.Format32bppArgb)
+        {
+            if (stride == -1 && format == PixelFormat.Format32bppArgb)
+                stride = 4 * width; // defaults
+            return new Bitmap(width, height, stride, format, Marshal.UnsafeAddrOfPinnedArrayElement(data, 0));
+        }
+        public static byte[] GetPixelData(Bitmap bitmap)
+        {
+            var argbData = new byte[bitmap.Width * bitmap.Height * 4];
+            var bd = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            Marshal.Copy(bd.Scan0, argbData, 0, bitmap.Width * bitmap.Height * 4);
+            bitmap.UnlockBits(bd);
+            return argbData;
         }
         private static void SetAllTransparencyTo(byte[] data, double trans)
         {

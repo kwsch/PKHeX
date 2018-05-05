@@ -8,8 +8,8 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>
     /// Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was referenced.
-    /// http://projectpokemon.org/forums/member.php?829-Grovyle91
-    /// http://projectpokemon.org/forums/showthread.php?6524
+    /// https://projectpokemon.org/home/profile/859-grovyle91/
+    /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
     /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
     /// </remarks>
     public sealed class PCD : MysteryGift
@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         public PCD(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
         }
 
         public PGT Gift
@@ -90,6 +90,10 @@ namespace PKHeX.Core
         public override int TID { get => Gift.TID; set => Gift.TID = value; }
         public override int SID { get => Gift.SID; set => Gift.SID = value; }
         public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
+        
+        // ILocation overrides
+        public override int Location { get => IsEgg ? 0 : Gift.EggLocation + 3000; set { } }
+        public override int EggLocation { get => IsEgg ? Gift.EggLocation + 3000 : 0; set { } }
 
         public bool GiftEquals(PGT pgt)
         {
@@ -108,7 +112,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             return Gift.ConvertToPKM(SAV);
         }
@@ -158,7 +162,7 @@ namespace PKHeX.Core
 
         public PGT(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
         }
 
         public byte CardType { get => Data[0]; set => Data[0] = value; }
@@ -182,13 +186,32 @@ namespace PKHeX.Core
                 if ((_pk = value) == null)
                     return;
 
-                var pkdata = value.Data.SequenceEqual(new byte[value.Data.Length])
+                var pkdata = value.Data.All(z => z == 0)
                     ? value.Data
                     : PKX.EncryptArray45(value.Data);
                 pkdata.CopyTo(Data, 8);
             }
         }
         private PK4 _pk;
+
+        /// <summary>
+        /// Double checks the encryption of the gift data for Pokemon data.
+        /// </summary>
+        /// <returns>True if data was encrypted, false if the data was not modified.</returns>
+        public bool VerifyPKEncryption()
+        {
+            if (!IsPokémon || BitConverter.ToUInt32(Data, 0x64 + 8) != 0)
+                return false;
+            EncryptPK();
+            return true;
+        }
+        private void EncryptPK()
+        {
+            byte[] ekdata = new byte[PKX.SIZE_4PARTY];
+            Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
+            ekdata = PKX.EncryptArray45(ekdata);
+            ekdata.CopyTo(Data, 8);
+        }
 
         private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
@@ -207,13 +230,15 @@ namespace PKHeX.Core
         public override int TID { get => (ushort)PK.TID; set => PK.TID = value; }
         public override int SID { get => (ushort)PK.SID; set => PK.SID = value; }
         public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
+        public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
+        public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             if (!IsPokémon)
                 return null;
 
-            PK4 pk4 = new PK4(PK.Data) {Sanity = 0};
+            PK4 pk4 = new PK4((byte[])PK.Data.Clone()) {Sanity = 0};
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = SAV.OT;

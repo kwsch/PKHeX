@@ -23,7 +23,7 @@ Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without 
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/36FpRop.png)
+![Main Window](https://i.imgur.com/QDlIaxg.png)
 
 ## Building
 
@@ -38,6 +38,8 @@ Use the Debug or Release build configurations when building using the .NET Frame
 ## Dependencies
 
 PKHeX's QR code generation code is taken from [QRCoder](https://github.com/codebude/QRCoder), which is licensed under [the MIT license](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
+
+PKHeX's shiny sprite collection is taken from [pokesprite](https://github.com/msikma/pokesprite), which is licensed under [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).
 
 ### IDE
 

@@ -6,16 +6,14 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 Mystery Gift Template File
     /// </summary>
-    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
+    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IContestStats
     {
         public const int Size = 0xCC;
         public override int Format => 5;
 
         public PGF(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
-            if (data == null) Data = new byte[Size];
-            else Data = (byte[])data.Clone();
+            Data = data ?? new byte[Size];
         }
 
         public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
@@ -61,7 +59,7 @@ namespace PKHeX.Core
         public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-        public ushort EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes(value).CopyTo(Data, 0x38); }
+        public override int EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x38); }
         public ushort MetLocation { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
         public int MetLevel { get => Data[0x3C]; set => Data[0x3C] = (byte)value; }
         public int CNT_Cool { get => Data[0x3D]; set => Data[0x3D] = (byte)value; }
@@ -145,13 +143,13 @@ namespace PKHeX.Core
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
         public override bool IsShiny => PIDType == 2;
-
+        public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
         public override int[] Moves => new[] { Move1, Move2, Move3, Move4 };
         public override bool IsPokémon { get => CardType == 1; set { if (value) CardType = 1; } }
         public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
         public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }
 
-        public override PKM ConvertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             if (!IsPokémon)
                 return null;
@@ -173,7 +171,7 @@ namespace PKHeX.Core
                 Nature = Nature != 0xFF ? Nature : (int)(Util.Rand32() % 25),
                 Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
-                Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.Rand32() & 0x3] : OriginGame,
+                Version = OriginGame == 0 ? SAV.Game : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
                 Ball = Ball,
                 Move1 = Move1,
@@ -212,10 +210,10 @@ namespace PKHeX.Core
 
                 FatefulEncounter = true,
             };
-            pk.Move1_PP = pk.GetMovePP(Move1, 0);
-            pk.Move2_PP = pk.GetMovePP(Move2, 0);
-            pk.Move3_PP = pk.GetMovePP(Move3, 0);
-            pk.Move4_PP = pk.GetMovePP(Move4, 0);
+            if (SAV.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
+                pk.Version = (int)GameVersion.W + Util.Rand.Next(4);
+
+            pk.SetMaximumPPCurrent();
             if (IsEgg) // User's
             {
                 pk.TID = SAV.TID;

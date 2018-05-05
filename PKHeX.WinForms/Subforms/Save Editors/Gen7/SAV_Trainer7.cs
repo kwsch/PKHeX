@@ -12,14 +12,14 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV;
         public SAV_Trainer7(SaveFile sav)
         {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV7)(Origin = sav).Clone();
             Loading = true;
-            InitializeComponent();
             if (Main.Unicode)
             try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
 
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             CB_Gender.Items.Clear();
@@ -113,7 +113,7 @@ namespace PKHeX.WinForms
             L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
             CB_Vivillon.DisplayMember = "Text";
             CB_Vivillon.ValueMember = "Value";
-            CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols).ToList();
+            CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
 
             var styles = new List<string>(BattleStyles);
             if (SAV.USUM)
@@ -138,10 +138,7 @@ namespace PKHeX.WinForms
 
             // Display Data
             TB_OTName.Text = OT_NAME;
-
-            MT_TID.Text = SAV.TID.ToString("00000");
-            MT_SID.Text = SAV.SID.ToString("00000");
-            MT_G7TID.Text = SAV.TrainerID7.ToString("000000");
+            trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
 
             CB_Country.SelectedValue = SAV.Country;
@@ -356,8 +353,6 @@ namespace PKHeX.WinForms
             SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
             
-            SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
-            SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
             SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
@@ -473,7 +468,10 @@ namespace PKHeX.WinForms
             SAV.SetSurfScore(1, (int)NUD_Surf1.Value);
             SAV.SetSurfScore(2, (int)NUD_Surf2.Value);
             SAV.SetSurfScore(3, (int)NUD_Surf3.Value);
-            if (TB_RotomOT.Text != TB_OTName.Text && DialogResult.Yes == 
+
+            if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
+                && TB_OTName.Text != SAV.OT // manually changed
+                && DialogResult.Yes == // wants to update
                 WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rotom OT does not match OT name. Update Rotom OT name with OT name?"))
                 SAV.RotomOT = TB_OTName.Text;
             else
@@ -499,17 +497,6 @@ namespace PKHeX.WinForms
             var d = new TrashEditor(tb, null, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
-        }
-        private void ShowTSV(object sender, EventArgs e)
-        {
-            SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
-            SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
-            int tsv = (SAV.TID ^ SAV.SID) >> 4;
-            string IDstr = $"TSV: {tsv:0000}";
-            if (SAV.Generation > 6) // always true for G7
-                IDstr += Environment.NewLine + $"G7TID: {SAV.TrainerID7:000000}";
-            Tip1.SetToolTip(MT_TID, IDstr);
-            Tip2.SetToolTip(MT_SID, IDstr);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -679,13 +666,6 @@ namespace PKHeX.WinForms
                 CLB_MapUnmask.SetItemChecked(i, true);
         }
 
-        private void B_GenTID_Click(object sender, EventArgs e)
-        {
-            var tuple = SaveUtil.GetTIDSID(Util.ToUInt32(MT_G7TID.Text), ModifierKeys == Keys.Control);
-            MT_TID.Text = tuple.Item1.ToString("D5");
-            MT_SID.Text = tuple.Item2.ToString("D5");
-        }
-
         private readonly Dictionary<int, string> RecordList = new Dictionary<int, string>
         {
             {000, "Steps Taken"},
@@ -718,6 +698,7 @@ namespace PKHeX.WinForms
             {027, "Battle Points Earned"},
             {028, "Battle Points Spent"},
             {029, "Super Effective Moves Used"},
+            {030, "Clothing Count"},
             {031, "Salon Uses"},
             {032, "Berry Harvests"},
             {033, "Trades at the GTS"},
@@ -730,7 +711,9 @@ namespace PKHeX.WinForms
             {040, "Battle Tree Challenges"},
             {041, "Z-Moves Used"},
             {042, "Balls Used"},
+            {043, "Items Thieved"},
             {044, "Moves Used"},
+            {045, "Levels Raised"},
             {046, "Ran From Battles"},
             {047, "Rock Smash Items"},
             {048, "Medicine Used"},
@@ -742,6 +725,8 @@ namespace PKHeX.WinForms
             {055, "Poké Bean Trades"},
             {056, "Poké Pelago Tapped Pokémon"},
             {057, "Poké Pelago Bean Stacks put in Crate"},
+            {058, "Poké Pelago Levels Gained"},
+            {062, "Battle Video QR Teams Scanned"},
             {063, "Battle Videos Watched"},
             {064, "Battle Videos Rebattled"},
             {065, "RotomDex Interactions"},
@@ -759,6 +744,7 @@ namespace PKHeX.WinForms
             {104, "Moves used with No Effect"},
             {105, "Own Fainted Pokémon"},
             {107, "Failed Run Attempts"},
+            {109, "Failed Fishing Attempts"},
             {110, "Pokemon Defeated (Highest)"},
             {111, "Pokemon Defeated (Today)"},
             {112, "Pokemon Caught (Highest)"},
@@ -774,6 +760,8 @@ namespace PKHeX.WinForms
             {122, "Best (Super) Multi Streak"},
             {123, "Loto-ID Wins"},
             {124, "PP Raised"},
+            {125, "Amie Used"},
+            {126, "Fishing Chains"},
             {127, "Shiny Pokemon Encountered"},
             {128, "Missions Participated In"},
             {129, "Facilities Hosted"},
@@ -783,9 +771,11 @@ namespace PKHeX.WinForms
             {133, "Trainer Card Photos Taken"},
             {134, "Evolutions Cancelled"},
             {135, "SOS Battle Allies Called"},
+            {136, "Friendship Raised"},
             {137, "Battle Royal Dome Battles"},
             {138, "Items Picked Up after Battle"},
             {139, "Ate in Malasadas Shop"},
+            {140, "Hyper Trainings Recieved"},
             {141, "Dishes eaten in Battle Buffet"},
             {142, "Pokémon Refresh Accessed"},
             {143, "Pokémon Storage System Log-outs"},
@@ -808,6 +798,9 @@ namespace PKHeX.WinForms
             {160, "Pelago Treasure Hunts"},
             {161, "Pelago Training Sessions"},
             {162, "Pelago Hot Spring Sessions"},
+            {163, "Special QR 1"},
+            {164, "Special QR 2"},
+            {165, "Special QR Code Scans"},
             {166, "Island Scans"},
             {167, "Rustling Bush Encounters"},
             {168, "Fly Shadow Encounters"},
@@ -818,20 +811,21 @@ namespace PKHeX.WinForms
             {173, "Bubbling Spot Encounters/Items"},
             {174, "Times laid down in Own Bed"},
 
-            {175, "Trade Pokémon at the GTS!"},
-            {176, "176 - Global Mission"},
+            {175, "Catch a lot of Pokémon!"},
+            {176, "Trade Pokémon at the GTS!"},
             {177, "Hatch a lot of Eggs!"},
             {178, "Harvest Poké Beans!"},
-            {179, "179 - Global Mission"},
+            {179, "Get high scores with your Poké Finder!"},
             {180, "Find Pokémon using Island Scan!"},
-            {181, "181 - Global Mission"},
+            {181, "Catch Crabrawler!"},
             {182, "Defend your Champion title!"},
             {183, "Fish Pokémon at rare spots!"},
             {185, "Try your luck!"},
-            {186, "186 - Global Mission"},
+            {186, "Get BP at the Battle Tree!"},
             {187, "Catch a lot of Pokémon!"},
 
             // USUM
+            {188, "Ultra Wormhole Travels"},
             {189, "Mantine Surf Plays"},
             {190, "Photo Club Photos saved"},
             {191, "Battle Agency Battles"},

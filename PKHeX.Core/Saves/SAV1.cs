@@ -19,9 +19,9 @@ namespace PKHeX.Core
 
         public SAV1(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G1RAW] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G1RAW];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (data == null)
                 Version = GameVersion.RBY;
@@ -203,6 +203,8 @@ namespace PKHeX.Core
         public override bool HasParty => true;
         private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
 
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
+
         // Checksums
         protected override void SetChecksums()
         {
@@ -241,21 +243,18 @@ namespace PKHeX.Core
             get => GetString(0x2598, OTLength);
             set => SetString(value, OTLength).CopyTo(Data, 0x2598);
         }
+        public byte[] OT_Trash { get => GetData(0x2598, 11); set { if (value?.Length == 11) SetData(value, 0x2598); } }
         public override int Gender
         {
             get => 0;
             set { }
         }
-        public override ushort TID
+        public override int TID
         {
             get => BigEndian.ToUInt16(Data, Japanese ? 0x25FB : 0x2605);
-            set => BigEndian.GetBytes(value).CopyTo(Data, Japanese ? 0x25FB : 0x2605);
+            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x25FB : 0x2605);
         }
-        public override ushort SID
-        {
-            get => 0;
-            set { }
-        }
+        public override int SID { get => 0; set { } }
 
         public bool Yellow => Starter == 0x54; // Pikachu
         public int Starter => Data[Japanese ? 0x29B9 : 0x29C3];
@@ -264,20 +263,42 @@ namespace PKHeX.Core
             get => Data[Japanese ? 0x2712 : 0x271C];
             set => Data[Japanese ? 0x2712 : 0x271C] = value;
         }
+        private int PlayedTimeOffset => Japanese ? 0x2CA0 : 0x2CED;
+
+        protected override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {SaveUtil.CRC16_CCITT(Data):X4}";
         public override int PlayedHours
         {
-            get => BitConverter.ToUInt16(Data, Japanese ? 0x2CA0 : 0x2CED);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x2CA0 : 0x2CED);
+            get => Data[PlayedTimeOffset + 0];
+            set
+            {
+                if (value >= byte.MaxValue) // Set 255:00:00.00 and flag
+                {
+                    PlayedMaximum = true;
+                    value = byte.MaxValue;
+                    PlayedMinutes = PlayedSeconds = PlayedFrames = 0;
+                }
+                Data[PlayedTimeOffset + 0] = (byte) value;
+            }
+        }
+        public bool PlayedMaximum
+        {
+            get => Data[PlayedTimeOffset + 1] != 0;
+            set => Data[PlayedTimeOffset + 1] = (byte)(value ? 1 : 0);
         }
         public override int PlayedMinutes
         {
-            get => Data[Japanese ? 0x2CA2 : 0x2CEF];
-            set => Data[Japanese ? 0x2CA2 : 0x2CEF] = (byte)value;
+            get => Data[PlayedTimeOffset + 2];
+            set => Data[PlayedTimeOffset + 2] = (byte)value;
         }
         public override int PlayedSeconds
         {
-            get => Data[Japanese ? 0x2CA3 : 0x2CF0];
-            set => Data[Japanese ? 0x2CA3 : 0x2CF0] = (byte)value;
+            get => Data[PlayedTimeOffset + 3];
+            set => Data[PlayedTimeOffset + 3] = (byte)value;
+        }
+        public int PlayedFrames
+        {
+            get => Data[PlayedTimeOffset + 4];
+            set => Data[PlayedTimeOffset + 4] = (byte)value;
         }
 
         public int Badges
@@ -358,7 +379,7 @@ namespace PKHeX.Core
                 };
                 foreach (var p in pouch)
                 {
-                    p.GetPouchG1(ref Data);
+                    p.GetPouchG1(Data);
                 }
                 return pouch;
             }
@@ -374,8 +395,8 @@ namespace PKHeX.Core
                         p.Items[i] = p.Items[ofs++];
                     }
                     while (ofs < p.Items.Length)
-                        p.Items[ofs++] = new InventoryItem { Count = 0, Index = 0 };
-                    p.SetPouchG1(ref Data);
+                        p.Items[ofs++] = new InventoryItem();
+                    p.SetPouchG1(Data);
                 }
             }
         }
@@ -457,7 +478,7 @@ namespace PKHeX.Core
                 return false;
             if (species > MaxSpeciesID)
                 return false;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return false;
             return true;
         }

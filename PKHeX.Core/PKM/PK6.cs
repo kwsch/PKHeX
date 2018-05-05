@@ -4,27 +4,27 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-    public class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6
+    public sealed class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6
     {
         public static readonly byte[] ExtraBytes =
         {
             0x36, 0x37, // Unused Ribbons
             0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 6;
         public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormeEntry(Species, AltForm);
 
         public PK6(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
+            Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() => new PK6(Data);
+        public override PKM Clone() => new PK6((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString6(value, maxLength);
@@ -372,6 +372,7 @@ namespace PKHeX.Core
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
+        public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
         
         // Complex Generated Attributes
 
@@ -440,7 +441,7 @@ namespace PKHeX.Core
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (!Gen6)
-                OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
             Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
             Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;
@@ -495,7 +496,7 @@ namespace PKHeX.Core
         {
             // Eggs do not have any modifications done if they are traded
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-                UpdateEgg(Day, Month, Year);
+                SetLinkTradeEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
             else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
                 TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
@@ -531,13 +532,6 @@ namespace PKHeX.Core
                 TradeMemory(Bank);
         }
         // Misc Updates
-        private void UpdateEgg(int Day, int Month, int Year)
-        {
-            Met_Location = 30002;
-            Met_Day = Day;
-            Met_Month = Month;
-            Met_Year = Year - 2000;
-        }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
             // Allow the method to abort if the values are invalid
@@ -565,7 +559,7 @@ namespace PKHeX.Core
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             HT_Intensity = 1;
-            HT_Feeling = Util.Rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
+            HT_Feeling = Legal.GetRandomFeeling(HT_Memory, Bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
         }
 
         // Legality Properties

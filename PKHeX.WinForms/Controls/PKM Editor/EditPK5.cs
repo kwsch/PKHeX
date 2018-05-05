@@ -39,8 +39,9 @@ namespace PKHeX.WinForms.Controls
             SaveMisc4(pk5);
 
             pk5.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
-            pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
             pk5.NPokémon = CHK_NSparkle.Checked;
+            if (!HaX) // specify via extra 0x42 instead
+                pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
 
             SavePartyStats(pk5);
             pk5.FixMoves();

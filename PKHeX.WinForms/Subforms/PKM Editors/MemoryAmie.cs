@@ -11,15 +11,15 @@ namespace PKHeX.WinForms
         private readonly string[] vartypes = new string[5];
         public MemoryAmie(PKM pk)
         {
-            pkm = pk;
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            pkm = pk;
             cba = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
             mta = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = "Text";
             CB_Country0.ValueMember = CB_Country1.ValueMember = CB_Country2.ValueMember = CB_Country3.ValueMember = CB_Country4.ValueMember = "Value";
             CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = "Text";
             CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = "Value";
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             for (int i = 5; i < Math.Min(arguments.Length, vartypes.Length + 5); i++)
@@ -105,8 +105,7 @@ namespace PKHeX.WinForms
                     GB_M_OT.Text = $"{args[3]} {pkm.OT_Name}: {args[2]}"; // Past Gen OT : OTNAME
                     GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}"; // Memories with : HTNAME
                     enable = false;
-                    // Reset to no memory
-                    M_OT_Affection.Text = "0";
+                    // Reset to no memory -- don't reset affection as ORAS can raise it
                     CB_OTQual.SelectedIndex = CB_OTFeel.SelectedIndex = 0;
                     CB_OTVar.SelectedValue = CB_OTMemory.SelectedValue = 0;
                 }
@@ -125,7 +124,8 @@ namespace PKHeX.WinForms
                     else
                         GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}";
                 }
-                RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
+                RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = enable;
+                M_OT_Affection.Enabled = true;
             }
             else
                 GB_M_OT.Text = GB_M_CT.Text = $"N/A: {GameInfo.Strings.eggname}";

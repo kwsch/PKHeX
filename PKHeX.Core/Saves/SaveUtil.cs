@@ -32,24 +32,35 @@ namespace PKHeX.Core
         public const int SIZE_G3RAW = 0x20000;
         public const int SIZE_G3RAWHALF = 0x10000;
         public const int SIZE_G2RAW_U = 0x8000;
-        public const int SIZE_G2VC = 0x8010;
+        public const int SIZE_G2VC_U = 0x8010;
         public const int SIZE_G2BAT_U = 0x802C;
         public const int SIZE_G2EMU_U = 0x8030;
         public const int SIZE_G2RAW_J = 0x10000;
+        public const int SIZE_G2VC_J = 0x10010;
         public const int SIZE_G2BAT_J = 0x1002C;
         public const int SIZE_G2EMU_J = 0x10030;
         public const int SIZE_G1RAW = 0x8000;
         public const int SIZE_G1BAT = 0x802C;
-        private static readonly HashSet<int> SIZES = new HashSet<int>
+
+        // Bank Binaries
+        public const int SIZE_G7BANK = 0xACA48;
+        private static readonly HashSet<int> SIZES_2 = new HashSet<int>
+        {
+            SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
+        };
+        private static readonly HashSet<int> SIZES = new HashSet<int>(SIZES_2)
         {
             SIZE_G7SM, SIZE_G7USUM,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
             SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
             SIZE_G4BR, SIZE_G4RAW,
             SIZE_G3BOX, SIZE_G3BOXGCI, SIZE_G3COLO, SIZE_G3COLOGCI, SIZE_G3XD, SIZE_G3XDGCI, SIZE_G3RAW, SIZE_G3RAWHALF,
-            SIZE_G2RAW_U, SIZE_G2VC, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J,
-            SIZE_G1RAW, SIZE_G1BAT
+            // SIZES_2 covers gen2 sizes since there's so many
+            SIZE_G1RAW, SIZE_G1BAT,
+
+            SIZE_G7BANK,
         };
+        private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
 
         private static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
         internal static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
@@ -84,6 +95,9 @@ namespace PKHeX.Core
                 return GameVersion.RSBOX;
             if (GetIsG4BRSAV(data) != GameVersion.Invalid)
                 return GameVersion.BATREV;
+
+            if (GetIsBank7(data))
+                return GameVersion.USUM;
 
             return GameVersion.Invalid;
         }
@@ -133,7 +147,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG2SAV(byte[] data)
         {
-            if (!new[] {SIZE_G2RAW_J, SIZE_G2RAW_U, SIZE_G2BAT_J, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2EMU_J, SIZE_G2VC}.Contains(data.Length))
+            if (!SIZES_2.Contains(data.Length))
                 return GameVersion.Invalid;
 
             // Check if it's not an american save or a japanese save
@@ -298,24 +312,36 @@ namespace PKHeX.Core
             if (BitConverter.ToUInt16(data, 0xF626) == CRC16_CCITT(data, 0, 0xF618))
                 return GameVersion.HGSS;
 
+            bool validSequence(byte[] pattern, int shift = 0)
+            {
+                int ofs = BitConverter.ToUInt16(pattern, 0) - 0xC + shift;
+                for (int i = 0; i < 10; i++)
+                    if (data[i + ofs] != pattern[i])
+                        return false;
+                return true;
+            }
+
             // General Block Checksum is invalid, check for block identifiers
-            if (data.Skip(0xC0F4).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_DP))
                 return GameVersion.DP;
-            if (data.Skip(0xCF20).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_Pt))
                 return GameVersion.Pt;
-            if (data.Skip(0xF61C).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_HS))
                 return GameVersion.HGSS;
 
             // Check the other save
-            if (data.Skip(0xC0F4 + 0x40000).Take(10).SequenceEqual(new byte[] { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_DP, 0x40000))
                 return GameVersion.DP;
-            if (data.Skip(0xCF20 + 0x40000).Take(10).SequenceEqual(new byte[] { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_Pt, 0x40000))
                 return GameVersion.Pt;
-            if (data.Skip(0xF61C + 0x40000).Take(10).SequenceEqual(new byte[] { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 }))
+            if (validSequence(BlockPattern_General_HS, 0x40000))
                 return GameVersion.HGSS;
 
             return GameVersion.Invalid;
         }
+        private static readonly byte[] BlockPattern_General_DP = { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
+        private static readonly byte[] BlockPattern_General_Pt = { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
+        private static readonly byte[] BlockPattern_General_HS = { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
         /// <summary>Determines the type of 4th gen Battle Revolution</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
@@ -388,6 +414,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
+        private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
@@ -415,6 +442,9 @@ namespace PKHeX.Core
                 case GameVersion.XD:        sav = new SAV3XD(data); break;
                 case GameVersion.RSBOX:     sav = new SAV3RSBox(data); break;
                 case GameVersion.BATREV:    sav = new SAV4BR(data); break;
+
+                // Bulk Storage
+                case GameVersion.USUM:      sav = Bank7.GetBank7(data); break;
                 
                 // No pattern matched
                 default: return null;
@@ -634,24 +664,25 @@ namespace PKHeX.Core
             0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040
         };
 
-        /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
+        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
         /// <param name="start">Offset to start checksum at</param>
         /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length, ushort initial = 0)
+        public static ushort CRC16(byte[] data, int start, int length, ushort initial)
         {
             ushort chk = (ushort)~initial;
             for (var i = start; i < start + length; i++)
                 chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
             return (ushort)~chk;
         }
-        /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
+        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="initial">Initial value for checksum</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="length">Length of array to checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, ushort initial = 0) => CRC16(data, 0, data.Length, initial);
+        public static ushort CRC16(byte[] data, int start, int length) => CRC16(data, start, length, 0);
         public static byte[] Resign7(byte[] sav7)
         {
             return MemeCrypto.Resign7(sav7);
@@ -678,6 +709,12 @@ namespace PKHeX.Core
         {
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
+                if (input.Length == 0x800A4) // Action Replay
+                {
+                    header = input.Take(0xA4).ToArray();
+                    input = input.Skip(header.Length).ToArray();
+                    return;
+                }
                 if (!FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length)))
                     return;
                 footer = input.Skip(SIZE_G4RAW).ToArray();
@@ -894,7 +931,7 @@ namespace PKHeX.Core
                 case 080: return 202; // 2 Slowbro
                 case 208: return 204; // 2 Steelix
                 case 254: return 206; // 2 Sceptile
-                case 360: return 208; // 2 Swampert
+                case 260: return 208; // 2 Swampert
                 case 302: return 210; // 2 Sableye
                 case 319: return 212; // 2 Sharpedo
                 case 323: return 214; // 2 Camerupt
@@ -943,7 +980,7 @@ namespace PKHeX.Core
                 case 9: return (int)GameVersion.R;
                 case 10: return (int)GameVersion.E;
                 case 11: return (int)GameVersion.CXD;
-                default: return (int)GameVersion.Unknown;
+                default: return (int)GameVersion.Invalid;
             }
         }
 
@@ -956,7 +993,8 @@ namespace PKHeX.Core
                 {
                     ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                     val -= keys[i];
-                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                    output[ofs + i * 2] = (byte)(val >> 8);
+                    output[ofs + i * 2 + 1] = (byte)val;
                 }
                 keys = AdvanceGCKeys(keys);
             }
@@ -971,7 +1009,8 @@ namespace PKHeX.Core
                 {
                     ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
                     val += keys[i];
-                    BigEndian.GetBytes(val).CopyTo(output, ofs + i * 2);
+                    output[ofs + i * 2] = (byte)(val >> 8);
+                    output[ofs + i * 2 + 1] = (byte)val;
                 }
                 keys = AdvanceGCKeys(keys);
             }
@@ -1025,15 +1064,43 @@ namespace PKHeX.Core
         /// Creates a <see cref="SaveFile"/> via decryption using a stored xorpad.
         /// </summary>
         /// <param name="input">Encrypted byte array of savedata to decrypt.</param>
-        /// <param name="XORpads">Array of possible paths to check for xorpad compatibility.</param>
+        /// <param name="xorpadPaths">Possible paths to check for xorpad compatibility.</param>
         /// <returns>Returns a <see cref="SaveFile"/> if decryption was successful, else null.</returns>
-        public static SaveFile GetSAVfromXORpads(byte[] input, IEnumerable<string> XORpads)
+        public static SaveFile GetSAVfromXORpads(byte[] input, IEnumerable<string> xorpadPaths)
         {
             byte[] savID = new byte[0x10];
             Array.Copy(input, 0x10, savID, 0, 0x10);
-            int[] sizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM };
 
-            foreach (var file in XORpads)
+            var pads = GetXorpadsFromFiles(xorpadPaths);
+            foreach (var xorpad in pads)
+            {
+                // Check if encrypted 00's match save
+                if (!xorpad.Skip(0x10).Take(0x10).SequenceEqual(savID))
+                    continue;
+
+                DecryptFromXorpad(input, xorpad);
+                var main = GetMainFromSaveContainer(input);
+                if (main == null)
+                    continue;
+
+                // Save file is now decrypted!
+                var SAV = GetVariantSAV(main);
+                if (SAV == null)
+                    continue;
+
+                return SAV;
+            }
+            return null; // no xorpad compatible
+        }
+
+        /// <summary>
+        /// Filters the specified files and returns a list of valid enumerable xorpads (keystreams).
+        /// </summary>
+        /// <param name="files">Files that may (or may not) be xorpads.</param>
+        /// <returns>Valid xorpads to enumerate.</returns>
+        public static IEnumerable<byte[]> GetXorpadsFromFiles(IEnumerable<string> files)
+        {
+            foreach (var file in files)
             {
                 // Check if xorpad
                 FileInfo fi = new FileInfo(file);
@@ -1045,7 +1112,7 @@ namespace PKHeX.Core
                 var length = fi.Length;
                 if (length != 0x10009C && length != 0x100000)
                     continue;
-                
+
                 // Fix xorpad alignment
                 byte[] xorpad = File.ReadAllBytes(file);
                 if (xorpad.Length == 0x10009C) // Trim off Powersaves' header
@@ -1053,41 +1120,39 @@ namespace PKHeX.Core
                     Array.Copy(xorpad, 0x9C, xorpad, 0, 0x100000);
                     Array.Resize(ref xorpad, 0x100000);
                 }
-
-                // Check if encrypted 00's match save
-                if (!xorpad.Skip(0x10).Take(0x10).SequenceEqual(savID))
-                    continue;
-
-                // Set up Decrypted File
-                const int mainOffset = 0x5400;
-                int maxSize = sizes.Max();
-                byte[] decryptedPS = new byte[maxSize];
-                Array.Copy(input, mainOffset, decryptedPS, 0, decryptedPS.Length);
-
-                // xor through and decrypt
-                for (int z = 0; z < decryptedPS.Length; z++)
-                    decryptedPS[z] ^= xorpad[mainOffset + z];
-
-                // Weakly check the validity of the decrypted content
-                int i; for (i = 0; i < sizes.Length; i++)
-                {
-                    if (BitConverter.ToUInt32(decryptedPS, sizes[i] - 0x1F0) != BEEF)
-                        continue;
-                    Array.Resize(ref decryptedPS, sizes[i]);
-                    break;
-                }
-                if (i == sizes.Length)
-                    continue;
-                
-                // Save file is now decrypted!
-                var SAV = GetVariantSAV(decryptedPS);
-                if (SAV == null)
-                    continue;
-
-                SAV.FileName = file;
-                return SAV;
+                yield return xorpad;
             }
-            return null; // no xorpad compatible
+        }
+        /// <summary>
+        /// Decrypts an input array with a xorpad.
+        /// </summary>
+        /// <param name="input">Input byte array which will be decrypted in place.</param>
+        /// <param name="xorpad">Keystream data</param>
+        public static void DecryptFromXorpad(IList<byte> input, IReadOnlyList<byte> xorpad)
+        {
+            for (int z = 0; z < input.Count; z++)
+                input[z] ^= xorpad[z];
+        }
+        /// <summary>
+        /// Gets the "main" save file from an input data array.
+        /// </summary>
+        /// <param name="input">Input data array</param>
+        /// <returns>Output data array containing raw save data</returns>
+        public static byte[] GetMainFromSaveContainer(byte[] input)
+        {
+            // Check the validity of the decrypted content by finding the checksum block
+            const int mainOffset = 0x5400;
+            foreach (int size in mainSizes.OrderByDescending(z => z))
+            {
+                int chkBlockOffset = mainOffset + size - 0x1F0;
+                if (BitConverter.ToUInt32(input, chkBlockOffset) != BEEF)
+                    continue;
+
+                byte[] data = new byte[size];
+                Buffer.BlockCopy(input, mainOffset, data, 0, size);
+                return data;
+            }
+            return null;
         }
 
         /// <summary>
@@ -1113,10 +1178,63 @@ namespace PKHeX.Core
                 pk.ClearInvalidMoves();
             if (pk.EVs.Any(ev => ev > SAV.MaxEV))
                 pk.EVs = pk.EVs.Select(ev => Math.Min(SAV.MaxEV, ev)).ToArray();
-            if (pk.IVs.Any(ev => ev > SAV.MaxEV))
+            if (pk.IVs.Any(iv => iv > SAV.MaxIV))
                 pk.IVs = pk.IVs.Select(iv => Math.Min(SAV.MaxIV, iv)).ToArray();
 
             return true;
+        }
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="PKM"/>, and makes any necessary modifications to force compatibility.
+        /// </summary>
+        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format. 
+        /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
+        /// <param name="pk">PKM input that is to be sanity checked.</param>
+        /// <returns>Indication whether or not the PKM is compatible.</returns>
+        public static bool IsPKMCompatibleWithModifications(PKM pk)
+        {
+            if (pk.Species > pk.MaxSpeciesID)
+                return false;
+
+            if (pk.HeldItem > pk.MaxItemID)
+                pk.HeldItem = 0;
+            if (pk.Nickname.Length > pk.NickLength)
+                pk.Nickname = pk.Nickname.Substring(0, pk.NickLength);
+            if (pk.OT_Name.Length > pk.OTLength)
+                pk.OT_Name = pk.OT_Name.Substring(0, pk.OTLength);
+            if (pk.Moves.Any(move => move > pk.MaxMoveID))
+                pk.ClearInvalidMoves();
+            if (pk.EVs.Any(ev => ev > pk.MaxEV))
+                pk.EVs = pk.EVs.Select(ev => Math.Min(pk.MaxEV, ev)).ToArray();
+            if (pk.IVs.Any(iv => iv > pk.MaxIV))
+                pk.IVs = pk.IVs.Select(iv => Math.Min(pk.MaxIV, iv)).ToArray();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Sets the details of a path to a <see cref="SaveFile"/> object.
+        /// </summary>
+        /// <param name="sav">Save File to set path details to.</param>
+        /// <param name="path">Full Path of the file</param>
+        public static void SetFileInfo(this SaveFile sav, string path)
+        {
+            if (!sav.Exportable) // Blank save file
+            {
+                sav.FilePath = null;
+                sav.FileName = "Blank Save File";
+                return;
+            }
+
+            sav.FilePath = Path.GetDirectoryName(path);
+            sav.FileName = Path.GetFileName(path);
+            if (!sav.FileName.EndsWith(".bak"))
+                return;
+
+            // trim off any bak details to get original file name
+            int index = sav.FileName.LastIndexOf(" [", StringComparison.Ordinal);
+            if (index < 0)
+                return;
+            sav.FileName = sav.FileName.Substring(0, index);
         }
     }
 }

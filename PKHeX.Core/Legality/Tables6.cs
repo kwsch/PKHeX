@@ -242,7 +242,7 @@ namespace PKHeX.Core
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232, 234, 236, 238, 240, 242,
             244, 246, 248, 250, 252, 254, 256, 258, 260, 262, 264, 266, 268, 270, 272, 274, 276, 278, 280, 282, 284, 286,
             288, 290, 292, 294, 296, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
-            332, 334, 336, 338, 340, 342, 344, 346, 348, 350, 352, 354
+            332, 334, 336, 338, 340, 342, 344, 346,      350, 352, 354
         };
         internal static readonly HashSet<int> FriendSafari = new HashSet<int>
         {
@@ -266,7 +266,7 @@ namespace PKHeX.Core
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
         internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
-        internal static readonly int[] WildPokeballs6 = { 0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
+        internal static readonly HashSet<int> WildPokeballs6 = new HashSet<int> {0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 
         internal static readonly HashSet<int> Ban_NoHidden6 = new HashSet<int>
         {
@@ -483,6 +483,26 @@ namespace PKHeX.Core
         public static readonly HashSet<int> MemoryMove = new HashSet<int> { 12, 16, 48, 49 };
         public static readonly HashSet<int> MemoryItem = new HashSet<int> { 5, 15, 26, 34, 40, 51 };
         public static readonly HashSet<int> MemorySpecies = new HashSet<int> { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60 };
+        internal static readonly byte[] MemoryMinIntensity =
+        {
+            0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
+            3, 3, 3, 3, 3, 3, 3, 4, 5, 5,
+            5, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            3, 3, 1, 3, 2, 2, 4, 3, 4, 4,
+            4, 4, 2, 4, 2, 4, 3, 3, 4, 2,
+            3, 3, 3, 3, 3, 2, 3, 4, 4, 2,
+        };
+        internal static readonly uint[] MemoryFeelings =
+        {
+            0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,
+            0x80BDF9, 0x88FB7A, 0x083F79, 0x0001FE, 0xCFEFFF, 0x84EBAF, 0xB368B0, 0x091F7E, 0x0320A0, 0x080DDD,
+            0x081A7B, 0x404030, 0x0FFFFF, 0x9A08BC, 0x089A7B, 0x0032AA, 0x80FF7A, 0x0FFFFF, 0x0805FD, 0x098278,
+            0x0B3FFF, 0x8BBFFA, 0x8BBFFE, 0x81A97C, 0x8BB97C, 0x8BBF7F, 0x8BBF7F, 0x8BBF7F, 0x8BBF7F, 0xAC3ABE,
+            0xBFFFFF, 0x8B837C, 0x848AFA, 0x88FFFE, 0x8B0B7C, 0xB76AB2, 0x8B1FFF, 0xBE7AB8, 0xB77EB8, 0x8C9FFD,
+            0xBF9BFF, 0xF408B0, 0xBCFE7A, 0x8F3F72, 0x90DB7A, 0xBCEBFF, 0xBC5838, 0x9C3FFE, 0x9CFFFF, 0x96D83A,
+            0xB770B0, 0x881F7A, 0x839F7A, 0x839F7A, 0x839F7A, 0x53897F, 0x41BB6F, 0x0C35FF, 0x8BBF7F, 0x8BBF7F,
+        };
         #endregion
 
         internal static readonly int[] MovePP_XY =

@@ -10,9 +10,9 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_BerryFieldXY(SaveFile sav)
         {
-            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
             listBox1.SelectedIndex = 0;
         }
 

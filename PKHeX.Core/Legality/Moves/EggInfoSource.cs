@@ -14,21 +14,21 @@ namespace PKHeX.Core
 
             // Level up moves can only be inherited if ditto is not the mother.
             bool AllowLevelUp = Legal.GetCanInheritMoves(pkm, e);
-            Base = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, e.LevelMin).ToList();
+            Base = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, e.Level).ToList();
 
-            Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game).ToList();
+            Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version).ToList();
             LevelUp = AllowLevelUp
-                ? Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 100).Where(x => !Base.Contains(x)).ToList()
+                ? Legal.GetBaseEggMoves(pkm, e.Species, e.Version, 100).Where(x => !Base.Contains(x)).ToList()
                 : new List<int>();
-            Tutor = e.Game == GameVersion.C
+            Tutor = e.Version == GameVersion.C
                 ? Legal.GetTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2).ToList()
                 : new List<int>();
 
             // Only TM/HM moves from the source game of the egg, not any other games from the same generation
-            TMHM = Legal.GetTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, e.Game, false).ToList();
+            TMHM = Legal.GetTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, e.Version, false).ToList();
 
             // Non-Base moves that can magically appear in the regular movepool
-            bool volt = notSpecial && (pkm.GenNumber > 3 || e.Game == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
+            bool volt = notSpecial && (pkm.GenNumber > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             if (volt)
                 Egg.Add(344); // Volt Tackle
         }

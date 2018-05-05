@@ -29,7 +29,8 @@ namespace PKHeX.Core
             100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
             150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
 
-            194, 196, 198,
+            194, 195, 196, 197, // Invalid
+            198,
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
@@ -136,7 +137,7 @@ namespace PKHeX.Core
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
+        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).Concat(Pouch_Roto_USUM).ToArray();
 
         private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -327,11 +328,11 @@ namespace PKHeX.Core
             782,
 
             // USUM Additions
-            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            023, 086, 108, 163, 177, 179, 190, 204,
             206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
-            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            352, 353, 357, 366, 427, 439, 458, 550,
             559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
-            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
+            667, 669, 676, 686, 690, 692, 701, 702,
             714,
 
             // Wormhole
@@ -393,10 +394,12 @@ namespace PKHeX.Core
         };
         internal static readonly HashSet<int> Ban_Gen3Ball_7 = new HashSet<int>
         {
+            489, // Phione
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
         internal static readonly HashSet<int> Ban_Gen4Ball_7 = new HashSet<int>
         {
+            489, // Phione
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
         internal static readonly HashSet<int> Ban_SafariBallHidden_7 = new HashSet<int>
@@ -478,7 +481,8 @@ namespace PKHeX.Core
         };
         internal static readonly HashSet<int> ValidMet_USUM = new HashSet<int>(ValidMet_SM)
         {
-            194, 196, 198,
+            // 194, 195, 196, 197, // Unobtainable new Locations
+            198,
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
@@ -529,15 +533,6 @@ namespace PKHeX.Core
             768, // Golisopod
 
             // No Encounter
-            722, // Rowlet
-            723, // Dartrix
-            724, // Decidueye
-            725, // Litten
-            726, // Torracat
-            727, // Incineroar
-            728, // Popplio
-            729, // Brionne
-            730, // Primarina
             774, // Minior
 
             //Pre-Gen
@@ -545,6 +540,15 @@ namespace PKHeX.Core
             711 + (1 << 11), //Gourgeist-Small
             710 + (2 << 11), //Pumpkaboo-Large
             711 + (2 << 11), //Gourgeist-Large
+        };
+
+        internal static readonly HashSet<int> Ban_NoHidden7Apricorn = new HashSet<int>
+        {
+            029, // Nidoran
+            032, // Nidoran
+            100, // Voltorb
+            436, // Bronzor
+            669 + (3 << 11), // Flabébé-Blue
         };
 
         #region Unreleased Items

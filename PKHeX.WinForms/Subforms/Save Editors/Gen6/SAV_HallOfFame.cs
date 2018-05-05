@@ -14,9 +14,9 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_HallOfFame(SaveFile sav)
         {
-            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
 
             Array.Copy(SAV.Data, SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
@@ -331,7 +331,7 @@ namespace PKHeX.WinForms
 
             CB_Form.DisplayMember = "Text";
             CB_Form.ValueMember = "Value";
-            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols).ToList();
+            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
         }
         private void UpdateSpecies(object sender, EventArgs e)
         {

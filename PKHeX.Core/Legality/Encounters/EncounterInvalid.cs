@@ -19,5 +19,7 @@
             LevelMax = pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;
         }
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
     }
 }

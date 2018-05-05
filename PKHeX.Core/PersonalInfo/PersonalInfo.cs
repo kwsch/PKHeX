@@ -22,8 +22,10 @@
         public abstract int EV_SPE { get; set; }
         public abstract int EV_SPA { get; set; }
         public abstract int EV_SPD { get; set; }
-
-        public abstract int[] Types { get; set; }
+        public abstract int Type1 { get; set; }
+        public abstract int Type2 { get; set; }
+        public abstract int EggGroup1 { get; set; }
+        public abstract int EggGroup2 { get; set; }
         public abstract int CatchRate { get; set; }
         public virtual int EvoStage { get; set; }
         public abstract int[] Items { get; set; }
@@ -31,7 +33,6 @@
         public abstract int HatchCycles { get; set; }
         public abstract int BaseFriendship { get; set; }
         public abstract int EXPGrowth { get; set; }
-        public abstract int[] EggGroups { get; set; }
         public abstract int [] Abilities { get; set; }
         public abstract int EscapeRate { get; set; }
         public virtual int FormeCount { get; set; } = 1;
@@ -42,6 +43,27 @@
 
         public virtual int Height { get; set; } = 0;
         public virtual int Weight { get; set; } = 0;
+
+        public int[] Types
+        {
+            get => new[] { Type1, Type2 };
+            set
+            {
+                if (value?.Length != 2) return;
+                Type1 = value[0];
+                Type2 = value[1];
+            }
+        }
+        public int[] EggGroups
+        {
+            get => new[] { EggGroup1, EggGroup2 };
+            set
+            {
+                if (value?.Length != 2) return;
+                EggGroup1 = (byte)value[0];
+                EggGroup2 = (byte)value[1];
+            }
+        }
 
         /// <summary>
         /// TM/HM learn compatibility flags for individual moves.
@@ -56,11 +78,13 @@
         /// </summary>
         public bool[][] SpecialTutors { get; protected set; } = new bool[0][];
 
-        protected static bool[] GetBits(byte[] data)
+        protected static bool[] GetBits(byte[] data, int start = 0, int length = -1)
         {
-            bool[] r = new bool[data.Length<<3];
+            if (length < 0)
+                length = data.Length;
+            bool[] r = new bool[length << 3];
             for (int i = 0; i < r.Length; i++)
-                r[i] = (data[i>>3] >> (i&7) & 0x1) == 1;
+                r[i] = (data[start + (i >> 3)] >> (i & 7) & 0x1) == 1;
             return r;
         }
         protected static byte[] SetBits(bool[] bits)
@@ -74,12 +98,11 @@
         /// <summary>
         /// Injects supplementary TM/HM compatibility which is not present in the generation specific <see cref="PersonalInfo"/> format.
         /// </summary>
-        /// <param name="data"></param>
-        internal void AddTMHM(byte[] data) => TMHM = GetBits(data);
+        internal void AddTMHM(byte[] data, int start = 0, int length = -1) => TMHM = GetBits(data, start, length);
         /// <summary>
         /// Injects supplementary Type Tutor compatibility which is not present in the generation specific <see cref="PersonalInfo"/> format.
         /// </summary>
-        internal void AddTypeTutors(byte[] data) => TypeTutors = GetBits(data);
+        internal void AddTypeTutors(byte[] data, int start = 0, int length = -1) => TypeTutors = GetBits(data, start, length);
 
         /// <summary>
         /// Gets the <see cref="PersonalTable"/> <see cref="PKM.AltForm"/> entry index for the input criteria, with fallback for the original species entry.
@@ -124,5 +147,9 @@
                 return true;
             return forme < FormeCount;
         }
+        public bool IsValidTypeCombination(int type1, int type2) => Type1 == type1 && Type2 == type2;
+        public bool IsType(int type1) => Type1 == type1 || Type2 == type1;
+        public bool IsType(int type1, int type2) => (Type1 == type1 || Type2 == type1) && (Type1 == type2 || Type2 == type2);
+        public bool IsEggGroup(int group) => EggGroup1 == group || EggGroup2 == group;
     }
 }

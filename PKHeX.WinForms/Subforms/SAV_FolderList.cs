@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -48,7 +49,7 @@ namespace PKHeX.WinForms
                     Close();
                 }
                 else
-                    WinFormsUtil.Alert("Can't find folder:", path);
+                    WinFormsUtil.Alert(MsgFolderNotFound, path);
             };
             FLP_Buttons.Controls.Add(button);
         }
@@ -60,7 +61,7 @@ namespace PKHeX.WinForms
             if (!File.Exists(loc))
                 yield break;
 
-            string[] lines = File.ReadAllLines(loc);
+            var lines = File.ReadLines(loc);
             foreach (var line in lines)
             {
                 var split = line.Split('\t');

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -8,12 +10,13 @@ namespace PKHeX.WinForms
     public partial class SAV_GameSelect : Form
     {
         public GameVersion Result = GameVersion.Invalid;
-        public SAV_GameSelect(IEnumerable items)
+        public SAV_GameSelect(IEnumerable<ComboItem> items)
         {
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             CB_Game.DisplayMember = nameof(ComboItem.Text);
             CB_Game.ValueMember = nameof(ComboItem.Value);
-            CB_Game.DataSource = new BindingSource(items, null);
+            CB_Game.DataSource = new BindingSource(items.ToList(), null);
             CB_Game.SelectedIndex = 0;
             CB_Game.Focus();
         }

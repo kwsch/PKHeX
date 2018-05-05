@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -15,12 +14,12 @@ namespace PKHeX.Core
                 return;
             Data = data;
 
-            TMHM = GetBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
-            TypeTutors = GetBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
+            TMHM = GetBits(Data, 0x28, 0x10); // 36-39
+            TypeTutors = GetBits(Data, 0x38, 0x4); // 40
 
             SpecialTutors = new[]
             {
-                GetBits(Data.Skip(0x3C).Take(0x0A).ToArray()),
+                GetBits(Data, 0x3C, 0x0A),
             };
         }
         public override byte[] Write()
@@ -30,8 +29,6 @@ namespace PKHeX.Core
             SetBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
             return Data;
         }
-        
-        // No accessing for 3C-4B
 
         public int SpecialZ_Item { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
         public int SpecialZ_BaseMove { get => BitConverter.ToUInt16(Data, 0x4E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); }

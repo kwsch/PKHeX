@@ -13,9 +13,11 @@ namespace PKHeX.Core
             SAV = sav;
             Offset = sav.GetBlockOffset(4);
             if (GameVersion.FRLG.Contains(SAV.Version))
-                Offset += 0x250; // 0x250 - FRLG
-            else
-                Offset += 0x35C; // 0x35C - RSE
+                Offset += 0x250;
+            else if (SAV.Version == GameVersion.E)
+                Offset += 0x35C;
+            else // RS
+                Offset += 0x2C4;
             IsGlitched = SAV.Version != GameVersion.E;
         }
 

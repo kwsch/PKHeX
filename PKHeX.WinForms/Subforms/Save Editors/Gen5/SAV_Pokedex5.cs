@@ -13,12 +13,12 @@ namespace PKHeX.WinForms
         private readonly SAV5 SAV;
         public SAV_Pokedex5(SaveFile sav)
         {
-            SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV5)(Origin = sav).Clone();
             FormLen = SAV.B2W2 ? 0xB : 0x9;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             editing = true;
             // Clear Listbox and ComboBox
@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
             int f = SAV.B2W2 ? SaveUtil.GetDexFormIndexB2W2(species, fc) : SaveUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols);
+            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             if (forms.Length < 1)
                 return;
             

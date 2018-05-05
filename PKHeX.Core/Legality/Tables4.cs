@@ -12,6 +12,7 @@ namespace PKHeX.Core
         internal const int MaxItemID_4_HGSS = 536;
         internal const int MaxAbilityID_4 = 123;
         internal const int MaxBallID_4 = 0x18;
+        internal const int MaxGameID_4 = 15; // CXD
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Poké Transporter) </summary>
         public const int Transfer4 = 30001;
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Celebi - Event not activated in Gen 5) </summary>

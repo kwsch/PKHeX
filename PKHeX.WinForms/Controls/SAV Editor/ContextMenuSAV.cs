@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms.Controls
 {
     public partial class ContextMenuSAV : UserControl
@@ -14,7 +16,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         public event LegalityRequest RequestEditorLegality;
-        public delegate void LegalityRequest(object sender, EventArgs args, PKM pkm);
+        public delegate void LegalityRequest(object sender, EventArgs e, PKM pkm);
 
         public void OmniClick(object sender, EventArgs e, Keys z)
         {
@@ -25,7 +27,7 @@ namespace PKHeX.WinForms.Controls
                 case Keys.Alt: ClickDelete(sender, e); break;
             }
         }
-        private static void ClickView(object sender, EventArgs e)
+        private void ClickView(object sender, EventArgs e)
         {
             SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
@@ -36,7 +38,7 @@ namespace PKHeX.WinForms.Controls
             m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false, true);
             m.SetColor(info.Box, info.Slot, Resources.slotView);
         }
-        private static void ClickSet(object sender, EventArgs e)
+        private void ClickSet(object sender, EventArgs e)
         {
             SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
@@ -45,9 +47,9 @@ namespace PKHeX.WinForms.Controls
             var editor = m.SE.PKME_Tabs;
             var sav = m.SE.SAV;
             if (info.IsParty && editor.IsEmptyOrEgg && sav.IsPartyAllEggs(info.Slot - 30) && !m.SE.HaX)
-            { WinFormsUtil.Alert("Can't have empty/egg party."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotEmpty); return; }
             if (m.SE.SAV.IsSlotLocked(info.Box, info.Slot))
-            { WinFormsUtil.Alert("Can't set to locked slot."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
             if (!editor.VerifiedPKM())
                 return;
@@ -55,7 +57,7 @@ namespace PKHeX.WinForms.Controls
             PKM pk = editor.PreparePKM();
 
             string[] errata = sav.IsPKMCompatible(pk);
-            if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), "Continue?"))
+            if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
                 return;
 
             if (info.Slot >= 30)
@@ -74,23 +76,19 @@ namespace PKHeX.WinForms.Controls
             {
                 if (info.Slot < 30)
                 {
-                    m.SE.UndoStack.Push(new SlotChange
-                    {
-                        Box = info.Box,
-                        Slot = info.Slot,
-                        Offset = info.Offset,
-                        PKM = sav.GetStoredSlot(info.Offset)
-                    });
+                    m.SE.UndoStack.Push(new SlotChange(info, sav));
                     m.SE.Menu_Undo.Enabled = true;
                 }
 
                 m.SetPKM(pk, info, true, Resources.slotSet);
             }
+            else
+                return;
 
             editor.LastData = pk.Data;
             m.SE.RedoStack.Clear(); m.SE.Menu_Redo.Enabled = false;
         }
-        private static void ClickDelete(object sender, EventArgs e)
+        private void ClickDelete(object sender, EventArgs e)
         {
             SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
@@ -101,9 +99,9 @@ namespace PKHeX.WinForms.Controls
 
             var sav = m.SE.SAV;
             if (info.IsParty && sav.IsPartyAllEggs(info.Slot - 30) && !m.SE.HaX)
-            { WinFormsUtil.Alert("Can't delete this slot."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotEmpty); return; }
             if (sav.IsSlotLocked(info.Box, info.Slot))
-            { WinFormsUtil.Alert("Can't delete locked slot."); return; }
+            { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
             if (info.Slot >= 30 && info.Slot < 36) // Party
             {
@@ -114,13 +112,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (info.Slot < 30)
                 {
-                    m.SE.UndoStack.Push(new SlotChange
-                    {
-                        Box = info.Box,
-                        Slot = info.Slot,
-                        Offset = info.Offset,
-                        PKM = sav.GetStoredSlot(info.Offset)
-                    });
+                    m.SE.UndoStack.Push(new SlotChange(info, sav));
                     m.SE.Menu_Undo.Enabled = true;
                 }
                 m.SetPKM(sav.BlankPKM, info, true, Resources.slotDel);
@@ -169,6 +161,15 @@ namespace PKHeX.WinForms.Controls
                 loc.Parent = b.FindForm();
                 sender = ctrl;
                 return b.M;
+            }
+            if (obj is SlotList s)
+            {
+                const int shift = 44;
+                loc.Slot = s.GetSlot(sender) + shift;
+                loc.Offset = s.GetSlotOffset(loc.Slot - shift);
+                loc.Parent = s.FindForm();
+                sender = ctrl;
+                return s.M;
             }
             obj = obj.Parent.Parent;
             if (obj is SAVEditor z)

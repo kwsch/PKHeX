@@ -115,12 +115,9 @@ namespace PKHeX.Core
                     return z => new PersonalInfoXY(z);
                 case GameVersion.ORAS:
                     return z => new PersonalInfoORAS(z);
-                case GameVersion.SM:
-                    return z => new PersonalInfoSM(z);
-                case GameVersion.USUM:
+                default:
                     return z => new PersonalInfoSM(z);
             }
-            return null;
         }
         private static int GetEntrySize(GameVersion format)
         {
@@ -180,7 +177,7 @@ namespace PKHeX.Core
                 HGSS[i].AddTypeTutors(tutors[i]);
         }
 
-        private PersonalTable(byte[] data, GameVersion format)
+        public PersonalTable(byte[] data, GameVersion format)
         {
             Func<byte[], PersonalInfo> get = GetConstructor(format);
             int size = GetEntrySize(format);
@@ -315,7 +312,7 @@ namespace PKHeX.Core
         /// <returns>Indication that the combination exists in the table.</returns>
         public bool IsValidTypeCombination(int Type1, int Type2)
         {
-            return Table.Any(p => p.Types[0] == Type1 && p.Types[1] == Type2);
+            return Table.Any(p => p.IsValidTypeCombination(Type1, Type2));
         }
     }
 }

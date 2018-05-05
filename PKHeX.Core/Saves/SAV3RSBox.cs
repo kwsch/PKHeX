@@ -24,33 +24,34 @@ namespace PKHeX.Core
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3RSBox(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3BOX];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (SaveUtil.GetIsG3BOXSAV(Data) != GameVersion.RSBOX)
                 return;
             
-            Blocks = new RSBOX_Block[2*BLOCK_COUNT];
+            Blocks = new BlockInfo[2*BLOCK_COUNT];
             for (int i = 0; i < Blocks.Length; i++)
             {
                 int offset = BLOCK_SIZE + i* BLOCK_SIZE;
-                Blocks[i] = new RSBOX_Block(GetData(offset, BLOCK_SIZE), offset);
+                Blocks[i] = new BlockInfoRSBOX(Data, offset);
             }
 
             // Detect active save
-            int[] SaveCounts = Blocks.Select(block => (int)block.SaveCount).ToArray();
+            int[] SaveCounts = Blocks.OfType<BlockInfoRSBOX>().Select(block => (int)block.SaveCount).ToArray();
             SaveCount = SaveCounts.Max();
             int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
-            Blocks = Blocks.Skip(ActiveSAV*BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.BlockNumber).ToArray();
+            Blocks = Blocks.Skip(ActiveSAV*BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();
             
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
 
             // Copy block to the allocated location
-            foreach (RSBOX_Block b in Blocks)
-                Array.Copy(b.Data, 0xC, Data, (int)(Box + b.BlockNumber*(BLOCK_SIZE - 0x10)), b.Data.Length - 0x10);
+            const int copySize = BLOCK_SIZE - 0x10;
+            foreach (var b in Blocks)
+                Array.Copy(Data, b.Offset + 0xC, Data, (int)(Box + b.ID*copySize), copySize);
 
             Personal = PersonalTable.RS;
             HeldItems = Legal.HeldItems_RS;
@@ -59,22 +60,20 @@ namespace PKHeX.Core
                 ClearBoxes();
         }
 
-        private readonly RSBOX_Block[] Blocks;
+        private readonly BlockInfo[] Blocks;
         private readonly int SaveCount;
         private const int BLOCK_COUNT = 23;
         private const int BLOCK_SIZE = 0x2000;
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
         public override byte[] Write(bool DSV, bool GCI)
         {
-            // Copy Box data back to block
-            foreach (RSBOX_Block b in Blocks)
-                Array.Copy(Data, (int)(Box + b.BlockNumber * (BLOCK_SIZE - 0x10)), b.Data, 0xC, b.Data.Length - 0x10);
+            // Copy Box data back
+            const int copySize = BLOCK_SIZE - 0x10;
+            foreach (var b in Blocks)
+                Array.Copy(Data, (int)(Box + b.ID * copySize), Data, b.Offset + 0xC, copySize);
 
             SetChecksums();
 
-            // Set Data Back
-            foreach (RSBOX_Block b in Blocks)
-                b.Data.CopyTo(Data, b.Offset);
             byte[] newFile = GetData(0, Data.Length - SIZE_RESERVED);
 
             // Return the gci if Memory Card is not being exported
@@ -98,13 +97,13 @@ namespace PKHeX.Core
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);
 
-        public override int MaxMoveID => 354;
+        public override int MaxMoveID => Legal.MaxMoveID_3;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => 77;
-        public override int MaxItemID => 374;
-        public override int MaxBallID => 0xC;
-        public override int MaxGameID => 5;
-        
+        public override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public override int MaxItemID => Legal.MaxItemID_3;
+        public override int MaxBallID => Legal.MaxBallID_3;
+        public override int MaxGameID => Legal.MaxGameID_3;
+
         public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
@@ -115,25 +114,12 @@ namespace PKHeX.Core
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
 
         // Checksums
-        protected override void SetChecksums()
-        {
-            foreach (RSBOX_Block b in Blocks)
-                b.SetChecksums();
-        }
-        public override bool ChecksumsValid
-        {
-            get { return Blocks.All(t => t.ChecksumsValid); }
-        }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                return string.Join(Environment.NewLine, 
-                    Blocks.Where(b => !b.ChecksumsValid).Select(b => $"Block {b.BlockNumber:00} invalid"));
-            }
-        }
+        protected override void SetChecksums() => Blocks.SetChecksums(Data);
+        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
         // Trainer Info
         public override GameVersion Version { get => GameVersion.RSBOX; protected set { } }

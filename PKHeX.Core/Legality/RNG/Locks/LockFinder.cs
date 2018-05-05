@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public int Species;
         public uint? Nature = null;
         public uint? Gender = null;
-        public uint? Ability = null;
+        public bool Shadow = false;
     }
 
     /// <summary>
@@ -26,81 +26,101 @@ namespace PKHeX.Core
     public static class LockFinder
     {
         // Message Passing
-        private sealed class SeedPID
+        private struct SeedFrame
         {
             public uint PID;
-            public uint Seed;
+            public int FrameID;
+        }
+
+        public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
+        {
+            var locks = new Stack<NPCLock>(lockList);
+            var pids = new Stack<uint>();
+            var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
+            var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var originFrame);
+            origin = cache.GetSeed(originFrame);
+            return result;
         }
 
         // Recursively iterates to visit possible locks until all locks (or none) are satisfied.
-        public static bool FindLockSeed(uint seed, RNG RNG, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out uint origin)
+        private static bool FindLockSeed(FrameCache cache, int ctr, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out int originFrame)
         {
             if (Locks.Count == 0)
-                return VerifyNPC(seed, RNG, PIDs, XD, out origin);
+                return VerifyNPC(cache, ctr, PIDs, XD, out originFrame);
 
             var l = Locks.Pop();
-            foreach (var poss in FindPossibleLockFrames(seed, RNG, l, prior))
+            foreach (var poss in FindPossibleLockFrames(cache, ctr, l, prior))
             {
                 PIDs.Push(poss.PID); // possible match
-                if (FindLockSeed(poss.Seed, RNG, Locks, l, PIDs, XD, out origin))
+                if (FindLockSeed(cache, poss.FrameID, Locks, l, PIDs, XD, out originFrame))
                     return true; // all locks are satisfied
                 PIDs.Pop(); // no match, remove
             }
-            Locks.Push(l); // return the lock, lock is impossible
 
-            origin = seed;
+            Locks.Push(l); // return the lock, lock is impossible
+            originFrame = 0;
             return false;
         }
 
-        // Restriction Checking
-        private static IEnumerable<SeedPID> FindPossibleLockFrames(uint seed, RNG RNG, NPCLock l, NPCLock prior)
+        private static IEnumerable<SeedFrame> FindPossibleLockFrames(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
         {
-            // todo: check for premature breaks
+            if (prior == null || prior.Shadow)
+                return GetSingleLockFrame(cache, ctr, l);
+
+            return GetComplexLockFrame(cache, ctr, l, prior);
+        }
+        private static IEnumerable<SeedFrame> GetSingleLockFrame(FrameCache cache, int ctr, NPCLock l)
+        {
+            uint pid = cache[ctr + 1] << 16 | cache[ctr];
+            if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+                yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
+        }
+        private static IEnumerable<SeedFrame> GetComplexLockFrame(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
+        {
+            // Since the prior(next) lock is generated 7+2*n frames after, the worst case break is 7 frames after the PID.
+            // Continue reversing until a sequential generation case is found.
+
+            // Check 
+
+            int start = ctr;
             do
             {
-                // todo: generate PKM for checking
-                uint pid = 0;
-                int gender = 0;
-                int abil = 0;
-                uint origin = 0; // possible to defer calc to yield?
-
-                if (prior == null)
+                int p7 = ctr - 7;
+                if (p7 > start)
                 {
-                    if (MatchesLock(l, pid, gender, abil))
-                        yield return new SeedPID { Seed = origin, PID = pid };
-                    yield break;
+                    uint cid = cache[p7 + 1] << 16 | cache[p7];
+                    if (MatchesLock(prior, cid, PKX.GetGenderFromPID(prior.Species, cid)))
+                        yield break;
                 }
-                if (MatchesLock(prior, pid, gender, abil))
-                    yield break; // prior lock breaks our chain!
-                if (MatchesLock(l, pid, gender, abil))
-                    yield return new SeedPID { Seed = origin, PID = pid };
+                uint pid = cache[ctr + 1] << 16 | cache[ctr];
+                if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+                    yield return new SeedFrame { FrameID = ctr + 6, PID = pid};
 
+                ctr += 2;
             } while (true);
-
         }
-        private static bool VerifyNPC(uint seed, RNG RNG, IEnumerable<uint> PIDs, bool XD, out uint origin)
+
+        private static bool VerifyNPC(FrameCache cache, int ctr, IEnumerable<uint> PIDs, bool XD, out int originFrame)
         {
-            // todo: get trainer TID/SID/Origin Seed
-            origin = 0;
-            var tid = 0;
-            var sid = 0;
+            originFrame = ctr+2;
+            var tid = cache[ctr+1];
+            var sid = cache[ctr];
 
             // verify none are shiny
             foreach (var pid in PIDs)
                 if (IsShiny(tid, sid, pid))
-                    return false;
+                    return true; // todo
             return true;
         }
 
         // Helpers
+        private static bool IsShiny(uint TID, uint SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
-        private static bool MatchesLock(NPCLock k, uint PID, int Gender, int AbilityNumber)
+        private static bool MatchesLock(NPCLock k, uint PID, int Gender)
         {
             if (k.Nature != null && k.Nature != PID % 25)
                 return false;
             if (k.Gender != null && k.Gender != Gender)
-                return false;
-            if (k.Ability != null && k.Ability != AbilityNumber)
                 return false;
             return true;
         }

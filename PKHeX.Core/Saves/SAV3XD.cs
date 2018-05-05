@@ -38,14 +38,12 @@ namespace PKHeX.Core
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3XD(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G3XD] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G3XD];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.All(z => z == 0);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             if (SaveUtil.GetIsG3XDSAV(Data) != GameVersion.XD)
                 return;
-
-            OriginalData = (byte[])Data.Clone();
 
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
@@ -121,7 +119,6 @@ namespace PKHeX.Core
                     PartyCount++;
         }
 
-        private readonly byte[] OriginalData;
         public override byte[] Write(bool DSV, bool GCI)
         {
             // Set Memo Back
@@ -136,7 +133,7 @@ namespace PKHeX.Core
             byte[] newSAV = SaveUtil.EncryptGC(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
-            byte[] newFile = (byte[])OriginalData.Clone();
+            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex * SLOT_SIZE, newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
@@ -160,13 +157,13 @@ namespace PKHeX.Core
         public override PKM BlankPKM => new XK3();
         public override Type PKMType => typeof(XK3);
 
-        public override int MaxMoveID => 354;
+        public override int MaxMoveID => Legal.MaxMoveID_3;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => 77;
-        public override int MaxItemID => 593;
-        public override int MaxBallID => 0xC;
-        public override int MaxGameID => 5;
-        
+        public override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public override int MaxBallID => Legal.MaxBallID_3;
+        public override int MaxItemID => Legal.MaxItemID_3_XD;
+        public override int MaxGameID => Legal.MaxGameID_3;
+
         public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
@@ -175,6 +172,8 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
 
         public override int BoxCount => 8;
+
+        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGC(Data, Offset);
 
         // Checksums
         protected override void SetChecksums()
@@ -238,8 +237,8 @@ namespace PKHeX.Core
         // Trainer Info
         public override GameVersion Version { get => GameVersion.XD; protected set { } }
         public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(value, 10).CopyTo(Data, Trainer1 + 0x00); }
-        public override ushort SID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2C); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2C); }
-        public override ushort TID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2E); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2E); }
+        public override int SID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x2C); }
+        public override int TID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x2E); }
 
         public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
         public override uint Money { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E4); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E4); }
@@ -280,8 +279,8 @@ namespace PKHeX.Core
         public override PKM GetStoredSlot(int offset)
         {
             // Get Shadow Data
-            var pk = GetPKM(DecryptPKM(GetData(offset, SIZE_STORED))) as XK3;
-            if (pk?.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
+            var pk = (XK3)GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
+            if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
                 pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
             return pk;
         }

@@ -35,7 +35,7 @@ namespace PKHeX.Core
         }
 
         // String providing
-        public class GameStrings
+        public class GameStrings : IBasicStrings
         {
             // PKM Info
             public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
@@ -55,6 +55,14 @@ namespace PKHeX.Core
             public readonly string[] wallpapernames, puffs;
             public readonly string eggname;
             private readonly string lang;
+
+            public string EggName => eggname;
+            public string[] Species => specieslist;
+            public string[] Item => itemlist;
+            public string[] Move => movelist;
+            public string[] Ability => abilitylist;
+            public string[] Types => types;
+            public string[] Natures => natures;
 
             public GameStrings(string l)
             {
@@ -237,6 +245,7 @@ namespace PKHeX.Core
                     if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
                         metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
                 }
+                Array.Copy(metSM_00000, 194, metSM_00000_good, 194, 4); // Restore Island Names (unused)
                 metSM_00000_good.CopyTo(metSM_00000, 0);
 
                 metSM_30000[0] += $" ({NPC})";      // Anything from an NPC
@@ -247,7 +256,7 @@ namespace PKHeX.Core
 
             private string[] Get(string ident) => GetStrings(ident, lang);
 
-            public string[] GetItemStrings(int generation, GameVersion game)
+            public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any)
             {
                 switch (generation)
                 {
@@ -589,6 +598,7 @@ namespace PKHeX.Core
                     {
                         case 0: return Strings.metHGSS_00000;
                         case 2: return Strings.metHGSS_02000;
+                        case 3: return Strings.metHGSS_03000;
                         default: return null;
                     }
                 case 5:

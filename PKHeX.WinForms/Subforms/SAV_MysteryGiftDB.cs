@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -15,11 +16,22 @@ namespace PKHeX.WinForms
     {
         private readonly PKMEditor PKME_Tabs;
         private readonly SaveFile SAV;
+        private readonly SAVEditor BoxView;
         public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
-            SAV = sav.SAV;
-            PKME_Tabs = tabs;
             InitializeComponent();
+
+            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View" };
+            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift" };
+            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM" };
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
+
+            SAV = sav.SAV;
+            BoxView = sav;
+            PKME_Tabs = tabs;
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
@@ -53,22 +65,14 @@ namespace PKHeX.WinForms
             
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
-            L_Viewed.Text = ""; // invis for now
+            L_Viewed.Text = string.Empty; // invis for now
             var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
-
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
-            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem("Save Gift");
-            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem("Save PKM");
 
             // Assign event handlers
             mnuView.Click += ClickView;
             mnuSaveMG.Click += ClickSaveMG;
             mnuSavePK.Click += ClickSavePK;
-
-            // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
@@ -84,6 +88,7 @@ namespace PKHeX.WinForms
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
+            CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
         private readonly PictureBox[] PKXBOXES;
@@ -96,7 +101,7 @@ namespace PKHeX.WinForms
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
-        private const int MAXFORMAT = 7;
+        private const int MAXFORMAT = PKX.Generation;
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -127,7 +132,7 @@ namespace PKHeX.WinForms
             var gift = Results[index];
             if (gift.Data == null) // WC3
             {
-                WinFormsUtil.Alert("Unable to save WC3 data. No data to save!");
+                WinFormsUtil.Alert(MsgExportWC3DataFail);
                 return;
             }
             WinFormsUtil.SaveMGDialog(gift);
@@ -154,13 +159,13 @@ namespace PKHeX.WinForms
         {
             // Set the Text
             CB_HeldItem.DisplayMember =
-            CB_Species.DisplayMember = "Text";
+            CB_Species.DisplayMember = nameof(ComboItem.Text);
 
             // Set the Value
             CB_HeldItem.ValueMember =
-            CB_Species.ValueMember = "Value";
+            CB_Species.ValueMember = nameof(ComboItem.Value);
 
-            var Any = new ComboItem {Text = "Any", Value = -1};
+            var Any = new ComboItem {Text = MsgAny, Value = -1};
 
             var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0);
@@ -177,7 +182,7 @@ namespace PKHeX.WinForms
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                 {
-                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                    cb.DisplayMember = nameof(ComboItem.Text); cb.ValueMember = nameof(ComboItem.Value);
                     cb.DataSource = new BindingSource(DS_Move, null);
                 }
             }
@@ -201,14 +206,7 @@ namespace PKHeX.WinForms
         }
         private void LoadDatabase()
         {
-            RawDB = new List<MysteryGift>();
-            RawDB.AddRange(Legal.MGDB_G4);
-            RawDB.AddRange(Legal.MGDB_G5);
-            RawDB.AddRange(Legal.MGDB_G6);
-            RawDB.AddRange(Legal.MGDB_G7);
-
-            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct()
-                .Concat(Legal.MGDB_G3).OrderBy(mg => mg.Species));
+            RawDB = new List<MysteryGift>(EncounterEvent.GetAllEvents());
             foreach (var mg in RawDB)
                 mg.GiftUsed = false;
             BeginInvoke(new MethodInvoker(delegate
@@ -227,9 +225,9 @@ namespace PKHeX.WinForms
         private void Menu_Export_Click(object sender, EventArgs e)
         {
             if (Results == null || Results.Count == 0)
-            { WinFormsUtil.Alert("No results to export."); return; }
+            { WinFormsUtil.Alert(MsgDBCreateReportFail); return; }
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Export to a folder?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -295,7 +293,7 @@ namespace PKHeX.WinForms
                         select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
 
                 if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-                { WinFormsUtil.Error("Empty Filter Value detected."); return; }
+                { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
 
                 res = res.Where(gift => // Compare across all filters
                 {
@@ -313,7 +311,7 @@ namespace PKHeX.WinForms
 
             var results = res.ToArray();
             if (results.Length == 0)
-                WinFormsUtil.Alert("No results found!");
+                WinFormsUtil.Alert(MsgDBSearchNone);
 
             SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
@@ -364,6 +362,19 @@ namespace PKHeX.WinForms
             if (!Menu_SearchAdvanced.Checked)
             { Size = MinimumSize; RTB_Instructions.Clear(); }
             else Size = MaximumSize;
+        }
+        private void Menu_Import_Click(object sender, EventArgs e)
+        {
+            if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
+                return;
+
+            int box = BoxView.Box.CurrentBox;
+            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, noSetb))
+                return;
+
+            BoxView.SetPKMBoxes();
+            BoxView.UpdateBoxViewers();
+            WinFormsUtil.Alert(result);
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e)
