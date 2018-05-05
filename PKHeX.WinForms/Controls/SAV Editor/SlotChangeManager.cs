@@ -59,7 +59,7 @@ namespace PKHeX.WinForms.Controls
                 var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
                 var data = view.GetSlotData(pb);
                 var pk = SAV.GetStoredSlot(data.Offset);
-                if (pk.Species > 0 && Control.ModifierKeys.HasFlag(Keys.Control))
+                if (pk.Species > 0 && Control.ModifierKeys.HasFlag(Keys.Control) && Control.ModifierKeys.HasFlag(Keys.Shift))
                     ShowSet.SetToolTip(pb, pk.ShowdownText);
             }
         }
