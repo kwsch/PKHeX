@@ -29,7 +29,7 @@ namespace PKHeX.WinForms.Controls
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
         public readonly List<ISlotViewer<PictureBox>> OtherSlots = new List<ISlotViewer<PictureBox>>();
         public event DragEventHandler RequestExternalDragDrop;
-        private readonly ToolTip ShowSet = new ToolTip();
+        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 200, IsBalloon = true};
 
         public SlotChangeManager(SAVEditor se)
         {
@@ -51,7 +51,17 @@ namespace PKHeX.WinForms.Controls
             OriginalBackground = pb.BackgroundImage;
             pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0, 1);
             if (!DragActive)
+            {
                 SetCursor(Cursors.Hand, sender);
+            }
+            else
+            {
+                var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+                var data = view.GetSlotData(pb);
+                var pk = SAV.GetStoredSlot(data.Offset);
+                if (pk.Species > 0 && Control.ModifierKeys.HasFlag(Keys.Control))
+                    ShowSet.SetToolTip(pb, pk.ShowdownText);
+            }
         }
         public void MouseLeave(object sender, EventArgs e)
         {
