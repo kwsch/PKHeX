@@ -22,6 +22,20 @@ namespace PKHeX.WinForms
         }
 
         public static Form FirstFormOfType<T>(this Form f) => f.OwnedForms.FirstOrDefault(form => form is T);
+        public static T FindFirstControlOfType<T>(Control aParent) where T : class
+        {
+            while (true)
+            {
+                var t = aParent as T;
+                if (t != null)
+                    return t;
+
+                if (aParent.Parent != null)
+                    aParent = aParent.Parent;
+                else
+                    return null;
+            }
+        }
         public static Control GetUnderlyingControl(object sender) => ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
 
         #region Message Displays

@@ -196,6 +196,7 @@
     <Compile Include="Controls\SAV Editor\ContextMenuSAV.Designer.cs">
       <DependentUpon>ContextMenuSAV.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\SlotIndex.cs" />
     <Compile Include="Controls\SAV Editor\SlotChangeManager.cs" />
     <Compile Include="Controls\SAV Editor\SAVEditor.cs">
       <SubType>UserControl</SubType>
@@ -209,6 +210,7 @@
     <Compile Include="Controls\SAV Editor\SlotList.Designer.cs">
       <DependentUpon>SlotList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\SlotViewer.cs" />
     <Compile Include="Controls\SAV Editor\Sorter.cs" />
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>

@@ -10,10 +10,11 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class BoxEditor : UserControl
+    public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     {
         private SaveFile SAV => M?.SE.SAV;
-        public List<PictureBox> SlotPictureBoxes { get; }
+
+        public IList<PictureBox> SlotPictureBoxes { get; }
         public int BoxSlotCount { get; }
         public SlotChangeManager M { get; set; }
         public bool FlagIllegal { get; set; }
@@ -47,6 +48,24 @@ namespace PKHeX.WinForms.Controls
                 pb.AllowDrop = true;
             }
         }
+
+        public SlotChange GetSlotData(PictureBox view)
+        {
+            int slot = GetSlot(view);
+            return new SlotChange
+            {
+                Slot = GetSlot(view),
+                Box = ViewIndex,
+                Offset = GetSlotOffset(slot),
+                Type = StorageSlotType.Box,
+                IsPartyFormat = false,
+                Editable = true,
+                Parent = FindForm(),
+            };
+        }
+        private int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public int GetSlotOffset(int slot) => GetOffset(slot, CurrentBox);
+        public int ViewIndex => CurrentBox;
 
         public bool ControlsVisible
         {
@@ -179,8 +198,6 @@ namespace PKHeX.WinForms.Controls
             CB_BoxSelect.SelectedIndexChanged -= GetBox;
         }
 
-        public int GetSlot(object sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
-
         private void Reset()
         {
             ResetBoxNames();
@@ -262,9 +279,7 @@ namespace PKHeX.WinForms.Controls
 
             bool overwrite = ModifierKeys == Keys.Alt;
             bool clone = ModifierKeys == Keys.Control;
-            M.DragInfo.Destination.Parent = FindForm();
-            M.DragInfo.Destination.Slot = GetSlot(sender);
-            M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : CurrentBox;
+            M.DragInfo.Destination = GetSlotData(pb);
             M.HandleDropPKM(sender, e, overwrite, clone);
         }
     }

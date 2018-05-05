@@ -27,7 +27,9 @@ namespace PKHeX.WinForms.Controls
         private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
+        public readonly List<ISlotViewer<PictureBox>> OtherSlots = new List<ISlotViewer<PictureBox>>();
         public event DragEventHandler RequestExternalDragDrop;
+        private readonly ToolTip ShowSet = new ToolTip();
 
         public SlotChangeManager(SAVEditor se)
         {
@@ -97,7 +99,10 @@ namespace PKHeX.WinForms.Controls
             if (DragInfo.DragDropInProgress)
                 SetCursor((Cursor)DragInfo.Cursor, sender);
         }
-        
+
+        private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control 
+            => WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
+
         public void HandleMovePKM(PictureBox pb, int slot, int box, bool encrypt)
         {
             // Create a temporary PKM file to perform a drag drop operation.
@@ -105,12 +110,8 @@ namespace PKHeX.WinForms.Controls
             // Set flag to prevent re-entering.
             DragInfo.DragDropInProgress = true;
 
-            DragInfo.Source.Parent = pb.Parent;
-            DragInfo.Source.Slot = slot;
-            DragInfo.Source.Box = box;
-            DragInfo.Source.Offset = SE.GetPKMOffset(DragInfo.Source.Slot, DragInfo.Source.Box);
-
             // Prepare Data
+            DragInfo.Source = GetViewParent(pb).GetSlotData(pb);
             DragInfo.Source.OriginalData = SAV.GetData(DragInfo.Source.Offset, SAV.SIZE_STORED);
 
             // Make a new file name based off the PID
@@ -168,6 +169,8 @@ namespace PKHeX.WinForms.Controls
             {
                 pb.Image = img;
                 pb.BackgroundImage = OriginalBackground;
+                SetCursor(SE.GetDefaultCursor, pb);
+                return false;
             }
 
             if (result == DragDropEffects.Copy) // viewed in tabs or cloned
@@ -183,7 +186,8 @@ namespace PKHeX.WinForms.Controls
         
         public void HandleDropPKM(object sender, DragEventArgs e, bool overwrite, bool clone)
         {
-            DragInfo.Destination.Offset = SE.GetPKMOffset(DragInfo.Destination.Slot, DragInfo.Destination.Box);
+            var pb = (PictureBox)sender;
+            DragInfo.Destination = GetViewParent(pb).GetSlotData(pb);
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { SE.LoadBoxes(out string _, files[0]); return; }
@@ -197,7 +201,7 @@ namespace PKHeX.WinForms.Controls
                 AlertInvalidate("Unable to set to locked slot.");
                 return;
             }
-            bool noEgg = DragInfo.Destination.IsParty && SE.SAV.IsPartyAllEggs(DragInfo.Destination.Slot - 30) && !SE.HaX;
+            bool noEgg = DragInfo.Destination.IsParty && SE.SAV.IsPartyAllEggs(DragInfo.Destination.Slot) && !SE.HaX;
             if (DragInfo.Source.Offset < 0) // external source
             {
                 if (!TryLoadFiles(files, e, noEgg))
@@ -305,23 +309,19 @@ namespace PKHeX.WinForms.Controls
 
         public void SetColor(int box, int slot, Image img)
         {
-            // Update SubViews
-            for (int b = 0; b < Boxes.Count; b++)
+            foreach (var boxview in Boxes)
+                updateView(boxview);
+            foreach (var other in OtherSlots)
+                updateView(other);
+
+            void updateView(ISlotViewer<PictureBox> view)
             {
-                var boxview = Boxes[b];
-                if (boxview.CurrentBox != box)
-                {
-                    if (b > 0 || slot < 30)
-                    {
-                        foreach (var s in boxview.SlotPictureBoxes)
-                            s.BackgroundImage = null;
-                        continue;
-                    }
-                }
-                var slots = boxview.SlotPictureBoxes;
-                for (int i = 0; i < slots.Count; i++)
-                    slots[i].BackgroundImage = slot == i ? img : null;
+                if (view.ViewIndex == ColorizedBox && ColorizedSlot >= 0)
+                    view.SlotPictureBoxes[ColorizedSlot].BackgroundImage = null;
+                if (view.ViewIndex == box && slot >= 0)
+                    view.SlotPictureBoxes[slot].BackgroundImage = img;
             }
+
             ColorizedBox = box;
             ColorizedSlot = slot;
             ColorizedColor = img;
@@ -350,25 +350,20 @@ namespace PKHeX.WinForms.Controls
             {
                 SetPKMParty(pk, src, slot);
                 if (img == Resources.slotDel)
-                    slot.Slot = 30 + SAV.PartyCount;
+                    slot.Slot = SAV.PartyCount;
                 SetColor(slot.Box, slot.Slot, img ?? Resources.slotSet);
                 return;
             }
 
             int o = slot.Offset;
             SAV.SetStoredSlot(pk, o);
-            if (slot.Slot >= 30)
+            if (slot.Type == StorageSlotType.Box)
             {
-                SetSlotSprite(slot, pk);
-                return;
-            }
-
-            // Update SubViews
-            foreach (var boxview in Boxes)
-            {
-                if (boxview.CurrentBox == slot.Box)
+                foreach (var boxview in Boxes)
                 {
-                    Debug.WriteLine($"Setting to {boxview.Parent.Name}'s [{boxview.CurrentBox+1:d2}]|{boxview.CurrentBoxName} at Slot {slot.Slot+1}.");
+                    if (boxview.CurrentBox != slot.Box)
+                        continue;
+                    Debug.WriteLine($"Setting to {boxview.Parent.Name}'s [{boxview.CurrentBox + 1:d2}]|{boxview.CurrentBoxName} at Slot {slot.Slot + 1}.");
                     SetSlotSprite(slot, pk, boxview);
                 }
             }
@@ -381,17 +376,17 @@ namespace PKHeX.WinForms.Controls
             {
                 if (pk.Species == 0) // Empty Slot
                 {
-                    SAV.DeletePartySlot(slot.Slot - 30);
+                    SAV.DeletePartySlot(slot.Slot);
                     SE.SetParty();
                     return;
                 }
             }
             else
             {
-                if (30 + SAV.PartyCount < slot.Slot)
+                if (SAV.PartyCount < slot.Slot)
                 {
                     o = SAV.GetPartyOffset(SAV.PartyCount);
-                    slot.Slot = 30 + SAV.PartyCount;
+                    slot.Slot = SAV.PartyCount;
                 }
             }
 

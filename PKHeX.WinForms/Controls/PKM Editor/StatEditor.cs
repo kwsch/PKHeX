@@ -426,7 +426,7 @@ namespace PKHeX.WinForms.Controls
         }
     }
 
-    public static class Extensions
+    public static partial class Extensions
     {
         private static readonly string[] PotentialUnicode = {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"};
         private static readonly string[] PotentialNoUnicode = {"+", "++", "+++", "++++"};

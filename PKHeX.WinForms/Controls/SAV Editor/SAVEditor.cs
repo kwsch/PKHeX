@@ -13,11 +13,10 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class SAVEditor : UserControl
+    public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>
     {
         public SaveFile SAV;
-        public readonly PictureBox[] SlotPictureBoxes;
-        public readonly SlotChangeManager M;
+        public SlotChangeManager M { get; }
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         public readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
         public readonly ContextMenuSAV menu = new ContextMenuSAV();
@@ -29,6 +28,25 @@ namespace PKHeX.WinForms.Controls
         public ToolStripMenuItem Menu_Undo;
         private bool FieldsLoaded;
         public PKMEditor PKME_Tabs;
+
+        public SlotChange GetSlotData(PictureBox view)
+        {
+            int slot = GetSlot(view);
+            var type = Extensions.GetMiscSlotType(slot);
+            return new SlotChange
+            {
+                Slot = GetSlot(view),
+                Box = ViewIndex,
+                Offset = GetSlotOffset(slot),
+                Parent = FindForm(),
+                Type = type.GetMiscSlotType(),
+                Editable = type.IsEditable(),
+                IsPartyFormat = type.IsParty(SAV.Generation)
+            };
+        }
+        public IList<PictureBox> SlotPictureBoxes { get; }
+        public int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public int ViewIndex { get; set; } = -1;
 
         public bool FlagIllegal
         {
@@ -49,7 +67,7 @@ namespace PKHeX.WinForms.Controls
         {
             var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.US, "PKHeX"));
             InitializeComponent();
-            var SupplementarySlots = new[]
+            SlotPictureBoxes = new[]
             {
                 ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
                 bbpkx1, bbpkx2, bbpkx3, bbpkx4, bbpkx5, bbpkx6,
@@ -60,21 +78,24 @@ namespace PKHeX.WinForms.Controls
             SAV = z.Result;
             Box.Setup(M = new SlotChangeManager(this));
             SL_Extra.M = M;
-            foreach (PictureBox pb in SupplementarySlots)
-            {
-                InitializeDragDrop(pb);
-            }
             foreach (TabPage tab in tabBoxMulti.TabPages)
                 tab.AllowDrop = true;
 
-            Box.SlotPictureBoxes.AddRange(SupplementarySlots);
-            SlotPictureBoxes = Box.SlotPictureBoxes.ToArray();
-            foreach (PictureBox pb in SlotPictureBoxes)
+            foreach (PictureBox pb in Box.SlotPictureBoxes)
                 pb.ContextMenuStrip = menu.mnuVSD;
+            foreach (PictureBox pb in SlotPictureBoxes)
+            {
+                InitializeDragDrop(pb);
+                pb.ContextMenuStrip = menu.mnuVSD;
+            }
 
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
             SortMenu = this.GetSortStrip();
+
+            M.OtherSlots.Add(this);
+            SL_Extra.ViewIndex = -2;
+            M.OtherSlots.Add(SL_Extra);
         }
         private void InitializeDragDrop(Control pb)
         {
@@ -115,27 +136,13 @@ namespace PKHeX.WinForms.Controls
         }
         
         // Generic Subfunctions //
-        public int GetPKMOffset(int slot, int box = -1)
+        public int GetSlotOffset(int slot)
         {
-            if (slot < (int)SlotIndex.Party) // Box Slot
-                return Box.GetOffset(slot, box);
-
             if (slot < (int)SlotIndex.BattleBox) // Party Slot
                 return SAV.GetPartyOffset(slot - (int)SlotIndex.Party);
             if (slot < (int)SlotIndex.Daycare) // Battle Box Slot
                 return SAV.BattleBox + (slot - (int)SlotIndex.BattleBox) * SAV.SIZE_STORED;
-            if (slot < (int)SlotIndex.GTS) // Daycare
-                return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot - (int)SlotIndex.Daycare);
-
-            slot -= 30+6+6+2;
-            return SL_Extra.GetSlotOffset(slot);
-        }
-        public int GetSlot(object sender)
-        {
-            int slot = Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
-            if (slot < 0) // check extra slots
-                slot = SL_Extra.GetSlot(sender) + SlotPictureBoxes.Length;
-            return slot;
+            return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot - (int)SlotIndex.Daycare);
         }
 
         public int SwapBoxesViewer(int viewBox)
@@ -300,7 +307,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (SAV.IsSlotLocked(Box.CurrentBox, i))
                 { slotSkipped++; continue; }
-                SAV.SetStoredSlot(pk, GetPKMOffset(i));
+                SAV.SetStoredSlot(pk, Box.GetSlotOffset(i));
                 Box.SetSlotFiller(pk, Box.CurrentBox, i);
             }
 
@@ -467,7 +474,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void ClickClone(object sender, EventArgs e)
         {
-            if (GetSlot(sender) >= (int)SlotIndex.Party)
+            if (GetSlot((PictureBox)sender) >= 0)
                 return; // only perform action if cloning to boxes
             RequestCloneData?.Invoke(sender, e);
         }
@@ -1004,7 +1011,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            SlotPictureBoxes[43].Visible = sav.Generation >= 2; // Second daycare slot
+            SlotPictureBoxes[(int)SlotIndex.Daycare + 1].Visible = sav.Generation >= 2; // Second daycare slot
             if (tabBoxMulti.TabPages.Contains(Tab_Other))
                 return false;
 
@@ -1059,8 +1066,7 @@ namespace PKHeX.WinForms.Controls
                 B_FestivalPlaza.Enabled = sav.Generation == 7;
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
-                var slots = SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
-                Box.SlotPictureBoxes.AddRange(slots);
+                SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1143,7 +1149,7 @@ namespace PKHeX.WinForms.Controls
             bool overwrite = ModifierKeys == Keys.Alt;
             bool clone = ModifierKeys == Keys.Control;
             M.DragInfo.Destination.Parent = FindForm();
-            M.DragInfo.Destination.Slot = GetSlot(sender);
+            M.DragInfo.Destination.Slot = GetSlot(pb);
             M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : Box.CurrentBox;
             M.HandleDropPKM(sender, e, overwrite, clone);
         }
@@ -1202,15 +1208,5 @@ namespace PKHeX.WinForms.Controls
             ResetParty();
         }
 
-        private enum SlotIndex
-        {
-            Box = 0,        // -> 29 [30]
-            Party = 30,     // -> 35 [6]
-            BattleBox = 36, // -> 41 [6]
-            Daycare = 42,
-            GTS = 44,
-            Fused = 45,
-            SUBE = 46,
-        }
     }
 }
