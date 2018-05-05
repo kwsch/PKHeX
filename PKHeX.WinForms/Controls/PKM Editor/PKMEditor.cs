@@ -1021,8 +1021,14 @@ namespace PKHeX.WinForms.Controls
         private void UpdateOriginGame(object sender, EventArgs e)
         {
             GameVersion Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
+
             // check if differs
             GameVersion newTrack = GameUtil.GetMetLocationVersionGroup(Version);
+            if (newTrack != origintrack && FieldsLoaded)
+            {
+                pkm.Version = (int)Version;
+                TID_Trainer.LoadIDValues(pkm);
+            }
             if (newTrack == GameVersion.GSC && pkm.Format >= 7)
                 newTrack = GameVersion.USUM;
             else if (pkm.Format < 3)
@@ -1036,7 +1042,6 @@ namespace PKHeX.WinForms.Controls
                 if (FieldsLoaded)
                 {
                     SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
-                    pkm.Version = (int)Version;
                     int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(pkm);
                     CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
                 }
@@ -1057,12 +1062,6 @@ namespace PKHeX.WinForms.Controls
 
                 if (!FieldsLoaded)
                     CB_GameOrigin.Focus(); // hacky validation forcing
-
-                if (FieldsLoaded)
-                {
-                    pkm.Version = (int)Version;
-                    TID_Trainer.LoadIDValues(pkm);
-                }
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
