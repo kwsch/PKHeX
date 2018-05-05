@@ -48,7 +48,8 @@ namespace PKHeX.Core
         public override ushort Sanity { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1E); }
 
         #region Block A
-        public override int Species { get => SpeciesConverter.GetG4Species(BitConverter.ToUInt16(Data, 0x20)); set => BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x20); }
+        public int SpeciesID3 { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); } // raw access
+        public override int Species { get => SpeciesConverter.GetG4Species(SpeciesID3); set => SpeciesID3 = SpeciesConverter.GetG3Species(value); }
         public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
 

@@ -158,12 +158,13 @@ namespace PKHeX.Core
 
 
         #region Stored Attributes
+        public int SpeciesID1 { get => Data[0]; set => Data[0] = (byte)value; } // raw access
         public override int Species
         {
-            get => SpeciesConverter.GetG1Species(Data[0]);
+            get => SpeciesConverter.GetG1Species(SpeciesID1);
             set
             {
-                Data[0] = (byte)SpeciesConverter.SetG1Species(value);
+                SpeciesID1 = (byte)SpeciesConverter.SetG1Species(value);
 
                 // Before updating catch rate, check if non-standard
                 if (TradebackStatus != TradebackType.WasTradeback && !CatchRateIsItem && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
