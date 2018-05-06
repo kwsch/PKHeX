@@ -61,6 +61,8 @@ namespace PKHeX.WinForms.Controls
                 var pk = SAV.GetStoredSlot(data.Offset);
                 if (pk.Species > 0 && Control.ModifierKeys.HasFlag(Keys.Control) && Control.ModifierKeys.HasFlag(Keys.Shift))
                     ShowSet.SetToolTip(pb, pk.ShowdownText);
+                else
+                    ShowSet.RemoveAll();
             }
         }
         public void MouseLeave(object sender, EventArgs e)
