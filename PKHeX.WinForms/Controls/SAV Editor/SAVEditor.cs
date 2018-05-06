@@ -1122,13 +1122,12 @@ namespace PKHeX.WinForms.Controls
             PictureBox pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
-            int slot = GetSlot(pb);
-            int box = slot >= (int)SlotIndex.Party ? -1 : Box.CurrentBox;
-            if (SAV.IsSlotLocked(box, slot))
+            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            var src = view.GetSlotData(pb);
+            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
                 return;
-
             bool encrypt = ModifierKeys == Keys.Control;
-            M.HandleMovePKM(pb, slot, box, encrypt);
+            M.HandleMovePKM(pb, src.Slot, src.Box, encrypt);
         }
         private void BoxSlot_DragDrop(object sender, DragEventArgs e)
         {
@@ -1136,9 +1135,9 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             PictureBox pb = (PictureBox)sender;
-            int slot = GetSlot(pb);
-            int box = slot >= (int)SlotIndex.Party ? -1 : Box.CurrentBox;
-            if (SAV.IsSlotLocked(box, slot) || slot >= (int)SlotIndex.BattleBox)
+            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            var src = view.GetSlotData(pb);
+            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
@@ -1148,9 +1147,7 @@ namespace PKHeX.WinForms.Controls
 
             bool overwrite = ModifierKeys == Keys.Alt;
             bool clone = ModifierKeys == Keys.Control;
-            M.DragInfo.Destination.Parent = FindForm();
-            M.DragInfo.Destination.Slot = GetSlot(pb);
-            M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : Box.CurrentBox;
+            M.DragInfo.Destination = src;
             M.HandleDropPKM(sender, e, overwrite, clone);
         }
         private void MultiDragOver(object sender, DragEventArgs e)
