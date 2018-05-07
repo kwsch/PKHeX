@@ -110,11 +110,10 @@ namespace PKHeX.WinForms
             PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
             PB_Legal.Visible = !HaX;
 
-            int languageID = 1; // English
             try
             {
                 ConfigUtil.CheckConfig();
-                FormLoadConfig(out BAKprompt, out showChangelog, out languageID);
+                FormLoadConfig(out BAKprompt, out showChangelog);
             }
             catch (ConfigurationErrorsException e)
             {
@@ -125,7 +124,6 @@ namespace PKHeX.WinForms
                 else
                     WinFormsUtil.Error(MsgSettingsLoadFail, e);
             }
-            CB_MainLanguage.SelectedIndex = languageID;
 
             PKME_Tabs.InitializeFields();
             PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
@@ -201,38 +199,20 @@ namespace PKHeX.WinForms
                 string data = NetUtil.GetStringFromURL(VersionPath);
                 if (data == null)
                     return;
-                try
+                if (int.TryParse(data, out var upd) && int.TryParse(Resources.ProgramVersion, out var cur) && upd <= cur)
+                    return;
+
+                Invoke((MethodInvoker)(() =>
                 {
-                    DateTime upd = GetDate(data);
-                    DateTime cur = GetDate(Resources.ProgramVersion);
-
-                    if (upd <= cur)
-                        return;
-
-                    string message = $"{MsgProgramUpdateAvailable} {upd:d}";
-
-                    if (InvokeRequired)
-                        try { Invoke((MethodInvoker)ToggleUpdateMessage); }
-                        catch { ToggleUpdateMessage(); }
-                    else { ToggleUpdateMessage(); }
-
-                    DateTime GetDate(string str) => DateTime.ParseExact(str, "yyyyMMdd", CultureInfo.InvariantCulture,
-                        DateTimeStyles.None);
-
-                    void ToggleUpdateMessage()
-                    {
-                        L_UpdateAvailable.Visible = true;
-                        L_UpdateAvailable.Text = message;
-                    }
-                }
-                catch { }
+                    L_UpdateAvailable.Visible = true;
+                    L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {upd:d}";
+                }));
             }).Start();
         }
-        private void FormLoadConfig(out bool BAKprompt, out bool showChangelog, out int languageID)
+        private void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
         {
             BAKprompt = false;
             showChangelog = false;
-            languageID = 1;
 
             var Settings = Properties.Settings.Default;
             Settings.Upgrade();
@@ -250,15 +230,13 @@ namespace PKHeX.WinForms
             int lang = GameInfo.Language(l);
             if (lang < 0)
                 lang = GameInfo.Language();
-            if (lang > -1)
-                languageID = lang;
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : 1; // english
 
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
                 int.TryParse(Settings.Version, out int lastrev);
                 int.TryParse(Resources.ProgramVersion, out int currrev);
-
                 showChangelog = lastrev < currrev;
             }
 
@@ -271,7 +249,6 @@ namespace PKHeX.WinForms
         private static void DeleteConfig(string settingsFilename)
         {
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSettingsResetCorrupt, MsgSettingsResetPrompt);
-
             if (dr == DialogResult.Yes)
             {
                 File.Delete(settingsFilename);
@@ -328,9 +305,7 @@ namespace PKHeX.WinForms
             if (Directory.Exists(DatabasePath))
                 new SAV_Database(PKME_Tabs, C_SAV).Show();
             else
-                WinFormsUtil.Alert(MsgDatabase,
-                    string.Format(MsgDatabaseAdvice,
-                        DatabasePath));
+                WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath)); 
         }
         private void MainMenuMysteryDB(object sender, EventArgs e)
         {
@@ -532,8 +507,7 @@ namespace PKHeX.WinForms
                 return true;
             }
 
-            DialogResult sdr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgFileLoadXorpad1,
-                MsgFileLoadXorpad2);
+            DialogResult sdr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgFileLoadXorpad1, MsgFileLoadXorpad2);
             if (sdr == DialogResult.Cancel)
                 return true;
             int savshift = sdr == DialogResult.Yes ? 0 : 0x7F000;
@@ -774,7 +748,7 @@ namespace PKHeX.WinForms
             PKME_Tabs.TemplateFields(LoadTemplate(sav));
             sav.Edited = false;
         }
-        private static string GetProgramTitle(SaveFile sav)
+        private static string GetProgramTitle()
         {
 #if DEBUG
             var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
@@ -782,7 +756,11 @@ namespace PKHeX.WinForms
 #else
             string date = Resources.ProgramVersion;
 #endif
-            string title = $"PKH{(HaX ? "a" : "e")}X ({date}) - {sav.GetType().Name}: ";
+            return $"PKH{(HaX ? "a" : "e")}X ({date})";
+        }
+        private static string GetProgramTitle(SaveFile sav)
+        {
+            string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
             if (!sav.Exportable) // Blank save file
                 return title + $"{sav.FileName} [{sav.OT} ({sav.Version})]";
             return title + $"{Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName))}"; // more descriptive
@@ -961,7 +939,6 @@ namespace PKHeX.WinForms
 
         private void ImportQRToTabs(string url)
         {
-            // Fetch data from QR code...
             byte[] input = QR.GetQRData(url);
             if (input == null)
                 return;
@@ -984,13 +961,12 @@ namespace PKHeX.WinForms
             switch (pkx.Format)
             {
                 case 7:
-                    qr = QR.GenerateQRCode7((PK7) pkx);
+                    qr = QR.GenerateQRCode7((PK7)pkx);
                     break;
                 default:
                     if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
                     {
-                        WinFormsUtil.Alert(MsgQRDeprecated,
-                            MsgQRAlternative);
+                        WinFormsUtil.Alert(MsgQRDeprecated, MsgQRAlternative);
                         QR6Notified = true;
                     }
                     qr = QR.GetQRImage(pkx.EncryptedBoxData, QR.GetQRServer(pkx.Format));
@@ -1009,13 +985,7 @@ namespace PKHeX.WinForms
             }
 
             string[] r = pkx.QRText;
-#if DEBUG
-            var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string date = $"d-{d:yyyyMMdd}";
-#else
-            string date = Resources.ProgramVersion;
-#endif
-            string refer = $"PKHeX ({date})";
+            string refer = GetProgramTitle();
             new QR(qr, sprite, pkx, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})").ShowDialog();
         }
 
@@ -1179,10 +1149,8 @@ namespace PKHeX.WinForms
         }
         private void ClickExportSAV(object sender, EventArgs e)
         {
-            if (!Menu_ExportSAV.Enabled)
-                return;
-
-            C_SAV.ExportSaveFile();
+            if (Menu_ExportSAV.Enabled)
+                C_SAV.ExportSaveFile();
         }
         private void ClickSaveFileName(object sender, EventArgs e)
         {

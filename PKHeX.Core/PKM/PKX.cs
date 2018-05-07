@@ -888,11 +888,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data"></param>
         /// <param name="len">Length of each PKM byte[]</param>
+        /// <param name="start">Starting offset to rip from. If omitted, will iterate from the start of the <see cref="data"/>.</param>
+        /// <param name="end">Ending offset to rip to. If omitted, will iterate to the end of the <see cref="data"/>.</param>
         /// <returns>Enumerable list of PKM byte arrays</returns>
-        public static IEnumerable<byte[]> GetPKMDataFromConcatenatedBinary(byte[] data, int len)
+        public static IEnumerable<byte[]> GetPKMDataFromConcatenatedBinary(byte[] data, int len, int start = 0, int end = -1)
         {
+            if (end < 0)
+                end = data.Length;
             // split up data to individual pkm
-            for (int i = 0; i < data.Length; i += len)
+            for (int i = start; i < end; i += len)
             {
                 var pk = new byte[len];
                 Buffer.BlockCopy(data, i, pk, 0, len);
