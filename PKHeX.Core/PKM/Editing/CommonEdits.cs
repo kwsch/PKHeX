@@ -172,6 +172,8 @@ namespace PKHeX.Core
         /// <param name="maxPP">Option to maximize PP Ups</param>
         public static void SetMoves(this PKM pk, int[] Moves, bool maxPP = false)
         {
+            if (Moves.Any(z => z > pk.MaxMoveID))
+                Moves = Moves.Where(z => z <= pk.MaxMoveID).ToArray();
             if (Moves.Length != 4)
                 Array.Resize(ref Moves, 4);
 
@@ -309,8 +311,8 @@ namespace PKHeX.Core
         /// <param name="Set"><see cref="ShowdownSet"/> details to copy from.</param>
         public static void ApplySetDetails(this PKM pk, ShowdownSet Set)
         {
-            pk.Species = Set.Species;
-            pk.Moves = Set.Moves;
+            pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
+            pk.SetMoves(Set.Moves, true);
             pk.ApplyHeldItem(Set.HeldItem, Set.Format);
             pk.CurrentLevel = Set.Level;
             pk.CurrentFriendship = Set.Friendship;
@@ -382,6 +384,9 @@ namespace PKHeX.Core
                 case 1: pk.HeldItem = 0; break;
                 default: pk.HeldItem = item; break;
             }
+
+            if (pk.HeldItem > pk.MaxItemID)
+                pk.HeldItem = 0;
         }
 
         /// <summary>
