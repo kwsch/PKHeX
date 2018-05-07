@@ -712,7 +712,7 @@ namespace PKHeX.Core
                     if (val == PIDType.Method_1)
                         return true;
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
-                        return sl.Type != SlotType.Swarm; // Cute Charm does not work with Swarm
+                        return true;
                     if (val != PIDType.ChainShiny)
                         return false;
                     // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
