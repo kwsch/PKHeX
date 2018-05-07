@@ -435,7 +435,7 @@ namespace PKHeX.Core
             switch (spec)
             {
                 case 550 when form == "Blue":
-                    return "Blue Striped";
+                    return "Blue-Striped";
                 case 666 when form == "Poké Ball":
                     return "Pokeball"; // Vivillon
                 case 718: // Zygarde
@@ -458,16 +458,15 @@ namespace PKHeX.Core
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
                         return Legal.Totem_Alolan.Contains(spec) ? "Alola-Totem" : "Totem";
-                    if (form.StartsWith("Mega"))
-                        return form.Replace(" ", "-");
-                    return form;
+                    return form.Replace(" ", "-");
             }
         }
         private static string ConvertFormFromShowdown(string form, int spec, int ability)
         {
+            form = form.Replace(" ", "-"); // inconsistencies are great
             switch (spec)
             {
-                case 550 when form == "Blue Striped": // Basculin
+                case 550 when form == "Blue-Striped": // Basculin
                     return "Blue";
                 case 658 when ability == 210: // Greninja
                     return "Ash"; // Battle Bond
@@ -484,8 +483,6 @@ namespace PKHeX.Core
                 case 718 when ability == 211:
                     return "-C"; // Power Construct
 
-                case 741 when form == "Pom Pom":
-                    return "Pom-Pom";
                 case 744 when ability == 020: // Rockruff-1
                     return "Dusk";
 
@@ -504,8 +501,6 @@ namespace PKHeX.Core
                         return null;
                     if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
                         return "Large";
-                    if (form.StartsWith("Mega"))
-                        return form.Replace("-", " ");
                     return form;
             }
         }
