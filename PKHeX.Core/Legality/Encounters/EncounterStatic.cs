@@ -98,6 +98,14 @@ namespace PKHeX.Core
             }
             if (EggEncounter)
             {
+                bool traded = (int)Version == SAV.Game;
+                pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+                pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
+                if (pk.GenNumber >= 4)
+                {
+                    pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+                    pk.EggMetDate = today;
+                }
                 pk.Egg_Location = EggLocation;
                 pk.EggMetDate = today;
             }
@@ -164,11 +172,19 @@ namespace PKHeX.Core
 
         private PIDType GetPIDType()
         {
-            if (Roaming)
-                return PIDType.Method_1_Roamer;
-            if (Version == GameVersion.HGSS && Location == 233) // Pokéwalker
-                return PIDType.Pokewalker;
-            return PIDType.None;
+            switch (Generation)
+            {
+                case 3 when Roaming:
+                    return PIDType.Method_1_Roamer;
+                case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
+                    return PIDType.ChainShiny;
+                case 4 when Location == 233: // Pokéwalker
+                    return PIDType.Pokewalker;
+                case 5 when Shiny == Shiny.Always:
+                    return PIDType.G5MGShiny;
+
+                default: return PIDType.None;
+            }
         }
     }
 }

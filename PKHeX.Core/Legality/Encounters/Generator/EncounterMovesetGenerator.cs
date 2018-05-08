@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -255,15 +256,9 @@ namespace PKHeX.Core
             var slots = EncounterSlotGenerator.GetPossible(pk);
             foreach (var slot in slots)
             {
-                if (slot.Generation == 2)
-                {
-                    if (slot.Type.HasFlag(SlotType.Safari))
-                        continue;
+                if (IsImpossibleSlot(pk, slot))
+                    continue;
 
-                    if (slot.Type.HasFlag(SlotType.Headbutt))
-                    if (Legal.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree)
-                        continue;
-                }
                 if (needs.Count == 0)
                 {
                     yield return slot;
@@ -273,6 +268,28 @@ namespace PKHeX.Core
                 if (slot is IMoveset m && needs.Except(m.Moves).Any())
                     yield return slot;
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsImpossibleSlot(PKM pk, EncounterSlot slot)
+        {
+            switch (slot.Generation)
+            {
+                case 2:
+                    if (slot.Type.HasFlag(SlotType.Safari)) // Safari Zone is unavailable in Gen 2.
+                        return true;
+
+                    if (slot.Type.HasFlag(SlotType.Headbutt))
+                    if (Legal.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree) // Unreachable Headbutt Trees.
+                        return true;
+                    break;
+                case 4:
+                    if (slot.Location == 193 && slot.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
+                        return true;
+                    break;
+            }
+
+            return false;
         }
     }
 }

@@ -120,6 +120,8 @@ namespace PKHeX.Core
             if (Fateful)
                 pk.FatefulEncounter = true;
 
+            UpdateEdgeCase(pk);
+
             if (EvolveOnTrade)
                 ++pk.Species;
 
