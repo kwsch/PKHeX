@@ -172,8 +172,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 786, Level = 60, Shiny = Shiny.Never, Ability = 1, Location = 092, IV3 = true, }, // Tapu Lele
             new EncounterStatic { Species = 787, Level = 60, Shiny = Shiny.Never, Ability = 1, Location = 140, IV3 = true, }, // Tapu Bulu
             new EncounterStatic { Species = 788, Level = 60, Shiny = Shiny.Never, Ability = 1, Location = 180, IV3 = true, }, // Tapu Fini
-
-            new EncounterStatic { Species = 103, Form = 1, Level = 40, Ability = 1, Location = 184, }, // Exeggutor-1 @ Exeggutor Island
         };
         internal static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
