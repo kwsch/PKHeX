@@ -80,7 +80,7 @@ namespace PKHeX.Core
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
             int gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
-            pk.Language = lang;
+            pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
@@ -111,7 +111,6 @@ namespace PKHeX.Core
             }
 
             pk.AltForm = Form;
-            pk.Language = lang;
 
             if (this is EncounterStaticPID pid)
             {
@@ -168,6 +167,23 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             return pk;
+        }
+
+        private int GetEdgeCaseLanguage(PKM pk, int lang)
+        {
+            switch (pk.Format)
+            {
+                case 1 when Species == 151 && Version == GameVersion.VCEvents: // VC Mew
+                    pk.TID = 22796;
+                    pk.OT_Name = lang == 1 ? "ゲーフリ" : "GF";
+                    return lang;
+                case 3 when Species == 151:
+                    pk.OT_Name = "ゲーフリ";
+                    return 1; // Old Sea Map was only distributed to Japanese games.
+
+                default:
+                    return lang;
+            }
         }
 
         private PIDType GetPIDType()

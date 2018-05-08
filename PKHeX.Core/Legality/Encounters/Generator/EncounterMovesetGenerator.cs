@@ -167,6 +167,8 @@ namespace PKHeX.Core
             var gifts = MysteryGiftGenerator.GetPossible(pk);
             foreach (var gift in gifts)
             {
+                if (gift is WC3 wc3 && wc3.NotDistributed)
+                    continue;
                 if (needs.Count == 0)
                 {
                     yield return gift;
@@ -211,6 +213,18 @@ namespace PKHeX.Core
             var encs = EncounterStaticGenerator.GetPossible(pk);
             foreach (var enc in encs)
             {
+                if (enc.Generation == 4)
+                {
+                    switch (pk.Species)
+                    {
+                        case 491 when enc.Location == 079 && !pk.Pt: // DP Darkrai
+                            continue;
+                        case 492 when enc.Location == 063 && !pk.Pt: // DP Shaymin
+                            continue;
+                        case 493 when enc.Location == 086: // Azure Flute Arceus
+                            continue;
+                    }
+                }
                 if (needs.Count == 0)
                 {
                     yield return enc;
