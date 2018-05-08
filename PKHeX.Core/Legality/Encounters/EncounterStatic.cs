@@ -99,8 +99,8 @@ namespace PKHeX.Core
             if (EggEncounter)
             {
                 bool traded = (int)Version == SAV.Game;
-                pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
                 pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
+                pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
                 if (pk.GenNumber >= 4)
                 {
                     pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
@@ -177,6 +177,9 @@ namespace PKHeX.Core
                     pk.TID = 22796;
                     pk.OT_Name = lang == 1 ? "ゲーフリ" : "GF";
                     return lang;
+                case 1 when Version == GameVersion.EventsGBGen1:
+                case 2 when Version == GameVersion.EventsGBGen2:
+                case 3 when this is EncounterStaticShadow s && s.EReader:
                 case 3 when Species == 151:
                     pk.OT_Name = "ゲーフリ";
                     return 1; // Old Sea Map was only distributed to Japanese games.
@@ -194,6 +197,7 @@ namespace PKHeX.Core
                     return PIDType.Method_1_Roamer;
                 case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
                     return PIDType.ChainShiny;
+                case 4 when Species == 172: // Spiky Eared Pichu
                 case 4 when Location == 233: // Pokéwalker
                     return PIDType.Pokewalker;
                 case 5 when Shiny == Shiny.Always:

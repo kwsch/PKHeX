@@ -43,7 +43,7 @@ namespace PKHeX.Core
             if (!pkm.IsNative && pkm.GenNumber < 5)
                 return pkm.CurrentLevel; // be generous with transfer conditions
             if (pkm.Format < 5) // and native
-                return 0;
+                return pkm.Format == 2 && pkm.Met_Location != 0 ? 1 : 0;
             return 1; // gen5+
         }
 

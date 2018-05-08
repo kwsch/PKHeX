@@ -58,19 +58,23 @@ namespace PKHeX.Core
             };
 
             SAV.ApplyToPKM(pk);
+            pk.Version = (int)version;
             pk.Language = lang;
 
-            var moves = Moves.Length != 0 ? Moves : Legal.GetEncounterMoves(pk, Level, (GameVersion)version);
+            var moves = Moves.Length != 0 ? Moves : Legal.GetEncounterMoves(pk, Level, version);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.SetRandomIVs(flawless: 3);
-            pk.RefreshAbility(Ability);
+            pk.RefreshAbility(Ability >> 1);
             if (RelearnMoves != null)
                 pk.RelearnMoves = RelearnMoves;
             if (RibbonClassic)
                 pk.RibbonClassic = true;
-            if (!OT)
+
+            if (OT)
+                pk.SetRandomMemory6();
+            else
                 SAV.ApplyHandlingTrainerInfo(pk);
 
             return pk;
