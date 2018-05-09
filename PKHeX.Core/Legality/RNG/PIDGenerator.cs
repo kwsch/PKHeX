@@ -9,7 +9,11 @@ namespace PKHeX.Core
             var rng = RNG.LCRNG;
             var A = rng.Next(seed);
             var B = rng.Next(A);
-            pk.PID = B & 0xFFFF0000 | A >> 16;
+            var pid = B & 0xFFFF0000 | A >> 16;
+            if (type == PIDType.Method_1_Unown || type == PIDType.Method_2_Unown || type == PIDType.Method_4_Unown)
+                pk.PID = (pid >> 16) | (pid << 16); // swap halves
+            else
+                pk.PID = pid;
 
             var skipIV1Frame = type == PIDType.Method_2 || type == PIDType.Method_2_Unown;
             if (skipIV1Frame)
@@ -74,11 +78,10 @@ namespace PKHeX.Core
                     pk.SID = (int)((seed = rng.Next(seed)) >> 16);
                     seed = rng.Advance(seed, 2); // PID calls consumed
                     break;
-                case 196:
+                case 196: // Colo Espeon
                     pk.TID = (int)((seed = rng.Next(seed)) >> 16);
                     pk.SID = (int)((seed = rng.Next(seed)) >> 16);
-                    seed = rng.Advance(seed, 5); // skip over Umbreon
-                    seed = rng.Advance(seed, 2); // PID calls consumed
+                    seed = rng.Advance(seed, 9); // PID calls consumed, skip over Umbreon
                     break;
             }
             var A = rng.Next(seed); // IV1

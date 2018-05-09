@@ -263,5 +263,22 @@ namespace PKHeX.Core
 
             return ct.otherforms.Any(e => e.form == form && e.region.Contains(region));
         }
+
+        /// <summary>
+        /// Compares the Vivillon pattern against its country and region to determine if the pattern is able to be obtained legally.
+        /// </summary>
+        /// <param name="country">Country ID</param>
+        /// <param name="region">Console Region ID</param>
+        public static int GetVivillonPattern(int country, int region)
+        {
+            CountryTable ct = RegionFormTable.Where(t => t.countryID == country).FirstOrDefault();
+            if (ct.otherforms == null) // empty struct = no forms referenced
+                return ct.mainform; // No subregion table
+
+            foreach (var sub in ct.otherforms)
+                if (sub.region.Contains(region))
+                    return sub.form;
+            return ct.mainform;
+        }
     }
 }

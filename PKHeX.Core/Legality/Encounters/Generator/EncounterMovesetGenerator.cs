@@ -213,18 +213,8 @@ namespace PKHeX.Core
             var encs = EncounterStaticGenerator.GetPossible(pk);
             foreach (var enc in encs)
             {
-                if (enc.Generation == 4)
-                {
-                    switch (pk.Species)
-                    {
-                        case 491 when enc.Location == 079 && !pk.Pt: // DP Darkrai
-                            continue;
-                        case 492 when enc.Location == 063 && !pk.Pt: // DP Shaymin
-                            continue;
-                        case 493 when enc.Location == 086: // Azure Flute Arceus
-                            continue;
-                    }
-                }
+                if (enc.IsUnobtainable(pk))
+                    continue;
                 if (needs.Count == 0)
                 {
                     yield return enc;
@@ -270,7 +260,7 @@ namespace PKHeX.Core
             var slots = EncounterSlotGenerator.GetPossible(pk);
             foreach (var slot in slots)
             {
-                if (IsImpossibleSlot(pk, slot))
+                if (slot.IsUnobtainable(pk))
                     continue;
 
                 if (needs.Count == 0)
@@ -285,7 +275,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsImpossibleSlot(PKM pk, EncounterSlot slot)
+        private static bool IsUnobtainable(this EncounterSlot slot, PKM pk)
         {
             switch (slot.Generation)
             {
@@ -300,6 +290,31 @@ namespace PKHeX.Core
                 case 4:
                     if (slot.Location == 193 && slot.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
                         return true;
+                    break;
+            }
+
+            return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsUnobtainable(this EncounterStatic enc, PKM pk)
+        {
+            switch (enc.Generation)
+            {
+                case 4 when enc is EncounterStaticTyped t:
+                    if (enc.Location == 193 && t.TypeEncounter == EncounterType.Surfing_Fishing) // Johto Route 45 surfing encounter. Unreachable Water tiles.
+                        return true; // only hits for Roamer Raikou
+                    break;
+                case 4:
+                    switch (pk.Species)
+                    {
+                        case 491 when enc.Location == 079 && !pk.Pt: // DP Darkrai
+                            return true;
+                        case 492 when enc.Location == 063 && !pk.Pt: // DP Shaymin
+                            return true;
+                        case 493 when enc.Location == 086: // Azure Flute Arceus
+                            return true;
+                    }
                     break;
             }
 

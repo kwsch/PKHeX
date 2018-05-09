@@ -59,6 +59,7 @@ namespace PKHeX.Core
 
             SAV.ApplyToPKM(pk);
             pk.Version = (int)version;
+            pk.Gender = pk.PersonalInfo.RandomGender;
             pk.Language = lang;
 
             var moves = Moves.Length != 0 ? Moves : Legal.GetEncounterMoves(pk, Level, version);
@@ -72,9 +73,8 @@ namespace PKHeX.Core
             if (RibbonClassic)
                 pk.RibbonClassic = true;
 
-            if (OT)
-                pk.SetRandomMemory6();
-            else
+            pk.SetRandomMemory6();
+            if (!OT)
                 SAV.ApplyHandlingTrainerInfo(pk);
 
             return pk;

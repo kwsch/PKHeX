@@ -79,9 +79,14 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
-            pk.AltForm = Form;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = GetBall();
+            if (Form != 31)
+                pk.AltForm = Form;
+            else if (Species == 664 || Species == 665 || Species == 666)
+                pk.AltForm = Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
+            else
+                pk.AltForm = Util.Rand.Next(pk.PersonalInfo.FormeCount);
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
