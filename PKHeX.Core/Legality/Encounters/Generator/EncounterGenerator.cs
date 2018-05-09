@@ -353,6 +353,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
+            pkm.WasEgg = false; // clear flag if set from static
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters34(pkm))
             {

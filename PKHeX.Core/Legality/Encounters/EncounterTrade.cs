@@ -76,13 +76,19 @@ namespace PKHeX.Core
                 pk.Met_Level = level;
                 pk.Met_Location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
             }
-            pk.MetDate = DateTime.Today;
+            var today = DateTime.Today;
+            pk.MetDate = today;
+            if (EggLocation != 0)
+            {
+                pk.Egg_Location = EggLocation;
+                pk.EggMetDate = today;
+            }
 
             SAV.ApplyToPKM(pk);
             int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
             pk.Nature = nature;
             pk.Version = (int)version;
-            pk.Gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
+            pk.Gender = pk.GetSaneGender(Gender < 0 ? pk.PersonalInfo.RandomGender : Gender);
             pk.AltForm = Form;
 
             pk.Language = lang;
