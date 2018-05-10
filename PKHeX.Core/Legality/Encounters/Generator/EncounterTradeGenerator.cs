@@ -9,29 +9,49 @@ namespace PKHeX.Core
     {
         public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            if (pkm.VC || pkm.Format <= 2)
-                return GetPossibleVC(pkm, gameSource);
-            return GetPossibleNonVC(pkm, gameSource);
+            var p = GetValidPreEvolutions(pkm);
+            return GetPossible(pkm, p, gameSource);
         }
-        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
             if (pkm.VC || pkm.Format <= 2)
-                return GetValidEncounterTradesVC(pkm, gameSource);
-            
+                return GetPossibleVC(pkm, vs, gameSource);
+            return GetPossibleNonVC(pkm, vs, gameSource);
+        }
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
             var p = GetValidPreEvolutions(pkm);
+            return GetValidEncounterTrades(pkm, p, gameSource);
+        }
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        {
+            if (GetIsFromGB(pkm))
+                return GetValidEncounterTradesVC(pkm, p, gameSource);
+
+            int lvl = IsNotTrade(pkm);
+            if (lvl <= 0)
+                return Enumerable.Empty<EncounterTrade>();
+
+            var poss = GetPossibleNonVC(pkm, p, gameSource);
+            return poss.Where(z => IsEncounterTradeValid(pkm, z, lvl));
+        }
+        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            if (pkm.VC || pkm.Format <= 2)
+                return GetValidEncounterTradesVC(pkm, p, gameSource);
+            
             var table = GetEncounterTradeTable(pkm);
             return table?.Where(f => p.Any(r => r.Species == f.Species)) ?? Enumerable.Empty<EncounterTrade>();
         }
-        private static IEnumerable<EncounterTrade> GetPossibleVC(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterTrade> GetPossibleVC(PKM pkm, IList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             var table = GetEncounterTradeTableVC(gameSource);
-            var p = GetValidPreEvolutions(pkm);
             return table.Where(f => p.Any(r => r.Species == f.Species));
         }
         private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
@@ -54,9 +74,9 @@ namespace PKHeX.Core
             }
             return null;
         }
-        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, GameVersion gameSource)
+        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IList<DexLevel> p, GameVersion gameSource)
         {
-            var poss = GetPossibleVC(pkm, gameSource);
+            var poss = GetPossibleVC(pkm, p, gameSource);
             if (gameSource == GameVersion.RBY)
                 return poss.Where(z => GetIsValidTradeVC1(pkm, z));
             return poss.Where(z => GetIsValidTradeVC2(pkm, z));
@@ -113,18 +133,6 @@ namespace PKHeX.Core
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            if (GetIsFromGB(pkm))
-                return GetValidEncounterTradesVC(pkm, gameSource);
-
-            int lvl = IsNotTrade(pkm);
-            if (lvl <= 0)
-                return Enumerable.Empty<EncounterTrade>();
-
-            var poss = GetPossibleNonVC(pkm);
-            return poss.Where(z => IsEncounterTradeValid(pkm, z, lvl));
-        }
         private static bool IsEncounterTradeValid(PKM pkm, EncounterTrade z, int lvl)
         {
             if (z.IVs != null)

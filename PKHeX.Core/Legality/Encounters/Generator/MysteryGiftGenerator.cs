@@ -10,7 +10,11 @@ namespace PKHeX.Core
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
         {
             int maxSpecies = GetMaxSpeciesOrigin(pkm.Format);
-            var vs = GetValidPreEvolutions(pkm, maxSpecies).ToArray();
+            var vs = GetValidPreEvolutions(pkm, maxSpecies);
+            return GetPossible(pkm, vs);
+        }
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IList<DexLevel> vs)
+        {
             var table = GetTable(pkm.GenNumber);
             return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
         }

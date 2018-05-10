@@ -9,6 +9,14 @@ namespace PKHeX.Core
         // EncounterEgg
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
+            int tree = pkm.GenNumber;
+            var table = EvolutionTree.GetEvolutionTree(tree);
+            int maxSpeciesOrigin = GetMaxSpeciesOrigin(tree);
+            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+            return GenerateEggs(pkm, evos, all);
+        }
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IList<DexLevel> vs, bool all = false)
+        {
             if (NoHatchFromEgg.Contains(pkm.Species))
                 yield break;
             if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm, pkm.GenNumber))
@@ -21,7 +29,7 @@ namespace PKHeX.Core
             var ver = (GameVersion)pkm.Version;
             int max = GetMaxSpeciesOrigin(gen);
 
-            var baseSpecies = GetBaseSpecies(pkm, 0);
+            var baseSpecies = GetBaseSpecies(pkm, vs, 0);
             int lvl = gen < 4 ? 5 : 1;
             if (baseSpecies <= max)
             {
@@ -33,7 +41,7 @@ namespace PKHeX.Core
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
                 yield break; // no other possible species
 
-            baseSpecies = GetBaseSpecies(pkm, 1);
+            baseSpecies = GetBaseSpecies(pkm, vs, 1);
             if (baseSpecies <= max)
             {
                 yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };

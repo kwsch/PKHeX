@@ -112,7 +112,7 @@ namespace PKHeX.Core
             HashSet<int> species = new HashSet<int>(vs.Select(p => p.Species).ToList());
 
             var deferred = new List<IEncounterable>();
-            foreach (var t in GetValidEncounterTrades(pkm, game))
+            foreach (var t in GetValidEncounterTrades(pkm, vs, game))
             {
                 if (pkm.Format >= 7)
                 {

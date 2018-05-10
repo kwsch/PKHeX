@@ -1265,16 +1265,16 @@ namespace PKHeX.Core
         }
         internal static int GetBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
         {
-            if (pkm.Species == 292)
-                return 290;
-            if (pkm.Species == 242 && pkm.CurrentLevel < 3) // Never Cleffa
-                return 113;
-
             int tree = generation != -1 ? generation : pkm.Format;
             var table = EvolutionTree.GetEvolutionTree(tree);
-            int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : - 1;
-            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true);
-
+            int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : -1;
+            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+            return GetBaseSpecies(pkm, evos, skipOption, generation);
+        }
+        internal static int GetBaseSpecies(PKM pkm, IList<DexLevel> evos, int skipOption = 0, int generation = -1)
+        {
+            if (pkm.Species == 292)
+                return 290;
             switch (skipOption)
             {
                 case -1: return pkm.Species;
