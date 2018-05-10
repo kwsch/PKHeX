@@ -81,12 +81,7 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = GetBall();
-            if (Form != 31)
-                pk.AltForm = Form;
-            else if (Species == 664 || Species == 665 || Species == 666)
-                pk.AltForm = Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
-            else
-                pk.AltForm = Util.Rand.Next(pk.PersonalInfo.FormeCount);
+            pk.AltForm = GetWildAltForm(Form, pk, SAV);
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
@@ -153,6 +148,23 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             return pk;
+        }
+
+        private static int GetWildAltForm(int form, PKM pk, ITrainerInfo SAV)
+        {
+            if (form < 30)
+            {
+                switch (pk.Species)
+                {
+                    case 774: return Util.Rand.Next(7, 14); // Minior
+                    default: return form;
+                }
+            }
+            if (form == 31)
+                return Util.Rand.Next(pk.PersonalInfo.FormeCount);
+            if (pk.Species == 664 || pk.Species == 665 || pk.Species == 666)
+                return Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
+            return 0;
         }
 
         private PIDType GetPIDType()

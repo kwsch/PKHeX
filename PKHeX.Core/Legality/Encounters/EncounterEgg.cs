@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -32,10 +33,7 @@ namespace PKHeX.Core
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)Version;
-
-            var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
-            if (moves.Length == 0)
-                moves = Legal.GetEncounterMoves(pk, Level, Version);
+            int[] moves = GetCurrentEggMoves(pk);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
@@ -85,10 +83,34 @@ namespace PKHeX.Core
             if (pk.Gen6)
                 pk.SetHatchMemory6();
 
+            switch (Species)
+            {
+                case 774: // Minior
+                    pk.AltForm = Util.Rand.Next(7, 14);
+                    break;
+                case 664: // Scatterbug
+                    pk.AltForm = Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
+                    break;
+            }
+
             pk.SetRandomEC();
             pk.RelearnMoves = moves;
 
             return pk;
+        }
+
+        private int[] GetCurrentEggMoves(PKM pk)
+        {
+            var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
+            if (moves.Length == 0)
+                moves = Legal.GetEncounterMoves(pk, Level, Version);
+            else if (moves.Length < 4 && pk.Format >= 6)
+            {
+                // Sprinkle in some default level up moves
+                var lvl = Legal.GetBaseEggMoves(pk, Species, Version, Level);
+                moves = lvl.Concat(moves).ToArray();
+            }
+            return moves;
         }
     }
 }

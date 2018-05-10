@@ -52,16 +52,23 @@ namespace PKHeX.Tests.Simulator
         //[TestCategory(SimulatorParse)]
         public void TestGenerate()
         {
+            int count = 0;
+            var tr = new SimpleTrainerInfo();
             for (int i = 1; i <= 807; i++)
             {
-                var tr = new SimpleTrainerInfo();
                 var pk = new PK7 { Species = i };
+                pk.Gender = pk.GetSaneGender();
                 var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr);
                 Debug.WriteLine($"Starting {i:000}");
-                bool v = ez.Select(p => new LegalityAnalysis(p)).All(la => la.Valid);
+                foreach (var e in ez)
+                {
+                    var la = new LegalityAnalysis(e);
+                    Assert.IsTrue(la.Valid);
+                    count++;
+                }
                 Debug.WriteLine($"Finished {i:000}");
-                Debug.Assert(v);
             }
+            Debug.WriteLine($"Generated {count} PKMs!");
         }
 
         private const string SetGlaceonUSUMTutor =
