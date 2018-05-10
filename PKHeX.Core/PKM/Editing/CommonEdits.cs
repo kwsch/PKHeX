@@ -211,7 +211,7 @@ namespace PKHeX.Core
             if (gender == null)
             {
                 int cg = pk.Gender;
-                int sane = pk.GetSaneGender(cg);
+                int sane = pk.GetSaneGender();
                 if (cg != sane)
                     pk.Gender = sane;
                 return;
@@ -288,9 +288,8 @@ namespace PKHeX.Core
         /// Sanity checks the provided <see cref="PKM.Gender"/> value, and returns a sane value.
         /// </summary>
         /// <param name="pkm"></param>
-        /// <param name="cg">Current <see cref="PKM.Gender"/> preference</param>
         /// <returns>Most-legal <see cref="PKM.Gender"/> value</returns>
-        public static int GetSaneGender(this PKM pkm, int cg)
+        public static int GetSaneGender(this PKM pkm)
         {
             int gt = pkm.PersonalInfo.Gender;
             switch (gt)
@@ -299,9 +298,9 @@ namespace PKHeX.Core
                 case 254: return 1; // Female-Only
                 case 0: return 0; // Male-Only
             }
-            if (cg == 2 || pkm.GenNumber < 6)
-                return (byte)pkm.PID <= gt ? 1 : 0;
-            return cg;
+            if (!pkm.IsGenderValid())
+                return PKX.GetGenderFromPIDAndRatio(pkm.PID, gt);
+            return pkm.Gender;
         }
 
         /// <summary>

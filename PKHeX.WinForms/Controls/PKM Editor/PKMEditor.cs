@@ -470,7 +470,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateGender()
         {
             int cg = PKX.GetGenderFromString(Label_Gender.Text);
-            int Gender = pkm.GetSaneGender(cg);
+            int Gender = pkm.GetSaneGender();
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = GetGenderColor(Gender);
         }

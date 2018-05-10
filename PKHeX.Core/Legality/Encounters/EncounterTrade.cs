@@ -69,7 +69,27 @@ namespace PKHeX.Core
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
             pk.CurrentLevel = level;
-            pk.PID = this is EncounterTradePID p ? p.PID : Util.Rand32();
+            int gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
+            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
+
+            SAV.ApplyToPKM(pk);
+            pk.Nature = nature;
+            pk.Version = (int)version;
+            pk.AltForm = Form;
+
+            if (this is EncounterTradePID p)
+            {
+                pk.PID = p.PID;
+                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
+                pk.RefreshAbility(Ability >> 1);
+            }
+            else
+            {
+                int ability = Ability >> 1;
+                PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
+                pk.Gender = gender;
+                pk.RefreshAbility(ability);
+            }
             pk.Ball = Ball;
             if (pk.Format != 2 || version == GameVersion.C)
             {
@@ -84,25 +104,12 @@ namespace PKHeX.Core
                 pk.EggMetDate = today;
             }
 
-            SAV.ApplyToPKM(pk);
-            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
-            pk.Nature = nature;
-            pk.Version = (int)version;
-            pk.Gender = pk.GetSaneGender(Gender < 0 ? pk.PersonalInfo.RandomGender : Gender);
-            pk.AltForm = Form;
-
             pk.Language = lang;
             pk.TID = TID;
             pk.SID = SID;
             pk.OT_Name = GetOT(lang) ?? SAV.OT;
             pk.OT_Gender = GetOT(lang) != null ? Math.Max(0, OTGender) : SAV.Gender;
             pk.SetNickname(GetNickname(lang));
-            pk.Language = lang;
-
-            if (this is EncounterTradePID a && a.Generation == 4)
-                pk.RefreshAbility((int)(pk.PID & 1));
-            else
-                pk.RefreshAbility(Ability >> 1);
 
             if (IVs != null)
                 pk.SetRandomIVs(IVs, 0);

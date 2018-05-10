@@ -70,6 +70,8 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo SAV)
         {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
+            SanityCheckVersion(ref version);
+
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation);
@@ -112,23 +114,30 @@ namespace PKHeX.Core
 
             pk.AltForm = Form;
 
-            if (this is EncounterStaticPID pid)
+            if (this is EncounterStaticPID p)
             {
-                pk.PID = pid.PID;
-                pk.Gender = pk.GetSaneGender(gender);
+                pk.PID = p.PID;
+                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
                 if (pk is PK5 pk5)
-                    pk5.NPokémon = pid.NSparkle;
+                {
+                    pk5.IVs = new[] { 30, 30, 30, 30, 30, 30 };
+                    pk5.NPokémon = p.NSparkle;
+                    pk5.OT_Name = lang == (int)LanguageID.Japanese ? "Ｎ" : "N";
+                    pk5.TID = 00002;
+                    pk5.SID = 00000;
+                }
+                else
+                    SetIVs(pk);
+                if (Generation >= 5)
+                    pk.Nature = nature;
+                pk.RefreshAbility(Ability >> 1);
             }
             else
             {
                 var pidtype = GetPIDType();
                 PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability >> 1, gender, pidtype);
+                SetIVs(pk);
             }
-
-            if (IVs != null)
-                pk.SetRandomIVs(IVs, FlawlessIVCount);
-            else if (FlawlessIVCount > 0)
-                pk.SetRandomIVs(flawless: FlawlessIVCount);
 
             switch (pk.Format)
             {
@@ -150,6 +159,7 @@ namespace PKHeX.Core
             var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
             if (pk.Format == 1 && moves.All(z => z == 0))
                 moves = (PersonalTable.RB[Species] as PersonalInfoG1).Moves;
+            pk.HeldItem = HeldItem;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             if (pk.Format >= 6 && Relearn != null)
@@ -167,6 +177,26 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             return pk;
+        }
+
+        private void SanityCheckVersion(ref GameVersion version)
+        {
+            if (Generation == 4 && (int)version != 12)
+            switch (Species)
+            {
+                case 491 when Location == 079: // DP Darkrai
+                case 492 when Location == 063: // DP Shaymin
+                    version = GameVersion.Pt;
+                    return;
+            }
+        }
+
+        private void SetIVs(PKM pk)
+        {
+            if (IVs != null)
+                pk.SetRandomIVs(IVs, FlawlessIVCount);
+            else if (FlawlessIVCount > 0)
+                pk.SetRandomIVs(flawless: FlawlessIVCount);
         }
 
         private int GetEdgeCaseLanguage(PKM pk, int lang)

@@ -301,8 +301,8 @@ namespace PKHeX.Core
         {
             switch (enc.Generation)
             {
-                case 4 when enc is EncounterStaticTyped t:
-                    if (enc.Location == 193 && t.TypeEncounter == EncounterType.Surfing_Fishing) // Johto Route 45 surfing encounter. Unreachable Water tiles.
+                case 4 when enc is EncounterStaticTyped t && enc.Location == 193:
+                    if (t.TypeEncounter == EncounterType.Surfing_Fishing) // Johto Route 45 surfing encounter. Unreachable Water tiles.
                         return true; // only hits for Roamer Raikou
                     break;
                 case 4:

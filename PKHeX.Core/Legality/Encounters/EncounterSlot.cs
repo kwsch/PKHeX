@@ -127,7 +127,7 @@ namespace PKHeX.Core
                 case 4:
                     if (pk.Format == 4)
                         pk.EncounterType = TypeEncounter.GetIndex();
-                    pk.Gender = pk.GetSaneGender(gender);
+                    pk.Gender = gender;
                     break;
                 case 5:
                     if (Type == SlotType.HiddenGrotto)

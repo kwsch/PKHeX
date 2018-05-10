@@ -316,7 +316,7 @@ namespace PKHeX.Core
 
         private static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
         {
-            if (pk.GetSaneGender(gender) != gender)
+            if (pk.GetSaneGender() != gender)
                 return false;
 
             if (pk.Nature != nature)
@@ -370,7 +370,7 @@ namespace PKHeX.Core
                     continue;
 
                 pk.PID = seed;
-                if (pk.GetSaneGender(gender) != gender)
+                if (pk.GetSaneGender() != gender)
                     continue;
 
                 SetRandomIVs(pk);
