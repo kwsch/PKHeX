@@ -1205,5 +1205,24 @@ namespace PKHeX.WinForms.Controls
             ResetParty();
         }
 
+        private void GenerateLivingDex()
+        {
+            var bd = SAV.BoxData;
+
+            var tr = SAV;
+            for (int i = 1; i <= 807; i++)
+            {
+                var pk = SAV.BlankPKM;
+                pk.Species = i;
+                pk.Gender = pk.GetSaneGender();
+                if (i == 678)
+                    pk.AltForm = pk.Gender;
+                var f = EncounterMovesetGenerator.GeneratePKMs(pk, tr).FirstOrDefault();
+                if (f != null)
+                    bd[i] = PKMConverter.ConvertToType(f, SAV.PKMType, out _);
+            }
+            SAV.BoxData = bd;
+            ReloadSlots();
+        }
     }
 }
