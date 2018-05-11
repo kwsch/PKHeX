@@ -208,17 +208,10 @@ namespace PKHeX.Core
         /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
         public static void SetGender(this PKM pk, string gender)
         {
-            if (gender == null)
-            {
-                int cg = pk.Gender;
-                int sane = pk.GetSaneGender();
-                if (cg != sane)
-                    pk.Gender = sane;
-                return;
-            }
-
-            int Gender = PKX.GetGenderFromString(gender);
-            pk.SetGender(Gender);
+            int g = gender == null
+                ? pk.GetSaneGender()
+                : PKX.GetGenderFromString(gender);
+            pk.SetGender(g);
         }
 
         /// <summary>
