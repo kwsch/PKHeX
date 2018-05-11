@@ -29,7 +29,7 @@ namespace PKHeX.WinForms.Controls
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
         public readonly List<ISlotViewer<PictureBox>> OtherSlots = new List<ISlotViewer<PictureBox>>();
         public event DragEventHandler RequestExternalDragDrop;
-        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 200, IsBalloon = true};
+        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 400, IsBalloon = false};
 
         public SlotChangeManager(SAVEditor se)
         {
@@ -38,6 +38,9 @@ namespace PKHeX.WinForms.Controls
         }
         public void Reset() { DragInfo = new SlotChangeInfo(SAV); ColorizedBox = ColorizedSlot = -1; }
         public bool DragActive => DragInfo.DragDropInProgress || !DragInfo.LeftMouseIsDown;
+        public bool CanStartDrag => DragInfo.LeftMouseIsDown && !Cursor.Position.Equals(MouseDownPosition);
+        private Point MouseDownPosition { get; set; }
+
         public void SetCursor(Cursor z, object sender)
         {
             if (SE != null)
@@ -59,7 +62,7 @@ namespace PKHeX.WinForms.Controls
                 var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
                 var data = view.GetSlotData(pb);
                 var pk = SAV.GetStoredSlot(data.Offset);
-                if (pk.Species > 0 && Control.ModifierKeys.HasFlag(Keys.Control) && Control.ModifierKeys.HasFlag(Keys.Shift))
+                if (pk.Species > 0)
                     ShowSet.SetToolTip(pb, pk.ShowdownText);
                 else
                     ShowSet.RemoveAll();
@@ -89,7 +92,10 @@ namespace PKHeX.WinForms.Controls
         public void MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
+            {
                 DragInfo.LeftMouseIsDown = true;
+                MouseDownPosition = Cursor.Position;
+            }
             if (e.Button == MouseButtons.Right)
                 DragInfo.RightMouseIsDown = true;
         }
@@ -110,6 +116,43 @@ namespace PKHeX.WinForms.Controls
 
             if (DragInfo.DragDropInProgress)
                 SetCursor((Cursor)DragInfo.Cursor, sender);
+        }
+        public void MouseMove(object sender, MouseEventArgs e)
+        {
+            if (DragActive)
+                return;
+
+            if (!CanStartDrag)
+                return;
+
+            // Abort if there is no Pokemon in the given slot.
+            PictureBox pb = (PictureBox)sender;
+            if (pb.Image == null)
+                return;
+            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            var src = view.GetSlotData(pb);
+            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
+                return;
+            bool encrypt = Control.ModifierKeys == Keys.Control;
+            HandleMovePKM(pb, src.Slot, src.Box, encrypt);
+        }
+        public void DragDrop(object sender, DragEventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            var src = view.GetSlotData(pb);
+            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
+            {
+                System.Media.SystemSounds.Asterisk.Play();
+                e.Effect = DragDropEffects.Copy;
+                DragInfo.Reset();
+                return;
+            }
+
+            bool overwrite = Control.ModifierKeys == Keys.Alt;
+            bool clone = Control.ModifierKeys == Keys.Control;
+            DragInfo.Destination = src;
+            HandleDropPKM(sender, e, overwrite, clone);
         }
 
         private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control 

@@ -102,12 +102,12 @@ namespace PKHeX.WinForms.Controls
             pb.MouseEnter += M.MouseEnter;
             pb.MouseLeave += M.MouseLeave;
             pb.MouseClick += M.MouseClick;
-            pb.MouseMove += BoxSlot_MouseMove;
+            pb.MouseMove += M.MouseMove;
             pb.MouseDown += M.MouseDown;
             pb.MouseUp += M.MouseUp;
 
             pb.DragEnter += M.DragEnter;
-            pb.DragDrop += BoxSlot_DragDrop;
+            pb.DragDrop += M.DragDrop;
             pb.QueryContinueDrag += M.QueryContinueDrag;
             pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
             pb.AllowDrop = true;
@@ -1113,43 +1113,6 @@ namespace PKHeX.WinForms.Controls
         }
 
         // DragDrop
-        private void BoxSlot_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (M == null || M.DragActive)
-                return;
-
-            // Abort if there is no Pokemon in the given slot.
-            PictureBox pb = (PictureBox)sender;
-            if (pb.Image == null)
-                return;
-            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-            var src = view.GetSlotData(pb);
-            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
-                return;
-            bool encrypt = ModifierKeys == Keys.Control;
-            M.HandleMovePKM(pb, src.Slot, src.Box, encrypt);
-        }
-        private void BoxSlot_DragDrop(object sender, DragEventArgs e)
-        {
-            if (M == null)
-                return;
-
-            PictureBox pb = (PictureBox)sender;
-            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-            var src = view.GetSlotData(pb);
-            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
-            {
-                SystemSounds.Asterisk.Play();
-                e.Effect = DragDropEffects.Copy;
-                M.DragInfo.Reset();
-                return;
-            }
-
-            bool overwrite = ModifierKeys == Keys.Alt;
-            bool clone = ModifierKeys == Keys.Control;
-            M.DragInfo.Destination = src;
-            M.HandleDropPKM(sender, e, overwrite, clone);
-        }
         private void MultiDragOver(object sender, DragEventArgs e)
         {
             // iterate over all tabs to see if a tab switch should occur when drag/dropping

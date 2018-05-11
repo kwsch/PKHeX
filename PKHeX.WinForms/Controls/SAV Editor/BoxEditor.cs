@@ -243,44 +243,9 @@ namespace PKHeX.WinForms.Controls
         private void BoxSlot_MouseClick(object sender, MouseEventArgs e) => M?.MouseClick(sender, e);
         private void BoxSlot_MouseUp(object sender, MouseEventArgs e) => M?.MouseUp(sender, e);
         private void BoxSlot_MouseDown(object sender, MouseEventArgs e) => M?.MouseDown(sender, e);
+        private void BoxSlot_MouseMove(object sender, MouseEventArgs e) => M?.MouseMove(sender, e);
         private void BoxSlot_DragEnter(object sender, DragEventArgs e) => M?.DragEnter(sender, e);
         private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
-        private void BoxSlot_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (M == null || M.DragActive)
-                return;
-
-            // Abort if there is no Pokemon in the given slot.
-            PictureBox pb = (PictureBox)sender;
-            if (pb.Image == null)
-                return;
-            int slot = GetSlot(pb);
-            if (slot >= SlotCount || SAV.IsSlotLocked(CurrentBox, slot))
-                return;
-
-            bool encrypt = ModifierKeys == Keys.Control;
-            M.HandleMovePKM(pb, slot, CurrentBox, encrypt);
-        }
-        private void BoxSlot_DragDrop(object sender, DragEventArgs e)
-        {
-            if (M == null)
-                return;
-
-            // Abort if there is no Pokemon in the given slot.
-            PictureBox pb = (PictureBox)sender;
-            int slot = GetSlot(pb);
-            if (slot >= SlotCount || SAV.IsSlotLocked(CurrentBox, slot))
-            {
-                SystemSounds.Asterisk.Play();
-                e.Effect = DragDropEffects.Copy;
-                M.DragInfo.Reset();
-                return;
-            }
-
-            bool overwrite = ModifierKeys == Keys.Alt;
-            bool clone = ModifierKeys == Keys.Control;
-            M.DragInfo.Destination = GetSlotData(pb);
-            M.HandleDropPKM(sender, e, overwrite, clone);
-        }
+        private void BoxSlot_DragDrop(object sender, DragEventArgs e) => M?.DragDrop(sender, e);
     }
 }
