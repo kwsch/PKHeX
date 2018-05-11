@@ -509,7 +509,7 @@ namespace PKHeX.WinForms.Controls
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
 
-            int newGender = PKX.GetGenderFromString(Label_Gender.Text) ^ 1;
+            int newGender = (PKX.GetGenderFromString(Label_Gender.Text) & 1) ^ 1;
             if (pkm.Format <= 2)
             {
                 Stats.SetATKIVGender(newGender);
