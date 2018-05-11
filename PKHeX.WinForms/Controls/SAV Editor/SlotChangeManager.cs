@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -30,6 +31,7 @@ namespace PKHeX.WinForms.Controls
         public readonly List<ISlotViewer<PictureBox>> OtherSlots = new List<ISlotViewer<PictureBox>>();
         public event DragEventHandler RequestExternalDragDrop;
         private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 400, IsBalloon = false};
+        private readonly SoundPlayer Sounds = new SoundPlayer();
 
         public SlotChangeManager(SAVEditor se)
         {
@@ -37,7 +39,6 @@ namespace PKHeX.WinForms.Controls
             Reset();
         }
         public void Reset() { DragInfo = new SlotChangeInfo(SAV); ColorizedBox = ColorizedSlot = -1; }
-        public bool DragActive => DragInfo.DragDropInProgress || !DragInfo.LeftMouseIsDown;
         public bool CanStartDrag => DragInfo.LeftMouseIsDown && !Cursor.Position.Equals(MouseDownPosition);
         private Point MouseDownPosition { get; set; }
 
@@ -53,20 +54,13 @@ namespace PKHeX.WinForms.Controls
                 return;
             OriginalBackground = pb.BackgroundImage;
             pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0, 1);
-            if (!DragActive)
-            {
-                SetCursor(Cursors.Hand, sender);
-            }
-            else
-            {
-                var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-                var data = view.GetSlotData(pb);
-                var pk = SAV.GetStoredSlot(data.Offset);
-                if (pk.Species > 0)
-                    ShowSet.SetToolTip(pb, pk.ShowdownText);
-                else
-                    ShowSet.RemoveAll();
-            }
+
+            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            var data = view.GetSlotData(pb);
+            var pk = SAV.GetStoredSlot(data.Offset);
+
+            ShowSimulatorSetTooltip(pb, pk);
+            PlayCry(pk);
         }
         public void MouseLeave(object sender, EventArgs e)
         {
@@ -74,8 +68,6 @@ namespace PKHeX.WinForms.Controls
             if (pb.BackgroundImage != CurrentBackground)
                 return;
             pb.BackgroundImage = OriginalBackground;
-            if (!DragActive)
-                SetCursor(Cursors.Default, sender);
         }
         public void MouseClick(object sender, MouseEventArgs e)
         {
@@ -119,9 +111,6 @@ namespace PKHeX.WinForms.Controls
         }
         public void MouseMove(object sender, MouseEventArgs e)
         {
-            if (DragActive)
-                return;
-
             if (!CanStartDrag)
                 return;
 
@@ -143,7 +132,7 @@ namespace PKHeX.WinForms.Controls
             var src = view.GetSlotData(pb);
             if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
             {
-                System.Media.SystemSounds.Asterisk.Play();
+                SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
                 DragInfo.Reset();
                 return;
@@ -153,6 +142,26 @@ namespace PKHeX.WinForms.Controls
             bool clone = Control.ModifierKeys == Keys.Control;
             DragInfo.Destination = src;
             HandleDropPKM(sender, e, overwrite, clone);
+        }
+
+        private void ShowSimulatorSetTooltip(Control pb, PKM pk)
+        {
+            if (pk.Species == 0)
+                ShowSet.RemoveAll();
+            else
+                ShowSet.SetToolTip(pb, pk.ShowdownText);
+        }
+        private void PlayCry(PKM pk)
+        {
+            if (pk.Species == 0)
+                return;
+
+            var path = Path.Combine("sounds", $"{pk.Species}.wav");
+            if (!File.Exists(path))
+                return;
+
+            Sounds.SoundLocation = path;
+            Sounds.Play();
         }
 
         private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control 
