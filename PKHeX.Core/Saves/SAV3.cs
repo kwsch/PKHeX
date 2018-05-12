@@ -268,7 +268,7 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAC);
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAF8);
+                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xF20);
                     default: return 0;
                 }
             }
@@ -395,6 +395,21 @@ namespace PKHeX.Core
                 if (value > 9999)
                     value = 9999;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xEB8);
+            }
+        }
+        public uint BerryPowder
+        {
+            get
+            {
+                if (Version != GameVersion.FRLG)
+                    return 0;
+                return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAF8) ^ SecurityKey;
+            }
+            set
+            {
+                if (Version != GameVersion.FRLG)
+                    return;
+                SetData(BitConverter.GetBytes(value ^ SecurityKey), BlockOfs[0] + 0xAF8);
             }
         }
 
