@@ -2222,7 +2222,7 @@ namespace PKHeX.Core
                     return;
                 case 800 when pkm.AltForm < 3: // Necrozma Fused forms & default
                 case 778 when pkm.AltForm == 2: // Totem disguise Mimikyu
-                    AddLine(Severity.Valid, V315, CheckIdentifier.Form);
+                    AddLine(Severity.Valid, V318, CheckIdentifier.Form);
                     return;
             }
 

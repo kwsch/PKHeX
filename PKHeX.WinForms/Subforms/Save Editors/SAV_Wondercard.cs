@@ -320,7 +320,7 @@ namespace PKHeX.WinForms
             string giftType = gift.Type;
 
             if (mga.Gifts.All(card => card.Data.Length != data.Length))
-                WinFormsUtil.Alert(MsgMysteryGiftQRTypeLength, $"{MsgQRDecodeSize} 0x{data.Length:X}");
+                WinFormsUtil.Alert(MsgMysteryGiftQRTypeLength, string.Format(MsgQRDecodeSize, $"0x{data.Length:X}"));
             else if (types.All(type => type != giftType))
                 WinFormsUtil.Alert(MsgMysteryGiftTypeIncompatible,
                     $"{MsgMysteryGiftQRRecieved} {gift.Type}{Environment.NewLine}{MsgMysteryGiftTypeUnexpected} {string.Join(", ", types)}");
