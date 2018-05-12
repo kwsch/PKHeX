@@ -188,7 +188,8 @@ namespace PKHeX.Core
             // Secondary Stats
             if (Ability > -1 && Ability < abilities.Length)
                 result.Add($"Ability: {abilities[Ability]}");
-            result.Add($"Level: {Level}");
+            if (Level != 100)
+                result.Add($"Level: {Level}");
             if (Shiny)
                 result.Add("Shiny: Yes");
 

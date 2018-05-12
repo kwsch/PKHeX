@@ -14,9 +14,12 @@ namespace PKHeX.Tests.Simulator
         [TestCategory(SimulatorParse)]
         public void SimulatorGetParse()
         {
-            var set = new ShowdownSet(SetGlaceonUSUMTutor);
-            string Sanitize(string str) => str.Replace("\r\n", "").Replace("\n", "");
-            Assert.IsTrue(Sanitize(SetGlaceonUSUMTutor) == Sanitize(set.Text));
+            foreach (var setstr in Sets)
+            {
+                var set = new ShowdownSet(setstr).Text;
+                var lines = set.Split('\n').Select(z => z.Trim());
+                Assert.IsTrue(lines.All(z => setstr.Contains(z)), setstr);
+            }
         }
 
         [TestMethod]
@@ -84,5 +87,18 @@ Modest Nature
 - Shadow Ball
 - Hyper Voice";
 
+        private static readonly string[] Sets =
+        {
+            SetGlaceonUSUMTutor,
+
+@"Greninja @ Choice Specs  
+Ability: Battle Bond  
+EVs: 252 SpA / 4 SpD / 252 Spe  
+Timid Nature  
+- Hydro Pump  
+- Spikes  
+- Water Shuriken  
+- Dark Pulse",
+        };
     }
 }
