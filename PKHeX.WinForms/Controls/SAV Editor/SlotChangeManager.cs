@@ -168,7 +168,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             Sounds.SoundLocation = path;
-            Sounds.Play();
+            try { Sounds.Play(); } catch { }
         }
 
         private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control 

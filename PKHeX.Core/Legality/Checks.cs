@@ -10,7 +10,7 @@ namespace PKHeX.Core
         private void VerifyGender()
         {
             var gr = pkm.PersonalInfo.Gender;
-            if (gr == 255 && pkm.Gender != 2)
+            if (gr == 255 != (pkm.Gender == 2))
             {
                 // DP/HGSS shedinja glitch -- only generation 4 spawns
                 bool ignore = pkm.Format == 4 && pkm.Species == 292 && pkm.Met_Level != pkm.CurrentLevel;
