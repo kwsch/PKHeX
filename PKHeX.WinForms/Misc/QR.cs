@@ -30,14 +30,14 @@ namespace PKHeX.WinForms
             const int stretch = 50;
             Height += stretch;
 
-            if (pkm != null && pkm.Format == 7)
+            if (pkm?.Format == 7)
                 Height += 40;
 
             this.qr = qr;
             this.icon = icon;
             Lines = lines;
 
-            if (pkm != null && pkm.Format == 7)
+            if (pkm?.Format == 7)
                 UpdateBoxSlotCopies(null, null);
             else
                 RefreshImage();
@@ -80,7 +80,7 @@ namespace PKHeX.WinForms
 
         // QR Utility
         private const string QR6PathBad = "null/#"; // prefix to prevent URL from loading
-        private const string QR6Path = @"http://lunarcookies.github.io/b1s1.html#";
+        private const string QR6Path = "http://lunarcookies.github.io/b1s1.html#";
         private const string DecodeAPI = "http://api.qrserver.com/v1/read-qr-code/?fileurl=";
         private const int QRSize = 365;
         private static readonly string EncodeAPI = $"http://chart.apis.google.com/chart?chs={QRSize}x{QRSize}&cht=qr&chl=";
@@ -122,7 +122,7 @@ namespace PKHeX.WinForms
                 string fstr = Regex.Unescape(pkstr);
                 byte[] raw = Encoding.Unicode.GetBytes(fstr);
                 // Remove 00 interstitials and retrieve from offset 0x30, take PK7 Stored Size (always)
-                return raw.ToList().Where((c, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
+                return raw.ToList().Where((_, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
             }
             // All except G7
             pkstr = pkstr.Substring(pkstr.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL

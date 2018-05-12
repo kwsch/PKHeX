@@ -705,7 +705,7 @@ namespace PKHeX.Core
                     res[z] = new CheckMoveResult(MoveSource.Initial, gen, Severity.Invalid, V180, CheckIdentifier.Move);
 
                 // provide the list of suggested base moves for the last required slot
-                em = string.Join(", ", getMoveNames(infoset.Base));
+                em = string.Join(", ", GetMoveNames(infoset.Base));
                 break;
             }
 
@@ -726,9 +726,9 @@ namespace PKHeX.Core
 
                 // provide the list of suggested base moves and species moves for the last required slot
                 if (string.IsNullOrEmpty(em))
-                    em = string.Join(", ", getMoveNames(infoset.Base));
+                    em = string.Join(", ", GetMoveNames(infoset.Base));
                 em += ", ";
-                em += string.Join(", ", getMoveNames(infoset.Special));
+                em += string.Join(", ", GetMoveNames(infoset.Special));
                 break;
             }
 

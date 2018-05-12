@@ -124,7 +124,7 @@ namespace PKHeX.WinForms.Controls
             if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
                 return;
             bool encrypt = Control.ModifierKeys == Keys.Control;
-            HandleMovePKM(pb, src.Slot, src.Box, encrypt);
+            HandleMovePKM(pb, encrypt);
         }
         public void DragDrop(object sender, DragEventArgs e)
         {
@@ -174,7 +174,7 @@ namespace PKHeX.WinForms.Controls
         private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control
             => WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
 
-        public void HandleMovePKM(PictureBox pb, int slot, int box, bool encrypt)
+        public void HandleMovePKM(PictureBox pb, bool encrypt)
         {
             // Create a temporary PKM file to perform a drag drop operation.
 
@@ -186,7 +186,7 @@ namespace PKHeX.WinForms.Controls
             DragInfo.Source.OriginalData = SAV.GetData(DragInfo.Source.Offset, SAV.SIZE_STORED);
 
             // Make a new file name based off the PID
-            string newfile = CreateDragDropPKM(pb, box, encrypt, out bool external);
+            string newfile = CreateDragDropPKM(pb, encrypt, out bool external);
             DragInfo.Reset();
             SetCursor(SE.GetDefaultCursor, pb);
 
@@ -199,11 +199,11 @@ namespace PKHeX.WinForms.Controls
         }
         private async void DeleteAsync(string path, int delay)
         {
-            await Task.Delay(delay);
+            await Task.Delay(delay).ConfigureAwait(false);
             if (File.Exists(path) && DragInfo.CurrentPath == null)
                 File.Delete(path);
         }
-        private string CreateDragDropPKM(PictureBox pb, int box, bool encrypt, out bool external)
+        private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
         {
             byte[] dragdata = SAV.DecryptPKM(DragInfo.Source.OriginalData);
             Array.Resize(ref dragdata, SAV.SIZE_STORED);
@@ -487,6 +487,7 @@ namespace PKHeX.WinForms.Controls
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
             ColorizedColor?.Dispose();
+            Sounds?.Dispose();
         }
     }
 }

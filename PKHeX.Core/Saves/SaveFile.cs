@@ -433,8 +433,8 @@ namespace PKHeX.Core
 
             int len = BoxSlotCount*SIZE_STORED;
             byte[] boxdata = GetData(GetBoxOffset(0), len*BoxCount); // get all boxes
-            string[] boxNames = new int[BoxCount].Select((x, i) => GetBoxName(i)).ToArray();
-            int[] boxWallpapers = new int[BoxCount].Select((x, i) => GetBoxWallpaper(i)).ToArray();
+            string[] boxNames = new int[BoxCount].Select((_, i) => GetBoxName(i)).ToArray();
+            int[] boxWallpapers = new int[BoxCount].Select((_, i) => GetBoxWallpaper(i)).ToArray();
 
             min /= BoxSlotCount;
             max /= BoxSlotCount;
@@ -504,12 +504,12 @@ namespace PKHeX.Core
                 return box;
             return Data[offset];
         }
-        public virtual void SetBoxWallpaper(int box, int val)
+        public virtual void SetBoxWallpaper(int box, int value)
         {
             int offset = GetBoxWallpaperOffset(box);
             if (offset < 0 || box > BoxCount)
                 return;
-            Data[offset] = (byte)val;
+            Data[offset] = (byte)value;
         }
 
         public virtual PKM GetPartySlot(int offset)
@@ -579,7 +579,7 @@ namespace PKHeX.Core
                 SetData(GetData(slotFrom, SIZE_PARTY), slotTo);
             }
             SetStoredSlot(BlankPKM, GetPartyOffset(5), false, false);
-            PartyCount -= 1;
+            PartyCount--;
         }
         public virtual bool IsSlotLocked(int box, int slot) => false;
         public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)

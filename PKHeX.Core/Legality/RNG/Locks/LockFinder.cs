@@ -80,10 +80,10 @@ namespace PKHeX.Core
             // Since the prior(next) lock is generated 7+2*n frames after, the worst case break is 7 frames after the PID.
             // Continue reversing until a sequential generation case is found.
 
-            // Check 
+            // Check
 
             int start = ctr;
-            do
+            while (true)
             {
                 int p7 = ctr - 7;
                 if (p7 > start)
@@ -94,10 +94,10 @@ namespace PKHeX.Core
                 }
                 uint pid = cache[ctr + 1] << 16 | cache[ctr];
                 if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
-                    yield return new SeedFrame { FrameID = ctr + 6, PID = pid};
+                    yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
 
                 ctr += 2;
-            } while (true);
+            }
         }
 
         private static bool VerifyNPC(FrameCache cache, int ctr, IEnumerable<uint> PIDs, bool XD, out int originFrame)
@@ -143,11 +143,10 @@ namespace PKHeX.Core
             var rng = RNG.XDRNG;
             var SIDf = rng.Reverse(seed, rev);
             int ctr = 0;
-            while (true)
+            uint temp = 0;
+            while (SIDf >> 16 != SID || (temp = rng.Prev(SIDf)) >> 16 != TID)
             {
-                if (SIDf >> 16 == SID && rng.Prev(SIDf) >> 16 == TID)
-                    break;
-                SIDf = rng.Prev(SIDf);
+                SIDf = temp;
                 if (ctr > 32) // arbitrary
                     return false;
                 ctr++;

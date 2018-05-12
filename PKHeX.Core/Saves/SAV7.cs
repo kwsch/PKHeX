@@ -143,7 +143,7 @@ namespace PKHeX.Core
             /* 05 */ EventConst     = Blocks[05].Offset; // 0x01C00  // [E00]    EventWork
             /* 06 */ PokeDex        = Blocks[06].Offset; // 0x02A00  // [F78]    ZukanData
             /* 07 */ GTS            = Blocks[07].Offset; // 0x03A00  // [228]    GtsData
-            /* 08 */ Fused          = Blocks[08].Offset; // 0x03E00  // [104]    UnionPokemon 
+            /* 08 */ Fused          = Blocks[08].Offset; // 0x03E00  // [104]    UnionPokemon
             /* 09 */ Misc           = Blocks[09].Offset; // 0x04000  // [200]    Misc
             /* 10 */ Trainer2       = Blocks[10].Offset; // 0x04200  // [020]    FieldMenu
             /* 11 */ ConfigSave     = Blocks[11].Offset; // 0x04400  // [004]    ConfigSave
@@ -1455,7 +1455,7 @@ namespace PKHeX.Core
             set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & ~2) | (value ? 2 : 0)); // in battle
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString7(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

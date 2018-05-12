@@ -196,8 +196,8 @@ namespace PKHeX.Core
             }
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-            if (pkm.Format == 4 && pkm.Gen4 &&
-                (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean))
+            if (pkm.Format == 4 && pkm.Gen4
+                && (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean))
             {
                 bool kor = pkm.Language == (int) LanguageID.Korean;
                 var currentpkm = kor ? V611 : V612;
@@ -616,7 +616,7 @@ namespace PKHeX.Core
                 if (IVs != null)
                 {
                     var pkIVs = pkm.IVs;
-                    var ivflag = IVs.FirstOrDefault(iv => (byte)(iv - 0xFC) < 3);
+                    var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
                     if (ivflag == 0) // Random IVs
                     {
                         bool valid = true;
@@ -1690,7 +1690,7 @@ namespace PKHeX.Core
                 untraded &= gift.IsEgg;
             }
 
-            if (EncounterMatch is EncounterLink link && link.OT == false)
+            if (EncounterMatch is EncounterLink link && !link.OT)
                 untraded = false;
             else if (Info.Generation < 6)
                 untraded = false;
@@ -2497,6 +2497,6 @@ namespace PKHeX.Core
         }
         public static string[] MoveStrings { internal get; set; } = Util.GetMovesList("en");
         public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList("en");
-        internal static IEnumerable<string> getMoveNames(IEnumerable<int> moves) => moves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]);
+        internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]);
     }
 }

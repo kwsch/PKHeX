@@ -279,7 +279,7 @@ namespace PKHeX.Core
             set
             {
                 int len = Japanese ? 5 : OTLength;
-                SetString(value, len, PadWith: 0xFF, PadToSize: len).CopyTo(Data, BlockOfs[0]);
+                SetString(value, len, PadToSize: len, PadWith: 0xFF).CopyTo(Data, BlockOfs[0]);
             }
         }
         public override int Gender
@@ -476,7 +476,6 @@ namespace PKHeX.Core
                 if (GameVersion.FRLG != Version)
                     ofs += 0x200;
                 return Data[BlockOfs[1] + ofs];
-
             }
             protected set
             {

@@ -8,7 +8,6 @@ namespace PKHeX.Core
     /// </summary>
     public static class LegalityCheckStrings
     {
-
         #region General Strings
 
         /// <summary>Default text for indicating validity.</summary>

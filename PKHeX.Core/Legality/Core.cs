@@ -622,7 +622,7 @@ namespace PKHeX.Core
         private static int GetRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             int species = pk.Species;
-            int catch_rate = (pk as PK1).Catch_Rate;
+            int catch_rate = ((PK1) pk).Catch_Rate;
             // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
             if ((species == 011 || species == 012) && catch_rate == 120)
@@ -1070,7 +1070,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            return GetValidPreEvolutions(pkm).Count() > 1;
+            return GetValidPreEvolutions(pkm).Count > 1;
         }
         private static bool IsEvolvedFormChange(PKM pkm)
         {
@@ -1129,7 +1129,7 @@ namespace PKHeX.Core
 
             // Check also if the current encounter include the evolve move as an special move
             // That means the pokemon have the move from the encounter level
-            if (info.EncounterMatch is IMoveset s && s.Moves != null && s.Moves.Any(m => moves.Contains(m)))
+            if (info.EncounterMatch is IMoveset s && s.Moves?.Any(m => moves.Contains(m)) == true)
                 LearnLevel = Math.Min(LearnLevel, info.EncounterMatch.LevelMin);
 
             // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
@@ -1269,9 +1269,9 @@ namespace PKHeX.Core
             var table = EvolutionTree.GetEvolutionTree(tree);
             int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : -1;
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
-            return GetBaseSpecies(pkm, evos, skipOption, generation);
+            return GetBaseSpecies(pkm, evos, skipOption);
         }
-        internal static int GetBaseSpecies(PKM pkm, IList<DexLevel> evos, int skipOption = 0, int generation = -1)
+        internal static int GetBaseSpecies(PKM pkm, IList<DexLevel> evos, int skipOption = 0)
         {
             if (pkm.Species == 292)
                 return 290;
@@ -1687,8 +1687,8 @@ namespace PKHeX.Core
                         }
                         if (Machine)
                         {
-                            r.AddRange(TMHM_RBY.Where((t, m) => pi_rb.TMHM[m]));
-                            r.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
+                            r.AddRange(TMHM_RBY.Where((_, m) => pi_rb.TMHM[m]));
+                            r.AddRange(TMHM_RBY.Where((_, m) => pi_y.TMHM[m]));
                         }
                         if (moveTutor)
                             r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
@@ -1708,7 +1708,7 @@ namespace PKHeX.Core
                         if (Machine)
                         {
                             var pi_c = (PersonalInfoG2)PersonalTable.C[index];
-                            r.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
+                            r.AddRange(TMHM_GSC.Where((_, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
                             r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
@@ -1745,9 +1745,9 @@ namespace PKHeX.Core
                         if (Machine)
                         {
                             var pi_c = PersonalTable.E[index];
-                            r.AddRange(TM_3.Where((t, m) => pi_c.TMHM[m]));
+                            r.AddRange(TM_3.Where((_, m) => pi_c.TMHM[m]));
                             if (!RemoveTransferHM || pkm.Format == 3) // HM moves must be removed for 3->4, only give if current format.
-                                r.AddRange(HM_3.Where((t, m) => pi_c.TMHM[m+50]));
+                                r.AddRange(HM_3.Where((_, m) => pi_c.TMHM[m+50]));
                         }
                         if (moveTutor)
                             r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
@@ -1771,7 +1771,7 @@ namespace PKHeX.Core
                         {
                             var pi_hgss = PersonalTable.HGSS[index];
                             var pi_dppt = PersonalTable.Pt[index];
-                            r.AddRange(TM_4.Where((t, m) => pi_hgss.TMHM[m]));
+                            r.AddRange(TM_4.Where((_, m) => pi_hgss.TMHM[m]));
                             if (RemoveTransferHM && pkm.Format > 4)
                             {
                                 // The combination of both these moves is illegal, it should be checked that the pokemon only learn one
@@ -1783,8 +1783,8 @@ namespace PKHeX.Core
                             }
                             else
                             {
-                                r.AddRange(HM_DPPt.Where((t, m) => pi_dppt.TMHM[m + 92]));
-                                r.AddRange(HM_HGSS.Where((t, m) => pi_hgss.TMHM[m + 92]));
+                                r.AddRange(HM_DPPt.Where((_, m) => pi_dppt.TMHM[m + 92]));
+                                r.AddRange(HM_HGSS.Where((_, m) => pi_hgss.TMHM[m + 92]));
                             }
                         }
                         if (moveTutor)
@@ -1809,7 +1809,7 @@ namespace PKHeX.Core
                         if (Machine)
                         {
                             var pi_c = PersonalTable.B2W2[index2];
-                            r.AddRange(TMHM_BW.Where((t, m) => pi_c.TMHM[m]));
+                            r.AddRange(TMHM_BW.Where((_, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
                             r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
@@ -1832,7 +1832,7 @@ namespace PKHeX.Core
                             if (Machine)
                             {
                                 PersonalInfo pi = PersonalTable.XY[index];
-                                r.AddRange(TMHM_XY.Where((t, m) => pi.TMHM[m]));
+                                r.AddRange(TMHM_XY.Where((_, m) => pi.TMHM[m]));
                             }
 
                             if (ver == GameVersion.Any) // Fall Through
@@ -1853,7 +1853,7 @@ namespace PKHeX.Core
                             if (Machine)
                             {
                                 PersonalInfo pi = PersonalTable.AO[index];
-                                r.AddRange(TMHM_AO.Where((t, m) => pi.TMHM[m]));
+                                r.AddRange(TMHM_AO.Where((_, m) => pi.TMHM[m]));
                             }
                             break;
                         }
@@ -1877,7 +1877,7 @@ namespace PKHeX.Core
                             if (Machine)
                             {
                                 PersonalInfo pi = PersonalTable.SM.GetFormeEntry(species, form);
-                                r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
+                                r.AddRange(TMHM_SM.Where((_, m) => pi.TMHM[m]));
                             }
                             break;
                         }
@@ -1895,7 +1895,7 @@ namespace PKHeX.Core
                             if (Machine)
                             {
                                 PersonalInfo pi = PersonalTable.USUM.GetFormeEntry(species, form);
-                                r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
+                                r.AddRange(TMHM_SM.Where((_, m) => pi.TMHM[m]));
                             }
                             if (ver == GameVersion.Any) // Fall Through
                                 goto case GameVersion.SM;
@@ -1980,24 +1980,24 @@ namespace PKHeX.Core
                         return moves;
                     var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
                     var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
-                    moves.AddRange(TMHM_RBY.Where((t, m) => pi_rb.TMHM[m]));
-                    moves.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
+                    moves.AddRange(TMHM_RBY.Where((_, m) => pi_rb.TMHM[m]));
+                    moves.AddRange(TMHM_RBY.Where((_, m) => pi_y.TMHM[m]));
                     break;
                 case 2:
                     index = PersonalTable.C.GetFormeIndex(species, 0);
                     if (index == 0)
                         return moves;
                     var pi_c = (PersonalInfoG2)PersonalTable.C[index];
-                    moves.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
+                    moves.AddRange(TMHM_GSC.Where((_, m) => pi_c.TMHM[m]));
                     if (Version == GameVersion.Any)
                         goto case 1; // rby
                     break;
                 case 3:
                     index = PersonalTable.E.GetFormeIndex(species, 0);
                     var pi_e = PersonalTable.E[index];
-                    moves.AddRange(TM_3.Where((t, m) => pi_e.TMHM[m]));
+                    moves.AddRange(TM_3.Where((_, m) => pi_e.TMHM[m]));
                     if (!RemoveTransferHM || pkm.Format == 3) // HM moves must be removed for 3->4, only give if current format.
-                        moves.AddRange(HM_3.Where((t, m) => pi_e.TMHM[m + 50]));
+                        moves.AddRange(HM_3.Where((_, m) => pi_e.TMHM[m + 50]));
                     break;
                 case 4:
                     index = PersonalTable.HGSS.GetFormeIndex(species, 0);
@@ -2005,7 +2005,7 @@ namespace PKHeX.Core
                         return moves;
                     var pi_hgss = PersonalTable.HGSS[index];
                     var pi_dppt = PersonalTable.Pt[index];
-                    moves.AddRange(TM_4.Where((t, m) => pi_hgss.TMHM[m]));
+                    moves.AddRange(TM_4.Where((_, m) => pi_hgss.TMHM[m]));
                     // The combination of both these moves is illegal, it should be checked that the pokemon only learn one
                     // except if it can learn any of these moves in gen 5 or later
                     if (Version == GameVersion.Any || Version == GameVersion.DP || Version == GameVersion.D || Version == GameVersion.P || Version == GameVersion.Pt)
@@ -2017,7 +2017,7 @@ namespace PKHeX.Core
                         }
                         else
                         {
-                            moves.AddRange(HM_DPPt.Where((t, m) => pi_dppt.TMHM[m + 92]));
+                            moves.AddRange(HM_DPPt.Where((_, m) => pi_dppt.TMHM[m + 92]));
                         }
                     }
                     if (Version == GameVersion.Any || Version == GameVersion.HGSS || Version == GameVersion.HG || Version == GameVersion.SS)
@@ -2029,7 +2029,7 @@ namespace PKHeX.Core
                         }
                         else
                         {
-                            moves.AddRange(HM_HGSS.Where((t, m) => pi_dppt.TMHM[m + 92]));
+                            moves.AddRange(HM_HGSS.Where((_, m) => pi_dppt.TMHM[m + 92]));
                         }
                     }
                     break;
@@ -2039,7 +2039,7 @@ namespace PKHeX.Core
                         return moves;
 
                     var pi_bw = PersonalTable.B2W2[index];
-                    moves.AddRange(TMHM_BW.Where((t, m) => pi_bw.TMHM[m]));
+                    moves.AddRange(TMHM_BW.Where((_, m) => pi_bw.TMHM[m]));
                     break;
                 case 6:
                     switch (Version)
@@ -2054,7 +2054,7 @@ namespace PKHeX.Core
                                     return moves;
 
                                 PersonalInfo pi_xy = PersonalTable.XY[index];
-                                moves.AddRange(TMHM_XY.Where((t, m) => pi_xy.TMHM[m]));
+                                moves.AddRange(TMHM_XY.Where((_, m) => pi_xy.TMHM[m]));
 
                                 if (Version == GameVersion.Any) // Fall Through
                                     goto case GameVersion.ORAS;
@@ -2069,7 +2069,7 @@ namespace PKHeX.Core
                                     return moves;
 
                                 PersonalInfo pi_ao = PersonalTable.AO[index];
-                                moves.AddRange(TMHM_AO.Where((t, m) => pi_ao.TMHM[m]));
+                                moves.AddRange(TMHM_AO.Where((_, m) => pi_ao.TMHM[m]));
                                 break;
                             }
                     }
@@ -2080,7 +2080,7 @@ namespace PKHeX.Core
                         return moves;
 
                     PersonalInfo pi_sm = PersonalTable.USUM[index];
-                    moves.AddRange(TMHM_SM.Where((t, m) => pi_sm.TMHM[m]));
+                    moves.AddRange(TMHM_SM.Where((_, m) => pi_sm.TMHM[m]));
                     break;
             }
             return moves.Distinct();
@@ -2099,18 +2099,18 @@ namespace PKHeX.Core
                     if (!AllowGen2Crystal(pkm))
                         break;
                     info = PersonalTable.C[species];
-                    moves.AddRange(Tutors_GSC.Where((t, i) => info.TMHM[57 + i]));
+                    moves.AddRange(Tutors_GSC.Where((_, i) => info.TMHM[57 + i]));
                     goto case 1;
                 case 3:
                     // E Tutors (Free)
                     // E Tutors (BP)
                     info = PersonalTable.E[species];
-                    moves.AddRange(Tutor_E.Where((t, i) => info.TypeTutors[i]));
+                    moves.AddRange(Tutor_E.Where((_, i) => info.TypeTutors[i]));
                     // FRLG Tutors
                     // Only special tutor moves, normal tutor moves are already included in Emerald data
-                    moves.AddRange(SpecialTutors_FRLG.Where((t, i) => SpecialTutors_Compatibility_FRLG[i].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_FRLG.Where((_, i) => SpecialTutors_Compatibility_FRLG[i].Any(e => e == species)));
                     // XD
-                    moves.AddRange(SpecialTutors_XD_Exclusive.Where((t, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_XD_Exclusive.Where((_, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
                     // XD (Mew)
                     if (species == 151)
                         moves.AddRange(Tutor_3Mew);
@@ -2118,24 +2118,24 @@ namespace PKHeX.Core
                     break;
                 case 4:
                     info = PersonalTable.HGSS.GetFormeEntry(species, form);
-                    moves.AddRange(Tutors_4.Where((t, i) => info.TypeTutors[i]));
-                    moves.AddRange(SpecialTutors_4.Where((t, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
+                    moves.AddRange(Tutors_4.Where((_, i) => info.TypeTutors[i]));
+                    moves.AddRange(SpecialTutors_4.Where((_, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
                     break;
                 case 5:
                     info = PersonalTable.B2W2[species];
-                    moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+                    moves.AddRange(TypeTutor6.Where((_, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(5) && specialTutors)
                         moves.AddRange(GetTutors(PersonalTable.B2W2, Tutors_B2W2));
                     break;
                 case 6:
                     info = PersonalTable.AO[species];
-                    moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+                    moves.AddRange(TypeTutor6.Where((_, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
                         moves.AddRange(GetTutors(PersonalTable.AO, Tutors_AO));
                     break;
                 case 7:
                     info = PersonalTable.USUM.GetFormeEntry(species, form);
-                    moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+                    moves.AddRange(TypeTutor6.Where((_, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(7) && specialTutors && (pkm.USUM || !pkm.IsUntraded))
                         moves.AddRange(GetTutors(PersonalTable.USUM, Tutors_USUM));
                     break;
@@ -2197,7 +2197,7 @@ namespace PKHeX.Core
 
         internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
         {
-            var Area = HeadbuttTreesC.FirstOrDefault(a => a.Location == encounter.Location);
+            var Area = Array.Find(HeadbuttTreesC, a => a.Location == encounter.Location);
             if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
                 return TreeEncounterAvailable.Impossible;
 

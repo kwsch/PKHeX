@@ -9,8 +9,6 @@ namespace PKHeX.WinForms
 {
     public static class FontUtil
     {
-
-        // Font Related
 #if WINDOWS
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);

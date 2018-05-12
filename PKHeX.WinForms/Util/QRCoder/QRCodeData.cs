@@ -30,7 +30,6 @@ namespace QRCoder
         {
             this.ModuleMatrix = null;
             this.Version = 0;
-
         }
     }
 }

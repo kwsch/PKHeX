@@ -156,7 +156,6 @@ namespace PKHeX.Core
             return (int)LanguageID.English;
         }
 
-
         #region Stored Attributes
         public int SpeciesID1 { get => Data[0]; set => Data[0] = (byte)value; } // raw access
         public override int Species

@@ -369,7 +369,7 @@ namespace PKHeX.Core
         private string ParseLineMove(string line)
         {
             string moveString = line.Substring(line[1] == ' ' ? 2 : 1);
-            if (!moveString.Contains("Hidden Power"))
+            if (!moveString.Contains(moves[237])) // Hidden Power
                 return moveString;
 
             // Defined Hidden Power
@@ -389,8 +389,7 @@ namespace PKHeX.Core
                 else
                     InvalidLines.Add($"Invalid Hidden Power Type: {type}");
             }
-            moveString = "Hidden Power";
-            return moveString;
+            return moves[237];
         }
         private void ParseLineEVs(string line)
         {
@@ -498,7 +497,7 @@ namespace PKHeX.Core
                     return "Dawn";
 
                 default:
-                    if (Legal.Totem_USUM.Contains(spec) && form != null && form.EndsWith("Totem"))
+                    if (Legal.Totem_USUM.Contains(spec) && form?.EndsWith("Totem") == true)
                         return "Large";
                     return form;
             }

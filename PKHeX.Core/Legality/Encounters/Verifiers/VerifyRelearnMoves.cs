@@ -136,7 +136,7 @@ namespace PKHeX.Core
                 res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
 
             // provide the list of suggested base moves for the last required slot
-            string em = string.Join(", ", getMoveNames(baseMoves));
+            string em = string.Join(", ", GetMoveNames(baseMoves));
             res[required - 1].Comment += string.Format(Environment.NewLine + V181, em);
         }
         private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, EncounterEgg e, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)

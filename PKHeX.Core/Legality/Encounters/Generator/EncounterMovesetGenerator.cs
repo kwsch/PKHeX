@@ -280,10 +280,10 @@ namespace PKHeX.Core
             switch (slot.Generation)
             {
                 case 2:
-                    if (slot.Type.HasFlag(SlotType.Safari)) // Safari Zone is unavailable in Gen 2.
+                    if ((slot.Type & SlotType.Safari) != 0) // Safari Zone is unavailable in Gen 2.
                         return true;
 
-                    if (slot.Type.HasFlag(SlotType.Headbutt))
+                    if ((slot.Type & SlotType.Headbutt) != 0)
                     if (Legal.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree) // Unreachable Headbutt Trees.
                         return true;
                     break;
