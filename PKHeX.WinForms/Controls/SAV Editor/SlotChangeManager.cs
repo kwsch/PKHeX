@@ -64,6 +64,7 @@ namespace PKHeX.WinForms.Controls
         }
         public void MouseLeave(object sender, EventArgs e)
         {
+            Sounds.Stop();
             var pb = (PictureBox)sender;
             if (pb.BackgroundImage != CurrentBackground)
                 return;
