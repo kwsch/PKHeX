@@ -177,7 +177,7 @@ namespace PKHeX.Core
             // Check to see if the PID and EC are properly configured.
             bool xorPID = ((pkm.TID ^ pkm.SID ^ (int)(pkm.PID & 0xFFFF) ^ (int)(pkm.PID >> 16)) & ~0x7) == 8;
             bool valid = xorPID
-                ? pkm.EncryptionConstant == (pkm.PID ^ 0x8000000)
+                ? pkm.EncryptionConstant == (pkm.PID ^ 0x80000000)
                 : pkm.EncryptionConstant == pkm.PID;
 
             if (!valid)
