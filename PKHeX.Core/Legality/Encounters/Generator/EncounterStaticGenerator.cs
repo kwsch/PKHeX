@@ -170,9 +170,8 @@ namespace PKHeX.Core
             // if (e.Gift && pkm.Ball != 4) // PokéBall
             // continue;
 
-            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback)
-                if (!IsValidCatchRatePK1(e, pk1))
-                    return false;
+            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsValidCatchRatePK1(e, pk1))
+                return false;
 
             if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                 return false;

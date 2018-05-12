@@ -68,7 +68,6 @@
                 Move2 = value[1];
                 Move3 = value[2];
                 Move4 = value[3];
-
             }
         }
     }

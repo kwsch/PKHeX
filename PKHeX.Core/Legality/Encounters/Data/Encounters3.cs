@@ -107,7 +107,7 @@ namespace PKHeX.Core
         private static readonly int[] Roaming_MetLocation_RSE =
         {
             //Roaming encounter is possible in tall grass and on water
-            //Route 101-138 
+            //Route 101-138
             16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
             36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
@@ -122,7 +122,7 @@ namespace PKHeX.Core
         };
         private static readonly EncounterStatic[] Encounter_RSE_Regular =
         {
-            // Starters 
+            // Starters
             new EncounterStatic { Gift = true, Species = 152, Level = 05, Location = 000, Version = GameVersion.E, }, // Chikorita @ Littleroot Town
             new EncounterStatic { Gift = true, Species = 155, Level = 05, Location = 000, Version = GameVersion.E, }, // Cyndaquil
             new EncounterStatic { Gift = true, Species = 158, Level = 05, Location = 000, Version = GameVersion.E, }, // Totodile
@@ -176,7 +176,7 @@ namespace PKHeX.Core
         private static readonly EncounterStatic[] Encounter_FRLG_Stationary =
         {
             // Starters @ Pallet Town
-            new EncounterStatic { Gift = true, Species = 1, Level = 05, Location = 088, }, // Bulbasaur 
+            new EncounterStatic { Gift = true, Species = 1, Level = 05, Location = 088, }, // Bulbasaur
             new EncounterStatic { Gift = true, Species = 4, Level = 05, Location = 088, }, // Charmander
             new EncounterStatic { Gift = true, Species = 7, Level = 05, Location = 088, }, // Squirtle
 
@@ -215,7 +215,7 @@ namespace PKHeX.Core
             // Stationary Legendary
             new EncounterStatic { Species = 144, Level = 50, Location = 139, }, // Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 142, }, // Zapdos @ Power Plant
-            new EncounterStatic { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember. 
+            new EncounterStatic { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember.
             new EncounterStatic { Species = 150, Level = 70, Location = 141, }, // Mewtwo @ Cerulean Cave
 
             // Event
@@ -251,7 +251,7 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 032, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, PID = 0x4C970B9E, Contest = TradeContest_Cool, Version = GameVersion.LG, }, // Nidoran♂ *
             new EncounterTradePID { Species = 030, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, PID = 0x00EECA15, Contest = TradeContest_Cute, Version = GameVersion.FR,}, // Nidorina *
             new EncounterTradePID { Species = 033, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, PID = 0x00EECA19, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
-            new EncounterTradePID { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, PID = 0x451308AB, Contest = TradeContest_Tough, }, // Lickitung  * 
+            new EncounterTradePID { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, PID = 0x451308AB, Contest = TradeContest_Tough, }, // Lickitung  *
             new EncounterTradePID { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, PID = 0x498A2E1D, Contest = TradeContest_Beauty, }, // Jynx
             new EncounterTradePID { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, PID = 0x151943D7, Contest = TradeContest_Cool, }, // Farfetch'd
             new EncounterTradePID { Species = 101, Ability = 2, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, PID = 0x06341016, Contest = TradeContest_Cool, }, // Electrode
@@ -346,7 +346,7 @@ namespace PKHeX.Core
             return new EncounterArea
             {
                 Location = location,
-                Slots = SlotForms.Select((z, i) => new EncounterSlot
+                Slots = SlotForms.Select((_, i) => new EncounterSlot
                 {
                     Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass,
                     SlotNumber = i,

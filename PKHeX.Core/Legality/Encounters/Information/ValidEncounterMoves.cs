@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public int MinimumLevelGen2 { get; }
 
         private const int EmptyCount = 7;
-        private static readonly List<int>[] Empty = new int[EmptyCount].Select(z => new List<int>()).ToArray();
+        private static readonly List<int>[] Empty = new int[EmptyCount].Select(_ => new List<int>()).ToArray();
 
         public ValidEncounterMoves(PKM pkm, LegalInfo info)
         {

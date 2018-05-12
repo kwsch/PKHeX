@@ -177,7 +177,8 @@ namespace PKHeX.Core
             // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
             var affect = pkm.OT_Affection;
             var contMemory = s6.RibbonNamesContest();
-            var present = contMemory.Where((z, i) => contest[i]).Where((z, i) => affect < 20 * (i+1));
+            int contCount = 0;
+            var present = contMemory.Where((_, i) => contest[i] && affect < 20 * ++contCount);
             foreach (var rib in present)
                 yield return new RibbonResult(rib);
 

@@ -32,6 +32,6 @@
                 set.RibbonChampionNational,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetEvent3 set) => RibbonSetNamesEvent3;
+        internal static string[] RibbonNames(this IRibbonSetEvent3 _) => RibbonSetNamesEvent3;
     }
 }

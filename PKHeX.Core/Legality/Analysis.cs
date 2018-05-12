@@ -342,7 +342,7 @@ namespace PKHeX.Core
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);
 
-            var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
+            var outputLines = Parse.Where(chk => chk?.Valid == true && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
             lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
 
             lines.AddRange(br);
@@ -378,7 +378,7 @@ namespace PKHeX.Core
                 return Info.RelearnBase;
 
             List<int> window = new List<int>(Info.RelearnBase.Where(z => z != 0));
-            window.AddRange(pkm.Moves.Where((v, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
+            window.AddRange(pkm.Moves.Where((_, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
             window = window.Distinct().ToList();
             int[] moves = new int[4];
             int start = Math.Max(0, window.Count - 4);

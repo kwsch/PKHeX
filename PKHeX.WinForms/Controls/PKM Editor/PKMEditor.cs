@@ -85,7 +85,7 @@ namespace PKHeX.WinForms.Controls
         private readonly PictureBox[] movePB, relearnPB;
         private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip();
         private SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
-        public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
+        public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
         private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
@@ -109,7 +109,7 @@ namespace PKHeX.WinForms.Controls
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
 
-            var cb = ValidationRequired.FirstOrDefault(c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
+            var cb = Array.Find(ValidationRequired, c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
             if (cb != null)
             {
                 Control c = cb.Parent; while (!(c is TabPage)) c = c.Parent;
@@ -537,10 +537,11 @@ namespace PKHeX.WinForms.Controls
         }
         private void ClickPPUps(object sender, EventArgs e)
         {
-            CB_PPu1.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
-            CB_PPu2.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
-            CB_PPu3.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
-            CB_PPu4.SelectedIndex = !ModifierKeys.HasFlag(Keys.Control) && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
+            bool min = ModifierKeys.HasFlag(Keys.Control);
+            CB_PPu1.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
+            CB_PPu2.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
+            CB_PPu3.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
+            CB_PPu4.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
         }
         private void ClickMarking(object sender, EventArgs e)
         {
@@ -1382,11 +1383,10 @@ namespace PKHeX.WinForms.Controls
         {
             if (!FieldsInitialized)
                 return;
-            ComboBox cb = sender as ComboBox;
-            if (cb == null)
+            if (!(sender is ComboBox cb))
                 return;
 
-            if (cb.Text == "" && cb.Items.Count > 0)
+            if (cb.Text?.Length == 0 && cb.Items.Count > 0)
             { cb.SelectedIndex = 0; return; }
             if (cb.SelectedValue == null)
                 cb.BackColor = Color.DarkSalmon;
@@ -1445,7 +1445,7 @@ namespace PKHeX.WinForms.Controls
 
             var i = (ComboItem)((ComboBox)sender).Items[e.Index];
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            bool vm = moves != null && moves.Contains(i.Value) && !HaX;
+            bool vm = moves?.Contains(i.Value) == true && !HaX;
 
             bool current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
             Brush tBrush = current ? SystemBrushes.HighlightText : new SolidBrush(e.ForeColor);
@@ -1492,6 +1492,8 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// Refreshes the interface for the current PKM format.
         /// </summary>
+        /// <param name="sav">Save File context the editor is editing for</param>
+        /// <param name="pk">Pokémon data to edit</param>
         public bool ToggleInterface(SaveFile sav, PKM pk)
         {
             if (pk.GetType() != sav.PKMType || pkm.Format < 3)
@@ -1714,7 +1716,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format >= 3)
             {
                 var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                var locstr = met_list.FirstOrDefault(loc => loc.Value == location).Text;
+                var locstr = met_list.Find(loc => loc.Value == location).Text;
                 suggestion.Add($"{MsgPKMSuggestionMetLocation} {locstr}");
                 suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");
             }

@@ -307,7 +307,7 @@ namespace PKHeX.Core
             }
             else
             {
-                pk4.Egg_Location = pk4.Egg_Location + 3000;
+                pk4.Egg_Location += 3000;
                 if (SAV.Generation == 4)
                 {
                     pk4.IsEgg = true;

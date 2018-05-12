@@ -127,7 +127,6 @@
         }
         internal static bool[] RibbonBitsContest3(this IRibbonSetUnique4 set)
         {
-
             if (set == null)
                 return new bool[20];
 
@@ -192,8 +191,8 @@
                 set.RibbonG4ToughMaster,
             };
         }
-        internal static string[] RibbonNamesAbility(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4Ability;
-        internal static string[] RibbonNamesContest3(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4Contest3;
-        internal static string[] RibbonNamesContest4(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4Contest4;
+        internal static string[] RibbonNamesAbility(this IRibbonSetUnique4 _) => RibbonSetNamesUnique4Ability;
+        internal static string[] RibbonNamesContest3(this IRibbonSetUnique4 _) => RibbonSetNamesUnique4Contest3;
+        internal static string[] RibbonNamesContest4(this IRibbonSetUnique4 _) => RibbonSetNamesUnique4Contest4;
     }
 }

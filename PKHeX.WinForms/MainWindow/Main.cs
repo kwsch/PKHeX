@@ -92,8 +92,8 @@ namespace PKHeX.WinForms
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
-        private const string ThreadPath = @"https://projectpokemon.org/pkhex/";
-        private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
+        private const string ThreadPath = "https://projectpokemon.org/pkhex/";
+        private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
         #endregion
 
@@ -386,7 +386,7 @@ namespace PKHeX.WinForms
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))
                 return;
 
-            if (Set.InvalidLines.Any())
+            if (Set.InvalidLines.Count > 0)
                 WinFormsUtil.Alert(MsgSimulatorInvalid, string.Join(Environment.NewLine, Set.InvalidLines));
 
             // Set Species & Nickname
@@ -763,7 +763,7 @@ namespace PKHeX.WinForms
             string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
             if (!sav.Exportable) // Blank save file
                 return title + $"{sav.FileName} [{sav.OT} ({sav.Version})]";
-            return title + $"{Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName))}"; // more descriptive
+            return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName)); // more descriptive
         }
         private static bool TryBackupExportCheck(SaveFile sav, string path)
         {

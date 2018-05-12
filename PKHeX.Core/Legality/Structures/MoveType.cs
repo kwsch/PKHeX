@@ -35,7 +35,7 @@
         {
             if (type <= MoveType.Rock)
                 return type;
-            type -= 1; // Bird
+            type--; // Skip unused Bird type
             if (type <= MoveType.Steel)
                 return type;
             type -= 10; // 10 Normal duplicates

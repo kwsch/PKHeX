@@ -49,8 +49,8 @@ namespace PKHeX.WinForms
                     };
                     break;
                 default:
-                    string musical8note = "♪";
-                    string linedP = "₽"; //currency Ruble
+                    const string musical8note = "♪";
+                    const string linedP = "₽"; //currency Ruble
                     res = new[] { //source:UltraMoon
                         /* (SM)Pokémon House */"There's nothing funny about Nuggets.","The Power of science is awesome.","1, 2, and... Ta-da!","How's the future Champ today?","Why, you!","There! All happy and healthy!","Your Pokémon seems to be very happy!","No thanks!","Would you like to use Cut?","Saving...",
                         /* (SM)Kanto Tent */"Well, I better get going!","Bonjour!","Smell ya later!","Sorry! Bad call!","You better have Burn Heal!","Hoo hah!","Pokémon are for battling!","Slowbro took a snooze...","Shades of your journey await!","You're 10,000 light-years from facing Brock!","Hey! Wait! Don't go out!","Hiya! I'm a Pokémon...","What do you want?","WHAT! This can't be!","Mew!","Be gone... Intruders...",
@@ -604,7 +604,8 @@ namespace PKHeX.WinForms
 
         private void mnuSave_Click(object sender, EventArgs e)
         {
-            int i = Array.IndexOf(PBs, ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox);
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
+            int i = Array.IndexOf(PBs, sender);
             if (i < 0) return;
             WinFormsUtil.SavePKMDialog(p[i]);
         }

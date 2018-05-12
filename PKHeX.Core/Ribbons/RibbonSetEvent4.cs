@@ -39,6 +39,6 @@
                 set.RibbonSouvenir,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetEvent4 set) => RibbonSetNamesEvent4;
+        internal static string[] RibbonNames(this IRibbonSetEvent4 _) => RibbonSetNamesEvent4;
     }
 }

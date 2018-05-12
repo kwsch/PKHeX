@@ -36,7 +36,6 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-
         private PKM PreparePK4()
         {
             var pk4 = pkm;

@@ -261,7 +261,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetBEString4(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetBEString4(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

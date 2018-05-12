@@ -140,7 +140,7 @@ namespace PKHeX.WinForms
 
         private int GetSenderIndex(object sender)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
             if (index >= RES_MAX)
             {

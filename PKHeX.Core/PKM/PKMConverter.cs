@@ -197,7 +197,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">PKM to convert</param>
         /// <param name="PKMType">Format/Type to convert to</param>
-        /// <param name="comment">Comments regarding the transfer's success/failure</param>        
+        /// <param name="comment">Comments regarding the transfer's success/failure</param>
         /// <returns>Converted PKM</returns>
         public static PKM ConvertToType(PKM pk, Type PKMType, out string comment)
         {
@@ -249,7 +249,6 @@ namespace PKHeX.Core
                 : $"Converted from {fromType.Name} to {PKMType.Name}.";
             return pkm;
         }
-
 
         private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, int toFormat, ref string comment)
         {

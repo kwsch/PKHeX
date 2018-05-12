@@ -170,7 +170,6 @@ namespace PKHeX.Core
             return outData;
         }
 
-
         // Configuration
         public override SaveFile Clone() { return new SAV1(Write(DSV: false)); }
 
@@ -527,7 +526,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString1(Data, Offset, Length, Japanese);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

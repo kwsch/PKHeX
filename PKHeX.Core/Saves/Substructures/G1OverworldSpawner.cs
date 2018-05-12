@@ -5,7 +5,6 @@ namespace PKHeX.Core
 {
     public class G1OverworldSpawner
     {
-
         private readonly SAV1 SAV;
         private readonly bool[] EventFlags;
         private readonly bool[] SpawnFlags;
@@ -86,7 +85,6 @@ namespace PKHeX.Core
             public void Reset() => SetState(false);
             public void SetState(bool despawned)
             {
-
                 if (EventFlag != 0)
                     Event[EventFlag] = despawned;
                 if (SpawnFlag != 0)
@@ -119,8 +117,7 @@ namespace PKHeX.Core
 
             foreach (var pair in pz)
             {
-                var p = ReflectUtil.GetValue(this, pair) as FlagPair;
-                if (p == null)
+                if (!(ReflectUtil.GetValue(this, pair) is FlagPair p))
                     continue;
                 p.Name = pair;
                 p.Event = EventFlags;

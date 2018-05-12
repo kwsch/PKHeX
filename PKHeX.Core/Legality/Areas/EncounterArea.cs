@@ -110,9 +110,10 @@ namespace PKHeX.Core
             // slot set ends in 0xFF 0x** 0x**
             var slots = new List<EncounterSlot1>();
             int ctr = 0;
-            while (true)
+            int rate;
+            do
             {
-                int rate = data[ofs++];
+                rate = data[ofs++];
                 int species = data[ofs++];
                 int level = data[ofs++];
 
@@ -125,10 +126,8 @@ namespace PKHeX.Core
                     SlotNumber = ctr++,
                     Type = species == 0 ? SlotType.Special : t // day/night specific
                 });
-
-                if (rate == 0xFF)
-                    break;
             }
+            while (rate != 0xFF);
             return slots;
         }
         private static EncounterSlot1[] GetSlots2_H(byte[] data, ref int ofs, SlotType t)
@@ -703,8 +702,8 @@ namespace PKHeX.Core
             //4 bytes padding
             var Slots = new List<EncounterSlot>();
 
-			// 00-11 Normal trees
-			// 12-17 Special trees
+            // 00-11 Normal trees
+            // 12-17 Special trees
             for (int i = 0; i < 18; i++)
             {
                 int Species = BitConverter.ToInt16(data, 6 + i*4);
@@ -1032,7 +1031,7 @@ namespace PKHeX.Core
         }
     }
 
-    public partial class Extensions
+    public static partial class Extensions
     {
         public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences)
         {

@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
         // Important Events
         private void ClickView(object sender, EventArgs e)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
             if (index >= RES_MAX)
             {
@@ -146,7 +146,7 @@ namespace PKHeX.WinForms
         }
         private void ClickDelete(object sender, EventArgs e)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
             if (index >= RES_MAX)
             {
@@ -234,7 +234,7 @@ namespace PKHeX.WinForms
             slotSelected = Results.Count - 1;
             slotColor = Properties.Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
-                SCR_Box.Maximum += 1;
+                SCR_Box.Maximum++;
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
             FillPKXBoxes(SCR_Box.Value);
             WinFormsUtil.Alert(MsgDBAddFromTabsSuccess);
@@ -554,7 +554,7 @@ namespace PKHeX.WinForms
                 case 0: break; // Any (Do nothing)
                 case 3: // <=
                     return res.Where(pk => pk.Stat_Level <= level);
-                case 2: // == 
+                case 2: // ==
                     return res.Where(pk => pk.Stat_Level == level);
                 case 1: // >=
                     return res.Where(pk => pk.Stat_Level >= level);
@@ -606,7 +606,7 @@ namespace PKHeX.WinForms
             bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
             if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
                 Legal.CheckWordFilter = false;
-            var results = await Task.Run(() => search.ToArray());
+            var results = await Task.Run(() => search.ToArray()).ConfigureAwait(false);
             Legal.CheckWordFilter = true;
 
             if (results.Length == 0)
@@ -630,7 +630,7 @@ namespace PKHeX.WinForms
             Results = new List<PKM>(res);
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
-            if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
+            if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;
 
             SCR_Box.Value = 0;
             FillPKXBoxes(0);

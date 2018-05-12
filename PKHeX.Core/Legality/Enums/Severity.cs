@@ -19,7 +19,6 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-
         /// <summary>
         /// Converts a Check result Severity determination (Valid/Invalid/etc) to the localized string.
         /// </summary>

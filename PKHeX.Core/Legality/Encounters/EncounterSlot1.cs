@@ -10,6 +10,6 @@
     internal class EncounterSlot1 : EncounterSlot
     {
         public int Rate;
-        internal EncounterTime Time = EncounterTime.Any;
+        internal EncounterTime Time;
     }
 }

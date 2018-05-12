@@ -286,8 +286,7 @@ namespace PKHeX.Core
         }
         protected override void SetPKM(PKM pkm)
         {
-            XK3 pk = pkm as XK3;
-            if (pk == null)
+            if (!(pkm is XK3 pk))
                 return; // shouldn't ever hit
 
             if (pk.CurrentRegion == 0)
@@ -361,7 +360,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetBEString3(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

@@ -22,7 +22,7 @@ namespace PKHeX.Core
             Data = data ?? new byte[Size];
         }
         /// <summary>
-        /// Pokémon Link Flag 
+        /// Pokémon Link Flag
         /// </summary>
         public byte PL_Flag {
             get => Data[0x00]; set => Data[0x00] = value;
@@ -171,7 +171,6 @@ namespace PKHeX.Core
             }
         }
 
-        
         //Battle Points
         public int BattlePoints {
             get => BitConverter.ToUInt16(Data, 0x4A1);

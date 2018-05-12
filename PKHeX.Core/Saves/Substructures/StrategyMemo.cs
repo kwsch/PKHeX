@@ -9,7 +9,7 @@ namespace PKHeX.Core
         private readonly bool XD;
         private const int SIZE_ENTRY = 12;
         private readonly List<StrategyMemoEntry> Entries = new List<StrategyMemoEntry>();
-        private StrategyMemoEntry this[int Species] => Entries.FirstOrDefault(e => e.Species == Species);
+        private StrategyMemoEntry this[int Species] => Entries.Find(e => e.Species == Species);
         private readonly byte[] _unk;
 
         public StrategyMemo(byte[] input, int offset, bool xd)
@@ -92,7 +92,7 @@ namespace PKHeX.Core
                 get
                 {
                     if (XD) return false;
-                    return Flag0 | Flag1 == false;
+                    return Flag0 | !Flag1;
                 }
                 set
                 {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -254,7 +255,7 @@ namespace PKHeX.Core
             if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
 
-            CountryTable ct = RegionFormTable.Where(t => t.countryID == country).FirstOrDefault();
+            CountryTable ct = Array.Find(RegionFormTable, t => t.countryID == country);
             if (ct.otherforms == null) // empty struct = no forms referenced
                 return true; // No subregion table
 
@@ -271,7 +272,7 @@ namespace PKHeX.Core
         /// <param name="region">Console Region ID</param>
         public static int GetVivillonPattern(int country, int region)
         {
-            CountryTable ct = RegionFormTable.Where(t => t.countryID == country).FirstOrDefault();
+            CountryTable ct = Array.Find(RegionFormTable, t => t.countryID == country);
             if (ct.otherforms == null) // empty struct = no forms referenced
                 return ct.mainform; // No subregion table
 

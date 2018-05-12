@@ -46,8 +46,7 @@ namespace PKHeX.Core
 
             if (shiny)
             {
-                uint PID;
-                PID = X & 0xFFFF0000 | (uint)pk.SID ^ (uint)pk.TID ^ X >> 16;
+                uint PID = X & 0xFFFF0000 | (uint)pk.SID ^ (uint)pk.TID ^ X >> 16;
                 PID &= 0xFFFFFFF8;
                 PID |= B >> 16 & 0x7; // lowest 3 bits
 
@@ -103,7 +102,7 @@ namespace PKHeX.Core
             var D = rng.Next(C); // Version
             var E = rng.Next(D); // OT Gender
 
-            var TID = 40122;
+            const int TID = 40122;
             var SID = (int)(O >> 16);
             var pid1 = A >> 16;
             var pid2 = B >> 16;
@@ -168,7 +167,7 @@ namespace PKHeX.Core
                 case PIDType.G4MGAntiShiny:
                     break;
             }
-            return (pk, seed) => { };
+            return (pk, _) => { };
         }
 
         public static void SetRandomChainShinyPID(PKM pk, uint seed)

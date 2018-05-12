@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace PKHeX.Core
 {
-    public partial class Util
+    public static partial class Util
     {
         private const string TranslationSplitter = " = ";
         private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
@@ -15,7 +15,7 @@ namespace PKHeX.Core
         private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
         private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
-        #region String Lists        
+        #region String Lists
 
         /// <summary>
         /// Gets a list of all Pokémon species names.
@@ -119,9 +119,11 @@ namespace PKHeX.Core
         public static string GetStringResource(string name)
         {
             if (!resourceNameMap.ContainsKey(name))
-                resourceNameMap.Add(name, manifestResourceNames.FirstOrDefault(x =>
-                    x.StartsWith("PKHeX.Core.Resources.text.") &&
-                    x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase)));
+            {
+                bool Match(string x) => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase);
+                var resname = Array.Find(manifestResourceNames, Match);
+                resourceNameMap.Add(name, resname);
+            }
 
             if (resourceNameMap[name] == null)
                 return null;
@@ -145,12 +147,14 @@ namespace PKHeX.Core
         private static IEnumerable<string> DumpStrings(Type t)
         {
             var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "");
-            return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p).ToString()}");
+            return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p)}");
         }
 
         /// <summary>
         /// Gets the current localization in a static class containing language-specific strings
         /// </summary>
+        /// <param name="t"></param>
+        /// <param name="existingLines">Existing localization lines (if provided)</param>
         public static string[] GetLocalization(Type t, string[] existingLines = null)
         {
             existingLines = existingLines ?? new string[0];
@@ -259,7 +263,7 @@ namespace PKHeX.Core
                 allowed = Enumerable.Range(0, inStrings.Length).ToArray();
 
             var list = allowed
-                .Select((z, i) => new ComboItem {Text = inStrings[z - offset], Value = z})
+                .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
                 .OrderBy(z => z.Text);
 
             cbList.AddRange(list);

@@ -112,24 +112,18 @@ namespace PKHeX.Core
                 return false;
             if (z.Gender >= 0 && z.Gender != pkm.Gender && pkm.Format <= 2)
                 return false;
-            if (z.IVs != null && !z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
+            if (z.IVs?.SequenceEqual(pkm.IVs) == false && pkm.Format <= 2)
                 return false;
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                 return false;
 
             int index = Array.IndexOf(Encounters2.TradeGift_GSC, z);
             int otIndex = Encounters2.TradeGift_GSC.Length + index;
-            bool valid;
             if (pkm.Japanese)
-                valid = Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Japanese][otIndex] == pkm.OT_Name;
-            else if (pkm.Korean)
-                valid = Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Korean][otIndex] == pkm.OT_Name;
-            else
-                valid = Array.FindIndex(Encounters2.TradeGift_GSC_OTs, 2, 6, arr => arr.Length > index && arr[otIndex] == pkm.OT_Name) >= 0;
-            if (!valid)
-                return false;
-
-            return true;
+                return Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Japanese][otIndex] == pkm.OT_Name;
+            if (pkm.Korean)
+                return Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Korean][otIndex] == pkm.OT_Name;
+            return Array.FindIndex(Encounters2.TradeGift_GSC_OTs, 2, 6, arr => arr.Length > index && arr[otIndex] == pkm.OT_Name) >= 0;
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;

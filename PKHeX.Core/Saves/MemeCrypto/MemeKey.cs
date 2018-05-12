@@ -211,9 +211,6 @@ namespace PKHeX.Core
             return Exponentiate(M, E);
         }
 
-
-
-
         #region MemeKey Helper Methods
         /// <summary> Indicator value for a bad Exponent </summary>
         private static readonly BigInteger INVALID = BigInteger.MinusOne;
@@ -231,7 +228,6 @@ namespace PKHeX.Core
             else
                 Array.Copy(rawSig, outSig, 0x60);
             return outSig;
-
         }
         // Helper Method to retrieve data for loading
         private static void GetMemeData(MemeKeyIndex key, out byte[] d, out byte[] der)

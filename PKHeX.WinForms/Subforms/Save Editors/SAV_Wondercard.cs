@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
         // Mystery Gift RW (window<->sav)
         private void ClickView(object sender, EventArgs e)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(pba, sender);
 
             SetBackground(index, Properties.Resources.slotView);
@@ -185,7 +185,7 @@ namespace PKHeX.WinForms
         }
         private void ClickDelete(object sender, EventArgs e)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(pba, sender);
 
             mga.Gifts[index].Data = new byte[mga.Gifts[index].Data.Length];

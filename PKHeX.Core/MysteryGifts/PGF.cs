@@ -128,7 +128,6 @@ namespace PKHeX.Core
             }
         }
 
-
         public override int CardID
         {
             get => BitConverter.ToUInt16(Data, 0xB0);

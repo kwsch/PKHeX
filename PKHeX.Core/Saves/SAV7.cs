@@ -191,7 +191,6 @@ namespace PKHeX.Core
             LastViewedBox =         PCLayout + 0x5E3;
             PCFlags =               PCLayout + 0x5E0;
 
-
             FashionLength = 0x1A08;
 
             TeamCount = 6;
@@ -221,7 +220,6 @@ namespace PKHeX.Core
         private int LastViewedBox { get; set; } = int.MinValue;
         private int WondercardFlags { get; set; } = int.MinValue;
         private int PlayTime { get; set; } = int.MinValue;
-        private int ItemInfo { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
         public int JoinFestaData { get; set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
@@ -1427,7 +1425,7 @@ namespace PKHeX.Core
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r.AppendLine($"0x200 chunk @ 0x{i*0x200:X5} is FF'd.");
+                r.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
                 r.AppendLine("Cyber will screw up (as of August 31st 2014).");
                 r.AppendLine();
 

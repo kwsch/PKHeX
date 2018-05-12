@@ -901,7 +901,7 @@ namespace PKHeX.Core
         }
         private static int GetGen4LanguageBitIndex(int lang)
         {
-            lang -= 1;
+            lang--;
             switch (lang) // invert ITA/GER
             {
                 case 3: return 4;
@@ -1215,7 +1215,7 @@ namespace PKHeX.Core
         public int GetApricornCount(int i) => !HGSS ? -1 : Data[0xE558 + GBO + i];
         public void SetApricornCount(int i, int count) => Data[0xE558 + GBO + i] = (byte)count;
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString4(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

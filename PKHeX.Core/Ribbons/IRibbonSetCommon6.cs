@@ -70,7 +70,7 @@
                 set.RibbonMasterToughness,
             };
         }
-        internal static string[] RibbonNamesBool(this IRibbonSetCommon6 set) => RibbonSetNamesCommon6Bool;
-        internal static string[] RibbonNamesContest(this IRibbonSetCommon6 set) => RibbonSetNamesCommon6Contest;
+        internal static string[] RibbonNamesBool(this IRibbonSetCommon6 _) => RibbonSetNamesCommon6Bool;
+        internal static string[] RibbonNamesContest(this IRibbonSetCommon6 _) => RibbonSetNamesCommon6Contest;
     }
 }

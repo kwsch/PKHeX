@@ -25,6 +25,6 @@
                 set.RibbonVictory,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetUnique3 set) => RibbonSetNamesUnique3;
+        internal static string[] RibbonNames(this IRibbonSetUnique3 _) => RibbonSetNamesUnique3;
     }
 }

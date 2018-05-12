@@ -1003,7 +1003,7 @@ namespace PKHeX.Core
         }
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString6(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

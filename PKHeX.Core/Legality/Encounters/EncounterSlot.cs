@@ -178,7 +178,7 @@ namespace PKHeX.Core
         {
             if (Type == SlotType.BugContest)
                 return 24; // Sport
-            if (Type.HasFlag(SlotType.Safari))
+            if (Type.IsSafariType())
                 return 5; // Safari
             return 4; // Poké Ball
         }

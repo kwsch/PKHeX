@@ -29,8 +29,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 6; i++)
                 IVs[i] = (uint)iIVs[i];
 
-            PIDIV pidiv;
-            if (GetLCRNGMatch(top, bot, IVs, out pidiv))
+            if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
                 return pidiv;
             if (pk.Species == 201 && GetLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
                 return pidiv;
@@ -330,15 +329,14 @@ namespace PKHeX.Core
                 // check the individual bits
                 var s = seed;
                 int i = 15;
-                while (true)
+                do
                 {
                     var bit = s >> 16 & 1;
                     if (bit != (pid >> i & 1))
                         break;
                     s = RNG.LCRNG.Prev(s);
-                    if (--i == 2)
-                        break;
                 }
+                while (--i != 2);
                 if (i != 2) // bit failed
                     continue;
                 // Shiny Bits of PID validated

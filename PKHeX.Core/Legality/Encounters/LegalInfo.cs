@@ -74,9 +74,7 @@ namespace PKHeX.Core
         public List<EncounterRejected> InvalidMatches;
         internal void Reject(CheckResult c)
         {
-            if (InvalidMatches == null)
-                InvalidMatches = new List<EncounterRejected>();
-            InvalidMatches.Add(new EncounterRejected(EncounterMatch, c));
+            (InvalidMatches ?? (InvalidMatches = new List<EncounterRejected>())).Add(new EncounterRejected(EncounterMatch, c));
         }
     }
 }

@@ -1050,7 +1050,7 @@ namespace PKHeX.Core
             {
                 uint s7 = 4294;
                 if (val > 967295)
-                    s7 -= 1;
+                    s7--;
                 s7 = (uint)Util.Rand.Next(0, (int)s7);
                 val += s7 * 1000000;
             }
@@ -1158,7 +1158,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="SaveFile"/>, and makes any necessary modifications to force compatibility.
         /// </summary>
-        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format. 
+        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format.
         /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
         /// <param name="SAV">Save File target that the PKM will be injected.</param>
         /// <param name="pk">PKM input that is to be injected into the Save File.</param>
@@ -1186,7 +1186,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="PKM"/>, and makes any necessary modifications to force compatibility.
         /// </summary>
-        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format. 
+        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format.
         /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
         /// <param name="pk">PKM input that is to be sanity checked.</param>
         /// <returns>Indication whether or not the PKM is compatible.</returns>

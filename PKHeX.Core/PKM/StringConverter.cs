@@ -416,7 +416,7 @@ namespace PKHeX.Core
         /// <param name="data">Encoded data</param>
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
-        /// <returns>Decoded string.</returns> 
+        /// <returns>Decoded string.</returns>
         public static string GetString6(byte[] data, int offset, int count)
         {
             return SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count)));
@@ -427,7 +427,7 @@ namespace PKHeX.Core
         /// <param name="maxLength">Maximum length</param>
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
-        /// <returns>Encoded data.</returns> 
+        /// <returns>Encoded data.</returns>
         public static byte[] SetString6(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
@@ -548,7 +548,7 @@ namespace PKHeX.Core
         /// <returns>Encoded value.</returns>
         private static ushort ConvertChar2ValueG4(ushort chr)
         {
-            if (chr == 0x27) // apostrophe, used by Farfetch'd 
+            if (chr == 0x27) // apostrophe, used by Farfetch'd
                 return 0x1B3; // here rather than in static constructor to prevent byte[]->str outputting ’ instead of '
             return G4CharId.TryGetValue(chr, out int index)
                 ? G4Values[index] : ushort.MaxValue;
@@ -1925,16 +1925,16 @@ namespace PKHeX.Core
         private const ushort SM_ZHCharTable_Size = 0x30F;
         private const ushort USUM_CHS_Size = 0x4;
         private const ushort USUM_CHT_Size = 0x5;
-        private static bool getisG7CHSChar(int idx) => idx < SM_ZHCharTable_Size || SM_ZHCharTable_Size * 2 <= idx && idx < SM_ZHCharTable_Size * 2 + USUM_CHS_Size;
+        private static bool GetisG7CHSChar(int idx) => idx < SM_ZHCharTable_Size || SM_ZHCharTable_Size * 2 <= idx && idx < SM_ZHCharTable_Size * 2 + USUM_CHS_Size;
 
         private static readonly Dictionary<char, int> G7_CHS = Gen7_ZH
             .Select((value, index) => new { value, index })
-            .Where(pair => getisG7CHSChar(pair.index))
+            .Where(pair => GetisG7CHSChar(pair.index))
             .ToDictionary(pair => pair.value, pair => pair.index);
 
         private static readonly Dictionary<char, int> G7_CHT = Gen7_ZH
             .Select((value, index) => new { value, index })
-            .Where(pair => !getisG7CHSChar(pair.index))
+            .Where(pair => !GetisG7CHSChar(pair.index))
             .ToDictionary(pair => pair.value, pair => pair.index);
         #endregion
 

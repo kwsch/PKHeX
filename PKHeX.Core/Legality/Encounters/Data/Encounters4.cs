@@ -1009,7 +1009,7 @@ namespace PKHeX.Core
         {
             new EncounterArea {
                 Location = 53, // Solaceon Ruins
-                Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+                Slots = new int[25].Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
         };
         private static readonly EncounterArea SlotsHGSS_BCC =
@@ -1420,7 +1420,7 @@ namespace PKHeX.Core
             SlotsHGSS_BCC,
             new EncounterArea {
                 Location = 209, // Ruins of Alph
-                Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+                Slots = new int[25].Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
             SlotsHGSS_SafariZone,
             //Some edge cases

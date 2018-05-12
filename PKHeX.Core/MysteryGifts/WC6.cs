@@ -377,7 +377,7 @@ namespace PKHeX.Core
             pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             int[] finalIVs = new int[6];
-            var ivflag = IVs.FirstOrDefault(iv => (byte)(iv - 0xFC) < 3);
+            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
             if (ivflag == 0) // Random IVs
             {
                 for (int i = 0; i < 6; i++)

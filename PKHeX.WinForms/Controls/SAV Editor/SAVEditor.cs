@@ -260,7 +260,7 @@ namespace PKHeX.WinForms.Controls
         }
         public void ClickUndo()
         {
-            if (!UndoStack.Any())
+            if (UndoStack.Count == 0)
                 return;
 
             SlotChange change = UndoStack.Pop();
@@ -279,7 +279,7 @@ namespace PKHeX.WinForms.Controls
         }
         public void ClickRedo()
         {
-            if (!RedoStack.Any())
+            if (RedoStack.Count == 0)
                 return;
 
             SlotChange change = RedoStack.Pop();
@@ -341,9 +341,9 @@ namespace PKHeX.WinForms.Controls
             M?.SetColor(box, slot, Resources.slotSet);
 
             if (Menu_Undo != null)
-                Menu_Undo.Enabled = UndoStack.Any();
+                Menu_Undo.Enabled = UndoStack.Count > 0;
             if (Menu_Redo != null)
-                Menu_Redo.Enabled = RedoStack.Any();
+                Menu_Redo.Enabled = RedoStack.Count > 0;
 
             SystemSounds.Asterisk.Play();
         }
@@ -490,8 +490,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            TextBox tb = sender as TextBox;
-            if (tb == null)
+            if (!(sender is TextBox tb))
                 return;
 
             if (tb.Text.Length == 0)
@@ -787,7 +786,7 @@ namespace PKHeX.WinForms.Controls
                 MsgSaveBoxImportModifyYes + Environment.NewLine +
                 MsgSaveBoxImportModifyNo + Environment.NewLine +
                 string.Format(MsgSaveBoxImportModifyCurrent, yn));
-            return noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
+            return noSet == DialogResult.Yes || noSet == DialogResult.No ? (bool?)false : null;
         }
         private static bool IsFolderPath(out string path)
         {

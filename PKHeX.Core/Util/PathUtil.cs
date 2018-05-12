@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public partial class Util
+    public static partial class Util
     {
         public static string CleanFileName(string fileName)
         {

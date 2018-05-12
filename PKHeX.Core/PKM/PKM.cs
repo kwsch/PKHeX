@@ -887,6 +887,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
+        /// <param name="gender"><see cref="Gender"/> to apply</param>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
@@ -899,6 +900,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
+        /// <param name="nature"><see cref="Nature"/> to apply</param>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
@@ -911,6 +913,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="AltForm"/>.
         /// </summary>
+        /// <param name="form"><see cref="AltForm"/> to apply</param>
         /// <remarks>
         /// This method should only be used for Unown originating in Generation 3 games.
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
@@ -925,6 +928,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Randomizes the IVs within game constraints.
         /// </summary>
+        /// <param name="flawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
         /// <returns>Randomized IVs if desired.</returns>
         public int[] SetRandomIVs(int? flawless = null)
         {
@@ -947,6 +951,8 @@ namespace PKHeX.Core
         /// <summary>
         /// Randomizes the IVs within game constraints.
         /// </summary>
+        /// <param name="template">IV template to generate from</param>
+        /// <param name="flawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
         /// <returns>Randomized IVs if desired.</returns>
         public int[] SetRandomIVs(int[] template, int? flawless = null)
         {

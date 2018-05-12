@@ -27,7 +27,7 @@ namespace PKHeX.Core
         public byte[] FinalData => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();
         public ShadowInfoEntryXD GetEntry(int Species, uint PID)
         {
-            return Entries.FirstOrDefault(entry => entry.PID == PID && entry.Species == Species) ?? new ShadowInfoEntryXD();
+            return Entries.Find(entry => entry.PID == PID && entry.Species == Species) ?? new ShadowInfoEntryXD();
         }
         public void SetEntry(ShadowInfoEntryXD Entry)
         {
@@ -47,7 +47,7 @@ namespace PKHeX.Core
 
     public class ShadowInfoEntryXD
     {
-        public byte[] Data { get; private set; }
+        public byte[] Data { get; }
         internal const int SIZE_ENTRY = 72;
         public ShadowInfoEntryXD(byte[] data = null)
         {
@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
     public class ShadowInfoEntryColo
     {
-        public byte[] Data { get; private set; }
+        public byte[] Data { get; }
         internal const int SIZE_ENTRY = 12;
         public ShadowInfoEntryColo(byte[] data = null)
         {

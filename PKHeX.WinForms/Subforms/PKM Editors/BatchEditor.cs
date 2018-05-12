@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
             // Properties for any PKM
             var any = ReflectFrameworkUtil.GetPropertiesCanWritePublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
             // Properties shared by all PKM
-            var all = p.Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
+            var all = p.Aggregate(new HashSet<string>(p[0]), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
 
             var p1 = new string[types.Length + 2][];
             Array.Copy(p, 0, p1, 1, p.Length);
@@ -156,11 +156,11 @@ namespace PKHeX.WinForms
             if (sets.Any(s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
             { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
 
-            if (sets.Any(z => !z.Instructions.Any()))
+            if (sets.Any(z => z.Instructions.Count == 0))
             { WinFormsUtil.Error(MsgBEInstructionNone); return; }
 
             var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
-            if (emptyVal.Any())
+            if (emptyVal.Length > 0)
             {
                 string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
                 string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
@@ -347,14 +347,9 @@ namespace PKHeX.WinForms
                 int start = 0;
                 while (start < lines.Length)
                 {
-                    var list = lines.Skip(start).TakeWhile(z => !lines[start++].StartsWith(SetSeparator)).ToList();
+                    var list = lines.Skip(start).TakeWhile(_ => !lines[start++].StartsWith(SetSeparator)).ToList();
                     yield return GetBatchSet(list);
                 }
-            }
-
-            private static IEnumerable<StringInstructionSet> GetBatchSets(IEnumerable<IEnumerable<string>> sets)
-            {
-                return sets.Select(set => GetBatchSet(set.ToList()));
             }
 
             private static StringInstructionSet GetBatchSet(IList<string> set)
@@ -416,9 +411,7 @@ namespace PKHeX.WinForms
             }
             private static IEnumerable<string> GetRelevantStrings(IEnumerable<string> lines, params char[] pieces)
             {
-                return lines
-                    .Where(line => !string.IsNullOrEmpty(line))
-                    .Where(line => pieces.Any(z => z == line[0]));
+                return lines.Where(line => !string.IsNullOrEmpty(line) && pieces.Any(z => z == line[0]));
             }
         }
         private sealed class PKMInfo
@@ -624,7 +617,7 @@ namespace PKHeX.WinForms
                 SetRandomIVs(PKM, cmd);
             else if (cmd.Random)
                 ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
-            else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && cmd.PropertyValue.ToLower() == "false")
+            else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))
             { PKM.IsNicknamed = false; PKM.Nickname = PKX.GetSpeciesNameGeneration(PKM.Species, PKM.Language, PKM.Format); }
             else
                 ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);

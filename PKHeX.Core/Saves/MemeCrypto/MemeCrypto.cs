@@ -64,6 +64,7 @@ namespace PKHeX.Core
             Array.Copy(input, input.Length - 0x60, sigBuffer, 0, 0x60);
             sigBuffer = memekey.RsaPublic(sigBuffer);
             using (var sha1 = SHA1.Create())
+            {
                 foreach (var orVal in new byte[] { 0, 0x80 })
                 {
                     sigBuffer[0x0] |= orVal;
@@ -76,6 +77,8 @@ namespace PKHeX.Core
                         return true;
                     }
                 }
+            }
+
             output = null;
             return false;
         }
@@ -140,6 +143,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Resigns save data.
         /// </summary>
+        /// <param name="sav7">Save file data to resign</param>
         /// <returns>The resigned save data. Invalid input returns null.</returns>
         public static byte[] Resign7(byte[] sav7)
         {
@@ -173,6 +177,5 @@ namespace PKHeX.Core
             }
             return outSav;
         }
-
     }
 }

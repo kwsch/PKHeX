@@ -83,9 +83,10 @@ namespace PKHeX.Core
             return encounter;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Gets a valid Egg hatch location for the origin game.
         /// </summary>
+        /// <param name="pkm">Pokémon data to suggest for</param>
         public static int GetSuggestedEggMetLocation(PKM pkm)
         {
             // Return one of legal hatch locations for game
@@ -142,9 +143,10 @@ namespace PKHeX.Core
             }
             return -1;
         }
-        /// <summary> 
+        /// <summary>
         /// Gets the correct Transfer Met location for the origin game.
         /// </summary>
+        /// <param name="pkm">Pokémon data to suggest for</param>
         /// <remarks>
         /// Returns -1 if the met location is not overriden with a transfer location
         /// </remarks>

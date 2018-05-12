@@ -413,8 +413,8 @@ namespace PKHeX.Core
                 return GetSimpleMarking;
             return GetComplexMarking;
 
-            int GetSimpleMarking(int val, int index) => val == 31 ? 1 : 0;
-            int GetComplexMarking(int val, int index)
+            int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
+            int GetComplexMarking(int val, int _)
             {
                 if (val == 31 || val == 1)
                     return 1;

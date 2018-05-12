@@ -207,7 +207,7 @@ namespace PKHeX.Core
             if (!string.IsNullOrWhiteSpace(form))
                 specForm += $"-{form.Replace("Mega ", "Mega-")}";
 
-            string result = Nickname != null && PKX.GetSpeciesNameGeneration(Species, LanguageID, Format) != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}";
+            string result = Nickname != null && PKX.GetSpeciesNameGeneration(Species, LanguageID, Format) != Nickname ? $"{Nickname} ({specForm})" : specForm;
             if (!string.IsNullOrEmpty(Gender))
                 result += $" ({Gender})";
             if (HeldItem > 0)

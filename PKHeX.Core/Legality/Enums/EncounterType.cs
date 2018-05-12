@@ -12,6 +12,7 @@ namespace PKHeX.Core
     [Flags]
     public enum EncounterType
     {
+        Undefined = 0,
         None                          = 1 << 00,
         RockSmash                     = 1 << 01,
         TallGrass                     = 1 << 02,
@@ -27,7 +28,7 @@ namespace PKHeX.Core
 
     public static class EncounterTypeExtension
     {
-        public static bool Contains(this EncounterType g1, int g2) => g1.HasFlag((EncounterType)(1 << g2));
+        public static bool Contains(this EncounterType g1, int g2) => (g1 & (EncounterType)(1 << g2)) != 0;
 
         public static int GetIndex(this EncounterType g)
         {

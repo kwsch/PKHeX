@@ -398,7 +398,6 @@ namespace PKHeX.Core
             0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
         };
 
-
         /// <summary>
         /// Shuffles a 232 byte array containing <see cref="PKM"/> data.
         /// </summary>
@@ -811,12 +810,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
         /// </summary>
+        /// <param name="maxGeneration">Maximum Generation to permit</param>
         /// <returns>Valid <see cref="PKM"/> file extensions.</returns>
-        public static string[] GetPKMExtensions(int MaxGeneration = Generation)
+        public static string[] GetPKMExtensions(int maxGeneration = Generation)
         {
             var result = new List<string>();
             result.AddRange(new [] {"ck3", "xk3", "bk4"}); // Special Cases
-            for (int i = 1; i <= MaxGeneration; i++)
+            for (int i = 1; i <= maxGeneration; i++)
                 result.Add("pk"+i);
             return result.ToArray();
         }
@@ -865,6 +865,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Copies an <see cref="Enumerable"/> list to the destination list, with an option to copy to a starting point.
         /// </summary>
+        /// <typeparam name="T">Typed object to copy</typeparam>
         /// <param name="list">Source list to copy from</param>
         /// <param name="dest">Destination list/array</param>
         /// <param name="start">Starting point to copy to</param>

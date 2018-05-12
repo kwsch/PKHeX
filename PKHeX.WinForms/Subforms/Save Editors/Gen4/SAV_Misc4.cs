@@ -491,7 +491,6 @@ namespace PKHeX.WinForms
 
             editing = false;
             CB_Stats1.SelectedIndex = 0;
-
         }
         private void SaveBattleFrontier()
         {
@@ -556,7 +555,7 @@ namespace PKHeX.WinForms
         private void ChangeStat(object sender, EventArgs e)
         {
             if (editing) return;
-            if (sender is RadioButton && ((RadioButton)sender).Checked == false) return;
+            if (sender is RadioButton radioButton && !radioButton.Checked) return;
             StatAddrControl(SetValToSav: -2, SetSavToVal: true);
             if (GB_Hall.Visible)
             {

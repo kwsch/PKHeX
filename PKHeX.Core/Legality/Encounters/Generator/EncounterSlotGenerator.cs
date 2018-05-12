@@ -85,8 +85,8 @@ namespace PKHeX.Core
                 || slot.IsDeferredSport(IsSportBall);
         }
         private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !IsWurmpleEvoValid(pkm);
-        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != slot.Type.HasFlag(SlotType.Safari);
-        private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != slot.Type.HasFlag(SlotType.BugContest);
+        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Type & SlotType.Safari) != 0);
+        private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != ((slot.Type & SlotType.BugContest) != 0);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
 
         public static IEnumerable<EncounterSlot> GetValidFriendSafari(PKM pkm)
@@ -367,11 +367,6 @@ namespace PKHeX.Core
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
         {
             return slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
-        }
-
-        internal static bool IsSafariSlot(SlotType t)
-        {
-            return t.HasFlag(SlotType.Safari);
         }
 
         internal static bool IsDexNavValid(PKM pkm)

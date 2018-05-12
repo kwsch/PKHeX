@@ -40,6 +40,6 @@
                 set.RibbonCountG3Tough,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetOnly3 set) => RibbonSetNamesOnly3;
+        internal static string[] RibbonNames(this IRibbonSetOnly3 _) => RibbonSetNamesOnly3;
     }
 }

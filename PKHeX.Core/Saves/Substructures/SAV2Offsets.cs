@@ -10,7 +10,7 @@
             if (sav.Japanese)
                 LoadOffsetsJapanese(sav.Version);
             else if (sav.Korean)
-                LoadOffsetsKorean(sav.Version);
+                LoadOffsetsKorean();
             else
                 LoadOffsetsInternational(sav.Version);
         }
@@ -150,7 +150,7 @@
 
         public int OverallChecksumPosition2 { get; set; }
 
-        private void LoadOffsetsKorean(GameVersion Version)
+        private void LoadOffsetsKorean()
         {
             // No Crystal Version
             DaylightSavings = 0x2042;

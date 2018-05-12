@@ -36,7 +36,7 @@
                 set.RibbonGorgeousRoyal,
             };
         }
-        internal static string[] RibbonNamesCosmetic(this IRibbonSetCommon4 set) => RibbonSetNamesCommon4;
+        internal static string[] RibbonNamesCosmetic(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4;
         private static readonly string[] RibbonSetNamesCommon4Only =
         {
             nameof(IRibbonSetCommon4.RibbonRecord), nameof(IRibbonSetCommon4.RibbonChampionSinnoh), nameof(IRibbonSetCommon4.RibbonLegend),
@@ -52,7 +52,7 @@
                 set.RibbonLegend,
             };
         }
-        internal static string[] RibbonNamesOnly(this IRibbonSetCommon4 set) => RibbonSetNamesCommon4Only;
+        internal static string[] RibbonNamesOnly(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Only;
 
         private static readonly string[] RibbonSetNamesCommon4Daily =
         {
@@ -76,6 +76,6 @@
                 set.RibbonSmile,
             };
         }
-        internal static string[] RibbonNamesDaily(this IRibbonSetCommon4 set) => RibbonSetNamesCommon4Daily;
+        internal static string[] RibbonNamesDaily(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Daily;
     }
 }

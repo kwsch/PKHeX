@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public partial class Util
+    public static partial class Util
     {
         public static int ToInt32(string value)
         {

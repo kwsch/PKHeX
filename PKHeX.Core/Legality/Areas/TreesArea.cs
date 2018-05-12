@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
             // Invalid tress are trees that the player can not reach without cheating devices, like a tree beyond other trees
             InvalidTrees = new TreeCoordinates[entry[ofs]];
-            ofs += 1;
+            ofs++;
             for (int i = 0; i < InvalidTrees.Length; i++, ofs += 2)
                 InvalidTrees[i] = new TreeCoordinates(entry[ofs], entry[ofs + 1]);
         }

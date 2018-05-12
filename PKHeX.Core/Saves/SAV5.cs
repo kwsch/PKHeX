@@ -499,14 +499,13 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString5(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
             return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
         }
-
 
         // DLC
         private int CGearSkinInfoOffset => CGearInfoOffset + (B2W2 ? 0x10 : 0) + 0x24;

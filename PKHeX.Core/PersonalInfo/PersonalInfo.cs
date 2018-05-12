@@ -98,10 +98,16 @@
         /// <summary>
         /// Injects supplementary TM/HM compatibility which is not present in the generation specific <see cref="PersonalInfo"/> format.
         /// </summary>
+        /// <param name="data">Data to read from</param>
+        /// <param name="start">Starting offset to read at</param>
+        /// <param name="length">Amount of bytes to decompose into bits</param>
         internal void AddTMHM(byte[] data, int start = 0, int length = -1) => TMHM = GetBits(data, start, length);
         /// <summary>
         /// Injects supplementary Type Tutor compatibility which is not present in the generation specific <see cref="PersonalInfo"/> format.
         /// </summary>
+        /// <param name="data">Data to read from</param>
+        /// <param name="start">Starting offset to read at</param>
+        /// <param name="length">Amount of bytes to decompose into bits</param>
         internal void AddTypeTutors(byte[] data, int start = 0, int length = -1) => TypeTutors = GetBits(data, start, length);
 
         /// <summary>

@@ -25,6 +25,6 @@
                 set.RibbonEffort,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetCommon3 set) => RibbonSetNamesCommon3;
+        internal static string[] RibbonNames(this IRibbonSetCommon3 _) => RibbonSetNamesCommon3;
     }
 }

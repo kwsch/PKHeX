@@ -595,11 +595,11 @@ namespace PKHeX.Core
                 SetEventFlag(i, true);
         }
 
-        public override string GetString(int Offset, int Count)
+        public override string GetString(int Offset, int Length)
         {
             if (Korean)
-                return StringConverter.GetString2KOR(Data, Offset, Count);
-            return StringConverter.GetString1(Data, Offset, Count, Japanese);
+                return StringConverter.GetString2KOR(Data, Offset, Length);
+            return StringConverter.GetString1(Data, Offset, Length, Japanese);
         }
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

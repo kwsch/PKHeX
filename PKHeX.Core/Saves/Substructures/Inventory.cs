@@ -204,7 +204,6 @@ namespace PKHeX.Core
                 }
             }
             Items = items;
-
         }
         public void SetPouchG1(byte[] Data)
         {
@@ -269,7 +268,7 @@ namespace PKHeX.Core
         public void Sanitize(bool HaX, int MaxItemID)
         {
             var x = Items.Where(item => item.Valid(LegalItems, HaX, MaxItemID)).ToArray();
-            Items = x.Concat(new byte[PouchDataSize - x.Length].Select(i => new InventoryItem())).ToArray();
+            Items = x.Concat(new byte[PouchDataSize - x.Length].Select(_ => new InventoryItem())).ToArray();
         }
     }
 }

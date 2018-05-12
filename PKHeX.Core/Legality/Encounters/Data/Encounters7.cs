@@ -453,7 +453,7 @@ namespace PKHeX.Core
             var area = new EncounterArea
             {
                 Location = 30016,
-                Slots = species.SelectMany((t, i) =>
+                Slots = species.SelectMany((_, i) =>
                     species.Take(1 + i).SelectMany(z => // grab current row & above
                     z.Select(s => new EncounterSlot // get slot data for each species
                     {

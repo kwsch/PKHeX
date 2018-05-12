@@ -47,7 +47,7 @@ namespace PKHeX.Core
             }
 
             if (pkm.Format >= 3)
-                yield return $"{s.natures[pkm.Nature]}";
+                yield return s.natures[pkm.Nature];
         }
     }
 }

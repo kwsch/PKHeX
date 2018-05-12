@@ -300,7 +300,7 @@ namespace PKHeX.Core
             foreach (var z in GetValidWildEncounters34(pkm))
             {
                 bool defer = z.IsDeferred4(species, pkm, safari, sport);
-                var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
+                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
                 if (defer)
                 {
                     if (frame != null)
@@ -358,7 +358,7 @@ namespace PKHeX.Core
             foreach (var z in GetValidWildEncounters34(pkm))
             {
                 bool defer = z.IsDeferred3(species, pkm, safari);
-                var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
+                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
                 if (defer)
                 {
                     if (frame != null)

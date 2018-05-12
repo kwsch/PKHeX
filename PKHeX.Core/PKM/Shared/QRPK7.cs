@@ -49,6 +49,5 @@ namespace PKHeX.Core
 
             Data = (byte[]) d.Clone();
         }
-
     }
 }

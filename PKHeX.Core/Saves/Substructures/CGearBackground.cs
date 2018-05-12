@@ -26,7 +26,7 @@ namespace PKHeX.Core
         * 32 * 24 = 0x300
         * The tiles are chosen based on the 16bit index of the tile.
         * 0x300 * 2 = 0x600!
-        * 
+        *
         * CGearBackgrounds tilemap (when stored on BW) employs some obfuscation.
         * BW obfuscates by adding 0xA0A0.
         * The obfuscated number is then tweaked by adding 15*(i/17)
@@ -314,7 +314,7 @@ namespace PKHeX.Core
         private static int ValToIndex(int val)
         {
             if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)
-                return ((val & 0x5C00) | 0xFF);
+                return (val & 0x5C00) | 0xFF;
             return ((val % 0x20) + 0x11 * (((val & 0x3FF) - 0xA0) / 0x20)) | (val & 0x5C00);
         }
 
@@ -422,7 +422,6 @@ namespace PKHeX.Core
             // start at 1 as the 0th tile is always non-duplicate
             for (int i = 1; i < tm.TileChoices.Length; i++)
                 FindPossibleRotatedTile(tiles[i], tilelist, tm, i);
-
         }
         private static void FindPossibleRotatedTile(Tile t, IList<Tile> tilelist, TileMap tm, int tileIndex)
         {

@@ -209,7 +209,7 @@ namespace PKHeX.Core
                 metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
                 // BW2 Entries from 76 to 105 are for Entralink in BW
                 for (int i = 76; i < 106; i++)
-                    metBW2_00000[i] = metBW2_00000[i] + "●";
+                    metBW2_00000[i] += "●";
 
                 // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
                 if (metBW2_00000[2] == metBW2_40000[2 - 1])
@@ -670,7 +670,7 @@ namespace PKHeX.Core
 
                 locval %= size;
                 if (bankID >= 3)
-                    locval -= 1;
+                    locval--;
             }
 
             var bank = GetLocationNames(gen, bankID);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public partial class Util
+    public static partial class Util
     {
         public static readonly Random Rand = new Random();
         public static uint Rand32()

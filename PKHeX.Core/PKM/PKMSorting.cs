@@ -137,7 +137,7 @@ namespace PKHeX.Core
         {
             int i = 0;
             return list.InitialSortBy()
-                .ThenByDescending(z => i++)
+                .ThenByDescending(_ => i++)
                 ; // can't sort further
         }
 

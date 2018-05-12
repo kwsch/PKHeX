@@ -14,7 +14,7 @@ namespace PKHeX.Core
         /// Default (un-assigned) encounter slot type.
         /// </summary>
         Any = 0,
-        /// <summary> 
+        /// <summary>
         /// Slot is encountered via Grass.
         /// </summary>
         Grass        = 1 << 00,
@@ -42,7 +42,7 @@ namespace PKHeX.Core
         /// Slot is encountered via a Horde.
         /// </summary>
         Horde        = 1 << 06,
-        /// <summary> 
+        /// <summary>
         /// Slot is encountered via the Friend Safari.
         /// </summary>
         FriendSafari = 1 << 07,
@@ -102,13 +102,14 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
+        internal static bool IsSafariType(this SlotType t) => (t & SlotType.Safari) != 0;
         internal static bool IsFishingRodType(this SlotType t)
         {
-            return t.HasFlag(SlotType.Old_Rod) || t.HasFlag(SlotType.Good_Rod) || t.HasFlag(SlotType.Super_Rod);
+            return (t & SlotType.Old_Rod) != 0 || (t & SlotType.Good_Rod) != 0 || (t & SlotType.Super_Rod) != 0;
         }
         internal static bool IsSweetScentType(this SlotType t)
         {
-            return !(t.IsFishingRodType() || t.HasFlag(SlotType.Rock_Smash));
+            return !(t.IsFishingRodType() || (t & SlotType.Rock_Smash) != 0);
         }
     }
 }

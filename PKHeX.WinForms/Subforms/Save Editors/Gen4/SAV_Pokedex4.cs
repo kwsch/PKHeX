@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
             LB_Species.SelectedIndex = 0;
 
             string[] dexMode = { "not given", "simple mode", "detect forms", "national dex", "other languages" };
-            if (SAV.HGSS) dexMode = dexMode.Where((t, i) => i != 2).ToArray();
+            if (SAV.HGSS) dexMode = dexMode.Where((_, i) => i != 2).ToArray();
             foreach (string mode in dexMode)
                 CB_DexUpgraded.Items.Add(mode);
             if (SAV.DexUpgraded < CB_DexUpgraded.Items.Count)
@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
 
             string[] formNames = GetFormNames4Dex(species);
 
-            var seen = forms.Where(z => z >= 0 && z < forms.Length).Select((v, i) => formNames[forms[i]]).ToArray();
+            var seen = forms.Where(z => z >= 0 && z < forms.Length).Select((_, i) => formNames[forms[i]]).ToArray();
             var not = formNames.Where(z => !seen.Contains(z)).ToArray();
 
             LB_Form.Items.AddRange(seen);
