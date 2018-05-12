@@ -457,7 +457,7 @@ namespace PKHeX.Core
                     return string.Empty;
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
-                        return Legal.Totem_Alolan.Contains(spec) ? "Alola-Totem" : "Totem";
+                        return Legal.Totem_Alolan.Contains(spec) && spec != 778 ? "Alola-Totem" : "Totem";
                     return form.Replace(" ", "-");
             }
         }
