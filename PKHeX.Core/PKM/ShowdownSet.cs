@@ -463,9 +463,7 @@ namespace PKHeX.Core
         }
         private static string ConvertFormFromShowdown(string form, int spec, int ability)
         {
-            if (string.IsNullOrWhiteSpace(form))
-                return null;
-            form = form.Replace(" ", "-"); // inconsistencies are great
+            form = form?.Replace(" ", "-"); // inconsistencies are great
             switch (spec)
             {
                 case 550 when form == "Blue-Striped": // Basculin
@@ -499,7 +497,7 @@ namespace PKHeX.Core
                     return "Dawn";
 
                 default:
-                    if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
+                    if (Legal.Totem_USUM.Contains(spec) && form != null && form.EndsWith("Totem"))
                         return "Large";
                     return form;
             }
