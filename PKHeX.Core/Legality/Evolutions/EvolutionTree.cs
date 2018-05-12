@@ -485,7 +485,7 @@ namespace PKHeX.Core
     /// </summary>
     public class EvolutionSet6 : EvolutionSet
     {
-        private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29, 30, 32, 33, 34};
+        private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
         private const int SIZE = 6;
         public EvolutionSet6(byte[] data)
         {
