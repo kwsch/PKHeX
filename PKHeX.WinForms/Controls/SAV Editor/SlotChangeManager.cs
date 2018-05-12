@@ -157,9 +157,15 @@ namespace PKHeX.WinForms.Controls
             if (pk.Species == 0)
                 return;
 
-            var path = Path.Combine("sounds", $"{pk.Species}.wav");
+            string resource = $"{pk.Species}-{pk.AltForm}";
+            var path = Path.Combine("sounds", $"{resource}.wav");
             if (!File.Exists(path))
-                return;
+            {
+                resource = $"{pk.Species}";
+                path = Path.Combine("sounds", $"{resource}.wav");
+                if (!File.Exists(path))
+                    return;
+            }
 
             Sounds.SoundLocation = path;
             Sounds.Play();
