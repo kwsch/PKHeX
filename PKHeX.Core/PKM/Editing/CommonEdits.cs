@@ -316,8 +316,8 @@ namespace PKHeX.Core
                 pk.SetMarkings();
 
             pk.SetNickname(Set.Nickname);
-            pk.SetGender(Set.Gender);
             pk.SetAltForm(Set.FormIndex);
+            pk.SetGender(Set.Gender);
             pk.SetMaximumPPUps(Set.Moves);
             pk.SetAbility(Set.Ability);
             pk.SetNature(Set.Nature);
