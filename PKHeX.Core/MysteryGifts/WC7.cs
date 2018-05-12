@@ -27,7 +27,7 @@ namespace PKHeX.Core
                 Day = (uint)now.Day;
             }
         }
-        
+
         // General Card Properties
         public override int CardID {
             get => BitConverter.ToUInt16(Data, 0);
@@ -85,13 +85,13 @@ namespace PKHeX.Core
 
         public int CardType { get => Data[0x51]; set => Data[0x51] = (byte)value; }
         public byte CardFlags { get => Data[0x52]; set => Data[0x52] = value; }
-        
+
         public bool GiftRepeatable { get => (CardFlags & 1) == 0; set => CardFlags = (byte)(CardFlags & ~1 | (value ? 0 : 1)); }
         public override bool GiftUsed { get => (CardFlags & 2) == 2; set => CardFlags = (byte)(CardFlags & ~2 | (value ? 2 : 0)); }
         public bool GiftOncePerDay { get => (CardFlags & 4) == 4; set => CardFlags = (byte)(CardFlags & ~4 | (value ? 4 : 0)); }
 
         public bool MultiObtain { get => Data[0x53] == 1; set => Data[0x53] = (byte)(value ? 1 : 0); }
-        
+
         // BP Properties
         public override bool IsBP { get => CardType == 3; set { if (value) CardType = 3; } }
         public override int BP
@@ -344,7 +344,7 @@ namespace PKHeX.Core
                 HT_Name = OT_Name.Length > 0 ? SAV.OT : "",
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
-                
+
                 EXP = PKX.GetEXP(currentLevel, Species),
 
                 // Ribbons
@@ -365,7 +365,7 @@ namespace PKHeX.Core
                 RibbonChampionRegional = RibbonChampionRegional,
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
-                
+
                 OT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
@@ -388,7 +388,7 @@ namespace PKHeX.Core
             }
 
             pk.MetDate = Date ?? DateTime.Now;
-            
+
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 

@@ -29,7 +29,7 @@ namespace PKHeX.Core
         public bool IndeterminateGame => Version == GameVersion.Unknown;
         public virtual bool IndeterminateSubVersion => false;
         public abstract string Extension { get; }
-        public virtual string[] PKMExtensions => PKM.Extensions.Where(f => 
+        public virtual string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
             return 3 <= gen && gen <= Generation;
@@ -390,7 +390,7 @@ namespace PKHeX.Core
         public abstract int GetBoxOffset(int box);
         public abstract int GetPartyOffset(int slot);
         public abstract string GetBoxName(int box);
-        public abstract void SetBoxName(int box, string val);
+        public abstract void SetBoxName(int box, string value);
         public virtual int GameSyncIDSize { get; } = 8;
         public virtual string GameSyncID { get => null; set { } }
         public virtual ulong? Secure1 { get => null; set { } }
@@ -438,7 +438,7 @@ namespace PKHeX.Core
 
             min /= BoxSlotCount;
             max /= BoxSlotCount;
-            
+
             // move all boxes within range to final spot
             for (int i = min, ctr = min; i < max; i++)
             {
@@ -534,7 +534,7 @@ namespace PKHeX.Core
             int i = GetPartyIndex(offset);
             if (i <= -1)
                 throw new ArgumentException("Invalid Party offset provided; unable to resolve party slot index.");
-            
+
             // update party count
             if (pkm.Species != 0)
             {

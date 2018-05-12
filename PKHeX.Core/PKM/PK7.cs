@@ -382,7 +382,7 @@ namespace PKHeX.Core
         public override int CurrentFriendship
         {
             get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
-            set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } 
+            set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
         }
         public int OppositeFriendship
         {
@@ -403,7 +403,7 @@ namespace PKHeX.Core
 
             return TrainCount;
         }
-        
+
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
@@ -492,7 +492,7 @@ namespace PKHeX.Core
                 HT_Name = "".PadRight(11, '\0');
                 return;
             }
-            
+
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)

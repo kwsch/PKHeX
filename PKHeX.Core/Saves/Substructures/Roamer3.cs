@@ -7,7 +7,7 @@ namespace PKHeX.Core
         private readonly SaveFile SAV;
         private readonly int Offset;
         public bool IsGlitched { get; }
-        
+
         public Roamer3(SAV3 sav)
         {
             SAV = sav;

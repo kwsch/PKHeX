@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
                         ClickView(sender, e);
                 };
             }
-            
+
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
             L_Viewed.Text = string.Empty; // invis for now
@@ -175,7 +175,7 @@ namespace PKHeX.WinForms
 
             var DS_Item = new List<ComboItem>(GameInfo.ItemDataSource);
             DS_Item.Insert(0, Any); CB_HeldItem.DataSource = DS_Item;
-            
+
             // Set the Move ComboBoxes too..
             var DS_Move = new List<ComboItem>(GameInfo.MoveDataSource);
             DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
@@ -276,7 +276,7 @@ namespace PKHeX.WinForms
             if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
             if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            
+
             slotSelected = -1; // reset the slot last viewed
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))

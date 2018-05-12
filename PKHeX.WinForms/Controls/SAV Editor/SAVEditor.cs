@@ -134,7 +134,7 @@ namespace PKHeX.WinForms.Controls
             }
             M.RequestExternalDragDrop += drop;
         }
-        
+
         // Generic Subfunctions //
         public int GetSlotOffset(int slot)
         {

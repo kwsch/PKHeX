@@ -62,7 +62,7 @@ namespace PKHeX.Core
         private static int DirectoryBAK => BLOCK_SIZE * DirectoryBackup_Block;
         private static int BlockAlloc => BLOCK_SIZE * BlockAlloc_Block;
         private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
-        
+
         // Checksums
         private void GetChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
         {
@@ -120,11 +120,11 @@ namespace PKHeX.Core
         private int Directory_UpdateCounter => BigEndian.ToUInt16(Data, Directory + 0x1ffa);
         private int Directory_Checksum => BigEndian.ToUInt16(Data, Directory + 0x1ffc);
         private int Directory_Checksum_Inv => BigEndian.ToUInt16(Data, Directory + 0x1ffe);
-        
+
         private int DirectoryBAK_UpdateCounter => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffa);
         private int DirectoryBAK_Checksum => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffc);
         private int DirectoryBAK_Checksum_Inv => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffe);
-        
+
         private int BlockAlloc_Checksum => BigEndian.ToUInt16(Data, BlockAlloc + 0x0000);
         private int BlockAlloc_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAlloc + 0x0002);
 
@@ -133,7 +133,7 @@ namespace PKHeX.Core
 
         private int DirectoryBlock_Used;
         private int NumBlocks => Data.Length/BLOCK_SIZE - 5;
-        
+
         private int EntryCOLO = -1;
         private int EntryXD = -1;
         private int EntryRSBOX = -1;
@@ -190,8 +190,8 @@ namespace PKHeX.Core
                 return GCMemoryCardState.Invalid;
 
             // Use the most recent directory block
-            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter 
-                ? DirectoryBackup_Block 
+            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter
+                ? DirectoryBackup_Block
                 : Directory_Block;
 
             string Empty_DEntry = EncodingType.GetString(RawEmpty_DEntry, 0, 4);
@@ -202,7 +202,7 @@ namespace PKHeX.Core
                 string GameCode = EncodingType.GetString(Data, offset, 4);
                 if (GameCode == Empty_DEntry)
                     continue;
-                
+
                 int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
                 int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 
@@ -234,10 +234,10 @@ namespace PKHeX.Core
             }
             if (SaveGameCount == 0)
                 return GCMemoryCardState.NoPkmSaveGame;
-            
+
             if (SaveGameCount > 1)
                 return GCMemoryCardState.MultipleSaveGame;
-            
+
             if (EntryCOLO > -1)
             {
                 EntrySelected = EntryCOLO;
@@ -263,7 +263,7 @@ namespace PKHeX.Core
                 if (EntryRSBOX > -1 && EntrySelected == EntryRSBOX)
                     return GameVersion.RSBOX;
                 return GameVersion.Any; //Default for no game selected
-            } 
+            }
         }
         public void SelectSaveGame(GameVersion Game)
         {

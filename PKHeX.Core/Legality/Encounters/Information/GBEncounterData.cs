@@ -34,7 +34,7 @@ namespace PKHeX.Core
             Encounter = new EncounterEgg { Species = species, Version = game, Level = 5 };
             Type = GBEncounterType.EggEncounter;
         }
-        
+
         public GBEncounterData(PKM pkm, int gen, IEncounterable enc, GameVersion game)
         {
             Game = game;

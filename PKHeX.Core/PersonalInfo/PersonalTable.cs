@@ -103,7 +103,7 @@ namespace PKHeX.Core
                     return z => new PersonalInfoG1(z);
                 case GameVersion.GS: case GameVersion.C:
                     return z => new PersonalInfoG2(z);
-                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG: 
+                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
                     return z => new PersonalInfoG3(z);
                 case GameVersion.DP: case GameVersion.Pt: case GameVersion.HGSS:
                     return z => new PersonalInfoG4(z);
@@ -206,7 +206,7 @@ namespace PKHeX.Core
             {
                 if (index < 0 || index >= Table.Length)
                     return;
-                Table[index] = value; 
+                Table[index] = value;
             }
         }
 

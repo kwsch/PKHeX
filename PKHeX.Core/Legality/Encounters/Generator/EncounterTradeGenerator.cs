@@ -45,7 +45,7 @@ namespace PKHeX.Core
 
             if (pkm.VC || pkm.Format <= 2)
                 return GetValidEncounterTradesVC(pkm, p, gameSource);
-            
+
             var table = GetEncounterTradeTable(pkm);
             return table?.Where(f => p.Any(r => r.Species == f.Species)) ?? Enumerable.Empty<EncounterTrade>();
         }
@@ -185,7 +185,7 @@ namespace PKHeX.Core
                 return false;
             if (z.EggLocation != pkm.Egg_Location)
                 return false;
-            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
+            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
             //    countinue;
 
             if (pkm.IsContestBelow(z))

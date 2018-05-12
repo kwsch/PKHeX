@@ -25,7 +25,7 @@ namespace PKHeX.WinForms
             PopulateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
             TLP_SuperTrain.ResumeLayout();
             TLP_DistSuperTrain.ResumeLayout();
-            
+
             CHK_SecretUnlocked.Checked = pkm.SecretSuperTrainingUnlocked;
             CHK_SecretComplete.Checked = pkm.SecretSuperTrainingComplete;
 
@@ -76,7 +76,7 @@ namespace PKHeX.WinForms
                           select new RegimenInfo(RegimenName, (bool) RegimenValue));
             TLP.ColumnCount = 1;
             TLP.RowCount = 0;
-            
+
             // Add Regimens
             foreach (var reg in list)
                 AddRegimenChoice(reg, TLP);
@@ -127,7 +127,7 @@ namespace PKHeX.WinForms
                 pkm.SecretSuperTrainingComplete &= CHK_SecretComplete.Checked;
             }
         }
-        
+
         private sealed class RegimenInfo
         {
             public readonly string Name;

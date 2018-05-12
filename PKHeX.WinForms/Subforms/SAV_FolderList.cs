@@ -23,7 +23,7 @@ namespace PKHeX.WinForms
             locs.AddRange(Get3DSPaths());
             locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetCacheFolder(), DisplayText = "CGSE Cache"});
             locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetTempFolder(), DisplayText = "CGSE Temp"});
-            
+
             var paths = locs.GroupBy(z => z.Path).Select(z => z.First())
                 .OrderByDescending(z => Directory.Exists(z.Path));
             foreach (var loc in paths)

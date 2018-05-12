@@ -15,7 +15,7 @@ namespace PKHeX.Core
         /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
         internal static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
         {
-            // Mega List            
+            // Mega List
             if (IsFormListSingleMega(species))
                 return new[]
                 {
@@ -299,18 +299,18 @@ namespace PKHeX.Core
                         forms[666], // Icy Snow
                         forms[963], // Polar
                         forms[964], // Tundra
-                        forms[965], // Continental 
+                        forms[965], // Continental
                         forms[966], // Garden
                         forms[967], // Elegant
                         forms[968], // Meadow
-                        forms[969], // Modern 
+                        forms[969], // Modern
                         forms[970], // Marine
                         forms[971], // Archipelago
                         forms[972], // High-Plains
                         forms[973], // Sandstorm
                         forms[974], // River
                         forms[975], // Monsoon
-                        forms[976], // Savannah 
+                        forms[976], // Savannah
                         forms[977], // Sun
                         forms[978], // Ocean
                         forms[979], // Jungle
@@ -351,7 +351,7 @@ namespace PKHeX.Core
                         forms[999], // Matron
                         forms[1000], // Dandy
                         forms[1001], // La Reine
-                        forms[1002], // Kabuki 
+                        forms[1002], // Kabuki
                         forms[1003], // Pharaoh
                     };
 
@@ -410,7 +410,7 @@ namespace PKHeX.Core
             {
                 default:
                     return new[] { "" };
-                
+
                 case 741: // Oricorio
                     return new[]
                     {

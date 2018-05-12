@@ -36,7 +36,7 @@ namespace PKHeX.Core
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x01, 0x6E));
             set => Encoding.Unicode.GetBytes(value.PadRight(54 + 1, '\0')).CopyTo(Data, 0x01);
         }
-        
+
         //Pokemon transfer flags?
         public uint PKM1_flags {
             get => BitConverter.ToUInt32(Data, 0x99);
@@ -69,9 +69,9 @@ namespace PKHeX.Core
                 if (value.Length > 5) PKM6_flags = value[5];
             }
         }
-        
+
         //Pokémon
-        
+
         public PL6_PKM poke1 {
             get => new PL6_PKM(Data.Skip(0x9D).Take(PL6_PKM.Size).ToArray());
             set => value.Data.CopyTo(Data, 0x9D); }
@@ -104,7 +104,7 @@ namespace PKHeX.Core
                 if (value.Length > 5) poke6 = value[5];
             }
         }
-        
+
         // Item Properties
         public int Item_1 {
             get => BitConverter.ToUInt16(Data, 0x489);
@@ -142,7 +142,7 @@ namespace PKHeX.Core
         public int Quantity_6 {
             get => BitConverter.ToUInt16(Data, 0x49F);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x49F); }
-        
+
         public int[] Items
         {
             get => new[] { Item_1, Item_2, Item_3, Item_4, Item_5, Item_6 };
@@ -156,7 +156,7 @@ namespace PKHeX.Core
                 if (value.Length > 5) Item_6 = value[5];
             }
         }
-        
+
         public int[] Quantities
         {
             get => new[] { Quantity_1, Quantity_2, Quantity_3, Quantity_4, Quantity_5, Quantity_6 };
@@ -170,7 +170,7 @@ namespace PKHeX.Core
                 if (value.Length > 5) Quantity_6 = value[5];
             }
         }
-        
+
         
         //Battle Points
         public int BattlePoints {

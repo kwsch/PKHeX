@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
             }
             else
                 TB_OTName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false;
-            
+
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
         }
@@ -154,7 +154,7 @@ namespace PKHeX.WinForms
             var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
             if (p == null)
                 return;
-            
+
             // check for missing tickets
             var missing = tickets.Where(z => !p.Items.Any(item => item.Index == z && item.Count == 1)).ToList();
             var have = tickets.Except(missing).ToList();
@@ -317,7 +317,7 @@ namespace PKHeX.WinForms
             }
             if (!SetSavToVal)
                 return;
-            
+
             editingval = true;
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
@@ -402,7 +402,7 @@ namespace PKHeX.WinForms
                 iSymbols |= (uint)((Symbols[i] & 3) << i * 2);
             if (CHK_ActivatePass.Checked)
                 iSymbols |= 1 << 14;
-            
+
             uint val = (uint)(BitConverter.ToUInt32(SAV.Data, ofsSymbols) & ~(0x7FFF << 4) | (iSymbols & 0x7FFF) << 4);
             BitConverter.GetBytes(val).CopyTo(SAV.Data, ofsSymbols);
         }

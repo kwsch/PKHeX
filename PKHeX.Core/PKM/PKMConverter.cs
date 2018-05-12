@@ -99,7 +99,7 @@ namespace PKHeX.Core
                         PL2[0].Identifier = ident;
                     return PL2[0];
                 case 3:
-                    switch (data.Length) { 
+                    switch (data.Length) {
                         case PKX.SIZE_3CSTORED: return new CK3(data, ident);
                         case PKX.SIZE_3XSTORED: return new XK3(data, ident);
                         default: return new PK3(data, ident);
@@ -122,7 +122,7 @@ namespace PKHeX.Core
                     return null;
             }
         }
-        
+
         /// <summary>
         /// Checks if the input PK6 file is really a PK7, if so, updates the object.
         /// </summary>

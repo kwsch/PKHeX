@@ -116,7 +116,7 @@ namespace PKHeX.Core
         public IEnumerable<FlagPair> GetFlagPairs()
         {
             var pz = ReflectUtil.GetPropertiesStartWithPrefix(GetType(), "Flag");
-            
+
             foreach (var pair in pz)
             {
                 var p = ReflectUtil.GetValue(this, pair) as FlagPair;

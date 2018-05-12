@@ -35,7 +35,7 @@ namespace PKHeX.Core
         * CGB files are un-obfuscated / B2W2.
         * Due to BW and B2W2 using different obfuscation adds, PSK files are incompatible between the versions.
         */
-        
+
         public CGearBackground(byte[] data)
         {
             if (data.Length != SIZE_CGB)
@@ -121,7 +121,7 @@ namespace PKHeX.Core
             int tile = val & 0x00FF;
             if (tile == 0xFF) // invalid tile?
                 tile = 0;
-            
+
             int result = tile + 15 * (tile / 17)
                          + 0xA0A0
                          + rot;
@@ -317,7 +317,7 @@ namespace PKHeX.Core
                 return ((val & 0x5C00) | 0xFF);
             return ((val % 0x20) + 0x11 * (((val & 0x3FF) - 0xA0) / 0x20)) | (val & 0x5C00);
         }
-        
+
         private static byte Convert8to5(int colorval)
         {
             byte i = 0;

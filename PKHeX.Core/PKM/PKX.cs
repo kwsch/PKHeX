@@ -59,7 +59,7 @@ namespace PKHeX.Core
                 SIZE_6STORED, SIZE_6PARTY
             }.Contains((int)len);
         }
-        
+
         public static uint LCRNG(uint seed) => RNG.LCRNG.Next(seed);
         public static uint LCRNG(ref uint seed) => seed = RNG.LCRNG.Next(seed);
         #region ExpTable
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species name lists indexed by the <see cref="PKM.Language"/> value.
         /// </summary>
-        public static readonly string[][] SpeciesLang = 
+        public static readonly string[][] SpeciesLang =
         {
             Util.GetSpeciesList("ja"), // 0 (unused, invalid)
             Util.GetSpeciesList("ja"), // 1
@@ -378,7 +378,7 @@ namespace PKHeX.Core
             Stats[incr] *= 11; Stats[incr] /= 10;
             Stats[decr] *= 9; Stats[decr] /= 10;
         }
-        
+
         /// <summary>
         /// Positions for shuffling.
         /// </summary>
@@ -518,7 +518,7 @@ namespace PKHeX.Core
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
                 chk += BitConverter.ToUInt16(data, i);
-            
+
             return chk;
         }
 
@@ -681,7 +681,7 @@ namespace PKHeX.Core
             byte[] data = BitConverter.GetBytes(PID);
             return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
         }
-        
+
         /// <summary>
         /// Gets the gender ID of the species based on the Personality ID.
         /// </summary>
@@ -830,7 +830,7 @@ namespace PKHeX.Core
         public static int GetPKMFormatFromExtension(string ext, int prefer)
         {
             return ext?.Length > 1
-                ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer) 
+                ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer)
                 : prefer;
         }
         /// <summary>

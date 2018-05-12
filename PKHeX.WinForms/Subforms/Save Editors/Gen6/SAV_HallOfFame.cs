@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
             CB_Move2.Items.Clear();
             CB_Move3.Items.Clear();
             CB_Move4.Items.Clear();
-            
+
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
             CB_Move2.DataSource = new BindingSource(MoveList, null);
             CB_Move3.DataSource = new BindingSource(MoveList, null);
             CB_Move4.DataSource = new BindingSource(MoveList, null);
-            
+
             CB_HeldItem.DisplayMember = "Text";
             CB_HeldItem.ValueMember = "Value";
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource, null);
@@ -151,8 +151,8 @@ namespace PKHeX.WinForms
                 string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
                 string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
 
-                if (species == 0) 
-                    continue; 
+                if (species == 0)
+                    continue;
 
                 moncount++;
                 string genderstr=gendersymbols[gender];
@@ -236,7 +236,7 @@ namespace PKHeX.WinForms
             editing = true;
         }
         private void Write_Entry(object sender, EventArgs e)
-        {           
+        {
             if (!editing)
                 return; //Don't do writing until loaded
 
@@ -315,7 +315,7 @@ namespace PKHeX.WinForms
                 {
                     // get language
                     TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
-                } 
+                }
                 catch { }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
@@ -398,7 +398,7 @@ namespace PKHeX.WinForms
         {
             if (LB_DataEntry.SelectedIndex < 1) { WinFormsUtil.Alert("Cannot delete your first Hall of Fame Clear entry."); return; }
             int index = LB_DataEntry.SelectedIndex;
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?") 
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?")
                 != DialogResult.Yes) return;
 
             int offset = index * 0x1B4;

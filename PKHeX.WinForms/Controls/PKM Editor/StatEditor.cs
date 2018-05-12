@@ -411,7 +411,7 @@ namespace PKHeX.WinForms.Controls
 
             void SetMaskSize(Size s, string Mask)
             {
-                foreach (var ctrl in MT_EVs) 
+                foreach (var ctrl in MT_EVs)
                 {
                     ctrl.Size = s;
                     ctrl.Mask = Mask;

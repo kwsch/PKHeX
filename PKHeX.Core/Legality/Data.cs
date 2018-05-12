@@ -11,7 +11,7 @@ namespace PKHeX.Core
 
             if (identifier[0] != fileData[0] || identifier[1] != fileData[1])
                 return null;
-            
+
             int count = BitConverter.ToUInt16(fileData, 2); int ctr = 4;
             int start = BitConverter.ToInt32(fileData, ctr); ctr += 4;
             byte[][] returnData = new byte[count][];

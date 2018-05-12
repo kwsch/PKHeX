@@ -53,7 +53,7 @@ namespace PKHeX.Core
             else Version = SaveUtil.GetIsG3SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
-            
+
             int[] BlockOrder1 = new int[BLOCK_COUNT];
             for (int i = 0; i < BLOCK_COUNT; i++)
                 BlockOrder1[i] = BitConverter.ToInt16(Data, i*SIZE_BLOCK + 0xFF4);
@@ -475,15 +475,15 @@ namespace PKHeX.Core
                 int ofs = 0x34;
                 if (GameVersion.FRLG != Version)
                     ofs += 0x200;
-                return Data[BlockOfs[1] + ofs]; 
-                
+                return Data[BlockOfs[1] + ofs];
+
             }
             protected set
             {
                 int ofs = 0x34;
                 if (GameVersion.FRLG != Version)
                     ofs += 0x200;
-                Data[BlockOfs[1] + ofs] = (byte)value; 
+                Data[BlockOfs[1] + ofs] = (byte)value;
             }
         }
         public override int GetBoxOffset(int box)
@@ -535,7 +535,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (!CanSetDex(species))
                 return;
-            
+
             SetCaught(pkm.Species, true);
             SetSeen(pkm.Species, true);
         }
@@ -626,7 +626,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        public override string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString3(Data, Offset, Length, Japanese);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

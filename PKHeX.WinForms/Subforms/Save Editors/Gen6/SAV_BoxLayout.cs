@@ -104,11 +104,11 @@ namespace PKHeX.WinForms
             if (renamingBox)
                 return;
             editing = true;
-            
+
             CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.GetBoxWallpaper(LB_BoxSelect.SelectedIndex));
             TB_BoxName.Text = SAV.GetBoxName(LB_BoxSelect.SelectedIndex);
 
-            editing = false; 
+            editing = false;
         }
         private void ChangeBoxDetails(object sender, EventArgs e)
         {
@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
 
             PAN_BG.BackgroundImage = SAV.WallpaperImage(CB_BG.SelectedIndex);
         }
-        
+
         private bool MoveItem(int direction)
         {
             // Checking selected item

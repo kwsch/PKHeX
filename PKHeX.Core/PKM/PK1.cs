@@ -339,7 +339,7 @@ namespace PKHeX.Core
             PK2 pk2 = new PK2(null, Identifier, Japanese) {Species = Species};
             Array.Copy(Data, 0x7, pk2.Data, 0x1, 0x1A);
             // https://github.com/pret/pokecrystal/blob/master/engine/link.asm#L1132
-            if (!Legal.HeldItems_GSC.Contains((ushort)pk2.HeldItem)) 
+            if (!Legal.HeldItems_GSC.Contains((ushort)pk2.HeldItem))
                 switch (pk2.HeldItem)
                 {
                     case 0x19:
@@ -446,9 +446,9 @@ namespace PKHeX.Core
                 pk7.IsNicknamed = true;
                 pk7.Nickname = StringConverter.GetG1ConvertedString(nick, Japanese);
             }
-            
+
             pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
-            
+
             pk7.RefreshChecksum();
             return pk7;
         }
@@ -499,7 +499,7 @@ namespace PKHeX.Core
             for (int i = 0; i < Capacity; i++)
             {
                 int base_ofs = 2 + Capacity;
-                byte[] dat = new byte[Entry_Size]; 
+                byte[] dat = new byte[Entry_Size];
                 byte[] otname = new byte[StringLength];
                 byte[] nick = new byte[StringLength];
                 Buffer.BlockCopy(Data, base_ofs + Entry_Size * i, dat, 0, Entry_Size);

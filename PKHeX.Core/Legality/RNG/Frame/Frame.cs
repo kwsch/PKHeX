@@ -81,8 +81,8 @@
         private int GetSlot(EncounterSlot slot)
         {
             // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
-            return Lead != LeadRequired.StaticMagnet 
-                ? SlotRange.GetSlot(slot.Type, RandESV, FrameType) 
+            return Lead != LeadRequired.StaticMagnet
+                ? SlotRange.GetSlot(slot.Type, RandESV, FrameType)
                 : SlotRange.GetSlotStaticMagnet(slot, RandESV);
         }
 

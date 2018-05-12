@@ -173,7 +173,7 @@ namespace PKHeX.Core
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="lines">Lines containing the localized strings</param>
         private static void SetLocalization(Type t, IEnumerable<string> lines)
-        {            
+        {
             if (lines == null)
                 return;
             foreach (var line in lines.Where(l => l != null))

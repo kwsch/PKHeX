@@ -184,7 +184,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <returns>A DateTime representing the date the Pokémon was met, or null if either the <see cref="PKM"/> format does not support dates or the stored date is invalid.</returns>
         /// <remarks>Not all <see cref="PKM"/> types support the <see cref="MetDate"/> property.  In these cases, this property will return null.
-        /// 
+        ///
         /// If null is assigned to this property, it will be cleared.</remarks>
         public virtual DateTime? MetDate
         {
@@ -224,7 +224,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <returns>A DateTime representing the date the Pokémon was met as an egg, or null if the <see cref="PKM"/> format does not support dates.</returns>
         /// <remarks>Not all <see cref="PKM"/> types support the <see cref="EggMetDate"/> property.  In these cases, this property will return null.
-        /// 
+        ///
         /// If null is assigned to this property, it will be cleared.</remarks>
         public virtual DateTime? EggMetDate
         {
@@ -422,7 +422,7 @@ namespace PKHeX.Core
             {
                 if (GenNumber > 5 || Format > 5)
                     return -1;
-                
+
                 if (Version == (int) GameVersion.CXD)
                     return Array.IndexOf(PersonalInfo.Abilities, Ability);
                 return (int)((Gen5 ? PID >> 16 : PID) & 1);
@@ -605,11 +605,11 @@ namespace PKHeX.Core
             if (Legal.GetMaxSpeciesOrigin(Generation) < species && !Legal.GetFutureGenEvolutions(Generation).Contains(species))
                 return false;
 
-            // Trade generation 1 -> 2 
+            // Trade generation 1 -> 2
             if (Format == 2 && Generation == 1 && !Gen2_NotTradeback)
                 return true;
 
-            // Trade generation 2 -> 1 
+            // Trade generation 2 -> 1
             if (Format == 1 && Generation == 2 && !Gen1_NotTradeback)
                 return true;
 

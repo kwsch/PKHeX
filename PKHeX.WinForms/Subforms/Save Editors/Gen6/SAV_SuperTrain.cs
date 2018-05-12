@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
                 dataGridView1.Rows[i].Cells[1].Value = trba[SAV.Data[offset + i]];
             }
-        }        
+        }
         private void DropClick(object sender, DataGridViewCellEventArgs e)
         {
             try

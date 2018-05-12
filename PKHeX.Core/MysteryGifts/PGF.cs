@@ -263,7 +263,7 @@ namespace PKHeX.Core
 
                 // Force Gender
                 do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.Rand32() & 0xFF; } while (!pk.IsGenderValid());
-                
+
                 // Force Ability
                 if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
 

@@ -229,8 +229,8 @@ namespace PKHeX.Core
                     case 0: return GameVersion.RS;
                     case 1: return GameVersion.FRLG;
                     case uint.MaxValue: return GameVersion.Unknown;  // what a hack
-                    default: return BitConverter.ToUInt32(data, Block0 * 0x1000 + 0x1F4 + ofs) == 0 
-                            ? GameVersion.RS 
+                    default: return BitConverter.ToUInt32(data, Block0 * 0x1000 + 0x1F4 + ofs) == 0
+                            ? GameVersion.RS
                             : GameVersion.E;
                 }
             }
@@ -303,7 +303,7 @@ namespace PKHeX.Core
         {
             if (data.Length != SIZE_G4RAW)
                 return GameVersion.Invalid;
-            
+
             // General Block Checksum
             if (BitConverter.ToUInt16(data, 0xC0FE) == CRC16_CCITT(data, 0, 0xC0EC))
                 return GameVersion.DP;
@@ -445,7 +445,7 @@ namespace PKHeX.Core
 
                 // Bulk Storage
                 case GameVersion.USUM:      sav = Bank7.GetBank7(data); break;
-                
+
                 // No pattern matched
                 default: return null;
             }

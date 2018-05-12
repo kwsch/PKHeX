@@ -92,7 +92,7 @@
         CXD_ColoStarter,
 
         /// <summary>
-        /// 
+        /// Pokémon Channel Jirachi
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         Channel,

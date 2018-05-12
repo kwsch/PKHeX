@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
             { WinFormsUtil.Alert("Invalid file length"); return; }
 
             byte[] data = File.ReadAllBytes(ofd.FileName);
-            
+
             LoadLinkData(data);
             B_Export.Enabled = true;
         }
@@ -77,7 +77,7 @@ namespace PKHeX.WinForms
             File.WriteAllBytes(sfd.FileName, LinkInfo.Data);
             WinFormsUtil.Alert("Pokémon Link data saved to:" + Environment.NewLine + sfd.FileName);
         }
-        
+
         private void LoadLinkData(byte[] data)
         {
             LinkInfo = new PL6(data);

@@ -36,7 +36,7 @@ namespace PKHeX.Core
         {
             Data = new byte[SIZE_PARTY];
             Sanity = 0x4000;
-        } 
+        }
         public override PKM Clone() => new BK4((byte[])Encrypt().Clone(), Identifier);
 
         public string GetString(int Offset, int Count) => StringConverter.GetBEString4(Data, Offset, Count);
@@ -46,7 +46,7 @@ namespace PKHeX.Core
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
         public override ushort Sanity { get => BigEndian.ToUInt16(Data, 0x04); set => BigEndian.GetBytes(value).CopyTo(Data, 0x04); }
         public override ushort Checksum { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes(value).CopyTo(Data, 0x06); }
-        
+
         #region Block A
         public override int Species { get => BigEndian.ToUInt16(Data, 0x08); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x08); }
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x0A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0A); }

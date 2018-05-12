@@ -73,9 +73,9 @@ namespace QRCoder
                 var eccWordList = this.CalculateECCWords(bitStr, eccInfo);
                 var eccWordListDec = this.BinaryStringListToDecList(eccWordList);
                 codeWordWithECC.Add(
-                    new CodewordBlock(1, 
-                                      i + 1, 
-                                      bitStr, 
+                    new CodewordBlock(1,
+                                      i + 1,
+                                      bitStr,
                                       bitBlockList,
                                       eccWordList,
                                       bitBlockListDec,
@@ -252,7 +252,7 @@ namespace QRCoder
                     qrCode.ModuleMatrix[p2.Y][p2.X] = fStr[i] == '1';
                 }
             }
-            
+
 
             public static int MaskCode(ref QRCodeData qrCode, int version, ref List<Rectangle> blockedModules, ECCLevel eccLevel)
             {
@@ -261,7 +261,6 @@ namespace QRCoder
 
                 var size = qrCode.ModuleMatrix.Count;
 
-              
                 var methods = typeof (MaskPattern).GetMethods();
 
                 foreach (var pattern in methods)
@@ -645,7 +644,7 @@ namespace QRCoder
                         foreach (bool bit in row)
                             if (bit)
                                 blackModules++;
-                    
+
                     var percent = (blackModules / (qrCode.ModuleMatrix.Count * qrCode.ModuleMatrix.Count)) * 100;
                     var prevMultipleOf5 = Math.Abs((int) Math.Floor(percent/5)*5 - 50)/5;
                     var nextMultipleOf5 = Math.Abs((int)Math.Floor(percent / 5) * 5 -45)/5;
@@ -670,12 +669,12 @@ namespace QRCoder
             for (var i = 0; i < generatorPolynom.PolyItems.Count; i++)
                 generatorPolynom.PolyItems[i] = new PolynomItem(generatorPolynom.PolyItems[i].Coefficient,
                     generatorPolynom.PolyItems[i].Exponent + (messagePolynom.PolyItems.Count-1));
-            
+
             var leadTermSource = messagePolynom;
             for (var i = 0; (leadTermSource.PolyItems.Count > 0 && leadTermSource.PolyItems[leadTermSource.PolyItems.Count - 1].Exponent > 0); i++)
             {
                 if (leadTermSource.PolyItems[0].Coefficient == 0)
-                {   
+                {
                     leadTermSource.PolyItems.RemoveAt(0);
                     leadTermSource.PolyItems.Add(new PolynomItem(0, leadTermSource.PolyItems[leadTermSource.PolyItems.Count - 1].Exponent - 1));
                 }
@@ -786,7 +785,7 @@ namespace QRCoder
         }
 
         private List<string> BinaryStringToBitBlockList(string bitString)
-        { 
+        {
             return new List<char>(bitString.ToCharArray()).Select((x, i) => new { Index = i, Value = x })
                 .GroupBy(x => x.Index / 8)
                 .Select(x => String.Join("", x.Select(v => v.Value.ToString()).ToArray()))
@@ -982,7 +981,7 @@ namespace QRCoder
             }
             return resultPolynom;
         }
-      
+
 
         private Polynom MultiplyAlphaPolynoms(Polynom polynomBase, Polynom polynomMultiplier)
         {

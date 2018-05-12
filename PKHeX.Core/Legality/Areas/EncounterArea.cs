@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public EncounterSlot[] Slots;
 
         /// <summary>
-        /// Creates an empty encounter area ready for initialization. 
+        /// Creates an empty encounter area ready for initialization.
         /// </summary>
         public EncounterArea() { }
 
@@ -76,13 +76,13 @@ namespace PKHeX.Core
             int count = data[ofs++];
             return ReadSlots(data, ref ofs, count, SlotType.Super_Rod, -1);
         }
-        
+
         private static EncounterSlot1[] GetSlots2_GW(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
         {
             byte[] rates = new byte[slotSets];
             for (int i = 0; i < rates.Length; i++)
                 rates[i] = data[ofs++];
-            
+
             var slots = ReadSlots(data, ref ofs, slotSets * slotCount, t, rates[0]);
             if (slotSets <= 1)
                 return slots;
@@ -290,7 +290,7 @@ namespace PKHeX.Core
                     int Species = BitConverter.ToInt16(data, ofs + 4 + i * 4);
                     if (Species <= 0)
                         continue;
-                    
+
                     slots.Add(new EncounterSlot
                     {
                         LevelMin = data[ofs + 2 + i * 4],
@@ -316,7 +316,7 @@ namespace PKHeX.Core
                     int Species = BitConverter.ToInt16(data, ofs + 4 + i * 4);
                     if (Species <= 0)
                         continue;
-                    
+
                     var slot = new EncounterSlot
                     {
                         LevelMin = data[ofs + 2 + i*4],
@@ -348,7 +348,7 @@ namespace PKHeX.Core
         private static EncounterSlot[] GetSlots4_DPPt_G(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new EncounterSlot[numslots];
-            
+
             for (int i = 0; i < numslots; i++)
             {
                 int level = data[ofs + i*8];
@@ -448,7 +448,7 @@ namespace PKHeX.Core
                 int Species = BitConverter.ToInt16(data, ofs + 2 + i * 4);
                 if (t == SlotType.Rock_Smash && Species <= 0)
                     continue;
-                // fishing and surf slots with species = 0 are added too, it is needed for the swarm encounters, 
+                // fishing and surf slots with species = 0 are added too, it is needed for the swarm encounters,
                 // it will be deleted after add swarm slots
 
                 slots.Add(new EncounterSlot

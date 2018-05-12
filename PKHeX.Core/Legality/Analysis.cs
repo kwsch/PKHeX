@@ -90,8 +90,8 @@ namespace PKHeX.Core
                 if (Parse.Count <= 0)
                     return;
 
-                Valid = Parse.All(chk => chk.Valid) 
-                    && Info.Moves.All(m => m.Valid) 
+                Valid = Parse.All(chk => chk.Valid)
+                    && Info.Moves.All(m => m.Valid)
                     && Info.Relearn.All(m => m.Valid);
 
                 if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch == null)
@@ -292,7 +292,7 @@ namespace PKHeX.Core
         {
             if (!Parsed || pkm == null || Info == null)
                 return V189;
-            
+
             var lines = new List<string>();
             var vMoves = Info.Moves;
             var vRelearn = Info.Relearn;
@@ -307,7 +307,7 @@ namespace PKHeX.Core
 
             if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
                 return V193;
-            
+
             // Build result string...
             var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
             lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
@@ -341,7 +341,7 @@ namespace PKHeX.Core
 
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);
-            
+
             var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
             lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
 
@@ -364,7 +364,7 @@ namespace PKHeX.Core
                 lines.Add("Other match(es):");
                 lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Name}: {z.Reason}"));
             }
-            
+
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }
 

@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
-            
+
 
             CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
             CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
@@ -110,7 +110,7 @@ namespace PKHeX.WinForms
 
             // Trainer Pokemon
             pkmdata = new byte[3, 0x34];
-            if (index > 0) 
+            if (index > 0)
                 for (int i = 0; i < 3; i++)
                     for (int z = 0; z < 0x34; z++)
                         pkmdata[i, z] = SAV.Data[offset + 0x32E + 0x34 * i + z];
@@ -290,7 +290,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move2)).CopyTo(pkm, 0x1E);
             BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move3)).CopyTo(pkm, 0x20);
             BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move4)).CopyTo(pkm, 0x22);
-            
+
             pkm[0x24] = (byte)CB_PPu1.SelectedIndex;
             pkm[0x25] = (byte)CB_PPu2.SelectedIndex;
             pkm[0x26] = (byte)CB_PPu3.SelectedIndex;
@@ -363,7 +363,7 @@ namespace PKHeX.WinForms
             byte friendship = fpkm[0x2E];
             int ball = fpkm[0x2F];
             byte level = fpkm[0x30];
-            
+
             // Put data into fields.
             TB_EC.Text = ec.ToString("X8");
             CB_Species.SelectedValue = spec;
@@ -461,7 +461,7 @@ namespace PKHeX.WinForms
         private void UpdateForm(object sender, EventArgs e)
         {
             SetAbilityList();
-            
+
             // If form has a single gender, account for it.
             if (PKX.GetGenderFromString(CB_Form.Text) < 2)
                 Label_Gender.Text = Main.GenderSymbols[CB_Form.SelectedIndex];
@@ -494,10 +494,10 @@ namespace PKHeX.WinForms
             if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?")) 
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?"))
                 return;
 
-            const int max = 29; 
+            const int max = 29;
             const int size = 0x3E0;
             int offset = favoff + index * size;
             if (index != max) Array.Copy(SAV.Data, offset + size, SAV.Data, offset, size * (max - index));

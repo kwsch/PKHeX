@@ -73,7 +73,7 @@ namespace PKHeX.WinForms
         }
         private void ChangeDisplayed(object sender, EventArgs e)
         {
-            if (!((CheckBox) sender).Checked) 
+            if (!((CheckBox) sender).Checked)
                 return;
 
             CHK_P6.Checked = sender == CHK_P6;
@@ -115,12 +115,12 @@ namespace PKHeX.WinForms
                 CP[i].Checked = specbools[i, pk - 1];
             for (int i = 0; i < 7; i++)
                 CL[i].Checked = langbools[i, pk - 1];
-            
+
             int gt = SAV.Personal[pk].Gender;
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
-            
+
             // Load Encountered Count
             MT_Count.Text = BitConverter.ToUInt16(SAV.Data, SAV.EncounterCount + (pk - 1) * 2).ToString();
 

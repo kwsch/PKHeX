@@ -31,7 +31,7 @@ namespace PKHeX.Core
 
         // Configuration
         public override SaveFile Clone() { return new SAV6((byte[])Data.Clone()); }
-        
+
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK6();
@@ -74,7 +74,7 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
             set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC);
         }
-        
+
         private void GetSAVOffsets()
         {
             if (ORASDEMO)
@@ -245,7 +245,7 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
             }
         }
-        
+
         // Player Information
         public override int TID
         {
@@ -506,7 +506,7 @@ namespace PKHeX.Core
         public void SetMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
         public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + 2*index); }
         public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + 2*index); }
-        
+
         // Daycare
         public override int DaycareSeedSize => 16;
         public override bool HasTwoDaycares => ORAS;
@@ -536,7 +536,7 @@ namespace PKHeX.Core
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs <= 0)
                 return null;
-            
+
             var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize/2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", "");
         }
@@ -676,9 +676,9 @@ namespace PKHeX.Core
                 return "B" + (box + 1);
             return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
         }
-        public override void SetBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            Encoding.Unicode.GetBytes(val.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
+            Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
             Edited = true;
         }
         public override PKM GetPKM(byte[] data)
@@ -724,7 +724,7 @@ namespace PKHeX.Core
             int bm = bit & 7; // mod8
             byte mask = (byte)(1 << bm);
             int ofs = PokeDex + 0x8 + bd;
-            
+
             // Owned quality flag
             if (origin < 0x18 && bit < 649 && !ORAS) // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
                 Data[ofs + 0x644] |= mask;
@@ -898,7 +898,7 @@ namespace PKHeX.Core
                     return;
                 if (value.Length > GiftCountMax)
                     Array.Resize(ref value, GiftCountMax);
-                
+
                 for (int i = 0; i < value.Length; i++)
                     SetWC6(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)

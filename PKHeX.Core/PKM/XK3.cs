@@ -163,7 +163,7 @@ namespace PKHeX.Core
         public override int IV_SPA { get => Data[0xAB]; set => Data[0xAB] = (byte)(value & 0x1F); }
         public override int IV_SPD { get => Data[0xAC]; set => Data[0xAC] = (byte)(value & 0x1F); }
         public override int IV_SPE { get => Data[0xAD]; set => Data[0xAD] = (byte)(value & 0x1F); }
-        
+
         // Contest
         public override int CNT_Cool { get => Data[0xAE]; set => Data[0xAE] = (byte)value; }
         public override int CNT_Beauty { get => Data[0xAF]; set => Data[0xAF] = (byte)value; }
@@ -177,7 +177,7 @@ namespace PKHeX.Core
         public override int RibbonCountG3Tough { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
 
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xBA); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xBA); }
-        
+
         // Purification information is stored in the save file and accessed based on the Shadow ID.
         public int Purification { get; set; }
 

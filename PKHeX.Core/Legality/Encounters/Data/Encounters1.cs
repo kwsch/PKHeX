@@ -64,7 +64,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 004, Level = 05, Version = GameVersion.RBY }, // Charmander
             new EncounterStatic { Species = 007, Level = 05, Version = GameVersion.RBY }, // Squirtle
             new EncounterStatic { Species = 025, Level = 05, Version = GameVersion.YW }, // Pikachu
-            
+
             // Game Corner
             new EncounterStatic { Species = 030, Level = 17, Version = GameVersion.RB }, // Nidorina (Red Game Corner)
             new EncounterStatic { Species = 033, Level = 17, Version = GameVersion.BU }, // Nidorino (Blue[EN] / Green[JP] Game Corner)
@@ -102,16 +102,16 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 138, Level = 30, Version = GameVersion.RBY }, // Omanyte
             new EncounterStatic { Species = 140, Level = 30, Version = GameVersion.RBY }, // Kabuto
             new EncounterStatic { Species = 142, Level = 30, Version = GameVersion.RBY }, // Aerodactyl
-            
+
             new EncounterStatic { Species = 144, Level = 50, Version = GameVersion.RBY }, // Articuno
             new EncounterStatic { Species = 145, Level = 50, Version = GameVersion.RBY }, // Zapdos
             new EncounterStatic { Species = 146, Level = 50, Version = GameVersion.RBY }, // Moltres
 
             new EncounterStatic { Species = 150, Level = 70, Version = GameVersion.RBY }, // Mewtwo
-            
+
             new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.RB }, // Eevee
             new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.YW }, // Eevee (Different initial moves)
-            
+
             new EncounterStatic { Species = 100, Level = 40, Version = GameVersion.RBY }, // Voltorb (Power Plant)
             new EncounterStatic { Species = 101, Level = 43, Version = GameVersion.RBY }, // Electrode (Power Plant)
 
@@ -143,7 +143,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 108, Level = 15, Version = GameVersion.RBY }, // Lickitung - Surf Slowbro
             new EncounterTrade { Species = 083, Level = 02, Version = GameVersion.RBY }, // Farfetch’d - Wild Spearow
             new EncounterTrade { Species = 101, Level = 03, Version = GameVersion.RBY }, // Electrode - Wild Raichu
-            
+
             new EncounterTrade { Species = 122, Level = 03, Version = GameVersion.RBY }, // Mr. Mime - Wild Jigglypuff
             new EncounterTrade { Species = 060, Level = 02, Version = GameVersion.RBY }, // Poliwag - Wild Rattata
             //new EncounterTrade { Species = 083, Level = 02 }, // Farfetch’d - Wild Pidgey
@@ -155,13 +155,13 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 124, Level = 15, Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (GSC: 10)
             new EncounterTrade { Species = 114, Level = 13, Version = GameVersion.RBY }, // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
             new EncounterTrade { Species = 086, Level = 28, Version = GameVersion.RBY }, // Seel - Wild Ponyta (GSC: 5)
-            
+
             new EncounterTrade { Species = 115, Level = 15, Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (GSC: 10)
             new EncounterTrade { Species = 128, Level = 28, Version = GameVersion.RBY }, // Tauros - Evolve Persian (GSC: 18)
             new EncounterTradeCatchRate { Species = 093, Level = 20, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Trade Machoke (GSC: 10)
             new EncounterTradeCatchRate { Species = 075, Level = 16, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Kadabra (GSC: 15)
             new EncounterTradeCatchRate { Species = 098, Level = 15, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Wild Growlithe (GSC: 5)
-            
+
             //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (GSC: 6)
             new EncounterTradeCatchRate { Species = 067, Level = 16, Catch_Rate = 180, EvolveOnTrade = true, Version = GameVersion.RBY }, // Machoke - Wild Cubone (GSC: 5)
             new EncounterTrade { Species = 112, Level = 15, Version = GameVersion.RBY }, // Rhydon - Surf Golduck (GSC: 10)
@@ -179,13 +179,13 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 124, Level = 10, Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (RBY: 15)
             new EncounterTrade { Species = 114, Level = 05, Version = GameVersion.RBY }, // Tangela - Wild Venonat (RBY: 13)
             new EncounterTrade { Species = 086, Level = 05, Version = GameVersion.RBY }, // Seel - Egg Ponyta (RBY: 28)
-            
+
             new EncounterTrade { Species = 115, Level = 10, Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (RBY: 42)
             new EncounterTrade { Species = 128, Level = 18, Version = GameVersion.RBY }, // Tauros - Evolve Persian (RBY: 28)
             new EncounterTradeCatchRate { Species = 093, Level = 05, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Trade Machoke (RBY: 20)
             new EncounterTradeCatchRate { Species = 075, Level = 15, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Kadabra (RBY: 16)
             new EncounterTradeCatchRate { Species = 098, Level = 05, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Egg Growlithe (RBY: 15)
-            
+
           //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (RBY: 6)
             new EncounterTradeCatchRate { Species = 067, Level = 05, Catch_Rate = 180, EvolveOnTrade = true, Version = GameVersion.RBY }, // Machoke - Egg Cubone (RBY: 20)
             new EncounterTrade { Species = 112, Level = 10, Version = GameVersion.RBY }, // Rhydon - Surf Golduck (RBY: 15)

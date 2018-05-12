@@ -14,7 +14,7 @@ namespace PKHeX.Core
     // u8  dex_data[0x60];
     // u16 crc16
     // sizeof(QR7) == 0x1A2
-    
+
     public static class QR7
     {
         private static bool HasGenderDifferences(int species)

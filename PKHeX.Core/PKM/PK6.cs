@@ -373,7 +373,7 @@ namespace PKHeX.Core
         public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
-        
+
         // Complex Generated Attributes
 
         public override int Characteristic
@@ -437,7 +437,7 @@ namespace PKHeX.Core
                 HT_Name = "".PadRight(11, '\0');
                 return;
             }
-            
+
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (!Gen6)
@@ -586,7 +586,7 @@ namespace PKHeX.Core
                 Markings = Markings, // Clears old Super Training Bag & Hits Remaining
                 Data = { [0x2A] = 0 }, // Clears old Marking Value
             };
-            
+
             switch (AbilityNumber)
             {
                 case 1: case 2: case 4: // Valid Ability Numbers

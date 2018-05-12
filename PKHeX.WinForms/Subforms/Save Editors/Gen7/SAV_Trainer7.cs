@@ -24,7 +24,7 @@ namespace PKHeX.WinForms
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
-            
+
             GetComboBoxes();
             GetTextBoxes();
 
@@ -352,7 +352,7 @@ namespace PKHeX.WinForms
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
-            
+
             SAV.Money = Util.ToUInt32(MT_Money.Text);
             SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
@@ -372,12 +372,12 @@ namespace PKHeX.WinForms
                 SAV.Y = (float)NUD_Y.Value;
                 SAV.R = (float)NUD_R.Value;
             }
-            
+
             // Save PlayTime
             SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
-            
+
             int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             seconds -= seconds%86400;
             seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
@@ -427,7 +427,7 @@ namespace PKHeX.WinForms
             string gStr = CB_Gender.Items[gender].ToString();
             string sStr = CB_Gender.Items[skin].ToString();
 
-            if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex && 
+            if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex &&
                 (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
         }
@@ -540,7 +540,7 @@ namespace PKHeX.WinForms
 
             // Clear Block
             new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
-            
+
             // Write Payload
             // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
 

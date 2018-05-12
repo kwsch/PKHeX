@@ -426,7 +426,7 @@ namespace PKHeX.WinForms.Controls
         private void SetMarkings()
         {
             double getOpacity(bool b) => b ? 1 : 0.175;
-            Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage 
+            Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
                 : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
 
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
@@ -1301,7 +1301,7 @@ namespace PKHeX.WinForms.Controls
             pkm.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
 
             if (pkm.Format > 2)
-            { 
+            {
                 if (PID)
                 {
                     pkm.SetShinyPID();
@@ -1547,7 +1547,7 @@ namespace PKHeX.WinForms.Controls
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
             FLP_EncounterType.Visible = gen >= 4 && gen <= 6;
             FLP_TimeOfDay.Visible = gen == 2;
-            
+
             Contest.ToggleInterface(gen);
             Stats.ToggleInterface(gen);
 
@@ -1594,7 +1594,7 @@ namespace PKHeX.WinForms.Controls
             // Recenter PKM SubEditors
             FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
         }
-        
+
         // Loading Setup
         public void TemplateFields(PKM template)
         {

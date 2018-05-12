@@ -295,7 +295,7 @@ namespace PKHeX.Core
             }
             else if (line.Contains(species[678])) // Meowstic Edge Case with no gender provided
                 Gender = "M";
-            
+
             // Nickname Detection
             if (line.Contains("(") && line.Contains(")"))
                 ParseSpeciesNickname(line);

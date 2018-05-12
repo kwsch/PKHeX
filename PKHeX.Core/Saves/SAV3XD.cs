@@ -289,7 +289,7 @@ namespace PKHeX.Core
             XK3 pk = pkm as XK3;
             if (pk == null)
                 return; // shouldn't ever hit
-            
+
             if (pk.CurrentRegion == 0)
                 pk.CurrentRegion = 2; // NTSC-U
             if (pk.OriginalRegion == 0)
@@ -324,7 +324,7 @@ namespace PKHeX.Core
             }
             StrategyMemo.SetEntry(entry);
         }
-        
+
         public override InventoryPouch[] Inventory
         {
             get

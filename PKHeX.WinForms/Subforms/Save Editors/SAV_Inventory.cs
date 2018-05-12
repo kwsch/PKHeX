@@ -110,7 +110,7 @@ namespace PKHeX.WinForms
 
             dgv.Columns.Add(dgvItemVal);
             dgv.Columns.Add(dgvIndex);
-            
+
             if (HasFreeSpace)
             {
                 DataGridViewCheckBoxColumn dgvFree = new DataGridViewCheckBoxColumn
@@ -219,7 +219,7 @@ namespace PKHeX.WinForms
                         itemcnt = 2;
                     else
                         itemcnt = pouch.MaxCount; // Cap at pouch maximum
-                }   
+                }
                 else if (itemcnt <= 0 && !HasNew)
                     continue; // ignore item
 
@@ -354,7 +354,7 @@ namespace PKHeX.WinForms
                 return;
 
             DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
-            
+
             for (int i = 0; i < dgv.RowCount; i++)
             {
                 int c = 0;

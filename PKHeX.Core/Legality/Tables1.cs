@@ -7,13 +7,13 @@ namespace PKHeX.Core
     {
         internal const int MaxSpeciesID_1 = 151;
         internal const int MaxMoveID_1 = 165;
-        internal const int MaxItemID_1 = 255; 
+        internal const int MaxItemID_1 = 255;
         internal const int MaxAbilityID_1 = 0;
         /// <summary>
         /// Generation 1 -> Generation 7 Transfer Location (Kanto)
         /// </summary>
         public const int Transfer1 = 30013;
-        
+
         internal static readonly ushort[] Pouch_Items_RBY =
         {
             000,001,002,003,004,005,006,            010,011,012,013,014,015,

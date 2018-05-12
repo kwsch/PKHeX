@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
         {
             switch (Game)
             {
-                default: return 0; 
+                default: return 0;
                 case GameVersion.FR: return 1; // Attack
                 case GameVersion.LG: return 2; // Defense
                 case GameVersion.E:  return 3; // Speed

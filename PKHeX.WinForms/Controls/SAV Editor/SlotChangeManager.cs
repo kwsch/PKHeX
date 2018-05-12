@@ -171,7 +171,7 @@ namespace PKHeX.WinForms.Controls
             try { Sounds.Play(); } catch { }
         }
 
-        private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control 
+        private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control
             => WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
 
         public void HandleMovePKM(PictureBox pb, int slot, int box, bool encrypt)
@@ -254,7 +254,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         private void SetSlotSprite(SlotChange loc, PKM pk, BoxEditor x = null) => (x ?? SE.Box).SetSlotFiller(pk, loc.Box, loc.Slot);
-        
+
         public void HandleDropPKM(object sender, DragEventArgs e, bool overwrite, bool clone)
         {
             var pb = (PictureBox)sender;
@@ -369,7 +369,7 @@ namespace PKHeX.WinForms.Controls
                 PKM pk = ((PictureBox)sender).Image != null
                     ? GetPKM(false)
                     : SAV.BlankPKM;
-                
+
                 // Set destination pokemon data to source slot
                 SetPKM(pk, true, null);
             }

@@ -20,7 +20,7 @@ namespace PKHeX.Core
             if (pk.Format < 3)
                 return AnalyzeGB(pk);
             var pid = pk.EncryptionConstant;
-            
+
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
 

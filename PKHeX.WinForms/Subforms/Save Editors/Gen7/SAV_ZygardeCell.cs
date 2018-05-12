@@ -20,7 +20,7 @@ namespace PKHeX.WinForms
             // Use constants 0x18C/2 = 198 thru +95
             ushort[] constants = SAV.EventConsts;
             ushort[] cells = constants.Skip(celloffset).Take(cellcount).ToArray();
-            
+
             int cellCount = constants[cellstotal];
             int cellCollected = constants[cellscollected];
 

@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_Ribbons.Padding = FLP_Ribbons.Padding = new Padding(0, 0, vertScrollWidth, 0);
-            
+
             // Updating a Control display with autosized elements on every row addition is cpu intensive. Disable layout updates while populating.
             TLP_Ribbons.SuspendLayout();
             FLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
@@ -57,13 +57,13 @@ namespace PKHeX.WinForms
             }
             TLP_Ribbons.ColumnCount = 2;
             TLP_Ribbons.RowCount = 0;
-            
+
             // Add Ribbons
             foreach (var rib in riblist)
                 AddRibbonSprite(rib);
             foreach (var rib in riblist.OrderBy(z => RibbonStrings.GetName(z.Name)))
                 AddRibbonChoice(rib);
-            
+
             // Force auto-size
             foreach (RowStyle style in TLP_Ribbons.RowStyles)
                 style.SizeType = SizeType.AutoSize;
@@ -182,7 +182,7 @@ namespace PKHeX.WinForms
             foreach (var rib in riblist)
                 ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : (object) rib.RibbonCount);
         }
-        
+
         private sealed class RibbonInfo
         {
             internal readonly string Name;

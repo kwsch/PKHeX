@@ -351,25 +351,25 @@ namespace PKHeX.WinForms
         private void GetBadges()
         {
             // Fetch Badges
-            Bitmap[] bma = SAV.ORAS ? 
+            Bitmap[] bma = SAV.ORAS ?
                 new[] {
                                    Properties.Resources.badge_01, // ORAS Badges
-                                   Properties.Resources.badge_02,  
-                                   Properties.Resources.badge_03,   
+                                   Properties.Resources.badge_02,
+                                   Properties.Resources.badge_03,
                                    Properties.Resources.badge_04,
-                                   Properties.Resources.badge_05, 
-                                   Properties.Resources.badge_06,  
-                                   Properties.Resources.badge_07, 
+                                   Properties.Resources.badge_05,
+                                   Properties.Resources.badge_06,
+                                   Properties.Resources.badge_07,
                                    Properties.Resources.badge_08,
-                } : 
+                } :
                 new [] {
                                    Properties.Resources.badge_1, // XY Badges
-                                   Properties.Resources.badge_2,  
-                                   Properties.Resources.badge_3,   
+                                   Properties.Resources.badge_2,
+                                   Properties.Resources.badge_3,
                                    Properties.Resources.badge_4,
-                                   Properties.Resources.badge_5, 
-                                   Properties.Resources.badge_6,  
-                                   Properties.Resources.badge_7, 
+                                   Properties.Resources.badge_5,
+                                   Properties.Resources.badge_6,
+                                   Properties.Resources.badge_7,
                                    Properties.Resources.badge_8,
                 };
 
@@ -387,7 +387,7 @@ namespace PKHeX.WinForms
 
             CB_Game.SelectedIndex = SAV.Game - 0x18;
             CB_Gender.SelectedIndex = SAV.Gender;
-            
+
             // Display Data
             TB_OTName.Text = OT_NAME;
 
@@ -437,7 +437,7 @@ namespace PKHeX.WinForms
             // Load PSS Sprite
             CB_MultiplayerSprite.SelectedValue = SAV.MultiplayerSpriteID;
             PB_Sprite.Image = SAV.Sprite();
-            
+
             if (SAV.XY)
             {
                 // Load Clothing Data
@@ -484,7 +484,7 @@ namespace PKHeX.WinForms
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 0x18);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
-            
+
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);

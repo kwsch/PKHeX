@@ -49,10 +49,10 @@ namespace PKHeX.Core
                 LoadLockedSlots();
             }
         }
-        
+
         // Configuration
         public override SaveFile Clone() { return new SAV7((byte[])Data.Clone()); }
-        
+
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK7();
@@ -278,7 +278,7 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
             }
         }
-        
+
         // Player Information
         public override int TID
         {
@@ -696,7 +696,7 @@ namespace PKHeX.Core
         public int ResumeSeconds { get => Data[AdventureInfo + 0xD]; set => Data[AdventureInfo + 0xD] = (byte)value; }
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); }
-        
+
         public ulong AlolaTime { get => BitConverter.ToUInt64(Data, AdventureInfo + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x48); }
 
         // Stat Records
@@ -942,9 +942,9 @@ namespace PKHeX.Core
                 return $"B{box + 1}";
             return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
         }
-        public override void SetBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            Encoding.Unicode.GetBytes(val.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
+            Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
             Edited = true;
         }
         public override PKM GetPKM(byte[] data)
@@ -1023,7 +1023,7 @@ namespace PKHeX.Core
                     int fc = Personal[pkm.Species].FormeCount;
                     if (fc > 1) // actually has forms
                     {
-                        int f = USUM 
+                        int f = USUM
                             ? SaveUtil.GetDexFormIndexUSUM(pkm.Species, fc, MaxSpeciesID - 1)
                             : SaveUtil.GetDexFormIndexSM(pkm.Species, fc, MaxSpeciesID - 1);
                         if (f >= 0) // bit index valid
@@ -1311,7 +1311,7 @@ namespace PKHeX.Core
                 return;
             if (Daycare < 0)
                 return;
-            
+
             Data[Daycare + (SIZE_STORED + 1) * slot] = (byte)(occupied ? 1 : 0);
         }
         public override void SetDaycareRNGSeed(int loc, string seed)
@@ -1388,7 +1388,7 @@ namespace PKHeX.Core
                     return;
                 if (value.Length > GiftCountMax)
                     Array.Resize(ref value, GiftCountMax);
-                
+
                 for (int i = 0; i < value.Length; i++)
                     SetWC7(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)

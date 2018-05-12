@@ -103,7 +103,7 @@ namespace PKHeX.Core
 
             string hint; // hint why an encounter was not found
             if (pkm.WasGiftEgg)
-                hint = V359; 
+                hint = V359;
             else if (pkm.WasEventEgg)
                 hint = V360;
             else if (pkm.WasEvent)

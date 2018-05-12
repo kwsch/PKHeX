@@ -60,7 +60,7 @@ namespace PKHeX.WinForms.Controls
             pk.PKRS_Days = CB_PKRSDays.SelectedIndex;
             pk.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
         }
-        
+
         private void LoadContestStats(PKM pk)
         {
             Contest.Cool = pk.CNT_Cool;

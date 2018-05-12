@@ -193,7 +193,7 @@ namespace PKHeX.Core
             }
         }
         // Gen 4 raw encounter data does not contains info for alt slots
-        // Shellos and Gastrodom East Sea form should be modified 
+        // Shellos and Gastrodom East Sea form should be modified
         private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
         {
             foreach (EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
@@ -249,7 +249,7 @@ namespace PKHeX.Core
                     return EncounterType.None;
 
                 case SlotType.Headbutt_Special:
-                case SlotType.Headbutt: return HeadbuttType | EncounterType.None; 
+                case SlotType.Headbutt: return HeadbuttType | EncounterType.None;
                     // not sure on if "None" should always be allowed, but this is so uncommon it shouldn't matter (gen7 doesn't keep this value anyway).
             }
             return EncounterType.None;
@@ -321,8 +321,8 @@ namespace PKHeX.Core
             // Routes with trees adjacent to grass tiles
             var allowgrass = HGSS_GrassHeadbutt_Locations.Contains(Location);
             if (allowgrass)
-                return allowsurf 
-                    ? EncounterType.TallGrass | EncounterType.Surfing_Fishing 
+                return allowsurf
+                    ? EncounterType.TallGrass | EncounterType.Surfing_Fishing
                     : EncounterType.TallGrass;
 
             return allowsurf
@@ -437,36 +437,36 @@ namespace PKHeX.Core
         /// Locations with headbutt trees accessible from water tiles
         /// </summary>
         private static readonly HashSet<int> HGSS_SurfingHeadbutt_Locations = new HashSet<int>
-        {   
-            126, // New Bark Town 
+        {
+            126, // New Bark Town
             127, // Cherrygrove City
-            128, // Violet City 
-            133, // Ecruteak City 
-            135, // Lake of Rage 
-            138, // Pallet Town 
-            139, // Viridian City 
-            160, // Route 12 
-            169, // Route 21 
-            170, // Route 22 
-            174, // Route 26 
-            175, // Route 27 
-            176, // Route 28 
-            178, // Route 30 
-            179, // Route 31 
-            180, // Route 32 
-            182, // Route 34 
-            183, // Route 35 
-            190, // Route 42 
-            191, // Route 43 
-            192, // Route 44 
-            214, // Ilex Forest 
+            128, // Violet City
+            133, // Ecruteak City
+            135, // Lake of Rage
+            138, // Pallet Town
+            139, // Viridian City
+            160, // Route 12
+            169, // Route 21
+            170, // Route 22
+            174, // Route 26
+            175, // Route 27
+            176, // Route 28
+            178, // Route 30
+            179, // Route 31
+            180, // Route 32
+            182, // Route 34
+            183, // Route 35
+            190, // Route 42
+            191, // Route 43
+            192, // Route 44
+            214, // Ilex Forest
         };
         /// <summary>
         /// Locations with headbutt trees accessible from tall grass tiles
         /// </summary>
         private static readonly HashSet<int> HGSS_GrassHeadbutt_Locations = new HashSet<int>
-        {   
-            137, // Mt. Silver 
+        {
+            137, // Mt. Silver
             149, // Route 1
             150, // Route 2
             151, // Route 3
@@ -478,24 +478,24 @@ namespace PKHeX.Core
             161, // Route 13
             163, // Route 15
             164, // Route 16
-            169, // Route 21 
-            170, // Route 22 
-            174, // Route 26 
-            175, // Route 27 
-            176, // Route 28 
+            169, // Route 21
+            170, // Route 22
+            174, // Route 26
+            175, // Route 27
+            176, // Route 28
             177, // Route 29
-            178, // Route 30 
-            179, // Route 31 
-            180, // Route 32 
+            178, // Route 30
+            179, // Route 31
+            180, // Route 32
             181, // Route 33
-            182, // Route 34 
-            183, // Route 35 
+            182, // Route 34
+            183, // Route 35
             184, // Route 36
             185, // Route 37
             186, // Route 38
             187, // Route 39
-            191, // Route 43 
-            192, // Route 44 
+            191, // Route 43
+            192, // Route 44
             194, // Route 46
             195, // Route 47
             196, // Route 48
@@ -531,7 +531,7 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 021, Gender = 0, Level = 05, }, // Spearow
             new EncounterStatic{ Species = 043, Gender = 1, Level = 05, }, // Oddish
             new EncounterStatic{ Species = 095, Gender = 0, Level = 09, }, // Onix
-            new EncounterStatic{ Species = 240, Gender = 0, Level = 09, Moves = new[]{241},}, // Magby: Sunny Day 
+            new EncounterStatic{ Species = 240, Gender = 0, Level = 09, Moves = new[]{241},}, // Magby: Sunny Day
             new EncounterStatic{ Species = 066, Gender = 1, Level = 07, }, // Machop
             new EncounterStatic{ Species = 077, Gender = 1, Level = 07, }, // Ponyta
             new EncounterStatic{ Species = 074, Gender = 1, Level = 08, Moves = new[]{189},}, // Geodude: Mud-Slap
@@ -673,7 +673,7 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 052, Gender = 0, Level = 10, }, // Meowth
             new EncounterStatic{ Species = 374, Gender = 2, Level = 05, Moves = new[]{428,334,442}, }, // Beldum: Zen Headbutt, Iron Defense & Iron Head.
             new EncounterStatic{ Species = 446, Gender = 0, Level = 05, Moves = new[]{120}, }, // Munchlax: Self-Destruct
-            new EncounterStatic{ Species = 116, Gender = 0, Level = 05, Moves = new[]{330}, }, // Horsea: Muddy Water 
+            new EncounterStatic{ Species = 116, Gender = 0, Level = 05, Moves = new[]{330}, }, // Horsea: Muddy Water
             new EncounterStatic{ Species = 355, Gender = 0, Level = 05, Moves = new[]{286}, }, // Duskull: Imprison
             new EncounterStatic{ Species = 129, Gender = 0, Level = 05, Moves = new[]{340}, }, // Magikarp: Bounce
             new EncounterStatic{ Species = 436, Gender = 2, Level = 05, Moves = new[]{433}, }, // Bronzor: Trick Room
@@ -743,18 +743,18 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Gift = true, Species = 408, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Version = GameVersion.Pt }, // Cranidos
             new EncounterStaticTyped { Gift = true, Species = 410, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Version = GameVersion.Pt }, // Shieldon
             //Gift
-            new EncounterStaticTyped { Gift = true, Species = 133, Level = 05, Location = 010, Version = GameVersion.DP, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, //Eevee @ Hearthome City 
-            new EncounterStaticTyped { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Eevee @ Hearthome City 
+            new EncounterStaticTyped { Gift = true, Species = 133, Level = 05, Location = 010, Version = GameVersion.DP, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, //Eevee @ Hearthome City
+            new EncounterStaticTyped { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Eevee @ Hearthome City
             new EncounterStaticTyped { Gift = true, Species = 137, Level = 25, Location = 012, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Porygon @ Veilstone City
             new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2011, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
             new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
             new EncounterStatic { Gift = true, Species = 447, Level = 01, EggLocation = 2010, }, //Riolu Egg from Riley
             //Stationary
-            new EncounterStatic { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP },// Drifloon @ Valley Windworks 
-            new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt },// Drifloon @ Valley Windworks 
-            new EncounterStaticTyped { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau 
-            new EncounterStaticTyped { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau 
-            new EncounterStatic { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209            
+            new EncounterStatic { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP },// Drifloon @ Valley Windworks
+            new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt },// Drifloon @ Valley Windworks
+            new EncounterStaticTyped { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau
+            new EncounterStaticTyped { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau
+            new EncounterStatic { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209
             //Stationary Legendary
             new EncounterStaticTyped { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Regirock @ Rock Peak Ruins
             new EncounterStaticTyped { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Regice @ Iceberg Ruins
@@ -885,7 +885,7 @@ namespace PKHeX.Core
             // Team Rocket HQ Trap Floor
             new EncounterStaticTyped { Species = 100, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Voltorb
             new EncounterStaticTyped { Species = 074, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Geodude
-            new EncounterStaticTyped { Species = 109, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Koffing 
+            new EncounterStaticTyped { Species = 109, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Koffing
 
             //Stationary
             new EncounterStaticTyped { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = Shiny.Always }, //Gyarados @ Lake of Rage
@@ -1402,17 +1402,17 @@ namespace PKHeX.Core
             // Supplement http://www.psypokes.com/hgss/safari_areas.php
             Location = 202, // Johto Safari Zone
             Slots = ConcatAll(
-                SAFARIZONE_PEAK, 
-                SAFARIZONE_DESERT, 
-                SAFARIZONE_PLAINS, 
-                SAFARIZONE_MEADOW, 
-                SAFARIZONE_FOREST, 
-                SAFARIZONE_SWAMP, 
+                SAFARIZONE_PEAK,
+                SAFARIZONE_DESERT,
+                SAFARIZONE_PLAINS,
+                SAFARIZONE_MEADOW,
+                SAFARIZONE_FOREST,
+                SAFARIZONE_SWAMP,
                 SAFARIZONE_MARSHLAND,
-                SAFARIZONE_MOUNTAIN, 
-                SAFARIZONE_ROCKYBEACH, 
-                SAFARIZONE_WASTELAND, 
-                SAFARIZONE_SAVANNAH, 
+                SAFARIZONE_MOUNTAIN,
+                SAFARIZONE_ROCKYBEACH,
+                SAFARIZONE_WASTELAND,
+                SAFARIZONE_SAVANNAH,
                 SAFARIZONE_WETLAND)
         };
         private static readonly EncounterArea[] SlotsHGSSAlt =
@@ -1435,13 +1435,13 @@ namespace PKHeX.Core
         {
             Slots = new[]
             {
-                new EncounterSlot {Species = 190, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Aipom 
+                new EncounterSlot {Species = 190, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Aipom
                 new EncounterSlot {Species = 214, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Heracross
                 new EncounterSlot {Species = 265, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Wurmple
                 new EncounterSlot {Species = 412, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree, Form = 0}, // Burmy Plant Cloak
-                new EncounterSlot {Species = 415, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Combee 
+                new EncounterSlot {Species = 415, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Combee
                 new EncounterSlot {Species = 420, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Cheruby
-                new EncounterSlot {Species = 446, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Munchlax 
+                new EncounterSlot {Species = 446, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree}, // Munchlax
             },
         };
 
@@ -1518,15 +1518,15 @@ namespace PKHeX.Core
             23, // Route 208
             24, // Route 209
             25, // Route 210
-            26, // Route 211 
-            27, // Route 212 
+            26, // Route 211
+            27, // Route 212
             28, // Route 213
             29, // Route 214
             30, // Route 215
             33, // Route 218
             36, // Route 221
             37, // Route 222
-            47, // Valley Windworks 
+            47, // Valley Windworks
             48, // Eterna Forest
             49, // Fuego Ironworks
             58, // Floaroma Meadow

@@ -91,7 +91,7 @@ namespace PKHeX.Core
             846,
         };
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
-        
+
         internal static readonly ushort[] Pouch_Key_SM = {
             216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
             705, 706, 765, 773, 797,
@@ -406,7 +406,7 @@ namespace PKHeX.Core
         {
             029, 030, 031, 032, 033, 034, // Nidos
             313, 314, // Volbeat/Illumise
-            
+
             081, // Magnemite
             100, // Voltorb
             115, // Kangaskhan
@@ -416,7 +416,7 @@ namespace PKHeX.Core
             374, // Beldum
             436, // Bronzor
             440, // Happiny
-            
+
             // others not possible
             236, // Tyrogue (100% Male)
             120, // Staryu

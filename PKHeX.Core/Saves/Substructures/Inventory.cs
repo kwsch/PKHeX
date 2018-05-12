@@ -47,7 +47,7 @@ namespace PKHeX.Core
         private readonly int Offset;
         private readonly int PouchDataSize;
         private InventoryItem[] OriginalItems;
-        
+
         public InventoryPouch(InventoryType type, ushort[] legal, int maxcount, int offset, int size = -1)
         {
             Type = type;
@@ -260,8 +260,8 @@ namespace PKHeX.Core
         public void SortByName(string[] names, bool reverse = false)
         {
             var list = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderBy(item => item.Count == 0);
-            list = reverse 
-                ? list.ThenByDescending(item => names[item.Index]) 
+            list = reverse
+                ? list.ThenByDescending(item => names[item.Index])
                 : list.ThenBy(item => names[item.Index]);
             Items = list.Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
         }

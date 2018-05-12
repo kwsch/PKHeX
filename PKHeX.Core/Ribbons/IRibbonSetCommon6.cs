@@ -2,7 +2,7 @@
 {
     /// <summary> Common Ribbons introduced in Generation 6 </summary>
     internal interface IRibbonSetCommon6
-    {                               
+    {
         bool RibbonChampionKalos { get; set; }
         bool RibbonChampionG6Hoenn { get; set; }
         bool RibbonBestFriends { get; set; }

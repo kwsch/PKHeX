@@ -20,7 +20,7 @@ namespace PKHeX.Core
         public static void SetValue(object obj, string propertyName, object value)
         {
             PropertyInfo pi = obj.GetType().GetTypeInfo().GetDeclaredProperty(propertyName);
-            pi.SetValue(obj, ConvertValue(value, pi.PropertyType), null);            
+            pi.SetValue(obj, ConvertValue(value, pi.PropertyType), null);
         }
 
         public static object GetValue(object obj, string propertyName)

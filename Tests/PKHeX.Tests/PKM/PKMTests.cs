@@ -67,7 +67,7 @@ namespace PKHeX.Tests
             pk.Met_Day = 0;
             pk.Met_Month = 0;
             pk.Met_Year = 0;
-            Assert.IsFalse(pk.MetDate.HasValue, "MetDate should be null when date components are all 0.");           
+            Assert.IsFalse(pk.MetDate.HasValue, "MetDate should be null when date components are all 0.");
 
             // Ensure MetDate gives correct date
             pk.Met_Day = 10;

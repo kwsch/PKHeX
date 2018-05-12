@@ -550,7 +550,7 @@ namespace PKHeX.Core
         {
             if (chr == 0x27) // apostrophe, used by Farfetch'd 
                 return 0x1B3; // here rather than in static constructor to prevent byte[]->str outputting ’ instead of '
-            return G4CharId.TryGetValue(chr, out int index) 
+            return G4CharId.TryGetValue(chr, out int index)
                 ? G4Values[index] : ushort.MaxValue;
         }
 

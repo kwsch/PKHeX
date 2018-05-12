@@ -52,7 +52,7 @@ namespace PKHeX.Core
         public string GetNickname(int language) => Nicknames?.Length > language ? Nicknames[language] : null;
         public string GetOT(int language) => TrainerNames?.Length > language ? TrainerNames[language] : null;
 
-        public static readonly int[] DefaultMetLocation = 
+        public static readonly int[] DefaultMetLocation =
         {
             0, 126, 254, 2001, 30002, 30001, 30001,
         };

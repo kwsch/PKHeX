@@ -126,12 +126,12 @@ namespace PKHeX.WinForms
                     CL[i].Checked = langbools[i, pk - 1];
                 GB_Language.Enabled = true;
             }
-            
+
             int gt = SAV.Personal[pk].Gender;
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(gt == 0 || (gt == 255)); // Not Male-Only and Not Genderless
-            
+
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
             string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             if (forms.Length < 1)
                 return;
-            
+
             for (int i = 0; i < forms.Length; i++) // Seen
                 CLB_FormsSeen.Items.Add(forms[i], formbools[f + i + 0*FormLen*8]);
             for (int i = 0; i < forms.Length; i++) // Seen Shiny
@@ -155,7 +155,7 @@ namespace PKHeX.WinForms
         }
         private void SetEntry()
         {
-            if (species < 0) 
+            if (species < 0)
                 return;
 
             for (int i = 0; i < 9; i++)
@@ -203,7 +203,7 @@ namespace PKHeX.WinForms
             for (int b = 0; b < 493; b++)
                 for (int i = 0; i < 7; i++) // 7 Languages
                     langbools[i, b] = LangRegion[7 * b + i];
-            
+
             byte[] formdata = new byte[FormLen*4];
             int FormDex = SAV.PokeDex + 0x8 + brSize*9;
             Array.Copy(SAV.Data, FormDex, formdata, 0, formdata.Length);

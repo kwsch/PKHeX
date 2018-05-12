@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
             CB_OTMemory.SelectedValue = pkm.OT_Memory;
             CB_OTVar.SelectedValue = pkm.OT_TextVar;
             CB_OTFeel.SelectedIndex = pkm.OT_Feeling;
-            
+
             CB_Handler.Items.Clear();
             CB_Handler.Items.AddRange(new object[] {$"{pkm.OT_Name} ({args[2]})"}); // OTNAME : OT
 
@@ -92,10 +92,10 @@ namespace PKHeX.WinForms
 
             tabControl1.SelectedIndex = CB_Handler.SelectedIndex = pkm.CurrentHandler;
 
-            GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled = 
-            BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled = 
+            GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled =
+            BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled =
             L_Fullness.Enabled = L_Enjoyment.Enabled = !pkm.IsEgg;
-            
+
             if (!pkm.IsEgg)
             {
                 bool enable;
@@ -116,8 +116,8 @@ namespace PKHeX.WinForms
                     GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}"; // Memories with : HTNAME
                     if (pkm.HT_Name == "")
                     {
-                        CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled = 
-                        CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled = 
+                        CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled =
+                        CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled =
                         GB_M_CT.Enabled = false;
                         GB_M_CT.Text = $"{args[1]} {args[2]} - {args[0]}"; // Never Left : OT : Disabled
                     }
@@ -246,7 +246,7 @@ namespace PKHeX.WinForms
                 {
                     #region Items
                     int[] items_allowed =
-                    { 
+                    {
                         1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,
                         50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,
                         100,101,102,103,104,105,106,107,108,109,110,111,112,116,117,118,119,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,

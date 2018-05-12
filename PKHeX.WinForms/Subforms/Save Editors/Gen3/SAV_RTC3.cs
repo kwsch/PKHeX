@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveData();
-            
+
             SAV.ClockInitial = ClockInitial;
             SAV.ClockElapsed = ClockElapsed;
 

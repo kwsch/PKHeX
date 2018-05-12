@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
             set
             {
                 _error = value;
-                UpdateExceptionDetailsMessage();             
+                UpdateExceptionDetailsMessage();
             }
         }
         private Exception _error;
@@ -111,6 +111,6 @@ namespace PKHeX.WinForms
             DialogResult = DialogResult.Abort;
             Close();
         }
-        
+
     }
 }

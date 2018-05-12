@@ -103,7 +103,7 @@ namespace PKHeX.Core
             {
                 if (Korean)
                     return StringConverter.GetString2KOR(otname, 0, otname.Length);
-                return StringConverter.GetString1(otname, 0, otname.Length, Japanese); 
+                return StringConverter.GetString1(otname, 0, otname.Length, Japanese);
             }
             set
             {
@@ -233,7 +233,7 @@ namespace PKHeX.Core
         public override int Met_Level { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (CaughtData & 0xC0FF) | ((value & 0x3F) << 8); }
         public override int OT_Gender { get => (CaughtData >> 7) & 1; set => CaughtData = (CaughtData & 0xFF7F) | ((value & 1) << 7); }
         public override int Met_Location { get => CaughtData & 0x7F; set => CaughtData = (CaughtData & 0xFF80) | (value & 0x7F); }
-        
+
         public override int Stat_Level
         {
             get => Data[0x1F];
@@ -301,7 +301,7 @@ namespace PKHeX.Core
             }
             set { }
         }
-        
+
         public override bool HasOriginalMetLocation => CaughtData != 0;
 
         #region Future, Unused Attributes
@@ -466,7 +466,7 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = Korean ? Nickname 
+                pk7.Nickname = Korean ? Nickname
                     : StringConverter.GetG1ConvertedString(nick, Japanese);
             }
             pk7.OT_Name = Korean ? OT_Name

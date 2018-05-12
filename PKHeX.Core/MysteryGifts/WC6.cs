@@ -23,7 +23,7 @@ namespace PKHeX.Core
                 if (Data[0x205] != 0) // Valid data
                     Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
                 Data = wc6;
-                
+
                 DateTime now = DateTime.Now;
                 Year = (uint)now.Year;
                 Month = (uint)now.Month;
@@ -32,7 +32,7 @@ namespace PKHeX.Core
             if (Year < 2000)
                 Data = new byte[Data.Length]; // Invalidate
         }
-        
+
         // General Card Properties
         public override int CardID {
             get => BitConverter.ToUInt16(Data, 0);
@@ -100,7 +100,7 @@ namespace PKHeX.Core
         public override int Quantity {
             get => BitConverter.ToUInt16(Data, 0x70);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
-        
+
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
         public override bool IsShiny => PIDType == Shiny.Always;
@@ -319,7 +319,7 @@ namespace PKHeX.Core
                 HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
-                
+
                 EXP = PKX.GetEXP(Level, Species),
 
                 // Ribbons
@@ -340,7 +340,7 @@ namespace PKHeX.Core
                 RibbonChampionRegional = RibbonChampionRegional,
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
-                
+
                 OT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,

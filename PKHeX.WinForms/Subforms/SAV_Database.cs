@@ -67,7 +67,7 @@ namespace PKHeX.WinForms
                         ClickSet(sender, e);
                 };
             }
-            
+
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
             L_Viewed.Text = string.Empty; // invis for now
@@ -137,7 +137,7 @@ namespace PKHeX.WinForms
                 System.Media.SystemSounds.Exclamation.Play();
                 return;
             }
-            
+
             PKME_Tabs.PopulateFields(Results[index], false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
@@ -273,9 +273,9 @@ namespace PKHeX.WinForms
 
             var DS_Version = new List<ComboItem>(GameInfo.VersionDataSource);
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
-            
+
             string[] hptypes = new string[GameInfo.Strings.types.Length - 2]; Array.Copy(GameInfo.Strings.types, 1, hptypes, 0, hptypes.Length);
-            var DS_Type = Util.GetCBList(hptypes, null); 
+            var DS_Type = Util.GetCBList(hptypes, null);
             DS_Type.Insert(0, Any); CB_HPType.DataSource = DS_Type;
 
             // Set the Move ComboBoxes too..

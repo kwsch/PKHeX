@@ -290,7 +290,7 @@ namespace PKHeX.Core
                     return r;
             }
             return r;
-        } 
+        }
         internal static List<int>[] GetValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int>[] Moves = new List<int>[evoChains.Length];
@@ -471,7 +471,7 @@ namespace PKHeX.Core
         }
         internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
         {
-            // Return moves that the pokemon could learn after evolving 
+            // Return moves that the pokemon could learn after evolving
             var moves = new List<int>();
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Length != 0)
@@ -521,7 +521,7 @@ namespace PKHeX.Core
         internal static IEnumerable<GameVersion> GetGen1Versions(LegalInfo Info)
         {
             if (Info.EncounterMatch.Species == 133 && Info.Game == GameVersion.Stadium)
-            { 
+            {
                 // Stadium Eevee; check for RB and yellow initial moves
                 yield return GameVersion.RB;
                 yield return GameVersion.YW;
@@ -529,7 +529,7 @@ namespace PKHeX.Core
             else if (Info.Game == GameVersion.YW)
                 yield return GameVersion.YW;
 
-            // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in RB and Y, 
+            // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in RB and Y,
             // it is sufficient to check just RB's case
             yield return GameVersion.RB;
         }
@@ -645,7 +645,7 @@ namespace PKHeX.Core
         private static bool IsMoveCountRequired3(int species, int level, int[] moves)
         {
             // Species that evolve and learn the 4th move as evolved species at a greather level than base species
-            // The 4th move is included in the level up table set as a preevolution move, 
+            // The 4th move is included in the level up table set as a preevolution move,
             // it should be removed from the used slots count if is not the learn move
             switch (species)
             {
@@ -679,7 +679,7 @@ namespace PKHeX.Core
                         usedslots--;
                     break;
                 case 104: case 105: // Cubone & Marowak
-                    if (!moves.Contains(39)) // Initial Yellow Tail Whip 
+                    if (!moves.Contains(39)) // Initial Yellow Tail Whip
                         usedslots--;
                     if (!moves.Contains(125)) // Initial Yellow Bone Club
                         usedslots--;
@@ -687,7 +687,7 @@ namespace PKHeX.Core
                         usedslots--;
                     break;
                 case 113:
-                    if (!moves.Contains(39)) // Yellow Initial Tail Whip 
+                    if (!moves.Contains(39)) // Yellow Initial Tail Whip
                         usedslots--;
                     if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
                         usedslots--;
@@ -703,7 +703,7 @@ namespace PKHeX.Core
         private static int GetRequiredMoveCountSpecial(PKM pk, int[] moves, List<int>[] learn)
         {
             // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
-            // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves, 
+            // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves,
             // every other move could be avoided switching game or evolving
             var mandatory = GetRequiredMoveCountLevel(pk);
             switch (pk.Species)
@@ -897,7 +897,7 @@ namespace PKHeX.Core
                 return SlotsC;
 
             if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                // Format 2 without met location but pokemon could not be tradeback to gen 1, 
+                // Format 2 without met location but pokemon could not be tradeback to gen 1,
                 // encounter should be from gold or silver
                 return SlotsGS;
 
@@ -1142,7 +1142,7 @@ namespace PKHeX.Core
             // If has original met location the minimum evolution level is one level after met level
             // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
             // VC pokemon: minimum level is one level after transfer to generation 7
-            // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5 
+            // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
             if (pkm.HasOriginalMetLocation || pkm.Format == 4 && pkm.Gen3 || pkm.VC || pkm.Species == 700)
                 LearnLevel = Math.Max(pkm.Met_Level + 1, LearnLevel);
 
@@ -1174,7 +1174,7 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
-        
+
         internal static bool GetCanInheritMoves(PKM pkm, IEncounterable e)
         {
             if (FixedGenderFromBiGender.Contains(e.Species)) // Nincada -> Shedinja loses gender causing 'false', edge case
@@ -1306,7 +1306,7 @@ namespace PKHeX.Core
 
             if (!pkm.HasOriginalMetLocation)
                 return pkm.Met_Level;
-            
+
             return pkm.CurrentLevel;
         }
         internal static int GetMinLevelEncounter(PKM pkm)
@@ -1330,7 +1330,7 @@ namespace PKHeX.Core
 
             if (pkm.Format <= 2)
                 return 2;
-            
+
             if (!pkm.HasOriginalMetLocation && generation != pkm.GenNumber)
                 return pkm.Met_Level;
 
@@ -1420,10 +1420,10 @@ namespace PKHeX.Core
                 if (gen == 2 && pkm.VC1)
                     maxspeciesgen = MaxSpeciesID_1;
 
-                // Remove future gen evolutions after a few special considerations, 
+                // Remove future gen evolutions after a few special considerations,
                 // it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
                 while (CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Species > maxspeciesgen)
-                {   
+                {
                     // Eevee requires to level one time to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level bellow current
                     if (CompleteEvoChain[0].Species == 700 && gen == 5)
                         lvl--;
@@ -1490,7 +1490,7 @@ namespace PKHeX.Core
                 {
                     if (first.MinLevel == 2)
                     {
-                        // Example Raichu in gen 2 or later, 
+                        // Example Raichu in gen 2 or later,
                         // because Pichu requires level up Minimum level of Raichu would be 2
                         // but after removing Pichu because the origin species is Pikachu, Raichu min level should be 1
                         first.MinLevel = 1;
@@ -1549,7 +1549,7 @@ namespace PKHeX.Core
                 return new List<DexLevel>
                 {
                     new DexLevel { Species = 292, Level = lvl, MinLevel = 20 },
-                    new DexLevel { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 } 
+                    new DexLevel { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 }
                     // Shedinja spawns after evolving, which is after level up moves were prompted. Not for future generations.
                 };
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
@@ -1580,7 +1580,7 @@ namespace PKHeX.Core
 
             // Special Type Tutors Availability
             bool moveTutor = Tutor || MoveReminder; // Usually true, except when called for move suggestions (no tutored moves)
-            
+
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
@@ -1872,7 +1872,7 @@ namespace PKHeX.Core
 
                             if (LVL)
                                 r.AddRange(LevelUpSM[index].GetMoves(lvl));
-                            if (moveTutor) 
+                            if (moveTutor)
                                 r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine)
                             {
@@ -2055,7 +2055,7 @@ namespace PKHeX.Core
 
                                 PersonalInfo pi_xy = PersonalTable.XY[index];
                                 moves.AddRange(TMHM_XY.Where((t, m) => pi_xy.TMHM[m]));
-                                
+
                                 if (Version == GameVersion.Any) // Fall Through
                                     goto case GameVersion.ORAS;
                                 break;
@@ -2174,7 +2174,7 @@ namespace PKHeX.Core
             if (IsYellow)
                 return false;
             // Yellow only moves in Red/Blue game, must be Allakazham
-            if (pk1.Moves.Contains(134)) // Kinesis, yellow only move 
+            if (pk1.Moves.Contains(134)) // Kinesis, yellow only move
                 return true;
             if (pk1.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Obtaining Disable below level 20 implies a yellow only move
                 return true;

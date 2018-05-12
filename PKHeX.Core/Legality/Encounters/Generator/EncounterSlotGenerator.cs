@@ -68,20 +68,20 @@ namespace PKHeX.Core
         }
         public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
         {
-            return slot.IsDeferredWurmple(currentSpecies, pkm) 
+            return slot.IsDeferredWurmple(currentSpecies, pkm)
                 || slot.IsDeferredSafari(IsSafariBall);
         }
         public static bool IsDeferred4(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall)
         {
-            return slot.IsDeferredWurmple(currentSpecies, pkm) 
-                || slot.IsDeferredSafari(IsSafariBall) 
+            return slot.IsDeferredWurmple(currentSpecies, pkm)
+                || slot.IsDeferredSafari(IsSafariBall)
                 || slot.IsDeferredSport(IsSportBall);
         }
         private static bool IsDeferred(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall, bool IsHidden)
         {
-            return slot.IsDeferredWurmple(currentSpecies, pkm) 
+            return slot.IsDeferredWurmple(currentSpecies, pkm)
                 || slot.IsDeferredHiddenAbility(IsHidden)
-                || slot.IsDeferredSafari(IsSafariBall) 
+                || slot.IsDeferredSafari(IsSafariBall)
                 || slot.IsDeferredSport(IsSportBall);
         }
         private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !IsWurmpleEvoValid(pkm);

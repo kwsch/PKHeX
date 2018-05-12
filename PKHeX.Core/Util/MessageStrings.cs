@@ -54,7 +54,7 @@ namespace PKHeX.Core
         public static string MsgFileLoadXorpad1 { get; set; } = "Press Yes to load the sav at 0x3000.";
         public static string MsgFileLoadXorpad2 { get; set; } = "Press No to load the sav at 0x82000.";
         public static string MsgFileLoadIncompatible { get; set; } = "Binary is not compatible with save file.";
-        
+
         public static string MsgFileLoadSaveFail { get; set; } = "The data file is not a valid save file.";
         public static string MsgFileLoadSaveDetected { get; set; } = "Save File Detected.";
         public static string MsgFileLoadSaveLoadFail { get; set; } = "Invalid save file loaded. Aborting.";

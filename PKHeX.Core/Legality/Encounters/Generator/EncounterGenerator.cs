@@ -60,7 +60,7 @@ namespace PKHeX.Core
             foreach (var z in GenerateRawEncounters3(pkm, info))
             {
                 if (z is EncounterSlot w && pkm.Version == 15)
-                    info.PIDIV = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault() ?? info.PIDIV; 
+                    info.PIDIV = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault() ?? info.PIDIV;
                 if (info.PIDIV.Type.IsCompatible3(z, pkm))
                     yield return z;
                 else
@@ -292,7 +292,7 @@ namespace PKHeX.Core
                 else
                     yield return z;
             }
-            
+
             int species = pkm.Species;
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
@@ -349,7 +349,7 @@ namespace PKHeX.Core
                 else
                     yield return z;
             }
-            
+
             int species = pkm.Species;
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();

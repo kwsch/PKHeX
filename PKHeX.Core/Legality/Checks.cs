@@ -115,7 +115,7 @@ namespace PKHeX.Core
                 case EncounterStatic s:
                     if (!s.Shiny.IsValid(pkm))
                         AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
-                    
+
                     // gen5 correlation
                     if (Info.Generation != 5)
                         break;
@@ -196,7 +196,7 @@ namespace PKHeX.Core
             }
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-            if (pkm.Format == 4 && pkm.Gen4 && 
+            if (pkm.Format == 4 && pkm.Gen4 &&
                 (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean))
             {
                 bool kor = pkm.Language == (int) LanguageID.Korean;
@@ -447,7 +447,7 @@ namespace PKHeX.Core
         {
             if (lang == (int)LanguageID.French)
                 return (int)LanguageID.English;
-            
+
             // All have English, regardless of origin version.
             // Detect which language they originated from... roughly.
             var table = Encounters4.TradeHGSS;
@@ -537,7 +537,7 @@ namespace PKHeX.Core
             string nick = validOT[index];
             string OT = validOT[validOT.Length / 2 + index];
 
-            if (nick != pkm.Nickname 
+            if (nick != pkm.Nickname
                 && !(nick == "Quacklin’" && pkm.Nickname == "Quacklin'") // apostrophe farfetch'd edge case
                 && ((EncounterTrade)EncounterMatch).IsNicknamed) // trades that are not nicknamed (but are present in a table with others being named)
                 AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
@@ -566,7 +566,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Format < 5)
             {
-                // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level. 
+                // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
                 if (pkm.Format < 3) // can abuse daycare for EV training without EXP gain
                     return;
 
@@ -986,7 +986,7 @@ namespace PKHeX.Core
         {
             if (pkm.Format < 6)
                 return;
-            
+
             VerifyMedalsRegular();
             VerifyMedalsEvent();
         }
@@ -1116,7 +1116,7 @@ namespace PKHeX.Core
                         return;
                 }
                 else // Check Ability Mismatches
-                { 
+                {
                     int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
                                             (EncounterMatch as EncounterTrade)?.Ability ??
                                             (EncounterMatch as EncounterLink)?.Ability;
@@ -1220,9 +1220,9 @@ namespace PKHeX.Core
                     // that means it have actually evolved in gen 4-5, ability must match PID
                     return false;
             }
-            // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games, 
+            // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games,
             // ability do not need to match PID, but only generation 3 ability is allowed
-            if (pkm.Ability != abilities_g3[0]) 
+            if (pkm.Ability != abilities_g3[0])
                 // Not evolved in gen4-5 but do not have generation 3 only ability
                 AddLine(Severity.Invalid, V373, CheckIdentifier.Ability);
             return null;
@@ -1625,13 +1625,13 @@ namespace PKHeX.Core
                 if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
                     return new CheckResult(Severity.Invalid, V130, CheckIdentifier.History);
             }
-            
+
             if (pkm.Format >= 6 && Info.Generation != pkm.Format && pkm.CurrentHandler != 1)
                 return new CheckResult(Severity.Invalid, V124, CheckIdentifier.History);
 
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, string.Format(V131, pkm.HT_Gender), CheckIdentifier.History);
-            
+
             if (EncounterMatch is WC6 wc6 && wc6.OT_Name.Length > 0)
             {
                 if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
@@ -1657,7 +1657,7 @@ namespace PKHeX.Core
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
-            
+
             // Geolocations
             var geo = new[]
             {
@@ -1949,7 +1949,7 @@ namespace PKHeX.Core
 
             if (pkm.Format >= 7)
             {
-                /* 
+                /*
                 *  Bank Transfer adds in the Link Trade Memory.
                 *  Trading 7<->7 between games (not Bank) clears this data.
                 */
@@ -1963,7 +1963,7 @@ namespace PKHeX.Core
                 // Transfer 6->7 & withdraw to same HT => keeps past gen memory
                 // Don't require link trade memory for these past gen cases
                 int gen = Info.Generation;
-                if (3 <= gen && gen < 7 && pkm.CurrentHandler == 1) 
+                if (3 <= gen && gen < 7 && pkm.CurrentHandler == 1)
                     return;
 
                 if (pkm.HT_Memory != 4)
@@ -2007,8 +2007,8 @@ namespace PKHeX.Core
             int consoleRegion = pkm.ConsoleRegion;
             if (consoleRegion >= 7)
                 return new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography);
-            return IsConsoleRegionCountryValid(consoleRegion, pkm.Country) 
-                ? new CheckResult(Severity.Valid, V303, CheckIdentifier.Geography) 
+            return IsConsoleRegionCountryValid(consoleRegion, pkm.Country)
+                ? new CheckResult(Severity.Valid, V303, CheckIdentifier.Geography)
                 : new CheckResult(Severity.Invalid, V302, CheckIdentifier.Geography);
         }
         private static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
@@ -2228,7 +2228,7 @@ namespace PKHeX.Core
 
             if (pkm.Format >= 7 && Info.Generation < 7 && pkm.AltForm != 0)
             {
-                if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species) 
+                if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species)
                     || Legal.AlolanVariantEvolutions12.Contains((EncounterOriginalGB ?? EncounterMatch).Species))
                 { AddLine(Severity.Invalid, V317, CheckIdentifier.Form); return; }
             }

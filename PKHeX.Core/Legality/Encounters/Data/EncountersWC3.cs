@@ -80,7 +80,7 @@ namespace PKHeX.Core
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_RS =
-        {   
+        {
             // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
             new WC3 { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{298} }, // Pichu with Teeter Dance
             new WC3 { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Pichu with Wish
@@ -92,7 +92,7 @@ namespace PKHeX.Core
             new WC3 { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Absol with Wish
             new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{334} }, // Bagon with Iron Defense
             new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Bagon with Wish
-            
+
             // Negai Boshi Jirachi
             new WC3 { Species = 385, Level = 05, TID = 30719, OT_Gender = 0, OT_Name = "ネガイボシ", Method = PIDType.BACD_R, Language = (int)LanguageID.Japanese, Shiny = Shiny.Never },
 
@@ -100,7 +100,7 @@ namespace PKHeX.Core
             // PCJP - (December 29, 2003 to March 31, 2004)
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.Japanese, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1, Shiny = Shiny.Always },
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.Japanese, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", OT_Gender = 0, Shiny = Shiny.Always },
-            
+
             // EBGames/GameStop (March 1, 2004 to April 22, 2007), also via multi-game discs
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.English, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", OT_Gender = 1 },
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.English, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", OT_Gender = 0 },
@@ -150,7 +150,7 @@ namespace PKHeX.Core
             new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = Shiny.Never }, // Ho-Oh
             new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = Shiny.Never }, // Latias
             new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = Shiny.Never }, // Latios
-            
+
             // German
             new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = Shiny.Never }, // Charizard
             new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = Shiny.Never }, // Pikachu
@@ -202,7 +202,7 @@ namespace PKHeX.Core
             new WC3 { Species = 359, Level = 70, Version = (int)GameVersion.R, Moves = new[] {104,163,248,195}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = Shiny.Never }, // Absol
             new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 191, Shiny = Shiny.Never }, // Latias
             new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 191, Shiny = Shiny.Never }, // Latios
-            
+
             // Journey Across America
             new WC3 { Species = 001, Level = 70, Version = (int)GameVersion.R, Moves = new[] {230,074,076,235}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = Shiny.Never }, // Bulbasaur
             new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = Shiny.Never }, // Charizard
@@ -234,7 +234,7 @@ namespace PKHeX.Core
             new WC3 { Species = 263, IsEgg = true, Level = 05, Moves = new[]{245}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Zigzagoon Egg with Extreme Speed
             new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{006}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Skitty Egg with Pay Day
             new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{057}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Pichu Egg with Surf
- 
+
             // PokePark Eggs - DS Download Play
             new WC3 { Species = 054, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{300}, Method = PIDType.BACD_R }, // Psyduck with Mud Sport
             new WC3 { Species = 172, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{266}, Method = PIDType.BACD_R }, // Pichu with Follow me

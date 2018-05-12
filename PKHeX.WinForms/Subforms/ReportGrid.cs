@@ -227,7 +227,7 @@ namespace PKHeX.WinForms
 
             File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         }
-        
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             bool cp = keyData == (Keys.Control | Keys.C) && ActiveControl is DataGridView;

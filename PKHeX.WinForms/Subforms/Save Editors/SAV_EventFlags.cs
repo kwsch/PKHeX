@@ -365,13 +365,13 @@ namespace PKHeX.WinForms
                 c_CustomFlag.Checked = flags[flagnum];
             editing = false;
         }
-        
+
         private void ChangeCustomConst(object sender, EventArgs e)
         {
             if (editing)
                 return;
             editing = true;
-            
+
             Constants[CB_Stats.SelectedIndex] = (ushort)(Util.ToUInt32(((MaskedTextBox)sender).Text) & 0xFFFF);
             MaskedTextBox m = TLP_Flags.Controls[constTag + CB_Stats.SelectedIndex.ToString("0000")] as MaskedTextBox;
             if (m != null)

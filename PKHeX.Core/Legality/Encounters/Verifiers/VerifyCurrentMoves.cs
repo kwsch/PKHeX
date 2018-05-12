@@ -92,8 +92,8 @@ namespace PKHeX.Core
             var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, BaseLevel);
 
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
-            var NonTradebackLvlMoves = TradebackPreevo 
-                ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray() 
+            var NonTradebackLvlMoves = TradebackPreevo
+                ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : new int[0];
 
             var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
@@ -142,7 +142,7 @@ namespace PKHeX.Core
             }
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
-            if (info.Generation <= 2 && 
+            if (info.Generation <= 2 &&
                 info.EncounterMatch is IGeneration g && (g.Generation == 1 || g.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm))) // fixed encounter moves without relearning
                 return ParseMovesGenGB(pkm, Moves, info);
 

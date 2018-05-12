@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
                 SAV.SetPokebeanCount(i, 0);
             Setup();
         }
-    
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             for (int i = 0; i <= MaxBeanID; i++)

@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
-        public override string[] PKMExtensions => PKM.Extensions.Where(f => 
+        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
             if (Korean)
@@ -42,7 +42,7 @@ namespace PKHeX.Core
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
-            
+
             Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
 
             Offsets = new SAV2Offsets(this);
@@ -52,7 +52,7 @@ namespace PKHeX.Core
             LegalKeyItems = Version == GameVersion.C ? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
             LegalTMHMs = Legal.Pouch_TMHM_GSC;
             HeldItems = Legal.HeldItems_GSC;
-            
+
             // Stash boxes after the save file's end.
             byte[] TempBox = new byte[SIZE_STOREDBOX];
             for (int i = 0; i < BoxCount; i++)
@@ -238,7 +238,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
-        
+
         // Checksums
         private ushort GetChecksum()
         {

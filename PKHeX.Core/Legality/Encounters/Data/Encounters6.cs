@@ -218,7 +218,7 @@ namespace PKHeX.Core
 
             new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = Shiny.Never }, // Lucario
             new EncounterStatic { Species = 131, Level = 30, Location = 62, Ability = 1, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
-            
+
             new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = Shiny.Never, }, // Snorlax
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
             new EncounterStatic { Species = 569, Level = 36, Location = 142 }, // Garbodor
@@ -236,11 +236,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 354, Level = 48, Location = 98 }, // Banette
             new EncounterStatic { Species = 354, Level = 49, Location = 98 }, // Banette
             new EncounterStatic { Species = 354, Level = 50, Location = 98 }, // Banette
-            
+
             new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = Shiny.Never, IV3 = true }, // Xerneas
             new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = Shiny.Never, IV3 = true }, // Yveltal
             new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zygarde
-            
+
             new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Mewtwo
 
             new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Articuno
@@ -252,7 +252,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
             new EncounterStatic { Gift = true, Species = 255, Level = 5, Location = 204, }, // Torchic
             new EncounterStatic { Gift = true, Species = 258, Level = 5, Location = 204, }, // Mudkip
-            
+
             new EncounterStatic { Gift = true, Species = 152, Level = 5, Location = 204, }, // Chikorita
             new EncounterStatic { Gift = true, Species = 155, Level = 5, Location = 204, }, // Cyndaquil
             new EncounterStatic { Gift = true, Species = 158, Level = 5, Location = 204, }, // Totodile
@@ -264,7 +264,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 495, Level = 5, Location = 204, }, // Snivy
             new EncounterStatic { Gift = true, Species = 498, Level = 5, Location = 204, }, // Tepig
             new EncounterStatic { Gift = true, Species = 501, Level = 5, Location = 204, }, // Oshawott
-            
+
             // Fossil
             new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 190, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 190, }, // Kabuto
@@ -285,7 +285,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 351, Level = 30, Location = 240, Gender = 1, Ability = 1, Nature = Nature.Lax, IVs = new[] {-1, -1, -1, -1, 31, -1}, Contest = new[] {0,100,0,0,0,0}, Gift = true }, // Castform
             new EncounterStatic { Species = 319, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
             new EncounterStatic { Species = 323, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
-            
+
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Ability = 1, Gift = true, IV3 = true }, // Latias
             new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Ability = 1, Gift = true, IV3 = true }, // Latios
 
@@ -298,7 +298,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 378, Level = 40, Location = 306, IV3 = true }, // Regice
             new EncounterStatic { Species = 379, Level = 40, Location = 308, IV3 = true }, // Registeel
             new EncounterStatic { Species = 486, Level = 50, Location = 306, IV3 = true }, // Regigigas
-            
+
             new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS, IV3 = true }, // Lugia
             new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR, IV3 = true }, // Ho-oh
 
@@ -316,7 +316,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 488, Level = 50, Location = 344, IV3 = true }, // Cresselia
             new EncounterStatic { Species = 645, Level = 50, Location = 348, IV3 = true }, // Landorus
             new EncounterStatic { Species = 646, Level = 50, Location = 342, IV3 = true }, // Kyurem
-            
+
             new EncounterStatic { Species = 243, Level = 50, Location = 334, IV3 = true }, // Raikou
             new EncounterStatic { Species = 244, Level = 50, Location = 334, IV3 = true }, // Entei
             new EncounterStatic { Species = 245, Level = 50, Location = 334, IV3 = true }, // Suicune
@@ -328,7 +328,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 638, Level = 50, Location = 336, IV3 = true }, // Cobalion
             new EncounterStatic { Species = 639, Level = 50, Location = 336, IV3 = true }, // Terrakion
             new EncounterStatic { Species = 640, Level = 50, Location = 336, IV3 = true }, // Virizion
-            
+
             new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119
             new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120
             new EncounterStatic { Species = 352, Level = 40, Location = 176, Gender = 1, }, // Kecleon @ Lavaridge
@@ -336,10 +336,10 @@ namespace PKHeX.Core
 
             new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS, IV3 = true }, // Latios
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR, IV3 = true }, // Latias
-            
+
             new EncounterStatic { Species = 101, Level = 40, Location = 292, Version = GameVersion.AS }, // Electrode
             new EncounterStatic { Species = 101, Level = 40, Location = 314, Version = GameVersion.OR }, // Electrode
-            
+
             new EncounterStatic { Species = 100, Level = 20, Location = 302 }, // Voltorb @ Route 119
             new EncounterStatic { Species = 442, Level = 50, Location = 304 }, // Spiritomb @ Route 120
 

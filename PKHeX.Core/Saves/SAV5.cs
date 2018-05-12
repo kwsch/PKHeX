@@ -219,12 +219,12 @@ namespace PKHeX.Core
                 return "";
             return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + 0x28 * box + 4, 0x28));
         }
-        public override void SetBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            if (val.Length > 38)
+            if (value.Length > 38)
                 return;
-            val += '\uFFFF';
-            Encoding.Unicode.GetBytes(val.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
+            value += '\uFFFF';
+            Encoding.Unicode.GetBytes(value.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
             Edited = true;
         }
         protected override int GetBoxWallpaperOffset(int box)
@@ -257,7 +257,7 @@ namespace PKHeX.Core
             if (pk5.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
                 pkm.RefreshChecksum();
         }
-        
+
         // Mystery Gift
         public override MysteryGiftAlbum GiftAlbum
         {
@@ -303,7 +303,7 @@ namespace PKHeX.Core
         }
         protected override bool[] MysteryGiftReceivedFlags { get => null; set { } }
         protected override MysteryGift[] MysteryGiftCards { get => new MysteryGift[0]; set { } }
-        
+
         // Trainer Info
         public override string OT
         {

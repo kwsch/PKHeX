@@ -43,7 +43,7 @@ namespace PKHeX.WinForms
             editing = false;
             CenterToParent();
         }
-        
+
         private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
         private readonly Font pkxFont = FontUtil.GetPKXFont(12F);
         public string FinalString;
@@ -98,7 +98,7 @@ namespace PKHeX.WinForms
                 };
                 n.Value = Raw[i];
                 n.ValueChanged += UpdateNUD;
-                
+
 
                 FLP_Hex.Controls.Add(l);
                 FLP_Hex.Controls.Add(n);

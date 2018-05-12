@@ -273,7 +273,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys == Keys.Control) // triggered via hotkey
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?"))
                     return;
-                 
+
             Close();
         }
         private void MainMenuAbout(object sender, EventArgs e) => new About().ShowDialog();
@@ -283,7 +283,7 @@ namespace PKHeX.WinForms
         {
             if (this.FirstFormOfType<ReportGrid>() is ReportGrid z)
             { z.CenterToForm(this); z.BringToFront(); return; }
-            
+
             ReportGrid report = new ReportGrid();
             report.Show();
             report.PopulateData(C_SAV.SAV.BoxData);
@@ -305,7 +305,7 @@ namespace PKHeX.WinForms
             if (Directory.Exists(DatabasePath))
                 new SAV_Database(PKME_Tabs, C_SAV).Show();
             else
-                WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath)); 
+                WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath));
         }
         private void MainMenuMysteryDB(object sender, EventArgs e)
         {
@@ -553,7 +553,7 @@ namespace PKHeX.WinForms
             var pk = PKMConverter.GetPKMfromBytes(input, prefer: PKX.GetPKMFormatFromExtension(ext, C_SAV.SAV.Generation));
             if (pk == null)
                 return false;
-            
+
             PKME_Tabs.PopulateFields(pk);
             return true;
         }
@@ -797,7 +797,7 @@ namespace PKHeX.WinForms
                 Legal.AllowGen1Tradeback = true;
                 if (Legal.AllowGBCartEra && sav.Generation == 1)
                 {
-                    var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, 
+                    var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
                         MsgLegalityAllowTradebacks,
                         MsgLegalityAllowTradebacksYes + Environment.NewLine + MsgLegalityAllowTradebacksNo);
                     if (drTradeback == DialogResult.Cancel)
@@ -900,7 +900,7 @@ namespace PKHeX.WinForms
             Text = ProgramTitle;
         }
         private static void InitializeStrings()
-        {            
+        {
             string l = CurrentLanguage;
             GameInfo.Strings = GameInfo.GetStrings(l);
 

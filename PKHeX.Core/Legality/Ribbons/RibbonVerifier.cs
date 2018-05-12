@@ -45,7 +45,7 @@ namespace PKHeX.Core
                 .Concat(GetInvalidRibbonsEvent1(pkm, encounterContent))
                 .Concat(GetInvalidRibbonsEvent2(pkm, encounterContent));
         }
-        
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, int gen)
         {
             bool artist = false;

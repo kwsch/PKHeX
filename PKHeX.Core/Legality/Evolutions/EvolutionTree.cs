@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
                     break;
             }
-            
+
             // Create Lineages
             Lineage = new EvolutionLineage[Entries.Count];
             for (int i = 0; i < Entries.Count; i++)
@@ -356,7 +356,7 @@ namespace PKHeX.Core
                 int g4species = SpeciesConverter.GetG4Species(i);
                 if (g4species == 0)
                     continue;
-                
+
                 int offset = i * 40;
                 var m_list = new List<EvolutionMethod>();
                 for (int j = 0; j < 5; j++)
@@ -399,7 +399,7 @@ namespace PKHeX.Core
                 Species = species,
                 Level = arg,
             };
-            
+
             if (argEvos.Contains(evo.Method))
                 evo.Level = 0;
             return evo;
@@ -462,7 +462,7 @@ namespace PKHeX.Core
             var evos = new List<EvolutionSet>();
             for (int i = 0; i <= Legal.MaxSpeciesIndex_5_B2W2; i++)
             {
-                /* 42 bytes per species, 
+                /* 42 bytes per species,
                  * for every species 7 evolutions with 6 bytes per evolution*/
                 int offset = i * 42;
                 var m_list = new List<EvolutionMethod>();
@@ -575,7 +575,7 @@ namespace PKHeX.Core
                 case 6: // Trade while Holding
                 case 7: // Trade for Opposite Species
                     return !pkm.IsUntraded || skipChecks;
-                
+
                     // Special Levelup Cases
                 case 16:
                     if (pkm.CNT_Beauty < Argument)
@@ -718,7 +718,7 @@ namespace PKHeX.Core
             // Remove future gen preevolutions, no munchlax in a gen3 snorlax, no pichu in a gen1 vc raichu, etc
             var last = dl[dl.Count - 1];
             if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
-                dl.RemoveAt(dl.Count - 1); 
+                dl.RemoveAt(dl.Count - 1);
 
             // Last species is the wild/hatched species, the minimum is 1 because it has not evolved from previous species
             last = dl[dl.Count - 1];

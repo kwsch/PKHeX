@@ -122,7 +122,7 @@ namespace PKHeX.WinForms
             var pos = path.LastIndexOf(projname, StringComparison.Ordinal);
             var str = path.Substring(0, pos + projname.Length);
             var coreFolder = Path.Combine(str, "PKHeX.Core", "Resources", "text");
-            
+
             return coreFolder;
         }
     }

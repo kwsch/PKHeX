@@ -119,12 +119,12 @@ namespace PKHeX.WinForms
 
             if (pk < 650) { CHK_F1.Enabled = true; CHK_F1.Checked = foreignbools[pk - 1]; }
             else { CHK_F1.Enabled = CHK_F1.Checked = false; }
-            
+
             int gt = SAV.Personal[pk].Gender;
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(gt == 0 || (gt == 255)); // Not Male-Only and Not Genderless
-            
+
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
         }
         private void SetEntry()
         {
-            if (species < 0) 
+            if (species < 0)
                 return;
 
             specbools[0, species - 1] = CHK_P1.Checked;
@@ -216,7 +216,7 @@ namespace PKHeX.WinForms
             BitArray ForeignRegion = new BitArray(foreigndata);
             for (int b = 0; b < 0x52 * 8; b++)
                 foreignbools[b] = ForeignRegion[b];
-            
+
             byte[] formdata = new byte[FormLen*4];
             Array.Copy(SAV.Data, SAV.PokeDex + 0x368, formdata, 0, formdata.Length);
             formbools = new BitArray(formdata);

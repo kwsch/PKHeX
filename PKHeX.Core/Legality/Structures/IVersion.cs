@@ -17,7 +17,7 @@ namespace PKHeX.Core
             return ver.GetSingleVersion();
         }
 
-        internal static void SetVersion(this IEnumerable<IVersion> arr, GameVersion game) 
+        internal static void SetVersion(this IEnumerable<IVersion> arr, GameVersion game)
         {
             foreach (var z in arr)
                 if (z.Version <= 0)

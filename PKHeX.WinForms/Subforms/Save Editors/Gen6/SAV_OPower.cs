@@ -111,7 +111,7 @@ namespace PKHeX.WinForms
             byte[] _2 = { 01, 01, 00, 00, };
             byte[] _3 = { 01, 01, 01, 00, };
             byte[] _4 = { 01, 01, 01, 01, };
-            
+
             byte[] data = new byte[4];
             Array.Copy(SAV.Data, o, data, 0, l);
 
@@ -137,7 +137,7 @@ namespace PKHeX.WinForms
                 CB_10, CB_11, CB_12, CB_13, CB_14, CB_15, CB_16, CB_17,
             };
             CheckBox[] echk = { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
-            
+
             foreach (ComboBox t in cba)
                 t.SelectedIndex = t.Items.Count-1;
 

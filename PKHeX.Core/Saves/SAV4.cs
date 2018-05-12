@@ -80,7 +80,7 @@ namespace PKHeX.Core
                     return new[] {new[] {0x0000, 0xCF18, 0xCF2A}, new[] {0xCF2C, 0x1F0FC, 0x1F10E}};
                 case GameVersion.HGSS:
                     return new[] {new[] {0x0000, 0xF618, 0xF626}, new[] {0xF700, 0x21A00, 0x21A0E}};
-                    
+
                 default:
                     return null;
             }

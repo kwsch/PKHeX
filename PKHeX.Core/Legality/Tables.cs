@@ -295,7 +295,7 @@ namespace PKHeX.Core
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
         };
-        
+
         // List of species that evolve from a previous species having a move while leveling up
         internal static readonly int[] SpeciesEvolutionWithMove =
         {
@@ -435,14 +435,14 @@ namespace PKHeX.Core
         public static readonly int[] Games_3e = { 3 };
         public static readonly int[] Games_3r = { 4, 5 };
         public static readonly int[] Games_3s = { 15 };
-        
-        public static readonly int[] Languages_GB = 
+
+        public static readonly int[] Languages_GB =
         {
             (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish,
             (int) LanguageID.Italian,
             (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
         };
-        public static readonly int[] Languages_3 = 
+        public static readonly int[] Languages_3 =
         {
             (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish, (int) LanguageID.Italian,
         };

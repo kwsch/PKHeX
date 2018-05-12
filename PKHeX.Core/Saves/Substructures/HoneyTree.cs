@@ -18,7 +18,7 @@ namespace PKHeX.Core
         {
             Data = data;
         }
-        
+
         public static readonly int[][] TableDP =
         {
             new[] {000, 000, 000, 000, 000, 000},

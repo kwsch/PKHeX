@@ -16,8 +16,8 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static CheckResult VerifyEvolution(PKM pkm, LegalInfo info)
         {
-            return IsValidEvolution(pkm, info) 
-                ? new CheckResult(CheckIdentifier.Evolution) 
+            return IsValidEvolution(pkm, info)
+                ? new CheckResult(CheckIdentifier.Evolution)
                 : new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
         }
 

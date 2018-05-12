@@ -90,7 +90,7 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => BigEndian.ToUInt16(Data, 0x92); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x92); }
         public override int Stat_SPD { get => BigEndian.ToUInt16(Data, 0x94); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x94); }
         public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x96); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x96); }
-        
+
         // EVs
         public override int EV_HP {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0x98));
@@ -130,7 +130,7 @@ namespace PKHeX.Core
         public override int IV_SPE {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xAE));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xAE); }
-        
+
         public override int OT_Friendship { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }
 
         // Contest
@@ -145,7 +145,7 @@ namespace PKHeX.Core
         public override int RibbonCountG3Smart { get => Data[0xBA]; set => Data[0xBA] = (byte)value; }
         public override int RibbonCountG3Tough { get => Data[0xBB]; set => Data[0xBB] = (byte)value; }
         public override int CNT_Sheen { get => Data[0xBC]; set => Data[0xBC] = (byte)value; }
-        
+
         // Ribbons
         public override bool RibbonChampionG3Hoenn { get => Data[0xBD] == 1; set => Data[0xBD] = (byte)(value ? 1 : 0); }
         public override bool RibbonWinning { get => Data[0xBE] == 1; set => Data[0xBE] = (byte)(value ? 1 : 0); }

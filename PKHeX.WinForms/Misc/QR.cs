@@ -77,7 +77,7 @@ namespace PKHeX.WinForms
             try { Clipboard.SetImage(PB_QR.BackgroundImage); }
             catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
         }
-        
+
         // QR Utility
         private const string QR6PathBad = "null/#"; // prefix to prevent URL from loading
         private const string QR6Path = @"http://lunarcookies.github.io/b1s1.html#";

@@ -41,7 +41,7 @@ namespace PKHeX.Core
         public T Current => didPeek ? peek : Enumerator.Current;
 
         #endregion
-        
+
         public PeekEnumerator(IEnumerator<T> enumerator) => Enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
         public PeekEnumerator(IEnumerable<T> enumerable) => Enumerator = enumerable.GetEnumerator();
 

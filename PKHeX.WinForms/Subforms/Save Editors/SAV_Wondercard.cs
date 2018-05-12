@@ -19,7 +19,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (Origin = sav).Clone();
             mga = SAV.GiftAlbum;
-            
+
             switch (SAV.Generation)
             {
                 case 4:
@@ -45,7 +45,7 @@ namespace PKHeX.WinForms
 
             SetGiftBoxes();
             GetReceivedFlags();
-            
+
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
 
@@ -273,7 +273,7 @@ namespace PKHeX.WinForms
             }
             SetGiftBoxes();
         }
-        
+
         private void ClickQR(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
@@ -374,7 +374,7 @@ namespace PKHeX.WinForms
             int lastUnfilled = GetLastUnfilledByType(mg, mga);
             if (lastUnfilled > -1 && lastUnfilled < index && mga.Gifts[lastUnfilled].Type == mga.Gifts[index].Type)
                 index = lastUnfilled;
-            
+
             if (wc_slot == -1) // dropped
             {
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -383,7 +383,7 @@ namespace PKHeX.WinForms
                     return;
                 if (PCD.Size < (int)new FileInfo(files[0]).Length)
                 { WinFormsUtil.Alert(MsgFileUnsupported, files[0]); return; }
-                
+
                 byte[] data = File.ReadAllBytes(files[0]);
                 MysteryGift gift = MysteryGift.GetMysteryGift(data, new FileInfo(files[0]).Extension);
 
@@ -396,7 +396,7 @@ namespace PKHeX.WinForms
                 }
                 SetBackground(index, Properties.Resources.slotSet);
                 mga.Gifts[index] = gift.Clone();
-                
+
                 SetCardID(mga.Gifts[index].CardID);
                 ViewGiftData(mga.Gifts[index]);
             }

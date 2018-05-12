@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
 
             CB_TreeList.SelectedIndex = 0;
         }
-        
+
         private readonly int[] MunchlaxTrees;
         private readonly int[][] Table;
         private int entry;
@@ -74,7 +74,7 @@ namespace PKHeX.WinForms
         {
             if (Tree == null)
                 return;
-            
+
             Tree.Time = (uint)NUD_Time.Value;
             Tree.Shake = (int)NUD_Shake.Value;
             Tree.Group = (int)NUD_Group.Value;

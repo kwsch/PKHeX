@@ -64,7 +64,7 @@ namespace PKHeX.WinForms
         private static readonly string[] CustomProperties = {PROP_LEGAL};
 
         private int currentFormat = -1;
-        private static readonly Type[] types = 
+        private static readonly Type[] types =
         {
             typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
             typeof (PK3), typeof (XK3), typeof (CK3),
@@ -208,7 +208,7 @@ namespace PKHeX.WinForms
                 string maybe = sets.Length == 1 ? string.Empty : "~";
                 string result = string.Format(MsgBEModifySuccess, maybe, ctr, len);
                 if (err > 0)
-                    result += $"{Environment.NewLine}{maybe}" + string.Format(MsgBEModifyFailError, err); 
+                    result += $"{Environment.NewLine}{maybe}" + string.Format(MsgBEModifyFailError, err);
                 WinFormsUtil.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 SetupProgressBar(0);
@@ -253,7 +253,7 @@ namespace PKHeX.WinForms
                 PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = i));
             else { PB_Show.Value = i; }
         }
-        
+
         // Mass Editing
         private int ctr, len, err;
         private void ProcessSAV(IList<PKM> data, IList<StringInstruction> Filters, IList<StringInstruction> Instructions)
@@ -309,21 +309,21 @@ namespace PKHeX.WinForms
             ctr++;
             return true;
         }
-        
+
         private string GetPropertyType(string propertyName)
         {
             if (CustomProperties.Contains(propertyName))
                 return "Custom";
 
             int typeIndex = CB_Format.SelectedIndex;
-            
+
             if (typeIndex == properties.Length - 1) // All
                 return types[0].GetProperty(propertyName).PropertyType.Name;
 
             if (typeIndex == 0) // Any
                 foreach (var p in types.Select(t => t.GetProperty(propertyName)).Where(p => p != null))
                     return p.PropertyType.Name;
-            
+
             return types[typeIndex - 1].GetProperty(propertyName).PropertyType.Name;
         }
 
@@ -522,7 +522,7 @@ namespace PKHeX.WinForms
                 result = ModifyResult.Filtered;
                 return true;
             }
-            if (!pkm.HasPropertyAll(cmd.PropertyName) 
+            if (!pkm.HasPropertyAll(cmd.PropertyName)
                 || pkm.IsValueEqual(info.pkm, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
             {
                 result = ModifyResult.Filtered;

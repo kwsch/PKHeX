@@ -147,7 +147,7 @@ namespace PKHeX.WinForms
             if (!hasForms) return false;
             var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
-            { 
+            {
                 // empty
                 LB_Forms.Enabled = false;
                 return false;
@@ -232,7 +232,7 @@ namespace PKHeX.WinForms
         }
         private void SetEntry()
         {
-            if (species <= 0) 
+            if (species <= 0)
                 return;
 
             int pk = species - 1;
@@ -347,8 +347,8 @@ namespace PKHeX.WinForms
                 CHK_L4.Checked =
                 CHK_L5.Checked =
                 CHK_L6.Checked =
-                CHK_L7.Checked = 
-                CHK_L8.Checked = 
+                CHK_L7.Checked =
+                CHK_L8.Checked =
                 CHK_L9.Checked = ModifierKeys != Keys.Control;
             }
             if (CHK_P1.Enabled)

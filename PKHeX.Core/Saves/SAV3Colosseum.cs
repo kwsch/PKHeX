@@ -150,7 +150,7 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_3;
         public override int MaxItemID => Legal.MaxItemID_3_COLO;
         public override int MaxGameID => Legal.MaxGameID_3;
-        
+
         public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
@@ -326,7 +326,7 @@ namespace PKHeX.Core
             }
             StrategyMemo.SetEntry(entry);
         }
-        
+
         private TimeSpan PlayedSpan
         {
             get => TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128);
