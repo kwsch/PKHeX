@@ -59,8 +59,10 @@ namespace PKHeX.WinForms.Controls
             var data = view.GetSlotData(pb);
             var pk = SAV.GetStoredSlot(data.Offset);
 
-            ShowSimulatorSetTooltip(pb, pk);
-            PlayCry(pk);
+            if (Settings.Default.HoverSlotShowText)
+                ShowSimulatorSetTooltip(pb, pk);
+            if (Settings.Default.HoverSlotPlayCry)
+                PlayCry(pk);
         }
         public void MouseLeave(object sender, EventArgs e)
         {
