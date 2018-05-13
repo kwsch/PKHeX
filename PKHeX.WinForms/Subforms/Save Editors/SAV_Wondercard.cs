@@ -324,11 +324,20 @@ namespace PKHeX.WinForms
             else if (types.All(type => type != giftType))
                 WinFormsUtil.Alert(MsgMysteryGiftTypeIncompatible,
                     $"{MsgMysteryGiftQRRecieved} {gift.Type}{Environment.NewLine}{MsgMysteryGiftTypeUnexpected} {string.Join(", ", types)}");
-            else if (gift.Species > SAV.MaxSpeciesID || gift.Moves.Any(move => move > SAV.MaxMoveID) ||
-                     gift.HeldItem > SAV.MaxItemID)
+            else if (!CanRecieveGift(SAV, gift))
                 WinFormsUtil.Alert(MsgMysteryGiftTypeDetails);
             else
                 ViewGiftData(gift);
+        }
+        private static bool CanRecieveGift(SaveFile SAV, MysteryGift gift)
+        {
+            if (gift.Species > SAV.MaxSpeciesID)
+                return false;
+            if (gift.Moves.Any(move => move > SAV.MaxMoveID))
+                return false;
+            if (gift.HeldItem > SAV.MaxItemID)
+                return false;
+            return true;
         }
 
         private void BoxSlot_MouseDown(object sender, MouseEventArgs e)
@@ -387,8 +396,8 @@ namespace PKHeX.WinForms
                 byte[] data = File.ReadAllBytes(files[0]);
                 MysteryGift gift = MysteryGift.GetMysteryGift(data, new FileInfo(files[0]).Extension);
 
-                if (gift is PCD && mga.Gifts[index] is PGT)
-                    gift = (gift as PCD).Gift;
+                if (gift is PCD pcd && mga.Gifts[index] is PGT)
+                    gift = pcd.Gift;
                 else if (gift.Type != mga.Gifts[index].Type)
                 {
                     WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {mga.Gifts[index].Type}");

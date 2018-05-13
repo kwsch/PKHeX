@@ -114,7 +114,7 @@ namespace PKHeX.WinForms
                     enable = true;
                     GB_M_OT.Text = $"{args[4]} {pkm.OT_Name} ({args[2]})"; // Memories with : OTNAME
                     GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}"; // Memories with : HTNAME
-                    if (pkm.HT_Name == "")
+                    if (pkm.HT_Name.Length == 0)
                     {
                         CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled =
                         CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled =

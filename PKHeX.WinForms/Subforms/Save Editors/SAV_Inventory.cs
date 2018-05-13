@@ -379,7 +379,6 @@ namespace PKHeX.WinForms
                 int itemindex = Array.IndexOf(itemlist, item);
                 if (itemindex > 0)
                     dgv.Rows[i].Cells[1].Value = IsItemCount1((ushort)itemindex, SAV) ? 1 : NUD_Count.Value;
-
             }
             WinFormsUtil.Alert(MsgItemPouchCountUpdated);
         }

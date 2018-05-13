@@ -48,6 +48,5 @@ namespace PKHeX.WinForms
         }
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
-
     }
 }

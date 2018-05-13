@@ -22,7 +22,6 @@ namespace PKHeX.WinForms
         private readonly SAV3.RTC3 ClockInitial;
         private readonly SAV3.RTC3 ClockElapsed;
 
-
         private void LoadData()
         {
             NUD_IDay.Value = ClockInitial.Day;

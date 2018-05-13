@@ -163,14 +163,14 @@ namespace PKHeX.WinForms
 
         private void ChangeFFFF(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox)sender;
+            if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
         private void Change255(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox)sender;
+            if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > byte.MaxValue) box.Text = "255";
         }
 

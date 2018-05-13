@@ -327,11 +327,9 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             flags[(int)NUD_Flag.Value] = c_CustomFlag.Checked;
-            CheckBox c = TLP_Flags.Controls[flagTag + NUD_Flag.Value.ToString("0000")] as CheckBox;
-            if (c != null)
-            {
+            var name = flagTag + NUD_Flag.Value.ToString("0000");
+            if (TLP_Flags.Controls[name] is CheckBox c)
                 c.Checked = c_CustomFlag.Checked;
-            }
             editing = false;
         }
         private void ChangeCustomFlag(object sender, EventArgs e)
@@ -373,8 +371,8 @@ namespace PKHeX.WinForms
             editing = true;
 
             Constants[CB_Stats.SelectedIndex] = (ushort)(Util.ToUInt32(((MaskedTextBox)sender).Text) & 0xFFFF);
-            MaskedTextBox m = TLP_Flags.Controls[constTag + CB_Stats.SelectedIndex.ToString("0000")] as MaskedTextBox;
-            if (m != null)
+            var name = constTag + CB_Stats.SelectedIndex.ToString("0000");
+            if (TLP_Flags.Controls[name] is MaskedTextBox m)
                 m.Text = MT_Stat.Text;
 
             editing = false;
@@ -395,21 +393,21 @@ namespace PKHeX.WinForms
                 return;
 
             int constnum = GetControlNum((Control)sender);
-            if (sender is ComboBox)
+            if (sender is ComboBox cb)
             {
-                var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow((Control)sender));
-                var sel_val = (int)((ComboBox)sender).SelectedValue;
+                var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow(cb));
+                var sel_val = (int)cb.SelectedValue;
                 editing = true;
                 nud.Enabled = sel_val == -1;
                 if (sel_val != -1)
                     nud.Value = (ushort)sel_val;
-                Constants[constnum] = (ushort)(Util.ToUInt32(nud.Text) & 0xFFFF);
+                Constants[constnum] = (ushort)Util.ToUInt32(nud.Text);
                 editing = false;
             }
-            else if (sender is NumericUpDown)
+            else if (sender is NumericUpDown nud)
             {
                 editing = true;
-                Constants[constnum] = (ushort)(Util.ToUInt32(((NumericUpDown)sender).Text) & 0xFFFF);
+                Constants[constnum] = (ushort)Util.ToUInt32(nud.Text);
                 if (constnum == CB_Stats.SelectedIndex)
                     MT_Stat.Text = Constants[constnum].ToString();
                 editing = false;

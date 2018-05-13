@@ -67,7 +67,7 @@ namespace PKHeX.WinForms
             CB_Unlocked.Items.Clear();
             int max = SAV.BoxCount;
             if (SAV.Generation == 6)
-                max -= 1; // cover legendary captured unlocks final box, not governed by BoxesUnlocked
+                max--; // cover legendary captured unlocks final box, not governed by BoxesUnlocked
             for (int i = 0; i <= max; i++)
                 CB_Unlocked.Items.Add(i);
             CB_Unlocked.SelectedIndex = Math.Min(max, SAV.BoxesUnlocked);

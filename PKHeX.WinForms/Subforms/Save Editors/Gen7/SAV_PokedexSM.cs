@@ -377,8 +377,8 @@ namespace PKHeX.WinForms
             LB_Forms.Enabled = LB_Forms.Visible = false;
             bool USUM = SAV.USUM;
             int lang = SAV.Language;
-            if (lang > 5) lang -= 1;
-            lang -= 1;
+            if (lang > 5) lang--;
+            lang--;
 
             if (sender == mnuSeenAll || sender == mnuCaughtAll || sender == mnuComplete)
                 SetAll(sender, USUM, lang);

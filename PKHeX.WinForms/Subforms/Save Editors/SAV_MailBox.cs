@@ -74,7 +74,7 @@ namespace PKHeX.WinForms
                 case SAV4 sav4:
                     m = new Mail4[p.Count + 20];
                     for (int i = 0; i < p.Count; i++)
-                        m[i] = new Mail4((p[i] as PK4).HeldMailData);
+                        m[i] = new Mail4(((PK4) p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                         m[i] = new Mail4(sav4, j);
                     var l4 = m.Last() as Mail4;
@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
                 case SAV5 sav5:
                     m = new Mail5[p.Count + 20];
                     for (int i = 0; i < p.Count; i++)
-                        m[i] = new Mail5((p[i] as PK5).HeldMailData);
+                        m[i] = new Mail5(((PK5) p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                         m[i] = new Mail5(sav5, j);
                     var l5 = m.Last() as Mail5;
@@ -257,17 +257,17 @@ namespace PKHeX.WinForms
                 case 3:
                     foreach (var n in m) n.CopyTo(SAV);
                     for (int i = 0; i < p.Count; i++)
-                        (p[i] as PK3).HeldMailID = (sbyte)PKMNUDs[i].Value;
+                        ((PK3) p[i]).HeldMailID = (sbyte)PKMNUDs[i].Value;
                     break;
                 case 4:
                     for (int i = 0; i < p.Count; i++)
-                        m[i].CopyTo(p[i] as PK4);
+                        m[i].CopyTo((PK4) p[i]);
                     for (int i = p.Count; i < m.Length; i++)
                         m[i].CopyTo(SAV);
                     break;
                 case 5:
                     for (int i = 0; i < p.Count; i++)
-                        m[i].CopyTo(p[i] as PK5);
+                        m[i].CopyTo((PK5) p[i]);
                     for (int i = p.Count; i < m.Length; i++)
                         m[i].CopyTo(SAV);
                     break;

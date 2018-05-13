@@ -281,10 +281,7 @@ namespace PKHeX.WinForms
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
-                var raw =
-                    RTB_Instructions.Lines
-                        .Where(line => !string.IsNullOrWhiteSpace(line))
-                        .Where(line => new[] { '!', '=' }.Contains(line[0]));
+                var raw = RTB_Instructions.Lines.Where(line => !string.IsNullOrWhiteSpace(line) && new[] { '!', '=' }.Contains(line[0]));
 
                 var filters = (from line in raw
                         let eval = line[0] == '='
@@ -326,7 +323,7 @@ namespace PKHeX.WinForms
             Results = new List<MysteryGift>(res);
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
-            if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
+            if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;
 
             SCR_Box.Value = 0;
             FillPKXBoxes(0);

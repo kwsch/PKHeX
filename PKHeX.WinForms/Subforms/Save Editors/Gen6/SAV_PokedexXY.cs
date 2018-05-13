@@ -223,8 +223,8 @@ namespace PKHeX.WinForms
         }
         private void SetData()
         {
-            // Save back the Species Bools 
-            // Return to Byte Array        
+            // Save back the Species Bools
+            // Return to Byte Array
             for (int p = 0; p < 9; p++)
             {
                 byte[] sdata = new byte[0x60];
@@ -323,8 +323,8 @@ namespace PKHeX.WinForms
         private void ModifyAll(object sender, EventArgs e)
         {
             int lang = SAV.Language;
-            if (lang > 5) lang -= 1;
-            lang -= 1;
+            if (lang > 5) lang--;
+            lang--;
 
             if (sender == mnuSeenNone || sender == mnuSeenAll || sender == mnuComplete)
                 for (int i = 0; i < LB_Species.Items.Count; i++)

@@ -111,6 +111,5 @@ namespace PKHeX.WinForms
             DialogResult = DialogResult.Abort;
             Close();
         }
-
     }
 }

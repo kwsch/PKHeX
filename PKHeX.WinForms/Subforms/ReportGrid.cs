@@ -248,7 +248,7 @@ namespace PKHeX.WinForms
 
             string[] newlines = new string[lines.Length + 1];
             newlines[0] = lines[0].Replace('\t', '|');
-            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(t => '|')); // 2 pipes for each end
+            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(_ => '|')); // 2 pipes for each end
             for (int i = 1; i < lines.Length; i++)
                 newlines[i + 1] = lines[i].Replace('\t', '|');
 
@@ -290,21 +290,21 @@ namespace PKHeX.WinForms
 
         protected override bool SupportsSearchingCore => true;
 
-        protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
+        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
         {
             List<T> itemsList = (List<T>)Items;
 
-            Type propertyType = property.PropertyType;
+            Type propertyType = prop.PropertyType;
             if (!comparers.TryGetValue(propertyType, out PropertyComparer<T> comparer))
             {
-                comparer = new PropertyComparer<T>(property, direction);
+                comparer = new PropertyComparer<T>(prop, direction);
                 comparers.Add(propertyType, comparer);
             }
 
-            comparer.SetPropertyAndDirection(property, direction);
+            comparer.SetPropertyAndDirection(prop, direction);
             itemsList.Sort(comparer);
 
-            propertyDescriptor = property;
+            propertyDescriptor = prop;
             listSortDirection = direction;
             isSorted = true;
 
@@ -320,11 +320,11 @@ namespace PKHeX.WinForms
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-        protected override int FindCore(PropertyDescriptor property, object key)
+        protected override int FindCore(PropertyDescriptor prop, object key)
         {
             int count = Count;
             for (int i = 0; i < count; ++i)
-                if (property.GetValue(this[i]).Equals(key))
+                if (prop.GetValue(this[i]).Equals(key))
                     return i;
 
             return -1;
