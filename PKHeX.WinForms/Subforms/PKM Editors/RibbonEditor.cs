@@ -50,10 +50,10 @@ namespace PKHeX.WinForms
             foreach (var RibbonName in RibbonNames)
             {
                 object RibbonValue = ReflectUtil.GetValue(pkm, RibbonName);
-                if (RibbonValue is int)
-                    riblist.Add(new RibbonInfo(RibbonName, (int)RibbonValue));
-                if (RibbonValue is bool)
-                    riblist.Add(new RibbonInfo(RibbonName, (bool)RibbonValue));
+                if (RibbonValue is int x)
+                    riblist.Add(new RibbonInfo(RibbonName, x));
+                if (RibbonValue is bool b)
+                    riblist.Add(new RibbonInfo(RibbonName, b));
             }
             TLP_Ribbons.ColumnCount = 2;
             TLP_Ribbons.RowCount = 0;

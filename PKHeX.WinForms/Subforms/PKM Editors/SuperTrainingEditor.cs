@@ -29,14 +29,13 @@ namespace PKHeX.WinForms
             CHK_SecretUnlocked.Checked = pkm.SecretSuperTrainingUnlocked;
             CHK_SecretComplete.Checked = pkm.SecretSuperTrainingComplete;
 
-            if (pkm is PK6)
+            if (pkm is PK6 pk6)
             {
                 CB_Bag.Items.Clear();
                 CB_Bag.Items.Add("---");
                 for (int i = 1; i < GameInfo.Strings.trainingbags.Length - 1; i++)
                     CB_Bag.Items.Add(GameInfo.Strings.trainingbags[i]);
 
-                PK6 pk6 = (PK6) pkm;
                 CB_Bag.SelectedIndex = pk6.TrainingBag;
                 NUD_BagHits.Value = pk6.TrainingBagHits;
 

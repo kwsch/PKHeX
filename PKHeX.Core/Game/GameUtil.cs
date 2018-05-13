@@ -1,4 +1,7 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using System.Linq;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Utility class for <see cref="GameVersion"/> logic.
@@ -134,5 +137,16 @@
                     return 7;
             }
         }
+
+        /// <summary>
+        /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
+        /// </summary>
+        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < GameVersion.RB && z > 0).Reverse().ToArray();
+
+        /// <summary>
+        /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
+        /// </summary>
+        /// <param name="generation">Generation to look within</param>
+        public static GameVersion[] GetVersionsInGeneration(int generation) => GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
     }
 }

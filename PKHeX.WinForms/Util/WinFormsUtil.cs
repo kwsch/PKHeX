@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
         }
 
-        public static Form FirstFormOfType<T>(this Form f) => f.OwnedForms.FirstOrDefault(form => form is T);
+        public static Form FirstFormOfType<T>(this Form f) => Array.Find(f.OwnedForms, form => form is T);
         public static T FindFirstControlOfType<T>(Control aParent) where T : class
         {
             while (true)

@@ -10,10 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class EncounterMovesetGenerator
     {
-        /// <summary>
-        /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
-        /// </summary>
-        private static readonly GameVersion[] Versions = ((GameVersion[]) Enum.GetValues(typeof(GameVersion))).Where(z => z < GameVersion.RB && z > 0).Reverse().ToArray();
+        private static readonly GameVersion[] Versions = GameUtil.GameVersions;
 
         /// <summary>
         /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned.
@@ -42,6 +39,32 @@ namespace PKHeX.Core
                     yield return result;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned within a specific generation.
+        /// </summary>
+        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
+        /// <param name="info">Trainer information of the receiver.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
+        /// <param name="generation">Specific generation to iterate versions for.</param>
+        public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int generation, int[] moves = null)
+        {
+            var vers = GameUtil.GetVersionsInGeneration(generation);
+            return GeneratePKMs(pk, info, moves, vers);
+        }
+
+        /// <summary>
+        /// Gets possible encounters that allow all moves requested to be learned.
+        /// </summary>
+        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
+        /// <param name="generation">Specific generation to iterate versions for.</param>
+        /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
+        public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, int generation, int[] moves = null)
+        {
+            var vers = GameUtil.GetVersionsInGeneration(generation);
+            return GenerateEncounters(pk, moves, vers);
         }
 
         /// <summary>

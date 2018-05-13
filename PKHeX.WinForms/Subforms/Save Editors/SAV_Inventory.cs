@@ -19,7 +19,7 @@ namespace PKHeX.WinForms
             itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version);
 
             for (int i = 0; i < itemlist.Length; i++)
-                if (itemlist[i] == "")
+                if (itemlist[i]?.Length == 0)
                     itemlist[i] = $"(Item #{i:000})";
 
             HasFreeSpace = SAV.Generation == 7;
@@ -157,14 +157,10 @@ namespace PKHeX.WinForms
                 var outOfBounds = invalid.Where(item => item.Index >= itemlist.Length).ToArray();
                 var incorrectPouch = invalid.Where(item => item.Index < itemlist.Length).ToArray();
 
-                if (outOfBounds.Any())
-                    WinFormsUtil.Error(MsgItemPouchUnknown,
-                        $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");
-                if (!Main.HaX && incorrectPouch.Any())
-                    WinFormsUtil.Alert(
-                        string.Format(MsgItemPouchRemoved, pouch.Type),
-                        string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])),
-                        MsgItemPouchWarning);
+                if (outOfBounds.Length > 0)
+                    WinFormsUtil.Error(MsgItemPouchUnknown, $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");
+                if (!Main.HaX && incorrectPouch.Length > 0)
+                    WinFormsUtil.Alert(string.Format(MsgItemPouchRemoved, pouch.Type), string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])), MsgItemPouchWarning);
 
                 pouch.Sanitize(Main.HaX, itemlist.Length - 1);
                 GetBag(dgv, pouch);
@@ -323,7 +319,8 @@ namespace PKHeX.WinForms
                 int l = 0;
                 dgv.Rows[i].Cells[l++].Value = itemname;
                 dgv.Rows[i].Cells[l++].Value = c;
-                var t = p.Items.FirstOrDefault(m => m.Index == item);
+
+                var t = Array.Find(p.Items, m => m.Index == item);
 
                 if (HasFreeSpace)
                     dgv.Rows[i].Cells[l++].Value = t?.FreeSpace ?? false;

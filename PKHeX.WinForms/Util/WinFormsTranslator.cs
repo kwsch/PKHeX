@@ -160,7 +160,7 @@ namespace PKHeX.WinForms
                 var constructors = t.GetConstructors();
                 if (constructors.Length == 0)
                 { System.Console.WriteLine($"No constructors: {t.Name}"); continue; }
-                var argCount = constructors.First().GetParameters().Length;
+                var argCount = constructors[0].GetParameters().Length;
                 try
                 {
                     var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);

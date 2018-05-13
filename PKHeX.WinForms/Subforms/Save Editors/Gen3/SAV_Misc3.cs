@@ -151,7 +151,7 @@ namespace PKHeX.WinForms
             if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[oldsea]} (unreleased)?"))
                 tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
-            var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
+            var p = Array.Find(Pouches, z => z.Type == InventoryType.KeyItems);
             if (p == null)
                 return;
 
@@ -176,7 +176,7 @@ namespace PKHeX.WinForms
 
             var added = string.Join(", ", missing.Select(u => itemlist[u]));
             var addmsg = $"Add the following items?{Environment.NewLine}{added}";
-            if (have.Any())
+            if (have.Count > 0)
             {
                 string had = string.Join(", ", have.Select(u => itemlist[u]));
                 var havemsg = $"Already have:{Environment.NewLine}{had}";
