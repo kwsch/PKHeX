@@ -13,9 +13,10 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>
+    public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFileProvider
     {
-        public SaveFile SAV;
+        public SaveFile SAV { get; set; }
+        public int CurrentBox => Box.CurrentBox;
         public SlotChangeManager M { get; }
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         public readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();

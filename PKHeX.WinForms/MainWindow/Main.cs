@@ -83,6 +83,7 @@ namespace PKHeX.WinForms
                 "中文", // CHN
                 "Português", // Portuguese
             };
+        private static readonly List<IPlugin> Plugins = new List<IPlugin>();
         #endregion
 
         #region Path Variables
@@ -92,6 +93,7 @@ namespace PKHeX.WinForms
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
+        private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
         private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
@@ -124,6 +126,8 @@ namespace PKHeX.WinForms
                 else
                     WinFormsUtil.Error(MsgSettingsLoadFail, e);
             }
+
+            FormLoadPlugins();
 
             PKME_Tabs.InitializeFields();
             PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
@@ -245,6 +249,14 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
 
             Settings.Version = Resources.ProgramVersion;
+        }
+        private void FormLoadPlugins()
+        {
+            if (!Directory.Exists(PluginPath))
+                return;
+            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
+            foreach (var p in Plugins)
+                p.Initialize(C_SAV, PKME_Tabs, menuStrip1);
         }
         private static void DeleteConfig(string settingsFilename)
         {
@@ -746,6 +758,8 @@ namespace PKHeX.WinForms
                 PKME_Tabs.FlickerInterface();
 
             PKME_Tabs.TemplateFields(LoadTemplate(sav));
+            foreach (var p in Plugins)
+                p.NotifySaveLoaded();
             sav.Edited = false;
         }
         private static string GetProgramTitle()

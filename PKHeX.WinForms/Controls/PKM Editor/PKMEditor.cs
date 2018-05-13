@@ -62,6 +62,7 @@ namespace PKHeX.WinForms.Controls
         public bool HaX { get; set; }
         public byte[] LastData { private get; set; }
 
+        public PKM Data { get => pkm; set => pkm = value; }
         public PKM pkm { get; private set; }
         public bool FieldsInitialized { get; private set; }
         public bool FieldsLoaded { get; private set; }
