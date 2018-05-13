@@ -144,6 +144,10 @@
                 }
             }
         }
+
+        public bool Genderless => Gender == 255;
+        public bool OnlyFemale => Gender == 254;
+        public bool OnlyMale => Gender == 0;
         public bool HasFormes => FormeCount > 1;
         public int BST => HP + ATK + DEF + SPE + SPA + SPD;
 

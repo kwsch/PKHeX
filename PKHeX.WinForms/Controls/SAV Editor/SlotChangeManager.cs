@@ -30,8 +30,9 @@ namespace PKHeX.WinForms.Controls
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
         public readonly List<ISlotViewer<PictureBox>> OtherSlots = new List<ISlotViewer<PictureBox>>();
         public event DragEventHandler RequestExternalDragDrop;
-        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 400, IsBalloon = false};
+        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 200, IsBalloon = false};
         private readonly SoundPlayer Sounds = new SoundPlayer();
+        private PictureBox HoveredSlot;
 
         public SlotChangeManager(SAVEditor se)
         {
@@ -54,19 +55,36 @@ namespace PKHeX.WinForms.Controls
                 return;
             OriginalBackground = pb.BackgroundImage;
             pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0, 1);
-
+            BeginHoverSlot(pb);
+        }
+        private void BeginHoverSlot(PictureBox pb)
+        {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var data = view.GetSlotData(pb);
             var pk = SAV.GetStoredSlot(data.Offset);
+            HoveredSlot = pb;
 
             if (Settings.Default.HoverSlotShowText)
                 ShowSimulatorSetTooltip(pb, pk);
             if (Settings.Default.HoverSlotPlayCry)
                 PlayCry(pk);
         }
+        private void EndHoverSlot()
+        {
+            HoveredSlot = null;
+            ShowSet.RemoveAll();
+            Sounds.Stop();
+        }
+        public void RefreshHoverSlot(ISlotViewer<PictureBox> parent)
+        {
+            if (HoveredSlot == null || !parent.SlotPictureBoxes.Contains(HoveredSlot))
+                return;
+
+            BeginHoverSlot(HoveredSlot);
+        }
         public void MouseLeave(object sender, EventArgs e)
         {
-            Sounds.Stop();
+            EndHoverSlot();
             var pb = (PictureBox)sender;
             if (pb.BackgroundImage != CurrentBackground)
                 return;

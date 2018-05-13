@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Media;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -208,6 +207,7 @@ namespace PKHeX.WinForms.Controls
             if (SAV.CurrentBox != CurrentBox)
                 SAV.CurrentBox = CurrentBox;
             ResetSlots();
+            M?.RefreshHoverSlot(this);
         }
         private void ClickBoxLeft(object sender, EventArgs e)
         {
