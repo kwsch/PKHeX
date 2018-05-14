@@ -178,11 +178,13 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             string resource = $"{pk.Species}-{pk.AltForm}";
-            var path = Path.Combine("sounds", $"{resource}.wav");
+            string getpath() => Path.Combine(Main.CryPath, $"{resource}.wav");
+
+            var path = getpath();
             if (!File.Exists(path))
             {
                 resource = $"{pk.Species}";
-                path = Path.Combine("sounds", $"{resource}.wav");
+                path = getpath();
                 if (!File.Exists(path))
                     return;
             }
