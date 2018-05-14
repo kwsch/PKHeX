@@ -41,24 +41,23 @@ namespace PKHeX.Core
         internal const int SIZE_6STORED = 0xE8;
         internal const int SIZE_6BLOCK = 56;
 
+        private static readonly HashSet<int> Sizes = new HashSet<int>
+        {
+            SIZE_1JLIST, SIZE_1ULIST,
+            SIZE_2ULIST, SIZE_2JLIST,
+            SIZE_3STORED, SIZE_3PARTY,
+            SIZE_3CSTORED, SIZE_3XSTORED,
+            SIZE_4STORED, SIZE_4PARTY,
+            SIZE_5PARTY,
+            SIZE_6STORED, SIZE_6PARTY
+        };
+
         /// <summary>
         /// Determines if the given length is valid for a <see cref="PKM"/>.
         /// </summary>
         /// <param name="len">Data length of the file/array.</param>
         /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
-        public static bool IsPKM(long len)
-        {
-            return new[]
-            {
-                SIZE_1JLIST, SIZE_1ULIST,
-                SIZE_2ULIST, SIZE_2JLIST,
-                SIZE_3STORED, SIZE_3PARTY,
-                SIZE_3CSTORED, SIZE_3XSTORED,
-                SIZE_4STORED, SIZE_4PARTY,
-                SIZE_5PARTY,
-                SIZE_6STORED, SIZE_6PARTY
-            }.Contains((int)len);
-        }
+        public static bool IsPKM(long len) => Sizes.Contains((int)len);
 
         public static uint LCRNG(uint seed) => RNG.LCRNG.Next(seed);
         public static uint LCRNG(ref uint seed) => seed = RNG.LCRNG.Next(seed);

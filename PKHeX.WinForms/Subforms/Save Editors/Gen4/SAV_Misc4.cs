@@ -217,9 +217,9 @@ namespace PKHeX.WinForms
         private void SavePoketch()
         {
             byte count = 0;
-            for (int i = 0; i < CLB_Poketch.Items.Count; i++)
+            for (int i = 1; i < CLB_Poketch.Items.Count; i++)
             {
-                if (CLB_Poketch.GetItemChecked(i))
+                if (CLB_Poketch.GetItemChecked(i-1))
                 {
                     count++;
                     if (!oldPoketchVal[i])
