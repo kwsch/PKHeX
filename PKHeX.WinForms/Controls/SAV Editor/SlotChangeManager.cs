@@ -177,10 +177,10 @@ namespace PKHeX.WinForms.Controls
             if (pk.Species == 0)
                 return;
 
-            var path = Path.Combine(Main.CryPath, $"{pk.Species}.wav");
+            var path = Path.Combine(Main.CryPath, $"{pk.Species}-{pk.AltForm}.wav");
             if (!File.Exists(path))
             {
-                path = Path.Combine(Main.CryPath, $"{pk.Species}-{pk.AltForm}.wav");
+                path = Path.Combine(Main.CryPath, $"{pk.Species}.wav");
                 if (!File.Exists(path))
                     return;
             }
