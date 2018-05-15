@@ -456,6 +456,9 @@ namespace PKHeX.WinForms
                 SystemSounds.Asterisk.Play();
                 return;
             }
+            if (Plugins.Any(p => p.TryLoadFile(path)))
+                return; // handled by plugin
+
             // detect if it is a folder (load into boxes or not)
             if (Directory.Exists(path))
             { C_SAV.LoadBoxes(out string _, path); return; }

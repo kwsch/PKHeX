@@ -26,13 +26,22 @@ namespace PKHeX.WinForms
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {
             var pluginType = typeof(T);
-            foreach (var type in assemblies.Where(z => z != null).SelectMany(a => a.GetTypes()))
+            foreach (var z in assemblies.Where(z => z != null))
             {
-                if (type.IsInterface || type.IsAbstract)
+                Type[] types; try { types = z.GetTypes(); }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}", ex.Message);
                     continue;
-                if (type.GetInterface(pluginType.FullName) == null)
-                    continue;
-                yield return type;
+                }
+                foreach (Type type in types)
+                {
+                    if (type.IsInterface || type.IsAbstract)
+                        continue;
+                    if (type.GetInterface(pluginType.FullName) == null)
+                        continue;
+                    yield return type;
+                }
             }
         }
     }
