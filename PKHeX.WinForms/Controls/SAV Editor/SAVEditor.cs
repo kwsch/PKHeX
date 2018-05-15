@@ -383,8 +383,12 @@ namespace PKHeX.WinForms.Controls
                 if (ModifierKeys.HasFlag(Keys.Alt))
                     ((ToolStripMenuItem)SortMenu.Items[0]).DropDownItems[0].PerformClick(); // Clear
                 else if (ModifierKeys.HasFlag(Keys.Control))
-                    ((ToolStripMenuItem)SortMenu.Items[1]).DropDownItems[0].PerformClick(); // Sort
+                    GetSorter()(PKMSorting.OrderBySpecies, false); // Sort
                 return;
+
+                Action<Func<IEnumerable<PKM>, IEnumerable<PKM>>, bool> GetSorter() => ModifierKeys.HasFlag(Keys.Shift)
+                    ? SortAll
+                    : (Action<Func<IEnumerable<PKM>, IEnumerable<PKM>>, bool>) SortCurrent;
             }
             var pt = Tab_Box.PointToScreen(new Point(0, 0));
             SortMenu.Show(pt);
