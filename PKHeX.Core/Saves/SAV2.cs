@@ -238,6 +238,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
+        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
 
         // Checksums
         private ushort GetChecksum()
@@ -270,7 +271,7 @@ namespace PKHeX.Core
             get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
             set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
         }
-        public byte[] OT_Trash { get => GetData(Offsets.Trainer1 + 2, 11); set { if (value?.Length == 11) SetData(value, Offsets.Trainer1 + 2); } }
+        public byte[] OT_Trash { get => GetData(Offsets.Trainer1 + 2, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); } }
         public override int Gender
         {
             get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
