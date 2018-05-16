@@ -21,7 +21,11 @@ namespace PKHeX.WinForms
         }
         private static IEnumerable<Assembly> GetAssemblies(IEnumerable<string> dllFileNames)
         {
-            return dllFileNames.Select(AssemblyName.GetAssemblyName).Select(Assembly.Load);
+            #if UNSAFEDLL
+            return dllFileNames.Select(Assembly.UnsafeLoadFrom);
+            #else
+            return dllFileNames.Select(Assembly.LoadFrom);
+            #endif
         }
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {
