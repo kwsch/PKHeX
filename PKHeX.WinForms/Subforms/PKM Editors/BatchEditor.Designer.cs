@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BatchEditor));
-            this.RB_SAV = new System.Windows.Forms.RadioButton();
+            this.RB_Boxes = new System.Windows.Forms.RadioButton();
             this.RB_Path = new System.Windows.Forms.RadioButton();
             this.FLP_RB = new System.Windows.Forms.FlowLayoutPanel();
             this.TB_Folder = new System.Windows.Forms.TextBox();
@@ -42,31 +42,32 @@
             this.B_Add = new System.Windows.Forms.Button();
             this.L_PropType = new System.Windows.Forms.Label();
             this.L_PropValue = new System.Windows.Forms.Label();
+            this.RB_Party = new System.Windows.Forms.RadioButton();
             this.FLP_RB.SuspendLayout();
             this.SuspendLayout();
             // 
-            // RB_SAV
+            // RB_Boxes
             // 
-            this.RB_SAV.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.RB_SAV.Appearance = System.Windows.Forms.Appearance.Button;
-            this.RB_SAV.AutoSize = true;
-            this.RB_SAV.Checked = true;
-            this.RB_SAV.Location = new System.Drawing.Point(0, 0);
-            this.RB_SAV.Margin = new System.Windows.Forms.Padding(0);
-            this.RB_SAV.Name = "RB_SAV";
-            this.RB_SAV.Size = new System.Drawing.Size(61, 23);
-            this.RB_SAV.TabIndex = 0;
-            this.RB_SAV.TabStop = true;
-            this.RB_SAV.Text = "Save File";
-            this.RB_SAV.UseVisualStyleBackColor = true;
-            this.RB_SAV.Click += new System.EventHandler(this.B_SAV_Click);
+            this.RB_Boxes.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.RB_Boxes.Appearance = System.Windows.Forms.Appearance.Button;
+            this.RB_Boxes.AutoSize = true;
+            this.RB_Boxes.Checked = true;
+            this.RB_Boxes.Location = new System.Drawing.Point(0, 0);
+            this.RB_Boxes.Margin = new System.Windows.Forms.Padding(0);
+            this.RB_Boxes.Name = "RB_Boxes";
+            this.RB_Boxes.Size = new System.Drawing.Size(46, 23);
+            this.RB_Boxes.TabIndex = 0;
+            this.RB_Boxes.TabStop = true;
+            this.RB_Boxes.Text = "Boxes";
+            this.RB_Boxes.UseVisualStyleBackColor = true;
+            this.RB_Boxes.Click += new System.EventHandler(this.B_SAV_Click);
             // 
             // RB_Path
             // 
             this.RB_Path.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.RB_Path.Appearance = System.Windows.Forms.Appearance.Button;
             this.RB_Path.AutoSize = true;
-            this.RB_Path.Location = new System.Drawing.Point(61, 0);
+            this.RB_Path.Location = new System.Drawing.Point(87, 0);
             this.RB_Path.Margin = new System.Windows.Forms.Padding(0);
             this.RB_Path.Name = "RB_Path";
             this.RB_Path.Size = new System.Drawing.Size(55, 23);
@@ -79,7 +80,8 @@
             // 
             this.FLP_RB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_RB.Controls.Add(this.RB_SAV);
+            this.FLP_RB.Controls.Add(this.RB_Boxes);
+            this.FLP_RB.Controls.Add(this.RB_Party);
             this.FLP_RB.Controls.Add(this.RB_Path);
             this.FLP_RB.Controls.Add(this.TB_Folder);
             this.FLP_RB.Location = new System.Drawing.Point(12, 10);
@@ -91,11 +93,11 @@
             // 
             this.TB_Folder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_Folder.Location = new System.Drawing.Point(118, 2);
+            this.TB_Folder.Location = new System.Drawing.Point(144, 2);
             this.TB_Folder.Margin = new System.Windows.Forms.Padding(2);
             this.TB_Folder.Name = "TB_Folder";
             this.TB_Folder.ReadOnly = true;
-            this.TB_Folder.Size = new System.Drawing.Size(250, 20);
+            this.TB_Folder.Size = new System.Drawing.Size(216, 20);
             this.TB_Folder.TabIndex = 4;
             this.TB_Folder.Visible = false;
             // 
@@ -197,6 +199,19 @@
             this.L_PropValue.TabIndex = 13;
             this.L_PropValue.Text = "PropertyValue";
             // 
+            // RB_Party
+            // 
+            this.RB_Party.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.RB_Party.Appearance = System.Windows.Forms.Appearance.Button;
+            this.RB_Party.AutoSize = true;
+            this.RB_Party.Location = new System.Drawing.Point(46, 0);
+            this.RB_Party.Margin = new System.Windows.Forms.Padding(0);
+            this.RB_Party.Name = "RB_Party";
+            this.RB_Party.Size = new System.Drawing.Size(41, 23);
+            this.RB_Party.TabIndex = 5;
+            this.RB_Party.Text = "Party";
+            this.RB_Party.UseVisualStyleBackColor = true;
+            // 
             // BatchEditor
             // 
             this.AllowDrop = true;
@@ -229,7 +244,7 @@
 
         #endregion
 
-        private System.Windows.Forms.RadioButton RB_SAV;
+        private System.Windows.Forms.RadioButton RB_Boxes;
         private System.Windows.Forms.RadioButton RB_Path;
         private System.Windows.Forms.FlowLayoutPanel FLP_RB;
         private System.Windows.Forms.TextBox TB_Folder;
@@ -242,5 +257,6 @@
         private System.Windows.Forms.Button B_Add;
         private System.Windows.Forms.Label L_PropType;
         private System.Windows.Forms.Label L_PropValue;
+        private System.Windows.Forms.RadioButton RB_Party;
     }
 }

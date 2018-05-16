@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
 
             TB_Folder.Text = files[0];
             TB_Folder.Visible = true;
-            RB_SAV.Checked = false;
+            RB_Boxes.Checked = RB_Party.Checked = false;
             RB_Path.Checked = true;
         }
 
@@ -195,8 +195,10 @@ namespace PKHeX.WinForms
             b = new BackgroundWorker { WorkerReportsProgress = true };
             b.DoWork += (sender, e) =>
             {
-                if (RB_SAV.Checked)
-                    RunBatchEditSaveFile(sets);
+                if (RB_Boxes.Checked)
+                    RunBatchEditSaveFile(sets, boxes: true);
+                else if (RB_Party.Checked)
+                    RunBatchEditSaveFile(sets, party: true);
                 else
                     RunBatchEditFolder(sets, source, destination);
             };
@@ -222,12 +224,12 @@ namespace PKHeX.WinForms
             foreach (var set in sets)
             ProcessFolder(files, set.Filters, set.Instructions, destination);
         }
-        private void RunBatchEditSaveFile(IList<StringInstructionSet> sets)
+        private void RunBatchEditSaveFile(IList<StringInstructionSet> sets, bool boxes = false, bool party = false)
         {
             IList<PKM> data;
-            if (SAV.HasParty && process(data = SAV.PartyData))
+            if (party && SAV.HasParty && process(data = SAV.PartyData))
                 SAV.PartyData = data;
-            if (SAV.HasBox && process(data = SAV.BoxData))
+            if (boxes && SAV.HasBox && process(data = SAV.BoxData))
                 SAV.BoxData = data;
             bool process(IList<PKM> d)
             {
