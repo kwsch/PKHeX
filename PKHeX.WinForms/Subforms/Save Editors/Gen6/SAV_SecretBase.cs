@@ -129,7 +129,9 @@ namespace PKHeX.WinForms
             { WinFormsUtil.Error("Sorry, no overwriting someone else's base with your own data."); return; }
             if (GB_PKM.Enabled && index == 0)
             { WinFormsUtil.Error("Sorry, no overwriting of your own base with someone else's."); return; }
-            if (LB_Favorite.Items[index].ToString().Substring(LB_Favorite.Items[index].ToString().Length - 5, 5) == "Empty")
+
+            var name = LB_Favorite.Items[index].ToString();
+            if (name == "* " || name == $"{index} Empty")
             { WinFormsUtil.Error("Sorry, no overwriting an empty base with someone else's."); return; }
             if (index < 0) return;
             int offset = SAV.SecretBase + 0x25A;
