@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
         private void PopulateRegimens(string Type, TableLayoutPanel TLP, List<RegimenInfo> list)
         {
             // Get a list of all Regimen Attregutes in the PKM
-            var RegimenNames = ReflectFrameworkUtil.GetPropertiesStartWithPrefix(pkm.GetType(), Type);
+            var RegimenNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), Type);
             list.AddRange(from RegimenName in RegimenNames
                           let RegimenValue = ReflectUtil.GetValue(pkm, RegimenName)
                           where RegimenValue is bool

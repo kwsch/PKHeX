@@ -617,6 +617,8 @@ namespace PKHeX.Core
                 int offset = GetBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
                 {
+                    if (IsSlotLocked(i, p))
+                        continue;
                     var ofs = offset + SIZE_STORED * p;
                     if (deleteCriteria != null)
                     {

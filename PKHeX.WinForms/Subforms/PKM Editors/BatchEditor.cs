@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static PKHeX.Core.MessageStrings;
@@ -27,7 +24,8 @@ namespace PKHeX.WinForms
 
             CB_Format.Items.Clear();
             CB_Format.Items.Add(MsgAny);
-            foreach (Type t in types) CB_Format.Items.Add(t.Name.ToLower());
+            foreach (Type t in BatchEditing.Types)
+                CB_Format.Items.Add(t.Name.ToLower());
             CB_Format.Items.Add(MsgAll);
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
@@ -35,42 +33,10 @@ namespace PKHeX.WinForms
             new ToolTip().SetToolTip(L_PropType, MsgBEToolTipPropType);
             new ToolTip().SetToolTip(L_PropValue, MsgBEToolTipPropValue);
         }
-        private static string[][] GetPropArray()
-        {
-            var p = new string[types.Length][];
-            for (int i = 0; i < p.Length; i++)
-                p[i] = ReflectFrameworkUtil.GetPropertiesCanWritePublicDeclared(types[i]).Concat(CustomProperties).OrderBy(a => a).ToArray();
-
-            // Properties for any PKM
-            var any = ReflectFrameworkUtil.GetPropertiesCanWritePublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
-            // Properties shared by all PKM
-            var all = p.Aggregate(new HashSet<string>(p[0]), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
-
-            var p1 = new string[types.Length + 2][];
-            Array.Copy(p, 0, p1, 1, p.Length);
-            p1[0] = any;
-            p1[p1.Length - 1] = all;
-
-            return p1;
-        }
 
         private readonly PKM pkmref;
-        private const string CONST_RAND = "$rand";
-        private const string CONST_SHINY = "$shiny";
-        private const string CONST_SUGGEST = "$suggest";
-        private const string CONST_BYTES = "$[]";
-
-        private const string PROP_LEGAL = "Legal";
-        private static readonly string[] CustomProperties = {PROP_LEGAL};
 
         private int currentFormat = -1;
-        private static readonly Type[] types =
-        {
-            typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
-            typeof (PK3), typeof (XK3), typeof (CK3),
-            typeof (PK2), typeof (PK1),
-        };
-        private static readonly string[][] properties = GetPropArray();
 
         // GUI Methods
         private void B_Open_Click(object sender, EventArgs e)
@@ -111,16 +77,16 @@ namespace PKHeX.WinForms
 
             int format = CB_Format.SelectedIndex;
             CB_Property.Items.Clear();
-            CB_Property.Items.AddRange(properties[format]);
+            CB_Property.Items.AddRange(BatchEditing.Properties[format]);
             CB_Property.SelectedIndex = 0;
             currentFormat = format;
         }
         private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
         {
-            L_PropType.Text = GetPropertyType(CB_Property.Text);
-            if (pkmref.GetType().HasProperty(CB_Property.Text))
+            L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
+            if (BatchEditing.TryGetHasProperty(pkmref, CB_Property.Text, out var pi))
             {
-                L_PropValue.Text = ReflectFrameworkUtil.GetValue(pkmref, CB_Property.Text).ToString();
+                L_PropValue.Text = pi.GetValue(pkmref).ToString();
                 L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
             }
             else // no property, flag
@@ -184,14 +150,14 @@ namespace PKHeX.WinForms
 
             foreach (var set in sets)
             {
-                ScreenStrings(set.Filters);
-                ScreenStrings(set.Instructions);
+                BatchEditing.ScreenStrings(set.Filters);
+                BatchEditing.ScreenStrings(set.Instructions);
             }
             RunBatchEdit(sets, TB_Folder.Text, destPath);
         }
         private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
         {
-            len = err = ctr = 0;
+            editor = new Core.BatchEditor();
             b = new BackgroundWorker { WorkerReportsProgress = true };
             b.DoWork += (sender, e) =>
             {
@@ -205,18 +171,14 @@ namespace PKHeX.WinForms
             b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
             b.RunWorkerCompleted += (sender, e) =>
             {
-                ctr /= sets.Length;
-                len /= sets.Length;
-                string maybe = sets.Length == 1 ? string.Empty : "~";
-                string result = string.Format(MsgBEModifySuccess, maybe, ctr, len);
-                if (err > 0)
-                    result += $"{Environment.NewLine}{maybe}" + string.Format(MsgBEModifyFailError, err);
+                string result = editor.GetEditorResults(sets);
                 WinFormsUtil.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 SetupProgressBar(0);
             };
             b.RunWorkerAsync();
         }
+
         private void RunBatchEditFolder(IList<StringInstructionSet> sets, string source, string destination)
         {
             var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
@@ -257,12 +219,12 @@ namespace PKHeX.WinForms
         }
 
         // Mass Editing
-        private int ctr, len, err;
+        private Core.BatchEditor editor = new Core.BatchEditor();
         private void ProcessSAV(IList<PKM> data, IList<StringInstruction> Filters, IList<StringInstruction> Instructions)
         {
             for (int i = 0; i < data.Count; i++)
             {
-                ProcessPKM(data[i], Filters, Instructions);
+                editor.ProcessPKM(data[i], Filters, Instructions);
                 b.ReportProgress(i);
             }
         }
@@ -281,417 +243,11 @@ namespace PKHeX.WinForms
                 int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                if (ProcessPKM(pkm, Filters, Instructions))
+                if (editor.ProcessPKM(pkm, Filters, Instructions))
                     File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
 
                 b.ReportProgress(i);
             }
-        }
-        private bool ProcessPKM(PKM pkm, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
-        {
-            if (!pkm.Valid || pkm.Locked)
-            {
-                len++;
-                var reason = pkm.Locked ? "Locked." : "Not Valid.";
-                Debug.WriteLine($"{MsgBEModifyFailBlocked} {reason}");
-                return false;
-            }
-
-            ModifyResult r = TryModifyPKM(pkm, Filters, Instructions);
-            if (r != ModifyResult.Invalid)
-                len++;
-            if (r == ModifyResult.Error)
-                err++;
-            if (r != ModifyResult.Modified)
-                return false;
-            if (pkm.Species <= 0)
-                return false;
-
-            pkm.RefreshChecksum();
-            ctr++;
-            return true;
-        }
-
-        private string GetPropertyType(string propertyName)
-        {
-            if (CustomProperties.Contains(propertyName))
-                return "Custom";
-
-            int typeIndex = CB_Format.SelectedIndex;
-
-            if (typeIndex == properties.Length - 1) // All
-                return types[0].GetProperty(propertyName).PropertyType.Name;
-
-            if (typeIndex == 0) // Any
-                foreach (var p in types.Select(t => t.GetProperty(propertyName)).Where(p => p != null))
-                    return p.PropertyType.Name;
-
-            return types[typeIndex - 1].GetProperty(propertyName).PropertyType.Name;
-        }
-
-        // Utility Methods
-        private enum ModifyResult
-        {
-            Invalid,
-            Error,
-            Filtered,
-            Modified,
-        }
-
-        public class StringInstructionSet
-        {
-            public IList<StringInstruction> Filters { get; private set; }
-            public IList<StringInstruction> Instructions { get; private set; }
-
-            private const string SetSeparator = ";";
-            public static IEnumerable<StringInstructionSet> GetBatchSets(string[] lines)
-            {
-                int start = 0;
-                while (start < lines.Length)
-                {
-                    var list = lines.Skip(start).TakeWhile(_ => !lines[start++].StartsWith(SetSeparator)).ToList();
-                    yield return GetBatchSet(list);
-                }
-            }
-
-            private static StringInstructionSet GetBatchSet(IList<string> set)
-            {
-                return new StringInstructionSet
-                {
-                    Filters = StringInstruction.GetFilters(set).ToList(),
-                    Instructions = StringInstruction.GetInstructions(set).ToList(),
-                };
-            }
-        }
-        public class StringInstruction
-        {
-            public string PropertyName { get; set; }
-            public string PropertyValue { get; set; }
-            public bool Evaluator { get; set; }
-            public void SetScreenedValue(string[] arr)
-            {
-                int index = Array.IndexOf(arr, PropertyValue);
-                PropertyValue = index > -1 ? index.ToString() : PropertyValue;
-            }
-
-            // Extra Functionality
-            private int Min, Max;
-            public bool Random { get; private set; }
-            public int RandomValue => Util.Rand.Next(Min, Max + 1);
-            public void SetRandRange(string pv)
-            {
-                string str = pv.Substring(1);
-                var split = str.Split(',');
-                int.TryParse(split[0], out Min);
-                int.TryParse(split[1], out Max);
-
-                if (Min == Max)
-                {
-                    PropertyValue = Min.ToString();
-                    Debug.WriteLine(PropertyName + " randomization range Min/Max same?");
-                }
-                else
-                    Random = true;
-            }
-
-            public static IEnumerable<StringInstruction> GetFilters(IEnumerable<string> lines)
-            {
-                var raw = GetRelevantStrings(lines, '!', '=');
-                return from line in raw
-                    let eval = line[0] == '='
-                    let split = line.Substring(1).Split('=')
-                    where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                    select new StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval };
-            }
-            public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
-            {
-                var raw = GetRelevantStrings(lines, '.').Select(line => line.Substring(1));
-                return from line in raw
-                    select line.Split('=') into split
-                    where split.Length == 2
-                    select new StringInstruction { PropertyName = split[0], PropertyValue = split[1] };
-            }
-            private static IEnumerable<string> GetRelevantStrings(IEnumerable<string> lines, params char[] pieces)
-            {
-                return lines.Where(line => !string.IsNullOrEmpty(line) && pieces.Any(z => z == line[0]));
-            }
-        }
-        private sealed class PKMInfo
-        {
-            internal PKM pkm { get; }
-            internal PKMInfo(PKM pk) { pkm = pk; }
-
-            private LegalityAnalysis la;
-            private LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
-
-            internal bool Legal => Legality.Valid;
-            internal int[] SuggestedRelearn => Legality.GetSuggestedRelearn();
-            internal int[] SuggestedMoves => Legality.GetSuggestedMoves(tm: true, tutor: true, reminder: false);
-            internal EncounterStatic SuggestedEncounter => Legality.GetSuggestedMetInfo();
-        }
-
-        public static void ScreenStrings(IEnumerable<StringInstruction> il)
-        {
-            foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
-            {
-                string pv = i.PropertyValue;
-                if (pv.StartsWith("$") && !pv.StartsWith(CONST_BYTES) && pv.Contains(','))
-                    i.SetRandRange(pv);
-
-                SetInstructionScreenedValue(i);
-            }
-        }
-        private static void SetInstructionScreenedValue(StringInstruction i)
-        {
-            switch (i.PropertyName)
-            {
-                case nameof(PKM.Species): i.SetScreenedValue(GameInfo.Strings.specieslist); return;
-                case nameof(PKM.HeldItem): i.SetScreenedValue(GameInfo.Strings.itemlist); return;
-                case nameof(PKM.Ability): i.SetScreenedValue(GameInfo.Strings.abilitylist); return;
-                case nameof(PKM.Nature): i.SetScreenedValue(GameInfo.Strings.natures); return;
-                case nameof(PKM.Ball): i.SetScreenedValue(GameInfo.Strings.balllist); return;
-                case nameof(PKM.Move1):
-                case nameof(PKM.Move2):
-                case nameof(PKM.Move3):
-                case nameof(PKM.Move4):
-                case nameof(PKM.RelearnMove1):
-                case nameof(PKM.RelearnMove2):
-                case nameof(PKM.RelearnMove3):
-                case nameof(PKM.RelearnMove4):
-                    i.SetScreenedValue(GameInfo.Strings.movelist); return;
-            }
-        }
-        private static ModifyResult TryModifyPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
-        {
-            if (!PKM.ChecksumValid || PKM.Species == 0)
-                return ModifyResult.Invalid;
-
-            Type pkm = PKM.GetType();
-            PKMInfo info = new PKMInfo(PKM);
-
-            ModifyResult result = ModifyResult.Error;
-            foreach (var cmd in Filters)
-            {
-                try
-                {
-                    if (IsPKMFiltered(pkm, cmd, info, out result))
-                        return result; // why it was filtered out
-                }
-                catch { Debug.WriteLine(MsgBEModifyFailCompare, cmd.PropertyName, cmd.PropertyValue); }
-            }
-
-            foreach (var cmd in Instructions)
-            {
-                try
-                {
-                    result = SetPKMProperty(PKM, info, cmd);
-                }
-                catch { Debug.WriteLine(MsgBEModifyFail, cmd.PropertyName, cmd.PropertyValue); }
-            }
-            return result;
-        }
-        private static ModifyResult SetPKMProperty(PKM PKM, PKMInfo info, StringInstruction cmd)
-        {
-            if (cmd.PropertyValue.StartsWith(CONST_BYTES))
-                return SetByteArrayProperty(PKM, cmd)
-                    ? ModifyResult.Modified
-                    : ModifyResult.Error;
-
-            if (cmd.PropertyValue == CONST_SUGGEST)
-                return SetSuggestedPKMProperty(PKM, cmd, info)
-                    ? ModifyResult.Modified
-                    : ModifyResult.Error;
-
-            SetProperty(PKM, cmd);
-            return ModifyResult.Modified;
-        }
-        private static bool IsPKMFiltered(Type pkm, StringInstruction cmd, PKMInfo info, out ModifyResult result)
-        {
-            result = ModifyResult.Error;
-            if (cmd.PropertyName == PROP_LEGAL)
-            {
-                if (!bool.TryParse(cmd.PropertyValue, out bool legal))
-                    return true;
-                if (legal == info.Legal == cmd.Evaluator)
-                    return false;
-                result = ModifyResult.Filtered;
-                return true;
-            }
-            if (!pkm.HasPropertyAll(cmd.PropertyName)
-                || pkm.IsValueEqual(info.pkm, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
-            {
-                result = ModifyResult.Filtered;
-                return true;
-            }
-            return false;
-        }
-        private static bool SetSuggestedPKMProperty(PKM PKM, StringInstruction cmd, PKMInfo info)
-        {
-            switch (cmd.PropertyName)
-            {
-                case nameof(PKM.HyperTrainFlags):
-                    PKM.HyperTrainFlags = GetSuggestedHyperTrainingStatus(PKM);
-                    return true;
-                case nameof(PKM.RelearnMoves):
-                    PKM.RelearnMoves = info.SuggestedRelearn;
-                    return true;
-                case nameof(PKM.Met_Location):
-                    var encounter = info.SuggestedEncounter;
-                    if (encounter == null)
-                        return false;
-
-                    int level = encounter.Level;
-                    int location = encounter.Location;
-                    int minlvl = Legal.GetLowestLevel(PKM, encounter.LevelMin);
-
-                    PKM.Met_Level = level;
-                    PKM.Met_Location = location;
-                    PKM.CurrentLevel = Math.Max(minlvl, level);
-
-                    return true;
-
-                case nameof(PKM.Moves):
-                    var moves = info.SuggestedMoves;
-                    Util.Shuffle(moves);
-                    PKM.SetMoves(moves);
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
-        private static int GetSuggestedHyperTrainingStatus(PKM pkm)
-        {
-            if (pkm.Format < 7 || pkm.CurrentLevel != 100)
-                return 0;
-
-            int val = 0;
-            if (pkm.IV_HP != 31)
-                val |= 1 << 0;
-            if (pkm.IV_ATK < 31 && pkm.IV_ATK > 1)
-                val |= 1 << 1;
-            if (pkm.IV_DEF != 31)
-                val |= 1 << 2;
-            if (pkm.IV_SPE < 31 && pkm.IV_SPE > 1)
-                val |= 1 << 3;
-            if (pkm.IV_SPA != 31)
-                val |= 1 << 4;
-            if (pkm.IV_SPD != 31)
-                val |= 1 << 5;
-            return val;
-        }
-
-        private static bool SetByteArrayProperty(PKM PKM, StringInstruction cmd)
-        {
-            switch (cmd.PropertyName)
-            {
-                case nameof(PKM.Nickname_Trash):
-                    PKM.Nickname_Trash = string2arr(cmd.PropertyValue);
-                    return true;
-                case nameof(PKM.OT_Trash):
-                    PKM.OT_Trash = string2arr(cmd.PropertyValue);
-                    return true;
-                default:
-                    return false;
-            }
-            byte[] string2arr(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
-        }
-        private static void SetProperty(PKM PKM, StringInstruction cmd)
-        {
-            if (cmd.PropertyName == nameof(PKM.MetDate))
-                PKM.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-            else if (cmd.PropertyName == nameof(PKM.EggMetDate))
-                PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
-                ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, Util.Rand32().ToString());
-            else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
-                PKM.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
-                PKM.SetPIDGender(PKM.Gender);
-            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
-                PKM.EncryptionConstant = PKM.PID;
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
-                PKM.SetShinyPID();
-            else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                PKM.Data = new byte[PKM.Data.Length];
-            else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
-                SetRandomIVs(PKM, cmd);
-            else if (cmd.Random)
-                ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
-            else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))
-            { PKM.IsNicknamed = false; PKM.Nickname = PKX.GetSpeciesNameGeneration(PKM.Species, PKM.Language, PKM.Format); }
-            else
-                ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
-        }
-        private static void SetRandomIVs(PKM PKM, StringInstruction cmd)
-        {
-            if (cmd.PropertyName == nameof(PKM.IVs))
-            {
-                PKM.SetRandomIVs();
-                return;
-            }
-            ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, Util.Rand32() & PKM.MaxIV);
-        }
-    }
-
-    public static class ReflectFrameworkUtil
-    {
-        public static bool IsValueEqual(this Type t, object obj, string propertyName, object value)
-        {
-            PropertyInfo pi = t.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-            var v = pi.GetValue(obj, null);
-            var c = ConvertValue(value, pi.PropertyType);
-            return v.Equals(c);
-        }
-        public static void SetValue(object obj, string propertyName, object value)
-        {
-            PropertyInfo pi = obj.GetType().GetProperty(propertyName);
-            pi.SetValue(obj, ConvertValue(value, pi.PropertyType), null);
-        }
-
-        public static object GetValue(object obj, string propertyName)
-        {
-            PropertyInfo pi = obj.GetType().GetProperty(propertyName);
-            return pi.GetValue(obj, null);
-        }
-
-        public static IEnumerable<string> GetPropertiesStartWithPrefix(Type type, string prefix, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
-        {
-            return type.GetProperties(flags)
-                .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
-                .Select(p => p.Name);
-        }
-        public static IEnumerable<string> GetPropertiesCanWritePublic(Type type, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
-        {
-            return type.GetProperties(flags)
-                .Where(p => p.CanWrite && p.GetSetMethod(nonPublic: true).IsPublic)
-                .Select(p => p.Name);
-        }
-        public static IEnumerable<string> GetPropertiesCanWritePublicDeclared(Type type)
-        {
-            return GetPropertiesCanWritePublic(type, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        }
-        public static bool HasProperty(this Type type, string name)
-        {
-            return type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance) != null;
-        }
-        public static bool HasPropertyAll(this Type type, string name)
-        {
-            return type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance) != null;
-        }
-
-        private static object ConvertValue(object value, Type type)
-        {
-            if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
-            {
-                if (DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue))
-                    return dateValue;
-                return null;
-            }
-
-            // Convert.ChangeType is suitable for most things
-            return Convert.ChangeType(value, type);
         }
     }
 }

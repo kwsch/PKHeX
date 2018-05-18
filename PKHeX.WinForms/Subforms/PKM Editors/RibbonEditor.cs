@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
         private void PopulateRibbons()
         {
             // Get a list of all Ribbon Attributes in the PKM
-            var RibbonNames = ReflectFrameworkUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
+            var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon").Distinct();
             foreach (var RibbonName in RibbonNames)
             {
                 object RibbonValue = ReflectUtil.GetValue(pkm, RibbonName);

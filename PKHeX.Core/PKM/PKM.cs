@@ -995,9 +995,10 @@ namespace PKHeX.Core
             var shared = DestinationProperties.Intersect(SourceProperties);
             foreach (string property in shared)
             {
-                var prop = ReflectUtil.GetValue(this, property);
-                if (prop != null && !(prop is byte[]))
-                    ReflectUtil.SetValue(Destination, property, prop);
+                BatchEditing.TryGetHasProperty(Destination, property, out var src);
+                var prop = src.GetValue(this);
+                if (prop != null && !(prop is byte[]) && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
+                    ReflectUtil.SetValue(pi, Destination, prop);
             }
         }
 

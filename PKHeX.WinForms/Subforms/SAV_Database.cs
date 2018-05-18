@@ -509,8 +509,8 @@ namespace PKHeX.WinForms
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
-                var filters = BatchEditor.StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
-                BatchEditor.ScreenStrings(filters);
+                var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
+                BatchEditing.ScreenStrings(filters);
                 res = res.Where(pkm => IsPKMFiltered(pkm, filters)); // Compare across all filters
             }
 
@@ -520,7 +520,7 @@ namespace PKHeX.WinForms
             return res;
         }
 
-        private static bool IsPKMFiltered(PKM pkm, IEnumerable<BatchEditor.StringInstruction> filters)
+        private static bool IsPKMFiltered(PKM pkm, IEnumerable<StringInstruction> filters)
         {
             foreach (var cmd in filters)
             {
@@ -531,9 +531,10 @@ namespace PKHeX.WinForms
                         return false;
                     continue;
                 }
-                if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
+
+                if (!ReflectUtil.HasProperty(pkm, cmd.PropertyName, out var pi))
                     return false;
-                try { if (pkm.GetType().IsValueEqual(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
+                try { if (pi.IsValueEqual(pkm, cmd.PropertyValue) == cmd.Evaluator) continue; }
                 catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
                 return false;
             }
