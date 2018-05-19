@@ -283,7 +283,7 @@ namespace PKHeX.WinForms
             {
                 var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
                 BatchEditing.ScreenStrings(filters);
-                res = res.Where(pkm => IsPKMFiltered(pkm, filters)); // Compare across all filters
+                res = res.Where(pkm => BatchEditing.IsFiltered(filters, pkm)); // Compare across all filters
             }
 
             var results = res.ToArray();
@@ -292,19 +292,6 @@ namespace PKHeX.WinForms
 
             SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
-        }
-
-        private static bool IsPKMFiltered(MysteryGift gift, StringInstruction[] filters)
-        {
-            foreach (var cmd in filters)
-            {
-                if (!ReflectUtil.HasProperty(gift, cmd.PropertyName, out var pi))
-                    return false;
-                try { if (pi.IsValueEqual(gift, cmd.PropertyValue) == cmd.Evaluator) continue; }
-                catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
-                return false;
-            }
-            return true;
         }
 
         private void UpdateScroll(object sender, ScrollEventArgs e)

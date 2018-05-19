@@ -17,6 +17,7 @@ namespace PKHeX.Core
             typeof (PK3), typeof (XK3), typeof (CK3),
             typeof (PK2), typeof (PK1),
         };
+
         public static readonly string[] CustomProperties = { PROP_LEGAL };
         public static readonly string[][] Properties = GetPropArray();
 
@@ -30,6 +31,7 @@ namespace PKHeX.Core
         private const string CONST_BYTES = "$[]";
 
         private const string PROP_LEGAL = "Legal";
+        private const string IdentifierContains = nameof(PKM.Identifier) + "Contains";
 
         private static string[][] GetPropArray()
         {
@@ -53,22 +55,25 @@ namespace PKHeX.Core
             return p1;
         }
 
-        public static bool TryGetHasProperty(PKM pk, string name, out PropertyInfo pi)
+        /// <summary>
+        /// Tries to fetch the <see cref="PKM"/> property from the cache of available properties.
+        /// </summary>
+        /// <param name="pkm">Pokémon to check</param>
+        /// <param name="name">Property Name to check</param>
+        /// <param name="pi">Property Info retrieved (if any).</param>
+        /// <returns>True if has property, false if does not.</returns>
+        public static bool TryGetHasProperty(PKM pkm, string name, out PropertyInfo pi)
         {
-            var props = Props[Array.IndexOf(Types, pk.GetType())];
+            var props = Props[Array.IndexOf(Types, pkm.GetType())];
             return props.TryGetValue(name, out pi);
         }
-        public static bool TryGetPropertyValue(PKM pk, string name, out object value)
-        {
-            if (TryGetHasProperty(pk, name, out var pi))
-            {
-                value = pi.GetValue(pk);
-                return true;
-            }
-            value = null;
-            return false;
-        }
 
+        /// <summary>
+        /// Gets the type of the <see cref="PKM"/> property using the saved cache of properties.
+        /// </summary>
+        /// <param name="propertyName">Property Name to fetch the type for</param>
+        /// <param name="typeIndex">Type index (within <see cref="Types"/>. Leave empty (0) for a nonspecific format.</param>
+        /// <returns>Short name of the property's type.</returns>
         public static string GetPropertyType(string propertyName, int typeIndex = 0)
         {
             if (CustomProperties.Contains(propertyName))
@@ -83,12 +88,16 @@ namespace PKHeX.Core
             }
 
             int index = typeIndex == Props.Length - 1 ? 0 : typeIndex - 1; // All vs Specific
-            var pr = Props[typeIndex - 1];
+            var pr = Props[index];
             if (!pr.TryGetValue(propertyName, out var info))
                 return null;
             return info.PropertyType.Name;
         }
 
+        /// <summary>
+        /// Initializes the <see cref="StringInstruction"/> list with a context-sensitive value. If the provided value is a string, it will attempt to convert that string to its corresponding index.
+        /// </summary>
+        /// <param name="il">Instructions to initialize.</param>
         public static void ScreenStrings(IEnumerable<StringInstruction> il)
         {
             foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
@@ -101,6 +110,10 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Initializes the <see cref="StringInstruction"/> with a context-sensitive value. If the provided value is a string, it will attempt to convert that string to its corresponding index.
+        /// </summary>
+        /// <param name="i">Instruction to initialize.</param>
         private static void SetInstructionScreenedValue(StringInstruction i)
         {
             switch (i.PropertyName)
@@ -122,30 +135,80 @@ namespace PKHeX.Core
             }
         }
 
-        internal static ModifyResult TryModifyPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        /// <summary>
+        /// Checks if the object is filtered by the provided <see cref="filters"/>.
+        /// </summary>
+        /// <param name="filters">Filters which must be satisfied.</param>
+        /// <param name="pkm">Object to check.</param>
+        /// <returns>True if <see cref="pkm"/> matches all filters.</returns>
+        public static bool IsFiltered(IEnumerable<StringInstruction> filters, PKM pkm) => filters.All(z => IsPKMFiltered(z, pkm));
+
+        /// <summary>
+        /// Checks if the object is filtered by the provided <see cref="filters"/>.
+        /// </summary>
+        /// <param name="filters">Filters which must be satisfied.</param>
+        /// <param name="obj">Object to check.</param>
+        /// <returns>True if <see cref="obj"/> matches all filters.</returns>
+        public static bool IsFiltered(IEnumerable<StringInstruction> filters, object obj)
         {
-            if (!PKM.ChecksumValid || PKM.Species == 0)
+            foreach (var cmd in filters)
+            {
+                if (!ReflectUtil.HasProperty(obj, cmd.PropertyName, out var pi))
+                    return false;
+                try { if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator) continue; }
+                catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Tries to modify the <see cref="PKM"/>.
+        /// </summary>
+        /// <param name="pkm">Object to modify.</param>
+        /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
+        /// <param name="modifications">Modifications to perform on the <see cref="pkm"/>.</param>
+        /// <returns>Result of the attempted modification.</returns>
+        public static bool TryModify(PKM pkm, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
+        {
+            var result = TryModifyPKM(pkm, filters, modifications);
+            return result == ModifyResult.Modified;
+        }
+
+        /// <summary>
+        /// Tries to modify the <see cref="PKMInfo"/>.
+        /// </summary>
+        /// <param name="pkm">Command Filter</param>
+        /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
+        /// <param name="modifications">Modifications to perform on the <see cref="pkm"/>.</param>
+        /// <returns>Result of the attempted modification.</returns>
+        internal static ModifyResult TryModifyPKM(PKM pkm, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
+        {
+            if (!pkm.ChecksumValid || pkm.Species == 0)
                 return ModifyResult.Invalid;
 
-            PKMInfo info = new PKMInfo(PKM);
-            var pi = Props[Array.IndexOf(Types, PKM.GetType())];
-            foreach (var cmd in Filters)
+            PKMInfo info = new PKMInfo(pkm);
+            var pi = Props[Array.IndexOf(Types, pkm.GetType())];
+            foreach (var cmd in filters)
             {
                 try
                 {
-                    var filter = IsPKMFiltered(cmd, info, pi);
-                    if (filter != ModifyResult.None)
-                        return filter; // why it was filtered out
+                    if (IsPKMFiltered(cmd, info, pi))
+                        return ModifyResult.Filtered;
                 }
-                catch (Exception ex) { Debug.WriteLine(MsgBEModifyFailCompare + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue); }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(MsgBEModifyFailCompare + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
+                    return ModifyResult.Error;
+                }
             }
 
             ModifyResult result = ModifyResult.Modified;
-            foreach (var cmd in Instructions)
+            foreach (var cmd in modifications)
             {
                 try
                 {
-                    var tmp = SetPKMProperty(PKM, info, cmd, pi);
+                    var tmp = SetPKMProperty(cmd, info, pi);
                     if (result != ModifyResult.Modified)
                         result = tmp;
                 }
@@ -153,61 +216,127 @@ namespace PKHeX.Core
             }
             return result;
         }
-        private static ModifyResult SetPKMProperty(PKM PKM, PKMInfo info, StringInstruction cmd, Dictionary<string, PropertyInfo> props)
+
+        /// <summary>
+        /// Sets the if the <see cref="PKMInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="info">Pokémon to check.</param>
+        /// <param name="props">PropertyInfo cache (optional)</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static ModifyResult SetPKMProperty(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
+            var pkm = info.pkm;
             if (cmd.PropertyValue.StartsWith(CONST_BYTES))
-                return SetByteArrayProperty(PKM, cmd)
-                    ? ModifyResult.Modified
-                    : ModifyResult.Error;
+                return SetByteArrayProperty(pkm, cmd);
 
             if (cmd.PropertyValue == CONST_SUGGEST)
-                return SetSuggestedPKMProperty(cmd, info)
-                    ? ModifyResult.Modified
-                    : ModifyResult.Error;
+                return SetSuggestedPKMProperty(cmd.PropertyName, info);
 
-            if (SetComplexProperty(PKM, cmd))
+            if (SetComplexProperty(pkm, cmd))
                 return ModifyResult.Modified;
-
-            object val = cmd.Random ? (object)cmd.RandomValue : cmd.PropertyValue;
-            if (TryGetHasProperty(PKM, cmd.PropertyName, out var pi))
-            {
-                ReflectUtil.SetValue(pi, PKM, val);
-                return ModifyResult.Modified;
-            }
-            return ModifyResult.Error;
-        }
-        private static ModifyResult IsPKMFiltered(StringInstruction cmd, PKMInfo info, Dictionary<string, PropertyInfo> props)
-        {
-            if (cmd.PropertyName == PROP_LEGAL)
-            {
-                if (!bool.TryParse(cmd.PropertyValue, out bool legal))
-                    return ModifyResult.Error;
-                if (legal == info.Legal == cmd.Evaluator)
-                    return ModifyResult.None;
-                return ModifyResult.Filtered;
-            }
 
             if (!props.TryGetValue(cmd.PropertyName, out var pi))
-                return ModifyResult.Filtered;
-            if (pi.IsValueEqual(info.pkm, cmd.PropertyValue) != cmd.Evaluator)
-                return ModifyResult.Filtered;
-            return ModifyResult.None;
+                return ModifyResult.Error;
+
+            object val = cmd.Random ? (object)cmd.RandomValue : cmd.PropertyValue;
+            ReflectUtil.SetValue(pi, pkm, val);
+            return ModifyResult.Modified;
         }
-        private static bool SetSuggestedPKMProperty(StringInstruction cmd, PKMInfo info)
+
+        /// <summary>
+        /// Checks if the <see cref="PKMInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="info">Pokémon to check.</param>
+        /// <param name="props">PropertyInfo cache (optional)</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static bool IsPKMFiltered(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props = null)
+        {
+            if (IsLegalFiltered(cmd, () => info.Legal))
+                return true;
+            return IsPropertyFiltered(cmd, info.pkm, props);
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="pkm">Pokémon to check.</param>
+        /// <param name="props">PropertyInfo cache (optional)</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static bool IsPKMFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props = null)
+        {
+            if (IsLegalFiltered(cmd, () => new LegalityAnalysis(pkm).Valid))
+                return true;
+            return IsPropertyFiltered(cmd, pkm, props);
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="pkm">Pokémon to check.</param>
+        /// <param name="props">PropertyInfo cache (optional)</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static bool IsPropertyFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props = null)
+        {
+            if (IsIdentifierFiltered(cmd, pkm))
+                return true;
+            return !props?.TryGetValue(cmd.PropertyName, out _) ?? !ReflectUtil.HasProperty(pkm, cmd.PropertyName, out _);
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> should be filtered due to its <see cref="PKM.Identifier"/> containing a value.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="pkm">Pokémon to check.</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static bool IsIdentifierFiltered(StringInstruction cmd, PKM pkm)
+        {
+            if (cmd.PropertyName != IdentifierContains)
+                return false;
+
+            bool result = pkm.Identifier.Contains(cmd.PropertyValue);
+            return result != cmd.Evaluator;
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> should be filtered due to its legality.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="isLegal">Function to check if the <see cref="PKM"/> is legal.</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static bool IsLegalFiltered(StringInstruction cmd, Func<bool> isLegal)
+        {
+            if (cmd.PropertyName != PROP_LEGAL)
+                return false;
+
+            if (!bool.TryParse(cmd.PropertyValue, out bool legal))
+                return true;
+            return legal == isLegal() != cmd.Evaluator;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="PKM"/> data with a suggested value based on its <see cref="LegalityAnalysis"/>.
+        /// </summary>
+        /// <param name="name">Property to modify.</param>
+        /// <param name="info">Cached info storing Legal data.</param>
+        private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info)
         {
             var PKM = info.pkm;
-            switch (cmd.PropertyName)
+            switch (name)
             {
                 case nameof(PKM.HyperTrainFlags):
-                    PKM.HyperTrainFlags = GetSuggestedHyperTrainingStatus(PKM);
-                    return true;
+                    PKM.SetSuggestedHyperTrainingData();
+                    return ModifyResult.Modified;
                 case nameof(PKM.RelearnMoves):
                     PKM.RelearnMoves = info.SuggestedRelearn;
-                    return true;
+                    return ModifyResult.Modified;
                 case nameof(PKM.Met_Location):
                     var encounter = info.SuggestedEncounter;
                     if (encounter == null)
-                        return false;
+                        return ModifyResult.Error;
 
                     int level = encounter.Level;
                     int location = encounter.Location;
@@ -217,92 +346,88 @@ namespace PKHeX.Core
                     PKM.Met_Location = location;
                     PKM.CurrentLevel = Math.Max(minlvl, level);
 
-                    return true;
+                    return ModifyResult.Modified;
 
                 case nameof(PKM.Moves):
                     var moves = info.SuggestedMoves;
                     Util.Shuffle(moves);
                     PKM.SetMoves(moves);
-                    return true;
+                    return ModifyResult.Modified;
 
                 default:
-                    return false;
+                    return ModifyResult.Error;
             }
         }
 
-        private static int GetSuggestedHyperTrainingStatus(PKM pkm)
-        {
-            if (pkm.Format < 7 || pkm.CurrentLevel != 100)
-                return 0;
-
-            int val = 0;
-            if (pkm.IV_HP != 31)
-                val |= 1 << 0;
-            if (pkm.IV_ATK < 31 && pkm.IV_ATK > 1)
-                val |= 1 << 1;
-            if (pkm.IV_DEF != 31)
-                val |= 1 << 2;
-            if (pkm.IV_SPE < 31 && pkm.IV_SPE > 1)
-                val |= 1 << 3;
-            if (pkm.IV_SPA != 31)
-                val |= 1 << 4;
-            if (pkm.IV_SPD != 31)
-                val |= 1 << 5;
-            return val;
-        }
-
-        private static bool SetByteArrayProperty(PKM PKM, StringInstruction cmd)
+        /// <summary>
+        /// Sets the <see cref="PKM"/> byte array propery to a specified value.
+        /// </summary>
+        /// <param name="pkm">Pokémon to modify.</param>
+        /// <param name="cmd">Modification</param>
+        private static ModifyResult SetByteArrayProperty(PKM pkm, StringInstruction cmd)
         {
             switch (cmd.PropertyName)
             {
-                case nameof(PKM.Nickname_Trash):
-                    PKM.Nickname_Trash = string2arr(cmd.PropertyValue);
-                    return true;
-                case nameof(PKM.OT_Trash):
-                    PKM.OT_Trash = string2arr(cmd.PropertyValue);
-                    return true;
+                case nameof(pkm.Nickname_Trash):
+                    pkm.Nickname_Trash = string2arr(cmd.PropertyValue);
+                    return ModifyResult.Modified;
+                case nameof(pkm.OT_Trash):
+                    pkm.OT_Trash = string2arr(cmd.PropertyValue);
+                    return ModifyResult.Modified;
                 default:
-                    return false;
+                    return ModifyResult.Error;
             }
             byte[] string2arr(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
         }
-        private static bool SetComplexProperty(PKM PKM, StringInstruction cmd)
+
+        /// <summary>
+        /// Sets the <see cref="PKM"/> property to a non-specific smart value.
+        /// </summary>
+        /// <param name="pkm">Pokémon to modify.</param>
+        /// <param name="cmd">Modification</param>
+        private static bool SetComplexProperty(PKM pkm, StringInstruction cmd)
         {
-            if (cmd.PropertyName == nameof(PKM.MetDate))
-                PKM.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-            else if (cmd.PropertyName == nameof(PKM.EggMetDate))
-                PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
-               PKM.EncryptionConstant = Util.Rand32();
-            else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
-                PKM.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
-                PKM.SetPIDGender(PKM.Gender);
-            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
-                PKM.EncryptionConstant = PKM.PID;
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
-                PKM.SetShinyPID();
-            else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                PKM.Data = new byte[PKM.Data.Length];
+            if (cmd.PropertyName == nameof(pkm.MetDate))
+                pkm.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            else if (cmd.PropertyName == nameof(pkm.EggMetDate))
+                pkm.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            else if (cmd.PropertyName == nameof(pkm.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
+               pkm.EncryptionConstant = Util.Rand32();
+            else if ((cmd.PropertyName == nameof(pkm.Ability) || cmd.PropertyName == nameof(pkm.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
+                pkm.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
+            else if (cmd.PropertyName == nameof(pkm.PID) && cmd.PropertyValue == CONST_RAND)
+                pkm.SetPIDGender(pkm.Gender);
+            else if (cmd.PropertyName == nameof(pkm.EncryptionConstant) && cmd.PropertyValue == nameof(pkm.PID))
+                pkm.EncryptionConstant = pkm.PID;
+            else if (cmd.PropertyName == nameof(pkm.PID) && cmd.PropertyValue == CONST_SHINY)
+                pkm.SetShinyPID();
+            else if (cmd.PropertyName == nameof(pkm.Species) && cmd.PropertyValue == "0")
+                pkm.Data = new byte[pkm.Data.Length];
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
-                SetRandomIVs(PKM, cmd);
-            else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))
-            { PKM.IsNicknamed = false; PKM.Nickname = PKX.GetSpeciesNameGeneration(PKM.Species, PKM.Language, PKM.Format); }
+                SetRandomIVs(pkm, cmd);
+            else if (cmd.PropertyName == nameof(pkm.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))
+            { pkm.IsNicknamed = false; pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format); }
             else
                 return false;
 
             return true;
         }
-        private static void SetRandomIVs(PKM PKM, StringInstruction cmd)
+
+        /// <summary>
+        /// Sets the <see cref="PKM"/> IV(s) to a random value.
+        /// </summary>
+        /// <param name="pkm">Pokémon to modify.</param>
+        /// <param name="cmd">Modification</param>
+        private static void SetRandomIVs(PKM pkm, StringInstruction cmd)
         {
-            if (cmd.PropertyName == nameof(PKM.IVs))
+            if (cmd.PropertyName == nameof(pkm.IVs))
             {
-                PKM.SetRandomIVs();
+                pkm.SetRandomIVs();
                 return;
             }
 
-            if (TryGetHasProperty(PKM, cmd.PropertyName, out var pi))
-                ReflectUtil.SetValue(pi, PKM, Util.Rand32() & PKM.MaxIV);
+            if (TryGetHasProperty(pkm, cmd.PropertyName, out var pi))
+                ReflectUtil.SetValue(pi, pkm, Util.Rand32() & pkm.MaxIV);
         }
     }
 }

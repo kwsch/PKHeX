@@ -63,7 +63,7 @@ namespace PKHeX.WinForms
             if (CB_Property.SelectedIndex < 0)
             { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
-            char[] prefix = { '.', '=', '!' };
+            char[] prefix = StringInstruction.Prefixes;
             string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
             if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
                 s = Environment.NewLine + s;
