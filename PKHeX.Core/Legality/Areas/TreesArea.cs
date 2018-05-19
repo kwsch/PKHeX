@@ -19,8 +19,8 @@ namespace PKHeX.Core
     /// <summary> Coordinate / Index Relationship for a Headbutt Tree </summary>
     internal class TreeCoordinates
     {
-        private int X { get; }
-        private int Y { get; }
+        internal int X { get; }
+        internal int Y { get; }
         internal int Index => (X*Y + X+Y) / 5 % 10;
 
         public TreeCoordinates(int x, int y)
@@ -124,5 +124,20 @@ namespace PKHeX.Core
                 return TreeEncounterAvailable.InvalidTree;
             return TreeEncounterAvailable.Impossible;
         }
+
+        #if DEBUG
+        private void DumpLocation()
+        {
+            string loc = GameInfo.GetStrings("en").metGSC_00000[Location];
+            System.Console.WriteLine($"Location: {loc}");
+            System.Console.WriteLine("Valid:");
+            foreach (var tree in ValidTrees)
+                System.Console.WriteLine($"{tree.Index} @ ({tree.X:D2},{tree.Y:D2})");
+            System.Console.WriteLine("Invalid:");
+            foreach (var tree in InvalidTrees)
+                System.Console.WriteLine($"{tree.Index} @ ({tree.X:D2},{tree.Y:D2})");
+            System.Console.WriteLine("===");
+        }
+        #endif
     }
 }

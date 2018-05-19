@@ -27,7 +27,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static IEnumerable<string> GetHeader(PKM pkm, GameInfo.GameStrings s)
+        private static IEnumerable<string> GetHeader(PKM pkm, GameStrings s)
         {
             string filename = pkm.Nickname;
             if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             {
                 var str = s.GetItemStrings(pkm.Format);
                 if (pkm.HeldItem < str.Length)
-                    yield return $" @ {s.itemlist[pkm.HeldItem]}";
+                    yield return $" @ {str[pkm.HeldItem]}";
             }
 
             if (pkm.Format >= 3)

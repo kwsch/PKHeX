@@ -262,7 +262,7 @@ namespace PKHeX.WinForms.Controls
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            var moveList = GameInfo.Strings.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
             foreach (var c in Moves)
             {
                 var index = WinFormsUtil.GetIndex(c);
@@ -1674,8 +1674,6 @@ namespace PKHeX.WinForms.Controls
             SetCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.GetUnsortedCBList("regions3ds");
 
-            GameInfo.InitializeDataSources(GameInfo.Strings);
-
             CB_EncounterType.DataSource = Util.GetCBList(GameInfo.Strings.encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
             CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
 
@@ -1686,7 +1684,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void PopulateFilteredDataSources(SaveFile SAV)
         {
-            GameInfo.SetItemDataSource(SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings, HaX);
+            GameInfo.Strings.SetItemDataSource(SAV.Version, SAV.Generation, SAV.MaxItemID, SAV.HeldItems, HaX);
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
@@ -1703,7 +1701,7 @@ namespace PKHeX.WinForms.Controls
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
                 InitializeBinding(cb);
