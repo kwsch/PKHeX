@@ -16,10 +16,10 @@ namespace PKHeX.WinForms
             pkm = pk;
             cba = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
             mta = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
-            CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = "Text";
-            CB_Country0.ValueMember = CB_Country1.ValueMember = CB_Country2.ValueMember = CB_Country3.ValueMember = CB_Country4.ValueMember = "Value";
-            CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = "Text";
-            CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = "Value";
+            CB_Country0.DisplayMember = CB_Country1.DisplayMember = CB_Country2.DisplayMember = CB_Country3.DisplayMember = CB_Country4.DisplayMember = nameof(ComboItem.Text);
+            CB_Country0.ValueMember = CB_Country1.ValueMember = CB_Country2.ValueMember = CB_Country3.ValueMember = CB_Country4.ValueMember = nameof(ComboItem.Value);
+            CB_Region0.DisplayMember = CB_Region1.DisplayMember = CB_Region2.DisplayMember = CB_Region3.DisplayMember = CB_Region4.DisplayMember = nameof(ComboItem.Text);
+            CB_Region0.ValueMember = CB_Region1.ValueMember = CB_Region2.ValueMember = CB_Region3.ValueMember = CB_Region4.ValueMember = nameof(ComboItem.Value);
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             for (int i = 5; i < Math.Min(arguments.Length, vartypes.Length + 5); i++)
@@ -34,8 +34,8 @@ namespace PKHeX.WinForms
             args[4] = arguments.Length > 4 ? arguments[4] ?? "Memories with" : "Memories with";
             foreach (ComboBox comboBox in cba)
             {
-                comboBox.DisplayMember = "Text";
-                comboBox.ValueMember = "Value";
+                comboBox.DisplayMember = nameof(ComboItem.Text);
+                comboBox.ValueMember = nameof(ComboItem.Value);
                 Main.SetCountrySubRegion(comboBox, "countries");
             }
             GetLangStrings();
@@ -183,43 +183,23 @@ namespace PKHeX.WinForms
 
         private void GetLangStrings()
         {
-            // Memory Chooser
-            int memorycount = GameInfo.Strings.memories.Length - 38;
-            string[] memories = new string[memorycount];
-            int[] allowed = new int[memorycount];
-            for (int i = 0; i < memorycount; i++)
-            {
-                memories[i] = GameInfo.Strings.memories[38 + i];
-                allowed[i] = i + 1;
-            }
-            Array.Resize(ref allowed, allowed.Length - 1);
-            var memory_list1 = Util.GetCBList(new[] { memories[0] }, null);
-            var memory_list = Util.GetOffsetCBList(memory_list1, memories, 0, allowed);
-
-            CB_OTMemory.DisplayMember = "Text";
-            CB_OTMemory.ValueMember = "Value";
-            CB_OTMemory.DataSource = memory_list;
-
-            CB_CTMemory.DisplayMember = "Text";
-            CB_CTMemory.ValueMember = "Value";
-            CB_CTMemory.DataSource = new BindingSource(memory_list, null);
+            CB_OTMemory.DisplayMember = CB_CTMemory.DisplayMember = nameof(ComboItem.Text);
+            CB_OTMemory.ValueMember = CB_CTMemory.ValueMember = nameof(ComboItem.Value);
+            CB_OTMemory.DataSource = new BindingSource(GameInfo.Strings.Memories, null);
+            CB_CTMemory.DataSource = new BindingSource(GameInfo.Strings.Memories, null);
 
             // Quality Chooser
-            CB_CTQual.Items.Clear();
-            CB_OTQual.Items.Clear();
-            for (int i = 0; i < 7; i++)
+            foreach (var q in GameInfo.Strings.GetMemoryQualities())
             {
-                CB_CTQual.Items.Add(GameInfo.Strings.memories[2 + i]);
-                CB_OTQual.Items.Add(GameInfo.Strings.memories[2 + i]);
+                CB_CTQual.Items.Add(q);
+                CB_OTQual.Items.Add(q);
             }
 
             // Feeling Chooser
-            CB_CTFeel.Items.Clear();
-            CB_OTFeel.Items.Clear();
-            for (int i = 0; i < 24; i++)
+            foreach (var q in GameInfo.Strings.GetMemoryFeelings())
             {
-                CB_CTFeel.Items.Add(GameInfo.Strings.memories[10 + i]);
-                CB_OTFeel.Items.Add(GameInfo.Strings.memories[10 + i]);
+                CB_CTFeel.Items.Add(q);
+                CB_OTFeel.Items.Add(q);
             }
         }
         private void GetMemoryArguments(MemoryType ARG, object sender)
@@ -283,16 +263,16 @@ namespace PKHeX.WinForms
 
             if (sender == CB_CTMemory)
             {
-                CB_CTVar.DisplayMember = "Text";
-                CB_CTVar.ValueMember = "Value";
+                CB_CTVar.DisplayMember = nameof(ComboItem.Text);
+                CB_CTVar.ValueMember = nameof(ComboItem.Value);
                 CB_CTVar.DataSource = argvals;
                 LCTV.Text = vs;
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = enabled;
             }
             else
             {
-                CB_OTVar.DisplayMember = "Text";
-                CB_OTVar.ValueMember = "Value";
+                CB_OTVar.DisplayMember = nameof(ComboItem.Text);
+                CB_OTVar.ValueMember = nameof(ComboItem.Value);
                 CB_OTVar.DataSource = argvals;
                 LOTV.Text = vs;
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = enabled;
@@ -385,13 +365,9 @@ namespace PKHeX.WinForms
 
         private void Update255_MTB(object sender, EventArgs e)
         {
-            MaskedTextBox mtb = sender as MaskedTextBox;
-            try
-            {
-                int val = Util.ToInt32(mtb?.Text);
-                if (val > 255) mtb.Text = "255";
-            }
-            catch { mtb.Text = "0"; }
+            if (!(sender is MaskedTextBox tb)) return;
+            if (Util.ToInt32(tb.Text) > byte.MaxValue)
+                tb.Text = "255";
         }
 
         private void ClickResetLocation(object sender, EventArgs e)
@@ -400,8 +376,8 @@ namespace PKHeX.WinForms
             int index = Array.IndexOf(senderarr, sender);
             cba[index].SelectedValue = 0;
 
-            mta[index].DisplayMember = "Text";
-            mta[index].ValueMember = "Value";
+            mta[index].DisplayMember = nameof(ComboItem.Text);
+            mta[index].ValueMember = nameof(ComboItem.Value);
             mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
             mta[index].SelectedValue = 0;
         }

@@ -286,6 +286,8 @@ namespace PKHeX.Core
         private List<ComboItem> MetGen6 { get; set; }
         private List<ComboItem> MetGen7 { get; set; }
 
+        public List<ComboItem> Memories { get; set; }
+
         private void InitializeDataSources()
         {
             int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
@@ -301,7 +303,12 @@ namespace PKHeX.Core
 
             HaXMoveDataSource = Util.GetCBList(movelist, null);
             MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
-            #region Met Locations
+            InitializeMetSources();
+            InitializeMemorySource();
+        }
+
+        private void InitializeMetSources()
+        {
             // Gen 2
             {
                 var met_list = Util.GetCBList(metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
@@ -360,7 +367,37 @@ namespace PKHeX.Core
                 met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, Legal.Met_SM_6);
                 MetGen7 = met_list;
             }
-            #endregion
+        }
+
+        private void InitializeMemorySource()
+        {
+            // Memory Chooser
+            int memorycount = memories.Length - 38;
+            string[] mems = new string[memorycount];
+            int[] allowed = new int[memorycount];
+            for (int i = 0; i < memorycount; i++)
+            {
+                mems[i] = memories[38 + i];
+                allowed[i] = i + 1;
+            }
+            Array.Resize(ref allowed, allowed.Length - 1);
+            var memory_list1 = Util.GetCBList(new[] { mems[0] }, null);
+            Memories = Util.GetOffsetCBList(memory_list1, mems, 0, allowed);
+        }
+
+        public List<string> GetMemoryQualities()
+        {
+            List<string> list = new List<string>();
+            for (int i = 0; i < 7; i++)
+                list.Add(memories[2 + i]);
+            return list;
+        }
+        public List<string> GetMemoryFeelings()
+        {
+            List<string> list = new List<string>();
+            for (int i = 0; i < 24; i++)
+                list.Add(memories[10 + i]);
+            return list;
         }
 
         public void SetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort> allowed = null, bool HaX = false)
