@@ -286,7 +286,7 @@ namespace PKHeX.Core
         private List<ComboItem> MetGen6 { get; set; }
         private List<ComboItem> MetGen7 { get; set; }
 
-        public List<ComboItem> Memories { get; set; }
+        public MemoryStrings Memories { get; private set; }
 
         private void InitializeDataSources()
         {
@@ -304,7 +304,7 @@ namespace PKHeX.Core
             HaXMoveDataSource = Util.GetCBList(movelist, null);
             MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
             InitializeMetSources();
-            InitializeMemorySource();
+            Memories = new MemoryStrings(this);
         }
 
         private void InitializeMetSources()
@@ -367,37 +367,6 @@ namespace PKHeX.Core
                 met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, Legal.Met_SM_6);
                 MetGen7 = met_list;
             }
-        }
-
-        private void InitializeMemorySource()
-        {
-            // Memory Chooser
-            int memorycount = memories.Length - 38;
-            string[] mems = new string[memorycount];
-            int[] allowed = new int[memorycount];
-            for (int i = 0; i < memorycount; i++)
-            {
-                mems[i] = memories[38 + i];
-                allowed[i] = i + 1;
-            }
-            Array.Resize(ref allowed, allowed.Length - 1);
-            var memory_list1 = Util.GetCBList(new[] { mems[0] }, null);
-            Memories = Util.GetOffsetCBList(memory_list1, mems, 0, allowed);
-        }
-
-        public List<string> GetMemoryQualities()
-        {
-            List<string> list = new List<string>();
-            for (int i = 0; i < 7; i++)
-                list.Add(memories[2 + i]);
-            return list;
-        }
-        public List<string> GetMemoryFeelings()
-        {
-            List<string> list = new List<string>();
-            for (int i = 0; i < 24; i++)
-                list.Add(memories[10 + i]);
-            return list;
         }
 
         public void SetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort> allowed = null, bool HaX = false)

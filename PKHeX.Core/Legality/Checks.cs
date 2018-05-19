@@ -1826,11 +1826,11 @@ namespace PKHeX.Core
                     resultPrefix = V206;
                     break;
             }
-            int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
-            if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Legal.MoveSpecificMemories[1][matchingMoveMemory], 6))
+            int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], m);
+            if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6))
                 return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
 
-            if (m == 6 && !Legal.LocationsWithPKCenter[0].Contains(t))
+            if (m == 6 && !Memories.LocationsWithPKCenter[0].Contains(t))
                 return new CheckResult(Severity.Invalid, string.Format(V154, resultPrefix), CheckIdentifier.Memory);
 
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
@@ -1843,10 +1843,10 @@ namespace PKHeX.Core
             if (m == 49 && (t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
                 return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
 
-            if (i < Legal.MemoryMinIntensity[m])
-                return new CheckResult(Severity.Invalid, string.Format(V254, resultPrefix, Legal.MemoryMinIntensity[m]), CheckIdentifier.Memory);
+            if (i < Memories.MemoryMinIntensity[m])
+                return new CheckResult(Severity.Invalid, string.Format(V254, resultPrefix, Memories.MemoryMinIntensity[m]), CheckIdentifier.Memory);
 
-            if (m != 4 && (Legal.MemoryFeelings[m] & (1 << f)) == 0)
+            if (m != 4 && (Memories.MemoryFeelings[m] & (1 << f)) == 0)
                 return new CheckResult(Severity.Invalid, string.Format(V255, resultPrefix), CheckIdentifier.Memory);
 
             return new CheckResult(Severity.Valid, string.Format(V155, resultPrefix), CheckIdentifier.Memory);
@@ -1915,10 +1915,10 @@ namespace PKHeX.Core
                     return;
 
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                    int matchingOriginGame = Array.IndexOf(Legal.LocationsWithPKCenter[0], pkm.OT_TextVar);
+                    int matchingOriginGame = Array.IndexOf(Memories.LocationsWithPKCenter[0], pkm.OT_TextVar);
                     if (matchingOriginGame != -1)
                     {
-                        int gameID = Legal.LocationsWithPKCenter[1][matchingOriginGame];
+                        int gameID = Memories.LocationsWithPKCenter[1][matchingOriginGame];
                         if (pkm.XY && gameID != 0 || pkm.AO && gameID != 1)
                             AddLine(Severity.Invalid, string.Format(V162, V205), CheckIdentifier.Memory);
                     }
@@ -1932,9 +1932,9 @@ namespace PKHeX.Core
                         AddLine(Severity.Valid, string.Format(V164, V205), CheckIdentifier.Memory);
                     return;
             }
-            if (pkm.XY && Legal.Memory_NotXY.Contains(pkm.OT_Memory))
+            if (pkm.XY && Memories.Memory_NotXY.Contains(pkm.OT_Memory))
                 AddLine(Severity.Invalid, string.Format(V163, V205), CheckIdentifier.Memory);
-            if (pkm.AO && Legal.Memory_NotAO.Contains(pkm.OT_Memory))
+            if (pkm.AO && Memories.Memory_NotAO.Contains(pkm.OT_Memory))
                 AddLine(Severity.Invalid, string.Format(V163, V205), CheckIdentifier.Memory);
 
             AddLine(VerifyCommonMemory(0));
