@@ -75,11 +75,17 @@ namespace PKHeX.Core
         {
             get => _currentSlot;
             // 4 save slots, data reading depends on current slot
-            set => Box = 0x978 + 0x6FF00 * (_currentSlot = value);
+            set
+            {
+                _currentSlot = value;
+                var ofs = 0x6FF00 * _currentSlot;
+                Box = ofs + 0x978;
+                Party = ofs + 0x65F48; // near the end of the slot chunk
+            }
         }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_4PARTY - 0x10; // PBR has a party
+        protected override int SIZE_PARTY => PKX.SIZE_4STORED + 4;
         public override PKM BlankPKM => new BK4();
         public override Type PKMType => typeof(BK4);
 
@@ -98,7 +104,19 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
 
         public override int BoxCount => 18;
-        public override bool HasParty => false;
+
+        public override int PartyCount
+        {
+            get
+            {
+                int ctr = 0;
+                for (int i = 0; i < 6; i++)
+                    if (Data[GetPartyOffset(i) + 4] != 0) // sanity
+                        ctr += 1;
+                return ctr;
+            }
+            protected set { }
+        }
 
         // Checksums
         protected override void SetChecksums()
@@ -125,7 +143,7 @@ namespace PKHeX.Core
         // Storage
         public override int GetPartyOffset(int slot) // TODO
         {
-            return -1;
+            return Party + SIZE_PARTY * slot;
         }
         public override int GetBoxOffset(int box)
         {
@@ -155,6 +173,11 @@ namespace PKHeX.Core
             DateTime Date = DateTime.Now;
             if (pk4.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
                 pkm.RefreshChecksum();
+        }
+
+        protected override void SetPartyValues(PKM pkm, bool isParty)
+        {
+            pkm.Sanity = (ushort)(isParty ? 0xC000 : 0x4000);
         }
 
         public static byte[] DecryptPBRSaveData(byte[] input)

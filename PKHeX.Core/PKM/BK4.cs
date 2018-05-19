@@ -10,7 +10,7 @@ namespace PKHeX.Core
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
-        public override int SIZE_PARTY => PKX.SIZE_4PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_4STORED;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS[Species];
@@ -29,13 +29,13 @@ namespace PKHeX.Core
                 RefreshChecksum();
             if (Valid && Sanity == 0)
                 Sanity = 0x4000;
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            SetStats(GetStats(PersonalInfo));
         }
         public BK4()
         {
             Data = new byte[SIZE_PARTY];
             Sanity = 0x4000;
+            SetStats(GetStats(PersonalInfo));
         }
         public override PKM Clone() => new BK4((byte[])Encrypt().Clone(), Identifier);
 
@@ -322,14 +322,15 @@ namespace PKHeX.Core
         // Unused 0x87
         #endregion
 
-        public override int Stat_Level { get => Data[0x8C]; set => Data[0x8C] = (byte)value; }
-        public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x8E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x8E); }
-        public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x90); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x90); }
-        public override int Stat_ATK { get => BigEndian.ToUInt16(Data, 0x92); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x92); }
-        public override int Stat_DEF { get => BigEndian.ToUInt16(Data, 0x94); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x94); }
-        public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x96); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x96); }
-        public override int Stat_SPA { get => BigEndian.ToUInt16(Data, 0x98); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x98); }
-        public override int Stat_SPD { get => BigEndian.ToUInt16(Data, 0x9A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
+        // Not stored
+        public override int Stat_Level { get => CurrentLevel; set {} }
+        public override int Stat_HPCurrent { get; set; }
+        public override int Stat_HPMax { get; set; }
+        public override int Stat_ATK { get; set; }
+        public override int Stat_DEF { get; set; }
+        public override int Stat_SPE { get; set; }
+        public override int Stat_SPA { get; set; }
+        public override int Stat_SPD { get; set; }
 
         // Methods
         protected override ushort CalculateChecksum()
