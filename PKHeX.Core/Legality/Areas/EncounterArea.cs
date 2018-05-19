@@ -30,13 +30,14 @@ namespace PKHeX.Core
             Slots = new EncounterSlot[(data.Length - 2) / 4];
             for (int i = 0; i < Slots.Length; i++)
             {
-                ushort SpecForm = BitConverter.ToUInt16(data, 2 + i * 4);
+                int ofs = 2 + (i * 4);
+                ushort SpecForm = BitConverter.ToUInt16(data, ofs);
                 Slots[i] = new EncounterSlot
                 {
                     Species = SpecForm & 0x7FF,
                     Form = SpecForm >> 11,
-                    LevelMin = data[4 + i * 4],
-                    LevelMax = data[5 + i * 4],
+                    LevelMin = data[ofs + 2],
+                    LevelMax = data[ofs + 3],
                 };
             }
             foreach (var slot in Slots)
@@ -45,7 +46,7 @@ namespace PKHeX.Core
 
         public EncounterArea Clone(int location)
         {
-            EncounterArea Area = new EncounterArea
+            var Area = new EncounterArea
             {
                 Location = location,
                 Slots = new EncounterSlot[Slots.Length]
@@ -939,17 +940,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray3(byte[][] entries)
         {
-            if (entries == null)
-                return null;
-
-            var Areas = new List<EncounterArea>();
-            foreach (byte[] t in entries)
-            {
-                EncounterArea Area = GetArea3(t);
-                if (Area.Slots.Length != 0)
-                    Areas.Add(Area);
-            }
-            return Areas.ToArray();
+            return entries.Select(GetArea3).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -960,7 +951,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4DPPt(byte[][] entries, bool pt = false)
         {
-            return entries?.Select(z => GetArea4DPPt(z, pt)).Where(Area => Area.Slots.Length != 0).ToArray();
+            return entries.Select(z => GetArea4DPPt(z, pt)).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -970,7 +961,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4HGSS(byte[][] entries)
         {
-            return entries?.Select(GetArea4HGSS).Where(Area => Area.Slots.Length != 0).ToArray();
+            return entries.Select(GetArea4HGSS).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -980,7 +971,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4HGSS_Headbutt(byte[][] entries)
         {
-            return entries?.Select(GetArea4HGSS_Headbutt).Where(Area => Area.Slots.Length != 0).ToArray();
+            return entries.Select(GetArea4HGSS_Headbutt).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -1021,9 +1012,6 @@ namespace PKHeX.Core
         /// <returns>Array of areas</returns>
         public static EncounterArea[] GetArray(byte[][] entries)
         {
-            if (entries == null)
-                return null;
-
             EncounterArea[] data = new EncounterArea[entries.Length];
             for (int i = 0; i < data.Length; i++)
                 data[i] = new EncounterArea(entries[i]);
