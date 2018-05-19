@@ -247,7 +247,7 @@ namespace PKHeX.Core
             if (!VerifyLanguage())
                 return;
 
-            if (Type == typeof(EncounterTrade))
+            if (EncounterMatch is EncounterTrade)
             {
                 VerifyNicknameTrade();
                 return;
@@ -646,7 +646,7 @@ namespace PKHeX.Core
         #region VerifyOT
         private void VerifyOT()
         {
-            if (Type == typeof(EncounterTrade))
+            if (EncounterMatch is EncounterTrade)
                 return; // Already matches Encounter information
 
             if (EncounterMatch is MysteryGift g && !g.IsEgg)
@@ -968,7 +968,7 @@ namespace PKHeX.Core
 
             // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
             // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked
-            if (pkm.Format <= 2 && Type != typeof (EncounterTrade) && EncounterMatch.Species == pkm.Species && Legal.Trade_Evolution1.Contains(EncounterMatch.Species))
+            if (pkm.Format <= 2 && !(EncounterMatch is EncounterTrade) && EncounterMatch.Species == pkm.Species && Legal.Trade_Evolution1.Contains(EncounterMatch.Species))
                 VerifyG1TradeEvo();
         }
         private void VerifyG1TradeEvo()
@@ -2063,9 +2063,10 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 25 when Info.Generation == 6: // Pikachu Cosplay
-                    if (pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
+                    bool isStatic = EncounterMatch is EncounterStatic;
+                    if (isStatic != (pkm.AltForm != 0))
                     {
-                        string msg = Type == typeof(EncounterStatic) ? V305 : V306;
+                        string msg = isStatic ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
@@ -2145,7 +2146,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
-                    if (pkm.AltForm != 0 && Type != typeof(MysteryGift)) // Formes are not breedable, MysteryGift already checked
+                    if (pkm.AltForm != 0 && !(EncounterMatch is MysteryGift)) // Formes are not breedable, MysteryGift already checked
                     {
                         AddLine(Severity.Invalid, string.Format(V304, 0, pkm.AltForm), CheckIdentifier.Form);
                         return;
@@ -2164,7 +2165,7 @@ namespace PKHeX.Core
                 case 666: // Vivillon
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
-                        if (Type != typeof(MysteryGift))
+                        if (!(EncounterMatch is MysteryGift))
                             AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, V313, CheckIdentifier.Form);
@@ -2177,7 +2178,7 @@ namespace PKHeX.Core
                 case 670: // Floette
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
-                        if (Type != typeof(MysteryGift))
+                        if (!(EncounterMatch is MysteryGift))
                             AddLine(Severity.Invalid, V314, CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, V315, CheckIdentifier.Form);

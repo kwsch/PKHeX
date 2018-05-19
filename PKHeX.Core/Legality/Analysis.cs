@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -19,7 +18,6 @@ namespace PKHeX.Core
 
         private IEncounterable EncounterOriginalGB;
         private IEncounterable EncounterMatch => Info.EncounterMatch;
-        private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
 
         private CheckResult Encounter, History;
 
@@ -253,11 +251,6 @@ namespace PKHeX.Core
             if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncounterMatch is IGeneration g && g.Generation != pkm.GenNumber)
                 // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
                 pkm.TradebackStatus = TradebackType.WasTradeback;
-
-            Type = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
-            var bt = Type.GetTypeInfo().BaseType;
-            if (bt != null && !(bt == typeof(Array) || bt == typeof(object) || bt.GetTypeInfo().IsPrimitive)) // a parent exists
-                Type = bt; // use base type
         }
         private void UpdateChecks()
         {
