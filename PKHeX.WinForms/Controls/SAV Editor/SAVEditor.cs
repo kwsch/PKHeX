@@ -1129,7 +1129,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
         }
-        private void ClickShowdownExportParty(object sender, EventArgs e)
+
+        public void ClickShowdownExportParty(object sender, EventArgs e)
         {
             try
             {
@@ -1140,7 +1141,8 @@ namespace PKHeX.WinForms.Controls
             catch { }
             WinFormsUtil.Alert(MsgSimulatorExportParty);
         }
-        private void ClickShowdownExportBattleBox(object sender, EventArgs e)
+
+        public void ClickShowdownExportBattleBox(object sender, EventArgs e)
         {
             try
             {
