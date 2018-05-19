@@ -489,7 +489,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             ((SAV4BR)SAV).CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
             SetPKMBoxes();
-            UpdateBoxViewers(all);
+            UpdateBoxViewers(true);
         }
         private void UpdateStringSeed(object sender, EventArgs e)
         {
