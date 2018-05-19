@@ -170,7 +170,7 @@ namespace PKHeX.WinForms.Controls
             if (pk.Species == 0)
                 ShowSet.RemoveAll();
             else
-                ShowSet.SetToolTip(pb, pk.ShowdownText);
+                ShowSet.SetToolTip(pb, ShowdownSet.GetShowdownText(pk));
         }
         private void PlayCry(PKM pk)
         {

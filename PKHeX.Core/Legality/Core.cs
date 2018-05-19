@@ -2173,7 +2173,7 @@ namespace PKHeX.Core
             }
             if (IsYellow)
                 return false;
-            // Yellow only moves in Red/Blue game, must be Allakazham
+            // Yellow only moves in Red/Blue game, must be Alakazam
             if (pk1.Moves.Contains(134)) // Kinesis, yellow only move
                 return true;
             if (pk1.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Obtaining Disable below level 20 implies a yellow only move

@@ -1133,7 +1133,7 @@ namespace PKHeX.WinForms.Controls
         {
             try
             {
-                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.PartyData.Select(pk => pk.ShowdownText));
+                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.PartyData.Select(ShowdownSet.GetShowdownText));
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
             }
@@ -1144,7 +1144,7 @@ namespace PKHeX.WinForms.Controls
         {
             try
             {
-                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.BattleBoxData.Select(pk => pk.ShowdownText));
+                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.BattleBoxData.Select(ShowdownSet.GetShowdownText));
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
             }

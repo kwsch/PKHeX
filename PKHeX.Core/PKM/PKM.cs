@@ -352,7 +352,6 @@ namespace PKHeX.Core
             x = (x << p1) | (x << p2);
             return value ^ x;
         }
-        public string ShowdownText => ShowdownSet.GetShowdownText(this);
         public string[] QRText => this.GetQRLines();
 
         public virtual string FileName

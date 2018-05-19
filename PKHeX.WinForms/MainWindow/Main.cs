@@ -413,7 +413,8 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            var text = PreparePKM().ShowdownText;
+            var pk = PreparePKM();
+            var text = ShowdownSet.GetShowdownText(pk);
             Clipboard.SetText(text);
             var clip = Clipboard.GetText();
             if (clip != text)
@@ -421,32 +422,8 @@ namespace PKHeX.WinForms
             else
                 WinFormsUtil.Alert(MsgSimulatorExportSuccess, text);
         }
-        private void ClickShowdownExportParty(object sender, EventArgs e)
-        {
-            var data = C_SAV.SAV.PartyData;
-            if (data.Count <= 0) return;
-            try
-            {
-                var split = Environment.NewLine + Environment.NewLine;
-                var sets = data.Select(z => z.ShowdownText);
-                Clipboard.SetText(string.Join(split, sets));
-                WinFormsUtil.Alert(MsgSimulatorExportParty);
-            }
-            catch { }
-        }
-        private void ClickShowdownExportBattleBox(object sender, EventArgs e)
-        {
-            var data = C_SAV.SAV.BattleBoxData;
-            if (data.Count <= 0) return;
-            try
-            {
-                var split = Environment.NewLine + Environment.NewLine;
-                var sets = data.Select(z => z.ShowdownText);
-                Clipboard.SetText(string.Join(split, sets));
-                WinFormsUtil.Alert(MsgSimulatorExportBattleBox);
-            }
-            catch { }
-        }
+        private void ClickShowdownExportParty(object sender, EventArgs e) => C_SAV.ClickShowdownExportParty(sender, e);
+        private void ClickShowdownExportBattleBox(object sender, EventArgs e) => C_SAV.ClickShowdownExportBattleBox(sender, e);
 
         // Main Menu Subfunctions
         private void OpenQuick(string path, bool force = false)
