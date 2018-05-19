@@ -168,7 +168,7 @@ namespace PKHeX.WinForms.Controls
             ResetNonBoxSlots();
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
-            if (M?.ColorizedSlot >= (int)SlotIndex.Party)
+            if (M?.ColorizedSlot >= (int)SlotIndex.Party && M.ColorizedSlot < SlotPictureBoxes.Count)
                 SlotPictureBoxes[M.ColorizedSlot].BackgroundImage = M.ColorizedColor;
         }
         private void ResetNonBoxSlots()
@@ -489,6 +489,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             ((SAV4BR)SAV).CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
             SetPKMBoxes();
+            UpdateBoxViewers(all);
         }
         private void UpdateStringSeed(object sender, EventArgs e)
         {

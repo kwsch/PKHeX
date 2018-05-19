@@ -112,7 +112,7 @@ namespace PKHeX.Core
                 int ctr = 0;
                 for (int i = 0; i < 6; i++)
                     if (Data[GetPartyOffset(i) + 4] != 0) // sanity
-                        ctr += 1;
+                        ctr++;
                 return ctr;
             }
             protected set { }
@@ -141,7 +141,7 @@ namespace PKHeX.Core
         public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
 
         // Storage
-        public override int GetPartyOffset(int slot) // TODO
+        public override int GetPartyOffset(int slot)
         {
             return Party + SIZE_PARTY * slot;
         }

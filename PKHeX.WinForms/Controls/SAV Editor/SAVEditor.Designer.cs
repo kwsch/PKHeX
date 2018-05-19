@@ -148,8 +148,8 @@
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 101;
-            this.tabBoxMulti.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ClickBoxSort);
             this.tabBoxMulti.DragOver += new System.Windows.Forms.DragEventHandler(this.MultiDragOver);
+            this.tabBoxMulti.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ClickBoxSort);
             this.tabBoxMulti.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ClickBoxDouble);
             // 
             // Tab_Box
@@ -390,6 +390,7 @@
             this.SL_Extra.Name = "SL_Extra";
             this.SL_Extra.Size = new System.Drawing.Size(75, 199);
             this.SL_Extra.TabIndex = 30;
+            this.SL_Extra.ViewIndex = -1;
             // 
             // GB_Daycare
             // 
@@ -552,7 +553,7 @@
             this.CB_SaveSlot.Name = "CB_SaveSlot";
             this.CB_SaveSlot.Size = new System.Drawing.Size(121, 21);
             this.CB_SaveSlot.TabIndex = 20;
-            this.CB_SaveSlot.Validated += new System.EventHandler(this.UpdateSaveSlot);
+            this.CB_SaveSlot.SelectedIndexChanged += new System.EventHandler(this.UpdateSaveSlot);
             // 
             // L_SaveSlot
             // 
