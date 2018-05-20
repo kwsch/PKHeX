@@ -10,6 +10,12 @@ namespace PKHeX.Tests.Simulator
     {
         private const string SimulatorParse = "Set Parsing Tests";
 
+        static ShowdownSetTests()
+        {
+            // Initialize the Mystery Gift Databases for generating
+            EncounterEvent.RefreshMGDB();
+        }
+
         [TestMethod]
         [TestCategory(SimulatorParse)]
         public void SimulatorGetParse()
@@ -51,6 +57,26 @@ namespace PKHeX.Tests.Simulator
             }
         }
 
+        [TestMethod]
+        [TestCategory(SimulatorParse)]
+        public void SimulatorGetWC3()
+        {
+            var set = new ShowdownSet(SetROCKSMetang);
+            var pk3 = new PK3 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
+            Assert.IsTrue(encs.Any());
+            encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
+            var first = encs.FirstOrDefault();
+            Assert.IsTrue(first != null);
+
+            var wc3 = (WC3)first;
+            var info = new SimpleTrainerInfo();
+            var pk = wc3.ConvertToPKM(info);
+
+            var la = new LegalityAnalysis(pk);
+            Assert.IsTrue(la.Valid);
+        }
+
         //[TestMethod]
         //[TestCategory(SimulatorParse)]
         public void TestGenerate()
@@ -74,6 +100,17 @@ namespace PKHeX.Tests.Simulator
             Debug.WriteLine($"Generated {count} PKMs!");
         }
 
+        private const string SetROCKSMetang =
+@"Metang
+IVs: 20 HP / 3 Atk / 26 Def / 1 SpA / 6 SpD / 8 Spe
+Ability: Clear Body
+Level: 30
+Adamant Nature
+- Take Down
+- Confusion
+- Metal Claw
+- Refresh";
+
         private const string SetGlaceonUSUMTutor =
 @"Glaceon (F) @ Assault Vest
 IVs: 0 Atk
@@ -91,13 +128,13 @@ Modest Nature
         {
             SetGlaceonUSUMTutor,
 
-@"Greninja @ Choice Specs  
-Ability: Battle Bond  
-EVs: 252 SpA / 4 SpD / 252 Spe  
-Timid Nature  
-- Hydro Pump  
-- Spikes  
-- Water Shuriken  
+@"Greninja @ Choice Specs
+Ability: Battle Bond
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Hydro Pump
+- Spikes
+- Water Shuriken
 - Dark Pulse",
         };
     }

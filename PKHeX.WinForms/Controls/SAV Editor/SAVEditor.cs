@@ -538,14 +538,13 @@ namespace PKHeX.WinForms.Controls
         }
         private void SwitchDaycare(object sender, EventArgs e)
         {
-            if (!SAV.HasTwoDaycares) return;
-            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveSwitchDaycareView,
-                    string.Format(MsgSaveSwitchDaycareCurrent, SAV.DaycareIndex + 1)))
-                // If ORAS, alter the daycare offset via toggle.
-                SAV.DaycareIndex ^= 1;
-
-            // Refresh Boxes
-            SetPKMBoxes();
+            if (!SAV.HasTwoDaycares)
+                return;
+            var current = string.Format(MsgSaveSwitchDaycareCurrent, SAV.DaycareIndex + 1);
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveSwitchDaycareView, current))
+                return;
+            SAV.DaycareIndex ^= 1;
+            ResetDaycare();
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
@@ -605,7 +604,7 @@ namespace PKHeX.WinForms.Controls
                     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
                     0x01, 0x00, 0x00, 0x00,
-                }.CopyTo(SAV.Data, ((SAV6)SAV).OPower);
+                }.CopyTo(SAV.Data, SAV.OPower);
             }
             else if (SAV.XY)
                 new SAV_OPower(SAV).ShowDialog();
@@ -657,12 +656,9 @@ namespace PKHeX.WinForms.Controls
         {
             switch (SAV.Generation)
             {
-                case 3:
-                    new SAV_Misc3(SAV).ShowDialog(); break;
-                case 4:
-                    new SAV_Misc4(SAV).ShowDialog(); break;
-                case 5:
-                    new SAV_Misc5(SAV).ShowDialog(); break;
+                case 3: new SAV_Misc3(SAV).ShowDialog(); break;
+                case 4: new SAV_Misc4(SAV).ShowDialog(); break;
+                case 5: new SAV_Misc5(SAV).ShowDialog(); break;
             }
         }
         private void B_OpenRTCEditor_Click(object sender, EventArgs e)
@@ -1084,16 +1080,14 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && sav.Generation >= 6;
             B_VerifyCHK.Enabled = SAV.Exportable;
 
-            if (sav.Version == GameVersion.BATREV)
+            if (sav is SAV4BR br)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
-                CB_SaveSlot.DisplayMember = nameof(ComboItem.Text); CB_SaveSlot.ValueMember = nameof(ComboItem.Value);
-                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR)sav).SaveSlots.Select(i => new ComboItem
-                {
-                    Text = ((SAV4BR)sav).SaveNames[i],
-                    Value = i
-                }).ToList(), null);
-                CB_SaveSlot.SelectedValue = ((SAV4BR)sav).CurrentSlot;
+                var list = br.SaveNames.Select((z, i) => new ComboItem { Text = z, Value = i }).ToList();
+                CB_SaveSlot.DisplayMember = nameof(ComboItem.Text);
+                CB_SaveSlot.ValueMember = nameof(ComboItem.Value);
+                CB_SaveSlot.DataSource = new BindingSource(list, null);
+                CB_SaveSlot.SelectedValue = br.CurrentSlot;
             }
             else
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
@@ -1135,7 +1129,7 @@ namespace PKHeX.WinForms.Controls
         {
             try
             {
-                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.PartyData.Select(ShowdownSet.GetShowdownText));
+                var str = ShowdownSet.GetShowdownSets(SAV.PartyData, Environment.NewLine + Environment.NewLine);
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
             }
@@ -1147,7 +1141,7 @@ namespace PKHeX.WinForms.Controls
         {
             try
             {
-                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.BattleBoxData.Select(ShowdownSet.GetShowdownText));
+                var str = ShowdownSet.GetShowdownSets(SAV.BattleBoxData, Environment.NewLine + Environment.NewLine);
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
             }

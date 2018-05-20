@@ -158,13 +158,20 @@ namespace PKHeX.Core
             get
             {
                 PKM[] data = new PKM[BoxCount*BoxSlotCount];
-                for (int i = 0; i < data.Length; i++)
+                for (int b = 0; b < BoxCount; b++)
                 {
-                    data[i] = GetStoredSlot(GetBoxOffset(i/BoxSlotCount) + SIZE_STORED*(i%BoxSlotCount));
-                    data[i].Identifier = $"{GetBoxName(i/BoxSlotCount)}:{i%BoxSlotCount + 1:00}";
-                    data[i].Box = i/BoxSlotCount + 1;
-                    data[i].Slot = i%BoxSlotCount + 1;
-                    data[i].Locked = IsSlotLocked(data[i].Box, data[i].Slot);
+                    int boxOfs = GetBoxOffset(b);
+                    for (int s = 0; s < BoxSlotCount; s++)
+                    {
+                        int ofs = boxOfs + s * SIZE_STORED;
+                        int i = BoxSlotCount * b + s;
+
+                        data[i] = GetStoredSlot(ofs);
+                        data[i].Identifier = $"{GetBoxName(b)}:{s + 1:00}";
+                        data[i].Box = b;
+                        data[i].Slot = s;
+                        data[i].Locked = IsSlotLocked(b, s);
+                    }
                 }
                 return data;
             }
@@ -175,8 +182,18 @@ namespace PKHeX.Core
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
 
-                for (int i = 0; i < value.Count; i++)
-                    SetStoredSlot(value[i], GetBoxOffset(i/BoxSlotCount) + SIZE_STORED*(i%BoxSlotCount));
+                for (int b = 0; b < BoxCount; b++)
+                {
+                    int boxOfs = GetBoxOffset(b);
+                    for (int s = 0; s < BoxSlotCount; s++)
+                    {
+                        if (IsSlotLocked(b, s))
+                            continue;
+                        int ofs = boxOfs + s * SIZE_STORED;
+                        int i = BoxSlotCount * b + s;
+                        SetStoredSlot(value[i], ofs);
+                    }
+                }
             }
         }
         public IList<PKM> PartyData
@@ -218,8 +235,10 @@ namespace PKHeX.Core
                 {
                     data[i] = GetStoredSlot(BattleBox + SIZE_STORED * i);
                     data[i].Locked = BattleBoxLocked;
-                    if (data[i].Species == 0)
-                        return data.Take(i).ToArray();
+                    if (data[i].Species != 0)
+                        continue;
+                    Array.Resize(ref data, i);
+                    return data;
                 }
                 return data;
             }
@@ -512,10 +531,33 @@ namespace PKHeX.Core
             Data[offset] = (byte)value;
         }
 
-        public virtual PKM GetPartySlot(int offset)
+        private void GetBoxSlotFromIndex(int index, out int box, out int slot)
         {
-            return GetPKM(DecryptPKM(GetData(offset, SIZE_PARTY)));
+            box = index / BoxSlotCount;
+            if (box >= BoxCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            slot = index % BoxSlotCount;
         }
+
+        public PKM GetPartySlotAtIndex(int index) => GetPartySlot(GetPartyOffset(index));
+        public PKM GetBoxSlotAtIndex(int box, int slot) => GetStoredSlot(GetBoxSlotOffset(box, slot));
+        public PKM GetBoxSlotAtIndex(int index)
+        {
+            GetBoxSlotFromIndex(index, out int box, out int slot);
+            return GetBoxSlotAtIndex(box, slot);
+        }
+        public int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + slot * SIZE_STORED;
+        public int GetBoxSlotOffset(int index)
+        {
+            GetBoxSlotFromIndex(index, out int box, out int slot);
+            return GetBoxSlotOffset(box, slot);
+        }
+
+        public void SetBoxSlotAtIndex(PKM pkm, int box, int slot, bool? trade, bool? dex = null) => SetStoredSlot(pkm, GetBoxSlotOffset(box, slot), trade, dex);
+        public void SetBoxSlotAtIndex(PKM pkm, int index, bool? trade, bool? dex = null) => SetStoredSlot(pkm, GetBoxSlotOffset(index), trade, dex);
+        public void SetPartySlotAtIndex(PKM pkm, int index, bool? trade = null, bool? dex = null) => SetPartySlot(pkm, GetPartyOffset(index), trade, dex);
+
+        public virtual PKM GetPartySlot(int offset) => GetPKM(DecryptPKM(GetData(offset, SIZE_PARTY)));
         public virtual PKM GetStoredSlot(int offset)
         {
             return GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));

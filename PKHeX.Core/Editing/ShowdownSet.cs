@@ -535,5 +535,20 @@ namespace PKHeX.Core
                 setLines.Clear();
             }
         }
+
+        /// <summary>
+        /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data.
+        /// </summary>
+        /// <param name="data">Pokémon data to summarize.</param>
+        /// <returns>Consumable list of <see cref="ShowdownSet.Text"/> lines.</returns>
+        public static IEnumerable<string> GetShowdownSets(IEnumerable<PKM> data) => data.Select(GetShowdownText);
+
+        /// <summary>
+        /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data, and combines it into one string.
+        /// </summary>
+        /// <param name="data">Pokémon data to summarize.</param>
+        /// <param name="separator">Splitter between each set.</param>
+        /// <returns>Single string containing all <see cref="ShowdownSet.Text"/> lines.</returns>
+        public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, data.Select(GetShowdownText));
     }
 }
