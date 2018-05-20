@@ -1394,10 +1394,11 @@ namespace PKHeX.Core
             }
             // If is egg skip the other checks and just return the evo chain for GenNumber, that will contains only the pokemon inside the egg
             // Empty list returned if is an impossible egg (like a gen 3 infernape inside an egg)
+            int pkGen = pkm.GenNumber;
             if (pkm.IsEgg)
             {
-                if (GetMaxSpeciesOrigin(pkm.GenNumber) >= pkm.Species)
-                    GensEvoChains[pkm.GenNumber] = CompleteEvoChain;
+                if (GetMaxSpeciesOrigin(pkGen) >= pkm.Species)
+                    GensEvoChains[pkGen] = CompleteEvoChain;
                 return GensEvoChains;
             }
 
@@ -1406,9 +1407,9 @@ namespace PKHeX.Core
             // Iterate generations backwards because level will be decreased from current level in each generation
             for (int gen = maxgen; gen >= mingen; gen--)
             {
-                if (pkm.GenNumber == 1 && pkm.Gen1_NotTradeback && gen == 2)
+                if (pkGen == 1 && pkm.Gen1_NotTradeback && gen == 2)
                     continue;
-                if (pkm.GenNumber <= 2 && 3 <= gen && gen <= 6)
+                if (pkGen <= 2 && 3 <= gen && gen <= 6)
                     continue;
                 if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen < pkm.Format && gen <= 4 && lvl > pkm.Met_Level)
                 {
@@ -1446,13 +1447,24 @@ namespace PKHeX.Core
                     continue;
 
                 GensEvoChains[gen] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain[0].Species, lvl);
-                if (gen > 2 && !pkm.HasOriginalMetLocation && gen >= pkm.GenNumber)
-                    //Remove previous evolutions bellow transfer level
-                    //For example a gen3 charizar in format 7 with current level 36 and met level 36
-                    //chain level for charmander is 35, is bellow met level
-                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= GetMinLevelGeneration(pkm, gen)).ToArray();
+                if (gen > 2 && !pkm.HasOriginalMetLocation && gen >= pkGen)
+                {
+                    // For transferred species, rule out pre-evolutions where their max level is not obtainable in the specified generation.
+                    // Only prune entries for gen values that would overwrite the met data.
+                    bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, gen);
+                    if (pkm.Format >= 5 && gen == 4 && pkGen == 3)
+                        isTransferred = false; // can't prune as the 3->4 data is overwritten again 4->5
+                    if (isTransferred)
+                    {
+                        // Remove previous evolutions below transfer level
+                        // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
+                        // chain level for charmander is 35, is below met level.
+                        int minlvl = GetMinLevelGeneration(pkm, gen);
+                        GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= minlvl).ToArray();
+                    }
+                }
 
-                if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
+                else if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
                 {
                     // Remove generation 2 pre-evolutions
                     GensEvoChains[gen] = GensEvoChains[gen].Take(GensEvoChains[gen].Length - 1).ToArray();
@@ -2238,6 +2250,15 @@ namespace PKHeX.Core
                         return prefer;
                     return LanguageID.English;
             }
+        }
+
+        public static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration)
+        {
+            if (originalGeneration < 3)
+                return currentGeneration >= 3;
+            if (originalGeneration <= 4)
+                return currentGeneration != originalGeneration;
+            return false;
         }
     }
 }
