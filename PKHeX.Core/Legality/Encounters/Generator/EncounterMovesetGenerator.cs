@@ -105,13 +105,20 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             var et = EvolutionTree.GetEvolutionTree(PKX.Generation);
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
-
-            var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);
-            var canlearn = gens.SelectMany(z => Legal.GetValidMoves(pk, dl, z));
-            var needs = moves.Except(canlearn).ToArray();
+            int[] needs = GetNeededMoves(pk, moves, dl);
 
             foreach (var enc in GetPossible(pk, needs, version))
                 yield return enc;
+        }
+
+        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IList<DexLevel> dl)
+        {
+            if (pk.Species == 235) // Smeargle
+                return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
+
+            var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);
+            var canlearn = gens.SelectMany(z => Legal.GetValidMoves(pk, dl, z));
+            return moves.Except(canlearn).ToArray();
         }
 
         /// <summary>

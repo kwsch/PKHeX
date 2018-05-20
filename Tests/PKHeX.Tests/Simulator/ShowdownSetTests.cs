@@ -77,6 +77,26 @@ namespace PKHeX.Tests.Simulator
             Assert.IsTrue(la.Valid);
         }
 
+        [TestMethod]
+        [TestCategory(SimulatorParse)]
+        public void SimulatorGetSmeargle()
+        {
+            var set = new ShowdownSet(SetSmeargle);
+            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
+            Assert.IsTrue(encs.Any());
+            encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
+            var first = encs.FirstOrDefault();
+            Assert.IsTrue(first != null);
+
+            var enc = first;
+            var info = new SimpleTrainerInfo();
+            var pk = enc.ConvertToPKM(info);
+
+            var la = new LegalityAnalysis(pk);
+            Assert.IsTrue(la.Valid);
+        }
+
         //[TestMethod]
         //[TestCategory(SimulatorParse)]
         public void TestGenerate()
@@ -123,6 +143,16 @@ Modest Nature
 - Water Pulse
 - Shadow Ball
 - Hyper Voice";
+
+        private const string SetSmeargle =
+@"Smeargle @ Focus Sash
+Ability: Own Tempo
+EVs: 248 HP / 8 Def / 252 Spe
+Jolly Nature
+- Sticky Web
+- Nuzzle
+- Taunt
+- Whirlwind";
 
         private static readonly string[] Sets =
         {
