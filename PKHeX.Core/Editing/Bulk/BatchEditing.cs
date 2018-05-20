@@ -232,6 +232,8 @@ namespace PKHeX.Core
 
             if (cmd.PropertyValue == CONST_SUGGEST)
                 return SetSuggestedPKMProperty(cmd.PropertyName, info);
+            if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
+                return SetMoves(pkm, pkm.GetMoveSet(true, info.Legality));
 
             if (SetComplexProperty(pkm, cmd))
                 return ModifyResult.Modified;
@@ -349,14 +351,22 @@ namespace PKHeX.Core
                     return ModifyResult.Modified;
 
                 case nameof(PKM.Moves):
-                    var moves = info.SuggestedMoves;
-                    Util.Shuffle(moves);
-                    PKM.SetMoves(moves);
-                    return ModifyResult.Modified;
+                    return SetMoves(PKM, PKM.GetMoveSet(la: info.Legality));
 
                 default:
                     return ModifyResult.Error;
             }
+        }
+
+        /// <summary>
+        /// Sets the provided moves in a random order.
+        /// </summary>
+        /// <param name="pkm">Pokémon to modify.</param>
+        /// <param name="moves">Moves to apply.</param>
+        private static ModifyResult SetMoves(PKM pkm, int[] moves)
+        {
+            pkm.SetMoves(moves);
+            return ModifyResult.Modified;
         }
 
         /// <summary>

@@ -638,19 +638,13 @@ namespace PKHeX.WinForms.Controls
         }
         private bool SetSuggestedMoves(bool random = false, bool silent = false)
         {
-            int[] m = Legality.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
+            int[] m = pkm.GetMoveSet(random);
             if (m == null)
             {
                 if (!silent)
                     WinFormsUtil.Alert(MsgPKMSuggestionFormat);
                 return false;
             }
-
-            if (random)
-                Util.Shuffle(m);
-            if (m.Length > 4)
-                m = m.Skip(m.Length - 4).ToArray();
-            Array.Resize(ref m, 4);
 
             if (pkm.Moves.SequenceEqual(m))
                 return false;

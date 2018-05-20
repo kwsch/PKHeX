@@ -6,11 +6,10 @@ namespace PKHeX.Core
         internal PKMInfo(PKM pk) { pkm = pk; }
 
         private LegalityAnalysis la;
-        private LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
+        internal LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
 
-        internal bool Legal => Legality.Valid;
+        public bool Legal => Legality.Valid;
         internal int[] SuggestedRelearn => Legality.GetSuggestedRelearn();
-        internal int[] SuggestedMoves => Legality.GetSuggestedMoves(tm: true, tutor: true, reminder: false);
         internal EncounterStatic SuggestedEncounter => Legality.GetSuggestedMetInfo();
     }
 }

@@ -572,6 +572,30 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets a moveset for the provided <see cref="PKM"/> data.
+        /// </summary>
+        /// <param name="pkm">PKM to generate for</param>
+        /// <param name="random">Full movepool & shuffling</param>
+        /// <param name="la">Precomputed optional</param>
+        /// <returns>4 moves</returns>
+        public static int[] GetMoveSet(this PKM pkm, bool random = false, LegalityAnalysis la = null)
+        {
+            if (la == null)
+                la = new LegalityAnalysis(pkm);
+            int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
+            if (m == null)
+                return null;
+            if (random)
+                Util.Shuffle(m);
+
+            const int count = 4;
+            if (m.Length > count)
+                return m.Skip(m.Length - count).ToArray();
+            Array.Resize(ref m, count);
+            return m;
+        }
+
+        /// <summary>
         /// Sets the Memory details to a Hatched Egg's memories.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
@@ -584,6 +608,10 @@ namespace PKHeX.Core
             pk.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
         }
 
+        /// <summary>
+        /// Sets a random memory specific to <see cref="GameVersion.Gen6"/> locality.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
         public static void SetRandomMemory6(this PKM pk)
         {
             // for lack of better randomization :)
