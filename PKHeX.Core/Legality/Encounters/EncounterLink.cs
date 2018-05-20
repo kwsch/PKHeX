@@ -62,9 +62,8 @@ namespace PKHeX.Core
             pk.Gender = pk.PersonalInfo.RandomGender;
             pk.Language = lang;
 
-            var moves = Moves.Length != 0 ? Moves : Legal.GetEncounterMoves(pk, Level, version);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
+            pk.Moves = Moves;
+            pk.SetMaximumPPCurrent(Moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.SetRandomIVs(flawless: 3);
             pk.RefreshAbility(Ability >> 1);

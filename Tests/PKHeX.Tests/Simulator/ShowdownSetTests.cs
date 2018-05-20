@@ -79,6 +79,26 @@ namespace PKHeX.Tests.Simulator
 
         [TestMethod]
         [TestCategory(SimulatorParse)]
+        public void SimulatorGetCelebi()
+        {
+            var set = new ShowdownSet(SetCelebi);
+            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
+            Assert.IsTrue(encs.Any());
+            encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
+            var first = encs.FirstOrDefault();
+            Assert.IsTrue(first != null);
+
+            var enc = first;
+            var info = new SimpleTrainerInfo();
+            var pk = enc.ConvertToPKM(info);
+
+            var la = new LegalityAnalysis(pk);
+            Assert.IsTrue(la.Valid);
+        }
+
+        [TestMethod]
+        [TestCategory(SimulatorParse)]
         public void SimulatorGetSmeargle()
         {
             var set = new ShowdownSet(SetSmeargle);
@@ -153,6 +173,15 @@ Jolly Nature
 - Nuzzle
 - Taunt
 - Whirlwind";
+
+        private const string SetCelebi =
+@"Celebi @ Toxic Orb
+Ability: Natural Cure
+Jolly Nature
+- Recover
+- Heal Bell
+- Safeguard
+- Hold Back";
 
         private static readonly string[] Sets =
         {
