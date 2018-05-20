@@ -29,11 +29,15 @@ namespace PKHeX.Core
         {
             return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
                 .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
-                .Select(p => p.Name);
+                .Select(p => p.Name)
+                .Distinct()
+                ;
         }
         public static IEnumerable<string> GetPropertiesCanWritePublic(Type type)
         {
-            return GetAllPropertyInfoCanWritePublic(type).Select(p => p.Name);
+            return GetAllPropertyInfoCanWritePublic(type).Select(p => p.Name)
+                    .Distinct()
+                ;
         }
         public static IEnumerable<PropertyInfo> GetAllPropertyInfoCanWritePublic(Type type)
         {
@@ -45,7 +49,9 @@ namespace PKHeX.Core
         {
             return type.GetTypeInfo().GetAllProperties()
                 .Where(p => p.CanWrite && p.SetMethod.IsPublic)
-                .Select(p => p.Name);
+                .Select(p => p.Name)
+                    .Distinct()
+                ;
         }
 
         private static object ConvertValue(object value, Type type)

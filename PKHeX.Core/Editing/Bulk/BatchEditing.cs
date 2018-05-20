@@ -38,12 +38,12 @@ namespace PKHeX.Core
             var p = new string[Types.Length][];
             for (int i = 0; i < p.Length; i++)
             {
-                var pz = ReflectUtil.GetPropertiesCanWritePublic(Types[i]).Distinct();
+                var pz = ReflectUtil.GetPropertiesCanWritePublic(Types[i]);
                 p[i] = pz.Concat(CustomProperties).OrderBy(a => a).ToArray();
             }
 
             // Properties for any PKM
-            var any = ReflectUtil.GetPropertiesCanWritePublic(typeof(PK1)).Distinct().Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
+            var any = ReflectUtil.GetPropertiesCanWritePublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
             // Properties shared by all PKM
             var all = p.Aggregate(new HashSet<string>(p[0]), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
 
