@@ -279,13 +279,30 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="cmd">Command Filter</param>
         /// <param name="pkm">Pokémon to check.</param>
-        /// <param name="props">PropertyInfo cache (optional)</param>
         /// <returns>True if filtered, else false.</returns>
-        private static bool IsPropertyFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props = null)
+        private static bool IsPropertyFiltered(StringInstruction cmd, PKM pkm)
         {
             if (IsIdentifierFiltered(cmd, pkm))
                 return true;
-            return !props?.TryGetValue(cmd.PropertyName, out _) ?? !ReflectUtil.HasProperty(pkm, cmd.PropertyName, out _);
+            if (!ReflectUtil.HasProperty(pkm, cmd.PropertyName, out var pi))
+                return false;
+            return pi.IsValueEqual(pkm, cmd.PropertyValue) != cmd.Evaluator;
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// </summary>
+        /// <param name="cmd">Command Filter</param>
+        /// <param name="pkm">Pokémon to check.</param>
+        /// <param name="props">PropertyInfo cache</param>
+        /// <returns>True if filtered, else false.</returns>
+        private static bool IsPropertyFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props)
+        {
+            if (IsIdentifierFiltered(cmd, pkm))
+                return true;
+            if (!props.TryGetValue(cmd.PropertyName, out var pi))
+                return false;
+            return pi.IsValueEqual(pkm, cmd.PropertyValue) != cmd.Evaluator;
         }
 
         /// <summary>
