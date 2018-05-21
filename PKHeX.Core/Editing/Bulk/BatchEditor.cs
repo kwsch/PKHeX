@@ -51,6 +51,8 @@ namespace PKHeX.Core
         /// <returns>Friendly (multi-line) string indicating the result of the batch edits.</returns>
         public string GetEditorResults(ICollection<StringInstructionSet> sets)
         {
+            if (sets.Count == 0)
+                return MsgBEInstructionNone;
             int ctr = Modified / sets.Count;
             int len = Iterated / sets.Count;
             string maybe = sets.Count == 1 ? string.Empty : "~";

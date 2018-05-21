@@ -212,7 +212,7 @@ namespace PKHeX.WinForms
                 CB_CTVar.DisplayMember = nameof(ComboItem.Text);
                 CB_CTVar.ValueMember = nameof(ComboItem.Value);
                 CB_CTVar.DataSource = argvals;
-                LCTV.Text = vartypes[(int)memIndex];
+                LCTV.Text = vartypes[(int)memIndex - 1];
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else
@@ -220,7 +220,7 @@ namespace PKHeX.WinForms
                 CB_OTVar.DisplayMember = nameof(ComboItem.Text);
                 CB_OTVar.ValueMember = nameof(ComboItem.Value);
                 CB_OTVar.DataSource = argvals;
-                LOTV.Text = vartypes[(int)memIndex];
+                LOTV.Text = vartypes[(int)memIndex - 1];
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
         }
