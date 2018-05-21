@@ -258,7 +258,10 @@ namespace PKHeX.Core
         {
             if (pkm.Species == 0)
                 return string.Empty;
-
+            return new ShowdownSet(pkm).Text;
+        }
+        public ShowdownSet(PKM pkm)
+        {
             string[] Forms = PKX.GetFormList(pkm.Species, types, forms, genderForms, pkm.Format);
             ShowdownSet Set = new ShowdownSet
             {
@@ -281,8 +284,6 @@ namespace PKHeX.Core
 
             if (Set.Form == "F")
                 Set.Gender = string.Empty;
-
-            return Set.Text;
         }
         private void ParseFirstLine(string line)
         {
