@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class SAV3 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "SAV File|*.sav|All Files|*.*";
+        public override string Filter => "SAV File|*.sav|EDGBA Save File|*.fla|All Files|*.*";
         public override string Extension => ".sav";
 
         /* SAV3 Structure:

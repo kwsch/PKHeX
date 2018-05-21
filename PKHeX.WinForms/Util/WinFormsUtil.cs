@@ -124,9 +124,9 @@ namespace PKHeX.WinForms
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
-                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;{supported};*.bak" +
+                         $"|Supported Files|main;*.sav;*.fla;*.dat;*.gci;*.bin;{supported};*.bak" +
                          "|3DS Main Files|main" +
-                         "|Save Files|*.sav;*.dat;*.gci" +
+                         "|Save Files|*.sav;*.fla;*.dat;*.gci" +
                          "|Decrypted PKM File|" + supported +
                          "|Binary File|*.bin" +
                          "|Backup File|*.bak"
