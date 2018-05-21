@@ -38,7 +38,7 @@ namespace PKHeX.Core
         public int Level { get; private set; } = 100;
         public bool Shiny { get; private set; }
         public int Friendship { get; private set; } = 255;
-        public int Nature { get; private set; }
+        public int Nature { get; set; }
         public int FormIndex { get; private set; }
         public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
         public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
@@ -262,28 +262,29 @@ namespace PKHeX.Core
         }
         public ShowdownSet(PKM pkm)
         {
-            string[] Forms = PKX.GetFormList(pkm.Species, types, forms, genderForms, pkm.Format);
-            ShowdownSet Set = new ShowdownSet
-            {
-                Nickname = pkm.Nickname,
-                Species = pkm.Species,
-                HeldItem = pkm.HeldItem,
-                Ability = pkm.Ability,
-                EVs = pkm.EVs,
-                IVs = pkm.IVs,
-                Moves = pkm.Moves,
-                Nature = pkm.Nature,
-                Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2],
-                Friendship = pkm.CurrentFriendship,
-                Level = PKX.GetLevel(pkm.Species, pkm.EXP),
-                Shiny = pkm.IsShiny,
-                FormIndex = pkm.AltForm,
-                Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty,
-                Format = pkm.Format,
-            };
+            if (pkm.Species <= 0)
+                return;
 
-            if (Set.Form == "F")
-                Set.Gender = string.Empty;
+            Nickname = pkm.Nickname;
+            Species = pkm.Species;
+            HeldItem = pkm.HeldItem;
+            Ability = pkm.Ability;
+            EVs = pkm.EVs;
+            IVs = pkm.IVs;
+            Moves = pkm.Moves;
+            Nature = pkm.Nature;
+            Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2];
+            Friendship = pkm.CurrentFriendship;
+            Level = PKX.GetLevel(pkm.Species, pkm.EXP);
+            Shiny = pkm.IsShiny;
+
+            FormIndex = pkm.AltForm;
+            string[] Forms = PKX.GetFormList(Species, types, forms, genderForms, pkm.Format);
+            Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty;
+            Format = pkm.Format;
+
+            if (Form == "F")
+                Gender = string.Empty;
         }
         private void ParseFirstLine(string line)
         {
