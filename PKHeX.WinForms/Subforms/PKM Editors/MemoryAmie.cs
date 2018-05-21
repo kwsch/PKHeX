@@ -207,12 +207,14 @@ namespace PKHeX.WinForms
             int memory = WinFormsUtil.GetIndex((ComboBox) sender);
             var memIndex = Memories.GetMemoryArgType(memory);
             var argvals = GameInfo.Strings.Memories.GetArgumentStrings(memIndex);
+            int index = (int) memIndex - 1;
             if (sender == CB_CTMemory)
             {
                 CB_CTVar.DisplayMember = nameof(ComboItem.Text);
                 CB_CTVar.ValueMember = nameof(ComboItem.Value);
                 CB_CTVar.DataSource = argvals;
-                LCTV.Text = vartypes[(int)memIndex - 1];
+                if (index >= 0)
+                    LCTV.Text = vartypes[index];
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else
@@ -220,7 +222,8 @@ namespace PKHeX.WinForms
                 CB_OTVar.DisplayMember = nameof(ComboItem.Text);
                 CB_OTVar.ValueMember = nameof(ComboItem.Value);
                 CB_OTVar.DataSource = argvals;
-                LOTV.Text = vartypes[(int)memIndex - 1];
+                if (index >= 0)
+                    LOTV.Text = vartypes[index];
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
         }
