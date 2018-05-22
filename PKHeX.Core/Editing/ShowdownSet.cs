@@ -42,6 +42,7 @@ namespace PKHeX.Core
         public int FormIndex { get; private set; }
         public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
         public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
+        public bool ManualIVs { get; private set; } = false;
         public int[] Moves { get; private set; } = {0, 0, 0, 0};
         public readonly List<string> InvalidLines = new List<string>();
 
@@ -111,7 +112,7 @@ namespace PKHeX.Core
                     case "EV":
                     case "EVs": { ParseLineEVs(brokenline[1].Trim()); break; }
                     case "IV":
-                    case "IVs": { ParseLineIVs(brokenline[1].Trim()); break; }
+                    case "IVs": { ParseLineIVs(brokenline[1].Trim()); ManualIVs = true; break; }
                     case "Type": { brokenline = new[] {line}; goto default; } // Type: Null edge case
                     default:
                     {
@@ -244,7 +245,16 @@ namespace PKHeX.Core
             {
                 var str = $"- {moves[move]}";
                 if (move == 237) // Hidden Power
+                { 
                     str += $" [{hptypes[HiddenPower.GetType(IVs)]}]";
+
+                    ManualIVs = false;
+                    foreach (int iv in IVs)
+                    {
+                        if (iv < 30)
+                            ManualIVs = true;
+                    }
+                }
                 yield return str;
             }
         }

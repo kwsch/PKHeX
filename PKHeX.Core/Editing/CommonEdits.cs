@@ -311,7 +311,10 @@ namespace PKHeX.Core
             pk.IVs = Set.IVs;
             pk.EVs = Set.EVs;
 
-            pk.SetSuggestedHyperTrainingData(Set.IVs);
+            pk.HyperTrainFlags = 0;
+
+            if (!Set.ManualIVs)
+                pk.SetSuggestedHyperTrainingData(Set.IVs);
             if (ShowdownSetIVMarkings)
                 pk.SetMarkings();
 
