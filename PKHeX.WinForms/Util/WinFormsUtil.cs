@@ -112,6 +112,20 @@ namespace PKHeX.WinForms
         public static bool IsClickonceDeployed => false;
 #endif
 
+        public static void AddSaveFileExtensions(IEnumerable<string> exts) => CustomSaveExtensions.AddRange(exts);
+        private static readonly List<string> CustomSaveExtensions = new List<string>
+        {
+            // THESE ARE SAVE FILE EXTENSION TYPES. SAVE STATE (RAM SNAPSHOT) EXTENSIONS DO NOT GO HERE.
+            "sav", // standard
+            "dat", // VC data
+            "gci", // Dolphin GameCubeImage
+            "dsv", // DeSmuME
+            "srm", // RetroArch save files
+            "fla", // flashcard
+            "SaveRAM", // BizHawk
+        };
+        private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
+
         /// <summary>
         /// Opens a dialog to open a <see cref="SaveFile"/>, <see cref="PKM"/> file, or any other supported file.
         /// </summary>
@@ -124,10 +138,9 @@ namespace PKHeX.WinForms
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
-                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;{supported};*.bak" +
-                         "|3DS Main Files|main" +
-                         "|Save Files|*.sav;*.dat;*.gci" +
-                         "|Decrypted PKM File|" + supported +
+                         $"|Supported Files (*.*)|main;*.bin;{supported};*.bak" + ExtraSaveExtensions +
+                         "|Save Files (*.sav)|main" + ExtraSaveExtensions +
+                         "|Decrypted PKM File (*.pkm)|" + supported +
                          "|Binary File|*.bin" +
                          "|Backup File|*.bak"
             };
@@ -211,6 +224,7 @@ namespace PKHeX.WinForms
             {
                 Filter = SAV.Filter,
                 FileName = SAV.FileName,
+                FilterIndex = 1000, // default to last, All Files
                 RestoreDirectory = true
             };
             if (Directory.Exists(SAV.FilePath))

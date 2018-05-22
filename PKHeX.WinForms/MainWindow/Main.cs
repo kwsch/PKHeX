@@ -129,6 +129,9 @@ namespace PKHeX.WinForms
             }
 
             FormLoadPlugins();
+            var exts = Path.Combine(WorkingDirectory, "savexts.txt");
+            if (File.Exists(exts))
+                WinFormsUtil.AddSaveFileExtensions(File.ReadLines(exts));
 
             PKME_Tabs.InitializeFields();
             PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
