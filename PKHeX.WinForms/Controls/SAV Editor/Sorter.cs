@@ -61,6 +61,7 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.Modify, GetItem("MaxLevel", "Max Level", () => Modify(z => z.MaximizeLevel()), Resources.showdown));
             AddItem(Level.Modify, GetItem("Reset Moves", "Reset Moves", () => Modify(z => z.SetMoves(z.GetMoveSet())), Resources.date));
             AddItem(Level.Modify, GetItem("RandomMoves", "Randomize Moves", () => Modify(z => z.SetMoves(z.GetMoveSet(true))), Resources.wand));
+            AddItem(Level.Modify, GetItem("HyperTrain", "Hyper Train", () => Modify(z => z.SetSuggestedHyperTrainingData()), Resources.vallohi));
             AddItem(Level.Modify, GetItem("RemoveItem", "Delete Held Item", () => Modify(z => z.HeldItem = 0), Resources.gift));
 
             void AddItem(Level v, ToolStripItem t)
