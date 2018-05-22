@@ -67,7 +67,7 @@ namespace PKHeX.Core
         }
         private void LoadLines(IEnumerable<string> lines)
         {
-            lines = lines.Select(z => z.Replace("'", "’").Trim()); // Sanitize apostrophes
+            lines = lines.Select(z => z.Replace("'", "’").Replace("–", "-").Trim()); // Sanitize apostrophes & dashes
             lines = lines.Where(z => z.Length > 2);
 
             ParseLines(lines);
