@@ -17,12 +17,13 @@ namespace PKHeX.WinForms
             // Preprogrammed folders
             var locs = new List<CustomFolderPath>
             {
-                new CustomFolderPath {Path = Main.BackupPath, DisplayText = "PKHeX Backups"}
+                new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
             };
             locs.AddRange(GetUserPaths());
             locs.AddRange(Get3DSPaths());
-            locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetCacheFolder(), DisplayText = "CGSE Cache"});
-            locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetTempFolder(), DisplayText = "CGSE Temp"});
+            locs.AddRange(GetSwitchPaths());
+            addIfExists(CyberGadgetUtil.GetCacheFolder(), "CGSE Cache");
+            addIfExists(CyberGadgetUtil.GetTempFolder(), "CGSE Temp");
 
             var paths = locs.GroupBy(z => z.Path).Select(z => z.First())
                 .OrderByDescending(z => Directory.Exists(z.Path));
@@ -30,6 +31,12 @@ namespace PKHeX.WinForms
                 AddButton(loc.DisplayText, loc.Path);
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+            void addIfExists(string path, string text)
+            {
+                if (Directory.Exists(path))
+                    locs.Add(new CustomFolderPath(path, text));
+            }
         }
 
         private void AddButton(string name, string path)
@@ -59,35 +66,60 @@ namespace PKHeX.WinForms
             string loc = Path.Combine(Main.WorkingDirectory, "savpaths.txt");
 
             if (!File.Exists(loc))
-                yield break;
+                return Enumerable.Empty<CustomFolderPath>();
 
             var lines = File.ReadLines(loc);
-            foreach (var line in lines)
-            {
-                var split = line.Split('\t');
-                if (split.Length == 2)
-                    yield return new CustomFolderPath {DisplayText = split[0], Path = split[1]};
-            }
+            return lines.Select(z => z.Split('\t'))
+                .Where(a => a.Length == 2)
+                .Select(x => new CustomFolderPath(x));
         }
         private static IEnumerable<CustomFolderPath> Get3DSPaths()
         {
-            var path3DS = PathUtilWindows.Get3DSLocation();
-            var path = path3DS == null || !Directory.Exists(path3DS) ? @"C:\" : Path.GetPathRoot(path3DS);
-            foreach (var z in PathUtilWindows.Get3DSBackupPaths(path))
+            var path3DS = PathUtilWindows.GetSwitchLocation();
+            if (path3DS == null || !Directory.Exists(path3DS))
+                return Enumerable.Empty<CustomFolderPath>();
+            var root = Path.GetPathRoot(path3DS);
+            var paths = PathUtilWindows.GetSwitchBackupPaths(root);
+            return paths.Select(z => new CustomFolderPath(z));
+        }
+        private static IEnumerable<CustomFolderPath> GetSwitchPaths()
+        {
+            var pathNX = PathUtilWindows.GetSwitchLocation();
+            if (pathNX == null || !Directory.Exists(pathNX))
+                return Enumerable.Empty<CustomFolderPath>();
+            var root = Path.GetPathRoot(pathNX);
+            var paths = PathUtilWindows.GetSwitchBackupPaths(root);
+            return paths.Select(z => new CustomFolderPath(z));
+        }
+
+        private struct CustomFolderPath
+        {
+            public readonly string Path;
+            public readonly string DisplayText;
+
+            public CustomFolderPath(string z)
             {
                 var di = new DirectoryInfo(z);
                 var root = di.Root.Name;
                 var folder = di.Parent.Name;
                 if (root == folder)
                     folder = di.Name;
-                yield return new CustomFolderPath {Path = z, DisplayText = folder};
-            }
-        }
 
-        private struct CustomFolderPath
-        {
-            public string Path;
-            public string DisplayText;
+                Path = z;
+                DisplayText = folder;
+            }
+
+            public CustomFolderPath(IReadOnlyList<string> arr)
+            {
+                Path = arr[1];
+                DisplayText = arr[0];
+            }
+
+            public CustomFolderPath(string path, string display)
+            {
+                Path = path;
+                DisplayText = display;
+            }
         }
     }
 }

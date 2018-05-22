@@ -15,22 +15,28 @@ namespace PKHeX.WinForms
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
         /// The first drive is usually the system hard drive, or can be a floppy disk drive (slower to check, never has expected data).</param>
         /// <returns>Folder path pointing to the Nintendo 3DS folder.</returns>
-        public static string Get3DSLocation(bool skipFirstDrive = true)
+        public static string Get3DSLocation(bool skipFirstDrive = true) => FindConsoleRootFolder("Nintendo 3DS", skipFirstDrive);
+
+        /// <summary>
+        /// Gets the Switch's root folder, usually from an inserted SD card.
+        /// </summary>
+        /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
+        /// The first drive is usually the system hard drive, or can be a floppy disk drive (slower to check, never has expected data).</param>
+        /// <returns>Folder path pointing to the Nintendo folder.</returns>
+        public static string GetSwitchLocation(bool skipFirstDrive = true) => FindConsoleRootFolder("Nintendo", skipFirstDrive);
+
+        private static string FindConsoleRootFolder(string path, bool skipFirstDrive)
         {
             try
             {
-                IEnumerable<string> DriveList = Environment.GetLogicalDrives();
-
                 // Skip first drive (some users still have floppy drives and would chew up time!)
+                IEnumerable<string> DriveList = Environment.GetLogicalDrives();
                 if (skipFirstDrive)
                     DriveList = DriveList.Skip(1);
 
-                foreach (var drive in DriveList)
-                {
-                    string potentialPath = Path.Combine(drive, "Nintendo 3DS");
-                    if (Directory.Exists(potentialPath))
-                        return potentialPath;
-                }
+                return DriveList
+                    .Select(drive => Path.Combine(drive, path))
+                    .FirstOrDefault(Directory.Exists);
             }
             catch { }
             return null;
@@ -53,6 +59,16 @@ namespace PKHeX.WinForms
         }
 
         /// <summary>
+        /// Gets a list of Switch save backup paths for the storage device.
+        /// </summary>
+        /// <param name="root">Root location of device</param>
+        /// <returns>List of possible 3DS save backup paths.</returns>
+        public static IEnumerable<string> GetSwitchBackupPaths(string root)
+        {
+            yield return Path.Combine(root, "switch", "Checkpoint", "saves");
+        }
+
+        /// <summary>
         /// Finds a compatible save file that was most recently saved (by file write time).
         /// </summary>
         /// <param name="path">If this function returns true, full path of a save file or null if no path could be found. If this function returns false, this parameter will be set to the error message.</param>
@@ -65,6 +81,10 @@ namespace PKHeX.WinForms
             string path3DS = Path.GetPathRoot(Get3DSLocation());
             if (path3DS != null) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(Get3DSBackupPaths(path3DS));
+
+            string pathNX = Path.GetPathRoot(GetSwitchLocation());
+            if (pathNX != null) // check for Homebrew/CFW backups
+                foldersToCheck = foldersToCheck.Concat(GetSwitchBackupPaths(pathNX));
 
             path = null;
             List<string> possiblePaths = new List<string>();
