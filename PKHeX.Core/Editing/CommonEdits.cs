@@ -584,7 +584,7 @@ namespace PKHeX.Core
                 la = new LegalityAnalysis(pkm);
             int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
             if (m == null)
-                return null;
+                return pkm.Moves;
             if (random)
                 Util.Shuffle(m);
 

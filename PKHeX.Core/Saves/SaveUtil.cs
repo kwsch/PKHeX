@@ -584,7 +584,12 @@ namespace PKHeX.Core
             {
                 var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
                 var files = Directory.EnumerateFiles(folderPath, "*", searchOption);
-                result = files.Where(f => IsSizeValid((int)new FileInfo(f).Length));
+                int safelen(string file)
+                {
+                    try { return (int) new FileInfo(file).Length; }
+                    catch { return -1; } // Bad File / Locked
+                }
+                result = files.Where(f => IsSizeValid(safelen(f)));
                 return true;
             }
             catch (ArgumentException)
