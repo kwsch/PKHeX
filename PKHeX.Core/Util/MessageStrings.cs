@@ -151,7 +151,7 @@ namespace PKHeX.Core
         public static string MsgSaveBoxExportNo { get; set; } = "No: Export {0} (Box {1})";
         public static string MsgSaveBoxExportCancel { get; set; } = "Cancel: Abort";
         public static string MsgSaveBoxExportInvalid { get; set; } = "Invalid Box Data, unable to dump.";
-        public static string MsgSaveBoxExportPathCount { get; set; } = "Dumped Box(es) ( {0} pkm) to path:";
+        public static string MsgSaveBoxExportPathCount { get; set; } = "Dumped Box(es) ({0} pkm) to path:";
         public static string MsgSaveBoxExportPathInvalid { get; set; } = "Invalid path specified.";
         public static string MsgSaveBoxImportModifyIntro { get; set; } = "PKM Loading overrides:";
         public static string MsgSaveBoxImportModifyYes { get; set; } = "Yes - Modify .pk* when set to SAV";
