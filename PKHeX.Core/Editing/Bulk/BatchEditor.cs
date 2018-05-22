@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
@@ -60,6 +60,16 @@ namespace PKHeX.Core
             if (Errored > 0)
                 result += Environment.NewLine + maybe + string.Format(MsgBEModifyFailError, Errored);
             return result;
+        }
+
+        public static BatchEditor Execute(IList<string> lines, IEnumerable<PKM> data)
+        {
+            var editor = new BatchEditor();
+            var sets = StringInstructionSet.GetBatchSets(lines).ToList();
+            foreach (var pk in data)
+            foreach (var set in sets)
+                editor.ProcessPKM(pk, set.Filters, set.Instructions);
+            return editor;
         }
     }
 }
