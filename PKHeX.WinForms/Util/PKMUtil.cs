@@ -156,7 +156,7 @@ namespace PKHeX.WinForms
 
             if (flagIllegal)
             {
-                if (slot < 30)
+                if (box >= 0)
                     pkm.Box = box;
                 var la = new LegalityAnalysis(pkm, SAV.Personal);
                 if (la.ParsedInvalid && pkm.Species != 0)

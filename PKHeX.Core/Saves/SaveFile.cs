@@ -168,8 +168,8 @@ namespace PKHeX.Core
 
                         data[i] = GetStoredSlot(ofs);
                         data[i].Identifier = $"{GetBoxName(b)}:{s + 1:00}";
-                        data[i].Box = b;
-                        data[i].Slot = s;
+                        data[i].Box = b + 1;
+                        data[i].Slot = s + 1;
                         data[i].Locked = IsSlotLocked(b, s);
                     }
                 }
