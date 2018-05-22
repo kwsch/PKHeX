@@ -66,7 +66,7 @@ namespace PKHeX.WinForms
             int ctr = 0;
             foreach (PKM pk in boxdata)
             {
-                if (pk.Species == 0 || !pk.Valid || (pk.Box - 1) != currentBox)
+                if (pk.Species == 0 || !pk.Valid || pk.Box != currentBox)
                     continue;
 
                 ctr++;
