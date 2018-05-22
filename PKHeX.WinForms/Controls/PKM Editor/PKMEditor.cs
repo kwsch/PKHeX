@@ -1025,10 +1025,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.Version = (int)Version;
                 TID_Trainer.LoadIDValues(pkm);
             }
-            if (newTrack == GameVersion.GSC && pkm.Format >= 7)
-                newTrack = GameVersion.USUM;
-            else if (pkm.Format < 3)
-                newTrack = GameVersion.GSC;
+
             if (newTrack != origintrack)
             {
                 var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
