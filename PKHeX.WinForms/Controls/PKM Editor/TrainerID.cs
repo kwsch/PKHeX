@@ -46,7 +46,7 @@ namespace PKHeX.WinForms.Controls
             if (tr is PKM p)
             {
                 format = p.GenNumber;
-                if (format < 3 && p.Format >= 7) // VC
+                if (format < 3 && p.Format >= 7 || format <= 0) // VC or bad gen
                     format = 4; // use TID/SID 16bit style
             }
             else
