@@ -36,15 +36,12 @@ namespace PKHeX.Core
                 tempData.CopyTo(Data, 0x1C0000);
             }
 
-            SaveSlots = new List<int>();
-            SaveNames = new string[SAVE_COUNT];
             for (int i = 0; i < SAVE_COUNT; i++)
             {
-                if (BitConverter.ToUInt16(Data, 0x390 + 0x6FF00*i) != 0)
-                {
-                    SaveSlots.Add(i);
-                    SaveNames[i] = Encoding.BigEndianUnicode.GetString(Data, 0x390 + 0x6FF00*i, 0x10);
-                }
+                if (!IsOTNamePresent(i))
+                    continue;
+                SaveSlots.Add(i);
+                SaveNames.Add(GetOTName(i).Trim());
             }
 
             CurrentSlot = SaveSlots[0];
@@ -54,6 +51,11 @@ namespace PKHeX.Core
 
             if (!Exportable)
                 ClearBoxes();
+        }
+
+        private bool IsOTNamePresent(int i)
+        {
+            return BitConverter.ToUInt16(Data, 0x390 + 0x6FF00 * i) != 0;
         }
 
         private readonly uint SaveCount;
@@ -67,20 +69,21 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone() { return new SAV4BR(Write(DSV: false)); }
 
-        public readonly List<int> SaveSlots;
-        public readonly string[] SaveNames;
+        public readonly List<int> SaveSlots = new List<int>(SAVE_COUNT);
+        public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);
 
         private int _currentSlot;
         public int CurrentSlot
         {
-            get => _currentSlot;
+            get => SaveSlots.IndexOf(_currentSlot);
             // 4 save slots, data reading depends on current slot
             set
             {
-                _currentSlot = value;
+                _currentSlot = SaveSlots[value];
                 var ofs = 0x6FF00 * _currentSlot;
                 Box = ofs + 0x978;
-                Party = ofs + 0x65F48; // near the end of the slot chunk
+                Party = ofs + 0x13A54; // first team slot after boxes
+                BoxName = ofs + 0x58674;
             }
         }
 
@@ -139,6 +142,10 @@ namespace PKHeX.Core
 
         // Trainer Info
         public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
+        private string GetOTName(int i)
+        {
+            return Encoding.BigEndianUnicode.GetString(Data, 0x390 + 0x6FF00 * i, 0x10);
+        }
 
         // Storage
         public override int GetPartyOffset(int slot)
@@ -151,7 +158,20 @@ namespace PKHeX.Core
         }
 
         // Save file does not have Box Name / Wallpaper info
-        public override string GetBoxName(int box) { return $"BOX {box + 1}"; }
+        private int BoxName = -1;
+        private const int BoxNameLength = 0x28;
+        public override string GetBoxName(int box)
+        {
+            if (BoxName < 0)
+                return $"BOX {box + 1}";
+
+            var str = Encoding.BigEndianUnicode.GetString(Data, BoxName + box * BoxNameLength, BoxNameLength);
+            str = Util.TrimFromZero(str);
+            if (string.IsNullOrWhiteSpace(str))
+                return $"BOX {box + 1}";
+            return str;
+        }
+
         public override void SetBoxName(int box, string value) { }
 
         public override PKM GetPKM(byte[] data)

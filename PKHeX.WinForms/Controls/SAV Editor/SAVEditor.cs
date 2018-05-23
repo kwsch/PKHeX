@@ -488,6 +488,7 @@ namespace PKHeX.WinForms.Controls
             if (SAV.Version != GameVersion.BATREV)
                 return;
             ((SAV4BR)SAV).CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
+            Box.ResetBoxNames(); // fix box names
             SetPKMBoxes();
             UpdateBoxViewers(true);
         }
