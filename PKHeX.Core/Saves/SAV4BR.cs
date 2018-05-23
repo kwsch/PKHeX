@@ -172,7 +172,20 @@ namespace PKHeX.Core
             return str;
         }
 
-        public override void SetBoxName(int box, string value) { }
+        public override void SetBoxName(int box, string value)
+        {
+            if (BoxName < 0)
+                return;
+
+            int ofs = BoxName + box * BoxNameLength;
+            var str = Encoding.BigEndianUnicode.GetString(Data, ofs, BoxNameLength);
+            str = Util.TrimFromZero(str);
+            if (string.IsNullOrWhiteSpace(str))
+                return;
+
+            var data = Encoding.BigEndianUnicode.GetBytes(value.PadLeft(BoxNameLength / 2, '\0'));
+            SetData(data, ofs);
+        }
 
         public override PKM GetPKM(byte[] data)
         {
