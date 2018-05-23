@@ -159,7 +159,7 @@ namespace PKHeX.WinForms
                 if (box >= 0)
                     pkm.Box = box;
                 var la = new LegalityAnalysis(pkm, SAV.Personal);
-                if (la.ParsedInvalid && pkm.Species != 0)
+                if (!la.Valid && pkm.Species != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
             }
             if (inBox) // in box

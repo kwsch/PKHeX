@@ -25,8 +25,6 @@ namespace PKHeX.Core
         public readonly bool Valid;
         private readonly PersonalInfo PersonalInfo;
         public LegalInfo Info { get; private set; }
-        public bool ParsedValid => Parsed && Valid;
-        public bool ParsedInvalid => Parsed && !Valid;
         public string Report(bool verbose = false) => verbose ? GetVerboseLegalityReport() : GetLegalityReport();
         private IEnumerable<int> AllSuggestedMoves
         {

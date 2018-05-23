@@ -503,9 +503,9 @@ namespace PKHeX.WinForms
             slotSelected = -1; // reset the slot last viewed
 
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked)
-                res = res.Where(pk => new LegalityAnalysis(pk).ParsedValid);
+                res = res.Where(pk => new LegalityAnalysis(pk).Valid);
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked)
-                res = res.Where(pk => new LegalityAnalysis(pk).ParsedInvalid);
+                res = res.Where(pk => !new LegalityAnalysis(pk).Valid);
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
