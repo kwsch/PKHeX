@@ -21,7 +21,7 @@ namespace PKHeX.WinForms.Controls
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         public readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
         public readonly ContextMenuSAV menu = new ContextMenuSAV();
-        public readonly ContextMenuStrip SortMenu;
+        public readonly BoxMenuStrip SortMenu;
 
         public bool HaX;
         public bool ModifyPKM;
@@ -92,7 +92,7 @@ namespace PKHeX.WinForms.Controls
 
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
-            SortMenu = this.GetSortStrip();
+            SortMenu = new BoxMenuStrip(this);
 
             M.OtherSlots.Add(this);
             SL_Extra.ViewIndex = -2;
@@ -964,6 +964,7 @@ namespace PKHeX.WinForms.Controls
             Box.M = M;
             Box.ResetBoxNames();   // Display the Box Names
             M.SetColor(-1, -1, null);
+            SortMenu.ToggleVisibility();
         }
         private bool ToggleViewBox(SaveFile sav)
         {

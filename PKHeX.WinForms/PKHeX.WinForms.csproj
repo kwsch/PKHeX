@@ -211,7 +211,9 @@
       <DependentUpon>SlotList.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SAV Editor\SlotViewer.cs" />
-    <Compile Include="Controls\SAV Editor\Sorter.cs" />
+    <Compile Include="Controls\SAV Editor\BoxMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>
