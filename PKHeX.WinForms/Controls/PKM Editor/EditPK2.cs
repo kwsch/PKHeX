@@ -17,15 +17,7 @@ namespace PKHeX.WinForms.Controls
             CB_MetTimeOfDay.SelectedIndex = pk2.Met_TimeOfDay;
 
             // Attempt to detect language
-            if (pk2.Japanese)
-                CB_Language.SelectedValue = 1;
-            else if (pk2.Korean)
-                CB_Language.SelectedValue = 8;
-            else
-            {
-                int lang = PKX.GetSpeciesNameLanguage(pk2.Species, pk2.Nickname, 2);
-                CB_Language.SelectedValue = lang > 0 ? lang : 2;
-            }
+            CB_Language.SelectedValue = PKX.GetVCLanguage(pk2);
 
             LoadPartyStats(pk2);
             UpdateStats();

@@ -902,6 +902,21 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Detects the language of a <see cref="PK1"/> or <see cref="PK2"/> by checking the current Species name against possible names.
+        /// </summary>
+        /// <param name="pk">PKM to fetch language for</param>
+        /// <returns>Language ID best match (<see cref="LanguageID"/>)</returns>
+        public static int GetVCLanguage(PKM pk)
+        {
+            if (pk.Japanese)
+                return 1;
+            if (pk.Korean)
+                return 8;
+            int lang = GetSpeciesNameLanguage(pk.Species, pk.Nickname, pk.Format);
+            return lang > 0 ? lang : (int)LanguageID.English; // Default to ENG
+        }
+
         internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
         internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
         internal static bool IsPKMPresentGBA(byte[] data, int offset)
