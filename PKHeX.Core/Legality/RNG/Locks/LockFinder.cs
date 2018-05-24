@@ -144,7 +144,7 @@ namespace PKHeX.Core
             var SIDf = rng.Reverse(seed, rev);
             int ctr = 0;
             uint temp = 0;
-            while (SIDf >> 16 != SID || (temp = rng.Prev(SIDf)) >> 16 != TID)
+            while ((temp = rng.Prev(SIDf)) >> 16 != TID || SIDf >> 16 != SID)
             {
                 SIDf = temp;
                 if (ctr > 32) // arbitrary
