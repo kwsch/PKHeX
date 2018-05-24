@@ -1019,43 +1019,15 @@ namespace PKHeX.WinForms.Controls
             GameVersion Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
 
             // check if differs
-            GameVersion newTrack = GameUtil.GetMetLocationVersionGroup(Version);
-            if (newTrack != origintrack && FieldsLoaded)
-            {
-                pkm.Version = (int)Version;
-                TID_Trainer.LoadIDValues(pkm);
-            }
+            var group = GameUtil.GetMetLocationVersionGroup(Version);
+            if (group == GameVersion.GSC && pkm.Format >= 7)
+                group = GameVersion.USUM;
+            else if (pkm.Format < 3)
+                group = GameVersion.GSC;
 
-            if (newTrack != origintrack)
-            {
-                var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
-                InitializeBinding(CB_MetLocation);
-                CB_MetLocation.DataSource = new BindingSource(met_list, null);
-
-                if (FieldsLoaded)
-                {
-                    SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
-                    int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(pkm);
-                    CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
-                }
-
-                var egg_list = GameInfo.GetLocationList(Version, pkm.Format, egg: true);
-                InitializeBinding(CB_EggLocation);
-                CB_EggLocation.DataSource = new BindingSource(egg_list, null);
-                if (FieldsLoaded)
-                    CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
-
-                origintrack = newTrack;
-
-                // Stretch C/XD met location dropdowns
-                int width = CB_EggLocation.DropDownWidth;
-                if (Version == GameVersion.CXD && pkm.Format == 3)
-                    width = 2 * width;
-                CB_MetLocation.DropDownWidth = width;
-
-                if (!FieldsLoaded)
-                    CB_GameOrigin.Focus(); // hacky validation forcing
-            }
+            if (group != origintrack)
+                ReloadMetLocations(Version);
+            origintrack = group;
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             if (pkm.Format >= 4)
@@ -1068,8 +1040,39 @@ namespace PKHeX.WinForms.Controls
 
             if (!FieldsLoaded)
                 return;
+
             pkm.Version = (int)Version;
+            TID_Trainer.LoadIDValues(pkm);
             UpdateLegality();
+        }
+        private void ReloadMetLocations(GameVersion Version)
+        {
+            InitializeBinding(CB_MetLocation);
+            InitializeBinding(CB_EggLocation);
+
+            var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
+            CB_MetLocation.DataSource = new BindingSource(met_list, null);
+
+            var egg_list = GameInfo.GetLocationList(Version, pkm.Format, egg: true);
+            CB_EggLocation.DataSource = new BindingSource(egg_list, null);
+
+            // Stretch C/XD met location dropdowns
+            int width = CB_EggLocation.DropDownWidth;
+            if (Version == GameVersion.CXD && pkm.Format == 3)
+                width *= 2;
+            CB_MetLocation.DropDownWidth = width;
+
+            if (FieldsLoaded)
+            {
+                SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
+                int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(pkm);
+                CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
+                CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
+            }
+            else
+            {
+                CB_GameOrigin.Focus(); // hacky validation forcing
+            }
         }
         private void UpdateExtraByteValue(object sender, EventArgs e)
         {

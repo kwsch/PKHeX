@@ -33,15 +33,14 @@ namespace PKHeX.WinForms.Controls
             pk.EXP = Util.ToUInt32(TB_EXP.Text);
         }
 
-        private void LoadOTID(PKM pk)
+        private void LoadOT(PKM pk)
         {
             GB_OT.BackgroundImage = null;
             TB_OT.Text = pk.OT_Name;
             Label_OTGender.Text = gendersymbols[pk.OT_Gender];
             Label_OTGender.ForeColor = GetGenderColor(pk.OT_Gender);
-            TID_Trainer.LoadIDValues(pk);
         }
-        private void SaveOTID(PKM pk)
+        private void SaveOT(PKM pk)
         {
             pk.OT_Name = TB_OT.Text;
             pk.OT_Gender = PKX.GetGenderFromString(Label_OTGender.Text);
@@ -162,7 +161,7 @@ namespace PKHeX.WinForms.Controls
         {
             LoadSpeciesLevelEXP(pk);
             LoadNickname(pk);
-            LoadOTID(pk);
+            LoadOT(pk);
             LoadIVs(pk);
             LoadEVs(pk);
             LoadMoves(pk);
@@ -171,7 +170,7 @@ namespace PKHeX.WinForms.Controls
         {
             SaveSpeciesLevelEXP(pk);
             SaveNickname(pk);
-            SaveOTID(pk);
+            SaveOT(pk);
             SaveMoves(pk);
         }
 
@@ -209,6 +208,7 @@ namespace PKHeX.WinForms.Controls
             CHK_Fateful.Checked = pk.FatefulEncounter;
 
             LoadContestStats(pk);
+            TID_Trainer.LoadIDValues(pk);
 
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();

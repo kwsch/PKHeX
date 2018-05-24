@@ -12,6 +12,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc1(pk2);
             LoadMisc2(pk2);
 
+            TID_Trainer.LoadIDValues(pkm);
             TB_MetLevel.Text = pk2.Met_Level.ToString();
             CB_MetLocation.SelectedValue = pk2.Met_Location;
             CB_MetTimeOfDay.SelectedIndex = pk2.Met_TimeOfDay;
