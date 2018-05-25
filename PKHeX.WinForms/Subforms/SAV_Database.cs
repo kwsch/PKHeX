@@ -586,17 +586,17 @@ namespace PKHeX.WinForms
             bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
             if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
                 Legal.CheckWordFilter = false;
-            var results = await Task.Run(() => search.ToArray()).ConfigureAwait(false);
+            var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
             Legal.CheckWordFilter = true;
 
-            if (results.Length == 0)
+            if (results.Count == 0)
             {
                 if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
                     WinFormsUtil.Alert(MsgDBSearchFail, MsgDBSearchNone);
                 else
                     WinFormsUtil.Alert(MsgDBSearchNone);
             }
-            SetResults(new List<PKM>(results)); // updates Count Label as well.
+            SetResults(results); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
             B_Search.Enabled = true;
         }
@@ -607,7 +607,7 @@ namespace PKHeX.WinForms
         }
         private void SetResults(List<PKM> res)
         {
-            Results = new List<PKM>(res);
+            Results = res;
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;

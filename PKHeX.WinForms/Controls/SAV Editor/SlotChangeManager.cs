@@ -222,7 +222,7 @@ namespace PKHeX.WinForms.Controls
         }
         private async void DeleteAsync(string path, int delay)
         {
-            await Task.Delay(delay).ConfigureAwait(false);
+            await Task.Delay(delay).ConfigureAwait(true);
             if (File.Exists(path) && DragInfo.CurrentPath == null)
                 File.Delete(path);
         }
