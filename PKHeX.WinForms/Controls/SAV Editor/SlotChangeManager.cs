@@ -327,7 +327,7 @@ namespace PKHeX.WinForms.Controls
             if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
             {
                 RequestExternalDragDrop?.Invoke(this, e); // pass thru
-                return false;
+                return true; // treat as handled
             }
 
             byte[] data = File.ReadAllBytes(file);
