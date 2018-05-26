@@ -2260,5 +2260,10 @@ namespace PKHeX.Core
                 return currentGeneration != originalGeneration;
             return false;
         }
+
+        public static bool IsValidMissingLanguage(PKM pkm)
+        {
+            return pkm.Format == 5 && pkm.BW;
+        }
     }
 }

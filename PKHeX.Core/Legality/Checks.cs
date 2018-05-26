@@ -189,7 +189,7 @@ namespace PKHeX.Core
             int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
 
             // Language ID 6 is unused; flag if an impossible language is used
-            if (pkm.Language == (int)LanguageID.UNUSED_6 || pkm.Language > maxLanguageID)
+            if (pkm.Language == (int)LanguageID.UNUSED_6 || pkm.Language > maxLanguageID || pkm.Language <= (int)LanguageID.Hacked && !Legal.IsValidMissingLanguage(pkm))
             {
                 AddLine(Severity.Invalid, string.Format(V5, $"<={maxLanguageID}", pkm.Language), CheckIdentifier.Language);
                 return false;
@@ -244,7 +244,7 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            if (!VerifyLanguage())
+            if (pkm.Format >= 3 && !VerifyLanguage())
                 return;
 
             if (EncounterMatch is EncounterTrade)

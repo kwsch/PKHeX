@@ -193,7 +193,7 @@ namespace PKHeX.Core
             int lang = pkm.Language;
             if (lang == (int)LanguageID.UNUSED_6) // invalid language
                 return 0;
-            if (lang == (int)LanguageID.Hacked && (pkm.Format != 5 || !pkm.BW)) // Japanese trades in BW have no language ID
+            if (lang == (int)LanguageID.Hacked && !IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
                 return 0;
 
             return GetMinLevelEncounter(pkm);
