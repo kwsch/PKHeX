@@ -184,6 +184,14 @@ namespace PKHeX.Core
 
             const int mem_Chatelaine = 30;
             bool hasChampMemory = pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine;
+            if (!IsAllowedBattleFrontier(pkm.Species))
+            {
+                if (hasChampMemory || s6.RibbonBattlerSkillful) // having memory and not ribbon is too rare, just flag here.
+                    yield return new RibbonResult(nameof(s6.RibbonBattlerSkillful));
+                if (s6.RibbonBattlerExpert)
+                    yield return new RibbonResult(nameof(s6.RibbonBattlerExpert));
+                yield break;
+            }
             if (!hasChampMemory || s6.RibbonBattlerSkillful || s6.RibbonBattlerExpert)
                 yield break;
 
