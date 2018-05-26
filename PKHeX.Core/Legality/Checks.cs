@@ -1053,7 +1053,8 @@ namespace PKHeX.Core
                 return;
             }
 
-            List<string> result = RibbonVerifier.GetIncorrectRibbons(pkm, encounterContent, Info.Generation);
+            int gen = Info.Generation < 3 ? 7 : Info.Generation; // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
+            var result = RibbonVerifier.GetIncorrectRibbons(pkm, encounterContent, gen);
             if (result.Count != 0)
                 AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
             else

@@ -144,7 +144,7 @@ namespace PKHeX.Core
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
-            if (s4.RibbonFootprint && (pkm.Format < 6 && gen == 5 || gen >= 6 && pkm.CurrentLevel - pkm.Met_Level < 30))
+            if (s4.RibbonFootprint && (pkm.Format < 6 && gen == 5 || gen >= 5 && pkm.CurrentLevel - pkm.Met_Level < 30))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
             bool gen34 = gen == 3 || gen == 4;
