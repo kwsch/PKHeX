@@ -141,7 +141,7 @@ namespace PKHeX.Core
         /// <param name="filters">Filters which must be satisfied.</param>
         /// <param name="pkm">Object to check.</param>
         /// <returns>True if <see cref="pkm"/> matches all filters.</returns>
-        public static bool IsFiltered(IEnumerable<StringInstruction> filters, PKM pkm) => filters.All(z => IsPKMFiltered(z, pkm));
+        public static bool IsFiltered(IEnumerable<StringInstruction> filters, PKM pkm) => filters.All(z => IsPKMFiltered(z, pkm, Props[Array.IndexOf(Types, pkm.GetType())]));
 
         /// <summary>
         /// Checks if the object is filtered by the provided <see cref="filters"/>.
@@ -253,7 +253,7 @@ namespace PKHeX.Core
         /// <param name="info">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache (optional)</param>
         /// <returns>True if filtered, else false.</returns>
-        private static bool IsPKMFiltered(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props = null)
+        private static bool IsPKMFiltered(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
             if (IsLegalFiltered(cmd, () => info.Legal))
                 return true;
@@ -267,7 +267,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache (optional)</param>
         /// <returns>True if filtered, else false.</returns>
-        private static bool IsPKMFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props = null)
+        private static bool IsPKMFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props)
         {
             if (IsLegalFiltered(cmd, () => new LegalityAnalysis(pkm).Valid))
                 return true;
@@ -286,7 +286,7 @@ namespace PKHeX.Core
                 return true;
             if (!ReflectUtil.HasProperty(pkm, cmd.PropertyName, out var pi))
                 return false;
-            return pi.IsValueEqual(pkm, cmd.PropertyValue) != cmd.Evaluator;
+            return pi.IsValueEqual(pkm, cmd.PropertyValue) == cmd.Evaluator;
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace PKHeX.Core
                 return true;
             if (!props.TryGetValue(cmd.PropertyName, out var pi))
                 return false;
-            return pi.IsValueEqual(pkm, cmd.PropertyValue) != cmd.Evaluator;
+            return pi.IsValueEqual(pkm, cmd.PropertyValue) == cmd.Evaluator;
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace PKHeX.Core
                 return false;
 
             bool result = pkm.Identifier.Contains(cmd.PropertyValue);
-            return result != cmd.Evaluator;
+            return result == cmd.Evaluator;
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace PKHeX.Core
 
             if (!bool.TryParse(cmd.PropertyValue, out bool legal))
                 return true;
-            return legal == isLegal() != cmd.Evaluator;
+            return legal == isLegal() == cmd.Evaluator;
         }
 
         /// <summary>
