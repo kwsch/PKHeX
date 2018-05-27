@@ -91,7 +91,7 @@ namespace PKHeX.Core
             }
             else
             {
-                pk.Version = GetRandomVersion((int)Version);
+                pk.Version = (int)GetRandomVersion(Version);
             }
             int lang = GetSafeLanguage(SAV.Language, Language);
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
@@ -177,18 +177,22 @@ namespace PKHeX.Core
                 return 2;
             return hatchLang;
         }
-        private static int GetRandomVersion(int version)
+        private static GameVersion GetRandomVersion(GameVersion version)
         {
-            if (version <= 15 && version > 0) // single game
+            if (version <= GameVersion.CXD && version > GameVersion.Unknown) // single game
                 return version;
 
             int rand = Util.Rand.Next(2); // 0 or 1
             switch (version)
             {
-                case (int)GameVersion.FRLG:
-                    return (int)GameVersion.FR + rand; // or LG
-                case (int)GameVersion.RS:
-                    return (int)GameVersion.S + rand; // or R
+                case GameVersion.FRLG:
+                    return GameVersion.FR + rand; // or LG
+                case GameVersion.RS:
+                    return GameVersion.S + rand; // or R
+
+                case GameVersion.COLO:
+                case GameVersion.XD:
+                    return GameVersion.CXD;
                 default:
                     throw new Exception($"Unknown GameVersion: {version}");
             }

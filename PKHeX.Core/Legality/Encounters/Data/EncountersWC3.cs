@@ -18,7 +18,7 @@ namespace PKHeX.Core
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
 
             new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Method = PIDType.BACD_R, Language = (int)LanguageID.English },
-            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true  },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
         };
         private static IEnumerable<MysteryGift> GetIngameCXDData()
@@ -38,8 +38,8 @@ namespace PKHeX.Core
                     new WC3 { Species = 307, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Trapinch ({id})",   Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 223, 093, 247, 197 } }, // Meditite @ Pyrite Town
                     new WC3 { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 092, 164, 188, 277 } }, // Shuckle @ Pyrite Town
                     new WC3 { Species = 246, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 201, 349, 044, 200 } }, // Larvitar @ Pyrite Town
-                    new WC3 { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never }, // Plusle @ Ingame Trade
-                    new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never } // Ho-oh @ Mt. Battle
+                    new WC3 { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 045, 086, 098, 270 } }, // Plusle @ Ingame Trade
+                    new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 105, 126, 241, 129 } }, // Ho-oh @ Mt. Battle
                 };
             }
         }
