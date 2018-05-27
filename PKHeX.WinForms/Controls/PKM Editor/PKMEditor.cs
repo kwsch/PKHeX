@@ -33,6 +33,7 @@ namespace PKHeX.WinForms.Controls
             Relearn = new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 };
             PPUps = new[] { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
             MovePP = new[] { TB_PP1, TB_PP2, TB_PP3, TB_PP4 };
+            Markings = new[] { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             ValidationRequired = Moves.Concat(Relearn).Concat(new[]
             {
                 CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
@@ -75,6 +76,7 @@ namespace PKHeX.WinForms.Controls
         private LegalityAnalysis Legality;
         private string[] gendersymbols = { "♂", "♀", "-" };
         private readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
+        private static readonly Color InvalidSelectionColor = Color.DarkSalmon;
 
         public event EventHandler LegalityChanged;
         public event EventHandler UpdatePreviewSprite;
@@ -91,6 +93,7 @@ namespace PKHeX.WinForms.Controls
 
         private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
         private readonly MaskedTextBox[] MovePP;
+        private readonly PictureBox[] Markings;
 
         private bool forceValidation;
         public PKM PreparePKM(bool click = true)
@@ -108,14 +111,10 @@ namespace PKHeX.WinForms.Controls
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
-            // Make sure the PKX Fields are filled out properly (color check)
 
-            var cb = Array.Find(ValidationRequired, c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
+            var cb = Array.Find(ValidationRequired, c => c.BackColor == InvalidSelectionColor && c.Items.Count != 0);
             if (cb != null)
-            {
-                Control c = cb.Parent; while (!(c is TabPage)) c = c.Parent;
-                tabMain.SelectedTab = c as TabPage;
-            }
+                tabMain.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
             else if (!Stats.Valid)
                 tabMain.SelectedTab = Tab_Stats;
             else if (WinFormsUtil.GetIndex(CB_Species) == 0)
@@ -430,9 +429,10 @@ namespace PKHeX.WinForms.Controls
             Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
                 : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
 
-            PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
+            var pba = Markings;
+            var markings = pkm.Markings;
             for (int i = 0; i < pba.Length; i++)
-                pba[i].Image = changeOpacity(pba[i], getOpacity(pkm.Markings[i] != 0));
+                pba[i].Image = changeOpacity(pba[i], getOpacity(markings[i] != 0));
 
             PB_MarkShiny.Image = changeOpacity(PB_MarkShiny, getOpacity(!BTN_Shinytize.Enabled));
             PB_MarkCured.Image = changeOpacity(PB_MarkCured, getOpacity(CHK_Cured.Checked));
@@ -447,7 +447,6 @@ namespace PKHeX.WinForms.Controls
             PB_MarkVC.Image = changeOpacity(PB_MarkVC, getOpacity(pkm.VC));
             PB_MarkHorohoro.Image = changeOpacity(PB_MarkHorohoro, getOpacity(pkm.Horohoro));
 
-            var markings = pkm.Markings;
             for (int i = 0; i < pba.Length; i++)
                 if (GetMarkingColor(markings[i], out Color c))
                     pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, c);
@@ -470,7 +469,6 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateGender()
         {
-            int cg = PKX.GetGenderFromString(Label_Gender.Text);
             int Gender = pkm.GetSaneGender();
             Label_Gender.Text = gendersymbols[Gender];
             Label_Gender.ForeColor = GetGenderColor(Gender);
@@ -546,27 +544,8 @@ namespace PKHeX.WinForms.Controls
         }
         private void ClickMarking(object sender, EventArgs e)
         {
-            PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
-            int index = Array.IndexOf(pba, sender);
-
-            // Handling Gens 3-6
-            int[] markings = pkm.Markings;
-            switch (pkm.Format)
-            {
-                case 3:
-                case 4:
-                case 5:
-                case 6: // on/off
-                    markings[index] ^= 1; // toggle
-                    pkm.Markings = markings;
-                    break;
-                case 7: // 0 (none) | 1 (blue) | 2 (pink)
-                    markings[index] = (markings[index] + 1) % 3; // cycle
-                    pkm.Markings = markings;
-                    break;
-                default:
-                    return;
-            }
+            int index = Array.IndexOf(Markings, sender);
+            pkm.ToggleMarking(index);
             SetMarkings();
         }
         private void ClickOT(object sender, EventArgs e) => SetDetailsOT(SaveFileRequested?.Invoke(this, e));
@@ -1381,10 +1360,10 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is ComboBox cb))
                 return;
 
-            if (cb.Text?.Length == 0 && cb.Items.Count > 0)
-            { cb.SelectedIndex = 0; return; }
-            if (cb.SelectedValue == null)
-                cb.BackColor = Color.DarkSalmon;
+            if (cb.Text.Length == 0 && cb.Items.Count > 0)
+                cb.SelectedIndex = 0;
+            else if (cb.SelectedValue == null)
+                cb.BackColor = InvalidSelectionColor;
             else
                 cb.ResetBackColor();
         }

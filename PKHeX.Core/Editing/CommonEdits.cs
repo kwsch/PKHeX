@@ -596,6 +596,34 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Toggles the marking at a given index.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="index">Marking index to toggle</param>
+        /// <param name="markings">Current marking values (optional)</param>
+        /// <returns>Current marking values</returns>
+        public static int[] ToggleMarking(this PKM pk, int index, int[] markings = null)
+        {
+            if (markings == null)
+                markings = pk.Markings;
+            switch (pk.Format)
+            {
+                case 3:
+                case 4:
+                case 5:
+                case 6: // on/off
+                    markings[index] ^= 1; // toggle
+                    pk.Markings = markings;
+                    break;
+                case 7: // 0 (none) | 1 (blue) | 2 (pink)
+                    markings[index] = (markings[index] + 1) % 3; // cycle
+                    pk.Markings = markings;
+                    break;
+            }
+            return markings;
+        }
+
+        /// <summary>
         /// Sets the Memory details to a Hatched Egg's memories.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
