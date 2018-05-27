@@ -247,6 +247,13 @@ namespace PKHeX.Core
                     return metLevel != 25;
                 case 197: // Umbreon
                     return metLevel != 26;
+
+                    // Gifts
+                case 213: // Shuckle
+                case 239: case 240: // Elekid
+                case 246: case 247: case 248: // Larvitar
+                case 307: case 308: // Meditite
+                    return metLevel == 20;
             }
             // all other cases handled, if not in Colo's table it's from XD.
             return !Legal.ValidSpecies_Colo.Contains(species);
