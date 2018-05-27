@@ -2419,7 +2419,7 @@ namespace PKHeX.Core
             if (pkm.Version == 15 && pkm is XK3 xk3 && Info.WasXD)
             {
                 // can't have fateful until traded away, which clears ShadowID
-                if (xk3.FatefulEncounter && xk3.ShadowID != 0)
+                if (xk3.FatefulEncounter && xk3.ShadowID != 0 && EncounterMatch is EncounterStaticShadow)
                     AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
 
                 return; // fateful is set when transferred away
