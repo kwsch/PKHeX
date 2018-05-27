@@ -181,6 +181,8 @@ namespace PKHeX.Core
                 return false;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
             //    countinue;
+            if (!z.Version.Contains((GameVersion)pkm.Version))
+                return false;
 
             if (pkm.IsContestBelow(z))
                 return false;
