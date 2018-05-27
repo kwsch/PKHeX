@@ -492,7 +492,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void CryptArray(byte[] data, uint seed, int start, int end)
+        public static void CryptArray(byte[] data, uint seed, int start, int end)
         {
             for (int i = start; i < end; i += 2)
                 Crypt(data, ref seed, i);
