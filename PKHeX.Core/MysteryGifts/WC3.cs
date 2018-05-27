@@ -151,7 +151,7 @@ namespace PKHeX.Core
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
 
             if (Version == GameVersion.XD)
-                pk.FatefulEncounter = false; // set later when XK3->PK3
+                pk.FatefulEncounter = true; // pk3 is already converted from xk3
 
             if (Moves == null || Moves.Length == 0) // not completely defined
                 Moves = Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
