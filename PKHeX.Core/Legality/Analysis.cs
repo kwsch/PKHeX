@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     && Info.Moves.All(m => m.Valid)
                     && Info.Relearn.All(m => m.Valid);
 
-                if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch == null)
+                if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
                     AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
             }
 #if SUPPRESS
