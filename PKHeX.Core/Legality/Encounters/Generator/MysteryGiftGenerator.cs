@@ -175,7 +175,7 @@ namespace PKHeX.Core
         private static bool GetIsMatchWC3(PKM pkm, WC3 wc)
         {
             // Gen3 Version MUST match.
-            if (wc.Version != 0 && !((GameVersion)wc.Version).Contains((GameVersion)pkm.Version))
+            if (wc.Version != 0 && !(wc.Version).Contains((GameVersion)pkm.Version))
                 return false;
 
             bool hatchedEgg = wc.IsEgg && !pkm.IsEgg;
@@ -192,8 +192,7 @@ namespace PKHeX.Core
             if (wc.Fateful != pkm.FatefulEncounter)
             {
                 // XD Gifts only at level 20 get flagged after transfer
-                bool valid = wc.Level == 20 && pkm is XK3;
-                if (!valid)
+                if (wc.Version == GameVersion.XD != pkm is XK3)
                     return false;
             }
 

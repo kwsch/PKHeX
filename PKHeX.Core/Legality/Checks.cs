@@ -2366,6 +2366,8 @@ namespace PKHeX.Core
                     VerifyWC3Shiny(w);
                     return;
                 case WC3 w:
+                    if (w.Version == GameVersion.XD)
+                        return; // Can have either state
                     VerifyWC3Shiny(w);
                     break;
                 case MysteryGift g when g.Format != 3: // WC3

@@ -39,7 +39,7 @@ namespace PKHeX.Core
                     new WC3 { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 092, 164, 188, 277 } }, // Shuckle @ Pyrite Town
                     new WC3 { Species = 246, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 201, 349, 044, 200 } }, // Larvitar @ Pyrite Town
                     new WC3 { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never }, // Plusle @ Ingame Trade
-                    new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.COLO, CardTitle = $"Mt. Battle Ho-oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never } // Ho-oh @ Mt. Battle
+                    new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never } // Ho-oh @ Mt. Battle
                 };
             }
         }
