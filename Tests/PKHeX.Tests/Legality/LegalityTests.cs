@@ -10,6 +10,12 @@ namespace PKHeX.Tests.Legality
         private const string LegalityWordCategory = "PKM Wordfilter Tests";
         private const string LegalityValidCategory = "PKM Validity Tests";
 
+        static LegalityTest()
+        {
+            if (!EncounterEvent.Initialized)
+                EncounterEvent.RefreshMGDB();
+        }
+
         [TestMethod]
         [TestCategory(LegalityWordCategory)]
         public void BadwordTest()

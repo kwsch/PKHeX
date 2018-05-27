@@ -12,8 +12,8 @@ namespace PKHeX.Tests.Simulator
 
         static ShowdownSetTests()
         {
-            // Initialize the Mystery Gift Databases for generating
-            EncounterEvent.RefreshMGDB();
+            if (!EncounterEvent.Initialized)
+                EncounterEvent.RefreshMGDB();
         }
 
         [TestMethod]

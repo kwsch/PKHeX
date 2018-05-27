@@ -103,7 +103,7 @@ namespace PKHeX.Core
         }
         private static IEnumerable<T> GetAll<T>(this TypeInfo typeInfo, Func<TypeInfo, IEnumerable<T>> accessor)
         {
-            return GetAllTypeInfo(typeInfo).SelectMany(y => accessor(typeInfo));
+            return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));
         }
     }
 }

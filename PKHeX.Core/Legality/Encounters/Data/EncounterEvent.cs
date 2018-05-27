@@ -24,6 +24,9 @@ namespace PKHeX.Core
         /// <summary>Event Database for Generation 7</summary>
         public static MysteryGift[] MGDB_G7 { get; private set; } = new MysteryGift[0];
 
+        /// <summary>Indicates if the databases are initialized.</summary>
+        public static bool Initialized => MGDB_G3.Length != 0;
+
         private static IEnumerable<byte[]> GetData(byte[] bin, int size)
         {
             for (int i = 0; i < bin.Length; i += size)
