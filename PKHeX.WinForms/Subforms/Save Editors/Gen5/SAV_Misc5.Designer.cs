@@ -79,6 +79,10 @@
             this.CB_PassPower2 = new System.Windows.Forms.ComboBox();
             this.CB_PassPower1 = new System.Windows.Forms.ComboBox();
             this.TAB_Forest = new System.Windows.Forms.TabPage();
+            this.B_RandForest = new System.Windows.Forms.Button();
+            this.NUD_Unlocked = new System.Windows.Forms.NumericUpDown();
+            this.L_Area18 = new System.Windows.Forms.Label();
+            this.CHK_Area9 = new System.Windows.Forms.CheckBox();
             this.PB_SlotPreview = new System.Windows.Forms.PictureBox();
             this.CHK_Invisible = new System.Windows.Forms.CheckBox();
             this.L_Animation = new System.Windows.Forms.Label();
@@ -93,10 +97,6 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Areas = new System.Windows.Forms.ComboBox();
             this.LB_Slots = new System.Windows.Forms.ListBox();
-            this.CHK_Area9 = new System.Windows.Forms.CheckBox();
-            this.L_Area18 = new System.Windows.Forms.Label();
-            this.NUD_Unlocked = new System.Windows.Forms.NumericUpDown();
-            this.B_RandForest = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
@@ -118,9 +118,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestTotal)).BeginInit();
             this.GB_PassPowers.SuspendLayout();
             this.TAB_Forest.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Unlocked)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_SlotPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Animation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Unlocked)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -760,8 +760,67 @@
             this.TAB_Forest.Text = "Forest";
             this.TAB_Forest.UseVisualStyleBackColor = true;
             // 
+            // B_RandForest
+            // 
+            this.B_RandForest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_RandForest.Location = new System.Drawing.Point(142, 82);
+            this.B_RandForest.Name = "B_RandForest";
+            this.B_RandForest.Size = new System.Drawing.Size(185, 23);
+            this.B_RandForest.TabIndex = 17;
+            this.B_RandForest.Text = "Randomize All Areas";
+            this.B_RandForest.UseVisualStyleBackColor = true;
+            this.B_RandForest.Click += new System.EventHandler(this.B_RandForest_Click);
+            // 
+            // NUD_Unlocked
+            // 
+            this.NUD_Unlocked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Unlocked.Location = new System.Drawing.Point(290, 33);
+            this.NUD_Unlocked.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.NUD_Unlocked.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUD_Unlocked.Name = "NUD_Unlocked";
+            this.NUD_Unlocked.Size = new System.Drawing.Size(37, 20);
+            this.NUD_Unlocked.TabIndex = 16;
+            this.NUD_Unlocked.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // L_Area18
+            // 
+            this.L_Area18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Area18.Location = new System.Drawing.Point(139, 33);
+            this.L_Area18.Name = "L_Area18";
+            this.L_Area18.Size = new System.Drawing.Size(145, 21);
+            this.L_Area18.TabIndex = 15;
+            this.L_Area18.Text = "Areas 1-8 Unlocked:";
+            this.L_Area18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CHK_Area9
+            // 
+            this.CHK_Area9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CHK_Area9.AutoSize = true;
+            this.CHK_Area9.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_Area9.Location = new System.Drawing.Point(218, 59);
+            this.CHK_Area9.Name = "CHK_Area9";
+            this.CHK_Area9.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Area9.TabIndex = 14;
+            this.CHK_Area9.Text = "Area 9 Unlocked:";
+            this.CHK_Area9.UseVisualStyleBackColor = true;
+            // 
             // PB_SlotPreview
             // 
+            this.PB_SlotPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PB_SlotPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PB_SlotPreview.Location = new System.Drawing.Point(206, 132);
             this.PB_SlotPreview.Name = "PB_SlotPreview";
@@ -898,7 +957,8 @@
             // 
             // CB_Areas
             // 
-            this.CB_Areas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Areas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Areas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Areas.FormattingEnabled = true;
             this.CB_Areas.Location = new System.Drawing.Point(142, 6);
@@ -917,61 +977,6 @@
             this.LB_Slots.TabIndex = 0;
             this.LB_Slots.SelectedIndexChanged += new System.EventHandler(this.ChangeSlot);
             // 
-            // CHK_Area9
-            // 
-            this.CHK_Area9.AutoSize = true;
-            this.CHK_Area9.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Area9.Location = new System.Drawing.Point(218, 59);
-            this.CHK_Area9.Name = "CHK_Area9";
-            this.CHK_Area9.Size = new System.Drawing.Size(109, 17);
-            this.CHK_Area9.TabIndex = 14;
-            this.CHK_Area9.Text = "Area 9 Unlocked:";
-            this.CHK_Area9.UseVisualStyleBackColor = true;
-            // 
-            // L_Area18
-            // 
-            this.L_Area18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Area18.Location = new System.Drawing.Point(139, 33);
-            this.L_Area18.Name = "L_Area18";
-            this.L_Area18.Size = new System.Drawing.Size(145, 21);
-            this.L_Area18.TabIndex = 15;
-            this.L_Area18.Text = "Areas 1-8 Unlocked:";
-            this.L_Area18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_Unlocked
-            // 
-            this.NUD_Unlocked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Unlocked.Location = new System.Drawing.Point(290, 33);
-            this.NUD_Unlocked.Maximum = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.NUD_Unlocked.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_Unlocked.Name = "NUD_Unlocked";
-            this.NUD_Unlocked.Size = new System.Drawing.Size(37, 20);
-            this.NUD_Unlocked.TabIndex = 16;
-            this.NUD_Unlocked.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // B_RandForest
-            // 
-            this.B_RandForest.Location = new System.Drawing.Point(142, 82);
-            this.B_RandForest.Name = "B_RandForest";
-            this.B_RandForest.Size = new System.Drawing.Size(185, 23);
-            this.B_RandForest.TabIndex = 17;
-            this.B_RandForest.Text = "Randomize All Areas";
-            this.B_RandForest.UseVisualStyleBackColor = true;
-            this.B_RandForest.Click += new System.EventHandler(this.B_RandForest_Click);
-            // 
             // SAV_Misc5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -981,6 +986,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(381, 414);
             this.Name = "SAV_Misc5";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Misc Editor";
@@ -1007,9 +1013,9 @@
             this.GB_PassPowers.ResumeLayout(false);
             this.TAB_Forest.ResumeLayout(false);
             this.TAB_Forest.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Unlocked)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_SlotPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Animation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Unlocked)).EndInit();
             this.ResumeLayout(false);
 
         }
