@@ -14,12 +14,14 @@ namespace PKHeX.Core
         /// </summary>
         private const byte Count9 = 10;
 
-        private const int TotalSlots = Count18 + (3 * 8 * Count18) + (3 * Count9);
+        private const int TotalSlots = Count18 + (3 * 8 * Count18) + (3 * Count9); // 530
 
         /// <summary>
         /// Areas 3 thru 8 can be unlocked (set a value 0 to 6).
         /// </summary>
         private const byte MaxUnlock38Areas = 6;
+
+        private const int EncryptionSeedOffset = 0x84C;
 
 
         private readonly byte[] Data;
@@ -27,12 +29,12 @@ namespace PKHeX.Core
         public EntreeForest(byte[] data)
         {
             Data = data;
-            PKX.CryptArray(data, EncryptionSeed, 0, data.Length);
+            PKX.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
         }
         public byte[] Write()
         {
             byte[] data = (byte[])Data.Clone();
-            PKX.CryptArray(data, EncryptionSeed, 0, data.Length);
+            PKX.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
             return data;
         }
 
@@ -65,13 +67,13 @@ namespace PKHeX.Core
         public int Unlock38Areas
         {
             get => Data[0x849];
-            set => Data[0x849] = (byte)Math.Max(MaxUnlock38Areas, value);
+            set => Data[0x849] = (byte)Math.Min(MaxUnlock38Areas, value);
         }
 
         public uint EncryptionSeed
         {
-            get => BitConverter.ToUInt32(Data, 0x84C);
-            private set => BitConverter.GetBytes(value).CopyTo(Data, 0x84C);
+            get => BitConverter.ToUInt32(Data, EncryptionSeedOffset);
+            private set => BitConverter.GetBytes(value).CopyTo(Data, EncryptionSeedOffset);
         }
         public void UnlockAllAreas()
         {

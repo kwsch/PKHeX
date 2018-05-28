@@ -18,6 +18,7 @@ namespace PKHeX.WinForms
             ReadMain();
             if (SAV.B2W2) ReadEntralink();
             else TC_Misc.Controls.Remove(TAB_Entralink);
+            LoadForest();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -29,6 +30,7 @@ namespace PKHeX.WinForms
         {
             SaveMain();
             if (SAV.B2W2) SaveEntralink();
+            SaveForest();
             Origin.SetData(SAV.Data, 0);
             Close();
         }
@@ -517,6 +519,146 @@ namespace PKHeX.WinForms
         {
             if (editing) return;
             SetEntreeExpTooltip(isBlack: false);
+        }
+
+        private EntreeForest Forest;
+        private IList<EntreeSlot> AllSlots;
+
+        private void LoadForest()
+        {
+            Forest = SAV.EntreeData;
+            AllSlots = Forest.Slots;
+            NUD_Unlocked.Value = Forest.Unlock38Areas + 2;
+            CHK_Area9.Checked = Forest.Unlock9thArea;
+
+            var areas = AllSlots.Select(z => z.Area).Distinct()
+                .Select(z => new ComboItem {Text = z.ToString(), Value = (int) z}).ToList();
+
+            CB_Species.DisplayMember = nameof(ComboItem.Text);
+            CB_Move.DisplayMember = nameof(ComboItem.Text);
+            CB_Areas.DisplayMember = nameof(ComboItem.Text);
+            CB_Species.ValueMember = nameof(ComboItem.Value);
+            CB_Move.ValueMember = nameof(ComboItem.Value);
+            CB_Areas.ValueMember = nameof(ComboItem.Value);
+
+            CB_Species.DataSource = new BindingSource(GameInfo.Strings.SpeciesDataSource, null);
+            CB_Move.DataSource = new BindingSource(GameInfo.Strings.MoveDataSource, null);
+            CB_Areas.DataSource = new BindingSource(areas, null);
+
+            CB_Areas.SelectedIndex = 0;
+        }
+
+        private void SaveForest()
+        {
+            Forest.Unlock38Areas = (int) NUD_Unlocked.Value - 2;
+            Forest.Unlock9thArea = CHK_Area9.Checked;
+            SAV.EntreeData = Forest;
+        }
+
+        private IList<EntreeSlot> CurrentSlots;
+        private void ChangeArea(object sender, EventArgs e)
+        {
+            var area = WinFormsUtil.GetIndex(CB_Areas);
+            CurrentSlots = AllSlots.Where(z => (int) z.Area == area).ToArray();
+            LB_Slots.Items.Clear();
+            foreach (var z in CurrentSlots.Select(z => GameInfo.Strings.Species[z.Species]))
+                LB_Slots.Items.Add(z);
+            LB_Slots.SelectedIndex = 0;
+        }
+        private void ChangeSlot(object sender, EventArgs e)
+        {
+            CurrentSlot = null;
+            var current = CurrentSlots[LB_Slots.SelectedIndex];
+            CB_Species.SelectedValue = current.Species;
+            SetForms(current);
+            SetGenders(current);
+            CB_Move.SelectedValue = current.Move;
+            CB_Gender.SelectedValue = current.Gender;
+            CB_Form.SelectedValue = current.Form;
+            CurrentSlot = current;
+            SetSprite(current);
+        }
+
+        private EntreeSlot CurrentSlot;
+        private void UpdateSlotValue(object sender, EventArgs e)
+        {
+            if (CurrentSlot == null)
+                return;
+
+            if (sender == CB_Species)
+            {
+                CurrentSlot.Species = WinFormsUtil.GetIndex(CB_Species);
+                LB_Slots.Items[LB_Slots.SelectedIndex] = GameInfo.Strings.Species[CurrentSlot.Species];
+                SetForms(CurrentSlot);
+                SetGenders(CurrentSlot);
+            }
+            else if (sender == CB_Move)
+                CurrentSlot.Move = WinFormsUtil.GetIndex(CB_Move);
+            else if (sender == CB_Gender)
+                CurrentSlot.Gender = WinFormsUtil.GetIndex(CB_Gender);
+            else if (sender == CB_Form)
+                CurrentSlot.Form = CB_Form.SelectedIndex;
+            else if (sender == CHK_Invisible)
+                CurrentSlot.Invisible = CHK_Invisible.Checked;
+            else if (sender == NUD_Animation)
+                CurrentSlot.Animation = (int)NUD_Animation.Value;
+            SetSprite(CurrentSlot);
+        }
+
+        private void SetSprite(EntreeSlot slot)
+        {
+            PB_SlotPreview.Image = PKMUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, false, false);
+        }
+
+        private void SetGenders(EntreeSlot slot)
+        {
+            CB_Gender.DisplayMember = nameof(ComboItem.Text);
+            CB_Gender.ValueMember = nameof(ComboItem.Value);
+            CB_Gender.DataSource = new BindingSource(GetGenderChoices(slot.Species), null);
+        }
+
+        private void B_RandForest_Click(object sender, EventArgs e)
+        {
+            var source = (SAV.B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
+            foreach (var s in AllSlots)
+            {
+                int r = Util.Rand.Next(source.Count);
+                var slot = source[r];
+                s.Species = slot.Species;
+                s.Form = slot.Form;
+                s.Move = slot.Moves?[Util.Rand.Next(slot.Moves.Length)] ?? 0;
+                s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender : slot.Gender;
+            }
+            ChangeArea(null, null); // refresh
+            NUD_Unlocked.Value = 8;
+            CHK_Area9.Checked = true;
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private static List<ComboItem> GetGenderChoices(int species)
+        {
+            var pi = PersonalTable.B2W2[species];
+            var list = new List<ComboItem>();
+            if (pi.Genderless)
+            {
+                list.Add(new ComboItem{Text = "Genderless", Value = 2});
+                return list;
+            }
+            if (!pi.OnlyFemale)
+                list.Add(new ComboItem { Text = "Male", Value = 0 });
+            if (!pi.OnlyMale)
+                list.Add(new ComboItem { Text = "Female", Value = 1 });
+            return list;
+        }
+        private void SetForms(EntreeSlot slot)
+        {
+            bool hasForms = PersonalTable.B2W2[slot.Species].HasFormes || slot.Species == 414;
+            L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
+
+            CB_Form.DisplayMember = nameof(ComboItem.Text);
+            CB_Form.ValueMember = nameof(ComboItem.Value);
+            var list = PKX.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Form.DataSource = new BindingSource(list, null);
         }
     }
 }

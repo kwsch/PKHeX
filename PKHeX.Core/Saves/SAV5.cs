@@ -50,6 +50,7 @@ namespace PKHeX.Core
                     BattleSubway = 0x21D00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52000;
+                    EntreeForestOffset = 0x22C00;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -76,6 +77,7 @@ namespace PKHeX.Core
                     BattleSubway = 0x21B00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52800;
+                    EntreeForestOffset = 0x22A00;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -132,6 +134,7 @@ namespace PKHeX.Core
         private const int wcSeed = 0x1D290;
 
         public readonly int CGearInfoOffset, CGearDataOffset;
+        private readonly int EntreeForestOffset;
         private readonly int Trainer2, AdventureInfo, BattleSubway;
         public readonly int PokeDexLanguageFlags;
 
@@ -551,6 +554,12 @@ namespace PKHeX.Core
 
                 Edited = true;
             }
+        }
+
+        public EntreeForest EntreeData
+        {
+            get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
+            set => SetData(value.Write(), EntreeForestOffset);
         }
     }
 }

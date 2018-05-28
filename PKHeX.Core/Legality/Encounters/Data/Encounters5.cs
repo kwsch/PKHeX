@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 Encounters
     /// </summary>
-    internal static class Encounters5
+    public static class Encounters5
     {
         internal static readonly EncounterArea[] SlotsB, SlotsW, SlotsB2, SlotsW2;
         internal static readonly EncounterStatic[] StaticB, StaticW, StaticB2, StaticW2;
@@ -352,69 +352,69 @@ namespace PKHeX.Core
             new EncounterStatic { Species=376, Level = 45, Moves = new[]{038}, Gender = 2, }, //Metagross
         };
 
-        private static readonly EncounterStatic[] BW_DreamWorld = DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic[] BW_DreamWorld = DreamWorld_Common.Concat(new[]
         {
             // Pleasant forest
             new EncounterStatic { Species=029, Level = 10, Moves = new[]{010, 389, 162}, },	//Nidoran (F)
             new EncounterStatic { Species=032, Level = 10, Moves = new[]{064, 068, 162}, },	//Nidoran (M)
-            new EncounterStatic { Species=174, Level = 10, Moves = new[]{047, 313, 270}, },	//Igglybuff  
-            new EncounterStatic { Species=187, Level = 10, Moves = new[]{235, 270, 331}, },	//Hoppip     
-            new EncounterStatic { Species=270, Level = 10, Moves = new[]{071, 073, 352}, },	//Lotad      
-            new EncounterStatic { Species=276, Level = 10, Moves = new[]{064, 119, 366}, },	//Taillow    
-            new EncounterStatic { Species=309, Level = 10, Moves = new[]{086, 423, 324}, },	//Electrike  
-            new EncounterStatic { Species=351, Level = 10, Moves = new[]{052, 466, 352}, },	//Castform   
-            new EncounterStatic { Species=417, Level = 10, Moves = new[]{098, 343, 351}, },	//Pachirisu  
+            new EncounterStatic { Species=174, Level = 10, Moves = new[]{047, 313, 270}, },	//Igglybuff
+            new EncounterStatic { Species=187, Level = 10, Moves = new[]{235, 270, 331}, },	//Hoppip
+            new EncounterStatic { Species=270, Level = 10, Moves = new[]{071, 073, 352}, },	//Lotad
+            new EncounterStatic { Species=276, Level = 10, Moves = new[]{064, 119, 366}, },	//Taillow
+            new EncounterStatic { Species=309, Level = 10, Moves = new[]{086, 423, 324}, },	//Electrike
+            new EncounterStatic { Species=351, Level = 10, Moves = new[]{052, 466, 352}, },	//Castform
+            new EncounterStatic { Species=417, Level = 10, Moves = new[]{098, 343, 351}, },	//Pachirisu
             // Windskept Sky
-            new EncounterStatic { Species=012, Level = 10, Moves = new[]{093, 355, 314}, },	//Butterfree 
-            new EncounterStatic { Species=163, Level = 10, Moves = new[]{193, 101, 278}, },	//Hoothoot   
-            new EncounterStatic { Species=278, Level = 10, Moves = new[]{055, 239, 351}, },	//Wingull     
-            new EncounterStatic { Species=333, Level = 10, Moves = new[]{064, 297, 355}, },	//Swablu      
-            new EncounterStatic { Species=425, Level = 10, Moves = new[]{107, 095, 285}, },	//Drifloon    
-            new EncounterStatic { Species=441, Level = 10, Moves = new[]{119, 417, 272}, },	//Chatot      
+            new EncounterStatic { Species=012, Level = 10, Moves = new[]{093, 355, 314}, },	//Butterfree
+            new EncounterStatic { Species=163, Level = 10, Moves = new[]{193, 101, 278}, },	//Hoothoot
+            new EncounterStatic { Species=278, Level = 10, Moves = new[]{055, 239, 351}, },	//Wingull
+            new EncounterStatic { Species=333, Level = 10, Moves = new[]{064, 297, 355}, },	//Swablu
+            new EncounterStatic { Species=425, Level = 10, Moves = new[]{107, 095, 285}, },	//Drifloon
+            new EncounterStatic { Species=441, Level = 10, Moves = new[]{119, 417, 272}, },	//Chatot
             // Sparkling Sea
-            new EncounterStatic { Species=079, Level = 10, Moves = new[]{281, 335, 362}, },	//Slowpoke    
-            new EncounterStatic { Species=098, Level = 10, Moves = new[]{011, 133, 290}, },	//Krabby      
-            new EncounterStatic { Species=119, Level = 33, Moves = new[]{352, 214, 203}, },	//Seaking     
-            new EncounterStatic { Species=120, Level = 10, Moves = new[]{055, 278, 196}, },	//Staryu      
-            new EncounterStatic { Species=222, Level = 10, Moves = new[]{145, 109, 446}, },	//Corsola     
+            new EncounterStatic { Species=079, Level = 10, Moves = new[]{281, 335, 362}, },	//Slowpoke
+            new EncounterStatic { Species=098, Level = 10, Moves = new[]{011, 133, 290}, },	//Krabby
+            new EncounterStatic { Species=119, Level = 33, Moves = new[]{352, 214, 203}, },	//Seaking
+            new EncounterStatic { Species=120, Level = 10, Moves = new[]{055, 278, 196}, },	//Staryu
+            new EncounterStatic { Species=222, Level = 10, Moves = new[]{145, 109, 446}, },	//Corsola
             new EncounterStatic { Species=422, Level = 10, Moves = new[]{189, 281, 290}, Form = 0 },	//Shellos
             new EncounterStatic { Species=422, Level = 10, Moves = new[]{189, 281, 290}, Form = 1 },
             // Spooky Mannor
-            new EncounterStatic { Species=202, Level = 15, Moves = new[]{243, 204, 227}, },	//Wobbuffet   
-            new EncounterStatic { Species=238, Level = 10, Moves = new[]{186, 445, 285}, },	//Smoochum    
-            new EncounterStatic { Species=303, Level = 10, Moves = new[]{313, 424, 008}, }, //Mawile      
-            new EncounterStatic { Species=307, Level = 10, Moves = new[]{096, 409, 203}, },	//Meditite    
-            new EncounterStatic { Species=436, Level = 10, Moves = new[]{095, 285, 356}, },	//Bronzor     
-            new EncounterStatic { Species=052, Level = 10, Moves = new[]{010, 095, 290}, },	//Meowth      
-            new EncounterStatic { Species=479, Level = 10, Moves = new[]{086, 351, 324}, },	//Rotom       
-            new EncounterStatic { Species=280, Level = 10, Moves = new[]{093, 194, 270}, },	//Ralts       
-            new EncounterStatic { Species=302, Level = 10, Moves = new[]{193, 389, 180}, },	//Sableye     
-            new EncounterStatic { Species=442, Level = 10, Moves = new[]{180, 220, 196}, },	//Spiritomb   
+            new EncounterStatic { Species=202, Level = 15, Moves = new[]{243, 204, 227}, },	//Wobbuffet
+            new EncounterStatic { Species=238, Level = 10, Moves = new[]{186, 445, 285}, },	//Smoochum
+            new EncounterStatic { Species=303, Level = 10, Moves = new[]{313, 424, 008}, }, //Mawile
+            new EncounterStatic { Species=307, Level = 10, Moves = new[]{096, 409, 203}, },	//Meditite
+            new EncounterStatic { Species=436, Level = 10, Moves = new[]{095, 285, 356}, },	//Bronzor
+            new EncounterStatic { Species=052, Level = 10, Moves = new[]{010, 095, 290}, },	//Meowth
+            new EncounterStatic { Species=479, Level = 10, Moves = new[]{086, 351, 324}, },	//Rotom
+            new EncounterStatic { Species=280, Level = 10, Moves = new[]{093, 194, 270}, },	//Ralts
+            new EncounterStatic { Species=302, Level = 10, Moves = new[]{193, 389, 180}, },	//Sableye
+            new EncounterStatic { Species=442, Level = 10, Moves = new[]{180, 220, 196}, },	//Spiritomb
             // Rugged Mountain
-            new EncounterStatic { Species=056, Level = 10, Moves = new[]{067, 179, 009}, },	//Mankey      
-            new EncounterStatic { Species=111, Level = 10, Moves = new[]{030, 068, 038}, },	//Rhyhorn     
-            new EncounterStatic { Species=231, Level = 10, Moves = new[]{175, 484, 402}, },	//Phanpy      
-            new EncounterStatic { Species=451, Level = 10, Moves = new[]{044, 097, 401}, },	//Skorupi     
-            new EncounterStatic { Species=216, Level = 10, Moves = new[]{313, 242, 264}, },	//Teddiursa   
-            new EncounterStatic { Species=296, Level = 10, Moves = new[]{292, 270, 008}, },	//Makuhita    
-            new EncounterStatic { Species=327, Level = 10, Moves = new[]{383, 252, 276}, },	//Spinda      
-            new EncounterStatic { Species=374, Level = 10, Moves = new[]{036, 428, 442}, },	//Beldum      
-            new EncounterStatic { Species=447, Level = 10, Moves = new[]{203, 418, 264}, },	//Riolu       
+            new EncounterStatic { Species=056, Level = 10, Moves = new[]{067, 179, 009}, },	//Mankey
+            new EncounterStatic { Species=111, Level = 10, Moves = new[]{030, 068, 038}, },	//Rhyhorn
+            new EncounterStatic { Species=231, Level = 10, Moves = new[]{175, 484, 402}, },	//Phanpy
+            new EncounterStatic { Species=451, Level = 10, Moves = new[]{044, 097, 401}, },	//Skorupi
+            new EncounterStatic { Species=216, Level = 10, Moves = new[]{313, 242, 264}, },	//Teddiursa
+            new EncounterStatic { Species=296, Level = 10, Moves = new[]{292, 270, 008}, },	//Makuhita
+            new EncounterStatic { Species=327, Level = 10, Moves = new[]{383, 252, 276}, },	//Spinda
+            new EncounterStatic { Species=374, Level = 10, Moves = new[]{036, 428, 442}, },	//Beldum
+            new EncounterStatic { Species=447, Level = 10, Moves = new[]{203, 418, 264}, },	//Riolu
             // Icy Cave
-            new EncounterStatic { Species=173, Level = 10, Moves = new[]{227, 312, 214}, },	//Cleffa      
-            new EncounterStatic { Species=213, Level = 10, Moves = new[]{227, 270, 504}, },	//Shuckle     
-            new EncounterStatic { Species=299, Level = 10, Moves = new[]{033, 446, 246}, },	//Nosepass    
-            new EncounterStatic { Species=363, Level = 10, Moves = new[]{181, 090, 401}, },	//Spheal      
-            new EncounterStatic { Species=408, Level = 10, Moves = new[]{029, 442, 007}, },	//Cranidos    
-            new EncounterStatic { Species=206, Level = 10, Moves = new[]{111, 277, 446}, },	//Dunsparce   
-            new EncounterStatic { Species=410, Level = 10, Moves = new[]{182, 068, 090}, },	//Shieldon    
+            new EncounterStatic { Species=173, Level = 10, Moves = new[]{227, 312, 214}, },	//Cleffa
+            new EncounterStatic { Species=213, Level = 10, Moves = new[]{227, 270, 504}, },	//Shuckle
+            new EncounterStatic { Species=299, Level = 10, Moves = new[]{033, 446, 246}, },	//Nosepass
+            new EncounterStatic { Species=363, Level = 10, Moves = new[]{181, 090, 401}, },	//Spheal
+            new EncounterStatic { Species=408, Level = 10, Moves = new[]{029, 442, 007}, },	//Cranidos
+            new EncounterStatic { Species=206, Level = 10, Moves = new[]{111, 277, 446}, },	//Dunsparce
+            new EncounterStatic { Species=410, Level = 10, Moves = new[]{182, 068, 090}, },	//Shieldon
             // Dream Park
-            new EncounterStatic { Species=048, Level = 10, Moves = new[]{050, 226, 285}, }, //Venonat     
-            new EncounterStatic { Species=088, Level = 10, Moves = new[]{139, 114, 425}, },	//Grimer      
-            new EncounterStatic { Species=415, Level = 10, Moves = new[]{016, 366, 314}, },	//Combee      
-            new EncounterStatic { Species=015, Level = 10, Moves = new[]{031, 314, 210}, },	//Beedrill    
-            new EncounterStatic { Species=335, Level = 10, Moves = new[]{098, 458, 067}, },	//Zangoose    
-            new EncounterStatic { Species=336, Level = 10, Moves = new[]{044, 034, 401}, },	//Seviper    
+            new EncounterStatic { Species=048, Level = 10, Moves = new[]{050, 226, 285}, }, //Venonat
+            new EncounterStatic { Species=088, Level = 10, Moves = new[]{139, 114, 425}, },	//Grimer
+            new EncounterStatic { Species=415, Level = 10, Moves = new[]{016, 366, 314}, },	//Combee
+            new EncounterStatic { Species=015, Level = 10, Moves = new[]{031, 314, 210}, },	//Beedrill
+            new EncounterStatic { Species=335, Level = 10, Moves = new[]{098, 458, 067}, },	//Zangoose
+            new EncounterStatic { Species=336, Level = 10, Moves = new[]{044, 034, 401}, },	//Seviper
             // PGL
             new EncounterStatic { Species=134, Level = 10, Gender = 0, }, //Vaporeon
             new EncounterStatic { Species=135, Level = 10, Gender = 0, }, //Jolteon
@@ -443,54 +443,54 @@ namespace PKHeX.Core
             new EncounterStatic { Species=334, Level = 35, Moves = new[]{206}, Gender = 0,},  //Altaria
             new EncounterStatic { Species=242, Level = 10 },              //Blissey
             new EncounterStatic { Species=448, Level = 10, Moves = new[]{418}, Gender = 0, }, //Lucario
-            new EncounterStatic { Species=189, Level = 27, Moves = new[]{206}, Gender = 0, }, //Jumpluff 
+            new EncounterStatic { Species=189, Level = 27, Moves = new[]{206}, Gender = 0, }, //Jumpluff
         }).ToArray();
 
-        private static readonly EncounterStatic[] B2W2_DreamWorld = DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic[] B2W2_DreamWorld = DreamWorld_Common.Concat(new[]
         {
             // Pleasant forest
-            new EncounterStatic { Species=535, Level = 10, Moves = new[]{496, 414, 352}, },	//Tympole    
-            new EncounterStatic { Species=546, Level = 10, Moves = new[]{073, 227, 388}, },	//Cottonee   
-            new EncounterStatic { Species=548, Level = 10, Moves = new[]{079, 204, 230}, },	//Petilil    
-            new EncounterStatic { Species=588, Level = 10, Moves = new[]{203, 224, 450}, },	//Karrablast 
-            new EncounterStatic { Species=616, Level = 10, Moves = new[]{051, 226, 227}, },	//Shelmet    
-            new EncounterStatic { Species=545, Level = 30, Moves = new[]{342, 390, 276}, },	//Scolipede  
+            new EncounterStatic { Species=535, Level = 10, Moves = new[]{496, 414, 352}, },	//Tympole
+            new EncounterStatic { Species=546, Level = 10, Moves = new[]{073, 227, 388}, },	//Cottonee
+            new EncounterStatic { Species=548, Level = 10, Moves = new[]{079, 204, 230}, },	//Petilil
+            new EncounterStatic { Species=588, Level = 10, Moves = new[]{203, 224, 450}, },	//Karrablast
+            new EncounterStatic { Species=616, Level = 10, Moves = new[]{051, 226, 227}, },	//Shelmet
+            new EncounterStatic { Species=545, Level = 30, Moves = new[]{342, 390, 276}, },	//Scolipede
             // Windskept Sky
-            new EncounterStatic { Species=519, Level = 10, Moves = new[]{016, 095, 234}, },	//Pidove      
-            new EncounterStatic { Species=561, Level = 10, Moves = new[]{095, 500, 257}, },	//Sigilyph    
-            new EncounterStatic { Species=580, Level = 10, Moves = new[]{432, 362, 382}, },	//Ducklett    
-            new EncounterStatic { Species=587, Level = 10, Moves = new[]{098, 403, 204}, },	//Emolga      
+            new EncounterStatic { Species=519, Level = 10, Moves = new[]{016, 095, 234}, },	//Pidove
+            new EncounterStatic { Species=561, Level = 10, Moves = new[]{095, 500, 257}, },	//Sigilyph
+            new EncounterStatic { Species=580, Level = 10, Moves = new[]{432, 362, 382}, },	//Ducklett
+            new EncounterStatic { Species=587, Level = 10, Moves = new[]{098, 403, 204}, },	//Emolga
             // Sparkling Sea
             new EncounterStatic { Species=550, Level = 10, Moves = new[]{029, 097, 428}, Form = 0 },//Basculin
             new EncounterStatic { Species=550, Level = 10, Moves = new[]{029, 097, 428}, Form = 1 },
-            new EncounterStatic { Species=594, Level = 10, Moves = new[]{392, 243, 220}, },	//Alomomola   
-            new EncounterStatic { Species=618, Level = 10, Moves = new[]{189, 174, 281}, },	//Stunfisk    
-            new EncounterStatic { Species=564, Level = 10, Moves = new[]{205, 175, 334}, },	//Tirtouga    
+            new EncounterStatic { Species=594, Level = 10, Moves = new[]{392, 243, 220}, },	//Alomomola
+            new EncounterStatic { Species=618, Level = 10, Moves = new[]{189, 174, 281}, },	//Stunfisk
+            new EncounterStatic { Species=564, Level = 10, Moves = new[]{205, 175, 334}, },	//Tirtouga
             // Spooky Mannor
-            new EncounterStatic { Species=605, Level = 10, Moves = new[]{377, 112, 417}, },	//Elgyem      
-            new EncounterStatic { Species=624, Level = 10, Moves = new[]{210, 427, 389}, },	//Pawniard    
-            new EncounterStatic { Species=596, Level = 36, Moves = new[]{486, 050, 228}, },	//Galvantula  
-            new EncounterStatic { Species=578, Level = 32, Moves = new[]{105, 286, 271}, },	//Duosion     
-            new EncounterStatic { Species=622, Level = 10, Moves = new[]{205, 007, 009}, },	//Golett 
+            new EncounterStatic { Species=605, Level = 10, Moves = new[]{377, 112, 417}, },	//Elgyem
+            new EncounterStatic { Species=624, Level = 10, Moves = new[]{210, 427, 389}, },	//Pawniard
+            new EncounterStatic { Species=596, Level = 36, Moves = new[]{486, 050, 228}, },	//Galvantula
+            new EncounterStatic { Species=578, Level = 32, Moves = new[]{105, 286, 271}, },	//Duosion
+            new EncounterStatic { Species=622, Level = 10, Moves = new[]{205, 007, 009}, },	//Golett
             // Rugged Mountain
-            new EncounterStatic { Species=631, Level = 10, Moves = new[]{510, 257, 202}, },	//Heatmor     
-            new EncounterStatic { Species=632, Level = 10, Moves = new[]{210, 203, 422}, },	//Durant      
-            new EncounterStatic { Species=556, Level = 10, Moves = new[]{042, 073, 191}, },	//Maractus    
-            new EncounterStatic { Species=558, Level = 34, Moves = new[]{157, 068, 400}, },	//Crustle     
-            new EncounterStatic { Species=553, Level = 40, Moves = new[]{242, 068, 212}, },	//Krookodile  
+            new EncounterStatic { Species=631, Level = 10, Moves = new[]{510, 257, 202}, },	//Heatmor
+            new EncounterStatic { Species=632, Level = 10, Moves = new[]{210, 203, 422}, },	//Durant
+            new EncounterStatic { Species=556, Level = 10, Moves = new[]{042, 073, 191}, },	//Maractus
+            new EncounterStatic { Species=558, Level = 34, Moves = new[]{157, 068, 400}, },	//Crustle
+            new EncounterStatic { Species=553, Level = 40, Moves = new[]{242, 068, 212}, },	//Krookodile
             // Icy Cave
-            new EncounterStatic { Species=529, Level = 10, Moves = new[]{229, 319, 431}, },	//Drilbur     
-            new EncounterStatic { Species=621, Level = 10, Moves = new[]{044, 424, 389}, },	//Druddigon   
-            new EncounterStatic { Species=525, Level = 25, Moves = new[]{479, 174, 484}, },	//Boldore     
-            new EncounterStatic { Species=583, Level = 35, Moves = new[]{429, 420, 286}, },	//Vanillish   
-            new EncounterStatic { Species=600, Level = 38, Moves = new[]{451, 356, 393}, },	//Klang       
-            new EncounterStatic { Species=610, Level = 10, Moves = new[]{082, 068, 400}, },	//Axew        
+            new EncounterStatic { Species=529, Level = 10, Moves = new[]{229, 319, 431}, },	//Drilbur
+            new EncounterStatic { Species=621, Level = 10, Moves = new[]{044, 424, 389}, },	//Druddigon
+            new EncounterStatic { Species=525, Level = 25, Moves = new[]{479, 174, 484}, },	//Boldore
+            new EncounterStatic { Species=583, Level = 35, Moves = new[]{429, 420, 286}, },	//Vanillish
+            new EncounterStatic { Species=600, Level = 38, Moves = new[]{451, 356, 393}, },	//Klang
+            new EncounterStatic { Species=610, Level = 10, Moves = new[]{082, 068, 400}, },	//Axew
             // Dream Park
-            new EncounterStatic { Species=531, Level = 10, Moves = new[]{270, 227, 281}, },	//Audino      
-            new EncounterStatic { Species=538, Level = 10, Moves = new[]{020, 008, 276}, },	//Throh       
-            new EncounterStatic { Species=539, Level = 10, Moves = new[]{249, 009, 530}, },	//Sawk        
-            new EncounterStatic { Species=559, Level = 10, Moves = new[]{067, 252, 409}, },	//Scraggy     
-            new EncounterStatic { Species=533, Level = 25, Moves = new[]{067, 183, 409}, },	//Gurdurr   
+            new EncounterStatic { Species=531, Level = 10, Moves = new[]{270, 227, 281}, },	//Audino
+            new EncounterStatic { Species=538, Level = 10, Moves = new[]{020, 008, 276}, },	//Throh
+            new EncounterStatic { Species=539, Level = 10, Moves = new[]{249, 009, 530}, },	//Sawk
+            new EncounterStatic { Species=559, Level = 10, Moves = new[]{067, 252, 409}, },	//Scraggy
+            new EncounterStatic { Species=533, Level = 25, Moves = new[]{067, 183, 409}, },	//Gurdurr
             // PGL
             new EncounterStatic { Species=575, Level = 32, Moves = new[]{243}, Gender = 0, }, //Gothorita
             new EncounterStatic { Species=025, Level = 10, Moves = new[]{029}, Gender = 0, }, //Pikachu
@@ -500,7 +500,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species=387, Level = 10, Moves = new[]{254}, Gender = 0, }, //Turtwig
             new EncounterStatic { Species=390, Level = 10, Moves = new[]{252}, Gender = 0, }, //Chimchar
             new EncounterStatic { Species=393, Level = 10, Moves = new[]{297}, Gender = 0, }, //Piplup
-            new EncounterStatic { Species=575, Level = 32, Moves = new[]{286}, Gender = 0, }, //Gothorita  
+            new EncounterStatic { Species=575, Level = 32, Moves = new[]{286}, Gender = 0, }, //Gothorita
         }).ToArray();
 
         #endregion
@@ -509,9 +509,9 @@ namespace PKHeX.Core
         private static readonly int[] Roaming_MetLocation_BW =
         {
             25,26,27,28, // Route 12,13,14,15 Night latter half
-            15,16,31,    // Route 2,3,18 Morning 
-            17,18,29,    // Route 4,5,16 Daytime 
-            19,20,21,    // Route 6,7,8 Evening 
+            15,16,31,    // Route 2,3,18 Morning
+            17,18,29,    // Route 4,5,16 Daytime
+            19,20,21,    // Route 6,7,8 Evening
             22,23,24,    // Route 9,10,11 Night former half
         };
 
@@ -833,10 +833,10 @@ namespace PKHeX.Core
             new EncounterSlot{ Species = 400, LevelMin = 55, LevelMax = 60, }, // Bibarel @ Pond
             // Route 5
             new EncounterSlot{ Species = 510, LevelMin = 20, LevelMax = 25, }, // Liepard
-            new EncounterSlot{ Species = 572, LevelMin = 20, LevelMax = 25, }, // Minccino 
-            new EncounterSlot{ Species = 590, LevelMin = 20, LevelMax = 25, }, // Foongus 
+            new EncounterSlot{ Species = 572, LevelMin = 20, LevelMax = 25, }, // Minccino
+            new EncounterSlot{ Species = 590, LevelMin = 20, LevelMax = 25, }, // Foongus
             // Route 6
-            new EncounterSlot{ Species = 206, LevelMin = 25, LevelMax = 30, }, // Dunsparce @ Near PKM Breeder 
+            new EncounterSlot{ Species = 206, LevelMin = 25, LevelMax = 30, }, // Dunsparce @ Near PKM Breeder
             new EncounterSlot{ Species = 299, LevelMin = 25, LevelMax = 30, }, // Nospass @ Mistralton Cave
             new EncounterSlot{ Species = 527, LevelMin = 25, LevelMax = 30, }, // Woobat @ Both
             new EncounterSlot{ Species = 590, LevelMin = 25, LevelMax = 30, }, // Foongus @ Both

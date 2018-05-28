@@ -84,8 +84,8 @@ namespace PKHeX.WinForms
             CB_Handler.Items.Clear();
             CB_Handler.Items.AddRange(new object[] {$"{pkm.OT_Name} ({args[2]})"}); // OTNAME : OT
 
-            if (Util.TrimFromZero(pkm.HT_Name) != "")
-                CB_Handler.Items.AddRange(new object[] { pkm.HT_Name });
+            if (!string.IsNullOrEmpty(pkm.HT_Name))
+                CB_Handler.Items.Add(pkm.HT_Name);
             else
                 pkm.CurrentHandler = 0;
 
