@@ -541,8 +541,8 @@ namespace PKHeX.WinForms
             CB_Move.ValueMember = nameof(ComboItem.Value);
             CB_Areas.ValueMember = nameof(ComboItem.Value);
 
-            CB_Species.DataSource = new BindingSource(GameInfo.Strings.SpeciesDataSource, null);
-            CB_Move.DataSource = new BindingSource(GameInfo.Strings.MoveDataSource, null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Move.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             CB_Areas.DataSource = new BindingSource(areas, null);
 
             CB_Areas.SelectedIndex = 0;
@@ -574,7 +574,7 @@ namespace PKHeX.WinForms
             SetGenders(current);
             CB_Move.SelectedValue = current.Move;
             CB_Gender.SelectedValue = current.Gender;
-            CB_Form.SelectedValue = current.Form;
+            CB_Form.SelectedIndex = current.Form;
             CurrentSlot = current;
             SetSprite(current);
         }
@@ -624,6 +624,7 @@ namespace PKHeX.WinForms
             {
                 int r = Util.Rand.Next(source.Count);
                 var slot = source[r];
+                source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;
                 s.Move = slot.Moves?[Util.Rand.Next(slot.Moves.Length)] ?? 0;
