@@ -12,7 +12,7 @@ namespace PKHeX.Core
     /// </summary>
     public partial class LegalityAnalysis
     {
-        private PKM pkm;
+        private readonly PKM pkm;
         private readonly bool Error;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
@@ -32,7 +32,7 @@ namespace PKHeX.Core
             {
                 if (_allSuggestedMoves != null)
                     return _allSuggestedMoves;
-                if (Error || pkm == null || !pkm.IsOriginValid)
+                if (Error || Info == null)
                     return new int[4];
                 return _allSuggestedMoves = GetSuggestedMoves(true, true, true);
             }
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             {
                 if (_allSuggestedRelearnMoves != null)
                     return _allSuggestedRelearnMoves;
-                if (Error || pkm == null || !pkm.IsOriginValid)
+                if (Error || Info == null)
                     return new int[4];
                 var gender = pkm.PersonalInfo.Gender;
                 var inheritLvlMoves = gender > 0 && gender < 255 || Legal.MixedGenderBreeding.Contains(Info.EncounterMatch.Species);
@@ -76,12 +76,13 @@ namespace PKHeX.Core
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
         public LegalityAnalysis(PKM pk, PersonalTable table = null)
         {
+            pkm = pk;
 #if SUPPRESS
             try
 #endif
             {
-                PersonalInfo = table?.GetFormeEntry(pk.Species, pk.AltForm) ?? pk.PersonalInfo;
-                ParseLegality(pk);
+                PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
+                ParseLegality();
 
                 if (Parse.Count <= 0)
                     return;
@@ -99,35 +100,34 @@ namespace PKHeX.Core
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
                 AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
-                pkm = pk;
                 Error = true;
             }
 #endif
             Parsed = true;
         }
-        private void ParseLegality(PKM pk)
+        private void ParseLegality()
         {
-            if (pk.Format == 1 || pk.Format == 2) // prior to storing GameVersion
+            if (!pkm.IsOriginValid)
+                AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin);
+
+            if (pkm.Format == 1 || pkm.Format == 2) // prior to storing GameVersion
             {
-                ParsePK1(pk);
+                ParsePK1();
                 return;
             }
-            switch (pk.GenNumber)
+            switch (pkm.GenNumber)
             {
-                case 3: ParsePK3(pk); return;
-                case 4: ParsePK4(pk); return;
-                case 5: ParsePK5(pk); return;
-                case 6: ParsePK6(pk); return;
+                case 3: ParsePK3(); return;
+                case 4: ParsePK4(); return;
+                case 5: ParsePK5(); return;
+                case 6: ParsePK6(); return;
 
                 case 1: case 2:
-                case 7: ParsePK7(pk); return;
+                case 7: ParsePK7(); return;
             }
         }
-        private void ParsePK1(PKM pk)
+        private void ParsePK1()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
             UpdateTradebackG12();
 
             UpdateInfo();
@@ -139,66 +139,41 @@ namespace PKHeX.Core
             VerifyOTG1();
             VerifyMiscG1();
         }
-        private void ParsePK3(PKM pk)
+        private void ParsePK3()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-
             UpdateInfo();
-            UpdateTypeInfo();
             UpdateChecks();
             if (pkm.Format > 3)
                 VerifyTransferLegalityG3();
 
-            if (pkm.Version == 15)
+            if (pkm.Version == (int)GameVersion.CXD)
                 VerifyCXD();
 
             if (Info.EncounterMatch is WC3 z && z.NotDistributed)
                 AddLine(Severity.Invalid, V413, CheckIdentifier.Encounter);
         }
-        private void ParsePK4(PKM pk)
+        private void ParsePK4()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-
             UpdateInfo();
-            UpdateTypeInfo();
             UpdateChecks();
             if (pkm.Format > 4)
                 VerifyTransferLegalityG4();
         }
-        private void ParsePK5(PKM pk)
+        private void ParsePK5()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-
             UpdateInfo();
-            UpdateTypeInfo();
             UpdateChecks();
         }
-        private void ParsePK6(PKM pk)
+        private void ParsePK6()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-
             UpdateInfo();
-            UpdateTypeInfo();
             UpdateChecks();
         }
-        private void ParsePK7(PKM pk)
+        private void ParsePK7()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-
             UpdateInfo();
             if (pkm.VC)
                 UpdateVCTransferInfo();
-            UpdateTypeInfo();
             UpdateChecks();
         }
 
@@ -281,7 +256,7 @@ namespace PKHeX.Core
         }
         private string GetLegalityReport()
         {
-            if (!Parsed || pkm == null || Info == null)
+            if (!Parsed || Info == null)
                 return V189;
 
             var lines = new List<string>();
@@ -310,7 +285,7 @@ namespace PKHeX.Core
         }
         private string GetVerboseLegalityReport()
         {
-            if (!Parsed || pkm == null || Info == null)
+            if (!Parsed || Info == null)
                 return V189;
 
             const string separator = "===";
@@ -362,10 +337,10 @@ namespace PKHeX.Core
         // Suggestions
         public int[] GetSuggestedRelearn()
         {
-            if (Info.RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid)
+            if (Info?.RelearnBase == null || Info.Generation < 6)
                 return new int[4];
 
-            if (!pkm.WasEgg)
+            if (!EncounterMatch.EggEncounter)
                 return Info.RelearnBase;
 
             List<int> window = new List<int>(Info.RelearnBase.Where(z => z != 0));
@@ -379,8 +354,6 @@ namespace PKHeX.Core
         }
         public int[] GetSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
-            if (pkm == null || !pkm.IsOriginValid)
-                return null;
             if (!Parsed)
                 return new int[4];
             return Legal.GetValidMoves(pkm, Info.EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0

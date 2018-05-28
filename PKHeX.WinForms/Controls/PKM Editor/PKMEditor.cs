@@ -618,7 +618,7 @@ namespace PKHeX.WinForms.Controls
         private bool SetSuggestedMoves(bool random = false, bool silent = false)
         {
             int[] m = pkm.GetMoveSet(random);
-            if (m == null)
+            if (m?.Any(z => z != 0) != true)
             {
                 if (!silent)
                     WinFormsUtil.Alert(MsgPKMSuggestionFormat);
