@@ -1991,7 +1991,7 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, string.Format(V160, V206), CheckIdentifier.Memory); return;
 
                 case 14:
-                    if (Legal.GetCanBeCaptured(pkm.HT_TextVar, Info.Generation))
+                    if (Legal.GetCanBeCaptured(pkm.HT_TextVar, 6, pkm.IsUntraded ? (GameVersion)pkm.Version : GameVersion.Any))
                         AddLine(Severity.Valid, string.Format(V164, V206), CheckIdentifier.Memory);
                     else
                         AddLine(Severity.Invalid, string.Format(V165, V206), CheckIdentifier.Memory);
