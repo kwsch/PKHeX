@@ -157,8 +157,9 @@ namespace PKHeX.Core
         /// <param name="existingLines">Existing localization lines (if provided)</param>
         public static string[] GetLocalization(Type t, string[] existingLines = null)
         {
-            existingLines = existingLines ?? new string[0];
             var currentLines = DumpStrings(t).ToArray();
+            if (existingLines == null)
+                return currentLines;
             var existing = GetProperties(existingLines);
             var current = GetProperties(currentLines);
 

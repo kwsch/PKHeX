@@ -135,6 +135,10 @@ namespace PKHeX.WinForms
 
             PKME_Tabs.InitializeFields();
             PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
+
+            #if DEBUG
+            DevUtil.AddControl(Menu_Tools);
+            #endif
         }
         private void FormLoadAddEvents()
         {

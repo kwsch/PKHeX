@@ -10,17 +10,35 @@ namespace PKHeX.WinForms
     #if DEBUG
     public static class DevUtil
     {
+        public static void AddControl(ToolStripDropDownItem t)
+        {
+            t.DropDownItems.Add(GetTranslationUpdater());
+        }
+
         private static readonly string[] Languages = {"ja", "fr", "it", "de", "es", "ko", "zh", "pt"};
         private const string DefaultLanguage = "en";
 
         /// <summary>
         /// Call this to update all translatable resources (Program Messages, Legality Text, Program GUI)
         /// </summary>
-        public static void UpdateAll()
+        private static void UpdateAll()
         {
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Update translation files with current values?"))
+                return;
             DumpStringsMessage();
             DumpStringsLegality();
             UpdateTranslations();
+        }
+
+        private static ToolStripMenuItem GetTranslationUpdater()
+        {
+            var ti = new ToolStripMenuItem
+            {
+                ShortcutKeys = Keys.Control | Keys.Alt | Keys.D,
+                Visible = false
+            };
+            ti.Click += (s, e) => UpdateAll();
+            return ti;
         }
 
         private static void UpdateTranslations()
