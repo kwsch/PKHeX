@@ -511,7 +511,7 @@ namespace PKHeX.WinForms
             {
                 var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
                 BatchEditing.ScreenStrings(filters);
-                res = res.Where(pkm => BatchEditing.IsFiltered(filters, pkm)); // Compare across all filters
+                res = res.Where(pkm => BatchEditing.IsFilterMatch(filters, pkm)); // Compare across all filters
             }
 
             if (Menu_SearchClones.Checked)

@@ -141,7 +141,7 @@ namespace PKHeX.Core
         /// <param name="filters">Filters which must be satisfied.</param>
         /// <param name="pkm">Object to check.</param>
         /// <returns>True if <see cref="pkm"/> matches all filters.</returns>
-        public static bool IsFiltered(IEnumerable<StringInstruction> filters, PKM pkm) => filters.All(z => IsPKMFiltered(z, pkm, Props[Array.IndexOf(Types, pkm.GetType())]));
+        public static bool IsFilterMatch(IEnumerable<StringInstruction> filters, PKM pkm) => filters.All(z => IsFilterMatch(z, pkm, Props[Array.IndexOf(Types, pkm.GetType())]));
 
         /// <summary>
         /// Checks if the object is filtered by the provided <see cref="filters"/>.
@@ -149,7 +149,7 @@ namespace PKHeX.Core
         /// <param name="filters">Filters which must be satisfied.</param>
         /// <param name="obj">Object to check.</param>
         /// <returns>True if <see cref="obj"/> matches all filters.</returns>
-        public static bool IsFiltered(IEnumerable<StringInstruction> filters, object obj)
+        public static bool IsFilterMatch(IEnumerable<StringInstruction> filters, object obj)
         {
             foreach (var cmd in filters)
             {
@@ -193,7 +193,7 @@ namespace PKHeX.Core
             {
                 try
                 {
-                    if (IsPKMFiltered(cmd, info, pi))
+                    if (!IsFilterMatch(cmd, info, pi))
                         return ModifyResult.Filtered;
                 }
                 catch (Exception ex)
@@ -252,8 +252,8 @@ namespace PKHeX.Core
         /// <param name="cmd">Command Filter</param>
         /// <param name="info">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache (optional)</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsPKMFiltered(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
+        /// <returns>True if filter matches, else false.</returns>
+        private static bool IsFilterMatch(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
             if (IsLegalFiltered(cmd, () => info.Legal))
                 return true;
@@ -266,8 +266,8 @@ namespace PKHeX.Core
         /// <param name="cmd">Command Filter</param>
         /// <param name="pkm">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache (optional)</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsPKMFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props)
+        /// <returns>True if filter matches, else false.</returns>
+        private static bool IsFilterMatch(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props)
         {
             if (IsLegalFiltered(cmd, () => new LegalityAnalysis(pkm).Valid))
                 return true;
