@@ -53,6 +53,7 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.Modify, GetItem("ResetMoves", "Reset Moves", () => Modify(z => z.SetMoves(z.GetMoveSet())), Resources.date));
             AddItem(Level.Modify, GetItem("RandomMoves", "Randomize Moves", () => Modify(z => z.SetMoves(z.GetMoveSet(true))), Resources.wand));
             AddItem(Level.Modify, GetItem("HyperTrain", "Hyper Train", () => Modify(z => z.SetSuggestedHyperTrainingData()), Resources.vallohi), s => s.Generation >= 7);
+            AddItem(Level.Modify, GetItem("RemoveNicknames", "Remove Nicknames", () => Modify(z => z.SetDefaultNickname()), Resources.alphaAZ));
             AddItem(Level.Modify, GetItem("RemoveItem", "Delete Held Item", () => Modify(z => z.HeldItem = 0), Resources.gift), s => s.Generation >= 2);
         }
 

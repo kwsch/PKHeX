@@ -18,6 +18,7 @@ namespace PKHeX.Core
 
         private IEncounterable EncounterOriginalGB;
         private IEncounterable EncounterMatch => Info.EncounterMatch;
+        public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
 
         private CheckResult Encounter, History;
 
@@ -56,7 +57,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var enc = EncounterOriginalGB ?? EncounterMatch;
+                var enc = EncounterOriginal;
                 return $"{enc.GetEncounterTypeName()} ({SpeciesStrings[enc.Species]})";
             }
         }
@@ -64,7 +65,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var enc = (EncounterOriginalGB ?? EncounterMatch) as ILocation;
+                var enc = EncounterOriginal as ILocation;
                 return enc?.GetEncounterLocation(Info.Generation, pkm.Version);
             }
         }

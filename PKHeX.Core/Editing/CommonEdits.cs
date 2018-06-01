@@ -647,5 +647,20 @@ namespace PKHeX.Core
             pk.OT_Intensity = 6;
             pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory);
         }
+
+        /// <summary>
+        /// Sets the <see cref="PKM.Nickname"/> to its default value.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="la">Precomputed optional</param>
+        public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la = null)
+        {
+            if (la == null)
+                la = new LegalityAnalysis(pk);
+            if (la.Parsed && la.EncounterOriginal is EncounterTrade t && t.HasNickname)
+                pk.SetNickname(t.GetNickname(pk.Language));
+            else
+                pk.SetNickname();
+        }
     }
 }
