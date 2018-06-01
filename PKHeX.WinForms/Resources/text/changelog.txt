@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/04/18 - New Update:
+18/06/01 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - - Fixed: Black 2 Route 3 encounter data dump fixed (yay official bug). Corphish with form 1 is automatically reverted to form 0 ingame.
+ - - Fixed: Gen3 Mirage Island Wynaut encounter is no longer incorrectly flagged as illegal.
+ - Added: Box Sort/Modify/Delete quick action tools. Right click the Box tab to see available options.
+ - Added: Hovering over a Pokémon slot (sprite) now shows a Showdown style text preview of the contents.
+ - Added: Hovering over a Pokémon slot (sprite) now plays the pkm's cry. 
+ - - Put the (species#-form#.wav) files in a folder named "sounds" in the same folder as PKHeX.exe.
+ - Added: Gen6 Memory Feeling legality. Only certain 'feeling' values are legal for a given memory index.
+ - Added: Gen5 Entree Forest editor & randomizer. Populates with legal dream world encounters.
+ - Added: Gen4 Battle Revolution party data can now be viewed & edited.
+ - Added: Work in progress Encounter -> PKM generator updated to generate all encounters legally. More to come...
+ - Changed: Gen7+ origin Pokémon now show the Gen7 TID/SID style instead of prior gen 16 bit values.
+ - Changed: Batch Editor logic relocated to PKHeX.Core for reusability.
+ - Changed: Simple pkm editing logic relocated to PKHeX.Core (CommonEdits) for reusability.
+ - Fixed: Gen3 FRLG 'Security' value offset fixed (was misidentified as the Berry Powder. Thanks HaiPhuong!
+ - Fixed: Using the Gen4 Misc editor no longer corrupts Pokétch data.
+ - Fixed: Misc Showdown set parsing/export issues. Now handles Gen2 & Gen3 context-sensitive exports (held items).
+ - Fixed: Misc pull requests for various issues & updates. Thanks @smileynation, @knight-ryu12, @evandixon, @wwwwwwzx, @ReignOfComputer, @sora10pls & @architdate
+
+18/04/18 - New Update: (63045) [1168857]
  - Translations:
  - - Resources are now more accessible for translation. Want to better localize PKHeX to your native language?
  - - Locate the following files in the repo for the desired language (example: English)
