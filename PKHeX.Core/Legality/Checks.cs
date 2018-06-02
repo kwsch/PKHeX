@@ -1164,15 +1164,37 @@ namespace PKHeX.Core
                 return true;
             }
 
+            if (EncounterMatch is EncounterTradePID z)
+            {
+                if (z.Species != pkm.Species)
+                    return false; // Must match PID ability, handle via default check path
+                if (EncounterAbility == 1 << abilval)
+                {
+                    AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+                    return true;
+                }
+            }
+
             if (!(AbilityUnchanged ?? false) || EncounterAbility == 0 || pkm.AbilityNumber == EncounterAbility)
                 return false;
-
-            if (EncounterMatch is EncounterTrade z && EncounterAbility == 1 << abilval && z.Species == pkm.Species) // Edge case (Static PID?)
-                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
-            else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4 && EncounterAbility != 4) // Ability Capsule can change between 1/2
+            if (IsAbilityCapsuleModified(pkm, abilities, EncounterAbility))
                 AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
             else
                 AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
+            return true;
+        }
+
+        // Ability Capsule can change between 1/2
+        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, int? EncounterAbility)
+        {
+            if (pkm.Format < 6)
+                return false; // Ability Capsule does not exist
+            if (abilities[0] == abilities[1])
+                return false; // Cannot alter ability index if it is the same as the other ability.
+            if (pkm.AbilityNumber == 4)
+                return false; // Cannot alter to hidden ability.
+            if (EncounterAbility == 4)
+                return false; // Cannot alter from hidden ability.
             return true;
         }
         private bool? VerifyAbilityPreCapsule(int[] abilities, int abilval)
