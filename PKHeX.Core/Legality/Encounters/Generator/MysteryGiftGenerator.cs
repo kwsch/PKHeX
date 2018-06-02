@@ -198,9 +198,11 @@ namespace PKHeX.Core
 
             if (pkm.IsNative)
             {
+                if (hatchedEgg)
+                    return true; // defer egg specific checks to later.
                 if (wc.Met_Level != pkm.Met_Level)
                     return false;
-                if (wc.Location != pkm.Met_Location && (!wc.IsEgg || pkm.IsEgg))
+                if (wc.Location != pkm.Met_Location)
                     return false;
             }
             else

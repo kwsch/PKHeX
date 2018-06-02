@@ -918,7 +918,7 @@ namespace PKHeX.Core
                 {
                     switch (gift)
                     {
-                        case WC3 wc3 when wc3.Met_Level == pkm.Met_Level:
+                        case WC3 wc3 when wc3.Met_Level == pkm.Met_Level || wc3.IsEgg:
                             break;
                         case WC7 wc7 when wc7.MetLevel == pkm.Met_Level:
                             break;
