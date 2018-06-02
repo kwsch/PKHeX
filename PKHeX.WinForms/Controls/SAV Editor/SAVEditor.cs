@@ -92,7 +92,7 @@ namespace PKHeX.WinForms.Controls
 
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
-            SortMenu = new BoxMenuStrip(this);
+            Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
 
             M.OtherSlots.Add(this);
             SL_Extra.ViewIndex = -2;
