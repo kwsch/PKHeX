@@ -1524,7 +1524,7 @@ namespace PKHeX.WinForms.Controls
             FLP_EncounterType.Visible = gen >= 4 && gen <= 6;
             FLP_TimeOfDay.Visible = gen == 2;
 
-            Contest.ToggleInterface(gen);
+            Contest.ToggleInterface(pkm, gen);
             Stats.ToggleInterface(gen);
 
             CenterSubEditors();

@@ -2507,17 +2507,17 @@
             // 
             // Contest
             // 
-            this.Contest.Beauty = 0;
-            this.Contest.Cool = 0;
-            this.Contest.Cute = 0;
+            this.Contest.CNT_Beauty = 0;
+            this.Contest.CNT_Cool = 0;
+            this.Contest.CNT_Cute = 0;
+            this.Contest.CNT_Sheen = 0;
+            this.Contest.CNT_Smart = 0;
+            this.Contest.CNT_Tough = 0;
             this.Contest.Location = new System.Drawing.Point(21, 247);
             this.Contest.Margin = new System.Windows.Forms.Padding(0);
             this.Contest.Name = "Contest";
-            this.Contest.Sheen = 0;
             this.Contest.Size = new System.Drawing.Size(230, 50);
-            this.Contest.Smart = 0;
             this.Contest.TabIndex = 117;
-            this.Contest.Tough = 0;
             // 
             // TID_Trainer
             // 
