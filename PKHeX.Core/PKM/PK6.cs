@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-    public sealed class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6
+    public sealed class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IContestStats
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -95,12 +95,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x21]; set => Data[0x21] = (byte)value; }
         public override int EV_SPA { get => Data[0x22]; set => Data[0x22] = (byte)value; }
         public override int EV_SPD { get => Data[0x23]; set => Data[0x23] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x24]; set => Data[0x24] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x25]; set => Data[0x25] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x26]; set => Data[0x26] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x27]; set => Data[0x27] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x28]; set => Data[0x28] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x29]; set => Data[0x29] = (byte)value; }
+        public int CNT_Cool { get => Data[0x24]; set => Data[0x24] = (byte)value; }
+        public int CNT_Beauty { get => Data[0x25]; set => Data[0x25] = (byte)value; }
+        public int CNT_Cute { get => Data[0x26]; set => Data[0x26] = (byte)value; }
+        public int CNT_Smart { get => Data[0x27]; set => Data[0x27] = (byte)value; }
+        public int CNT_Tough { get => Data[0x28]; set => Data[0x28] = (byte)value; }
+        public int CNT_Sheen { get => Data[0x29]; set => Data[0x29] = (byte)value; }
         public override int MarkValue { get => Data[0x2A]; protected set => Data[0x2A] = (byte)value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)(PKRS & ~0xF | value); }

@@ -214,7 +214,7 @@ namespace PKHeX.Core
             }
             return true;
         }
-        private static bool GetIsMatchPCD(PKM pkm, PKM wc, IEnumerable<DexLevel> vs)
+        private static bool GetIsMatchPCD(PKM pkm, PK4 wc, IEnumerable<DexLevel> vs)
         {
             if (!wc.IsEgg)
             {
@@ -253,7 +253,7 @@ namespace PKHeX.Core
             if (wc.PID == 1 && pkm.IsShiny) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
@@ -295,7 +295,7 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 2 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
@@ -340,7 +340,7 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
@@ -395,7 +395,7 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             switch (wc.CardID)

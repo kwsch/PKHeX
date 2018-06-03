@@ -1732,7 +1732,7 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
                 if (pkm.HT_Affection != 0)
                     return new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
-                if (pkm.XY && pkm.CNTs.Any(stat => stat > 0))
+                if (pkm.XY && pkm is IContestStats s && s.HasContestStats())
                     return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
 
                 if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
@@ -1775,7 +1775,7 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, V137, CheckIdentifier.History);
             }
 
-            if (Info.Generation >= 7 && pkm.CNTs.Any(stat => stat > 0))
+            if (Info.Generation >= 7 && pkm is IContestStats s && s.HasContestStats())
                 return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
 
             if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
@@ -1812,7 +1812,7 @@ namespace PKHeX.Core
             {
                 if (Legal.IsTradeEvolved(pkm))
                     return false;
-                if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
+                if (pkm is IContestStats s && s.CNT_Beauty < 170) // Beauty Contest Stat Requirement
                     result = new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
                 else if (pkm.CurrentLevel == 1)
                     result = new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
@@ -2346,7 +2346,7 @@ namespace PKHeX.Core
             {
                 VerifyMiscEggCommon();
 
-                if (pkm.CNTs.Any(stat => stat > 0))
+                if (pkm is IContestStats s && s.HasContestStats())
                     AddLine(Severity.Invalid, V320, CheckIdentifier.Egg);
                 if (pkm is PK4 pk4)
                 {

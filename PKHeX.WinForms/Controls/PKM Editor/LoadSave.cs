@@ -60,25 +60,6 @@ namespace PKHeX.WinForms.Controls
             pk.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
         }
 
-        private void LoadContestStats(PKM pk)
-        {
-            Contest.Cool = pk.CNT_Cool;
-            Contest.Beauty = pk.CNT_Beauty;
-            Contest.Cute = pk.CNT_Cute;
-            Contest.Smart = pk.CNT_Smart;
-            Contest.Tough = pk.CNT_Tough;
-            Contest.Sheen = pk.CNT_Sheen;
-        }
-        private void SaveContestStats(PKM pk)
-        {
-            pk.CNT_Cool = Contest.Cool;
-            pk.CNT_Beauty = Contest.Beauty;
-            pk.CNT_Cute = Contest.Cute;
-            pk.CNT_Smart = Contest.Smart;
-            pk.CNT_Tough = Contest.Tough;
-            pk.CNT_Sheen = Contest.Sheen;
-        }
-
         private void LoadIVs(PKM pk) => Stats.LoadIVs(pk.IVs);
         private void LoadEVs(PKM pk) => Stats.LoadEVs(pk.EVs);
 
@@ -207,7 +188,9 @@ namespace PKHeX.WinForms.Controls
             TB_MetLevel.Text = pk.Met_Level.ToString();
             CHK_Fateful.Checked = pk.FatefulEncounter;
 
-            LoadContestStats(pk);
+            if (pk is IContestStats s)
+                s.CopyContestStatsTo(Contest);
+
             TID_Trainer.LoadIDValues(pk);
 
             // Load Extrabyte Value
@@ -219,7 +202,8 @@ namespace PKHeX.WinForms.Controls
             pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
             pk.Gender = PKX.GetGenderFromString(Label_Gender.Text);
 
-            SaveContestStats(pk);
+            if (pk is IContestStats s)
+                Contest.CopyContestStatsTo(s);
 
             pk.FatefulEncounter = CHK_Fateful.Checked;
             pk.Ball = WinFormsUtil.GetIndex(CB_Ball);

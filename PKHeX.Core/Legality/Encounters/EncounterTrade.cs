@@ -123,7 +123,8 @@ namespace PKHeX.Core
             if (pk is PK1 pk1 && this is EncounterTradeCatchRate c)
                 pk1.Catch_Rate = (int)c.Catch_Rate;
 
-            this.CopyContestStatsTo(pk);
+            if (pk is IContestStats s)
+                this.CopyContestStatsTo(s);
 
             var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
             if (pk.Format == 1 && moves.All(z => z == 0))

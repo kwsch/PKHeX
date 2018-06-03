@@ -3,7 +3,7 @@
     /// <summary>
     /// Generation 3 Base <see cref="PKM"/> Class
     /// </summary>
-    public abstract class _K3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
+    public abstract class _K3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
     {
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_3;
@@ -58,6 +58,13 @@
         public abstract bool Unused2 { get; set; }
         public abstract bool Unused3 { get; set; }
         public abstract bool Unused4 { get; set; }
+
+        public abstract int CNT_Cool { get; set; }
+        public abstract int CNT_Beauty { get; set; }
+        public abstract int CNT_Cute { get; set; }
+        public abstract int CNT_Smart { get; set; }
+        public abstract int CNT_Tough { get; set; }
+        public abstract int CNT_Sheen { get; set; }
 
         /// <summary>
         /// Interconversion for Generation 3 <see cref="PKM"/> formats.

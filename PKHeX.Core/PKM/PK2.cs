@@ -353,12 +353,6 @@ namespace PKHeX.Core
         public override int Ball { get => 0; set { } }
         public override int Version { get => (int)GameVersion.GSC; set { } }
         public override int SID { get => 0; set { } }
-        public override int CNT_Cool { get => 0; set { } }
-        public override int CNT_Beauty { get => 0; set { } }
-        public override int CNT_Cute { get => 0; set { } }
-        public override int CNT_Smart { get => 0; set { } }
-        public override int CNT_Tough { get => 0; set { } }
-        public override int CNT_Sheen { get => 0; set { } }
         #endregion
 
         // Maximums

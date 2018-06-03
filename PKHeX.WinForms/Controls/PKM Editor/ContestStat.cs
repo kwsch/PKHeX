@@ -4,7 +4,7 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class ContestStat : UserControl
+    public partial class ContestStat : UserControl, IContestStats
     {
         public ContestStat()
         {
@@ -60,6 +60,37 @@ namespace PKHeX.WinForms.Controls
             bool smart = gen < 6;
             Label_Smart.Visible = smart; // show smart gen3-5
             Label_Clever.Visible = !smart; // show clever gen6+
+        }
+
+        public int CNT_Cool
+        {
+            get => Cool;
+            set => Cool = value;
+        }
+        public int CNT_Beauty
+        {
+            get => Beauty;
+            set => Beauty = value;
+        }
+        public int CNT_Cute
+        {
+            get => Cute;
+            set => Cute = value;
+        }
+        public int CNT_Smart
+        {
+            get => Smart;
+            set => Smart = value;
+        }
+        public int CNT_Tough
+        {
+            get => Tough;
+            set => Tough = value;
+        }
+        public int CNT_Sheen
+        {
+            get => Sheen;
+            set => Sheen = value;
         }
     }
 }

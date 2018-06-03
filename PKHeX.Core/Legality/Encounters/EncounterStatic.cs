@@ -154,7 +154,8 @@ namespace PKHeX.Core
                     break;
             }
 
-            this.CopyContestStatsTo(pk);
+            if (pk is IContestStats s)
+                this.CopyContestStatsTo(s);
 
             var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
             if (pk.Format == 1 && moves.All(z => z == 0))

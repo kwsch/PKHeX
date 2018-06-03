@@ -25,8 +25,39 @@
             dest.CNT_Sheen  = stats[5];
         }
 
-        public static bool IsContestBelow(this PKM current, IContestStats initial) => !current.IsContestAboveOrEqual(initial);
-        public static bool IsContestAboveOrEqual(this PKM current, IContestStats initial)
+        public static int[] GetContestStats(this IContestStats stats) => new[]
+        {
+            stats.CNT_Cool,
+            stats.CNT_Beauty,
+            stats.CNT_Cute,
+            stats.CNT_Smart,
+            stats.CNT_Tough,
+            stats.CNT_Sheen
+        };
+
+        /// <summary>
+        /// Checks if any contest stat value is nonzero.
+        /// </summary>
+        /// <param name="stats">Object containing contest stat data.</param>
+        /// <returns>True if has any nonzero contest stat, false if all are zero.</returns>
+        public static bool HasContestStats(this IContestStats stats)
+        {
+            if (stats.CNT_Cool != 0)
+                return true;
+            if (stats.CNT_Beauty != 0)
+                return true;
+            if (stats.CNT_Cute != 0)
+                return true;
+            if (stats.CNT_Smart != 0)
+                return true;
+            if (stats.CNT_Tough != 0)
+                return true;
+            if (stats.CNT_Sheen != 0)
+                return true;
+            return false;
+        }
+        public static bool IsContestBelow(this IContestStats current, IContestStats initial) => !current.IsContestAboveOrEqual(initial);
+        public static bool IsContestAboveOrEqual(this IContestStats current, IContestStats initial)
         {
             if (current.CNT_Cool   < initial.CNT_Cool)
                 return false;

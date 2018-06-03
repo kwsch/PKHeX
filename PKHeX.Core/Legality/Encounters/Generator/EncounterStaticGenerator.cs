@@ -159,7 +159,7 @@ namespace PKHeX.Core
                     if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
                         return false;
 
-            if (pkm.IsContestBelow(e))
+            if (pkm is IContestStats s && s.IsContestBelow(e))
                 return false;
 
             // Defer to EC/PID check

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Object representing a <see cref="PKM"/>'s data and derived properties.
     /// </summary>
-    public abstract class PKM : IContestStats, ITrainerID
+    public abstract class PKM : ITrainerID
     {
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
@@ -120,12 +120,6 @@ namespace PKHeX.Core
         public abstract int SID { get; set; }
         public abstract int PKRS_Strain { get; set; }
         public abstract int PKRS_Days { get; set; }
-        public abstract int CNT_Cool { get; set; }
-        public abstract int CNT_Beauty { get; set; }
-        public abstract int CNT_Cute { get; set; }
-        public abstract int CNT_Smart { get; set; }
-        public abstract int CNT_Tough { get; set; }
-        public abstract int CNT_Sheen { get; set; }
 
         public abstract uint EncryptionConstant { get; set; }
         public abstract uint PID { get; set; }
@@ -405,16 +399,6 @@ namespace PKHeX.Core
                 RelearnMove4 = value.Length > 3 ? value[3] : 0;
             }
         }
-        public int[] Contest
-        {
-            get => new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen };
-            set
-            {
-                if (value?.Length != 6) return;
-                CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2];
-                CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5];
-            }
-        }
         public int PIDAbility
         {
             get
@@ -446,12 +430,6 @@ namespace PKHeX.Core
                     b |= (byte)(Math.Min(value[i], 1) << i);
                 MarkValue = b;
             }
-        }
-
-        public int[] CNTs
-        {
-            get => new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen };
-            set { if (value?.Length != 6) return; CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2]; CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5]; }
         }
 
         protected static int GetHiddenPowerBitVal(int[] ivs)

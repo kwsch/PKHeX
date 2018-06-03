@@ -67,12 +67,12 @@ namespace PKHeX.WinForms
             public int SPA_EV => pkm.EV_SPA;
             public int SPD_EV => pkm.EV_SPD;
             public int SPE_EV => pkm.EV_SPE;
-            public int Cool => pkm.CNT_Cool;
-            public int Beauty => pkm.CNT_Beauty;
-            public int Cute => pkm.CNT_Cute;
-            public int Smart => pkm.CNT_Smart;
-            public int Tough => pkm.CNT_Tough;
-            public int Sheen => pkm.CNT_Sheen;
+            public int Cool => pkm is IContestStats s ? s.CNT_Cool : 0;
+            public int Beauty => pkm is IContestStats s ? s.CNT_Beauty : 0;
+            public int Cute => pkm is IContestStats s ? s.CNT_Cute : 0;
+            public int Smart => pkm is IContestStats s ? s.CNT_Smart : 0;
+            public int Tough => pkm is IContestStats s ? s.CNT_Tough : 0;
+            public int Sheen => pkm is IContestStats s ? s.CNT_Sheen : 0;
             public int Markings => pkm.MarkValue;
 
             public string NotOT => pkm.Format > 5 ? pkm.HT_Name : "N/A";

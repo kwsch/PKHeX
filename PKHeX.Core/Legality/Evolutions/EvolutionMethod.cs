@@ -28,7 +28,7 @@ namespace PKHeX.Core
                 if (!skipChecks && pkm.AltForm != Form)
                     return false;
 
-            if (!skipChecks && Enumerable.Contains(Banlist, (GameVersion)pkm.Version) && pkm.IsUntraded) // sm lacks usum kantonian evos
+            if (!skipChecks && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded) // sm lacks usum kantonian evos
                 return false;
 
             switch (Method)
@@ -48,7 +48,7 @@ namespace PKHeX.Core
 
                 // Special Levelup Cases
                 case 16:
-                    if (pkm.CNT_Beauty < Argument)
+                    if (!(pkm is IContestStats s) || s.CNT_Beauty < Argument)
                         return skipChecks;
                     goto default;
                 case 23: // Gender = Male

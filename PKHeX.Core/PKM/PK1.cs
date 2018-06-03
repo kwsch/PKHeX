@@ -284,12 +284,6 @@ namespace PKHeX.Core
         public override int SID { get => 0; set { } }
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
-        public override int CNT_Cool { get => 0; set { } }
-        public override int CNT_Beauty { get => 0; set { } }
-        public override int CNT_Cute { get => 0; set { } }
-        public override int CNT_Smart { get => 0; set { } }
-        public override int CNT_Tough { get => 0; set { } }
-        public override int CNT_Sheen { get => 0; set { } }
         #endregion
         public bool CatchRateIsItem = false;
 

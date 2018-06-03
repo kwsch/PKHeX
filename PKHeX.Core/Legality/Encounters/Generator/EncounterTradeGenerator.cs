@@ -184,7 +184,7 @@ namespace PKHeX.Core
             if (!z.Version.Contains((GameVersion)pkm.Version))
                 return false;
 
-            if (pkm.IsContestBelow(z))
+            if (pkm is IContestStats s && s.IsContestBelow(z))
                 return false;
 
             return true;
