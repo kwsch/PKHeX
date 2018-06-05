@@ -215,8 +215,10 @@ namespace PKHeX.Core
             }
 
             var pkm = ConvertPKM(pk, PKMType, fromType, out comment);
-            if (!AllowIncompatibleConversion || pkm != null)
+            if (pkm?.GetType() == PKMType)
                 return pkm;
+            if (!AllowIncompatibleConversion)
+                return null;
 
             // Try Incompatible Conversion
             pkm = GetBlank(PKMType);
@@ -242,7 +244,7 @@ namespace PKHeX.Core
                 return null;
             }
 
-            var pkm = ConvertPKM(pk, PKMType, fromType, toFormat, ref comment);
+            var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
 
             comment = pkm == null
                 ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
@@ -250,88 +252,54 @@ namespace PKHeX.Core
             return pkm;
         }
 
-        private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, int toFormat, ref string comment)
+        private static PKM ConvertPKM(PKM pk, Type PKMType, int toFormat, ref string comment)
         {
             PKM pkm = pk.Clone();
             if (pkm.IsEgg)
                 pkm.ForceHatchPKM();
-
-            switch (fromType.Name)
+            while (true)
             {
-                case nameof(PK1):
-                    if (toFormat == 7) // VC->Bank
-                        pkm = ((PK1)pk).ConvertToPK7();
-                    else if (toFormat == 2) // GB<->GB
-                        pkm = ((PK1)pk).ConvertToPK2();
-                    break;
-                case nameof(PK2):
-                    if (toFormat == 7) // VC->Bank
-                        pkm = ((PK2)pk).ConvertToPK7();
-                    else if (toFormat == 1) // GB<->GB
-                    {
-                        if (pk.Species > 151)
-                        {
-                            comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, pkm.Japanese ? 1 : 2)} to {PKMType.Name}";
-                            return pkm;
-                        }
-                        pkm = ((PK2)pk).ConvertToPK1();
-                        pkm.ClearInvalidMoves();
-                    }
-                    break;
-                case nameof(CK3):
-                    pkm = ((CK3)pkm).ConvertToPK3();
-                    goto case nameof(PK3); // fall through
-                case nameof(XK3):
-                    pkm = ((XK3)pkm).ConvertToPK3();
-                    goto case nameof(PK3); // fall through
-                case nameof(PK3):
-                    if (toFormat == 3)
-                    {
-                        if (PKMType == typeof(CK3))
-                            pkm = ((PK3)pkm).ConvertToCK3();
-                        else if (PKMType == typeof(XK3))
-                            pkm = ((PK3)pkm).ConvertToXK3();
-                        break;
-                    }
-
-                    pkm = ((PK3) pkm).ConvertToPK4();
-                    if (toFormat == 4)
-                        break;
-                    goto case nameof(PK4);
-                case nameof(BK4):
-                    pkm = ((BK4) pkm).ConvertToPK4();
-                    if (toFormat == 4)
-                        break;
-                    goto case nameof(PK4);
-                case nameof(PK4):
-                    if (PKMType == typeof(BK4))
-                    {
-                        pkm = ((PK4) pkm).ConvertToBK4();
-                        break;
-                    }
-                    pkm = ((PK4) pkm).ConvertToPK5();
-                    if (toFormat == 5)
-                        break;
-                    goto case nameof(PK5);
-                case nameof(PK5):
-                    pkm = ((PK5) pkm).ConvertToPK6();
-                    if (toFormat == 6)
-                        break;
-                    goto case nameof(PK6);
-                case nameof(PK6):
-                    if (pkm.Species == 25 && pkm.AltForm != 0) // cosplay pikachu
-                    {
-                        comment = "Cannot transfer Cosplay Pikachu forward.";
-                        return pkm;
-                    }
-                    pkm = ((PK6) pkm).ConvertToPK7();
-                    if (toFormat == 7)
-                        break;
-                    goto case nameof(PK7);
-                case nameof(PK7):
-                    break;
+                pkm = IntermediaryConvert(pkm, PKMType, toFormat, ref comment);
+                if (pkm == null) // fail convert
+                    return null;
+                if (pkm.GetType() == PKMType) // finish convert
+                    return pkm;
             }
-            return pkm;
+        }
+        private static PKM IntermediaryConvert(PKM pk, Type PKMType, int toFormat, ref string comment)
+        {
+            switch (pk)
+            {
+                // Non-sequential
+                case PK1 pk1 when toFormat >= 7: return pk1.ConvertToPK7();
+                case PK2 pk2 when toFormat >= 7: return pk2.ConvertToPK7();
+                case PK3 pk3 when PKMType == typeof(CK3): return pk3.ConvertToCK3();
+                case PK3 pk3 when PKMType == typeof(XK3): return pk3.ConvertToXK3();
+                case PK4 pk4 when PKMType == typeof(BK4): return pk4.ConvertToBK4();
+
+                // Invalid
+                case PK2 pk2 when pk.Species > Legal.MaxSpeciesID_1:
+                    var lang = pk2.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
+                    var name = PKX.GetSpeciesName(pk2.Species, lang);
+                    comment = $"Cannot convert a {name} to {PKMType.Name}";
+                    return null;
+
+                // Sequential
+                case PK1 pk1: return pk1.ConvertToPK2();
+                case PK2 pk2: return pk2.ConvertToPK1();
+                case CK3 ck3: return ck3.ConvertToPK3();
+                case XK3 xk3: return xk3.ConvertToPK3();
+                case PK3 pk3: return pk3.ConvertToPK4();
+                case BK4 bk4: return bk4.ConvertToPK4();
+                case PK4 pk4: return pk4.ConvertToPK5();
+                case PK5 pk5: return pk5.ConvertToPK6();
+                case PK6 pk6: return pk6.ConvertToPK7();
+
+                // None
+                default:
+                    comment = "Cannot transfer this format to the requested format.";
+                    return null;
+            }
         }
 
         /// <summary>
