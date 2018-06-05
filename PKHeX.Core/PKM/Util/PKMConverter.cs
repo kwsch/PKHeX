@@ -215,10 +215,8 @@ namespace PKHeX.Core
             }
 
             var pkm = ConvertPKM(pk, PKMType, fromType, out comment);
-            if (pkm?.GetType() == PKMType)
+            if (!AllowIncompatibleConversion || pkm != null)
                 return pkm;
-            if (!AllowIncompatibleConversion)
-                return null;
 
             // Try Incompatible Conversion
             pkm = GetBlank(PKMType);
