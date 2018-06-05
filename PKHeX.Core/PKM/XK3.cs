@@ -19,10 +19,7 @@ namespace PKHeX.Core
         public XK3(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
         }
         public XK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new XK3((byte[])Data.Clone(), Identifier) {Purification = Purification};

@@ -85,8 +85,8 @@ namespace PKHeX.Core
         /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
         public static PKM GetPKMfromBytes(byte[] data, string ident = null, int prefer = 7)
         {
-            CheckEncrypted(ref data);
-            switch (GetPKMDataFormat(data))
+            int format = GetPKMDataFormat(data);
+            switch (format)
             {
                 case 1:
                     var PL1 = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
@@ -361,9 +361,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>The input PKM object is decrypted; no new object is returned.</remarks>
         /// <param name="pkm">PKM to check encryption for (and decrypt if appropriate).</param>
-        public static void CheckEncrypted(ref byte[] pkm)
+        /// <param name="format">Format specific check selection</param>
+        public static void CheckEncrypted(ref byte[] pkm, int format)
         {
-            int format = GetPKMDataFormat(pkm);
             switch (format)
             {
                 case 1:

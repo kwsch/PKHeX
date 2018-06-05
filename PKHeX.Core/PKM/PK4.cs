@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public PK4(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);

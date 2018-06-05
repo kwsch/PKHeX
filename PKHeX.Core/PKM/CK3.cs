@@ -21,10 +21,7 @@ namespace PKHeX.Core
         public CK3(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
         }
         public CK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new CK3((byte[])Data.Clone(), Identifier);
