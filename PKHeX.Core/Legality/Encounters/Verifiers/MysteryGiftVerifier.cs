@@ -21,10 +21,10 @@ namespace PKHeX.Core
             var resource = RestrictionSetName(generation);
             var data = Util.GetBinaryResource(resource);
             var dict = new Dictionary<int, MysteryGiftRestriction>();
-            for (int i = 0; i < data.Length; i += 4 + 2)
+            for (int i = 0; i < data.Length; i += 8)
             {
                 int hash = BitConverter.ToInt32(data, i + 0);
-                var restrict = BitConverter.ToUInt16(data, i + 4);
+                var restrict = BitConverter.ToInt32(data, i + 4);
                 dict.Add(hash, (MysteryGiftRestriction)restrict);
             }
             return dict;
@@ -36,23 +36,17 @@ namespace PKHeX.Core
             if (!restricted)
                 return new CheckResult(CheckIdentifier.GameOrigin);
 
+            var ver = (int)val >> 16;
+            if (ver != 0 && !CanVersionRecieveGift(g.Format, ver, pk.Version))
+                return new CheckResult(Severity.Invalid, V416, CheckIdentifier.GameOrigin);
+
             var lang = val & MysteryGiftRestriction.LangRestrict;
-            if (lang != 0)
-            {
-                var current = 1 << pk.Language;
-                if (!lang.HasFlagFast((MysteryGiftRestriction) current))
-                {
-                    int suggest = lang.GetSuggestedLanguage();
-                    return new CheckResult(Severity.Invalid, string.Format(V5, suggest, pk.Language), CheckIdentifier.GameOrigin);
-                }
-            }
+            if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
+                return new CheckResult(Severity.Invalid, string.Format(V5, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
+
             var region = val & MysteryGiftRestriction.RegionRestrict;
-            if (region != 0)
-            {
-                var current = (int)MysteryGiftRestriction.RegionBase << pk.ConsoleRegion;
-                if (!region.HasFlagFast((MysteryGiftRestriction)current))
-                    return new CheckResult(Severity.Invalid, V301, CheckIdentifier.GameOrigin);
-            }
+            if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << pk.ConsoleRegion)))
+                return new CheckResult(Severity.Invalid, V301, CheckIdentifier.GameOrigin);
 
             return new CheckResult(CheckIdentifier.GameOrigin);
         }
@@ -74,6 +68,16 @@ namespace PKHeX.Core
             if (!val.HasFlagFast(MysteryGiftRestriction.OTReplacedOnTrade))
                 return false;
             return CurrentOTMatchesReplaced(g.Format, pk.OT_Name);
+        }
+
+        private static bool CanVersionRecieveGift(int format, int version4bit, int version)
+        {
+            switch (format)
+            {
+                // todo
+                default:
+                    return false;
+            }
         }
 
         private static bool CurrentOTMatchesReplaced(int format, string pkOtName)

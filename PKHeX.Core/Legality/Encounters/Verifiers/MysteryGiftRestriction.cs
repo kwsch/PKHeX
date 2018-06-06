@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core
 {
     [Flags]
-    public enum MysteryGiftRestriction : ushort
+    public enum MysteryGiftRestriction
     {
         None = 0,
         LangJapanese = 1 << LanguageID.Japanese,
