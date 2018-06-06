@@ -171,6 +171,9 @@ namespace PKHeX.Core
             // Append Z-Crystal flagging
             foreach (var i in Legal.Pouch_ZCrystal_USUM)
                 itemlist[i] += " [Z]";
+
+            for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
+                g3coloitems[500 + i] += $" ({i - 11:00})";
         }
         private void SanitizeMetLocations()
         {
