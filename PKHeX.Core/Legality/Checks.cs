@@ -2214,6 +2214,10 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+                case 678: // Meowstic
+                    if (pkm.AltForm != pkm.Gender)
+                        AddLine(Severity.Invalid, V203, CheckIdentifier.Form);
+                    break;
                 case 773: // Silvally
                     {
                         int item = pkm.HeldItem;

@@ -282,9 +282,6 @@ namespace PKHeX.Core
             string[] Forms = PKX.GetFormList(Species, types, forms, genderForms, pkm.Format);
             Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty;
             Format = pkm.Format;
-
-            if (Form == "F")
-                Gender = string.Empty;
         }
         private void ParseFirstLine(string line)
         {
