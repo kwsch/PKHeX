@@ -3,11 +3,11 @@
     public enum RegionID
     {
         None = 0,
-        RegJP = 1,
-        RegNA = 2,
-        RegEU = 3,
-        RegZH = 4,
-        RegKO = 5,
-        RegTW = 6,
+        Japan = 1,
+        NorthAmerica = 2,
+        Europe = 3,
+        China = 4,
+        Korea = 5,
+        Taiwan = 6,
     }
 }
