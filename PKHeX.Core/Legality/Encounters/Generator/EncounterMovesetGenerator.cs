@@ -180,7 +180,9 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                var em = Legal.GetEggMoves(pk, egg.Species, pk.AltForm, version);
+                IEnumerable<int> em = Legal.GetEggMoves(pk, egg.Species, pk.AltForm, version);
+                if (Legal.LightBall.Contains(egg.Species) && needs.Contains(344))
+                    em = em.Concat(new[] {344}); // Volt Tackle
                 if (!needs.Except(em).Any())
                     yield return egg;
             }
