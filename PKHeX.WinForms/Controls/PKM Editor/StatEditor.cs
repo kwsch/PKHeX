@@ -34,7 +34,6 @@ namespace PKHeX.WinForms.Controls
         private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_Stats, MT_Base;
         private readonly ToolTip EVTip = new ToolTip();
         private PKM pkm => MainEditor.pkm;
-        private bool[] HTs => new[] {pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPE, pkm.HT_SPA, pkm.HT_SPD};
 
         private bool ChangingFields
         {
@@ -42,7 +41,6 @@ namespace PKHeX.WinForms.Controls
             set => MainEditor.ChangingFields = value;
         }
         private bool FieldsInitialized => MainEditor.FieldsInitialized;
-        private bool AllowHyperTrain => pkm.Format >= 7;
 
         private void ClickIV(object sender, EventArgs e)
         {
@@ -56,10 +54,10 @@ namespace PKHeX.WinForms.Controls
                 var index = Array.IndexOf(MT_IVs, t);
                 t.Text = pkm.GetMaximumIV(index, true).ToString();
             }
-            else if (AllowHyperTrain && ModifierKeys.HasFlag(Keys.Shift))
+            else if (pkm is IHyperTrain h && ModifierKeys.HasFlag(Keys.Shift))
             {
                 var index = Array.IndexOf(MT_IVs, t);
-                bool flag = pkm.HyperTrainInvert(index);
+                bool flag = h.HyperTrainInvert(index);
                 UpdateHyperTrainingFlag(index, flag);
                 UpdateStats();
             }
@@ -211,9 +209,10 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadHyperTraining()
         {
-            var HT_Vals = HTs;
+            if (!(pkm is IHyperTrain h))
+                return;
             for (int i = 0; i < MT_IVs.Length; i++)
-                UpdateHyperTrainingFlag(i, HT_Vals[i]);
+                UpdateHyperTrainingFlag(i, h.GetHT(i));
         }
         private void UpdateEVTotals()
         {

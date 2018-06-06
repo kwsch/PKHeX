@@ -231,31 +231,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets <see cref="PKM.HyperTrainFlags"/> to valid values which may best enhance the <see cref="PKM"/> stats.
-        /// </summary>
-        /// <param name="pkm"></param>
-        /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetSuggestedHyperTrainingData(this PKM pkm, int[] IVs = null)
-        {
-            if (pkm.Format < 7)
-                return;
-            if (pkm.CurrentLevel < 100)
-            {
-                pkm.HyperTrainFlags = 0;
-                return;
-            }
-            if (IVs == null)
-                IVs = pkm.IVs;
-
-            pkm.HT_HP = IVs[0] != 31;
-            pkm.HT_ATK = IVs[1] != 31 && IVs[1] > 2;
-            pkm.HT_DEF = IVs[2] != 31;
-            pkm.HT_SPE = IVs[3] != 31 && IVs[3] > 2;
-            pkm.HT_SPA = IVs[4] != 31;
-            pkm.HT_SPD = IVs[5] != 31;
-        }
-
-        /// <summary>
         /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
@@ -460,6 +435,45 @@ namespace PKHeX.Core
                 case 3: pk.IV_SPE = value; break;
                 case 4: pk.IV_SPA = value; break;
                 case 5: pk.IV_SPD = value; break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
+        }
+
+        /// <summary>
+        /// Gets one of the <see cref="PKM.EVs"/> based on its index within the array.
+        /// </summary>
+        /// <param name="pk">Pokémon to check.</param>
+        /// <param name="index">Index to get</param>
+        public static int GetEV(this PKM pk, int index)
+        {
+            switch (index)
+            {
+                case 0: return pk.EV_HP ;
+                case 1: return pk.EV_ATK;
+                case 2: return pk.EV_DEF;
+                case 3: return pk.EV_SPE;
+                case 4: return pk.EV_SPA;
+                case 5: return pk.EV_SPD;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
+        }
+        /// <summary>
+        /// Gets one of the <see cref="PKM.IVs"/> based on its index within the array.
+        /// </summary>
+        /// <param name="pk">Pokémon to check.</param>
+        /// <param name="index">Index to get</param>
+        public static int GetIV(this PKM pk, int index)
+        {
+            switch (index)
+            {
+                case 0: return pk.IV_HP ;
+                case 1: return pk.IV_ATK;
+                case 2: return pk.IV_DEF;
+                case 3: return pk.IV_SPE;
+                case 4: return pk.IV_SPA;
+                case 5: return pk.IV_SPD;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index));
             }

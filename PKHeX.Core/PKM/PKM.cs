@@ -328,8 +328,8 @@ namespace PKHeX.Core
         public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
         public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
-        public int IVTotal => IVs.Sum();
-        public int EVTotal => EVs.Sum();
+        public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
+        public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
         /// <summary>
         /// Swaps bits at a given position
         /// </summary>
@@ -534,33 +534,6 @@ namespace PKHeX.Core
         public virtual bool SecretSuperTrainingComplete { get => false; set { } }
         public virtual int SuperTrainingMedalCount(int maxCount = 30) => 0;
 
-        public virtual int HyperTrainFlags { get => 0; set { } }
-        public virtual bool HT_HP { get => false; set { } }
-        public virtual bool HT_ATK { get => false; set { } }
-        public virtual bool HT_DEF { get => false; set { } }
-        public virtual bool HT_SPA { get => false; set { } }
-        public virtual bool HT_SPD { get => false; set { } }
-        public virtual bool HT_SPE { get => false; set { } }
-
-        /// <summary>
-        /// Toggles the Hyper Training flag for a given stat.
-        /// </summary>
-        /// <param name="stat">Battle Stat (H/A/B/S/C/D)</param>
-        /// <returns>Final Hyper Training Flag value</returns>
-        public bool HyperTrainInvert(int stat)
-        {
-            switch (stat)
-            {
-                case 0: return HT_HP ^= true;
-                case 1: return HT_ATK ^= true;
-                case 2: return HT_DEF ^= true;
-                case 3: return HT_SPE ^= true;
-                case 4: return HT_SPA ^= true;
-                case 5: return HT_SPD ^= true;
-            }
-            return false;
-        }
-
         /// <summary>
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.
         /// </summary>
@@ -727,18 +700,35 @@ namespace PKHeX.Core
         public virtual ushort[] GetStats(PersonalInfo p)
         {
             int level = CurrentLevel;
-            ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(p.HP == 1 ? 1 : ((HT_HP ? 31 : IV_HP) + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
-            Stats[1] = (ushort)(((HT_ATK ? 31 : IV_ATK) + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
-            Stats[2] = (ushort)(((HT_DEF ? 31 : IV_DEF) + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
-            Stats[4] = (ushort)(((HT_SPA ? 31 : IV_SPA) + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
-            Stats[5] = (ushort)(((HT_SPD ? 31 : IV_SPD) + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
-            Stats[3] = (ushort)(((HT_SPE ? 31 : IV_SPE) + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
 
+            ushort[] Stats = this is IHyperTrain t ? GetStats(p, t, level) : GetStats(p, level);
             // Account for nature
             PKX.ModifyStatsForNature(Stats, Nature);
             return Stats;
         }
+        private ushort[] GetStats(PersonalInfo p, IHyperTrain t, int level)
+        {
+            ushort[] Stats = new ushort[6];
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : ((t.HT_HP ? 31 : IV_HP) + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
+            Stats[1] = (ushort)(((t.HT_ATK ? 31 : IV_ATK) + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
+            Stats[2] = (ushort)(((t.HT_DEF ? 31 : IV_DEF) + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
+            Stats[4] = (ushort)(((t.HT_SPA ? 31 : IV_SPA) + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
+            Stats[5] = (ushort)(((t.HT_SPD ? 31 : IV_SPD) + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
+            Stats[3] = (ushort)(((t.HT_SPE ? 31 : IV_SPE) + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
+            return Stats;
+        }
+        private ushort[] GetStats(PersonalInfo p, int level)
+        {
+            ushort[] Stats = new ushort[6];
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : ((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
+            Stats[1] = (ushort)(((IV_ATK + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
+            Stats[2] = (ushort)(((IV_DEF + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
+            Stats[4] = (ushort)(((IV_SPA + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
+            Stats[5] = (ushort)(((IV_SPD + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
+            Stats[3] = (ushort)(((IV_SPE + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
+            return Stats;
+        }
+
         /// <summary>
         /// Applies the specified stats to the <see cref="PKM"/>.
         /// </summary>

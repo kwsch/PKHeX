@@ -346,7 +346,7 @@ namespace PKHeX.Core
             var PKM = info.pkm;
             switch (name)
             {
-                case nameof(PKM.HyperTrainFlags):
+                case nameof(IHyperTrain.HyperTrainFlags):
                     PKM.SetSuggestedHyperTrainingData();
                     return ModifyResult.Modified;
                 case nameof(PKM.RelearnMoves):

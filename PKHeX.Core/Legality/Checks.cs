@@ -765,22 +765,27 @@ namespace PKHeX.Core
         #endregion
         private void VerifyHyperTraining()
         {
-            if (pkm.Format < 7)
+            if (!(pkm is IHyperTrain t))
                 return; // No Hyper Training before Gen7
+            if (!t.IsHyperTrained())
+                return;
 
-            var IVs = new[] { pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE };
-            var HTs = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
-
-            if (HTs.Any(ht => ht) && pkm.CurrentLevel != 100)
+            if (pkm.CurrentLevel != 100)
+            {
                 AddLine(Severity.Invalid, V40, CheckIdentifier.IVs);
+                return;
+            }
 
-            if (IVs.All(iv => iv == 31) && HTs.Any(ht => ht))
+            int max = pkm.MaxIV;
+            if (pkm.IVTotal == max * 6)
+            {
                 AddLine(Severity.Invalid, V41, CheckIdentifier.IVs);
+            }
             else
             {
                 for (int i = 0; i < 6; i++) // Check individual IVs
                 {
-                    if (!HTs[i] || IVs[i] != 31)
+                    if (pkm.GetIV(i) != max || !t.IsHyperTrained(i))
                         continue;
                     AddLine(Severity.Invalid, V42, CheckIdentifier.IVs);
                     break;
