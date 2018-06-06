@@ -628,32 +628,38 @@ namespace PKHeX.Core
         {
             s = seed;
             var esv = (seed >> 16) % 100;
-            switch (slot)
+            if (!IsPokeSpotSlotValid(slot, esv))
             {
-                case 0:
-                    if (esv < 50) break; // valid
-                    return false;
-                case 1:
-                    if (esv >= 50 && esv < 85) break; // valid
-                    return false;
-                case 2:
-                    if (esv >= 85) break;
-                    return false;
-                default:
-                    return false;
+                // todo
             }
-
             // check for valid activation
             s = RNG.XDRNG.Prev(seed);
             if ((s >> 16) % 3 != 0)
             {
                 if ((s >> 16) % 100 < 10) // can't fail a munchlax/bonsly encounter check
-                    return false;
+                {
+                    // todo
+                }
                 s = RNG.XDRNG.Prev(s);
                 if ((s >> 16) % 3 != 0) // can't activate even if generous
-                    return false;
+                {
+                    // todo
+                }
             }
             return true;
+        }
+        private static bool IsPokeSpotSlotValid(int slot, uint esv)
+        {
+            switch (slot)
+            {
+                case 0 when esv < 50:
+                    return true;
+                case 1 when esv >= 50 && esv < 85:
+                    return true;
+                case 2 when esv >= 85:
+                    return true;
+            }
+            return false;
         }
         public static bool IsCompatible3(this PIDType val, IEncounterable encounter, PKM pkm)
         {
