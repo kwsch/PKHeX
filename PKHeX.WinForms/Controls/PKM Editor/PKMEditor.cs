@@ -817,7 +817,6 @@ namespace PKHeX.WinForms.Controls
             if (CB_Form == sender && FieldsLoaded)
                 pkm.AltForm = CB_Form.SelectedIndex;
 
-            UpdateGender();
             Stats.UpdateStats();
             // Repopulate Abilities if Species Form has different abilities
             SetAbilityList();
@@ -844,8 +843,13 @@ namespace PKHeX.WinForms.Controls
             else if (PKX.GetGenderFromString(CB_Form.Text) < 2)
             {
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
-                    Label_Gender.Text = gendersymbols[PKX.GetGenderFromString(CB_Form.Text)];
+                {
+                    pkm.Gender = CB_Form.SelectedIndex;
+                    UpdateGender();
+                }
             }
+            else
+                UpdateGender();
 
             if (ChangingFields)
                 return;
