@@ -48,6 +48,7 @@ namespace PKHeX.Core
 
             foreach (var z in GenerateFilteredEncounters(pkm))
             {
+                pkm.WasEgg = z.Encounter.EggEncounter;
                 info.Generation = z.Generation;
                 info.Game = z.Game;
                 yield return z.Encounter;
@@ -187,11 +188,11 @@ namespace PKHeX.Core
                 var move = GetPreferredGBIterator(g1i, g2i);
                 var obj = move.Peek();
 
-                if (obj.Generation == 1 && obj.Encounter is EncounterTrade && !IsEncounterTrade1Valid(pkm))
+                if ((obj.Generation == 1 && (pkm.Korean || (obj.Encounter is EncounterTrade && !IsEncounterTrade1Valid(pkm))))
+                 || (obj.Generation == 2 && (pkm.Korean && (obj.Encounter is IVersion v && v.Version == GameVersion.C))))
                     deferred.Add(obj);
                 else
                     yield return obj;
-                pkm.WasEgg = false;
                 move.MoveNext();
             }
             foreach (var z in deferred)

@@ -206,8 +206,8 @@ namespace PKHeX.Core
                 return false;
             }
 
-            // Korean Crystal does not exist
-            if (pkm.Version == (int)GameVersion.C && pkm.Korean)
+            // Korean Crystal does not exist, neither do VC1
+            if (Info.Generation <= 2 && pkm.Korean && !GameVersion.GS.Contains((GameVersion)pkm.Version))
             {
                 AddLine(Severity.Invalid, string.Format(V5, $"!={pkm.Language}", pkm.Language), CheckIdentifier.Language);
                 return false;
