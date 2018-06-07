@@ -114,7 +114,7 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is MaskedTextBox mt))
                 return;
 
-            var val = int.Parse(mt.Text);
+            int.TryParse(mt.Text, out var val);
             if (mt == TB_TID7)
             {
                 if (val > 999_999)
@@ -122,7 +122,8 @@ namespace PKHeX.WinForms.Controls
                     mt.Text = "999999";
                     return;
                 }
-                SanityCheckSID7(val, int.Parse(TB_SID7.Text));
+                int.TryParse(TB_SID7.Text, out var sid);
+                SanityCheckSID7(val, sid);
             }
             else if (mt == TB_SID7)
             {
@@ -131,7 +132,8 @@ namespace PKHeX.WinForms.Controls
                     mt.Text = "4294";
                     return;
                 }
-                SanityCheckSID7(int.Parse(TB_TID7.Text), val);
+                int.TryParse(TB_TID7.Text, out var tid);
+                SanityCheckSID7(tid, val);
             }
             else
             {
