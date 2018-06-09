@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -17,6 +18,17 @@ namespace PKHeX.Core
         public LearnInfo(PKM pkm)
         {
             IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
+        }
+    }
+
+    public struct LearnVersion
+    {
+        public readonly GameVersion Game;
+        public readonly int Level;
+        public LearnVersion(int lv, GameVersion game = GameVersion.Any)
+        {
+            Game = game;
+            Level = lv;
         }
     }
 }

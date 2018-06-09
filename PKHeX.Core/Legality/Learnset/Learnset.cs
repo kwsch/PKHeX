@@ -84,5 +84,23 @@ namespace PKHeX.Core
         {
             return (Learn ?? (Learn = GetDictionary())).TryGetValue(move, out var level) ? level : -1;
         }
+
+        /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
+        /// <param name="move">Move ID</param>
+        /// <param name="min">Minimum level to start looking at.</param>
+        /// <returns>Level the move is learned at. If the result is below 0, it cannot be learned by levelup.</returns>
+        public int GetLevelLearnMove(int move, int min)
+        {
+            for (int i = 0; i < Moves.Length; i++)
+            {
+                if (move != Moves[i])
+                    continue;
+
+                var lv = Levels[i];
+                if (lv >= min)
+                    return lv;
+            }
+            return -1;
+        }
     }
 }

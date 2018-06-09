@@ -486,7 +486,7 @@ namespace PKHeX.Core
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
-        private static readonly int[] TMHM_SM =
+        internal static readonly int[] TMHM_SM =
         {
             526, 337, 473, 347, 046, 092, 258, 339, 474, 237,
             241, 269, 058, 059, 063, 113, 182, 240, 355, 219,

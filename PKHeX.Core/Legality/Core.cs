@@ -1982,186 +1982,11 @@ namespace PKHeX.Core
 
         internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion Version = GameVersion.Any, bool RemoveTransferHM = true)
         {
-            List<int> moves = new List<int>();
-            int index;
-            switch (generation)
-            {
-                case 1:
-                    index = PersonalTable.RB.GetFormeIndex(species, 0);
-                    if (index == 0)
-                        return moves;
-                    var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
-                    var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
-                    moves.AddRange(TMHM_RBY.Where((_, m) => pi_rb.TMHM[m]));
-                    moves.AddRange(TMHM_RBY.Where((_, m) => pi_y.TMHM[m]));
-                    break;
-                case 2:
-                    index = PersonalTable.C.GetFormeIndex(species, 0);
-                    if (index == 0)
-                        return moves;
-                    var pi_c = (PersonalInfoG2)PersonalTable.C[index];
-                    moves.AddRange(TMHM_GSC.Where((_, m) => pi_c.TMHM[m]));
-                    if (Version == GameVersion.Any)
-                        goto case 1; // rby
-                    break;
-                case 3:
-                    index = PersonalTable.E.GetFormeIndex(species, 0);
-                    var pi_e = PersonalTable.E[index];
-                    moves.AddRange(TM_3.Where((_, m) => pi_e.TMHM[m]));
-                    if (!RemoveTransferHM || pkm.Format == 3) // HM moves must be removed for 3->4, only give if current format.
-                        moves.AddRange(HM_3.Where((_, m) => pi_e.TMHM[m + 50]));
-                    break;
-                case 4:
-                    index = PersonalTable.HGSS.GetFormeIndex(species, 0);
-                    if (index == 0)
-                        return moves;
-                    var pi_hgss = PersonalTable.HGSS[index];
-                    var pi_dppt = PersonalTable.Pt[index];
-                    moves.AddRange(TM_4.Where((_, m) => pi_hgss.TMHM[m]));
-                    // The combination of both these moves is illegal, it should be checked that the pokemon only learn one
-                    // except if it can learn any of these moves in gen 5 or later
-                    if (Version == GameVersion.Any || Version == GameVersion.DP || Version == GameVersion.D || Version == GameVersion.P || Version == GameVersion.Pt)
-                    {
-                        if (RemoveTransferHM && pkm.Format > 4)
-                        {
-                            if (pi_dppt.TMHM[96])
-                                moves.Add(432); // Defog
-                        }
-                        else
-                        {
-                            moves.AddRange(HM_DPPt.Where((_, m) => pi_dppt.TMHM[m + 92]));
-                        }
-                    }
-                    if (Version == GameVersion.Any || Version == GameVersion.HGSS || Version == GameVersion.HG || Version == GameVersion.SS)
-                    {
-                        if (RemoveTransferHM && pkm.Format > 4)
-                        {
-                            if (pi_hgss.TMHM[96])
-                                moves.Add(432); // Defog
-                        }
-                        else
-                        {
-                            moves.AddRange(HM_HGSS.Where((_, m) => pi_dppt.TMHM[m + 92]));
-                        }
-                    }
-                    break;
-                case 5:
-                    index = PersonalTable.B2W2.GetFormeIndex(species, 0);
-                    if (index == 0)
-                        return moves;
-
-                    var pi_bw = PersonalTable.B2W2[index];
-                    moves.AddRange(TMHM_BW.Where((_, m) => pi_bw.TMHM[m]));
-                    break;
-                case 6:
-                    switch (Version)
-                    {
-                        case GameVersion.Any: // Start at the top, hit every table
-                        case GameVersion.X:
-                        case GameVersion.Y:
-                        case GameVersion.XY:
-                            {
-                                index = PersonalTable.XY.GetFormeIndex(species, form);
-                                if (index == 0)
-                                    return moves;
-
-                                PersonalInfo pi_xy = PersonalTable.XY[index];
-                                moves.AddRange(TMHM_XY.Where((_, m) => pi_xy.TMHM[m]));
-
-                                if (Version == GameVersion.Any) // Fall Through
-                                    goto case GameVersion.ORAS;
-                                break;
-                            }
-                        case GameVersion.AS:
-                        case GameVersion.OR:
-                        case GameVersion.ORAS:
-                            {
-                                index = PersonalTable.AO.GetFormeIndex(species, form);
-                                if (index == 0)
-                                    return moves;
-
-                                PersonalInfo pi_ao = PersonalTable.AO[index];
-                                moves.AddRange(TMHM_AO.Where((_, m) => pi_ao.TMHM[m]));
-                                break;
-                            }
-                    }
-                    break;
-                case 7:
-                    index = PersonalTable.USUM.GetFormeIndex(species, form);
-                    if (index == 0)
-                        return moves;
-
-                    PersonalInfo pi_sm = PersonalTable.USUM[index];
-                    moves.AddRange(TMHM_SM.Where((_, m) => pi_sm.TMHM[m]));
-                    break;
-            }
-            return moves.Distinct();
+            return MoveTechnicalMachine.GetTMHM(pkm, species, form, generation, Version, RemoveTransferHM);
         }
         internal static IEnumerable<int> GetTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
-            List<int> moves = new List<int>();
-            PersonalInfo info;
-            switch (generation)
-            {
-                case 1:
-                    if (AllowGBCartEra && pkm.Format < 3 && (pkm.Species == 25 || pkm.Species == 26)) // Surf Pikachu via Stadium
-                        moves.Add(57);
-                    break;
-                case 2:
-                    if (!AllowGen2Crystal(pkm))
-                        break;
-                    info = PersonalTable.C[species];
-                    moves.AddRange(Tutors_GSC.Where((_, i) => info.TMHM[57 + i]));
-                    goto case 1;
-                case 3:
-                    // E Tutors (Free)
-                    // E Tutors (BP)
-                    info = PersonalTable.E[species];
-                    moves.AddRange(Tutor_E.Where((_, i) => info.TypeTutors[i]));
-                    // FRLG Tutors
-                    // Only special tutor moves, normal tutor moves are already included in Emerald data
-                    moves.AddRange(SpecialTutors_FRLG.Where((_, i) => SpecialTutors_Compatibility_FRLG[i].Any(e => e == species)));
-                    // XD
-                    moves.AddRange(SpecialTutors_XD_Exclusive.Where((_, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
-                    // XD (Mew)
-                    if (species == 151)
-                        moves.AddRange(Tutor_3Mew);
-
-                    break;
-                case 4:
-                    info = PersonalTable.HGSS.GetFormeEntry(species, form);
-                    moves.AddRange(Tutors_4.Where((_, i) => info.TypeTutors[i]));
-                    moves.AddRange(SpecialTutors_4.Where((_, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
-                    break;
-                case 5:
-                    info = PersonalTable.B2W2[species];
-                    moves.AddRange(TypeTutor6.Where((_, i) => info.TypeTutors[i]));
-                    if (pkm.InhabitedGeneration(5) && specialTutors)
-                        moves.AddRange(GetTutors(PersonalTable.B2W2, Tutors_B2W2));
-                    break;
-                case 6:
-                    info = PersonalTable.AO[species];
-                    moves.AddRange(TypeTutor6.Where((_, i) => info.TypeTutors[i]));
-                    if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
-                        moves.AddRange(GetTutors(PersonalTable.AO, Tutors_AO));
-                    break;
-                case 7:
-                    info = PersonalTable.USUM.GetFormeEntry(species, form);
-                    moves.AddRange(TypeTutor6.Where((_, i) => info.TypeTutors[i]));
-                    if (pkm.InhabitedGeneration(7) && specialTutors && (pkm.USUM || !pkm.IsUntraded))
-                        moves.AddRange(GetTutors(PersonalTable.USUM, Tutors_USUM));
-                    break;
-            }
-            return moves.Distinct();
-
-            IEnumerable<int> GetTutors(PersonalTable t, params int[][] tutors)
-            {
-                var pi = t.GetFormeEntry(species, form);
-                for (int i = 0; i < tutors.Length; i++)
-                for (int b = 0; b < tutors[i].Length; b++)
-                    if (pi.SpecialTutors[i][b])
-                        yield return tutors[i][b];
-            }
+            return MoveTutor.GetTutorMoves(pkm, species, form, specialTutors, generation);
         }
         internal static bool IsTradedKadabraG1(PKM pkm)
         {
@@ -2206,6 +2031,13 @@ namespace PKHeX.Core
             Outsider |= Savegame_Gender != pkm.OT_Gender || Savegame_Version != (GameVersion) pkm.Version;
             return Outsider;
         }
+
+        internal const GameVersion NONE = GameVersion.Invalid;
+        internal static readonly LearnVersion LearnNONE = new LearnVersion(-1);
+
+        internal static bool HasVisitedB2W2(this PKM pkm) => pkm.InhabitedGeneration(5);
+        internal static bool HasVisitedORAS(this PKM pkm) => pkm.InhabitedGeneration(6) && (pkm.AO || !pkm.IsUntraded);
+        internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
 
         internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
         {

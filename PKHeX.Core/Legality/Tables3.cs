@@ -186,12 +186,7 @@ namespace PKHeX.Core
             307, 308, 338
         };
 
-        internal static readonly int[][] SpecialTutors_Compatibility_FRLG =
-        {
-            new[] { 6 },
-            new[] { 9 },
-            new[] { 3 },
-        };
+        internal static readonly int[] SpecialTutors_Compatibility_FRLG = { 6, 9, 3 };
 
         // Tutor moves from XD that can be learned as tutor moves in emerald
         // For this moves compatibility data is the same in XD and Emerald
@@ -230,7 +225,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> ValidEggMet_RSE = new HashSet<int>
         {
-            32, //Route 117 
+            32, //Route 117
             253, //Ingame egg gift
             255 // event/pokemon box
         };
