@@ -1780,7 +1780,7 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, V137, CheckIdentifier.History);
             }
 
-            if (Info.Generation >= 7 && pkm is IContestStats s && s.HasContestStats())
+            if ((2 >= Info.Generation || Info.Generation >= 7) && pkm is IContestStats s && s.HasContestStats())
                 return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
 
             if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
