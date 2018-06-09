@@ -43,8 +43,6 @@ namespace PKHeX.WinForms
                 dgv.Rows[i].Cells[1].Value = locations[i];
                 dgv.Rows[i].Cells[2].Value = states[cells[i]];
             }
-            if (SAV.USUM)
-                L_Cells.Visible = NUD_Cells.Visible = false;
         }
 
         private const int cellstotal = 161;
@@ -91,7 +89,8 @@ namespace PKHeX.WinForms
             }
 
             NUD_Collected.Value += added;
-            NUD_Cells.Value += added;
+            if (!SAV.USUM)
+                NUD_Cells.Value += added;
 
             System.Media.SystemSounds.Asterisk.Play();
         }
