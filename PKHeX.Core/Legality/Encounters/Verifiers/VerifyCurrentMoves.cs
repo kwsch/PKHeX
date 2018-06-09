@@ -42,11 +42,11 @@ namespace PKHeX.Core
             if (EncounterMatchGen?.Generation <= 2)
             {
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
-                UptateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
+                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
                 if (!Legal.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
-                    UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
+                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
             }
 
             var res = info.Generation < 6
@@ -785,7 +785,7 @@ namespace PKHeX.Core
                     res[i] = new CheckMoveResult(res[i], Severity.Invalid, V168, res[i].Identifier);
             }
         }
-        private static void UptateGen1LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation, LegalInfo info)
+        private static void UpdateGen1LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation, LegalInfo info)
         {
             switch (generation)
             {
@@ -797,7 +797,7 @@ namespace PKHeX.Core
                     break;
             }
         }
-        private static void UptateGen2LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG2, int generation, LegalInfo info)
+        private static void UpdateGen2LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG2, int generation, LegalInfo info)
         {
             switch (generation)
             {
