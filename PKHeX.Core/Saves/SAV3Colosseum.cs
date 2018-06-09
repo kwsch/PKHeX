@@ -96,7 +96,7 @@ namespace PKHeX.Core
             LegalBalls = Legal.Pouch_Ball_RS;
             LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
             LegalBerries = Legal.Pouch_Berries_RS;
-            LegalCologne = Legal.Pouch_Cologne_CXD;
+            LegalCologne = Legal.Pouch_Cologne_COLO;
 
             Personal = PersonalTable.RS;
             HeldItems = Legal.HeldItems_COLO;
