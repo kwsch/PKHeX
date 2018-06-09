@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PKHeX.Core;
@@ -115,6 +116,22 @@ namespace PKHeX.Tests.Simulator
 
             var la = new LegalityAnalysis(pk);
             Assert.IsTrue(la.Valid);
+        }
+
+        [TestMethod]
+        [TestCategory(SimulatorParse)]
+        public void SimulatorParseMultiple()
+        {
+            var text = string.Join("\r\n\r\n", Sets);
+            var lines = text.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None);
+            var sets = ShowdownSet.GetShowdownSets(lines);
+            Assert.IsTrue(sets.Count() == Sets.Length);
+
+            sets = ShowdownSet.GetShowdownSets(Enumerable.Empty<string>());
+            Assert.IsTrue(!sets.Any());
+
+            sets = ShowdownSet.GetShowdownSets(new [] {"", "   ", " "});
+            Assert.IsTrue(!sets.Any());
         }
 
         //[TestMethod]

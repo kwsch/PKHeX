@@ -530,9 +530,13 @@ namespace PKHeX.Core
                     setLines.Add(line);
                     continue;
                 }
+                if (setLines.Count == 0)
+                    continue;
                 yield return new ShowdownSet(setLines);
                 setLines.Clear();
             }
+            if (setLines.Count != 0)
+                yield return new ShowdownSet(setLines);
         }
 
         /// <summary>
