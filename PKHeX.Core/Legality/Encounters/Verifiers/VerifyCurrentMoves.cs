@@ -72,7 +72,7 @@ namespace PKHeX.Core
                 return ParseMovesSketch(pkm, Moves);
 
             // can only know sketch as egg
-            var levelup = Legal.GetValidMovesAllGens(pkm, info.EvoChainsAllGens, minLvLG1: 1, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var levelup = Legal.GetValidMovesAllGens(pkm, info.EvoChainsAllGens, Tutor: false, Machine: false, RemoveTransferHM: false);
             info.EncounterMoves = new ValidEncounterMoves(levelup);
             var source = new MoveParseSource { CurrentMoves = pkm.Moves, };
             return ParseMoves(pkm, source, info);
@@ -566,6 +566,8 @@ namespace PKHeX.Core
                 }
             }
 
+            if (ShedinjaEvoMovesLearned.Count == 0)
+                return;
             if (ShedinjaEvoMovesLearned.Count > 1)
             {
                 // Can't have more than one Ninjask exclusive move on Shedinja

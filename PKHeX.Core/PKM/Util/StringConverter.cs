@@ -1989,7 +1989,7 @@ namespace PKHeX.Core
                 return s;
             }
 
-            var langcontext = str.Where(c => !FullToHalf.Contains(c));
+            var langcontext = str.Except(FullToHalf);
             bool fullwidth = langcontext.Select(c => c >> 12) // select the group the char belongs to
                 .Any(c => c != 0 /* Latin */ && c != 0xE /* Special Symbols */);
 

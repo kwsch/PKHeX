@@ -171,7 +171,7 @@ namespace PKHeX.Core
 
         private static int GetRequiredBaseMoves(int[] RelearnMoves, IReadOnlyList<int> baseMoves, int baseCt, IReadOnlyList<int> inheritMoves)
         {
-            var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
+            var inherited = RelearnMoves.Where(m => m != 0).Except(baseMoves).Intersect(inheritMoves).ToList();
             int inheritCt = inherited.Count;
 
             // Get required amount of base moves

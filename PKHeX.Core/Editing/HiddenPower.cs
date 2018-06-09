@@ -62,15 +62,14 @@ namespace PKHeX.Core
             }
             return best;
         }
-        private static IEnumerable<IEnumerable<T>> GetPermutations<T>(IList<T> list, int length)
+        private static IEnumerable<IEnumerable<T>> GetPermutations<T>(ICollection<T> list, int length)
         {
             // https://stackoverflow.com/a/10630026
             if (length == 1)
                 return list.Select(t => new[] { t });
 
             return GetPermutations(list, length - 1)
-                .SelectMany(t => list.Where(e => !t.Contains(e)),
-                    (t1, t2) => t1.Concat(new[] { t2 }));
+                .SelectMany(list.Except, (t1, t2) => t1.Concat(new[] { t2 }));
         }
     }
 }

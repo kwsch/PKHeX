@@ -14,11 +14,11 @@ namespace PKHeX.Core
 
             // Level up moves can only be inherited if ditto is not the mother.
             bool AllowLevelUp = Legal.GetCanInheritMoves(pkm, e);
-            Base = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, e.Level).ToList();
+            Base = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, e.Level);
 
-            Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version).ToList();
+            Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
             LevelUp = AllowLevelUp
-                ? Legal.GetBaseEggMoves(pkm, e.Species, e.Version, 100).Where(x => !Base.Contains(x)).ToList()
+                ? Legal.GetBaseEggMoves(pkm, e.Species, e.Version, 100).Except(Base).ToList()
                 : new List<int>();
             Tutor = e.Version == GameVersion.C
                 ? Legal.GetTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2).ToList()
@@ -34,9 +34,9 @@ namespace PKHeX.Core
         }
 
         public bool AllowInherited { get; }
-        public List<int> Base { get; }
+        public IList<int> Base { get; }
         public List<int> Special { get; }
-        public List<int> Egg { get; }
+        public IList<int> Egg { get; }
         public List<int> Tutor { get; }
         public List<int> TMHM { get; }
         public List<int> LevelUp { get; }

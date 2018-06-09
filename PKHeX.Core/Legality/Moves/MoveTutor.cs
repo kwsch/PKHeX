@@ -211,5 +211,46 @@ namespace PKHeX.Core
                 if (pi.SpecialTutors[i][b])
                     yield return tutors[i][b];
         }
+
+        internal static void AddSpecialTutorMoves(List<int> r, PKM pkm, int Generation, int species)
+        {
+            switch (species)
+            {
+                case 647: // Keldeo
+                    r.Add(548); // Secret Sword
+                    break;
+                case 648:
+                    r.Add(547); // Relic Song
+                    break;
+                case 25 when Generation == 6 && pkm.Format == 6:
+                    int index = pkm.AltForm - 1;
+                    if (index >= 0 && index < CosplayPikachuMoves.Length)
+                        r.Add(CosplayPikachuMoves[index]);
+                    break;
+                case 25 when Generation == 7:
+                case 26 when Generation == 7:
+                    r.Add(344); // Volt Tackle
+                    break;
+            }
+        }
+
+        internal static void AddSpecialFormChangeMoves(List<int> r, PKM pkm, int Generation, int species)
+        {
+            switch (species)
+            {
+                case 479 when Generation >= 4: // rotom
+                    r.Add(RotomMoves[pkm.AltForm]);
+                    break;
+                case 718 when Generation == 7: // zygarde
+                    r.AddRange(ZygardeMoves);
+                    break;
+                case 800 when pkm.AltForm == 1: // Sun Necrozma
+                    r.Add(713);
+                    break;
+                case 800 when pkm.AltForm == 2: // Moon Necrozma
+                    r.Add(714);
+                    break;
+            }
+        }
     }
 }

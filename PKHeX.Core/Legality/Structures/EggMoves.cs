@@ -8,6 +8,8 @@ namespace PKHeX.Core
         protected int Count;
         public int[] Moves;
         public int FormTableIndex;
+
+        public bool GetHasEggMove(int move) => Moves.Contains(move);
     }
 
     public class EggMoves2 : EggMoves

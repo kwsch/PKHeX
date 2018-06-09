@@ -301,12 +301,12 @@ namespace PKHeX.Core
                     Moves[i] = new List<int>();
             return Moves;
         }
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel>[] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return GetValidMoves(pkm, version, evoChains, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
+            return GetValidMoves(pkm, version, evoChains, minLvLG1: 1, minLvLG2: 1, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
         internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel> evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
@@ -1342,12 +1342,11 @@ namespace PKHeX.Core
         private static bool GetCatchRateMatchesPreEvolution(PKM pkm, int catch_rate)
         {
             // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-            var Lineage = GetLineage(pkm).Where(s => !Species_NotAvailable_CatchRate.Contains(s)).ToList();
-            return IsCatchRateRB(Lineage) || IsCatchRateY(Lineage) || IsCatchRateTrade() || IsCatchRateStadium();
+            var Lineage = GetLineage(pkm).Except(Species_NotAvailable_CatchRate);
+            return IsCatchRateRBY(Lineage) || IsCatchRateTrade() || IsCatchRateStadium();
 
             // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
-            bool IsCatchRateRB(List<int> ds) => ds.Any(s => catch_rate == PersonalTable.RB[s].CatchRate);
-            bool IsCatchRateY(List<int> ds) => ds.Any(s => s != 149 && catch_rate == PersonalTable.Y[s].CatchRate);
+            bool IsCatchRateRBY(IEnumerable<int> ds) => ds.Any(s => catch_rate == PersonalTable.RB[s].CatchRate || s != 149 && catch_rate == PersonalTable.Y[s].CatchRate);
             // Krabby encounter trade special catch rate
             bool IsCatchRateTrade() => (pkm.Species == 098 || pkm.Species == 099) && catch_rate == 204;
             bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
@@ -1601,77 +1600,54 @@ namespace PKHeX.Core
                     formcount = 4;
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs[0].Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
-                if (Relearn) r.AddRange(pkm.RelearnMoves);
+                if (Relearn)
+                    r.AddRange(pkm.RelearnMoves);
                 return r.Distinct();
             }
 
             for (var i = 0; i < vs.Count; i++)
             {
                 DexLevel evo = vs[i];
-                var minlvlevo1 = 1;
-                var minlvlevo2 = 1;
-                if (Generation == 1)
-                {
-                    // Return moves from minLvLG1 if species if the species encounters
-                    // For evolutions return moves using evolution min level as min level
-                    minlvlevo1 = minLvLG1;
-                    if (evo.MinLevel > 1)
-                        minlvlevo1 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
-                }
-                if (Generation == 2 && !AllowGen2MoveReminder(pkm))
-                {
-                    minlvlevo2 = minLvLG2;
-                    if (evo.MinLevel > 1)
-                        minlvlevo2 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
-                }
-                var maxLevel = evo.Level;
-                if (i != 0 && vs[i - 1].RequiresLvlUp) // evolution
-                    ++maxLevel; // allow lvlmoves from the level it evolved to the next species
-                r.AddRange(GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, moveTutor, Version,
-                    LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
+                var moves = GetEvoMoves(pkm, Version, vs, Generation, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, moveTutor, i, evo);
+                r.AddRange(moves);
             }
 
             if (pkm.Format <= 3)
                 return r.Distinct();
+
             if (LVL)
-            {
-                switch (species)
-                {
-                    case 479 when Generation >= 4: // rotom
-                        r.Add(RotomMoves[pkm.AltForm]);
-                        break;
-                    case 718 when Generation == 7: // zygarde
-                        r.AddRange(ZygardeMoves);
-                        break;
-                    case 800 when pkm.AltForm == 1: // Sun Necrozma
-                        r.Add(713);
-                        break;
-                    case 800 when pkm.AltForm == 2: // Moon Necrozma
-                        r.Add(714);
-                        break;
-                }
-            }
+                MoveTutor.AddSpecialFormChangeMoves(r, pkm, Generation, species);
             if (Tutor)
-            {
-                if (species == 647) // Keldeo
-                    r.Add(548); // Secret Sword
-                if (species == 648) // Meloetta
-                    r.Add(547); // Relic Song
-
-                if (species == 25 && pkm.Format == 6 && Generation == 6) // Pikachu
-                {
-                    int index = pkm.AltForm - 1;
-                    if (index >= 0 && index < CosplayPikachuMoves.Length)
-                        r.Add(CosplayPikachuMoves[index]);
-                }
-
-                if ((species == 25 || species == 26) && Generation == 7) // Pikachu/Raichu Tutor
-                    r.Add(344); // Volt Tackle
-            }
+                MoveTutor.AddSpecialTutorMoves(r, pkm, Generation, species);
             if (Relearn && Generation >= 6)
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();
         }
+
+        private static IEnumerable<int> GetEvoMoves(PKM pkm, GameVersion Version, IList<DexLevel> vs, int Generation, int minLvLG1, int minLvLG2, bool LVL, bool Tutor, bool Machine, bool MoveReminder, bool RemoveTransferHM, bool moveTutor, int i, DexLevel evo)
+        {
+            var minlvlevo1 = 1;
+            var minlvlevo2 = 1;
+            if (Generation == 1)
+            {
+                // Return moves from minLvLG1 if species if the species encounters
+                // For evolutions return moves using evolution min level as min level
+                minlvlevo1 = minLvLG1;
+                if (evo.MinLevel > 1)
+                    minlvlevo1 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
+            }
+            if (Generation == 2 && !AllowGen2MoveReminder(pkm))
+            {
+                minlvlevo2 = minLvLG2;
+                if (evo.MinLevel > 1)
+                    minlvlevo2 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
+            }
+            var maxLevel = evo.Level;
+            if (i != 0 && vs[i - 1].RequiresLvlUp) // evolution
+                ++maxLevel; // allow lvlmoves from the level it evolved to the next species
+            return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation);
+        }
+
         private static IEnumerable<int> GetMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
         {
             List<int> r = new List<int>();

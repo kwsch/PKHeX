@@ -182,7 +182,7 @@ namespace PKHeX.Core
                 case 6: AddMachine6(r, species, form, ver); break;
                 case 7: AddMachine7(r, species, form, ver); break;
             }
-            return r;
+            return r.Distinct();
         }
 
         private static void AddMachine1(List<int> r, int species)
