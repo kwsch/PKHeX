@@ -85,7 +85,7 @@ namespace PKHeX.Core
         private static CheckMoveResult[] ParseMovesWasEggPreRelearn(PKM pkm, int[] Moves, LegalInfo info, EncounterEgg e)
         {
             var EventEggMoves = GetSpecialMoves(info.EncounterMatch);
-            // Level up moves could not be inherited if Ditto is parent, 
+            // Level up moves could not be inherited if Ditto is parent,
             // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
             var AllowLevelUp = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
             int BaseLevel = AllowLevelUp ? 100 : e.LevelMin;
@@ -663,9 +663,9 @@ namespace PKHeX.Core
         private static bool IsCheckValid(CheckResult chk) => chk?.Valid ?? false;
         private static void FlagIncompatibleTransferHMs(CheckMoveResult[] res, int[] moves, int gen, bool[] HMLearned, bool KnowDefogWhirlpool)
         {
-            // After all the moves from the generations 3 and 4, 
+            // After all the moves from the generations 3 and 4,
             // including egg moves if is the origin generation because some hidden moves are also special egg moves in gen 3
-            // Check if the marked hidden moves that were invalid at the start are now marked as valid, that means 
+            // Check if the marked hidden moves that were invalid at the start are now marked as valid, that means
             // the hidden move was learned in gen 3 or 4 but was not removed when transfer to 4 or 5
             if (KnowDefogWhirlpool)
             {
@@ -836,6 +836,8 @@ namespace PKHeX.Core
         }
         private static int[] GetGenMovesOrder(int start, int end)
         {
+            if (end < 0)
+                return new int[0];
             if (start <= end)
                 return new[] {start};
             var order = new int[start - end + 1];
