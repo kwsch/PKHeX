@@ -533,6 +533,7 @@ namespace PKHeX.Core
                 yield return new ShowdownSet(setLines);
                 setLines.Clear();
             }
+            yield return new ShowdownSet(setLines);
         }
 
         /// <summary>
