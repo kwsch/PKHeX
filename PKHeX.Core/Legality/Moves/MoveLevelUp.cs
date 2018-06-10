@@ -271,7 +271,7 @@ namespace PKHeX.Core
             return null;
         }
 
-        private static List<int> AddMovesLevelUp1(int species, int max, int min)
+        internal static List<int> AddMovesLevelUp1(int species, int max, int min)
         {
             List<int> moves = new List<int>();
             int index = PersonalTable.RB.GetFormeIndex(species, 0);

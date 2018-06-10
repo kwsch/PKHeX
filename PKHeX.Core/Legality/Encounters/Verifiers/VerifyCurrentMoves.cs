@@ -520,7 +520,7 @@ namespace PKHeX.Core
             if (134 <= pkm.Species && pkm.Species <= 136)
             {
                 previousspecies = species[133];
-                var ExclusiveMoves = Legal.GetExclusiveMoves(133, pkm.Species, 1, tmhm, moves, pkm.Korean);
+                var ExclusiveMoves = Legal.GetExclusiveMovesG1(133, pkm.Species, tmhm, moves);
                 var EeveeLevels = Legal.GetMinLevelLearnMoveG1(133, ExclusiveMoves[0]);
                 var EvoLevels = Legal.GetMaxLevelLearnMoveG1(pkm.Species, ExclusiveMoves[1]);
 

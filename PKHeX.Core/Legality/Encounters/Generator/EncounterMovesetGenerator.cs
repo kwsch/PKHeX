@@ -316,7 +316,7 @@ namespace PKHeX.Core
                         return true;
 
                     if ((slot.Type & SlotType.Headbutt) != 0)
-                    if (Legal.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree) // Unreachable Headbutt Trees.
+                    if (Encounters2.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree) // Unreachable Headbutt Trees.
                         return true;
                     break;
                 case 4:

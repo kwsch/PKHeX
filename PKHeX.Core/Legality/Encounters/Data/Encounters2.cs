@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -10,7 +11,7 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
         internal static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
-        internal static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
+        private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
 
         static Encounters2()
         {
@@ -276,5 +277,16 @@ namespace PKHeX.Core
             Util.GetStringList("tradegsc", "es"), // 7
             Util.GetStringList("tradegsc", "ko"), // 8
         };
+
+        internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
+        {
+            var Area = Array.Find(HeadbuttTreesC, a => a.Location == encounter.Location);
+            if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
+                return TreeEncounterAvailable.Impossible;
+
+            var table = Area.GetTrees(encounter.Type);
+            var trainerpivot = TID % 10;
+            return table[trainerpivot];
+        }
     }
 }
