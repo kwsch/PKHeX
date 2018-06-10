@@ -48,22 +48,20 @@ namespace PKHeX.Core
             Data = data;
         }
 
-        public int GetOPowerCount(OPower6Type type)
-        {
-            var m = Array.Find(Mapping, t => t.Identifier == type);
-            return m.Count;
-        }
 
-        public int GetOPowerLevel(OPower6Type type)
-        {
-            var m = Array.Find(Mapping, t => t.Identifier == type);
-            return m.GetOPowerLevel(Data, Offset);
-        }
-        public void SetOPowerLevel(OPower6Type type, int lvl)
-        {
-            var m = Array.Find(Mapping, t => t.Identifier == type);
-            m.SetOPowerLevel(Data, Offset, lvl);
-        }
+        private OPowerFlagSet this[OPower6Type type] => Array.Find(Mapping, t => t.Identifier == type);
+        public int GetOPowerCount(OPower6Type type) => this[type].BaseCount;
+        public int GetOPowerLevel(OPower6Type type) => this[type].GetOPowerLevel(Data, Offset);
+
+        public bool GetHasOPowerS(OPower6Type type) => this[type].HasOPowerS;
+        public bool GetHasOPowerMAX(OPower6Type type) => this[type].HasOPowerMAX;
+        public bool GetOPowerS(OPower6Type type) => this[type].GetOPowerS(Data, Offset);
+        public bool GetOPowerMAX(OPower6Type type) => this[type].GetOPowerMAX(Data, Offset);
+
+        public void SetOPowerLevel(OPower6Type type, int lvl) => this[type].SetOPowerLevel(Data, Offset, lvl);
+        public void SetOPowerS(OPower6Type type, bool value) => this[type].SetOPowerS(Data, Offset, value);
+        public void SetOPowerMAX(OPower6Type type, bool value) => this[type].SetOPowerMAX(Data, Offset, value);
+
         public bool MasterFlag
         {
             get => Data[Offset] == 1;
@@ -71,20 +69,26 @@ namespace PKHeX.Core
         }
 
         public void UnlockAll() => ToggleFlags(allEvents: true);
-        public void UnlockRegular() => ToggleFlags();
+        public void UnlockRegular(bool ORAS) => ToggleFlags(ORAS: ORAS);
         public void ClearAll() => ToggleFlags(clearOnly: true);
-        private void ToggleFlags(bool allEvents = false, bool clearOnly = false)
+        private void ToggleFlags(bool allEvents = false, bool clearOnly = false, bool ORAS = false)
         {
             foreach (var m in Mapping)
             {
                 // Clear before applying new value
                 m.SetOPowerLevel(Data, Offset, 0);
+                m.SetOPowerS(Data, Offset, false);
+                m.SetOPowerMAX(Data, Offset, false);
 
                 if (clearOnly)
                     continue;
 
-                int lvl = allEvents ? m.Count : (m.Count != 1 ? 3 : 0); // Full_Recovery is event only @ 1 level
+                int lvl = ORAS || allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is ORAS/event only @ 1 level
                 m.SetOPowerLevel(Data, Offset, lvl);
+                if (allEvents)
+                    m.SetOPowerS(Data, Offset, true);
+                if (ORAS || allEvents)
+                    m.SetOPowerMAX(Data, Offset, true);
             }
         }
 

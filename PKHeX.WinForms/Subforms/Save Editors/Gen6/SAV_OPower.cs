@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
 
             CB_Type.SelectedIndexChanged += (s, e) => { SaveCurrent(); LoadCurrent(); };
             B_ClearAll.Click += (s, e) => { Data.ClearAll(); LoadCurrent(); };
-            B_GiveAll.Click += (s, e) => { Data.UnlockRegular(); LoadCurrent(); };
+            B_GiveAll.Click += (s, e) => { Data.UnlockRegular(Origin.ORAS); LoadCurrent(); };
             B_GiveAllMAX.Click += (s, e) => { Data.UnlockAll(); LoadCurrent(); };
         }
 
@@ -56,12 +56,19 @@ namespace PKHeX.WinForms
             int count = Data.GetOPowerCount(Current);
             for (int i = 0; i <= count; i++)
                 CB_Value.Items.Add(Values[i]);
-            int lvl = Data.GetOPowerLevel(Current);
-            CB_Value.SelectedIndex = lvl;
+
+            CB_Value.SelectedIndex = Data.GetOPowerLevel(Current);
+
+            CHK_S.Enabled = Data.GetHasOPowerS(Current);
+            CHK_S.Checked = Data.GetOPowerS(Current);
+            CHK_MAX.Enabled = Data.GetHasOPowerMAX(Current);
+            CHK_MAX.Checked = Data.GetOPowerMAX(Current);
         }
         private void SaveCurrent()
         {
             Data.SetOPowerLevel(Current, CB_Value.SelectedIndex);
+            Data.SetOPowerS(Current, CHK_S.Checked);
+            Data.SetOPowerMAX(Current, CHK_MAX.Checked);
         }
     }
 }

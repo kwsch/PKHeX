@@ -38,12 +38,14 @@
             this.B_GiveAll = new System.Windows.Forms.Button();
             this.B_GiveAllMAX = new System.Windows.Forms.Button();
             this.CHK_Master = new System.Windows.Forms.CheckBox();
+            this.CHK_S = new System.Windows.Forms.CheckBox();
+            this.CHK_MAX = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(118, 71);
+            this.B_Cancel.Location = new System.Drawing.Point(214, 71);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(64, 23);
             this.B_Cancel.TabIndex = 34;
@@ -54,7 +56,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(188, 71);
+            this.B_Save.Location = new System.Drawing.Point(284, 71);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(64, 23);
             this.B_Save.TabIndex = 35;
@@ -79,7 +81,7 @@
             this.CB_Type.FormattingEnabled = true;
             this.CB_Type.Location = new System.Drawing.Point(65, 14);
             this.CB_Type.Name = "CB_Type";
-            this.CB_Type.Size = new System.Drawing.Size(111, 21);
+            this.CB_Type.Size = new System.Drawing.Size(103, 21);
             this.CB_Type.TabIndex = 37;
             // 
             // CB_Value
@@ -87,7 +89,7 @@
             this.CB_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Value.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Value.FormattingEnabled = true;
-            this.CB_Value.Location = new System.Drawing.Point(188, 14);
+            this.CB_Value.Location = new System.Drawing.Point(174, 14);
             this.CB_Value.Name = "CB_Value";
             this.CB_Value.Size = new System.Drawing.Size(64, 21);
             this.CB_Value.TabIndex = 38;
@@ -123,18 +125,40 @@
             // 
             this.CHK_Master.AutoSize = true;
             this.CHK_Master.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Master.Location = new System.Drawing.Point(188, 45);
+            this.CHK_Master.Location = new System.Drawing.Point(101, 75);
             this.CHK_Master.Name = "CHK_Master";
             this.CHK_Master.Size = new System.Drawing.Size(67, 17);
             this.CHK_Master.TabIndex = 42;
             this.CHK_Master.Text = "??? Flag";
             this.CHK_Master.UseVisualStyleBackColor = true;
             // 
+            // CHK_S
+            // 
+            this.CHK_S.AutoSize = true;
+            this.CHK_S.Location = new System.Drawing.Point(244, 16);
+            this.CHK_S.Name = "CHK_S";
+            this.CHK_S.Size = new System.Drawing.Size(33, 17);
+            this.CHK_S.TabIndex = 43;
+            this.CHK_S.Text = "S";
+            this.CHK_S.UseVisualStyleBackColor = true;
+            // 
+            // CHK_MAX
+            // 
+            this.CHK_MAX.AutoSize = true;
+            this.CHK_MAX.Location = new System.Drawing.Point(283, 16);
+            this.CHK_MAX.Name = "CHK_MAX";
+            this.CHK_MAX.Size = new System.Drawing.Size(49, 17);
+            this.CHK_MAX.TabIndex = 44;
+            this.CHK_MAX.Text = "MAX";
+            this.CHK_MAX.UseVisualStyleBackColor = true;
+            // 
             // SAV_OPower
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 106);
+            this.ClientSize = new System.Drawing.Size(355, 106);
+            this.Controls.Add(this.CHK_MAX);
+            this.Controls.Add(this.CHK_S);
             this.Controls.Add(this.CHK_Master);
             this.Controls.Add(this.B_GiveAllMAX);
             this.Controls.Add(this.B_GiveAll);
@@ -166,5 +190,7 @@
         private System.Windows.Forms.Button B_GiveAll;
         private System.Windows.Forms.Button B_GiveAllMAX;
         private System.Windows.Forms.CheckBox CHK_Master;
+        private System.Windows.Forms.CheckBox CHK_S;
+        private System.Windows.Forms.CheckBox CHK_MAX;
     }
 }
