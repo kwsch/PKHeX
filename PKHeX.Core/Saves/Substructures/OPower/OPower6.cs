@@ -69,9 +69,9 @@ namespace PKHeX.Core
         }
 
         public void UnlockAll() => ToggleFlags(allEvents: true);
-        public void UnlockRegular(bool ORAS) => ToggleFlags(ORAS: ORAS);
+        public void UnlockRegular(bool ORAS) => ToggleFlags();
         public void ClearAll() => ToggleFlags(clearOnly: true);
-        private void ToggleFlags(bool allEvents = false, bool clearOnly = false, bool ORAS = false)
+        private void ToggleFlags(bool allEvents = false, bool clearOnly = false)
         {
             foreach (var m in Mapping)
             {
@@ -83,12 +83,13 @@ namespace PKHeX.Core
                 if (clearOnly)
                     continue;
 
-                int lvl = ORAS || allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is ORAS/event only @ 1 level
+                int lvl = allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is ORAS/event only @ 1 level
                 m.SetOPowerLevel(Data, Offset, lvl);
-                if (allEvents)
-                    m.SetOPowerS(Data, Offset, true);
-                if (ORAS || allEvents)
-                    m.SetOPowerMAX(Data, Offset, true);
+                if (!allEvents)
+                    continue;
+
+                m.SetOPowerS(Data, Offset, true);
+                m.SetOPowerMAX(Data, Offset, true);
             }
         }
 
