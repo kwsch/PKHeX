@@ -69,7 +69,7 @@ namespace PKHeX.Core
         }
 
         public void UnlockAll() => ToggleFlags(allEvents: true);
-        public void UnlockRegular(bool ORAS) => ToggleFlags();
+        public void UnlockRegular() => ToggleFlags();
         public void ClearAll() => ToggleFlags(clearOnly: true);
         private void ToggleFlags(bool allEvents = false, bool clearOnly = false)
         {

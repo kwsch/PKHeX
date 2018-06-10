@@ -25,7 +25,7 @@ namespace PKHeX.WinForms
 
             CB_Type.SelectedIndexChanged += (s, e) => { SaveCurrent(); LoadCurrent(); };
             B_ClearAll.Click += (s, e) => { Data.ClearAll(); LoadCurrent(); };
-            B_GiveAll.Click += (s, e) => { Data.UnlockRegular(Origin.ORAS); LoadCurrent(); };
+            B_GiveAll.Click += (s, e) => { Data.UnlockRegular(); LoadCurrent(); };
             B_GiveAllMAX.Click += (s, e) => { Data.UnlockAll(); LoadCurrent(); };
         }
 
