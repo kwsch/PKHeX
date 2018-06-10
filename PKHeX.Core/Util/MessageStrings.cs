@@ -173,8 +173,6 @@ namespace PKHeX.Core
 
         public static string MsgSaveSwitchDaycareView { get; set; } = "Would you like to switch the view to the other Daycare?";
         public static string MsgSaveSwitchDaycareCurrent { get; set; } = "Currently viewing daycare {0}.";
-        public static string MsgSaveGen6OPower { get; set; } = "No editing support for ORAS :(";
-        public static string MsgSaveGen6OPowerCheatDesc { get; set; } = "Max O-Powers with a working code?";
         public static string MsgSaveGen6Passerby { get; set; } = "Export Passerby Info to Clipboard?";
         public static string MsgSaveGen6FriendSafari { get; set; } = "No editing support for Friend Safari :(";
         public static string MsgSaveGen6FriendSafariCheatDesc { get; set; } = "Unlock all 3 slots for each friend?";

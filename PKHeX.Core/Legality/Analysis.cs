@@ -184,6 +184,8 @@ namespace PKHeX.Core
         private void UpdateVCTransferInfo()
         {
             EncounterOriginalGB = EncounterMatch;
+            if (EncounterOriginalGB is EncounterInvalid)
+                return;
             Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm);
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
