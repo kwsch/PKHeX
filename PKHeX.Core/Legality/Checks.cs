@@ -73,7 +73,7 @@ namespace PKHeX.Core
         }
         private void VerifyItem()
         {
-            if (!Legal.IsHeldItemAllowed(pkm.HeldItem, pkm.Format))
+            if (!Legal.IsHeldItemAllowed(pkm))
                 AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
             if (pkm.Format == 3 && pkm.HeldItem == 175)
                 VerifyEReaderBerry();

@@ -21,11 +21,11 @@ namespace PKHeX.Core
                 ? Legal.GetBaseEggMoves(pkm, e.Species, e.Version, 100).Except(Base).ToList()
                 : new List<int>();
             Tutor = e.Version == GameVersion.C
-                ? Legal.GetTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2).ToList()
+                ? MoveTutor.GetTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2).ToList()
                 : new List<int>();
 
             // Only TM/HM moves from the source game of the egg, not any other games from the same generation
-            TMHM = Legal.GetTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, e.Version, false).ToList();
+            TMHM = MoveTechnicalMachine.GetTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, e.Version).ToList();
 
             // Non-Base moves that can magically appear in the regular movepool
             bool volt = notSpecial && (pkm.GenNumber > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);

@@ -142,8 +142,8 @@ namespace PKHeX.Core
         internal static List<int>[] GetExclusiveMovesG1(int species1, int species2, IEnumerable<int> tmhm, IEnumerable<int> moves)
         {
             // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
-            var moves1 = MoveLevelUp.AddMovesLevelUp1(species1, 1, 100);
-            var moves2 = MoveLevelUp.AddMovesLevelUp1(species2, 1, 100);
+            var moves1 = MoveLevelUp.GetMovesLevelUp1(species1, 1, 100);
+            var moves2 = MoveLevelUp.GetMovesLevelUp1(species2, 1, 100);
 
             // Remove common moves and remove tmhm, remove not learned moves
             var common = new HashSet<int>(moves1.Intersect(moves2).Concat(tmhm));
@@ -607,7 +607,7 @@ namespace PKHeX.Core
             if (minlevel > pk.CurrentLevel)
                 return new List<int>();
 
-            return MoveLevelUp.AddMovesLevelUp1(basespecies, maxlevel, minlevel);
+            return MoveLevelUp.GetMovesLevelUp1(basespecies, maxlevel, minlevel);
         }
 
         internal static bool GetWasEgg23(PKM pkm)
@@ -793,23 +793,15 @@ namespace PKHeX.Core
         {
             switch (pkm.GenNumber)
             {
-                case 1:
-                    return WildPokeBalls1;
-                case 2:
-                    return WildPokeBalls2;
-                case 3:
-                    return WildPokeBalls3;
-                case 4:
-                    return pkm.HGSS ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt;
-                case 5:
-                    return WildPokeBalls5;
-                case 6:
-                    return WildPokeballs6;
-                case 7:
-                    return WildPokeballs7;
+                case 1: return WildPokeBalls1;
+                case 2: return WildPokeBalls2;
+                case 3: return WildPokeBalls3;
+                case 4: return pkm.HGSS ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt;
+                case 5: return WildPokeBalls5;
+                case 6: return WildPokeballs6;
+                case 7: return WildPokeballs7;
 
-                default:
-                    return null;
+                default: return null;
             }
         }
         internal static int GetEggHatchLevel(PKM pkm) => pkm.Format <= 3 ? 5 : 1;
@@ -821,7 +813,7 @@ namespace PKHeX.Core
         {
             switch (generation)
             {
-                case 1: return Empty;
+                case 1:
                 case 2: return Empty;
                 case 3: return SplitBreed_3;
                 case 4: return SplitBreed;
@@ -867,8 +859,6 @@ namespace PKHeX.Core
         }
         internal static int GetDebutGeneration(int species)
         {
-            if (species <= 0)
-                return 0;
             if (species <= MaxSpeciesID_1)
                 return 1;
             if (species <= MaxSpeciesID_2)
@@ -916,7 +906,11 @@ namespace PKHeX.Core
                 default: return new bool[0];
             }
         }
-        internal static bool IsHeldItemAllowed(int item, int generation)
+        internal static bool IsHeldItemAllowed(PKM pkm)
+        {
+            return IsHeldItemAllowed(pkm.HeldItem, pkm.Format);
+        }
+        private static bool IsHeldItemAllowed(int item, int generation)
         {
             if (item < 0)
                 return false;
@@ -1073,14 +1067,18 @@ namespace PKHeX.Core
                     switch (version)
                     {
                         case GameVersion.Any:
-                            return GetCanBeCaptured(species, SlotsX, StaticX, XY:true)
-                                || GetCanBeCaptured(species, SlotsY, StaticY, XY:true)
+                            return FriendSafari.Contains(species)
+                                || GetCanBeCaptured(species, SlotsX, StaticX)
+                                || GetCanBeCaptured(species, SlotsY, StaticY)
                                 || GetCanBeCaptured(species, SlotsA, StaticA)
                                 || GetCanBeCaptured(species, SlotsO, StaticO);
                         case GameVersion.X:
-                            return GetCanBeCaptured(species, SlotsX, StaticX, XY:true);
+                            return FriendSafari.Contains(species)
+                                || GetCanBeCaptured(species, SlotsX, StaticX);
                         case GameVersion.Y:
-                            return GetCanBeCaptured(species, SlotsY, StaticY, XY:true);
+                            return FriendSafari.Contains(species)
+                                || GetCanBeCaptured(species, SlotsY, StaticY);
+
                         case GameVersion.AS:
                             return GetCanBeCaptured(species, SlotsA, StaticA);
                         case GameVersion.OR:
@@ -1090,11 +1088,8 @@ namespace PKHeX.Core
             }
             return false;
         }
-        private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics, bool XY = false)
+        private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
         {
-            if (XY && FriendSafari.Contains(species))
-                return true;
-
             if (area.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
                 return true;
             if (statics.Any(enc => enc.Species == species && !enc.Gift))
@@ -1103,17 +1098,17 @@ namespace PKHeX.Core
         }
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, Machine: true).Contains(move);
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm), generation, Machine: true).Contains(move);
         }
         internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true).Contains(move);
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true).Contains(move);
         }
         internal static bool GetCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
-            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
         internal static int GetBaseEggSpecies(PKM pkm, int skipOption = 0)
         {
@@ -1233,7 +1228,7 @@ namespace PKHeX.Core
 
         internal static DexLevel[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {
-            var CompleteEvoChain = GetEvolutionChain(pkm, Encounter).ToArray();
+            var CompleteEvoChain = GetEvolutionChain(pkm, Encounter);
             int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
             int mingen = (pkm.Format == 2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
             DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
@@ -1335,10 +1330,9 @@ namespace PKHeX.Core
         {
             return GetEvolutionChain(pkm, Encounter, pkm.Species, 100);
         }
-
         private static DexLevel[] GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
         {
-            DexLevel[] vs = GetValidPreEvolutions(pkm).ToArray();
+            var vs = GetValidPreEvolutions(pkm).ToArray();
 
             // Evolution chain is in reverse order (devolution)
             int minspec = Encounter.Species;
@@ -1480,7 +1474,7 @@ namespace PKHeX.Core
         {
             List<int> r = new List<int>();
             if (LVL)
-                r.AddRange(MoveLevelUp.GetLevelUpMoves(pkm, species, minlvlG1, minlvlG2, lvl, form, Version, MoveReminder, Generation));
+                r.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, species, minlvlG1, minlvlG2, lvl, form, Version, MoveReminder, Generation));
             if (Machine)
                 r.AddRange(MoveTechnicalMachine.GetTMHM(pkm, species, form, Generation, Version, RemoveTransferHM));
             if (moveTutor)
@@ -1490,14 +1484,6 @@ namespace PKHeX.Core
         internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
         {
             return MoveEgg.GetEggMoves(pkm, species, formnum, version);
-        }
-        internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion Version = GameVersion.Any, bool RemoveTransferHM = true)
-        {
-            return MoveTechnicalMachine.GetTMHM(pkm, species, form, generation, Version, RemoveTransferHM);
-        }
-        internal static IEnumerable<int> GetTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
-        {
-            return MoveTutor.GetTutorMoves(pkm, species, form, specialTutors, generation);
         }
         internal static bool IsTradedKadabraG1(PKM pkm)
         {

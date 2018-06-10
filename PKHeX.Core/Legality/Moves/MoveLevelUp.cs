@@ -256,22 +256,22 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<int> GetLevelUpMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
+        public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
         {
             switch (Generation)
             {
-                case 1: return AddMovesLevelUp1(species, lvl, minlvlG1);
-                case 2: return AddMovesLevelUp2(species, lvl, minlvlG2, pkm.Korean, pkm.Format);
-                case 3: return AddMovesLevelUp3(species, lvl, form);
-                case 4: return AddMovesLevelUp4(species, lvl, form);
-                case 5: return AddMovesLevelUp5(species, lvl, form);
-                case 6: return AddMovesLevelUp6(species, lvl, form, version);
-                case 7: return AddMovesLevelUp7(species, lvl, form, version, MoveReminder);
+                case 1: return GetMovesLevelUp1(species, lvl, minlvlG1);
+                case 2: return GetMovesLevelUp2(species, lvl, minlvlG2, pkm.Korean, pkm.Format);
+                case 3: return GetMovesLevelUp3(species, lvl, form);
+                case 4: return GetMovesLevelUp4(species, lvl, form);
+                case 5: return GetMovesLevelUp5(species, lvl, form);
+                case 6: return GetMovesLevelUp6(species, lvl, form, version);
+                case 7: return GetMovesLevelUp7(species, lvl, form, version, MoveReminder);
             }
             return null;
         }
 
-        internal static List<int> AddMovesLevelUp1(int species, int max, int min)
+        internal static List<int> GetMovesLevelUp1(int species, int max, int min)
         {
             List<int> moves = new List<int>();
             int index = PersonalTable.RB.GetFormeIndex(species, 0);
@@ -289,7 +289,7 @@ namespace PKHeX.Core
             moves.AddRange(LevelUpY[index].GetMoves(max, min));
             return moves;
         }
-        private static List<int> AddMovesLevelUp2(int species, int max, int min, bool korean, int format)
+        private static List<int> GetMovesLevelUp2(int species, int max, int min, bool korean, int format)
         {
             var r = new List<int>();
             int index = PersonalTable.C.GetFormeIndex(species, 0);
@@ -302,7 +302,7 @@ namespace PKHeX.Core
                 r = r.Where(m => m <= MaxMoveID_1).ToList();
             return r;
         }
-        private static List<int> AddMovesLevelUp3(int species, int lvl, int form)
+        private static List<int> GetMovesLevelUp3(int species, int lvl, int form)
         {
             var moves = new List<int>();
             if (species == 386)
@@ -324,7 +324,7 @@ namespace PKHeX.Core
             moves.AddRange(LevelUpLG[index].GetMoves(lvl));
             return moves;
         }
-        private static List<int> AddMovesLevelUp4(int species, int lvl, int form)
+        private static List<int> GetMovesLevelUp4(int species, int lvl, int form)
         {
             var moves = new List<int>();
             int index = PersonalTable.HGSS.GetFormeIndex(species, form);
@@ -336,7 +336,7 @@ namespace PKHeX.Core
             moves.AddRange(LevelUpHGSS[index].GetMoves(lvl));
             return moves;
         }
-        private static List<int> AddMovesLevelUp5(int species, int lvl, int form)
+        private static List<int> GetMovesLevelUp5(int species, int lvl, int form)
         {
             var moves = new List<int>();
             int index1 = PersonalTable.BW.GetFormeIndex(species, form);
@@ -348,7 +348,7 @@ namespace PKHeX.Core
                 moves.AddRange(LevelUpB2W2[index2].GetMoves(lvl));
             return moves;
         }
-        private static List<int> AddMovesLevelUp6(int species, int lvl, int form, GameVersion ver)
+        private static List<int> GetMovesLevelUp6(int species, int lvl, int form, GameVersion ver)
         {
             var moves = new List<int>();
             switch (ver)
@@ -384,7 +384,7 @@ namespace PKHeX.Core
                 return;
             moves.AddRange(LevelUpAO[index].GetMoves(lvl));
         }
-        private static List<int> AddMovesLevelUp7(int species, int lvl, int form, GameVersion ver, bool MoveReminder)
+        private static List<int> GetMovesLevelUp7(int species, int lvl, int form, GameVersion ver, bool MoveReminder)
         {
             var moves = new List<int>();
             switch (ver)

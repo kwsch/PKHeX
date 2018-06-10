@@ -14,7 +14,7 @@ namespace PKHeX.Core
         {
             int matchChain = -1;
             for (int i = 0; i < Chain.Count; i++)
-                if (Enumerable.Any<EvolutionMethod>(Chain[i].StageEntryMethods, e => e.Species == entry.Species))
+                if (Chain[i].StageEntryMethods.Any(e => e.Species == entry.Species))
                     matchChain = i;
 
             if (matchChain != -1)
@@ -27,7 +27,7 @@ namespace PKHeX.Core
             Chain.Insert(0, evo);
         }
 
-        public IList<DexLevel> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
+        public List<DexLevel> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
         {
             int lvl = maxLevel;
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
