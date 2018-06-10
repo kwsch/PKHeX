@@ -594,14 +594,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (SAV.Generation != 6)
                 return;
-            if (SAV.ORAS)
-            {
-                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6OPower, MsgSaveGen6OPowerCheatDesc);
-                if (dr == DialogResult.Yes)
-                    ((SAV6) SAV).UnlockORASOPowers();
-            }
-            else if (SAV.XY)
-                new SAV_OPower(SAV).ShowDialog();
+            new SAV_OPower((SAV6)SAV).ShowDialog();
         }
         private void B_OpenFriendSafari_Click(object sender, EventArgs e)
         {
