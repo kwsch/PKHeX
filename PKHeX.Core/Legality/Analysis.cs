@@ -139,6 +139,8 @@ namespace PKHeX.Core
             VerifyLevelG1();
             VerifyOTG1();
             VerifyMiscG1();
+            if (pkm.Format == 2)
+                VerifyItem();
         }
         private void ParsePK3()
         {
