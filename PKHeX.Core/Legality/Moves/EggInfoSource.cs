@@ -30,16 +30,19 @@ namespace PKHeX.Core
             // Non-Base moves that can magically appear in the regular movepool
             bool volt = notSpecial && (pkm.GenNumber > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             if (volt)
+            {
+                Egg = Egg.ToList(); // array->list
                 Egg.Add(344); // Volt Tackle
+            }
         }
 
         public bool AllowInherited { get; }
-        public IList<int> Base { get; }
-        public List<int> Special { get; }
+        public IReadOnlyList<int> Base { get; }
+        public IReadOnlyList<int> Special { get; }
         public IList<int> Egg { get; }
-        public List<int> Tutor { get; }
-        public List<int> TMHM { get; }
-        public List<int> LevelUp { get; }
+        public IReadOnlyList<int> Tutor { get; }
+        public IReadOnlyList<int> TMHM { get; }
+        public IReadOnlyList<int> LevelUp { get; }
 
         public bool IsInherited(int m) => !Base.Contains(m) || Special.Contains(m) ||
                                           Egg.Contains(m) || LevelUp.Contains(m) ||
