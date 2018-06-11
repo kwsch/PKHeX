@@ -1363,10 +1363,10 @@ namespace PKHeX.Core
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
-            if (lvl == 1 && pkm.IsEgg)
+            if (pkm.IsEgg && !skipChecks)
                 return new List<DexLevel>
                 {
-                    new DexLevel { Species = pkm.Species, Level = 1, MinLevel = 1 },
+                    new DexLevel { Species = pkm.Species, Level = lvl, MinLevel = lvl },
                 };
             if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
                 return new List<DexLevel>
