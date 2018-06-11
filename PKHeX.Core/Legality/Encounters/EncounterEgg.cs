@@ -103,7 +103,7 @@ namespace PKHeX.Core
         {
             var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
             if (moves.Length == 0)
-                moves = Legal.GetEncounterMoves(pk, Level, Version);
+                moves = MoveLevelUp.GetEncounterMoves(pk, Level, Version);
             else if (moves.Length < 4 && pk.Format >= 6)
             {
                 // Sprinkle in some default level up moves

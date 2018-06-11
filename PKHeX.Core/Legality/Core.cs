@@ -289,7 +289,7 @@ namespace PKHeX.Core
                 case GameVersion.W2:
                 case GameVersion.B2W2:
                     if (pkm.InhabitedGeneration(5))
-                        return LevelUpBW[species].GetMoves(lvl);
+                        return LevelUpB2W2[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.X:
@@ -766,18 +766,6 @@ namespace PKHeX.Core
             // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
             // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
             return SlotsGSC;
-        }
-        internal static IEnumerable<EncounterArea> GetDexNavAreas(PKM pkm)
-        {
-            switch (pkm.Version)
-            {
-                case (int)GameVersion.AS:
-                    return SlotsA.Where(l => l.Location == pkm.Met_Location);
-                case (int)GameVersion.OR:
-                    return SlotsO.Where(l => l.Location == pkm.Met_Location);
-                default:
-                    return Enumerable.Empty<EncounterArea>();
-            }
         }
 
         internal static IEnumerable<int> GetLineage(PKM pkm)
@@ -1535,14 +1523,6 @@ namespace PKHeX.Core
         internal static bool HasVisitedB2W2(this PKM pkm) => pkm.InhabitedGeneration(5);
         internal static bool HasVisitedORAS(this PKM pkm) => pkm.InhabitedGeneration(6) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
-
-        public static int[] GetEncounterMoves(PKM pk, int level, GameVersion version)
-        {
-            var learn = GameData.GetLearnsets(version);
-            var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(pk.Species, pk.AltForm);
-            return learn[index].GetEncounterMoves(level);
-        }
 
         public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any)
         {

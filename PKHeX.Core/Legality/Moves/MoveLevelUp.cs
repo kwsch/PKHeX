@@ -426,5 +426,17 @@ namespace PKHeX.Core
 
             moves.AddRange(LevelUpUSUM[index].GetMoves(lvl));
         }
+
+        public static int[] GetEncounterMoves(PKM pk, int level, GameVersion version)
+        {
+            return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
+        }
+        public static int[] GetEncounterMoves(int species, int form, int level, GameVersion version)
+        {
+            var learn = GameData.GetLearnsets(version);
+            var table = GameData.GetPersonal(version);
+            var index = table.GetFormeIndex(species, form);
+            return learn[index].GetEncounterMoves(level);
+        }
     }
 }

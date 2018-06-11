@@ -375,8 +375,10 @@ namespace PKHeX.Core
                 return false;
 
             var vs = GetValidPreEvolutions(pkm);
-            IEnumerable<EncounterArea> locs = GetDexNavAreas(pkm);
-            var d_areas = locs.Select(loc => GetValidEncounterSlots(pkm, loc, vs, DexNav: true));
+            var table = pkm.Version == (int) GameVersion.AS ? Encounters6.SlotsA : Encounters6.SlotsO;
+            int loc = pkm.Met_Location;
+            var areas = table.Where(l => l.Location == loc);
+            var d_areas = areas.Select(area => GetValidEncounterSlots(pkm, area, vs, DexNav: true));
             return d_areas.Any(slots => slots.Any(slot => slot.Permissions.AllowDexNav && slot.Permissions.DexNav));
         }
         internal static EncounterArea GetCaptureLocation(PKM pkm)
