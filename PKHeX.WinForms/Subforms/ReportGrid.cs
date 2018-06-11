@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
                 Stats = pkm.GetStats(pkm.PersonalInfo);
             }
 
-            private static string Get(IReadOnlyList<string> arr, int val) => arr?.Count > val ? arr[val] : null;
+            private static string Get(IReadOnlyList<string> arr, int val) => arr?.Count > val && val >= 0 ? arr[val] : null;
         }
         public ReportGrid()
         {
