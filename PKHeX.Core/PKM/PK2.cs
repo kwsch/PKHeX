@@ -351,7 +351,7 @@ namespace PKHeX.Core
         public override int Egg_Location { get => 0; set { } }
         public override int OT_Friendship { get => 0; set { } }
         public override int Ball { get => 0; set { } }
-        public override int Version { get => (int)GameVersion.GSC; set { } }
+        public override int Version { get => HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.GSC; set { } }
         public override int SID { get => 0; set { } }
         #endregion
 

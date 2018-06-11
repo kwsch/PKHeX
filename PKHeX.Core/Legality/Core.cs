@@ -232,6 +232,7 @@ namespace PKHeX.Core
 
             switch (gameSource)
             {
+                case GameVersion.GSC:
                 case GameVersion.GS:
                     // If checking back-transfer specimen (GSC->RBY), remove moves that must be deleted prior to transfer
                     int[] getRBYCompatibleMoves(int[] moves) => pkm.Format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
