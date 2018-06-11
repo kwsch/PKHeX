@@ -44,8 +44,11 @@ namespace PKHeX.Core
         public IReadOnlyList<int> TMHM { get; }
         public IReadOnlyList<int> LevelUp { get; }
 
-        public bool IsInherited(int m) => !Base.Contains(m) || Special.Contains(m) ||
-                                          Egg.Contains(m) || LevelUp.Contains(m) ||
-                                          TMHM.Contains(m) || Tutor.Contains(m);
+        public bool IsInherited(int m)
+        {
+            if (Base.Contains(m))
+                return false;
+            return Special.Contains(m) || Egg.Contains(m) || LevelUp.Contains(m) || TMHM.Contains(m) || Tutor.Contains(m);
+        }
     }
 }
