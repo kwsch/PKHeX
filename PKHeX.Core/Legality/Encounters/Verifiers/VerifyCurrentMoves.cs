@@ -72,7 +72,8 @@ namespace PKHeX.Core
                 return ParseMovesSketch(pkm, Moves);
 
             // can only know sketch as egg
-            var levelup = Legal.GetValidMovesAllGens(pkm, info.EvoChainsAllGens, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var levelup = new List<int>[info.EvoChainsAllGens.Length];
+            levelup[pkm.Format] = new List<int>(1) {166};
             info.EncounterMoves = new ValidEncounterMoves(levelup);
             var source = new MoveParseSource { CurrentMoves = pkm.Moves, };
             return ParseMoves(pkm, source, info);
