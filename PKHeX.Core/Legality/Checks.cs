@@ -2426,6 +2426,9 @@ namespace PKHeX.Core
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
             if (pkm.CurrentFriendship > HatchCycles)
                 AddLine(Severity.Invalid, V374, CheckIdentifier.Egg);
+
+            if (pkm.Format >= 6 && EncounterMatch is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
+                AddLine(Severity.Invalid, string.Format(V343, string.Join(", ", GetMoveNames(pkm.Moves))), CheckIdentifier.Egg);
         }
         private void VerifyFatefulMysteryGift(MysteryGift g)
         {
