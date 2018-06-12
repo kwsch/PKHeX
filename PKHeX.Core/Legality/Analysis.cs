@@ -363,6 +363,8 @@ namespace PKHeX.Core
                 return new int[4];
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
                 return Legal.GetBaseEggMoves(pkm, pkm.Species, (GameVersion)pkm.Version, pkm.CurrentLevel);
+            if (!(tm || tutor || reminder))
+                return MoveLevelUp.GetEncounterMoves(pkm, pkm.CurrentLevel, (GameVersion)pkm.Version);
             return Legal.GetValidMoves(pkm, Info.EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
         public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
