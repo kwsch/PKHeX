@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
@@ -244,8 +245,9 @@ namespace PKHeX.Core
                     return GameVersion.Invalid;
             }
         }
-        private static Learnset GetDeoxysLearn3(int form)
+        private static Learnset GetDeoxysLearn3(int form, GameVersion ver = GameVersion.Any)
         {
+            if (ver == GameVersion.Any)
             switch (form)
             {
                 case 0: return LevelUpRS[386]; // Normal
@@ -254,42 +256,53 @@ namespace PKHeX.Core
                 case 3: return LevelUpE[386]; // Speed
                 default: return null;
             }
+            var gen = ver.GetGeneration();
+            if (gen != 3)
+                return GetDeoxysLearn3(form);
+            return GameData.GetLearnsets(ver)[386];
         }
 
         public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
         {
             switch (Generation)
             {
-                case 1: return GetMovesLevelUp1(species, lvl, minlvlG1);
-                case 2: return GetMovesLevelUp2(species, lvl, minlvlG2, pkm.Korean, pkm.Format);
-                case 3: return GetMovesLevelUp3(species, lvl, form);
-                case 4: return GetMovesLevelUp4(species, lvl, form);
-                case 5: return GetMovesLevelUp5(species, lvl, form);
-                case 6: return GetMovesLevelUp6(species, lvl, form, version);
-                case 7: return GetMovesLevelUp7(species, lvl, form, version, MoveReminder);
+                case 1: return GetMovesLevelUp1(species, lvl, minlvlG1, version);
+                case 2: return GetMovesLevelUp2(species, lvl, version, minlvlG2, pkm.Korean, pkm.Format);
+                case 3: return GetMovesLevelUp3(species, lvl, version, form);
+                case 4: return GetMovesLevelUp4(species, lvl, version, form);
+                case 5: return GetMovesLevelUp5(species, lvl, version, form);
+                case 6: return GetMovesLevelUp6(species, lvl, version, form);
+                case 7: return GetMovesLevelUp7(species, lvl, version, form, MoveReminder);
             }
             return null;
         }
 
-        internal static List<int> GetMovesLevelUp1(int species, int max, int min)
+        internal static List<int> GetMovesLevelUp1(int species, int max, int min, GameVersion ver = GameVersion.Any)
         {
-            List<int> moves = new List<int>();
+            var moves = new List<int>();
             int index = PersonalTable.RB.GetFormeIndex(species, 0);
             if (index == 0)
                 return moves;
 
-            if (min == 1)
+            switch (ver)
             {
-                var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
-                var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
-                moves.AddRange(pi_rb.Moves);
-                moves.AddRange(pi_y.Moves);
+                case GameVersion.Any: case GameVersion.RBY:
+                    AddMovesLevelUp1RBG(moves, max, min, index);
+                    AddMovesLevelUp1Y(moves, max, min, index);
+                    return moves;
+                case GameVersion.RB:
+                case GameVersion.RD: case GameVersion.BU: case GameVersion.GN:
+                    AddMovesLevelUp1RBG(moves, max, min, index);
+                    return moves;
+                case GameVersion.Y:
+                    AddMovesLevelUp1Y(moves, max, min, index);
+                    return moves;
             }
-            moves.AddRange(LevelUpRB[index].GetMoves(max, min));
-            moves.AddRange(LevelUpY[index].GetMoves(max, min));
+            AddMovesLevelUp1RBG(moves, max, min, index);
             return moves;
         }
-        private static List<int> GetMovesLevelUp2(int species, int max, int min, bool korean, int format)
+
+        private static List<int> GetMovesLevelUp2(int species, int max, GameVersion ver, int min, bool korean, int format)
         {
             var r = new List<int>();
             int index = PersonalTable.C.GetFormeIndex(species, 0);
@@ -302,12 +315,12 @@ namespace PKHeX.Core
                 r = r.Where(m => m <= MaxMoveID_1).ToList();
             return r;
         }
-        private static List<int> GetMovesLevelUp3(int species, int lvl, int form)
+        private static List<int> GetMovesLevelUp3(int species, int lvl, GameVersion ver, int form)
         {
             var moves = new List<int>();
             if (species == 386)
             {
-                var learn = GetDeoxysLearn3(form);
+                var learn = GetDeoxysLearn3(form, ver);
                 if (learn != null)
                     moves.AddRange(learn.GetMoves(lvl));
                 return moves;
@@ -324,7 +337,7 @@ namespace PKHeX.Core
             moves.AddRange(LevelUpLG[index].GetMoves(lvl));
             return moves;
         }
-        private static List<int> GetMovesLevelUp4(int species, int lvl, int form)
+        private static List<int> GetMovesLevelUp4(int species, int lvl, GameVersion ver, int form)
         {
             var moves = new List<int>();
             int index = PersonalTable.HGSS.GetFormeIndex(species, form);
@@ -336,7 +349,7 @@ namespace PKHeX.Core
             moves.AddRange(LevelUpHGSS[index].GetMoves(lvl));
             return moves;
         }
-        private static List<int> GetMovesLevelUp5(int species, int lvl, int form)
+        private static List<int> GetMovesLevelUp5(int species, int lvl, GameVersion ver, int form)
         {
             var moves = new List<int>();
             int index1 = PersonalTable.BW.GetFormeIndex(species, form);
@@ -348,7 +361,7 @@ namespace PKHeX.Core
                 moves.AddRange(LevelUpB2W2[index2].GetMoves(lvl));
             return moves;
         }
-        private static List<int> GetMovesLevelUp6(int species, int lvl, int form, GameVersion ver)
+        private static List<int> GetMovesLevelUp6(int species, int lvl, GameVersion ver, int form)
         {
             var moves = new List<int>();
             switch (ver)
@@ -370,6 +383,20 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
+
+        private static void AddMovesLevelUp1RBG(List<int> moves, int max, int min, int index)
+        {
+            if (min == 1)
+                moves.AddRange(((PersonalInfoG1)PersonalTable.RB[index]).Moves);
+            moves.AddRange(LevelUpRB[index].GetMoves(max, min));
+        }
+        private static void AddMovesLevelUp1Y(List<int> moves, int max, int min, int index)
+        {
+            if (min == 1)
+                moves.AddRange(((PersonalInfoG1)PersonalTable.Y[index]).Moves);
+            moves.AddRange(LevelUpY[index].GetMoves(max, min));
+        }
         private static void AddMovesLevelUp6XY(List<int> moves, int species, int lvl, int form)
         {
             int index = PersonalTable.XY.GetFormeIndex(species, form);
@@ -384,7 +411,7 @@ namespace PKHeX.Core
                 return;
             moves.AddRange(LevelUpAO[index].GetMoves(lvl));
         }
-        private static List<int> GetMovesLevelUp7(int species, int lvl, int form, GameVersion ver, bool MoveReminder)
+        private static List<int> GetMovesLevelUp7(int species, int lvl, GameVersion ver, int form, bool MoveReminder)
         {
             var moves = new List<int>();
             switch (ver)
@@ -429,8 +456,22 @@ namespace PKHeX.Core
 
         public static int[] GetEncounterMoves(PKM pk, int level, GameVersion version)
         {
+            if (GameVersion.RBY.Contains(version))
+                return GetEncounterMoves1(pk.Species, level, version);
             return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
         }
+
+        private static int[] GetEncounterMoves1(int species, int level, GameVersion version)
+        {
+            var learn = GameData.GetLearnsets(version);
+            var table = GameData.GetPersonal(version);
+            var index = table.GetFormeIndex(species, 0);
+            var lvl0 = (int[])((PersonalInfoG1) table[index]).Moves.Clone();
+            int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
+
+            return learn[index].GetEncounterMoves(level, lvl0, start);
+        }
+
         public static int[] GetEncounterMoves(int species, int form, int level, GameVersion version)
         {
             var learn = GameData.GetLearnsets(version);

@@ -158,8 +158,6 @@ namespace PKHeX.Core
                 this.CopyContestStatsTo(s);
 
             var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
-            if (pk.Format == 1 && moves.All(z => z == 0))
-                moves = ((PersonalInfoG1) PersonalTable.RB[Species]).Moves;
             pk.HeldItem = HeldItem;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);

@@ -31,6 +31,7 @@ namespace PKHeX.Core
             Array.Copy(Moves, start, result, 0, result.Length);
             return result;
         }
+
         /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
         /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
         /// <param name="level">The level the Pokémon was encountered at.</param>
@@ -38,21 +39,35 @@ namespace PKHeX.Core
         public int[] GetEncounterMoves(int level)
         {
             const int count = 4;
-            IList<int> moves = new int[count];
-            int ctr = 0;
+            var moves = new int[count];
+            return GetEncounterMoves(level, moves);
+        }
+
+        /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
+        /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
+        /// <param name="level">The level the Pokémon was encountered at.</param>
+        /// <param name="moves">Move array to write to</param>
+        /// <param name="ctr">Starting index to begin overwriting at</param>
+        /// <returns>Array of Move IDs</returns>
+        public int[] GetEncounterMoves(int level, int[] moves, int ctr = 0)
+        {
             for (int i = 0; i < Moves.Length; i++)
             {
                 if (Levels[i] > level)
                     break;
                 int move = Moves[i];
-                if (moves.Contains(move))
+
+                bool alreadyHasMove = false;
+                foreach (int m in moves) if (m == move) { alreadyHasMove = true; break; }
+                if (alreadyHasMove)
                     continue;
 
                 moves[ctr++] = move;
                 ctr &= 3;
             }
-            return (int[])moves;
+            return moves;
         }
+
         /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
         /// <remarks>Helps determine the minimum level an encounter can be at.</remarks>
         /// <param name="level">The level the Pokémon was encountered at.</param>

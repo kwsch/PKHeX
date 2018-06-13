@@ -48,6 +48,7 @@ namespace PKHeX.Core
 
             { GameVersion.RB, Legal.LevelUpRB },
             { GameVersion.RBY, Legal.LevelUpY },
+            { GameVersion.GS, Legal.LevelUpGS },
             { GameVersion.GSC, Legal.LevelUpC },
             { GameVersion.RS, Legal.LevelUpRS },
             { GameVersion.FRLG, Legal.LevelUpE },
@@ -111,6 +112,7 @@ namespace PKHeX.Core
 
             { GameVersion.RB, PersonalTable.RB },
             { GameVersion.RBY, PersonalTable.Y },
+            { GameVersion.GS, PersonalTable.GS },
             { GameVersion.GSC, PersonalTable.C },
             { GameVersion.RS, PersonalTable.RS },
             { GameVersion.FRLG, PersonalTable.E },

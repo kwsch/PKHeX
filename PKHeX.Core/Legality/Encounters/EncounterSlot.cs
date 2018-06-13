@@ -134,9 +134,7 @@ namespace PKHeX.Core
             }
 
             var moves = this is EncounterSlotMoves m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-            if (pk.Format == 1 && moves.All(z => z == 0))
-                moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
-            else if (Version == GameVersion.XD)
+            if (Version == GameVersion.XD)
                 pk.FatefulEncounter = true;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
