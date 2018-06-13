@@ -569,8 +569,8 @@ namespace PKHeX.Core
             int gen = GenNumber;
             switch (Generation)
             {
-                case 1: return Format == 1 || VC1;
-                case 2: return Format == 2 || VC2;
+                case 1: return Format == 1 || VC; // species compat checked via sanity above
+                case 2: return Format == 2 || VC;
                 case 3: return Gen3;
                 case 4: return 3 <= gen && gen <= 4;
                 case 5: return 3 <= gen && gen <= 5;

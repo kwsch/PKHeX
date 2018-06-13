@@ -41,9 +41,8 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GetEncounters12(PKM pkm, LegalInfo info)
         {
             int baseSpecies = GetBaseSpecies(pkm);
-            bool g1 = pkm.VC1 || pkm.Format == 1;
 
-            if (g1 && baseSpecies > MaxSpeciesID_1 || baseSpecies > MaxSpeciesID_2)
+            if ((pkm.Format == 1 && baseSpecies > MaxSpeciesID_1) || baseSpecies > MaxSpeciesID_2)
                 yield break;
 
             foreach (var z in GenerateFilteredEncounters(pkm))

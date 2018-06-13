@@ -814,9 +814,9 @@ namespace PKHeX.Core
         }
         internal static int GetMaxSpeciesOrigin(PKM pkm)
         {
-            if (pkm.Format == 1 || pkm.VC1) // Gen1 VC could not trade with gen 2 yet
+            if (pkm.Format == 1)
                 return GetMaxSpeciesOrigin(1);
-            if (pkm.Format == 2 || pkm.VC2)
+            if (pkm.Format == 2 || pkm.VC)
                 return GetMaxSpeciesOrigin(2);
             return GetMaxSpeciesOrigin(pkm.GenNumber);
         }

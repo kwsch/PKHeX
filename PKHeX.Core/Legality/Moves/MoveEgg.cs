@@ -7,11 +7,12 @@ namespace PKHeX.Core
     {
         internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
         {
-            if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species))
+            int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.GenNumber;
+            if (!pkm.InhabitedGeneration(gen, species) || pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species))
                 return new int[0];
             if (version == GameVersion.Any)
                 version = (GameVersion)pkm.Version;
-            return GetEggMoves(pkm.GenNumber, species, formnum, version);
+            return GetEggMoves(gen, species, formnum, version);
         }
         private static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
         {
