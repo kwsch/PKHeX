@@ -3,169 +3,197 @@ using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
     internal static class MoveLevelUp
     {
-        public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, int Generation, int move, GameVersion Version = GameVersion.Any)
+        private static readonly LearnLookup LearnSM, LearnUSUM,
+            LearnXY, LearnAO,
+            LearnBW, LearnB2W2,
+            LearnDP, LearnPt, LearnHGSS,
+            LearnRSE, LearnFRLG,
+            LearnGS, LearnC,
+            LearnRB, LearnY;
+
+        static MoveLevelUp()
+        {
+            LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM);
+            LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM);
+            LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY);
+            LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS);
+            LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW);
+            LearnB2W2 = new LearnLookup(PersonalTable.B2W2, LevelUpB2W2, B2W2);
+            LearnDP = new LearnLookup(PersonalTable.DP, LevelUpDP, DP);
+            LearnPt = new LearnLookup(PersonalTable.Pt, LevelUpPt, Pt);
+            LearnHGSS = new LearnLookup(PersonalTable.HGSS, LevelUpHGSS, HGSS);
+            LearnRSE = new LearnLookup(PersonalTable.RS, LevelUpRS, RSE);
+            LearnFRLG = new LearnLookup(PersonalTable.LG, LevelUpLG, FRLG);
+            LearnGS = new LearnLookup(PersonalTable.GS, LevelUpGS, GS);
+            LearnC = new LearnLookup(PersonalTable.C, LevelUpC, C);
+            LearnRB = new LearnLookup(PersonalTable.RB, LevelUpRB, RB);
+            LearnY = new LearnLookup(PersonalTable.Y, LevelUpY, YW);
+        }
+
+        public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, int Generation, int move, GameVersion Version = Any)
         {
             switch (Generation)
             {
-                case 1: return GetIsLevelUp1(species, move, lvl, minlvlG1);
-                case 2: return GetIsLevelUp2(species, move, lvl, minlvlG2, pkm.Korean);
-                case 3: return GetIsLevelUp3(species, move, lvl, form);
-                case 4: return GetIsLevelUp4(species, move, lvl, form);
-                case 5: return GetIsLevelUp5(species, move, lvl, form);
+                case 1: return GetIsLevelUp1(species, move, lvl, minlvlG1, Version);
+                case 2: return GetIsLevelUp2(species, move, lvl, minlvlG2, pkm.Korean, Version);
+                case 3: return GetIsLevelUp3(species, move, lvl, form, Version);
+                case 4: return GetIsLevelUp4(species, move, lvl, form, Version);
+                case 5: return GetIsLevelUp5(species, move, lvl, form, Version);
                 case 6: return GetIsLevelUp6(species, move, lvl, form, Version);
                 case 7: return GetIsLevelUp7(species, move, form, Version);
             }
             return LearnNONE;
         }
 
-        private static LearnVersion GetIsLevelUp1(int species, int move, int max, int min)
+        private static LearnVersion GetIsLevelUp1(int species, int move, int max, int min, GameVersion ver = Any)
         {
-            int index = PersonalTable.RB.GetFormeIndex(species, 0);
-            if (index == 0)
-                return LearnNONE;
-
-            if (min == 1)
+            switch (ver)
             {
-                var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
-                var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
-                if (pi_rb.Moves.Contains(move))
-                    return new LearnVersion(0, GameVersion.RB);
-                if (pi_y.Moves.Contains(move))
-                    return new LearnVersion(0, GameVersion.YW);
+                case Any:
+                case RBY:
+                    var first = LearnRB.GetIsLevelUpG1(species, move, max, min);
+                    if (first.IsLevelUp)
+                        return first;
+                    return LearnY.GetIsLevelUpG1(species, move, max, min);
+
+                case RD: case BU: case GN: case RB:
+                    return LearnRB.GetIsLevelUpG1(species, move, max, min);
+                case YW:
+                    return LearnY.GetIsLevelUpG1(species, move, max, min);
             }
-
-            // No relearner -- have to be learned on levelup
-            var lv = LevelUpRB[index].GetLevelLearnMove(move, min);
-            if (lv >= 0 && lv <= max)
-                return new LearnVersion(lv, GameVersion.RB);
-
-            // No relearner -- have to be learned on levelup
-            lv = LevelUpY[index].GetLevelLearnMove(move, min);
-            if (lv >= 0 && lv <= max)
-                return new LearnVersion(lv, GameVersion.YW);
 
             return LearnNONE;
         }
-        private static LearnVersion GetIsLevelUp2(int species, int move, int max, int min, bool korean)
+        private static LearnVersion GetIsLevelUp2(int species, int move, int max, int min, bool korean, GameVersion ver = Any)
         {
             if (move > MaxMoveID_1)
                 return LearnNONE;
 
-            int index = PersonalTable.C.GetFormeIndex(species, 0);
-            if (index == 0)
-                return LearnNONE;
+            // No Korean Crystal
+            switch (ver)
+            {
+                case Any:
+                case GSC:
+                    var first = LearnGS.GetIsLevelUpMin(species, move, max, min);
+                    if (first.IsLevelUp || korean)
+                        return first;
+                    return LearnC.GetIsLevelUpMin(species, move, max, min);
 
-            // No relearner -- have to be learned on levelup
-            var lv = LevelUpGS[index].GetLevelLearnMove(move, min);
-            if (lv >= 0 && lv <= max)
-                return new LearnVersion(lv, GameVersion.GS);
-
-            if (korean) // No Korean Crystal
-                return LearnNONE;
-
-            // No relearner -- have to be learned on levelup
-            lv = LevelUpC[index].GetLevelLearnMove(move, min);
-            if (lv >= 0 && lv <= max)
-                return new LearnVersion(lv, GameVersion.C);
-
+                case GD: case SV: case GS:
+                    return LearnGS.GetIsLevelUpMin(species, move, max, min);
+                case C when !korean:
+                    return LearnC.GetIsLevelUpMin(species, move, max, min);
+            }
             return LearnNONE;
         }
-        private static LearnVersion GetIsLevelUp3(int species, int move, int lvl, int form)
+        private static LearnVersion GetIsLevelUp3(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
-
-            int index = PersonalTable.E.GetFormeIndex(species, 0);
-            if (index == 0)
-                return LearnNONE;
-            if (index == 386)
+            if (species == 386)
                 return GetIsLevelUp3Deoxys(form, move, lvl);
 
-            // Emerald level up table are equals to R/S level up tables
-            var lv = LevelUpE[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.RSE);
-
-            // fire red and leaf green are equals between each other but different than RSE
-            // Do not use FR Levelup table. It have 67 moves for charmander but Leaf Green moves table is correct
-            lv = LevelUpLG[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.FRLG);
-
-            return LearnNONE;
-        }
-        private static LearnVersion GetIsLevelUp4(int species, int move, int lvl, int form)
-        {
-            int index = PersonalTable.HGSS.GetFormeIndex(species, form);
-            if (index == 0)
-                return LearnNONE;
-
-            var lv = LevelUpDP[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.DP);
-
-            lv = LevelUpPt[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.Pt);
-
-            lv = LevelUpHGSS[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.HGSS);
-
-            return LearnNONE;
-        }
-        private static LearnVersion GetIsLevelUp5(int species, int form, int move, int lvl)
-        {
-            int index1 = PersonalTable.BW.GetFormeIndex(species, form);
-            int index2 = PersonalTable.B2W2.GetFormeIndex(species, form);
-            if (index1 == 0 && index2 == 0)
-                return LearnNONE;
-            if (index1 != 0)
+            // Emerald level up tables are equal to R/S level up tables
+            switch (ver)
             {
-                var lv = LevelUpBW[index1].GetLevelLearnMove(move);
-                if (lv >= 0 && lv <= lvl)
-                    return new LearnVersion(lv, GameVersion.BW);
-            }
-            if (index2 != 0)
-            {
-                var lv = LevelUpB2W2[index2].GetLevelLearnMove(move);
-                if (lv >= 0 && lv <= lvl)
-                    return new LearnVersion(lv, GameVersion.B2W2);
+                case Any:
+                    var first = LearnRSE.GetIsLevelUp(species, form, move, lvl);
+                    if (first.IsLevelUp)
+                        return first;
+                    return LearnFRLG.GetIsLevelUp(species, form, move, lvl);
+
+                case R: case S: case E: case RS: case RSE:
+                    return LearnRSE.GetIsLevelUp(species, form, move, lvl);
+                case FR: case LG: case FRLG:
+                    return LearnFRLG.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
         }
-        private static LearnVersion GetIsLevelUp6(int species, int move, int lvl, int form, GameVersion ver)
+        private static LearnVersion GetIsLevelUp4(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
             switch (ver)
             {
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.SM:
-                    return GetIsLevelUp6XY(species, form, move, lvl);
-                case GameVersion.Any:
-                case GameVersion.US:
-                case GameVersion.UM:
-                case GameVersion.USUM:
-                    return GetIsLevelUp6AO(species, form, move, lvl);
+                case Any:
+                case DPPt:
+                    var first = LearnDP.GetIsLevelUp(species, form, move, lvl);
+                    if (first.IsLevelUp)
+                        return first;
+                    var second = LearnPt.GetIsLevelUp(species, form, move, lvl);
+                    if (second.IsLevelUp)
+                        return second;
+                    if (ver == DPPt) // stop here
+                        return LearnNONE;
+                    return LearnHGSS.GetIsLevelUp(species, form, move, lvl);
+
+                case D: case P: case DP:
+                    return LearnDP.GetIsLevelUp(species, form, move, lvl);
+                case Pt:
+                    return LearnPt.GetIsLevelUp(species, form, move, lvl);
+                case HG: case SS: case HGSS:
+                    return LearnHGSS.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
         }
-        private static LearnVersion GetIsLevelUp7(int species, int move, int form, GameVersion ver)
+        private static LearnVersion GetIsLevelUp5(int species, int form, int move, int lvl, GameVersion ver = Any)
         {
             switch (ver)
             {
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.SM:
-                    return GetIsLevelUp7SM(species, form, move);
-                case GameVersion.Any:
-                case GameVersion.US:
-                case GameVersion.UM:
-                case GameVersion.USUM:
-                    return GetIsLevelUp7USUM(species, form, move);
+                case Any:
+                    var first = LearnBW.GetIsLevelUp(species, form, move, lvl);
+                    if (first.IsLevelUp)
+                        return first;
+                    return LearnB2W2.GetIsLevelUp(species, form, move, lvl);
+                case B: case W: case BW:
+                    return LearnBW.GetIsLevelUp(species, form, move, lvl);
+                case B2: case W2: case B2W2:
+                    return LearnB2W2.GetIsLevelUp(species, form, move, lvl);
+            }
+            return LearnNONE;
+        }
+        private static LearnVersion GetIsLevelUp6(int species, int move, int lvl, int form, GameVersion ver = Any)
+        {
+            switch (ver)
+            {
+                case Any:
+                    var first = LearnXY.GetIsLevelUp(species, form, move, lvl);
+                    if (first.IsLevelUp)
+                        return first;
+                    return LearnAO.GetIsLevelUp(species, form, move, lvl);
+
+                case X: case Y: case XY:
+                    return LearnXY.GetIsLevelUp(species, form, move, lvl);
+                case OR: case AS: case ORAS:
+                    return LearnAO.GetIsLevelUp(species, form, move, lvl);
+            }
+            return LearnNONE;
+        }
+        private static LearnVersion GetIsLevelUp7(int species, int move, int form, GameVersion ver = Any)
+        {
+            switch (ver)
+            {
+                case Any:
+                    if (species > MaxSpeciesID_7)
+                        return LearnNONE;
+                    var first = LearnSM.GetIsLevelUp(species, form, move);
+                    if (first.IsLevelUp)
+                        return first;
+                    if (species > MaxSpeciesID_7_USUM)
+                        return LearnNONE;
+                    return LearnUSUM.GetIsLevelUp(species, form, move);
+
+                case SN: case MN: case SM:
+                    if (species > MaxSpeciesID_7)
+                        return LearnNONE;
+                    return LearnSM.GetIsLevelUp(species, form, move);
+
+                case US: case UM: case USUM:
+                    if (species > MaxSpeciesID_7_USUM)
+                        return LearnNONE;
+                    return LearnUSUM.GetIsLevelUp(species, form, move);
             }
             return LearnNONE;
         }
@@ -180,74 +208,22 @@ namespace PKHeX.Core
                 return new LearnVersion(lv, GetDeoxysGameVersion3(form));
             return LearnNONE;
         }
-        private static LearnVersion GetIsLevelUp6XY(int species, int form, int move, int lvl)
-        {
-            int index = PersonalTable.XY.GetFormeIndex(species, form);
-            if (index == 0)
-                return LearnNONE;
-
-            var lv = LevelUpXY[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.XY);
-
-            return LearnNONE;
-        }
-        private static LearnVersion GetIsLevelUp6AO(int species, int form, int move, int lvl)
-        {
-            int index = PersonalTable.AO.GetFormeIndex(species, form);
-            if (index == 0)
-                return LearnNONE;
-
-            var lv = LevelUpAO[index].GetLevelLearnMove(move);
-            if (lv >= 0 && lv <= lvl)
-                return new LearnVersion(lv, GameVersion.ORAS);
-
-            return GetIsLevelUp7SM(species, form, move);
-        }
-        private static LearnVersion GetIsLevelUp7SM(int species, int form, int move)
-        {
-            if (species > MaxSpeciesID_7)
-                return LearnNONE;
-            int index = PersonalTable.SM.GetFormeIndex(species, form);
-            if (index == 0)
-                return LearnNONE;
-
-            var lv = LevelUpSM[index].GetLevelLearnMove(move);
-            if (lv >= 0)
-                return new LearnVersion(lv, GameVersion.SM);
-
-            return LearnNONE;
-        }
-        private static LearnVersion GetIsLevelUp7USUM(int species, int form, int move)
-        {
-            if (species > MaxSpeciesID_7_USUM)
-                return LearnNONE;
-            int index = PersonalTable.USUM.GetFormeIndex(species, form);
-            if (index == 0)
-                return LearnNONE;
-
-            var lv = LevelUpUSUM[index].GetLevelLearnMove(move);
-            if (lv >= 0)
-                return new LearnVersion(lv, GameVersion.USUM);
-
-            return GetIsLevelUp7SM(species, form, move);
-        }
 
         private static GameVersion GetDeoxysGameVersion3(int form)
         {
             switch (form)
             {
-                case 0: return GameVersion.RS;
-                case 1: return GameVersion.FR;
-                case 2: return GameVersion.LG;
-                case 3: return GameVersion.E;
+                case 0: return RS;
+                case 1: return FR;
+                case 2: return LG;
+                case 3: return E;
                 default:
-                    return GameVersion.Invalid;
+                    return Invalid;
             }
         }
-        private static Learnset GetDeoxysLearn3(int form, GameVersion ver = GameVersion.Any)
+        private static Learnset GetDeoxysLearn3(int form, GameVersion ver = Any)
         {
-            if (ver == GameVersion.Any)
+            if (ver == Any)
             switch (form)
             {
                 case 0: return LevelUpRS[386]; // Normal
@@ -277,7 +253,7 @@ namespace PKHeX.Core
             return null;
         }
 
-        internal static List<int> GetMovesLevelUp1(int species, int max, int min, GameVersion ver = GameVersion.Any)
+        internal static List<int> GetMovesLevelUp1(int species, int max, int min, GameVersion ver = Any)
         {
             var moves = new List<int>();
             int index = PersonalTable.RB.GetFormeIndex(species, 0);
@@ -286,15 +262,15 @@ namespace PKHeX.Core
 
             switch (ver)
             {
-                case GameVersion.Any: case GameVersion.RBY:
+                case Any: case RBY:
                     AddMovesLevelUp1RBG(moves, max, min, index);
                     AddMovesLevelUp1Y(moves, max, min, index);
                     return moves;
-                case GameVersion.RB:
-                case GameVersion.RD: case GameVersion.BU: case GameVersion.GN:
+                case RB:
+                case RD: case BU: case GN:
                     AddMovesLevelUp1RBG(moves, max, min, index);
                     return moves;
-                case GameVersion.Y:
+                case YW:
                     AddMovesLevelUp1Y(moves, max, min, index);
                     return moves;
             }
@@ -366,18 +342,14 @@ namespace PKHeX.Core
             var moves = new List<int>();
             switch (ver)
             {
-                case GameVersion.Any:
+                case Any:
                     AddMovesLevelUp6XY(moves, species, lvl, form);
                     AddMovesLevelUp6AO(moves, species, lvl, form);
                     break;
-                case GameVersion.X:
-                case GameVersion.Y:
-                case GameVersion.XY:
+                case X: case Y: case XY:
                     AddMovesLevelUp6XY(moves, species, lvl, form);
                     break;
-                case GameVersion.AS:
-                case GameVersion.OR:
-                case GameVersion.ORAS:
+                case AS: case OR: case ORAS:
                     AddMovesLevelUp6AO(moves, species, lvl, form);
                     break;
             }
@@ -416,18 +388,14 @@ namespace PKHeX.Core
             var moves = new List<int>();
             switch (ver)
             {
-                case GameVersion.Any:
+                case Any:
                     AddMovesLevelUp7SM(moves, species, lvl, form, MoveReminder);
                     AddMovesLevelUp7USUM(moves, species, lvl, form, MoveReminder);
                     break;
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.SM:
+                case SN: case MN: case SM:
                     AddMovesLevelUp7SM(moves, species, lvl, form, MoveReminder);
                     break;
-                case GameVersion.US:
-                case GameVersion.UM:
-                case GameVersion.USUM:
+                case US: case UM: case USUM:
                     AddMovesLevelUp7USUM(moves, species, lvl, form, MoveReminder);
                     break;
             }
@@ -456,7 +424,7 @@ namespace PKHeX.Core
 
         public static int[] GetEncounterMoves(PKM pk, int level, GameVersion version)
         {
-            if (GameVersion.RBY.Contains(version))
+            if (RBY.Contains(version))
                 return GetEncounterMoves1(pk.Species, level, version);
             return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
         }

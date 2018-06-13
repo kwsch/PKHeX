@@ -30,5 +30,7 @@ namespace PKHeX.Core
             Game = game;
             Level = lv;
         }
+
+        public bool IsLevelUp => Level >= 0;
     }
 }
