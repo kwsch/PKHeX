@@ -50,7 +50,7 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.Modify, GetItem("HatchEggs", "Hatch Eggs", () => Modify(z => z.ForceHatchPKM()), Resources.about), s => s.Generation >= 2);
             AddItem(Level.Modify, GetItem("MaxFriendship", "Max Friendship", () => Modify(z => z.MaximizeFriendship()), Resources.heart));
             AddItem(Level.Modify, GetItem("MaxLevel", "Max Level", () => Modify(z => z.MaximizeLevel()), Resources.showdown));
-            AddItem(Level.Modify, GetItem("ResetMoves", "Reset Moves", () => Modify(z => z.SetMoves(z.GetMoveSet())), Resources.date));
+            AddItem(Level.Modify, GetItem("ResetMoves", "Reset Moves", () => Modify(z => z.SetMoves(z.GetMoveSet())), Resources.date), s => s.Generation >= 3);
             AddItem(Level.Modify, GetItem("RandomMoves", "Randomize Moves", () => Modify(z => z.SetMoves(z.GetMoveSet(true))), Resources.wand));
             AddItem(Level.Modify, GetItem("HyperTrain", "Hyper Train", () => Modify(z => z.SetSuggestedHyperTrainingData()), Resources.vallohi), s => s.Generation >= 7);
             AddItem(Level.Modify, GetItem("RemoveNicknames", "Remove Nicknames", () => Modify(z => z.SetDefaultNickname()), Resources.alphaAZ));
