@@ -2236,6 +2236,16 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V317, CheckIdentifier.Form);
                     return;
 
+                // Impossible Egg forms
+                case 479 when pkm.IsEgg: // Rotom
+                case 676 when pkm.IsEgg: // Furfrou
+                    if (pkm.AltForm != 0) // has form
+                    {
+                        AddLine(Severity.Invalid, V50, CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
+
                 // Party Only Forms
                 case 492: // Shaymin
                 case 676: // Furfrou
