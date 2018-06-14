@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public static readonly string[] CustomProperties = { PROP_LEGAL };
         public static readonly string[][] Properties = GetPropArray();
 
-        private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoCanWritePublic(z)
+        private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoPublic(z)
                 .GroupBy(p => p.Name).Select(g => g.First()).ToDictionary(p => p.Name))
                 .ToArray();
 
@@ -38,12 +38,12 @@ namespace PKHeX.Core
             var p = new string[Types.Length][];
             for (int i = 0; i < p.Length; i++)
             {
-                var pz = ReflectUtil.GetPropertiesCanWritePublic(Types[i]);
+                var pz = ReflectUtil.GetPropertiesPublic(Types[i]);
                 p[i] = pz.Concat(CustomProperties).OrderBy(a => a).ToArray();
             }
 
             // Properties for any PKM
-            var any = ReflectUtil.GetPropertiesCanWritePublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
+            var any = ReflectUtil.GetPropertiesPublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
             // Properties shared by all PKM
             var all = p.Aggregate(new HashSet<string>(p[0]), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
 
@@ -87,7 +87,7 @@ namespace PKHeX.Core
                 return null;
             }
 
-            int index = typeIndex == Props.Length - 1 ? 0 : typeIndex - 1; // All vs Specific
+            int index = typeIndex -1 >= Props.Length ? 0 : typeIndex - 1; // All vs Specific
             var pr = Props[index];
             if (!pr.TryGetValue(propertyName, out var info))
                 return null;
@@ -209,7 +209,7 @@ namespace PKHeX.Core
                 try
                 {
                     var tmp = SetPKMProperty(cmd, info, pi);
-                    if (result != ModifyResult.Modified)
+                    if (tmp != ModifyResult.Modified)
                         result = tmp;
                 }
                 catch (Exception ex) { Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue); }
@@ -239,6 +239,9 @@ namespace PKHeX.Core
                 return ModifyResult.Modified;
 
             if (!props.TryGetValue(cmd.PropertyName, out var pi))
+                return ModifyResult.Error;
+
+            if (!pi.CanWrite)
                 return ModifyResult.Error;
 
             object val = cmd.Random ? (object)cmd.RandomValue : cmd.PropertyValue;
@@ -286,6 +289,8 @@ namespace PKHeX.Core
                 return true;
             if (!ReflectUtil.HasProperty(pkm, cmd.PropertyName, out var pi))
                 return false;
+            if (!pi.CanRead)
+                return false;
             return pi.IsValueEqual(pkm, cmd.PropertyValue) == cmd.Evaluator;
         }
 
@@ -301,6 +306,8 @@ namespace PKHeX.Core
             if (IsIdentifierFiltered(cmd, pkm))
                 return true;
             if (!props.TryGetValue(cmd.PropertyName, out var pi))
+                return false;
+            if (!pi.CanRead)
                 return false;
             return pi.IsValueEqual(pkm, cmd.PropertyValue) == cmd.Evaluator;
         }

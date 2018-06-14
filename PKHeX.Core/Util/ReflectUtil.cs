@@ -44,6 +44,17 @@ namespace PKHeX.Core
             return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
                             .Where(p => p.CanWrite && p.SetMethod.IsPublic);
         }
+        public static IEnumerable<PropertyInfo> GetAllPropertyInfoPublic(Type type)
+        {
+            return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
+                .Where(p => (p.CanRead && p.GetMethod.IsPublic) || (p.CanWrite && p.SetMethod.IsPublic));
+        }
+        public static IEnumerable<string> GetPropertiesPublic(Type type)
+        {
+            return GetAllPropertyInfoPublic(type).Select(p => p.Name)
+                    .Distinct()
+                ;
+        }
 
         public static IEnumerable<string> GetPropertiesCanWritePublicDeclared(Type type)
         {
