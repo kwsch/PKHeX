@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Legal;
 
@@ -18,6 +19,34 @@ namespace PKHeX.Core
             Table = table;
             Learn = learn;
 
+        }
+
+        public List<int> AddMovesIndex(List<int> moves, int index, int max, int min)
+        {
+            if (index <= 0)
+                return moves;
+            return Learn[index].AddMoves(moves, max, min);
+        }
+        public List<int> AddMoves(List<int> moves, int species, int form, int max, int min = 0)
+        {
+            int index = Table.GetFormeIndex(species, form);
+            return AddMovesIndex(moves, index, max, min);
+        }
+        public List<int> AddMoves1(List<int> moves, int species, int form, int max, int min)
+        {
+            int index = Table.GetFormeIndex(species, form);
+            return AddMovesIndex1(moves, index, min, max);
+        }
+        public List<int> AddMovesIndex1(List<int> moves, int index, int max, int min)
+        {
+            if (min == 1)
+                moves.AddRange(((PersonalInfoG1)Table[index]).Moves);
+            return AddMovesIndex(moves, index, max, min);
+        }
+        public List<int> GetMoves(int species, int form, int min, int max)
+        {
+            int index = Table.GetFormeIndex(species, form);
+            return Learn[index].GetMoveList(max, min);
         }
 
         public LearnVersion GetIsLevelUp(int species, int form, int move)
