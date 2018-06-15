@@ -35,7 +35,7 @@ namespace PKHeX.Core
         public List<int> AddMoves1(List<int> moves, int species, int form, int max, int min)
         {
             int index = Table.GetFormeIndex(species, form);
-            return AddMovesIndex1(moves, index, min, max);
+            return AddMovesIndex1(moves, index, max, min);
         }
         public List<int> AddMovesIndex1(List<int> moves, int index, int max, int min)
         {
