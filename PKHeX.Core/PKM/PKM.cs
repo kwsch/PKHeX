@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Object representing a <see cref="PKM"/>'s data and derived properties.
     /// </summary>
-    public abstract class PKM : ITrainerID
+    public abstract class PKM : ITrainerID, IGameValueLimit
     {
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
@@ -266,6 +266,7 @@ namespace PKHeX.Core
         public abstract int MaxAbilityID { get; }
         public abstract int MaxBallID { get; }
         public abstract int MaxGameID { get; }
+        public virtual int MinGameID => 0;
         public abstract int MaxIV { get; }
         public abstract int MaxEV { get; }
         public abstract int OTLength { get; }

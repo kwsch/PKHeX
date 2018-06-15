@@ -10,8 +10,6 @@ namespace PKHeX.Core
     /// </summary>
     public static class EncounterMovesetGenerator
     {
-        private static readonly GameVersion[] Versions = GameUtil.GameVersions;
-
         /// <summary>
         /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned.
         /// </summary>
@@ -24,7 +22,7 @@ namespace PKHeX.Core
         {
             pk.TID = info.TID;
             var m = moves ?? pk.Moves;
-            var vers = versions?.Length >= 1 ? versions : Versions.Where(z => z <= (GameVersion) pk.MaxGameID);
+            var vers = versions?.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
             foreach (var ver in vers)
             {
                 var encs = GenerateVersionEncounters(pk, m, ver);
@@ -77,7 +75,7 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves = null, params GameVersion[] versions)
         {
             var m = moves ?? pk.Moves;
-            var vers = versions?.Length >= 1 ? versions : Versions.Where(z => z <= (GameVersion)pk.MaxGameID);
+            var vers = versions?.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
             return vers.SelectMany(ver => GenerateVersionEncounters(pk, m, ver));
         }
 
@@ -89,8 +87,7 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves = null)
         {
-            var vers = Versions.Where(z => z <= (GameVersion)pk.MaxGameID).ToArray();
-            return GenerateEncounters(pk, moves ?? pk.Moves, vers);
+            return GenerateEncounters(pk, moves ?? pk.Moves, null);
         }
 
         /// <summary>

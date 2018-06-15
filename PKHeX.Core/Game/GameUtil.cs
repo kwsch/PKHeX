@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -8,6 +10,17 @@ namespace PKHeX.Core
     /// </summary>
     public static class GameUtil
     {
+        /// <summary>
+        /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
+        /// </summary>
+        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
+
+        /// <summary>
+        /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
+        /// </summary>
+        /// <param name="game">Game to check</param>
+        public static bool IsValidSavedVersion(this GameVersion game) => 0 < game && game <= RB;
+
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
@@ -15,73 +28,56 @@ namespace PKHeX.Core
         {
             switch (Version)
             {
-                case GameVersion.CXD:
-                    return GameVersion.CXD;
+                // Sidegame
+                case CXD:
+                    return CXD;
+                case GO:
+                    return GO;
 
-                case GameVersion.GO:
-                    return GameVersion.GO;
+                // Gen1
+                case RBY: case RD: case BU: case YW: case GN:
+                    return RBY;
 
-                case GameVersion.RBY:
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.YW:
-                case GameVersion.GN:
-                    return GameVersion.RBY;
+                // Gen2
+                case GS: case GD: case SV: case C:
+                    return GSC;
 
-                case GameVersion.GS:
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                    return GameVersion.GSC;
+                // Gen3
+                case R: case S:
+                    return RS;
+                case E:
+                    return E;
+                case FR: case LG:
+                    return FR;
 
-                case GameVersion.R:
-                case GameVersion.S:
-                    return GameVersion.RS;
+                // Gen4
+                case D: case P:
+                    return DP;
+                case Pt:
+                    return Pt;
+                case HG: case SS:
+                    return HGSS;
 
-                case GameVersion.E:
-                    return GameVersion.E;
+                // Gen5
+                case B: case W:
+                    return BW;
+                case B2: case W2:
+                    return B2W2;
 
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    return GameVersion.FR;
+                // Gen6
+                case X: case Y:
+                    return XY;
+                case OR: case AS:
+                    return ORAS;
 
-                case GameVersion.D:
-                case GameVersion.P:
-                    return GameVersion.DP;
-
-                case GameVersion.Pt:
-                    return GameVersion.Pt;
-
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    return GameVersion.HGSS;
-
-                case GameVersion.B:
-                case GameVersion.W:
-                    return GameVersion.BW;
-
-                case GameVersion.B2:
-                case GameVersion.W2:
-                    return GameVersion.B2W2;
-
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return GameVersion.XY;
-
-                case GameVersion.OR:
-                case GameVersion.AS:
-                    return GameVersion.ORAS;
-
-                case GameVersion.SN:
-                case GameVersion.MN:
-                    return GameVersion.SM;
-
-                case GameVersion.US:
-                case GameVersion.UM:
-                    return GameVersion.USUM;
+                // Gen7
+                case SN: case MN:
+                    return SM;
+                case US: case UM:
+                    return USUM;
 
                 default:
-                    return GameVersion.Invalid;
+                    return Invalid;
             }
         }
 
@@ -94,59 +90,127 @@ namespace PKHeX.Core
         {
             switch (generation)
             {
-                case 1: return GameVersion.RBY;
-                case 2: return GameVersion.C;
-                case 3: return GameVersion.E;
-                case 4: return GameVersion.SS;
-                case 5: return GameVersion.W2;
-                case 6: return GameVersion.AS;
-                case 7: return GameVersion.UM;
+                case 1: return RBY;
+                case 2: return C;
+                case 3: return E;
+                case 4: return SS;
+                case 5: return W2;
+                case 6: return AS;
+                case 7: return UM;
                 default:
-                    return GameVersion.Invalid;
-            }
-        }
-        public static int GetGeneration(GameVersion game)
-        {
-            game = GetMetLocationVersionGroup(game); // get group
-            switch (game)
-            {
-                default: return -1;
-
-                case GameVersion.RBY: return 1;
-                case GameVersion.GSC: return 2;
-
-                case GameVersion.CXD:
-                case GameVersion.RS: case GameVersion.E:
-                case GameVersion.FR: case GameVersion.LG:
-                    return 3;
-
-                case GameVersion.DP: case GameVersion.Pt:
-                case GameVersion.HGSS:
-                    return 4;
-
-                case GameVersion.BW:
-                case GameVersion.B2W2:
-                    return 5;
-
-                case GameVersion.XY:
-                case GameVersion.ORAS:
-                    return 6;
-
-                case GameVersion.SM:
-                case GameVersion.USUM:
-                    return 7;
+                    return Invalid;
             }
         }
 
         /// <summary>
-        /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
+        /// Gets the Generation the <see cref="GameVersion"/> belongs to.
         /// </summary>
-        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < GameVersion.RB && z > 0).Reverse().ToArray();
+        /// <param name="game">Game to retrieve the generation for</param>
+        /// <returns>Generation ID</returns>
+        public static int GetGeneration(this GameVersion game)
+        {
+            if (Gen1.Contains(game)) return 1;
+            if (Gen2.Contains(game)) return 2;
+            if (Gen3.Contains(game)) return 3;
+            if (Gen4.Contains(game)) return 4;
+            if (Gen5.Contains(game)) return 5;
+            if (Gen6.Contains(game)) return 6;
+            if (Gen7.Contains(game)) return 7;
+            return -1;
+        }
+
+
+        /// <summary>
+        /// Checks if the <see cref="g1"/> version (or subset versions) is equivalent to <see cref="g2"/>.
+        /// </summary>
+        /// <param name="g1">Version (set)</param>
+        /// <param name="g2">Individual version</param>
+        public static bool Contains(this GameVersion g1, GameVersion g2)
+        {
+            if (g1 == g2 || g1 == Any)
+                return true;
+
+            switch (g1)
+            {
+                case RB:
+                    return g2 == RD || g2 == BU || g2 == GN;
+                case RBY:
+                    return RB.Contains(g2) || g2 == YW;
+                case Gen1:
+                    return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
+                case Stadium:
+                case EventsGBGen1:
+                case VCEvents:
+                    goto case RBY;
+
+                case GS: return g2 == GD || g2 == SV;
+                case GSC:
+                    return GS.Contains(g2) || g2 == C;
+                case Gen2:
+                    return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
+                case Stadium2:
+                case EventsGBGen2:
+                    goto case GSC;
+                case GBCartEraOnly:
+                    return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
+
+                case RS: return g2 == R || g2 == S;
+                case RSE:
+                    return RS.Contains(g2) || g2 == E;
+                case FRLG: return g2 == FR || g2 == LG;
+                case COLO:
+                case XD: return g2 == CXD;
+                case CXD: return g2 == COLO || g2 == XD;
+                case RSBOX: return RS.Contains(g2) || g2 == E || FRLG.Contains(g2);
+                case Gen3:
+                    return RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX;
+
+                case DP: return g2 == D || g2 == P;
+                case HGSS: return g2 == HG || g2 == SS;
+                case DPPt:
+                    return DP.Contains(g2) || g2 == Pt;
+                case BATREV: return DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2);
+                case Gen4:
+                    return DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV;
+
+                case BW: return g2 == B || g2 == W;
+                case B2W2: return g2 == B2 || g2 == W2;
+                case Gen5:
+                    return BW.Contains(g2) || B2W2.Contains(g2);
+
+                case XY: return g2 == X || g2 == Y;
+                case ORAS: return g2 == OR || g2 == AS;
+                case Gen6:
+                    return XY.Contains(g2) || ORAS.Contains(g2);
+
+                case SM:
+                    return g2 == SN || g2 == MN;
+                case USUM:
+                    return g2 == US || g2 == UM;
+                case Gen7:
+                    return SM.Contains(g2) || USUM.Contains(g2);
+
+                default: return false;
+            }
+        }
 
         /// <summary>
         /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
         /// </summary>
         /// <param name="generation">Generation to look within</param>
         public static GameVersion[] GetVersionsInGeneration(int generation) => GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
+
+        /// <summary>
+        /// List of possible <see cref="GameVersion"/> values within the provided <see cref="IGameValueLimit"/> criteria.
+        /// </summary>
+        /// <param name="obj">Criteria for retrieving versions</param>
+        /// <param name="generation">Generation format minimum (necessary for the CXD/Gen4 swap etc)</param>
+        public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, int generation = -1)
+        {
+            var vers = GameVersions.Where(z => z >= (GameVersion)obj.MinGameID && z <= (GameVersion)obj.MaxGameID);
+            if (generation == -1)
+                return vers;
+            return vers.Where(z => z.GetGeneration() <= generation);
+        }
     }
 }

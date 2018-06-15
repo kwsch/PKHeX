@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
-    public abstract class SaveFile : ITrainerInfo
+    public abstract class SaveFile : ITrainerInfo, IGameValueLimit
     {
         public static bool SetUpdateDex { protected get; set; } = true;
         public static bool SetUpdatePKM { protected get; set; } = true;
@@ -91,6 +91,7 @@ namespace PKHeX.Core
         public abstract int MaxItemID { get; }
         public abstract int MaxBallID { get; }
         public abstract int MaxGameID { get; }
+        public virtual int MinGameID => 0;
 
         // Flags
         public bool HasWondercards => WondercardData > -1;

@@ -13,7 +13,7 @@ namespace PKHeX.Core
         internal const int MaxItemID_3_XD = 593;
         internal const int MaxAbilityID_3 = 77;
         internal const int MaxBallID_3 = 0xC;
-        internal const int MaxGameID_3 = 5; // LG
+        internal const int MaxGameID_3 = 15; // CXD
         /// <summary>
         /// Generation 3 -> Generation 4 Transfer Location (Pal Park)
         /// </summary>

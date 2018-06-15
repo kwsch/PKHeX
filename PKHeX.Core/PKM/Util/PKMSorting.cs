@@ -108,7 +108,7 @@ namespace PKHeX.Core
         public static IEnumerable<PKM> OrderByOwnership(this IEnumerable<PKM> list, ITrainerInfo trainer)
         {
             return list.InitialSortBy()
-                .ThenByDescending(p => trainer.IsOriginalHandler(p, ((GameVersion)trainer.Game).IsValid())) // true first
+                .ThenByDescending(p => trainer.IsOriginalHandler(p, ((GameVersion)trainer.Game).IsValidSavedVersion())) // true first
                 .ThenByDescending(p => string.Equals(p.OT_Name, trainer.OT, StringComparison.CurrentCultureIgnoreCase))
                 .OrderByTrainer()
                 .ThenBy(p => p.Species)

@@ -125,7 +125,7 @@ namespace PKHeX.Core
         public static string GetG1ConvertedString(byte[] strdata, bool jp)
         {
             var table = jp ? jp_table : us_table;
-            return Util.TrimFromZero(new string(strdata.TakeWhile(b => b != 0).Select(b => (char)table[b]).ToArray()));
+            return string.Concat(strdata.TakeWhile(b => b != 0).Select(b => (char)table[b]).TakeWhile(b => b != 0));
         }
 
         /// <summary>

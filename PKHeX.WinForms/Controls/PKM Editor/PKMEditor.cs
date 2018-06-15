@@ -1675,7 +1675,8 @@ namespace PKHeX.WinForms.Controls
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
-            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
+            var gamelist = GameUtil.GetVersionsWithinRange(SAV, SAV.Generation).ToList();
+            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList(), null);
 
             // Set the Move ComboBoxes too..
             GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
