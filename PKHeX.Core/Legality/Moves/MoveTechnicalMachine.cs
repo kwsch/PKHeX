@@ -10,7 +10,10 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 1: return GetIsMachine1(species, move);
-                case 2: return GetIsMachine2(species, move);
+                case 2:
+                    if (pkm.VC1 && move > Legal.MaxMoveID_1)
+                        return Legal.NONE;
+                    return GetIsMachine2(species, move);
                 case 3: return GetIsMachine3(species, move, pkm.Format, RemoveTransfer);
                 case 4: return GetIsMachine4(species, move, pkm.Format, RemoveTransfer, form);
                 case 5: return GetIsMachine5(species, move, form);
@@ -175,7 +178,10 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 1: AddMachine1(r, species); break;
-                case 2: AddMachine2(r, species); break;
+                case 2: AddMachine2(r, species);
+                    if (pkm.Format >= 7 && pkm.VC1)
+                        r.RemoveAll(z => z > Legal.MaxMoveID_1);
+                    break;
                 case 3: AddMachine3(r, species, pkm.Format, RemoveTransfer); break;
                 case 4: AddMachine4(r, species, pkm.Format, RemoveTransfer, form); break;
                 case 5: AddMachine5(r, species, form); break;

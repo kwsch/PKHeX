@@ -42,7 +42,8 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 1: return GetIsLevelUp1(species, move, lvl, minlvlG1, version);
-                case 2: return GetIsLevelUp2(species, move, lvl, minlvlG2, pkm.Korean, version);
+                case 2: if (move > MaxMoveID_1 && pkm.LearnMovesNew2Disallowed()) return LearnNONE;
+                        return GetIsLevelUp2(species, move, lvl, minlvlG2, pkm.Korean, version);
                 case 3: return GetIsLevelUp3(species, move, lvl, form, version);
                 case 4: return GetIsLevelUp4(species, move, lvl, form, version);
                 case 5: return GetIsLevelUp5(species, move, lvl, form, version);
@@ -243,7 +244,7 @@ namespace PKHeX.Core
             switch (Generation)
             {
                 case 1: return GetMovesLevelUp1(species, lvl, minlvlG1, version);
-                case 2: return GetMovesLevelUp2(species, lvl, minlvlG2, pkm.Korean, pkm.Format, version);
+                case 2: return GetMovesLevelUp2(species, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version);
                 case 3: return GetMovesLevelUp3(species, form, lvl, version);
                 case 4: return GetMovesLevelUp4(species, form, lvl, version);
                 case 5: return GetMovesLevelUp5(species, form, lvl, version);
@@ -253,14 +254,16 @@ namespace PKHeX.Core
             return null;
         }
 
+        private static bool LearnMovesNew2Disallowed(this PKM pkm) => pkm.Format == 1 || (pkm.Format >= 7 && pkm.VC);
+
         internal static List<int> GetMovesLevelUp1(int species, int max, int min, GameVersion ver = Any)
         {
             return AddMovesLevelUp1(new List<int>(), ver, species, max, min);
         }
-        private static List<int> GetMovesLevelUp2(int species, int max, int min, bool korean, int format, GameVersion ver = Any)
+        private static List<int> GetMovesLevelUp2(int species, int max, int min, bool korean, bool removeNewGSCMoves, GameVersion ver = Any)
         {
             var moves = AddMovesLevelUp2(new List<int>(), ver, species, max, min, korean);
-            if (format == 1)
+            if (removeNewGSCMoves)
                 moves.RemoveAll(m => m > MaxMoveID_1);
             return moves;
         }
