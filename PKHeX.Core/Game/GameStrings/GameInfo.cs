@@ -5,8 +5,8 @@ namespace PKHeX.Core
 {
     public static class GameInfo
     {
-        private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送", "ポケシフター" };
-        private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2", "pt" };
+        private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送" };
+        private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2" };
         private static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
         private const string DefaultLanguage = "en";
         public static string CurrentLanguage { get; set; } = DefaultLanguage;

@@ -81,7 +81,6 @@ namespace PKHeX.WinForms
                 "Español", // SPA
                 "한국어", // KOR
                 "中文", // CHN
-                "Português", // Portuguese
             };
         private static readonly List<IPlugin> Plugins = new List<IPlugin>();
         #endregion
@@ -884,8 +883,6 @@ namespace PKHeX.WinForms
         {
             if (CB_MainLanguage.SelectedIndex < 8)
                 CurrentLanguage = GameInfo.Language2Char((uint)CB_MainLanguage.SelectedIndex);
-            else if (CB_MainLanguage.SelectedIndex == 8)
-                CurrentLanguage = GameInfo.Language2Char(9);
 
             // Set the culture (makes it easy to pass language to other forms)
             Settings.Default.Language = CurrentLanguage;
