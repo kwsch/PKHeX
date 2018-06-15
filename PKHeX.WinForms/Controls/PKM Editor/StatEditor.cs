@@ -210,8 +210,8 @@ namespace PKHeX.WinForms.Controls
         private void LoadHyperTraining()
         {
             if (!(pkm is IHyperTrain h))
-                return;
-            for (int i = 0; i < MT_IVs.Length; i++)
+                foreach (var iv in MT_IVs) iv.ResetBackColor();
+            else for (int i = 0; i < MT_IVs.Length; i++)
                 UpdateHyperTrainingFlag(i, h.GetHT(i));
         }
         private void UpdateEVTotals()
