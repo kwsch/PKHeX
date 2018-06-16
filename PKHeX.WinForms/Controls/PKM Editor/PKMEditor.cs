@@ -784,7 +784,7 @@ namespace PKHeX.WinForms.Controls
             else if (sender == BTN_RerollPID)
                 pkm.SetPIDGender(pkm.Gender);
             else if (sender == CB_Ability && CB_Ability.SelectedIndex != pkm.PIDAbility && pkm.PIDAbility > -1)
-                pkm.PID = PKX.GetRandomPID(pkm.Species, pkm.Gender, pkm.Version, pkm.Nature, pkm.Format, (uint)(CB_Ability.SelectedIndex * 0x10001));
+                pkm.PID = PKX.GetRandomPID(pkm.Species, pkm.Gender, pkm.Version, pkm.Nature, pkm.AltForm, (uint)(CB_Ability.SelectedIndex * 0x10001));
 
             TB_PID.Text = pkm.PID.ToString("X8");
             SetIsShiny(null);
