@@ -81,8 +81,14 @@ namespace PKHeX.Core
         private void ParseLines(IEnumerable<string> lines)
         {
             int movectr = 0;
-            foreach (string line in lines)
+            var e = lines.GetEnumerator();
+            if (!e.MoveNext())
+                return;
+
+            ParseFirstLine(e.Current);
+            while (e.MoveNext())
             {
+                var line = e.Current;
                 if (line.StartsWith("-"))
                 {
                     string moveString = ParseLineMove(line);
@@ -98,71 +104,47 @@ namespace PKHeX.Core
                 }
 
                 string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
-                if (brokenline.Length == 1)
-                    brokenline = new[] {brokenline[0], string.Empty};
-                switch (brokenline[0])
-                {
-                    case "Trait":
-                    case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1].Trim()); break; }
-                    case "Level": { if (int.TryParse(brokenline[1].Trim(), out int val)) Level = val; else InvalidLines.Add(line); break; }
-                    case "Shiny": { Shiny = brokenline[1].Trim() == "Yes"; break; }
-                    case "Happiness": { if (int.TryParse(brokenline[1].Trim(), out int val)) Friendship = val; else InvalidLines.Add(line); break; }
-                    case "Nature": { Nature = Array.IndexOf(natures, brokenline[1].Trim()); break; }
-                    case "EV":
-                    case "EVs": { ParseLineEVs(brokenline[1].Trim()); break; }
-                    case "IV":
-                    case "IVs": { ParseLineIVs(brokenline[1].Trim()); break; }
-                    case "Type": { brokenline = new[] {line}; goto default; } // Type: Null edge case
-                    default:
-                    {
-                        // Either Nature or Gender ItemSpecies
-                        if (brokenline[0].Contains(" @ "))
-                        {
-                            string[] pieces = line.Split(new[] {" @ "}, StringSplitOptions.None);
-                            string itemstr = pieces.Last().Trim();
-
-                            ParseItemStr(itemstr);
-                            ParseFirstLine(pieces[0]);
-                        }
-                        else if (brokenline[0].Contains("Nature"))
-                        {
-                            string naturestr = line.Split(' ')[0].Trim();
-                            int nature = Array.IndexOf(natures, naturestr);
-                            if (nature < 0)
-                                InvalidLines.Add($"Unknown Nature: {naturestr}");
-                            else
-                                Nature = nature;
-                        }
-                        else // First Line does not contain an item
-                        {
-                            ParseFirstLine(line.Trim());
-                        }
-                        break;
-                    }
-                }
+                var piece1 = brokenline[0].Trim();
+                var piece2 = brokenline.Length == 1 ? string.Empty : brokenline[1].Trim();
+                if (!ParseEntry(piece1, piece2))
+                    InvalidLines.Add(line);
             }
+            e.Dispose();
         }
 
-        private void ParseItemStr(string itemstr)
+        private bool ParseEntry(string first, string second)
         {
-            int item = Array.IndexOf(items, itemstr);
-            if (item >= 0)
+            switch (first)
             {
-                HeldItem = item;
-                return;
+                case "Trait": case "Ability": return (Ability = Array.IndexOf(abilities, second)) >= 0;
+                case "Shiny": return Shiny = second.Trim() == "Yes";
+                case "Nature": return (Nature = Array.IndexOf(natures, second)) >= 0;
+                case "EV": case "EVs": ParseLineEVs(second); return true;
+                case "IV": case "IVs": ParseLineIVs(second); return true;
+                case "Level":
+                {
+                    if (!int.TryParse(second.Trim(), out int val))
+                        return false;
+                    Level = val;
+                    return true;
+                }
+                case "Happiness": case "Friendship":
+                {
+                    if (!int.TryParse(second.Trim(), out int val))
+                        return false;
+                    Friendship = val;
+                    return true;
+                }
+                default:
+                {
+                    if (first.EndsWith("Nature")) // XXX Nature
+                    {
+                        string naturestr = first.Split(' ')[0].Trim();
+                        return (Nature = Array.IndexOf(natures, naturestr)) >= 0;
+                    }
+                    return false;
+                }
             }
-            if ((item = Array.IndexOf(g3items, itemstr)) >= 0)
-            {
-                HeldItem = item;
-                Format = 3;
-            }
-            if ((item = Array.IndexOf(g2items, itemstr)) >= 0)
-            {
-                HeldItem = item;
-                Format = 2;
-            }
-            else
-                InvalidLines.Add($"Unknown Item: {itemstr}");
         }
 
         public string Text => GetText();
@@ -283,7 +265,42 @@ namespace PKHeX.Core
             Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty;
             Format = pkm.Format;
         }
-        private void ParseFirstLine(string line)
+
+        private void ParseFirstLine(string first)
+        {
+            if (first.Contains(" @ "))
+            {
+                string[] pieces = first.Split(new[] { " @ " }, StringSplitOptions.None);
+                string itemstr = pieces.Last().Trim();
+
+                ParseItemStr(itemstr);
+                ParseFirstLineNoItem(pieces[0]);
+            }
+            else
+                ParseFirstLineNoItem(first.Trim());
+        }
+        private void ParseItemStr(string itemstr)
+        {
+            int item = Array.IndexOf(items, itemstr);
+            if (item >= 0)
+            {
+                HeldItem = item;
+                return;
+            }
+            if ((item = Array.IndexOf(g3items, itemstr)) >= 0)
+            {
+                HeldItem = item;
+                Format = 3;
+            }
+            if ((item = Array.IndexOf(g2items, itemstr)) >= 0)
+            {
+                HeldItem = item;
+                Format = 2;
+            }
+            else
+                InvalidLines.Add($"Unknown Item: {itemstr}");
+        }
+        private void ParseFirstLineNoItem(string line)
         {
             // Gender Detection
             string last3 = line.Substring(line.Length - 3);

@@ -200,9 +200,20 @@ Jolly Nature
 - Safeguard
 - Hold Back";
 
+        private const string SetNicknamedTypeNull =
+@"Reliance (Type: Null) @ Eviolite
+EVs: 252 HP / 4 Def / 252 SpD
+Ability: Battle Armor
+Careful Nature
+- Facade
+- Swords Dance
+- Sleep Talk
+- Rest";
+
         private static readonly string[] Sets =
         {
             SetGlaceonUSUMTutor,
+            SetNicknamedTypeNull,
 
 @"Greninja @ Choice Specs
 Ability: Battle Bond
