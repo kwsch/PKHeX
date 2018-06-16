@@ -340,7 +340,7 @@ namespace PKHeX.Core
             BK4 bk4 = ConvertTo<BK4>();
 
             // Enforce DP content only (no PtHGSS)
-            if (AltForm != 0 && !PersonalTable.DP[Species].HasFormes)
+            if (AltForm != 0 && !PersonalTable.DP[Species].HasFormes && Species != 201)
                 bk4.AltForm = 0;
             if (HeldItem > Legal.MaxItemID_4_DP)
                 bk4.HeldItem = 0;
