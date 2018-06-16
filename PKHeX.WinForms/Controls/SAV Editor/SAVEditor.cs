@@ -1044,7 +1044,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenLinkInfo.Enabled = sav.HasLink;
                 B_CGearSkin.Enabled = sav.Generation == 5;
 
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty; // Box RS
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR); // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;
 
