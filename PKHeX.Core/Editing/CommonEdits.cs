@@ -223,11 +223,18 @@ namespace PKHeX.Core
         {
             gender = Math.Min(2, Math.Max(0, gender));
             if (pk.Format <= 2)
+            {
                 pk.SetATKIVGender(gender);
-            else if (pk.Format <= 4)
+            }
+            else if (pk.Format <= 5)
+            {
                 pk.SetPIDGender(gender);
-            else
                 pk.Gender = gender;
+            }
+            else
+            {
+                pk.Gender = gender;
+            }
         }
 
         /// <summary>
