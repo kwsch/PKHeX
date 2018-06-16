@@ -1098,8 +1098,6 @@ namespace PKHeX.Core
         private void VerifyAbility()
         {
             int[] abilities = pkm.PersonalInfo.Abilities;
-            if (abilities[1] == 0)
-                abilities[1] = abilities[0];
             int abilval = Array.IndexOf(abilities, pkm.Ability);
             if (abilval < 0)
             {
@@ -1226,8 +1224,8 @@ namespace PKHeX.Core
         }
         private bool? VerifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3)
         {
-            var abilities_g3 = PersonalTable.E[Species_g3].Abilities.Where(a => a != 0).Distinct().ToArray();
-            if (abilities_g3.Length == 2) // Excluding Colosseum/XD, a gen3 pkm must match PID if it has 2 unique abilities
+            var pers = (PersonalInfoG3)PersonalTable.E[Species_g3];
+            if (pers.Ability1 != pers.Ability2) // Excluding Colosseum/XD, a gen3 pkm must match PID if it has 2 unique abilities
                 return pkm.Version != (int)GameVersion.CXD;
 
             int Species_g4 = Info.EvoChainsAllGens[4].FirstOrDefault()?.Species ?? 0;
@@ -1239,7 +1237,7 @@ namespace PKHeX.Core
             if (Evolutions_g45 > 1)
             {
                 // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
-                if (pkm.Ability == abilities_g3[0])
+                if (pkm.Ability == pers.Ability1)
                     // It could evolve in gen 4-5 an have generation 3 only ability
                     // that means it have not actually evolved in gen 4-5, ability do not need to match PID
                     return null;
@@ -1250,7 +1248,7 @@ namespace PKHeX.Core
             }
             // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games,
             // ability do not need to match PID, but only generation 3 ability is allowed
-            if (pkm.Ability != abilities_g3[0])
+            if (pkm.Ability != pers.Ability1)
                 // Not evolved in gen4-5 but do not have generation 3 only ability
                 AddLine(Severity.Invalid, V373, CheckIdentifier.Ability);
             return null;

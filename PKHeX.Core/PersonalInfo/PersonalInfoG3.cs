@@ -69,5 +69,7 @@ namespace PKHeX.Core
                 Ability2 = (byte)value[1];
             }
         }
+
+        public bool HasSecondAbility => Ability1 != Ability2;
     }
 }

@@ -355,7 +355,7 @@ namespace PKHeX.WinForms.Controls
                 return 0;
             if (abilityIndex >= 2)
                 return 2;
-            if (abils[0] == abils[1] || abils[1] == 0)
+            if (abils[0] == abils[1])
                 return pk.PIDAbility;
             return abilityIndex;
         }

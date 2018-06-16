@@ -86,5 +86,7 @@ namespace PKHeX.Core
                 AbilityH = (byte)value[2];
             }
         }
+
+        public bool HasHiddenAbility => AbilityH != Ability1;
     }
 }

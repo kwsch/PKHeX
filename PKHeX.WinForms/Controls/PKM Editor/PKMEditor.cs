@@ -392,14 +392,10 @@ namespace PKHeX.WinForms.Controls
         private static List<ComboItem> GetAbilityList(PKM pkm)
         {
             var abils = pkm.PersonalInfo.Abilities;
-            if (abils[1] == 0 && pkm.Format != 3)
-                abils[1] = abils[0];
+            if (pkm.Format == 3 && abils[1] == abils[0])
+                abils = new[] {abils[0]};
 
-            var list = abils.Where(a => a != 0).Select(GetItem).ToList();
-            if (list.Count == 0)
-                list.Add(GetItem(0, 0));
-
-            return list;
+            return abils.Select(GetItem).ToList();
 
             ComboItem GetItem(int ability, int index) => new ComboItem
             {

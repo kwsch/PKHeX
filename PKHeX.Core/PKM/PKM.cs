@@ -668,7 +668,7 @@ namespace PKHeX.Core
             int[] abilities = PersonalInfo.Abilities;
             if (n < abilities.Length)
             {
-                if (abilities[n] == 0)
+                if (abilities[n] == abilities[0])
                     n = 0;
                 Ability = abilities[n];
             }

@@ -26,7 +26,7 @@
         public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
         public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
-        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
+        public override int Ability { get { var pi = (PersonalInfoG3)PersonalInfo; return pi.Abilities[pi.HasSecondAbility ? AbilityNumber >> 1 : 0]; } set { } }
         public override uint EncryptionConstant { get => PID; set { } }
         public override int Nature { get => (int)(PID % 25); set { } }
         public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }

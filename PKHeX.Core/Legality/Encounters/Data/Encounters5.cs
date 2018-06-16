@@ -90,8 +90,9 @@ namespace PKHeX.Core
         {
             foreach (EncounterStatic s in t)
             {
-                s.Location = 75;  //Entree Forest
-                s.Ability = PersonalTable.B2W2.GetAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
+                s.Location = 75; // Entree Forest
+                var p = (PersonalInfoBW)PersonalTable.B2W2[s.Species];
+                s.Ability = p.HasHiddenAbility ? 4 : 1;
                 s.Shiny = Shiny.Never;
             }
 
