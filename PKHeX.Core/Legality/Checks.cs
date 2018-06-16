@@ -92,9 +92,9 @@ namespace PKHeX.Core
             var matchJP = Legal.EReaderBerriesNames_JP.Contains(Legal.EReaderBerryName);
             if (!matchJP && !matchUSA) // Does not match any released E-Reader berry
                 AddLine(Severity.Invalid, V369, CheckIdentifier.Form);
-            else if (matchJP && !Legal.SavegameJapanese) // E-Reader is region locked
+            else if (matchJP && !Legal.SavegameJapanese && Legal.SavegameLanguage >= 0) // E-Reader is region locked
                 AddLine(Severity.Invalid, V370, CheckIdentifier.Form);
-            else if (matchUSA && Legal.SavegameJapanese) // E-Reader is region locked
+            else if (matchUSA && Legal.SavegameJapanese && Legal.SavegameLanguage >= 0) // E-Reader is region locked
                 AddLine(Severity.Invalid, V371, CheckIdentifier.Form);
         }
         private void VerifyECPID()
@@ -197,7 +197,7 @@ namespace PKHeX.Core
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
             if (pkm.Format == 4 && pkm.Gen4
-                && (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean))
+                && (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean) && Legal.SavegameLanguage >= 0)
             {
                 bool kor = pkm.Language == (int) LanguageID.Korean;
                 var currentpkm = kor ? V611 : V612;
@@ -387,7 +387,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean && Legal.SavegameLanguage >= 0)
                         AddLine(Severity.Invalid, string.Format(V610, V611, V612), CheckIdentifier.Language);
                 }
                 VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
@@ -399,7 +399,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean && Legal.SavegameLanguage >= 0)
                         AddLine(Severity.Invalid, string.Format(V610, V611, V612), CheckIdentifier.Language);
                 }
                 else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang

@@ -23,7 +23,7 @@ namespace PKHeX.Core
 
         public static bool CheckWordFilter { get; set; } = true;
 
-        public static int SavegameLanguage { get; set; }
+        public static int SavegameLanguage { get; set; } = -1;
         /// <summary> e-Reader Berry originates from a Japanese SaveFile </summary>
         public static bool SavegameJapanese { get; set; }
         /// <summary> e-Reader Berry is Enigma or special berry </summary>

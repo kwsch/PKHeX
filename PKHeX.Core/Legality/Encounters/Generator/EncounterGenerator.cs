@@ -145,6 +145,10 @@ namespace PKHeX.Core
                 }
                 yield return new GBEncounterData(pkm, gen, s, s.Version);
             }
+            // clear egg flag
+            // necessary for static egg gifts which appear in wild, level 8 GS clefairy
+            // GetValidWildEncounters immediately returns empty otherwise
+            pkm.WasEgg = false;
             foreach (var e in GetValidWildEncounters(pkm, game).OfType<EncounterSlot1>())
             {
                 if (!species.Contains(e.Species))
