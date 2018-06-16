@@ -1304,12 +1304,20 @@ namespace PKHeX.Core
                 else if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
                 {
                     // Remove generation 2 pre-evolutions
-                    GensEvoChains[gen] = GensEvoChains[gen].Take(GensEvoChains[gen].Length - 1).ToArray();
-                    if (pkm.VC1)
+                    GensEvoChains[1] = GensEvoChains[1].Take(GensEvoChains[1].Length - 1).ToArray();
+                    if (!pkm.VC1)
+                        continue;
+
+                    // Remove generation 2 pre-evolutions from gen 7 and future generations
+                    for (int fgen = 7; fgen <= maxgen; fgen++)
                     {
-                        // Remove generation 2 pre-evolutions from gen 7 and future generations
-                        for ( int fgen = 7; fgen <= maxgen; fgen++)
-                            GensEvoChains[fgen] = GensEvoChains[fgen].Take(GensEvoChains[fgen].Length - 1).ToArray();
+                        var chain = GensEvoChains[fgen];
+                        var g1Index = Array.FindIndex(chain, e => e.Species <= MaxSpeciesID_1);
+                        if (g1Index < 0) // no g2 species present
+                            continue;
+                        if (g1Index + 1 == chain.Length) // already pruned or no g2prevo
+                            continue;
+                        GensEvoChains[fgen] = chain.Take(g1Index+1).ToArray();
                     }
                 }
             }
