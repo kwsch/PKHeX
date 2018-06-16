@@ -271,20 +271,15 @@ namespace PKHeX.Core
             uint seed = Util.Rand32();
             if (pk4.PID == 1) // Create Nonshiny
             {
-                uint pid1 = PKX.LCRNG(ref seed) >> 16;
-                uint pid2 = PKX.LCRNG(ref seed) >> 16;
+                do {
+                    uint pid1 = PKX.LCRNG(ref seed) >> 16;
+                    uint pid2 = PKX.LCRNG(ref seed) >> 16;
+                    pk4.PID = pid1 | (pid2 << 16);
+                    // sanity check gender for non-genderless PID cases
+                } while (!pk4.IsGenderValid());
 
-                while ((pid1 ^ pid2 ^ pk4.TID ^ pk4.SID) < 8)
-                {
-                    uint testPID = pid1 | pid2 << 16;
-
-                    // Call the ARNG to change the PID
-                    testPID = RNG.ARNG.Next(testPID);
-
-                    pid1 = testPID & 0xFFFF;
-                    pid2 = testPID >> 16;
-                }
-                pk4.PID = pid1 | (pid2 << 16);
+                while (pk4.IsShiny) // Call the ARNG to change the PID
+                    pk4.PID = RNG.ARNG.Next(pk4.PID);
             }
             if (!IsManaphyEgg)
                 seed = Util.Rand32(); // reseed, do not have method 1 correlation

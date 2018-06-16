@@ -103,7 +103,9 @@ namespace PKHeX.Core
                 pk.TID = SAV.TID;
                 pk.SID = SAV.SID;
                 pk.OT_Friendship = pi.BaseFriendship;
-                pk.Met_Location = 32;
+                pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
+                pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
+                pk.Met_Level = 0; // hatched
             }
             else
             {
