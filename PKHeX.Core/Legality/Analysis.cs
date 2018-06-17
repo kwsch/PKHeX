@@ -369,7 +369,14 @@ namespace PKHeX.Core
                 var ver = EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
                 return MoveLevelUp.GetEncounterMoves(pkm, lvl, ver);
             }
-            return Legal.GetValidMoves(pkm, Info.EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+            var evos = Info.EvoChainsAllGens;
+            if (Info.Generation == 1 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
+            {
+                // purge vc2 from possible chain
+                evos = (DexLevel[][])evos.Clone();
+                evos[2] = new DexLevel[0];
+            }
+            return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
         public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
