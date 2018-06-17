@@ -105,6 +105,7 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
+        public override int Language => (int)LanguageID.English; // prevent KOR from inhabiting
 
         public override int BoxCount => 18;
 
