@@ -93,6 +93,7 @@ namespace PKHeX.WinForms.Controls
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
             Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
+            SortMenu.Opening += (s, x) => x.Cancel = !tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition));
 
             M.OtherSlots.Add(this);
             SL_Extra.ViewIndex = -2;
