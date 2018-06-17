@@ -243,6 +243,8 @@ namespace PKHeX.Core
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
         public static bool IsNicknamedAnyLanguage(int species, string nick, int generation = Generation)
         {
+            if (species == 083 && string.Equals(nick, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
+                return false;
             var langs = GetAvailableGameLanguages(generation);
             return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
         }
