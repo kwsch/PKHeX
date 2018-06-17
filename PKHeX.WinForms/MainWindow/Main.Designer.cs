@@ -44,6 +44,7 @@
             this.Menu_ShowdownExportPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportParty = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportBattleBox = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ShowdownExportCurrentBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_LoadBoxes = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
@@ -171,10 +172,11 @@
             this.Menu_ShowdownImportPKM,
             this.Menu_ShowdownExportPKM,
             this.Menu_ShowdownExportParty,
-            this.Menu_ShowdownExportBattleBox});
+            this.Menu_ShowdownExportBattleBox,
+            this.Menu_ShowdownExportCurrentBox});
             this.Menu_Showdown.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Showdown.Image")));
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(180, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -183,7 +185,7 @@
             this.Menu_ShowdownImportPKM.Name = "Menu_ShowdownImportPKM";
             this.Menu_ShowdownImportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
-            this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownImportPKM.Text = "Import Set from Clipboard";
             this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.ClickShowdownImportPKM);
             // 
@@ -194,7 +196,7 @@
             this.Menu_ShowdownExportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
             this.Menu_ShowdownExportPKM.ShowShortcutKeys = false;
-            this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportPKM.Text = "Export Set to Clipboard";
             this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.ClickShowdownExportPKM);
             // 
@@ -202,7 +204,7 @@
             // 
             this.Menu_ShowdownExportParty.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportParty.Image")));
             this.Menu_ShowdownExportParty.Name = "Menu_ShowdownExportParty";
-            this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
             this.Menu_ShowdownExportParty.Click += new System.EventHandler(this.ClickShowdownExportParty);
             // 
@@ -210,9 +212,17 @@
             // 
             this.Menu_ShowdownExportBattleBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportBattleBox.Image")));
             this.Menu_ShowdownExportBattleBox.Name = "Menu_ShowdownExportBattleBox";
-            this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(231, 22);
+            this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
             this.Menu_ShowdownExportBattleBox.Click += new System.EventHandler(this.ClickShowdownExportBattleBox);
+            // 
+            // Menu_ShowdownExportCurrentBox
+            // 
+            this.Menu_ShowdownExportCurrentBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportCurrentBox.Image")));
+            this.Menu_ShowdownExportCurrentBox.Name = "Menu_ShowdownExportCurrentBox";
+            this.Menu_ShowdownExportCurrentBox.Size = new System.Drawing.Size(241, 22);
+            this.Menu_ShowdownExportCurrentBox.Text = "Export Current Box to Clipboard";
+            this.Menu_ShowdownExportCurrentBox.Click += new System.EventHandler(this.ClickShowdownExportCurrentBox);
             // 
             // Menu_Data
             // 
@@ -226,7 +236,7 @@
             this.Menu_BatchEditor});
             this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(180, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -299,7 +309,7 @@
             this.Menu_Folder.Name = "Menu_Folder";
             this.Menu_Folder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.Menu_Folder.ShowShortcutKeys = false;
-            this.Menu_Folder.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Folder.Size = new System.Drawing.Size(180, 22);
             this.Menu_Folder.Text = "Open Folder";
             this.Menu_Folder.Click += new System.EventHandler(this.MainMenuFolder);
             // 
@@ -419,6 +429,7 @@
             this.C_SAV.Name = "C_SAV";
             this.C_SAV.Size = new System.Drawing.Size(310, 326);
             this.C_SAV.TabIndex = 104;
+            this.C_SAV.ViewIndex = -1;
             this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
             this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
             // 
@@ -508,6 +519,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Undo;
         private System.Windows.Forms.ToolStripMenuItem Menu_Redo;
         private System.Windows.Forms.ToolStripMenuItem Menu_Settings;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportCurrentBox;
     }
 }
 

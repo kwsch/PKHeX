@@ -1137,6 +1137,20 @@ namespace PKHeX.WinForms.Controls
             catch { }
             WinFormsUtil.Alert(MsgSimulatorExportBattleBox);
         }
+        public void ClickShowdownExportCurrentBox(object sender, EventArgs e)
+        {
+            if (!SAV.HasBox)
+                return;
+            try
+            {
+                var data = (ModifierKeys & Keys.Control) != 0 ? SAV.BoxData : SAV.GetBoxData(CurrentBox);
+                var str = ShowdownSet.GetShowdownSets(data, Environment.NewLine + Environment.NewLine);
+                if (string.IsNullOrWhiteSpace(str)) return;
+                Clipboard.SetText(str);
+            }
+            catch { }
+            WinFormsUtil.Alert(MsgSimulatorExportList);
+        }
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
         {

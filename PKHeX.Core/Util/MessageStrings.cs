@@ -89,6 +89,7 @@ namespace PKHeX.Core
         public static string MsgSimulatorExportSuccess { get; set; } = "Exported Showdown Set to Clipboard:";
         public static string MsgSimulatorExportParty { get; set; } = "Showdown Team (Party) set to Clipboard.";
         public static string MsgSimulatorExportBattleBox { get; set; } = "Showdown Team (Battle Box) set to Clipboard.";
+        public static string MsgSimulatorExportList { get; set; } = "Showdown Sets copied to Clipboard.";
 
         public static string MsgLegalityAllowTradebacks { get; set; } = "Generation 1 Save File detected. Allow tradebacks from Generation 2 for legality purposes?";
         public static string MsgLegalityAllowTradebacksYes { get; set; } = "Yes: Allow Generation 2 tradeback learnsets";

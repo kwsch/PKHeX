@@ -430,6 +430,7 @@ namespace PKHeX.WinForms
         }
         private void ClickShowdownExportParty(object sender, EventArgs e) => C_SAV.ClickShowdownExportParty(sender, e);
         private void ClickShowdownExportBattleBox(object sender, EventArgs e) => C_SAV.ClickShowdownExportBattleBox(sender, e);
+        private void ClickShowdownExportCurrentBox(object sender, EventArgs e) => C_SAV.ClickShowdownExportCurrentBox(sender, e);
 
         // Main Menu Subfunctions
         private void OpenQuick(string path, bool force = false)
@@ -717,6 +718,10 @@ namespace PKHeX.WinForms
 
             Text = GetProgramTitle(sav);
             TryBackupExportCheck(sav, path);
+
+            Menu_ShowdownExportBattleBox.Visible = sav.HasBattleBox;
+            Menu_ShowdownExportParty.Visible = sav.HasParty;
+            Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
             PKMConverter.UpdateConfig(sav.SubRegion, sav.Country, sav.ConsoleRegion, sav.OT, sav.Gender, sav.Language);
             SystemSounds.Beep.Play();

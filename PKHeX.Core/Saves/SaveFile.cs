@@ -159,21 +159,8 @@ namespace PKHeX.Core
             get
             {
                 PKM[] data = new PKM[BoxCount*BoxSlotCount];
-                for (int b = 0; b < BoxCount; b++)
-                {
-                    int boxOfs = GetBoxOffset(b);
-                    for (int s = 0; s < BoxSlotCount; s++)
-                    {
-                        int ofs = boxOfs + s * SIZE_STORED;
-                        int i = BoxSlotCount * b + s;
-
-                        data[i] = GetStoredSlot(ofs);
-                        data[i].Identifier = $"{GetBoxName(b)}:{s + 1:00}";
-                        data[i].Box = b + 1;
-                        data[i].Slot = s + 1;
-                        data[i].Locked = IsSlotLocked(b, s);
-                    }
-                }
+                for (int box = 0; box < BoxCount; box++)
+                    AddBoxData(data, box, box * BoxSlotCount);
                 return data;
             }
             set
@@ -184,19 +171,39 @@ namespace PKHeX.Core
                     throw new ArgumentException($"Not {PKMType} array.");
 
                 for (int b = 0; b < BoxCount; b++)
-                {
-                    int boxOfs = GetBoxOffset(b);
-                    for (int s = 0; s < BoxSlotCount; s++)
-                    {
-                        if (IsSlotLocked(b, s))
-                            continue;
-                        int ofs = boxOfs + s * SIZE_STORED;
-                        int i = BoxSlotCount * b + s;
-                        SetStoredSlot(value[i], ofs);
-                    }
-                }
+                    SetBoxData(value, b, b * BoxSlotCount);
             }
         }
+        private void SetBoxData(IList<PKM> value, int box, int index = 0)
+        {
+            int ofs = GetBoxOffset(box);
+            for (int slot = 0; slot < BoxSlotCount; slot++, ofs += SIZE_STORED)
+            {
+                if (!IsSlotLocked(box, slot))
+                    SetStoredSlot(value[index + slot], ofs);
+            }
+        }
+        public PKM[] GetBoxData(int box)
+        {
+            var data = new PKM[BoxSlotCount];
+            AddBoxData(data, box, 0);
+            return data;
+        }
+        private void AddBoxData(IList<PKM> data, int box, int index)
+        {
+            int ofs = GetBoxOffset(box);
+            var boxName = GetBoxName(box);
+            for (int slot = 0; slot < BoxSlotCount; slot++, ofs += SIZE_STORED)
+            {
+                int i = slot + index;
+                data[i] = GetStoredSlot(ofs);
+                data[i].Identifier = $"{boxName}:{slot + 1:00}";
+                data[i].Box = box + 1;
+                data[i].Slot = slot + 1;
+                data[i].Locked = IsSlotLocked(box, slot);
+            }
+        }
+
         public IList<PKM> PartyData
         {
             get
