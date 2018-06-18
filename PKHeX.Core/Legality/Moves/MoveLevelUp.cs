@@ -41,9 +41,9 @@ namespace PKHeX.Core
                 version = (GameVersion)pkm.Version;
             switch (generation)
             {
-                case 1: return GetIsLevelUp1(species, move, lvl, minlvlG1, version);
+                case 1: return GetIsLevelUp1(species, move, lvl, form, minlvlG1, version);
                 case 2: if (move > MaxMoveID_1 && pkm.LearnMovesNew2Disallowed()) return LearnNONE;
-                        return GetIsLevelUp2(species, move, lvl, minlvlG2, pkm.Korean, version);
+                        return GetIsLevelUp2(species, move, lvl, form, minlvlG2, pkm.Korean, version);
                 case 3: return GetIsLevelUp3(species, move, lvl, form, version);
                 case 4: return GetIsLevelUp4(species, move, lvl, form, version);
                 case 5: return GetIsLevelUp5(species, move, lvl, form, version);
@@ -53,7 +53,7 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        private static LearnVersion GetIsLevelUp1(int species, int move, int max, int min, GameVersion ver = Any)
+        private static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
         {
             if (move > MaxMoveID_1)
                 return LearnNONE;
@@ -61,34 +61,34 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any: case RBY:
-                    var first = LearnRB.GetIsLevelUpG1(species, move, max, min);
+                    var first = LearnRB.GetIsLevelUpG1(species, form, move, max, min);
                     if (first.IsLevelUp)
                         return first;
-                    return LearnY.GetIsLevelUpG1(species, move, max, min);
+                    return LearnY.GetIsLevelUpG1(species, form, move, max, min);
 
                 case RD: case BU: case GN: case RB:
-                    return LearnRB.GetIsLevelUpG1(species, move, max, min);
+                    return LearnRB.GetIsLevelUpG1(species, form, move, max, min);
                 case YW:
-                    return LearnY.GetIsLevelUpG1(species, move, max, min);
+                    return LearnY.GetIsLevelUpG1(species, form, move, max, min);
             }
 
             return LearnNONE;
         }
-        private static LearnVersion GetIsLevelUp2(int species, int move, int max, int min, bool korean, GameVersion ver = Any)
+        private static LearnVersion GetIsLevelUp2(int species, int move, int max, int form, int min, bool korean, GameVersion ver = Any)
         {
             // No Korean Crystal
             switch (ver)
             {
                 case Any: case GSC:
-                    var first = LearnGS.GetIsLevelUpMin(species, move, max, min);
+                    var first = LearnGS.GetIsLevelUpMin(species, move, max, min, form);
                     if (first.IsLevelUp || korean)
                         return first;
-                    return LearnC.GetIsLevelUpMin(species, move, max, min);
+                    return LearnC.GetIsLevelUpMin(species, move, max, min, form);
 
                 case GD: case SV: case GS:
-                    return LearnGS.GetIsLevelUpMin(species, move, max, min);
+                    return LearnGS.GetIsLevelUpMin(species, move, max, min, form);
                 case C when !korean:
-                    return LearnC.GetIsLevelUpMin(species, move, max, min);
+                    return LearnC.GetIsLevelUpMin(species, move, max, min, form);
             }
             return LearnNONE;
         }
@@ -243,8 +243,8 @@ namespace PKHeX.Core
                 version = (GameVersion)pkm.Version;
             switch (Generation)
             {
-                case 1: return GetMovesLevelUp1(species, lvl, minlvlG1, version);
-                case 2: return GetMovesLevelUp2(species, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version);
+                case 1: return GetMovesLevelUp1(species, form, lvl, minlvlG1, version);
+                case 2: return GetMovesLevelUp2(species, form, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version);
                 case 3: return GetMovesLevelUp3(species, form, lvl, version);
                 case 4: return GetMovesLevelUp4(species, form, lvl, version);
                 case 5: return GetMovesLevelUp5(species, form, lvl, version);
@@ -256,13 +256,13 @@ namespace PKHeX.Core
 
         private static bool LearnMovesNew2Disallowed(this PKM pkm) => pkm.Format == 1 || (pkm.Format >= 7 && pkm.VC);
 
-        internal static List<int> GetMovesLevelUp1(int species, int max, int min, GameVersion ver = Any)
+        internal static List<int> GetMovesLevelUp1(int species, int form, int max, int min, GameVersion ver = Any)
         {
-            return AddMovesLevelUp1(new List<int>(), ver, species, max, min);
+            return AddMovesLevelUp1(new List<int>(), ver, species, form, max, min);
         }
-        private static List<int> GetMovesLevelUp2(int species, int max, int min, bool korean, bool removeNewGSCMoves, GameVersion ver = Any)
+        private static List<int> GetMovesLevelUp2(int species, int form, int max, int min, bool korean, bool removeNewGSCMoves, GameVersion ver = Any)
         {
-            var moves = AddMovesLevelUp2(new List<int>(), ver, species, max, min, korean);
+            var moves = AddMovesLevelUp2(new List<int>(), ver, species, form, max, min, korean);
             if (removeNewGSCMoves)
                 moves.RemoveAll(m => m > MaxMoveID_1);
             return moves;
@@ -288,35 +288,35 @@ namespace PKHeX.Core
             return AddMovesLevelUp7(new List<int>(), ver, species, max, form, MoveReminder);
         }
 
-        private static List<int> AddMovesLevelUp1(List<int> moves, GameVersion ver, int species, int max, int min)
+        private static List<int> AddMovesLevelUp1(List<int> moves, GameVersion ver, int species, int form, int max, int min)
         {
             switch (ver)
             {
                 case Any: case RBY:
-                    LearnRB.AddMoves1(moves, species, 0, max, min);
-                    return LearnY.AddMoves1(moves, species, 0, max, min);
+                    LearnRB.AddMoves1(moves, species, form, max, min);
+                    return LearnY.AddMoves1(moves, species, form, max, min);
 
                 case RD: case BU: case GN: case RB:
-                    return LearnRB.AddMoves1(moves, species, 0, max, min);
+                    return LearnRB.AddMoves1(moves, species, form, max, min);
                 case YW:
-                    return LearnY.AddMoves1(moves, species, 0, max, min);
+                    return LearnY.AddMoves1(moves, species, form, max, min);
             }
             return moves;
         }
-        private static List<int> AddMovesLevelUp2(List<int> moves, GameVersion ver, int species, int max, int min, bool korean)
+        private static List<int> AddMovesLevelUp2(List<int> moves, GameVersion ver, int species, int form, int max, int min, bool korean)
         {
             switch (ver)
             {
                 case Any: case GSC:
-                    LearnGS.AddMoves(moves, species, 0, max, min);
+                    LearnGS.AddMoves(moves, species, form, max, min);
                     if (korean)
                         return moves;
-                    return LearnC.AddMoves(moves, species, 0, max, min);
+                    return LearnC.AddMoves(moves, species, form, max, min);
 
                 case GD: case SV: case GS:
-                    return LearnGS.AddMoves(moves, species, 0, max, min);
+                    return LearnGS.AddMoves(moves, species, form, max, min);
                 case C when !korean:
-                    return LearnC.AddMoves(moves, species, 0, max, min);
+                    return LearnC.AddMoves(moves, species, form, max, min);
             }
             return moves;
         }

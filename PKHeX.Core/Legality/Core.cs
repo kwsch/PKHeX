@@ -142,8 +142,8 @@ namespace PKHeX.Core
         internal static List<int>[] GetExclusiveMovesG1(int species1, int species2, IEnumerable<int> tmhm, IEnumerable<int> moves)
         {
             // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
-            var moves1 = MoveLevelUp.GetMovesLevelUp1(species1, 1, 100);
-            var moves2 = MoveLevelUp.GetMovesLevelUp1(species2, 1, 100);
+            var moves1 = MoveLevelUp.GetMovesLevelUp1(species1, 0, 1, 100);
+            var moves2 = MoveLevelUp.GetMovesLevelUp1(species2, 0, 1, 100);
 
             // Remove common moves and remove tmhm, remove not learned moves
             var common = new HashSet<int>(moves1.Intersect(moves2).Concat(tmhm));
@@ -608,7 +608,7 @@ namespace PKHeX.Core
             if (minlevel > pk.CurrentLevel)
                 return new List<int>();
 
-            return MoveLevelUp.GetMovesLevelUp1(basespecies, maxlevel, minlevel);
+            return MoveLevelUp.GetMovesLevelUp1(basespecies, 0, maxlevel, minlevel);
         }
 
         internal static bool GetWasEgg23(PKM pkm)

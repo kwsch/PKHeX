@@ -71,7 +71,7 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        public LearnVersion GetIsLevelUpMin(int species, int move, int max, int min, int form = 0)
+        public LearnVersion GetIsLevelUpMin(int species, int move, int max, int min, int form)
         {
             int index = Table.GetFormeIndex(species, form);
             if (index <= 0)
@@ -82,9 +82,9 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        public LearnVersion GetIsLevelUpG1(int species, int move, int max, int min = 0)
+        public LearnVersion GetIsLevelUpG1(int species, int form, int move, int max, int min = 0)
         {
-            int index = PersonalTable.RB.GetFormeIndex(species, 0);
+            int index = PersonalTable.RB.GetFormeIndex(species, form);
             if (index == 0)
                 return LearnNONE;
 
