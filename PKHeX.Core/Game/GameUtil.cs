@@ -119,6 +119,30 @@ namespace PKHeX.Core
             return -1;
         }
 
+        /// <summary>
+        /// Gets the Generation the <see cref="GameVersion"/> belongs to.
+        /// </summary>
+        /// <param name="game">Game to retrieve the generation for</param>
+        /// <returns>Generation ID</returns>
+        public static int GetMaxSpeciesID(this GameVersion game)
+        {
+            if (Gen1.Contains(game)) return Legal.MaxSpeciesID_1;
+            if (Gen2.Contains(game)) return Legal.MaxSpeciesID_2;
+            if (Gen3.Contains(game)) return Legal.MaxSpeciesID_3;
+            if (Gen4.Contains(game)) return Legal.MaxSpeciesID_4;
+            if (Gen5.Contains(game)) return Legal.MaxSpeciesID_5;
+            if (Gen6.Contains(game)) return Legal.MaxSpeciesID_6;
+            if (Gen7.Contains(game))
+            {
+                if (SM.Contains(game))
+                    return Legal.MaxSpeciesID_7;
+                if (USUM.Contains(game))
+                    return Legal.MaxSpeciesID_7_USUM;
+                return Legal.MaxSpeciesID_7_USUM;
+            }
+            return -1;
+        }
+
 
         /// <summary>
         /// Checks if the <see cref="g1"/> version (or subset versions) is equivalent to <see cref="g2"/>.

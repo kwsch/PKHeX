@@ -185,6 +185,8 @@ namespace PKHeX.Core
             Table = new PersonalInfo[data.Length / size];
             for (int i = 0; i < Table.Length; i++)
                 Table[i] = get(entries[i]);
+
+            MaxSpeciesID = format.GetMaxSpeciesID();
         }
         private readonly PersonalInfo[] Table;
 
@@ -229,8 +231,8 @@ namespace PKHeX.Core
         /// <returns>Entry index for the input criteria</returns>
         public int GetFormeIndex(int species, int forme)
         {
-            if (species >= Table.Length)
-            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={Table.Length-1})"); species = 0; }
+            if (species > MaxSpeciesID)
+            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
             return this[species].FormeIndex(species, forme);
         }
 
@@ -249,6 +251,8 @@ namespace PKHeX.Core
         /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.AltForm"/> entreis.
         /// </summary>
         public int TableLength => Table.Length;
+
+        public readonly int MaxSpeciesID;
 
         /// <summary>
         /// Gets form names for every species.
