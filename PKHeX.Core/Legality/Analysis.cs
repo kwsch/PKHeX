@@ -366,7 +366,7 @@ namespace PKHeX.Core
             if (!(tm || tutor || reminder))
             {
                 var lvl = Info.Generation <= 2 && pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
-                var ver = EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
+                var ver = Info.Generation <= 2 && EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
                 return MoveLevelUp.GetEncounterMoves(pkm, lvl, ver);
             }
             var evos = Info.EvoChainsAllGens;

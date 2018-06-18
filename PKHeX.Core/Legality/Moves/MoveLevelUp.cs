@@ -426,6 +426,8 @@ namespace PKHeX.Core
         {
             if (RBY.Contains(version))
                 return GetEncounterMoves1(pk.Species, level, version);
+            if (version <= 0)
+                version = (GameVersion)pk.Version;
             return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
         }
 
