@@ -370,7 +370,7 @@ namespace PKHeX.Core
                 return MoveLevelUp.GetEncounterMoves(pkm, lvl, ver);
             }
             var evos = Info.EvoChainsAllGens;
-            if (Info.Generation == 1 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
+            if (pkm.Format >= 7 && Info.Generation == 1 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
                 // purge vc2 from possible chain
                 evos = (DexLevel[][])evos.Clone();
