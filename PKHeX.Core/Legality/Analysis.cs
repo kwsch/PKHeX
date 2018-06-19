@@ -363,7 +363,7 @@ namespace PKHeX.Core
                 return new int[4];
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
                 return Legal.GetBaseEggMoves(pkm, pkm.Species, (GameVersion)pkm.Version, pkm.CurrentLevel);
-            if (!(tm || tutor || reminder))
+            if (!(tm || tutor || reminder) && (Info.Generation <= 2 || pkm.Species == EncounterOriginal.Species))
             {
                 var lvl = Info.Generation <= 2 && pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
                 var ver = Info.Generation <= 2 && EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
