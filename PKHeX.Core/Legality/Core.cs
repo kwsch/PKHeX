@@ -395,63 +395,6 @@ namespace PKHeX.Core
             // it is sufficient to check just RB's case
             yield return GameVersion.RB;
         }
-        internal static IEnumerable<int> GetInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
-        {
-            int[] InitialMoves;
-            int[] LevelUpMoves;
-            int diff;
-            switch (ver)
-            {
-                case GameVersion.YW:
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.RB:
-                    {
-                        var LevelTable = ver == GameVersion.YW ? LevelUpY : LevelUpRB;
-                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
-                        if (index == 0)
-                            return Enumerable.Empty<int>();
-                        LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
-                        diff = 4 - LevelUpMoves.Count(z => z != 0);
-                        if (diff == 0)
-                            return LevelUpMoves;
-                        var table = ver == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
-                        InitialMoves = ((PersonalInfoG1)table[index]).Moves;
-                        break;
-                    }
-                case GameVersion.C:
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.GS:
-                    {
-                        if (species == 235)
-                            return new[] { 166 }; // Smeargle only learns Sketch, is duplicated in the level up tables
-                        var LevelTable = ver == GameVersion.C ? LevelUpC : LevelUpGS;
-                        int index = PersonalTable.C.GetFormeIndex(species, 0);
-                        if (index == 0)
-                            return Enumerable.Empty<int>();
-                        LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
-                        diff = 4 - LevelUpMoves.Count(z => z != 0);
-                        if (diff == 0)
-                            return LevelUpMoves;
-                        // Level Up 1 moves are initial moves, it can be duplicated in levels 2-100
-                        InitialMoves = LevelTable[species].GetEncounterMoves(1);
-                        break;
-                    }
-                default:
-                    return Enumerable.Empty<int>();
-            }
-            // Initial Moves could be duplicated in the level up table
-            // level up table moves have preference
-            var moves = InitialMoves.Where(p => p != 0).Except(LevelUpMoves).ToList();
-            // If all of the personal table moves can't be included, the last moves have preference.
-            int pop = moves.Count - diff;
-            if (pop > 0)
-                moves.RemoveRange(0, pop);
-            // The order for the pokemon default moves are first moves from personal table and then moves from  level up table
-            return moves.Union(LevelUpMoves).ToArray();
-        }
         internal static int GetRequiredMoveCount(PKM pk, int[] moves, LegalInfo info, int[] initialmoves)
         {
             if (pk.Format != 1 || !pk.Gen1_NotTradeback) // No Move Deleter in Gen 1

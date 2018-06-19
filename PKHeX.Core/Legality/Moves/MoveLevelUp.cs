@@ -424,8 +424,6 @@ namespace PKHeX.Core
 
         public static int[] GetEncounterMoves(PKM pk, int level, GameVersion version)
         {
-            if (RBY.Contains(version))
-                return GetEncounterMoves1(pk.Species, level, version);
             if (version <= 0)
                 version = (GameVersion)pk.Version;
             return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
@@ -441,9 +439,23 @@ namespace PKHeX.Core
 
             return learn[index].GetEncounterMoves(level, lvl0, start);
         }
+        private static int[] GetEncounterMoves2(int species, int level, GameVersion version)
+        {
+            var learn = GameData.GetLearnsets(version);
+            var table = GameData.GetPersonal(version);
+            var index = table.GetFormeIndex(species, 0);
+            var lvl0 = learn[species].GetEncounterMoves(1);
+            int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
+
+            return learn[index].GetEncounterMoves(level, lvl0, start);
+        }
 
         public static int[] GetEncounterMoves(int species, int form, int level, GameVersion version)
         {
+            if (RBY.Contains(version))
+                return GetEncounterMoves1(species, level, version);
+            if (GSC.Contains(version))
+                return GetEncounterMoves2(species, level, version);
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
             var index = table.GetFormeIndex(species, form);

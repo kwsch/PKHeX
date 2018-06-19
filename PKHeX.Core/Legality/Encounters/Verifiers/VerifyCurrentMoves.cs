@@ -157,11 +157,11 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = new int[0];
             int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            IEnumerable<GameVersion> games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
-            foreach (GameVersion ver in games)
+            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
+            foreach (var ver in games)
             {
-                var VerInitialMoves = Legal.GetInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();
-                if (VerInitialMoves.SequenceEqual(InitialMoves))
+                var VerInitialMoves = MoveLevelUp.GetEncounterMoves(G1Encounter.Species, 0, G1Encounter.LevelMin, ver);
+                if (VerInitialMoves.Intersect(InitialMoves).Count() == VerInitialMoves.Length)
                     return res;
 
                 var source = new MoveParseSource
