@@ -27,10 +27,10 @@ namespace PKHeX.Core
             Chain.Insert(0, evo);
         }
 
-        public List<DexLevel> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
+        public List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
         {
             int lvl = maxLevel;
-            List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
+            List<EvoCriteria> dl = new List<EvoCriteria> { new EvoCriteria { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count - 1; i >= 0; i--) // reverse evolution!
             {
                 bool oneValid = false;
@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
                     if (evo.RequiresLevelUp)
                         lvl--;
-                    dl.Add(evo.GetDexLevel(species, lvl));
+                    dl.Add(evo.GetEvoCriteria(species, lvl));
                     break;
                 }
                 if (!oneValid)
@@ -70,7 +70,7 @@ namespace PKHeX.Core
             last.RequiresLvlUp = false;
             return dl;
         }
-        private static void UpdateMinValues(IReadOnlyList<DexLevel> dl, EvolutionMethod evo)
+        private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
         {
             var last = dl[dl.Count - 1];
             if (evo.Level == 0 || !evo.RequiresLevelUp) // Evolutions like elemental stones, trade, etc

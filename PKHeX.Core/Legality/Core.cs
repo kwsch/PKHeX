@@ -152,7 +152,7 @@ namespace PKHeX.Core
             moves2.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
             return new[] { moves1, moves2 };
         }
-        internal static List<int>[] GetValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static List<int>[] GetValidMovesAllGens(PKM pkm, EvoCriteria[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int>[] Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
@@ -162,14 +162,14 @@ namespace PKHeX.Core
                     Moves[i] = new List<int>();
             return Moves;
         }
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel>[] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
             return GetValidMoves(pkm, version, evoChains, minLvLG1: 1, minLvLG2: 1, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, IList<DexLevel> evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria> evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
@@ -331,7 +331,7 @@ namespace PKHeX.Core
             }
             return new int[0];
         }
-        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
+        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, EvoCriteria[][] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could learn after evolving
             var moves = new List<int>();
@@ -342,7 +342,7 @@ namespace PKHeX.Core
                 moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
             return moves.Distinct().ToList();
         }
-        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, EvoCriteria[] evoChain, int Generation, GameVersion Version)
         {
             var evomoves = new List<int>();
             var index = Array.FindIndex(evoChain, e => e.Species == Species);
@@ -355,7 +355,7 @@ namespace PKHeX.Core
             }
             return evomoves;
         }
-        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, EvoCriteria[] evoChain, int Generation, GameVersion Version)
         {
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
@@ -945,7 +945,7 @@ namespace PKHeX.Core
             var min = curr.FirstOrDefault(z => z.Species == minSpecies);
             if (min != null && min.Level < minLevel)
                 return false;
-            IEnumerable<DexLevel> poss = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            IEnumerable<EvoCriteria> poss = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (minSpecies != -1)
                 poss = poss.Reverse().SkipWhile(z => z.Species != minSpecies); // collection is reversed, we only care about count
@@ -1113,7 +1113,7 @@ namespace PKHeX.Core
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
             return GetBaseSpecies(pkm, evos, skipOption);
         }
-        internal static int GetBaseSpecies(PKM pkm, IList<DexLevel> evos, int skipOption = 0)
+        internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<DexLevel> evos, int skipOption = 0)
         {
             if (pkm.Species == 292)
                 return 290;
@@ -1215,14 +1215,14 @@ namespace PKHeX.Core
             ((PK1)pkm).CatchRateIsItem = !pkm.Gen1_NotTradeback && HeldItemCatchRate && !matchAny;
         }
 
-        internal static DexLevel[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
+        internal static EvoCriteria[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter);
             int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
             int mingen = (pkm.Format == 2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
-            DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
+            EvoCriteria[][] GensEvoChains = new EvoCriteria[maxgen + 1][];
             for (int i = 0; i <= maxgen; i++)
-                GensEvoChains[i] = new DexLevel[0];
+                GensEvoChains[i] = new EvoCriteria[0];
 
             if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU) // Illegal origin or empty pokemon, return only chain for current format
             {
@@ -1323,11 +1323,11 @@ namespace PKHeX.Core
             }
             return GensEvoChains;
         }
-        private static DexLevel[] GetEvolutionChain(PKM pkm, IEncounterable Encounter)
+        private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter)
         {
             return GetEvolutionChain(pkm, Encounter, pkm.Species, 100);
         }
-        private static DexLevel[] GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
+        private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
         {
             var vs = GetValidPreEvolutions(pkm).ToArray();
 
@@ -1364,24 +1364,24 @@ namespace PKHeX.Core
             // For example a fire red charizard whose current level in XY is 50 but met level is 20, it couldnt be a Charizard in gen 3 and 4 games
             vs = vs.Skip(skip).Where(e => e.MinLevel <= maxlevel).ToArray();
             // Reduce the evolution chain levels to max level, because met level is the last one when the pokemon could be and learn moves in that generation
-            foreach (DexLevel d in vs)
+            foreach (var d in vs)
                 d.Level = Math.Min(d.Level, maxlevel);
             return vs;
         }
-        internal static IList<DexLevel> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
+        internal static IReadOnlyList<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
             if (pkm.IsEgg && !skipChecks)
-                return new List<DexLevel>
+                return new List<EvoCriteria>
                 {
-                    new DexLevel { Species = pkm.Species, Level = lvl, MinLevel = lvl },
+                    new EvoCriteria { Species = pkm.Species, Level = lvl, MinLevel = lvl },
                 };
             if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
-                return new List<DexLevel>
+                return new List<EvoCriteria>
                 {
-                    new DexLevel { Species = 292, Level = lvl, MinLevel = 20 },
-                    new DexLevel { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 }
+                    new EvoCriteria { Species = 292, Level = lvl, MinLevel = 20 },
+                    new EvoCriteria { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 }
                     // Shedinja spawns after evolving, which is after level up moves were prompted. Not for future generations.
                 };
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
@@ -1391,7 +1391,7 @@ namespace PKHeX.Core
             var et = EvolutionTree.GetEvolutionTree(tree);
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IList<DexLevel>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
             if (Relearn && pkm.Format >= 6)
@@ -1403,7 +1403,7 @@ namespace PKHeX.Core
 
             return r.Distinct();
         }
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IList<DexLevel> vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<EvoCriteria> vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
             if (vs.Count == 0)
@@ -1428,7 +1428,7 @@ namespace PKHeX.Core
 
             for (var i = 0; i < vs.Count; i++)
             {
-                DexLevel evo = vs[i];
+                var evo = vs[i];
                 var moves = GetEvoMoves(pkm, Version, vs, Generation, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, moveTutor, i, evo);
                 r.AddRange(moves);
             }
@@ -1444,7 +1444,7 @@ namespace PKHeX.Core
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();
         }
-        private static IEnumerable<int> GetEvoMoves(PKM pkm, GameVersion Version, IList<DexLevel> vs, int Generation, int minLvLG1, int minLvLG2, bool LVL, bool Tutor, bool Machine, bool MoveReminder, bool RemoveTransferHM, bool moveTutor, int i, DexLevel evo)
+        private static IEnumerable<int> GetEvoMoves(PKM pkm, GameVersion Version, IReadOnlyList<EvoCriteria> vs, int Generation, int minLvLG1, int minLvLG2, bool LVL, bool Tutor, bool Machine, bool MoveReminder, bool RemoveTransferHM, bool moveTutor, int i, EvoCriteria evo)
         {
             var minlvlevo1 = 1;
             var minlvlevo2 = 1;

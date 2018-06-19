@@ -14,7 +14,7 @@ namespace PKHeX.Core
             var dl = GetValidPreEvolutions(pkm, maxID);
             return GetPossible(pkm, dl, gameSource);
         }
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -177,7 +177,7 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
-        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, IList<DexLevel> dl, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, IReadOnlyList<DexLevel> dl, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;

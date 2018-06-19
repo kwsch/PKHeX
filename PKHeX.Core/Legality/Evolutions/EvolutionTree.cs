@@ -201,7 +201,7 @@ namespace PKHeX.Core
 
             return Personal.GetFormeIndex(evolvesToSpecies, evolvesToForm);
         }
-        public List<DexLevel> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
+        public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             int index = GetIndex(pkm);
             if (maxSpeciesOrigin <= 0)

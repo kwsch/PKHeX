@@ -11,7 +11,7 @@ namespace PKHeX.Core
                 return Enumerable.Empty<EncounterLink>();
             return Encounters6.LinkGifts6.Where(g => g.Species == pkm.Species);
         }
-        public static IEnumerable<EncounterLink> GetPossible(PKM pkm, IList<DexLevel> vs)
+        public static IEnumerable<EncounterLink> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
         {
             if (pkm.GenNumber != 6)
                 return Enumerable.Empty<EncounterLink>();

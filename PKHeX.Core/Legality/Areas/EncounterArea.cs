@@ -197,7 +197,7 @@ namespace PKHeX.Core
             // Read TimeFishGroups
             var dl = new List<DexLevel>();
             while (ofs < data.Length)
-                dl.Add(new DexLevel {Species = data[ofs++], Level = data[ofs++]});
+                dl.Add(new DexLevel { Species = data[ofs++], Level = data[ofs++]});
 
             // Add TimeSlots
             foreach (var area in areas)

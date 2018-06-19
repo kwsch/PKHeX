@@ -12,7 +12,7 @@ namespace PKHeX.Core
             var p = GetValidPreEvolutions(pkm);
             return GetPossible(pkm, p, gameSource);
         }
-        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -26,7 +26,7 @@ namespace PKHeX.Core
             var p = GetValidPreEvolutions(pkm);
             return GetValidEncounterTrades(pkm, p, gameSource);
         }
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             if (GetIsFromGB(pkm))
                 return GetValidEncounterTradesVC(pkm, p, gameSource);
@@ -38,7 +38,7 @@ namespace PKHeX.Core
             var poss = GetPossibleNonVC(pkm, p, gameSource);
             return poss.Where(z => IsEncounterTradeValid(pkm, z, lvl));
         }
-        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -49,7 +49,7 @@ namespace PKHeX.Core
             var table = GetEncounterTradeTable(pkm);
             return table?.Where(f => p.Any(r => r.Species == f.Species)) ?? Enumerable.Empty<EncounterTrade>();
         }
-        private static IEnumerable<EncounterTrade> GetPossibleVC(PKM pkm, IList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterTrade> GetPossibleVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             var table = GetEncounterTradeTableVC(gameSource);
             return table.Where(f => p.Any(r => r.Species == f.Species));
@@ -74,7 +74,7 @@ namespace PKHeX.Core
             }
             return null;
         }
-        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IList<DexLevel> p, GameVersion gameSource)
+        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource)
         {
             var poss = GetPossibleVC(pkm, p, gameSource);
             if (gameSource == GameVersion.RBY)

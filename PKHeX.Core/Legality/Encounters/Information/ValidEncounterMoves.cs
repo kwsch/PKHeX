@@ -9,7 +9,7 @@ namespace PKHeX.Core
     public class ValidEncounterMoves
     {
         public int EncounterSpecies { get; }
-        public DexLevel[][] EvolutionChains { get; }
+        public EvoCriteria[][] EvolutionChains { get; }
         public List<int>[] LevelUpMoves { get; } = Empty;
         public List<int>[] TMHMMoves { get; } = Empty;
         public List<int>[] TutorMoves { get; } = Empty;

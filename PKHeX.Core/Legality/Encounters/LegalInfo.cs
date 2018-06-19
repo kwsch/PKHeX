@@ -44,8 +44,8 @@ namespace PKHeX.Core
         public CheckMoveResult[] Moves { get; set; } = new CheckMoveResult[4];
 
         public ValidEncounterMoves EncounterMoves { get; set; }
-        public DexLevel[][] EvoChainsAllGens => _evochains ?? (_evochains = Legal.GetEvolutionChainsAllGens(pkm, EncounterMatch));
-        private DexLevel[][] _evochains;
+        public EvoCriteria[][] EvoChainsAllGens => _evochains ?? (_evochains = Legal.GetEvolutionChainsAllGens(pkm, EncounterMatch));
+        private EvoCriteria[][] _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV { get; set; }

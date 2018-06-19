@@ -103,9 +103,9 @@ namespace PKHeX.Core
             }
         }
 
-        public DexLevel GetDexLevel(int species, int lvl)
+        public EvoCriteria GetEvoCriteria(int species, int lvl)
         {
-            return new DexLevel
+            return new EvoCriteria
             {
                 Species = species,
                 Level = lvl,

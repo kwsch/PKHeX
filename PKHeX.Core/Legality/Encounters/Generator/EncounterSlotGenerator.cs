@@ -14,7 +14,7 @@ namespace PKHeX.Core
             var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
             return GetPossible(pkm, vs, gameSource);
         }
-        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             var possibleAreas = GetEncounterSlots(pkm, gameSource);
             return possibleAreas.SelectMany(area => area.Slots).Where(z => vs.Any(v => v.Species == z.Species));

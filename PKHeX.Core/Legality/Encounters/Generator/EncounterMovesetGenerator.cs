@@ -108,7 +108,7 @@ namespace PKHeX.Core
                 yield return enc;
         }
 
-        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IList<DexLevel> dl)
+        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> dl)
         {
             if (pk.Species == 235) // Smeargle
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
