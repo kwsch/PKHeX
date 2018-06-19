@@ -97,7 +97,7 @@ namespace PKHeX.Core
                 ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : new int[0];
 
-            var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
+            var Egg = MoveEgg.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
@@ -201,7 +201,7 @@ namespace PKHeX.Core
             };
 
             if (info.EncounterMatch is EncounterEgg e)
-                source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
+                source.EggMoveSource = MoveEgg.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
 
             CheckMoveResult[] res = ParseMoves(pkm, source, info);
 

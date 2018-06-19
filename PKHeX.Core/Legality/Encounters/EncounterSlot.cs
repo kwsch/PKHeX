@@ -105,7 +105,7 @@ namespace PKHeX.Core
             if (Permissions.IsDexNav)
             {
                 pk.RefreshAbility(2);
-                var eggMoves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
+                var eggMoves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
                 if (eggMoves.Length > 0)
                     pk.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
             }

@@ -53,7 +53,7 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        private static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
+        public static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
         {
             if (move > MaxMoveID_1)
                 return LearnNONE;
@@ -62,9 +62,12 @@ namespace PKHeX.Core
             {
                 case Any: case RBY:
                     var first = LearnRB.GetIsLevelUpG1(species, form, move, max, min);
-                    if (first.IsLevelUp)
+                    var second = LearnY.GetIsLevelUpG1(species, form, move, max, min);
+                    if (!first.IsLevelUp)
+                        return second;
+                    if (!second.IsLevelUp)
                         return first;
-                    return LearnY.GetIsLevelUpG1(species, form, move, max, min);
+                    return first.Level > second.Level ? second : first;
 
                 case RD: case BU: case GN: case RB:
                     return LearnRB.GetIsLevelUpG1(species, form, move, max, min);

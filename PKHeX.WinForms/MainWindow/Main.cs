@@ -669,15 +669,9 @@ namespace PKHeX.WinForms
 
         private static void StoreLegalSaveGameData(SaveFile sav)
         {
-            Legal.SavegameLanguage = sav.Language;
-            Legal.SavegameJapanese = sav.Japanese;
             Legal.EReaderBerryIsEnigma = sav.IsEBerryIsEnigma;
             Legal.EReaderBerryName = sav.EBerryName;
-            Legal.Savegame_Gender = sav.Gender;
-            Legal.Savegame_TID = sav.TID;
-            Legal.Savegame_SID = sav.SID;
-            Legal.Savegame_OT = sav.OT;
-            Legal.Savegame_Version = sav.Version;
+            Legal.ActiveTrainer = sav;
         }
         private static PKM LoadTemplate(SaveFile sav)
         {

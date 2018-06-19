@@ -101,7 +101,7 @@ namespace PKHeX.Core
 
         private int[] GetCurrentEggMoves(PKM pk)
         {
-            var moves = Legal.GetEggMoves(pk, Species, pk.AltForm, Version);
+            var moves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
             if (moves.Length == 0)
                 moves = MoveLevelUp.GetEncounterMoves(pk, Level, Version);
             else if (moves.Length < 4 && pk.Format >= 6)

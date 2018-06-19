@@ -23,9 +23,8 @@ namespace PKHeX.Core
 
         public static bool CheckWordFilter { get; set; } = true;
 
-        public static int SavegameLanguage { get; set; } = -1;
         /// <summary> e-Reader Berry originates from a Japanese SaveFile </summary>
-        public static bool SavegameJapanese { get; set; }
+        public static bool SavegameJapanese => ActiveTrainer.Language == 1;
         /// <summary> e-Reader Berry is Enigma or special berry </summary>
         public static bool EReaderBerryIsEnigma { get; set; } = true;
         /// <summary> e-Reader Berry Name </summary>
@@ -33,11 +32,13 @@ namespace PKHeX.Core
         /// <summary> e-Reader Berry Name formatted in Title Case </summary>
         public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
-        public static string Savegame_OT { private get; set; } = string.Empty;
-        public static int Savegame_TID { private get; set; }
-        public static int Savegame_SID { private get; set; }
-        public static int Savegame_Gender { private get; set; }
-        public static GameVersion Savegame_Version { private get; set; } = GameVersion.Any;
+        public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
+        public static int SavegameLanguage => ActiveTrainer.Language;
+        private static string Savegame_OT => ActiveTrainer.OT;
+        private static int Savegame_TID => ActiveTrainer.TID;
+        private static int Savegame_SID => ActiveTrainer.SID;
+        private static int Savegame_Gender => ActiveTrainer.Gender;
+        private static GameVersion Savegame_Version => (GameVersion)ActiveTrainer.Game;
 
         // Gen 1
         internal static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
@@ -93,31 +94,8 @@ namespace PKHeX.Core
         internal static int[] GetMinLevelLearnMoveG1(int species, List<int> moves)
         {
             var r = new int[moves.Count];
-
-            int index = PersonalTable.RB.GetFormeIndex(species, 0);
-            if (index == 0)
-                return r;
-
-            var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
-            var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
-
-            for (int m = 0; m < moves.Count; m++)
-            {
-                if (pi_rb.Contains(moves[m]) || pi_y.Contains(moves[m]))
-                    r[m] = 1;
-                else
-                {
-                    var rb_level = LevelUpRB[index].GetLevelLearnMove(moves[m]);
-                    var y_level = LevelUpY[index].GetLevelLearnMove(moves[m]);
-                    // < 0 means it is not learned in that game, select the other game
-                    if (rb_level < 0)
-                        r[m] = y_level;
-                    else if (y_level < 0)
-                        r[m] = rb_level;
-                    else
-                        r[m] = Math.Min(rb_level, y_level);
-                }
-            }
+            for (int i = 0; i < r.Length; i++)
+                r[i] = MoveLevelUp.GetIsLevelUp1(species, moves[i], 100, 0, 0).Level;
             return r;
         }
         internal static int[] GetMaxLevelLearnMoveG1(int species, List<int> moves)
@@ -188,7 +166,7 @@ namespace PKHeX.Core
             if (pkm.Format == 6 && pkm.Species != 678)
                 form = 0;
 
-            r.AddRange(GetEggMoves(pkm, species, form, version));
+            r.AddRange(MoveEgg.GetEggMoves(pkm, species, form, version));
             if (inheritlvlmoves)
                 r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm, version));
             return r.Distinct();
@@ -963,14 +941,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static bool GetCanInheritMoves(PKM pkm, IEncounterable e)
+        internal static bool GetCanInheritMoves(int species)
         {
-            if (FixedGenderFromBiGender.Contains(e.Species)) // Nincada -> Shedinja loses gender causing 'false', edge case
+            if (FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
                 return true;
-            int ratio = pkm.PersonalInfo.Gender;
-            if (ratio > 0 && ratio < 255)
+            var pi = PKX.Personal[species];
+            if (!pi.Genderless && !pi.OnlyMale)
                 return true;
-            if (MixedGenderBreeding.Contains(e.Species))
+            if (MixedGenderBreeding.Contains(species))
                 return true;
             return false;
         }
@@ -1421,10 +1399,7 @@ namespace PKHeX.Core
                 r.AddRange(MoveTutor.GetTutorMoves(pkm, species, form, specialTutors, Generation));
             return r.Distinct();
         }
-        internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
-        {
-            return MoveEgg.GetEggMoves(pkm, species, formnum, version);
-        }
+
         internal static bool IsTradedKadabraG1(PKM pkm)
         {
             if (!(pkm is PK1 pk1) || pk1.Species != 64)
