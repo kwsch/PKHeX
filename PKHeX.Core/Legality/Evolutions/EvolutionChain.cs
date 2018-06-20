@@ -40,6 +40,7 @@ namespace PKHeX.Core
         private static EvoCriteria[][] TrimEvoChain(PKM pkm, IEncounterable Encounter, EvoCriteria[] CompleteEvoChain, int maxgen, int mingen, EvoCriteria[][] GensEvoChains)
         {
             int lvl = pkm.CurrentLevel;
+            int maxLevel = lvl;
             int pkGen = pkm.GenNumber;
 
             // Iterate generations backwards because level will be decreased from current level in each generation
@@ -64,24 +65,27 @@ namespace PKHeX.Core
                 // If the pokemon origin is illegal (e.g. Gen3 Infernape) the list will be emptied -- species lineage did not exist at any evolution stage.
                 while (CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Species > maxspeciesgen)
                 {
-                    // Eevee requires a single levelup to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level below current
-                    if (CompleteEvoChain[0].Species == 700 && g == 5)
-                        lvl--;
-
                     if (CompleteEvoChain[0].RequiresLvlUp)
                     {
+                        // Eevee requires a single levelup to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level below current
+                        if (g == 5 && CompleteEvoChain[0].Species == 700)
+                            lvl--;
+
                         // This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5+
                         // We can deduce that it existed in gen 4 until met level,
                         // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
-                        if (g == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && CompleteEvoChain[0].Species > MaxSpeciesID_3)
+                        else if (g == 3 && pkm.Format > 4 && lvl == maxLevel && CompleteEvoChain[0].Species > maxspeciesgen)
                             lvl--;
 
                         // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level below gen 2 level
-                        else if (g == 1 && pkm.Format == 2 && lvl == pkm.CurrentLevel && CompleteEvoChain[0].Species > MaxSpeciesID_1)
+                        else if (g == 1 && pkm.Format == 2 && lvl == maxLevel && CompleteEvoChain[0].Species > maxspeciesgen)
                             lvl--;
                     }
                     CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
                 }
+
+                if (CompleteEvoChain.Length == 0)
+                    continue;
 
                 // Alolan form evolutions, remove from gens 1-6 chains
                 if (EvolveToAlolanForms.Contains(CompleteEvoChain[0].Species))
