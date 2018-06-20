@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
             return GetPossible(pkm, vs, gameSource);
         }
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
@@ -22,7 +22,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, GameVersion gameSource = GameVersion.Any)
         {
             int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
 
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
             return possibleAreas.SelectMany(area => GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, lvl: lvl));
@@ -93,7 +93,7 @@ namespace PKHeX.Core
         {
             if (!pkm.XY || pkm.Met_Location != 148 || pkm.Met_Level != 30) // Friend Safari
                 return Enumerable.Empty<EncounterSlot>();
-            var vs = GetValidPreEvolutions(pkm).Where(d => d.Level >= 30);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm).Where(d => d.Level >= 30);
             return vs.SelectMany(z => Encounters6.FriendSafari[z.Species]);
         }
 
@@ -374,7 +374,7 @@ namespace PKHeX.Core
             if (!pkm.AO || !pkm.InhabitedGeneration(6))
                 return false;
 
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var table = pkm.Version == (int) GameVersion.AS ? Encounters6.SlotsA : Encounters6.SlotsO;
             int loc = pkm.Met_Location;
             var areas = table.Where(l => l.Location == loc);
@@ -383,7 +383,7 @@ namespace PKHeX.Core
         }
         internal static EncounterArea GetCaptureLocation(PKM pkm)
         {
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             return (from area in GetEncounterSlots(pkm)
                 let slots = GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, ignoreLevel: true).ToArray()
                 where slots.Length != 0

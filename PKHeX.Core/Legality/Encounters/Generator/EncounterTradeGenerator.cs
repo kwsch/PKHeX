@@ -9,7 +9,7 @@ namespace PKHeX.Core
     {
         public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            var p = GetValidPreEvolutions(pkm);
+            var p = EvolutionChain.GetValidPreEvolutions(pkm);
             return GetPossible(pkm, p, gameSource);
         }
         public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
@@ -23,7 +23,7 @@ namespace PKHeX.Core
         }
         public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            var p = GetValidPreEvolutions(pkm);
+            var p = EvolutionChain.GetValidPreEvolutions(pkm);
             return GetValidEncounterTrades(pkm, p, gameSource);
         }
         public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)

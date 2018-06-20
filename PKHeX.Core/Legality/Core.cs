@@ -690,15 +690,6 @@ namespace PKHeX.Core
             return SlotsGSC;
         }
 
-        internal static IEnumerable<int> GetLineage(PKM pkm)
-        {
-            if (pkm.IsEgg)
-                return new[] {pkm.Species};
-
-            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
-            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
-            return lineage.Select(evolution => evolution.Species);
-        }
         internal static ICollection<int> GetWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)
@@ -836,7 +827,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            return GetValidPreEvolutions(pkm).Count > 1;
+            return EvolutionChain.GetValidPreEvolutions(pkm).Count > 1;
         }
         private static bool IsEvolvedFormChange(PKM pkm)
         {
@@ -862,11 +853,11 @@ namespace PKHeX.Core
         }
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
-            var curr = GetValidPreEvolutions(pkm);
+            var curr = EvolutionChain.GetValidPreEvolutions(pkm);
             var min = curr.FirstOrDefault(z => z.Species == minSpecies);
             if (min != null && min.Level < minLevel)
                 return false;
-            IEnumerable<EvoCriteria> poss = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            IEnumerable<EvoCriteria> poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (minSpecies != -1)
                 poss = poss.Reverse().SkipWhile(z => z.Species != minSpecies); // collection is reversed, we only care about count
@@ -1008,17 +999,17 @@ namespace PKHeX.Core
         }
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm), generation, Machine: true).Contains(move);
+            return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, Machine: true).Contains(move);
         }
         internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true).Contains(move);
+            return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true).Contains(move);
         }
         internal static bool GetCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
-            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
         internal static int GetBaseEggSpecies(PKM pkm, int skipOption = 0)
         {
@@ -1082,26 +1073,10 @@ namespace PKHeX.Core
                 return 1;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);
         }
-        private static int GetMinLevelGeneration(PKM pkm, int generation)
-        {
-            if (!pkm.InhabitedGeneration(generation))
-                return 0;
-
-            if (pkm.Format <= 2)
-                return 2;
-
-            if (!pkm.HasOriginalMetLocation && generation != pkm.GenNumber)
-                return pkm.Met_Level;
-
-            if (pkm.GenNumber <= 3)
-                return 2;
-
-            return 1;
-        }
         private static bool GetCatchRateMatchesPreEvolution(PKM pkm, int catch_rate)
         {
             // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-            var Lineage = GetLineage(pkm).Except(Species_NotAvailable_CatchRate);
+            var Lineage = EvolutionChain.GetLineage(pkm).Except(Species_NotAvailable_CatchRate);
             return IsCatchRateRBY(Lineage) || IsCatchRateTrade() || IsCatchRateStadium();
 
             // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
@@ -1136,182 +1111,6 @@ namespace PKHeX.Core
             ((PK1)pkm).CatchRateIsItem = !pkm.Gen1_NotTradeback && HeldItemCatchRate && !matchAny;
         }
 
-        internal static EvoCriteria[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
-        {
-            var CompleteEvoChain = GetEvolutionChain(pkm, Encounter);
-            int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
-            int mingen = (pkm.Format == 2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
-            EvoCriteria[][] GensEvoChains = new EvoCriteria[maxgen + 1][];
-            for (int i = 0; i <= maxgen; i++)
-                GensEvoChains[i] = new EvoCriteria[0];
-
-            if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU) // Illegal origin or empty pokemon, return only chain for current format
-            {
-                GensEvoChains[pkm.Format] = CompleteEvoChain;
-                return GensEvoChains;
-            }
-            // If is egg skip the other checks and just return the evo chain for GenNumber, that will contains only the pokemon inside the egg
-            // Empty list returned if is an impossible egg (like a gen 3 infernape inside an egg)
-            int pkGen = pkm.GenNumber;
-            if (pkm.IsEgg)
-            {
-                if (GetMaxSpeciesOrigin(pkGen) >= pkm.Species)
-                    GensEvoChains[pkGen] = CompleteEvoChain;
-                return GensEvoChains;
-            }
-
-            int lvl = pkm.CurrentLevel;
-
-            // Iterate generations backwards because level will be decreased from current level in each generation
-            for (int gen = maxgen; gen >= mingen; gen--)
-            {
-                if (pkGen == 1 && pkm.Gen1_NotTradeback && gen == 2)
-                    continue;
-                if (pkGen <= 2 && 3 <= gen && gen <= 6)
-                    continue;
-                if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen < pkm.Format && gen <= 4 && lvl > pkm.Met_Level)
-                {
-                    // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
-                    lvl = pkm.Met_Level;
-                }
-
-                int maxspeciesgen = GetMaxSpeciesOrigin(gen);
-                if (gen == 2 && pkm.VC1)
-                    maxspeciesgen = MaxSpeciesID_1;
-
-                // Remove future gen evolutions after a few special considerations,
-                // it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
-                while (CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Species > maxspeciesgen)
-                {
-                    // Eevee requires to level one time to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level bellow current
-                    if (CompleteEvoChain[0].Species == 700 && gen == 5)
-                        lvl--;
-                    // This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5+
-                    // We can deduce that it existed in gen 4 until met level,
-                    // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
-                    if (gen == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && CompleteEvoChain[0].Species > MaxSpeciesID_3 && CompleteEvoChain[0].RequiresLvlUp)
-                        lvl--;
-                    // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level bellow gen 2 level
-                    if (gen == 1 && pkm.Format == 2 && lvl == pkm.CurrentLevel && CompleteEvoChain[0].Species > MaxSpeciesID_1 && CompleteEvoChain[0].RequiresLvlUp)
-                        lvl--;
-                    CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
-                }
-
-                // Alolan form evolutions, remove from gens 1-6 chains
-                if (gen < 7 && pkm.Format >= 7 && CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Form > 0 && EvolveToAlolanForms.Contains(CompleteEvoChain[0].Species))
-                    CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
-
-                if (CompleteEvoChain.Length == 0)
-                    continue;
-
-                GensEvoChains[gen] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain[0].Species, lvl);
-                if (gen > 2 && !pkm.HasOriginalMetLocation && gen >= pkGen)
-                {
-                    // For transferred species, rule out pre-evolutions where their max level is not obtainable in the specified generation.
-                    // Only prune entries for gen values that would overwrite the met data.
-                    bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, gen);
-                    if (pkm.Format >= 5 && gen == 4 && pkGen == 3)
-                        isTransferred = false; // can't prune as the 3->4 data is overwritten again 4->5
-                    if (isTransferred)
-                    {
-                        // Remove previous evolutions below transfer level
-                        // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
-                        // chain level for charmander is 35, is below met level.
-                        int minlvl = GetMinLevelGeneration(pkm, gen);
-                        GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= minlvl).ToArray();
-                    }
-                }
-
-                else if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
-                {
-                    // Remove generation 2 pre-evolutions
-                    GensEvoChains[1] = GensEvoChains[1].Take(GensEvoChains[1].Length - 1).ToArray();
-                    if (!pkm.VC1)
-                        continue;
-
-                    // Remove generation 2 pre-evolutions from gen 7 and future generations
-                    for (int fgen = 7; fgen <= maxgen; fgen++)
-                    {
-                        var chain = GensEvoChains[fgen];
-                        var g1Index = Array.FindIndex(chain, e => e.Species <= MaxSpeciesID_1);
-                        if (g1Index < 0) // no g2 species present
-                            continue;
-                        if (g1Index + 1 == chain.Length) // already pruned or no g2prevo
-                            continue;
-                        GensEvoChains[fgen] = chain.Take(g1Index+1).ToArray();
-                    }
-                }
-            }
-            return GensEvoChains;
-        }
-        private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter)
-        {
-            return GetEvolutionChain(pkm, Encounter, pkm.Species, 100);
-        }
-        private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
-        {
-            var vs = GetValidPreEvolutions(pkm).ToArray();
-
-            // Evolution chain is in reverse order (devolution)
-            int minspec = Encounter.Species;
-
-            int minindex = Math.Max(0, Array.FindIndex(vs, p => p.Species == minspec));
-            Array.Resize(ref vs, minindex + 1);
-            var last = vs[vs.Length - 1];
-            if (last.MinLevel > 1) // Last entry from vs is removed, turn next entry into the wild/hatched pokemon
-            {
-                last.MinLevel = Encounter.LevelMin;
-                last.RequiresLvlUp = false;
-                var first = vs[0];
-                if (!first.RequiresLvlUp)
-                {
-                    if (first.MinLevel == 2)
-                    {
-                        // Example Raichu in gen 2 or later,
-                        // because Pichu requires level up Minimum level of Raichu would be 2
-                        // but after removing Pichu because the origin species is Pikachu, Raichu min level should be 1
-                        first.MinLevel = 1;
-                        first.RequiresLvlUp = false;
-                    }
-                    else // ingame trade / stone can evolve immediately
-                    {
-                        first.MinLevel = last.MinLevel;
-                    }
-                }
-            }
-            // Maxspec is used to remove future gen evolutions, to gather evolution chain of a pokemon in previous generations
-            int skip = Math.Max(0, Array.FindIndex(vs, p => p.Species == maxspec));
-            // Maxlevel is also used for previous generations, it removes evolutions imposible before the transfer level
-            // For example a fire red charizard whose current level in XY is 50 but met level is 20, it couldnt be a Charizard in gen 3 and 4 games
-            vs = vs.Skip(skip).Where(e => e.MinLevel <= maxlevel).ToArray();
-            // Reduce the evolution chain levels to max level, because met level is the last one when the pokemon could be and learn moves in that generation
-            foreach (var d in vs)
-                d.Level = Math.Min(d.Level, maxlevel);
-            return vs;
-        }
-        internal static IReadOnlyList<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
-        {
-            if (lvl < 0)
-                lvl = pkm.CurrentLevel;
-            if (pkm.IsEgg && !skipChecks)
-                return new List<EvoCriteria>
-                {
-                    new EvoCriteria { Species = pkm.Species, Level = lvl, MinLevel = lvl },
-                };
-            if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
-                return new List<EvoCriteria>
-                {
-                    new EvoCriteria { Species = 292, Level = lvl, MinLevel = 20 },
-                    new EvoCriteria { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 }
-                    // Shedinja spawns after evolving, which is after level up moves were prompted. Not for future generations.
-                };
-            if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
-                maxspeciesorigin = MaxSpeciesID_2;
-
-            int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
-            var et = EvolutionTree.GetEvolutionTree(tree);
-            return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
-        }
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };

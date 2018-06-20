@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
         {
             int maxSpecies = GetMaxSpeciesOrigin(pkm.Format);
-            var vs = GetValidPreEvolutions(pkm, maxSpecies);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies);
             return GetPossible(pkm, vs);
         }
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
@@ -50,7 +50,7 @@ namespace PKHeX.Core
                 yield break;
 
             var validWC3 = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm, MaxSpeciesID_3);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, MaxSpeciesID_3);
             var enumerable = DB.OfType<WC3>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC3 wc in enumerable)
             {
@@ -78,7 +78,7 @@ namespace PKHeX.Core
             }
 
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (PCD mg in enumerable)
             {
@@ -101,7 +101,7 @@ namespace PKHeX.Core
                 yield break;
 
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<PGF>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (PGF wc in enumerable)
             {
@@ -121,7 +121,7 @@ namespace PKHeX.Core
             if (DB == null)
                 yield break;
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<WC6>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC6 wc in enumerable)
             {
@@ -148,7 +148,7 @@ namespace PKHeX.Core
             if (DB == null)
                 yield break;
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<WC7>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC7 wc in enumerable)
             {

@@ -108,7 +108,7 @@ namespace PKHeX.Core
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
             var maxspeciesorigin = gsc ? MaxSpeciesID_2 : MaxSpeciesID_1;
-            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
             HashSet<int> species = new HashSet<int>(vs.Select(p => p.Species).ToList());
 
             var deferred = new List<IEncounterable>();

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -23,8 +22,8 @@ namespace PKHeX.Core
             get => _match;
             set
             {
-                if (EncounterMatch != null && (value.LevelMin != EncounterMatch.LevelMin || value.Species != EncounterMatch.Species))
-                    _evochains = null;
+                if (_match != null && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
+                    _evochains = null; // clear if evo chain has the potential to be different
                 _match = value;
                 Parse.Clear();
             }
@@ -44,7 +43,7 @@ namespace PKHeX.Core
         public CheckMoveResult[] Moves { get; set; } = new CheckMoveResult[4];
 
         public ValidEncounterMoves EncounterMoves { get; set; }
-        public EvoCriteria[][] EvoChainsAllGens => _evochains ?? (_evochains = Legal.GetEvolutionChainsAllGens(pkm, EncounterMatch));
+        public EvoCriteria[][] EvoChainsAllGens => _evochains ?? (_evochains = EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch));
         private EvoCriteria[][] _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>

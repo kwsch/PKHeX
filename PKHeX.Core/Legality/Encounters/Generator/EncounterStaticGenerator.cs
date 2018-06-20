@@ -11,7 +11,7 @@ namespace PKHeX.Core
         {
             int gen = pkm.GenNumber;
             int maxID = gen == 2 ? MaxSpeciesID_2 : gen == 1 ? MaxSpeciesID_1 : -1;
-            var dl = GetValidPreEvolutions(pkm, maxID);
+            var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxID);
             return GetPossible(pkm, dl, gameSource);
         }
         public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
@@ -237,7 +237,7 @@ namespace PKHeX.Core
                 case 2:
                     return GetGSStaticTransfer(species, pkm.Met_Level);
                 default:
-                    var dl = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+                    var dl = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
                     return GetPossible(pkm, dl).FirstOrDefault();
             }
         }

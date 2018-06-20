@@ -1363,7 +1363,7 @@ namespace PKHeX.Core
 
             if (pkm.Ball == 0x14 && !Info.EncounterMatch.EggEncounter && pkm.SM) // Heavy Ball
             {
-                var lineage = Legal.GetLineage(pkm);
+                var lineage = EvolutionChain.GetLineage(pkm);
                 if (lineage.Any(e => Legal.AlolanCaptureNoHeavyBall.Contains(e)))
                 {
                     AddLine(Severity.Invalid, V116, CheckIdentifier.Ball);
@@ -1452,7 +1452,7 @@ namespace PKHeX.Core
             }
             if (ball == 0x05) // Safari Ball
             {
-                if (Legal.GetLineage(pkm).All(e => !Legal.Inherit_Safari.Contains(e)))
+                if (EvolutionChain.GetLineage(pkm).All(e => !Legal.Inherit_Safari.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 else if (pkm.AbilityNumber == 4)
                     AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
@@ -1463,7 +1463,7 @@ namespace PKHeX.Core
             }
             if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
-                if (Legal.GetLineage(pkm).All(e => !Legal.Inherit_Apricorn6.Contains(e)))
+                if (EvolutionChain.GetLineage(pkm).All(e => !Legal.Inherit_Apricorn6.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 if (pkm.AbilityNumber == 4)
                     AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
@@ -1474,7 +1474,7 @@ namespace PKHeX.Core
             }
             if (ball == 0x18) // Sport Ball
             {
-                if (Legal.GetLineage(pkm).All(e => !Legal.Inherit_Sport.Contains(e)))
+                if (EvolutionChain.GetLineage(pkm).All(e => !Legal.Inherit_Sport.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 else if (pkm.AbilityNumber == 4)
                     AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
@@ -1485,7 +1485,7 @@ namespace PKHeX.Core
             }
             if (ball == 0x19) // Dream Ball
             {
-                if (Legal.GetLineage(pkm).Any(e => Legal.Inherit_Dream.Contains(e)))
+                if (EvolutionChain.GetLineage(pkm).Any(e => Legal.Inherit_Dream.Contains(e)))
                     AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
@@ -1529,7 +1529,7 @@ namespace PKHeX.Core
         }
         private void VerifyBallEggGen7()
         {
-            var Lineage = Legal.GetLineage(pkm).ToArray();
+            var Lineage = EvolutionChain.GetLineage(pkm).ToArray();
             if (722 <= pkm.Species && pkm.Species <= 730) // G7 Starters
             {
                 VerifyBallEquals(4);
