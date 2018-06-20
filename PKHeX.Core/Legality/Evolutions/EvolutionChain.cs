@@ -14,21 +14,22 @@ namespace PKHeX.Core
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter);
             int maxgen = !pkm.Gen1_NotTradeback && pkm.Format == 1 ? 2 : pkm.Format;
             int mingen = !pkm.Gen2_NotTradeback && (pkm.Format == 2 || pkm.VC2) ? 1 : pkm.GenNumber;
+
             var GensEvoChains = new EvoCriteria[maxgen + 1][];
             for (int i = 0; i <= maxgen; i++)
-                GensEvoChains[i] = NONE;
+                GensEvoChains[i] = NONE; // default no-evolutions
 
-            if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU) // Illegal origin or empty pokemon, return only chain for current format
+            if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU)
             {
+                // Illegal origin or empty pokemon, return only chain for current format
                 GensEvoChains[pkm.Format] = CompleteEvoChain;
                 return GensEvoChains;
             }
 
-            // If is egg skip the other checks and just return the evo chain for GenNumber, that will contains only the pokemon inside the egg
-            // Empty list returned if is an impossible egg (like a gen 3 infernape inside an egg)
             if (pkm.IsEgg)
             {
-                int gen = pkm.GenNumber;
+                // Skip the other checks and just return the evo chain for the Format; contains only the pokemon inside the egg
+                int gen = pkm.Format;
                 if (GetMaxSpeciesOrigin(gen) >= pkm.Species)
                     GensEvoChains[gen] = CompleteEvoChain;
                 return GensEvoChains;
@@ -48,6 +49,7 @@ namespace PKHeX.Core
                     continue;
                 if (pkGen <= 2 && 3 <= g && g <= 6)
                     continue;
+
                 if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && g < pkm.Format && g <= 4 && lvl > pkm.Met_Level)
                 {
                     // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
@@ -92,13 +94,12 @@ namespace PKHeX.Core
                     continue;
 
                 GensEvoChains[g] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain[0].Species, lvl);
+                if (GensEvoChains[g].Length == 0)
+                    continue;
+
                 if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen)
                 {
-                    // For transferred species, rule out pre-evolutions where their max level is not obtainable in the specified generation.
-                    // Only prune entries for gen values that would overwrite the met data.
-                    bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, g);
-                    if (pkm.Format >= 5 && g == 4 && pkGen == 3)
-                        isTransferred = false; // can't prune as the 3->4 data is overwritten again 4->5
+                    bool isTransferred = GetCanPruneChainTransfer(pkm, pkGen, g);
                     if (isTransferred)
                     {
                         // Remove previous evolutions below transfer level
@@ -108,7 +109,11 @@ namespace PKHeX.Core
                         GensEvoChains[g] = GensEvoChains[g].Where(e => e.Level >= minlvl).ToArray();
                     }
                 }
-                else if (g == 1 && GensEvoChains[g].LastOrDefault()?.Species > MaxSpeciesID_1)
+                else if (g == 2 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
+                {
+                    GensEvoChains[2] = NONE;
+                }
+                else if (g == 1 && GensEvoChains[g][GensEvoChains[g].Length - 1].Species > MaxSpeciesID_1)
                 {
                     // Remove generation 2 pre-evolutions
                     GensEvoChains[1] = GensEvoChains[1].Take(GensEvoChains[1].Length - 1).ToArray();
@@ -130,7 +135,6 @@ namespace PKHeX.Core
             }
             return GensEvoChains;
         }
-
         private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter)
         {
             return GetEvolutionChain(pkm, Encounter, pkm.Species, 100);
@@ -200,6 +204,15 @@ namespace PKHeX.Core
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
 
+        private static bool GetCanPruneChainTransfer(PKM pkm, int originGen, int currentGen)
+        {
+            // For transferred species, rule out pre-evolutions where their max level is not obtainable in the specified generation.
+            // Only prune entries for gen values that would overwrite the met data.
+            bool isTransferred = HasMetLocationUpdatedTransfer(originGen, currentGen);
+            if (pkm.Format >= 5 && currentGen == 4 && originGen == 3)
+                return false; // can't prune as the 3->4 data is overwritten again 4->5
+            return isTransferred;
+        }
         private static int GetMinLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))
@@ -220,6 +233,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets an enumerable list of species IDs from the possible lineage of the <see cref="pkm"/> based on its current format.
         /// </summary>
+        /// <param name="pkm">Pokémon to fetch the lineage for.</param>
         internal static IEnumerable<int> GetLineage(PKM pkm)
         {
             if (pkm.IsEgg)

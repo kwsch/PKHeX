@@ -370,12 +370,6 @@ namespace PKHeX.Core
                 return MoveLevelUp.GetEncounterMoves(pkm, lvl, ver);
             }
             var evos = Info.EvoChainsAllGens;
-            if (pkm.Format >= 7 && Info.Generation == 1 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
-            {
-                // purge vc2 from possible chain
-                evos = (EvoCriteria[][])evos.Clone();
-                evos[2] = new EvoCriteria[0];
-            }
             return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
         public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
