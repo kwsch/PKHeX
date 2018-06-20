@@ -836,7 +836,7 @@ namespace PKHeX.WinForms.Controls
                     }
                 }
             }
-            else if (PKX.GetGenderFromString(CB_Form.Text) < 2)
+            else if (CB_Form.Enabled && PKX.GetGenderFromString(CB_Form.Text) < 2)
             {
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
                 {
