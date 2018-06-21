@@ -67,7 +67,7 @@ namespace PKHeX.Core
                 // If the pokemon origin is illegal (e.g. Gen3 Infernape) the list will be emptied -- species lineage did not exist at any evolution stage.
                 while (mostEvolved.Species > maxspeciesgen)
                 {
-                    if (queue.Count == 1)
+                    if (queue.Count == 0)
                         return GensEvoChains;
                     if (mostEvolved.RequiresLvlUp)
                     {
@@ -93,7 +93,7 @@ namespace PKHeX.Core
                 {
                     if (g < 7 && pkm.Format >= 7 && mostEvolved.Form > 0)
                     {
-                        if (queue.Count == 1)
+                        if (queue.Count == 0)
                             break;
                         mostEvolved = queue.Dequeue();
                     }
