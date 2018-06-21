@@ -11,44 +11,44 @@ namespace PKHeX.Core
         private static readonly EvoCriteria[] NONE = new EvoCriteria[0];
         internal static EvoCriteria[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {
-            var CompleteEvoChain = GetEvolutionChain(pkm, Encounter);
-            int maxgen = !pkm.Gen1_NotTradeback && pkm.Format == 1 ? 2 : pkm.Format;
-            int mingen = !pkm.Gen2_NotTradeback && (pkm.Format == 2 || pkm.VC2) ? 1 : pkm.GenNumber;
+            var CompleteEvoChain = GetEvolutionChain(pkm, Encounter, pkm.Species, pkm.CurrentLevel);
+            if (Encounter is EncounterInvalid || pkm.IsEgg)
+                return GetChainSingle(pkm, CompleteEvoChain);
 
+            return GetChainAll(pkm, Encounter, CompleteEvoChain);
+        }
+
+        private static EvoCriteria[][] GetChainBase(int maxgen)
+        {
             var GensEvoChains = new EvoCriteria[maxgen + 1][];
             for (int i = 0; i <= maxgen; i++)
                 GensEvoChains[i] = NONE; // default no-evolutions
-
-            if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU)
-            {
-                // Illegal origin or empty pokemon, return only chain for current format
-                GensEvoChains[pkm.Format] = CompleteEvoChain;
-                return GensEvoChains;
-            }
-
-            if (pkm.IsEgg)
-            {
-                // Skip the other checks and just return the evo chain for the Format; contains only the pokemon inside the egg
-                int gen = pkm.Format;
-                if (GetMaxSpeciesOrigin(gen) >= pkm.Species)
-                    GensEvoChains[gen] = CompleteEvoChain;
-                return GensEvoChains;
-            }
-
-            return TrimEvoChain(pkm, Encounter, CompleteEvoChain, maxgen, mingen, GensEvoChains);
+            return GensEvoChains;
         }
-        private static EvoCriteria[][] TrimEvoChain(PKM pkm, IEncounterable Encounter, EvoCriteria[] CompleteEvoChain, int maxgen, int mingen, EvoCriteria[][] GensEvoChains)
+
+        private static EvoCriteria[][] GetChainSingle(PKM pkm, EvoCriteria[] CompleteEvoChain)
         {
-            int lvl = pkm.CurrentLevel;
-            int maxLevel = lvl;
-            int pkGen = pkm.GenNumber;
+            var chain = GetChainBase(pkm.Format);
+            chain[pkm.Format] = CompleteEvoChain;
+            return chain;
+        }
+
+        private static EvoCriteria[][] GetChainAll(PKM pkm, IEncounterable Encounter, IEnumerable<EvoCriteria> CompleteEvoChain)
+        {
+            int maxgen = pkm is PK1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
+            var GensEvoChains = GetChainBase(maxgen);
 
             var queue = new Queue<EvoCriteria>(CompleteEvoChain);
             var mostEvolved = queue.Dequeue();
 
+            int lvl = pkm.CurrentLevel;
+            int maxLevel = lvl;
+            int pkGen = pkm.GenNumber;
+
             // Iterate generations backwards
             // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
-            for (int g = maxgen; g >= mingen; g--)
+            int mingen = (pkm is PK2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkGen;
+            for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {
                 if (pkGen == 1 && pkm.Gen1_NotTradeback && g == 2)
                     continue;
@@ -67,6 +67,8 @@ namespace PKHeX.Core
                 // If the pokemon origin is illegal (e.g. Gen3 Infernape) the list will be emptied -- species lineage did not exist at any evolution stage.
                 while (mostEvolved.Species > maxspeciesgen)
                 {
+                    if (queue.Count == 1)
+                        return GensEvoChains;
                     if (mostEvolved.RequiresLvlUp)
                     {
                         // Eevee requires a single levelup to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level below current
@@ -83,8 +85,6 @@ namespace PKHeX.Core
                         else if (g == 1 && pkm.Format == 2 && lvl == maxLevel)
                             lvl--;
                     }
-                    if (queue.Count == 1)
-                        break;
                     mostEvolved = queue.Dequeue();
                 }
 
@@ -124,10 +124,10 @@ namespace PKHeX.Core
                     // Remove generation 2 pre-evolutions
                     GensEvoChains[1] = GensEvoChains[1].Take(GensEvoChains[1].Length - 1).ToArray();
                     if (!pkm.VC1)
-                        continue;
+                        return GensEvoChains;
 
                     // Remove generation 2 pre-evolutions from gen 7 and future generations
-                    for (int fgen = 7; fgen <= maxgen; fgen++)
+                    for (int fgen = 7; fgen < GensEvoChains.Length; fgen++)
                     {
                         var chain = GensEvoChains[fgen];
                         var g1Index = Array.FindIndex(chain, e => e.Species <= MaxSpeciesID_1);
@@ -140,10 +140,6 @@ namespace PKHeX.Core
                 }
             }
             return GensEvoChains;
-        }
-        private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter)
-        {
-            return GetEvolutionChain(pkm, Encounter, pkm.Species, 100);
         }
         private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
         {
