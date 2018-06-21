@@ -39,9 +39,6 @@ namespace PKHeX.Core
         }
         private static EvoCriteria[][] TrimEvoChain(PKM pkm, IEncounterable Encounter, EvoCriteria[] CompleteEvoChain, int maxgen, int mingen, EvoCriteria[][] GensEvoChains)
         {
-            if (CompleteEvoChain.Length == 0)
-                return GensEvoChains;
-
             int lvl = pkm.CurrentLevel;
             int maxLevel = lvl;
             int pkGen = pkm.GenNumber;
@@ -79,11 +76,11 @@ namespace PKHeX.Core
                         // This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5+
                         // We can deduce that it existed in gen 4 until met level,
                         // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
-                        else if (g == 3 && pkm.Format > 4 && lvl == maxLevel && mostEvolved.Species > maxspeciesgen)
+                        else if (g == 3 && pkm.Format > 4 && lvl == maxLevel)
                             lvl--;
 
                         // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level below gen 2 level
-                        else if (g == 1 && pkm.Format == 2 && lvl == maxLevel && mostEvolved.Species > maxspeciesgen)
+                        else if (g == 1 && pkm.Format == 2 && lvl == maxLevel)
                             lvl--;
                     }
                     if (queue.Count == 1)

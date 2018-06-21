@@ -110,7 +110,7 @@ namespace PKHeX.Core
                 Species = species,
                 Level = lvl,
                 Form = Form,
-                Flag = Method,
+                Method = Method,
             };
         }
 
