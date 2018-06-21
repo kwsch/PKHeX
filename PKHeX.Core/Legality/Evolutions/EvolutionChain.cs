@@ -39,11 +39,18 @@ namespace PKHeX.Core
         }
         private static EvoCriteria[][] TrimEvoChain(PKM pkm, IEncounterable Encounter, EvoCriteria[] CompleteEvoChain, int maxgen, int mingen, EvoCriteria[][] GensEvoChains)
         {
+            if (CompleteEvoChain.Length == 0)
+                return GensEvoChains;
+
             int lvl = pkm.CurrentLevel;
             int maxLevel = lvl;
             int pkGen = pkm.GenNumber;
 
-            // Iterate generations backwards because level will be decreased from current level in each generation
+            var queue = new Queue<EvoCriteria>(CompleteEvoChain);
+            var mostEvolved = queue.Dequeue();
+
+            // Iterate generations backwards
+            // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
             for (int g = maxgen; g >= mingen; g--)
             {
                 if (pkGen == 1 && pkm.Gen1_NotTradeback && g == 2)
@@ -51,53 +58,51 @@ namespace PKHeX.Core
                 if (pkGen <= 2 && 3 <= g && g <= 6)
                     continue;
 
-                if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && g < pkm.Format && g <= 4 && lvl > pkm.Met_Level)
+                if (g <= 4 && 2 < pkm.Format && g < pkm.Format && !pkm.HasOriginalMetLocation && lvl > pkm.Met_Level)
                 {
                     // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
                     lvl = pkm.Met_Level;
                 }
 
-                int maxspeciesgen = GetMaxSpeciesOrigin(g);
-                if (g == 2 && pkm.VC1)
-                    maxspeciesgen = MaxSpeciesID_1;
+                int maxspeciesgen = g == 2 && pkm.VC1 ? MaxSpeciesID_1 : GetMaxSpeciesOrigin(g);
 
                 // Remove future gen evolutions after a few special considerations:
                 // If the pokemon origin is illegal (e.g. Gen3 Infernape) the list will be emptied -- species lineage did not exist at any evolution stage.
-                while (CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Species > maxspeciesgen)
+                while (mostEvolved.Species > maxspeciesgen)
                 {
-                    if (CompleteEvoChain[0].RequiresLvlUp)
+                    if (mostEvolved.RequiresLvlUp)
                     {
                         // Eevee requires a single levelup to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level below current
-                        if (g == 5 && CompleteEvoChain[0].Species == 700)
+                        if (g == 5 && mostEvolved.Species == 700)
                             lvl--;
 
                         // This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5+
                         // We can deduce that it existed in gen 4 until met level,
                         // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
-                        else if (g == 3 && pkm.Format > 4 && lvl == maxLevel && CompleteEvoChain[0].Species > maxspeciesgen)
+                        else if (g == 3 && pkm.Format > 4 && lvl == maxLevel && mostEvolved.Species > maxspeciesgen)
                             lvl--;
 
                         // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level below gen 2 level
-                        else if (g == 1 && pkm.Format == 2 && lvl == maxLevel && CompleteEvoChain[0].Species > maxspeciesgen)
+                        else if (g == 1 && pkm.Format == 2 && lvl == maxLevel && mostEvolved.Species > maxspeciesgen)
                             lvl--;
                     }
-                    CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
+                    if (queue.Count == 1)
+                        break;
+                    mostEvolved = queue.Dequeue();
                 }
-
-                if (CompleteEvoChain.Length == 0)
-                    continue;
 
                 // Alolan form evolutions, remove from gens 1-6 chains
-                if (EvolveToAlolanForms.Contains(CompleteEvoChain[0].Species))
+                if (EvolveToAlolanForms.Contains(mostEvolved.Species))
                 {
-                    if (g < 7 && pkm.Format >= 7 && CompleteEvoChain.Length != 0 && CompleteEvoChain[0].Form > 0)
-                        CompleteEvoChain = CompleteEvoChain.Skip(1).ToArray();
+                    if (g < 7 && pkm.Format >= 7 && mostEvolved.Form > 0)
+                    {
+                        if (queue.Count == 1)
+                            break;
+                        mostEvolved = queue.Dequeue();
+                    }
                 }
 
-                if (CompleteEvoChain.Length == 0)
-                    continue;
-
-                GensEvoChains[g] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain[0].Species, lvl);
+                GensEvoChains[g] = GetEvolutionChain(pkm, Encounter, mostEvolved.Species, lvl);
                 if (GensEvoChains[g].Length == 0)
                     continue;
 
