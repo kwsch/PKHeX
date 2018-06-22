@@ -93,6 +93,8 @@ namespace PKHeX.Core
         {
             if (!pkm.XY || pkm.Met_Location != 148 || pkm.Met_Level != 30) // Friend Safari
                 return Enumerable.Empty<EncounterSlot>();
+            if (pkm.Species == 423 && pkm.AltForm != 0)
+                return Enumerable.Empty<EncounterSlot>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm).Where(d => d.Level >= 30);
             return vs.SelectMany(z => Encounters6.FriendSafari[z.Species]);
         }
