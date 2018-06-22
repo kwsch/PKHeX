@@ -803,13 +803,14 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V64, CheckIdentifier.Form);
                     break;
                 case 710: // Pumpkaboo
-                case 711: // Goregeist
-                    if (pkm.AltForm != 0) // Average
-                        AddLine(Severity.Invalid, V6, CheckIdentifier.Form);
+                case 711 when pkm.AltForm != 0: // Goregeist Average
+                    AddLine(Severity.Invalid, V6, CheckIdentifier.Form);
                     break;
-                case 586: // Sawsbuck
-                    if (pkm.AltForm != 0)
-                        AddLine(Severity.Invalid, V65, CheckIdentifier.Form);
+                case 423 when pkm.AltForm != 0: // Gastrodon West
+                    AddLine(Severity.Invalid, V64, CheckIdentifier.Form);
+                    break;
+                case 586 when pkm.AltForm != 0: // Sawsbuck
+                    AddLine(Severity.Invalid, V65, CheckIdentifier.Form);
                     break;
             }
         }
