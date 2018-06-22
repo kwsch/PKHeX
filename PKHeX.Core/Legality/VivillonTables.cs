@@ -281,5 +281,32 @@ namespace PKHeX.Core
                     return sub.form;
             return ct.mainform;
         }
+
+        /// <summary>
+        /// Compares the <see cref="PKM.ConsoleRegion"/> and <see cref="PKM.Country"/> to determine if the country is available within that region.
+        /// </summary>
+        /// <param name="consoleRegion">Console region.</param>
+        /// <param name="country">Country of nationality</param>
+        /// <returns>Country is within Console Region</returns>
+        public static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
+        {
+            switch (consoleRegion)
+            {
+                case 0: // Japan
+                    return country == 1;
+                case 1: // Americas
+                    return 8 <= country && country <= 52 || new[] { 153, 156, 168, 174, 186 }.Contains(country);
+                case 2: // Europe
+                    return 64 <= country && country <= 127 || new[] { 169, 184, 185 }.Contains(country);
+                case 4: // China
+                    return country == 144 || country == 160;
+                case 5: // Korea
+                    return country == 136;
+                case 6: // Taiwan
+                    return country == 144 || country == 128;
+                default:
+                    return false;
+            }
+        }
     }
 }

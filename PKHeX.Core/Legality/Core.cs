@@ -717,9 +717,9 @@ namespace PKHeX.Core
                 case 1:
                 case 2: return Empty;
                 case 3: return SplitBreed_3;
-                case 4: return SplitBreed;
-                case 5: return SplitBreed;
-                case 6: return SplitBreed;
+                case 4:
+                case 5:
+                case 6:
                 case 7: return SplitBreed;
                 default: return Empty;
             }
@@ -822,13 +822,6 @@ namespace PKHeX.Core
             return items.Length > item && items[item];
         }
 
-        internal static bool IsNotBaseSpecies(PKM pkm)
-        {
-            if (pkm.IsEgg)
-                return false;
-
-            return EvolutionChain.GetValidPreEvolutions(pkm).Count > 1;
-        }
         private static bool IsEvolvedFormChange(PKM pkm)
         {
             if (pkm.IsEgg)
@@ -842,14 +835,9 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
-        internal static bool IsTradeEvolved(PKM pkm)
+        internal static bool IsTradeEvolved(EvoCriteria[][] chain, int pkmFormat)
         {
-            if (pkm.IsEgg)
-                return false;
-
-            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
-            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks:true);
-            return lineage.Any(evolution => EvolutionMethod.TradeMethods.Contains(evolution.Method)); // Trade Evolutions
+            return chain[pkmFormat].Any(z => EvolutionMethod.TradeMethods.Contains(z.Method));
         }
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {

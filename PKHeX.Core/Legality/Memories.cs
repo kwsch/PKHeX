@@ -149,5 +149,26 @@ namespace PKHeX.Core
                     return feel;
             }
         }
+
+        public static void GetMemoryVariables(PKM pkm, out int m, out int t, out int i, out int f, out string resultPrefix, int handler = -1)
+        {
+            if (handler < 0)
+                handler = pkm.CurrentHandler;
+            switch (handler)
+            {
+                case 0:
+                    m = pkm.OT_Memory; t = pkm.OT_TextVar; i = pkm.OT_Intensity; f = pkm.OT_Feeling;
+                    resultPrefix = LegalityCheckStrings.V205;
+                    break;
+                case 1:
+                    m = pkm.HT_Memory; t = pkm.HT_TextVar; i = pkm.HT_Intensity; f = pkm.HT_Feeling;
+                    resultPrefix = LegalityCheckStrings.V206;
+                    break;
+                default:
+                    m = t = i = f = 0;
+                    resultPrefix = string.Empty;
+                    break;
+            }
+        }
     }
 }

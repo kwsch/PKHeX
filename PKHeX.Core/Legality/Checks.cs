@@ -287,7 +287,7 @@ namespace PKHeX.Core
             else
             {
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
-                bool evolved = Legal.IsNotBaseSpecies(pkm);
+                bool evolved = EncounterMatch.Species != pkm.Species;
                 bool match = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
                 if (pkm.WasTradedEgg || evolved)
                     match |= !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
@@ -1740,7 +1740,7 @@ namespace PKHeX.Core
 
                 if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
                     return chk1;
-                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, out CheckResult chk2))
+                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, Info.EvoChainsAllGens, out CheckResult chk2))
                     return chk2;
             }
             else // Is Traded
@@ -1785,7 +1785,7 @@ namespace PKHeX.Core
             {
                 if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
                     return chk1;
-                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, out CheckResult chk2))
+                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, Info.EvoChainsAllGens, out CheckResult chk2))
                     return chk2;
             }
 
@@ -1805,7 +1805,7 @@ namespace PKHeX.Core
 
             return true;
         }
-        private static bool VerifyHistoryUntradedEvolution(PKM pkm, out CheckResult result)
+        private static bool VerifyHistoryUntradedEvolution(PKM pkm, EvoCriteria[][] chain, out CheckResult result)
         {
             result = null;
             // Handling Trainer string is empty implying it has not been traded.
@@ -1813,7 +1813,7 @@ namespace PKHeX.Core
 
             if (pkm.Species == 350) // Milotic
             {
-                if (Legal.IsTradeEvolved(pkm))
+                if (Legal.IsTradeEvolved(chain, pkm.Format))
                     return false;
                 if (pkm is IContestStats s && s.CNT_Beauty < 170) // Beauty Contest Stat Requirement
                     result = new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
@@ -1823,59 +1823,38 @@ namespace PKHeX.Core
                     return false;
                 return true;
             }
-            if (!Legal.IsTradeEvolved(pkm))
+            if (!Legal.IsTradeEvolved(chain, pkm.Format))
                 return false;
             result = new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
             return true;
         }
         private CheckResult VerifyCommonMemory(int handler)
         {
-            int m = 0;
-            int t = 0;
-            int i = 0;
-            int f = 0;
-            string resultPrefix = "";
-            switch (handler)
-            {
-                case 0:
-                    m = pkm.OT_Memory;
-                    t = pkm.OT_TextVar;
-                    i = pkm.OT_Intensity;
-                    f = pkm.OT_Feeling;
-                    resultPrefix = V205;
-                    break;
-                case 1:
-                    m = pkm.HT_Memory;
-                    t = pkm.HT_TextVar;
-                    i = pkm.HT_Intensity;
-                    f = pkm.HT_Feeling;
-                    resultPrefix = V206;
-                    break;
-            }
+            Memories.GetMemoryVariables(pkm, out int m, out int t, out int i, out int f, out string tr, handler);
             int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], m);
             if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6))
-                return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
 
             if (m == 6 && !Memories.LocationsWithPKCenter[0].Contains(t))
-                return new CheckResult(Severity.Invalid, string.Format(V154, resultPrefix), CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V154, tr), CheckIdentifier.Memory);
 
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                if (!Legal.GetCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.GetEXP(100, t)}, 19, 6))
-                    return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
+                if (!Legal.GetCanLearnMachineMove(new PK6 { Species = t, EXP = PKX.GetEXP(100, t) }, 19, 6))
+                    return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
 
             if ((m == 16 || m == 48) && (t == 0 || !Legal.GetCanKnowMove(pkm, t, 6)))
-                return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
 
             if (m == 49 && (t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
 
             if (i < Memories.MemoryMinIntensity[m])
-                return new CheckResult(Severity.Invalid, string.Format(V254, resultPrefix, Memories.MemoryMinIntensity[m]), CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V254, tr, Memories.MemoryMinIntensity[m]), CheckIdentifier.Memory);
 
             if (m != 4 && (Memories.MemoryFeelings[m] & (1 << f)) == 0)
-                return new CheckResult(Severity.Invalid, string.Format(V255, resultPrefix), CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V255, tr), CheckIdentifier.Memory);
 
-            return new CheckResult(Severity.Valid, string.Format(V155, resultPrefix), CheckIdentifier.Memory);
+            return new CheckResult(Severity.Valid, string.Format(V155, tr), CheckIdentifier.Memory);
         }
 
         private void VerifyOTMemoryIs(int[] values)
@@ -2033,29 +2012,9 @@ namespace PKHeX.Core
             int consoleRegion = pkm.ConsoleRegion;
             if (consoleRegion >= 7)
                 return new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography);
-            return IsConsoleRegionCountryValid(consoleRegion, pkm.Country)
+            return Legal.IsConsoleRegionCountryValid(consoleRegion, pkm.Country)
                 ? new CheckResult(Severity.Valid, V303, CheckIdentifier.Geography)
                 : new CheckResult(Severity.Invalid, V302, CheckIdentifier.Geography);
-        }
-        private static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
-        {
-            switch (consoleRegion)
-            {
-                case 0: // Japan
-                    return country == 1;
-                case 1: // Americas
-                    return 8 <= country && country <= 52 || new[] {153, 156, 168, 174, 186}.Contains(country);
-                case 2: // Europe
-                    return 64 <= country && country <= 127 || new[] {169, 184, 185}.Contains(country);
-                case 4: // China
-                    return country == 144 || country == 160;
-                case 5: // Korea
-                    return country == 136;
-                case 6: // Taiwan
-                    return country == 144 || country == 128;
-                default:
-                    return false;
-            }
         }
         private void VerifyForm()
         {
@@ -2354,7 +2313,7 @@ namespace PKHeX.Core
         }
         private void VerifyMisc()
         {
-            if (pkm.Format == 7 && ((PK7)pkm).PelagoEventStatus != 0)
+            if (pkm is PK7 pk7 && pk7.PelagoEventStatus != 0)
             {
                 // TODO: Figure out what PelagoEventStati are legal.
             }
@@ -2477,9 +2436,9 @@ namespace PKHeX.Core
         private void VerifyNsPKM()
         {
             bool req = EncounterMatch is EncounterStaticPID s && s.NSparkle;
-            if (pkm.Format == 5)
+            if (pkm is PK5 pk5)
             {
-                bool has = ((PK5)pkm).NPokémon;
+                bool has = pk5.NPokémon;
                 if (req && !has)
                     AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
                 if (!req && has)
@@ -2499,45 +2458,27 @@ namespace PKHeX.Core
         {
             if (pkm.TID != 00002 || pkm.SID != 00000)
                 return false;
-
-            var OT = pkm.Language == (int)LanguageID.Japanese ? "Ｎ" : "N";
-            return OT == pkm.OT_Name;
+            var ot = pkm.OT_Name;
+            if (ot.Length != 1)
+                return false;
+            var c = pkm.Language == (int)LanguageID.Japanese ? 'Ｎ' : 'N';
+            return c == ot[0];
         }
         private void VerifyVersionEvolution()
         {
-            if (pkm.Format < 7)
+            if (pkm.Format < 7 || EncounterMatch.Species == pkm.Species)
                 return;
 
             // No point using the evolution tree. Just handle certain species.
-            bool Sun() => pkm.Version == (int)GameVersion.SN || pkm.Version == (int)GameVersion.US;
-            bool Moon() => pkm.Version == (int)GameVersion.MN || pkm.Version == (int)GameVersion.UM;
             switch (pkm.Species)
             {
-                case 745: // Lycanroc
-                    if (!pkm.WasEgg)
-                        break;
-
-                    if (pkm.AltForm == 0 && Moon()
-                        || pkm.AltForm == 1 && Sun())
-                        if (pkm.IsUntraded)
-                            AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
-                    break;
-
-                case 791: // Solgaleo
-                    if (Moon() && pkm.IsUntraded)
-                    {
-                        if (EncounterMatch is MysteryGift g && g.Species == pkm.Species) // Gifted via Mystery Gift
-                            break;
+                case 745 when (pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun()): // Lycanroc
+                case 791 when Moon(): // Solgaleo
+                case 792 when Sun(): // Lunala
+                    bool Sun() => pkm.Version == (int)GameVersion.SN || pkm.Version == (int)GameVersion.US;
+                    bool Moon() => pkm.Version == (int)GameVersion.MN || pkm.Version == (int)GameVersion.UM;
+                    if (pkm.IsUntraded)
                         AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
-                    }
-                    break;
-                case 792: // Lunala
-                    if (Sun() && pkm.IsUntraded)
-                    {
-                        if (EncounterMatch is MysteryGift g && g.Species == pkm.Species) // Gifted via Mystery Gift
-                            break;
-                        AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
-                    }
                     break;
             }
         }
