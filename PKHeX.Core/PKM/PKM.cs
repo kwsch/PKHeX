@@ -331,22 +331,6 @@ namespace PKHeX.Core
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
         public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
-        /// <summary>
-        /// Swaps bits at a given position
-        /// </summary>
-        /// <param name="value">Value to swap bits for</param>
-        /// <param name="p1">Position of first bit to be swapped</param>
-        /// <param name="p2">Position of second bit to be swapped</param>
-        /// <remarks>Generation 3 marking values are swapped (Square-Triangle, instead of Triangle-Square).</remarks>
-        /// <returns>Swapped bits value</returns>
-        protected static int SwapBits(int value, int p1, int p2)
-        {
-            int bit1 = (value >> p1) & 1;
-            int bit2 = (value >> p2) & 1;
-            int x = bit1 ^ bit2;
-            x = (x << p1) | (x << p2);
-            return value ^ x;
-        }
         public string[] QRText => this.GetQRLines();
 
         public virtual string FileName
@@ -684,7 +668,7 @@ namespace PKHeX.Core
         {
             get
             {
-                int ivTotal = IVs.Sum();
+                int ivTotal = IVTotal;
                 if (ivTotal <= 90)
                     return 0;
                 if (ivTotal <= 120)
@@ -749,10 +733,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ValidArray">Items that the <see cref="PKM"/> can hold.</param>
         /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-        public virtual bool CanHoldItem(ushort[] ValidArray)
-        {
-            return ValidArray.Contains((ushort)HeldItem);
-        }
+        public virtual bool CanHoldItem(ushort[] ValidArray) => ValidArray.Contains((ushort)HeldItem);
 
         /// <summary>
         /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.
@@ -944,6 +925,8 @@ namespace PKHeX.Core
         {
             if (GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species)))
                 return 3;
+            if (XY && Met_Location == 148 && Met_Level == 30)
+                return 2;
             if (VC)
                 return Species == 151 || Species == 251 ? 5 : 3;
             return 0;

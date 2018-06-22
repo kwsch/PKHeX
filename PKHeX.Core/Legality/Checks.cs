@@ -551,7 +551,7 @@ namespace PKHeX.Core
         private void VerifyEVs()
         {
             var evs = pkm.EVs;
-            int sum = evs.Sum();
+            int sum = pkm.EVTotal;
             if (sum > 0 && pkm.IsEgg)
                 AddLine(Severity.Invalid, V22, CheckIdentifier.EVs);
             if (pkm.Format >= 3 && sum > 510)
@@ -634,7 +634,7 @@ namespace PKHeX.Core
                     }
                 }
             }
-            if (pkm.IVs.Sum() == 0)
+            if (pkm.IVTotal == 0)
                 AddLine(Severity.Fishy, V31, CheckIdentifier.IVs);
             else if (pkm.IVs[0] < 30 && pkm.IVs.All(iv => pkm.IVs[0] == iv))
                 AddLine(Severity.Fishy, V32, CheckIdentifier.IVs);
@@ -802,7 +802,7 @@ namespace PKHeX.Core
                     if (!new[] { 0, 1, 3 }.Contains(pkm.AltForm)) // 0/1/3 - RBY
                         AddLine(Severity.Invalid, V64, CheckIdentifier.Form);
                     break;
-                case 710: // Pumpkaboo
+                case 710 when pkm.AltForm != 0: // Pumpkaboo
                 case 711 when pkm.AltForm != 0: // Goregeist Average
                     AddLine(Severity.Invalid, V6, CheckIdentifier.Form);
                     break;

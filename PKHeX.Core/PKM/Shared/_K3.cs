@@ -67,6 +67,23 @@
         public abstract int CNT_Sheen { get; set; }
 
         /// <summary>
+        /// Swaps bits at a given position
+        /// </summary>
+        /// <param name="value">Value to swap bits for</param>
+        /// <param name="p1">Position of first bit to be swapped</param>
+        /// <param name="p2">Position of second bit to be swapped</param>
+        /// <remarks>Generation 3 marking values are swapped (Square-Triangle, instead of Triangle-Square).</remarks>
+        /// <returns>Swapped bits value</returns>
+        protected static int SwapBits(int value, int p1, int p2)
+        {
+            int bit1 = (value >> p1) & 1;
+            int bit2 = (value >> p2) & 1;
+            int x = bit1 ^ bit2;
+            x = (x << p1) | (x << p2);
+            return value ^ x;
+        }
+
+        /// <summary>
         /// Interconversion for Generation 3 <see cref="PKM"/> formats.
         /// </summary>
         /// <typeparam name="T">Generation 3 format to convert to</typeparam>
