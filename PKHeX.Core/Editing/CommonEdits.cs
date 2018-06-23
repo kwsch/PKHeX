@@ -606,6 +606,10 @@ namespace PKHeX.Core
             int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
             if (m == null)
                 return pkm.Moves;
+
+            if (!m.All(z => la.AllSuggestedMovesAndRelearn.Contains(z)))
+                m = m.Intersect(la.AllSuggestedMovesAndRelearn).ToArray();
+
             if (random)
                 Util.Shuffle(m);
 
