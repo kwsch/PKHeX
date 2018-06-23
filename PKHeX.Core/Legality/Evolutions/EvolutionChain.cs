@@ -106,23 +106,26 @@ namespace PKHeX.Core
                 if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen)
                 {
                     bool isTransferred = GetCanPruneChainTransfer(pkm, pkGen, g);
-                    if (isTransferred)
-                    {
-                        // Remove previous evolutions below transfer level
-                        // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
-                        // chain level for charmander is 35, is below met level.
-                        int minlvl = GetMinLevelGeneration(pkm, g);
-                        GensEvoChains[g] = GensEvoChains[g].Where(e => e.Level >= minlvl).ToList();
-                    }
+                    if (!isTransferred)
+                        continue;
+
+                    // Remove previous evolutions below transfer level
+                    // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
+                    // chain level for charmander is 35, is below met level.
+                    int minlvl = GetMinLevelGeneration(pkm, g);
+                    GensEvoChains[g].RemoveAll(e => e.Level < minlvl);
                 }
                 else if (g == 2 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
                 {
                     GensEvoChains[2] = NONE;
                 }
-                else if (g == 1 && GensEvoChains[g][GensEvoChains[g].Count - 1].Species > MaxSpeciesID_1)
+                else if (g == 1)
                 {
+                    int lastIndex = GensEvoChains[1].Count - 1;
+                    if (GensEvoChains[1][lastIndex].Species <= MaxSpeciesID_1)
+                        return GensEvoChains;
                     // Remove generation 2 pre-evolutions
-                    GensEvoChains[1] = GensEvoChains[1].Take(GensEvoChains[1].Count - 1).ToList();
+                    GensEvoChains[1].RemoveAt(lastIndex);
                     if (!pkm.VC1)
                         return GensEvoChains;
 
@@ -142,7 +145,10 @@ namespace PKHeX.Core
                             continue;
                         if (g1Index + 1 == chain.Count) // already pruned or no g2prevo
                             continue;
-                        GensEvoChains[fgen] = chain.Take(g1Index + 1).ToList();
+
+                        int count = chain.Count;
+                        for (int i = g1Index + 1; i < count; i++)
+                            GensEvoChains[fgen].RemoveAt(i);
                     }
                 }
             }
