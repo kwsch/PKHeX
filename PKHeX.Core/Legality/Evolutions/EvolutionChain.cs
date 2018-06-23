@@ -106,7 +106,7 @@ namespace PKHeX.Core
                     if (!isTransferred)
                         continue;
 
-                    noxfrDecremented = false;
+                    noxfrDecremented = g > (pkGen != 3 ? 4 : 5);
 
                     // Remove previous evolutions below transfer level
                     // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
@@ -170,7 +170,11 @@ namespace PKHeX.Core
         {
             var vs = GetValidPreEvolutions(pkm);
             if (Encounter.Species == maxspec)
+            {
+                if (vs.Count != 1)
+                    vs.RemoveAll(z => z.Species != Encounter.Species);
                 return vs;
+            }
 
             // Evolution chain is in reverse order (devolution)
             // Find the index of the minimum species to determine the end of the chain
