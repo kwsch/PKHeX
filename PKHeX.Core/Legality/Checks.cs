@@ -696,7 +696,9 @@ namespace PKHeX.Core
 
             if (pkm.Species == 151)
             {
-                if (tr != "GF" && tr != "ゲーフリ" || pkm.TID != 22796) // if there are more events with special OTs, may be worth refactoring
+                var OTMatch = (tr == Legal.GetG1OT_GFMew((int)LanguageID.Japanese))
+                           || (tr == Legal.GetG1OT_GFMew((int)LanguageID.English));
+                if (!OTMatch || pkm.TID != 22796)
                     AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
 
@@ -2461,8 +2463,8 @@ namespace PKHeX.Core
             var ot = pkm.OT_Name;
             if (ot.Length != 1)
                 return false;
-            var c = pkm.Language == (int)LanguageID.Japanese ? 'Ｎ' : 'N';
-            return c == ot[0];
+            var c = Legal.GetG5OT_NSparkle(pkm.Language);
+            return c == ot;
         }
         private void VerifyVersionEvolution()
         {

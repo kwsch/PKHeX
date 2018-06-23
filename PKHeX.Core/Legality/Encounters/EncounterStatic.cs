@@ -203,7 +203,7 @@ namespace PKHeX.Core
             {
                 case 1 when Species == 151 && Version == GameVersion.VCEvents: // VC Mew
                     pk.TID = 22796;
-                    pk.OT_Name = lang == 1 ? "ゲーフリ" : "GF";
+                    pk.OT_Name = GetG1OT_GFMew(lang);
                     return lang;
                 case 1 when Version == GameVersion.EventsGBGen1:
                 case 2 when Version == GameVersion.EventsGBGen2:
@@ -215,6 +215,11 @@ namespace PKHeX.Core
                 default:
                     return lang;
             }
+        }
+
+        public static string GetG1OT_GFMew(int lang)
+        {
+            return lang == 1 ? "ゲーフリ" : "GF";
         }
 
         private PIDType GetPIDType()
