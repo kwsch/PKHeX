@@ -120,38 +120,43 @@ namespace PKHeX.Core
                 }
                 else if (g == 1)
                 {
+                    // Remove Gen2 post-evolutions (Scizor, Blissey...)
+                    if (GensEvoChains[1][0].Species > MaxSpeciesID_1)
+                        GensEvoChains[1].RemoveAt(0);
+
+                    // Remove Gen2 pre-evolutions (Pichu, Cleffa...)
                     int lastIndex = GensEvoChains[1].Count - 1;
-                    if (GensEvoChains[1][lastIndex].Species <= MaxSpeciesID_1)
-                        return GensEvoChains;
-                    // Remove generation 2 pre-evolutions
-                    GensEvoChains[1].RemoveAt(lastIndex);
-                    if (!pkm.VC1)
-                        return GensEvoChains;
+                    if (lastIndex >= 0 && GensEvoChains[1][lastIndex].Species > MaxSpeciesID_1)
+                        GensEvoChains[1].RemoveAt(lastIndex);
 
-                    // Remove generation 2 pre-evolutions from gen 7 and future generations
-                    for (int fgen = 7; fgen < GensEvoChains.Length; fgen++)
-                    {
-                        var chain = GensEvoChains[fgen];
-                        int g1Index = -1;
-                        for (int i = 0; i < chain.Count; i++)
-                        {
-                            if (chain[i].Species > MaxSpeciesID_1)
-                                continue;
-                            g1Index = i;
-                            break;
-                        }
-                        if (g1Index < 0) // no g2 species present
-                            continue;
-                        if (g1Index + 1 == chain.Count) // already pruned or no g2prevo
-                            continue;
-
-                        int count = chain.Count;
-                        for (int i = g1Index + 1; i < count; i++)
-                            GensEvoChains[fgen].RemoveAt(i);
-                    }
+                    // Remove Gen7 pre-evolutions and chain break scenarios
+                    if (pkm.VC1)
+                        TrimVC1Transfer(pkm, GensEvoChains);
                 }
             }
             return GensEvoChains;
+        }
+
+        private static void TrimVC1Transfer(PKM pkm, IList<List<EvoCriteria>> GensEvoChains)
+        {
+            // Remove Gen2 evolutions from Gen7 and future if a Gen1 did not exist in that format.
+            for (int fgen = 7; fgen < GensEvoChains.Count; fgen++)
+            {
+                var chain = GensEvoChains[fgen];
+                int g1Index = -1;
+                for (int i = 0; i < chain.Count; i++)
+                {
+                    if (chain[i].Species > MaxSpeciesID_1)
+                        continue;
+                    g1Index = i;
+                    break;
+                }
+                int count = chain.Count;
+                for (int i = g1Index + 1; i < count; i++)
+                    GensEvoChains[fgen].RemoveAt(i);
+            }
+            if (GensEvoChains[7].All(z => z.Species > MaxSpeciesID_1))
+                GensEvoChains[pkm.Format] = NONE; // need a Gen1 present; invalidate the chain.
         }
 
         internal static int GetEvoChainSpeciesIndex(IReadOnlyList<EvoCriteria> chain, int species)
