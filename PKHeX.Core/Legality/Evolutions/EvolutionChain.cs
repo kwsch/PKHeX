@@ -12,7 +12,7 @@ namespace PKHeX.Core
         internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter, pkm.Species, pkm.CurrentLevel);
-            if (Encounter is EncounterInvalid || pkm.IsEgg)
+            if (Encounter is EncounterInvalid || pkm.IsEgg || CompleteEvoChain.Count == 0)
                 return GetChainSingle(pkm, CompleteEvoChain);
 
             return GetChainAll(pkm, Encounter, CompleteEvoChain);
@@ -48,6 +48,7 @@ namespace PKHeX.Core
             // Iterate generations backwards
             // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
             int mingen = (pkm is PK2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkGen;
+            bool noxfrDecremented = true;
             for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {
                 if (pkGen == 1 && pkm.Gen1_NotTradeback && g == 2)
@@ -71,14 +72,10 @@ namespace PKHeX.Core
                         return GensEvoChains;
                     if (mostEvolved.RequiresLvlUp)
                     {
-                        // Eevee requires a single levelup to be Sylveon, it can be deduced in gen 5 and before it existed with maximum one level below current
-                        if (g == 5 && mostEvolved.Species == 700)
-                            lvl--;
-
-                        // This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5+
+                        // This is a gen 3 pokemon in a gen 4 phase evolution that requires level up and then transfered to gen 5+
                         // We can deduce that it existed in gen 4 until met level,
                         // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
-                        else if (g == 3 && pkm.Format > 4 && lvl == maxLevel)
+                        if (g == 3 && pkm.Format > 4 && lvl == maxLevel)
                             lvl--;
 
                         // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level below gen 2 level
@@ -103,11 +100,13 @@ namespace PKHeX.Core
                 if (GensEvoChains[g].Count == 0)
                     continue;
 
-                if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen)
+                if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen && noxfrDecremented)
                 {
-                    bool isTransferred = GetCanPruneChainTransfer(pkm, pkGen, g);
+                    bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, g);
                     if (!isTransferred)
                         continue;
+
+                    noxfrDecremented = false;
 
                     // Remove previous evolutions below transfer level
                     // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
@@ -249,16 +248,6 @@ namespace PKHeX.Core
             int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
             var et = EvolutionTree.GetEvolutionTree(tree);
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
-        }
-
-        private static bool GetCanPruneChainTransfer(PKM pkm, int originGen, int currentGen)
-        {
-            // For transferred species, rule out pre-evolutions where their max level is not obtainable in the specified generation.
-            // Only prune entries for gen values that would overwrite the met data.
-            bool isTransferred = HasMetLocationUpdatedTransfer(originGen, currentGen);
-            if (pkm.Format >= 5 && currentGen == 4 && originGen == 3)
-                return false; // can't prune as the 3->4 data is overwritten again 4->5
-            return isTransferred;
         }
         private static int GetMinLevelGeneration(PKM pkm, int generation)
         {
