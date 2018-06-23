@@ -130,11 +130,11 @@ namespace PKHeX.Core
             moves2.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
             return new[] { moves1, moves2 };
         }
-        internal static List<int>[] GetValidMovesAllGens(PKM pkm, EvoCriteria[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static List<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int>[] Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
-                if (evoChains[i].Length != 0)
+                if (evoChains[i].Count != 0)
                     Moves[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
                 else
                     Moves[i] = new List<int>();
@@ -309,21 +309,21 @@ namespace PKHeX.Core
             }
             return new int[0];
         }
-        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, EvoCriteria[][] evoChains, GameVersion Version)
+        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria>[] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could learn after evolving
             var moves = new List<int>();
             for (int i = 1; i < evoChains.Length; i++)
-                if (evoChains[i].Length != 0)
+                if (evoChains[i].Count != 0)
                     moves.AddRange(GetValidPostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
             if (pkm.GenNumber >= 6)
                 moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
             return moves.Distinct().ToList();
         }
-        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, EvoCriteria[] evoChain, int Generation, GameVersion Version)
+        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria> evoChain, int Generation, GameVersion Version)
         {
             var evomoves = new List<int>();
-            var index = Array.FindIndex(evoChain, e => e.Species == Species);
+            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, Species);
             for (int i = 0; i <= index; i++)
             {
                 var evo = evoChain[i];
@@ -333,12 +333,12 @@ namespace PKHeX.Core
             }
             return evomoves;
         }
-        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, EvoCriteria[] evoChain, int Generation, GameVersion Version)
+        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria> evoChain, int Generation, GameVersion Version)
         {
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
-            var index = Array.FindIndex(evoChain, e => e.Species == Species);
-            for (int i = 0; i < evoChain.Length; i++)
+            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, Species);
+            for (int i = 0; i < evoChain.Count; i++)
             {
                 var evo = evoChain[i];
                 var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
@@ -835,7 +835,7 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
-        internal static bool IsTradeEvolved(EvoCriteria[][] chain, int pkmFormat)
+        internal static bool IsTradeEvolved(IReadOnlyList<EvoCriteria>[] chain, int pkmFormat)
         {
             return chain[pkmFormat].Any(z => EvolutionMethod.TradeMethods.Contains(z.Method));
         }

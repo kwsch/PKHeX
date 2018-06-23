@@ -16,7 +16,7 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static CheckResult VerifyEvolution(PKM pkm, LegalInfo info)
         {
-            return IsValidEvolution(pkm, info) && info.EvoChainsAllGens[pkm.Format].Length >= 1
+            return IsValidEvolution(pkm, info) && info.EvoChainsAllGens[pkm.Format].Count >= 1
                 ? new CheckResult(CheckIdentifier.Evolution)
                 : new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
         }

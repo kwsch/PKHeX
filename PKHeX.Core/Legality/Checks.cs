@@ -825,7 +825,6 @@ namespace PKHeX.Core
             if (pkm.Gen4 && !pkm.WasEgg)
             {
                 if (EncounterMatch is EncounterSlot w)
-                    // If there is more than one slot, the get wild encounter have filter for the pkm type encounter like safari/sports ball
                     type = w.TypeEncounter;
                 if (EncounterMatch is EncounterStaticTyped s)
                     type = s.TypeEncounter;
@@ -1234,7 +1233,7 @@ namespace PKHeX.Core
             if (Math.Max(Species_g5, Species_g4) > Species_g3) // it has evolved in either gen 4 or gen 5; the ability must match PID
                 return false;
 
-            var Evolutions_g45 = Math.Max(Info.EvoChainsAllGens[4].Length, pkm.Format == 5 ? Info.EvoChainsAllGens[5].Length : 0);
+            var Evolutions_g45 = Math.Max(Info.EvoChainsAllGens[4].Count, pkm.Format == 5 ? Info.EvoChainsAllGens[5].Count : 0);
             if (Evolutions_g45 > 1)
             {
                 // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
@@ -1806,7 +1805,7 @@ namespace PKHeX.Core
 
             return true;
         }
-        private static bool VerifyHistoryUntradedEvolution(PKM pkm, EvoCriteria[][] chain, out CheckResult result)
+        private static bool VerifyHistoryUntradedEvolution(PKM pkm, IReadOnlyList<EvoCriteria>[] chain, out CheckResult result)
         {
             result = null;
             // Handling Trainer string is empty implying it has not been traded.

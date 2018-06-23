@@ -547,13 +547,13 @@ namespace PKHeX.WinForms
             {
                 case 0: break; // Any (Do nothing)
                 case 1: // None (0)
-                    return res.Where(pk => pk.EVs.Sum() == 0);
+                    return res.Where(pk => pk.EVTotal == 0);
                 case 2: // Some (127-0)
-                    return res.Where(pk => pk.EVs.Sum() < 128);
+                    return res.Where(pk => pk.EVTotal < 128);
                 case 3: // Half (128-507)
-                    return res.Where(pk => pk.EVs.Sum() >= 128 && pk.EVs.Sum() < 508);
+                    return res.Where(pk => pk.EVTotal >= 128 && pk.EVTotal < 508);
                 case 4: // Full (508+)
-                    return res.Where(pk => pk.EVs.Sum() >= 508);
+                    return res.Where(pk => pk.EVTotal >= 508);
             }
             return res;
         }
@@ -563,17 +563,17 @@ namespace PKHeX.WinForms
             {
                 case 0: break; // Do nothing
                 case 1: // <= 90
-                    return res.Where(pk => pk.IVs.Sum() <= 90);
+                    return res.Where(pk => pk.IVTotal <= 90);
                 case 2: // 91-120
-                    return res.Where(pk => pk.IVs.Sum() > 90 && pk.IVs.Sum() <= 120);
+                    return res.Where(pk => pk.IVTotal > 90 && pk.IVTotal <= 120);
                 case 3: // 121-150
-                    return res.Where(pk => pk.IVs.Sum() > 120 && pk.IVs.Sum() <= 150);
+                    return res.Where(pk => pk.IVTotal > 120 && pk.IVTotal <= 150);
                 case 4: // 151-179
-                    return res.Where(pk => pk.IVs.Sum() > 150 && pk.IVs.Sum() < 180);
+                    return res.Where(pk => pk.IVTotal > 150 && pk.IVTotal < 180);
                 case 5: // 180+
-                    return res.Where(pk => pk.IVs.Sum() >= 180);
+                    return res.Where(pk => pk.IVTotal >= 180);
                 case 6: // == 186
-                    return res.Where(pk => pk.IVs.Sum() == 186);
+                    return res.Where(pk => pk.IVTotal == 186);
             }
             return res;
         }
