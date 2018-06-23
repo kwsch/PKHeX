@@ -9,63 +9,68 @@ namespace PKHeX.Core
     {
         private void VerifyGender()
         {
-            var gr = pkm.PersonalInfo.Gender;
-            if (gr == 255 != (pkm.Gender == 2))
+            var pi = pkm.PersonalInfo;
+            if (pi.Genderless != (pkm.Gender == 2))
             {
                 // DP/HGSS shedinja glitch -- only generation 4 spawns
                 bool ignore = pkm.Format == 4 && pkm.Species == 292 && pkm.Met_Level != pkm.CurrentLevel;
                 if (!ignore)
                     AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
+                return;
             }
 
             // Check for PID relationship to Gender & Nature if applicable
             int gen = Info.Generation;
 
-            bool PIDGender = 3 <= gen && gen <= 5;
-            if (!PIDGender)
+            if (3 <= gen && gen <= 5)
             {
-                // Check fixed gender cases
-                if ((gr == 254 || gr == 0) && (gr == 0 ? 0 : 1) != pkm.Gender)
-                    AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
+                // Gender-PID & Nature-PID relationship check
+                if (IsValidGenderPID())
+                    AddLine(Severity.Valid, V250, CheckIdentifier.Gender);
+                else
+                    AddLine(Severity.Invalid, V251, CheckIdentifier.Gender);
+
+                if (gen != 5)
+                    VerifyNaturePID();
                 return;
             }
 
+            // Check fixed gender cases
+            if ((pi.OnlyFemale && pkm.Gender != 1) || (pi.OnlyMale && pkm.Gender != 0))
+                AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
+        }
+        private bool IsValidGenderPID()
+        {
             bool genderValid = pkm.IsGenderValid();
             if (!genderValid)
             {
                 if (pkm.Format == 4 && pkm.Species == 292) // Shedinja glitch
                 {
                     // should match original gender
-                    var gender = PKX.GetGenderFromPIDAndRatio(pkm.PID, 0x7F); // 50-50
+                    var gender = PKX.GetGenderFromPIDAndRatio(pkm.PID, 0x7F); // 50M-50F
                     if (gender == pkm.Gender)
-                        genderValid = true;
+                        return true;
                 }
-                else if (pkm.Format > 5 && (pkm.Species == 183 || pkm.Species == 184))
+                else if (pkm.Format > 5 && (pkm.Species == 183 || pkm.Species == 184)) // Azurill/Marill Gender Ratio Change
                 {
                     var gv = pkm.PID & 0xFF;
                     if (gv > 63 && pkm.Gender == 1) // evolved from azurill after transferring to keep gender
-                        genderValid = true;
+                        return true;
                 }
+                return false;
             }
-            else
+
+            // check for mixed->fixed gender incompatibility by checking the gender of the original species
+            if (Legal.FixedGenderFromBiGender.Contains(EncounterMatch.Species) && pkm.Gender != 2) // shedinja
             {
-                // check for mixed->fixed gender incompatibility by checking the gender of the original species
-                if (Legal.FixedGenderFromBiGender.Contains(EncounterMatch.Species) && pkm.Gender != 2) // shedinja
-                {
-                    var gender = PKX.GetGenderFromPID(EncounterMatch.Species, pkm.EncryptionConstant);
-                    genderValid &= gender == pkm.Gender; // gender must not be different from original
-                }
+                var gender = PKX.GetGenderFromPID(EncounterMatch.Species, pkm.EncryptionConstant);
+                if (gender != pkm.Gender)  // gender must not be different from original
+                    return false;
             }
-
-            if (genderValid)
-                AddLine(Severity.Valid, V250, CheckIdentifier.Gender);
-            else
-                AddLine(Severity.Invalid, V251, CheckIdentifier.Gender);
-
-            bool PIDNature = gen != 5;
-            if (!PIDNature)
-                return;
-
+            return true;
+        }
+        private void VerifyNaturePID()
+        {
             if (pkm.EncryptionConstant % 25 == pkm.Nature)
                 AddLine(Severity.Valid, V252, CheckIdentifier.Nature);
             else
@@ -75,7 +80,7 @@ namespace PKHeX.Core
         {
             if (!Legal.IsHeldItemAllowed(pkm))
                 AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
-            if (pkm.Format == 3 && pkm.HeldItem == 175)
+            if (pkm.Format == 3 && pkm.HeldItem == 175) // Enigma Berry
                 VerifyEReaderBerry();
             if (pkm.IsEgg && pkm.HeldItem != 0)
                 AddLine(Severity.Invalid, V419, CheckIdentifier.Egg);
@@ -186,20 +191,22 @@ namespace PKHeX.Core
         #region verifyLanguage
         private bool VerifyLanguage()
         {
-            int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
+            int originalGeneration = Info.Generation;
+            int currentLanguage = pkm.Language;
+            int maxLanguageID = Legal.GetMaxLanguageID(originalGeneration);
 
             // Language ID 6 is unused; flag if an impossible language is used
-            if (pkm.Language == (int)LanguageID.UNUSED_6 || pkm.Language > maxLanguageID || pkm.Language <= (int)LanguageID.Hacked && !Legal.IsValidMissingLanguage(pkm))
+            if (currentLanguage == (int)LanguageID.UNUSED_6 || currentLanguage > maxLanguageID || currentLanguage <= (int)LanguageID.Hacked && !Legal.IsValidMissingLanguage(pkm))
             {
-                AddLine(Severity.Invalid, string.Format(V5, $"<={maxLanguageID}", pkm.Language), CheckIdentifier.Language);
+                AddLine(Severity.Invalid, string.Format(V5, $"<={maxLanguageID}", currentLanguage), CheckIdentifier.Language);
                 return false;
             }
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
             if (pkm.Format == 4 && pkm.Gen4
-                && (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean) && Legal.SavegameLanguage >= 0)
+                && (currentLanguage == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean) && Legal.SavegameLanguage >= 0)
             {
-                bool kor = pkm.Language == (int) LanguageID.Korean;
+                bool kor = currentLanguage == (int) LanguageID.Korean;
                 var currentpkm = kor ? V611 : V612;
                 var currentsav = kor ? V612 : V611;
                 AddLine(Severity.Invalid, string.Format(V610, currentpkm, currentsav), CheckIdentifier.Language);
@@ -207,9 +214,9 @@ namespace PKHeX.Core
             }
 
             // Korean Crystal does not exist, neither do VC1
-            if (Info.Generation <= 2 && pkm.Korean && !GameVersion.GS.Contains((GameVersion)pkm.Version))
+            if (originalGeneration <= 2 && pkm.Korean && !GameVersion.GS.Contains((GameVersion)pkm.Version))
             {
-                AddLine(Severity.Invalid, string.Format(V5, $"!={pkm.Language}", pkm.Language), CheckIdentifier.Language);
+                AddLine(Severity.Invalid, string.Format(V5, $"!={(LanguageID)currentLanguage}", currentLanguage), CheckIdentifier.Language);
                 return false;
             }
 
@@ -266,10 +273,8 @@ namespace PKHeX.Core
                 {
                     if (!PKX.SpeciesDict[i].TryGetValue(nickname, out int index))
                         continue;
-
-                    AddLine(Severity.Fishy, index == pkm.Species && i != pkm.Language
-                        ? V15
-                        : V16, CheckIdentifier.Nickname);
+                    var msg = index == pkm.Species && i != pkm.Language ? V15 : V16;
+                    AddLine(Severity.Fishy, msg, CheckIdentifier.Nickname);
                     return;
                 }
                 if (nickname.Any(c => 0x4E00 <= c && c <= 0x9FFF)) // East Asian Scripts
