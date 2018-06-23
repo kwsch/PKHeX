@@ -16,7 +16,7 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static CheckResult VerifyEvolution(PKM pkm, LegalInfo info)
         {
-            return IsValidEvolution(pkm, info) && info.EvoChainsAllGens[pkm.Format].Count >= 1
+            return IsValidEvolution(pkm, info)
                 ? new CheckResult(CheckIdentifier.Evolution)
                 : new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
         }
@@ -34,8 +34,12 @@ namespace PKHeX.Core
                 return true;
             if (info.EncounterMatch.EggEncounter && species == 350 && pkm.Format >= 5 && !pkm.IsUntraded) // Prism Scale
                 return true;
-            if (!Legal.IsEvolutionValid(pkm, info.EncounterMatch.Species, info.EncounterMatch.LevelMin))
-                return false;
+
+            if (EvolutionChain.GetEvoChainSpeciesIndex(info.EvoChainsAllGens[pkm.Format], pkm.Species) < 0)
+                return false; // Can't exist as current species
+            if (info.Generation > 0 && info.EvoChainsAllGens[info.Generation].All(z => z.Species != info.EncounterMatch.Species))
+                return false; // Can't exist as origin species
+
             // If current species evolved with a move evolution and encounter species is not current species check if the evolution by move is valid
             // Only the evolution by move is checked, if there is another evolution before the evolution by move is covered in IsEvolutionValid
             if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
