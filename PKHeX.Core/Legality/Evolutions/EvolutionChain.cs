@@ -179,7 +179,7 @@ namespace PKHeX.Core
             // Evolution chain is in reverse order (devolution)
             // Find the index of the minimum species to determine the end of the chain
             int minindex = GetEvoChainSpeciesIndex(vs, Encounter.Species);
-            bool last = minindex == vs.Count - 1;
+            bool last = minindex < 0 || minindex == vs.Count - 1;
 
             // If we remove a pre-evolution, update the chain if appropriate.
             if (!last)
