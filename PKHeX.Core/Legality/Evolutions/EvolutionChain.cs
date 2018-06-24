@@ -251,7 +251,7 @@ namespace PKHeX.Core
                     new EvoCriteria { Species = 290, Level = pkm.GenNumber < 5 ? lvl : lvl-1, MinLevel = 1 }
                     // Shedinja spawns after evolving, which is after level up moves were prompted. Not for future generations.
                 };
-            if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
+            if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
             int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
