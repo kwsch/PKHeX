@@ -12,19 +12,19 @@ namespace PKHeX.Core
     /// </summary>
     public partial class LegalityAnalysis
     {
-        private readonly PKM pkm;
+        internal readonly PKM pkm;
         private readonly bool Error;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         private IEncounterable EncounterOriginalGB;
-        private IEncounterable EncounterMatch => Info.EncounterMatch;
+        public IEncounterable EncounterMatch => Info.EncounterMatch;
         public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
 
-        private CheckResult Encounter, History;
+        public CheckResult Encounter;
 
         public readonly bool Parsed;
         public readonly bool Valid;
-        private readonly PersonalInfo PersonalInfo;
+        public readonly PersonalInfo PersonalInfo;
         public LegalInfo Info { get; private set; }
         public string Report(bool verbose = false) => verbose ? GetVerboseLegalityReport() : GetLegalityReport();
         private IEnumerable<int> AllSuggestedMoves
@@ -134,11 +134,10 @@ namespace PKHeX.Core
             UpdateInfo();
             UpdateTypeInfo();
             VerifyNickname();
-            VerifyDVs();
             VerifyEVs();
             VerifyLevelG1();
-            VerifyOTG1();
-            VerifyMiscG1();
+            Trainer.VerifyOTG1(this);
+            Misc.VerifyMiscG1(this);
             if (pkm.Format == 2)
                 VerifyItem();
         }
@@ -147,7 +146,7 @@ namespace PKHeX.Core
             UpdateInfo();
             UpdateChecks();
             if (pkm.Format > 3)
-                VerifyTransferLegalityG3();
+                Transfer.VerifyTransferLegalityG3(this);
 
             if (pkm.Version == (int)GameVersion.CXD)
                 VerifyCXD();
@@ -160,7 +159,7 @@ namespace PKHeX.Core
             UpdateInfo();
             UpdateChecks();
             if (pkm.Format > 4)
-                VerifyTransferLegalityG4();
+                Transfer.VerifyTransferLegalityG4(this);
         }
         private void ParsePK5()
         {
@@ -180,8 +179,8 @@ namespace PKHeX.Core
             UpdateChecks();
         }
 
-        private void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
-        private void AddLine(CheckResult chk) => Parse.Add(chk);
+        public void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
+        public void AddLine(CheckResult chk) => Parse.Add(chk);
 
         private void UpdateVCTransferInfo()
         {
@@ -192,7 +191,7 @@ namespace PKHeX.Core
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
 
-            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
+            foreach (var z in TransferVerifier.VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
                 AddLine(z);
         }
         private void UpdateInfo()
@@ -249,14 +248,13 @@ namespace PKHeX.Core
                 VerifyEncounterType(); // Gen 6->7 transfer deletes encounter type data
             if (pkm.Format >= 6)
             {
-                History = VerifyHistory();
-                AddLine(History);
-                VerifyOTMemory();
-                VerifyHTMemory();
+                VerifyHistory();
+                Memory.VerifyOTMemory(this);
+                Memory.VerifyHTMemory(this);
                 VerifyHyperTraining();
                 VerifyMedals();
                 VerifyConsoleRegion();
-                VerifyVersionEvolution();
+                Misc.VerifyVersionEvolution(this);
             }
         }
         private string GetLegalityReport()

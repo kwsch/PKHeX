@@ -1,12 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    internal static class RibbonVerifier
+    internal class RibbonVerifier : Verifier
     {
-        internal static List<string> GetIncorrectRibbons(PKM pkm, object encounterContent, int gen)
+        protected override CheckIdentifier Identifier => CheckIdentifier.Ribbon;
+        public override void Verify(LegalityAnalysis data)
+        {
+            var EncounterMatch = data.EncounterMatch;
+            var pkm = data.pkm;
+            var Info = data.Info;
+            // Check Unobtainable Ribbons
+            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
+            if (pkm.IsEgg)
+            {
+                if (GetIncorrectRibbonsEgg(pkm, encounterContent))
+                    data.AddLine(GetInvalid(V603));
+                return;
+            }
+
+            int gen = Info.Generation < 3 ? 7 : Info.Generation; // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
+            var result = GetIncorrectRibbons(pkm, encounterContent, gen);
+            if (result.Count != 0)
+            {
+                var msg = string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s)));
+                data.AddLine(GetInvalid(msg));
+            }
+            else
+                data.AddLine(GetValid(V602));
+        }
+
+        private static List<string> GetIncorrectRibbons(PKM pkm, object encounterContent, int gen)
         {
             List<string> missingRibbons = new List<string>();
             List<string> invalidRibbons = new List<string>();
@@ -21,7 +48,7 @@ namespace PKHeX.Core
                 result.Add(string.Format(V601, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
             return result;
         }
-        internal static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
+        private static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
         {
             var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
             if (encounterContent is IRibbonSetEvent3 event3)

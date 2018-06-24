@@ -2051,5 +2051,10 @@ namespace PKHeX.Core
             { "덩쿠리", "덩구리" }, // Tangela
             { "슈륙챙이", "수륙챙이" }, // Poliwhirl
         };
+
+        public static bool HasEastAsianScriptCharacters(IEnumerable<char> str)
+        {
+            return str.Any(c => 0x4E00 <= c && c <= 0x9FFF);
+        }
     }
 }

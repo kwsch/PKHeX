@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Identification flair for what properties a <see cref="CheckResult"/> pertains to </summary>
-    internal enum CheckIdentifier
+    public enum CheckIdentifier
     {
         /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.Moves"/>.
@@ -35,11 +35,11 @@
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.Gender"/>.
         /// </summary>
         Gender,
-        /// <summary> 
+        /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.EVs"/>.
         /// </summary>
         EVs,
-        /// <summary> 
+        /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.Language"/>.
         /// </summary>
         Language,
@@ -91,7 +91,7 @@
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> ribbon data.
         /// </summary>
         Ribbon,
-        /// <summary> 
+        /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> super training data.
         /// </summary>
         Training,
@@ -112,5 +112,9 @@
         /// <remarks>This is used for parsing checks to ensure the <see cref="PKM"/> didn't debut on a future <see cref="PKM.GenNumber"/></remarks>
         /// </summary>
         GameOrigin,
+        /// <summary>
+        /// The CheckResult pertains to the <see cref="PKM.HeldItem"/>.
+        /// </summary>
+        HeldItem
     }
 }

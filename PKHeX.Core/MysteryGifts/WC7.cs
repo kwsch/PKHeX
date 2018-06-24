@@ -455,5 +455,10 @@ namespace PKHeX.Core
             pk.RefreshChecksum();
             return pk;
         }
+
+        public bool IsAshGreninjaWC7(PKM pkm)
+        {
+            return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
+        }
     }
 }
