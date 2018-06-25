@@ -75,9 +75,18 @@ namespace PKHeX.Core
         private void VerifyIVsSlot(LegalityAnalysis data, EncounterSlot w)
         {
             var pkm = data.pkm;
-            bool force2 = w.Type == SlotType.FriendSafari || w.Generation == 7 && pkm.AbilityNumber == 4;
-            if (force2 && pkm.IVs.Count(iv => iv == 31) < 2)
-                data.AddLine(GetInvalid(w.Type == SlotType.FriendSafari ? V29 : string.Format(V28, 2)));
+            if (w.Generation == 7 && pkm.AbilityNumber == 4)
+                VerifyIVsFlawless(data, 3);
+            else if (w.Type == SlotType.FriendSafari && pkm.IVs.Count(iv => iv == 31) < 2)
+                data.AddLine(GetInvalid(string.Format(V28, 2)));
+            else if(pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
+                VerifyIVsFlawless(data, 3);
+        }
+
+        private void VerifyIVsFlawless(LegalityAnalysis data, int count)
+        {
+            if (data.pkm.IVs.Count(iv => iv == 31) < 3)
+                data.AddLine(GetInvalid(string.Format(V28, count)));
         }
 
         private void VerifyIVsStatic(LegalityAnalysis data, EncounterStatic s)

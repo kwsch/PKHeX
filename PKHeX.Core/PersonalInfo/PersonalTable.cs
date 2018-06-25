@@ -252,6 +252,9 @@ namespace PKHeX.Core
         /// </summary>
         public int TableLength => Table.Length;
 
+        /// <summary>
+        /// Maximum Species ID for the Table.
+        /// </summary>
         public readonly int MaxSpeciesID;
 
         /// <summary>

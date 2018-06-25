@@ -925,8 +925,13 @@ namespace PKHeX.Core
         {
             if (GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species)))
                 return 3;
-            if (XY && Met_Location == 148 && Met_Level == 30)
-                return 2;
+            if (XY)
+            {
+                if (Met_Location == 148 && Met_Level == 30)
+                    return 2;
+                if (PersonalInfo.EggGroup1 == 15) // Undiscovered
+                    return 3;
+            }
             if (VC)
                 return Species == 151 || Species == 251 ? 5 : 3;
             return 0;

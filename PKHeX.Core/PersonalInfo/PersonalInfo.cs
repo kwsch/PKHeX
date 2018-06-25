@@ -14,7 +14,19 @@
         public abstract int SPA { get; set; }
         public abstract int SPD { get; set; }
 
-        public int[] Stats => new[] { HP, ATK, DEF, SPE, SPA, SPD };
+        public int[] Stats
+        {
+            get => new[] { HP, ATK, DEF, SPE, SPA, SPD };
+            set
+            {
+                HP = value[0];
+                ATK = value[1];
+                DEF = value[2];
+                SPE = value[3];
+                SPA = value[4];
+                SPD = value[5];
+            }
+        }
 
         public abstract int EV_HP { get; set; }
         public abstract int EV_ATK { get; set; }
@@ -131,17 +143,13 @@
         {
             get
             {
-                switch (Gender)
-                {
-                    case 255: // Genderless
-                        return 2;
-                    case 254: // Female
-                        return 1;
-                    case 0: // Male
-                        return 0;
-                    default:
-                        return (int)(Util.Rand32() & 1);
-                }
+                if (Genderless)
+                    return 2;
+                if (OnlyFemale)
+                    return 1;
+                if (OnlyMale)
+                    return 0;
+                return Util.Rand.Next(2);
             }
         }
 
