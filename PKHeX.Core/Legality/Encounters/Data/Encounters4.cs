@@ -591,7 +591,7 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 234, Gender = 1, Level = 28, }, // Stantler
             new EncounterStatic{ Species = 044, Gender = 1, Level = 14, }, // Gloom
             new EncounterStatic{ Species = 070, Gender = 0, Level = 13, }, // Weepinbell
-            new EncounterStatic{ Species = 105, Gender = 1, Level = 30, Moves = new[]{037}, }, // Marowak: Tharsh
+            new EncounterStatic{ Species = 105, Gender = 1, Level = 30, Moves = new[]{037}, }, // Marowak: Thrash
             new EncounterStatic{ Species = 128, Gender = 0, Level = 30, }, // Tauros
             new EncounterStatic{ Species = 042, Gender = 0, Level = 33, }, // Golbat
             new EncounterStatic{ Species = 177, Gender = 1, Level = 24, }, // Natu
@@ -681,7 +681,7 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 240, Gender = 0, Level = 05, }, // Magby
             new EncounterStatic{ Species = 238, Gender = 1, Level = 05, }, // Smoochum
             new EncounterStatic{ Species = 440, Gender = 1, Level = 05, }, // Happiny
-            new EncounterStatic{ Species = 173, Gender = 1, Level = 05, }, // Cleffa
+            new EncounterStatic{ Species = 173, Gender = 1, Level = 05, Moves = new[] {118}}, // Cleffa: Metronome
             new EncounterStatic{ Species = 174, Gender = 0, Level = 05, }, // Igglybuff
         };
         #endregion
