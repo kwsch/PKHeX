@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -285,19 +284,7 @@ namespace PKHeX.Core
                     return 1;
                 if (gv == 0)
                     return 0;
-                switch (gv)
-                {
-                    case 31:
-                        return IV_ATK >= 2 ? 0 : 1;
-                    case 63:
-                        return IV_ATK >= 5 ? 0 : 1;
-                    case 127:
-                        return IV_ATK >= 8 ? 0 : 1;
-                    case 191:
-                        return IV_ATK >= 12 ? 0 : 1;
-                }
-                Debug.WriteLine($"Unknown Gender value: {gv}");
-                return 0;
+                return IV_ATK > gv >> 4 ? 0 : 1;
             }
             set { }
         }
