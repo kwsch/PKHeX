@@ -577,7 +577,7 @@ namespace PKHeX.Core
                 // Gen 3 Unown: Letter/form derived from PID
                 if (g3unown)
                 {
-                    uint pidLetter = ((pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | pid & 0x3) % 28;
+                    var pidLetter = GetUnownForm(pid);
                     if (pidLetter != form)
                         continue;
                 }
@@ -673,13 +673,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the Unown Forme ID from PID.
         /// </summary>
-        /// <param name="PID">Personality ID</param>
+        /// <param name="pid">Personality ID</param>
         /// <remarks>Should only be used for 3rd Generation origin specimens.</remarks>
         /// <returns></returns>
-        public static int GetUnownForm(uint PID)
+        public static int GetUnownForm(uint pid)
         {
-            byte[] data = BitConverter.GetBytes(PID);
-            return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
+            var val = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | pid & 0x3;
+            return (int)(val % 28);
         }
 
         /// <summary>
