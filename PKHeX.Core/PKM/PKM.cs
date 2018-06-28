@@ -802,8 +802,7 @@ namespace PKHeX.Core
             if (Format > 2)
                 return;
 
-            int[] and2 = {2, 3, 6, 7, 10, 11, 14, 15};
-            IV_ATK = and2[Util.Rand32() & 7];
+            IV_ATK |= 2;
             IV_DEF = 10;
             IV_SPE = 10;
             IV_SPA = 10;
