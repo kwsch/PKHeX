@@ -816,9 +816,18 @@ namespace PKHeX.Core
         public static string[] GetPKMExtensions(int maxGeneration = Generation)
         {
             var result = new List<string>();
-            result.AddRange(new [] {"ck3", "xk3", "bk4"}); // Special Cases
-            for (int i = 1; i <= maxGeneration; i++)
-                result.Add("pk"+i);
+            int min = maxGeneration <= 2 || maxGeneration >= 7 ? 1 : 3;
+            for (int i = min; i <= maxGeneration; i++)
+                result.Add($"pk{i}");
+
+            if (maxGeneration >= 3)
+            {
+                result.Add("ck3");
+                result.Add("xk3");
+            }
+            if (maxGeneration >= 4)
+                result.Add("bk4");
+
             return result.ToArray();
         }
 
