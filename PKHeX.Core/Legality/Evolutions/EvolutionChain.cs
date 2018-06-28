@@ -172,7 +172,10 @@ namespace PKHeX.Core
             if (Encounter.Species == maxspec)
             {
                 if (vs.Count != 1)
+                {
                     vs.RemoveAll(z => z.Species != Encounter.Species);
+                    vs[0].MinLevel = Encounter.LevelMin;
+                }
                 return vs;
             }
 

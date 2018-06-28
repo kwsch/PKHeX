@@ -18,7 +18,6 @@ namespace PKHeX.Core
             Version = version;
             Table = table;
             Learn = learn;
-
         }
 
         public List<int> AddMovesIndex(List<int> moves, int index, int max, int min)
