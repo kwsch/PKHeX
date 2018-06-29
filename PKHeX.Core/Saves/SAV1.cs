@@ -409,7 +409,10 @@ namespace PKHeX.Core
         }
         public override bool? IsDaycareOccupied(int loc, int slot)
         {
-            return null;
+            if (loc == 0 && slot == 0)
+                return Data[Japanese ? 0x2CA7 : 0x2CF4] == 0x01;
+            else
+                return null;
         }
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
