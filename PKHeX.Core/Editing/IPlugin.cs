@@ -3,9 +3,14 @@
     public interface IPlugin
     {
         /// <summary>
-        /// Plugin Name
+        /// Plugin Name.
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Plugin Loading Priority (lowest is initialized first).
+        /// </summary>
+        int Priority { get; }
 
         /// <summary>
         /// Entrypoint for the parent to initialize the plugin with provided arguments.

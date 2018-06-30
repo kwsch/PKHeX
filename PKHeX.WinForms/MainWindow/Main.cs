@@ -262,7 +262,7 @@ namespace PKHeX.WinForms
             if (!Directory.Exists(PluginPath))
                 return;
             Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
-            foreach (var p in Plugins)
+            foreach (var p in Plugins.OrderBy(z => z.Priority))
                 p.Initialize(C_SAV, PKME_Tabs, menuStrip1);
         }
         private static void DeleteConfig(string settingsFilename)
