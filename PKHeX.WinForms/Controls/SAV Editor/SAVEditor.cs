@@ -586,7 +586,7 @@ namespace PKHeX.WinForms.Controls
                 new SAV_SimpleTrainer(SAV).ShowDialog();
             else if (SAV.Generation == 6)
                 new SAV_Trainer(SAV).ShowDialog();
-            else if (SAV.Generation == 7)
+            else if (SAV is SAV7)
                 new SAV_Trainer7(SAV).ShowDialog();
             // Refresh conversion info
             PKMConverter.UpdateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
@@ -728,7 +728,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (SAV.Generation == 6)
                 new SAV_HallOfFame(SAV).ShowDialog();
-            else if (SAV.Generation == 7)
+            else if (SAV is SAV7)
                 new SAV_HallOfFame7(SAV).ShowDialog();
         }
         private void B_CGearSkin_Click(object sender, EventArgs e)
@@ -795,8 +795,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (!SAV.Exportable)
                 return false;
-            SaveFileDialog sfd = new SaveFileDialog
-                { FileName = Util.CleanFileName(SAV.BAKName) };
+            var sfd = new SaveFileDialog {FileName = Util.CleanFileName(SAV.BAKName)};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
 
@@ -1028,8 +1027,6 @@ namespace PKHeX.WinForms.Controls
                 GB_Daycare.Visible = sav.HasDaycare;
                 B_OpenSecretBase.Enabled = sav.HasSecretBase;
                 B_OpenPokepuffs.Enabled = sav.HasPuff;
-                B_OpenPokeBeans.Enabled = sav.Generation == 7;
-                B_CellsStickers.Enabled = sav.Generation == 7;
                 B_OUTPasserby.Enabled = sav.HasPSS;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
@@ -1044,6 +1041,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenEventFlags.Enabled = sav.HasEvents;
                 B_OpenLinkInfo.Enabled = sav.HasLink;
                 B_CGearSkin.Enabled = sav.Generation == 5;
+                B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR); // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
@@ -1053,12 +1051,11 @@ namespace PKHeX.WinForms.Controls
                 B_OpenApricorn.Enabled = sav.HGSS;
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
-                B_FestivalPlaza.Enabled = sav.Generation == 7;
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
             }
-            GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
+            GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.OfType<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
                 c.Visible = c.Enabled;
         }
@@ -1163,7 +1160,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void B_FestivalPlaza_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation == 7)
+            if (SAV is SAV7)
                 new SAV_FestivalPlaza(SAV).ShowDialog();
         }
         private void B_MailBox_Click(object sender, EventArgs e)

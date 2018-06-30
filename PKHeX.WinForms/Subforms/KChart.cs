@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = sav;
-            alolanOnly = SAV.Generation == 7 && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Alolan Dex only?");
+            alolanOnly = SAV is SAV7 && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Alolan Dex only?");
 
             Array.Resize(ref species, SAV.Personal.TableLength);
 

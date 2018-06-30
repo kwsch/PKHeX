@@ -76,7 +76,7 @@ namespace PKHeX.Core
             Form = ConvertFormFromShowdown(Form, Species, Ability);
             // Set Form
             string[] formStrings = PKX.GetFormList(Species, types, forms, genderForms);
-            FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form ?? "")));
+            FormIndex = string.IsNullOrWhiteSpace(Form) ? 0 : Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
         }
         private void ParseLines(IEnumerable<string> lines)
         {

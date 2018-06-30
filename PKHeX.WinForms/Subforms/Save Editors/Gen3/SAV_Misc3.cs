@@ -141,7 +141,7 @@ namespace PKHeX.WinForms
         private void B_GetTickets_Click(object sender, EventArgs e)
         {
             var Pouches = SAV.Inventory;
-            string[] itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version);
+            var itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version).ToArray();
             for (int i = 0; i < itemlist.Length; i++)
                 if (string.IsNullOrEmpty(itemlist[i]))
                     itemlist[i] = $"(Item #{i:000})";

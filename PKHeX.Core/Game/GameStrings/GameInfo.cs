@@ -45,15 +45,15 @@ namespace PKHeX.Core
         }
 
         // DataSource providing
-        public static List<ComboItem> ItemDataSource => Strings.ItemDataSource;
-        public static List<ComboItem> SpeciesDataSource => Strings.SpeciesDataSource;
-        public static List<ComboItem> BallDataSource => Strings.BallDataSource;
-        public static List<ComboItem> NatureDataSource => Strings.NatureDataSource;
-        public static List<ComboItem> AbilityDataSource => Strings.AbilityDataSource;
-        public static List<ComboItem> VersionDataSource => Strings.VersionDataSource;
-        public static List<ComboItem> LegalMoveDataSource => Strings.LegalMoveDataSource;
-        public static List<ComboItem> HaXMoveDataSource => Strings.HaXMoveDataSource;
-        public static List<ComboItem> MoveDataSource => Strings.MoveDataSource;
+        public static IReadOnlyList<ComboItem> ItemDataSource => Strings.ItemDataSource;
+        public static IReadOnlyList<ComboItem> SpeciesDataSource => Strings.SpeciesDataSource;
+        public static IReadOnlyList<ComboItem> BallDataSource => Strings.BallDataSource;
+        public static IReadOnlyList<ComboItem> NatureDataSource => Strings.NatureDataSource;
+        public static IReadOnlyList<ComboItem> AbilityDataSource => Strings.AbilityDataSource;
+        public static IReadOnlyList<ComboItem> VersionDataSource => Strings.VersionDataSource;
+        public static IReadOnlyList<ComboItem> LegalMoveDataSource => Strings.LegalMoveDataSource;
+        public static IReadOnlyList<ComboItem> HaXMoveDataSource => Strings.HaXMoveDataSource;
+        public static IReadOnlyList<ComboItem> MoveDataSource => Strings.MoveDataSource;
 
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace PKHeX.Core
         /// <param name="gen">Generation to get location names for.</param>
         /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <returns>List of location names.</returns>
-        private static string[] GetLocationNames(int gen, int bankID)
+        private static IReadOnlyList<string> GetLocationNames(int gen, int bankID)
         {
             switch (gen)
             {
@@ -231,7 +231,7 @@ namespace PKHeX.Core
             }
 
             var bank = GetLocationNames(gen, bankID);
-            if (bank == null || bank.Length <= locval)
+            if (bank == null || bank.Count <= locval)
                 return string.Empty;
             return bank[locval];
         }
@@ -243,7 +243,7 @@ namespace PKHeX.Core
         /// <param name="pkmFormat">Generation to retrieve for</param>
         /// <param name="egg">Egg Locations are to be retrieved instead of regular Met Locations</param>
         /// <returns>Consumable list of met locations</returns>
-        public static List<ComboItem> GetLocationList(GameVersion version, int pkmFormat, bool egg = false)
+        public static IReadOnlyList<ComboItem> GetLocationList(GameVersion version, int pkmFormat, bool egg = false)
         {
             return Strings.GetLocationList(version, pkmFormat, egg);
         }

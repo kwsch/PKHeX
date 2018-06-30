@@ -1689,7 +1689,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format >= 3)
             {
                 var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                var locstr = met_list.Find(loc => loc.Value == location).Text;
+                var locstr = met_list.First(loc => loc.Value == location).Text;
                 suggestion.Add($"{MsgPKMSuggestionMetLocation} {locstr}");
                 suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");
             }

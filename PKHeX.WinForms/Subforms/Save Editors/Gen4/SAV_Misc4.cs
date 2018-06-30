@@ -103,7 +103,7 @@ namespace PKHeX.WinForms
             NUD_Coin.Value = SAV.Coin;
             NUD_Coin.Maximum = SAV.MaxCoins;
             int[] FlyDestD;
-            List<ComboItem> metLocationList;
+            IReadOnlyList<ComboItem> metLocationList;
             switch (SAV.Version)
             {
                 case GameVersion.D:

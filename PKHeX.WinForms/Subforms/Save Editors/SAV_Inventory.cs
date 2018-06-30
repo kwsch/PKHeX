@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (Origin = sav).Clone();
-            itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version);
+            itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version).ToArray();
 
             for (int i = 0; i < itemlist.Length; i++)
                 if (itemlist[i]?.Length == 0)

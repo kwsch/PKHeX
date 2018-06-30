@@ -26,12 +26,12 @@ namespace PKHeX.Core
         private readonly string lang;
 
         public string EggName => eggname;
-        public string[] Species => specieslist;
-        public string[] Item => itemlist;
-        public string[] Move => movelist;
-        public string[] Ability => abilitylist;
-        public string[] Types => types;
-        public string[] Natures => natures;
+        public IReadOnlyList<string> Species => specieslist;
+        public IReadOnlyList<string> Item => itemlist;
+        public IReadOnlyList<string> Move => movelist;
+        public IReadOnlyList<string> Ability => abilitylist;
+        public IReadOnlyList<string> Types => types;
+        public IReadOnlyList<string> Natures => natures;
 
         private string[] Get(string ident) => GameInfo.GetStrings(ident, lang);
 
@@ -240,7 +240,7 @@ namespace PKHeX.Core
                 metSM_30000[i] += " (-)";
         }
 
-        public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any)
+        public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)
         {
             switch (generation)
             {
@@ -271,23 +271,23 @@ namespace PKHeX.Core
         }
 
         // DataSource providing
-        public List<ComboItem> ItemDataSource { get; private set; }
-        public List<ComboItem> SpeciesDataSource { get; private set; }
-        public List<ComboItem> BallDataSource { get; private set; }
-        public List<ComboItem> NatureDataSource { get; private set; }
-        public List<ComboItem> AbilityDataSource { get; private set; }
-        public List<ComboItem> VersionDataSource { get; private set; }
-        public List<ComboItem> LegalMoveDataSource { get; private set; }
-        public List<ComboItem> HaXMoveDataSource { get; private set; }
-        public List<ComboItem> MoveDataSource { get; set; }
+        public IReadOnlyList<ComboItem> ItemDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> SpeciesDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> BallDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> NatureDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> AbilityDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> VersionDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> LegalMoveDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> HaXMoveDataSource { get; private set; }
+        public IReadOnlyList<ComboItem> MoveDataSource { get; set; }
 
-        private List<ComboItem> MetGen2 { get; set; }
-        private List<ComboItem> MetGen3 { get; set; }
-        private List<ComboItem> MetGen3CXD { get; set; }
-        private List<ComboItem> MetGen4 { get; set; }
-        private List<ComboItem> MetGen5 { get; set; }
-        private List<ComboItem> MetGen6 { get; set; }
-        private List<ComboItem> MetGen7 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen2 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen3 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen3CXD { get; set; }
+        private IReadOnlyList<ComboItem> MetGen4 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen5 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen6 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen7 { get; set; }
 
         public MemoryStrings Memories { get; private set; }
 
@@ -299,15 +299,25 @@ namespace PKHeX.Core
             SpeciesDataSource = Util.GetCBList(specieslist, null);
             NatureDataSource = Util.GetCBList(natures, null);
             AbilityDataSource = Util.GetCBList(abilitylist, null);
-            VersionDataSource = Util.GetCBList(gamelist, Legal.Games_7usum, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
-            VersionDataSource.AddRange(Util.GetCBList(gamelist, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
-            VersionDataSource.AddRange(Util.GetCBList(gamelist, Legal.Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
-            VersionDataSource.AddRange(Util.GetCBList(gamelist, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
+            VersionDataSource = GetVersionList();
 
             HaXMoveDataSource = Util.GetCBList(movelist, null);
             MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
             InitializeMetSources();
             Memories = new MemoryStrings(this);
+        }
+
+        private IReadOnlyList<ComboItem> GetVersionList()
+        {
+            var ver = Util.GetCBList(gamelist,
+                Legal.Games_7usum, Legal.Games_7sm,
+                Legal.Games_6oras, Legal.Games_6xy,
+                Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r,
+                Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
+            ver.AddRange(Util.GetCBList(gamelist, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
+            ver.AddRange(Util.GetCBList(gamelist, Legal.Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
+            ver.AddRange(Util.GetCBList(gamelist, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
+            return ver;
         }
 
         private void InitializeMetSources()
@@ -374,10 +384,10 @@ namespace PKHeX.Core
 
         public void SetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort> allowed = null, bool HaX = false)
         {
-            string[] items = GetItemStrings(generation, game);
+            var items = GetItemStrings(generation, game);
             ItemDataSource = Util.GetCBList(items, (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int)i)).ToArray());
         }
-        public List<ComboItem> GetLocationList(GameVersion Version, int SaveFormat, bool egg)
+        public IReadOnlyList<ComboItem> GetLocationList(GameVersion Version, int SaveFormat, bool egg)
         {
             if (SaveFormat == 2)
                 return MetGen2;

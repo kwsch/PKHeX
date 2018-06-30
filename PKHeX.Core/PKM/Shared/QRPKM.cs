@@ -42,7 +42,7 @@ namespace PKHeX.Core
             if (pkm.HeldItem > 0)
             {
                 var str = s.GetItemStrings(pkm.Format);
-                if (pkm.HeldItem < str.Length)
+                if (pkm.HeldItem < str.Count)
                     yield return $" @ {str[pkm.HeldItem]}";
             }
 

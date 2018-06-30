@@ -88,9 +88,9 @@ namespace PKHeX.Core
         /// <param name="list">Source list to sort</param>
         /// <param name="speciesNames">Names of each species</param>
         /// <returns>Enumerable list that is sorted</returns>
-        public static IEnumerable<PKM> OrderBySpeciesName(this IEnumerable<PKM> list, string[] speciesNames)
+        public static IEnumerable<PKM> OrderBySpeciesName(this IEnumerable<PKM> list, IReadOnlyList<string> speciesNames)
         {
-            int max = speciesNames.Length - 1;
+            int max = speciesNames.Count - 1;
             string SpeciesName(int s) => s > max ? string.Empty : speciesNames[s];
 
             return list.InitialSortBy()

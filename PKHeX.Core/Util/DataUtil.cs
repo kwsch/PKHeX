@@ -248,20 +248,20 @@ namespace PKHeX.Core
                 .Select(data => new ComboItem { Text = data[1], Value = Convert.ToInt32(data[0]) })
                 .ToList();
         }
-        public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
         {
             if (allowed?[0] == null)
-                allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
+                allowed = new[] { Enumerable.Range(0, inStrings.Count).ToArray() };
 
             return allowed.SelectMany(list => list
                 .Select(z => new ComboItem { Text = inStrings[z], Value = z })
                 .OrderBy(z => z.Text))
                 .ToList();
         }
-        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
+        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
         {
             if (allowed == null)
-                allowed = Enumerable.Range(0, inStrings.Length).ToArray();
+                allowed = Enumerable.Range(0, inStrings.Count);
 
             var list = allowed
                 .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
