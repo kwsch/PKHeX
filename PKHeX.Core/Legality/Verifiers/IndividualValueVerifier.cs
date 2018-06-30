@@ -26,30 +26,38 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.IVTotal == 0)
                 data.AddLine(Get(V321, Severity.Fishy));
-            else if (pkm.IVs[0] < 30 && pkm.IVs.All(iv => pkm.IVs[0] == iv))
-                data.AddLine(Get(V32, Severity.Fishy));
+            else
+            {
+                var hpiv = pkm.IV_HP;
+                if (hpiv < 30 && AllIVsEqual(pkm, hpiv))
+                    data.AddLine(Get(V32, Severity.Fishy));
+            }
+        }
+
+        public static bool AllIVsEqual(PKM pkm) => AllIVsEqual(pkm, pkm.IV_HP);
+
+        private static bool AllIVsEqual(PKM pkm, int hpiv)
+        {
+            return (pkm.IV_ATK == hpiv) && (pkm.IV_DEF == hpiv) && (pkm.IV_SPA == hpiv) && (pkm.IV_SPD == hpiv) && (pkm.IV_SPE == hpiv);
         }
 
         private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
         {
-            var pkm = data.pkm;
-            int[] IVs = GetMysteryGiftIVs(g);
+            int[] IVs = g.IVs;
             if (IVs == null)
                 return;
 
-            var pkIVs = pkm.IVs;
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
             if (ivflag == 0) // Random IVs
             {
-                bool valid = GetIsFixedIVSequenceValid(IVs, pkIVs);
+                bool valid = GetIsFixedIVSequenceValid(IVs, data.pkm.IVs);
                 if (!valid)
                     data.AddLine(GetInvalid(V30));
             }
             else
             {
                 int IVCount = ivflag - 0xFB;  // IV2/IV3
-                if (pkIVs.Count(iv => iv == 31) < IVCount)
-                    data.AddLine(GetInvalid(string.Format(V28, IVCount)));
+                VerifyIVsFlawless(data, IVCount);
             }
         }
 
@@ -61,39 +69,27 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static int[] GetMysteryGiftIVs(MysteryGift g)
-        {
-            switch (g)
-            {
-                case WC7 wc7: return wc7.IVs;
-                case WC6 wc6: return wc6.IVs;
-                case PGF pgf: return pgf.IVs;
-                default: return null;
-            }
-        }
-
         private void VerifyIVsSlot(LegalityAnalysis data, EncounterSlot w)
         {
             var pkm = data.pkm;
             if (w.Generation == 7 && pkm.AbilityNumber == 4)
                 VerifyIVsFlawless(data, 3);
-            else if (w.Type == SlotType.FriendSafari && pkm.IVs.Count(iv => iv == 31) < 2)
-                data.AddLine(GetInvalid(string.Format(V28, 2)));
-            else if(pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
+            else if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
                 VerifyIVsFlawless(data, 3);
+            else if (w.Type == SlotType.FriendSafari)
+                VerifyIVsFlawless(data, 2);
         }
 
         private void VerifyIVsFlawless(LegalityAnalysis data, int count)
         {
-            if (data.pkm.IVs.Count(iv => iv == 31) < 3)
+            if (data.pkm.IVs.Count(iv => iv == 31) < count)
                 data.AddLine(GetInvalid(string.Format(V28, count)));
         }
 
         private void VerifyIVsStatic(LegalityAnalysis data, EncounterStatic s)
         {
-            var pkm = data.pkm;
-            if (s.FlawlessIVCount != 0 && pkm.IVs.Count(iv => iv == 31) < s.FlawlessIVCount)
-                data.AddLine(GetInvalid(string.Format(V28, s.FlawlessIVCount)));
+            if (s.FlawlessIVCount != 0)
+                VerifyIVsFlawless(data, s.FlawlessIVCount);
         }
     }
 }

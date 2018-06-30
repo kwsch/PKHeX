@@ -10,14 +10,16 @@ namespace PKHeX.Core
             var result = VerifyConsoleRegion(data.pkm);
             data.AddLine(result);
         }
-        private static CheckResult VerifyConsoleRegion(PKM pkm)
+        private CheckResult VerifyConsoleRegion(PKM pkm)
         {
             int consoleRegion = pkm.ConsoleRegion;
             if (consoleRegion >= 7)
-                return new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography);
-            return Legal.IsConsoleRegionCountryValid(consoleRegion, pkm.Country)
-                ? new CheckResult(Severity.Valid, V303, CheckIdentifier.Geography)
-                : new CheckResult(Severity.Invalid, V302, CheckIdentifier.Geography);
+                return GetInvalid(V301);
+
+            if (!Legal.IsConsoleRegionCountryValid(consoleRegion, pkm.Country))
+                return GetInvalid(V302);
+
+            return GetValid(V303);
         }
     }
 }

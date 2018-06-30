@@ -54,32 +54,38 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             bool genderValid = pkm.IsGenderValid();
             if (!genderValid)
-            {
-                if (pkm.Format == 4 && pkm.Species == 292) // Shedinja glitch
-                {
-                    // should match original gender
-                    var gender = PKX.GetGenderFromPIDAndRatio(pkm.PID, 0x7F); // 50M-50F
-                    if (gender == pkm.Gender)
-                        return true;
-                }
-                else if (pkm.Format > 5 && (pkm.Species == 183 || pkm.Species == 184)) // Azurill/Marill Gender Ratio Change
-                {
-                    var gv = pkm.PID & 0xFF;
-                    if (gv > 63 && pkm.Gender == 1) // evolved from azurill after transferring to keep gender
-                        return true;
-                }
-                return false;
-            }
+                return IsValidGenderMismatch(pkm);
 
             // check for mixed->fixed gender incompatibility by checking the gender of the original species
-            var EncounterMatch = data.EncounterMatch;
-            if (Legal.FixedGenderFromBiGender.Contains(EncounterMatch.Species) && pkm.Gender != 2) // shedinja
-            {
-                var gender = PKX.GetGenderFromPID(EncounterMatch.Species, pkm.EncryptionConstant);
-                if (gender != pkm.Gender)  // gender must not be different from original
-                    return false;
-            }
+            int original = data.EncounterMatch.Species;
+            if (Legal.FixedGenderFromBiGender.Contains(original))
+                return IsValidFixedGenderFromBiGender(pkm, original);
+
             return true;
+        }
+
+        private static bool IsValidFixedGenderFromBiGender(PKM pkm, int original)
+        {
+            var current = pkm.Gender;
+            if (current == 2) // shedinja, genderless
+                return true;
+            var gender = PKX.GetGenderFromPID(original, pkm.EncryptionConstant);
+            return gender == current;
+        }
+
+        private static bool IsValidGenderMismatch(PKM pkm)
+        {
+            switch (pkm.Species)
+            {
+                case 292 when pkm.Format == 4: // Shedinja evolution gender glitch, should match original Gender
+                    return pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F); // 50M-50F
+
+                case 183 when pkm.Format >= 6:
+                case 184 when pkm.Format >= 6: // evolved from azurill after transferring to keep gender
+                    return pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F;
+
+                default: return false;
+            }
         }
     }
 }

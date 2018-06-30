@@ -139,6 +139,19 @@ namespace PKHeX.Core
             return MemoryArgType.None;
         }
 
+        public static bool CanHaveFeeling(int memory, int feeling)
+        {
+            if (memory >= MemoryFeelings.Length)
+                return false;
+            return (MemoryFeelings[memory] & (1 << feeling)) != 0;
+        }
+        public static bool CanHaveIntensity(int memory, int intensity)
+        {
+            if (memory >= MemoryFeelings.Length)
+                return false;
+            return MemoryMinIntensity[memory] <= intensity;
+        }
+
         public static int GetRandomFeeling(int memory, int max = 24)
         {
             var bits = MemoryFeelings[memory];
@@ -148,6 +161,12 @@ namespace PKHeX.Core
                 if ((bits & (1 << feel)) != 0)
                     return feel;
             }
+        }
+        public static int GetMinimumIntensity(int memory)
+        {
+            if (memory > MemoryMinIntensity.Length)
+                return -1;
+            return MemoryMinIntensity[memory];
         }
 
         public static void GetMemoryVariables(PKM pkm, out int m, out int t, out int i, out int f, out string resultPrefix, int handler = -1)

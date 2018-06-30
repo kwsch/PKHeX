@@ -216,28 +216,28 @@ namespace PKHeX.Core
             Memories.GetMemoryVariables(pkm, out int m, out int t, out int i, out int f, out string tr, handler);
             int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], m);
             if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6))
-                return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
+                return GetInvalid(string.Format(V153, tr));
 
             if (m == 6 && !Memories.LocationsWithPKCenter[0].Contains(t))
-                return new CheckResult(Severity.Invalid, string.Format(V154, tr), CheckIdentifier.Memory);
+                return GetInvalid(string.Format(V154, tr));
 
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
                 if (!Legal.GetCanLearnMachineMove(new PK6 { Species = t, EXP = PKX.GetEXP(100, t) }, 19, 6))
-                    return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
+                    return GetInvalid(string.Format(V153, tr));
 
             if ((m == 16 || m == 48) && (t == 0 || !Legal.GetCanKnowMove(pkm, t, 6)))
-                return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
+                return GetInvalid(string.Format(V153, tr));
 
             if (m == 49 && (t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                return new CheckResult(Severity.Invalid, string.Format(V153, tr), CheckIdentifier.Memory);
+                return GetInvalid(string.Format(V153, tr));
 
-            if (i < Memories.MemoryMinIntensity[m])
-                return new CheckResult(Severity.Invalid, string.Format(V254, tr, Memories.MemoryMinIntensity[m]), CheckIdentifier.Memory);
+            if (!Memories.CanHaveIntensity(m, i))
+                return GetInvalid(string.Format(V254, tr, Memories.GetMinimumIntensity(m)));
 
-            if (m != 4 && (Memories.MemoryFeelings[m] & (1 << f)) == 0)
-                return new CheckResult(Severity.Invalid, string.Format(V255, tr), CheckIdentifier.Memory);
+            if (m != 4 && !Memories.CanHaveFeeling(m, f))
+                return GetInvalid(string.Format(V255, tr));
 
-            return new CheckResult(Severity.Valid, string.Format(V155, tr), CheckIdentifier.Memory);
+            return GetValid(string.Format(V155, tr));
         }
 
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
@@ -281,7 +281,7 @@ namespace PKHeX.Core
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
                 case WC7 g when !g.IsEgg:
-                    VerifyOTMemoryIs(data,g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
+                    VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
             }
 

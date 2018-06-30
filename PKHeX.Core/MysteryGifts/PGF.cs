@@ -139,7 +139,16 @@ namespace PKHeX.Core
         public bool MultiObtain { get => Data[0xB4] == 1; set => Data[0xB4] = (byte)(value ? 1 : 0); }
 
         // Meta Accessible Properties
-        public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        public override int[] IVs
+        {
+            get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+            set
+            {
+                if (value?.Length != 6) return;
+                IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
+                IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
+            }
+        }
         public bool IsNicknamed => Nickname.Length > 0;
         public override bool IsShiny => PIDType == 2;
         public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }

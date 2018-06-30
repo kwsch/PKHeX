@@ -133,6 +133,7 @@ namespace PKHeX.Core
         // Search Properties
         public virtual int[] Moves { get => new int[4]; set { } }
         public virtual int[] RelearnMoves { get => new int[4]; set { } }
+        public virtual int[] IVs { get => null; set { } }
         public virtual bool IsShiny => false;
         public virtual bool IsEgg { get => false; set { } }
         public virtual int HeldItem { get => -1; set { } }

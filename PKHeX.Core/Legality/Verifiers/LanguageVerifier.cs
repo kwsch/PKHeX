@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
             if (!IsValidLanguageID(currentLanguage, maxLanguageID, pkm))
             {
-                data.AddLine(GetInvalid(string.Format(V5, $"<={maxLanguageID}", currentLanguage)));
+                data.AddLine(GetInvalid(string.Format(V5, $"<={(LanguageID)maxLanguageID}", currentLanguage)));
                 return;
             }
 

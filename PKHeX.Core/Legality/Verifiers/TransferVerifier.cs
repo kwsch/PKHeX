@@ -48,7 +48,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
+        public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             // Check existing EncounterMatch
             if (encounter is EncounterInvalid || transfer == null)
@@ -59,13 +59,13 @@ namespace PKHeX.Core
                 bool exceptions = false;
                 exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == 151 && pkm.TID == 22796;
                 if (!exceptions)
-                    yield return new CheckResult(Severity.Invalid, V79, CheckIdentifier.Encounter);
+                    yield return GetInvalid(V79);
             }
 
             if (pkm.Met_Location != transfer.Location)
-                yield return new CheckResult(Severity.Invalid, V81, CheckIdentifier.Encounter);
+                yield return GetInvalid(V81);
             if (pkm.Egg_Location != transfer.EggLocation)
-                yield return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
+                yield return GetInvalid(V59);
 
             // Flag Moves that cannot be transferred
             if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
@@ -86,12 +86,12 @@ namespace PKHeX.Core
             if (pkm.Gender == 1) // female
             {
                 if (pkm.PersonalInfo.Gender == 31 && pkm.IsShiny) // impossible gender-shiny
-                    yield return new CheckResult(Severity.Invalid, V209, CheckIdentifier.PID);
+                    yield return GetInvalid(V209, CheckIdentifier.PID);
             }
             else if (pkm.Species == 201) // unown
             {
                 if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
-                    yield return new CheckResult(Severity.Invalid, V209, CheckIdentifier.PID);
+                    yield return GetInvalid(V209, CheckIdentifier.PID);
             }
         }
     }
