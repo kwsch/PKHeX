@@ -221,6 +221,9 @@ namespace PKHeX.Core
             if (SAV.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
                 pk.Version = (int)GameVersion.W + Util.Rand.Next(4);
 
+            if (Move1 == 0) // No moves defined
+                pk.Moves = MoveLevelUp.GetEncounterMoves(Species, Form, Level, (GameVersion)pk.Version);
+
             pk.SetMaximumPPCurrent();
             if (IsEgg) // User's
             {
