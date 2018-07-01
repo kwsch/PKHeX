@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using static PKHeX.Core.LegalityCheckStrings;
+﻿using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -39,7 +38,7 @@ namespace PKHeX.Core
                 data.AddLine(Get(V36, Severity.Fishy));
             else if (pkm.SID == 0)
                 data.AddLine(Get(V37, Severity.Fishy));
-            else if (pkm.TID == 12345 && pkm.SID == 54321 || SuspiciousOTNames.Any(z => ot.StartsWith(z)))
+            else if (pkm.TID == 12345 && pkm.SID == 54321 || IsOTNameSuspicious(ot))
                 data.AddLine(Get(V417, Severity.Fishy));
 
             if (pkm.VC)
@@ -60,7 +59,7 @@ namespace PKHeX.Core
 
             VerifyG1OTWithinBounds(data, tr);
             if (data.EncounterOriginal is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
-                VerifyG1OTStadium(data, tr);
+                data.AddLine(VerifyG1OTStadium(data, tr));
 
             if (pkm.Species == 151)
             {
@@ -95,15 +94,12 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(V421));
             }
         }
-        private void VerifyG1OTStadium(LegalityAnalysis data, string tr)
+        private CheckResult VerifyG1OTStadium(LegalityAnalysis data, string tr)
         {
             var pkm = data.pkm;
             bool jp = pkm.Japanese;
             bool valid = GetIsStadiumOTIDValid(data, jp, tr);
-            if (!valid)
-                data.AddLine(GetInvalid(V402));
-            else
-                data.AddLine(GetValid(jp ? V404 : V403));
+            return valid ? GetValid(jp ? V404 : V403) : GetInvalid(V402);
         }
         private bool GetIsStadiumOTIDValid(LegalityAnalysis data, bool jp, string tr)
         {
@@ -111,6 +107,14 @@ namespace PKHeX.Core
             if (jp)
                 return tr == "スタジアム" && pkm.TID == 1999;
             return tr == (data.Info.Generation == 1 ? "STADIUM" : "Stadium") && pkm.TID == 2000;
+        }
+
+        private bool IsOTNameSuspicious(string name)
+        {
+            foreach (var ot in SuspiciousOTNames)
+                if (name.StartsWith(ot))
+                    return true;
+            return false;
         }
     }
 }

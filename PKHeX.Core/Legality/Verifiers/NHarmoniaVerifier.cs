@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using static PKHeX.Core.LegalityCheckStrings;
+﻿using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -25,7 +24,7 @@ namespace PKHeX.Core
             if (!checksRequired)
                 return;
 
-            if (pkm.IVs.Any(iv => iv != 30))
+            if (pkm.IVTotal != 30*6)
                 data.AddLine(GetInvalid(V218, CheckIdentifier.IVs));
             if (!VerifyNsPKMOTValid(pkm))
                 data.AddLine(GetInvalid(V219, CheckIdentifier.Trainer));

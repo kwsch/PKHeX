@@ -674,6 +674,8 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 424, Level = 40, Ability = 2, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly, }, // Ambipom
             new EncounterTrade { Species = 065, Level = 40, Ability = 1, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid, }, // Alakazam
         };
+
+        internal const int YancyCurtisTID = 10303;
         internal static readonly EncounterTrade[] TradeGift_B2W2_YancyCurtis =
         {
             // player is male

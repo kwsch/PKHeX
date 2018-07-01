@@ -53,23 +53,18 @@ namespace PKHeX.Core
         {
             var Type_A = pk1.Type_A;
             var Type_B = pk1.Type_B;
-            if (pk1.Species == 137)
+            if (pk1.Species == 137) // Porygon
             {
-                // Porygon can have any type combination of any generation 1 species because of the move Conversion,
-                // that change Porygon type to match the oponent types
-                var Type_A_Match = Legal.Types_Gen1.Any(t => t == Type_A);
-                var Type_B_Match = Legal.Types_Gen1.Any(t => t == Type_B);
-                if (!Type_A_Match)
+                // Can have any type combination of any species by using Conversion.
+                if (!Legal.Types_Gen1.Contains(Type_A))
                     data.AddLine(GetInvalid(V386));
-                if (!Type_B_Match)
+                else if (!Legal.Types_Gen1.Contains(Type_B))
                     data.AddLine(GetInvalid(V387));
-                if (Type_A_Match && Type_B_Match)
+                else // Both match a type, ensure a gen1 species has this combo
                 {
                     var TypesAB_Match = PersonalTable.RB.IsValidTypeCombination(Type_A, Type_B);
-                    if (TypesAB_Match)
-                        data.AddLine(GetValid(V391));
-                    else
-                        data.AddLine(GetInvalid(V388));
+                    var result = TypesAB_Match ? GetValid(V391) : GetInvalid(V388);
+                    data.AddLine(result);
                 }
             }
             else // Types must match species types
@@ -91,7 +86,7 @@ namespace PKHeX.Core
             {
                 case TradebackType.Any:
                 case TradebackType.WasTradeback:
-                    if (catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate))
+                    if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
                         data.AddLine(GetValid(V394));
                     else if (pk1.TradebackStatus == TradebackType.WasTradeback)
                         data.AddLine(GetInvalid(V395));
@@ -111,7 +106,7 @@ namespace PKHeX.Core
                     break;
             }
         }
-        private void VerifyMiscFatefulEncounter(LegalityAnalysis data)
+        private static void VerifyMiscFatefulEncounter(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterMatch;
@@ -147,7 +142,7 @@ namespace PKHeX.Core
             if (pkm.FatefulEncounter)
                 data.AddLine(GetInvalid(V325, CheckIdentifier.Fateful));
         }
-        private void VerifyMiscEggCommon(LegalityAnalysis data)
+        private static void VerifyMiscEggCommon(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Move1_PPUps > 0 || pkm.Move2_PPUps > 0 || pkm.Move3_PPUps > 0 || pkm.Move4_PPUps > 0)
@@ -170,7 +165,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(msg, CheckIdentifier.Egg));
             }
         }
-        private void VerifyFatefulMysteryGift(LegalityAnalysis data, MysteryGift g)
+        private static void VerifyFatefulMysteryGift(LegalityAnalysis data, MysteryGift g)
         {
             var pkm = data.pkm;
             if (g is PGF p && p.IsShiny)
@@ -181,18 +176,18 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(V411, CheckIdentifier.PID));
             }
 
-            if (pkm.FatefulEncounter)
-                data.AddLine(GetValid(V321, CheckIdentifier.Fateful));
-            else
-                data.AddLine(GetInvalid(V322, CheckIdentifier.Fateful));
+            var result = pkm.FatefulEncounter
+                ? GetValid(V321, CheckIdentifier.Fateful)
+                : GetInvalid(V322, CheckIdentifier.Fateful);
+            data.AddLine(result);
         }
-        private void VerifyWC3Shiny(LegalityAnalysis data, WC3 g3)
+        private static void VerifyWC3Shiny(LegalityAnalysis data, WC3 g3)
         {
             // check for shiny locked gifts
             if (!g3.Shiny.IsValid(data.pkm))
                 data.AddLine(GetInvalid(V409, CheckIdentifier.Fateful));
         }
-        private void VerifyFatefulIngameActive(LegalityAnalysis data)
+        private static void VerifyFatefulIngameActive(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Version == 15 && pkm is XK3 xk3 && data.Info.WasXD)
@@ -204,10 +199,10 @@ namespace PKHeX.Core
                 return; // fateful is set when transferred away
             }
 
-            if (pkm.FatefulEncounter)
-                data.AddLine(GetValid(V323, CheckIdentifier.Fateful));
-            else
-                data.AddLine(GetInvalid(V324, CheckIdentifier.Fateful));
+            var result = pkm.FatefulEncounter
+                ? GetValid(V323, CheckIdentifier.Fateful)
+                : GetInvalid(V324, CheckIdentifier.Fateful);
+            data.AddLine(result);
         }
 
         public void VerifyVersionEvolution(LegalityAnalysis data)

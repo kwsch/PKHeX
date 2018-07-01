@@ -139,7 +139,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).Concat(Pouch_Roto_USUM).ToArray();
 
-        private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
+        internal static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
             0x1A, // Beast

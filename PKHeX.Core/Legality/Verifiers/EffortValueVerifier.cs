@@ -13,16 +13,16 @@ namespace PKHeX.Core
             var evs = pkm.EVs;
             int sum = pkm.EVTotal;
             if (sum > 0 && pkm.IsEgg)
-                data.AddLine(GetInvalid(V22, CheckIdentifier.EVs));
+                data.AddLine(GetInvalid(V22));
             if (pkm.Format >= 3 && sum > 510)
-                data.AddLine(GetInvalid(V25, CheckIdentifier.EVs));
+                data.AddLine(GetInvalid(V25));
             if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
-                data.AddLine(GetInvalid(V26, CheckIdentifier.EVs));
+                data.AddLine(GetInvalid(V26));
             if (pkm.Format == 4 && pkm.Gen4 && EncounterMatch.LevelMin == 100)
             {
                 // Cannot EV train at level 100 -- Certain events are distributed at level 100.
                 if (evs.Any(ev => ev > 100)) // EVs can only be increased by vitamins to a max of 100.
-                    data.AddLine(GetInvalid(V367, CheckIdentifier.EVs));
+                    data.AddLine(GetInvalid(V367));
             }
             else if (pkm.Format < 5)
             {
@@ -32,7 +32,7 @@ namespace PKHeX.Core
 
                 const int maxEV = 100; // Vitamin Max
                 if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
-                    data.AddLine(GetInvalid(string.Format(V418, maxEV), CheckIdentifier.EVs));
+                    data.AddLine(GetInvalid(string.Format(V418, maxEV)));
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0

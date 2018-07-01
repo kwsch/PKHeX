@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -310,7 +309,7 @@ namespace PKHeX.Core
             }
             else // B2W2
             {
-                if (Encounters5.TradeGift_B2W2_YancyCurtis.Contains(EncounterMatch))
+                if (EncounterMatch is EncounterTrade t && t.TID == Encounters5.YancyCurtisTID)
                     VerifyTradeOTOnly(data, pkm.OT_Gender == 0 ? Encounters5.TradeOT_B2W2_M : Encounters5.TradeOT_B2W2_F);
                 else
                     VerifyTradeTable(data, Encounters5.TradeB2W2, Encounters5.TradeGift_B2W2);

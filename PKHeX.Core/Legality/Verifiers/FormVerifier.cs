@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -164,7 +163,7 @@ namespace PKHeX.Core
                     return GetInvalid(V317);
             }
 
-            if (pkm.AltForm != 0 && BattleOnly.Any(arr => arr.Contains(pkm.Species)))
+            if (pkm.AltForm != 0 && BattleOnly.Contains(pkm.Species))
                 return GetInvalid(V310);
 
             return VALID;
@@ -197,7 +196,14 @@ namespace PKHeX.Core
             return 0;
         }
 
-        private static readonly HashSet<int>[] BattleOnly = {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals};
+        static FormVerifier()
+        {
+            BattleOnly = new HashSet<int>();
+            BattleOnly.UnionWith(Legal.BattleForms);
+            BattleOnly.UnionWith(Legal.BattleMegas);
+            BattleOnly.UnionWith(Legal.BattlePrimals);
+        }
+        private static readonly HashSet<int> BattleOnly;
 
         private static readonly HashSet<int> SafariFloette = new HashSet<int> {0, 1, 3}; // 0/1/3 - RBY
         private void VerifyFormFriendSafari(LegalityAnalysis data)

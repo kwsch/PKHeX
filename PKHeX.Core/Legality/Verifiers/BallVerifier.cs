@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -106,7 +105,8 @@ namespace PKHeX.Core
         private CheckResult VerifyBallEggGen6(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.Gender == 2 || Legal.BreedMaleOnly.Contains(data.EncounterMatch.Species)) // Genderless
+            int species = data.EncounterMatch.Species;
+            if (pkm.Gender == 2 || Legal.BreedMaleOnly.Contains(species)) // Genderless
                 return VerifyBallEquals(data, 4); // Must be Pokéball as ball can only pass via mother (not Ditto!)
 
             int ball = pkm.Ball;
@@ -114,7 +114,6 @@ namespace PKHeX.Core
             if (ball >= 26)
                 return GetInvalid(V126);
 
-            int species = data.EncounterMatch.Species;
             if (ball == 0x05) // Safari Ball
             {
                 if (!Legal.Inherit_Safari.Contains(species))
@@ -141,7 +140,7 @@ namespace PKHeX.Core
             }
             if (ball == 0x19) // Dream Ball
             {
-                if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(pkm.Species))
+                if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(species))
                     return GetInvalid(V122);
                 if (Legal.Inherit_Dream.Contains(species))
                     return GetValid(V123);
@@ -149,13 +148,13 @@ namespace PKHeX.Core
             }
             if (0x0D <= ball && ball <= 0x0F) // Dusk Heal Quick
             {
-                if (!Legal.Ban_Gen4Ball_6.Contains(pkm.Species))
+                if (!Legal.Ban_Gen4Ball_6.Contains(species))
                     return GetValid(V123);
                 return GetInvalid(V121);
             }
             if (0x02 <= ball && ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
             {
-                if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
+                if (Legal.Ban_Gen3Ball.Contains(species))
                     return GetInvalid(V121);
                 if (pkm.AbilityNumber == 4 && Legal.Ban_Gen3BallHidden.Contains(pkm.SpecForm))
                     return GetInvalid(V122);
@@ -163,9 +162,9 @@ namespace PKHeX.Core
 
             }
 
-            if (pkm.Species > 650 && pkm.Species != 700) // Sylveon
+            if (species > 650 && species != 700) // Sylveon
             {
-                if (Legal.GetWildBalls(pkm).Contains(pkm.Ball))
+                if (Legal.WildPokeballs6.Contains(pkm.Ball))
                     return GetValid(V123);
                 return GetInvalid(V121);
             }
@@ -175,12 +174,12 @@ namespace PKHeX.Core
         private CheckResult VerifyBallEggGen7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (722 <= pkm.Species && pkm.Species <= 730) // G7 Starters
+            int species = data.EncounterMatch.Species;
+            if (722 <= species && species <= 730) // G7 Starters
                 return VerifyBallEquals(data, 4);
 
             int ball = pkm.Ball;
 
-            int species = data.EncounterMatch.Species;
             if (ball == 0x05) // Safari Ball
             {
                 if (!(Legal.Inherit_Safari.Contains(species) || Legal.Inherit_SafariMale.Contains(species)))
@@ -235,8 +234,8 @@ namespace PKHeX.Core
                 // next statement catches all new alolans
             }
 
-            if (pkm.Species > 721)
-                return VerifyBallEquals(data, Legal.GetWildBalls(pkm));
+            if (species > 721)
+                return VerifyBallEquals(data, Legal.WildPokeballs7);
 
             if (ball >= 27)
                 return GetInvalid(V126);
@@ -245,6 +244,7 @@ namespace PKHeX.Core
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);
+        private CheckResult VerifyBallEquals(LegalityAnalysis data, HashSet<int> balls) => GetResult(balls.Contains(data.pkm.Ball));
         private CheckResult VerifyBallEquals(LegalityAnalysis data, ICollection<int> balls) => GetResult(balls.Contains(data.pkm.Ball));
         private CheckResult GetResult(bool valid)
         {
