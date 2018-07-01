@@ -277,19 +277,5 @@ namespace PKHeX.Core
 
             return 1;
         }
-
-        /// <summary>
-        /// Gets an enumerable list of species IDs from the possible lineage of the <see cref="pkm"/> based on its current format.
-        /// </summary>
-        /// <param name="pkm">Pokémon to fetch the lineage for.</param>
-        internal static IEnumerable<int> GetLineage(PKM pkm)
-        {
-            if (pkm.IsEgg)
-                return new[] { pkm.Species };
-
-            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
-            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
-            return lineage.Select(evolution => evolution.Species);
-        }
     }
 }

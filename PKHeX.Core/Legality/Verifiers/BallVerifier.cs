@@ -114,9 +114,10 @@ namespace PKHeX.Core
             if (ball >= 26)
                 return GetInvalid(V126);
 
+            int species = data.EncounterMatch.Species;
             if (ball == 0x05) // Safari Ball
             {
-                if (EvolutionChain.GetLineage(pkm).All(e => !Legal.Inherit_Safari.Contains(e)))
+                if (!Legal.Inherit_Safari.Contains(species))
                     return GetInvalid(V121);
                 if (pkm.AbilityNumber == 4)
                     return GetInvalid(V122);
@@ -124,7 +125,7 @@ namespace PKHeX.Core
             }
             if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
-                if (EvolutionChain.GetLineage(pkm).All(e => !Legal.Inherit_Apricorn6.Contains(e)))
+                if (!Legal.Inherit_Apricorn6.Contains(species))
                     return GetInvalid(V121);
                 if (pkm.AbilityNumber == 4)
                     return GetInvalid(V122);
@@ -132,7 +133,7 @@ namespace PKHeX.Core
             }
             if (ball == 0x18) // Sport Ball
             {
-                if (EvolutionChain.GetLineage(pkm).All(e => !Legal.Inherit_Sport.Contains(e)))
+                if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(V121);
                 if (pkm.AbilityNumber == 4)
                     return GetInvalid(V122);
@@ -142,7 +143,7 @@ namespace PKHeX.Core
             {
                 if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(pkm.Species))
                     return GetInvalid(V122);
-                if (EvolutionChain.GetLineage(pkm).Any(e => Legal.Inherit_Dream.Contains(e)))
+                if (Legal.Inherit_Dream.Contains(species))
                     return GetValid(V123);
                 return GetInvalid(V121);
             }
@@ -178,57 +179,58 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, 4);
 
             int ball = pkm.Ball;
-            var Lineage = EvolutionChain.GetLineage(pkm).ToArray();
+
+            int species = data.EncounterMatch.Species;
             if (ball == 0x05) // Safari Ball
             {
-                if (!Lineage.Any(e => Legal.Inherit_Safari.Contains(e) || Legal.Inherit_SafariMale.Contains(e)))
+                if (!(Legal.Inherit_Safari.Contains(species) || Legal.Inherit_SafariMale.Contains(species)))
                     return GetInvalid(V121);
-                if (pkm.AbilityNumber == 4 && Lineage.Any(e => Legal.Ban_SafariBallHidden_7.Contains(e)))
+                if (pkm.AbilityNumber == 4 && Legal.Ban_SafariBallHidden_7.Contains(species))
                     return GetInvalid(V122);
                 return GetValid(V123);
             }
             if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
-                if (!Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e)))
+                if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(V121);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(Lineage.Last() | pkm.AltForm << 11)) // lineage is 3->2->origin
+                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
                     return GetInvalid(V122);
                 return GetValid(V123);
             }
             if (ball == 0x18) // Sport Ball
             {
-                if (!Lineage.Any(e => Legal.Inherit_Sport.Contains(e)))
+                if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(V121);
-                if (pkm.AbilityNumber == 4 && (Lineage.Contains(313) || Lineage.Contains(314))) // Volbeat/Illumise
+                if (pkm.AbilityNumber == 4 && (species == 313) || (species == 314)) // Volbeat/Illumise
                     return GetInvalid(V122);
                 return GetValid(V123);
             }
             if (ball == 0x19) // Dream Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e) || Legal.Inherit_DreamMale.Contains(e)))
+                if (Legal.Inherit_Dream.Contains(species) || Legal.Inherit_DreamMale.Contains(species))
                     return GetValid(V123);
                 return GetInvalid(V121);
             }
             if (0x0D <= ball && ball <= 0x0F) // Dusk Heal Quick
             {
-                if (!Legal.Ban_Gen4Ball_7.Contains(pkm.Species))
+                if (!Legal.Ban_Gen4Ball_7.Contains(species))
                     return GetValid(V123);
                 return GetInvalid(V121);
             }
             if (0x02 <= ball && ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
             {
-                if (!Legal.Ban_Gen3Ball_7.Contains(pkm.Species))
+                if (!Legal.Ban_Gen3Ball_7.Contains(species))
                     return GetValid(V123);
                 return GetInvalid(V121);
             }
 
             if (ball == 26)
             {
-                if (Lineage[0] == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(V122); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e) && !Legal.PastGenAlolanNativesUncapturable.Contains(e)))
+                if ((species > 731 && species <= 785) || Legal.PastGenAlolanNatives.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species))
                     return GetValid(V123);
-                if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
+                if (Legal.PastGenAlolanScans.Contains(species))
                     return GetValid(V123);
                 // next statement catches all new alolans
             }

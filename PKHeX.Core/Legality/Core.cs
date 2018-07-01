@@ -1061,10 +1061,10 @@ namespace PKHeX.Core
                 return 1;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);
         }
-        private static bool GetCatchRateMatchesPreEvolution(PKM pkm, int catch_rate)
+        private static bool GetCatchRateMatchesPreEvolution(PKM pkm, int catch_rate, IEnumerable<int> gen1)
         {
             // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-            var Lineage = EvolutionChain.GetLineage(pkm).Except(Species_NotAvailable_CatchRate);
+            var Lineage = gen1.Except(Species_NotAvailable_CatchRate);
             return IsCatchRateRBY(Lineage) || IsCatchRateTrade() || IsCatchRateStadium();
 
             // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
@@ -1084,7 +1084,10 @@ namespace PKHeX.Core
 
             // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pkm's evolution chain.
             var catch_rate = ((PK1)pkm).Catch_Rate;
-            bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate);
+            var table = EvolutionTree.GetEvolutionTree(1);
+            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
+            var gen1 = lineage.Select(evolution => evolution.Species);
+            bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate, gen1);
 
             // If the catch rate value has been modified, the item has either been removed or swapped in Generation 2.
             var HeldItemCatchRate = catch_rate == 0 || HeldItems_GSC.Any(h => h == catch_rate);
