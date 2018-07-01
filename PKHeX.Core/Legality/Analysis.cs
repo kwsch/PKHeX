@@ -20,8 +20,6 @@ namespace PKHeX.Core
         public IEncounterable EncounterMatch => Info.EncounterMatch;
         public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
 
-        public CheckResult Encounter;
-
         public readonly bool Parsed;
         public readonly bool Valid;
         public readonly PersonalInfo PersonalInfo;
@@ -197,7 +195,6 @@ namespace PKHeX.Core
         private void UpdateInfo()
         {
             Info = EncounterFinder.FindVerifiedEncounter(pkm);
-            Encounter = Info.Parse[0];
             Parse.AddRange(Info.Parse);
         }
         private void UpdateTradebackG12()
