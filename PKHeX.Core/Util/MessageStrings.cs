@@ -73,7 +73,7 @@ namespace PKHeX.Core
         public static string MsgFileWriteProtected { get; set; } = "File's location is write protected:";
         public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
         public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
-        public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size.";
+        public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could mean PKHeX doesn't support your save file or your save file is corrupt.";
         public static string MsgPKMConvertFail { get; set; } = "Conversion failed.";
         public static string MsgPKMMysteryGiftFail { get; set; } = "Mystery Gift is not a Pokémon.";
 
