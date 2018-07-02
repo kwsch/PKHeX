@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class ItemVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.HeldItem"/>.
+    /// </summary>
+    public sealed class ItemVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.HeldItem;
         public override void Verify(LegalityAnalysis data)

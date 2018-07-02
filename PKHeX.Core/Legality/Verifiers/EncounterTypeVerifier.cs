@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class EncounterTypeVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PK4.EncounterType"/>.
+    /// </summary>
+    public sealed class EncounterTypeVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Encounter;
 

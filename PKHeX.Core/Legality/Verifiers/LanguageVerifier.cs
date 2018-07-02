@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Verifies the <see cref="PKM.Language"/>.
+    /// </summary>
     public sealed class LanguageVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Language;

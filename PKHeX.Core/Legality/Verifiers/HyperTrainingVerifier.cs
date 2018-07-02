@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class HyperTrainingVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="IHyperTrain"/> values.
+    /// </summary>
+    public sealed class HyperTrainingVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Training;
 

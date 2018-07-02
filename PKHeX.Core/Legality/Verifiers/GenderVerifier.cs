@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class GenderVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.Gender"/>.
+    /// </summary>
+    public sealed class GenderVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Gender;
 

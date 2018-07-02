@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class NHarmoniaVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PK5.NPokémon"/> data.
+    /// </summary>
+    public sealed class NHarmoniaVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Trainer;
 

@@ -3,6 +3,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Verifies the <see cref="PKM.EVs"/>.
+    /// </summary>
     public sealed class EffortValueVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.EVs;

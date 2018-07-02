@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class TrainerNameVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.OT_Name"/>.
+    /// </summary>
+    public sealed class TrainerNameVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Trainer;
 

@@ -5,7 +5,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class AbilityVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.Ability"/> values.
+    /// </summary>
+    public sealed class AbilityVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Ability;
         public override void Verify(LegalityAnalysis data)

@@ -5,13 +5,18 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class MemoryVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.OT_Memory"/>, <see cref="PKM.HT_Memory"/>, and associated values.
+    /// </summary>
+    public sealed class MemoryVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
 
         public override void Verify(LegalityAnalysis data)
         {
             var hist = VerifyHistory(data);
+            VerifyOTMemory(data);
+            VerifyHTMemory(data);
             data.AddLine(hist);
         }
         private CheckResult VerifyHistory(LegalityAnalysis data)
@@ -23,44 +28,44 @@ namespace PKHeX.Core
             if (Info.Generation < 6)
             {
                 if (pkm.Format < 6)
-                    return new CheckResult(Severity.Valid, V128, CheckIdentifier.History);
+                    return GetValid(V128);
 
                 if (pkm.OT_Affection != 0 && Info.Generation <= 2 || IsInvalidContestAffection(pkm))
-                    return new CheckResult(Severity.Invalid, V129, CheckIdentifier.History);
+                    return GetInvalid(V129);
                 if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
-                    return new CheckResult(Severity.Invalid, V130, CheckIdentifier.History);
+                    return GetInvalid(V130);
             }
 
             if (pkm.Format >= 6 && Info.Generation != pkm.Format && pkm.CurrentHandler != 1)
-                return new CheckResult(Severity.Invalid, V124, CheckIdentifier.History);
+                return GetInvalid(V124);
 
             if (pkm.HT_Gender > 1)
-                return new CheckResult(Severity.Invalid, string.Format(V131, pkm.HT_Gender), CheckIdentifier.History);
+                return GetInvalid(string.Format(V131, pkm.HT_Gender));
 
             if (EncounterMatch is WC6 wc6 && wc6.OT_Name.Length > 0)
             {
                 if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
-                    return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
+                    return GetInvalid(V132);
                 if (pkm.OT_Affection != 0 && (pkm.AO || !pkm.IsUntraded) && IsInvalidContestAffection(pkm))
-                    return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
+                    return GetInvalid(V133);
                 if (pkm.CurrentHandler != 1)
-                    return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
+                    return GetInvalid(V134);
             }
             else if (EncounterMatch is WC7 wc7 && wc7.OT_Name.Length > 0 && wc7.TID != 18075) // Ash Pikachu QR Gift doesn't set Current Handler
             {
                 if (pkm.OT_Friendship != PersonalTable.USUM[EncounterMatch.Species].BaseFriendship)
-                    return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
+                    return GetInvalid(V132);
                 if (pkm.OT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
+                    return GetInvalid(V133);
                 if (pkm.CurrentHandler != 1)
-                    return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
+                    return GetInvalid(V134);
             }
             else if (EncounterMatch is MysteryGift mg && mg.Format < 6 && pkm.Format >= 6)
             {
                 if (pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
-                    return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
+                    return GetInvalid(V133);
                 if (pkm.CurrentHandler != 1)
-                    return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
+                    return GetInvalid(V134);
             }
 
             // Geolocations
@@ -75,12 +80,12 @@ namespace PKHeX.Core
             for (int i = 0; i < 5; i++)
             {
                 if (geoEnd && geo[i] != 0)
-                    return new CheckResult(Severity.Invalid, V135, CheckIdentifier.History);
+                    return GetInvalid(V135);
 
                 if (geo[i] != 0)
                     continue;
                 if (geo[i + 5] != 0)
-                    return new CheckResult(Severity.Invalid, V136, CheckIdentifier.History);
+                    return GetInvalid(V136);
                 geoEnd = true;
             }
             if (pkm.Format >= 7)
@@ -103,19 +108,19 @@ namespace PKHeX.Core
             if (untraded) // Is not Traded
             {
                 if (pkm.HT_Name.Length != 0)
-                    return new CheckResult(Severity.Invalid, V146, CheckIdentifier.History);
+                    return GetInvalid(V146);
                 if (pkm.Geo1_Country != 0)
-                    return new CheckResult(Severity.Invalid, V147, CheckIdentifier.History);
+                    return GetInvalid(V147);
                 if (pkm.HT_Memory != 0)
-                    return new CheckResult(Severity.Invalid, V148, CheckIdentifier.History);
+                    return GetInvalid(V148);
                 if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                    return new CheckResult(Severity.Invalid, V139, CheckIdentifier.History);
+                    return GetInvalid(V139);
                 if (pkm.HT_Friendship != 0)
-                    return new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
+                    return GetInvalid(V140);
                 if (pkm.HT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
+                    return GetInvalid(V141);
                 if (pkm.XY && pkm is IContestStats s && s.HasContestStats())
-                    return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
+                    return GetInvalid(V138);
 
                 if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
                     return chk1;
@@ -125,27 +130,27 @@ namespace PKHeX.Core
             else // Is Traded
             {
                 if (pkm.Format == 6 && pkm.HT_Memory == 0 && !pkm.IsEgg)
-                    return new CheckResult(Severity.Invalid, V150, CheckIdentifier.History);
+                    return GetInvalid(V150);
             }
 
             // Memory ChecksResult
             if (pkm.IsEgg)
             {
                 if (pkm.HT_Memory != 0)
-                    return new CheckResult(Severity.Invalid, V149, CheckIdentifier.History);
+                    return GetInvalid(V149);
                 if (pkm.OT_Memory != 0)
-                    return new CheckResult(Severity.Invalid, V151, CheckIdentifier.History);
+                    return GetInvalid(V151);
             }
             else if (!(EncounterMatch is WC6))
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
-                    return new CheckResult(Severity.Invalid, V152, CheckIdentifier.History);
+                    return GetInvalid(V152);
                 if (Info.Generation < 6 && pkm.OT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, V129, CheckIdentifier.History);
+                    return GetInvalid(V129);
             }
             // Unimplemented: Ingame Trade Memories
 
-            return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
+            return GetValid(V145);
         }
         private CheckResult VerifyHistory7(LegalityAnalysis data, int[] geo)
         {
@@ -158,11 +163,11 @@ namespace PKHeX.Core
                 var hasGeo = geo.Any(d => d != 0);
 
                 if (!hasGeo)
-                    return new CheckResult(Severity.Invalid, V137, CheckIdentifier.History);
+                    return GetInvalid(V137);
             }
 
             if ((2 >= Info.Generation || Info.Generation >= 7) && pkm is IContestStats s && s.HasContestStats())
-                return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
+                return GetInvalid(V138);
 
             if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
             {
@@ -172,23 +177,23 @@ namespace PKHeX.Core
                     return chk2;
             }
 
-            return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
+            return GetValid(V145);
         }
-        private static bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
+        private bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
         {
             result = null;
             if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                result = new CheckResult(Severity.Invalid, V139, CheckIdentifier.History);
+                result = GetInvalid(V139);
             else if (pkm.HT_Friendship != 0)
-                result = new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
+                result = GetInvalid(V140);
             else if (pkm.HT_Affection != 0)
-                result = new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
+                result = GetInvalid(V141);
             else
                 return false;
 
             return true;
         }
-        private static bool VerifyHistoryUntradedEvolution(PKM pkm, IReadOnlyList<EvoCriteria>[] chain, out CheckResult result)
+        private bool VerifyHistoryUntradedEvolution(PKM pkm, IReadOnlyList<EvoCriteria>[] chain, out CheckResult result)
         {
             result = null;
             // Handling Trainer string is empty implying it has not been traded.
@@ -199,16 +204,16 @@ namespace PKHeX.Core
                 if (Legal.IsTradeEvolved(chain, pkm.Format))
                     return false;
                 if (pkm is IContestStats s && s.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                    result = new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
+                    result = GetInvalid(V143);
                 else if (pkm.CurrentLevel == 1)
-                    result = new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
+                    result = GetInvalid(V144);
                 else
                     return false;
                 return true;
             }
             if (!Legal.IsTradeEvolved(chain, pkm.Format))
                 return false;
-            result = new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
+            result = GetInvalid(V142);
             return true;
         }
         private CheckResult VerifyCommonMemory(PKM pkm, int handler)
@@ -244,15 +249,15 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (pkm.OT_Memory != m)
-                data.AddLine(Severity.Invalid, string.Format(V197, V205, m), CheckIdentifier.Memory);
+                data.AddLine(GetInvalid(string.Format(V197, V205, m)));
             if (pkm.OT_Intensity != i)
-                data.AddLine(Severity.Invalid, string.Format(V198, V205, i), CheckIdentifier.Memory);
+                data.AddLine(GetInvalid(string.Format(V198, V205, i)));
             if (pkm.OT_TextVar != t)
-                data.AddLine(Severity.Invalid, string.Format(V199, V205, t), CheckIdentifier.Memory);
+                data.AddLine(GetInvalid(string.Format(V199, V205, t)));
             if (pkm.OT_Feeling != f)
-                data.AddLine(Severity.Invalid, string.Format(V200, V205, f), CheckIdentifier.Memory);
+                data.AddLine(GetInvalid(string.Format(V200, V205, f)));
         }
-        public void VerifyOTMemory(LegalityAnalysis data)
+        private void VerifyOTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Format < 6)
@@ -327,7 +332,7 @@ namespace PKHeX.Core
 
             data.AddLine(VerifyCommonMemory(pkm, 0));
         }
-        public void VerifyHTMemory(LegalityAnalysis data)
+        private void VerifyHTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Format < 6)

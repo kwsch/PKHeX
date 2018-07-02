@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class CXDVerifier : Verifier
+    /// <summary>
+    /// Verifies the specific origin data of <see cref="GameVersion.CXD"/> encounters.
+    /// </summary>
+    public sealed class CXDVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
         public override void Verify(LegalityAnalysis data)

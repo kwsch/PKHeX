@@ -3,7 +3,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class MiscVerifier : Verifier
+    /// <summary>
+    /// Verifies miscellaneous data including <see cref="PKM.FatefulEncounter"/> and minor values.
+    /// </summary>
+    public sealed class MiscVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
         public override void Verify(LegalityAnalysis data)

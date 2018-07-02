@@ -3,7 +3,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class BallVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.Ball"/> value.
+    /// </summary>
+    public sealed class BallVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Ball;
         private CheckResult NONE => GetInvalid(V125);

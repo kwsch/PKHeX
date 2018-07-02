@@ -3,7 +3,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class PIDVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.EncryptionConstant"/>.
+    /// </summary>
+    public sealed class PIDVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.PID;
 

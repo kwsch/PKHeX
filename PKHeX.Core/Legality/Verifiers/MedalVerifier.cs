@@ -3,7 +3,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class MedalVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.SuperTrainingMedalCount"/> and associated values.
+    /// </summary>
+    public sealed class MedalVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Training;
 

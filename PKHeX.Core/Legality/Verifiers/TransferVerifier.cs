@@ -4,7 +4,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class TransferVerifier : Verifier
+    /// <summary>
+    /// Verifies the transfer data for a <see cref="PKM"/> that has been irreversably transferred forward.
+    /// </summary>
+    public sealed class TransferVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Encounter;
         public override void Verify(LegalityAnalysis data)
@@ -24,27 +27,26 @@ namespace PKHeX.Core
         public void VerifyTransferLegalityG4(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            // Transfer Legality
             int loc = pkm.Met_Location;
-            if (loc != 30001) // PokéTransfer
+            if (loc == Legal.Transfer4)
+                return;
+
+            // Crown met location must be present
+            switch (pkm.Species)
             {
-                // Crown
-                switch (pkm.Species)
-                {
-                    case 251: // Celebi
-                        if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
-                            data.AddLine(GetInvalid(V351));
-                        break;
-                    case 243: // Raikou
-                    case 244: // Entei
-                    case 245: // Suicune
-                        if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
-                            data.AddLine(GetInvalid(V351));
-                        break;
-                    default:
-                        data.AddLine(GetInvalid(V61));
-                        break;
-                }
+                case 251: // Celebi
+                    if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
+                        data.AddLine(GetInvalid(V351));
+                    break;
+                case 243: // Raikou
+                case 244: // Entei
+                case 245: // Suicune
+                    if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
+                        data.AddLine(GetInvalid(V351));
+                    break;
+                default:
+                    data.AddLine(GetInvalid(V61));
+                    break;
             }
         }
 
@@ -69,16 +71,7 @@ namespace PKHeX.Core
 
             // Flag Moves that cannot be transferred
             if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
-            {
-                // can't have Dizzy Punch at all
-                int index = Array.IndexOf(pkm.Moves, 146); // Dizzy Punch
-                if (index >= 0)
-                {
-                    var chk = Moves[index];
-                    if (chk.Generation == 2) // not obtained from a future gen
-                        Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, V82, CheckIdentifier.Move);
-                }
-            }
+                FlagIncompatibleTransferMove(pkm, Moves, 146, 2); // can't have Dizzy Punch at all
 
             bool checkShiny = pkm.VC2 || pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1;
             if (!checkShiny)
@@ -93,6 +86,17 @@ namespace PKHeX.Core
                 if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(V209, CheckIdentifier.PID);
             }
+        }
+
+        private static void FlagIncompatibleTransferMove(PKM pkm, IList<CheckMoveResult> Moves, int move, int gen)
+        {
+            int index = Array.IndexOf(pkm.Moves, move);
+            if (index < 0)
+                return; // doesn't have move
+
+            var chk = Moves[index];
+            if (chk.Generation == gen) // not obtained from a future gen
+                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, V82, CheckIdentifier.Move);
         }
     }
 }

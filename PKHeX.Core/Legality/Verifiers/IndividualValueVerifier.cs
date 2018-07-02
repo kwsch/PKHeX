@@ -5,6 +5,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Verifies the <see cref="PKM.IVs"/>.
+    /// </summary>
     public sealed class IndividualValueVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.IVs;

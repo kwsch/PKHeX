@@ -248,8 +248,6 @@ namespace PKHeX.Core
                 return;
 
             Memory.Verify(this);
-            Memory.VerifyOTMemory(this);
-            Memory.VerifyHTMemory(this);
             Medal.Verify(this);
             ConsoleRegion.Verify(this);
 

@@ -23,9 +23,9 @@ namespace PKHeX.Core
         private static readonly Verifier PIDEC = new PIDVerifier();
         private static readonly Verifier NHarmonia = new NHarmoniaVerifier();
         private static readonly Verifier CXD = new CXDVerifier();
+        private static readonly Verifier Memory = new MemoryVerifier();
 
         private static readonly TrainerNameVerifier Trainer = new TrainerNameVerifier();
-        private static readonly MemoryVerifier Memory = new MemoryVerifier();
         private static readonly LevelVerifier Level = new LevelVerifier();
         private static readonly MiscVerifier Misc = new MiscVerifier();
         private static readonly TransferVerifier Transfer = new TransferVerifier();

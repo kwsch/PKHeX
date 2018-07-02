@@ -16,10 +16,6 @@
         /// </summary>
         Encounter,
         /// <summary>
-        /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/>'s history data.
-        /// </summary>
-        History,
-        /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.IsShiny"/> status.
         /// </summary>
         Shiny,

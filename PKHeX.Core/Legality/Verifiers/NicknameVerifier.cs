@@ -3,6 +3,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Verifies the <see cref="PKM.Nickname"/>.
+    /// </summary>
     public sealed class NicknameVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Nickname;

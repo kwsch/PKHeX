@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class ConsoleRegionVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.ConsoleRegion"/> and <see cref="PKM.Country"/> of origin values.
+    /// </summary>
+    public sealed class ConsoleRegionVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Geography;
         public override void Verify(LegalityAnalysis data)

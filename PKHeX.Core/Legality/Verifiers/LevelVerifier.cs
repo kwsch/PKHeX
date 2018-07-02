@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class LevelVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.CurrentLevel"/>.
+    /// </summary>
+    public sealed class LevelVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Level;
         public override void Verify(LegalityAnalysis data)

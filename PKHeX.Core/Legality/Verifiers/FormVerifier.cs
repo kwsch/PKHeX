@@ -4,7 +4,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    public class FormVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM.AltForm"/> value.
+    /// </summary>
+    public sealed class FormVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Form;
 
