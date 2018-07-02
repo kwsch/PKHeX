@@ -394,13 +394,14 @@ namespace PKHeX.Core
                 if (moves[m] == 0)
                     continue;
 
-                if (learnInfo.Source.EggMoveSource.Contains(moves[m]))
+                bool wasEggMove = learnInfo.Source.EggMoveSource.Contains(moves[m]);
+                if (wasEggMove)
                 {
                     // To learn exclusive generation 1 moves the pokemon was tradeback, but it can't be trade to generation 1
                     // without removing moves above MaxMoveID_1, egg moves above MaxMoveID_1 and gen 1 moves are incompatible
                     if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                     {
-                        res[m] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
+                        res[m] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, V334, CheckIdentifier.Move);
                         learnInfo.MixedGen12NonTradeback = true;
                     }
                     else
@@ -413,15 +414,15 @@ namespace PKHeX.Core
                 if (!learnInfo.Source.EggEventSource.Contains(moves[m]))
                     continue;
 
-                if (!learnInfo.Source.EggMoveSource.Contains(moves[m]))
+                if (!wasEggMove)
                 {
                     if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
                     {
-                        res[m] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
+                        res[m] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Invalid, V334, CheckIdentifier.Move);
                         learnInfo.MixedGen12NonTradeback = true;
                     }
                     else
-                        res[m] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Valid, V333, CheckIdentifier.Move) { Flag = true };
+                        res[m] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Valid, V333, CheckIdentifier.Move);
                 }
                 if (pkm.TradebackStatus == TradebackType.Any && pkm.GenNumber == 1)
                     pkm.TradebackStatus = TradebackType.WasTradeback;
@@ -463,13 +464,23 @@ namespace PKHeX.Core
         }
         private static void ParseRedYellowIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves)
         {
+            var incompatible = GetIncompatibleRBYMoves(pkm, moves);
+            if (incompatible.Count == 0)
+                return;
+            for (int m = 0; m < 4; m++)
+                if (incompatible.Contains(moves[m]))
+                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, V363, CheckIdentifier.Move);
+        }
+
+        private static List<int> GetIncompatibleRBYMoves(PKM pkm, int[] moves)
+        {
             // Check moves that are learned at the same level in red/blue and yellow, these are illegal because there is no move reminder
             // There are only two incompatibilites; there is no illegal combination in generation 2+.
             var incompatible = new List<int>();
 
             switch (pkm.Species)
             {
-                // Vaporeon in Yellow learns Mist and Haze at level 42, Mist can only be larned if it levels up in the daycare
+                // Vaporeon in Yellow learns Mist and Haze at level 42, Mist can only be learned if it leveled up in the daycare
                 // Vaporeon in Red/Blue learns Acid Armor at level 42 and level 47 in Yellow
                 case 134 when pkm.CurrentLevel < 47 && moves.Contains(151):
                     if (moves.Contains(54))
@@ -488,12 +499,9 @@ namespace PKHeX.Core
                     break;
             }
 
-            for (int m = 0; m < 4; m++)
-            {
-                if (incompatible.Contains(moves[m]))
-                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, V363, CheckIdentifier.Move);
-            }
+            return incompatible;
         }
+
         private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> tmhm)
         {
             var species = SpeciesStrings;

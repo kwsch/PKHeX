@@ -27,6 +27,7 @@
     {
         public readonly MoveSource Source;
         public readonly int Generation;
+        public bool Flag;
 
         internal CheckMoveResult(MoveSource m, int g, CheckIdentifier i)
             : base(i)
