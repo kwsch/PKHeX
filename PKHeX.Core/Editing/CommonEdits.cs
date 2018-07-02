@@ -385,7 +385,8 @@ namespace PKHeX.Core
 
             if (IVs == null)
                 IVs = pk.IVs;
-            pk.Markings = IVs.Select(MarkingMethod(pk)).ToArray();
+            var markings = IVs.Select(MarkingMethod(pk)).ToArray();
+            pk.Markings = PKX.ReorderSpeedLast(markings);
         }
 
         public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;

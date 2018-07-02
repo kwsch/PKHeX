@@ -954,5 +954,19 @@ namespace PKHeX.Core
                 return IsPKMPresentGBA;
             return IsPKMPresentGC;
         }
+
+        /// <summary>
+        /// Reorders (in place) the input array of stats to have the Speed value last rather than before the SpA/SpD stats.
+        /// </summary>
+        /// <param name="value">Input array to reorder</param>
+        /// <returns>Same array, reordered.</returns>
+        public static int[] ReorderSpeedLast(int[] value)
+        {
+            var spe = value[3];
+            value[3] = value[4];
+            value[4] = value[5];
+            value[5] = spe;
+            return value;
+        }
     }
 }
