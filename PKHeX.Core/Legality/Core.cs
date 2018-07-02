@@ -1073,24 +1073,24 @@ namespace PKHeX.Core
             bool IsCatchRateTrade() => (pkm.Species == 098 || pkm.Species == 099) && catch_rate == 204;
             bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
         }
-        internal static void SetTradebackStatusRBY(PKM pkm)
+        internal static void SetTradebackStatusRBY(PK1 pkm)
         {
             if (!AllowGen1Tradeback)
             {
                 pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
-                ((PK1)pkm).CatchRateIsItem = false;
+                pkm.CatchRateIsItem = false;
                 return;
             }
 
             // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pkm's evolution chain.
-            var catch_rate = ((PK1)pkm).Catch_Rate;
+            var catch_rate = pkm.Catch_Rate;
             var table = EvolutionTree.GetEvolutionTree(1);
             var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
             var gen1 = lineage.Select(evolution => evolution.Species);
             bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate, gen1);
 
             // If the catch rate value has been modified, the item has either been removed or swapped in Generation 2.
-            var HeldItemCatchRate = catch_rate == 0 || HeldItems_GSC.Any(h => h == catch_rate);
+            var HeldItemCatchRate = catch_rate == 0 || HeldItems_GSC.Contains((ushort)catch_rate);
             if (HeldItemCatchRate && !matchAny)
                 pkm.TradebackStatus = TradebackType.WasTradeback;
             else if (!HeldItemCatchRate && matchAny)
@@ -1099,7 +1099,7 @@ namespace PKHeX.Core
                 pkm.TradebackStatus = TradebackType.Any;
 
             // Update the editing settings for the PKM to acknowledge the tradeback status if the species is changed.
-            ((PK1)pkm).CatchRateIsItem = !pkm.Gen1_NotTradeback && HeldItemCatchRate && !matchAny;
+            pkm.CatchRateIsItem = !pkm.Gen1_NotTradeback && HeldItemCatchRate && !matchAny;
         }
 
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
@@ -1241,6 +1241,19 @@ namespace PKHeX.Core
         internal static bool HasVisitedORAS(this PKM pkm) => pkm.InhabitedGeneration(6) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
         internal static bool IsMovesetRestricted(this PKM pkm) => pkm.IsUntraded;
+
+        internal static bool CanInhabitGen1(this PKM pkm)
+        {
+            // Korean Gen2 games can't tradeback because there are no Gen1 Korean games released
+            if (pkm.Korean || pkm.IsEgg)
+                return false;
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+                return false;
+            int species = pkm.Species;
+            if (species > MaxSpeciesID_1 || !FutureEvolutionsGen1.Contains(species))
+                return false;
+            return true;
+        }
 
         public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any)
         {

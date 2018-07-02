@@ -30,41 +30,6 @@ namespace PKHeX.Core
         private static readonly MiscVerifier Misc = new MiscVerifier();
         private static readonly TransferVerifier Transfer = new TransferVerifier();
 
-        private void VerifyBall() => Ball.Verify(this);
-        private void VerifyForm() => Form.Verify(this);
-        private void VerifyEVs() => EffortValues.Verify(this);
-        private void VerifyIVs() => IndividualValues.Verify(this);
-        private void VerifyHistory() => Memory.Verify(this);
-        private void VerifyConsoleRegion() => ConsoleRegion.Verify(this);
-        private void VerifyAbility() => Ability.Verify(this);
-        private void VerifyRibbons() => Ribbon.Verify(this);
-        private void VerifyItem() => Item.Verify(this);
-        private void VerifyLevel() => Level.Verify(this);
-        private void VerifyLevelG1() => Level.VerifyG1(this);
-        private void VerifyEncounterType() => EncounterType.Verify(this);
-        private void VerifyOT() => Trainer.Verify(this);
-        private void VerifyHyperTraining() => HyperTraining.Verify(this);
-        private void VerifyGender() => Gender.Verify(this);
-        private void VerifyECPID() => PIDEC.Verify(this);
-        private void VerifyCXD() => CXD.Verify(this);
-        private void VerifyMedals()
-        {
-            if (pkm.Format >= 6)
-                Medal.Verify(this);
-        }
-        private void VerifyNickname()
-        {
-            Nickname.Verify(this);
-            if (pkm.Format >= 3)
-                Language.Verify(this);
-        }
-        private void VerifyMisc()
-        {
-            if (Info.Generation == 5)
-                NHarmonia.Verify(this);
-            Misc.Verify(this);
-        }
-
         public static string[] MoveStrings { internal get; set; } = Util.GetMovesList("en");
         public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList("en");
         internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]);

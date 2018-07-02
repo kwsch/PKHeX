@@ -127,17 +127,16 @@ namespace PKHeX.Core
         }
         private void ParsePK1()
         {
-            UpdateTradebackG12();
-
+            SetTradebackStatusInitial();
             UpdateInfo();
-            UpdateTypeInfo();
-            VerifyNickname();
-            VerifyEVs();
-            VerifyLevelG1();
+            SetTradebackStatusPost();
+            Nickname.Verify(this);
+            Level.Verify(this);
+            Level.VerifyG1(this);
             Trainer.VerifyOTG1(this);
             Misc.VerifyMiscG1(this);
             if (pkm.Format == 2)
-                VerifyItem();
+                Item.Verify(this);
         }
         private void ParsePK3()
         {
@@ -147,7 +146,7 @@ namespace PKHeX.Core
                 Transfer.VerifyTransferLegalityG3(this);
 
             if (pkm.Version == (int)GameVersion.CXD)
-                VerifyCXD();
+                CXD.Verify(this);
 
             if (Info.EncounterMatch is WC3 z && z.NotDistributed)
                 AddLine(Severity.Invalid, V413, CheckIdentifier.Encounter);
@@ -163,6 +162,7 @@ namespace PKHeX.Core
         {
             UpdateInfo();
             UpdateChecks();
+            NHarmonia.Verify(this);
         }
         private void ParsePK6()
         {
@@ -197,20 +197,18 @@ namespace PKHeX.Core
             Info = EncounterFinder.FindVerifiedEncounter(pkm);
             Parse.AddRange(Info.Parse);
         }
-        private void UpdateTradebackG12()
+        private void SetTradebackStatusInitial()
         {
-            if (pkm.Format == 1)
+            if (pkm is PK1 pk1)
             {
-                Legal.SetTradebackStatusRBY(pkm);
+                Legal.SetTradebackStatusRBY(pk1);
                 return;
             }
 
             if (pkm.Format == 2 || pkm.VC2)
             {
                 // Check for impossible tradeback scenarios
-                // Korean Gen2 games can't tradeback because there are no Gen1 Korean games released
-                bool g2only = pkm.Korean || pkm.IsEgg || pkm.HasOriginalMetLocation ||
-                              pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species);
+                bool g2only = !pkm.CanInhabitGen1();
                 pkm.TradebackStatus = g2only ? TradebackType.Gen2_NotTradeback : TradebackType.Any;
                 return;
             }
@@ -220,37 +218,44 @@ namespace PKHeX.Core
             // Met Date cannot be used definitively as the player can change their system clock.
             pkm.TradebackStatus = TradebackType.Any;
         }
-        private void UpdateTypeInfo()
+
+        private void SetTradebackStatusPost()
         {
-            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncounterMatch is IGeneration g && g.Generation != pkm.GenNumber)
-                // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
+            // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
+            if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
                 pkm.TradebackStatus = TradebackType.WasTradeback;
         }
         private void UpdateChecks()
         {
-            VerifyECPID();
-            VerifyNickname();
-            VerifyOT();
-            VerifyIVs();
-            VerifyEVs();
-            VerifyLevel();
-            VerifyRibbons();
-            VerifyAbility();
-            VerifyBall();
-            VerifyForm();
-            VerifyMisc();
-            VerifyGender();
-            VerifyItem();
+            PIDEC.Verify(this);
+            Nickname.Verify(this);
+            Language.Verify(this);
+            Trainer.Verify(this);
+            IndividualValues.Verify(this);
+            EffortValues.Verify(this);
+            Level.Verify(this);
+            Ribbon.Verify(this);
+            Ability.Verify(this);
+            Ball.Verify(this);
+            Form.Verify(this);
+            Misc.Verify(this);
+            Gender.Verify(this);
+            Item.Verify(this);
             if (pkm.Format <= 6 && pkm.Format >= 4)
-                VerifyEncounterType(); // Gen 6->7 transfer deletes encounter type data
-            if (pkm.Format >= 6)
+                EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
+
+            if (pkm.Format < 6)
+                return;
+
+            Memory.Verify(this);
+            Memory.VerifyOTMemory(this);
+            Memory.VerifyHTMemory(this);
+            Medal.Verify(this);
+            ConsoleRegion.Verify(this);
+
+            if (pkm.Format >= 7)
             {
-                VerifyHistory();
-                Memory.VerifyOTMemory(this);
-                Memory.VerifyHTMemory(this);
-                VerifyHyperTraining();
-                VerifyMedals();
-                VerifyConsoleRegion();
+                HyperTraining.Verify(this);
                 Misc.VerifyVersionEvolution(this);
             }
         }
