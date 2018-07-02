@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Informatics pertaining to a <see cref="PKM"/>'s evolution lineage.
     /// </summary>
-    public class EvolutionLineage
+    public sealed class EvolutionLineage
     {
         public readonly List<EvolutionStage> Chain = new List<EvolutionStage>();
 
@@ -30,7 +30,8 @@ namespace PKHeX.Core
         public List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
         {
             int lvl = maxLevel;
-            List<EvoCriteria> dl = new List<EvoCriteria> { new EvoCriteria { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
+            var first = new EvoCriteria {Species = pkm.Species, Level = lvl, Form = pkm.AltForm};
+            var dl = new List<EvoCriteria> { first };
             for (int i = Chain.Count - 1; i >= 0; i--) // reverse evolution!
             {
                 bool oneValid = false;
@@ -73,19 +74,20 @@ namespace PKHeX.Core
         private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
         {
             var last = dl[dl.Count - 1];
-            if (evo.Level == 0 || !evo.RequiresLevelUp) // Evolutions like elemental stones, trade, etc
+            if (!evo.RequiresLevelUp)
             {
-                if (!evo.RequiresLevelUp)
-                    last.MinLevel = 1;
-                else
-                {
-                    // Evolutions like frienship, pichu -> pikachu, eevee -> umbreon, etc
-                    last.MinLevel = 2;
+                // Evolutions like elemental stones, trade, etc
+                last.MinLevel = 1;
+                return;
+            }
+            if (evo.Level == 0)
+            {
+                // Evolutions like frienship, pichu -> pikachu, eevee -> umbreon, etc
+                last.MinLevel = 2;
 
-                    var first = dl[0];
-                    if (dl.Count > 1 && !first.RequiresLvlUp)
-                        first.MinLevel = 2; // Raichu from Pikachu would have minimum level 1, but with Pichu included Raichu minimum level is 2
-                }
+                var first = dl[0];
+                if (dl.Count > 1 && !first.RequiresLvlUp)
+                    first.MinLevel = 2; // Raichu from Pikachu would have minimum level 1, but with Pichu included Raichu minimum level is 2
             }
             else // level up evolutions
             {

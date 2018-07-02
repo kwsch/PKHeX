@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 Evolution Branch Entries
     /// </summary>
-    public class EvolutionSet6 : EvolutionSet
+    public sealed class EvolutionSet6 : EvolutionSet
     {
         private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
         private const int SIZE = 6;

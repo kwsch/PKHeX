@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class EvoCriteria : DexLevel
+    public sealed class EvoCriteria : DexLevel
     {
         public int MinLevel { get; set; }
         public bool RequiresLvlUp { get; set; }

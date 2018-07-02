@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 Evolution Branch Entries
     /// </summary>
-    public class EvolutionSet7 : EvolutionSet
+    public sealed class EvolutionSet7 : EvolutionSet
     {
         private const int SIZE = 8;
         public EvolutionSet7(byte[] data)

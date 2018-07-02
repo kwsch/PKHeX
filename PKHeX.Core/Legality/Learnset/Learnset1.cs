@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public class Learnset1 : Learnset
+    public sealed class Learnset1 : Learnset
     {
         private Learnset1(byte[] data, ref int offset)
         {

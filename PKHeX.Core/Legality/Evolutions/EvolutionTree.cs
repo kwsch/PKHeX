@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Used to determine if a <see cref="PKM.Species"/> can evolve from prior steps in its evolution branch.
     /// </remarks>
-    public class EvolutionTree
+    public sealed class EvolutionTree
     {
         private static readonly EvolutionTree Evolves1;
         private static readonly EvolutionTree Evolves2;
@@ -26,118 +26,113 @@ namespace PKHeX.Core
             byte[] get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
             byte[][] unpack(string resource) => Data.UnpackMini(get(resource), resource);
 
-            Evolves1 = new EvolutionTree(new[] { get("rby") }, GameVersion.RBY, PersonalTable.Y, Legal.MaxSpeciesID_1);
-            Evolves2 = new EvolutionTree(new[] { get("gsc") }, GameVersion.GSC, PersonalTable.C, Legal.MaxSpeciesID_2);
-            Evolves3 = new EvolutionTree(new[] { get("g3") }, GameVersion.RS, PersonalTable.RS, Legal.MaxSpeciesID_3);
-            Evolves4 = new EvolutionTree(new[] { get("g4") }, GameVersion.DP, PersonalTable.DP, Legal.MaxSpeciesID_4);
-            Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.BW, PersonalTable.BW, Legal.MaxSpeciesID_5);
-            Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.ORAS, PersonalTable.AO, Legal.MaxSpeciesID_6);
-            Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.USUM, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
+            Evolves1 = new EvolutionTree(new[] { get("rby") }, GameVersion.Gen1, PersonalTable.Y, Legal.MaxSpeciesID_1);
+            Evolves2 = new EvolutionTree(new[] { get("gsc") }, GameVersion.Gen2, PersonalTable.C, Legal.MaxSpeciesID_2);
+            Evolves3 = new EvolutionTree(new[] { get("g3") }, GameVersion.Gen3, PersonalTable.RS, Legal.MaxSpeciesID_3);
+            Evolves4 = new EvolutionTree(new[] { get("g4") }, GameVersion.Gen4, PersonalTable.DP, Legal.MaxSpeciesID_4);
+            Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.Gen5, PersonalTable.BW, Legal.MaxSpeciesID_5);
+            Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
+            Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
+
+            // There's always oddballs.
+            Evolves7.FixEvoTreeSM();
         }
+
         internal static EvolutionTree GetEvolutionTree(int generation)
         {
             switch (generation)
             {
-                case 1:
-                    return Evolves1;
-                case 2:
-                    return Evolves2;
-                case 3:
-                    return Evolves3;
-                case 4:
-                    return Evolves4;
-                case 5:
-                    return Evolves5;
-                case 6:
-                    return Evolves6;
+                case 1: return Evolves1;
+                case 2: return Evolves2;
+                case 3: return Evolves3;
+                case 4: return Evolves4;
+                case 5: return Evolves5;
+                case 6: return Evolves6;
                 default:
                     return Evolves7;
             }
         }
 
-        private List<EvolutionSet> Entries { get; } = new List<EvolutionSet>();
+        private readonly IReadOnlyList<EvolutionSet> Entries;
         private readonly EvolutionLineage[] Lineage;
         private readonly GameVersion Game;
         private readonly PersonalTable Personal;
         private readonly int MaxSpeciesTree;
 
-        public EvolutionTree(byte[][] data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
+        private EvolutionTree(IReadOnlyList<byte[]> data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
         {
             Game = game;
             Personal = personal;
             MaxSpeciesTree = maxSpeciesTree;
-            switch (game)
-            {
-                case GameVersion.RBY:
-                    Entries = EvolutionSet1.GetArray(data[0], maxSpeciesTree);
-                    break;
-                case GameVersion.GSC:
-                    Entries = EvolutionSet2.GetArray(data[0], maxSpeciesTree);
-                    break;
-                case GameVersion.RS:
-                    Entries = EvolutionSet3.GetArray(data[0]);
-                    break;
-                case GameVersion.DP:
-                    Entries = EvolutionSet4.GetArray(data[0]);
-                    break;
-                case GameVersion.BW:
-                    Entries = EvolutionSet5.GetArray(data[0]);
-                    break;
-                case GameVersion.ORAS:
-                    Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
-                    break;
-                case GameVersion.USUM:
-                    Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
-                    break;
-            }
+            Entries = GetEntries(data);
+            Lineage = CreateTree();
+        }
 
-            // Create Lineages
-            Lineage = new EvolutionLineage[Entries.Count];
+        private IReadOnlyList<EvolutionSet> GetEntries(IReadOnlyList<byte[]> data)
+        {
+            switch (Game)
+            {
+                case GameVersion.Gen1: return EvolutionSet1.GetArray(data[0], MaxSpeciesTree);
+                case GameVersion.Gen2: return EvolutionSet2.GetArray(data[0], MaxSpeciesTree);
+                case GameVersion.Gen3: return EvolutionSet3.GetArray(data[0]);
+                case GameVersion.Gen4: return EvolutionSet4.GetArray(data[0]);
+                case GameVersion.Gen5: return EvolutionSet5.GetArray(data[0]);
+                case GameVersion.Gen6: return new List<EvolutionSet>(data.Select(d => new EvolutionSet6(d)));
+                case GameVersion.Gen7: return new List<EvolutionSet>(data.Select(d => new EvolutionSet7(d)));
+                default: throw new Exception();
+            }
+        }
+
+        private EvolutionLineage[] CreateTree()
+        {
+            var lineage = new EvolutionLineage[Entries.Count];
             for (int i = 0; i < Entries.Count; i++)
-                Lineage[i] = new EvolutionLineage();
+                lineage[i] = new EvolutionLineage();
             if (Game == GameVersion.ORAS)
-                Array.Resize(ref Lineage, MaxSpeciesTree + 1);
+                Array.Resize(ref lineage, MaxSpeciesTree + 1);
 
             // Populate Lineages
-            for (int i = 1; i < Lineage.Length; i++)
-            {
-                // Iterate over all possible evolutions
-                var s = Entries[i];
-                foreach (EvolutionMethod evo in s.PossibleEvolutions)
-                {
-                    int index = GetIndex(evo);
-                    if (index < 0)
-                        continue;
-
-                    var sourceEvo = evo.Copy(i);
-
-                    Lineage[index].Insert(sourceEvo);
-                    // If current entries has a pre-evolution, propagate to evolution as well
-                    if (Lineage[i].Chain.Count > 0)
-                        Lineage[index].Insert(Lineage[i].Chain[0]);
-
-                    if (index >= i) continue;
-                    // If destination species evolves into something (ie a 'baby' Pokemon like Cleffa)
-                    // Add it to the corresponding parent chains
-                    foreach (EvolutionMethod mid in Entries[index].PossibleEvolutions)
-                    {
-                        int newIndex = GetIndex(mid);
-                        if (newIndex < 0)
-                            continue;
-
-                        Lineage[newIndex].Insert(sourceEvo);
-                    }
-                }
-            }
-            FixEvoTreeManually();
+            for (int i = 1; i < lineage.Length; i++)
+                CreateBranch(lineage, i);
+            return lineage;
         }
 
-        // There's always oddballs.
-        private void FixEvoTreeManually()
+        private void CreateBranch(IReadOnlyList<EvolutionLineage> lineage, int i)
         {
-            if (Game == GameVersion.USUM)
-                FixEvoTreeSM();
+            // Iterate over all possible evolutions
+            foreach (var evo in Entries[i].PossibleEvolutions)
+                CreateLeaf(lineage, i, evo);
         }
+
+        private void CreateLeaf(IReadOnlyList<EvolutionLineage> lineage, int i, EvolutionMethod evo)
+        {
+            int index = GetIndex(evo);
+            if (index < 0)
+                return;
+
+            var sourceEvo = evo.Copy(i);
+
+            lineage[index].Insert(sourceEvo);
+            // If current entries has a pre-evolution, propagate to evolution as well
+            var current = lineage[i].Chain;
+            if (current.Count > 0)
+                lineage[index].Insert(current[0]);
+
+            if (index >= i)
+                return;
+
+            // If destination species evolves into something (ie a 'baby' Pokemon like Cleffa)
+            // Add it to the corresponding parent chains
+            foreach (var method in Entries[index].PossibleEvolutions)
+            {
+                int newIndex = GetIndex(method);
+                if (newIndex < 0)
+                    continue;
+
+                lineage[newIndex].Insert(sourceEvo);
+            }
+        }
+
         private void FixEvoTreeSM()
         {
             // Wormadam -- Copy Burmy 0 to Wormadam-1/2
@@ -201,6 +196,16 @@ namespace PKHeX.Core
 
             return Personal.GetFormeIndex(evolvesToSpecies, evolvesToForm);
         }
+
+        /// <summary>
+        /// Gets a list of evolutions for the input <see cref="PKM"/> by checking each evolution in the chain.
+        /// </summary>
+        /// <param name="pkm">Pokémon data to check with.</param>
+        /// <param name="maxLevel">Maximum level to permit before the chain breaks.</param>
+        /// <param name="maxSpeciesOrigin">Maximum species ID to permit within the chain.</param>
+        /// <param name="skipChecks">Ignores an evolution's criteria, causing the returned list to have all possible evolutions.</param>
+        /// <param name="minLevel">Minimum level to permit before the chain breaks.</param>
+        /// <returns></returns>
         public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             int index = GetIndex(pkm);

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Criteria for evolving to this branch in the <see cref="EvolutionTree"/>
     /// </summary>
-    public class EvolutionMethod
+    public sealed class EvolutionMethod
     {
         public int Method;
         public int Species;

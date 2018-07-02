@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 Evolution Branch Entries
     /// </summary>
-    public class EvolutionSet4 : EvolutionSet
+    public sealed class EvolutionSet4 : EvolutionSet
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
