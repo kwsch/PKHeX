@@ -174,7 +174,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Some mixed-gender species were only distributed male-only. Ban hidden abilities on these species when bred in Gen5.
         /// </summary>
-        internal static readonly HashSet<int> Ban_BreedHidden = new HashSet<int>
+        internal static readonly HashSet<int> Ban_BreedHidden5 = new HashSet<int>
         {
             001, // Bulbasaur
             004, // Charmander

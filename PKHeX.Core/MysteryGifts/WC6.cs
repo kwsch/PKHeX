@@ -152,7 +152,7 @@ namespace PKHeX.Core
         public override int Gender {
             get => Data[0xA1];
             set => Data[0xA1] = (byte)value; }
-        public int AbilityType {
+        public override int AbilityType {
             get => Data[0xA2];
             set => Data[0xA2] = (byte)value; }
         public Shiny PIDType {

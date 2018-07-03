@@ -57,7 +57,7 @@ namespace PKHeX.Core
         }
         public int Nature { get => Data[0x34]; set => Data[0x34] = (byte)value; }
         public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
-        public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
+        public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
         public override int EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x38); }
         public ushort MetLocation { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
