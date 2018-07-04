@@ -290,12 +290,14 @@ namespace PKHeX.Core
             if (generation > 2)
             {
                 var evs = new int[6];
-                evs[0] = (byte)Math.Min(Util.Rand.Next(300), 252); // bias two to get maybe 252
-                evs[1] = (byte)Math.Min(Util.Rand.Next(300), 252);
-                evs[2] = (byte)Math.Min(Util.Rand.Next(510 - evs[0] - evs[1]), 252);
-                evs[3] = (byte)Math.Min(Util.Rand.Next(510 - evs[0] - evs[1] - evs[2]), 252);
-                evs[4] = (byte)Math.Min(Util.Rand.Next(510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
-                evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
+                do
+                {
+                    int max = 510;
+                    int randomEV() => (byte)Math.Min(Util.Rand.Next(Math.Min(300, max)), 252);
+                    for (int i = 0; i < evs.Length - 1; i++)
+                        max -= evs[i] = randomEV();
+                    evs[5] = max;
+                } while (evs[5] > 252);
                 Util.Shuffle(evs);
                 return evs;
             }
