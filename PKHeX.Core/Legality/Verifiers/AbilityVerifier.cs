@@ -55,7 +55,7 @@ namespace PKHeX.Core
         {
             var EncounterMatch = data.EncounterMatch;
             var eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
-            if (eabil > 0)
+            if (eabil >= 0)
                 return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilnum);
 
             var gen = data.Info.Generation;
@@ -77,7 +77,7 @@ namespace PKHeX.Core
 
             var EncounterMatch = data.EncounterMatch;
             int eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
-            if (eabil > 0)
+            if (eabil >= 0)
                 return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
 
             int gen = data.Info.Generation;
@@ -236,14 +236,18 @@ namespace PKHeX.Core
         private CheckResult VerifyAbility6(LegalityAnalysis data)
         {
             var pkm = data.pkm;
+            if (pkm.AbilityNumber != 4)
+                return VALID;
+
+            // hidden abilities
             var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch is EncounterSlot slot && pkm.AbilityNumber == 4)
+            if (EncounterMatch is EncounterSlot slot)
             {
                 bool valid = slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde;
                 if (!valid)
                     return GetInvalid(V300);
             }
-            if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+            if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm))
                 return GetInvalid(V112);
 
             return VALID;
