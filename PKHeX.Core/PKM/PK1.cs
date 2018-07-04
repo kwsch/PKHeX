@@ -406,7 +406,7 @@ namespace PKHeX.Core
             // IVs
             var new_ivs = new int[6];
             int flawless = Species == 151 ? 5 : 3;
-            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = (int)(Util.Rand32() & 31);
+            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = Util.Rand.Next(pk7.MaxIV + 1);
             for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;

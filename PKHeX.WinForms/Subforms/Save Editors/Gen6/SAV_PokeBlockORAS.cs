@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             var plantable = Legal.Pouch_Berry_XY; // 0 index is None, skip with rand
             for (int i = 0; i < 90; i++) // amount of plots in the game
             {
-                ushort berry = plantable[Util.Rand32() % (plantable.Length - 1) + 1]; // get random berry item ID from list
+                ushort berry = plantable[Util.Rand.Next(1, plantable.Length)]; // get random berry item ID from list
                 BitConverter.GetBytes(berry).CopyTo(tree, 6); // put berry into tree.
                 tree.CopyTo(SAV.Data, SAV.BerryField + 0x10 * i); // put tree into plot
             }

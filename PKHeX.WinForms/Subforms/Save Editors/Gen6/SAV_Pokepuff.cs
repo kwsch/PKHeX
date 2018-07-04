@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
 
             if (ModifierKeys == Keys.Control)
                 for (int i = 0; i < PuffCount; i++)
-                    newpuffs[i] = (byte)plus10[Util.Rand32() & 1];
+                    newpuffs[i] = (byte)plus10[Util.Rand.Next(2)];
             else
             {
                 for (int i = 0; i < PuffCount; i++)

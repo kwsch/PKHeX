@@ -494,7 +494,7 @@ namespace PKHeX.Core
         /// <param name="gender">Desired <see cref="PKM.Gender"/>.</param>
         public static void SetATKIVGender(this PKM pk, int gender)
         {
-            do { pk.IV_ATK = (int)(Util.Rand32() & pk.MaxIV); }
+            do { pk.IV_ATK = Util.Rand.Next(pk.MaxIV + 1); }
             while (pk.Gender != gender);
         }
 

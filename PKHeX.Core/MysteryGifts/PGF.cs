@@ -169,14 +169,14 @@ namespace PKHeX.Core
                 Month = (byte)dt.Month;
                 Year = (byte)dt.Year;
             }
-            int currentLevel = Level > 0 ? Level : (int)(Util.Rand32() % 100 + 1);
+            int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
             var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
             PK5 pk = new PK5
             {
                 Species = Species,
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : (int)(Util.Rand32() % 25),
+                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
                 Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? SAV.Game : OriginGame,
@@ -247,7 +247,7 @@ namespace PKHeX.Core
             // Dumb way to generate random IVs.
             int[] finalIVs = new int[6];
             for (int i = 0; i < IVs.Length; i++)
-                finalIVs[i] = IVs[i] == 0xFF ? (int)(Util.Rand32() & 0x1F) : IVs[i];
+                finalIVs[i] = IVs[i] == 0xFF ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
             pk.IVs = finalIVs;
 
             int av = 0;
@@ -260,7 +260,7 @@ namespace PKHeX.Core
                     break;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = (int)(Util.Rand32() % (AbilityType - 1));
+                    av = Util.Rand.Next(AbilityType - 1);
                     break;
             }
             pk.HiddenAbility = av == 2;
@@ -273,7 +273,7 @@ namespace PKHeX.Core
                 pk.PID = Util.Rand32();
 
                 // Force Gender
-                do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.Rand32() & 0xFF; } while (!pk.IsGenderValid());
+                do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)Util.Rand.Next(0x100); } while (!pk.IsGenderValid());
 
                 // Force Ability
                 if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;

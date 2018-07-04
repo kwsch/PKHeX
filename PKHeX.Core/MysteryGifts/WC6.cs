@@ -283,7 +283,7 @@ namespace PKHeX.Core
             if (!IsPokémon)
                 return null;
 
-            int currentLevel = Level > 0 ? Level : (int)(Util.Rand32()%100 + 1);
+            int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
             var pi = PersonalTable.AO.GetFormeEntry(Species, Form);
             PK6 pk = new PK6
             {
@@ -292,7 +292,7 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : (int)(Util.Rand32() % 25),
+                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
                 Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
@@ -381,15 +381,15 @@ namespace PKHeX.Core
             if (ivflag == 0) // Random IVs
             {
                 for (int i = 0; i < 6; i++)
-                    finalIVs[i] = IVs[i] > 31 ? (int)(Util.Rand32() & 0x1F) : IVs[i];
+                    finalIVs[i] = IVs[i] > pk.MaxIV ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
             }
             else // 1/2/3 perfect IVs
             {
                 int IVCount = ivflag - 0xFB;
-                do { finalIVs[Util.Rand32() % 6] = 31; }
+                do { finalIVs[Util.Rand.Next(6)] = 31; }
                 while (finalIVs.Count(r => r == 31) < IVCount);
                 for (int i = 0; i < 6; i++)
-                    finalIVs[i] = finalIVs[i] == 31 ? 31 : (int)(Util.Rand32() & 0x1F);
+                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
             }
             pk.IVs = finalIVs;
 
@@ -403,7 +403,7 @@ namespace PKHeX.Core
                     break;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = (int)(Util.Rand32()%(AbilityType - 1));
+                    av = Util.Rand.Next(AbilityType - 1);
                     break;
             }
             pk.Ability = pi.Abilities[av];

@@ -290,15 +290,12 @@ namespace PKHeX.Core
             if (generation > 2)
             {
                 var evs = new int[6];
-                do
-                {
-                    evs[0] = (byte)Math.Min(Util.Rand32() % 300, 252); // bias two to get maybe 252
-                    evs[1] = (byte)Math.Min(Util.Rand32() % 300, 252);
-                    evs[2] = (byte)Math.Min(Util.Rand32() % (510 - evs[0] - evs[1]), 252);
-                    evs[3] = (byte)Math.Min(Util.Rand32() % (510 - evs[0] - evs[1] - evs[2]), 252);
-                    evs[4] = (byte)Math.Min(Util.Rand32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
-                    evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
-                } while (evs.Sum(b => b) > 510); // recalculate random EVs...
+                evs[0] = (byte)Math.Min(Util.Rand.Next(300), 252); // bias two to get maybe 252
+                evs[1] = (byte)Math.Min(Util.Rand.Next(300), 252);
+                evs[2] = (byte)Math.Min(Util.Rand.Next(510 - evs[0] - evs[1]), 252);
+                evs[3] = (byte)Math.Min(Util.Rand.Next(510 - evs[0] - evs[1] - evs[2]), 252);
+                evs[4] = (byte)Math.Min(Util.Rand.Next(510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
+                evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
                 Util.Shuffle(evs);
                 return evs;
             }

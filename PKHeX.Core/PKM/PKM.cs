@@ -424,7 +424,7 @@ namespace PKHeX.Core
                 sum |= (ivs[i] & 1) << i;
             return sum;
         }
-        private int HPVal => GetHiddenPowerBitVal(new[] {IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD});
+        private int HPVal => GetHiddenPowerBitVal(IVs);
         public virtual int HPPower => Format < 6 ? 40*HPVal/63 + 30 : 60;
         public virtual int HPType
         {
@@ -560,7 +560,7 @@ namespace PKHeX.Core
                 case 4: return 3 <= gen && gen <= 4;
                 case 5: return 3 <= gen && gen <= 5;
                 case 6: return 3 <= gen && gen <= 6;
-                case 7: return VC || 3 <= gen && gen <= 7;
+                case 7: return 3 <= gen && gen <= 7 || VC;
                 default:
                     return false;
             }
@@ -830,7 +830,7 @@ namespace PKHeX.Core
         {
             if (IsShiny) return;
             var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
-            SID = (int)((xor & 0xFFF8) | (Util.Rand32() & 7));
+            SID = (int)(xor & 0xFFF8) | Util.Rand.Next(8);
         }
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
@@ -882,7 +882,7 @@ namespace PKHeX.Core
         {
             int[] ivs = new int[6];
             for (int i = 0; i < 6; i++)
-                ivs[i] = (int)(Util.Rand32() & MaxIV);
+                ivs[i] = Util.Rand.Next(MaxIV + 1);
 
             int count = flawless ?? GetFlawlessIVCount();
             if (count != 0)
@@ -909,7 +909,7 @@ namespace PKHeX.Core
             do
             {
                 for (int i = 0; i < 6; i++)
-                    ivs[i] = template[i] < 0 ? (int) (Util.Rand32() & MaxIV) : template[i];
+                    ivs[i] = template[i] < 0 ? Util.Rand.Next(MaxIV + 1) : template[i];
             } while (ivs.Count(z => z == MaxIV) < count);
 
             IVs = ivs;

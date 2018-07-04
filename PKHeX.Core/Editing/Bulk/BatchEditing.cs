@@ -461,7 +461,7 @@ namespace PKHeX.Core
             }
 
             if (TryGetHasProperty(pkm, cmd.PropertyName, out var pi))
-                ReflectUtil.SetValue(pi, pkm, Util.Rand32() & pkm.MaxIV);
+                ReflectUtil.SetValue(pi, pkm, Util.Rand.Next(pkm.MaxIV + 1));
         }
     }
 }
