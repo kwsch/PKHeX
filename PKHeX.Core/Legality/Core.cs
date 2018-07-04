@@ -132,12 +132,14 @@ namespace PKHeX.Core
         }
         internal static List<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
-            List<int>[] Moves = new List<int>[evoChains.Length];
+            var Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
+            {
                 if (evoChains[i].Count != 0)
                     Moves[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
                 else
                     Moves[i] = new List<int>();
+            }
             return Moves;
         }
         internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
@@ -206,7 +208,7 @@ namespace PKHeX.Core
         internal static int[] GetBaseEggMoves(PKM pkm, int species, GameVersion gameSource, int lvl)
         {
             if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion) pkm.Version;
+                gameSource = (GameVersion)pkm.Version;
 
             switch (gameSource)
             {
@@ -405,7 +407,7 @@ namespace PKHeX.Core
         private static int GetRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             int species = pk.Species;
-            int catch_rate = ((PK1) pk).Catch_Rate;
+            int catch_rate = ((PK1)pk).Catch_Rate;
             // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
             if ((species == 011 || species == 012) && catch_rate == 120)
@@ -455,7 +457,7 @@ namespace PKHeX.Core
                         usedslots--;
                     break;
                 case 064: case 065: // Abra & Kadabra
-                    int catch_rate = ((PK1) pk).Catch_Rate;
+                    int catch_rate = ((PK1)pk).Catch_Rate;
                     if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
                         usedslots--;
                     if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
@@ -705,7 +707,9 @@ namespace PKHeX.Core
                 default: return null;
             }
         }
-        internal static int GetEggHatchLevel(PKM pkm) => pkm.Format <= 3 ? 5 : 1;
+        internal static int GetEggHatchLevel(PKM pkm) => GetEggHatchLevel(pkm.Format);
+        internal static int GetEggHatchLevel(int gen) => gen <= 3 ? 5 : 1;
+
         internal static ICollection<int> GetSplitBreedGeneration(PKM pkm)
         {
             return GetSplitBreedGeneration(pkm.GenNumber);
@@ -837,21 +841,25 @@ namespace PKHeX.Core
         }
         internal static bool IsTradeEvolved(IReadOnlyList<EvoCriteria>[] chain, int pkmFormat)
         {
-            return chain[pkmFormat].Any(z => EvolutionMethod.TradeMethods.Contains(z.Method));
+            return chain[pkmFormat].Any(IsTradeEvolved);
         }
+        internal static bool IsTradeEvolved(EvoCriteria z) => EvolutionMethod.TradeMethods.Contains(z.Method);
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
             var curr = EvolutionChain.GetValidPreEvolutions(pkm);
-            var min = curr.FirstOrDefault(z => z.Species == minSpecies);
+            var min = curr.FindLast(z => z.Species == minSpecies);
             if (min != null && min.Level < minLevel)
                 return false;
-            IEnumerable<EvoCriteria> poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            var poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (minSpecies != -1)
-                poss = poss.Reverse().SkipWhile(z => z.Species != minSpecies); // collection is reversed, we only care about count
-            else if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, 1)))
-                return curr.Count >= poss.Count() - 1;
-            return curr.Count >= poss.Count();
+            {
+                int last = poss.FindLastIndex(z => z.Species == minSpecies);
+                return curr.Count >= last;
+            }
+            if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, 1)))
+                return curr.Count >= poss.Count - 1;
+            return curr.Count >= poss.Count;
         }
         internal static bool IsEvolutionValidWithMove(PKM pkm, LegalInfo info)
         {
@@ -898,7 +906,7 @@ namespace PKHeX.Core
         private static bool IsMoveInherited(PKM pkm, LegalInfo info, int[] moves)
         {
             // In 3DS games, the inherited move must be in the relearn moves.
-            if (pkm.GenNumber >= 6)
+            if (info.Generation >= 6)
                 return pkm.RelearnMoves.Any(moves.Contains);
 
             // In Pre-3DS games, the move is inherited if it has the move and it can be hatched with the move.
@@ -940,7 +948,7 @@ namespace PKHeX.Core
             int count = 1;
             for (int i = 100; i >= startLevel; i--)
             {
-                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks:true);
+                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks: true);
                 if (evos.Count < count) // lost an evolution, prior level was minimum current level
                     return evos.Max(evo => evo.Level) + 1;
                 count = evos.Count;
@@ -1021,7 +1029,7 @@ namespace PKHeX.Core
             {
                 case -1: return pkm.Species;
                 case 1: return evos.Count <= 1 ? pkm.Species : evos[evos.Count - 2].Species;
-                default: return evos.Count <= 0 ? pkm.Species : evos.Last().Species;
+                default: return evos.Count <= 0 ? pkm.Species : evos[evos.Count - 1].Species;
             }
         }
         private static int GetMaxLevelGeneration(PKM pkm)
@@ -1230,7 +1238,7 @@ namespace PKHeX.Core
             Outsider |= Savegame_SID != pkm.SID;
             if (pkm.Format == 3) // Generation 3 does not check ot geneder nor pokemon version
                 return Outsider;
-            Outsider |= Savegame_Gender != pkm.OT_Gender || Savegame_Version != (GameVersion) pkm.Version;
+            Outsider |= Savegame_Gender != pkm.OT_Gender || Savegame_Version != (GameVersion)pkm.Version;
             return Outsider;
         }
 
@@ -1265,7 +1273,7 @@ namespace PKHeX.Core
                         return prefer;
                     return LanguageID.English;
                 case 3:
-                    if (Languages_3.Contains((int) prefer))
+                    if (Languages_3.Contains((int)prefer))
                         return prefer;
                     return LanguageID.English;
                 case 4:

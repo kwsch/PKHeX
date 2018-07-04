@@ -52,7 +52,7 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            res[0] = !Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm),true).Contains(RelearnMoves[0])
+            res[0] = !Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), true).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
@@ -88,7 +88,7 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
             CheckResult[] res = new CheckResult[4];
             // Level up moves cannot be inherited if Ditto is the parent
-            // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
+            // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
             bool inheritLvlMoves = Legal.GetCanInheritMoves(e.Species);
 
             // Obtain level1 moves
@@ -107,11 +107,11 @@ namespace PKHeX.Core
                 inheritMoves.Add(344); // Volt Tackle
 
             // If any splitbreed moves are invalid, flag accordingly
-            var splitMoves = e.SplitBreed ? Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), inheritLvlMoves, e.Version).ToList() : new List<int>();
+            var splitMoves = e is EncounterEggSplit s ? Legal.GetValidRelearn(pkm, s.OtherSpecies, inheritLvlMoves, e.Version).ToList() : new List<int>();
 
             // Inherited moves appear after the required base moves.
             // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.
-            bool splitInvalid = FlagInvalidInheritedMoves(res, reqBase, e, RelearnMoves, inheritMoves, splitMoves);
+            bool splitInvalid = FlagInvalidInheritedMoves(res, reqBase, RelearnMoves, inheritMoves, splitMoves);
             if (splitInvalid)
                 FlagSplitbreedMoves(res, reqBase, e, pkm);
 
@@ -139,16 +139,17 @@ namespace PKHeX.Core
             string em = string.Join(", ", GetMoveNames(baseMoves));
             res[required - 1].Comment += string.Format(Environment.NewLine + V181, em);
         }
-        private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, EncounterEgg e, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)
+        private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)
         {
             bool splitInvalid = false;
+            bool isSplit = splitMoves.Count > 0;
             for (int i = required; i < 4; i++)
             {
                 if (RelearnMoves[i] == 0) // empty
                     res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.RelearnMove);
                 else if (inheritMoves.Contains(RelearnMoves[i])) // inherited
                     res[i] = new CheckResult(Severity.Valid, V172, CheckIdentifier.RelearnMove);
-                else if (e.SplitBreed && splitMoves.Contains(RelearnMoves[i])) // inherited
+                else if (isSplit && splitMoves.Contains(RelearnMoves[i])) // inherited
                     splitInvalid = true;
                 else // not inheritable, flag
                     res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
@@ -158,13 +159,13 @@ namespace PKHeX.Core
         }
         private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEgg e, PKM pkm)
         {
-            var splitSpecies = Legal.GetBaseEggSpecies(pkm, e.SplitBreed ? 0 : 1);
+            var other = e is EncounterEggSplit x ? x.OtherSpecies : Legal.GetBaseEggSpecies(pkm, 1);
             for (int i = required; i < 4; i++)
             {
                 if (res[i] != null)
                     continue;
 
-                string message = string.Format(V379, SpeciesStrings[splitSpecies], SpeciesStrings[e.Species]);
+                string message = string.Format(V379, SpeciesStrings[other], SpeciesStrings[e.Species]);
                 res[i] = new CheckResult(Severity.Invalid, message, CheckIdentifier.RelearnMove);
             }
         }

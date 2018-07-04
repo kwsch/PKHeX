@@ -29,7 +29,7 @@ namespace PKHeX.Core
             int max = GetMaxSpeciesOrigin(gen);
 
             var baseSpecies = GetBaseSpecies(pkm, vs, 0);
-            int lvl = gen < 4 ? 5 : 1;
+            int lvl = GetEggHatchLevel(gen);
             if (baseSpecies <= max)
             {
                 yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies };
@@ -40,12 +40,12 @@ namespace PKHeX.Core
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
                 yield break; // no other possible species
 
-            baseSpecies = GetBaseSpecies(pkm, vs, 1);
-            if (baseSpecies <= max)
+            var other = GetBaseSpecies(pkm, vs, 1);
+            if (other <= max)
             {
-                yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
+                yield return new EncounterEggSplit { Version = ver, Level = lvl, Species = other, OtherSpecies = baseSpecies };
                 if (gen > 5 && (pkm.WasTradedEgg || all))
-                    yield return new EncounterEgg { Version = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies, SplitBreed = true };
+                    yield return new EncounterEggSplit { Version = GetOtherTradePair(ver), Level = lvl, Species = other, OtherSpecies = baseSpecies };
             }
         }
 

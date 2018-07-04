@@ -16,7 +16,6 @@ namespace PKHeX.Core
         public int Level;
 
         public GameVersion Version { get; set; }
-        public bool SplitBreed;
 
         public PKM ConvertToPKM(ITrainerInfo SAV)
         {
@@ -112,5 +111,10 @@ namespace PKHeX.Core
             }
             return moves;
         }
+    }
+
+    public class EncounterEggSplit : EncounterEgg
+    {
+        public int OtherSpecies;
     }
 }
