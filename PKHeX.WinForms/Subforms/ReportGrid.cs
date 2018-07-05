@@ -90,8 +90,8 @@ namespace PKHeX.WinForms
             public bool IsNicknamed => pkm.IsNicknamed;
             public bool IsShiny => pkm.IsShiny;
 
-            public int TID => pkm.TID;
-            public int SID => pkm.SID;
+            public int TID => pkm.GenNumber >= 7 ? pkm.TrainerID7 : pkm.TID;
+            public int SID => pkm.GenNumber >= 7 ? pkm.TrainerSID7 : pkm.SID;
             public int TSV => pkm.TSV;
             public int Move1_PP => pkm.Move1_PP;
             public int Move2_PP => pkm.Move2_PP;
