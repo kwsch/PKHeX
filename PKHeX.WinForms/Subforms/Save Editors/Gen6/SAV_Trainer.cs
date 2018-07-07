@@ -350,32 +350,31 @@ namespace PKHeX.WinForms
         }
         private void GetBadges()
         {
-            // Fetch Badges
-            Bitmap[] bma = SAV.ORAS ?
-                new[] {
-                                   Properties.Resources.badge_01, // ORAS Badges
-                                   Properties.Resources.badge_02,
-                                   Properties.Resources.badge_03,
-                                   Properties.Resources.badge_04,
-                                   Properties.Resources.badge_05,
-                                   Properties.Resources.badge_06,
-                                   Properties.Resources.badge_07,
-                                   Properties.Resources.badge_08,
-                } :
-                new [] {
-                                   Properties.Resources.badge_1, // XY Badges
-                                   Properties.Resources.badge_2,
-                                   Properties.Resources.badge_3,
-                                   Properties.Resources.badge_4,
-                                   Properties.Resources.badge_5,
-                                   Properties.Resources.badge_6,
-                                   Properties.Resources.badge_7,
-                                   Properties.Resources.badge_8,
-                };
-
+            var bma = GetGen6BadgeSprites(SAV.ORAS);
             for (int i = 0; i < 8; i++)
                 pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
         }
+        private static Bitmap[] GetGen6BadgeSprites(bool ORAS)
+        {
+            if (ORAS)
+            {
+                return new[]
+                {
+                    Properties.Resources.badge_01, Properties.Resources.badge_02,
+                    Properties.Resources.badge_03, Properties.Resources.badge_04,
+                    Properties.Resources.badge_05, Properties.Resources.badge_06,
+                    Properties.Resources.badge_07, Properties.Resources.badge_08
+                };
+            }
+            return new[] // XY
+            {
+                Properties.Resources.badge_1, Properties.Resources.badge_2,
+                Properties.Resources.badge_3, Properties.Resources.badge_4,
+                Properties.Resources.badge_5, Properties.Resources.badge_6,
+                Properties.Resources.badge_7, Properties.Resources.badge_8,
+            };
+        }
+
         private void GetTextBoxes()
         {
             int badgeval = SAV.Badges;
@@ -650,16 +649,7 @@ namespace PKHeX.WinForms
         }
         private void GiveAllAccessories(object sender, EventArgs e)
         {
-            new byte[]
-            {
-                0xFE,0xFF,0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-                0xFF,0xEF,0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFF,
-                0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xEF,
-                0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-            }.CopyTo(SAV.Data, SAV.Accessories);
+            SAV.UnlockAllAccessories();
         }
 
         private void UpdateCountry(object sender, EventArgs e)

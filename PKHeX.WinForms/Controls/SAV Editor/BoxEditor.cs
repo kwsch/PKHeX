@@ -63,7 +63,8 @@ namespace PKHeX.WinForms.Controls
             };
         }
         private int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
-        public int GetSlotOffset(int slot) => GetOffset(slot, CurrentBox);
+        public int GetSlotOffset(int box, int slot) => GetOffset(slot, box);
+        public int GetSlotOffset(int slot) => GetSlotOffset(CurrentBox, slot);
         public int ViewIndex => CurrentBox;
 
         public bool ControlsVisible

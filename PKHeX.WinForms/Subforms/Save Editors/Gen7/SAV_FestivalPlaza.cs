@@ -392,6 +392,8 @@ namespace PKHeX.WinForms
             if (editing) return;
             if (entry < 0) return;
             string t = Util.GetOnlyHex(((TextBox)sender).Text);
+            if (string.IsNullOrWhiteSpace(t))
+                t = "0";
             int maxlen = sender == TB_FacilityID ? 12 << 1 : 4 << 1;
             if (t.Length > maxlen)
             {

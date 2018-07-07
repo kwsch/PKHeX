@@ -23,14 +23,19 @@ namespace PKHeX.Core
             return string.IsNullOrWhiteSpace(str) ? 0 : Convert.ToUInt32(str, 16);
         }
 
-        public static string GetOnlyHex(string s)
-        {
-            return string.IsNullOrWhiteSpace(s) ? "0" : s.Select(char.ToUpper).Where("0123456789ABCDEF".Contains).Aggregate("", (str, c) => str + c);
-        }
+        private static bool IsHex(char c) => (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+        private static string TitleCase(string word) => word[0].ToString().ToUpper() + word.Substring(1, word.Length - 1).ToLower();
 
-        public static string ToTitleCase(string s)
-        {
-            return string.Join(" ", s.Split(' ').Select(x => x[0].ToString().ToUpper() + x.Substring(1, x.Length - 1).ToLower()));
-        }
+        /// <summary>
+        /// Filters the string down to only valid hex characters, returning a new string.
+        /// </summary>
+        /// <param name="str">Input string to filter</param>
+        public static string GetOnlyHex(string str) => string.IsNullOrWhiteSpace(str) ? string.Empty : string.Concat(str.Where(IsHex));
+
+        /// <summary>
+        /// Returns a new string with each word converted to its appropriate title case.
+        /// </summary>
+        /// <param name="str">Input string to modify</param>
+        public static string ToTitleCase(string str) => string.IsNullOrWhiteSpace(str) ? string.Empty : string.Join(" ", str.Split(' ').Select(TitleCase));
     }
 }
