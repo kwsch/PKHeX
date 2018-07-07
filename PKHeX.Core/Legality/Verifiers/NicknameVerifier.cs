@@ -305,7 +305,7 @@ namespace PKHeX.Core
             {
                 int lang = pkm.Language;
                 if (pkm.Format == 5 && lang == (int)LanguageID.Japanese)
-                    data.AddLine(GetInvalid(string.Format(V5, 0, (int)LanguageID.Japanese), CheckIdentifier.Language));
+                    data.AddLine(GetInvalid(string.Format(V5, 0, LanguageID.Japanese), CheckIdentifier.Language));
 
                 lang = Math.Max(lang, 1);
                 VerifyTradeTable(data, Encounters5.TradeBW, Encounters5.TradeGift_BW, lang);
