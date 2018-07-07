@@ -8,13 +8,12 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
 {
     public partial class TrainerStat : UserControl
     {
-        public TrainerStat()
-        {
-            InitializeComponent();
-        }
-
+        public TrainerStat() => InitializeComponent();
+        private readonly ToolTip Tip = new ToolTip();
         private bool Editing;
         private ITrainerStatRecord SAV;
+        private Dictionary<int, string> RecordList; // index, description
+        public Func<int, string> GetToolTipText { private get; set; }
 
         public void LoadRecords(ITrainerStatRecord sav, Dictionary<int, string> records)
         {
@@ -31,8 +30,6 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
             CB_Stats.SelectedIndex = RecordList.First().Key;
         }
 
-        private Dictionary<int, string> RecordList; // index, description
-
         private void ChangeStat(object sender, EventArgs e)
         {
             Editing = true;
@@ -45,6 +42,7 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
             UpdateTip(index, true);
             Editing = false;
         }
+
         private void ChangeStatVal(object sender, EventArgs e)
         {
             if (Editing)
@@ -54,8 +52,6 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
             UpdateTip(index, false);
         }
 
-        private readonly ToolTip Tip3 = new ToolTip();
-        public Func<int, string> GetToolTipText { private get; set; }
         private void UpdateTip(int index, bool updateStats)
         {
             if (GetToolTipText != null)
@@ -69,19 +65,20 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
             var str = GetToolTipText(index);
             if (str != null)
             {
-                Tip3.SetToolTip(NUD_Stat, str);
+                Tip.SetToolTip(NUD_Stat, str);
                 return;
             }
             UpdateToolTipDefault(index, updateStats); // fallback
         }
+
         private void UpdateToolTipDefault(int index, bool updateStats)
         {
             if (!updateStats || !RecordList.TryGetValue(index, out string tip))
             {
-                Tip3.RemoveAll();
+                Tip.RemoveAll();
                 return;
             }
-            Tip3.SetToolTip(CB_Stats, tip);
+            Tip.SetToolTip(CB_Stats, tip);
         }
     }
 }

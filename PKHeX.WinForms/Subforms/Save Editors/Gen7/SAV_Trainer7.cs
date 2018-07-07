@@ -28,15 +28,8 @@ namespace PKHeX.WinForms
             GetComboBoxes();
             GetTextBoxes();
 
-            CB_Stats.Items.Clear();
-            for (int i = 0; i < 200; i++)
-            {
-                if (!RecordList.TryGetValue(i, out string name))
-                    name = $"{i:D3}";
-
-                CB_Stats.Items.Add(name);
-            }
-            CB_Stats.SelectedIndex = RecordList.First().Key;
+            TrainerStats.LoadRecords(SAV, RecordList);
+            TrainerStats.GetToolTipText = UpdateTip;
             CB_Fashion.SelectedIndex = 1;
 
             if (SAV.USUM)
@@ -47,10 +40,8 @@ namespace PKHeX.WinForms
             Loading = false;
         }
 
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip();
         private readonly bool Loading;
         private bool MapUpdated;
-        private bool editing;
 
         private static readonly string[] TrainerStampTitle = { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
         private static readonly string[] BattleStyles = { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
@@ -577,26 +568,7 @@ namespace PKHeX.WinForms
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
-        private void ChangeStat(object sender, EventArgs e)
-        {
-            editing = true;
-            int index = CB_Stats.SelectedIndex;
-            NUD_Stat.Maximum = SAV.GetRecordMax(index);
-            NUD_Stat.Value = SAV.GetRecord(index);
-
-            int offset = SAV.GetRecordOffset(index);
-            L_Offset.Text = $"Offset: 0x{offset:X3}";
-            UpdateTip(index, true);
-            editing = false;
-        }
-        private void ChangeStatVal(object sender, EventArgs e)
-        {
-            if (editing) return;
-            int index = CB_Stats.SelectedIndex;
-            SAV.SetRecord(index, (int)NUD_Stat.Value);
-            UpdateTip(index, false);
-        }
-        private void UpdateTip(int index, bool updateStats)
+        private string UpdateTip(int index)
         {
             switch (index)
             {
@@ -604,17 +576,10 @@ namespace PKHeX.WinForms
                     int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
                     seconds -= seconds % 86400;
                     seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-                    Tip3.SetToolTip(NUD_Stat, ConvertDateValueToString(SAV.GetRecord(index), seconds));
-                    break;
+                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
-                    Tip3.RemoveAll();
-                    break;
+                    return null;
             }
-            if (!updateStats)
-                return;
-
-            if (RecordList.TryGetValue(index, out string tip))
-                Tip3.SetToolTip(CB_Stats, tip);
         }
         private static string ConvertDateValueToString(int value, int secondsBias = -1)
         {
