@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -698,6 +699,7 @@ namespace PKHeX.Core
         public ulong AlolaTime { get => BitConverter.ToUInt64(Data, AdventureInfo + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x48); }
 
         // Stat Records
+        public int RecordCount => 200;
         public int GetRecord(int recordID)
         {
             int ofs = GetRecordOffset(recordID);
@@ -728,7 +730,7 @@ namespace PKHeX.Core
             return -1;
         }
         public int GetRecordMax(int recordID) => GetRecordMax(recordID, USUM ? RecordMaxType_USUM : RecordMaxType_SM);
-        private static int GetRecordMax(int recordID, int[] maxes) => recordID < 200 ? RecordMax[(maxes ?? RecordMaxType_USUM)[recordID]] : 0;
+        private static int GetRecordMax(int recordID, IReadOnlyList<int> maxes) => recordID < 200 ? RecordMax[maxes[recordID]] : 0;
         private static readonly int[] RecordMax = {999999999, 9999999, 999999, 99999, 65535, 9999, 999};
         private static readonly int[] RecordMaxType_SM =
         {

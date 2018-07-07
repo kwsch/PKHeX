@@ -20,7 +20,7 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
             SAV = sav;
             RecordList = records;
             CB_Stats.Items.Clear();
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < sav.RecordCount; i++)
             {
                 if (!RecordList.TryGetValue(i, out string name))
                     name = $"{i:D3}";
