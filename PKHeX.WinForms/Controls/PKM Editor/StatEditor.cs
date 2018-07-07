@@ -285,6 +285,7 @@ namespace PKHeX.WinForms.Controls
                 LoadIVs(pkm.SetRandomIVs());
         }
 
+        public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
         private void UpdateCharacteristic(int characteristic)
         {
             L_Characteristic.Visible = Label_CharacteristicPrefix.Visible = characteristic > -1;

@@ -482,5 +482,28 @@ namespace PKHeX.Core
 
             return MetGen6;
         }
+
+        private static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetUnsortedCBList("languages");
+        public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)
+        {
+            var languages = LanguageList.ToList();
+            Util.GetUnsortedCBList("languages");
+            if (gen == 3)
+                languages.RemoveAll(l => l.Value >= (int)LanguageID.Korean);
+            else if (gen < 7)
+                languages.RemoveAll(l => l.Value > (int)LanguageID.Korean);
+            return languages;
+        }
+
+        private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
+        public IReadOnlyList<ComboItem> GetAbilityDataSource(IEnumerable<int> abils)
+        {
+            return abils.Select(GetItem).ToList();
+            ComboItem GetItem(int ability, int index) => new ComboItem
+            {
+                Value = ability,
+                Text = GameInfo.Strings.abilitylist[ability] + abilIdentifier[index]
+            };
+        }
     }
 }

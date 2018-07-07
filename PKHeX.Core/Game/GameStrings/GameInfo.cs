@@ -54,6 +54,7 @@ namespace PKHeX.Core
         public static IReadOnlyList<ComboItem> LegalMoveDataSource => Strings.LegalMoveDataSource;
         public static IReadOnlyList<ComboItem> HaXMoveDataSource => Strings.HaXMoveDataSource;
         public static IReadOnlyList<ComboItem> MoveDataSource => Strings.MoveDataSource;
+        public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameStrings.LanguageDataSource(gen);
 
 
         /// <summary>

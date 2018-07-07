@@ -148,23 +148,14 @@ namespace PKHeX.WinForms.Controls
                     GetPKMfromFields = PreparePK2;
                     break;
                 case 3:
-                    if (pkm is CK3)
-                    {
-                        GetFieldsfromPKM = PopulateFieldsCK3;
-                        GetPKMfromFields = PrepareCK3;
-                        extraBytes = CK3.ExtraBytes;
-                        break;
-                    }
-                    if (pkm is XK3)
-                    {
-                        GetFieldsfromPKM = PopulateFieldsXK3;
-                        GetPKMfromFields = PrepareXK3;
-                        extraBytes = XK3.ExtraBytes;
-                        break;
-                    }
                     GetFieldsfromPKM = PopulateFieldsPK3;
                     GetPKMfromFields = PreparePK3;
-                    extraBytes = PK3.ExtraBytes;
+                    switch (pkm)
+                    {
+                        case CK3 _: extraBytes = CK3.ExtraBytes; break;
+                        case XK3 _: extraBytes = XK3.ExtraBytes; break;
+                        default: extraBytes = PK3.ExtraBytes; break;
+                    }
                     break;
                 case 4:
                     GetFieldsfromPKM = PopulateFieldsPK4;
@@ -345,21 +336,16 @@ namespace PKHeX.WinForms.Controls
             if (TB_OTt2.Text.Length > 0)
                 Label_CTGender.Text = gendersymbols[SAV.Gender & 1];
         }
+
         private void SetForms()
         {
-            int species = WinFormsUtil.GetIndex(CB_Species);
-            if (pkm.Format < 4 && species != 201)
-            {
-                Label_Form.Visible = CB_Form.Visible = CB_Form.Enabled = false;
-                return;
-            }
-
-            int count = (RequestSaveFile?.Personal[species] ?? pkm.PersonalInfo).FormeCount;
-            bool hasForms = count > 1 || new[] { 201, 664, 665, 414 }.Contains(species);
+            int species = pkm.Species;
+            var pi = RequestSaveFile?.Personal[species] ?? pkm.PersonalInfo;
+            bool hasForms = FormConverter.HasFormSelection(pi, species, pkm.Format);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
             if (HaX && pkm.Format >= 4)
-                Label_Form.Visible = true;
+                Label_Form.Visible = true; // show with value entry textbox
 
             if (!hasForms)
                 return;
@@ -367,7 +353,8 @@ namespace PKHeX.WinForms.Controls
             var ds = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
                 CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
-            else CB_Form.DataSource = ds;
+            else
+                CB_Form.DataSource = ds;
         }
         private void SetAbilityList()
         {
@@ -387,22 +374,6 @@ namespace PKHeX.WinForms.Controls
             FieldsLoaded = tmp;
         }
         private static int GetSafeIndex(ComboBox cb, int index) => Math.Max(0, Math.Min(cb.Items.Count - 1, index));
-
-        private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
-        private static List<ComboItem> GetAbilityList(PKM pkm)
-        {
-            var abils = pkm.PersonalInfo.Abilities;
-            if (pkm.Format == 3 && abils[1] == abils[0])
-                abils = new[] {abils[0]};
-
-            return abils.Select(GetItem).ToList();
-
-            ComboItem GetItem(int ability, int index) => new ComboItem
-            {
-                Value = ability,
-                Text = GameInfo.Strings.abilitylist[ability] + abilIdentifier[index]
-            };
-        }
 
         private void SetIsShiny(object sender)
         {
@@ -512,8 +483,6 @@ namespace PKHeX.WinForms.Controls
             }
             else if (pkm.Format <= 4)
             {
-                if (FieldsLoaded)
-                    pkm.Species = WinFormsUtil.GetIndex(CB_Species);
                 pkm.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
                 pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
                 pkm.AltForm = CB_Form.SelectedIndex;
@@ -1320,7 +1289,7 @@ namespace PKHeX.WinForms.Controls
 
             SetIsShiny(sender);
             UpdateSprite();
-            Stats.UpdateIVs(null, null);   // If the EC is changed, EC%6 (Characteristic) might be changed.
+            Stats.UpdateCharacteristic();   // If the EC is changed, EC%6 (Characteristic) might be changed.
             if (pkm.Format <= 4 && FieldsLoaded)
             {
                 FieldsLoaded = false;
@@ -1377,34 +1346,38 @@ namespace PKHeX.WinForms.Controls
         }
         private void ValidateComboBox2(object sender, EventArgs e)
         {
-            if (!FieldsInitialized)
+            if (!FieldsInitialized || !FieldsLoaded)
                 return;
+
             ValidateComboBox(sender, null);
-            if (FieldsLoaded)
+            if (sender == CB_Ability)
             {
-                if (sender == CB_Ability && pkm.Format >= 6)
+                if (pkm.Format >= 6)
                     TB_AbilityNumber.Text = (1 << CB_Ability.SelectedIndex).ToString();
-                if (sender == CB_Ability && pkm.Format <= 5 && CB_Ability.SelectedIndex < 2) // not hidden
+                else if (pkm.Format <= 5 && CB_Ability.SelectedIndex < 2) // Format <= 5, not hidden
                     UpdateRandomPID(sender, e);
-                if (sender == CB_Nature && pkm.Format <= 4)
-                {
-                    pkm.Nature = CB_Nature.SelectedIndex;
-                    UpdateRandomPID(sender, e);
-                }
-                if (sender == CB_HeldItem || sender == CB_Ability)
-                    UpdateLegality();
+                UpdateLegality();
             }
-            UpdateNatureModification(sender, null);
-            Stats.UpdateIVs(null, null); // updating Nature will trigger stats to update as well
+            else if (sender == CB_Nature)
+            {
+                pkm.Nature = CB_Nature.SelectedIndex;
+                if (pkm.Format <= 4)
+                    UpdateRandomPID(sender, e);
+                UpdateNatureModification(sender, EventArgs.Empty);
+                Stats.UpdateIVs(null, EventArgs.Empty); // updating Nature will trigger stats to update as well
+                UpdateLegality();
+            }
+            else if (sender == CB_HeldItem)
+            {
+                UpdateLegality();
+            }
         }
         private void ValidateMove(object sender, EventArgs e)
         {
-            if (!FieldsInitialized)
-                return;
-            ValidateComboBox(sender);
-            if (!FieldsLoaded)
+            if (!FieldsInitialized || !FieldsLoaded)
                 return;
 
+            ValidateComboBox(sender);
             if (Moves.Contains(sender)) // Move
                 UpdatePP(sender, e);
 
@@ -1470,18 +1443,14 @@ namespace PKHeX.WinForms.Controls
         /// <param name="pk">Pokémon data to edit</param>
         public bool ToggleInterface(SaveFile sav, PKM pk)
         {
-            if (pk.GetType() != sav.PKMType || pkm.Format < 3)
-                pk = sav.BlankPKM;
-            pkm = pk;
-
-            ToggleInterface(pkm.Format);
-            ToggleInterface(pkm.GetType());
-
+            pkm = GetCompatiblePKM(sav, pk);
+            ToggleInterface(pkm);
             return FinalizeInterface(sav);
         }
-        private void ToggleInterface(Type t)
+        private void ToggleInterface(PKM t)
         {
-            FLP_Purification.Visible = FLP_ShadowID.Visible = t == typeof(XK3) || t == typeof(CK3);
+            FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
+            ToggleInterface(pkm.Format);
         }
         private void ToggleInterface(int gen)
         {
@@ -1661,12 +1630,7 @@ namespace PKHeX.WinForms.Controls
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
-            var languages = Util.GetUnsortedCBList("languages");
-            if (SAV.Generation == 3)
-                languages.RemoveAll(l => l.Value >= (int)LanguageID.Korean);
-            else if (SAV.Generation < 7)
-                languages.RemoveAll(l => l.Value > (int)LanguageID.Korean);
-            CB_Language.DataSource = languages;
+            CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
@@ -1696,6 +1660,19 @@ namespace PKHeX.WinForms.Controls
             if (pkm.CurrentLevel < minlvl)
                 suggestion.Add($"{MsgPKMSuggestionLevel} {minlvl}");
             return suggestion;
+        }
+        private static IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)
+        {
+            var abils = pkm.PersonalInfo.Abilities;
+            if (pkm.Format == 3 && abils[1] == abils[0])
+                abils = new[] { abils[0] };
+            return GameInfo.Strings.GetAbilityDataSource(abils);
+        }
+        private static PKM GetCompatiblePKM(SaveFile sav, PKM current)
+        {
+            if (current.Format < 3 || current.GetType() != sav.PKMType)
+                return sav.BlankPKM;
+            return current;
         }
         private static void InitializeBinding(ListControl cb)
         {

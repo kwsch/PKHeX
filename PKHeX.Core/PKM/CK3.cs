@@ -163,7 +163,7 @@ namespace PKHeX.Core
 
         public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
         public override bool IsEgg { get => Data[0xCB] == 1; set => Data[0xCB] = (byte)(value ? 1 : 0); }
-        public override int AbilityNumber { get => 1 << Data[0xCC]; set => Data[0xCC] = (byte)((value >> 1) & 1); }
+        public override bool AbilityBit { get => Data[0xCC] == 1; set => Data[0xCC] = (byte)(value ? 1 : 0); }
         public override bool Valid { get => Data[0xCD] == 0; set { if (value) Data[0xCD] = 0; } }
         // 0xCE unknown
         public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }

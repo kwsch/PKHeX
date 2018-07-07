@@ -689,5 +689,31 @@ namespace PKHeX.Core
             // AO
             015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
         };
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.AltForm"/> value.
+        /// </summary>
+        /// <param name="pi">Game specific personal info</param>
+        /// <param name="species"><see cref="PKM.Species"/> ID</param>
+        /// <param name="format"><see cref="PKM.AltForm"/> ID</param>
+        /// <returns>True if has formes that can be provided by <see cref="GetFormList"/>, otherwise false for none.</returns>
+        public static bool HasFormSelection(PersonalInfo pi, int species, int format)
+        {
+            if (format <= 3 && species != 201)
+                return false;
+
+            if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
+                return true;
+
+            int count = pi.FormeCount;
+            return count > 1;
+        }
+
+        private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
+        {
+            201, // Unown
+            414, // Mothim (Burmy forme carried over, not cleared)
+            664, 665, // Vivillon pre-evos
+        };
     }
 }

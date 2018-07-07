@@ -60,7 +60,7 @@ namespace PKHeX.Core
         public bool UnusedFlag3     { get => (XDPKMFLAGS & (1 << 3)) == 1 << 3; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 3) | (value ? 1 << 3 : 0); }
         public bool BlockTrades     { get => (XDPKMFLAGS & (1 << 4)) == 1 << 4; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 4) | (value ? 1 << 4 : 0); }
         public override bool Valid  { get => (XDPKMFLAGS & (1 << 5)) == 0; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 5) | (value ? 0 : 1 << 5); } // invalid flag
-        public override int AbilityNumber { get => 1 << ((XDPKMFLAGS >> 6) & 1); set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | (((value >> 1) & 1) << 6); }
+        public override bool AbilityBit { get => 1 << ((XDPKMFLAGS >> 6) & 1) == 1; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | ((value ? 1 : 0) << 6); }
         public override bool IsEgg  { get => (XDPKMFLAGS & (1 << 7)) == 1 << 7; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 7) | (value ? 1 << 7 : 0); }
         // 0x1E-0x1F Unknown
         public override uint EXP { get => BigEndian.ToUInt32(Data, 0x20); set => BigEndian.GetBytes(value).CopyTo(Data, 0x20); }
