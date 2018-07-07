@@ -557,6 +557,12 @@
     <Compile Include="Subforms\Save Editors\SAV_Wondercard.Designer.cs">
       <DependentUpon>SAV_Wondercard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\TrainerStat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\TrainerStat.Designer.cs">
+      <DependentUpon>TrainerStat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -787,6 +793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_Wondercard.resx">
       <DependentUpon>SAV_Wondercard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\TrainerStat.resx">
+      <DependentUpon>TrainerStat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>

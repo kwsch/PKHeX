@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV7 : SaveFile
+    public sealed class SAV7 : SaveFile, ITrainerStatRecord
     {
         // Save Data Attributes
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
@@ -727,8 +727,8 @@ namespace PKHeX.Core
                 return Record + recordID*2 + 200; // first 100 are 4bytes, so bias the difference
             return -1;
         }
-
-        public static int GetRecordMax(int recordID, int[] maxes = null) => recordID < 200 ? RecordMax[(maxes ?? RecordMaxType_USUM)[recordID]] : 0;
+        public int GetRecordMax(int recordID) => GetRecordMax(recordID, USUM ? RecordMaxType_USUM : RecordMaxType_SM);
+        private static int GetRecordMax(int recordID, int[] maxes) => recordID < 200 ? RecordMax[(maxes ?? RecordMaxType_USUM)[recordID]] : 0;
         private static readonly int[] RecordMax = {999999999, 9999999, 999999, 99999, 65535, 9999, 999};
         private static readonly int[] RecordMaxType_SM =
         {

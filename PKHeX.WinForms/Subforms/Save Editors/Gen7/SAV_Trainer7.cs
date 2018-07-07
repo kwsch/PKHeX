@@ -581,7 +581,7 @@ namespace PKHeX.WinForms
         {
             editing = true;
             int index = CB_Stats.SelectedIndex;
-            NUD_Stat.Maximum = SAV7.GetRecordMax(index);
+            NUD_Stat.Maximum = SAV.GetRecordMax(index);
             NUD_Stat.Value = SAV.GetRecord(index);
 
             int offset = SAV.GetRecordOffset(index);
@@ -616,14 +616,15 @@ namespace PKHeX.WinForms
             if (RecordList.TryGetValue(index, out string tip))
                 Tip3.SetToolTip(CB_Stats, tip);
         }
-        private static string ConvertDateValueToString(int value, int refval = -1)
+        private static string ConvertDateValueToString(int value, int secondsBias = -1)
         {
-            string tip = "";
-            if (value >= 86400)
-                tip += value / 86400 + "d ";
+            const int spd = 86400; // seconds per day
+            string tip = string.Empty;
+            if (value >= spd)
+                tip += (value / spd) + "d ";
             tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
-            if (refval >= 0)
-                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(refval + value)}";
+            if (secondsBias >= 0)
+                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
             return tip;
         }
 
