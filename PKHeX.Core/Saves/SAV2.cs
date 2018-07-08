@@ -111,6 +111,29 @@ namespace PKHeX.Core
             }
 
             // Daycare currently undocumented for all Gen II games.
+            if (Offsets.Daycare >= 0)
+            {
+                int offset = Offsets.Daycare;
+
+                DaycareFlags[0] = Data[offset]; offset++;
+                var pk1 = ReadPKMFromOffset(offset); // parent 1
+                var daycare1 = new PokemonList2(pk1);
+                offset += StringLength * 2 + 0x20; // nick/ot/pkm
+                DaycareFlags[1] = Data[offset]; offset++;
+                byte steps = Data[offset]; offset++;
+                byte BreedMotherOrNonDitto = Data[offset]; offset++;
+                var pk2 = ReadPKMFromOffset(offset); // parent 2
+                var daycare2 = new PokemonList2(pk2);
+                offset += StringLength * 2 + PKX.SIZE_2STORED; // nick/ot/pkm
+                var pk3 = ReadPKMFromOffset(offset); // egg!
+                pk3.IsEgg = true;
+                var daycare3 = new PokemonList2(pk3);
+
+                daycare1.GetBytes().CopyTo(Data, GetPartyOffset(7 + (0 * 2)));
+                daycare2.GetBytes().CopyTo(Data, GetPartyOffset(7 + (1 * 2)));
+                daycare3.GetBytes().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
+                Daycare = Offsets.Daycare;
+            }
 
             // Enable Pokedex editing
             PokeDex = 0;
@@ -118,6 +141,19 @@ namespace PKHeX.Core
 
             if (!Exportable)
                 ClearBoxes();
+        }
+
+        private PK2 ReadPKMFromOffset(int offset)
+        {
+            byte[] nick = new byte[StringLength];
+            byte[] ot = new byte[StringLength];
+            byte[] pk = new byte[PKX.SIZE_2STORED];
+
+            Array.Copy(Data, offset, nick, 0, nick.Length); offset += nick.Length;
+            Array.Copy(Data, offset, ot, 0, ot.Length); offset += ot.Length;
+            Array.Copy(Data, offset, pk, 0, pk.Length);
+
+            return new PK2(pk, jp: Japanese) { otname = ot, nick = nick };
         }
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
@@ -405,26 +441,13 @@ namespace PKHeX.Core
                 }
             }
         }
-        public override int GetDaycareSlotOffset(int loc, int slot)
-        {
-            return Daycare;
-        }
-        public override uint? GetDaycareEXP(int loc, int slot)
-        {
-            return null;
-        }
-        public override bool? IsDaycareOccupied(int loc, int slot)
-        {
-            return null;
-        }
-        public override void SetDaycareEXP(int loc, int slot, uint EXP)
-        {
 
-        }
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
-
-        }
+        private readonly byte[] DaycareFlags = new byte[2];
+        public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + slot*2);
+        public override uint? GetDaycareEXP(int loc, int slot) => null;
+        public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlags[slot] & 1) != 0;
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
         // Storage
         public override int PartyCount

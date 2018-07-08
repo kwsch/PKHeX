@@ -13,6 +13,7 @@
                 LoadOffsetsKorean();
             else
                 LoadOffsetsInternational(sav.Version);
+            Daycare = PokedexSeen + 0x1F + 28 + 1; // right after first unown seen
         }
 
         public int Options { get; }
@@ -34,6 +35,7 @@
         public int AccumulatedChecksumEnd { get; private set; } = -1;
         public int OverallChecksumPosition { get; private set; } = -1;
         public int EventFlag { get; private set; } = int.MinValue;
+        public int Daycare { get; private set; }
 
         public int PouchTMHM { get; private set; } = -1;
         public int PouchItem { get; private set; } = -1;
