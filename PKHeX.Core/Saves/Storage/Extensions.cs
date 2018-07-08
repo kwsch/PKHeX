@@ -41,11 +41,22 @@ namespace PKHeX.Core
             switch (sav)
             {
                 default: return None;
+                case SAV3 sav3: return GetExtraSlots3(sav3);
                 case SAV4 sav4: return GetExtraSlots4(sav4);
                 case SAV5 sav5: return GetExtraSlots5(sav5);
                 case SAV6 sav6: return GetExtraSlots6(sav6);
                 case SAV7 sav7: return GetExtraSlots7(sav7, all);
             }
+        }
+
+        private static List<StorageSlotOffset> GetExtraSlots3(SAV3 sav)
+        {
+            if (!sav.FRLG)
+                return None;
+            return new List<StorageSlotOffset>
+            {
+                new StorageSlotOffset {Type = StorageSlotType.Daycare, Offset = sav.GetBlockOffset(4) + 0xE18}
+            };
         }
         private static List<StorageSlotOffset> GetExtraSlots4(SAV4 sav)
         {
