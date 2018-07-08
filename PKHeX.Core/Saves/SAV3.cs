@@ -22,13 +22,13 @@ namespace PKHeX.Core
         private const int SIZE_BLOCK = 0x1000;
         private const int BLOCK_COUNT = 14;
         private const int SIZE_RESERVED = 0x10000; // unpacked box data will start after the save data
-        private readonly int[] chunkLength =
+        private static readonly int[] chunkLength =
         {
-            0xf2c, // 0 | Trainer info
-            0xf80, // 1 | Team / items
-            0xf80, // 2 | Unknown
-            0xf80, // 3 | Unknown
-            0xf08, // 4 | Rival info
+            0xf2c, // 0 | Small Block (Trainer Info)
+            0xf80, // 1 | Large Block Part 1
+            0xf80, // 2 | Large Block Part 2
+            0xf80, // 3 | Large Block Part 3
+            0xf08, // 4 | Large Block Part 4
             0xf80, // 5 | PC Block 0
             0xf80, // 6 | PC Block 1
             0xf80, // 7 | PC Block 2
@@ -39,6 +39,30 @@ namespace PKHeX.Core
             0xf80, // C | PC Block 7
             0x7d0  // D | PC Block 8
         };
+
+        public static void GetLargeBlockOffset(int contiguousOffset, out int chunk, out int chunkOffset)
+        {
+            for (chunk = 1; chunk <= 4; chunk++)
+            {
+                int chunkSize = chunkLength[chunk];
+                if (chunkSize > contiguousOffset)
+                    break;
+                contiguousOffset -= chunkSize;
+            }
+            chunkOffset = contiguousOffset;
+        }
+        public static int GetLargeBlockOffset(int chunk, int chunkOffset)
+        {
+            if (chunk == 1)
+                return chunkOffset;
+            for (int i = 1; i <= 4; i++)
+            {
+                if (chunk == i)
+                    break;
+                chunkOffset += chunkLength[i];
+            }
+            return chunkOffset;
+        }
 
         public SAV3(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
