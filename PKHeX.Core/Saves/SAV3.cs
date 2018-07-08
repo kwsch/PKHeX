@@ -725,5 +725,29 @@ namespace PKHeX.Core
                 SetData(value.Data, block0 + 0xA0);
             }
         }
+
+        public PokeBlock3Case PokeBlocks
+        {
+            get
+            {
+                var ofs = PokeBlockOffset;
+                if (ofs < 0)
+                    throw new Exception($"Game does not support {nameof(PokeBlocks)}.");
+                return new PokeBlock3Case(Data, ofs);
+            }
+            set => SetData(value.Write(), PokeBlockOffset);
+        }
+
+        private int PokeBlockOffset
+        {
+            get
+            {
+                if (Version == GameVersion.E)
+                    return BlockOfs[1] + 0x848;
+                if (Version == GameVersion.RS)
+                    return BlockOfs[1] + 0x7F8;
+                return -1;
+            }
+        }
     }
 }
