@@ -237,22 +237,12 @@ namespace PKHeX.WinForms
                     new { Text = "TW", Value = 6 }
                 };
 
-            var language_list = new[] {
-                    new { Text = "ENG", Value = 2 },
-                    new { Text = "JPN", Value = 1 },
-                    new { Text = "FRE", Value = 3 },
-                    new { Text = "ITA", Value = 4 },
-                    new { Text = "GER", Value = 5 },
-                    new { Text = "SPA", Value = 7 },
-                    new { Text = "KOR", Value = 8 }
-                };
-
             CB_3DSReg.DisplayMember = "Text";
             CB_3DSReg.ValueMember = "Value";
             CB_3DSReg.DataSource = dsregion_list;
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
-            CB_Language.DataSource = language_list;
+            CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 
             CB_Country.DisplayMember = "Text";
             CB_Country.ValueMember = "Value";

@@ -45,6 +45,8 @@
             // 
             // L_Offset
             // 
+            this.L_Offset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Offset.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.L_Offset.Location = new System.Drawing.Point(3, 48);
             this.L_Offset.Name = "L_Offset";
@@ -56,7 +58,7 @@
             // L_Value
             // 
             this.L_Value.AutoSize = true;
-            this.L_Value.Location = new System.Drawing.Point(0, 27);
+            this.L_Value.Location = new System.Drawing.Point(2, 28);
             this.L_Value.Name = "L_Value";
             this.L_Value.Size = new System.Drawing.Size(34, 13);
             this.L_Value.TabIndex = 32;
@@ -64,6 +66,8 @@
             // 
             // CB_Stats
             // 
+            this.CB_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Stats.DropDownHeight = 256;
             this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Stats.DropDownWidth = 200;

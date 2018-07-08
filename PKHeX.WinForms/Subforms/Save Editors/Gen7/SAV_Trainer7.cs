@@ -59,18 +59,6 @@ namespace PKHeX.WinForms
                     new { Text = "TW", Value = 6 }
                 };
 
-            var language_list = new[] {
-                    new { Text = "ENG", Value = 2 },
-                    new { Text = "JPN", Value = 1 },
-                    new { Text = "FRE", Value = 3 },
-                    new { Text = "ITA", Value = 4 },
-                    new { Text = "GER", Value = 5 },
-                    new { Text = "SPA", Value = 7 },
-                    new { Text = "KOR", Value = 8 },
-                    new { Text = "CHS", Value = 9 },
-                    new { Text = "CHT", Value = 10},
-                };
-
             var alolatime_list = new[] { new { Text = "Sun Time", Value = 24*60*60 } };
             Array.Resize(ref alolatime_list, 24);
             for (int i = 1; i < 24; i++)
@@ -82,7 +70,7 @@ namespace PKHeX.WinForms
             CB_3DSReg.DataSource = dsregion_list;
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
-            CB_Language.DataSource = language_list;
+            CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
             CB_AlolaTime.DisplayMember = "Text";
             CB_AlolaTime.ValueMember = "Value";
             CB_AlolaTime.DataSource = alolatime_list;
