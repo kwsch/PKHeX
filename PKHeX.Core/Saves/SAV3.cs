@@ -208,7 +208,7 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
-        protected override int EventFlagMax => EventFlag > 0 ? 0x900 : int.MinValue;
+        protected override int EventFlagMax => 8 * (RS ? 288 : 300); // 0x900 RS, else 0x960
         protected override int EventConstMax => EventConst > 0 ? 0x100 : int.MinValue;
 
         public override bool HasParty => true;
