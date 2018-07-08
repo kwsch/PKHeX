@@ -95,7 +95,8 @@ namespace PKHeX.Core
 
             // Negai Boshi Jirachi
             new WC3 { Species = 385, Level = 05, TID = 30719, OT_Gender = 0, OT_Name = "ネガイボシ", Method = PIDType.BACD_R, Language = (int)LanguageID.Japanese, Shiny = Shiny.Never },
-
+            new WC3 { Species = 385, Level = 05, TID = 30719, OT_Name = "ネガイボシ", Method = PIDType.BACD_U_AX, Language = (int)LanguageID.Japanese, Shiny = Shiny.Never },
+            
             // Berry Glitch Fix
             // PCJP - (December 29, 2003 to March 31, 2004)
             new WC3 { Species = 263, Level = 5, Version = GameVersion.S, Language = (int)LanguageID.Japanese, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1, Shiny = Shiny.Always },
