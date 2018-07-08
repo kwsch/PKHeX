@@ -88,12 +88,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV3 sav3)
             {
                 GB_Map.Visible = false;
-                switch (sav3.Version)
-                {
-                    case GameVersion.E: badgeval = sav3.Badges; break;
-                    case GameVersion.FRLG: badgeval = sav3.Badges; break;
-                    default: GB_Badges.Visible = false; break; // RS
-                }
+                badgeval = sav3.Badges;
 
                 L_Started.Visible = L_Fame.Visible = false;
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;

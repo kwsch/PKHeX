@@ -321,24 +321,30 @@ namespace PKHeX.Core
         {
             get
             {
-                switch (Version)
-                {
-                    case GameVersion.E: return BitConverter.ToUInt16(Data, BlockOfs[2] + 0x3FC) >> 7 & 0xFF;
-                    case GameVersion.FRLG: return Data[BlockOfs[2] + 0x64];
-                    default: return 0; // RS
-                }
+                int startFlag = BadgeFlagStart;
+                int val = 0;
+                for (int i = 0; i < 8; i++)
+                    if (GetEventFlag(startFlag + i))
+                        val |= 1 << i;
+                return val;
             }
             set
             {
-                switch (Version)
-                {
-                    case GameVersion.E:
-                        var val = BitConverter.ToUInt16(Data, BlockOfs[2] + 0x3FC) & ~(0xFF << 7) | (value << 7);
-                        BitConverter.GetBytes((ushort)val).CopyTo(Data, BlockOfs[2] + 0x3FC);
-                        break;
-                    case GameVersion.FRLG: Data[BlockOfs[2] + 0x64] = (byte)value; break;
-                    default: return; // RS
-                }
+                int startFlag = BadgeFlagStart;
+                for (int i = 0; i < 8; i++)
+                    SetEventFlag(startFlag + i, (value & (1 << i)) != 0);
+            }
+        }
+
+        private int BadgeFlagStart
+        {
+            get
+            {
+                if (Version == GameVersion.FRLG)
+                    return 800; // dec
+                if (Version == GameVersion.RS)
+                    return 0x807; // hex
+                return 0x867; // emerald
             }
         }
         public override uint Money
