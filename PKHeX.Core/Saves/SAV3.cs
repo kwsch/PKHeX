@@ -146,6 +146,7 @@ namespace PKHeX.Core
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
                     EventFlag = BlockOfs[2] + 0x2A0;
                     EventConst = EventFlag + EventFlagMax / 8;
+                    Daycare = BlockOfs[4] + 0x11C;
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
@@ -159,6 +160,7 @@ namespace PKHeX.Core
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
                     EventFlag = BlockOfs[2] + 0x2F0;
                     EventConst = EventFlag + EventFlagMax / 8;
+                    Daycare = BlockOfs[4] + 0x1B0;
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
@@ -172,6 +174,7 @@ namespace PKHeX.Core
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     EventFlag = BlockOfs[2] + 0x000;
                     EventConst = EventFlag + EventFlagMax / 8;
+                    Daycare = BlockOfs[4] + 0x100;
                     break;
             }
             LoadEReaderBerryData();
@@ -474,28 +477,46 @@ namespace PKHeX.Core
             }
         }
 
-        public override int GetDaycareSlotOffset(int loc, int slot)
+        private int DaycareSlotSize => RS ? SIZE_STORED : SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
+        public override int DaycareSeedSize => E ? 8 : 4; // 32bit, 16bit
+        public override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Data, GetDaycareEXPOffset(slot));
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, GetDaycareEXPOffset(slot));
+        public override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(GetDaycareSlotOffset(loc, slot));
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + (slot * DaycareSlotSize);
+        public override bool? IsDaycareHasEgg(int loc) => GetDaycareRNGSeed(loc).Any(z => z != '0');
+        public override void SetDaycareHasEgg(int loc, bool hasEgg)
         {
-            return Daycare + slot * SIZE_PARTY;
+            SetDaycareRNGSeed(loc, E ? Util.Rand32().ToString("X8") : Util.Rand.Next(0x10000).ToString("X4"));
         }
-        public override uint? GetDaycareEXP(int loc, int slot)
-        {
-            int ofs = Daycare + (slot + 1) * SIZE_PARTY - 4;
-            return BitConverter.ToUInt32(Data, ofs);
-        }
-        public override bool? IsDaycareOccupied(int loc, int slot)
-        {
-            return null;
-        }
-        public override void SetDaycareEXP(int loc, int slot, uint EXP)
-        {
-            int ofs = Daycare + (slot + 1) * SIZE_PARTY - 4;
-            BitConverter.GetBytes(EXP).CopyTo(Data, ofs);
-        }
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
 
+        private int GetDaycareEXPOffset(int slot)
+        {
+            if (Version == GameVersion.RS)
+                return GetDaycareSlotOffset(0, 2) + (2 * 0x38) + (4 * slot); // consecutive vals, after both consecutive slots & 2 mail
+            return GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pkm slot
         }
+
+        public override string GetDaycareRNGSeed(int loc)
+        {
+            if (Version == GameVersion.E)
+                return BitConverter.ToUInt32(Data, GetDaycareSlotOffset(0, 2)).ToString("X8"); // after the 2 slots, before the step counter
+            return BitConverter.ToUInt16(Data, GetDaycareEXPOffset(2)).ToString("X4"); // after the 2nd slot EXP, before the step counter
+        }
+        public override void SetDaycareRNGSeed(int loc, string seed)
+        {
+            if (Version == GameVersion.E) // egg pid
+            {
+                var val = Util.GetHexValue(seed);
+                BitConverter.GetBytes(val).CopyTo(Data, GetDaycareSlotOffset(0, 2));
+            }
+            // egg pid half
+            {
+                var val = (ushort)Util.GetHexValue(seed);
+                BitConverter.GetBytes(val).CopyTo(Data, GetDaycareEXPOffset(2));
+            }
+        }
+
 
         // Storage
         public override int PartyCount
