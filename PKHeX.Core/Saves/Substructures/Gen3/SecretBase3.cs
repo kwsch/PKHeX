@@ -32,7 +32,7 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(Data, Offset + 9);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 9);
         }
-        public int OT_Class { get => Data[Offset + 9]; set => Data[Offset + 9] = (byte) value; }
+        public int OT_Class { get => Data[Offset + 9] % 5; }
         public int Language { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
         public int _E       { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = (byte)value; }
         public int _F       { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = (byte)value; }
