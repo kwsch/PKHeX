@@ -1,7 +1,30 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/06/01 - New Update:
+18/07/09 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks @iiippppk, @ReZeroEmiria, @PrometheusG, @PlasticJustice, @host1126!
+ - - Changed: Pokespot pkm are no longer strictly checked for encounter slot legality due to lack of research.
+ - Added: Can now export the current box to a ShowdownSet paste. Hold control to export all boxes!
+ - Added: Gen4 Battle Revolution parties can now be viewed.
+ - Added: Gen3 Ruby/Sapphire badges can now be toggled within the trainer editor.
+ - Added: Gen2/3 Daycare can now be viewed for main series save files.
+ - Added: Gen1 Daycare slot occupied flag is now shown. Thanks @ahoischen!
+ - Changed: Gen7 origin PKM in Box Data Report now show the 6 digit TID/SID format instead of the 16bit format of past generations.
+ - Changed: Gen6 O-Powers can now be edited completely; quick edit buttons are provided. Thanks @sora10pls!
+ - Changed: Updated translations. Thanks @iiippppk!
+ - Fixed: Fixed misc ShowdownSet import/export logic. Thanks @architdate, @DJPanda065!
+ - Fixed: Gen4->4 Battle Revolution conversion now keeps Unown's alt forme ID.
+ - Fixed: Gen3/4 ShowdownSet import no longer soft-locks the program looking for a suitable PID.
+ - Fixed: Gen3 Mirage Island removed from valid met location selection; pkm are met at Route 130 instead.
+ - Fixed: Gen3 Event Flags for Emerald now point to the correct indexes. Thanks @NinFanBoyFTW!
+ - Fixed: Gen3 Colosseum key items with the same name are no longer merged when editing inventory. Thanks KonohaDaze & Asia81!
+ - Fixed: Gen3 RSBOX save file checksums now save correctly. Thanks @iiippppk!
+ - Fixed: Gen1/2 Box Data Report throwing an exception when presenting the box data. Thanks @iiippppk!
+ - Removed: Unmaintained Portuguese translation has been removed. 
+ - - Can still sideload translation files by putting a lang_*.txt in the same folder as the exe (eg, "en") with desired name changes.
+
+18/06/01 - New Update: (64599) [1233456]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks (so many different users)!
  - - Fixed: Black 2 Route 3 encounter data dump fixed (yay official bug). Corphish with form 1 is automatically reverted to form 0 ingame.
