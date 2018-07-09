@@ -260,12 +260,11 @@
             // 
             // CHK_Active
             // 
-            this.CHK_Active.AutoSize = true;
             this.CHK_Active.Location = new System.Drawing.Point(201, 61);
             this.CHK_Active.Name = "CHK_Active";
-            this.CHK_Active.Size = new System.Drawing.Size(68, 30);
+            this.CHK_Active.Size = new System.Drawing.Size(76, 30);
             this.CHK_Active.TabIndex = 91;
-            this.CHK_Active.Text = "Roaming\r\n(Active)";
+            this.CHK_Active.Text = "Roaming (Active)";
             this.CHK_Active.UseVisualStyleBackColor = true;
             // 
             // NUD_Level
