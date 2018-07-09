@@ -203,7 +203,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(V121);
-                if (pkm.AbilityNumber == 4 && (species == 313) || (species == 314)) // Volbeat/Illumise
+                if (pkm.AbilityNumber == 4 && (species == 313 || species == 314)) // Volbeat/Illumise
                     return GetInvalid(V122);
                 return GetValid(V123);
             }
