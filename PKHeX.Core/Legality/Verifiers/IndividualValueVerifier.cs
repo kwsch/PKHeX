@@ -75,8 +75,8 @@ namespace PKHeX.Core
         private void VerifyIVsSlot(LegalityAnalysis data, EncounterSlot w)
         {
             var pkm = data.pkm;
-            if (w.Generation == 7 && pkm.AbilityNumber == 4)
-                VerifyIVsFlawless(data, 3);
+            if (w.Generation == 7 && pkm.AbilityNumber == 4) // SOS
+                VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
             else if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
                 VerifyIVsFlawless(data, 3);
             else if (w.Type == SlotType.FriendSafari)
