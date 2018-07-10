@@ -174,11 +174,14 @@ namespace PKHeX.Core
             if (cardtype == 3) // 1/2
                 return abilNumber == 4 ? GetInvalid(V110) : VALID;
 
+            // Only remaining matches are fixed index abilities
             int cardAbilIndex = 1 << cardtype;
             if (abilNumber == cardAbilIndex)
                 return VALID;
 
-            if (abilNumber == 2 || cardtype == 2)
+            // Can still match if the ability was changed via ability capsule...
+            // However, it can't change to/from Hidden Abilities.
+            if (abilNumber == 4 || cardtype == 2)
                 return GetInvalid(V108);
 
             // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
