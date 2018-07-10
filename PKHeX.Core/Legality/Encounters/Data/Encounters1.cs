@@ -20,10 +20,9 @@ namespace PKHeX.Core
             MarkEncountersGeneration(1, StaticRBY, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
 
             var trades = TradeGift_RBY_Common.Concat(TradeGift_RBY_NoTradeback).Concat(TradeGift_RBY_Tradeback);
-            var names = new[] {null, "トレーナー", "TRAINER", "TRAINER", "TRAINER", "TRAINER", null, "TRAINER", null};
             foreach (var t in trades)
             {
-                t.TrainerNames = names;
+                t.TrainerNames = TradeOTG1;
                 if (t.Version == GameVersion.Any)
                     t.Version = GameVersion.RBY;
             }
@@ -31,6 +30,8 @@ namespace PKHeX.Core
             SlotsRBY.SetVersion(GameVersion.RBY);
             StaticRBY.SetVersion(GameVersion.RBY);
         }
+
+        internal static readonly string[] TradeOTG1 = {null, "トレーナー", "Trainer", "Dresseur", "Allenatore", "Trainer", null, "Entrenador", "트레이너"};
 
         private static EncounterArea[] GetAreas()
         {

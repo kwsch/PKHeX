@@ -396,11 +396,8 @@ namespace PKHeX.Core
             };
             pk7.Language = GuessedLanguage(PKMConverter.Language);
             pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == 0x5D) // Ingame Trade
-            {
-                var s = StringConverter.GetG1Char(0x5D, Japanese);
-                pk7.OT_Name = s.Substring(0, 1) + s.Substring(1).ToLower();
-            }
+            if (otname[0] == StringConverter.G1TradeOTCode) // Ingame Trade
+                pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs

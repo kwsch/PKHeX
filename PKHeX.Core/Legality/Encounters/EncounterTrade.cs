@@ -108,7 +108,7 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.TID = TID;
             pk.SID = SID;
-            pk.OT_Name = GetOT(lang) ?? SAV.OT;
+            pk.OT_Name = pk.Format == 1 ? StringConverter.G1TradeOTStr : GetOT(lang) ?? SAV.OT;
             pk.OT_Gender = GetOT(lang) != null ? Math.Max(0, OTGender) : SAV.Gender;
             pk.SetNickname(GetNickname(lang));
 

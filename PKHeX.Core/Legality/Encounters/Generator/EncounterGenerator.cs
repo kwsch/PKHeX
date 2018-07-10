@@ -191,7 +191,7 @@ namespace PKHeX.Core
                 var move = GetPreferredGBIterator(g1i, g2i);
                 var obj = move.Peek();
 
-                if ((obj.Generation == 1 && (pkm.Korean || (obj.Encounter is EncounterTrade && !IsEncounterTrade1Valid(pkm))))
+                if ((obj.Generation == 1 && (pkm.Korean || (obj.Encounter is EncounterTrade t && !IsEncounterTrade1Valid(pkm, t))))
                  || (obj.Generation == 2 && (pkm.Korean && (obj.Encounter is IVersion v && v.Version == GameVersion.C))))
                     deferred.Add(obj);
                 else
@@ -411,11 +411,14 @@ namespace PKHeX.Core
                     return type == 0;
             }
         }
-        internal static bool IsEncounterTrade1Valid(PKM pkm)
+        internal static bool IsEncounterTrade1Valid(PKM pkm, EncounterTrade t)
         {
             string ot = pkm.OT_Name;
-            string tr = pkm.Format <= 2 ? "TRAINER" : "Trainer"; // decaps on transfer
-            return ot == "トレーナー" || ot == tr;
+            if (pkm.Format <= 2)
+                return ot == StringConverter.G1TradeOTStr;
+            // Converted string 1/2->7 to language specific value
+            var tr = t.GetOT(pkm.Language);
+            return ot == tr;
         }
     }
 }

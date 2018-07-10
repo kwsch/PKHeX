@@ -184,7 +184,7 @@ namespace PKHeX.Core
             if (et.TID != 0) // Gen2 Trade
                 return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
 
-            if (!EncounterGenerator.IsEncounterTrade1Valid(data.pkm))
+            if (!EncounterGenerator.IsEncounterTrade1Valid(data.pkm, et))
                 data.AddLine(GetInvalid(V10, CheckIdentifier.Trainer));
         }
         private void VerifyTrade3(LegalityAnalysis data)
