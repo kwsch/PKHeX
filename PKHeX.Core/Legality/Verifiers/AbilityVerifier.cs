@@ -168,6 +168,9 @@ namespace PKHeX.Core
                 return VerifyAbilityPCD(data, abilities, d);
 
             var pkm = data.pkm;
+            if (data.EncounterMatch is PGT) // Ranger Manaphy
+                return pkm.AbilityNumber == 1 ? VALID : GetInvalid(V110);
+
             int abilNumber = pkm.AbilityNumber;
             if (cardtype == 4) // 1/2/H
                 return VALID;
