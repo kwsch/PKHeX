@@ -1258,7 +1258,7 @@ namespace PKHeX.Core
             if (pkm is PK2 pk2 && pk2.CaughtData != 0)
                 return false;
             int species = pkm.Species;
-            if (species > MaxSpeciesID_1 || !FutureEvolutionsGen1.Contains(species))
+            if (species > MaxSpeciesID_1 && !FutureEvolutionsGen1.Contains(species))
                 return false;
             return true;
         }
