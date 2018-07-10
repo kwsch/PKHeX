@@ -88,7 +88,7 @@ namespace PKHeX.Core
             var lineage = new EvolutionLineage[Entries.Count];
             for (int i = 0; i < Entries.Count; i++)
                 lineage[i] = new EvolutionLineage();
-            if (Game == GameVersion.ORAS)
+            if (Game == GameVersion.Gen6)
                 Array.Resize(ref lineage, MaxSpeciesTree + 1);
 
             // Populate Lineages
