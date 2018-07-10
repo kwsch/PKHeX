@@ -139,22 +139,6 @@ namespace PKHeX.Core
 
         private static void TrimVC1Transfer(PKM pkm, IList<List<EvoCriteria>> GensEvoChains)
         {
-            // Remove Gen2 evolutions from Gen7 and future if a Gen1 did not exist in that format.
-            for (int fgen = 7; fgen < GensEvoChains.Count; fgen++)
-            {
-                var chain = GensEvoChains[fgen];
-                int g1Index = -1;
-                for (int i = 0; i < chain.Count; i++)
-                {
-                    if (chain[i].Species > MaxSpeciesID_1)
-                        continue;
-                    g1Index = i;
-                    break;
-                }
-                int count = chain.Count;
-                for (int i = g1Index + 1; i < count; i++)
-                    GensEvoChains[fgen].RemoveAt(i);
-            }
             if (GensEvoChains[7].All(z => z.Species > MaxSpeciesID_1))
                 GensEvoChains[pkm.Format] = NONE; // need a Gen1 present; invalidate the chain.
         }
