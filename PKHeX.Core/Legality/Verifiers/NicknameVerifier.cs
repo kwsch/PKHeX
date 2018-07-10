@@ -312,8 +312,8 @@ namespace PKHeX.Core
             }
             else // B2W2
             {
-                if (EncounterMatch is EncounterTrade t && t.TID == Encounters5.YancyCurtisTID)
-                    VerifyTradeOTOnly(data, pkm.OT_Gender == 0 ? Encounters5.TradeOT_B2W2_M : Encounters5.TradeOT_B2W2_F);
+                if (EncounterMatch is EncounterTrade t && (t.TID == Encounters5.YancyTID || t.TID == Encounters5.CurtisTID))
+                    VerifyTradeOTOnly(data, t.TrainerNames);
                 else
                     VerifyTradeTable(data, Encounters5.TradeB2W2, Encounters5.TradeGift_B2W2);
             }
