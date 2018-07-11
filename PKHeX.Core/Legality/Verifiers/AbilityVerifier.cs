@@ -169,7 +169,7 @@ namespace PKHeX.Core
 
             var pkm = data.pkm;
             if (data.EncounterMatch is PGT) // Ranger Manaphy
-                return pkm.AbilityNumber == 1 ? VALID : GetInvalid(V110);
+                return (pkm.Format >= 6 ? (pkm.AbilityNumber == 1) : (pkm.AbilityNumber < 4)) ? VALID : GetInvalid(V110);
 
             int abilNumber = pkm.AbilityNumber;
             if (cardtype == 4) // 1/2/H
