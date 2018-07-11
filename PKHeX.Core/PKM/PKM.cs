@@ -277,8 +277,15 @@ namespace PKHeX.Core
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
         public virtual bool Locked { get => false; set { } }
-        public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
-        public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);
+        public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
+        public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
+        private void SetID7(int sid7, int tid7)
+        {
+            var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
+            TID = (ushort)oid;
+            SID = oid >> 16;
+        }
+
         public bool VC2 => Version >= 39 && Version <= 41;
         public bool VC1 => Version >= 35 && Version <= 38;
         public bool Horohoro => Version == 34;
