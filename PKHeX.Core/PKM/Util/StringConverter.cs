@@ -181,7 +181,7 @@ namespace PKHeX.Core
             foreach (char c in value)
             {
                 bool koreanChar = false;
-                // while byte pairs starting with 0x00 and 0x0B have identical outputs, the game only naturally uses 0x0B pairs.
+                // although the 0x00 and 0x0B dictionaries are identical, the game only uses 0x0B.
                 for (byte i = 1; i < U2GSC_KOR.Length; i++)
                 {
                     var table = U2GSC_KOR[i];
@@ -201,8 +201,8 @@ namespace PKHeX.Core
                     arr.Add(val);
                 }
             }
-            while (arr.Count > maxLength)
-                arr.RemoveAt(arr.Count - 1);
+            if (arr.Count > maxLength)
+                arr.RemoveRange(maxLength, arr.Count - maxLength);
             arr.Add(0x50); // terminator
             while (arr.Count < padTo)
                 arr.Add((byte)padWith);
