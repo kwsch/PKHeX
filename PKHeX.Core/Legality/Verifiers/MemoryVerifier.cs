@@ -68,14 +68,8 @@ namespace PKHeX.Core
                     return GetInvalid(V134);
             }
 
-            // Geolocations
-            var geo = new[]
-            {
-                pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
-                pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
-            };
-
             // Check sequential order (no zero gaps)
+            int[] geo = GetPKMGeoCountryRegions(pkm);
             bool geoEnd = false;
             for (int i = 0; i < 5; i++)
             {
@@ -93,18 +87,7 @@ namespace PKHeX.Core
 
             // Determine if we should check for Handling Trainer Memories
             // A Pokémon is untraded if...
-            bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
-            if (EncounterMatch is MysteryGift gift)
-            {
-                untraded |= !pkm.WasEventEgg;
-                untraded &= gift.IsEgg;
-            }
-
-            if (EncounterMatch is EncounterLink link && !link.OT)
-                untraded = false;
-            else if (Info.Generation < 6)
-                untraded = false;
-
+            bool untraded = GetIsUntradedByEncounterMemories(pkm, EncounterMatch, Info.Generation);
             if (untraded) // Is not Traded
             {
                 if (pkm.HT_Name.Length != 0)
@@ -161,7 +144,6 @@ namespace PKHeX.Core
             if (pkm.VC1)
             {
                 var hasGeo = geo.Any(d => d != 0);
-
                 if (!hasGeo)
                     return GetInvalid(V137);
             }
@@ -393,5 +375,30 @@ namespace PKHeX.Core
 
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
         private static bool IsInvalidContestAffection(PKM pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
+
+        private static int[] GetPKMGeoCountryRegions(PKM pkm)
+        {
+            return new[]
+            {
+                pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
+                pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
+            };
+        }
+
+        private static bool GetIsUntradedByEncounterMemories(PKM pkm, IEncounterable EncounterMatch, int generation)
+        {
+            if (generation < 6)
+                return false;
+            if (EncounterMatch is EncounterLink link && !link.OT)
+                return false;
+
+            bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
+            if (!(EncounterMatch is MysteryGift gift))
+                return untraded;
+
+            untraded |= !pkm.WasEventEgg;
+            untraded &= gift.IsEgg;
+            return untraded;
+        }
     }
 }
