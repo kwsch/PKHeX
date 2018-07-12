@@ -5,211 +5,446 @@
     /// </summary>
     public enum GameVersion
     {
-        #region Indicators
+        #region Indicators for method empty arguments & result indication. Not stored values.
         Invalid = -2,
         Any = -1,
         Unknown = 0,
         #endregion
 
+        // The following values are IDs stored within PKM data, and can also identify individual games.
+
         #region Gen3
         /// <summary>
-        /// Sapphire (GBA)
+        /// Pokémon Sapphire (GBA)
         /// </summary>
         S = 1,
 
         /// <summary>
-        /// Ruby (GBA)
+        /// Pokémon Ruby (GBA)
         /// </summary>
         R = 2,
 
         /// <summary>
-        /// Emerald (GBA)
+        /// Pokémon Emerald (GBA)
         /// </summary>
         E = 3,
 
         /// <summary>
-        /// FireRed (GBA)
+        /// Pokémon FireRed (GBA)
         /// </summary>
         FR = 4,
 
         /// <summary>
-        /// LeafGreen (GBA)
+        /// Pokémon LeafGreen (GBA)
         /// </summary>
         LG = 5,
 
         /// <summary>
-        /// Colosseum/XD (GameCube)
+        /// Pokémon Colosseum &amp; Pokémon XD (GameCube)
         /// </summary>
         CXD = 15,
         #endregion
 
         #region Gen4
         /// <summary>
-        /// Diamond (NDS)
+        /// Pokémon Diamond (NDS)
         /// </summary>
         D = 10,
 
         /// <summary>
-        /// Pearl (NDS)
+        /// Pokémon Pearl (NDS)
         /// </summary>
         P = 11,
 
         /// <summary>
-        /// Platinum (NDS)
+        /// Pokémon Platinum (NDS)
         /// </summary>
         Pt = 12,
 
         /// <summary>
-        /// Heart Gold (NDS)
+        /// Pokémon Heart Gold (NDS)
         /// </summary>
         HG = 7,
 
         /// <summary>
-        /// Soul Silver (NDS)
+        /// Pokémon Soul Silver (NDS)
         /// </summary>
         SS = 8,
         #endregion
 
         #region Gen5
         /// <summary>
-        /// White (NDS)
+        /// Pokémon White (NDS)
         /// </summary>
         W = 20,
 
         /// <summary>
-        /// Black (NDS)
+        /// Pokémon Black (NDS)
         /// </summary>
         B = 21,
 
         /// <summary>
-        /// White 2 (NDS)
+        /// Pokémon White 2 (NDS)
         /// </summary>
         W2 = 22,
 
         /// <summary>
-        /// Black 2 (NDS)
+        /// Pokémon Black 2 (NDS)
         /// </summary>
         B2 = 23,
         #endregion
 
         #region Gen6
         /// <summary>
-        /// X (3DS)
+        /// Pokémon X (3DS)
         /// </summary>
         X = 24,
 
         /// <summary>
-        /// Y (3DS)
+        /// Pokémon Y (3DS)
         /// </summary>
         Y = 25,
 
         /// <summary>
-        /// Alpha Sapphire (3DS)
+        /// Pokémon Alpha Sapphire (3DS)
         /// </summary>
         AS = 26,
 
         /// <summary>
-        /// Omega Ruby (3DS)
+        /// Pokémon Omega Ruby (3DS)
         /// </summary>
         OR = 27,
         #endregion
 
         #region Gen7
         /// <summary>
-        /// Sun (3DS)
+        /// Pokémon Sun (3DS)
         /// </summary>
         SN = 30,
 
         /// <summary>
-        /// Moon (3DS)
+        /// Pokémon Moon (3DS)
         /// </summary>
         MN = 31,
 
         /// <summary>
-        /// Ultra Sun (3DS)
+        /// Pokémon Ultra Sun (3DS)
         /// </summary>
         US = 32,
 
         /// <summary>
-        /// Ultra Moon (3DS)
+        /// Pokémon Ultra Moon (3DS)
         /// </summary>
         UM = 33,
         #endregion
 
         /// <summary>
-        /// Pokémon GO (Unused)
+        /// Pokémon Pokémon GO (Unused)
         /// </summary>
         GO = 34,
 
         #region Virtual Console (3DS) Gen1
         /// <summary>
-        /// Red (3DS Virtual Console)
+        /// Pokémon Red (3DS Virtual Console)
         /// </summary>
         RD = 35,
 
         /// <summary>
-        /// Green[JP]/Blue[INT] (3DS Virtual Console)
+        /// Pokémon Green[JP]/Blue[INT] (3DS Virtual Console)
         /// </summary>
         GN = 36,
 
         /// <summary>
-        /// Blue[JP] (3DS Virtual Console)
+        /// Pokémon Blue[JP] (3DS Virtual Console)
         /// </summary>
         BU = 37,
 
         /// <summary>
-        /// Yellow [JP] (3DS Virtual Console)
+        /// Pokémon Yellow [JP] (3DS Virtual Console)
         /// </summary>
         YW = 38,
         #endregion
 
         #region Virtual Console (3DS) Gen2
         /// <summary>
-        /// Gold (3DS Virtual Console)
+        /// Pokémon Gold (3DS Virtual Console)
         /// </summary>
         GD = 39,
 
         /// <summary>
-        /// Silver (3DS Virtual Console)
+        /// Pokémon Silver (3DS Virtual Console)
         /// </summary>
         SV = 40,
 
         /// <summary>
-        /// Crystal (3DS Virtual Console)
+        /// Pokémon Crystal (3DS Virtual Console)
         /// </summary>
         C = 41,
         #endregion
 
         #region Nintendo Switch
         /// <summary>
-        /// Let's Go Pikachu (NX)
+        /// Pokémon Let's Go Pikachu (NX)
         /// </summary>
         GP = 42,
 
         /// <summary>
-        /// Lets Go Eevee (NX)
+        /// Pokémon Let's Go Eevee (NX)
         /// </summary>
         GE = 43,
         #endregion
 
-        // Not actually stored values, but assigned as properties.
+        // The following values are not actually stored values in pkm data,
+        // These values are assigned within PKHeX as properties for various logic branching.
 
-        // Game Groupings (SaveFile type)
-        /*SAV1*/ RB, RBY,
-        /*SAV2*/ GS, GSC,
-        /*SAV3*/ RS, RSE, FRLG, RSBOX, COLO, XD,
-        /*SAV4*/ DP, DPPt, HGSS, BATREV,
-        /*SAV5*/ BW, B2W2,
-        /*SAV6*/ XY, ORASDEMO, ORAS,
-        /*SAV7*/ SM, USUM, GG,
+        #region Game Groupings (SaveFile type, roughly)
+        /// <summary>
+        /// Pokémon Red &amp; Blue [<see cref="SAV1"/>] identifier.
+        /// </summary>
+        /// <seealso cref="RD"/>
+        /// <seealso cref="GN"/>
+        /// <seealso cref="BU"/>
+        RB,
 
-        // Extra Game Groupings (Generation)
-        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,
+        /// <summary>
+        /// Pokémon Red/Blue/Yellow [<see cref="SAV1"/>] identifier.
+        /// </summary>
+        /// <see cref="RD"/>
+        /// <see cref="GN"/>
+        /// <see cref="BU"/>
+        /// <see cref="YW"/>
+        RBY,
+
+        /// <summary>
+        /// Pokémon Gold &amp; Silver [<see cref="SAV2"/>] identifier.
+        /// </summary>
+        /// <see cref="GD"/>
+        /// <see cref="SV"/>
+        GS,
+
+        /// <summary>
+        /// Pokémon Gold/Silver/Crystal [<see cref="SAV2"/>] identifier.
+        /// </summary>
+        /// <see cref="GD"/>
+        /// <see cref="SV"/>
+        /// <see cref="C"/>
+        GSC,
+
+        /// <summary>
+        /// Pokémon Ruby &amp; Sapphire [<see cref="SAV3"/>] identifier.
+        /// </summary>
+        /// <see cref="R"/>
+        /// <see cref="S"/>
+        RS,
+
+        /// <summary>
+        /// Pokémon Ruby/Sapphire/Emerald [<see cref="SAV3"/>] identifier.
+        /// </summary>
+        /// <see cref="R"/>
+        /// <see cref="S"/>
+        /// <see cref="E"/>
+        RSE,
+
+        /// <summary>
+        /// Pokémon FireRed/LeafGreen [<see cref="SAV3"/>] identifier.
+        /// </summary>
+        /// <see cref="FR"/>
+        /// <see cref="LG"/>
+        FRLG,
+
+
+        /// <summary>
+        /// Pokémon Box Ruby &amp; Sapphire [<see cref="SAV3RSBox"/>] identifier.
+        /// </summary>
+        RSBOX,
+
+        /// <summary>
+        /// Pokémon Colosseum [<see cref="SAV3Colosseum"/>] identifier.
+        /// </summary>
+        /// <see cref="CXD"/>
+        /// <remarks>Also used to mark Colosseum-only origin data as this game shares a version ID with <see cref="XD"/></remarks>
+        COLO,
+
+        /// <summary>
+        /// Pokémon XD [<see cref="SAV3XD"/>] identifier.
+        /// </summary>
+        /// <see cref="CXD"/>
+        /// <remarks>Also used to mark XD-only origin data as this game shares a version ID with <see cref="COLO"/></remarks>
+        XD,
+
+
+        /// <summary>
+        /// Pokémon Diamond &amp; Pearl [<see cref="SAV4"/>] identifier.
+        /// </summary>
+        /// <see cref="D"/>
+        /// <see cref="P"/>
+        DP,
+
+        /// <summary>
+        /// Pokémon Diamond/Pearl/Platinum version group.
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="D"/>
+        /// <see cref="P"/>
+        /// <see cref="Pt"/>
+        DPPt,
+
+        /// <summary>
+        /// Pokémon Heart Gold &amp; Soul Silver [<see cref="SAV4"/>] identifier.
+        /// </summary>
+        /// <see cref="HG"/>
+        /// <see cref="SS"/>
+        HGSS,
+
+        /// <summary>
+        /// Pokémon Battle Revolution [<see cref="SAV4BR"/>] identifier.
+        /// </summary>
+        BATREV,
+
+        /// <summary>
+        /// Pokémon Black &amp; White version group.
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="B"/>
+        /// <see cref="W"/>
+        BW,
+
+        /// <summary>
+        /// Pokémon Black 2 &amp; White 2 version group.
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="B2"/>
+        /// <see cref="W2"/>
+        B2W2,
+
+        /// <summary>
+        /// Pokémon X &amp; Y
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="X"/>
+        /// <see cref="Y"/>
+        XY,
+
+        /// <summary>
+        /// Pokémon Omega Ruby &amp; Alpha Sapphire Demo [<see cref="SAV7"/>] identifier.
+        /// </summary>
+        /// <see cref="ORAS"/>
+        ORASDEMO,
+
+        /// <summary>
+        /// Pokémon Omega Ruby &amp; Alpha Sapphire version group.
+        /// </summary>
+        /// <see cref="OR"/>
+        /// <see cref="AS"/>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        ORAS,
+
+        /// <summary>
+        /// Pokémon Sun &amp; Moon
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="SN"/>
+        /// <see cref="MN"/>
+        SM,
+
+        /// <summary>
+        /// Pokémon Ultra Sun &amp; Ultra Moon
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="US"/>
+        /// <see cref="UM"/>
+        USUM,
+
+        /// <summary>
+        /// Pokémon Let's Go (TBD)
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="GP"/>
+        /// <see cref="GE"/>
+        GG,
+
+        /// <summary>
+        /// Generation 1 Games
+        /// </summary>
+        /// <see cref="RBY"/>
+        Gen1,
+
+        /// <summary>
+        /// Generation 2 Games
+        /// </summary>
+        /// <see cref="GSC"/>
+        Gen2,
+
+        /// <summary>
+        /// Generation 3 Games
+        /// </summary>
+        /// <see cref="RSE"/>
+        /// <see cref="FRLG"/>
+        Gen3,
+
+        /// <summary>
+        /// Generation 4 Games
+        /// </summary>
+        /// <see cref="DPPt"/>
+        /// <see cref="HGSS"/>
+        Gen4,
+
+        /// <summary>
+        /// Generation 5 Games
+        /// </summary>
+        /// <see cref="BW"/>
+        /// <see cref="B2W2"/>
+        Gen5,
+
+        /// <summary>
+        /// Generation 6 Games
+        /// </summary>
+        /// <see cref="XY"/>
+        /// <see cref="ORAS"/>
+        Gen6,
+
+        /// <summary>
+        /// Generation 7 Games
+        /// </summary>
+        /// <see cref="SM"/>
+        /// <see cref="USUM"/>
+        Gen7,
+
+        /// <summary>
+        /// Generation 1/2 Game Boy Cartridge Era Only
+        /// </summary>
+        /// <remarks>
+        /// Since the original run of <see cref="RBY"/> and <see cref="GSC"/> could not transfer to future games,
+        /// any special encounters (event data) can only be allowed if the savedata originated from that era.
+        /// </remarks>
         GBCartEraOnly,
+
+        /// <summary>
+        /// Pokémon Stadium data origin identifier
+        /// </summary>
+        /// <see cref="GBCartEraOnly"/>
         Stadium,
+
+        /// <summary>
+        /// Pokémon Stadium 2 data origin identifier
+        /// </summary>
+        /// <see cref="GBCartEraOnly"/>
         Stadium2,
+
+        /// <summary>
+        /// Generation 1 Game Boy Cartridge Era Only data origin identifier
+        /// </summary>
         EventsGBGen1,
+
+        /// <summary>
+        /// Generation 2 Game Boy Cartridge Era Only data origin identifier
+        /// </summary>
         EventsGBGen2,
-        VCEvents
+
+        /// <summary>
+        /// Generation 1/2 3DS Virtual Console data origin identifier
+        /// </summary>
+        VCEvents,
+        #endregion
     }
 }
