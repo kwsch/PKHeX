@@ -13,6 +13,7 @@ namespace PKHeX.Core
         /// <summary>
         /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
         /// </summary>
+        /// <remarks>Ordered roughly by most recent games first.</remarks>
         public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
 
         /// <summary>
@@ -211,8 +212,10 @@ namespace PKHeX.Core
                     return g2 == SN || g2 == MN;
                 case USUM:
                     return g2 == US || g2 == UM;
+                case GG:
+                    return g2 == GP || g2 == GE;
                 case Gen7:
-                    return SM.Contains(g2) || USUM.Contains(g2);
+                    return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
 
                 default: return false;
             }

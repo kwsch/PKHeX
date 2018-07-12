@@ -537,7 +537,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="evoVal">Wurmple Evolution Value</param>
         /// <remarks>0 = Silcoon, 1 = Cascoon</remarks>
-        /// <returns>Encryption Constan</returns>
+        /// <returns>Encryption Constant</returns>
         public static uint GetWurmpleEC(int evoVal)
         {
             uint EC;
