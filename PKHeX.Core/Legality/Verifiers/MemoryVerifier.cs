@@ -145,7 +145,7 @@ namespace PKHeX.Core
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
                     return GetInvalid(V152);
-                if (Info.Generation < 6 && pkm.OT_Affection != 0)
+                if (Info.Generation < 6 && pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
                     return GetInvalid(V129);
             }
             // Unimplemented: Ingame Trade Memories
