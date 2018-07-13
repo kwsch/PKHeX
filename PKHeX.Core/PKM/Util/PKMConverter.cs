@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public static ITrainerInfo Trainer { private get; set; } = new SimpleTrainerInfo();
         public static int Country => Trainer.Country;
         public static int Region => Trainer.SubRegion;
-        public static int ConsoleRegion => Trainer.SubRegion;
+        public static int ConsoleRegion => Trainer.ConsoleRegion;
         public static string OT_Name => Trainer.OT;
         public static int OT_Gender => Trainer.Gender;
         public static int Language => Trainer.Language;
