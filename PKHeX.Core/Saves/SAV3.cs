@@ -132,6 +132,7 @@ namespace PKHeX.Core
             // OT name is stored at the top of the first block.
             Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0;
 
+            PokeDex = BlockOfs[0] + 0x18;
             switch (Version)
             {
                 case GameVersion.RS:
@@ -143,7 +144,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0640;
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
                     Personal = PersonalTable.RS;
-                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
+                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
                     EventFlag = BlockOfs[2] + 0x2A0;
                     EventConst = EventFlag + EventFlagMax / 8;
                     Daycare = BlockOfs[4] + 0x11C;
@@ -157,7 +158,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     Personal = PersonalTable.E;
-                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
+                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
                     EventFlag = BlockOfs[2] + 0x2F0;
                     EventConst = EventFlag + EventFlagMax / 8;
                     Daycare = BlockOfs[4] + 0x1B0;
@@ -171,7 +172,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     Personal = PersonalTable.FR;
-                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
+                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     EventFlag = BlockOfs[2] + 0x000;
                     EventConst = EventFlag + EventFlagMax / 8;
                     Daycare = BlockOfs[4] + 0x100;
@@ -579,15 +580,23 @@ namespace PKHeX.Core
 
         // Pokédex
         private readonly int[] SeenFlagOffsets;
-        public override bool HasPokeDex => true;
         protected override void SetDex(PKM pkm)
         {
             int species = pkm.Species;
             if (!CanSetDex(species))
                 return;
 
-            SetCaught(pkm.Species, true);
-            SetSeen(pkm.Species, true);
+            switch (species)
+            {
+                case 201 when !GetSeen(species): // Unown
+                    DexPIDUnown = pkm.PID;
+                    break;
+                case 327 when !GetSeen(species): // Spinda
+                    DexPIDSpinda = pkm.PID;
+                    break;
+            }
+            SetCaught(species, true);
+            SetSeen(species, true);
         }
         private bool CanSetDex(int species)
         {
@@ -601,19 +610,22 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
+        public uint DexPIDUnown { get => BitConverter.ToUInt32(Data, PokeDex + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, PokeDex + 0x4); }
+        public uint DexPIDSpinda { get => BitConverter.ToUInt32(Data, PokeDex + 0x8); set => BitConverter.GetBytes(value).CopyTo(Data, PokeDex + 0x8); }
+        public int DexUnownForm => PKX.GetUnownForm(DexPIDUnown);
 
         public override bool GetCaught(int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int caughtOffset = BlockOfs[0] + 0x28;
+            int caughtOffset = PokeDex + 0x10;
             return GetFlag(caughtOffset + ofs, bit & 7);
         }
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int caughtOffset = BlockOfs[0] + 0x28;
+            int caughtOffset = PokeDex + 0x10;
             SetFlag(caughtOffset + ofs, bit & 7, caught);
         }
 
@@ -621,7 +633,7 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int seenOffset = BlockOfs[0] + 0x5C;
+            int seenOffset = PokeDex + 0x44;
             return GetFlag(seenOffset + ofs, bit & 7);
         }
         public override void SetSeen(int species, bool seen)
