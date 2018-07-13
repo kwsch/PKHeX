@@ -150,7 +150,7 @@ namespace PKHeX.Core
         public string Text => GetText();
         private string GetText()
         {
-            if (Species == 0 || Species > MAX_SPECIES)
+            if (Species <= 0 || Species > MAX_SPECIES)
                 return string.Empty;
 
             var result = new List<string>();
