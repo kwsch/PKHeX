@@ -602,6 +602,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 591, Level = 56, Location = 128, }, // Amoonguss @ Route 23
             new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.B2, Gender = 0,}, // HA Jellicent @ Undella Bay Mon Only
             new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.W2, Gender = 1,}, // HA Jellicent @ Undella Bay Thurs Only
+            new EncounterStatic { Species = 593, Level = 40, Location = 71 }, // HA Jellicent @ Undella Bay EncounterSlot collision
             new EncounterStatic { Species = 628, Level = 25, Location = 17, Ability = 4, Version = GameVersion.W2, Gender = 0,}, // HA Braviary @ Route 4 Mon Only
             new EncounterStatic { Species = 630, Level = 25, Location = 17, Ability = 4, Version = GameVersion.B2, Gender = 1,}, // HA Mandibuzz @ Route 4 Thurs Only
             new EncounterStatic { Species = 637, Level = 35, Location = 35, }, // Volcarona @ Relic Castle
