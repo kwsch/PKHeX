@@ -30,7 +30,7 @@ namespace PKHeX.Core
         // Default Set Data
         public string Nickname { get; set; }
         public int Species { get; private set; } = -1;
-        public int Format { get; private set; } = PKX.Generation;
+        public int Format { get; private set; } = PKMConverter.Format;
         public string Form { get; private set; }
         public string Gender { get; private set; }
         public int HeldItem { get; private set; }
@@ -226,7 +226,7 @@ namespace PKHeX.Core
             {
                 var str = $"- {moves[move]}";
                 if (move == 237) // Hidden Power
-                    str += $" [{hptypes[HiddenPower.GetType(IVs)]}]";
+                    str += $" [{hptypes[HiddenPower.GetType(IVs, Format)]}]";
                 yield return str;
             }
         }

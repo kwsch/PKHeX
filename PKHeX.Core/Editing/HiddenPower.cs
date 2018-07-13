@@ -5,6 +5,12 @@ namespace PKHeX.Core
 {
     public static class HiddenPower
     {
+        public static int GetType(IReadOnlyList<int> IVs, int format)
+        {
+            if (format <= 2)
+                return GetTypeGB(IVs);
+            return GetType(IVs);
+        }
         public static int GetType(IReadOnlyList<int> IVs)
         {
             int hp = 0;
@@ -13,6 +19,12 @@ namespace PKHeX.Core
             hp *= 0xF;
             hp /= 0x3F;
             return hp;
+        }
+        public static int GetTypeGB(IReadOnlyList<int> IVs)
+        {
+            var IV_ATK = IVs[1];
+            var IV_DEF = IVs[2];
+            return ((IV_ATK & 3) << 2) | (IV_DEF & 3);
         }
         public static bool SetIVsForType(int hpVal, int[] IVs)
         {
