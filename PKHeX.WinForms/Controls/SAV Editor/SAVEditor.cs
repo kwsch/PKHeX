@@ -596,8 +596,6 @@ namespace PKHeX.WinForms.Controls
                 new SAV_Trainer(SAV).ShowDialog();
             else if (SAV is SAV7)
                 new SAV_Trainer7(SAV).ShowDialog();
-            // Refresh conversion info
-            PKMConverter.UpdateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {

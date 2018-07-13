@@ -10,23 +10,15 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKMConverter
     {
-        public static int Country { get; private set; } = 49;
-        public static int Region { get; private set; } = 7;
-        public static int ConsoleRegion { get; private set; } = 1;
-        public static string OT_Name { get; private set; } = "PKHeX";
-        public static int OT_Gender { get; private set; } // Male
-        public static int Language { get; private set; } = 1; // en
+        public static ITrainerInfo Trainer { private get; set; } = new SimpleTrainerInfo();
+        public static int Country => Trainer.Country;
+        public static int Region => Trainer.SubRegion;
+        public static int ConsoleRegion => Trainer.SubRegion;
+        public static string OT_Name => Trainer.OT;
+        public static int OT_Gender => Trainer.Gender;
+        public static int Language => Trainer.Language;
+        public static int Format => Trainer.Generation;
         public static bool AllowIncompatibleConversion { private get; set; }
-
-        public static void UpdateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER, int LANGUAGE)
-        {
-            Region = SUBREGION;
-            Country = COUNTRY;
-            ConsoleRegion = _3DSREGION;
-            OT_Name = TRAINERNAME;
-            OT_Gender = TRAINERGENDER;
-            Language = LANGUAGE;
-        }
 
         /// <summary>
         /// Gets the generation of the Pokemon data.

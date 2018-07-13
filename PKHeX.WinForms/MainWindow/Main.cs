@@ -698,6 +698,7 @@ namespace PKHeX.WinForms
             if (!SanityCheckSAV(ref sav))
                 return;
             StoreLegalSaveGameData(sav);
+            PKMConverter.Trainer = sav;
             PKMUtil.Initialize(sav); // refresh sprite generator
 
             // clean fields
@@ -717,7 +718,6 @@ namespace PKHeX.WinForms
             Menu_ShowdownExportParty.Visible = sav.HasParty;
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
-            PKMConverter.UpdateConfig(sav.SubRegion, sav.Country, sav.ConsoleRegion, sav.OT, sav.Gender, sav.Language);
             SystemSounds.Beep.Play();
         }
         private void ResetSAVPKMEditors(SaveFile sav)
