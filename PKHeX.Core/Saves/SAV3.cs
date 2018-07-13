@@ -655,9 +655,9 @@ namespace PKHeX.Core
                 {
                     case GameVersion.RS:
                     case GameVersion.E:
-                        return BitConverter.ToUInt16(Data, BlockOfs[0] + 0x19) == 0xDA01;
+                        return Data[PokeDex + 2] == 0xDA; // enable nat dex option magic value
                     case GameVersion.FRLG:
-                        return Data[BlockOfs[0] + 0x1B] == 0xB9;
+                        return Data[PokeDex + 3] == 0xB9;
                 }
                 return false;
             }
@@ -668,19 +668,22 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.RS:
-                        BitConverter.GetBytes((ushort)(value ? 0xDA01 : 0)).CopyTo(Data, BlockOfs[0] + 0x19); // A
+                        Data[PokeDex + 1] = (byte)(value ? 1 : 0); // mode
+                        Data[PokeDex + 2] = (byte)(value ? 0xDA : 0); // magic
                         Data[BlockOfs[2] + 0x3A6] &= 0xBF;
                         Data[BlockOfs[2] + 0x3A6] |= (byte)(value ? 1 << 6 : 0); // B
                         BitConverter.GetBytes((ushort)(value ? 0x0302 : 0)).CopyTo(Data, BlockOfs[2] + 0x44C); // C
                         break;
                     case GameVersion.E:
-                        BitConverter.GetBytes((ushort)(value ? 0xDA01 : 0)).CopyTo(Data, BlockOfs[0] + 0x19); // A
+                        Data[PokeDex + 1] = (byte)(value ? 1 : 0); // mode
+                        Data[PokeDex + 2] = (byte)(value ? 0xDA : 0); // magic
                         Data[BlockOfs[2] + 0x402] &= 0xBF; // Bit6
                         Data[BlockOfs[2] + 0x402] |= (byte)(value ? 1 << 6 : 0); // B
                         BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x4A8); // C
                         break;
                     case GameVersion.FRLG:
-                        Data[BlockOfs[0] + 0x1B] = (byte)(value ? 0xB9 : 0); // A
+                        Data[PokeDex + 2] = (byte)(value ? 0xDA : 0); // magic
+                        Data[PokeDex + 3] = (byte)(value ? 0xB9 : 0); // magic
                         Data[BlockOfs[2] + 0x68] &= 0xFE;
                         Data[BlockOfs[2] + 0x68] |= (byte)(value ? 1 : 0); // B
                         BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x11C); // C
