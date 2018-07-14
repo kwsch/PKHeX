@@ -22,6 +22,13 @@ namespace PKHeX.WinForms.Controls
             TB_EVTotal.ForeColor = MT_EVs[0].ForeColor;
         }
 
+        public Color EVsInvalid { get; set; } = Color.Red;
+        public Color EVsMaxed { get; set; } = Color.Honeydew;
+        public Color EVsFishy { get; set; } = Color.LightYellow;
+        public Color StatIncreased { get; set; } = Color.Red;
+        public Color StatDecreased { get; set; } = Color.Blue;
+        public Color StatHyperTrained { get; set; } = Color.LightGreen;
+
         private IMainEditor MainEditor { get; set; }
         public void SetMainEditor(IMainEditor editor)
         {
@@ -175,7 +182,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateHyperTrainingFlag(int i, bool value)
         {
             if (value)
-                MT_IVs[i].BackColor = Color.LightGreen;
+                MT_IVs[i].BackColor = StatHyperTrained;
             else
                 MT_IVs[i].ResetBackColor();
         }
@@ -219,11 +226,11 @@ namespace PKHeX.WinForms.Controls
             int evtotal = pkm.EVTotal;
 
             if (evtotal > 510) // Background turns Red
-                TB_EVTotal.BackColor = Color.Red;
+                TB_EVTotal.BackColor = EVsInvalid;
             else if (evtotal == 510) // Maximum EVs
-                TB_EVTotal.BackColor = Color.Honeydew;
+                TB_EVTotal.BackColor = EVsMaxed;
             else if (evtotal == 508) // Fishy EVs
-                TB_EVTotal.BackColor = Color.LightYellow;
+                TB_EVTotal.BackColor = EVsFishy;
             else TB_EVTotal.BackColor = TB_IVTotal.BackColor;
 
             TB_EVTotal.Text = evtotal.ToString();
@@ -301,8 +308,8 @@ namespace PKHeX.WinForms.Controls
             // Set Colored StatLabels only if Nature isn't Neutral
             if (PKX.GetNatureModification(nature, out int incr, out int decr))
                 return;
-            L_Stats[incr].ForeColor = Color.Red;
-            L_Stats[decr].ForeColor = Color.Blue;
+            L_Stats[incr].ForeColor = StatIncreased;
+            L_Stats[decr].ForeColor = StatDecreased;
         }
         public string UpdateNatureModification(int nature)
         {
