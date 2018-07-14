@@ -484,7 +484,7 @@ namespace PKHeX.Core
                         InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
                 }
                 else if (hpVal >= 0)
-                    IVs = PKX.SetHPIVs(hpVal, IVs); // Get IVs
+                    IVs = PKX.SetHPIVs(hpVal, IVs, Format); // Get IVs
                 else
                     InvalidLines.Add($"Invalid Hidden Power Type: {type}");
             }

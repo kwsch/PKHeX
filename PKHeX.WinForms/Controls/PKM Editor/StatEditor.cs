@@ -186,7 +186,7 @@ namespace PKHeX.WinForms.Controls
 
             // Change IVs to match the new Hidden Power
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
-            int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs);
+            int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs, pkm.Format);
             LoadIVs(newIVs);
         }
         private void ClickStatLabel(object sender, MouseEventArgs e)
@@ -378,8 +378,6 @@ namespace PKHeX.WinForms.Controls
         {
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
-            CB_HPType.Enabled = gen >= 3;
-            FLP_HPType.Visible = gen >= 2;
 
             switch (gen)
             {

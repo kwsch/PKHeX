@@ -634,9 +634,16 @@ namespace PKHeX.Core
         /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
         /// <param name="type">Hidden Power Type</param>
         /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
+        /// <param name="format">Generation specific format</param>
         /// <returns>Hidden Power Type</returns>
-        public static int[] SetHPIVs(int type, int[] ivs)
+        public static int[] SetHPIVs(int type, int[] ivs, int format = Generation)
         {
+            if (format <= 2)
+            {
+                ivs[1] = (ivs[1] & ~3) | (type >> 2);
+                ivs[2] = (ivs[2] & ~3) | (type & 3);
+                return ivs;
+            }
             for (int i = 0; i < 6; i++)
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
