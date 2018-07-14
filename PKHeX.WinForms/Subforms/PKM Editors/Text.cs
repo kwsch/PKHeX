@@ -109,10 +109,7 @@ namespace PKHeX.WinForms
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
 
             CB_Language.InitializeBinding();
-            var languages = Util.GetUnsortedCBList("languages");
-            if (SAV.Generation < 7)
-                languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
-            CB_Language.DataSource = languages;
+            CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
         }
 
         private void UpdateNUD(object sender, EventArgs e)

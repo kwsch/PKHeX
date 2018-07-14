@@ -487,7 +487,6 @@ namespace PKHeX.Core
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)
         {
             var languages = LanguageList.ToList();
-            Util.GetUnsortedCBList("languages");
             if (gen == 3)
                 languages.RemoveAll(l => l.Value >= (int)LanguageID.Korean);
             else if (gen < 7)
