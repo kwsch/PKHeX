@@ -10,22 +10,16 @@ namespace PKHeX.Core
     public class ShowdownSet
     {
         // String to Values
-        private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};
+        private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+        private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
         private const string Language = "en";
-        private const int LanguageID = 2;
-        private static readonly string[] types = Util.GetTypesList(Language);
-        private static readonly string[] forms = Util.GetFormsList(Language);
-        private static readonly string[] species = Util.GetSpeciesList(Language);
-        private static readonly string[] items = Util.GetItemsList(Language);
-        private static readonly string[] g2items = Util.GetStringList("ItemsG2", Language);
-        private static readonly string[] g3items = Util.GetStringList("ItemsG3", Language);
-        private static readonly string[] natures = Util.GetNaturesList(Language);
-        private static readonly string[] moves = Util.GetMovesList(Language);
-        private static readonly string[] abilities = Util.GetAbilitiesList(Language);
-        private static readonly string[] hptypes = types.Skip(1).ToArray();
-        private static int MAX_SPECIES => species.Length-1;
+        private const int DefaultLanguageID = 2;
+        private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(Language);
+
+        private GameStrings Strings { get; set; } = DefaultStrings;
+        private int LanguageID { get; set; } = DefaultLanguageID;
 
         // Default Set Data
         public string Nickname { get; set; }
@@ -75,7 +69,7 @@ namespace PKHeX.Core
             // Showdown Quirks
             Form = ConvertFormFromShowdown(Form, Species, Ability);
             // Set Form
-            string[] formStrings = PKX.GetFormList(Species, types, forms, genderForms);
+            string[] formStrings = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms);
             FormIndex = string.IsNullOrWhiteSpace(Form) ? 0 : Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
         }
         private void ParseLines(IEnumerable<string> lines)
@@ -92,7 +86,7 @@ namespace PKHeX.Core
                 if (line.StartsWith("-"))
                 {
                     string moveString = ParseLineMove(line);
-                    int move = Array.IndexOf(moves, moveString);
+                    int move = Array.IndexOf(Strings.movelist, moveString);
                     if (move < 0)
                         InvalidLines.Add($"Unknown Move: {moveString}");
                     else
@@ -116,9 +110,9 @@ namespace PKHeX.Core
         {
             switch (first)
             {
-                case "Trait": case "Ability": return (Ability = Array.IndexOf(abilities, second)) >= 0;
+                case "Trait": case "Ability": return (Ability = Array.IndexOf(Strings.abilitylist, second)) >= 0;
                 case "Shiny": return Shiny = second.Trim() == "Yes";
-                case "Nature": return (Nature = Array.IndexOf(natures, second)) >= 0;
+                case "Nature": return (Nature = Array.IndexOf(Strings.natures, second)) >= 0;
                 case "EV": case "EVs": ParseLineEVs(second); return true;
                 case "IV": case "IVs": ParseLineIVs(second); return true;
                 case "Level":
@@ -140,7 +134,7 @@ namespace PKHeX.Core
                     if (first.EndsWith("Nature")) // XXX Nature
                     {
                         string naturestr = first.Split(' ')[0].Trim();
-                        return (Nature = Array.IndexOf(natures, naturestr)) >= 0;
+                        return (Nature = Array.IndexOf(Strings.natures, naturestr)) >= 0;
                     }
                     return false;
                 }
@@ -148,10 +142,15 @@ namespace PKHeX.Core
         }
 
         public string Text => GetText();
-        private string GetText()
+        public string LocalizedText(string lang) => LocalizedText(GameInfo.Language(lang));
+        public string LocalizedText(int lang) => GetText(GameInfo.GetStrings(LanguageID = lang));
+        private string GetText(GameStrings strings = null)
         {
             if (Species <= 0 || Species > MAX_SPECIES)
                 return string.Empty;
+
+            if (strings != null)
+                Strings = strings;
 
             var result = new List<string>();
 
@@ -168,15 +167,15 @@ namespace PKHeX.Core
                 result.Add($"EVs: {string.Join(" / ", evstr)}");
 
             // Secondary Stats
-            if (Ability > -1 && Ability < abilities.Length)
-                result.Add($"Ability: {abilities[Ability]}");
+            if (Ability > -1 && Ability < Strings.Ability.Count)
+                result.Add($"Ability: {Strings.Ability[Ability]}");
             if (Level != 100)
                 result.Add($"Level: {Level}");
             if (Shiny)
                 result.Add("Shiny: Yes");
 
             if (Nature > -1)
-                result.Add($"{natures[Nature]} Nature");
+                result.Add($"{Strings.Natures[Nature]} Nature");
 
             // Moves
             result.AddRange(GetStringMoves());
@@ -185,7 +184,7 @@ namespace PKHeX.Core
         }
         private string GetStringFirstLine(string form)
         {
-            string specForm = species[Species];
+            string specForm = Strings.Species[Species];
             if (!string.IsNullOrWhiteSpace(form))
                 specForm += $"-{form.Replace("Mega ", "Mega-")}";
 
@@ -194,18 +193,9 @@ namespace PKHeX.Core
                 result += $" ({Gender})";
             if (HeldItem > 0)
             {
-                switch (Format)
-                {
-                    case 2: if (HeldItem < g2items.Length)
-                        result += $" @ {g2items[HeldItem]}";
-                        break;
-                    case 3: if (HeldItem < g3items.Length)
-                        result += $" @ {g3items[HeldItem]}";
-                        break;
-                    default: if (HeldItem < items.Length)
-                        result += $" @ {items[HeldItem]}";
-                        break;
-                }
+                var items = Strings.GetItemStrings(Format);
+                if (HeldItem < items.Count)
+                    result += $" @ {items[HeldItem]}";
             }
             return result;
         }
@@ -222,11 +212,11 @@ namespace PKHeX.Core
         }
         private IEnumerable<string> GetStringMoves()
         {
-            foreach (int move in Moves.Where(move => move != 0 && move < moves.Length))
+            foreach (int move in Moves.Where(move => move != 0 && move < Strings.Move.Count))
             {
-                var str = $"- {moves[move]}";
+                var str = $"- {Strings.Move[move]}";
                 if (move == 237) // Hidden Power
-                    str += $" [{hptypes[HiddenPower.GetType(IVs, Format)]}]";
+                    str += $" [{Strings.Types[1+HiddenPower.GetType(IVs, Format)]}]";
                 yield return str;
             }
         }
@@ -261,7 +251,7 @@ namespace PKHeX.Core
             Shiny = pkm.IsShiny;
 
             FormIndex = pkm.AltForm;
-            string[] Forms = PKX.GetFormList(Species, types, forms, genderForms, pkm.Format);
+            string[] Forms = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms, pkm.Format);
             Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty;
             Format = pkm.Format;
         }
@@ -281,24 +271,23 @@ namespace PKHeX.Core
         }
         private void ParseItemStr(string itemstr)
         {
-            int item = Array.IndexOf(items, itemstr);
-            if (item >= 0)
-            {
-                HeldItem = item;
+            if (tryGetItem(Format))
                 return;
-            }
-            if ((item = Array.IndexOf(g3items, itemstr)) >= 0)
+            if (tryGetItem(3))
+                return;
+            if (tryGetItem(2))
+                return;
+            InvalidLines.Add($"Unknown Item: {itemstr}");
+
+            bool tryGetItem(int format)
             {
+                var items = (string[])Strings.GetItemStrings(format); // ireadonlylist->string[] must be possible for the provided strings
+                int item = Array.IndexOf(items, itemstr);
+                if (item < 0)
+                    return false;
                 HeldItem = item;
-                Format = 3;
+                return true;
             }
-            if ((item = Array.IndexOf(g2items, itemstr)) >= 0)
-            {
-                HeldItem = item;
-                Format = 2;
-            }
-            else
-                InvalidLines.Add($"Unknown Item: {itemstr}");
         }
         private void ParseFirstLineNoItem(string line)
         {
@@ -309,7 +298,7 @@ namespace PKHeX.Core
                 Gender = last3.Substring(1, 1);
                 line = line.Substring(0, line.Length - 3);
             }
-            else if (line.Contains(species[678])) // Meowstic Edge Case with no gender provided
+            else if (line.Contains(Strings.Species[678])) // Meowstic Edge Case with no gender provided
                 Gender = "M";
 
             // Nickname Detection
@@ -321,7 +310,7 @@ namespace PKHeX.Core
         private bool ParseSpeciesForm(string spec)
         {
             spec = spec.Trim();
-            if ((Species = Array.IndexOf(species, spec)) >= 0) // success, nothing else!
+            if ((Species = Array.IndexOf(Strings.specieslist, spec)) >= 0) // success, nothing else!
                 return true;
 
             // Forme string present.
@@ -329,7 +318,7 @@ namespace PKHeX.Core
             if (end < 0)
                 return false;
 
-            Species = Array.IndexOf(species, spec.Substring(0, end).Trim());
+            Species = Array.IndexOf(Strings.specieslist, spec.Substring(0, end).Trim());
             Form = spec.Substring(end + 1);
 
             if (Species >= 0)
@@ -339,10 +328,10 @@ namespace PKHeX.Core
             var edge = new[] {784, 250, 032, 029}; // all species with dashes in English Name (Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F)
             foreach (var e in edge)
             {
-                if (!spec.StartsWith(species[e].Replace("♂", "-M").Replace("♀", "-F")))
+                if (!spec.StartsWith(Strings.Species[e].Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
                 Species = e;
-                Form = spec.Substring(species[e].Length);
+                Form = spec.Substring(Strings.Species[e].Length);
                 return true;
             }
 
@@ -350,7 +339,7 @@ namespace PKHeX.Core
             end = spec.LastIndexOf('-', Math.Max(0, end - 1));
             if (end < 0)
                 return false;
-            Species = Array.IndexOf(species, spec.Substring(0, end).Trim());
+            Species = Array.IndexOf(Strings.specieslist, spec.Substring(0, end).Trim());
             Form = spec.Substring(end + 1);
 
             return Species >= 0;
@@ -385,7 +374,7 @@ namespace PKHeX.Core
         private string ParseLineMove(string line)
         {
             string moveString = line.Substring(line[1] == ' ' ? 2 : 1);
-            if (!moveString.Contains(moves[237])) // Hidden Power
+            if (!moveString.Contains(Strings.Move[237])) // Hidden Power
                 return moveString;
 
             // Defined Hidden Power
@@ -393,7 +382,8 @@ namespace PKHeX.Core
             {
                 string type = moveString.Remove(0, 13);
                 type = ReplaceAll(type, string.Empty, "[", "]", "(", ")"); // Trim out excess data
-                int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
+                int hpVal = Array.IndexOf(Strings.types, type) - 1; // Get HP Type
+
 
                 if (IVs.Any(z => z != 31))
                 {
@@ -405,7 +395,7 @@ namespace PKHeX.Core
                 else
                     InvalidLines.Add($"Invalid Hidden Power Type: {type}");
             }
-            return moves[237];
+            return Strings.Move[237];
         }
         private void ParseLineEVs(string line)
         {

@@ -174,7 +174,7 @@ namespace PKHeX.WinForms.Controls
                 var set = new ShowdownSet(pk);
                 if (pk.Format <= 2) // Nature preview from IVs
                     set.Nature = (int)(pk.EXP % 25);
-                ShowSet.SetToolTip(pb, set.Text);
+                ShowSet.SetToolTip(pb, set.LocalizedText(Settings.Default.Language));
             }
         }
         private void PlayCry(PKM pk)

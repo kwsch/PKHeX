@@ -24,6 +24,10 @@ namespace PKHeX.Core
         public static GameStrings GetStrings(string lang)
         {
             int index = GetLanguageIndex(lang);
+            return GetStrings(index);
+        }
+        public static GameStrings GetStrings(int index)
+        {
             return Languages[index] ?? (Languages[index] = new GameStrings(lang_val[index]));
         }
         public static string GetTransporterName(string lang)

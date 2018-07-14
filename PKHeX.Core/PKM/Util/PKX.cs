@@ -626,7 +626,7 @@ namespace PKHeX.Core
         /// <param name="genders">List of genders names</param>
         /// <param name="generation">Generation number for exclusive formes</param>
         /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
-        public static string[] GetFormList(int species, string[] types, string[] forms, string[] genders, int generation = Generation)
+        public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation = Generation)
         {
             return FormConverter.GetFormList(species, types, forms, genders, generation);
         }
