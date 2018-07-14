@@ -156,16 +156,6 @@ namespace PKHeX.Core
         public virtual int OT_TextVar { get; set; }
         public virtual int OT_Feeling { get; set; }
         public virtual int OT_Intensity { get; set; }
-        public virtual int Geo1_Region { get; set; }
-        public virtual int Geo2_Region { get; set; }
-        public virtual int Geo3_Region { get; set; }
-        public virtual int Geo4_Region { get; set; }
-        public virtual int Geo5_Region { get; set; }
-        public virtual int Geo1_Country { get; set; }
-        public virtual int Geo2_Country { get; set; }
-        public virtual int Geo3_Country { get; set; }
-        public virtual int Geo4_Country { get; set; }
-        public virtual int Geo5_Country { get; set; }
         public virtual byte Enjoyment { get; set; }
         public virtual byte Fullness { get; set; }
         public virtual int AbilityNumber { get; set; }

@@ -69,21 +69,16 @@ namespace PKHeX.Core
             }
 
             // Check sequential order (no zero gaps)
-            int[] geo = GetPKMGeoCountryRegions(pkm);
-            bool geoEnd = false;
-            for (int i = 0; i < 5; i++)
+            if (pkm is IGeoTrack t)
             {
-                if (geoEnd && geo[i] != 0)
+                var valid = t.GetValidity();
+                if (valid == GeoValid.CountryAfterPreviousEmpty)
                     return GetInvalid(V135);
-
-                if (geo[i] != 0)
-                    continue;
-                if (geo[i + 5] != 0)
+                if (valid == GeoValid.RegionWithoutCountry)
                     return GetInvalid(V136);
-                geoEnd = true;
             }
             if (pkm.Format >= 7)
-                return VerifyHistory7(data, geo);
+                return VerifyHistory7(data);
 
             // Determine if we should check for Handling Trainer Memories
             // A Pokémon is untraded if...
@@ -92,7 +87,7 @@ namespace PKHeX.Core
             {
                 if (pkm.HT_Name.Length != 0)
                     return GetInvalid(V146);
-                if (pkm.Geo1_Country != 0)
+                if (pkm is IGeoTrack g && g.Geo1_Country != 0)
                     return GetInvalid(V147);
                 if (pkm.HT_Memory != 0)
                     return GetInvalid(V148);
@@ -135,15 +130,15 @@ namespace PKHeX.Core
 
             return GetValid(V145);
         }
-        private CheckResult VerifyHistory7(LegalityAnalysis data, int[] geo)
+        private CheckResult VerifyHistory7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterMatch;
             var Info = data.Info;
 
-            if (pkm.VC1)
+            if (pkm.VC1 && pkm is IGeoTrack g)
             {
-                var hasGeo = geo.Any(d => d != 0);
+                var hasGeo = g.Geo1_Country != 0;
                 if (!hasGeo)
                     return GetInvalid(V137);
             }
@@ -376,15 +371,6 @@ namespace PKHeX.Core
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
         private static bool IsInvalidContestAffection(PKM pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
 
-        private static int[] GetPKMGeoCountryRegions(PKM pkm)
-        {
-            return new[]
-            {
-                pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
-                pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
-            };
-        }
-
         private static bool GetIsUntradedByEncounterMemories(PKM pkm, IEncounterable EncounterMatch, int generation)
         {
             if (generation < 6)
@@ -392,7 +378,7 @@ namespace PKHeX.Core
             if (EncounterMatch is EncounterLink link && !link.OT)
                 return false;
 
-            bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
+            bool untraded = pkm.HT_Name.Length == 0 || (pkm is IGeoTrack g && g.Geo1_Country == 0);
             if (!(EncounterMatch is MysteryGift gift))
                 return untraded;
 

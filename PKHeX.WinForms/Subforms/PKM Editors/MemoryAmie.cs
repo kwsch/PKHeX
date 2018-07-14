@@ -50,16 +50,19 @@ namespace PKHeX.WinForms
         private void LoadFields()
         {
             // Load the region/country values.
-            CB_Country0.SelectedValue = pkm.Geo1_Country;
-            CB_Country1.SelectedValue = pkm.Geo2_Country;
-            CB_Country2.SelectedValue = pkm.Geo3_Country;
-            CB_Country3.SelectedValue = pkm.Geo4_Country;
-            CB_Country4.SelectedValue = pkm.Geo5_Country;
-            CB_Region0.SelectedValue = pkm.Geo1_Region;
-            CB_Region1.SelectedValue = pkm.Geo2_Region;
-            CB_Region2.SelectedValue = pkm.Geo3_Region;
-            CB_Region3.SelectedValue = pkm.Geo4_Region;
-            CB_Region4.SelectedValue = pkm.Geo5_Region;
+            if (pkm is IGeoTrack g)
+            {
+                CB_Country0.SelectedValue = g.Geo1_Country;
+                CB_Country1.SelectedValue = g.Geo2_Country;
+                CB_Country2.SelectedValue = g.Geo3_Country;
+                CB_Country3.SelectedValue = g.Geo4_Country;
+                CB_Country4.SelectedValue = g.Geo5_Country;
+                CB_Region0.SelectedValue  = g.Geo1_Region;
+                CB_Region1.SelectedValue  = g.Geo2_Region;
+                CB_Region2.SelectedValue  = g.Geo3_Region;
+                CB_Region3.SelectedValue  = g.Geo4_Region;
+                CB_Region4.SelectedValue  = g.Geo5_Region;
+            }
 
             // Load the Fullness, and Enjoyment
             M_Fullness.Text = pkm.Fullness.ToString();
@@ -138,16 +141,19 @@ namespace PKHeX.WinForms
         private void SaveFields()
         {
             // Save Region & Country Data
-            pkm.Geo1_Region = WinFormsUtil.GetIndex(CB_Region0);
-            pkm.Geo2_Region = WinFormsUtil.GetIndex(CB_Region1);
-            pkm.Geo3_Region = WinFormsUtil.GetIndex(CB_Region2);
-            pkm.Geo4_Region = WinFormsUtil.GetIndex(CB_Region3);
-            pkm.Geo5_Region = WinFormsUtil.GetIndex(CB_Region4);
-            pkm.Geo1_Country = WinFormsUtil.GetIndex(CB_Country0);
-            pkm.Geo2_Country = WinFormsUtil.GetIndex(CB_Country1);
-            pkm.Geo3_Country = WinFormsUtil.GetIndex(CB_Country2);
-            pkm.Geo4_Country = WinFormsUtil.GetIndex(CB_Country3);
-            pkm.Geo5_Country = WinFormsUtil.GetIndex(CB_Country4);
+            if (pkm is IGeoTrack g)
+            {
+                g.Geo1_Region = WinFormsUtil.GetIndex(CB_Region0);
+                g.Geo2_Region = WinFormsUtil.GetIndex(CB_Region1);
+                g.Geo3_Region = WinFormsUtil.GetIndex(CB_Region2);
+                g.Geo4_Region = WinFormsUtil.GetIndex(CB_Region3);
+                g.Geo5_Region = WinFormsUtil.GetIndex(CB_Region4);
+                g.Geo1_Country = WinFormsUtil.GetIndex(CB_Country0);
+                g.Geo2_Country = WinFormsUtil.GetIndex(CB_Country1);
+                g.Geo3_Country = WinFormsUtil.GetIndex(CB_Country2);
+                g.Geo4_Country = WinFormsUtil.GetIndex(CB_Country3);
+                g.Geo5_Country = WinFormsUtil.GetIndex(CB_Country4);
+            }
 
             // Save 0-255 stats
             pkm.HT_Friendship = Util.ToInt32(M_CT_Friendship.Text);

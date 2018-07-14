@@ -15,7 +15,6 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-
         /// <summary>
         /// Toggles the Hyper Training flag for a given stat.
         /// </summary>

@@ -45,8 +45,9 @@ namespace PKHeX.Core
 
             if (pk.Format == 6)
             {
-                pk.Geo1_Country = SAV.Country;
-                pk.Geo1_Region = SAV.SubRegion;
+                var g = (IGeoTrack) pk;
+                g.Geo1_Country = SAV.Country;
+                g.Geo1_Region = SAV.SubRegion;
                 ((PK6)pk).TradeMemory(true);
             }
         }

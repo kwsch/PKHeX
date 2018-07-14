@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
-    public sealed class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain
+    public sealed class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain, IGeoTrack
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -302,16 +302,16 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public override int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
-        public override int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
-        public override int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
-        public override int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
-        public override int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
-        public override int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
-        public override int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
-        public override int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
-        public override int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
-        public override int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
+        public int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
+        public int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
+        public int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
+        public int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
+        public int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
+        public int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
+        public int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
+        public int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
+        public int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
+        public int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
         public byte _0x9E { get => Data[0x9E]; set => Data[0x9E] = value; }
         public byte _0x9F { get => Data[0x9F]; set => Data[0x9F] = value; }
         public byte _0xA0 { get => Data[0xA0]; set => Data[0xA0] = value; }
@@ -483,10 +483,9 @@ namespace PKHeX.Core
         {
             if (IsEgg) // No memories if is egg.
             {
-                Geo1_Country = Geo2_Country = Geo3_Country = Geo4_Country = Geo5_Country =
-                Geo1_Region = Geo2_Region = Geo3_Region = Geo4_Region = Geo5_Region =
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
                 /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                this.ClearGeoLocationData();
 
                 // Clear Handler
                 HT_Name = "".PadRight(11, '\0');
@@ -498,43 +497,7 @@ namespace PKHeX.Core
             if (GenNumber < 6)
                 /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
-            Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
-            Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;
-            Geo3_Region = Geo3_Country > 0 ? Geo3_Region : 0;
-            Geo4_Region = Geo4_Country > 0 ? Geo4_Region : 0;
-            Geo5_Region = Geo5_Country > 0 ? Geo5_Region : 0;
-
-            while (true)
-            {
-                if (Geo5_Country != 0 && Geo4_Country == 0)
-                {
-                    Geo4_Country = Geo5_Country;
-                    Geo4_Region = Geo5_Region;
-                    Geo5_Country = Geo5_Region = 0;
-                }
-                if (Geo4_Country != 0 && Geo3_Country == 0)
-                {
-                    Geo3_Country = Geo4_Country;
-                    Geo3_Region = Geo4_Region;
-                    Geo4_Country = Geo4_Region = 0;
-                    continue;
-                }
-                if (Geo3_Country != 0 && Geo2_Country == 0)
-                {
-                    Geo2_Country = Geo3_Country;
-                    Geo2_Region = Geo3_Region;
-                    Geo3_Country = Geo3_Region = 0;
-                    continue;
-                }
-                if (Geo2_Country != 0 && Geo1_Country == 0)
-                {
-                    Geo1_Country = Geo2_Country;
-                    Geo1_Region = Geo2_Region;
-                    Geo2_Country = Geo2_Region = 0;
-                    continue;
-                }
-                break;
-            }
+            this.SanitizeGeoLocationData();
 
             if (GenNumber < 7) // must be transferred via bank, and must have memories
             {
@@ -550,25 +513,29 @@ namespace PKHeX.Core
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 SetLinkTradeEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
+            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank))
                 TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
         }
-        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER)
+        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             // Check to see if the OT matches the SAV's OT info.
             if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 return false;
 
             CurrentHandler = 0;
-            if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+            if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region) && Bank)
+                this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             return true;
         }
         private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+            {
+                // No geolocations are set ingame -- except for bank transfers.
+                if (Bank)
+                    this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+            }
 
             CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
@@ -584,10 +551,6 @@ namespace PKHeX.Core
                 TradeMemory(Bank);
         }
         // Misc Updates
-        private void TradeGeoLocation(int GeoCountry, int GeoRegion)
-        {
-            // No geolocations are set, ever! -- except for bank. Don't set them anyway.
-        }
         public void TradeMemory(bool Bank)
         {
             if (!Bank)
