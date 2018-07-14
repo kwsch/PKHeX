@@ -251,45 +251,22 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadBST(PersonalInfo pi)
         {
-            var stats = new[] {pi.HP, pi.ATK, pi.DEF, pi.SPE, pi.SPA, pi.SPD};
+            var stats = pi.Stats;
             for (int i = 0; i < stats.Length; i++)
             {
                 MT_Base[i].Text = stats[i].ToString("000");
-                MT_Base[i].BackColor = MapColor(stats[i]);
+                MT_Base[i].BackColor = ImageUtil.ColorBaseStat(stats[i]);
             }
             var bst = pi.BST;
             TB_BST.Text = bst.ToString("000");
-            TB_BST.BackColor = MapColor((int)(Math.Max(0, bst - 175) / 3f));
-        }
-        private static Color MapColor(int v)
-        {
-            const float maxval = 180; // shift the green cap down
-            float x = 100f * v / maxval;
-            if (x > 100)
-                x = 100;
-            double red = 255f * (x > 50 ? 1 - 2 * (x - 50) / 100.0 : 1.0);
-            double green = 255f * (x > 50 ? 1.0 : 2 * x / 100.0);
-
-            return Blend(Color.FromArgb((int)red, (int)green, 0), Color.White, 0.4);
-        }
-        private static Color Blend(Color color, Color backColor, double amount)
-        {
-            byte r = (byte)(color.R * amount + backColor.R * (1 - amount));
-            byte g = (byte)(color.G * amount + backColor.G * (1 - amount));
-            byte b = (byte)(color.B * amount + backColor.B * (1 - amount));
-            return Color.FromArgb(r, g, b);
+            TB_BST.BackColor = ImageUtil.ColorBaseStat((int)(Math.Max(0, bst - 175) / 3f));
         }
 
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
-            ChangingFields = true;
-            if (ModifierKeys.HasFlag(Keys.Control)) // Max IVs
-            {
-                int[] IVs = { pkm.MaxIV, pkm.MaxIV, pkm.MaxIV, pkm.MaxIV, pkm.MaxIV, pkm.MaxIV };
-                LoadIVs(IVs);
-            }
-            else
-                LoadIVs(pkm.SetRandomIVs());
+            int? flawless = ModifierKeys.HasFlag(Keys.Control) ? (int?)6 : null;
+            var IVs = pkm.SetRandomIVs(flawless);
+            LoadIVs(IVs);
         }
 
         public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
@@ -427,18 +404,6 @@ namespace PKHeX.WinForms.Controls
             CB_HPType.DisplayMember = nameof(ComboItem.Text);
             CB_HPType.ValueMember = nameof(ComboItem.Value);
             CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray(), null);
-        }
-    }
-
-    public static partial class Extensions
-    {
-        private static readonly string[] PotentialUnicode = {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"};
-        private static readonly string[] PotentialNoUnicode = {"+", "++", "+++", "++++"};
-
-        public static string GetPotentialString(this PKM pkm, bool unicode = true)
-        {
-            var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
-            return arr[pkm.PotentialRating];
         }
     }
 }

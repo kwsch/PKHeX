@@ -688,5 +688,20 @@ namespace PKHeX.Core
             else
                 pk.SetNickname();
         }
+
+        private static readonly string[] PotentialUnicode = { "★☆☆☆", "★★☆☆", "★★★☆", "★★★★" };
+        private static readonly string[] PotentialNoUnicode = { "+", "++", "+++", "++++" };
+
+        /// <summary>
+        /// Gets the Potential evaluation of the input <see cref="pk"/>.
+        /// </summary>
+        /// <param name="pk">Pokémon to analyze.</param>
+        /// <param name="unicode">Returned value is unicode or not</param>
+        /// <returns>Potential string</returns>
+        public static string GetPotentialString(this PKM pk, bool unicode = true)
+        {
+            var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
+            return arr[pk.PotentialRating];
+        }
     }
 }

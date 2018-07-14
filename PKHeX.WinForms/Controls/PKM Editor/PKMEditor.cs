@@ -11,7 +11,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class PKMEditor : UserControl, IMainEditor
+    public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         public PKMEditor()
         {
@@ -27,6 +27,9 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.Font = FontUtil.GetPKXFont(11);
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
+
+            if (TextBrush == null) TextBrush = new SolidBrush(CB_Move1.ForeColor);
+            if (BackBrush == null) BackBrush = new SolidBrush(CB_Move1.BackColor);
 
             // Commonly reused Control arrays
             Moves = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
@@ -76,7 +79,6 @@ namespace PKHeX.WinForms.Controls
         private LegalityAnalysis Legality;
         private string[] gendersymbols = { "♂", "♀", "-" };
         private readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
-        private static readonly Color InvalidSelectionColor = Color.DarkSalmon;
 
         public event EventHandler LegalityChanged;
         public event EventHandler UpdatePreviewSprite;
@@ -112,7 +114,7 @@ namespace PKHeX.WinForms.Controls
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
 
-            var cb = Array.Find(ValidationRequired, c => c.BackColor == InvalidSelectionColor && c.Items.Count != 0);
+            var cb = Array.Find(ValidationRequired, c => c.BackColor == InvalidSelection && c.Items.Count != 0);
             if (cb != null)
                 tabMain.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
             else if (!Stats.Valid)
@@ -292,6 +294,14 @@ namespace PKHeX.WinForms.Controls
         }
 
         // General Use Functions //
+        private Color InvalidSelection { get; set; } = Color.DarkSalmon;
+        private Color MarkBlue { get; set; } = Color.FromArgb(000, 191, 255);
+        private Color MarkPink { get; set; } = Color.FromArgb(255, 117, 179);
+        private Color MarkDefault { get; set; } = Color.Black;
+        private Brush LegalMove { get; set; } = Brushes.PaleGreen;
+        private Brush TextBrush { get; set; }
+        private Brush BackBrush { get; set; }
+
         private Color GetGenderColor(int gender)
         {
             if (gender == 0) // male
@@ -418,18 +428,18 @@ namespace PKHeX.WinForms.Controls
                 if (GetMarkingColor(markings[i], out Color c))
                     pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, c);
         }
-        private static bool GetMarkingColor(int markval, out Color c)
+        private bool GetMarkingColor(int markval, out Color c)
         {
             switch (markval)
             {
                 case 1:
-                    c = Color.FromArgb(000, 191, 255);
+                    c = MarkBlue;
                     return true;
                 case 2:
-                    c = Color.FromArgb(255, 117, 179);
+                    c = MarkPink;
                     return true;
                 default:
-                    c = Color.Black;
+                    c = MarkDefault;
                     return false;
             }
         }
@@ -1332,7 +1342,7 @@ namespace PKHeX.WinForms.Controls
             if (cb.Text.Length == 0 && cb.Items.Count > 0)
                 cb.SelectedIndex = 0;
             else if (cb.SelectedValue == null)
-                cb.BackColor = InvalidSelectionColor;
+                cb.BackColor = InvalidSelection;
             else
                 cb.ResetBackColor();
         }
@@ -1392,18 +1402,14 @@ namespace PKHeX.WinForms.Controls
 
             var i = (ComboItem)((ComboBox)sender).Items[e.Index];
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            bool vm = moves?.Contains(i.Value) == true && !HaX;
+            bool valid = moves?.Contains(i.Value) == true && !HaX;
 
             bool current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
-            Brush tBrush = current ? SystemBrushes.HighlightText : new SolidBrush(e.ForeColor);
-            Brush brush = current ? SystemBrushes.Highlight : vm ? Brushes.PaleGreen : new SolidBrush(e.BackColor);
+            Brush tBrush = current ? SystemBrushes.HighlightText : TextBrush;
+            Brush brush = current ? SystemBrushes.Highlight : valid ? LegalMove : BackBrush;
 
             e.Graphics.FillRectangle(brush, e.Bounds);
             e.Graphics.DrawString(i.Text, e.Font, tBrush, e.Bounds, StringFormat.GenericDefault);
-            if (current) return;
-            tBrush.Dispose();
-            if (!vm)
-                brush.Dispose();
         }
         private void ValidateLocation(object sender, EventArgs e)
         {
