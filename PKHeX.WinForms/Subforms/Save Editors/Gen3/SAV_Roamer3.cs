@@ -15,8 +15,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             Reader = new Roamer3((SAV3)sav);
 
-            CB_Species.DisplayMember = "Text";
-            CB_Species.ValueMember = "Value";
+            CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
 
             LoadData();

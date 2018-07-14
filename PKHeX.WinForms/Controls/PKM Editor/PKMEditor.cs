@@ -378,7 +378,7 @@ namespace PKHeX.WinForms.Controls
 
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            InitializeBinding(CB_Ability);
+            CB_Ability.InitializeBinding();
             CB_Ability.DataSource = GetAbilityList(pkm);
             CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
             FieldsLoaded = tmp;
@@ -1005,8 +1005,8 @@ namespace PKHeX.WinForms.Controls
         }
         private void ReloadMetLocations(GameVersion Version)
         {
-            InitializeBinding(CB_MetLocation);
-            InitializeBinding(CB_EggLocation);
+            CB_MetLocation.InitializeBinding();
+            CB_EggLocation.InitializeBinding();
 
             var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
             CB_MetLocation.DataSource = new BindingSource(met_list, null);
@@ -1616,7 +1616,7 @@ namespace PKHeX.WinForms.Controls
                 CB_Nature, CB_EncounterType, CB_GameOrigin,
             };
             foreach (var cb in cbs)
-                InitializeBinding(cb);
+                cb.InitializeBinding();
 
             // Set the various ComboBox DataSources up with their allowed entries
             SetCountrySubRegion(CB_Country, "countries");
@@ -1648,7 +1648,7 @@ namespace PKHeX.WinForms.Controls
             GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
-                InitializeBinding(cb);
+                cb.InitializeBinding();
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
         }
@@ -1679,11 +1679,6 @@ namespace PKHeX.WinForms.Controls
             if (current.Format < 3 || current.GetType() != sav.PKMType)
                 return sav.BlankPKM;
             return current;
-        }
-        private static void InitializeBinding(ListControl cb)
-        {
-            cb.DisplayMember = nameof(ComboItem.Text);
-            cb.ValueMember = nameof(ComboItem.Value);
         }
     }
 }

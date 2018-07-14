@@ -158,12 +158,8 @@ namespace PKHeX.WinForms
         private void PopulateComboBoxes()
         {
             // Set the Text
-            CB_HeldItem.DisplayMember =
-            CB_Species.DisplayMember = nameof(ComboItem.Text);
-
-            // Set the Value
-            CB_HeldItem.ValueMember =
-            CB_Species.ValueMember = nameof(ComboItem.Value);
+            CB_HeldItem.InitializeBinding();
+            CB_Species.InitializeBinding();
 
             var Any = new ComboItem {Text = MsgAny, Value = -1};
 
@@ -182,7 +178,7 @@ namespace PKHeX.WinForms
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                 {
-                    cb.DisplayMember = nameof(ComboItem.Text); cb.ValueMember = nameof(ComboItem.Value);
+                    cb.InitializeBinding();
                     cb.DataSource = new BindingSource(DS_Move, null);
                 }
             }

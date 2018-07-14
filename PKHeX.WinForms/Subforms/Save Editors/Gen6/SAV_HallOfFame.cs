@@ -69,12 +69,13 @@ namespace PKHeX.WinForms
             CB_Move3.Items.Clear();
             CB_Move4.Items.Clear();
 
-            CB_Species.DisplayMember = "Text";
-            CB_Species.ValueMember = "Value";
+            CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
 
-            CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
-            CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
+            CB_Move1.InitializeBinding();
+            CB_Move2.InitializeBinding();
+            CB_Move3.InitializeBinding();
+            CB_Move4.InitializeBinding();
 
             var MoveList = GameInfo.MoveDataSource;
             CB_Move1.DataSource = new BindingSource(MoveList, null);
@@ -82,8 +83,7 @@ namespace PKHeX.WinForms
             CB_Move3.DataSource = new BindingSource(MoveList, null);
             CB_Move4.DataSource = new BindingSource(MoveList, null);
 
-            CB_HeldItem.DisplayMember = "Text";
-            CB_HeldItem.ValueMember = "Value";
+            CB_HeldItem.InitializeBinding();
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource, null);
         }
 
@@ -329,8 +329,7 @@ namespace PKHeX.WinForms
             bool hasForms = PersonalTable.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-            CB_Form.DisplayMember = "Text";
-            CB_Form.ValueMember = "Value";
+            CB_Form.InitializeBinding();
             CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
         }
         private void UpdateSpecies(object sender, EventArgs e)

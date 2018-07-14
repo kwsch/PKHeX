@@ -105,12 +105,10 @@ namespace PKHeX.WinForms
             }
             TB_Text.TextChanged += UpdateString;
 
-            CB_Species.DisplayMember = "Text";
-            CB_Species.ValueMember = "Value";
+            CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
 
-            CB_Language.DisplayMember = "Text";
-            CB_Language.ValueMember = "Value";
+            CB_Language.InitializeBinding();
             var languages = Util.GetUnsortedCBList("languages");
             if (SAV.Generation < 7)
                 languages = languages.Where(l => l.Value <= 8).ToList(); // Korean

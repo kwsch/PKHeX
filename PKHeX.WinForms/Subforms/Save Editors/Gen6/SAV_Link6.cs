@@ -17,8 +17,7 @@ namespace PKHeX.WinForms
             SAV = (SAV6)(Origin = sav).Clone();
             foreach (var cb in TAB_Items.Controls.OfType<ComboBox>())
             {
-                cb.DisplayMember = "Text";
-                cb.ValueMember = "Value";
+                cb.InitializeBinding();
                 cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= SAV.MaxItemID).ToArray(), null);
             }
             byte[] data = SAV.LinkBlock;

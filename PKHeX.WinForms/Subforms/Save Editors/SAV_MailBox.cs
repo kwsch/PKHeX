@@ -100,8 +100,7 @@ namespace PKHeX.WinForms
             if (Gen == 2 || Gen == 3)
             {
                 CB_AppearPKM1.Items.Clear();
-                CB_AppearPKM1.DisplayMember = "Text";
-                CB_AppearPKM1.ValueMember = "Value";
+                CB_AppearPKM1.InitializeBinding();
                 CB_AppearPKM1.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
             }
             else if (Gen == 4 || Gen == 5)
@@ -110,14 +109,12 @@ namespace PKHeX.WinForms
                 foreach (ComboBox a in AppearPKMs)
                 {
                     a.Items.Clear();
-                    a.DisplayMember = "Text";
-                    a.ValueMember = "Value";
+                    a.InitializeBinding();
                     a.DataSource = new BindingSource(species, null);
                 }
 
                 CB_AuthorVersion.Items.Clear();
-                CB_AuthorVersion.DisplayMember = "Text";
-                CB_AuthorVersion.ValueMember = "Value";
+                CB_AuthorVersion.InitializeBinding();
                 CB_AuthorVersion.DataSource = new BindingSource(Gen == 4
                     ? new[] {
                         new ComboItem { Text = "Diamond", Value = (int)GameVersion.D },
@@ -134,8 +131,7 @@ namespace PKHeX.WinForms
                     }.ToList(), null);
 
                 CB_AuthorLang.Items.Clear();
-                CB_AuthorLang.DisplayMember = "Text";
-                CB_AuthorLang.ValueMember = "Value";
+                CB_AuthorLang.InitializeBinding();
                 CB_AuthorLang.DataSource = new BindingSource(new[] {
                     // not sure
                     new ComboItem { Text = "JPN", Value = 1 },

@@ -35,16 +35,20 @@ namespace PKHeX.WinForms
 
         private void SetupComboBoxes()
         {
-            CB_Ball.DisplayMember = CB_HeldItem.DisplayMember = CB_Species.DisplayMember = CB_Nature.DisplayMember = "Text";
-            CB_Ball.ValueMember = CB_HeldItem.ValueMember = CB_Species.ValueMember = CB_Nature.ValueMember = "Value";
+            CB_Ball.InitializeBinding();
+            CB_HeldItem.InitializeBinding();
+            CB_Species.InitializeBinding();
+            CB_Nature.InitializeBinding();
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
 
-            CB_Move1.DisplayMember = CB_Move2.DisplayMember = CB_Move3.DisplayMember = CB_Move4.DisplayMember = "Text";
-            CB_Move1.ValueMember = CB_Move2.ValueMember = CB_Move3.ValueMember = CB_Move4.ValueMember = "Value";
+            CB_Move1.InitializeBinding();
+            CB_Move2.InitializeBinding();
+            CB_Move3.InitializeBinding();
+            CB_Move4.InitializeBinding();
 
             var MoveList = GameInfo.MoveDataSource;
             CB_Move1.DataSource = new BindingSource(MoveList, null);
@@ -417,26 +421,17 @@ namespace PKHeX.WinForms
             int formnum = CB_Form.SelectedIndex;
             int[] abils = PersonalTable.AO.GetAbilities(species, formnum);
 
-            // Build Ability List
-            List<string> ability_list = new List<string>
-            {
-                abilitylist[abils[0]] + " (1)",
-                abilitylist[abils[1]] + " (2)",
-                abilitylist[abils[2]] + " (H)"
-            };
-            CB_Ability.DataSource = ability_list;
-
+            CB_Ability.DataSource = GameInfo.Strings.GetAbilityDataSource(abils);
             CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
         }
 
         private void SetForms()
         {
             int species = WinFormsUtil.GetIndex(CB_Species);
-            bool hasForms = PersonalTable.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            bool hasForms = FormConverter.HasFormSelection(PersonalTable.AO[species], species, 6);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-            CB_Form.DisplayMember = "Text";
-            CB_Form.ValueMember = "Value";
+            CB_Form.InitializeBinding();
             CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
         }
 

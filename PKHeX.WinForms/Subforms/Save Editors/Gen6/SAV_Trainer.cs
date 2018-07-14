@@ -237,17 +237,13 @@ namespace PKHeX.WinForms
                     new { Text = "TW", Value = 6 }
                 };
 
-            CB_3DSReg.DisplayMember = "Text";
-            CB_3DSReg.ValueMember = "Value";
+            CB_3DSReg.InitializeBinding();
             CB_3DSReg.DataSource = dsregion_list;
-            CB_Language.DisplayMember = "Text";
-            CB_Language.ValueMember = "Value";
+            CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 
-            CB_Country.DisplayMember = "Text";
-            CB_Country.ValueMember = "Value";
-            CB_Region.DisplayMember = "Text";
-            CB_Region.ValueMember = "Value";
+            CB_Country.InitializeBinding();
+            CB_Region.InitializeBinding();
             Main.SetCountrySubRegion(CB_Country, "countries");
 
             var oras_sprite_list = new[] {
@@ -329,13 +325,11 @@ namespace PKHeX.WinForms
                 new { Text = "Gift",                        Value = 0x81 },
             };
 
-            CB_MultiplayerSprite.DisplayMember = "Text";
-            CB_MultiplayerSprite.ValueMember = "Value";
+            CB_MultiplayerSprite.InitializeBinding();
             CB_MultiplayerSprite.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
-            CB_Vivillon.DisplayMember = "Text";
-            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
         }
         private void GetBadges()

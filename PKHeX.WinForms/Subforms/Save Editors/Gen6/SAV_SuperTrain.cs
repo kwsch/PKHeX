@@ -36,12 +36,10 @@ namespace PKHeX.WinForms
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             {
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
+                CB_Species.InitializeBinding();
                 CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
 
-                CB_S2.DisplayMember = "Text";
-                CB_S2.ValueMember = "Value";
+                CB_S2.InitializeBinding();
                 CB_S2.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             }
             listBox1.SelectedIndex = 0;

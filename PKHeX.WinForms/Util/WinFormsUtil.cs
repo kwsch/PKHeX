@@ -76,6 +76,7 @@ namespace PKHeX.WinForms
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
+        #endregion
 
         internal static int GetIndex(ComboBox cb)
         {
@@ -96,6 +97,17 @@ namespace PKHeX.WinForms
                     break;
             }
         }
+
+        /// <summary>
+        /// Initializes the <see cref="control"/> to be bound to a provided <see cref="ComboItem"/> list.
+        /// </summary>
+        /// <param name="control">Control to initialize binding</param>
+        public static void InitializeBinding(this ListControl control)
+        {
+            control.DisplayMember = nameof(ComboItem.Text);
+            control.ValueMember = nameof(ComboItem.Value);
+        }
+
         public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
         public static IEnumerable<Control> GetAllControlsOfType(Control control, Type type)
         {
@@ -104,7 +116,6 @@ namespace PKHeX.WinForms
                 .Concat(controls)
                 .Where(c => c.GetType() == type);
         }
-        #endregion
 
 #if CLICKONCE
         public static bool IsClickonceDeployed => System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed;

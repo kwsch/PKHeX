@@ -131,8 +131,7 @@ namespace PKHeX.WinForms
                     if (states.All(z => z.Value != c))
                         states.Add(new ComboItem {Text = $"Unknown (0x{c:X2})", Value = c});
                     cbr[i].Items.Clear();
-                    cbr[i].DisplayMember = "Text";
-                    cbr[i].ValueMember = "Value";
+                    cbr[i].InitializeBinding();
                     cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), null);
                     cbr[i].SelectedValue = c;
                 }
@@ -314,8 +313,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < cba.Length; i++)
             {
                 cba[i].Items.Clear();
-                cba[i].DisplayMember = "Text";
-                cba[i].ValueMember = "Value";
+                cba[i].InitializeBinding();
                 cba[i].DataSource = new BindingSource(PassPowerB, null);
                 cba[i].SelectedValue = (int)SAV.Data[0x213A0 + i];
             }
@@ -534,12 +532,9 @@ namespace PKHeX.WinForms
             var areas = AllSlots.Select(z => z.Area).Distinct()
                 .Select(z => new ComboItem {Text = z.ToString(), Value = (int) z}).ToList();
 
-            CB_Species.DisplayMember = nameof(ComboItem.Text);
-            CB_Move.DisplayMember = nameof(ComboItem.Text);
-            CB_Areas.DisplayMember = nameof(ComboItem.Text);
-            CB_Species.ValueMember = nameof(ComboItem.Value);
-            CB_Move.ValueMember = nameof(ComboItem.Value);
-            CB_Areas.ValueMember = nameof(ComboItem.Value);
+            CB_Species.InitializeBinding();
+            CB_Move.InitializeBinding();
+            CB_Areas.InitializeBinding();
 
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             CB_Move.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
@@ -612,8 +607,7 @@ namespace PKHeX.WinForms
 
         private void SetGenders(EntreeSlot slot)
         {
-            CB_Gender.DisplayMember = nameof(ComboItem.Text);
-            CB_Gender.ValueMember = nameof(ComboItem.Value);
+            CB_Gender.InitializeBinding();
             CB_Gender.DataSource = new BindingSource(GetGenderChoices(slot.Species), null);
         }
 
@@ -656,8 +650,7 @@ namespace PKHeX.WinForms
             bool hasForms = PersonalTable.B2W2[slot.Species].HasFormes || slot.Species == 414;
             L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-            CB_Form.DisplayMember = nameof(ComboItem.Text);
-            CB_Form.ValueMember = nameof(ComboItem.Value);
+            CB_Form.InitializeBinding();
             var list = PKX.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             CB_Form.DataSource = new BindingSource(list, null);
         }

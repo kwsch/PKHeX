@@ -65,20 +65,15 @@ namespace PKHeX.WinForms
                 alolatime_list[i] = new {Text = $"+{i:00} Hours", Value = i*60*60};
             alolatime_list[12] = new {Text = "Moon Time", Value = 12 * 60 * 60};
 
-            CB_3DSReg.DisplayMember = "Text";
-            CB_3DSReg.ValueMember = "Value";
+            CB_3DSReg.InitializeBinding();
             CB_3DSReg.DataSource = dsregion_list;
-            CB_Language.DisplayMember = "Text";
-            CB_Language.ValueMember = "Value";
+            CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
-            CB_AlolaTime.DisplayMember = "Text";
-            CB_AlolaTime.ValueMember = "Value";
+            CB_AlolaTime.InitializeBinding();
             CB_AlolaTime.DataSource = alolatime_list;
 
-            CB_Country.DisplayMember = "Text";
-            CB_Country.ValueMember = "Value";
-            CB_Region.DisplayMember = "Text";
-            CB_Region.ValueMember = "Value";
+            CB_Country.InitializeBinding();
+            CB_Region.InitializeBinding();
             Main.SetCountrySubRegion(CB_Country, "countries");
 
             CB_SkinColor.Items.Clear();
@@ -90,8 +85,7 @@ namespace PKHeX.WinForms
             }
 
             L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
-            CB_Vivillon.DisplayMember = "Text";
-            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
 
             var styles = new List<string>(BattleStyles);

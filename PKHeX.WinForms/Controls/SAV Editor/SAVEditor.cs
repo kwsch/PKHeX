@@ -1011,8 +1011,7 @@ namespace PKHeX.WinForms.Controls
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
                 var list = br.SaveNames.Select((z, i) => new ComboItem { Text = z, Value = i }).ToList();
-                CB_SaveSlot.DisplayMember = nameof(ComboItem.Text);
-                CB_SaveSlot.ValueMember = nameof(ComboItem.Value);
+                CB_SaveSlot.InitializeBinding();
                 CB_SaveSlot.DataSource = new BindingSource(list, null);
                 CB_SaveSlot.SelectedValue = br.CurrentSlot;
             }

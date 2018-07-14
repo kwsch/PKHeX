@@ -401,8 +401,7 @@ namespace PKHeX.WinForms.Controls
         }
         public void InitializeDataSources()
         {
-            CB_HPType.DisplayMember = nameof(ComboItem.Text);
-            CB_HPType.ValueMember = nameof(ComboItem.Value);
+            CB_HPType.InitializeBinding();
             CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray(), null);
         }
     }

@@ -53,8 +53,7 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < cba.Length; i++)
                 {
                     cba[i].Items.Clear();
-                    cba[i].DisplayMember = "Text";
-                    cba[i].ValueMember = "Value";
+                    cba[i].InitializeBinding();
                     cba[i].DataSource = new BindingSource(speciesList, null);
                     cba[i].SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, ofsTCM + (i << 1));
                 }

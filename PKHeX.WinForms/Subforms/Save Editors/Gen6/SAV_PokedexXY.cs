@@ -25,8 +25,7 @@ namespace PKHeX.WinForms
             CB_Species.Items.Clear();
 
             // Fill List
-            CB_Species.DisplayMember = "Text";
-            CB_Species.ValueMember = "Value";
+            CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
