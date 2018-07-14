@@ -13,52 +13,125 @@ namespace PKHeX.Core
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+        private static readonly string[] Splitters = {"\r\n", "\n"};
+        private static readonly string[] LineSplit = {": "};
         private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
         private const string Language = "en";
         private const int DefaultLanguageID = 2;
         private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(Language);
 
+        /// <summary>
+        /// <see cref="PKM.Species"/> of the Set entity.
+        /// </summary>
+        public int Species { get; private set; } = -1;
+
+        /// <summary>
+        /// <see cref="PKM.Format"/> of the Set entity it is specific to.
+        /// </summary>
+        public int Format { get; } = PKMConverter.Format;
+
+        /// <summary>
+        /// <see cref="PKM.Nickname"/> of the Set entity.
+        /// </summary>
+        public string Nickname { get; set; }
+
+        /// <summary>
+        /// <see cref="PKM.Gender"/> name of the Set entity.
+        /// </summary>
+        public string Gender { get; private set; }
+
+        /// <summary>
+        /// <see cref="PKM.HeldItem"/> of the Set entity.
+        /// </summary>
+        public int HeldItem { get; private set; }
+
+        /// <summary>
+        /// <see cref="PKM.Ability"/> of the Set entity.
+        /// </summary>
+        public int Ability { get; private set; } = -1;
+
+        /// <summary>
+        /// <see cref="PKM.CurrentLevel"/> of the Set entity.
+        /// </summary>
+        public int Level { get; private set; } = 100;
+
+        /// <summary>
+        /// <see cref="PKM.CurrentLevel"/> of the Set entity.
+        /// </summary>
+        public bool Shiny { get; private set; }
+
+        /// <summary>
+        /// <see cref="PKM.CurrentFriendship"/> of the Set entity.
+        /// </summary>
+        public int Friendship { get; private set; } = 255;
+
+        /// <summary>
+        /// <see cref="PKM.Nature"/> of the Set entity.
+        /// </summary>
+        public int Nature { get; set; }
+
+        /// <summary>
+        /// <see cref="PKM.AltForm"/> name of the Set entity.
+        /// </summary>
+        public string Form { get; private set; }
+
+        /// <summary>
+        /// <see cref="PKM.AltForm"/> of the Set entity.
+        /// </summary>
+        public int FormIndex { get; private set; }
+
+        /// <summary>
+        /// <see cref="PKM.EVs"/> of the Set entity.
+        /// </summary>
+        public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
+
+        /// <summary>
+        /// <see cref="PKM.IVs"/> of the Set entity.
+        /// </summary>
+        public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
+
+        /// <summary>
+        /// <see cref="PKM.Moves"/> of the Set entity.
+        /// </summary>
+        public int[] Moves { get; } = {0, 0, 0, 0};
+
+        /// <summary>
+        /// Any lines that failed to be parsed.
+        /// </summary>
+        public readonly List<string> InvalidLines = new List<string>();
+
         private GameStrings Strings { get; set; } = DefaultStrings;
         private int LanguageID { get; set; } = DefaultLanguageID;
-
-        // Default Set Data
-        public string Nickname { get; set; }
-        public int Species { get; private set; } = -1;
-        public int Format { get; private set; } = PKMConverter.Format;
-        public string Form { get; private set; }
-        public string Gender { get; private set; }
-        public int HeldItem { get; private set; }
-        public int Ability { get; private set; } = -1;
-        public int Level { get; private set; } = 100;
-        public bool Shiny { get; private set; }
-        public int Friendship { get; private set; } = 255;
-        public int Nature { get; set; }
-        public int FormIndex { get; private set; }
-        public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
-        public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
-        public int[] Moves { get; private set; } = {0, 0, 0, 0};
-        public readonly List<string> InvalidLines = new List<string>();
 
         private int[] IVsSpeedFirst => new[] {IVs[0], IVs[1], IVs[2], IVs[5], IVs[3], IVs[4]};
         private int[] IVsSpeedLast => new[] {IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3]};
         private int[] EVsSpeedFirst => new[] {EVs[0], EVs[1], EVs[2], EVs[5], EVs[3], EVs[4]};
         private int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
 
-        // Parsing Utility
+        /// <summary>
+        /// Loads a new <see cref="ShowdownSet"/> from the input string. If no string is provided, a blank set is returned.
+        /// </summary>
+        /// <param name="input">Single-line string which will be split before loading.</param>
         public ShowdownSet(string input = null)
         {
             if (input == null)
                 return;
 
-            string[] lines = input.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+            string[] lines = input.Split(Splitters, StringSplitOptions.None);
             LoadLines(lines);
         }
+
+        /// <summary>
+        /// Loads a new <see cref="ShowdownSet"/> from the input string. If no string is provided, a blank set is returned.
+        /// </summary>
+        /// <param name="lines">Enumerable list of lines.</param>
         public ShowdownSet(IEnumerable<string> lines)
         {
             if (lines == null)
                 return;
             LoadLines(lines);
         }
+
         private void LoadLines(IEnumerable<string> lines)
         {
             lines = lines.Select(z => z.Replace("'", "’").Replace("–", "-").Trim()); // Sanitize apostrophes & dashes
@@ -97,7 +170,7 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
+                string[] brokenline = line.Split(LineSplit, StringSplitOptions.None);
                 var piece1 = brokenline[0].Trim();
                 var piece2 = brokenline.Length == 1 ? string.Empty : brokenline[1].Trim();
                 if (!ParseEntry(piece1, piece2))
@@ -141,9 +214,23 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Gets the standard Text representation of the set details.
+        /// </summary>
         public string Text => GetText();
+
+        /// <summary>
+        /// Gets the localized Text representation of the set details.
+        /// </summary>
+        /// <param name="lang">2 character language code</param>
         public string LocalizedText(string lang) => LocalizedText(GameInfo.Language(lang));
+
+        /// <summary>
+        /// Gets the localized Text representation of the set details.
+        /// </summary>
+        /// <param name="lang">Language ID</param>
         public string LocalizedText(int lang) => GetText(GameInfo.GetStrings(LanguageID = lang));
+
         private string GetText(GameStrings strings = null)
         {
             if (Species <= 0 || Species > MAX_SPECIES)
@@ -232,6 +319,12 @@ namespace PKHeX.Core
                 return string.Empty;
             return new ShowdownSet(pkm).Text;
         }
+
+        /// <summary>
+        /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
+        /// </summary>
+        /// <param name="pkm">PKM to convert to string</param>
+        /// <returns>New ShowdownSet object representing the input <see cref="pkm"/></returns>
         public ShowdownSet(PKM pkm)
         {
             if (pkm.Species <= 0)
