@@ -6,8 +6,7 @@ namespace PKHeX.WinForms
 {
     public partial class MemoryAmie : Form
     {
-        private readonly string[] args = new string[5];
-        private readonly string[] vartypes = new string[5];
+        private readonly TextMarkup TextArgs;
         public MemoryAmie(PKM pk)
         {
             InitializeComponent();
@@ -17,16 +16,7 @@ namespace PKHeX.WinForms
             mta = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
-            for (int i = 5; i < Math.Min(arguments.Length, vartypes.Length + 5); i++)
-            {
-                if (arguments[i] == null) continue;
-                vartypes[i - 5] = arguments[i] + ":";
-            }
-            args[0] = arguments.Length > 0 ? arguments[0] ?? "Disabled" : "Disabled";
-            args[1] = arguments.Length > 1 ? arguments[1] ?? "Never left" : "Never left";
-            args[2] = arguments.Length > 2 ? arguments[2] ?? "OT" : "OT";
-            args[3] = arguments.Length > 3 ? arguments[3] ?? "Past Gen": "Past Gen";
-            args[4] = arguments.Length > 4 ? arguments[4] ?? "Memories with" : "Memories with";
+            TextArgs = new TextMarkup(arguments);
             foreach (ComboBox comboBox in cba)
             {
                 comboBox.InitializeBinding();
@@ -82,7 +72,7 @@ namespace PKHeX.WinForms
             CB_OTFeel.SelectedIndex = pkm.OT_Feeling;
 
             CB_Handler.Items.Clear();
-            CB_Handler.Items.Add($"{pkm.OT_Name} ({args[2]})"); // OTNAME : OT
+            CB_Handler.Items.Add($"{pkm.OT_Name} ({TextArgs.OT})"); // OTNAME : OT
 
             if (!string.IsNullOrEmpty(pkm.HT_Name))
                 CB_Handler.Items.Add(pkm.HT_Name);
@@ -101,8 +91,8 @@ namespace PKHeX.WinForms
                 if (pkm.GenNumber < 6)
                 {
                     // Previous Generation Mon
-                    GB_M_OT.Text = $"{args[3]} {pkm.OT_Name}: {args[2]}"; // Past Gen OT : OTNAME
-                    GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}"; // Memories with : HTNAME
+                    GB_M_OT.Text = $"{TextArgs.PastGen} {pkm.OT_Name}: {TextArgs.OT}"; // Past Gen OT : OTNAME
+                    GB_M_CT.Text = $"{TextArgs.MemoriesWith} {pkm.HT_Name}"; // Memories with : HTNAME
                     enable = false;
                     // Reset to no memory -- don't reset affection as ORAS can raise it
                     CB_OTQual.SelectedIndex = CB_OTFeel.SelectedIndex = 0;
@@ -111,17 +101,17 @@ namespace PKHeX.WinForms
                 else
                 {
                     enable = true;
-                    GB_M_OT.Text = $"{args[4]} {pkm.OT_Name} ({args[2]})"; // Memories with : OTNAME
-                    GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}"; // Memories with : HTNAME
+                    GB_M_OT.Text = $"{TextArgs.MemoriesWith} {pkm.OT_Name} ({TextArgs.OT})"; // Memories with : OTNAME
+                    GB_M_CT.Text = $"{TextArgs.MemoriesWith} {pkm.HT_Name}"; // Memories with : HTNAME
                     if (pkm.HT_Name.Length == 0)
                     {
                         CB_Country1.Enabled = CB_Country2.Enabled = CB_Country3.Enabled = CB_Country4.Enabled =
                         CB_Region1.Enabled = CB_Region2.Enabled = CB_Region3.Enabled = CB_Region4.Enabled =
                         GB_M_CT.Enabled = false;
-                        GB_M_CT.Text = $"{args[1]} {args[2]} - {args[0]}"; // Never Left : OT : Disabled
+                        GB_M_CT.Text = $"{TextArgs.NeverLeft} {TextArgs.OT} - {TextArgs.Disabled}"; // Never Left : OT : Disabled
                     }
                     else
-                        GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}";
+                        GB_M_CT.Text = $"{TextArgs.MemoriesWith} {pkm.HT_Name}";
                 }
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = enable;
                 M_OT_Affection.Enabled = true;
@@ -210,21 +200,18 @@ namespace PKHeX.WinForms
             int memory = WinFormsUtil.GetIndex((ComboBox) sender);
             var memIndex = Memories.GetMemoryArgType(memory);
             var argvals = GameInfo.Strings.Memories.GetArgumentStrings(memIndex);
-            int index = (int) memIndex - 1;
             if (sender == CB_CTMemory)
             {
                 CB_CTVar.InitializeBinding();
                 CB_CTVar.DataSource = new BindingSource(argvals, null);
-                if (index >= 0)
-                    LCTV.Text = vartypes[index];
+                LCTV.Text = TextArgs.GetMemoryCategory(memIndex);
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else
             {
                 CB_OTVar.InitializeBinding();
                 CB_OTVar.DataSource = new BindingSource(argvals, null);
-                if (index >= 0)
-                    LOTV.Text = vartypes[index];
+                LOTV.Text = TextArgs.GetMemoryCategory(memIndex);
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
         }
@@ -315,6 +302,51 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < 5; i++)
                 cba[i].SelectedValue = 0;
+        }
+
+        private class TextMarkup
+        {
+            public string Disabled { get; } = nameof(Disabled);
+            public string NeverLeft { get; } = "Never left";
+            public string OT { get; } = "OT";
+            public string PastGen { get; } = "Past Gen";
+            public string MemoriesWith { get; } = "Memories with";
+
+            private string Species { get; } = "Species:";
+            private string Area { get; } = "Area:";
+            private string Item { get; } = "Item:";
+            private string Move { get; } = "Move:";
+            private string Location { get; } = "Location:";
+
+            public TextMarkup(string[] args)
+            {
+                Array.Resize(ref args, 10);
+                if (args[0] != null) Disabled = args[0];
+                if (args[1] != null) NeverLeft = args[1];
+                if (args[2] != null) OT = args[2];
+                if (args[3] != null) PastGen = args[3];
+                if (args[4] != null) MemoriesWith = args[4];
+
+                // Pokémon ; Area ; Item(s) ; Move ; Location
+                if (args[5] != null) Species = args[5] + ":";
+                if (args[6] != null) Area = args[6] + ":";
+                if (args[7] != null) Item = args[7] + ":";
+                if (args[8] != null) Move = args[8] + ":";
+                if (args[9] != null) Location = args[9] + ":";
+            }
+
+            public string GetMemoryCategory(MemoryArgType type)
+            {
+                switch (type)
+                {
+                    default: return string.Empty;
+                    case MemoryArgType.GeneralLocation: return Area;
+                    case MemoryArgType.SpecificLocation: return Location;
+                    case MemoryArgType.Species: return Species;
+                    case MemoryArgType.Move: return Move;
+                    case MemoryArgType.Item: return Item;
+                }
+            }
         }
     }
 }
