@@ -539,7 +539,7 @@ namespace PKHeX.Core
         public static void SetHiddenPower(this PKM pk, int hptype)
         {
             var IVs = pk.IVs;
-            HiddenPower.SetIVsForType(hptype, pk.IVs);
+            HiddenPower.SetIVsForType(hptype, pk.IVs, pk.Format);
             pk.IVs = IVs;
         }
 

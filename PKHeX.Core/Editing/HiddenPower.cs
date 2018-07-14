@@ -26,6 +26,17 @@ namespace PKHeX.Core
             var IV_DEF = IVs[2];
             return ((IV_ATK & 3) << 2) | (IV_DEF & 3);
         }
+
+        public static bool SetIVsForType(int hpVal, int[] IVs, int format)
+        {
+            if (format <= 2)
+            {
+                IVs[1] = (IVs[1] & ~3) | (hpVal >> 2);
+                IVs[2] = (IVs[2] & ~3) | (hpVal  & 3);
+                return true;
+            }
+            return SetIVsForType(hpVal, IVs);
+        }
         public static bool SetIVsForType(int hpVal, int[] IVs)
         {
             if (IVs.All(z => z == 31))

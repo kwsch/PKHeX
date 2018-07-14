@@ -387,7 +387,7 @@ namespace PKHeX.Core
 
                 if (IVs.Any(z => z != 31))
                 {
-                    if (!HiddenPower.SetIVsForType(hpVal, IVs))
+                    if (!HiddenPower.SetIVsForType(hpVal, IVs, Format))
                         InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
                 }
                 else if (hpVal >= 0)
