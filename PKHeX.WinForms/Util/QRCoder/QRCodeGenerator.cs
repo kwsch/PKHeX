@@ -265,7 +265,7 @@ namespace QRCoder
 
                 foreach (var pattern in methods)
                 {
-                    if (pattern.Name.Length == 8 && pattern.Name.Substring(0, 7) == "Pattern")
+                    if (pattern.Name.Length == 8 && pattern.Name.StartsWith("Pattern"))
                     {
                         var qrTemp = new QRCodeData(version);
                         for (var y = 0; y < size; y++)
@@ -308,7 +308,7 @@ namespace QRCoder
 
 
 
-                var patterMethod = typeof(MaskPattern).GetMethods().First(x => x.Name == patternName);
+                var patterMethod = methods.First(x => x.Name == patternName);
 
 
                 for (var x = 0; x < size; x++)
@@ -612,6 +612,15 @@ namespace QRCoder
 
                     return score1 + score2 + score3 + score4;
                 }
+
+                public static bool Pattern1(int x, int y) => (x + y) % 2 == 0;
+                public static bool Pattern2(int x, int y) => y % 2 == 0;
+                public static bool Pattern3(int x, int y) => x % 3 == 0;
+                public static bool Pattern4(int x, int y) => (x + y) % 3 == 0;
+                public static bool Pattern5(int x, int y) => ((y / 2) + (x / 3) % 2) == 0;
+                public static bool Pattern6(int x, int y) => ((x * y) % 2) + ((x * y) % 3) == 0;
+                public static bool Pattern7(int x, int y) => (((x * y) % 2) + ((x * y) % 3)) % 2 == 0;
+                public static bool Pattern8(int x, int y) => (((x + y) % 2) + ((x * y) % 3)) % 2 == 0;
             }
 
         }
