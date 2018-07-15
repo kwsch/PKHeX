@@ -170,7 +170,7 @@ namespace PKHeX.Core
                     int baseSpecies = Legal.GetBaseSpecies(this);
                     int Rate = Catch_Rate;
                     int count = value - baseSpecies + 1;
-                    if (Enumerable.Range(baseSpecies, count).All(z => Rate != PersonalTable.RB[z].CatchRate))
+                    if (Enumerable.Range(baseSpecies, count).All(z => Rate != PersonalTable.RB[z].CatchRate && Rate != PersonalTable.Y[z].CatchRate))
                         Catch_Rate = PersonalTable.RB[value].CatchRate;
                 }
                 Type_A = PersonalInfo.Type1;
