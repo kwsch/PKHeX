@@ -666,7 +666,10 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case WC3 g:
-                    return val == g.Method;
+                    if (val == g.Method)
+                        return true;
+                    // forced shiny eggs, when hatched, can lose their detectable correlation.
+                    return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
                 case EncounterStaticShadow d when d.EReader:
                     return val == PIDType.None; // All IVs are 0
                 case EncounterStatic s:
