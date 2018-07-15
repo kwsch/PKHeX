@@ -416,6 +416,15 @@ namespace PKHeX.Core
 
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
 
+        public static SaveFile GetVariantSAV(string path)
+        {
+            var data = File.ReadAllBytes(path);
+            var sav = GetVariantSAV(data);
+            if (sav != null)
+                sav.FilePath = path;
+            return sav;
+        }
+
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
@@ -567,7 +576,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Retrieves the full path of the most recent file based on <see cref="FileInfo.LastWriteTime"/>.
+        /// Retrieves possible save file paths from the provided <see cref="folderPath"/>.
         /// </summary>
         /// <param name="folderPath">Folder to look within</param>
         /// <param name="deep">Search all subfolders</param>

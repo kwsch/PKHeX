@@ -71,10 +71,42 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Finds a compatible save file that was most recently saved (by file write time).
         /// </summary>
-        /// <param name="path">If this function returns true, full path of a save file or null if no path could be found. If this function returns false, this parameter will be set to the error message.</param>
+        /// <param name="error">If this function does not return a save file, this parameter will be set to the error message.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
-        /// <returns>A boolean indicating whether or not a file was detected</returns>
-        public static bool DetectSaveFile(out string path, params string[] extra)
+        /// <returns>Reference to a valid save file, if any.</returns>
+        public static SaveFile DetectSaveFile(ref string error, params string[] extra)
+        {
+            var foldersToCheck = GetFoldersToCheck(extra);
+            var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
+            if (!result)
+            {
+                error = string.Join(Environment.NewLine, possiblePaths); // `possiblePaths` contains the error message
+                return null;
+            }
+
+            // return newest save file path that is valid
+            var byMostRecent = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime);
+            var saves = byMostRecent.Select(SaveUtil.GetVariantSAV);
+            return saves.FirstOrDefault(z => z?.ChecksumsValid == true);
+        }
+
+        /// <summary>
+        /// Gets all detectable save files ordered by most recently saved (by file write time).
+        /// </summary>
+        /// <param name="extra">Paths to check in addition to the default paths</param>
+        /// <returns>Valid save files, if any.</returns>
+        public static IEnumerable<SaveFile> GetSaveFiles(params string[] extra)
+        {
+            var foldersToCheck = GetFoldersToCheck(extra);
+            var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
+            if (!result)
+                return Enumerable.Empty<SaveFile>();
+
+            var byMostRecent = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime);
+            return byMostRecent.Select(SaveUtil.GetVariantSAV);
+        }
+
+        private static IEnumerable<string> GetFoldersToCheck(IEnumerable<string> extra)
         {
             var foldersToCheck = extra.Where(f => f?.Length > 0);
 
@@ -86,41 +118,25 @@ namespace PKHeX.WinForms
             if (pathNX != null) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(GetSwitchBackupPaths(pathNX));
 
-            path = null;
-            List<string> possiblePaths = new List<string>();
+            return foldersToCheck;
+        }
+
+        private static bool GetSaveFilePathsFromFolders(IEnumerable<string> foldersToCheck, out IEnumerable<string> possible)
+        {
+            var possiblePaths = new List<string>();
             foreach (var folder in foldersToCheck)
             {
                 if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> files))
                 {
-                    if (files != null) // can be null if folder doesn't exist
-                    {
-                        path = string.Join(Environment.NewLine, files); // `files` contains the error message
-                        return false;
-                    }
+                    if (files == null)
+                        continue;
+                    possible = files;
+                    return false;
                 }
                 if (files != null)
                     possiblePaths.AddRange(files);
             }
-
-            // return newest save file path that is valid
-            foreach (var file in possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime))
-            {
-                try
-                {
-                    var data = File.ReadAllBytes(file);
-                    var sav = SaveUtil.GetVariantSAV(data);
-                    if (sav?.ChecksumsValid != true)
-                        continue;
-
-                    path = file;
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    path = e.Message + Environment.NewLine + file;
-                    return false;
-                }
-            }
+            possible = possiblePaths;
             return true;
         }
     }

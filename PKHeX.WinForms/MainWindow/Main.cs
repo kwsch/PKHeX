@@ -1164,9 +1164,13 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.DetectSaveFile(out path, cgse))
-                return false;
 
+            string msg = null;
+            var sav = PathUtilWindows.DetectSaveFile(ref msg, cgse);
+            if (sav == null && !string.IsNullOrWhiteSpace(msg))
+                WinFormsUtil.Error(msg);
+
+            path = sav?.FileName;
             return path != null && File.Exists(path);
         }
 

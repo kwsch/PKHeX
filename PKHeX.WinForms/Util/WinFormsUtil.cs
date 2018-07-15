@@ -161,17 +161,20 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.DetectSaveFile(out path, cgse) && !string.IsNullOrEmpty(path))
-            {
-                Error(path); // `path` contains the error message
-                path = null;
-            }
 
-            if (path != null)
-                ofd.FileName = path;
+            string msg = null;
+            var sav = PathUtilWindows.DetectSaveFile(ref msg, cgse);
+            if (sav == null && !string.IsNullOrWhiteSpace(msg))
+                Error(msg);
+
+            if (sav != null)
+                ofd.FileName = sav.FileName;
 
             if (ofd.ShowDialog() != DialogResult.OK)
+            {
+                path = null;
                 return false;
+            }
 
             path = ofd.FileName;
             return true;
