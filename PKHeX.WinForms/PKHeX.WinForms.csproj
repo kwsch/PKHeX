@@ -279,6 +279,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Misc\PKMPreview.cs" />
+    <Compile Include="Subforms\Misc\PropertyComparer.cs" />
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Apricorn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -587,6 +589,7 @@
     <Compile Include="Subforms\SettingsEditor.Designer.cs">
       <DependentUpon>SettingsEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Misc\SortableBindingList.cs" />
     <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\DevUtil.cs" />
