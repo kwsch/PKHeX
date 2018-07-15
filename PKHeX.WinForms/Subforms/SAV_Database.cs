@@ -432,31 +432,10 @@ namespace PKHeX.WinForms
 #endif
             }
 
-            int format = MAXFORMAT + 1 - CB_Format.SelectedIndex;
-            switch (CB_FormatComparator.SelectedIndex)
-            {
-                case 0: /* Do nothing */                            break;
-                case 1: res = res.Where(pk => pk.Format >= format); break;
-                case 2: res = res.Where(pk => pk.Format == format); break;
-                case 3: res = res.Where(pk => pk.Format <= format); break;
-            }
-            if (CB_FormatComparator.SelectedIndex != 0)
-            {
-                if (format <= 2) // 1-2
-                    res = res.Where(pk => pk.Format <= 2);
-                if (format >= 3 && format <= 6) // 3-6
-                    res = res.Where(pk => pk.Format >= 3);
-            }
-
-            switch (CB_Generation.SelectedIndex)
-            {
-                case 0: /* Do nothing */                break;
-                case 1: res = res.Where(pk => pk.Gen7); break;
-                case 2: res = res.Where(pk => pk.Gen6); break;
-                case 3: res = res.Where(pk => pk.Gen5); break;
-                case 4: res = res.Where(pk => pk.Gen4); break;
-                case 5: res = res.Where(pk => pk.Gen3); break;
-            }
+            int formatOption = (MAXFORMAT - CB_Format.SelectedIndex) + 1; // 0->(n-1) => 1->n
+            int formatOperand = CB_FormatComparator.SelectedIndex;
+            res = FilterByFormat(res, formatOption, formatOperand);
+            res = FilterByGeneration(res, CB_Generation.SelectedIndex);
 
             // Primary Searchables
             int species = WinFormsUtil.GetIndex(CB_Species);
@@ -473,26 +452,42 @@ namespace PKHeX.WinForms
             int move2 = WinFormsUtil.GetIndex(CB_Move2);
             int move3 = WinFormsUtil.GetIndex(CB_Move3);
             int move4 = WinFormsUtil.GetIndex(CB_Move4);
-            var moves = new[] {move1, move2, move3, move4}.Where(z => z > 0).ToList();
+            var moves = new[] { move1, move2, move3, move4 }.Where(z => z > 0).ToList();
             int count = moves.Count;
             if (count > 0) res = res.Where(pk => pk.Moves.Intersect(moves).Count() == count);
+
             int vers = WinFormsUtil.GetIndex(CB_GameOrigin);
             if (vers != -1) res = res.Where(pk => pk.Version == vers);
             int hptype = WinFormsUtil.GetIndex(CB_HPType);
             if (hptype != -1) res = res.Where(pk => pk.HPType == hptype);
-            if (CHK_Shiny.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsShiny);
-            if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
-            if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
-            if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            if (CHK_IsEgg.CheckState == CheckState.Checked && int.TryParse(MT_ESV.Text, out int esv))
-                res = res.Where(pk => pk.PSV == esv);
+
+            switch (CHK_Shiny.CheckState)
+            {
+                case CheckState.Checked:
+                    res = res.Where(pk => pk.IsShiny);
+                    break;
+                case CheckState.Unchecked:
+                    res = res.Where(pk => !pk.IsShiny);
+                    break;
+            }
+
+            switch (CHK_IsEgg.CheckState)
+            {
+                case CheckState.Checked when int.TryParse(MT_ESV.Text, out int esv):
+                    res = res.Where(pk => pk.IsEgg && pk.PSV == esv);
+                    break;
+                case CheckState.Checked:
+                    res = res.Where(pk => pk.IsEgg);
+                    break;
+                case CheckState.Unchecked:
+                    res = res.Where(pk => !pk.IsEgg);
+                    break;
+            }
 
             // Tertiary Searchables
             res = FilterByLVL(res, CB_Level.SelectedIndex, TB_Level.Text);
             res = FilterByIVs(res, CB_IV.SelectedIndex);
             res = FilterByEVs(res, CB_EVTrain.SelectedIndex);
-
-            slotSelected = -1; // reset the slot last viewed
 
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked)
                 res = res.Where(pk => new LegalityAnalysis(pk).Valid);
@@ -512,6 +507,38 @@ namespace PKHeX.WinForms
             return res;
         }
 
+        private static IEnumerable<PKM> FilterByFormat(IEnumerable<PKM> res, int format, int formatOperand)
+        {
+            switch (formatOperand)
+            {
+                default: return res; /* Do nothing */
+                case 1: res = res.Where(pk => pk.Format >= format); break;
+                case 2: res = res.Where(pk => pk.Format == format); break;
+                case 3: res = res.Where(pk => pk.Format <= format); break;
+            }
+
+            if (format <= 2) // 1-2
+                return res.Where(pk => pk.Format <= 2);
+            if (format >= 3 && format <= 6) // 3-6
+                return res.Where(pk => pk.Format >= 3);
+
+            return res;
+        }
+
+        private static IEnumerable<PKM> FilterByGeneration(IEnumerable<PKM> res, int option)
+        {
+            switch (option)
+            {
+                default: return res; /* Do nothing */
+                case 1: return res.Where(pk => pk.Gen7);
+                case 2: return res.Where(pk => pk.Gen6);
+                case 3: return res.Where(pk => pk.Gen5);
+                case 4: return res.Where(pk => pk.Gen4);
+                case 5: return res.Where(pk => pk.Gen3);
+                case 6: return res.Where(pk => pk.VC || pk.Format < 3);
+            }
+        }
+
         private static IEnumerable<PKM> FilterByLVL(IEnumerable<PKM> res, int option, string lvl)
         {
             if (string.IsNullOrWhiteSpace(lvl))
@@ -523,7 +550,7 @@ namespace PKHeX.WinForms
 
             switch (option)
             {
-                case 0: break; // Any (Do nothing)
+                default: return res; // Any (Do nothing)
                 case 3: // <=
                     return res.Where(pk => pk.Stat_Level <= level);
                 case 2: // ==
@@ -531,13 +558,12 @@ namespace PKHeX.WinForms
                 case 1: // >=
                     return res.Where(pk => pk.Stat_Level >= level);
             }
-            return res;
         }
         private static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option)
         {
             switch (option)
             {
-                case 0: break; // Any (Do nothing)
+                default: return res; // Any (Do nothing)
                 case 1: // None (0)
                     return res.Where(pk => pk.EVTotal == 0);
                 case 2: // Some (127-0)
@@ -547,13 +573,12 @@ namespace PKHeX.WinForms
                 case 4: // Full (508+)
                     return res.Where(pk => pk.EVTotal >= 508);
             }
-            return res;
         }
         private static IEnumerable<PKM> FilterByIVs(IEnumerable<PKM> res, int option)
         {
             switch (option)
             {
-                case 0: break; // Do nothing
+                default: return res; // Do nothing
                 case 1: // <= 90
                     return res.Where(pk => pk.IVTotal <= 90);
                 case 2: // 91-120
@@ -567,7 +592,6 @@ namespace PKHeX.WinForms
                 case 6: // == 186
                     return res.Where(pk => pk.IVTotal == 186);
             }
-            return res;
         }
 
         private async void B_Search_Click(object sender, EventArgs e)
@@ -604,6 +628,7 @@ namespace PKHeX.WinForms
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;
 
+            slotSelected = -1; // reset the slot last viewed
             SCR_Box.Value = 0;
             FillPKXBoxes(0);
 

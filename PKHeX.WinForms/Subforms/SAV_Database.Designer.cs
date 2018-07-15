@@ -104,6 +104,7 @@
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
             this.PAN_Box = new System.Windows.Forms.Panel();
@@ -158,7 +159,6 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -1038,6 +1038,14 @@
             this.Menu_Export.Text = "Export Results to Folder";
             this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
             // 
+            // Menu_Import
+            // 
+            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
+            this.Menu_Import.Name = "Menu_Import";
+            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
+            this.Menu_Import.Text = "Import Results to SaveFile";
+            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
+            // 
             // Menu_DeleteClones
             // 
             this.Menu_DeleteClones.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
@@ -1594,11 +1602,12 @@
             this.CB_Generation.FormattingEnabled = true;
             this.CB_Generation.Items.AddRange(new object[] {
             "Any",
-            "Gen 7 (Sun/Moon)",
+            "Gen 7 (SM/USUM)",
             "Gen 6 (XY/ORAS)",
             "Gen 5 (BW/B2W2)",
             "Gen 4 (DPPt/HGSS)",
-            "Gen 3 (RSE/FRLG/CXD)"});
+            "Gen 3 (RSE/FRLG/CXD)",
+            "Gen 1/2 (RBY/GSC)"});
             this.CB_Generation.Location = new System.Drawing.Point(83, 293);
             this.CB_Generation.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Generation.Name = "CB_Generation";
@@ -1834,14 +1843,6 @@
             this.RTB_Instructions.Size = new System.Drawing.Size(235, 352);
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
-            // 
-            // Menu_Import
-            // 
-            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
-            this.Menu_Import.Name = "Menu_Import";
-            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
-            this.Menu_Import.Text = "Import Results to SaveFile";
-            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
             // 
             // SAV_Database
             // 
