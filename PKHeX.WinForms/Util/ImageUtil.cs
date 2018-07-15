@@ -8,16 +8,22 @@ namespace PKHeX.WinForms
     public static class ImageUtil
     {
         // Image Layering/Blending Utility
-        public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
+        public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double transparency)
+        {
+            if (baseLayer == null)
+                return overLayer as Bitmap;
+            overLayer = ChangeOpacity(overLayer, transparency);
+            return LayerImage(baseLayer, overLayer, x, y);
+        }
+        public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y)
         {
             if (baseLayer == null)
                 return overLayer as Bitmap;
             Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
             using (Graphics gr = Graphics.FromImage(img))
             {
-                gr.DrawImage(baseLayer, new Rectangle(0, 0, baseLayer.Width, baseLayer.Height));
-                Image o = trans == 1f ? overLayer : ChangeOpacity(overLayer, trans);
-                gr.DrawImage(o, new Rectangle(x, y, overLayer.Width, overLayer.Height));
+                gr.DrawImage(baseLayer, 0, 0);
+                gr.DrawImage(overLayer, x, y);
             }
             return img;
         }

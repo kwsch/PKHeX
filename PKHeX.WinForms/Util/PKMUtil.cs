@@ -85,14 +85,14 @@ namespace PKHeX.WinForms
                     pkm.Box = box;
                 var la = new LegalityAnalysis(pkm, SAV.Personal);
                 if (!la.Valid && pkm.Species != 0)
-                    sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
+                    sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14);
             }
             if (inBox) // in box
             {
                 if (SAV.IsSlotLocked(box, slot))
-                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
+                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0);
                 else if (SAV.IsSlotInBattleTeam(box, slot))
-                    sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
+                    sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0);
             }
 
             return sprite;

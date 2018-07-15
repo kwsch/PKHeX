@@ -53,7 +53,7 @@ namespace PKHeX.WinForms
                 gfx.DrawImage(icon, preview.Width / 2 - icon.Width / 2, preview.Height / 2 - icon.Height / 2);
             }
             // Layer on Preview Image
-            Image pic = ImageUtil.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2, 1);
+            Image pic = ImageUtil.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2);
 
             Image newpic = new Bitmap(PB_QR.Width, PB_QR.Height);
             using (Graphics g = Graphics.FromImage(newpic))

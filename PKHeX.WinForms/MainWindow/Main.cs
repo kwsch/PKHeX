@@ -979,7 +979,7 @@ namespace PKHeX.WinForms
             if (la.Parsed && pkx.Species != 0)
             {
                 var img = la.Valid ? Resources.valid : Resources.warn;
-                sprite = ImageUtil.LayerImage(sprite, img, 24, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, img, 24, 0);
             }
 
             string[] r = pkx.QRText;

@@ -54,7 +54,7 @@ namespace PKHeX.WinForms.Controls
             if (pb.Image == null)
                 return;
             OriginalBackground = pb.BackgroundImage;
-            pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0, 1);
+            pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0);
             BeginHoverSlot(pb);
         }
         private void BeginHoverSlot(PictureBox pb)

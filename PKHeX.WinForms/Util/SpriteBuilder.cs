@@ -98,7 +98,7 @@ namespace PKHeX.WinForms
             if (x + itemimg.Width > baseImage.Width)
                 x = baseImage.Width - itemimg.Width;
             int y = 15 + (15 - itemimg.Height);
-            return ImageUtil.LayerImage(baseImage, itemimg, x, y, 1);
+            return ImageUtil.LayerImage(baseImage, itemimg, x, y);
         }
 
         private static Image LayerOverImageShiny(Image baseImage, bool isBoxBGRed)
@@ -115,7 +115,7 @@ namespace PKHeX.WinForms
             baseImage = ImageUtil.ChangeOpacity(baseImage, 0.33);
             // Add the egg layer over-top with full opacity.
             var egg = species == 490 ? (Image)Resources.ResourceManager.GetObject("_490_e") : Resources.egg;
-            return ImageUtil.LayerImage(baseImage, egg, 0, 0, 1);
+            return ImageUtil.LayerImage(baseImage, egg, 0, 0);
         }
     }
 }
