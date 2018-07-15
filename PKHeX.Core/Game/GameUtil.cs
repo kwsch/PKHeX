@@ -76,6 +76,8 @@ namespace PKHeX.Core
                     return SM;
                 case US: case UM:
                     return USUM;
+                case GP: case GE:
+                    return GG;
 
                 default:
                     return Invalid;
