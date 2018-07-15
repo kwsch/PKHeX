@@ -486,46 +486,6 @@ namespace QRCoder
 
             private static class MaskPattern
             {
-                public static bool Pattern1(int x, int y)
-                {
-                    return (x + y) % 2 == 0;
-                }
-
-                public static bool Pattern2(int x, int y)
-                {
-                    return y % 2 == 0;
-                }
-
-                public static bool Pattern3(int x, int y)
-                {
-                    return x % 3 == 0;
-                }
-
-                public static bool Pattern4(int x, int y)
-                {
-                    return (x + y) % 3 == 0;
-                }
-
-                public static bool Pattern5(int x, int y)
-                {
-                    return ((int)(Math.Floor(y / 2d) + Math.Floor(x / 3d)) % 2) == 0;
-                }
-
-                public static bool Pattern6(int x, int y)
-                {
-                    return ((x * y) % 2) + ((x * y) % 3) == 0;
-                }
-
-                public static bool Pattern7(int x, int y)
-                {
-                    return (((x * y) % 2) + ((x * y) % 3)) % 2 == 0;
-                }
-
-                public static bool Pattern8(int x, int y)
-                {
-                    return (((x + y) % 2) + ((x * y) % 3)) % 2 == 0;
-                }
-
                 public static int Score(ref QRCodeData qrCode)
                 {
                     int score1 = 0,
@@ -534,7 +494,7 @@ namespace QRCoder
                         score4 = 0;
                     var size = qrCode.ModuleMatrix.Count;
 
-                    //Penalty 1                   
+                    //Penalty 1
                     for (var y = 0; y < size; y++)
                     {
                         var modInRow = 0;
