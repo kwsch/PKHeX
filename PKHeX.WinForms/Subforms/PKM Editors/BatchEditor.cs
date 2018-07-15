@@ -86,7 +86,7 @@ namespace PKHeX.WinForms
             L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
             if (BatchEditing.TryGetHasProperty(pkmref, CB_Property.Text, out var pi))
             {
-                L_PropValue.Text = pi.GetValue(pkmref).ToString();
+                L_PropValue.Text = pi.GetValue(pkmref)?.ToString();
                 L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
             }
             else // no property, flag
