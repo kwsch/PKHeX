@@ -6,27 +6,7 @@ namespace PKHeX.WinForms
 {
     public static class PKMUtil
     {
-        public static void Initialize(SaveFile sav)
-        {
-            if (sav.Generation != 3)
-                return;
-
-            Game = sav.Version;
-            if (Game == GameVersion.FRLG)
-                Game = sav.Personal == PersonalTable.FR ? GameVersion.FR : GameVersion.LG;
-        }
-        private static GameVersion Game;
-
-        private static int GetDeoxysForm()
-        {
-            switch (Game)
-            {
-                default: return 0;
-                case GameVersion.FR: return 1; // Attack
-                case GameVersion.LG: return 2; // Defense
-                case GameVersion.E:  return 3; // Speed
-            }
-        }
+        public static ISpriteBuilder<Image> Spriter { get; set; } = new SpriteBuilder();
 
         public static Image GetBallSprite(int ball)
         {
@@ -35,62 +15,7 @@ namespace PKHeX.WinForms
         }
         public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false)
         {
-            if (species == 0)
-                return Resources._0;
-
-            if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
-                form = GetDeoxysForm();
-
-            string file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
-
-            // Redrawing logic
-            Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
-            if (FormConverter.IsTotemForm(species, form))
-            {
-                form = FormConverter.GetTotemBaseForm(species, form);
-                file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
-                baseImage = (Image)Resources.ResourceManager.GetObject(file);
-                baseImage = ImageUtil.ToGrayscale(baseImage);
-            }
-            if (baseImage == null)
-            {
-                if (shiny) // try again without shiny
-                {
-                    file = PKX.GetResourceStringSprite(species, form, gender, generation);
-                    baseImage = (Image)Resources.ResourceManager.GetObject(file);
-                }
-                if (baseImage == null)
-                    baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
-                baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
-            }
-            if (isegg)
-            {
-                // Partially transparent species.
-                baseImage = ImageUtil.ChangeOpacity(baseImage, 0.33);
-                // Add the egg layer over-top with full opacity.
-                var egg = species == 490 ? (Image) Resources.ResourceManager.GetObject("_490_e") : Resources.egg;
-                baseImage = ImageUtil.LayerImage(baseImage, egg, 0, 0, 1);
-            }
-            if (shiny)
-            {
-                // Add shiny star to top left of image.
-                var rare = isBoxBGRed ? Resources.rare_icon_alt : Resources.rare_icon;
-                baseImage = ImageUtil.LayerImage(baseImage, rare, 0, 0, 0.7);
-            }
-            if (item > 0)
-            {
-                Image itemimg = (Image)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
-                if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
-                    itemimg = Resources.item_tm;
-
-                // Redraw
-                int x = 22 + (15 - itemimg.Width)/2;
-                if (x + itemimg.Width > baseImage.Width)
-                    x = baseImage.Width - itemimg.Width;
-                int y = 15 + (15 - itemimg.Height);
-                baseImage = ImageUtil.LayerImage(baseImage, itemimg, x, y, 1);
-            }
-            return baseImage;
+            return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation, isBoxBGRed);
         }
         public static Image GetRibbonSprite(string name)
         {
