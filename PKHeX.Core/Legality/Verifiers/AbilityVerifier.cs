@@ -93,7 +93,7 @@ namespace PKHeX.Core
             if ((pkm.AbilityNumber == 4) != (EncounterAbility == 4))
                 return GetInvalid(V108);
 
-            if (data.EncounterMatch.Species != pkm.Species) // evolved
+            if (data.EncounterMatch.Species != pkm.Species && state != AbilityState.CanMismatch) // evolved
                 return CheckMatch(pkm, abilities, data.Info.Generation, AbilityState.MustMatch);
 
             if (EncounterAbility == 1 << abilval)
