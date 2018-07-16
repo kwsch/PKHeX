@@ -975,6 +975,8 @@ namespace PKHeX.WinForms.Controls
         private void UpdateOriginGame(object sender, EventArgs e)
         {
             GameVersion Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
+            if (FieldsLoaded)
+                pkm.Version = (int)Version;
 
             // check if differs
             var group = GameUtil.GetMetLocationVersionGroup(Version);
@@ -999,7 +1001,6 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            pkm.Version = (int)Version;
             TID_Trainer.LoadIDValues(pkm);
             UpdateLegality();
         }
