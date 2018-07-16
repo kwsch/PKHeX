@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/07/09 - New Update:
+18/07/16 - New Update:
+ - Legality:
+ - - Fixed: Misc regressions from previous update. Thanks all those who reported!
+ - - Changed: Another round of legality check updates. Thanks Sabresite, paf, piplupwater, @egzonqj & @WEERSOQUEER !
+ - Added: Folder List (CTRL-F) can now display recently saved files and all files in the backup folder. Right click to open/browse!
+ - Added: Database (CTRL-D) can now search generation-wise for Gen1/2/VC.
+ - Added: Batch Editor can now set TrainerID7 and TrainerSID7 values.
+ - Added: Gen3 now will set Spinda & Unown PID to the dex when registering, if the species has not yet been seen.
+ - Added: Gen1/2 formats can now edit the Hidden Power type selection, which will update ATK/DEF according to the desired type.
+ - Fixed: Gen1 Yellow Kadabra catch rate is now correctly retained when editing.
+ - Fixed: Batch Editor interface no longer errors for EggMetDate when the pkm loaded to tabs has no egg met data.
+ - Changed: Spanish translation updated. Thanks @XxPhoenix1996xX!
+
+18/07/09 - New Update: (17086) [1250542]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks @iiippppk, @ReZeroEmiria, @PrometheusG, @PlasticJustice, @host1126!
  - - Changed: Pokespot pkm are no longer strictly checked for encounter slot legality due to lack of research.
