@@ -5,11 +5,11 @@ PKHeX
 Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
 Supports the following files:
-* Save files ("main", \*.sav, \*.dsv, \*.dat, \*.gci)
+* Save files ("main", \*.sav, \*.dsv, \*.dat, \*.gci).
 * GameCube Memory Card files (\*.raw, \*.bin) containing GC Pokémon savegames.
-* Individual Pokémon entity files (.pk\*, \*.ck3, \*.xk3, \*.bk4)
+* Individual Pokémon entity files (.pk\*, \*.ck3, \*.xk3, \*.bk4).
 * Mystery Gift files (\*.pgt, \*.pcd, \*.pgf, .wc\*) including conversion to .pk\*
-* Importing teams from Decrypted 3DS Battle Videos
+* Importing teams from Decrypted 3DS Battle Videos.
 * Transferring from one generation to another, converting formats along the way.
 
 Data is displayed in a view which can be edited and saved.
