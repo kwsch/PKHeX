@@ -114,7 +114,7 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, vs, game))
             {
-                if (pkm.Format >= 7)
+                if (pkm.Format >= 7 && (t.Generation == 2 || t.GetOT(pkm.Language) != pkm.OT_Name)) // ot length collision
                 {
                     deferred.Add(t);
                     continue;
