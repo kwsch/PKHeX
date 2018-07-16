@@ -174,6 +174,8 @@ namespace PKHeX.WinForms
             // ReSharper disable once MemberCanBePrivate.Local
             // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Folder { get; }
+
+            public string Name => Path.GetFileName(Save.FilePath);
         }
 
         private ContextMenuStrip GetContextMenu(DataGridView dgv)
