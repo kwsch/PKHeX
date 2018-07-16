@@ -262,14 +262,14 @@ namespace PKHeX.WinForms
             LoadEntryInitial(dgData, list, sav1);
             Task.Run(async () => // load the rest async
             {
+                while (!dgData.IsHandleCreated)
+                    await Task.Delay(15).ConfigureAwait(false);
                 while (enumerator.MoveNext())
                 {
                     var next = enumerator.Current;
                     if (next == null)
                         continue;
                     var sav = new SavePreview(next, GetParentFolderName(next));
-                    while (!dgData.IsHandleCreated)
-                        await Task.Delay(100).ConfigureAwait(false);
                     dgData.Invoke(new Action(() => LoadEntry(dgData, list, sav)));
                 }
                 enumerator.Dispose();
