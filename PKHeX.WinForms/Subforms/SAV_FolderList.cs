@@ -1,18 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using PKHeX.Core;
+using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
     public partial class SAV_FolderList : Form
     {
-        public SAV_FolderList()
+        private readonly Action<SaveFile> OpenSaveFile;
+        private readonly List<CustomFolderPath> Paths;
+        private readonly SortableBindingList<SavePreview> Recent;
+        private readonly SortableBindingList<SavePreview> Backup;
+
+        public SAV_FolderList(Action<SaveFile> openSaveFile)
         {
             InitializeComponent();
+            OpenSaveFile = openSaveFile;
 
             // Preprogrammed folders
             var locs = new List<CustomFolderPath>
@@ -25,12 +35,24 @@ namespace PKHeX.WinForms
             addIfExists(CyberGadgetUtil.GetCacheFolder(), "CGSE Cache");
             addIfExists(CyberGadgetUtil.GetTempFolder(), "CGSE Temp");
 
-            var paths = locs.GroupBy(z => z.Path).Select(z => z.First())
-                .OrderByDescending(z => Directory.Exists(z.Path));
-            foreach (var loc in paths)
+            Paths = locs.GroupBy(z => z.Path).Select(z => z.First())
+                .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
+            foreach (var loc in Paths)
                 AddButton(loc.DisplayText, loc.Path);
 
+            var recent = PathUtilWindows.GetSaveFiles(Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
+            Recent = PopulateData(dgDataRecent, recent);
+            var backup = PathUtilWindows.GetSaveFiles(Main.BackupPath);
+            Backup = PopulateData(dgDataBackup, backup);
+
+            dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
+            dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
+
+            dgDataRecent.DoubleBuffered(true);
+            dgDataBackup.DoubleBuffered(true);
+
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            CenterToParent();
 
             void addIfExists(string path, string text)
             {
@@ -92,7 +114,7 @@ namespace PKHeX.WinForms
             return paths.Select(z => new CustomFolderPath(z));
         }
 
-        private struct CustomFolderPath
+        private class CustomFolderPath
         {
             public readonly string Path;
             public readonly string DisplayText;
@@ -120,6 +142,156 @@ namespace PKHeX.WinForms
                 Path = path;
                 DisplayText = display;
             }
+        }
+
+        private string GetParentFolderName(SaveFile first)
+        {
+            var parent = Paths.Find(z => first.FilePath.StartsWith(z.Path));
+            return parent?.DisplayText ?? "???";
+        }
+
+        private sealed class SaveList<T> : SortableBindingList<T> { }
+        private sealed class SavePreview
+        {
+            public readonly SaveFile Save;
+
+            public SavePreview(SaveFile sav, string parent)
+            {
+                Save = sav;
+                Folder = parent;
+            }
+
+            public string OT => Save.OT;
+            public int G => Save.Generation;
+            public GameVersion Game => Save.Version;
+
+            public string Played => Save.PlayTimeString.PadLeft(9, '0');
+            public string FileTime => new FileInfo(Save.FilePath).LastWriteTime.ToString("yyyy.MM.dd:hh:mm:ss");
+
+            public int TID => Save.Generation >= 7 ? Save.TrainerID7 : Save.TID;
+            public int SID => Save.Generation >= 7 ? Save.TrainerSID7 : Save.SID;
+
+            // ReSharper disable once MemberCanBePrivate.Local
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local
+            public string Folder { get; }
+        }
+
+        private ContextMenuStrip GetContextMenu(DataGridView dgv)
+        {
+            var mnuOpen = new ToolStripMenuItem
+            {
+                Name = "mnuOpen",
+                Text = "Open",
+                Image = Resources.open,
+            };
+            mnuOpen.Click += (sender, e) => ClickOpenFile(dgv);
+
+            var mnuBrowseAt = new ToolStripMenuItem
+            {
+                Name = "mnuBrowseAt",
+                Text = "Browse...",
+                Image = Resources.folder,
+            };
+            mnuBrowseAt.Click += (sender, e) => ClickOpenFolder(dgv);
+
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.Add(mnuOpen);
+            mnu.Items.Add(mnuBrowseAt);
+            return mnu;
+        }
+        private void ClickOpenFile(DataGridView dgv)
+        {
+            var sav = GetSaveFile(dgv);
+            if (sav == null)
+            {
+                WinFormsUtil.Alert(MsgFileLoadFail);
+                return;
+            }
+
+            OpenSaveFile(sav.Save);
+        }
+        private void ClickOpenFolder(DataGridView dgv)
+        {
+            var sav = GetSaveFile(dgv);
+            if (sav == null)
+            {
+                WinFormsUtil.Alert(MsgFileLoadFail);
+                return;
+            }
+
+            var path = sav.Save.FilePath;
+            Process.Start("explorer.exe", $"/select, \"{path}\"");
+        }
+        private SavePreview GetSaveFile(DataGridView dgData)
+        {
+            var c = dgData.SelectedCells;
+            if (c.Count != 1)
+                return null;
+
+            var item = c[0].RowIndex;
+            var parent = dgData == dgDataRecent ? Recent : Backup;
+            return parent[item];
+        }
+
+        private void DataGridCellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == -1 || e.RowIndex == -1 || e.Button != MouseButtons.Right)
+                return;
+
+            var c = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
+            c.DataGridView.ClearSelection();
+            c.DataGridView.CurrentCell = c;
+            c.Selected = true;
+        }
+
+        private SaveList<SavePreview> PopulateData(DataGridView dgData, IEnumerable<SaveFile> saves)
+        {
+            var list = new SaveList<SavePreview>();
+
+            var enumerator = saves.GetEnumerator();
+            while (enumerator.Current == null)
+            {
+                if (!enumerator.MoveNext())
+                    return list;
+            }
+
+            var first = enumerator.Current;
+            var sav1 = new SavePreview(first, GetParentFolderName(first));
+            LoadEntryInitial(dgData, list, sav1);
+            Task.Run(async () => // load the rest async
+            {
+                while (enumerator.MoveNext())
+                {
+                    var next = enumerator.Current;
+                    if (next == null)
+                        continue;
+                    var sav = new SavePreview(next, GetParentFolderName(next));
+                    while (!dgData.IsHandleCreated)
+                        await Task.Delay(100).ConfigureAwait(false);
+                    dgData.Invoke(new Action(() => LoadEntry(dgData, list, sav)));
+                }
+                enumerator.Dispose();
+            });
+
+            return list;
+        }
+
+        private static void LoadEntryInitial(DataGridView dgData, SaveList<SavePreview> list, SavePreview sav)
+        {
+            list.Add(sav);
+            dgData.DataSource = list;
+            dgData.AutoGenerateColumns = true;
+            for (int i = 0; i < dgData.Columns.Count; i++)
+                dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+            dgData.AutoResizeColumns(); // Trigger Resizing
+        }
+
+        private static void LoadEntry(DataGridView dgData, ICollection<SavePreview> list, SavePreview sav)
+        {
+            dgData.SuspendLayout();
+            list.Add(sav);
+            dgData.AutoResizeColumns();
+            dgData.ResumeLayout();
         }
     }
 }

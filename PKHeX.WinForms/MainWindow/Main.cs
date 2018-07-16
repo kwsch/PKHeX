@@ -386,7 +386,18 @@ namespace PKHeX.WinForms
             C_SAV.SetPKMBoxes(); // refresh
             C_SAV.UpdateBoxViewers();
         }
-        private void MainMenuFolder(object sender, EventArgs e) => new SAV_FolderList().ShowDialog();
+        private void MainMenuFolder(object sender, EventArgs e)
+        {
+            var ofType = Application.OpenForms.OfType<SAV_FolderList>().FirstOrDefault();
+            if (ofType != null)
+            {
+                ofType.CenterToForm(this);
+                ofType.BringToFront();
+            }
+            else
+                new SAV_FolderList(s => OpenSAV(s, s.FilePath)).Show();
+        }
+
         // Misc Options
         private void ClickShowdownImportPKM(object sender, EventArgs e)
         {

@@ -11,7 +11,7 @@ namespace PKHeX.Core
             HeldItems = Legal.HeldItems_USUM;
         }
 
-        protected override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
+        public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
         public override string BAKName => $"{FileName} [{PlayTimeString}].bak";
         private const int GroupNameSize = 0x20;
         private const int BankNameSize = 0x24;

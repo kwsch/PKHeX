@@ -25,7 +25,7 @@ namespace PKHeX.Core
         public byte[] Footer { protected get; set; } = new byte[0]; // .dsv
         public byte[] Header { protected get; set; } = new byte[0]; // .gci
         public bool Japanese { get; protected set; }
-        protected virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
+        public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
         public bool IndeterminateGame => Version == GameVersion.Unknown;
         public virtual bool IndeterminateSubVersion => false;
         public abstract string Extension { get; }
@@ -392,6 +392,7 @@ namespace PKHeX.Core
         public virtual int TID { get; set; }
         public virtual int SID { get; set; }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
+        public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);
         public virtual string OT { get; set; } = "PKHeX";
         public virtual int PlayedHours { get; set; }
         public virtual int PlayedMinutes { get; set; }

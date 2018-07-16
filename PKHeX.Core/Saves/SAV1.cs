@@ -264,7 +264,7 @@ namespace PKHeX.Core
         }
         private int PlayedTimeOffset => Japanese ? 0x2CA0 : 0x2CED;
 
-        protected override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {SaveUtil.CRC16_CCITT(Data):X4}";
+        public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {SaveUtil.CRC16_CCITT(Data):X4}";
         public override int PlayedHours
         {
             get => Data[PlayedTimeOffset + 0];

@@ -90,12 +90,20 @@ namespace PKHeX.WinForms
             return saves.FirstOrDefault(z => z?.ChecksumsValid == true);
         }
 
+
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
         /// </summary>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(params string[] extra)
+        public static IEnumerable<SaveFile> GetSaveFiles(params string[] extra) => GetSaveFiles((IEnumerable<string>)extra);
+
+        /// <summary>
+        /// Gets all detectable save files ordered by most recently saved (by file write time).
+        /// </summary>
+        /// <param name="extra">Paths to check in addition to the default paths</param>
+        /// <returns>Valid save files, if any.</returns>
+        public static IEnumerable<SaveFile> GetSaveFiles(IEnumerable<string> extra)
         {
             var foldersToCheck = GetFoldersToCheck(extra);
             var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
