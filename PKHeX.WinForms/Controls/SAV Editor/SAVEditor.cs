@@ -270,7 +270,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             SlotChange change = UndoStack.Pop();
-            if (change.Slot >= (int)SlotIndex.Party)
+            if (change.Box < 0)
                 return;
 
             RedoStack.Push(new SlotChange
@@ -289,7 +289,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             SlotChange change = RedoStack.Pop();
-            if (change.Slot >= (int)SlotIndex.Party)
+            if (change.Box < 0)
                 return;
 
             UndoStack.Push(new SlotChange
