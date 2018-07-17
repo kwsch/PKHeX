@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Legal;
 
@@ -419,6 +420,33 @@ namespace PKHeX.Core
             // Converted string 1/2->7 to language specific value
             var tr = t.GetOT(pkm.Language);
             return ot == tr;
+        }
+
+        /// <summary>
+        /// Filters a sequence of values based on a predicate.
+        /// Any elements that match the predicate are yielded after those that did not match, in the same order they were observed.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="Enumerable"/> OrderBy consumes the entire list when reordering elements, instead of instantly yielding best matches.
+        /// https://referencesource.microsoft.com/#System.Core/System/Linq/Enumerable.cs,ffb8de6aefac77cc</remarks>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <param name="source">A sequence of values to reorder.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that contains elements from the input, with non-deferred results first.</returns>
+        internal static IEnumerable<T> DeferByBoolean<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            var deferred = new List<T>();
+            foreach (var x in source)
+            {
+                if (predicate(x))
+                {
+                    deferred.Add(x);
+                    continue;
+                }
+                yield return x;
+            }
+            foreach (var d in deferred)
+                yield return d;
         }
     }
 }

@@ -64,7 +64,7 @@ namespace PKHeX.Core
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
             int species = pkm.Species;
 
-            return s.OrderBy(slot => slot.IsDeferred(species, pkm, IsSafariBall, IsSportBall, IsHidden)); // non-deferred first
+            return s.DeferByBoolean(slot => slot.IsDeferred(species, pkm, IsSafariBall, IsSportBall, IsHidden)); // non-deferred first
         }
         public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
         {
