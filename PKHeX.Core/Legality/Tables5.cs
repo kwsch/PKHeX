@@ -176,12 +176,15 @@ namespace PKHeX.Core
         /// </summary>
         internal static readonly HashSet<int> Ban_BreedHidden5 = new HashSet<int>
         {
+            // Only males distributed; unable to pass to offspring
             001, // Bulbasaur
             004, // Charmander
             007, // Squirtle
+            128, // Tauros
             152, // Chikorita
             155, // Cyndaquil
             158, // Totodile
+            236, // Tyrogue
             252, // Treecko
             255, // Torchic
             258, // Mudkip
@@ -191,6 +194,55 @@ namespace PKHeX.Core
             511, // Pansage
             513, // Pansear
             515, // Panpour
+            574, // Gothita
+
+            // Genderless; unable to pass to offspring
+            081, // Magnemite
+            100, // Voltorb
+            120, // Staryu
+            132, // Ditto... can't breed anyway.
+            137, // Porygon
+            302, // Sableye
+            374, // Beldum
+            436, // Bronzor
+            622, // Golett
+
+            // Not available at all
+            092, // Gastly
+            109, // Koffing
+            200, // Misdreavus
+            201, // Unown
+            287, // Slakoth
+            311, // Plusle
+            311, // Minun
+            337, // Lunatone
+            338, // Solrock
+            343, // Baltoy
+            351, // Castform
+            352, // Kecleon
+            355, // Duskull
+            358, // Chimecho
+            420, // Cherrim
+            433, // Chingling
+            479, // Rotom
+            489, // Phione
+            495, // Snivy
+            498, // Tepig
+            501, // Oshawott
+            538, // Throh
+            539, // Sawk
+            561, // Sigilyph
+            562, // Yamask
+            566, // Archen
+            570, // Zorua
+            597, // Ferroseed
+            599, // Klink
+            602, // Tynamo
+            607, // Litwick
+            615, // Cryogonal
+            627, // Rufflet
+            633, // Deino
+            636, // Larvesta
         };
     }
 }

@@ -229,10 +229,8 @@ namespace PKHeX.Core
                     break;
 
                 case EncounterEgg e when pkm.AbilityNumber == 4:
-                    // Hidden Abilities for some are unbreedable (male only distribution)
-                    if (Legal.MixedGenderBreeding.Contains(e.Species) || Legal.FixedGenderFromBiGender.Contains(e.Species))
-                        break; // from female
-                    if (pkm.PersonalInfo.OnlyMale || Legal.Ban_BreedHidden5.Contains(e.Species))
+                    // Hidden Abilities for some are unbreedable or unreleased
+                    if (Legal.Ban_BreedHidden5.Contains(e.Species))
                         return GetInvalid(V112);
                     break;
             }
