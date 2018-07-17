@@ -416,12 +416,14 @@ namespace PKHeX.Core
 
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
 
+        /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
+        /// <param name="path">File location from which to create a SaveFile.</param>
+        /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
         public static SaveFile GetVariantSAV(string path)
         {
             var data = File.ReadAllBytes(path);
             var sav = GetVariantSAV(data);
-            if (sav != null)
-                sav.FilePath = path;
+            sav?.SetFileInfo(path);
             return sav;
         }
 
@@ -1234,12 +1236,13 @@ namespace PKHeX.Core
         {
             if (!sav.Exportable) // Blank save file
             {
-                sav.FilePath = null;
+                sav.FileFolder = sav.FilePath = null;
                 sav.FileName = "Blank Save File";
                 return;
             }
 
-            sav.FilePath = Path.GetDirectoryName(path);
+            sav.FilePath = path;
+            sav.FileFolder = Path.GetDirectoryName(path);
             sav.FileName = Path.GetFileName(path);
             if (!sav.FileName.EndsWith(".bak"))
                 return;

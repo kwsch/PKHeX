@@ -16,7 +16,7 @@ namespace PKHeX.Core
         // General Object Properties
         public byte[] Data;
         public bool Edited;
-        public string FileName, FilePath;
+        public string FileName, FilePath, FileFolder;
         public abstract string BAKName { get; }
         public byte[] BAK { get; protected set; }
         public bool Exportable { get; protected set; }

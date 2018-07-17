@@ -241,8 +241,8 @@ namespace PKHeX.WinForms
                 FilterIndex = 1000, // default to last, All Files
                 RestoreDirectory = true
             };
-            if (Directory.Exists(SAV.FilePath))
-                main.InitialDirectory = SAV.FilePath;
+            if (Directory.Exists(SAV.FileFolder))
+                main.InitialDirectory = SAV.FileFolder;
 
             // Export
             if (main.ShowDialog() != DialogResult.OK)

@@ -146,7 +146,7 @@ namespace PKHeX.WinForms
 
         private string GetParentFolderName(SaveFile first)
         {
-            var parent = Paths.Find(z => first.FilePath.StartsWith(z.Path));
+            var parent = Paths.Find(z => first.FileFolder.StartsWith(z.Path));
             return parent?.DisplayText ?? "???";
         }
 

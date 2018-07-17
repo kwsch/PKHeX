@@ -342,7 +342,7 @@ namespace PKHeX.WinForms
             {
                 Parallel.ForEach(result, file =>
                 {
-                    var sav = SaveUtil.GetVariantSAV(File.ReadAllBytes(file));
+                    var sav = SaveUtil.GetVariantSAV(file);
                     var path = EXTERNAL_SAV + new FileInfo(file).Name;
                     if (sav.HasBox)
                         foreach (var pk in sav.BoxData)
