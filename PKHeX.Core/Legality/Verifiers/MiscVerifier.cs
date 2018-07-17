@@ -83,13 +83,13 @@ namespace PKHeX.Core
         }
         private void VerifyMiscG1CatchRate(LegalityAnalysis data, PK1 pk1)
         {
-            var EncounterMatch = data.EncounterMatch;
+            var e = data.EncounterMatch;
             var catch_rate = pk1.Catch_Rate;
             switch (pk1.TradebackStatus)
             {
                 case TradebackType.Any:
                 case TradebackType.WasTradeback:
-                    if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
+                    if (catch_rate == 0 || (Legal.HeldItems_GSC.Contains((ushort)catch_rate) && !RateMatchesEncounter(e.Species)))
                         data.AddLine(GetValid(V394));
                     else if (pk1.TradebackStatus == TradebackType.WasTradeback)
                         data.AddLine(GetInvalid(V395));
@@ -97,16 +97,25 @@ namespace PKHeX.Core
                         goto case TradebackType.Gen1_NotTradeback;
                     break;
                 case TradebackType.Gen1_NotTradeback:
-                    if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium || EncounterMatch is EncounterTradeCatchRate)
+                    if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
                         // Encounters detected by the catch rate, cant be invalid if match this encounters
                         data.AddLine(GetValid(V398));
                     else if (pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate || Legal.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate)
                         data.AddLine(GetInvalid(V396));
-                    else if (!data.Info.EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
+                    else if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
                         data.AddLine(GetInvalid(pk1.Gen1_NotTradeback ? V397 : V399));
                     else
                         data.AddLine(GetValid(V398));
                     break;
+            }
+
+            bool RateMatchesEncounter(int species)
+            {
+                if (catch_rate == PersonalTable.RB[species].CatchRate)
+                    return true;
+                if (catch_rate == PersonalTable.Y[species].CatchRate)
+                    return true;
+                return false;
             }
         }
         private static void VerifyMiscFatefulEncounter(LegalityAnalysis data)

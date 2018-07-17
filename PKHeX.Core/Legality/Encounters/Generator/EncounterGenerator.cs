@@ -184,6 +184,10 @@ namespace PKHeX.Core
         private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
             bool crystal = pkm.Format == 2 && pkm.Met_Location != 0 || pkm.Format >= 7 && pkm.OT_Gender == 1;
+            bool kadabra = pkm.Species == 64 && pkm is PK1 pk1
+                           && (pk1.Catch_Rate == PersonalTable.RB[64].CatchRate
+                            || pk1.Catch_Rate == PersonalTable.Y[64].CatchRate); // catch rate outsider, return gen1 first always
+
             var g1i = new PeekEnumerator<GBEncounterData>(get1());
             var g2i = new PeekEnumerator<GBEncounterData>(get2());
             var deferred = new List<GBEncounterData>();
@@ -193,7 +197,7 @@ namespace PKHeX.Core
                 var obj = move.Peek();
 
                 if ((obj.Generation == 1 && (pkm.Korean || (obj.Encounter is EncounterTrade t && !IsEncounterTrade1Valid(pkm, t))))
-                 || (obj.Generation == 2 && (pkm.Korean && (obj.Encounter is IVersion v && v.Version == GameVersion.C))))
+                 || (obj.Generation == 2 && (pkm.Korean && (obj.Encounter is IVersion v && v.Version == GameVersion.C) || kadabra)))
                     deferred.Add(obj);
                 else
                     yield return obj;
