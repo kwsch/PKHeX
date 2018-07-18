@@ -1181,7 +1181,7 @@ namespace PKHeX.WinForms
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 WinFormsUtil.Error(msg);
 
-            path = sav?.FileName;
+            path = sav?.FilePath;
             return path != null && File.Exists(path);
         }
 
