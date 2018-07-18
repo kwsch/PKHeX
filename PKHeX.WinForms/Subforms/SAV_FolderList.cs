@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
     public partial class SAV_FolderList : Form
     {
         private readonly Action<SaveFile> OpenSaveFile;
-        private readonly List<CustomFolderPath> Paths;
+        private readonly List<CustomFolderPath> Paths = GetPathList();
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
 
@@ -23,8 +23,36 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
             OpenSaveFile = openSaveFile;
+            dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
+            dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
+
+            var recent = PathUtilWindows.GetSaveFiles(Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
+            Recent = PopulateData(dgDataRecent, recent);
+            var backup = PathUtilWindows.GetSaveFiles(Main.BackupPath);
+            Backup = PopulateData(dgDataBackup, backup);
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+            CB_FilterColumn.Items.Add(MsgAny);
+            var dgv = Recent.Count >= 1 ? dgDataRecent : dgDataBackup;
+            int count = dgv.ColumnCount;
+            for (int i = 0; i < count; i++)
+                CB_FilterColumn.Items.Add(dgv.Columns[i].HeaderText);
+            CB_FilterColumn.SelectedIndex = 0;
 
             // Preprogrammed folders
+            foreach (var loc in Paths)
+                AddButton(loc.DisplayText, loc.Path);
+
+            dgDataRecent.DoubleBuffered(true);
+            dgDataBackup.DoubleBuffered(true);
+
+            CenterToParent();
+
+        }
+
+        private static List<CustomFolderPath> GetPathList()
+        {
             var locs = new List<CustomFolderPath>
             {
                 new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
@@ -34,31 +62,13 @@ namespace PKHeX.WinForms
             locs.AddRange(GetSwitchPaths());
             addIfExists(CyberGadgetUtil.GetCacheFolder(), "CGSE Cache");
             addIfExists(CyberGadgetUtil.GetTempFolder(), "CGSE Temp");
-
-            Paths = locs.GroupBy(z => z.Path).Select(z => z.First())
-                .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
-            foreach (var loc in Paths)
-                AddButton(loc.DisplayText, loc.Path);
-
-            var recent = PathUtilWindows.GetSaveFiles(Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
-            Recent = PopulateData(dgDataRecent, recent);
-            var backup = PathUtilWindows.GetSaveFiles(Main.BackupPath);
-            Backup = PopulateData(dgDataBackup, backup);
-
-            dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
-            dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
-
-            dgDataRecent.DoubleBuffered(true);
-            dgDataBackup.DoubleBuffered(true);
-
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            CenterToParent();
-
             void addIfExists(string path, string text)
             {
                 if (Directory.Exists(path))
                     locs.Add(new CustomFolderPath(path, text));
             }
+            return locs.GroupBy(z => z.Path).Select(z => z.First())
+                .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
         }
 
         private void AddButton(string name, string path)
@@ -168,8 +178,8 @@ namespace PKHeX.WinForms
             public string Played => Save.PlayTimeString.PadLeft(9, '0');
             public string FileTime => new FileInfo(Save.FilePath).LastWriteTime.ToString("yyyy.MM.dd:hh:mm:ss");
 
-            public int TID => Save.Generation >= 7 ? Save.TrainerID7 : Save.TID;
-            public int SID => Save.Generation >= 7 ? Save.TrainerSID7 : Save.SID;
+            public string TID => Save.Generation >= 7 ? Save.TrainerID7.ToString("000000") : Save.TID.ToString("00000");
+            public string SID => Save.Generation >= 7 ? Save.TrainerSID7.ToString("0000") : Save.SID.ToString("00000");
 
             // ReSharper disable once MemberCanBePrivate.Local
             // ReSharper disable once UnusedAutoPropertyAccessor.Local
@@ -288,12 +298,57 @@ namespace PKHeX.WinForms
             dgData.AutoResizeColumns(); // Trigger Resizing
         }
 
-        private static void LoadEntry(DataGridView dgData, ICollection<SavePreview> list, SavePreview sav)
+        private void LoadEntry(DataGridView dgData, ICollection<SavePreview> list, SavePreview sav)
         {
             dgData.SuspendLayout();
             list.Add(sav);
+            int count = list.Count;
+            if (CB_FilterColumn.SelectedIndex != 0)
+                ToggleRowVisibility(dgData, CB_FilterColumn.SelectedIndex - 1, TB_FilterTextContains.Text, count - 1);
             dgData.AutoResizeColumns();
             dgData.ResumeLayout();
+        }
+
+        private void ChangeFilterIndex(object sender, EventArgs e)
+        {
+            TB_FilterTextContains.Enabled = CB_FilterColumn.SelectedIndex != 0;
+            SetRowFilter();
+        }
+        private void ChangeFilterText(object sender, EventArgs e)
+        {
+            if (CB_FilterColumn.SelectedIndex != 0)
+                SetRowFilter();
+        }
+
+        private void SetRowFilter()
+        {
+            GetFilterText(dgDataRecent);
+            GetFilterText(dgDataBackup);
+        }
+
+        private void GetFilterText(DataGridView dg)
+        {
+            var cm = (CurrencyManager)BindingContext[dg.DataSource];
+            cm.SuspendBinding();
+            int column = CB_FilterColumn.SelectedIndex - 1;
+            var text = TB_FilterTextContains.Text;
+
+            for (int i = 0; i < dg.RowCount; i++)
+                ToggleRowVisibility(dg, column, text, i);
+            cm.ResumeBinding();
+        }
+
+        private static void ToggleRowVisibility(DataGridView dg, int column, string text, int i)
+        {
+            var row = dg.Rows[i];
+            if (text.Length == 0 || column < 0)
+            {
+                row.Visible = true;
+                return;
+            }
+            var cell = row.Cells[column];
+            var value = cell.Value.ToString();
+            row.Visible = value.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0; // case insensitive contains
         }
     }
 }

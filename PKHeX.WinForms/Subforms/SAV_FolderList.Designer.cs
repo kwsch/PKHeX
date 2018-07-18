@@ -38,6 +38,8 @@
             this.Tab_Backup = new System.Windows.Forms.TabPage();
             this.dgDataBackup = new System.Windows.Forms.DataGridView();
             this.Tab_Folders = new System.Windows.Forms.TabPage();
+            this.CB_FilterColumn = new System.Windows.Forms.ComboBox();
+            this.TB_FilterTextContains = new System.Windows.Forms.TextBox();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Recent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDataRecent)).BeginInit();
@@ -137,11 +139,30 @@
             this.Tab_Folders.Text = "Folders";
             this.Tab_Folders.UseVisualStyleBackColor = true;
             //
+            // CB_FilterColumn
+            //
+            this.CB_FilterColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_FilterColumn.Location = new System.Drawing.Point(327, 0);
+            this.CB_FilterColumn.Name = "CB_FilterColumn";
+            this.CB_FilterColumn.Size = new System.Drawing.Size(121, 21);
+            this.CB_FilterColumn.TabIndex = 0;
+            this.CB_FilterColumn.SelectedIndexChanged += new System.EventHandler(this.ChangeFilterIndex);
+            //
+            // textBox1
+            //
+            this.TB_FilterTextContains.Location = new System.Drawing.Point(449, 0);
+            this.TB_FilterTextContains.Name = "TB_FilterTextContains";
+            this.TB_FilterTextContains.Size = new System.Drawing.Size(160, 20);
+            this.TB_FilterTextContains.TabIndex = 2;
+            this.TB_FilterTextContains.TextChanged += new System.EventHandler(this.ChangeFilterText);
+            //
             // SAV_FolderList
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 361);
+            this.Controls.Add(this.TB_FilterTextContains);
+            this.Controls.Add(this.CB_FilterColumn);
             this.Controls.Add(this.TC_Tabs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -156,6 +177,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgDataBackup)).EndInit();
             this.Tab_Folders.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -168,5 +190,7 @@
         private System.Windows.Forms.TabPage Tab_Backup;
         private System.Windows.Forms.DataGridView dgDataBackup;
         private System.Windows.Forms.DataGridView dgDataRecent;
+        private System.Windows.Forms.ComboBox CB_FilterColumn;
+        private System.Windows.Forms.TextBox TB_FilterTextContains;
     }
 }
