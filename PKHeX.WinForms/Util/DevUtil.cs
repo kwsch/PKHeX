@@ -84,7 +84,6 @@ namespace PKHeX.WinForms
             "Main.B_Box", // << and >> arrows
             "Main.L_Characteristic=", // Characterstic (dynamic)
             "Main.L_Potential", // ★☆☆☆ IV judge evaluation
-            "SAV_FolderList.", // don't translate that form's buttons, only title
             "SAV_HoneyTree.L_Tree0", // dynamic, don't bother
             "SAV_Misc3.BTN_Symbol", // symbols should stay as their current character
         };

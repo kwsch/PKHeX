@@ -19,6 +19,7 @@ namespace PKHeX.WinForms
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
 
+        private readonly List<Label> TempTranslationLabels = new List<Label>();
         public SAV_FolderList(Action<SaveFile> openSaveFile)
         {
             InitializeComponent();
@@ -31,14 +32,29 @@ namespace PKHeX.WinForms
             var backup = PathUtilWindows.GetSaveFiles(Main.BackupPath);
             Backup = PopulateData(dgDataBackup, backup);
 
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-
             CB_FilterColumn.Items.Add(MsgAny);
             var dgv = Recent.Count >= 1 ? dgDataRecent : dgDataBackup;
             int count = dgv.ColumnCount;
             for (int i = 0; i < count; i++)
-                CB_FilterColumn.Items.Add(dgv.Columns[i].HeaderText);
+            {
+                var text = dgv.Columns[i].HeaderText;
+                CB_FilterColumn.Items.Add(text);
+                var tempLabel = new Label {Name = "DGV_" + text, Text = text, Visible = false};
+                Controls.Add(tempLabel);
+                TempTranslationLabels.Add(tempLabel);
+            }
             CB_FilterColumn.SelectedIndex = 0;
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+            // Update Translated headers
+            for (int i = 0; i < TempTranslationLabels.Count; i++)
+            {
+                var text = TempTranslationLabels[i].Text;
+                dgDataRecent.Columns[i].HeaderText = text;
+                dgDataBackup.Columns[i].HeaderText = text;
+                CB_FilterColumn.Items[i+1] = text;
+            }
 
             // Preprogrammed folders
             foreach (var loc in Paths)
