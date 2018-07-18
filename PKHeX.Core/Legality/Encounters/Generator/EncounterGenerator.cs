@@ -46,12 +46,12 @@ namespace PKHeX.Core
             if ((pkm.Format == 1 && baseSpecies > MaxSpeciesID_1) || baseSpecies > MaxSpeciesID_2)
                 yield break;
 
-            foreach (var z in GenerateFilteredEncounters(pkm))
+            foreach (var z in GenerateFilteredEncounters12(pkm))
             {
-                pkm.WasEgg = z.Encounter.EggEncounter;
-                info.Generation = z.Generation;
-                info.Game = z.Game;
-                yield return z.Encounter;
+                pkm.WasEgg = z.EggEncounter;
+                info.Generation = z is IGeneration g ? g.Generation : 2;
+                info.Game = ((IVersion)z).Version;
+                yield return z;
             }
         }
         private static IEnumerable<IEncounterable> GetEncounters3(PKM pkm, LegalInfo info)
@@ -100,10 +100,10 @@ namespace PKHeX.Core
             foreach (var z in deferredPIDIV)
                 yield return z;
         }
-        private static IEnumerable<GBEncounterData> GenerateRawEncounters12(PKM pkm, GameVersion game)
+
+        private static IEnumerable<IEncounterable> GenerateRawEncounters12(PKM pkm, GameVersion game)
         {
             bool gsc = GameVersion.GSC.Contains(game);
-            var gen = gsc ? 2 : 1;
 
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
@@ -120,7 +120,7 @@ namespace PKHeX.Core
                     deferred.Add(t);
                     continue;
                 }
-                yield return new GBEncounterData(pkm, gen, t, t.Version);
+                yield return t;
             }
             foreach (var s in GetValidStaticEncounter(pkm, game).Where(z => species.Contains(z.Species)))
             {
@@ -144,17 +144,17 @@ namespace PKHeX.Core
                             continue;
                         break;
                 }
-                yield return new GBEncounterData(pkm, gen, s, s.Version);
+                yield return s;
             }
             // clear egg flag
             // necessary for static egg gifts which appear in wild, level 8 GS clefairy
             // GetValidWildEncounters immediately returns empty otherwise
             pkm.WasEgg = false;
-            foreach (var e in GetValidWildEncounters(pkm, game).OfType<EncounterSlot1>())
+            foreach (var e in GetValidWildEncounters(pkm, game))
             {
                 if (!species.Contains(e.Species))
                     continue;
-                yield return new GBEncounterData(pkm, gen, e, e.Version);
+                yield return e;
             }
 
             if (gsc)
@@ -173,65 +173,97 @@ namespace PKHeX.Core
                 {
                     int eggspec = GetBaseEggSpecies(pkm);
                     if (AllowGen2Crystal(pkm))
-                        yield return new GBEncounterData(eggspec, GameVersion.C); // gen2 egg
-                    yield return new GBEncounterData(eggspec, GameVersion.GS); // gen2 egg
+                        yield return new EncounterEgg { Species = eggspec, Version = GameVersion.C, Level = 5 }; // gen2 egg
+                    yield return new EncounterEgg { Species = eggspec, Version = GameVersion.GS, Level = 5 }; // gen2 egg
                 }
             }
 
             foreach (var d in deferred)
-                yield return new GBEncounterData(pkm, gen, d, game);
+                yield return d;
         }
-        private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
+        private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
         {
             bool crystal = pkm.Format == 2 && pkm.Met_Location != 0 || pkm.Format >= 7 && pkm.OT_Gender == 1;
             bool kadabra = pkm.Species == 64 && pkm is PK1 pk1
                            && (pk1.Catch_Rate == PersonalTable.RB[64].CatchRate
                             || pk1.Catch_Rate == PersonalTable.Y[64].CatchRate); // catch rate outsider, return gen1 first always
 
-            var g1i = new PeekEnumerator<GBEncounterData>(get1());
-            var g2i = new PeekEnumerator<GBEncounterData>(get2());
-            var deferred = new List<GBEncounterData>();
+            // iterate over both games, consuming from one list at a time until the other list has higher priority encounters
+            var get1 = GenerateRawEncounters1(pkm, crystal);
+            var get2 = GenerateRawEncounters2(pkm, crystal);
+            var g1i = new PeekEnumerator<IEncounterable>(get1);
+            var g2i = new PeekEnumerator<IEncounterable>(get2);
+
+            var deferred = new List<IEncounterable>();
             while (g2i.PeekIsNext() || g1i.PeekIsNext())
             {
-                var move = GetPreferredGBIterator(g1i, g2i);
+                var move = GetPreferredGBIterator(pkm, g1i, g2i);
                 var obj = move.Peek();
+                int gen = obj is IGeneration g ? g.Generation : 2; // only eggs don't implement interface
 
-                if ((obj.Generation == 1 && (pkm.Korean || (obj.Encounter is EncounterTrade t && !IsEncounterTrade1Valid(pkm, t))))
-                 || (obj.Generation == 2 && (pkm.Korean && (obj.Encounter is IVersion v && v.Version == GameVersion.C) || kadabra)))
+                if (gen == 1 && (pkm.Korean || (obj is EncounterTrade t && !IsEncounterTrade1Valid(pkm, t))))
+                    deferred.Add(obj);
+                else if (gen == 2 && ((pkm.Korean && (((IVersion)obj).Version == GameVersion.C)) || kadabra))
                     deferred.Add(obj);
                 else
                     yield return obj;
+
                 move.MoveNext();
             }
             foreach (var z in deferred)
                 yield return z;
-
-            IEnumerable<GBEncounterData> get1()
-            {
-                if (!pkm.Gen2_NotTradeback && !crystal)
-                    foreach (var z in GenerateRawEncounters12(pkm, GameVersion.RBY))
-                        yield return z;
-            }
-            IEnumerable<GBEncounterData> get2()
-            {
-                if (!pkm.Gen1_NotTradeback)
-                    foreach (var z in GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC))
-                        yield return z;
-            }
         }
-        /// <summary>
-        /// Gets the preferred iterator from a pair of <see cref="GBEncounterData"/> iterators based on the highest value <see cref="GBEncounterData.Type"/>.
-        /// </summary>
-        /// <param name="g1i">Generation 1 Iterator</param>
-        /// <param name="g2i">Generation 2 Iterator</param>
-        /// <returns>Preferred iterator </returns>
-        private static PeekEnumerator<GBEncounterData> GetPreferredGBIterator(PeekEnumerator<GBEncounterData> g1i, PeekEnumerator<GBEncounterData> g2i)
+        private static IEnumerable<IEncounterable> GenerateRawEncounters1(PKM pkm, bool crystal)
+        {
+            return pkm.Gen2_NotTradeback || crystal
+                ? Enumerable.Empty<IEncounterable>()
+                : GenerateRawEncounters12(pkm, GameVersion.RBY);
+        }
+        private static IEnumerable<IEncounterable> GenerateRawEncounters2(PKM pkm, bool crystal)
+        {
+            return pkm.Gen1_NotTradeback
+                ? Enumerable.Empty<IEncounterable>()
+                : GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC);
+        }
+        private static PeekEnumerator<IEncounterable> GetPreferredGBIterator(PKM pkm, PeekEnumerator<IEncounterable> g1i, PeekEnumerator<IEncounterable> g2i)
         {
             if (!g1i.PeekIsNext())
                 return g2i;
             if (!g2i.PeekIsNext())
                 return g1i;
-            return g1i.Peek().Type > g2i.Peek().Type ? g1i : g2i;
+            var p1 = GetGBEncounterPriority(pkm, g1i.Current);
+            var p2 = GetGBEncounterPriority(pkm, g2i.Current);
+            return p1 > p2 ? g1i : g2i;
+        }
+        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable Encounter)
+        {
+            switch (Encounter)
+            {
+                case EncounterTrade t:
+                    return t.Generation == 2 ? GBEncounterPriority.TradeEncounterG2 : GBEncounterPriority.TradeEncounterG1;
+                case EncounterStatic s:
+                    if (s.Moves != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
+                        return GBEncounterPriority.SpecialEncounter;
+                    return GBEncounterPriority.StaticEncounter;
+                case EncounterSlot _:
+                    return GBEncounterPriority.WildEncounter;
+
+                default:
+                    return GBEncounterPriority.EggEncounter;
+            }
+        }
+
+        /// <summary>
+        /// Generation 1/2 Encounter Data type, which serves as a 'best match' priority rating when returning from a list.
+        /// </summary>
+        private enum GBEncounterPriority
+        {
+            EggEncounter,
+            WildEncounter,
+            StaticEncounter,
+            SpecialEncounter,
+            TradeEncounterG1,
+            TradeEncounterG2,
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
