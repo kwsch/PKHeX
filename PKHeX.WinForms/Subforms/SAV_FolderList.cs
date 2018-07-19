@@ -27,9 +27,9 @@ namespace PKHeX.WinForms
             dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
             dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
 
-            var recent = PathUtilWindows.GetSaveFiles(Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
+            var recent = PathUtilWindows.GetSaveFiles(true, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
             Recent = PopulateData(dgDataRecent, recent);
-            var backup = PathUtilWindows.GetSaveFiles(Main.BackupPath);
+            var backup = PathUtilWindows.GetSaveFiles(false, Main.BackupPath);
             Backup = PopulateData(dgDataBackup, backup);
 
             CB_FilterColumn.Items.Add(MsgAny);

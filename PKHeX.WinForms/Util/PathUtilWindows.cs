@@ -94,19 +94,21 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
         /// </summary>
+        /// <param name="detect">Detect save files stored in common SD card homebrew locations.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(params string[] extra) => GetSaveFiles((IEnumerable<string>)extra);
+        public static IEnumerable<SaveFile> GetSaveFiles(bool detect, params string[] extra) => GetSaveFiles(detect, (IEnumerable<string>)extra);
 
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
         /// </summary>
+        /// <param name="detect">Detect save files stored in common SD card homebrew locations.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(IEnumerable<string> extra)
+        public static IEnumerable<SaveFile> GetSaveFiles(bool detect, IEnumerable<string> extra)
         {
-            var foldersToCheck = GetFoldersToCheck(extra);
-            var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
+            var paths = detect ? GetFoldersToCheck(extra) : extra;
+            var result = GetSaveFilePathsFromFolders(paths, out var possiblePaths);
             if (!result)
                 return Enumerable.Empty<SaveFile>();
 
