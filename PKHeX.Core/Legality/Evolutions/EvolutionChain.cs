@@ -69,7 +69,11 @@ namespace PKHeX.Core
                 while (mostEvolved.Species > maxspeciesgen)
                 {
                     if (queue.Count == 0)
+                    {
+                        if (g <= 2 && pkm.VC1)
+                            GensEvoChains[pkm.Format] = NONE; // invalidate here since we haven't reached the regular invalidation
                         return GensEvoChains;
+                    }
                     if (mostEvolved.RequiresLvlUp)
                     {
                         // This is a gen 3 pokemon in a gen 4 phase evolution that requires level up and then transfered to gen 5+
