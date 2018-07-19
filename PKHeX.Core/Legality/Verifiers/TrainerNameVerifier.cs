@@ -101,15 +101,12 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             bool jp = pkm.Japanese;
-            bool valid = GetIsStadiumOTIDValid(data, jp, tr);
+            bool valid = pkm.TID == 2000 && tr == GetStadiumOT(data.Info.Generation, jp);
             return valid ? GetValid(jp ? V404 : V403) : GetInvalid(V402);
         }
-        private bool GetIsStadiumOTIDValid(LegalityAnalysis data, bool jp, string tr)
+        private static string GetStadiumOT(int gen, bool jp)
         {
-            var pkm = data.pkm;
-            if (jp)
-                return tr == "スタジアム" && pkm.TID == 1999;
-            return tr == (data.Info.Generation == 1 ? "STADIUM" : "Stadium") && pkm.TID == 2000;
+            return jp ? "スタジアム" : (gen == 1 ? "STADIUM" : "Stadium");
         }
 
         private bool IsOTNameSuspicious(string name)
