@@ -114,7 +114,7 @@ namespace PKHeX.WinForms
             return byMostRecent.Select(SaveUtil.GetVariantSAV);
         }
 
-        private static IEnumerable<string> GetFoldersToCheck(IEnumerable<string> extra)
+        public static IEnumerable<string> GetFoldersToCheck(IEnumerable<string> extra)
         {
             var foldersToCheck = extra.Where(f => f?.Length > 0);
 

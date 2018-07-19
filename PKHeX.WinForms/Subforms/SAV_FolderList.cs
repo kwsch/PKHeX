@@ -51,8 +51,10 @@ namespace PKHeX.WinForms
             for (int i = 0; i < TempTranslationLabels.Count; i++)
             {
                 var text = TempTranslationLabels[i].Text;
-                dgDataRecent.Columns[i].HeaderText = text;
-                dgDataBackup.Columns[i].HeaderText = text;
+                if (i < dgDataRecent.ColumnCount)
+                    dgDataRecent.Columns[i].HeaderText = text;
+                if (i < dgDataBackup.ColumnCount)
+                    dgDataBackup.Columns[i].HeaderText = text;
                 CB_FilterColumn.Items[i+1] = text;
             }
 
@@ -173,7 +175,15 @@ namespace PKHeX.WinForms
         private string GetParentFolderName(SaveFile first)
         {
             var parent = Paths.Find(z => first.FileFolder.StartsWith(z.Path));
-            return parent?.DisplayText ?? "???";
+            if (parent != null)
+                return parent.DisplayText;
+
+            // likely an autodetect location; try to get a decent filename
+            var backups = PathUtilWindows.GetFoldersToCheck(Enumerable.Empty<string>());
+            var path = backups.FirstOrDefault(z => first.FilePath.StartsWith(z));
+            if (path == null)
+                return "???";
+            return Directory.GetParent(path).Name; // trim off the first subfolder of the autodetect location
         }
 
         private sealed class SaveList<T> : SortableBindingList<T> { }
@@ -344,6 +354,8 @@ namespace PKHeX.WinForms
 
         private void GetFilterText(DataGridView dg)
         {
+            if (dg.RowCount == 0)
+                return;
             var cm = (CurrencyManager)BindingContext[dg.DataSource];
             cm.SuspendBinding();
             int column = CB_FilterColumn.SelectedIndex - 1;
