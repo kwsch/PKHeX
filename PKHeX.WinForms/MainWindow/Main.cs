@@ -395,7 +395,7 @@ namespace PKHeX.WinForms
                 ofType.BringToFront();
             }
             else
-                new SAV_FolderList(s => OpenSAV(s, s.FilePath)).Show();
+                new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.FilePath), s.FilePath)).Show();
         }
 
         // Misc Options
