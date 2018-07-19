@@ -71,7 +71,7 @@ namespace PKHeX.WinForms.Controls
         public bool FieldsInitialized { get; private set; }
         public bool FieldsLoaded { get; private set; }
         public bool ChangingFields { get; set; }
-        public int CurrentLevel => Convert.ToInt32((HaX ? MT_Level : TB_Level).Text);
+        public int CurrentLevel => Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
 
         private GameVersion origintrack;
         private Action GetFieldsfromPKM;
