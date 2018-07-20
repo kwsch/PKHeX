@@ -41,10 +41,10 @@ namespace PKHeX.Core
             var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
             var Pt_HoneyTrees_Slots = SlotsPt_HoneyTree.Clone(HoneyTreesLocation);
 
-            MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
-            MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
+            MarkG4SwarmSlots(HG_Slots, SlotsHG_Swarm);
+            MarkG4SwarmSlots(SS_Slots, SlotsSS_Swarm);
 
-            MarkEncounterTypeData(ref D_Slots, ref P_Slots, ref Pt_Slots, ref HG_Slots, ref SS_Slots);
+            MarkEncounterTypeData(D_Slots, P_Slots, Pt_Slots, HG_Slots, SS_Slots);
 
             ReduceAreasSize(ref D_Slots);
             ReduceAreasSize(ref P_Slots);
@@ -54,9 +54,9 @@ namespace PKHeX.Core
             ReduceAreasSize(ref HG_Headbutt_Slots);
             ReduceAreasSize(ref SS_Headbutt_Slots);
 
-            MarkG4SlotsGreatMarsh(ref D_Slots, 52);
-            MarkG4SlotsGreatMarsh(ref P_Slots, 52);
-            MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
+            MarkG4SlotsGreatMarsh(D_Slots, 52);
+            MarkG4SlotsGreatMarsh(P_Slots, 52);
+            MarkG4SlotsGreatMarsh(Pt_Slots, 52);
 
             MarkEncounterAreaArray(D_HoneyTrees_Slots, P_HoneyTrees_Slots, Pt_HoneyTrees_Slots,
                 DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Feebas, Pt_Feebas,
@@ -68,11 +68,11 @@ namespace PKHeX.Core
             SlotsHG = AddExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
             SlotsSS = AddExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
-            MarkDPPtEncounterTypeSlots(ref SlotsD);
-            MarkDPPtEncounterTypeSlots(ref SlotsP);
-            MarkDPPtEncounterTypeSlots(ref SlotsPt);
-            MarkHGSSEncounterTypeSlots(ref SlotsHG);
-            MarkHGSSEncounterTypeSlots(ref SlotsSS);
+            MarkDPPtEncounterTypeSlots(SlotsD);
+            MarkDPPtEncounterTypeSlots(SlotsP);
+            MarkDPPtEncounterTypeSlots(SlotsPt);
+            MarkHGSSEncounterTypeSlots(SlotsHG);
+            MarkHGSSEncounterTypeSlots(SlotsSS);
 
             MarkEncountersGeneration(4, SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS);
             MarkEncountersGeneration(4, StaticD, StaticP, StaticPt, StaticHG, StaticSS, TradeGift_DPPt, TradeGift_HGSS);
@@ -117,37 +117,37 @@ namespace PKHeX.Core
             return new[] {area};
         }
 
-        private static void MarkEncounterTypeData(ref EncounterArea[] D_Slots, ref EncounterArea[] P_Slots, ref EncounterArea[] Pt_Slots, ref EncounterArea[] HG_Slots, ref EncounterArea[] SS_Slots)
+        private static void MarkEncounterTypeData(EncounterArea[] D_Slots, EncounterArea[] P_Slots, EncounterArea[] Pt_Slots, EncounterArea[] HG_Slots, EncounterArea[] SS_Slots)
         {
             // Shellos & Gastrodon
-            MarkG4AltFormSlots(ref D_Slots, 422, 1, Shellos_EastSeaLocation_DP);
-            MarkG4AltFormSlots(ref D_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
-            MarkG4AltFormSlots(ref P_Slots, 422, 1, Shellos_EastSeaLocation_DP);
-            MarkG4AltFormSlots(ref P_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
-            MarkG4AltFormSlots(ref Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
-            MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
+            MarkG4AltFormSlots(D_Slots, 422, 1, Shellos_EastSeaLocation_DP);
+            MarkG4AltFormSlots(D_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
+            MarkG4AltFormSlots(P_Slots, 422, 1, Shellos_EastSeaLocation_DP);
+            MarkG4AltFormSlots(P_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
+            MarkG4AltFormSlots(Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
+            MarkG4AltFormSlots(Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
 
             const int Route209 = 24;
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(D_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(P_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(Pt_Slots, Route209, EncounterType.Building_EnigmaStone, 1);
             const int StarkMountain = 84;
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(D_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(P_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(Pt_Slots, StarkMountain, EncounterType.Cave_HallOfOrigin, 1);
             const int MtCoronet = 50;
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
-            MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(D_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(P_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
+            MarkDPPtEncounterTypeSlots_MultipleTypes(Pt_Slots, MtCoronet, EncounterType.Cave_HallOfOrigin, DPPt_MtCoronetExteriorEncounters);
             const int RuinsOfAlph = 209;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(HG_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(SS_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
             const int MtSilver = 219;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
             const int Cianwood = 130;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, Cianwood, EncounterType.RockSmash);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, Cianwood, EncounterType.RockSmash);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(HG_Slots, Cianwood, EncounterType.RockSmash);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(SS_Slots, Cianwood, EncounterType.RockSmash);
         }
 
         private static void MarkG4PokeWalker(EncounterStatic[] t)
@@ -159,13 +159,13 @@ namespace PKHeX.Core
                 s.Version = GameVersion.HGSS;
             }
         }
-        private static void MarkG4SlotsGreatMarsh(ref EncounterArea[] Areas, int location)
+        private static void MarkG4SlotsGreatMarsh(EncounterArea[] Areas, int location)
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
             foreach (EncounterSlot Slot in Area.Slots)
                 Slot.Type |= SlotType.Safari;
         }
-        private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
+        private static void MarkG4SwarmSlots(EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
             // Grass Swarm slots replace slots 0 and 1 from encounters data
             // for surfing only replace slots 0 from encounters data
@@ -194,7 +194,7 @@ namespace PKHeX.Core
         }
         // Gen 4 raw encounter data does not contains info for alt slots
         // Shellos and Gastrodom East Sea form should be modified
-        private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
+        private static void MarkG4AltFormSlots(EncounterArea[] Areas, int Species, int form, int[] Locations)
         {
             foreach (EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
             foreach (EncounterSlot Slot in Area.Slots.Where(s => s.Species == Species))
@@ -254,7 +254,7 @@ namespace PKHeX.Core
             }
             return EncounterType.None;
         }
-        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFiles)
+        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFiles)
         {
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
@@ -267,7 +267,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFile)
+        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFile)
         {
             // Area with two different encounter type for grass encounters
             // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
@@ -283,7 +283,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static void MarkDPPtEncounterTypeSlots(ref EncounterArea[] Areas)
+        private static void MarkDPPtEncounterTypeSlots(EncounterArea[] Areas)
         {
             foreach (EncounterArea Area in Areas)
             {
@@ -330,7 +330,7 @@ namespace PKHeX.Core
                 : EncounterType.None;
         }
 
-        private static void MarkHGSSEncounterTypeSlots(ref EncounterArea[] Areas)
+        private static void MarkHGSSEncounterTypeSlots(EncounterArea[] Areas)
         {
             foreach (EncounterArea Area in Areas)
             {
