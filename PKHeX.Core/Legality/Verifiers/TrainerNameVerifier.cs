@@ -62,7 +62,7 @@ namespace PKHeX.Core
 
             VerifyG1OTWithinBounds(data, tr);
             if (data.EncounterOriginal is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
-                data.AddLine(VerifyG1OTStadium(data, tr));
+                data.AddLine(VerifyG1OTStadium(pkm, tr, s));
 
             if (pkm.Species == 151)
             {
@@ -97,16 +97,15 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(V421));
             }
         }
-        private CheckResult VerifyG1OTStadium(LegalityAnalysis data, string tr)
+        private CheckResult VerifyG1OTStadium(PKM pkm, string tr, EncounterStatic s)
         {
-            var pkm = data.pkm;
             bool jp = pkm.Japanese;
-            bool valid = pkm.TID == 2000 && tr == GetStadiumOT(data.Info.Generation, jp);
+            bool valid;
+            if (s.Version == GameVersion.Stadium)
+                valid = pkm.TID == 1999 && tr == (jp ? "スタジアム" : "STADIUM");
+            else // == GameVersion.Stadium2
+                valid = pkm.TID == 2000 && tr == (jp ? "スタジアム" : "Stadium");
             return valid ? GetValid(jp ? V404 : V403) : GetInvalid(V402);
-        }
-        private static string GetStadiumOT(int gen, bool jp)
-        {
-            return jp ? "スタジアム" : (gen == 1 ? "STADIUM" : "Stadium");
         }
 
         private bool IsOTNameSuspicious(string name)
