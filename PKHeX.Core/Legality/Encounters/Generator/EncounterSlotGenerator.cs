@@ -19,11 +19,14 @@ namespace PKHeX.Core
             var possibleAreas = GetEncounterSlots(pkm, gameSource);
             return possibleAreas.SelectMany(area => area.Slots).Where(z => vs.Any(v => v.Species == z.Species));
         }
-        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, GameVersion gameSource)
         {
             int maxspeciesorigin = GetMaxSpecies(gameSource);
             var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
-
+            return GetRawEncounterSlots(pkm, lvl, vs, gameSource);
+        }
+        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, IReadOnlyList<EvoCriteria> vs, GameVersion gameSource)
+        {
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
             return possibleAreas.SelectMany(area => GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, lvl: lvl));
         }
@@ -48,6 +51,33 @@ namespace PKHeX.Core
             var s = GetRawEncounterSlots(pkm, lvl, gameSource);
 
             return s; // defer deferrals to the method consuming this collection
+        }
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, IReadOnlyList<EvoCriteria> vs, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            int lvl = GetMinLevelEncounter(pkm);
+            if (lvl <= 0)
+                return Enumerable.Empty<EncounterSlot>();
+            return GetRawEncounterSlots(pkm, lvl, vs, gameSource);
+        }
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, IReadOnlyList<EvoCriteria> vs, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            int lvl = GetMinLevelEncounter(pkm);
+            if (lvl <= 0)
+                return Enumerable.Empty<EncounterSlot>();
+            var s = GetRawEncounterSlots(pkm, lvl, vs, gameSource);
+
+            bool IsSafariBall = pkm.Ball == 5;
+            bool IsSportBall = pkm.Ball == 0x18;
+            bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
+            int species = pkm.Species;
+
+            return s.DeferByBoolean(slot => slot.IsDeferred(species, pkm, IsSafariBall, IsSportBall, IsHidden)); // non-deferred first
         }
         public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {

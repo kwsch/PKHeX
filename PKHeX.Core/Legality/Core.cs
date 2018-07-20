@@ -857,7 +857,7 @@ namespace PKHeX.Core
                 int last = poss.FindLastIndex(z => z.Species == minSpecies);
                 return curr.Count >= last;
             }
-            if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, 1)))
+            if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, poss, 1)))
                 return curr.Count >= poss.Count - 1;
             return curr.Count >= poss.Count;
         }

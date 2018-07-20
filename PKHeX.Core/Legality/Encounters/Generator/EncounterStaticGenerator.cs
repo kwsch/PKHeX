@@ -28,12 +28,21 @@ namespace PKHeX.Core
 
             int lvl = GetMinLevelEncounter(pkm);
             if (lvl < 0)
-                yield break;
+                return Enumerable.Empty<EncounterStatic>();
 
             // Back Check against pkm
-            var enc = GetMatchingStaticEncounters(pkm, poss, lvl);
-            foreach (var z in enc)
-                yield return z;
+            return GetMatchingStaticEncounters(pkm, poss, lvl);
+        }
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource)
+        {
+            var poss = GetPossible(pkm, vs, gameSource: gameSource);
+
+            int lvl = GetMinLevelEncounter(pkm);
+            if (lvl < 0)
+                return Enumerable.Empty<EncounterStatic>();
+
+            // Back Check against pkm
+            return GetMatchingStaticEncounters(pkm, poss, lvl);
         }
 
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)

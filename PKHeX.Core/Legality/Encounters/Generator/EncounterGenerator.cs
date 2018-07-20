@@ -110,7 +110,6 @@ namespace PKHeX.Core
             // Favor special event move gifts as Static Encounters when applicable
             var maxspeciesorigin = gsc ? MaxSpeciesID_2 : MaxSpeciesID_1;
             var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
-            HashSet<int> species = new HashSet<int>(vs.Select(p => p.Species).ToList());
 
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, vs, game))
@@ -122,7 +121,7 @@ namespace PKHeX.Core
                 }
                 yield return t;
             }
-            foreach (var s in GetValidStaticEncounter(pkm, game).Where(z => species.Contains(z.Species)))
+            foreach (var s in GetValidStaticEncounter(pkm, vs, game))
             {
                 // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
                 switch (s.Version)
@@ -150,10 +149,8 @@ namespace PKHeX.Core
             // necessary for static egg gifts which appear in wild, level 8 GS clefairy
             // GetValidWildEncounters immediately returns empty otherwise
             pkm.WasEgg = false;
-            foreach (var e in GetValidWildEncounters(pkm, game))
+            foreach (var e in GetValidWildEncounters12(pkm, vs, game))
             {
-                if (!species.Contains(e.Species))
-                    continue;
                 yield return e;
             }
 
