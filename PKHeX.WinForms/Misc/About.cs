@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace PKHeX.WinForms
 {
@@ -8,24 +7,9 @@ namespace PKHeX.WinForms
         public About()
         {
             InitializeComponent();
-            RTB.Text = Properties.Resources.changelog;
-        }
-        private void B_Close_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void B_Shortcuts_Click(object sender, EventArgs e)
-        {
-            if (B_Shortcuts.Text == "Shortcuts")
-            {
-                RTB.Text = Properties.Resources.shortcuts; // display shortcuts
-                B_Shortcuts.Text = "Changelog";
-            }
-            else
-            {
-                RTB.Text = Properties.Resources.changelog; // display changelog
-                B_Shortcuts.Text = "Shortcuts";
-            }
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            RTB_Changelog.Text = Properties.Resources.changelog;
+            RTB_Shortcuts.Text = Properties.Resources.shortcuts;
         }
     }
 }
