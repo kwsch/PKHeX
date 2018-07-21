@@ -1050,19 +1050,18 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            uint duration = 0;
-            if (isParty && pkm.AltForm != 0)
-                switch (pkm.Species)
-                {
-                    case 676:
-                        duration = 5;
-                        break;
-                    case 720: // Hoopa
-                        duration = 3;
-                        break;
-                }
-
-            ((PK7)pkm).FormDuration = duration;
+            ((PK7)pkm).FormDuration = GetFormDuration(pkm, isParty);
+        }
+        private static uint GetFormDuration(PKM pkm, bool isParty)
+        {
+            if (!isParty || pkm.AltForm == 0)
+                return 0;
+            switch (pkm.Species)
+            {
+                case 676: return 5; // Furfrou
+                case 720: return 3; // Hoopa
+                default: return 0;
+            }
         }
         public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn, bool USUM)
         {

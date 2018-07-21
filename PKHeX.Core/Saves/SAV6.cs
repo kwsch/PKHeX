@@ -778,19 +778,18 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            uint duration = 0;
-            if (isParty && pkm.AltForm != 0)
-                switch (pkm.Species)
-                {
-                    case 676:
-                        duration = 5;
-                        break;
-                    case 720: // Hoopa
-                        duration = 3;
-                        break;
-                }
-
-            ((PK6)pkm).FormDuration = duration;
+            ((PK6)pkm).FormDuration = GetFormDuration(pkm, isParty);
+        }
+        private static uint GetFormDuration(PKM pkm, bool isParty)
+        {
+            if (!isParty || pkm.AltForm == 0)
+                return 0;
+            switch (pkm.Species)
+            {
+                case 676: return 5; // Furfrou
+                case 720: return 3; // Hoopa
+                default: return 0;
+            }
         }
 
         public override bool GetCaught(int species)
