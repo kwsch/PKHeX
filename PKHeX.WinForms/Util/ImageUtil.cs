@@ -23,7 +23,7 @@ namespace PKHeX.WinForms
             using (Graphics gr = Graphics.FromImage(img))
             {
                 gr.DrawImage(baseLayer, 0, 0);
-                gr.DrawImage(overLayer, x, y);
+                gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
             }
             return img;
         }
