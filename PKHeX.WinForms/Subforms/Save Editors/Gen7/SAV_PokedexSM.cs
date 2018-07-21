@@ -32,24 +32,25 @@ namespace PKHeX.WinForms
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
 
+            Dex = new PokeDex7(SAV);
+
             // Add Formes
             int ctr = SAV.MaxSpeciesID;
             baseSpecies = new List<int>();
-            for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
+            for (int spec = 1; spec < SAV.MaxSpeciesID + 1; spec++)
             {
-                int c = SAV.Personal[i].FormeCount;
-                for (int j = 0; j < c; j++)
+                int c = SAV.Personal[spec].FormeCount;
+                for (int f = 1; f < c; f++)
                 {
-                    int x = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(i, c, j) : SaveUtil.GetDexFormIndexSM(i, c, j);
-                    if (x == -1 || j == 0)
+                    int x = Dex.GetDexFormIndex(spec, c, f);
+                    if (x == -1)
                         continue;
-                    baseSpecies.Add(i);
+                    baseSpecies.Add(spec);
                     ctr++;
-                    LB_Species.Items.Add($"{ctr:000} - {GameInfo.Strings.specieslist[i]}-{j}");
+                    LB_Species.Items.Add($"{ctr:000} - {GameInfo.Strings.specieslist[spec]}-{f}");
                 }
             }
 
-            Dex = new PokeDex7(SAV);
             editing = false;
             LB_Species.SelectedIndex = 0;
             CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
@@ -117,7 +118,7 @@ namespace PKHeX.WinForms
                 int fc = SAV.Personal[bspecies].FormeCount;
                 if (fc > 1) // actually has forms
                 {
-                    int f = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(bspecies, fc, SAV.MaxSpeciesID - 1) : SaveUtil.GetDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                    int f = Dex.GetDexFormStart(bspecies, fc);
                     if (f >= 0) // bit index valid
                         species = f + form + 1;
                     else
@@ -141,7 +142,7 @@ namespace PKHeX.WinForms
 
             int fspecies = LB_Species.SelectedIndex + 1;
             var bspecies = fspecies <= SAV.MaxSpeciesID ? fspecies : baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
-            bool hasForms = SAV.Personal[bspecies].HasFormes || new[] { 201, 664, 665, 414 }.Contains(bspecies);
+            bool hasForms = FormConverter.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
             var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
@@ -161,7 +162,7 @@ namespace PKHeX.WinForms
                 if (fc <= 1)
                     return true;
 
-                int f = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(bspecies, fc, SAV.MaxSpeciesID - 1) : SaveUtil.GetDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                int f = Dex.GetDexFormStart(bspecies, fc);
                 if (f < 0)
                     return true; // bit index valid
 
@@ -251,78 +252,6 @@ namespace PKHeX.WinForms
                 Dex.LanguageFlags[pk*9 + i] = CL[i].Checked;
         }
 
-        private sealed class PokeDex7
-        {
-            public readonly bool[] Owned;
-            public readonly bool[][] Seen = new bool[4][];
-            public readonly bool[][] Displayed = new bool[4][];
-            public readonly bool[] LanguageFlags;
-
-            private const int MiscLen = 0x80;
-            private const int OwnedLen = 0x68;
-            private const int SeenDispLen = 0x8C;
-            private const int LanguageLen = 0x398;
-            internal PokeDex7(SAV7 SAV)
-            {
-                if (SAV.Generation != 7)
-                    return;
-
-                int ofs = SAV.PokeDex + 0x8 + MiscLen;
-                Owned = SetBits(SAV.Data, ofs, OwnedLen);
-
-                ofs += OwnedLen;
-                for (int i = 0; i < 4; i++)
-                {
-                    Seen[i] = SetBits(SAV.Data, ofs, SeenDispLen);
-                    ofs += SeenDispLen;
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    Displayed[i] = SetBits(SAV.Data, ofs, SeenDispLen);
-                    ofs += SeenDispLen;
-                }
-                LanguageFlags = SetBits(SAV.Data, SAV.PokeDexLanguageFlags, LanguageLen);
-            }
-            internal void WriteToSAV(SAV7 SAV)
-            {
-                if (SAV.Generation != 7)
-                    return;
-
-                int ofs = SAV.PokeDex + 0x8 + MiscLen;
-                SetBits(Owned).CopyTo(SAV.Data, ofs);
-
-                ofs += OwnedLen;
-                for (int i = 0; i < 4; i++)
-                {
-                    SetBits(Seen[i]).CopyTo(SAV.Data, ofs);
-                    ofs += SeenDispLen;
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    SetBits(Displayed[i]).CopyTo(SAV.Data, ofs);
-                    ofs += SeenDispLen;
-                }
-                SetBits(LanguageFlags).CopyTo(SAV.Data, SAV.PokeDexLanguageFlags);
-            }
-
-            private static bool[] SetBits(byte[] data, int offset, int length)
-            {
-                byte[] d = new byte[length];
-                Array.Copy(data, offset, d, 0, length);
-                bool[] b = new bool[8*d.Length];
-                for (int i = 0; i < b.Length; i++)
-                    b[i] = (d[i/8] & 1 << (i&7)) != 0;
-                return b;
-            }
-            private static byte[] SetBits(bool[] b)
-            {
-                byte[] data = new byte[b.Length/8];
-                for (int i = 0; i < b.Length; i++)
-                    data[i/8] |= (byte)(b[i] ? 1 << (i&7) : 0);
-                return data;
-            }
-        }
-
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -330,7 +259,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
-            Dex.WriteToSAV(SAV);
+            Dex.Write();
 
             Origin.SetData(SAV.Data, 0);
             Close();
@@ -374,13 +303,12 @@ namespace PKHeX.WinForms
         {
             allModifying = true;
             LB_Forms.Enabled = LB_Forms.Visible = false;
-            bool USUM = SAV.USUM;
             int lang = SAV.Language;
             if (lang > 5) lang--;
             lang--;
 
             if (sender == mnuSeenAll || sender == mnuCaughtAll || sender == mnuComplete)
-                SetAll(sender, USUM, lang);
+                SetAll(sender, lang);
             else
                 ClearAll(sender);
 
@@ -408,7 +336,7 @@ namespace PKHeX.WinForms
                 CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
             }
         }
-        private void SetAll(object sender, bool USUM, int lang)
+        private void SetAll(object sender, int lang)
         {
             for (int i = 0; i < SAV.MaxSpeciesID; i++)
             {
@@ -422,34 +350,13 @@ namespace PKHeX.WinForms
                     SetCaught(sender, gt, lang, false);
 
                 // Set forme flags
-                var entries = GetAllFormEntries(spec, USUM).Where(z => z >= SAV.MaxSpeciesID).Distinct();
+                var entries = Dex.GetAllFormEntries(spec).Where(z => z >= SAV.MaxSpeciesID).Distinct();
                 foreach (var f in entries)
                 {
                     LB_Species.SelectedIndex = f;
                     SetSeen(sender, gt, true);
                     if (sender != mnuSeenAll)
                         SetCaught(sender, gt, lang, true);
-                }
-            }
-        }
-        private IEnumerable<int> GetAllFormEntries(int spec, bool USUM)
-        {
-            var fc = SAV.Personal[spec].FormeCount;
-            for (int j = 1; j < fc; j++)
-            {
-                int start = j;
-                int end = j;
-                if (SAV7.SanitizeFormsToIterate(spec, out int s, out int n, j, USUM))
-                {
-                    start = s;
-                    end = n;
-                }
-                start = Math.Max(1, start);
-                for (int f = start; f <= end; f++)
-                {
-                    int x = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(spec, fc, f) : SaveUtil.GetDexFormIndexSM(spec, fc, f);
-                    if (x >= 0)
-                        yield return SAV.MaxSpeciesID - 1 + x;
                 }
             }
         }
