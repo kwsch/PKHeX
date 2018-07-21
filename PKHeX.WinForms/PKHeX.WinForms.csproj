@@ -596,7 +596,6 @@
     <Compile Include="Util\FontUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\NetUtil.cs" />
-    <Compile Include="Util\PathUtilWindows.cs" />
     <Compile Include="Util\SpriteUtil.cs" />
     <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
     <Compile Include="Util\QRCoder\QRCode.cs" />

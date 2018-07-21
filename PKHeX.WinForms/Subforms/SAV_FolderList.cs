@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
     public partial class SAV_FolderList : Form
     {
         private readonly Action<SaveFile> OpenSaveFile;
-        private readonly List<CustomFolderPath> Paths = GetPathList();
+        private readonly List<CustomFolderPath> Paths;
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
 
@@ -24,12 +24,16 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
             OpenSaveFile = openSaveFile;
+
+            var drives = Environment.GetLogicalDrives();
+            Paths = GetPathList(drives);
+
             dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
             dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
 
-            var recent = PathUtilWindows.GetSaveFiles(true, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
+            var recent = SaveDetection.GetSaveFiles(drives, true, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
             Recent = PopulateData(dgDataRecent, recent);
-            var backup = PathUtilWindows.GetSaveFiles(false, Main.BackupPath);
+            var backup = SaveDetection.GetSaveFiles(drives, false, Main.BackupPath);
             Backup = PopulateData(dgDataBackup, backup);
 
             CB_FilterColumn.Items.Add(MsgAny);
@@ -69,15 +73,16 @@ namespace PKHeX.WinForms
 
         }
 
-        private static List<CustomFolderPath> GetPathList()
+        private static List<CustomFolderPath> GetPathList(IReadOnlyList<string> drives)
         {
             var locs = new List<CustomFolderPath>
             {
                 new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
             };
             locs.AddRange(GetUserPaths());
-            locs.AddRange(Get3DSPaths());
-            locs.AddRange(GetSwitchPaths());
+
+            locs.AddRange(GetConsolePaths(drives));
+            locs.AddRange(GetSwitchPaths(drives));
             addIfExists(CyberGadgetUtil.GetCacheFolder(), "CGSE Cache");
             addIfExists(CyberGadgetUtil.GetTempFolder(), "CGSE Temp");
             void addIfExists(string path, string text)
@@ -123,22 +128,22 @@ namespace PKHeX.WinForms
                 .Where(a => a.Length == 2)
                 .Select(x => new CustomFolderPath(x));
         }
-        private static IEnumerable<CustomFolderPath> Get3DSPaths()
+        private static IEnumerable<CustomFolderPath> GetConsolePaths(IEnumerable<string> drives)
         {
-            var path3DS = PathUtilWindows.GetSwitchLocation();
-            if (path3DS == null || !Directory.Exists(path3DS))
+            var path3DS = SaveDetection.Get3DSLocation(drives);
+            if (path3DS == null)
                 return Enumerable.Empty<CustomFolderPath>();
             var root = Path.GetPathRoot(path3DS);
-            var paths = PathUtilWindows.GetSwitchBackupPaths(root);
+            var paths = SaveDetection.Get3DSBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
-        private static IEnumerable<CustomFolderPath> GetSwitchPaths()
+        private static IEnumerable<CustomFolderPath> GetSwitchPaths(IEnumerable<string> drives)
         {
-            var pathNX = PathUtilWindows.GetSwitchLocation();
-            if (pathNX == null || !Directory.Exists(pathNX))
+            var pathNX = SaveDetection.GetSwitchLocation(drives);
+            if (pathNX == null)
                 return Enumerable.Empty<CustomFolderPath>();
             var root = Path.GetPathRoot(pathNX);
-            var paths = PathUtilWindows.GetSwitchBackupPaths(root);
+            var paths = SaveDetection.GetSwitchBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
 
@@ -175,15 +180,7 @@ namespace PKHeX.WinForms
         private string GetParentFolderName(SaveFile first)
         {
             var parent = Paths.Find(z => first.FileFolder.StartsWith(z.Path));
-            if (parent != null)
-                return parent.DisplayText;
-
-            // likely an autodetect location; try to get a decent filename
-            var backups = PathUtilWindows.GetFoldersToCheck(Enumerable.Empty<string>());
-            var path = backups.FirstOrDefault(z => first.FilePath.StartsWith(z));
-            if (path == null)
-                return "???";
-            return Directory.GetParent(path).Name; // trim off the first subfolder of the autodetect location
+            return parent?.DisplayText ?? "???";
         }
 
         private sealed class SaveList<T> : SortableBindingList<T> { }

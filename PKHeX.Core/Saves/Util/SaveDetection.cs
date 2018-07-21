@@ -3,43 +3,37 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using PKHeX.Core;
-
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
-    public static class PathUtilWindows
+    public static class SaveDetection
     {
         /// <summary>
         /// Gets the 3DS's root folder, usually from an inserted SD card.
         /// </summary>
+        /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
         /// The first drive is usually the system hard drive, or can be a floppy disk drive (slower to check, never has expected data).</param>
         /// <returns>Folder path pointing to the Nintendo 3DS folder.</returns>
-        public static string Get3DSLocation(bool skipFirstDrive = true) => FindConsoleRootFolder("Nintendo 3DS", skipFirstDrive);
+        public static string Get3DSLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
+            FindConsoleRootFolder(drives, "Nintendo 3DS", skipFirstDrive);
 
         /// <summary>
         /// Gets the Switch's root folder, usually from an inserted SD card.
         /// </summary>
+        /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
         /// The first drive is usually the system hard drive, or can be a floppy disk drive (slower to check, never has expected data).</param>
         /// <returns>Folder path pointing to the Nintendo folder.</returns>
-        public static string GetSwitchLocation(bool skipFirstDrive = true) => FindConsoleRootFolder("Nintendo", skipFirstDrive);
+        public static string GetSwitchLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
+            FindConsoleRootFolder(drives, "Nintendo", skipFirstDrive);
 
-        private static string FindConsoleRootFolder(string path, bool skipFirstDrive)
+        private static string FindConsoleRootFolder(IEnumerable<string> drives, string path, bool skipFirstDrive)
         {
-            try
-            {
-                // Skip first drive (some users still have floppy drives and would chew up time!)
-                IEnumerable<string> DriveList = Environment.GetLogicalDrives();
-                if (skipFirstDrive)
-                    DriveList = DriveList.Skip(1);
+            if (skipFirstDrive)
+                drives = drives.Skip(1);
 
-                return DriveList
-                    .Select(drive => Path.Combine(drive, path))
-                    .FirstOrDefault(Directory.Exists);
-            }
-            catch { }
-            return null;
+            var paths = drives.Select(drive => Path.Combine(drive, path));
+            return paths.FirstOrDefault(Directory.Exists);
         }
 
         /// <summary>
@@ -71,12 +65,13 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Finds a compatible save file that was most recently saved (by file write time).
         /// </summary>
+        /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="error">If this function does not return a save file, this parameter will be set to the error message.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Reference to a valid save file, if any.</returns>
-        public static SaveFile DetectSaveFile(ref string error, params string[] extra)
+        public static SaveFile DetectSaveFile(IReadOnlyList<string> drives, ref string error, params string[] extra)
         {
-            var foldersToCheck = GetFoldersToCheck(extra);
+            var foldersToCheck = GetFoldersToCheck(drives, extra);
             var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
             if (!result)
             {
@@ -94,20 +89,22 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
         /// </summary>
+        /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="detect">Detect save files stored in common SD card homebrew locations.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(bool detect, params string[] extra) => GetSaveFiles(detect, (IEnumerable<string>)extra);
+        public static IEnumerable<SaveFile> GetSaveFiles(IReadOnlyList<string> drives, bool detect, params string[] extra) => GetSaveFiles(drives, detect, (IEnumerable<string>)extra);
 
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
         /// </summary>
+        /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="detect">Detect save files stored in common SD card homebrew locations.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(bool detect, IEnumerable<string> extra)
+        public static IEnumerable<SaveFile> GetSaveFiles(IReadOnlyList<string> drives, bool detect, IEnumerable<string> extra)
         {
-            var paths = detect ? GetFoldersToCheck(extra) : extra;
+            var paths = detect ? GetFoldersToCheck(drives, extra) : extra;
             var result = GetSaveFilePathsFromFolders(paths, out var possiblePaths);
             if (!result)
                 return Enumerable.Empty<SaveFile>();
@@ -116,15 +113,15 @@ namespace PKHeX.WinForms
             return byMostRecent.Select(SaveUtil.GetVariantSAV);
         }
 
-        public static IEnumerable<string> GetFoldersToCheck(IEnumerable<string> extra)
+        public static IEnumerable<string> GetFoldersToCheck(IReadOnlyList<string> drives, IEnumerable<string> extra)
         {
             var foldersToCheck = extra.Where(f => f?.Length > 0);
 
-            string path3DS = Path.GetPathRoot(Get3DSLocation());
+            string path3DS = Path.GetPathRoot(Get3DSLocation(drives));
             if (path3DS != null) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(Get3DSBackupPaths(path3DS));
 
-            string pathNX = Path.GetPathRoot(GetSwitchLocation());
+            string pathNX = Path.GetPathRoot(GetSwitchLocation(drives));
             if (pathNX != null) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(GetSwitchBackupPaths(pathNX));
 

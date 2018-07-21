@@ -163,7 +163,7 @@ namespace PKHeX.WinForms
                 cgse = Path.Combine(pathCache);
 
             string msg = null;
-            var sav = PathUtilWindows.DetectSaveFile(ref msg, cgse);
+            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg, cgse);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 Error(msg);
 
