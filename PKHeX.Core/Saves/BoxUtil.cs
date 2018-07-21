@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using PKHeX.Core;
+
 using static PKHeX.Core.MessageStrings;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
     /// <summary>
     /// Contains extension methods for use with a <see cref="SaveFile"/>.
     /// </summary>
-    public static class SAVUtil
+    public static class BoxUtil
     {
         /// <summary>
         /// Dumps a folder of files to the <see cref="SaveFile"/>.
@@ -145,7 +144,7 @@ namespace PKHeX.WinForms
             if (!SAV.HasBox)
             { result = MsgSaveBoxFailNone; return false; }
 
-            var compat = GetPKMForSaveFile(SAV, pks);
+            var compat = SAV.GetCompatible(pks);
             if (boxClear)
                 SAV.ClearBoxes(boxStart);
 
@@ -160,34 +159,6 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        private static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, int boxStart, bool? noSetb)
-        {
-            int startCount = boxStart * SAV.BoxSlotCount;
-            int maxCount = SAV.BoxCount * SAV.BoxSlotCount;
-            int i = startCount;
-            int getbox() => i / SAV.BoxSlotCount;
-            int getslot() => i % SAV.BoxSlotCount;
-
-            foreach (var pk in compat)
-            {
-                int box = getbox();
-                int slot = getslot();
-                while (SAV.IsSlotLocked(box, slot))
-                {
-                    ++i;
-                    box = getbox();
-                    slot = getslot();
-                }
-
-                int offset = SAV.GetBoxOffset(box) + slot * SAV.SIZE_STORED;
-                SAV.SetStoredSlot(pk, offset, noSetb);
-
-                if (++i == maxCount) // Boxes full!
-                    break;
-            }
-            i -= startCount; // actual imported count
-            return i;
-        }
         private static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> filepaths, int generation)
         {
             return filepaths
@@ -195,82 +166,6 @@ namespace PKHeX.WinForms
                 .Select(File.ReadAllBytes)
                 .Select(data => PKMConverter.GetPKMfromBytes(data, prefer: generation))
                 .Where(temp => temp != null);
-        }
-        private static IEnumerable<PKM> GetPKMForSaveFile(this SaveFile SAV, IEnumerable<PKM> pks)
-        {
-            var savtype = SAV.PKMType;
-            foreach (var temp in pks)
-            {
-                PKM pk = PKMConverter.ConvertToType(temp, savtype, out string c);
-
-                if (pk == null)
-                { Debug.WriteLine(c); continue; }
-
-                var compat = SAV.IsPKMCompatible(pk);
-                if (compat.Length > 0)
-                    continue;
-
-                yield return pk;
-            }
-        }
-
-        /// <summary>
-        /// Checks a <see cref="PKM"/> file for compatibility to the <see cref="SaveFile"/>.
-        /// </summary>
-        /// <param name="SAV"><see cref="SaveFile"/> that is being checked.</param>
-        /// <param name="pkm"><see cref="PKM"/> that is being tested for compatibility.</param>
-        /// <returns></returns>
-        public static string[] IsPKMCompatible(this SaveFile SAV, PKM pkm)
-        {
-            // Check if PKM properties are outside of the valid range
-            List<string> errata = new List<string>();
-            if (SAV.Generation > 1)
-            {
-                ushort held = (ushort)pkm.HeldItem;
-
-                if (held > GameInfo.Strings.itemlist.Length)
-                    errata.Add($"{MsgIndexItemRange} {held}");
-                else if (held > SAV.MaxItemID)
-                    errata.Add($"{MsgIndexItemGame} {GameInfo.Strings.itemlist[held]}");
-                else if (!pkm.CanHoldItem(SAV.HeldItems))
-                    errata.Add($"{MsgIndexItemHeld} {GameInfo.Strings.itemlist[held]}");
-            }
-
-            if (pkm.Species > GameInfo.Strings.specieslist.Length)
-                errata.Add($"{MsgIndexSpeciesRange} {pkm.Species}");
-            else if (SAV.MaxSpeciesID < pkm.Species)
-                errata.Add($"{MsgIndexSpeciesGame} {GameInfo.Strings.specieslist[pkm.Species]}");
-
-            if (!SAV.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
-                errata.Add(string.Format(LegalityCheckStrings.V304, Math.Max(0, SAV.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
-
-            if (pkm.Moves.Any(m => m > GameInfo.Strings.movelist.Length))
-                errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pkm.Moves.Where(m => m > GameInfo.Strings.movelist.Length).Select(m => m.ToString()))}");
-            else if (pkm.Moves.Any(m => m > SAV.MaxMoveID))
-                errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pkm.Moves.Where(m => m > SAV.MaxMoveID).Select(m => GameInfo.Strings.movelist[m]))}");
-
-            if (pkm.Ability > GameInfo.Strings.abilitylist.Length)
-                errata.Add($"{MsgIndexAbilityRange} {pkm.Ability}");
-            else if (pkm.Ability > SAV.MaxAbilityID)
-                errata.Add($"{MsgIndexAbilityGame} {GameInfo.Strings.abilitylist[pkm.Ability]}");
-
-            return errata.ToArray();
-        }
-
-        /// <summary>
-        /// Removes the <see cref="PKM.HeldItem"/> for all <see cref="PKM"/> in the <see cref="SaveFile.BoxData"/>.
-        /// </summary>
-        /// <param name="SAV"><see cref="SaveFile"/> that is being operated on.</param>
-        /// <param name="item"><see cref="PKM.HeldItem"/> to set. If no argument is supplied, the held item will be removed.</param>
-        public static void SetBoxDataAllHeldItems(this SaveFile SAV, int item = 0)
-        {
-            var boxdata = SAV.BoxData;
-            foreach (PKM pk in boxdata)
-            {
-                pk.HeldItem = item;
-                pk.RefreshChecksum();
-            }
-            SAV.BoxData = boxdata;
         }
     }
 }

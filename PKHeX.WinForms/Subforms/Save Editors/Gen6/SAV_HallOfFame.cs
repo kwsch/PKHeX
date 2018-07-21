@@ -232,7 +232,7 @@ namespace PKHeX.WinForms
             CB_Form.SelectedIndex = (int)form;
             SetGenderLabel((int)gender);
             UpdateNickname(sender, e);
-            bpkx.Image = PKMUtil.GetSprite(species, (int)form, (int)gender, item, false, shiny == 1);
+            bpkx.Image = SpriteUtil.GetSprite(species, (int)form, (int)gender, item, false, shiny == 1);
             editing = true;
         }
         private void Write_Entry(object sender, EventArgs e)
@@ -293,7 +293,7 @@ namespace PKHeX.WinForms
             vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            bpkx.Image = PKMUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
             DisplayEntry(null, null); // refresh text view
         }
         private void Validate_TextBoxes()
@@ -341,7 +341,7 @@ namespace PKHeX.WinForms
         {
             if (!editing)
                 return; //Don't do writing until loaded
-            bpkx.Image = PKMUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
 
             Write_Entry(null, null);
         }

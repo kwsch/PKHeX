@@ -710,7 +710,7 @@ namespace PKHeX.WinForms
                 return;
             StoreLegalSaveGameData(sav);
             PKMConverter.Trainer = sav;
-            PKMUtil.Spriter.Initialize(sav); // refresh sprite generator
+            SpriteUtil.Spriter.Initialize(sav); // refresh sprite generator
 
             // clean fields
             C_SAV.M.Reset();

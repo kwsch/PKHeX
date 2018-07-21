@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
         }
         private void Data_Sorted(object sender, EventArgs e)
         {
-            int height = PKMUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
+            int height = SpriteUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }

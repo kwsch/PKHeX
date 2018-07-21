@@ -56,8 +56,8 @@ namespace PKHeX.WinForms.Controls
 
             PKM pk = editor.PreparePKM();
 
-            string[] errata = sav.IsPKMCompatible(pk);
-            if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
+            var errata = sav.IsPKMCompatible(pk);
+            if (errata.Count > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
                 return;
 
             if (info.Type == StorageSlotType.Party) // Party

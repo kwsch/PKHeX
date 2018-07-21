@@ -347,8 +347,8 @@ namespace PKHeX.WinForms.Controls
             if (noEgg && (pk.Species == 0 || pk.IsEgg))
                 return false;
 
-            string[] errata = SAV.IsPKMCompatible(pk);
-            if (errata.Length > 0)
+            var errata = SAV.IsPKMCompatible(pk);
+            if (errata.Count > 0)
             {
                 string concat = string.Join(Environment.NewLine, errata);
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, concat, "Continue?"))

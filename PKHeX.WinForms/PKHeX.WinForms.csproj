@@ -597,12 +597,11 @@
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\NetUtil.cs" />
     <Compile Include="Util\PathUtilWindows.cs" />
-    <Compile Include="Util\PKMUtil.cs" />
+    <Compile Include="Util\SpriteUtil.cs" />
     <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
     <Compile Include="Util\QRCoder\QRCode.cs" />
     <Compile Include="Util\QRCoder\QRCodeData.cs" />
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
-    <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\SpriteBuilder.cs" />
     <Compile Include="Util\WinFormsTranslator.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />

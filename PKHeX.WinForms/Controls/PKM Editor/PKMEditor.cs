@@ -701,7 +701,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateBall(object sender, EventArgs e)
         {
-            PB_Ball.Image = PKMUtil.GetBallSprite(WinFormsUtil.GetIndex(CB_Ball));
+            PB_Ball.Image = SpriteUtil.GetBallSprite(WinFormsUtil.GetIndex(CB_Ball));
         }
         private void UpdateEXPLevel(object sender, EventArgs e)
         {

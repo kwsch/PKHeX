@@ -4,7 +4,7 @@ using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms
 {
-    public static class PKMUtil
+    public static class SpriteUtil
     {
         public static ISpriteBuilder<Image> Spriter { get; set; } = new SpriteBuilder();
 

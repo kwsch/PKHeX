@@ -74,7 +74,7 @@ namespace PKHeX.WinForms
         {
             var name = rib.Name;
             PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
-            var img = PKMUtil.GetRibbonSprite(name);
+            var img = SpriteUtil.GetRibbonSprite(name);
             if (img != null)
                 pb.BackgroundImage = (Bitmap)img;
             if (img == null)
