@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// String Translation Utility
+    /// </summary>
     public static class RibbonStrings
     {
         private static readonly Dictionary<string, string> RibbonNames = new Dictionary<string, string>();

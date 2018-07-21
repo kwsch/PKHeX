@@ -13,18 +13,49 @@ namespace PKHeX.Core
     public partial class LegalityAnalysis
     {
         internal readonly PKM pkm;
+        internal readonly PersonalInfo PersonalInfo;
         private readonly bool Error;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         private IEncounterable EncounterOriginalGB;
+
+        /// <summary>
+        /// Matched encounter data for the <see cref="pkm"/>.
+        /// </summary>
         public IEncounterable EncounterMatch => Info.EncounterMatch;
+
+        /// <summary>
+        /// Original encounter data for the <see cref="pkm"/>.
+        /// </summary>
+        /// <remarks>
+        /// Generation 1/2 <see cref="pkm"/> that are transferred forward to Generation 7 are restricted to new encounter details.
+        /// By retaining their original match, more information can be provided by the parse.
+        /// </remarks>
         public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
 
+        /// <summary>
+        /// Indicates if all checks ran to completion.
+        /// </summary>
+        /// <remarks>This value is false if any checks encountered an error.</remarks>
         public readonly bool Parsed;
+
+        /// <summary>
+        /// Indicates if all checks returned a <see cref="Severity.Valid"/> result.
+        /// </summary>
         public readonly bool Valid;
-        public readonly PersonalInfo PersonalInfo;
+
+        /// <summary>
+        /// Contains various data reused for multiple checks.
+        /// </summary>
         public LegalInfo Info { get; private set; }
+
+        /// <summary>
+        /// Creates a report message with optional verbosity for in-depth analysis.
+        /// </summary>
+        /// <param name="verbose">Include all details in the parse, including valid check messages.</param>
+        /// <returns>Single line string</returns>
         public string Report(bool verbose = false) => verbose ? GetVerboseLegalityReport() : GetLegalityReport();
+
         private IEnumerable<int> AllSuggestedMoves
         {
             get
@@ -177,8 +208,18 @@ namespace PKHeX.Core
             UpdateChecks();
         }
 
-        public void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
-        public void AddLine(CheckResult chk) => Parse.Add(chk);
+        /// <summary>
+        /// Adds a new Check parse value.
+        /// </summary>
+        /// <param name="s">Check severity</param>
+        /// <param name="c">Check comment</param>
+        /// <param name="i">Check type</param>
+        internal void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
+
+        /// <summary>
+        /// Adds a new Check parse value.
+        /// </summary>
+        internal void AddLine(CheckResult chk) => Parse.Add(chk);
 
         private void UpdateVCTransferInfo()
         {
@@ -337,7 +378,9 @@ namespace PKHeX.Core
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }
 
-        // Suggestions
+        /// <summary>
+        /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
+        /// </summary>
         public int[] GetSuggestedRelearn()
         {
             if (Info?.RelearnBase == null || Info.Generation < 6)
@@ -355,6 +398,13 @@ namespace PKHeX.Core
             window.CopyTo(start, moves, 0, count);
             return moves;
         }
+
+        /// <summary>
+        /// Gets four moves which can be learned depending on the input arguments.
+        /// </summary>
+        /// <param name="tm">Allow TM moves</param>
+        /// <param name="tutor">Allow Tutor moves</param>
+        /// <param name="reminder">Allow Move Reminder</param>
         public int[] GetSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
             if (!Parsed)
@@ -370,6 +420,10 @@ namespace PKHeX.Core
             var evos = Info.EvoChainsAllGens;
             return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
+
+        /// <summary>
+        /// Gets an object containing met data properties that might be legal.
+        /// </summary>
         public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
 }

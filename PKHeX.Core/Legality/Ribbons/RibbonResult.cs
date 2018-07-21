@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Legality Check Parse object containing information about a single ribbon.
+    /// </summary>
     internal class RibbonResult
     {
         /// <summary>Ribbon Display Name</summary>
@@ -15,6 +18,9 @@
             Invalid = invalid;
         }
 
+        /// <summary>
+        /// Merges the result name with another provided result.
+        /// </summary>
         public void Combine(RibbonResult other)
         {
             Name += $" / {other.Name}";

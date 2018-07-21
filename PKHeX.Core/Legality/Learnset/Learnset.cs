@@ -3,10 +3,24 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Levelup Learn Movepool Information
+    /// </summary>
     public abstract class Learnset
     {
+        /// <summary>
+        /// Amount of moves present.
+        /// </summary>
         protected int Count;
+
+        /// <summary>
+        /// Moves that can be learned.
+        /// </summary>
         protected int[] Moves;
+
+        /// <summary>
+        /// Levels at which a move at a given index can be learned.
+        /// </summary>
         protected int[] Levels;
 
         /// <summary>

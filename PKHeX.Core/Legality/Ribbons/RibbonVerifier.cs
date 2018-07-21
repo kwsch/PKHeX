@@ -5,7 +5,10 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
-    internal class RibbonVerifier : Verifier
+    /// <summary>
+    /// Verifies the <see cref="PKM"/> Ribbon values.
+    /// </summary>
+    public sealed class RibbonVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Ribbon;
         public override void Verify(LegalityAnalysis data)

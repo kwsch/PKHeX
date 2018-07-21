@@ -2,6 +2,9 @@ using System.IO;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Levelup Learn Movepool Information
+    /// </summary>
     public sealed class Learnset6 : Learnset
     {
         private Learnset6(byte[] data)

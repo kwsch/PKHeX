@@ -10,11 +10,25 @@ namespace PKHeX.Core
     /// </remarks>
     public enum Severity
     {
+        /// <summary>
+        /// Cannot determine validity; not valid.
+        /// </summary>
         Indeterminate = -2,
+
+        /// <summary>
+        /// Definitively not valid.
+        /// </summary>
         Invalid = -1,
+
+        /// <summary>
+        /// Suspicious values, but still valid.
+        /// </summary>
         Fishy = 0,
+
+        /// <summary>
+        /// Values are valid.
+        /// </summary>
         Valid = 1,
-        NotImplemented = 2,
     }
 
     public static partial class Extensions
