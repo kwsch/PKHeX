@@ -28,10 +28,8 @@ namespace PKHeX.Core
             if (3 <= gen && gen <= 5)
             {
                 // Gender-PID & Nature-PID relationship check
-                if (IsValidGenderPID(data))
-                    data.AddLine(GetValid(V250));
-                else
-                    data.AddLine(GetInvalid(V251));
+                var result = IsValidGenderPID(data) ? GetValid(V250) : GetInvalid(V251);
+                data.AddLine(result);
 
                 if (gen != 5)
                     VerifyNaturePID(data);
@@ -43,7 +41,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(V203));
         }
 
-        private void VerifyNaturePID(LegalityAnalysis data)
+        private static void VerifyNaturePID(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var result = pkm.EncryptionConstant % 25 == pkm.Nature
@@ -52,7 +50,7 @@ namespace PKHeX.Core
             data.AddLine(result);
         }
 
-        private bool IsValidGenderPID(LegalityAnalysis data)
+        private static bool IsValidGenderPID(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             bool genderValid = pkm.IsGenderValid();
