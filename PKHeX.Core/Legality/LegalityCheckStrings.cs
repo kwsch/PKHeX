@@ -39,7 +39,7 @@ namespace PKHeX.Core
         public static string V502 { get; set; } = "Fishy";
         /// <summary>Severity string for <see cref="Severity.Valid"/></summary>
         public static string V503 { get; set; } = "Valid";
-        /// <summary>Severity string for <see cref="Severity.NotImplemented"/></summary>
+        /// <summary>Severity string for anything not implemented.</summary>
         public static string V504 { get; set; } = "Not Implemented";
 
         /// <summary>Original Trainer string used in various string formats such as Memories.</summary>
