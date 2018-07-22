@@ -205,34 +205,21 @@ namespace PKHeX.Core
         public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
 
         // Checksums
-        protected override void SetChecksums()
-        {
-            int CHECKSUM_OFS = Japanese ? 0x3594 : 0x3523;
-            Data[CHECKSUM_OFS] = 0;
-            uint chksum = 0;
-            for (int i = 0x2598; i < CHECKSUM_OFS; i++)
-            {
-                chksum += Data[i];
-            }
-
-            chksum = ~chksum;
-            chksum &= 0xFF;
-
-            Data[CHECKSUM_OFS] = (byte)chksum;
-        }
-        public override bool ChecksumsValid
-        {
-            get
-            {
-                int CHECKSUM_OFS = Japanese ? 0x3594 : 0x3523;
-                byte temp = Data[CHECKSUM_OFS]; // cache current chk
-                SetChecksums(); // chksum is recalculated (after being set to 0 to perform check)
-                byte chk = Data[CHECKSUM_OFS]; // correct checksum
-                Data[CHECKSUM_OFS] = temp; // restore old chk
-                return temp == chk;
-            }
-        }
+        protected override void SetChecksums() => Data[CHECKSUM_OFS] = GetRBYChecksum(CHECKSUM_OFS);
+        public override bool ChecksumsValid => Data[CHECKSUM_OFS] == GetRBYChecksum(CHECKSUM_OFS);
         public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
+
+        private const int CHECKSUM_START = 0x2598;
+        private int CHECKSUM_OFS => Japanese ? 0x3594 : 0x3523;
+
+        private byte GetRBYChecksum(int end)
+        {
+            byte chksum = 0;
+            for (int i = CHECKSUM_START; i < end; i++)
+                chksum += Data[i];
+            chksum ^= 0xFF;
+            return chksum;
+        }
 
         // Trainer Info
         public override GameVersion Version { get; protected set; }
