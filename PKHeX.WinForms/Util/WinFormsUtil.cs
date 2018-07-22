@@ -16,12 +16,13 @@ namespace PKHeX.WinForms
 
         internal static void CenterToForm(this Control child, Control parent)
         {
-            int x = parent.Location.X + (parent.Width - child.Width) / 2;
-            int y = parent.Location.Y + (parent.Height - child.Height) / 2;
+            int x = parent.Location.X + ((parent.Width - child.Width) / 2);
+            int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
         }
 
         public static Form FirstFormOfType<T>(this Form f) => Array.Find(f.OwnedForms, form => form is T);
+
         public static T FindFirstControlOfType<T>(Control aParent) where T : class
         {
             while (true)
@@ -36,6 +37,7 @@ namespace PKHeX.WinForms
                     return null;
             }
         }
+
         public static Control GetUnderlyingControl(object sender) => ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
 
         #region Message Displays
@@ -78,6 +80,10 @@ namespace PKHeX.WinForms
         }
         #endregion
 
+        /// <summary>
+        /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.
+        /// </summary>
+        /// <param name="cb">ComboBox to retrieve value for.</param>
         internal static int GetIndex(ComboBox cb)
         {
             return (int)(cb?.SelectedValue ?? 0);
@@ -109,6 +115,13 @@ namespace PKHeX.WinForms
         }
 
         public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
+
+        /// <summary>
+        /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static IEnumerable<Control> GetAllControlsOfType(Control control, Type type)
         {
             var controls = control.Controls.Cast<Control>().ToList();
@@ -123,7 +136,12 @@ namespace PKHeX.WinForms
         public static bool IsClickonceDeployed => false;
 #endif
 
+        /// <summary>
+        /// Reads in custom extension types that allow the program to open more extensions.
+        /// </summary>
+        /// <param name="exts">Extensions to add</param>
         public static void AddSaveFileExtensions(IEnumerable<string> exts) => CustomSaveExtensions.AddRange(exts);
+
         private static readonly List<string> CustomSaveExtensions = new List<string>
         {
             // THESE ARE SAVE FILE EXTENSION TYPES. SAVE STATE (RAM SNAPSHOT) EXTENSIONS DO NOT GO HERE.
@@ -135,6 +153,7 @@ namespace PKHeX.WinForms
             "fla", // flashcard
             "SaveRAM", // BizHawk
         };
+
         private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
 
         /// <summary>
@@ -179,6 +198,7 @@ namespace PKHeX.WinForms
             path = ofd.FileName;
             return true;
         }
+
         /// <summary>
         /// Opens a dialog to save a <see cref="PKM"/> file.
         /// </summary>
@@ -203,6 +223,7 @@ namespace PKHeX.WinForms
             SavePKM(pk, sfd.FileName, pkx);
             return true;
         }
+
         private static void SavePKM(PKM pk, string path, string pkx)
         {
             SaveBackup(path);
@@ -210,6 +231,7 @@ namespace PKHeX.WinForms
             var data = $".{pkx}" == ext ? pk.DecryptedBoxData : pk.EncryptedPartyData;
             File.WriteAllBytes(path, data);
         }
+
         private static void SaveBackup(string path)
         {
             if (!File.Exists(path))
@@ -268,6 +290,7 @@ namespace PKHeX.WinForms
             }
             return true;
         }
+
         /// <summary>
         /// Opens a dialog to save a <see cref="MysteryGift"/> file.
         /// </summary>
@@ -297,14 +320,19 @@ namespace PKHeX.WinForms
             return true;
         }
 
+        /// <summary>
+        /// Gets the File Dialog filter for a Mystery Gift I/O operation.
+        /// </summary>
+        /// <param name="Format">Format specifier for the </param>
         public static string GetMysterGiftFilter(int Format)
         {
+            const string all = "|All Files|*.*";
             switch (Format)
             {
-                case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4|All Files|*.*";
-                case 5: return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
-                case 6: return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
-                case 7: return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
+                case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all;
+                case 5: return "Gen5 Mystery Gift|*.pgf" + all;
+                case 6: return "Gen6 Mystery Gift|*.wc6;*.wc6full" + all;
+                case 7: return "Gen7 Mystery Gift|*.wc7;*.wc7full" + all;
                 default: return string.Empty;
             }
         }

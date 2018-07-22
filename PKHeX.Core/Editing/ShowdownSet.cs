@@ -14,7 +14,10 @@ namespace PKHeX.Core
         private static readonly string[] genderForms = {"", "F", ""};
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         private static readonly string[] Splitters = {"\r\n", "\n"};
+        private static readonly string[] StatSplitters = { " / ", " " };
         private static readonly string[] LineSplit = {": "};
+        private static readonly string[] ItemSplit = {" @ "};
+        private static readonly int[] DashedSpecies = {784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
         private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
         private const string Language = "en";
         private const int DefaultLanguageID = 2;
@@ -353,7 +356,7 @@ namespace PKHeX.Core
         {
             if (first.Contains(" @ "))
             {
-                string[] pieces = first.Split(new[] { " @ " }, StringSplitOptions.None);
+                string[] pieces = first.Split(ItemSplit, StringSplitOptions.None);
                 string itemstr = pieces.Last().Trim();
 
                 ParseItemStr(itemstr);
@@ -418,8 +421,7 @@ namespace PKHeX.Core
                 return true;
 
             // failure to parse, check edge cases
-            var edge = new[] {784, 250, 032, 029}; // all species with dashes in English Name (Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F)
-            foreach (var e in edge)
+            foreach (var e in DashedSpecies)
             {
                 if (!spec.StartsWith(Strings.Species[e].Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
@@ -477,7 +479,6 @@ namespace PKHeX.Core
                 type = ReplaceAll(type, string.Empty, "[", "]", "(", ")"); // Trim out excess data
                 int hpVal = Array.IndexOf(Strings.types, type) - 1; // Get HP Type
 
-
                 if (IVs.Any(z => z != 31))
                 {
                     if (!HiddenPower.SetIVsForType(hpVal, IVs, Format))
@@ -492,17 +493,18 @@ namespace PKHeX.Core
         }
         private void ParseLineEVs(string line)
         {
-            string[] evlist = SplitLineStats(line);
+            var evlist = SplitLineStats(line);
             if (evlist.Length == 1)
                 InvalidLines.Add("Unknown EV input.");
             for (int i = 0; i < evlist.Length / 2; i++)
             {
-                bool valid = ushort.TryParse(evlist[i * 2 + 0], out ushort EV);
-                int index = Array.IndexOf(StatNames, evlist[i * 2 + 1]);
+                int pos = i * 2;
+                bool valid = ushort.TryParse(evlist[pos + 0], out ushort EV);
+                int index = Array.IndexOf(StatNames, evlist[pos + 1]);
                 if (valid && index > -1)
                     EVs[index] = EV;
                 else
-                    InvalidLines.Add($"Unknown EV Type input: {evlist[i * 2]}");
+                    InvalidLines.Add($"Unknown EV Type input: {evlist[pos]}");
             }
             EVs = EVsSpeedFirst;
         }
@@ -608,7 +610,7 @@ namespace PKHeX.Core
             return line
                 .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
                 .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
-                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
+                .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(StatSplitters, StringSplitOptions.None);
         }
         private static string ReplaceAll(string original, string to, params string[] toBeReplaced)
         {

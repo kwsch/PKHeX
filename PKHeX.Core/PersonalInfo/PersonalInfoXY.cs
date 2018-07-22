@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the X & Y games.
+    /// <see cref="PersonalInfo"/> class with values from the X &amp; Y games.
     /// </summary>
     public class PersonalInfoXY : PersonalInfoBW
     {

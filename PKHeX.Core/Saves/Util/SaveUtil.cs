@@ -1139,6 +1139,7 @@ namespace PKHeX.Core
                 yield return xorpad;
             }
         }
+
         /// <summary>
         /// Decrypts an input array with a xorpad.
         /// </summary>
@@ -1149,15 +1150,17 @@ namespace PKHeX.Core
             for (int z = 0; z < input.Count; z++)
                 input[z] ^= xorpad[z];
         }
+
         /// <summary>
         /// Gets the "main" save file from an input data array.
         /// </summary>
         /// <param name="input">Input data array</param>
+        /// <param name="shift">Offset shift to rip from</param>
         /// <returns>Output data array containing raw save data</returns>
-        public static byte[] GetMainFromSaveContainer(byte[] input)
+        public static byte[] GetMainFromSaveContainer(byte[] input, int shift = 0)
         {
             // Check the validity of the decrypted content by finding the checksum block
-            const int mainOffset = 0x5400;
+            int mainOffset = 0x5400 + shift;
             foreach (int size in mainSizes.OrderByDescending(z => z))
             {
                 int chkBlockOffset = mainOffset + size - 0x1F0;

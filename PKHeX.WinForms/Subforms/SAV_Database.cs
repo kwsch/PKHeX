@@ -19,6 +19,7 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         private readonly SAVEditor BoxView;
         private readonly PKMEditor PKME_Tabs;
+
         public SAV_Database(PKMEditor f1, SAVEditor saveditor)
         {
             InitializeComponent();
@@ -111,6 +112,7 @@ namespace PKHeX.WinForms
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
         private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
+
         private static string Hash(PKM pk)
         {
             switch (pk.Format)
@@ -144,6 +146,7 @@ namespace PKHeX.WinForms
             FillPKXBoxes(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
         }
+
         private void ClickDelete(object sender, EventArgs e)
         {
             sender = WinFormsUtil.GetUnderlyingControl(sender);
@@ -201,6 +204,7 @@ namespace PKHeX.WinForms
             FillPKXBoxes(SCR_Box.Value);
             System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void ClickSet(object sender, EventArgs e)
         {
             // Don't care what slot was clicked, just add it to the database
@@ -239,6 +243,7 @@ namespace PKHeX.WinForms
             FillPKXBoxes(SCR_Box.Value);
             WinFormsUtil.Alert(MsgDBAddFromTabsSuccess);
         }
+
         private void PopulateComboBoxes()
         {
             // Set the Text
@@ -284,6 +289,7 @@ namespace PKHeX.WinForms
             // Trigger a Reset
             ResetFilters(null, null);
         }
+
         private void ResetFilters(object sender, EventArgs e)
         {
             CHK_Shiny.Checked = CHK_IsEgg.Checked = true;
@@ -311,6 +317,7 @@ namespace PKHeX.WinForms
             if (sender != null)
                 System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void GenerateDBReport(object sender, EventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBCreateReportPrompt, MsgDBCreateReportWarning)
@@ -383,6 +390,7 @@ namespace PKHeX.WinForms
             if (Directory.Exists(DatabasePath))
                 Process.Start("explorer.exe", DatabasePath);
         }
+
         private void Menu_Export_Click(object sender, EventArgs e)
         {
             if (Results == null || Results.Count == 0)
@@ -401,6 +409,7 @@ namespace PKHeX.WinForms
             foreach (PKM pkm in Results)
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedBoxData);
         }
+
         private void Menu_Import_Click(object sender, EventArgs e)
         {
             if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
@@ -559,6 +568,7 @@ namespace PKHeX.WinForms
                     return res.Where(pk => pk.Stat_Level >= level);
             }
         }
+
         private static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option)
         {
             switch (option)
@@ -574,6 +584,7 @@ namespace PKHeX.WinForms
                     return res.Where(pk => pk.EVTotal >= 508);
             }
         }
+
         private static IEnumerable<PKM> FilterByIVs(IEnumerable<PKM> res, int option)
         {
             switch (option)
@@ -616,11 +627,13 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
             B_Search.Enabled = true;
         }
+
         private void UpdateScroll(object sender, ScrollEventArgs e)
         {
             if (e.OldValue != e.NewValue)
                 FillPKXBoxes(e.NewValue);
         }
+
         private void SetResults(List<PKM> res)
         {
             Results = res;
@@ -635,6 +648,7 @@ namespace PKHeX.WinForms
             L_Count.Text = string.Format(Counter, Results.Count);
             B_Search.Enabled = true;
         }
+
         private void FillPKXBoxes(int start)
         {
             if (Results == null)
@@ -661,16 +675,19 @@ namespace PKHeX.WinForms
         {
             L_ESV.Visible = MT_ESV.Visible = CHK_IsEgg.CheckState == CheckState.Checked;
         }
+
         private void ChangeLevel(object sender, EventArgs e)
         {
             if (CB_Level.SelectedIndex == 0)
                 TB_Level.Text = string.Empty;
         }
+
         private void ChangeGame(object sender, EventArgs e)
         {
             if (CB_GameOrigin.SelectedIndex != 0)
                 CB_Generation.SelectedIndex = 0;
         }
+
         private void ChangeGeneration(object sender, EventArgs e)
         {
             if (CB_Generation.SelectedIndex != 0)
@@ -684,10 +701,8 @@ namespace PKHeX.WinForms
             else Size = MaximumSize;
         }
 
-        private void Menu_Exit_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void Menu_Exit_Click(object sender, EventArgs e) => Close();
+
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             if (!PAN_Box.RectangleToScreen(PAN_Box.ClientRectangle).Contains(MousePosition))

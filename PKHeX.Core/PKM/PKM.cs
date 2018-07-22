@@ -166,11 +166,14 @@ namespace PKHeX.Core
         /// <summary>
         /// The date the Pokémon was met.
         /// </summary>
-        /// <returns>A DateTime representing the date the Pokémon was met, or null if either the <see cref="PKM"/> format does not support dates or the stored date is invalid.</returns>
-        /// <remarks>Not all <see cref="PKM"/> types support the <see cref="MetDate"/> property.  In these cases, this property will return null.
-        ///
-        /// If null is assigned to this property, it will be cleared.</remarks>
-        public virtual DateTime? MetDate
+        /// <returns>
+        /// A DateTime representing the date the Pokémon was met.
+        /// Returns null if either the <see cref="PKM"/> format does not support dates or the stored date is invalid.</returns>
+        /// <remarks>
+        /// Not all <see cref="PKM"/> types support the <see cref="MetDate"/> property.  In these cases, this property will return null.
+        /// If null is assigned to this property, it will be cleared.
+        /// </remarks>
+        public DateTime? MetDate
         {
             get
             {
@@ -206,11 +209,14 @@ namespace PKHeX.Core
         /// <summary>
         /// The date a Pokémon was met as an egg.
         /// </summary>
-        /// <returns>A DateTime representing the date the Pokémon was met as an egg, or null if the <see cref="PKM"/> format does not support dates.</returns>
-        /// <remarks>Not all <see cref="PKM"/> types support the <see cref="EggMetDate"/> property.  In these cases, this property will return null.
-        ///
-        /// If null is assigned to this property, it will be cleared.</remarks>
-        public virtual DateTime? EggMetDate
+        /// <returns>
+        /// A DateTime representing the date the Pokémon was met as an egg.
+        /// Returns null if either the <see cref="PKM"/> format does not support dates or the stored date is invalid.</returns>
+        /// <remarks>
+        /// Not all <see cref="PKM"/> types support the <see cref="EggMetDate"/> property.  In these cases, this property will return null.
+        /// If null is assigned to this property, it will be cleared.
+        /// </remarks>
+        public DateTime? EggMetDate
         {
             get
             {

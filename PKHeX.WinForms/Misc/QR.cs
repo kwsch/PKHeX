@@ -45,15 +45,22 @@ namespace PKHeX.WinForms
 
         private void RefreshImage()
         {
-            Font font = !Main.Unicode ? FontLabel.Font : FontUtil.GetPKXFont((float)8.25);
+            Font font = !Main.Unicode ? Font : FontUtil.GetPKXFont((float)8.25);
             Image preview = new Bitmap(45, 45);
             using (Graphics gfx = Graphics.FromImage(preview))
             {
                 gfx.FillRectangle(new SolidBrush(Color.White), 0, 0, preview.Width, preview.Height);
-                gfx.DrawImage(icon, preview.Width / 2 - icon.Width / 2, preview.Height / 2 - icon.Height / 2);
+                int x = (preview.Width / 2) - (icon.Width / 2);
+                int y = (preview.Height / 2) - (icon.Height / 2);
+                gfx.DrawImage(icon, x, y);
             }
             // Layer on Preview Image
-            Image pic = ImageUtil.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2);
+            Image pic;
+            {
+                int x = (qr.Width / 2) - (preview.Width / 2);
+                int y = (qr.Height / 2) - (preview.Height / 2);
+                pic = ImageUtil.LayerImage(qr, preview, x, y);
+            }
 
             Image newpic = new Bitmap(PB_QR.Width, PB_QR.Height);
             using (Graphics g = Graphics.FromImage(newpic))
@@ -104,6 +111,7 @@ namespace PKHeX.WinForms
             try { return DecodeQRJson(data); }
             catch (Exception e) { WinFormsUtil.Alert(MsgQRUrlFailConvert, e.Message); return null; }
         }
+
         private static byte[] DecodeQRJson(string data)
         {
             const string cap = "\",\"error\":null}]}]";
@@ -184,10 +192,8 @@ namespace PKHeX.WinForms
         {
             switch (format)
             {
-                case 6:
-                    return QR6Path;
-                default:
-                    return QR6PathBad;
+                case 6: return QR6Path;
+                default: return QR6PathBad;
             }
         }
     }

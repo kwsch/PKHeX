@@ -15,6 +15,7 @@ namespace PKHeX.WinForms
             if (Game == GameVersion.FRLG)
                 Game = sav.Personal == PersonalTable.FR ? GameVersion.FR : GameVersion.LG;
         }
+
         private GameVersion Game;
 
         private static int GetDeoxysForm(GameVersion game)
@@ -94,7 +95,7 @@ namespace PKHeX.WinForms
                 itemimg = Resources.item_tm;
 
             // Redraw
-            int x = 22 + (15 - itemimg.Width) / 2;
+            int x = 22 + ((15 - itemimg.Width) / 2);
             if (x + itemimg.Width > baseImage.Width)
                 x = baseImage.Width - itemimg.Width;
             int y = 15 + (15 - itemimg.Height);
@@ -103,7 +104,6 @@ namespace PKHeX.WinForms
 
         private static Image LayerOverImageShiny(Image baseImage, bool isBoxBGRed)
         {
-
             // Add shiny star to top left of image.
             var rare = isBoxBGRed ? Resources.rare_icon_alt : Resources.rare_icon;
             return ImageUtil.LayerImage(baseImage, rare, 0, 0, 0.7);

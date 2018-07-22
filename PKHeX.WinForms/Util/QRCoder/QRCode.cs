@@ -5,7 +5,7 @@ namespace QRCoder
 {
     using System;
 
-    public class QRCode : AbstractQRCode<Bitmap>, IDisposable
+    public sealed class QRCode : AbstractQRCode<Bitmap>, IDisposable
     {
         public QRCode(QRCodeData data) : base(data) {}
 

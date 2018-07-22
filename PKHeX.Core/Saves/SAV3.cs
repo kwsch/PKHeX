@@ -518,7 +518,6 @@ namespace PKHeX.Core
             }
         }
 
-
         // Storage
         public override int PartyCount
         {

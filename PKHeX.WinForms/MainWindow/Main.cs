@@ -521,22 +521,14 @@ namespace PKHeX.WinForms
             DialogResult sdr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgFileLoadXorpad1, MsgFileLoadXorpad2);
             if (sdr == DialogResult.Cancel)
                 return true;
+
             int savshift = sdr == DialogResult.Yes ? 0 : 0x7F000;
-            byte[] psdata = input.Skip(0x5400 + savshift).Take(SaveUtil.SIZE_G6ORAS).ToArray();
+            var psdata = SaveUtil.GetMainFromSaveContainer(input, savshift);
+            if (psdata != null)
+                return TryLoadSAV(psdata, path);
 
-            if (BitConverter.ToUInt32(psdata, SaveUtil.SIZE_G6ORAS - 0x1F0) == SaveUtil.BEEF)
-                Array.Resize(ref psdata, SaveUtil.SIZE_G6ORAS); // set to ORAS size
-            else if (BitConverter.ToUInt32(psdata, SaveUtil.SIZE_G6XY - 0x1F0) == SaveUtil.BEEF)
-                Array.Resize(ref psdata, SaveUtil.SIZE_G6XY); // set to X/Y size
-            else if (BitConverter.ToUInt32(psdata, SaveUtil.SIZE_G7SM - 0x1F0) == SaveUtil.BEEF)
-                Array.Resize(ref psdata, SaveUtil.SIZE_G7SM); // set to S/M size
-            else
-            {
-                WinFormsUtil.Error(MsgFileLoadSaveFail, path);
-                return true;
-            }
-
-            return TryLoadSAV(psdata, path);
+            WinFormsUtil.Error(MsgFileLoadSaveFail, path);
+            return true;
         }
         private bool TryLoadSAV(byte[] input, string path)
         {

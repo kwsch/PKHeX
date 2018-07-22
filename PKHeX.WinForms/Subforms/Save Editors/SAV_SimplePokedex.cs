@@ -8,6 +8,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_SimplePokedex(SaveFile sav)
         {
             InitializeComponent();

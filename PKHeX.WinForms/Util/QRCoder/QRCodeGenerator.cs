@@ -277,7 +277,7 @@ namespace QRCoder
 
                         }
 
-                        var formatStr = GetFormatString(eccLevel, Convert.ToInt32((pattern.Name.Substring(7, 1)))-1);
+                        var formatStr = GetFormatString(eccLevel, Convert.ToInt32(pattern.Name.Substring(7, 1))-1);
                         ModulePlacer.PlaceFormat(ref qrTemp, formatStr);
                         if (version >= 7)
                         {
@@ -622,7 +622,6 @@ namespace QRCoder
                 public static bool Pattern7(int x, int y) => (((x * y) % 2) + ((x * y) % 3)) % 2 == 0;
                 public static bool Pattern8(int x, int y) => (((x + y) % 2) + ((x * y) % 3)) % 2 == 0;
             }
-
         }
 
         private List<string> CalculateECCWords(string bitString, ECCInfo eccInfo)
@@ -662,11 +661,11 @@ namespace QRCoder
         {
             var newPoly = new Polynom();
             for (var i = 0; i < poly.PolyItems.Count; i++)
-                newPoly.PolyItems.Add(
-                    new PolynomItem(
-                        (poly.PolyItems[i].Coefficient != 0
-                            ? this.GetAlphaExpFromIntVal(poly.PolyItems[i].Coefficient)
-                            : 0), poly.PolyItems[i].Exponent));
+            {
+                var coeff = poly.PolyItems[i].Coefficient != 0 ? GetAlphaExpFromIntVal(poly.PolyItems[i].Coefficient) : 0;
+                newPoly.PolyItems.Add(new PolynomItem(coeff, poly.PolyItems[i].Exponent));
+            }
+
             return newPoly;
         }
 
@@ -824,7 +823,7 @@ namespace QRCoder
 
         private bool IsUtf8(EncodingMode encoding, string plainText)
         {
-            return (encoding == EncodingMode.Byte && !this.IsValidISO(plainText));
+            return encoding == EncodingMode.Byte && !this.IsValidISO(plainText);
         }
 
         private bool IsValidISO(string input)
@@ -962,7 +961,7 @@ namespace QRCoder
                     var polItemRes = new PolynomItem
                     (
                         ShrinkAlphaExp(polItemBase.Coefficient + polItemMulti.Coefficient),
-                        (polItemBase.Exponent + polItemMulti.Exponent)
+                        polItemBase.Exponent + polItemMulti.Exponent
                     );
                     resultPolynom.PolyItems.Add(polItemRes);
                 }
@@ -1299,7 +1298,7 @@ namespace QRCoder
                 //this.PolyItems.ForEach(x => sb.Append("a^" + x.Coefficient + "*x^" + x.Exponent + " + "));
                 foreach (var polyItem in this.PolyItems)
                 {
-                    sb.Append("a^" + polyItem.Coefficient + "*x^" + polyItem.Exponent + " + ");
+                    sb.Append("a^").Append(polyItem.Coefficient).Append("*x^").Append(polyItem.Exponent).Append(" + ");
                 }
 
                 return sb.ToString().TrimEnd(new[] { ' ', '+' });

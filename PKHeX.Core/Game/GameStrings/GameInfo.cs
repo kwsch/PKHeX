@@ -60,7 +60,6 @@ namespace PKHeX.Core
         public static IReadOnlyList<ComboItem> MoveDataSource => Strings.MoveDataSource;
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameStrings.LanguageDataSource(gen);
 
-
         /// <summary>
         /// Gets Country and Region strings for corresponding IDs and language.
         /// </summary>

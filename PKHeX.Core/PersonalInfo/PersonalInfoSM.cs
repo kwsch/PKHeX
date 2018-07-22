@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the Sun/Moon games.
+    /// <see cref="PersonalInfo"/> class with values from the Sun &amp; Moon games.
     /// </summary>
     public class PersonalInfoSM : PersonalInfoXY
     {

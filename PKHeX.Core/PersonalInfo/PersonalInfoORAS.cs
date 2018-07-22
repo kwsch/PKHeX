@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the OR & AS games.
+    /// <see cref="PersonalInfo"/> class with values from the OR &amp; AS games.
     /// </summary>
     public class PersonalInfoORAS : PersonalInfoXY
     {

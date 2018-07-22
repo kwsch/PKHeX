@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the Black & White games.
+    /// <see cref="PersonalInfo"/> class with values from the Black &amp; White games.
     /// </summary>
     public class PersonalInfoBW : PersonalInfo
     {

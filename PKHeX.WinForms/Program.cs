@@ -55,12 +55,14 @@ namespace PKHeX.WinForms
             Error("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.");
             return false;
         }
+
         private static bool IsOnWindows()
         {
             // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
             int p = (int)Environment.OSVersion.Platform;
             return p != 4 && p != 6 && p != 128;
         }
+
         private static int GetFrameworkVersion()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";

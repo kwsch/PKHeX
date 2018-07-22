@@ -97,6 +97,7 @@ namespace PKHeX.WinForms
 
         private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings));
         private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
+
         private static void DumpStrings(Type t, bool sort = false)
         {
             var dir = GetResourcePath();
