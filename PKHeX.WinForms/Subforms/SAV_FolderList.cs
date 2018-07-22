@@ -18,8 +18,9 @@ namespace PKHeX.WinForms
         private readonly List<CustomFolderPath> Paths;
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
-
         private readonly List<Label> TempTranslationLabels = new List<Label>();
+        private static string SAVPaths => Path.Combine(Main.WorkingDirectory, "savpaths.txt");
+
         public SAV_FolderList(Action<SaveFile> openSaveFile)
         {
             InitializeComponent();
@@ -65,12 +66,12 @@ namespace PKHeX.WinForms
             // Preprogrammed folders
             foreach (var loc in Paths)
                 AddButton(loc.DisplayText, loc.Path);
+            AddCustomizeButton();
 
             dgDataRecent.DoubleBuffered(true);
             dgDataBackup.DoubleBuffered(true);
 
             CenterToParent();
-
         }
 
         private static List<CustomFolderPath> GetPathList(IReadOnlyList<string> drives)
@@ -94,15 +95,13 @@ namespace PKHeX.WinForms
                 .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
         }
 
+        private const int ButtonHeight = 30;
+        private const int ButtonWidth = 130;
+
         private void AddButton(string name, string path)
         {
-            var button = new Button
-            {
-                Size = new Size { Height = 30, Width = 130 },
-                Text = name,
-                Name = $"B_{name}",
-                Enabled = new DirectoryInfo(path).Exists,
-            };
+            Button button = GetCustomButton(name);
+            button.Enabled = new DirectoryInfo(path).Exists;
             button.Click += (s, e) =>
             {
                 if (Directory.Exists(path))
@@ -110,24 +109,54 @@ namespace PKHeX.WinForms
                     Process.Start("explorer.exe", path);
                     Close();
                 }
-                else
-                    WinFormsUtil.Alert(MsgFolderNotFound, path);
+                WinFormsUtil.Alert(MsgFolderNotFound, path);
             };
             FLP_Buttons.Controls.Add(button);
         }
 
+        private void AddCustomizeButton()
+        {
+            const string name = "Customize";
+            Button button = GetCustomButton(name);
+            button.Click += (s, e) =>
+            {
+                var loc = SAVPaths;
+                if (!File.Exists(loc))
+                {
+                    var custom = Paths.Where(z => z.Custom).ToList();
+                    if (custom.Count == 0)
+                        Paths.Add(new CustomFolderPath("DISPLAY_TEXT", "FOLDER_PATH", true));
+                    var lines = custom.Select(z => z.Write());
+                    File.WriteAllLines(loc, lines);
+                }
+                Process.Start(loc);
+                Close();
+            };
+            FLP_Buttons.Controls.Add(button);
+        }
+
+        private static Button GetCustomButton(string name)
+        {
+            return new Button
+            {
+                Size = new Size { Height = ButtonHeight, Width = ButtonWidth },
+                Text = name,
+                Name = $"B_{name}",
+            };
+        }
+
         private static IEnumerable<CustomFolderPath> GetUserPaths()
         {
-            string loc = Path.Combine(Main.WorkingDirectory, "savpaths.txt");
-
+            string loc = SAVPaths;
             if (!File.Exists(loc))
                 return Enumerable.Empty<CustomFolderPath>();
 
             var lines = File.ReadLines(loc);
             return lines.Select(z => z.Split('\t'))
                 .Where(a => a.Length == 2)
-                .Select(x => new CustomFolderPath(x));
+                .Select(x => new CustomFolderPath(x, true));
         }
+
         private static IEnumerable<CustomFolderPath> GetConsolePaths(IEnumerable<string> drives)
         {
             var path3DS = SaveDetection.Get3DSLocation(drives);
@@ -137,6 +166,7 @@ namespace PKHeX.WinForms
             var paths = SaveDetection.Get3DSBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
+
         private static IEnumerable<CustomFolderPath> GetSwitchPaths(IEnumerable<string> drives)
         {
             var pathNX = SaveDetection.GetSwitchLocation(drives);
@@ -151,8 +181,9 @@ namespace PKHeX.WinForms
         {
             public readonly string Path;
             public readonly string DisplayText;
+            public readonly bool Custom;
 
-            public CustomFolderPath(string z)
+            public CustomFolderPath(string z, bool custom = false)
             {
                 var di = new DirectoryInfo(z);
                 var root = di.Root.Name;
@@ -162,19 +193,24 @@ namespace PKHeX.WinForms
 
                 Path = z;
                 DisplayText = folder;
+                Custom = custom;
             }
 
-            public CustomFolderPath(IReadOnlyList<string> arr)
+            public CustomFolderPath(IReadOnlyList<string> arr, bool custom = false)
             {
                 Path = arr[1];
                 DisplayText = arr[0];
+                Custom = custom;
             }
 
-            public CustomFolderPath(string path, string display)
+            public CustomFolderPath(string path, string display, bool custom = false)
             {
                 Path = path;
                 DisplayText = display;
+                Custom = custom;
             }
+
+            public string Write() => $"{DisplayText}\t{Path}";
         }
 
         private string GetParentFolderName(SaveFile first)
@@ -184,6 +220,7 @@ namespace PKHeX.WinForms
         }
 
         private sealed class SaveList<T> : SortableBindingList<T> { }
+
         private sealed class SavePreview
         {
             public readonly SaveFile Save;
@@ -234,6 +271,7 @@ namespace PKHeX.WinForms
             mnu.Items.Add(mnuBrowseAt);
             return mnu;
         }
+
         private void ClickOpenFile(DataGridView dgv)
         {
             var sav = GetSaveFile(dgv);
@@ -245,6 +283,7 @@ namespace PKHeX.WinForms
 
             OpenSaveFile(sav.Save);
         }
+
         private void ClickOpenFolder(DataGridView dgv)
         {
             var sav = GetSaveFile(dgv);
@@ -257,6 +296,7 @@ namespace PKHeX.WinForms
             var path = sav.Save.FilePath;
             Process.Start("explorer.exe", $"/select, \"{path}\"");
         }
+
         private SavePreview GetSaveFile(DataGridView dgData)
         {
             var c = dgData.SelectedCells;
@@ -337,6 +377,7 @@ namespace PKHeX.WinForms
             TB_FilterTextContains.Enabled = CB_FilterColumn.SelectedIndex != 0;
             SetRowFilter();
         }
+
         private void ChangeFilterText(object sender, EventArgs e)
         {
             if (CB_FilterColumn.SelectedIndex != 0)
