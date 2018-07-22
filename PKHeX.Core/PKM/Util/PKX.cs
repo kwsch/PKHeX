@@ -595,9 +595,10 @@ namespace PKHeX.Core
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
         private const string ResourceSeparator = "_";
-        private const string ResourcePikachuCap = "c";
+        private const string ResourcePikachuCosplay = "c";
         private const string ResourceShiny = "s";
-        public static bool AllowShinySprite = false;
+        public static bool AllowShinySprite { get; set; }
+
         public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
         {
             if (Legal.SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
@@ -610,8 +611,8 @@ namespace PKHeX.Core
             else if (gender == 1 && Legal.SpeciesGenderedSprite.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
             { sb.Append(ResourceSeparator); sb.Append(gender); }
 
-            if (species == 25 && form > 0 && generation >= 7) // Pikachu
-                sb.Append(ResourcePikachuCap);
+            if (species == 25 && form > 0 && generation == 6) // Cosplay Pikachu
+                sb.Append(ResourcePikachuCosplay);
             if (shiny && AllowShinySprite)
                 sb.Append(ResourceShiny);
             return sb.ToString();
