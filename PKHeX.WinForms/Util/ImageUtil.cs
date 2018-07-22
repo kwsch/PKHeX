@@ -130,6 +130,49 @@ namespace PKHeX.WinForms
             }
         }
 
+        public static void GlowEdges(byte[] data, byte[] colors, int width, int reach = 3, double amount = 0.0777)
+        {
+            // dual pass (pollute, de-transparent)
+            int stride = width * 4;
+            int height = data.Length / stride;
+            for (int i = 0; i < data.Length; i += 4)
+            {
+                if (data[i + 3] == 0)
+                    continue;
+
+                int x = (i % stride) / 4;
+                int y = (i / stride);
+                Pollute(x, y);
+            }
+
+            void Pollute(int x, int y)
+            {
+                int left = Math.Max(0, x - reach);
+                int right = Math.Min(width - 1, x + reach);
+                int top = Math.Max(0, y - reach);
+                int bottom = Math.Min(height - 1, y + reach);
+                for (int i = left; i <= right; i++)
+                for (int j = top; j <= bottom; j++)
+                {
+                    var c = 4 * (i + (j * width));
+                    data[c + 0] += (byte)(amount * (0xFF - data[c + 0]));
+                }
+            }
+            for (int i = 0; i < data.Length; i += 4)
+            {
+                if (data[i + 3] != 0)
+                    continue;
+                var flair = data[i + 0];
+                if (flair == 0)
+                    continue;
+
+                data[i + 3] = flair;
+                data[i + 0] = colors[0];
+                data[i + 1] = colors[1];
+                data[i + 2] = colors[2];
+            }
+        }
+
         public static Color ColorBaseStat(int v)
         {
             const float maxval = 180; // shift the green cap down
