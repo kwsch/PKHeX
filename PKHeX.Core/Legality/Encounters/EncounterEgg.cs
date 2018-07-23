@@ -102,14 +102,13 @@ namespace PKHeX.Core
         {
             var moves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
             if (moves.Length == 0)
-                moves = MoveLevelUp.GetEncounterMoves(pk, Level, Version);
-            else if (moves.Length < 4 && pk.Format >= 6)
-            {
-                // Sprinkle in some default level up moves
-                var lvl = Legal.GetBaseEggMoves(pk, Species, Version, Level);
-                moves = lvl.Concat(moves).ToArray();
-            }
-            return moves;
+                return MoveLevelUp.GetEncounterMoves(pk, Level, Version);
+            if (moves.Length >= 4 || pk.Format < 6)
+                return moves;
+
+            // Sprinkle in some default level up moves
+            var lvl = Legal.GetBaseEggMoves(pk, Species, Version, Level);
+            return lvl.Concat(moves).ToArray();
         }
     }
 

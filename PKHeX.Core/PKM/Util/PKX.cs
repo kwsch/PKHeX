@@ -541,9 +541,9 @@ namespace PKHeX.Core
         public static uint GetWurmpleEC(int evoVal)
         {
             uint EC;
-            while (true)
-                if (evoVal == GetWurmpleEvoVal(EC = Util.Rand32()))
-                    return EC;
+            do EC = Util.Rand32();
+            while (evoVal != GetWurmpleEvoVal(EC));
+            return EC;
         }
 
         /// <summary>
