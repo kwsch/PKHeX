@@ -178,6 +178,9 @@
     <Compile Include="Controls\PKM Editor\TrainerID.Designer.cs">
       <DependentUpon>TrainerID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\BitmapAnimator.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\SAV Editor\BoxEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

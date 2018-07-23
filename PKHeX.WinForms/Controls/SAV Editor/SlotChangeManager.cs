@@ -24,7 +24,11 @@ namespace PKHeX.WinForms.Controls
         public Image ColorizedColor { get; private set; }
         public int ColorizedBox { get; private set; } = -1;
         public int ColorizedSlot { get; private set; } = -1;
+
         public bool GlowHover { get; set; } = true;
+        public Color GlowInitial { get; set; } = Color.White;
+        public Color GlowFinal { get; set; } = Color.LightSkyBlue;
+        private BitmapAnimator HoverWorker;
 
         private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
@@ -54,22 +58,15 @@ namespace PKHeX.WinForms.Controls
             var pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
-            OriginalBackground = pb.BackgroundImage;
-            var hover = GlowHover ? GetGlowSprite(pb) : Resources.slotHover;
-            pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? hover : ImageUtil.LayerImage(pb.BackgroundImage, hover, 0, 0);
             BeginHoverSlot(pb);
         }
-        private Bitmap GetGlowSprite(PictureBox pb)
+        private Bitmap GetGlowSprite(PictureBox pb, PKM pk)
         {
-            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-            var data = view.GetSlotData(pb);
-            var pk = SAV.GetStoredSlot(data.Offset);
             var baseSprite = SpriteUtil.GetSprite(pk.Species, pk.AltForm, pk.Gender, 0, pk.IsEgg, false, pk.Format);
 
             var pixels = ImageUtil.GetPixelData((Bitmap)baseSprite);
-            ImageUtil.GlowEdges(pixels, new byte[] { 255, 255, 255 }, pb.Image.Width);
-            var hover = ImageUtil.GetBitmap(pixels, pb.Image.Width, pb.Image.Height);
-            return ImageUtil.LayerImage(Resources.slotHover, hover, 0, 0);
+            ImageUtil.GlowEdges(pixels, new[] {GlowInitial.B, GlowInitial.G, GlowInitial.R}, pb.Image.Width);
+            return ImageUtil.GetBitmap(pixels, pb.Image.Width, pb.Image.Height);
         }
         private void BeginHoverSlot(PictureBox pb)
         {
@@ -78,6 +75,25 @@ namespace PKHeX.WinForms.Controls
             var pk = SAV.GetStoredSlot(data.Offset);
             HoveredSlot = pb;
 
+            OriginalBackground = pb.BackgroundImage;
+
+            Bitmap hover;
+            if (GlowHover)
+            {
+                HoverWorker?.Stop();
+
+                var GlowBase = GetGlowSprite(pb, pk);
+                hover = ImageUtil.LayerImage(GlowBase, Resources.slotHover, 0, 0);
+                HoverWorker = new BitmapAnimator(GlowBase, Resources.slotHover) { GlowFromColor = GlowInitial, GlowToColor = GlowFinal };
+                HoverWorker.Start(pb, OriginalBackground);
+            }
+            else
+            {
+                hover = Resources.slotHover;
+            }
+
+            pb.BackgroundImage = CurrentBackground = OriginalBackground == null ? hover : ImageUtil.LayerImage(OriginalBackground, hover, 0, 0);
+
             if (Settings.Default.HoverSlotShowText)
                 ShowSimulatorSetTooltip(pb, pk);
             if (Settings.Default.HoverSlotPlayCry)
@@ -85,7 +101,13 @@ namespace PKHeX.WinForms.Controls
         }
         private void EndHoverSlot()
         {
-            HoveredSlot = null;
+            if (HoveredSlot != null)
+            {
+                HoverWorker?.Stop();
+                HoverWorker = null;
+                HoveredSlot.BackgroundImage = OriginalBackground;
+                HoveredSlot = null;
+            }
             ShowSet.RemoveAll();
             Sounds.Stop();
         }
@@ -433,6 +455,10 @@ namespace PKHeX.WinForms.Controls
             ColorizedBox = box;
             ColorizedSlot = slot;
             ColorizedColor = img;
+
+            OriginalBackground = img;
+            if (HoverWorker != null)
+                HoverWorker.OriginalBackground = img;
         }
 
         // PKM Get Set
