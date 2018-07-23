@@ -21,9 +21,9 @@ namespace QRCoder
 
             var bmp = new Bitmap(size, size);
             var gfx = Graphics.FromImage(bmp);
-            for (var x = 0; x < size + offset; x = x + pixelsPerModule)
+            for (var x = 0; x < size + offset; x += pixelsPerModule)
             {
-                for (var y = 0; y < size + offset; y = y + pixelsPerModule)
+                for (var y = 0; y < size + offset; y += pixelsPerModule)
                 {
                     var module = this.QrCodeData.ModuleMatrix[(y + pixelsPerModule)/pixelsPerModule - 1][(x + pixelsPerModule)/pixelsPerModule - 1];
                     if (module)

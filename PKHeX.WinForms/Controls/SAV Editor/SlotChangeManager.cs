@@ -520,11 +520,11 @@ namespace PKHeX.WinForms.Controls
 
         public void Dispose()
         {
+            Sounds.Dispose();
             SE?.Dispose();
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
             ColorizedColor?.Dispose();
-            Sounds?.Dispose();
         }
     }
 }

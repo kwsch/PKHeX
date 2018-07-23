@@ -213,7 +213,6 @@ namespace PKHeX.WinForms.Controls
             if (!SAV.HasDaycare)
                 return;
 
-
             for (int i = 0; i < 2; i++)
             {
                 var pb = SlotPictureBoxes[i + (int)SlotIndex.Daycare];
