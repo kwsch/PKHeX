@@ -256,19 +256,24 @@ namespace PKHeX.Core
         public override int GetMovePP(int move, int ppup) => Math.Min(61, base.GetMovePP(move, ppup));
         public override ushort[] GetStats(PersonalInfo p)
         {
-            ushort[] Stats = new ushort[6];
-            for (int i = 0; i < Stats.Length; i++)
+            var lv = Stat_Level;
+            ushort[] Stats =
             {
-                ushort L = (ushort)Stat_Level;
-                ushort B = (ushort)p.Stats[i];
-                ushort I = (ushort)IVs[i];
-                ushort E = // Fixed formula via http://www.smogon.com/ingame/guides/rby_gsc_stats
-                    (ushort)Math.Floor(Math.Min(255, Math.Floor(Math.Sqrt(Math.Max(0, EVs[i] - 1)) + 1)) / 4.0);
-                Stats[i] = (ushort)Math.Floor((2 * (B + I) + E) * L / 100.0 + 5);
-            }
-            Stats[0] += (ushort)(5 + Stat_Level); // HP
-
+                GetStat(p.HP , IV_HP , EV_HP , lv),
+                GetStat(p.ATK, IV_ATK, EV_ATK, lv),
+                GetStat(p.DEF, IV_DEF, EV_DEF, lv),
+                GetStat(p.SPE, IV_SPE, EV_SPE, lv),
+                GetStat(p.SPA, IV_SPA, EV_SPA, lv),
+                GetStat(p.SPD, IV_SPD, EV_SPD, lv),
+            };
+            Stats[0] += (ushort)(5 + lv); // HP
             return Stats;
+        }
+
+        private static ushort GetStat(int BV, int IV, int EV, int LV)
+        {
+            EV = (ushort)Math.Sqrt(EV) >> 2;
+            return (ushort)((((2 * (BV + IV)) + EV) * LV / 100) + 5);
         }
 
         public override bool IsEgg { get; set; }
@@ -359,7 +364,9 @@ namespace PKHeX.Core
             PK1 pk1 = new PK1(null, Identifier, Japanese) {TradebackStatus = TradebackType.WasTradeback};
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
-            pk1.Stat_HPCurrent = Stat_HPCurrent;
+
+            var hp = Stat_HPCurrent;
+            pk1.Stat_HPCurrent = hp != 0 ? hp : GetStat(PersonalInfo.HP, IV_ATK, EV_ATK, Stat_Level);
             pk1.Stat_Level = Stat_Level;
             // Status = 0
             Array.Copy(otname, 0, pk1.otname, 0, otname.Length);
