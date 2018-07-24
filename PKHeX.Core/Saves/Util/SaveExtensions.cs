@@ -136,6 +136,13 @@ namespace PKHeX.Core
                     continue;
                 }
 
+                if (PKMConverter.IsIncompatibleGB(pk.Format, SAV.Japanese, pk.Japanese))
+                {
+                    c = PKMConverter.GetIncompatibleGBMessage(pk, SAV.Japanese);
+                    Debug.WriteLine(c);
+                    continue;
+                }
+
                 var compat = SAV.IsPKMCompatible(pk);
                 if (compat.Count > 0)
                     continue;

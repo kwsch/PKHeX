@@ -416,7 +416,7 @@ namespace PKHeX.Core
             return pkm != null;
         }
 
-        private static string GetIncompatibleGBMessage(PKM pk, bool destJP)
+        public static string GetIncompatibleGBMessage(PKM pk, bool destJP)
         {
             var src = destJP ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
             var dest = !destJP ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
