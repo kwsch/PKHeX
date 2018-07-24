@@ -15,9 +15,12 @@ namespace PKHeX.WinForms.Controls
             Elapsed += TimerElapsed;
         }
 
-        private readonly Bitmap GlowBase;
-        private readonly Bitmap ExtraLayer;
+        private Bitmap GlowBase;
+        private Bitmap ExtraLayer;
         private Bitmap[] GlowCache;
+        public Image OriginalBackground;
+
+        private PictureBox pb;
         private int GlowInterval;
         private int GlowCounter;
 
@@ -38,11 +41,10 @@ namespace PKHeX.WinForms.Controls
         {
             Enabled = false;
             pb.BackgroundImage = OriginalBackground;
-            GlowBase.Dispose();
+            GlowBase = ExtraLayer = null;
+            OriginalBackground = null;
         }
 
-        private PictureBox pb;
-        public Image OriginalBackground;
         public void Start(PictureBox pbox, Image original)
         {
             pb = pbox;
