@@ -38,7 +38,7 @@
     <Setting Name="HoverSlotPlayCry" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="GlowHover" Type="System.Boolean" Scope="User">
+    <Setting Name="HoverSlotGlowEdges" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

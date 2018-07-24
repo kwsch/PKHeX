@@ -170,12 +170,12 @@ namespace PKHeX.WinForms.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool GlowHover {
+        public bool HoverSlotGlowEdges {
             get {
-                return ((bool)(this["GlowHover"]));
+                return ((bool)(this["HoverSlotGlowEdges"]));
             }
             set {
-                this["GlowHover"] = value;
+                this["HoverSlotGlowEdges"] = value;
             }
         }
     }
