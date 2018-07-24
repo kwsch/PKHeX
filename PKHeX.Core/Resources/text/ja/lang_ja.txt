@@ -1111,6 +1111,7 @@ SAV_ZygardeCell.L_Cells=キューブ内
 SAV_ZygardeCell.L_Collected=回収
 SettingsEditor.ApplyMarkings=Apply Markings on Import
 SettingsEditor.FlagIllegal=不整合を表示
+SettingsEditor.GlowHover=Show PKM Glow on Hover
 SettingsEditor.HoverSlotPlayCry=Play PKM Slot Cry on Hover
 SettingsEditor.HoverSlotShowText=Show PKM Slot ToolTip on Hover
 SettingsEditor.ModifyUnset=Notify Unset Changes

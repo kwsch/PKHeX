@@ -1107,6 +1107,7 @@ SAV_ZygardeCell.L_Cells=Guardado:
 SAV_ZygardeCell.L_Collected=Colectado:
 SettingsEditor.ApplyMarkings=Apply Markings on Import
 SettingsEditor.FlagIllegal=Flag Ilegal
+SettingsEditor.GlowHover=Show PKM Glow on Hover
 SettingsEditor.HoverSlotPlayCry=Play PKM Slot Cry on Hover
 SettingsEditor.HoverSlotShowText=Show PKM Slot ToolTip on Hover
 SettingsEditor.ModifyUnset=Notificar Cambios no hechos

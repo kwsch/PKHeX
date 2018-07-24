@@ -25,7 +25,6 @@ namespace PKHeX.WinForms.Controls
         public int ColorizedBox { get; private set; } = -1;
         public int ColorizedSlot { get; private set; } = -1;
 
-        public bool GlowHover { get; set; } = true;
         public Color GlowInitial { get; set; } = Color.White;
         public Color GlowFinal { get; set; } = Color.LightSkyBlue;
         private BitmapAnimator HoverWorker;
@@ -78,7 +77,7 @@ namespace PKHeX.WinForms.Controls
             OriginalBackground = pb.BackgroundImage;
 
             Bitmap hover;
-            if (GlowHover)
+            if (Settings.Default.GlowHover)
             {
                 HoverWorker?.Stop();
 
