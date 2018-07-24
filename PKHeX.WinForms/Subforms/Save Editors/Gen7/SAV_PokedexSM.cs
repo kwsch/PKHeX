@@ -153,6 +153,15 @@ namespace PKHeX.WinForms
                 return false;
             }
 
+            // sanity check formes -- SM does not have totem form dex bits
+            int count = ds.Count;
+            for (int i = 1; i < ds.Count; i++)
+            {
+                int index = Dex.GetDexFormIndex(bspecies, count, i);
+                if (index < 0)
+                    ds.RemoveAt(i); // always last entry, ends early
+            }
+
             LB_Forms.DataSource = ds;
             if (fspecies <= SAV.MaxSpeciesID)
                 LB_Forms.SelectedIndex = 0;
