@@ -1,3 +1,4 @@
+About=About
 BatchEditor=批量编辑器
 ErrorWindow=错误
 KChart=信息列表
@@ -46,6 +47,9 @@ SAV_Wondercard=神秘礼物导入导出
 SAV_ZygardeCell=细胞/贴纸编辑
 SuperTrainingEditor=超级训练奖章
 TrashEditor=特殊字符
+About.L_Thanks=Thanks to all the researchers!
+About.Tab_Changelog=Changelog
+About.Tab_Shortcuts=Shortcuts
 BatchEditor.B_Add=增加
 BatchEditor.B_Go=运行
 BatchEditor.L_PropType=类型

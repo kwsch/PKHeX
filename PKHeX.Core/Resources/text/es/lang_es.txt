@@ -1,3 +1,4 @@
+About=About
 BatchEditor=Editor de Lotes
 ErrorWindow=Error
 KChart=KChart
@@ -46,6 +47,9 @@ SAV_Wondercard=Tarjetas Misteriosas
 SAV_ZygardeCell=Editor de Células/Stickers
 SuperTrainingEditor=Editor de Medallas
 TrashEditor=Caracteres Especiales
+About.L_Thanks=Thanks to all the researchers!
+About.Tab_Changelog=Changelog
+About.Tab_Shortcuts=Shortcuts
 BatchEditor.B_Add=Añadir
 BatchEditor.B_Go=Correr
 BatchEditor.L_PropType=PropertyType

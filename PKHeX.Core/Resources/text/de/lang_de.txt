@@ -1,3 +1,4 @@
+About=About
 BatchEditor=Batch Editor
 ErrorWindow=Error
 KChart=KChart
@@ -46,6 +47,9 @@ SAV_Wondercard=Mystery Gift I/O
 SAV_ZygardeCell=Cells/Sticker Editor
 SuperTrainingEditor=Medal Editor
 TrashEditor=Special Characters
+About.L_Thanks=Thanks to all the researchers!
+About.Tab_Changelog=Changelog
+About.Tab_Shortcuts=Shortcuts
 BatchEditor.B_Add=Add
 BatchEditor.B_Go=Run
 BatchEditor.L_PropType=PropertyType

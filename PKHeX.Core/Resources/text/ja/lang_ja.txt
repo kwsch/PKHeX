@@ -1,3 +1,4 @@
+About=About
 BatchEditor=バッチエディタ
 ErrorWindow=エラー
 KChart=KChart
@@ -46,6 +47,9 @@ SAV_Wondercard=ふしぎなおくりもの
 SAV_ZygardeCell=ジガルデ・セル / ヌシール
 SuperTrainingEditor=スパトレ
 TrashEditor=Special Characters
+About.L_Thanks=Thanks to all the researchers!
+About.Tab_Changelog=Changelog
+About.Tab_Shortcuts=Shortcuts
 BatchEditor.B_Add=追加
 BatchEditor.B_Go=実行
 BatchEditor.L_PropType=PropertyType
