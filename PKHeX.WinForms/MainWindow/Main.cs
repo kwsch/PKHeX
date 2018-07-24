@@ -259,8 +259,10 @@ namespace PKHeX.WinForms
         }
         private void FormLoadPlugins()
         {
+            #if !MERGED // merged should load dlls from within too, folder is no longer required
             if (!Directory.Exists(PluginPath))
                 return;
+            #endif
             Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
             foreach (var p in Plugins.OrderBy(z => z.Priority))
                 p.Initialize(C_SAV, PKME_Tabs, menuStrip1);

@@ -15,38 +15,52 @@ namespace PKHeX.WinForms
             var pluginTypes = GetPluginsOfType<T>(assemblies);
             return LoadPlugins<T>(pluginTypes);
         }
+
         private static IEnumerable<T> LoadPlugins<T>(IEnumerable<Type> pluginTypes)
         {
             return pluginTypes.Select(type => (T)Activator.CreateInstance(type));
         }
+
         private static IEnumerable<Assembly> GetAssemblies(IEnumerable<string> dllFileNames)
         {
             #if UNSAFEDLL
-            return dllFileNames.Select(Assembly.UnsafeLoadFrom);
+            var assemblies = dllFileNames.Select(Assembly.UnsafeLoadFrom);
             #else
-            return dllFileNames.Select(Assembly.LoadFrom);
+            var assemblies = dllFileNames.Select(Assembly.LoadFrom);
             #endif
+            #if MERGED
+            assemblies = assemblies.Concat(new[] { Assembly.GetExecutingAssembly() }); // load merged too
+            #endif
+            return assemblies;
         }
+
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {
             var pluginType = typeof(T);
-            foreach (var z in assemblies.Where(z => z != null))
+            return assemblies.Where(z => z != null).SelectMany(z => GetPluginTypes(z, pluginType));
+        }
+
+        private static IEnumerable<Type> GetPluginTypes(Assembly z, Type pluginType)
+        {
+            try
             {
-                Type[] types; try { types = z.GetTypes(); }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}", ex.Message);
-                    continue;
-                }
-                foreach (Type type in types)
-                {
-                    if (type.IsInterface || type.IsAbstract)
-                        continue;
-                    if (type.GetInterface(pluginType.FullName) == null)
-                        continue;
-                    yield return type;
-                }
+                var types = z.GetTypes();
+                return types.Where(type => IsTypePlugin(type, pluginType));
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}", ex.Message);
+                return Enumerable.Empty<Type>();
+            }
+        }
+
+        private static bool IsTypePlugin(Type type, Type pluginType)
+        {
+            if (type.IsInterface || type.IsAbstract)
+                return false;
+            if (type.GetInterface(pluginType.FullName) == null)
+                return false;
+            return true;
         }
     }
 }
