@@ -74,8 +74,17 @@ namespace PKHeX.Core
         public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
         public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
         public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could mean PKHeX doesn't support your save file or your save file is corrupt.";
+
+        public static string MsgPKMConvertSuccess { get; set; } = "Converted from {0} to {1}.";
         public static string MsgPKMConvertFail { get; set; } = "Conversion failed.";
         public static string MsgPKMMysteryGiftFail { get; set; } = "Mystery Gift is not a Pokémon.";
+        public static string MsgPKMConvertFailFormat { get; set; } = "Cannot convert a {0} to {1}";
+        public static string MsgPKMConvertFailBackwards { get; set; } = "Can't load {0}s to Gen{1} saves.";
+        public static string MsgPKMConvertFailForme { get; set; } = "Form cannot be transferred to future games.";
+        public static string MsgPKMConvertFailNoMethod { get; set; } = "Cannot transfer this format to the requested format.";
+        public static string MsgPKMConvertIncompatible { get; set; } = "Cannot load {0} {1}s to {2} saves.";
+        public static string MsgPKMConvertInternational { get; set; } = "International";
+        public static string MsgPKMConvertJapanese { get; set; } = "Japanese";
 
         public static string MsgClipboardLegalityExport { get; set; } = "Copy report to Clipboard?";
         public static string MsgClipboardFailRead { get; set; } = "Clipboard does not contain text.";

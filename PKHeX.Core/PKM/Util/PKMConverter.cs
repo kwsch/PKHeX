@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -230,15 +232,15 @@ namespace PKHeX.Core
             int toFormat = int.Parse(PKMType.Name.Last().ToString());
             if (fromFormat > toFormat && fromFormat != 2)
             {
-                comment = $"Cannot convert a {fromType.Name} to a {PKMType.Name}.";
+                comment = string.Format(MsgPKMConvertFailFormat, fromType.Name, PKMType.Name);
                 return null;
             }
 
             var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
 
             comment = pkm == null
-                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
-                : $"Converted from {fromType.Name} to {PKMType.Name}.";
+                ? string.Format(MsgPKMConvertFailFormat, fromType.Name, PKMType.Name)
+                : string.Format(MsgPKMConvertSuccess, fromType.Name, PKMType.Name);
             return pkm;
         }
 
@@ -271,7 +273,7 @@ namespace PKHeX.Core
                 case PK2 pk2 when pk.Species > Legal.MaxSpeciesID_1:
                     var lang = pk2.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
                     var name = PKX.GetSpeciesName(pk2.Species, lang);
-                    comment = $"Cannot convert a {name} to {PKMType.Name}";
+                    comment = string.Format(MsgPKMConvertFailFormat, name, PKMType.Name);
                     return null;
 
                 // Sequential
@@ -287,7 +289,7 @@ namespace PKHeX.Core
 
                 // None
                 default:
-                    comment = "Cannot transfer this format to the requested format.";
+                    comment = MsgPKMConvertFailNoMethod;
                     return null;
             }
         }
@@ -306,10 +308,8 @@ namespace PKHeX.Core
                     comment = null;
                     return false;
                 case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
-                    comment = "Cannot transfer Cosplay Pikachu forward.";
-                    return true;
                 case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
-                    comment = "Cannot transfer Spiky-Eared Pichu forward.";
+                    comment = MsgPKMConvertFailForme;
                     return true;
             }
         }
@@ -401,23 +401,29 @@ namespace PKHeX.Core
             if (!IsConvertibleToFormat(pk, target.Format))
             {
                 pkm = null;
-                c = $"Can't load {pk.GetType().Name}s to Gen{target.Format} saves.";
+                c = string.Format(MsgPKMConvertFailBackwards, pk.GetType().Name, target.Format);
                 if (!AllowIncompatibleConversion)
                     return false;
             }
-            if (target.Format < 3 && pk.Japanese != target.Japanese)
+            if (IsIncompatibleGB(target.Format, target.Japanese, pk.Japanese))
             {
                 pkm = null;
-                var strs = new[] { "International", "Japanese" };
-                var val = target.Japanese ? 0 : 1;
-                c = $"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.";
-                if (!AllowIncompatibleConversion)
-                    return false;
+                c = GetIncompatibleGBMessage(pk, target.Japanese);
+                return false;
             }
             pkm = ConvertToType(pk, target.GetType(), out c);
             Debug.WriteLine(c);
             return pkm != null;
         }
+
+        private static string GetIncompatibleGBMessage(PKM pk, bool destJP)
+        {
+            var src = destJP ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
+            var dest = !destJP ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
+            return string.Format(MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
+        }
+
+        public static bool IsIncompatibleGB(int format, bool destJP, bool srcJP) => format <= 2 && destJP != srcJP;
 
         /// <summary>
         /// Gets a Blank <see cref="PKM"/> object of the specified type.
