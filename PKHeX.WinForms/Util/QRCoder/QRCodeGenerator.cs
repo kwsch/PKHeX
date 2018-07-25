@@ -953,7 +953,7 @@ namespace QRCoder
 
         private static int ShrinkAlphaExp(int alphaExp)
         {
-            return (byte)alphaExp + alphaExp >> 8;
+            return (alphaExp & 0xFF) + (alphaExp >> 8);
         }
 
         private void CreateAlphanumEncDict()
