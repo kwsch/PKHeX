@@ -27,8 +27,8 @@ namespace PKHeX.Core
             if (Version == GameVersion.Invalid)
                 return;
 
-            GetActiveGeneralBlock();
-            GetActiveStorageBlock();
+            generalBlock = GetActiveGeneralBlock();
+            storageBlock = GetActiveStorageBlock();
             GetSAVOffsets();
 
             switch (Version)
@@ -129,51 +129,68 @@ namespace PKHeX.Core
         }
 
         // Blocks & Offsets
-        private int generalBlock = -1; // Small Block
-        private int storageBlock = -1; // Big Block
-        private int hofBlock = -1; // Hall of Fame Block
+        private readonly int generalBlock = -1; // Small Block
+        private readonly int storageBlock = -1; // Big Block
+        private readonly int hofBlock = -1; // Hall of Fame Block
         private int SBO => 0x40000 * storageBlock;
         public int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
-        private void GetActiveGeneralBlock()
+        private int GetActiveGeneralBlock()
         {
             if (Version < 0)
-                return;
-            int ofs = 0;
+                return -1;
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (GetData(0x00000, 10).All(z => z == 0xFF))
-            { generalBlock = 1; return; }
-            if (GetData(0x40000, 10).All(z => z == 0xFF))
-            { generalBlock = 0; return; }
+            if (IsRangeAll(0x00000, 10, 0) || IsRangeAll(0x00000, 10, 0xFF))
+                return 1;
+            if (IsRangeAll(0x40000, 10, 0) || IsRangeAll(0x40000, 10, 0xFF))
+                return 0;
 
-            // Check SaveCount for current save
-            if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
-            else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
-            else if (Version == GameVersion.HGSS) ofs = 0xF618; // HGSS
-            generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
+            int ofs = GetActiveBlockSaveCounterOffset();
+            bool first = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000);
+            return first ? 0 : 1;
         }
-        private void GetActiveStorageBlock()
+
+        private int GetActiveStorageBlock()
         {
             if (Version < 0)
-                return;
-            int ofs = 0;
-
-            // Check SaveCount for current save
-            if (Version == GameVersion.DP) ofs = 0x1E2D0; // DP
-            else if (Version == GameVersion.Pt) ofs = 0x1F100; // PT
-            else if (Version == GameVersion.HGSS) ofs = 0x21A00; // HGSS
+                return -1;
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (GetData(ofs + 0x00000, 10).All(z => z == 0xFF))
-            { storageBlock = 1; return; }
-            if (GetData(ofs + 0x40000, 10).All(z => z == 0xFF))
-            { storageBlock = 0; return; }
+            if (IsRangeAll(0x00000, 10, 0) || IsRangeAll(0x00000, 10, 0xFF))
+                return 1;
+            if (IsRangeAll(0x40000, 10, 0) || IsRangeAll(0x40000, 10, 0xFF))
+                return 0;
 
-            storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
+            int ofs = GetStorageBlockSaveCounterOffset();
+            bool first = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000);
+            return first ? 0 : 1;
         }
+
+        private int GetActiveBlockSaveCounterOffset()
+        {
+            switch (Version)
+            {
+                case GameVersion.DP: return 0xC0F0;
+                case GameVersion.Pt: return 0xCF1C;
+                case GameVersion.HGSS: return 0xF618;
+                default: return -1;
+            }
+        }
+
+        private int GetStorageBlockSaveCounterOffset()
+        {
+            switch (Version)
+            {
+                case GameVersion.DP: return 0x1E2D0;
+                case GameVersion.Pt: return 0x1F100;
+                case GameVersion.HGSS: return 0x21A00;
+                default: return -1;
+            }
+        }
+
         private void GetSAVOffsets()
         {
             if (Version < 0)

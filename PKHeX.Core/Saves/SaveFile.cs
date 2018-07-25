@@ -760,10 +760,11 @@ namespace PKHeX.Core
             input.CopyTo(Data, Offset);
             Edited = true;
         }
-        public bool IsRangeEmpty(int Offset, int Length)
+        public bool IsRangeEmpty(int Offset, int Length) => IsRangeAll(Offset, Length, 0);
+        public bool IsRangeAll(int Offset, int Length, int value)
         {
             for (int i = Offset; i < Offset + Length; i++)
-                if (Data[i] != 0)
+                if (Data[i] != value)
                     return false;
             return true;
         }
