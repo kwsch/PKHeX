@@ -104,12 +104,13 @@ namespace PKHeX.WinForms
             button.Enabled = new DirectoryInfo(path).Exists;
             button.Click += (s, e) =>
             {
-                if (Directory.Exists(path))
+                if (!Directory.Exists(path))
                 {
-                    Process.Start("explorer.exe", path);
-                    Close();
+                    WinFormsUtil.Alert(MsgFolderNotFound, path);
+                    return;
                 }
-                WinFormsUtil.Alert(MsgFolderNotFound, path);
+                Process.Start("explorer.exe", path);
+                Close();
             };
             FLP_Buttons.Controls.Add(button);
         }
