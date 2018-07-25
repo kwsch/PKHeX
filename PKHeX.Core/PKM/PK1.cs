@@ -163,9 +163,11 @@ namespace PKHeX.Core
             set
             {
                 SpeciesID1 = (byte)SpeciesConverter.SetG1Species(value);
+                Type_A = PersonalInfo.Type1;
+                Type_B = PersonalInfo.Type2;
 
                 // Before updating catch rate, check if non-standard
-                if (TradebackStatus != TradebackType.WasTradeback && !CatchRateIsItem && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
+                if (TradebackStatus != TradebackType.WasTradeback && !Legal.IsCatchRateHeldItem(Catch_Rate) && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
                 {
                     int baseSpecies = Legal.GetBaseSpecies(this);
                     int Rate = Catch_Rate;
@@ -173,8 +175,6 @@ namespace PKHeX.Core
                     if (Enumerable.Range(baseSpecies, count).All(z => Rate != PersonalTable.RB[z].CatchRate && Rate != PersonalTable.Y[z].CatchRate))
                         Catch_Rate = PersonalTable.RB[value].CatchRate;
                 }
-                Type_A = PersonalInfo.Type1;
-                Type_B = PersonalInfo.Type2;
             }
         }
 
@@ -289,7 +289,6 @@ namespace PKHeX.Core
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
         #endregion
-        public bool CatchRateIsItem = false;
 
         public override int Gender
         {

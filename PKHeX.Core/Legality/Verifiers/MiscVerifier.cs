@@ -89,7 +89,7 @@ namespace PKHeX.Core
             {
                 case TradebackType.Any:
                 case TradebackType.WasTradeback:
-                    if (catch_rate == 0 || (Legal.HeldItems_GSC.Contains((ushort)catch_rate) && !RateMatchesEncounter(e.Species)))
+                    if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
                         data.AddLine(GetValid(V394));
                     else if (pk1.TradebackStatus == TradebackType.WasTradeback)
                         data.AddLine(GetInvalid(V395));

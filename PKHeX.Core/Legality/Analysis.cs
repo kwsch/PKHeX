@@ -158,9 +158,11 @@ namespace PKHeX.Core
         }
         private void ParsePK1()
         {
-            SetTradebackStatusInitial();
+            pkm.TradebackStatus = Legal.GetTradebackStatusInitial(pkm);
             UpdateInfo();
-            SetTradebackStatusPost();
+            if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
+                pkm.TradebackStatus = TradebackType.WasTradeback; // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
+
             Nickname.Verify(this);
             Level.Verify(this);
             Level.VerifyG1(this);
@@ -237,34 +239,6 @@ namespace PKHeX.Core
         {
             Info = EncounterFinder.FindVerifiedEncounter(pkm);
             Parse.AddRange(Info.Parse);
-        }
-        private void SetTradebackStatusInitial()
-        {
-            if (pkm is PK1 pk1)
-            {
-                Legal.SetTradebackStatusRBY(pk1);
-                return;
-            }
-
-            if (pkm.Format == 2 || pkm.VC2)
-            {
-                // Check for impossible tradeback scenarios
-                bool g2only = !pkm.CanInhabitGen1();
-                pkm.TradebackStatus = g2only ? TradebackType.Gen2_NotTradeback : TradebackType.Any;
-                return;
-            }
-
-            // VC2 is released, we can assume it will be TradebackType.Any.
-            // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
-            // Met Date cannot be used definitively as the player can change their system clock.
-            pkm.TradebackStatus = TradebackType.Any;
-        }
-
-        private void SetTradebackStatusPost()
-        {
-            // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
-            if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
-                pkm.TradebackStatus = TradebackType.WasTradeback;
         }
         private void UpdateChecks()
         {

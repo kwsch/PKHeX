@@ -1081,34 +1081,52 @@ namespace PKHeX.Core
             bool IsCatchRateTrade() => (pkm.Species == 098 || pkm.Species == 099) && catch_rate == 204;
             bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
         }
-        internal static void SetTradebackStatusRBY(PK1 pkm)
+
+        /// <summary>
+        /// Gets the Tradeback status depending on various values.
+        /// </summary>
+        internal static TradebackType GetTradebackStatusInitial(PKM pkm)
+        {
+            if (pkm is PK1 pk1)
+                return GetTradebackStatusRBY(pk1);
+
+            if (pkm.Format == 2 || pkm.VC2) // Check for impossible tradeback scenarios
+                return !pkm.CanInhabitGen1() ? TradebackType.Gen2_NotTradeback : TradebackType.Any;
+
+            // VC2 is released, we can assume it will be TradebackType.Any.
+            // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
+            // Met Date cannot be used definitively as the player can change their system clock.
+            return TradebackType.Any;
+        }
+
+        /// <summary>
+        /// Gets the Tradeback status depending on the <see cref="PK1.Catch_Rate"/>
+        /// </summary>
+        internal static TradebackType GetTradebackStatusRBY(PK1 pkm)
         {
             if (!AllowGen1Tradeback)
-            {
-                pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
-                pkm.CatchRateIsItem = false;
-                return;
-            }
+                return TradebackType.Gen1_NotTradeback;
 
             // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pkm's evolution chain.
             var catch_rate = pkm.Catch_Rate;
+            if (catch_rate == 0)
+                return TradebackType.WasTradeback;
+
             var table = EvolutionTree.GetEvolutionTree(1);
             var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
             var gen1 = lineage.Select(evolution => evolution.Species);
             bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate, gen1);
 
-            // If the catch rate value has been modified, the item has either been removed or swapped in Generation 2.
-            var HeldItemCatchRate = catch_rate == 0 || HeldItems_GSC.Contains((ushort)catch_rate);
-            if (HeldItemCatchRate && !matchAny)
-                pkm.TradebackStatus = TradebackType.WasTradeback;
-            else if (!HeldItemCatchRate && matchAny)
-                pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
-            else
-                pkm.TradebackStatus = TradebackType.Any;
+            if (!matchAny)
+                return TradebackType.WasTradeback;
 
-            // Update the editing settings for the PKM to acknowledge the tradeback status if the species is changed.
-            pkm.CatchRateIsItem = !pkm.Gen1_NotTradeback && HeldItemCatchRate && !matchAny;
+            if (HeldItems_GSC.Contains((ushort) catch_rate))
+                return TradebackType.Any;
+
+            return TradebackType.Gen1_NotTradeback;
         }
+
+        internal static bool IsCatchRateHeldItem(int rate) => AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
 
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
