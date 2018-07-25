@@ -17,7 +17,7 @@ namespace PKHeX.Core
         private static readonly string[] StatSplitters = { " / ", " " };
         private static readonly string[] LineSplit = {": "};
         private static readonly string[] ItemSplit = {" @ "};
-        private static readonly int[] DashedSpecies = {784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
+        private static readonly int[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
         private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
         private const string Language = "en";
         private const int DefaultLanguageID = 2;
