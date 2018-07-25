@@ -556,6 +556,8 @@ namespace PKHeX.WinForms
         }
         private bool TryLoadPKM(byte[] input, string ext)
         {
+            if (ext == ".pgt") // size collision with pk6
+                return false;
             var pk = PKMConverter.GetPKMfromBytes(input, prefer: PKX.GetPKMFormatFromExtension(ext, C_SAV.SAV.Generation));
             if (pk == null)
                 return false;

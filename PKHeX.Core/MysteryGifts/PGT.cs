@@ -247,10 +247,13 @@ namespace PKHeX.Core
                 pk4.OT_Gender = SAV.Gender;
                 pk4.Language = SAV.Language;
             }
+
+            uint seed = Util.Rand32();
             if (IsManaphyEgg)
             {
                 // Since none of this data is populated, fill in default info.
                 pk4.Species = 490;
+                pk4.Gender = 2;
                 // Level 1 Moves
                 pk4.Move1 = 294;
                 pk4.Move2 = 145;
@@ -265,22 +268,13 @@ namespace PKHeX.Core
                 pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);
                 pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, 0);
                 pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, 0);
+                seed = GeneratePID(seed, pk4);
             }
 
             // Generate IV
-            uint seed = Util.Rand32();
             if (pk4.PID == 1) // Create Nonshiny
-            {
-                do {
-                    uint pid1 = PKX.LCRNG(ref seed) >> 16;
-                    uint pid2 = PKX.LCRNG(ref seed) >> 16;
-                    pk4.PID = pid1 | (pid2 << 16);
-                    // sanity check gender for non-genderless PID cases
-                } while (!pk4.IsGenderValid());
+                seed = GeneratePID(seed, pk4);
 
-                while (pk4.IsShiny) // Call the ARNG to change the PID
-                    pk4.PID = RNG.ARNG.Next(pk4.PID);
-            }
             if (!IsManaphyEgg)
                 seed = Util.Rand32(); // reseed, do not have method 1 correlation
 
@@ -326,6 +320,21 @@ namespace PKHeX.Core
 
             pk4.RefreshChecksum();
             return pk4;
+        }
+
+        private static uint GeneratePID(uint seed, PK4 pk4)
+        {
+            do
+            {
+                uint pid1 = PKX.LCRNG(ref seed) >> 16;
+                uint pid2 = PKX.LCRNG(ref seed) >> 16;
+                pk4.PID = pid1 | (pid2 << 16);
+                // sanity check gender for non-genderless PID cases
+            } while (!pk4.IsGenderValid());
+
+            while (pk4.IsShiny) // Call the ARNG to change the PID
+                pk4.PID = RNG.ARNG.Next(pk4.PID);
+            return seed;
         }
     }
 }
