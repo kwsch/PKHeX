@@ -1,7 +1,329 @@
 ﻿PKHeX - By Kaphotics
-http://projectpokemon.org/pkhex
+http://projectpokemon.org/pkhex/
 
-17/04/24 - New Update:
+18/07/16 - New Update:
+ - Legality:
+ - - Fixed: Misc regressions from previous update. Thanks all those who reported!
+ - - Changed: Another round of legality check updates. Thanks Sabresite, paf, piplupwater, @egzonqj & @WEERSOQUEER !
+ - Added: Folder List (CTRL-F) can now display recently saved files and all files in the backup folder. Right click to open/browse!
+ - Added: Database (CTRL-D) can now search generation-wise for Gen1/2/VC.
+ - Added: Batch Editor can now set TrainerID7 and TrainerSID7 values.
+ - Added: Gen3 now will set Spinda & Unown PID to the dex when registering, if the species has not yet been seen.
+ - Added: Gen1/2 formats can now edit the Hidden Power type selection, which will update ATK/DEF according to the desired type.
+ - Fixed: Gen1 Yellow Kadabra catch rate is now correctly retained when editing.
+ - Fixed: Batch Editor interface no longer errors for EggMetDate when the pkm loaded to tabs has no egg met data.
+ - Changed: Spanish translation updated. Thanks @XxPhoenix1996xX!
+
+18/07/09 - New Update: (17086) [1250542]
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks @iiippppk, @ReZeroEmiria, @PrometheusG, @PlasticJustice, @host1126!
+ - - Changed: Pokespot pkm are no longer strictly checked for encounter slot legality due to lack of research.
+ - Added: Can now export the current box to a ShowdownSet paste. Hold control to export all boxes!
+ - Added: Gen4 Battle Revolution parties can now be viewed.
+ - Added: Gen3 Ruby/Sapphire badges can now be toggled within the trainer editor.
+ - Added: Gen2/3 Daycare can now be viewed for main series save files.
+ - Added: Gen1 Daycare slot occupied flag is now shown. Thanks @ahoischen!
+ - Changed: Gen7 origin PKM in Box Data Report now show the 6 digit TID/SID format instead of the 16bit format of past generations.
+ - Changed: Gen6 O-Powers can now be edited completely; quick edit buttons are provided. Thanks @sora10pls!
+ - Changed: Updated translations. Thanks @iiippppk!
+ - Fixed: Fixed misc ShowdownSet import/export logic. Thanks @architdate, @DJPanda065!
+ - Fixed: Gen4->4 Battle Revolution conversion now keeps Unown's alt forme ID.
+ - Fixed: Gen3/4 ShowdownSet import no longer soft-locks the program looking for a suitable PID.
+ - Fixed: Gen3 Mirage Island removed from valid met location selection; pkm are met at Route 130 instead.
+ - Fixed: Gen3 Event Flags for Emerald now point to the correct indexes. Thanks @NinFanBoyFTW!
+ - Fixed: Gen3 Colosseum key items with the same name are no longer merged when editing inventory. Thanks KonohaDaze & Asia81!
+ - Fixed: Gen3 RSBOX save file checksums now save correctly. Thanks @iiippppk!
+ - Fixed: Gen1/2 Box Data Report throwing an exception when presenting the box data. Thanks @iiippppk!
+ - Removed: Unmaintained Portuguese translation has been removed. 
+ - - Can still sideload translation files by putting a lang_*.txt in the same folder as the exe (eg, "en") with desired name changes.
+
+18/06/01 - New Update: (64599) [1233456]
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - - Fixed: Black 2 Route 3 encounter data dump fixed (yay official bug). Corphish with form 1 is automatically reverted to form 0 ingame.
+ - - Fixed: Gen3 Mirage Island Wynaut encounter is no longer incorrectly flagged as illegal.
+ - Added: Box Sort/Modify/Delete quick action tools. Right click the Box tab to see available options.
+ - Added: Hovering over a Pokémon slot (sprite) now shows a Showdown style text preview of the contents.
+ - Added: Hovering over a Pokémon slot (sprite) now plays the pkm's cry. 
+ - - Put the (species#-form#.wav) files in a folder named "sounds" in the same folder as PKHeX.exe.
+ - Added: Gen6 Memory Feeling legality. Only certain 'feeling' values are legal for a given memory index.
+ - Added: Gen5 Entree Forest editor & randomizer. Populates with legal dream world encounters.
+ - Added: Gen4 Battle Revolution party data can now be viewed & edited.
+ - Added: Work in progress Encounter -> PKM generator updated to generate all encounters legally. More to come...
+ - Changed: Gen7+ origin Pokémon now show the Gen7 TID/SID style instead of prior gen 16 bit values.
+ - Changed: Batch Editor logic relocated to PKHeX.Core for reusability.
+ - Changed: Simple pkm editing logic relocated to PKHeX.Core (CommonEdits) for reusability.
+ - Fixed: Gen3 FRLG 'Security' value offset fixed (was misidentified as the Berry Powder. Thanks HaiPhuong!
+ - Fixed: Using the Gen4 Misc editor no longer corrupts Pokétch data.
+ - Fixed: Misc Showdown set parsing/export issues. Now handles Gen2 & Gen3 context-sensitive exports (held items).
+ - Fixed: Misc pull requests for various issues & updates. Thanks @smileynation, @knight-ryu12, @evandixon, @wwwwwwzx, @ReignOfComputer, @sora10pls & @architdate
+
+18/04/18 - New Update: (63045) [1168857]
+ - Translations:
+ - - Resources are now more accessible for translation. Want to better localize PKHeX to your native language?
+ - - Locate the following files in the repo for the desired language (example: English)
+ - - LegalityCheckStrings_en.txt (Legality parsing messages)
+ - - MessageStrings_en.txt (Program message popup/alerts)
+ - - lang_en.txt (Program GUI display)
+ - Legality:
+ - - Fixed: Accounted for OR/AS OT affection glitch & related side effects regarding ribbons. Thanks @WyrXIII & @sora10pls!
+ - - Fixed: Crystal met time of day is now checked correctly.
+ - - Fixed: B2W2 special move tutors are no longer randomly permitted (offset was being read incorrectly). Thanks @srwawin!
+ - - Fixed: GB In-game trade minimum level & LG Italian Jynx oddities now have correct handling. Thanks (so many different users)!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Setting to enable/disable automatic stat marking when importing a showdown set.
+ - Added: Work in progress Encounter -> PKM generator. Probably won't be available for general users for a little while...
+ - Changed: Reworked language translation assets to a simpler format; main UI messages can now be translated.
+ - Changed: Updated Chinese, Spanish, and Japanese translations. Thanks wwwwwwzx, egzonqj, & @smileynation!
+ - Changed: Importing mystery gifts now gives a more random game version if imported to future generation saves.
+ - Fixed: Importing an egg to a future generation now sets the base friendship instead of keeping the hatch counter value.
+ - Fixed: Gen4 Coin case max now uses the correct maximum value. Thanks smileynation!
+ - Fixed: Gen4 Wallpaper names now match the actual ingame names (one pair was swapped). Thanks smileynation!
+ - Fixed: Gen3 Mail editor now works for non-Emerald games. Thanks @Bl4ckSh4rk!
+ - Fixed: Gen2 Unown forme editing no longer has a slow GUI update response. Thanks @Narithegreat!
+
+18/03/19 - New Update: (43913) [1105812]
+ - Legality: 
+ - - Added: Fixed IVs for Static Encounters are now checked.
+ - - Fixed: Shedinja family handling. Thanks @ultima-soul, @Lusamine, @OmegaDonut, @admiral-fish & @Marty-D!
+ - - Changed: Pay Day Mewtwo is now legal (official transporter rules were updated). Thanks @Real96 & sora10pls!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Base Stats are now displayed in the Stat editor tab, along with color highlighting.
+ - Added: Mass PKM Import to Save File from Mystery Gift Database (and PKM Database).
+ - Fixed: Importing a showdown set with a Hidden Power that does not specify IVs will find a valid IV set.
+ - Fixed: WC6/7 IV generation now matches the games. Thanks @wwwwwwzx!
+ - Fixed: Gen6+ Swampert Pokédex Forme flags now set correctly. Thanks @sora10pls!
+ - Fixed: Gen4 Pokédex editing for Formes no longer throws errors. Thanks Ammako!
+ - Fixed: Gen4- KChart no longer throws errors when loaded from a Generation 4 and below save file.
+ - Fixed: Gen3 Ruby/Sapphire Roamer data is now editable. Thanks TetsuyaGR!
+ - Fixed: Gen1 PlayTime is now set correctly. Thanks @Asia81!
+ - Fixed: PKM Converter force hatched eggs now set their base friendship correctly.
+ - Changed: PKM Converter for Gen3 is now faster (no longer uses Reflection).
+ - Changed: PKM Converter now allows backwards conversion if HaX is enabled.
+ - Changed: Reworked a few GUI Controls for easier handling.
+ - Changed: Updated JP/CHS translation files. Thanks @smileynation & @wwwwwwzx!
+
+18/01/28 - New Update: (72341) [1061909]
+ - Legality:
+ - - Added: Crystal transfer legality.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Shiny recolored sprites for all pkm that are shiny. Thanks @msikma (dada)!
+ - Added: All Box viewer (hold shift and double click the Box Tab). Can switch entire boxes!
+ - Added: Gen5 C-Gear Skin editing.
+ - Added: Gen5 Box Name/Wallpaper editing.
+ - Added: Gen4 Coin Case editing. Thanks @sora10pls!
+ - Added: Gen2 Event Flag editing for Crystal GS Ball event. Thanks @sora10pls!
+ - Fixed: Gen7 Roto Powers can now be held items. Thanks @ReignOfComputer!
+ - Fixed: Gen6 Super Training record indexes are no longer off by two. Thanks @Ammako!
+ - Fixed: Gen4 Pokewalker course unlock-all no longer sets 8 bits too many.
+ - Fixed: Gen3 Importing showdown sets no longer errors for non-specified abilities.
+ - Fixed: Gen2 Unown Dex not setting a valid first-seen unown forme. Thanks BeyondTheHorizon!
+ - Fixed: Database view search/delete behavior fixed. Thanks @NinFanBoyFTW!
+ - Fixed: Loading non-mainseries games no longer causes some tabs to load incorrectly.
+ - Changed: Updated internals for faster data handling (pkm crypto, save loading).
+ - Changed: Updated JP/KO translation files. Thanks @smileynation & lilymaniac!
+ - Changed: Updated pkrs/pentagon sprites. Thanks @sora10pls!
+
+17/12/05 - New Update: (105544) [989568]
+ - Legality:
+ - - Added: RNG Frame checking for Gen3/4 Wild Captures (hold ctrl to see if it doesn't pass)
+ - - Added: French Legality translation data. Thanks @Ntonio36!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Event flag editing for Crystal/GS. Thanks @pokecal!
+ - Added: US/UM Starter Encryption Constant editing (for Pokemon League cutscene) in HoF editor. Thanks @FeralFalcon!
+ - Added: WIP Mail viewer/editor for Gen3/4/5. Thanks @pokecal!
+ - Fixed: Gen3 Pokedex now behaves correctly (r/w for correct bitflag offset).
+ - Fixed: Gen4 Battle Revolution IV read order is now correct. Thanks @sora10pls & @Remiccino!
+ - Fixed: Gen6 Trainer Info editor no longer glitches out Z coordinates.
+ - Fixed: Hovering over a slot 'frost' effect now has a pixel in the top right corner. Thanks @sora10pls!
+ - Changed: Throw type can now be saved for US/UM.
+ - Changed: PK4->BK4 transfer now clears PtHGSS forms and items for compatibility. Legality not guaranteed.
+ - Changed: Inventory empty slots are now no longer cleared for Gen7. Thanks @SadisticMystic!
+ - Changed: Festival Plaza editor bugfixes/additions. Thanks @pokecal!
+ - Changed: Translation files updated. Thanks @wwwwwwzx, @smileynation, & JoseAbad!
+
+17/11/25 - New Update: (46799) [884024]
+ - Legality:
+ - - Added: Gen2->Gen7 legality checking.
+ - - Added: US/UM Poké Pelago encounters.
+ - - Added: Spanish Legality translation data. Thanks @BlackPyoVic & JoseAbad!
+ - - Fixed: US/UM new Pokémon accessing legal movepools from S/M alternate forms. Thanks greenDarkness!
+ - - Changed: Sped up Wild Encounter pattern matching (internal rework).
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Gen2->Gen7 transfer emulation.
+ - Added: Festival Plaza/Battle Agency editor. Thanks pokecal!
+ - Added: More US/UM Event Flags for editing. Thanks SciresM & sora10pls!
+ - Added: Rotom OT name editing to Trainer Editor & alert if different from OT name.
+ - Fixed: Importing US/UM showdown sets now behaves correctly. Thanks sora10pls & Marty!
+ - Fixed: Updated Korean Gen2 encoding to match the official Transporter character codes.
+ - Fixed: Loading Gen1 save files no longer raises errors. Thanks ShadowMario3!
+ - Fixed: Gen3 roamer edits now save IVs as intended.
+ - Fixed: US/UM Z Crystals -> PKM sprite no longer chops the rightmost pixel.
+ - Fixed: Unsaved fields in PKMEditor now correctly block saving of the PKM from tabs.
+ - Fixed: Gen6 trainer coordinate saveback glitch fixed (similar to S/M's rumor).
+ - Fixed: Gen7 SM<->US/UM pkm compatibility checks updated to prevent invalid data from being set.
+ - Fixed: Gen5-- dragdrop no longer gives AltForm <= 0 messages.
+ - Changed: Mystery Gift sprite generation speed improved.
+ - Changed: French GUI Translation data updated. Thanks Ntonio36!
+ - Changed: C/XD Item names added. Thanks JoseAbad!
+
+17/11/17 - New Update: (56734) [837225]
+ - Added: Ultra Sun & Ultra Moon Support
+ - - Legality: Complete detection & validation.
+ - - Added: Added all new US/UM content (Species, Moves, etc). Thanks SciresM & wwwwwwzx!
+ - - Changed: All existing Sun & Moon editors work with US/UM.
+ - Added: Complete sticker location listing. Thanks pokecal & ReignOfComputer!
+ - Added: >50 respawn/settings event flags for US/UM. Thanks sora10pls & pokecal!
+ - Added: Fashion Unlock cheats for US/UM to unlock all accessories. Thanks Holla!
+ - Added: US/UM specific Trainer Stat Records. Thanks Holla!
+ - Added: Map FlyTo location unlocking for Generation 7 saves. Thanks pokecal!
+ - Added: Mantine Surf score editing via Trainer Info editor. Thanks sora10pls!
+ - Added: Early Z-Move unlock flag next to the existing Early Mega Evolution unlock.
+ - Fixed: Pokédex seen/captured flags for Generation 7 saves now correctly mimic the games. Thanks sora10pls!
+ - Legality:
+ - - Added: US/UM wild encounter and static encounter data. Thanks to all who identified the locations!
+ - - Changed: Updated internal logic to handle US/UM content & oddities like Kantonian evolution methods.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - - Added: Ingame Trade OT/Nickname checks. Thanks sora10pls!
+ - - Added: Ingame Trade PID checks. Thanks sora10pls!
+ - - Fixed: Gen4 EncounterType detection reworked for cleanliness and accuracy.
+ - - Fixed: Colosseum Starter PIDIV checks now detect gender lock skipping (no more false flags).
+ - - Fixed: Added more Colosseum/XD ingame snag locations.
+ - - Fixed: Gen1/2 -> Gen7 transfers are now checked for met locations.
+ - Added: Misc safeguards for setting PKM data not obtainable in the save file's origin game. Thanks sora10pls!
+ - Added: Gen5 BP editing. Thanks sora10pls!
+ - Added: Can now load Mystery Gift pkm QR images to the Main Window tabs (same as importing PKM QRs).
+ - Changed: Internal string resource fetch mechanism speed improved. Thanks evandixon!
+ - Changed: Gen1/2 -> Gen7 transfer language detection improved for special characters in certain languages (German).
+ - Fixed: Zygarde 50%-C showdown set importing. Thanks architdate!
+ - Fixed: Gen1 Pikachu starter now saves correctly (doesn't remove Light Ball). Thanks Dunsparce!
+ - Fixed: Gen2 TimeOfDay values now are editable in the PKMEditor (nobody noticed for so long!)
+ - Fixed: Gen2 Korean encoding documentation errors fixed; strings now decode correctly. Thanks host1126!
+ - Fixed: Gen3 Roamer edits now save correctly. Thanks TheRealAlphA!
+ - - ~6 commits per day average over the last month. Big thanks to all who have contributed & provided feedback!
+
+17/10/17 - New Update: (46159) [780491]
+ - Legality:
+ - - Fixed: Gen4 Cute Charm PIDIV detection for species that change gender ratios upon evolution (Combee etc).
+ - - Fixed: Gen6/7 Traded eggs change the origin version to the hatcher's version when hatched. Updated affected logic.
+ - - Changed: Gen2->Gen7 and Gen2->Gen1->Gen7 transfer detection & checking improved.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Gen1 Stationary Encounter rebattle editor.
+ - Added: Gen2 RTC Reset Key can now be calculated by clicking the RTC Save Editor button.
+ - Added: Gen3 Roamer editor. Thanks BlackShark!
+ - Added: Gen1-3 Japanese item translation. Thanks smileynation!
+ - Added: Gen1-3 German main series Item translation. Thanks Korados!
+ - Added: Batch Editor can now use $suggest for HyperTrainFlags.
+ - Added: Checkpoint (homebrew/cfw save reading) app auto-detection (like JKSV). Thanks sora10pls!
+ - Added: Can now toggle all mystery gifts in save file Used/Unused in the Mystery Gift save editor.
+ - Fixed: Gen1/2 Japanese Nicknames/OTs are no longer incorrectly recognized as Korean.
+ - Fixed: Gen1/2 50/50 gender detection for IV_ATK = 7. Thanks StarFisherX!
+ - Fixed: Gen1/2 character encoding issues. Thanks wwwwwwzx & theSlayer & Afepoke & smileynation!
+ - Fixed: Gen2 TM/HM pouch now loads/saves correctly. Thanks fattard!
+ - Fixed: Gen2 G/S Korean Save Files can now be saved.
+ - Fixed: Gen2 Unown alt-form now transfers correctly ->7.
+ - Fixed: Gen3 GC languages are now interpreted correctly.
+ - Fixed: Gen4 transferred eggs from HGSS special locations no longer reset to Faraway Place.
+ - Fixed: Current Poketch app now reads from  the correct offset. Thanks sora10pls!
+ - Changed: Increased form loading speed (translation now translates controls faster).
+ - Changed: Folder browser now prioritizes available folders (sorting them to the top).
+ - Changed: Internal refactoring for pkm loading to tabs to standardize loading routines.
+ - Changed: PCD now caches the gift PKM for increased speed (Mystery Gift database or legality checks).
+ - Changed: Gen1/2 save file version detection improved (can now differentiate RB from Y, and VC from emu).
+ - Changed: Optimized crc method for faster save detection & saving.
+
+17/09/22 - New Update: (36505) [734332]
+ - Added: Gen2 G/S Korean Save File/PKM editing support.
+ - Added: Gen2 transporter code for pk2->pk7 (hypothetical).
+ - Changed: Gen1 Shininess correlation changed to match the updated (correct) IV relationship.
+ - Legality:
+ - - Added: Gen2->Gen7 VC legality checking (hypothetical).
+ - - Added: Word Filter legality (badwords)
+ - - Added: Gen3 PCNYa/b/c/d PIDIV method recognition. Thanks Sabresite! (gen3=complete!)
+ - - Added: Gen4 Pokémon Ranch Trade recognition (no PIDIV detection for Mew/Phione yet).
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Fixed: Emerald Flyto locations no longer clear.
+ - Fixed: Gen3 Japanese save files no longer recognize incorrectly as International after editing trainer info.
+
+17/09/05 - New Update: (20961) [697827]
+ - Legality:
+ - - Added: Gen5 PID/TID/SID correlation check for wild encounters.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: HGSS Pokewalker locations unlock all button.
+ - Added: Gen1/2 PKM can now be made shiny in the batch editor (.PID=$shiny)
+ - Added: Database/MGDB searches can now be made on the abstract class properties (PKM/MysteryGift).
+ - Added: PKM Database now loads pkm data from save files that have been backed up. Tons to search!
+ - Added: Gen4 (DPPt) Underground Score editor. Thanks @egzonqj!
+ - Changed: Box Legality checking setting is turned on by default for new users. Too many don't know it exists :)
+ - Fixed: Gen6 OR/AS mega forms are now selectable again. Thanks @SwampyGator!
+ - Fixed: Gen5 pokedex international language bitflag setting fixed (no longer corrupts repel data). Thanks @NinFanBoyFTW!
+ - Fixed: Gen4 pokedex international language bitflags for GER/ITA swapped (now correct). Thanks @wrathsoffire76!
+ - Fixed: Importing PKMs from folder now updates any active box viewers. Thanks @NinFanBoyFTW!
+ - Fixed: French Ribbon names now display correctly in the Ribbon Editor. Thanks @Odaxis!
+
+17/08/07 - New Update: (41989) [676866]
+ - Legality:
+ - - Changed: XD/Colo PIDIV detection speed improved by a factor of ~8000x
+ - - Changed: Method# PIDIV detection speed improved by a factor of ~250x
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - - Fixed: Pokewalker PID detection now recognizes PIDs correctly.
+ - - Fixed: Air Cutter switched with Roost in OR/AS tutor compatibility list. Thanks @architdate!
+ - - Changed: Updated Chinese translation files. Thanks @wwwwwwzx!
+ - - Added: Gen2 headbutt encounters are now checked for headbutt legality. Thanks @javierhimura!
+ - - Added: Transferring a pkm from XD to any other game will now receive a Fateful Encounter flag if appropriate.
+ - Added: WC3 (gen3 event template) -> pkm conversion. Use the Mystery Gift Database.
+ - Added: Ability to batch edit trash bytes (.Nickname_Trash=$[]43,00,...)
+ - Added: Inventory items can now be sorted by index number.
+ - Changed: Event Flag/Constant editor redesigned to separate tabs.
+ - Changed: Deoxys in Gen3 now shows up with the game-specific form.
+ - Fixed: Platinum special wallpapers now appear correctly. Thanks @sora10pls!
+ - Fixed: D/P current poketch app now loads correctly. Thanks @sora10pls!
+ - Fixed: D/P mail item inventory now loads correctly. Thanks @sora10pls!
+ - Fixed: Importing qr from url now behaves correctly. Thanks @ForcedToRock!
+ - Fixed: Battle Revolution data now loads correctly. Thanks Maddaren!
+
+17/07/02 - New Update: (47985) [634877]
+ - Legality:
+ - - Added: All-generation ribbon legality checks. Thanks White-Canary!
+ - - Added: Strengthened PIDIV detection & enforcement for gen 3/4 encounters.
+ - - Added: Met location legality checks for GSC origin pk2's. Thanks pokecal!
+ - - Added: Poke Pelago level range checks. Thanks SciresM!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Gen4 shiny leaf editing (pkm edits while Generation Format = 4). Thanks sora10pls!
+ - Added: pkmdb now fetches pkm data from backed up save files (only if the program is compiled with debug flag)
+ - Added: More misc editing for gen3/4/5 save files. Thanks pokecal!
+ - Added: Holding control when setting shiny will modify the SID instead of PID/EC. Thanks javierhimura!
+ - Fixed: Honey Tree editor now saves checksums correctly. Thanks pokecal!
+ - Fixed: Batch Editor now accesses pkm properties for filtering correctly. Thanks sora10pls!
+ - Fixed: Can now load boxdata/pcdata binaries on Gen<=3. Thanks PKMWM1!
+ - Changed: Ribbons in Ribbon Editor are now sorted alphabetically, and hovering over an image displays the ribbon name.
+ - Changed: Various speed improvements for legality checking and program loading have been made.
+
+17/05/30 - New Update: (37561) [586892]
+ - Program Internals:
+ - - PKHeX now uses C# 7 language features.
+ - - PKHeX.Core is now a .NET Standard class library.
+ - Legality:
+ - - Changed: Refactored internals to better handle matching of encounters and future plans.
+ - - Added: PIDIV method detection. For now, the only legality flagging present is for Cosseum/XD starters.
+ - - Added: More legality check flagging. Thanks javierhimura & wwwwwwzx!
+ - Main Window:
+ - - Changed: Refactored PKM Editor and SAV Editor into separate user controls.
+ - - Added: Box Viewer can now perform the same operations as the main window box slots.
+ - - Added: Template loading via template folder
+ - - - To add custom templates, create a folder named "template" and save separate files.
+ - - - For example, "template.pk7" will autoload for Gen 7.
+ - - Added: Common Folder path buttons for save files. (Hotkey: CTRL-F)
+ - - - To add custom paths/names, create a tab separated (savpaths.txt) file (name, path).
+ - Changed: Mystery Gift Database: Can now export PKM files and gift files directly in addition to loading to tabs.
+ - Changed: Gen3 save files no longer prompt for the user to define if it originated from a Japanese game (now auto-detects).
+ - Added: Gen4/Gen5 event flag editing (except Pt). Thanks pokecal!
+ - Added: Gen5 B2W2 Key system editing. Thanks pokecal!
+ - Fixed: Gen4 HGSS wallpapers are now fetched correctly. Thanks Scarfy!
+ - Fixed: Gen4/Gen3 Randomized PIDs on gender change are now generated correctly.
+ - Fixed: Gen6 QR url now is a correct URL. Thanks Delphox!
+
+17/04/24 - New Update: (48189) [549331]
  - Legality: Added Gen3, Gen4, Gen5 legality checking! Thanks javierhimura & wwwwwwzx!
  - - Added: Legality Translations, currently supports English, Chinese, and Korean. Thanks wwwwwwzx & lilymaniac!
  - - Note: Colosseum/XD is not supported at this time, and certain Gen3 events may not be detected.

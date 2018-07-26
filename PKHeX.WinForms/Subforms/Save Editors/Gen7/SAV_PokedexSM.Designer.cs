@@ -95,7 +95,7 @@
             this.LB_Species.Name = "LB_Species";
             this.LB_Species.Size = new System.Drawing.Size(160, 160);
             this.LB_Species.TabIndex = 2;
-            this.LB_Species.SelectedIndexChanged += new System.EventHandler(this.changeLBSpecies);
+            this.LB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeLBSpecies);
             // 
             // CHK_P1
             // 
@@ -116,7 +116,7 @@
             this.CHK_P2.TabIndex = 4;
             this.CHK_P2.Text = "Male";
             this.CHK_P2.UseVisualStyleBackColor = true;
-            this.CHK_P2.Click += new System.EventHandler(this.changeEncountered);
+            this.CHK_P2.Click += new System.EventHandler(this.ChangeEncountered);
             // 
             // CHK_P3
             // 
@@ -127,7 +127,7 @@
             this.CHK_P3.TabIndex = 5;
             this.CHK_P3.Text = "Female";
             this.CHK_P3.UseVisualStyleBackColor = true;
-            this.CHK_P3.Click += new System.EventHandler(this.changeEncountered);
+            this.CHK_P3.Click += new System.EventHandler(this.ChangeEncountered);
             // 
             // CHK_P4
             // 
@@ -138,7 +138,7 @@
             this.CHK_P4.TabIndex = 6;
             this.CHK_P4.Text = "Shiny Male";
             this.CHK_P4.UseVisualStyleBackColor = true;
-            this.CHK_P4.Click += new System.EventHandler(this.changeEncountered);
+            this.CHK_P4.Click += new System.EventHandler(this.ChangeEncountered);
             // 
             // CHK_P5
             // 
@@ -149,7 +149,7 @@
             this.CHK_P5.TabIndex = 7;
             this.CHK_P5.Text = "Shiny Female";
             this.CHK_P5.UseVisualStyleBackColor = true;
-            this.CHK_P5.Click += new System.EventHandler(this.changeEncountered);
+            this.CHK_P5.Click += new System.EventHandler(this.ChangeEncountered);
             // 
             // CHK_P6
             // 
@@ -160,7 +160,7 @@
             this.CHK_P6.TabIndex = 8;
             this.CHK_P6.Text = "Male";
             this.CHK_P6.UseVisualStyleBackColor = true;
-            this.CHK_P6.Click += new System.EventHandler(this.changeDisplayed);
+            this.CHK_P6.Click += new System.EventHandler(this.ChangeDisplayed);
             // 
             // CHK_P7
             // 
@@ -171,7 +171,7 @@
             this.CHK_P7.TabIndex = 9;
             this.CHK_P7.Text = "Female";
             this.CHK_P7.UseVisualStyleBackColor = true;
-            this.CHK_P7.Click += new System.EventHandler(this.changeDisplayed);
+            this.CHK_P7.Click += new System.EventHandler(this.ChangeDisplayed);
             // 
             // CHK_P8
             // 
@@ -182,7 +182,7 @@
             this.CHK_P8.TabIndex = 10;
             this.CHK_P8.Text = "Shiny Male";
             this.CHK_P8.UseVisualStyleBackColor = true;
-            this.CHK_P8.Click += new System.EventHandler(this.changeDisplayed);
+            this.CHK_P8.Click += new System.EventHandler(this.ChangeDisplayed);
             // 
             // CHK_P9
             // 
@@ -193,7 +193,7 @@
             this.CHK_P9.TabIndex = 11;
             this.CHK_P9.Text = "Shiny Female";
             this.CHK_P9.UseVisualStyleBackColor = true;
-            this.CHK_P9.Click += new System.EventHandler(this.changeDisplayed);
+            this.CHK_P9.Click += new System.EventHandler(this.ChangeDisplayed);
             // 
             // CHK_L7
             // 
@@ -286,9 +286,8 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(122, 20);
             this.CB_Species.TabIndex = 21;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeCBSpecies);
-            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.changeCBSpecies);
-            this.CB_Species.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeCBSpecies);
+            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.ChangeCBSpecies);
             // 
             // B_GiveAll
             // 
@@ -411,35 +410,35 @@
             this.mnuSeenNone.Name = "mnuSeenNone";
             this.mnuSeenNone.Size = new System.Drawing.Size(157, 22);
             this.mnuSeenNone.Text = "Seen none";
-            this.mnuSeenNone.Click += new System.EventHandler(this.modifyAll);
+            this.mnuSeenNone.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuSeenAll
             // 
             this.mnuSeenAll.Name = "mnuSeenAll";
             this.mnuSeenAll.Size = new System.Drawing.Size(157, 22);
             this.mnuSeenAll.Text = "Seen all";
-            this.mnuSeenAll.Click += new System.EventHandler(this.modifyAll);
+            this.mnuSeenAll.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuCaughtNone
             // 
             this.mnuCaughtNone.Name = "mnuCaughtNone";
             this.mnuCaughtNone.Size = new System.Drawing.Size(157, 22);
             this.mnuCaughtNone.Text = "Caught none";
-            this.mnuCaughtNone.Click += new System.EventHandler(this.modifyAll);
+            this.mnuCaughtNone.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuCaughtAll
             // 
             this.mnuCaughtAll.Name = "mnuCaughtAll";
             this.mnuCaughtAll.Size = new System.Drawing.Size(157, 22);
             this.mnuCaughtAll.Text = "Caught all";
-            this.mnuCaughtAll.Click += new System.EventHandler(this.modifyAll);
+            this.mnuCaughtAll.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuComplete
             // 
             this.mnuComplete.Name = "mnuComplete";
             this.mnuComplete.Size = new System.Drawing.Size(157, 22);
             this.mnuComplete.Text = "Complete Dex";
-            this.mnuComplete.Click += new System.EventHandler(this.modifyAll);
+            this.mnuComplete.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuFormNone
             // 
@@ -464,7 +463,7 @@
             this.LB_Forms.Name = "LB_Forms";
             this.LB_Forms.Size = new System.Drawing.Size(160, 52);
             this.LB_Forms.TabIndex = 32;
-            this.LB_Forms.SelectedIndexChanged += new System.EventHandler(this.changeLBForms);
+            this.LB_Forms.SelectedIndexChanged += new System.EventHandler(this.ChangeLBForms);
             // 
             // SAV_PokedexSM
             // 

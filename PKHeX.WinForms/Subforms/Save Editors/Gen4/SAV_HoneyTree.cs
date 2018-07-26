@@ -11,9 +11,9 @@ namespace PKHeX.WinForms
         private readonly SAV4 SAV;
         public SAV_HoneyTree(SaveFile sav)
         {
-            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV4)(Origin = sav).Clone();
 
             if (SAV.DP)
                 Table = HoneyTree.TableDP;
@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
 
             CB_TreeList.SelectedIndex = 0;
         }
-        
+
         private readonly int[] MunchlaxTrees;
         private readonly int[][] Table;
         private int entry;
@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
 
         private int TreeSpecies => Table[(int)NUD_Group.Value][(int)NUD_Slot.Value];
         private void B_Catchable_Click(object sender, EventArgs e) => NUD_Time.Value = 1080;
-        private void changeGroupSlot(object sender, EventArgs e)
+        private void ChangeGroupSlot(object sender, EventArgs e)
         {
             int species = TreeSpecies;
             L_Species.Text = species != 266 // silcoon/cascoon
@@ -51,42 +51,42 @@ namespace PKHeX.WinForms
             if (species == 446 && !MunchlaxTrees.Contains(CB_TreeList.SelectedIndex))
                 WinFormsUtil.Alert("Catching Munchlax in this tree will make it illegal for this savegame's TID/SID combination.");
         }
-        private void changeTree(object sender, EventArgs e)
+        private void ChangeTree(object sender, EventArgs e)
         {
-            saveTree();
+            SaveTree();
             entry = CB_TreeList.SelectedIndex;
-            readTree();
+            ReadTree();
         }
-        private void readTree()
+        private void ReadTree()
         {
             loading = true;
-            Tree = SAV.getHoneyTree(entry);
+            Tree = SAV.GetHoneyTree(entry);
 
             NUD_Time.Value = Math.Min(NUD_Time.Maximum, Tree.Time);
             NUD_Shake.Value = Math.Min(NUD_Shake.Maximum, Tree.Shake);
             NUD_Group.Value = Math.Min(NUD_Group.Maximum, Tree.Group);
             NUD_Slot.Value = Math.Min(NUD_Slot.Maximum, Tree.Slot);
 
-            changeGroupSlot(null, null);
+            ChangeGroupSlot(null, null);
             loading = false;
         }
-        private void saveTree()
+        private void SaveTree()
         {
             if (Tree == null)
                 return;
-            
+
             Tree.Time = (uint)NUD_Time.Value;
             Tree.Shake = (int)NUD_Shake.Value;
             Tree.Group = (int)NUD_Group.Value;
             Tree.Slot = (int)NUD_Slot.Value;
 
-            SAV.setHoneyTree(Tree, entry);
+            SAV.SetHoneyTree(Tree, entry);
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            saveTree();
-            Origin.setData(SAV.Data, 0);
+            SaveTree();
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e) => Close();

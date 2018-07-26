@@ -919,3 +919,42 @@ Ice Memory
 Dragon Memory
 Dark Memory
 Fairy Memory
+Solganium Z
+Lunalium Z
+Ultranecrozium Z
+Mimikium Z
+Lycanium Z
+Kommonium Z
+Solganium Z
+Lunalium Z
+Ultranecrozium Z
+Mimikium Z
+Lycanium Z
+Kommonium Z
+Z-Power Ring
+Pink Petal
+Orange Petal
+Blue Petal
+Red Petal
+Green Petal
+Yellow Petal
+Purple Petal
+Rainbow Flower
+Surge Badge
+N-Solarizer
+N-Lunarizer
+N-Solarizer
+N-Lunarizer
+Ilima’s Normalium Z
+Left Poké Ball
+Roto Hatch
+Roto Bargain
+Roto Prize Money
+Roto Exp. Points
+Roto Friendship
+Roto Encounter
+Roto Stealth
+Roto HP Restore
+Roto PP Restore
+Roto Boost
+Roto Catch

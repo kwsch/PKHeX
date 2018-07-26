@@ -14,3 +14,4 @@ Kanto-Region
 Hoenn-Region
 Alola-Region
 Pokémon-Resort
+Johto-Region

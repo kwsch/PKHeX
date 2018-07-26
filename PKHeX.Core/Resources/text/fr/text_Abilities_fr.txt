@@ -231,3 +231,4 @@ Créa-Herbe
 Métallo-Garde
 Spectro-Bouclier
 Prisme-Armure
+Cérébro-Force

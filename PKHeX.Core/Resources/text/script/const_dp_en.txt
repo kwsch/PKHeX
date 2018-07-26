@@ -1,0 +1,9 @@
+0152	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
+0158	Heatran	00:Not Activated,01:Battleable,02:Disappeared
+0054	Fullmoon Island	0:Not Activated,520:On the Map
+0055	Newmoon Island	0:Not Activated,553:On the Map
+0056	Spring Path	0:Not Activated,786:Appeared
+0057	Seabreak Path	0:Not Activated,4136:Appeared
+0067	Member Card	0:Not Activated,4617:Activated
+0068	Oak's Letter	0:Not Active,4370:Activated
+0069	Azure Flute	0:Not Activated,4387:Activated

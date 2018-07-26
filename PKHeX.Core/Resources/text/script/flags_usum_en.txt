@@ -1,0 +1,65 @@
+4060	Is Alolan Champion/Can Receive Gift Magearna
+4562	Been to Akala Island/Can Receive Partner Cap Pikachu
+4563	Received Partner Cap Pikachu
+0518	Received Surfing Pikachu
+0493	Received Gift Porygon
+0504	Received Gift Aerodactyl
+0654	Received Gift Type: Null (1)
+1101	Received Gift Type: Null (2)
+0503	Received Gift Cosmog
+4447	Received Gift Magearna
+0269	Received Gift Poipole
+4420	Articuno Captured
+4421	Zapdos Captured
+4422	Moltres Captured
+4423	Mewtwo Captured
+4260	(US) Raikou Captured
+4261	(UM) Entei Captured
+4262	Suicune Captured
+4263	(UM) Lugia Captured
+4264	(US) Ho-Oh Captured
+4285	Regirock Captured
+4286	Regice Captured
+4287	Registeel Captured
+4283	(UM) Latias Captured
+4284	(US) Latios Captured
+4289	(UM) Kyogre Captured
+4288	(US) Groudon Captured
+4290	Rayquaza Captured
+4265	Uxie Captured
+4266	Mesprit Captured
+4267	Azelf Captured
+4268	(US) Dialga Captured
+4269	(UM) Palkia Captured
+4270	(US) Heatran Captured
+4271	(UM) Regigigas Captured
+4272	Giratina Captured
+4273	Cresselia Captured
+4274	Cobalion Captured
+4275	Terrakion Captured
+4276	Virizion Captured
+4277	(US) Tornadus Captured
+4278	(UM) Thundurus Captured
+4279	(US) Reshiram Captured
+4280	(UM) Zekrom Captured
+4281	Landorus Captured
+4282	Kyurem Captured
+4424	(US) Xerneas Captured
+4425	(UM) Yveltal Captured
+1627	Solgaleo/Lunala Captured
+1552	Necrozma Captured
+4370	(UM) Stakataka in Poni Grove
+4371	(US) Blacephalon in Poni Grove
+4545	Unlocked Lanturn 360
+4546	Unlocked Primarina Twist
+4547	Unlocked Starmie 720
+4548	Unlocked Over-the-Gyarados
+4490	Circle Pad Controls for Ultra Warp Ride
+4440	Battle Style Learned: Elegant 
+4441	Battle Style Learned: Girlish 
+4442	Battle Style Learned: Reverent 
+4443	Battle Style Learned: Smug 
+4444	Battle Style Learned: Left-Handed 
+4445	Battle Style Learned: Passionate 
+4446	Battle Style Learned: Idol 
+4453	Battle Style Learned: Nihilist

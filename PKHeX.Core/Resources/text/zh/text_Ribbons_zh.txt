@@ -1,0 +1,103 @@
+﻿RibbonChampionKalos	卡洛斯冠军
+RibbonChampionG3Hoenn	冠军 (3代)
+RibbonChampionSinnoh	神奥冠军
+RibbonBestFriends	好友
+RibbonTraining	修行
+RibbonBattlerSkillful	高手对战
+RibbonBattlerExpert	大师对战
+RibbonEffort	努力
+RibbonAlert	振奋
+RibbonShock	心跳
+RibbonDowncast	失望
+RibbonCareless	大意
+RibbonRelax	畅快
+RibbonSnooze	酣睡
+RibbonSmile	欢笑
+RibbonGorgeous	豪华
+RibbonRoyal	高贵
+RibbonGorgeousRoyal	豪华高贵
+RibbonArtist	肖像
+RibbonFootprint	脚印
+RibbonRecord	纪录
+RibbonLegend	传说
+RibbonCountry	地区
+RibbonNational	国家
+RibbonEarth	地球
+RibbonWorld	世界
+RibbonClassic	经典
+RibbonPremier	纪念
+RibbonEvent	活动
+RibbonBirthday	生日
+RibbonSpecial	特殊
+RibbonSouvenir	回忆
+RibbonWishing	许愿
+RibbonChampionBattle	对战冠军
+RibbonChampionRegional	地区冠军
+RibbonChampionNational	国家冠军
+RibbonChampionWorld	世界冠军
+RibbonCountMemoryContest	华丽大赛回忆奖章
+RibbonCountMemoryBattle	对战回忆奖章
+RibbonChampionG6Hoenn	丰缘冠军 (6代)
+RibbonContestStar	华丽大赛之星
+RibbonMasterCoolness	帅气大师
+RibbonMasterBeauty	美丽大师
+RibbonMasterCuteness	可爱大师
+RibbonMasterCleverness	聪明大师
+RibbonMasterToughness	强壮大师
+RibbonG3Cool	帅气 (G3)
+RibbonG3CoolSuper	帅气超级
+RibbonG3CoolHyper	帅气专家
+RibbonG3CoolMaster	帅气大师
+RibbonG3Beauty	美丽 (G3)
+RibbonG3BeautySuper	美丽超级
+RibbonG3BeautyHyper	美丽专家
+RibbonG3BeautyMaster	美丽大师
+RibbonG3Cute	可爱 (G3)
+RibbonG3CuteSuper	可爱超级
+RibbonG3CuteHyper	可爱专家
+RibbonG3CuteMaster	可爱大师
+RibbonG3Smart	聪明 (G3)
+RibbonG3SmartSuper	聪明超级
+RibbonG3SmartHyper	聪明专家
+RibbonG3SmartMaster	聪明大师
+RibbonG3Tough	强壮 (G3)
+RibbonG3ToughSuper	强壮超级
+RibbonG3ToughHyper	强壮专家
+RibbonG3ToughMaster	强壮大师
+RibbonG4Cool	帅气 (G4)
+RibbonG4CoolGreat	帅气超级
+RibbonG4CoolUltra	帅气究极
+RibbonG4CoolMaster	帅气大师
+RibbonG4Beauty	美丽 (G4)
+RibbonG4BeautyGreat	美丽超级
+RibbonG4BeautyUltra	美丽究极
+RibbonG4BeautyMaster	美丽大师
+RibbonG4Cute	可爱 (G4)
+RibbonG4CuteGreat	可爱超级
+RibbonG4CuteUltra	可爱究极
+RibbonG4CuteMaster	可爱大师
+RibbonG4Smart	聪明 (G4)
+RibbonG4SmartGreat	聪明超级
+RibbonG4SmartUltra	聪明究极
+RibbonG4SmartMaster	聪明大师
+RibbonG4Tough	强壮 (G4)
+RibbonG4ToughGreat	强壮超级
+RibbonG4ToughUltra	强壮究极
+RibbonG4ToughMaster	强壮大师
+RibbonWinning	成功
+RibbonVictory	胜利
+RibbonAbility	才能
+RibbonAbilityGreat	超级才能
+RibbonAbilityDouble	双人才能
+RibbonAbilityMulti	多人才能
+RibbonAbilityPair	组队双打才能
+RibbonAbilityWorld	世界才能
+RibbonCountG3Cool	帅气
+RibbonCountG3Beauty	美丽
+RibbonCountG3Cute	可爱
+RibbonCountG3Smart	聪明
+RibbonCountG3Tough	强壮
+RibbonChampionAlola	阿罗拉冠军
+RibbonBattleRoyale	皇家大师
+RibbonBattleTreeGreat	高手对战树
+RibbonBattleTreeMaster	大师对战树

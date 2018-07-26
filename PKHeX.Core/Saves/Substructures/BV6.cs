@@ -7,7 +7,7 @@ namespace PKHeX.Core
     public class BV6 : BattleVideo
     {
         internal const int SIZE = 0x2E60;
-        internal new static bool getIsValid(byte[] data)
+        internal new static bool IsValid(byte[] data)
         {
             if (data.Length != SIZE)
                 return false;
@@ -22,13 +22,13 @@ namespace PKHeX.Core
         private readonly byte[] Data;
 
         private int Mode { get => Data[0x00]; set => Data[0x00] = (byte)value; }
-        private string[] BVmode =
+        private static readonly string[] BVmode =
         {
             "Link", "Maison", "Super Maison", "Battle Spot - Free", "Battle Spot - Rating",
             "Battle Spot - Special", "UNUSED", "JP-1", "JP-2", "BROKEN",
         };
         private int Style { get => Data[0x01]; set => Data[0x01] = (byte)value; }
-        private string[] BVstyle = { "Single", "Double", "Triple", "Rotation", "Multi", };
+        private static readonly string[] BVstyle = { "Single", "Double", "Triple", "Rotation", "Multi", };
         private string Debug1
         {
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x6, 24));
@@ -48,7 +48,6 @@ namespace PKHeX.Core
         private int _1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
         private int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
         private int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
-
 
         public override PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
         public override int Generation => 6;
@@ -139,12 +138,12 @@ namespace PKHeX.Core
         }
 
         // Battle Instruction Parsing
-        private string[] Action = { "0", "Fight", "2", "Switch", "Run", "5", "Rotate", "7", "MegaEvolve" };
-        private string[] Target =
+        private static readonly string[] Action = { "0", "Fight", "2", "Switch", "Run", "5", "Rotate", "7", "MegaEvolve" };
+        private static readonly string[] Target =
         {
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Opposite Enemy", "B", "C", "D",
             "All except User", "Everyone"
         };
-        private string[] Rotate = { "0", "Right", "Left", "3" };
+        private static readonly string[] Rotate = { "0", "Right", "Left", "3" };
     }
 }

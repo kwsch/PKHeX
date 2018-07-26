@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoxEditor));
             this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx30 = new System.Windows.Forms.PictureBox();
             this.bpkx29 = new System.Windows.Forms.PictureBox();
@@ -98,7 +97,6 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_Box.BackgroundImage")));
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx30);
             this.PAN_Box.Controls.Add(this.bpkx29);
@@ -444,7 +442,7 @@
             this.B_BoxRight.TabIndex = 65;
             this.B_BoxRight.Text = ">>";
             this.B_BoxRight.UseVisualStyleBackColor = true;
-            this.B_BoxRight.Click += new System.EventHandler(this.clickBoxRight);
+            this.B_BoxRight.Click += new System.EventHandler(this.ClickBoxRight);
             // 
             // B_BoxLeft
             // 
@@ -455,7 +453,7 @@
             this.B_BoxLeft.TabIndex = 64;
             this.B_BoxLeft.Text = "<<";
             this.B_BoxLeft.UseVisualStyleBackColor = true;
-            this.B_BoxLeft.Click += new System.EventHandler(this.clickBoxLeft);
+            this.B_BoxLeft.Click += new System.EventHandler(this.ClickBoxLeft);
             // 
             // CB_BoxSelect
             // 
@@ -497,12 +495,11 @@
             this.CB_BoxSelect.Name = "CB_BoxSelect";
             this.CB_BoxSelect.Size = new System.Drawing.Size(127, 21);
             this.CB_BoxSelect.TabIndex = 63;
-            this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.getBox);
+            this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.GetBox);
             // 
             // BoxEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.PAN_Box);
             this.Controls.Add(this.B_BoxRight);
             this.Controls.Add(this.B_BoxLeft);
@@ -577,8 +574,8 @@
         private System.Windows.Forms.PictureBox bpkx3;
         private System.Windows.Forms.PictureBox bpkx2;
         private System.Windows.Forms.PictureBox bpkx1;
-        private System.Windows.Forms.Button B_BoxRight;
-        private System.Windows.Forms.Button B_BoxLeft;
-        private System.Windows.Forms.ComboBox CB_BoxSelect;
+        public System.Windows.Forms.Button B_BoxRight;
+        public System.Windows.Forms.Button B_BoxLeft;
+        public System.Windows.Forms.ComboBox CB_BoxSelect;
     }
 }

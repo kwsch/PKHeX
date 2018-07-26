@@ -110,6 +110,8 @@
             this.L_HeartGauge = new System.Windows.Forms.Label();
             this.NUD_Purification = new System.Windows.Forms.NumericUpDown();
             this.CHK_Shadow = new System.Windows.Forms.CheckBox();
+            this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_ShinyLeaf = new System.Windows.Forms.Label();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -145,80 +147,6 @@
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.PAN_Contest = new System.Windows.Forms.Panel();
-            this.TB_Sheen = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Tough = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Smart = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Cute = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Beauty = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Cool = new System.Windows.Forms.MaskedTextBox();
-            this.Label_Sheen = new System.Windows.Forms.Label();
-            this.Label_Tough = new System.Windows.Forms.Label();
-            this.Label_Smart = new System.Windows.Forms.Label();
-            this.Label_Cute = new System.Windows.Forms.Label();
-            this.Label_Beauty = new System.Windows.Forms.Label();
-            this.Label_Cool = new System.Windows.Forms.Label();
-            this.Label_ContestStats = new System.Windows.Forms.Label();
-            this.FLP_Stats = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_StatHeader = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
-            this.CHK_HackedStats = new System.Windows.Forms.CheckBox();
-            this.FLP_StatsHeaderRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_IVs = new System.Windows.Forms.Label();
-            this.Label_EVs = new System.Windows.Forms.Label();
-            this.Label_Stats = new System.Windows.Forms.Label();
-            this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_HP = new System.Windows.Forms.Label();
-            this.FLP_HPRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_HPIV = new System.Windows.Forms.MaskedTextBox();
-            this.TB_HPEV = new System.Windows.Forms.MaskedTextBox();
-            this.Stat_HP = new System.Windows.Forms.MaskedTextBox();
-            this.FLP_Atk = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_ATK = new System.Windows.Forms.Label();
-            this.FLP_AtkRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_ATKIV = new System.Windows.Forms.MaskedTextBox();
-            this.TB_ATKEV = new System.Windows.Forms.MaskedTextBox();
-            this.Stat_ATK = new System.Windows.Forms.MaskedTextBox();
-            this.FLP_Def = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_DEF = new System.Windows.Forms.Label();
-            this.FLP_DefRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_DEFIV = new System.Windows.Forms.MaskedTextBox();
-            this.TB_DEFEV = new System.Windows.Forms.MaskedTextBox();
-            this.Stat_DEF = new System.Windows.Forms.MaskedTextBox();
-            this.FLP_SpA = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_SpALeft = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_SPA = new System.Windows.Forms.Label();
-            this.Label_SPC = new System.Windows.Forms.Label();
-            this.FLP_SpARight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_SPAIV = new System.Windows.Forms.MaskedTextBox();
-            this.TB_SPAEV = new System.Windows.Forms.MaskedTextBox();
-            this.Stat_SPA = new System.Windows.Forms.MaskedTextBox();
-            this.FLP_SpD = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_SPD = new System.Windows.Forms.Label();
-            this.FLP_SpDRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_SPDIV = new System.Windows.Forms.MaskedTextBox();
-            this.TB_SPDEV = new System.Windows.Forms.MaskedTextBox();
-            this.Stat_SPD = new System.Windows.Forms.MaskedTextBox();
-            this.FLP_Spe = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_SPE = new System.Windows.Forms.Label();
-            this.FLP_SpeRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_SPEIV = new System.Windows.Forms.MaskedTextBox();
-            this.TB_SPEEV = new System.Windows.Forms.MaskedTextBox();
-            this.Stat_SPE = new System.Windows.Forms.MaskedTextBox();
-            this.FLP_StatsTotal = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_Total = new System.Windows.Forms.Label();
-            this.FLP_StatsTotalRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_IVTotal = new System.Windows.Forms.TextBox();
-            this.TB_EVTotal = new System.Windows.Forms.TextBox();
-            this.L_Potential = new System.Windows.Forms.Label();
-            this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
-            this.CB_HPType = new System.Windows.Forms.ComboBox();
-            this.FLP_Characteristic = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
-            this.L_Characteristic = new System.Windows.Forms.Label();
-            this.BTN_RandomEVs = new System.Windows.Forms.Button();
-            this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
             this.PB_WarnMove4 = new System.Windows.Forms.PictureBox();
             this.PB_WarnMove3 = new System.Windows.Forms.PictureBox();
@@ -278,12 +206,12 @@
             this.GB_OT = new System.Windows.Forms.GroupBox();
             this.Label_OTGender = new System.Windows.Forms.Label();
             this.TB_OT = new System.Windows.Forms.TextBox();
-            this.TB_SID = new System.Windows.Forms.MaskedTextBox();
-            this.TB_TID = new System.Windows.Forms.MaskedTextBox();
             this.Label_OT = new System.Windows.Forms.Label();
-            this.Label_SID = new System.Windows.Forms.Label();
-            this.Label_TID = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
+            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
+            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
+            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
+            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -317,6 +245,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ShadowID)).BeginInit();
             this.FLP_Purification.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).BeginInit();
+            this.FLP_ShinyLeaf.SuspendLayout();
             this.Tab_Met.SuspendLayout();
             this.GB_EggConditions.SuspendLayout();
             this.FLP_Met.SuspendLayout();
@@ -331,28 +260,6 @@
             this.FLP_EncounterType.SuspendLayout();
             this.FLP_TimeOfDay.SuspendLayout();
             this.Tab_Stats.SuspendLayout();
-            this.PAN_Contest.SuspendLayout();
-            this.FLP_Stats.SuspendLayout();
-            this.FLP_StatHeader.SuspendLayout();
-            this.FLP_HackedStats.SuspendLayout();
-            this.FLP_StatsHeaderRight.SuspendLayout();
-            this.FLP_HP.SuspendLayout();
-            this.FLP_HPRight.SuspendLayout();
-            this.FLP_Atk.SuspendLayout();
-            this.FLP_AtkRight.SuspendLayout();
-            this.FLP_Def.SuspendLayout();
-            this.FLP_DefRight.SuspendLayout();
-            this.FLP_SpA.SuspendLayout();
-            this.FLP_SpALeft.SuspendLayout();
-            this.FLP_SpARight.SuspendLayout();
-            this.FLP_SpD.SuspendLayout();
-            this.FLP_SpDRight.SuspendLayout();
-            this.FLP_Spe.SuspendLayout();
-            this.FLP_SpeRight.SuspendLayout();
-            this.FLP_StatsTotal.SuspendLayout();
-            this.FLP_StatsTotalRight.SuspendLayout();
-            this.FLP_HPType.SuspendLayout();
-            this.FLP_Characteristic.SuspendLayout();
             this.Tab_Attacks.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove3)).BeginInit();
@@ -387,16 +294,17 @@
             // tabMain
             // 
             this.tabMain.AllowDrop = true;
+            this.tabMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tabMain.Controls.Add(this.Tab_Main);
             this.tabMain.Controls.Add(this.Tab_Met);
             this.tabMain.Controls.Add(this.Tab_Stats);
             this.tabMain.Controls.Add(this.Tab_Attacks);
             this.tabMain.Controls.Add(this.Tab_OTMisc);
-            this.tabMain.Dock = System.Windows.Forms.DockStyle.Left;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(280, 420);
+            this.tabMain.Size = new System.Drawing.Size(280, 488);
             this.tabMain.TabIndex = 1;
             // 
             // Tab_Main
@@ -406,13 +314,15 @@
             this.Tab_Main.Location = new System.Drawing.Point(4, 22);
             this.Tab_Main.Name = "Tab_Main";
             this.Tab_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Main.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Main.Size = new System.Drawing.Size(272, 462);
             this.Tab_Main.TabIndex = 0;
             this.Tab_Main.Text = "Main";
             this.Tab_Main.UseVisualStyleBackColor = true;
             // 
             // FLP_Main
             // 
+            this.FLP_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.FLP_Main.Controls.Add(this.FLP_PID);
             this.FLP_Main.Controls.Add(this.FLP_Species);
             this.FLP_Main.Controls.Add(this.FLP_Nickname);
@@ -430,9 +340,10 @@
             this.FLP_Main.Controls.Add(this.FLP_NSparkle);
             this.FLP_Main.Controls.Add(this.FLP_ShadowID);
             this.FLP_Main.Controls.Add(this.FLP_Purification);
+            this.FLP_Main.Controls.Add(this.FLP_ShinyLeaf);
             this.FLP_Main.Location = new System.Drawing.Point(0, 2);
             this.FLP_Main.Name = "FLP_Main";
-            this.FLP_Main.Size = new System.Drawing.Size(272, 391);
+            this.FLP_Main.Size = new System.Drawing.Size(272, 459);
             this.FLP_Main.TabIndex = 103;
             // 
             // FLP_PID
@@ -481,7 +392,7 @@
             this.BTN_Shinytize.TabIndex = 1;
             this.BTN_Shinytize.Text = "☆";
             this.BTN_Shinytize.UseVisualStyleBackColor = true;
-            this.BTN_Shinytize.Click += new System.EventHandler(this.updateShinyPID);
+            this.BTN_Shinytize.Click += new System.EventHandler(this.UpdateShinyPID);
             // 
             // Label_IsShiny
             // 
@@ -521,8 +432,8 @@
             this.TB_PID.Size = new System.Drawing.Size(60, 20);
             this.TB_PID.TabIndex = 1;
             this.TB_PID.Text = "12345678";
-            this.TB_PID.MouseHover += new System.EventHandler(this.updateTSV);
-            this.TB_PID.Validated += new System.EventHandler(this.update_ID);
+            this.TB_PID.MouseHover += new System.EventHandler(this.UpdateTSV);
+            this.TB_PID.Validated += new System.EventHandler(this.Update_ID);
             // 
             // Label_Gender
             // 
@@ -535,7 +446,7 @@
             this.Label_Gender.TabIndex = 55;
             this.Label_Gender.Text = "-";
             this.Label_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_Gender.Click += new System.EventHandler(this.clickGender);
+            this.Label_Gender.Click += new System.EventHandler(this.ClickGender);
             // 
             // BTN_RerollPID
             // 
@@ -548,7 +459,7 @@
             this.BTN_RerollPID.TabIndex = 1;
             this.BTN_RerollPID.Text = "Reroll";
             this.BTN_RerollPID.UseVisualStyleBackColor = true;
-            this.BTN_RerollPID.Click += new System.EventHandler(this.updateRandomPID);
+            this.BTN_RerollPID.Click += new System.EventHandler(this.UpdateRandomPID);
             // 
             // FLP_Species
             // 
@@ -571,7 +482,7 @@
             this.Label_Species.TabIndex = 1;
             this.Label_Species.Text = "Species:";
             this.Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_Species.Click += new System.EventHandler(this.updateNickname);
+            this.Label_Species.Click += new System.EventHandler(this.UpdateNickname);
             // 
             // CB_Species
             // 
@@ -583,10 +494,9 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(126, 21);
             this.CB_Species.TabIndex = 3;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.updateSpecies);
-            this.CB_Species.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Species.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.UpdateSpecies);
+            this.CB_Species.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_Nickname
             // 
@@ -621,7 +531,7 @@
             this.CHK_Nicknamed.Text = "Nickname";
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Nicknamed.UseVisualStyleBackColor = true;
-            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.updateNickname);
+            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.UpdateNickname);
             // 
             // TB_Nickname
             // 
@@ -632,8 +542,8 @@
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(126, 20);
             this.TB_Nickname.TabIndex = 5;
-            this.TB_Nickname.TextChanged += new System.EventHandler(this.updateIsNicknamed);
-            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
+            this.TB_Nickname.TextChanged += new System.EventHandler(this.UpdateIsNicknamed);
+            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // FLP_EXPLevel
             // 
@@ -680,7 +590,7 @@
             this.TB_EXP.Size = new System.Drawing.Size(46, 20);
             this.TB_EXP.TabIndex = 7;
             this.TB_EXP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_EXP.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            this.TB_EXP.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // Label_CurLevel
             // 
@@ -691,7 +601,7 @@
             this.Label_CurLevel.TabIndex = 7;
             this.Label_CurLevel.Text = "Level:";
             this.Label_CurLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_CurLevel.Click += new System.EventHandler(this.clickMetLocation);
+            this.Label_CurLevel.Click += new System.EventHandler(this.ClickMetLocation);
             // 
             // TB_Level
             // 
@@ -702,8 +612,8 @@
             this.TB_Level.Name = "TB_Level";
             this.TB_Level.Size = new System.Drawing.Size(22, 20);
             this.TB_Level.TabIndex = 8;
-            this.TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            this.TB_Level.Click += new System.EventHandler(this.ClickLevel);
+            this.TB_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // MT_Level
             // 
@@ -716,8 +626,8 @@
             this.MT_Level.Size = new System.Drawing.Size(22, 20);
             this.MT_Level.TabIndex = 17;
             this.MT_Level.Visible = false;
-            this.MT_Level.Click += new System.EventHandler(this.clickLevel);
-            this.MT_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            this.MT_Level.Click += new System.EventHandler(this.ClickLevel);
+            this.MT_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // FLP_Nature
             // 
@@ -750,10 +660,9 @@
             this.CB_Nature.Name = "CB_Nature";
             this.CB_Nature.Size = new System.Drawing.Size(126, 21);
             this.CB_Nature.TabIndex = 9;
-            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Nature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Nature.MouseHover += new System.EventHandler(this.updateNatureModification);
-            this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Nature.MouseHover += new System.EventHandler(this.UpdateNatureModification);
+            this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_HeldItem
             // 
@@ -787,9 +696,8 @@
             this.CB_HeldItem.Name = "CB_HeldItem";
             this.CB_HeldItem.Size = new System.Drawing.Size(126, 21);
             this.CB_HeldItem.TabIndex = 10;
-            this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_HeldItem.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_FriendshipForm
             // 
@@ -823,7 +731,7 @@
             this.Label_Friendship.TabIndex = 9;
             this.Label_Friendship.Text = "Friendship:";
             this.Label_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_Friendship.Click += new System.EventHandler(this.clickFriendship);
+            this.Label_Friendship.Click += new System.EventHandler(this.ClickFriendship);
             // 
             // Label_HatchCounter
             // 
@@ -858,7 +766,7 @@
             this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
             this.TB_Friendship.TabIndex = 11;
             this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Friendship.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Friendship.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // Label_Form
             // 
@@ -883,7 +791,7 @@
             this.CB_Form.Name = "CB_Form";
             this.CB_Form.Size = new System.Drawing.Size(71, 21);
             this.CB_Form.TabIndex = 12;
-            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.updateForm);
+            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
             // 
             // MT_Form
             // 
@@ -896,7 +804,7 @@
             this.MT_Form.TabIndex = 18;
             this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Form.Visible = false;
-            this.MT_Form.Validated += new System.EventHandler(this.updateHaXForm);
+            this.MT_Form.Validated += new System.EventHandler(this.UpdateHaXForm);
             // 
             // FLP_Ability
             // 
@@ -943,9 +851,8 @@
             this.CB_Ability.Name = "CB_Ability";
             this.CB_Ability.Size = new System.Drawing.Size(126, 21);
             this.CB_Ability.TabIndex = 13;
-            this.CB_Ability.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Ability.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Ability.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Ability.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Ability.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // DEV_Ability
             // 
@@ -1005,7 +912,7 @@
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(126, 21);
             this.CB_Language.TabIndex = 15;
-            this.CB_Language.SelectedIndexChanged += new System.EventHandler(this.updateNickname);
+            this.CB_Language.SelectedIndexChanged += new System.EventHandler(this.UpdateNickname);
             // 
             // FLP_EggPKRS
             // 
@@ -1040,7 +947,7 @@
             this.CHK_IsEgg.Text = "Is Egg";
             this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_IsEgg.UseVisualStyleBackColor = true;
-            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.updateIsEgg);
+            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.UpdateIsEgg);
             // 
             // FLP_EggPKRSRight
             // 
@@ -1064,7 +971,7 @@
             this.CHK_Infected.Text = "Infected";
             this.CHK_Infected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Infected.UseVisualStyleBackColor = true;
-            this.CHK_Infected.CheckedChanged += new System.EventHandler(this.updatePKRSInfected);
+            this.CHK_Infected.CheckedChanged += new System.EventHandler(this.UpdatePKRSInfected);
             // 
             // CHK_Cured
             // 
@@ -1077,7 +984,7 @@
             this.CHK_Cured.Text = "Cured";
             this.CHK_Cured.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Cured.UseVisualStyleBackColor = true;
-            this.CHK_Cured.CheckedChanged += new System.EventHandler(this.updatePKRSCured);
+            this.CHK_Cured.CheckedChanged += new System.EventHandler(this.UpdatePKRSCured);
             // 
             // FLP_PKRS
             // 
@@ -1140,7 +1047,7 @@
             this.CB_PKRSStrain.Size = new System.Drawing.Size(43, 21);
             this.CB_PKRSStrain.TabIndex = 19;
             this.CB_PKRSStrain.Visible = false;
-            this.CB_PKRSStrain.SelectedValueChanged += new System.EventHandler(this.updatePKRSstrain);
+            this.CB_PKRSStrain.SelectedValueChanged += new System.EventHandler(this.UpdatePKRSstrain);
             // 
             // Label_PKRSdays
             // 
@@ -1163,7 +1070,7 @@
             this.CB_PKRSDays.Size = new System.Drawing.Size(30, 21);
             this.CB_PKRSDays.TabIndex = 20;
             this.CB_PKRSDays.Visible = false;
-            this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.updatePKRSdays);
+            this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.UpdatePKRSdays);
             // 
             // FLP_Country
             // 
@@ -1197,9 +1104,8 @@
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(126, 21);
             this.CB_Country.TabIndex = 21;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.updateCountry);
-            this.CB_Country.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
+            this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_SubRegion
             // 
@@ -1233,8 +1139,7 @@
             this.CB_SubRegion.Name = "CB_SubRegion";
             this.CB_SubRegion.Size = new System.Drawing.Size(126, 21);
             this.CB_SubRegion.TabIndex = 22;
-            this.CB_SubRegion.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_3DSRegion
             // 
@@ -1326,14 +1231,14 @@
             this.NUD_ShadowID.Location = new System.Drawing.Point(110, 1);
             this.NUD_ShadowID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.NUD_ShadowID.Maximum = new decimal(new int[] {
-            72,
+            127,
             0,
             0,
             0});
             this.NUD_ShadowID.Name = "NUD_ShadowID";
             this.NUD_ShadowID.Size = new System.Drawing.Size(51, 20);
             this.NUD_ShadowID.TabIndex = 103;
-            this.NUD_ShadowID.ValueChanged += new System.EventHandler(this.updateShadowID);
+            this.NUD_ShadowID.ValueChanged += new System.EventHandler(this.UpdateShadowID);
             // 
             // FLP_Purification
             // 
@@ -1366,10 +1271,15 @@
             0,
             0,
             0});
+            this.NUD_Purification.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.NUD_Purification.Name = "NUD_Purification";
             this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
             this.NUD_Purification.TabIndex = 103;
-            this.NUD_Purification.ValueChanged += new System.EventHandler(this.updatePurification);
+            this.NUD_Purification.ValueChanged += new System.EventHandler(this.UpdatePurification);
             // 
             // CHK_Shadow
             // 
@@ -1382,7 +1292,29 @@
             this.CHK_Shadow.Text = "Shadow";
             this.CHK_Shadow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Shadow.UseVisualStyleBackColor = true;
-            this.CHK_Shadow.CheckedChanged += new System.EventHandler(this.updateShadowCHK);
+            this.CHK_Shadow.CheckedChanged += new System.EventHandler(this.UpdateShadowCHK);
+            // 
+            // FLP_ShinyLeaf
+            // 
+            this.FLP_ShinyLeaf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_ShinyLeaf.Controls.Add(this.L_ShinyLeaf);
+            this.FLP_ShinyLeaf.Controls.Add(this.ShinyLeaf);
+            this.FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 359);
+            this.FLP_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_ShinyLeaf.Name = "FLP_ShinyLeaf";
+            this.FLP_ShinyLeaf.Size = new System.Drawing.Size(272, 56);
+            this.FLP_ShinyLeaf.TabIndex = 115;
+            // 
+            // L_ShinyLeaf
+            // 
+            this.L_ShinyLeaf.Location = new System.Drawing.Point(0, 0);
+            this.L_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.L_ShinyLeaf.Name = "L_ShinyLeaf";
+            this.L_ShinyLeaf.Size = new System.Drawing.Size(110, 56);
+            this.L_ShinyLeaf.TabIndex = 9;
+            this.L_ShinyLeaf.Text = "Shiny Leaf:";
+            this.L_ShinyLeaf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_ShinyLeaf.Click += new System.EventHandler(this.ClickShinyLeaf);
             // 
             // Tab_Met
             // 
@@ -1393,7 +1325,7 @@
             this.Tab_Met.Location = new System.Drawing.Point(4, 22);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Met.Size = new System.Drawing.Size(272, 462);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -1407,7 +1339,7 @@
             this.CHK_AsEgg.TabIndex = 8;
             this.CHK_AsEgg.Text = "As Egg";
             this.CHK_AsEgg.UseVisualStyleBackColor = true;
-            this.CHK_AsEgg.Click += new System.EventHandler(this.updateMetAsEgg);
+            this.CHK_AsEgg.Click += new System.EventHandler(this.UpdateMetAsEgg);
             // 
             // GB_EggConditions
             // 
@@ -1433,9 +1365,8 @@
             this.CB_EggLocation.Name = "CB_EggLocation";
             this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
             this.CB_EggLocation.TabIndex = 10;
-            this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.validateLocation);
-            this.CB_EggLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
+            this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CAL_EggDate
             // 
@@ -1512,7 +1443,7 @@
             this.CB_GameOrigin.Name = "CB_GameOrigin";
             this.CB_GameOrigin.Size = new System.Drawing.Size(126, 21);
             this.CB_GameOrigin.TabIndex = 1;
-            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.updateOriginGame);
+            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.UpdateOriginGame);
             // 
             // FLP_MetLocation
             // 
@@ -1534,7 +1465,7 @@
             this.Label_MetLocation.TabIndex = 1;
             this.Label_MetLocation.Text = "Met Location:";
             this.Label_MetLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_MetLocation.Click += new System.EventHandler(this.clickMetLocation);
+            this.Label_MetLocation.Click += new System.EventHandler(this.ClickMetLocation);
             // 
             // CB_MetLocation
             // 
@@ -1547,9 +1478,8 @@
             this.CB_MetLocation.Name = "CB_MetLocation";
             this.CB_MetLocation.Size = new System.Drawing.Size(126, 21);
             this.CB_MetLocation.TabIndex = 2;
-            this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.validateLocation);
-            this.CB_MetLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
+            this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_Ball
             // 
@@ -1573,6 +1503,7 @@
             this.FLP_BallLeft.Name = "FLP_BallLeft";
             this.FLP_BallLeft.Size = new System.Drawing.Size(110, 21);
             this.FLP_BallLeft.TabIndex = 4;
+            this.FLP_BallLeft.Click += new System.EventHandler(this.ClickBall);
             // 
             // Label_Ball
             // 
@@ -1586,6 +1517,7 @@
             this.Label_Ball.TabIndex = 2;
             this.Label_Ball.Text = "Ball:";
             this.Label_Ball.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_Ball.Click += new System.EventHandler(this.ClickBall);
             // 
             // PB_Ball
             // 
@@ -1595,6 +1527,7 @@
             this.PB_Ball.Size = new System.Drawing.Size(20, 20);
             this.PB_Ball.TabIndex = 3;
             this.PB_Ball.TabStop = false;
+            this.PB_Ball.Click += new System.EventHandler(this.ClickBall);
             // 
             // CB_Ball
             // 
@@ -1606,10 +1539,9 @@
             this.CB_Ball.Name = "CB_Ball";
             this.CB_Ball.Size = new System.Drawing.Size(126, 21);
             this.CB_Ball.TabIndex = 3;
-            this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.updateBall);
-            this.CB_Ball.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Ball.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.UpdateBall);
+            this.CB_Ball.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_MetLevel
             // 
@@ -1641,7 +1573,7 @@
             this.TB_MetLevel.Name = "TB_MetLevel";
             this.TB_MetLevel.Size = new System.Drawing.Size(126, 20);
             this.TB_MetLevel.TabIndex = 4;
-            this.TB_MetLevel.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_MetLevel.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // FLP_MetDate
             // 
@@ -1759,12 +1691,10 @@
             this.L_MetTimeOfDay.TabIndex = 10;
             this.L_MetTimeOfDay.Text = "Time of Day:";
             this.L_MetTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_MetTimeOfDay.Visible = false;
             // 
             // CB_MetTimeOfDay
             // 
-            this.CB_MetTimeOfDay.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_MetTimeOfDay.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_MetTimeOfDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_MetTimeOfDay.DropDownWidth = 150;
             this.CB_MetTimeOfDay.FormattingEnabled = true;
             this.CB_MetTimeOfDay.Items.AddRange(new object[] {
@@ -1777,887 +1707,19 @@
             this.CB_MetTimeOfDay.Name = "CB_MetTimeOfDay";
             this.CB_MetTimeOfDay.Size = new System.Drawing.Size(126, 21);
             this.CB_MetTimeOfDay.TabIndex = 11;
-            this.CB_MetTimeOfDay.Visible = false;
-            this.CB_MetTimeOfDay.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_MetTimeOfDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_MetTimeOfDay.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 
             // Tab_Stats
             // 
             this.Tab_Stats.AllowDrop = true;
-            this.Tab_Stats.Controls.Add(this.PAN_Contest);
-            this.Tab_Stats.Controls.Add(this.FLP_Stats);
-            this.Tab_Stats.Controls.Add(this.BTN_RandomEVs);
-            this.Tab_Stats.Controls.Add(this.BTN_RandomIVs);
+            this.Tab_Stats.Controls.Add(this.Stats);
+            this.Tab_Stats.Controls.Add(this.Contest);
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Stats.Size = new System.Drawing.Size(272, 462);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
-            // 
-            // PAN_Contest
-            // 
-            this.PAN_Contest.Controls.Add(this.TB_Sheen);
-            this.PAN_Contest.Controls.Add(this.TB_Tough);
-            this.PAN_Contest.Controls.Add(this.TB_Smart);
-            this.PAN_Contest.Controls.Add(this.TB_Cute);
-            this.PAN_Contest.Controls.Add(this.TB_Beauty);
-            this.PAN_Contest.Controls.Add(this.TB_Cool);
-            this.PAN_Contest.Controls.Add(this.Label_Sheen);
-            this.PAN_Contest.Controls.Add(this.Label_Tough);
-            this.PAN_Contest.Controls.Add(this.Label_Smart);
-            this.PAN_Contest.Controls.Add(this.Label_Cute);
-            this.PAN_Contest.Controls.Add(this.Label_Beauty);
-            this.PAN_Contest.Controls.Add(this.Label_Cool);
-            this.PAN_Contest.Controls.Add(this.Label_ContestStats);
-            this.PAN_Contest.Location = new System.Drawing.Point(21, 247);
-            this.PAN_Contest.Name = "PAN_Contest";
-            this.PAN_Contest.Size = new System.Drawing.Size(230, 50);
-            this.PAN_Contest.TabIndex = 104;
-            // 
-            // TB_Sheen
-            // 
-            this.TB_Sheen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Sheen.Location = new System.Drawing.Point(192, 30);
-            this.TB_Sheen.Mask = "000";
-            this.TB_Sheen.Name = "TB_Sheen";
-            this.TB_Sheen.Size = new System.Drawing.Size(31, 20);
-            this.TB_Sheen.TabIndex = 45;
-            this.TB_Sheen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Sheen.Validated += new System.EventHandler(this.update255_MTB);
-            // 
-            // TB_Tough
-            // 
-            this.TB_Tough.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Tough.Location = new System.Drawing.Point(155, 30);
-            this.TB_Tough.Mask = "000";
-            this.TB_Tough.Name = "TB_Tough";
-            this.TB_Tough.Size = new System.Drawing.Size(31, 20);
-            this.TB_Tough.TabIndex = 44;
-            this.TB_Tough.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Tough.Validated += new System.EventHandler(this.update255_MTB);
-            // 
-            // TB_Smart
-            // 
-            this.TB_Smart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Smart.Location = new System.Drawing.Point(118, 30);
-            this.TB_Smart.Mask = "000";
-            this.TB_Smart.Name = "TB_Smart";
-            this.TB_Smart.Size = new System.Drawing.Size(31, 20);
-            this.TB_Smart.TabIndex = 43;
-            this.TB_Smart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Smart.Validated += new System.EventHandler(this.update255_MTB);
-            // 
-            // TB_Cute
-            // 
-            this.TB_Cute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Cute.Location = new System.Drawing.Point(81, 30);
-            this.TB_Cute.Mask = "000";
-            this.TB_Cute.Name = "TB_Cute";
-            this.TB_Cute.Size = new System.Drawing.Size(31, 20);
-            this.TB_Cute.TabIndex = 42;
-            this.TB_Cute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Cute.Validated += new System.EventHandler(this.update255_MTB);
-            // 
-            // TB_Beauty
-            // 
-            this.TB_Beauty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Beauty.Location = new System.Drawing.Point(44, 30);
-            this.TB_Beauty.Mask = "000";
-            this.TB_Beauty.Name = "TB_Beauty";
-            this.TB_Beauty.Size = new System.Drawing.Size(31, 20);
-            this.TB_Beauty.TabIndex = 41;
-            this.TB_Beauty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Beauty.Validated += new System.EventHandler(this.update255_MTB);
-            // 
-            // TB_Cool
-            // 
-            this.TB_Cool.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Cool.Location = new System.Drawing.Point(7, 30);
-            this.TB_Cool.Mask = "000";
-            this.TB_Cool.Name = "TB_Cool";
-            this.TB_Cool.Size = new System.Drawing.Size(31, 20);
-            this.TB_Cool.TabIndex = 40;
-            this.TB_Cool.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Cool.Validated += new System.EventHandler(this.update255_MTB);
-            // 
-            // Label_Sheen
-            // 
-            this.Label_Sheen.Location = new System.Drawing.Point(186, 17);
-            this.Label_Sheen.Name = "Label_Sheen";
-            this.Label_Sheen.Size = new System.Drawing.Size(43, 13);
-            this.Label_Sheen.TabIndex = 52;
-            this.Label_Sheen.Text = "Sheen";
-            this.Label_Sheen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Tough
-            // 
-            this.Label_Tough.Location = new System.Drawing.Point(149, 17);
-            this.Label_Tough.Name = "Label_Tough";
-            this.Label_Tough.Size = new System.Drawing.Size(43, 13);
-            this.Label_Tough.TabIndex = 51;
-            this.Label_Tough.Text = "Tough";
-            this.Label_Tough.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Smart
-            // 
-            this.Label_Smart.Location = new System.Drawing.Point(112, 17);
-            this.Label_Smart.Name = "Label_Smart";
-            this.Label_Smart.Size = new System.Drawing.Size(43, 13);
-            this.Label_Smart.TabIndex = 50;
-            this.Label_Smart.Text = "Clever";
-            this.Label_Smart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Cute
-            // 
-            this.Label_Cute.Location = new System.Drawing.Point(75, 17);
-            this.Label_Cute.Name = "Label_Cute";
-            this.Label_Cute.Size = new System.Drawing.Size(43, 13);
-            this.Label_Cute.TabIndex = 49;
-            this.Label_Cute.Text = "Cute";
-            this.Label_Cute.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Beauty
-            // 
-            this.Label_Beauty.Location = new System.Drawing.Point(38, 17);
-            this.Label_Beauty.Name = "Label_Beauty";
-            this.Label_Beauty.Size = new System.Drawing.Size(43, 13);
-            this.Label_Beauty.TabIndex = 48;
-            this.Label_Beauty.Text = "Beauty";
-            this.Label_Beauty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Cool
-            // 
-            this.Label_Cool.Location = new System.Drawing.Point(1, 17);
-            this.Label_Cool.Name = "Label_Cool";
-            this.Label_Cool.Size = new System.Drawing.Size(43, 13);
-            this.Label_Cool.TabIndex = 47;
-            this.Label_Cool.Text = "Cool";
-            this.Label_Cool.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_ContestStats
-            // 
-            this.Label_ContestStats.Location = new System.Drawing.Point(46, 1);
-            this.Label_ContestStats.Name = "Label_ContestStats";
-            this.Label_ContestStats.Size = new System.Drawing.Size(140, 13);
-            this.Label_ContestStats.TabIndex = 46;
-            this.Label_ContestStats.Text = "Contest Stats";
-            this.Label_ContestStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // FLP_Stats
-            // 
-            this.FLP_Stats.Controls.Add(this.FLP_StatHeader);
-            this.FLP_Stats.Controls.Add(this.FLP_HP);
-            this.FLP_Stats.Controls.Add(this.FLP_Atk);
-            this.FLP_Stats.Controls.Add(this.FLP_Def);
-            this.FLP_Stats.Controls.Add(this.FLP_SpA);
-            this.FLP_Stats.Controls.Add(this.FLP_SpD);
-            this.FLP_Stats.Controls.Add(this.FLP_Spe);
-            this.FLP_Stats.Controls.Add(this.FLP_StatsTotal);
-            this.FLP_Stats.Controls.Add(this.FLP_HPType);
-            this.FLP_Stats.Controls.Add(this.FLP_Characteristic);
-            this.FLP_Stats.Location = new System.Drawing.Point(0, 2);
-            this.FLP_Stats.Name = "FLP_Stats";
-            this.FLP_Stats.Size = new System.Drawing.Size(272, 206);
-            this.FLP_Stats.TabIndex = 103;
-            // 
-            // FLP_StatHeader
-            // 
-            this.FLP_StatHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatHeader.Controls.Add(this.FLP_HackedStats);
-            this.FLP_StatHeader.Controls.Add(this.FLP_StatsHeaderRight);
-            this.FLP_StatHeader.Location = new System.Drawing.Point(0, 0);
-            this.FLP_StatHeader.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_StatHeader.Name = "FLP_StatHeader";
-            this.FLP_StatHeader.Size = new System.Drawing.Size(272, 22);
-            this.FLP_StatHeader.TabIndex = 122;
-            // 
-            // FLP_HackedStats
-            // 
-            this.FLP_HackedStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_HackedStats.Controls.Add(this.CHK_HackedStats);
-            this.FLP_HackedStats.Location = new System.Drawing.Point(0, 0);
-            this.FLP_HackedStats.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_HackedStats.Name = "FLP_HackedStats";
-            this.FLP_HackedStats.Size = new System.Drawing.Size(107, 21);
-            this.FLP_HackedStats.TabIndex = 122;
-            // 
-            // CHK_HackedStats
-            // 
-            this.CHK_HackedStats.AutoSize = true;
-            this.CHK_HackedStats.Enabled = false;
-            this.CHK_HackedStats.Location = new System.Drawing.Point(0, 3);
-            this.CHK_HackedStats.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.CHK_HackedStats.Name = "CHK_HackedStats";
-            this.CHK_HackedStats.Size = new System.Drawing.Size(91, 17);
-            this.CHK_HackedStats.TabIndex = 18;
-            this.CHK_HackedStats.Text = "Hacked Stats";
-            this.CHK_HackedStats.UseVisualStyleBackColor = true;
-            this.CHK_HackedStats.Visible = false;
-            this.CHK_HackedStats.Click += new System.EventHandler(this.updateHackedStats);
-            // 
-            // FLP_StatsHeaderRight
-            // 
-            this.FLP_StatsHeaderRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatsHeaderRight.Controls.Add(this.Label_IVs);
-            this.FLP_StatsHeaderRight.Controls.Add(this.Label_EVs);
-            this.FLP_StatsHeaderRight.Controls.Add(this.Label_Stats);
-            this.FLP_StatsHeaderRight.Location = new System.Drawing.Point(107, 0);
-            this.FLP_StatsHeaderRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_StatsHeaderRight.Name = "FLP_StatsHeaderRight";
-            this.FLP_StatsHeaderRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_StatsHeaderRight.TabIndex = 123;
-            // 
-            // Label_IVs
-            // 
-            this.Label_IVs.Location = new System.Drawing.Point(0, 0);
-            this.Label_IVs.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_IVs.Name = "Label_IVs";
-            this.Label_IVs.Size = new System.Drawing.Size(30, 21);
-            this.Label_IVs.TabIndex = 29;
-            this.Label_IVs.Text = "IVs";
-            this.Label_IVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_EVs
-            // 
-            this.Label_EVs.Location = new System.Drawing.Point(30, 0);
-            this.Label_EVs.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_EVs.Name = "Label_EVs";
-            this.Label_EVs.Size = new System.Drawing.Size(35, 21);
-            this.Label_EVs.TabIndex = 27;
-            this.Label_EVs.Text = "EVs";
-            this.Label_EVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Stats
-            // 
-            this.Label_Stats.Location = new System.Drawing.Point(65, 0);
-            this.Label_Stats.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_Stats.Name = "Label_Stats";
-            this.Label_Stats.Size = new System.Drawing.Size(35, 21);
-            this.Label_Stats.TabIndex = 28;
-            this.Label_Stats.Text = "Stats";
-            this.Label_Stats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // FLP_HP
-            // 
-            this.FLP_HP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_HP.Controls.Add(this.Label_HP);
-            this.FLP_HP.Controls.Add(this.FLP_HPRight);
-            this.FLP_HP.Location = new System.Drawing.Point(0, 22);
-            this.FLP_HP.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_HP.Name = "FLP_HP";
-            this.FLP_HP.Size = new System.Drawing.Size(272, 21);
-            this.FLP_HP.TabIndex = 123;
-            // 
-            // Label_HP
-            // 
-            this.Label_HP.Location = new System.Drawing.Point(0, 0);
-            this.Label_HP.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_HP.Name = "Label_HP";
-            this.Label_HP.Size = new System.Drawing.Size(110, 21);
-            this.Label_HP.TabIndex = 19;
-            this.Label_HP.Text = "HP:";
-            this.Label_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_HP.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
-            // 
-            // FLP_HPRight
-            // 
-            this.FLP_HPRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_HPRight.Controls.Add(this.TB_HPIV);
-            this.FLP_HPRight.Controls.Add(this.TB_HPEV);
-            this.FLP_HPRight.Controls.Add(this.Stat_HP);
-            this.FLP_HPRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_HPRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_HPRight.Name = "FLP_HPRight";
-            this.FLP_HPRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_HPRight.TabIndex = 121;
-            // 
-            // TB_HPIV
-            // 
-            this.TB_HPIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPIV.Location = new System.Drawing.Point(0, 0);
-            this.TB_HPIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_HPIV.Mask = "00";
-            this.TB_HPIV.Name = "TB_HPIV";
-            this.TB_HPIV.Size = new System.Drawing.Size(22, 20);
-            this.TB_HPIV.TabIndex = 1;
-            this.TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_HPIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_HPIV.TextChanged += new System.EventHandler(this.updateIVs);
-            // 
-            // TB_HPEV
-            // 
-            this.TB_HPEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HPEV.Location = new System.Drawing.Point(28, 0);
-            this.TB_HPEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_HPEV.Mask = "000";
-            this.TB_HPEV.Name = "TB_HPEV";
-            this.TB_HPEV.Size = new System.Drawing.Size(28, 20);
-            this.TB_HPEV.TabIndex = 7;
-            this.TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_HPEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_HPEV.TextChanged += new System.EventHandler(this.updateEVs);
-            // 
-            // Stat_HP
-            // 
-            this.Stat_HP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_HP.Enabled = false;
-            this.Stat_HP.Location = new System.Drawing.Point(62, 0);
-            this.Stat_HP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Stat_HP.Mask = "00000";
-            this.Stat_HP.Name = "Stat_HP";
-            this.Stat_HP.PromptChar = ' ';
-            this.Stat_HP.Size = new System.Drawing.Size(37, 20);
-            this.Stat_HP.TabIndex = 45;
-            this.Stat_HP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_HP.TextChanged += new System.EventHandler(this.updateHackedStatText);
-            // 
-            // FLP_Atk
-            // 
-            this.FLP_Atk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Atk.Controls.Add(this.Label_ATK);
-            this.FLP_Atk.Controls.Add(this.FLP_AtkRight);
-            this.FLP_Atk.Location = new System.Drawing.Point(0, 43);
-            this.FLP_Atk.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Atk.Name = "FLP_Atk";
-            this.FLP_Atk.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Atk.TabIndex = 124;
-            // 
-            // Label_ATK
-            // 
-            this.Label_ATK.Location = new System.Drawing.Point(0, 0);
-            this.Label_ATK.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_ATK.Name = "Label_ATK";
-            this.Label_ATK.Size = new System.Drawing.Size(110, 21);
-            this.Label_ATK.TabIndex = 20;
-            this.Label_ATK.Text = "Atk:";
-            this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_ATK.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
-            // 
-            // FLP_AtkRight
-            // 
-            this.FLP_AtkRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_AtkRight.Controls.Add(this.TB_ATKIV);
-            this.FLP_AtkRight.Controls.Add(this.TB_ATKEV);
-            this.FLP_AtkRight.Controls.Add(this.Stat_ATK);
-            this.FLP_AtkRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_AtkRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_AtkRight.Name = "FLP_AtkRight";
-            this.FLP_AtkRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_AtkRight.TabIndex = 123;
-            // 
-            // TB_ATKIV
-            // 
-            this.TB_ATKIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKIV.Location = new System.Drawing.Point(0, 0);
-            this.TB_ATKIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_ATKIV.Mask = "00";
-            this.TB_ATKIV.Name = "TB_ATKIV";
-            this.TB_ATKIV.Size = new System.Drawing.Size(22, 20);
-            this.TB_ATKIV.TabIndex = 2;
-            this.TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ATKIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_ATKIV.TextChanged += new System.EventHandler(this.updateIVs);
-            // 
-            // TB_ATKEV
-            // 
-            this.TB_ATKEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_ATKEV.Location = new System.Drawing.Point(28, 0);
-            this.TB_ATKEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_ATKEV.Mask = "000";
-            this.TB_ATKEV.Name = "TB_ATKEV";
-            this.TB_ATKEV.Size = new System.Drawing.Size(28, 20);
-            this.TB_ATKEV.TabIndex = 8;
-            this.TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ATKEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_ATKEV.TextChanged += new System.EventHandler(this.updateEVs);
-            // 
-            // Stat_ATK
-            // 
-            this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_ATK.Enabled = false;
-            this.Stat_ATK.Location = new System.Drawing.Point(62, 0);
-            this.Stat_ATK.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Stat_ATK.Mask = "00000";
-            this.Stat_ATK.Name = "Stat_ATK";
-            this.Stat_ATK.PromptChar = ' ';
-            this.Stat_ATK.Size = new System.Drawing.Size(37, 20);
-            this.Stat_ATK.TabIndex = 46;
-            this.Stat_ATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_ATK.TextChanged += new System.EventHandler(this.updateHackedStatText);
-            // 
-            // FLP_Def
-            // 
-            this.FLP_Def.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Def.Controls.Add(this.Label_DEF);
-            this.FLP_Def.Controls.Add(this.FLP_DefRight);
-            this.FLP_Def.Location = new System.Drawing.Point(0, 64);
-            this.FLP_Def.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Def.Name = "FLP_Def";
-            this.FLP_Def.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Def.TabIndex = 125;
-            // 
-            // Label_DEF
-            // 
-            this.Label_DEF.Location = new System.Drawing.Point(0, 0);
-            this.Label_DEF.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_DEF.Name = "Label_DEF";
-            this.Label_DEF.Size = new System.Drawing.Size(110, 21);
-            this.Label_DEF.TabIndex = 21;
-            this.Label_DEF.Text = "Def:";
-            this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_DEF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
-            // 
-            // FLP_DefRight
-            // 
-            this.FLP_DefRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_DefRight.Controls.Add(this.TB_DEFIV);
-            this.FLP_DefRight.Controls.Add(this.TB_DEFEV);
-            this.FLP_DefRight.Controls.Add(this.Stat_DEF);
-            this.FLP_DefRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_DefRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_DefRight.Name = "FLP_DefRight";
-            this.FLP_DefRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_DefRight.TabIndex = 123;
-            // 
-            // TB_DEFIV
-            // 
-            this.TB_DEFIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFIV.Location = new System.Drawing.Point(0, 0);
-            this.TB_DEFIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_DEFIV.Mask = "00";
-            this.TB_DEFIV.Name = "TB_DEFIV";
-            this.TB_DEFIV.Size = new System.Drawing.Size(22, 20);
-            this.TB_DEFIV.TabIndex = 3;
-            this.TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_DEFIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_DEFIV.TextChanged += new System.EventHandler(this.updateIVs);
-            // 
-            // TB_DEFEV
-            // 
-            this.TB_DEFEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_DEFEV.Location = new System.Drawing.Point(28, 0);
-            this.TB_DEFEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_DEFEV.Mask = "000";
-            this.TB_DEFEV.Name = "TB_DEFEV";
-            this.TB_DEFEV.Size = new System.Drawing.Size(28, 20);
-            this.TB_DEFEV.TabIndex = 9;
-            this.TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_DEFEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_DEFEV.TextChanged += new System.EventHandler(this.updateEVs);
-            // 
-            // Stat_DEF
-            // 
-            this.Stat_DEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_DEF.Enabled = false;
-            this.Stat_DEF.Location = new System.Drawing.Point(62, 0);
-            this.Stat_DEF.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Stat_DEF.Mask = "00000";
-            this.Stat_DEF.Name = "Stat_DEF";
-            this.Stat_DEF.PromptChar = ' ';
-            this.Stat_DEF.Size = new System.Drawing.Size(37, 20);
-            this.Stat_DEF.TabIndex = 47;
-            this.Stat_DEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_DEF.TextChanged += new System.EventHandler(this.updateHackedStatText);
-            // 
-            // FLP_SpA
-            // 
-            this.FLP_SpA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_SpA.Controls.Add(this.FLP_SpALeft);
-            this.FLP_SpA.Controls.Add(this.FLP_SpARight);
-            this.FLP_SpA.Location = new System.Drawing.Point(0, 85);
-            this.FLP_SpA.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SpA.Name = "FLP_SpA";
-            this.FLP_SpA.Size = new System.Drawing.Size(272, 21);
-            this.FLP_SpA.TabIndex = 126;
-            // 
-            // FLP_SpALeft
-            // 
-            this.FLP_SpALeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.FLP_SpALeft.Controls.Add(this.Label_SPA);
-            this.FLP_SpALeft.Controls.Add(this.Label_SPC);
-            this.FLP_SpALeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.FLP_SpALeft.Location = new System.Drawing.Point(0, 0);
-            this.FLP_SpALeft.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SpALeft.Name = "FLP_SpALeft";
-            this.FLP_SpALeft.Size = new System.Drawing.Size(110, 21);
-            this.FLP_SpALeft.TabIndex = 124;
-            // 
-            // Label_SPA
-            // 
-            this.Label_SPA.Location = new System.Drawing.Point(0, 0);
-            this.Label_SPA.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_SPA.Name = "Label_SPA";
-            this.Label_SPA.Size = new System.Drawing.Size(110, 21);
-            this.Label_SPA.TabIndex = 22;
-            this.Label_SPA.Text = "SpA:";
-            this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
-            // 
-            // Label_SPC
-            // 
-            this.Label_SPC.Location = new System.Drawing.Point(0, 21);
-            this.Label_SPC.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_SPC.Name = "Label_SPC";
-            this.Label_SPC.Size = new System.Drawing.Size(110, 21);
-            this.Label_SPC.TabIndex = 125;
-            this.Label_SPC.Text = "SpC:";
-            this.Label_SPC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // FLP_SpARight
-            // 
-            this.FLP_SpARight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_SpARight.Controls.Add(this.TB_SPAIV);
-            this.FLP_SpARight.Controls.Add(this.TB_SPAEV);
-            this.FLP_SpARight.Controls.Add(this.Stat_SPA);
-            this.FLP_SpARight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_SpARight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SpARight.Name = "FLP_SpARight";
-            this.FLP_SpARight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_SpARight.TabIndex = 123;
-            // 
-            // TB_SPAIV
-            // 
-            this.TB_SPAIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAIV.Location = new System.Drawing.Point(0, 0);
-            this.TB_SPAIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_SPAIV.Mask = "00";
-            this.TB_SPAIV.Name = "TB_SPAIV";
-            this.TB_SPAIV.Size = new System.Drawing.Size(22, 20);
-            this.TB_SPAIV.TabIndex = 4;
-            this.TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPAIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_SPAIV.TextChanged += new System.EventHandler(this.updateIVs);
-            // 
-            // TB_SPAEV
-            // 
-            this.TB_SPAEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPAEV.Location = new System.Drawing.Point(28, 0);
-            this.TB_SPAEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_SPAEV.Mask = "000";
-            this.TB_SPAEV.Name = "TB_SPAEV";
-            this.TB_SPAEV.Size = new System.Drawing.Size(28, 20);
-            this.TB_SPAEV.TabIndex = 10;
-            this.TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPAEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_SPAEV.TextChanged += new System.EventHandler(this.updateEVs);
-            // 
-            // Stat_SPA
-            // 
-            this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_SPA.Enabled = false;
-            this.Stat_SPA.Location = new System.Drawing.Point(62, 0);
-            this.Stat_SPA.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Stat_SPA.Mask = "00000";
-            this.Stat_SPA.Name = "Stat_SPA";
-            this.Stat_SPA.PromptChar = ' ';
-            this.Stat_SPA.Size = new System.Drawing.Size(37, 20);
-            this.Stat_SPA.TabIndex = 48;
-            this.Stat_SPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_SPA.TextChanged += new System.EventHandler(this.updateHackedStatText);
-            // 
-            // FLP_SpD
-            // 
-            this.FLP_SpD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_SpD.Controls.Add(this.Label_SPD);
-            this.FLP_SpD.Controls.Add(this.FLP_SpDRight);
-            this.FLP_SpD.Location = new System.Drawing.Point(0, 106);
-            this.FLP_SpD.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SpD.Name = "FLP_SpD";
-            this.FLP_SpD.Size = new System.Drawing.Size(272, 21);
-            this.FLP_SpD.TabIndex = 127;
-            // 
-            // Label_SPD
-            // 
-            this.Label_SPD.Location = new System.Drawing.Point(0, 0);
-            this.Label_SPD.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_SPD.Name = "Label_SPD";
-            this.Label_SPD.Size = new System.Drawing.Size(110, 21);
-            this.Label_SPD.TabIndex = 23;
-            this.Label_SPD.Text = "SpD:";
-            this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
-            // 
-            // FLP_SpDRight
-            // 
-            this.FLP_SpDRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_SpDRight.Controls.Add(this.TB_SPDIV);
-            this.FLP_SpDRight.Controls.Add(this.TB_SPDEV);
-            this.FLP_SpDRight.Controls.Add(this.Stat_SPD);
-            this.FLP_SpDRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_SpDRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SpDRight.Name = "FLP_SpDRight";
-            this.FLP_SpDRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_SpDRight.TabIndex = 123;
-            // 
-            // TB_SPDIV
-            // 
-            this.TB_SPDIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDIV.Location = new System.Drawing.Point(0, 0);
-            this.TB_SPDIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_SPDIV.Mask = "00";
-            this.TB_SPDIV.Name = "TB_SPDIV";
-            this.TB_SPDIV.Size = new System.Drawing.Size(22, 20);
-            this.TB_SPDIV.TabIndex = 5;
-            this.TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPDIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_SPDIV.TextChanged += new System.EventHandler(this.updateIVs);
-            // 
-            // TB_SPDEV
-            // 
-            this.TB_SPDEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPDEV.Location = new System.Drawing.Point(28, 0);
-            this.TB_SPDEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_SPDEV.Mask = "000";
-            this.TB_SPDEV.Name = "TB_SPDEV";
-            this.TB_SPDEV.Size = new System.Drawing.Size(28, 20);
-            this.TB_SPDEV.TabIndex = 11;
-            this.TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPDEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_SPDEV.TextChanged += new System.EventHandler(this.updateEVs);
-            // 
-            // Stat_SPD
-            // 
-            this.Stat_SPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_SPD.Enabled = false;
-            this.Stat_SPD.Location = new System.Drawing.Point(62, 0);
-            this.Stat_SPD.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Stat_SPD.Mask = "00000";
-            this.Stat_SPD.Name = "Stat_SPD";
-            this.Stat_SPD.PromptChar = ' ';
-            this.Stat_SPD.Size = new System.Drawing.Size(37, 20);
-            this.Stat_SPD.TabIndex = 49;
-            this.Stat_SPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_SPD.TextChanged += new System.EventHandler(this.updateHackedStatText);
-            // 
-            // FLP_Spe
-            // 
-            this.FLP_Spe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Spe.Controls.Add(this.Label_SPE);
-            this.FLP_Spe.Controls.Add(this.FLP_SpeRight);
-            this.FLP_Spe.Location = new System.Drawing.Point(0, 127);
-            this.FLP_Spe.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Spe.Name = "FLP_Spe";
-            this.FLP_Spe.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Spe.TabIndex = 128;
-            // 
-            // Label_SPE
-            // 
-            this.Label_SPE.Location = new System.Drawing.Point(0, 0);
-            this.Label_SPE.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_SPE.Name = "Label_SPE";
-            this.Label_SPE.Size = new System.Drawing.Size(110, 21);
-            this.Label_SPE.TabIndex = 24;
-            this.Label_SPE.Text = "Spe:";
-            this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
-            // 
-            // FLP_SpeRight
-            // 
-            this.FLP_SpeRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_SpeRight.Controls.Add(this.TB_SPEIV);
-            this.FLP_SpeRight.Controls.Add(this.TB_SPEEV);
-            this.FLP_SpeRight.Controls.Add(this.Stat_SPE);
-            this.FLP_SpeRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_SpeRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SpeRight.Name = "FLP_SpeRight";
-            this.FLP_SpeRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_SpeRight.TabIndex = 123;
-            // 
-            // TB_SPEIV
-            // 
-            this.TB_SPEIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEIV.Location = new System.Drawing.Point(0, 0);
-            this.TB_SPEIV.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_SPEIV.Mask = "00";
-            this.TB_SPEIV.Name = "TB_SPEIV";
-            this.TB_SPEIV.Size = new System.Drawing.Size(22, 20);
-            this.TB_SPEIV.TabIndex = 6;
-            this.TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPEIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_SPEIV.TextChanged += new System.EventHandler(this.updateIVs);
-            // 
-            // TB_SPEEV
-            // 
-            this.TB_SPEEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SPEEV.Location = new System.Drawing.Point(28, 0);
-            this.TB_SPEEV.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_SPEEV.Mask = "000";
-            this.TB_SPEEV.Name = "TB_SPEEV";
-            this.TB_SPEEV.Size = new System.Drawing.Size(28, 20);
-            this.TB_SPEEV.TabIndex = 12;
-            this.TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPEEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_SPEEV.TextChanged += new System.EventHandler(this.updateEVs);
-            // 
-            // Stat_SPE
-            // 
-            this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Stat_SPE.Enabled = false;
-            this.Stat_SPE.Location = new System.Drawing.Point(62, 0);
-            this.Stat_SPE.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Stat_SPE.Mask = "00000";
-            this.Stat_SPE.Name = "Stat_SPE";
-            this.Stat_SPE.PromptChar = ' ';
-            this.Stat_SPE.Size = new System.Drawing.Size(37, 20);
-            this.Stat_SPE.TabIndex = 50;
-            this.Stat_SPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_SPE.TextChanged += new System.EventHandler(this.updateHackedStatText);
-            // 
-            // FLP_StatsTotal
-            // 
-            this.FLP_StatsTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatsTotal.Controls.Add(this.Label_Total);
-            this.FLP_StatsTotal.Controls.Add(this.FLP_StatsTotalRight);
-            this.FLP_StatsTotal.Location = new System.Drawing.Point(0, 148);
-            this.FLP_StatsTotal.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_StatsTotal.Name = "FLP_StatsTotal";
-            this.FLP_StatsTotal.Size = new System.Drawing.Size(272, 21);
-            this.FLP_StatsTotal.TabIndex = 129;
-            // 
-            // Label_Total
-            // 
-            this.Label_Total.Location = new System.Drawing.Point(0, 0);
-            this.Label_Total.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_Total.Name = "Label_Total";
-            this.Label_Total.Size = new System.Drawing.Size(110, 21);
-            this.Label_Total.TabIndex = 25;
-            this.Label_Total.Text = "Total:";
-            this.Label_Total.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // FLP_StatsTotalRight
-            // 
-            this.FLP_StatsTotalRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_StatsTotalRight.Controls.Add(this.TB_IVTotal);
-            this.FLP_StatsTotalRight.Controls.Add(this.TB_EVTotal);
-            this.FLP_StatsTotalRight.Controls.Add(this.L_Potential);
-            this.FLP_StatsTotalRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_StatsTotalRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_StatsTotalRight.Name = "FLP_StatsTotalRight";
-            this.FLP_StatsTotalRight.Size = new System.Drawing.Size(162, 21);
-            this.FLP_StatsTotalRight.TabIndex = 123;
-            // 
-            // TB_IVTotal
-            // 
-            this.TB_IVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_IVTotal.Location = new System.Drawing.Point(0, 0);
-            this.TB_IVTotal.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.TB_IVTotal.MaxLength = 3;
-            this.TB_IVTotal.Name = "TB_IVTotal";
-            this.TB_IVTotal.ReadOnly = true;
-            this.TB_IVTotal.Size = new System.Drawing.Size(22, 20);
-            this.TB_IVTotal.TabIndex = 41;
-            this.TB_IVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TB_EVTotal
-            // 
-            this.TB_EVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_EVTotal.Location = new System.Drawing.Point(28, 0);
-            this.TB_EVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_EVTotal.MaxLength = 3;
-            this.TB_EVTotal.Name = "TB_EVTotal";
-            this.TB_EVTotal.ReadOnly = true;
-            this.TB_EVTotal.Size = new System.Drawing.Size(28, 20);
-            this.TB_EVTotal.TabIndex = 18;
-            this.TB_EVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // L_Potential
-            // 
-            this.L_Potential.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.L_Potential.Location = new System.Drawing.Point(59, 0);
-            this.L_Potential.Margin = new System.Windows.Forms.Padding(0);
-            this.L_Potential.Name = "L_Potential";
-            this.L_Potential.Size = new System.Drawing.Size(67, 21);
-            this.L_Potential.TabIndex = 42;
-            this.L_Potential.Text = "(potential)";
-            this.L_Potential.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // FLP_HPType
-            // 
-            this.FLP_HPType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_HPType.Controls.Add(this.Label_HiddenPowerPrefix);
-            this.FLP_HPType.Controls.Add(this.CB_HPType);
-            this.FLP_HPType.Location = new System.Drawing.Point(0, 169);
-            this.FLP_HPType.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_HPType.Name = "FLP_HPType";
-            this.FLP_HPType.Size = new System.Drawing.Size(272, 21);
-            this.FLP_HPType.TabIndex = 130;
-            // 
-            // Label_HiddenPowerPrefix
-            // 
-            this.Label_HiddenPowerPrefix.Location = new System.Drawing.Point(0, 0);
-            this.Label_HiddenPowerPrefix.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_HiddenPowerPrefix.Name = "Label_HiddenPowerPrefix";
-            this.Label_HiddenPowerPrefix.Size = new System.Drawing.Size(172, 21);
-            this.Label_HiddenPowerPrefix.TabIndex = 29;
-            this.Label_HiddenPowerPrefix.Text = "Hidden Power Type:";
-            this.Label_HiddenPowerPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_HPType
-            // 
-            this.CB_HPType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_HPType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_HPType.DropDownWidth = 80;
-            this.CB_HPType.FormattingEnabled = true;
-            this.CB_HPType.Location = new System.Drawing.Point(172, 0);
-            this.CB_HPType.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_HPType.Name = "CB_HPType";
-            this.CB_HPType.Size = new System.Drawing.Size(70, 21);
-            this.CB_HPType.TabIndex = 44;
-            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.updateHPType);
-            // 
-            // FLP_Characteristic
-            // 
-            this.FLP_Characteristic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Characteristic.Controls.Add(this.Label_CharacteristicPrefix);
-            this.FLP_Characteristic.Controls.Add(this.L_Characteristic);
-            this.FLP_Characteristic.Location = new System.Drawing.Point(0, 190);
-            this.FLP_Characteristic.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Characteristic.Name = "FLP_Characteristic";
-            this.FLP_Characteristic.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Characteristic.TabIndex = 131;
-            // 
-            // Label_CharacteristicPrefix
-            // 
-            this.Label_CharacteristicPrefix.Location = new System.Drawing.Point(0, 0);
-            this.Label_CharacteristicPrefix.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_CharacteristicPrefix.Name = "Label_CharacteristicPrefix";
-            this.Label_CharacteristicPrefix.Size = new System.Drawing.Size(110, 21);
-            this.Label_CharacteristicPrefix.TabIndex = 43;
-            this.Label_CharacteristicPrefix.Text = "Characteristic:";
-            this.Label_CharacteristicPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Characteristic
-            // 
-            this.L_Characteristic.Location = new System.Drawing.Point(110, 0);
-            this.L_Characteristic.Margin = new System.Windows.Forms.Padding(0);
-            this.L_Characteristic.Name = "L_Characteristic";
-            this.L_Characteristic.Size = new System.Drawing.Size(150, 21);
-            this.L_Characteristic.TabIndex = 40;
-            this.L_Characteristic.Text = "(char)";
-            this.L_Characteristic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // BTN_RandomEVs
-            // 
-            this.BTN_RandomEVs.Location = new System.Drawing.Point(140, 218);
-            this.BTN_RandomEVs.Name = "BTN_RandomEVs";
-            this.BTN_RandomEVs.Size = new System.Drawing.Size(92, 23);
-            this.BTN_RandomEVs.TabIndex = 14;
-            this.BTN_RandomEVs.Text = "Randomize EVs";
-            this.BTN_RandomEVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomEVs.Click += new System.EventHandler(this.updateRandomEVs);
-            // 
-            // BTN_RandomIVs
-            // 
-            this.BTN_RandomIVs.Location = new System.Drawing.Point(41, 218);
-            this.BTN_RandomIVs.Name = "BTN_RandomIVs";
-            this.BTN_RandomIVs.Size = new System.Drawing.Size(92, 23);
-            this.BTN_RandomIVs.TabIndex = 13;
-            this.BTN_RandomIVs.Text = "Randomize IVs";
-            this.BTN_RandomIVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomIVs.Click += new System.EventHandler(this.updateRandomIVs);
             // 
             // Tab_Attacks
             // 
@@ -2671,7 +1733,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Attacks.Size = new System.Drawing.Size(272, 462);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -2782,10 +1844,9 @@
             this.CB_RelearnMove4.Name = "CB_RelearnMove4";
             this.CB_RelearnMove4.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove4.TabIndex = 16;
-            this.CB_RelearnMove4.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove4.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove4.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove4.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove4.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_RelearnMove3
             // 
@@ -2796,10 +1857,9 @@
             this.CB_RelearnMove3.Name = "CB_RelearnMove3";
             this.CB_RelearnMove3.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove3.TabIndex = 15;
-            this.CB_RelearnMove3.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove3.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove3.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove3.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove3.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_RelearnMove2
             // 
@@ -2810,10 +1870,9 @@
             this.CB_RelearnMove2.Name = "CB_RelearnMove2";
             this.CB_RelearnMove2.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove2.TabIndex = 14;
-            this.CB_RelearnMove2.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove2.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove2.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove2.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove2.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_RelearnMove1
             // 
@@ -2824,10 +1883,9 @@
             this.CB_RelearnMove1.Name = "CB_RelearnMove1";
             this.CB_RelearnMove1.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove1.TabIndex = 13;
-            this.CB_RelearnMove1.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove1.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove1.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove1.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove1.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // GB_CurrentMoves
             // 
@@ -2860,7 +1918,7 @@
             this.TB_PP4.PromptChar = ' ';
             this.TB_PP4.Size = new System.Drawing.Size(31, 20);
             this.TB_PP4.TabIndex = 16;
-            this.TB_PP4.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP4.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_PP3
             // 
@@ -2870,7 +1928,7 @@
             this.TB_PP3.PromptChar = ' ';
             this.TB_PP3.Size = new System.Drawing.Size(31, 20);
             this.TB_PP3.TabIndex = 15;
-            this.TB_PP3.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP3.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_PP2
             // 
@@ -2880,7 +1938,7 @@
             this.TB_PP2.PromptChar = ' ';
             this.TB_PP2.Size = new System.Drawing.Size(31, 20);
             this.TB_PP2.TabIndex = 14;
-            this.TB_PP2.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP2.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_PP1
             // 
@@ -2890,7 +1948,7 @@
             this.TB_PP1.PromptChar = ' ';
             this.TB_PP1.Size = new System.Drawing.Size(31, 20);
             this.TB_PP1.TabIndex = 13;
-            this.TB_PP1.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP1.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // Label_CurPP
             // 
@@ -2909,7 +1967,7 @@
             this.Label_PPups.TabIndex = 12;
             this.Label_PPups.Text = "PP Ups";
             this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_PPups.Click += new System.EventHandler(this.clickPPUps);
+            this.Label_PPups.Click += new System.EventHandler(this.ClickPPUps);
             // 
             // CB_PPu4
             // 
@@ -2924,7 +1982,7 @@
             this.CB_PPu4.Name = "CB_PPu4";
             this.CB_PPu4.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu4.TabIndex = 12;
-            this.CB_PPu4.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu4.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_PPu3
             // 
@@ -2939,7 +1997,7 @@
             this.CB_PPu3.Name = "CB_PPu3";
             this.CB_PPu3.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu3.TabIndex = 9;
-            this.CB_PPu3.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu3.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_PPu2
             // 
@@ -2954,7 +2012,7 @@
             this.CB_PPu2.Name = "CB_PPu2";
             this.CB_PPu2.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu2.TabIndex = 6;
-            this.CB_PPu2.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu2.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_Move4
             // 
@@ -2966,11 +2024,10 @@
             this.CB_Move4.Name = "CB_Move4";
             this.CB_Move4.Size = new System.Drawing.Size(121, 21);
             this.CB_Move4.TabIndex = 10;
-            this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move4.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move4.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move4.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move4.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move4.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_PPu1
             // 
@@ -2985,7 +2042,7 @@
             this.CB_PPu1.Name = "CB_PPu1";
             this.CB_PPu1.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu1.TabIndex = 3;
-            this.CB_PPu1.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu1.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_Move3
             // 
@@ -2997,11 +2054,10 @@
             this.CB_Move3.Name = "CB_Move3";
             this.CB_Move3.Size = new System.Drawing.Size(121, 21);
             this.CB_Move3.TabIndex = 7;
-            this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move3.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move3.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move3.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move3.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move3.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_Move2
             // 
@@ -3013,11 +2069,10 @@
             this.CB_Move2.Name = "CB_Move2";
             this.CB_Move2.Size = new System.Drawing.Size(121, 21);
             this.CB_Move2.TabIndex = 4;
-            this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move2.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move2.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move2.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move2.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move2.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_Move1
             // 
@@ -3029,11 +2084,10 @@
             this.CB_Move1.Name = "CB_Move1";
             this.CB_Move1.Size = new System.Drawing.Size(121, 21);
             this.CB_Move1.TabIndex = 1;
-            this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move1.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move1.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move1.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move1.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move1.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // Tab_OTMisc
             // 
@@ -3049,7 +2103,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 394);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 462);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -3083,7 +2137,7 @@
             this.BTN_Ribbons.TabIndex = 5;
             this.BTN_Ribbons.Text = "Ribbons";
             this.BTN_Ribbons.UseVisualStyleBackColor = true;
-            this.BTN_Ribbons.Click += new System.EventHandler(this.openRibbons);
+            this.BTN_Ribbons.Click += new System.EventHandler(this.OpenRibbons);
             // 
             // BTN_Medals
             // 
@@ -3099,7 +2153,7 @@
             this.BTN_Medals.TabIndex = 7;
             this.BTN_Medals.Text = "Medals";
             this.BTN_Medals.UseVisualStyleBackColor = true;
-            this.BTN_Medals.Click += new System.EventHandler(this.openMedals);
+            this.BTN_Medals.Click += new System.EventHandler(this.OpenMedals);
             // 
             // BTN_History
             // 
@@ -3115,7 +2169,7 @@
             this.BTN_History.TabIndex = 6;
             this.BTN_History.Text = "Memories";
             this.BTN_History.UseVisualStyleBackColor = true;
-            this.BTN_History.Click += new System.EventHandler(this.openHistory);
+            this.BTN_History.Click += new System.EventHandler(this.OpenHistory);
             // 
             // TB_EC
             // 
@@ -3127,7 +2181,7 @@
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
             this.TB_EC.TabIndex = 8;
             this.TB_EC.Text = "12345678";
-            this.TB_EC.Validated += new System.EventHandler(this.update_ID);
+            this.TB_EC.Validated += new System.EventHandler(this.Update_ID);
             // 
             // GB_nOT
             // 
@@ -3150,7 +2204,7 @@
             this.Label_CTGender.TabIndex = 57;
             this.Label_CTGender.Text = "G";
             this.Label_CTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CTGender.Click += new System.EventHandler(this.clickTRGender);
+            this.Label_CTGender.Click += new System.EventHandler(this.ClickTRGender);
             // 
             // TB_OTt2
             // 
@@ -3162,8 +2216,8 @@
             this.TB_OTt2.Size = new System.Drawing.Size(94, 20);
             this.TB_OTt2.TabIndex = 1;
             this.TB_OTt2.WordWrap = false;
-            this.TB_OTt2.TextChanged += new System.EventHandler(this.updateNotOT);
-            this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
+            this.TB_OTt2.TextChanged += new System.EventHandler(this.UpdateNotOT);
+            this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // Label_PrevOT
             // 
@@ -3173,7 +2227,7 @@
             this.Label_PrevOT.TabIndex = 42;
             this.Label_PrevOT.Text = "OT:";
             this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_PrevOT.Click += new System.EventHandler(this.clickCT);
+            this.Label_PrevOT.Click += new System.EventHandler(this.ClickCT);
             // 
             // BTN_RerollEC
             // 
@@ -3184,7 +2238,7 @@
             this.BTN_RerollEC.TabIndex = 7;
             this.BTN_RerollEC.Text = "Reroll";
             this.BTN_RerollEC.UseVisualStyleBackColor = true;
-            this.BTN_RerollEC.Click += new System.EventHandler(this.updateRandomEC);
+            this.BTN_RerollEC.Click += new System.EventHandler(this.UpdateRandomEC);
             // 
             // GB_Markings
             // 
@@ -3251,7 +2305,7 @@
             this.PB_Mark6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark6.TabIndex = 5;
             this.PB_Mark6.TabStop = false;
-            this.PB_Mark6.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark6.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_MarkPentagon
             // 
@@ -3275,7 +2329,7 @@
             this.PB_Mark3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark3.TabIndex = 2;
             this.PB_Mark3.TabStop = false;
-            this.PB_Mark3.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark3.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_Mark5
             // 
@@ -3288,7 +2342,7 @@
             this.PB_Mark5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark5.TabIndex = 4;
             this.PB_Mark5.TabStop = false;
-            this.PB_Mark5.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark5.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_MarkCured
             // 
@@ -3312,7 +2366,7 @@
             this.PB_Mark2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark2.TabIndex = 1;
             this.PB_Mark2.TabStop = false;
-            this.PB_Mark2.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark2.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_MarkShiny
             // 
@@ -3336,7 +2390,7 @@
             this.PB_Mark1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark1.TabIndex = 0;
             this.PB_Mark1.TabStop = false;
-            this.PB_Mark1.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark1.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_Mark4
             // 
@@ -3349,7 +2403,7 @@
             this.PB_Mark4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark4.TabIndex = 3;
             this.PB_Mark4.TabStop = false;
-            this.PB_Mark4.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark4.Click += new System.EventHandler(this.ClickMarking);
             // 
             // GB_ExtraBytes
             // 
@@ -3370,7 +2424,7 @@
             this.TB_ExtraByte.Size = new System.Drawing.Size(28, 20);
             this.TB_ExtraByte.TabIndex = 2;
             this.TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ExtraByte.Validated += new System.EventHandler(this.updateExtraByteValue);
+            this.TB_ExtraByte.Validated += new System.EventHandler(this.UpdateExtraByteValue);
             // 
             // CB_ExtraBytes
             // 
@@ -3380,17 +2434,14 @@
             this.CB_ExtraBytes.Name = "CB_ExtraBytes";
             this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 21);
             this.CB_ExtraBytes.TabIndex = 1;
-            this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.updateExtraByteIndex);
+            this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.UpdateExtraByteIndex);
             // 
             // GB_OT
             // 
+            this.GB_OT.Controls.Add(this.TID_Trainer);
             this.GB_OT.Controls.Add(this.Label_OTGender);
             this.GB_OT.Controls.Add(this.TB_OT);
-            this.GB_OT.Controls.Add(this.TB_SID);
-            this.GB_OT.Controls.Add(this.TB_TID);
             this.GB_OT.Controls.Add(this.Label_OT);
-            this.GB_OT.Controls.Add(this.Label_SID);
-            this.GB_OT.Controls.Add(this.Label_TID);
             this.GB_OT.Location = new System.Drawing.Point(40, 8);
             this.GB_OT.Name = "GB_OT";
             this.GB_OT.Size = new System.Drawing.Size(190, 75);
@@ -3407,7 +2458,7 @@
             this.Label_OTGender.TabIndex = 56;
             this.Label_OTGender.Text = "G";
             this.Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_OTGender.Click += new System.EventHandler(this.clickTRGender);
+            this.Label_OTGender.Click += new System.EventHandler(this.ClickTRGender);
             // 
             // TB_OT
             // 
@@ -3417,31 +2468,7 @@
             this.TB_OT.Name = "TB_OT";
             this.TB_OT.Size = new System.Drawing.Size(94, 20);
             this.TB_OT.TabIndex = 3;
-            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
-            // 
-            // TB_SID
-            // 
-            this.TB_SID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SID.Location = new System.Drawing.Point(132, 20);
-            this.TB_SID.Mask = "00000";
-            this.TB_SID.Name = "TB_SID";
-            this.TB_SID.Size = new System.Drawing.Size(40, 20);
-            this.TB_SID.TabIndex = 2;
-            this.TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SID.MouseHover += new System.EventHandler(this.updateTSV);
-            this.TB_SID.Validated += new System.EventHandler(this.update_ID);
-            // 
-            // TB_TID
-            // 
-            this.TB_TID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_TID.Location = new System.Drawing.Point(46, 20);
-            this.TB_TID.Mask = "00000";
-            this.TB_TID.Name = "TB_TID";
-            this.TB_TID.Size = new System.Drawing.Size(40, 20);
-            this.TB_TID.TabIndex = 1;
-            this.TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_TID.MouseHover += new System.EventHandler(this.updateTSV);
-            this.TB_TID.Validated += new System.EventHandler(this.update_ID);
+            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // Label_OT
             // 
@@ -3451,25 +2478,7 @@
             this.Label_OT.TabIndex = 5;
             this.Label_OT.Text = "OT:";
             this.Label_OT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_OT.Click += new System.EventHandler(this.clickOT);
-            // 
-            // Label_SID
-            // 
-            this.Label_SID.Location = new System.Drawing.Point(86, 22);
-            this.Label_SID.Name = "Label_SID";
-            this.Label_SID.Size = new System.Drawing.Size(45, 13);
-            this.Label_SID.TabIndex = 4;
-            this.Label_SID.Text = "SID:";
-            this.Label_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Label_TID
-            // 
-            this.Label_TID.Location = new System.Drawing.Point(4, 22);
-            this.Label_TID.Name = "Label_TID";
-            this.Label_TID.Size = new System.Drawing.Size(40, 13);
-            this.Label_TID.TabIndex = 3;
-            this.Label_TID.Text = "TID:";
-            this.Label_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_OT.Click += new System.EventHandler(this.ClickOT);
             // 
             // Label_EncryptionConstant
             // 
@@ -3480,13 +2489,49 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // ShinyLeaf
+            // 
+            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
+            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.ShinyLeaf.Name = "ShinyLeaf";
+            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.TabIndex = 116;
+            this.ShinyLeaf.Value = 0;
+            // 
+            // Stats
+            // 
+            this.Stats.Location = new System.Drawing.Point(0, 0);
+            this.Stats.Name = "Stats";
+            this.Stats.Size = new System.Drawing.Size(270, 240);
+            this.Stats.TabIndex = 118;
+            // 
+            // Contest
+            // 
+            this.Contest.CNT_Beauty = 0;
+            this.Contest.CNT_Cool = 0;
+            this.Contest.CNT_Cute = 0;
+            this.Contest.CNT_Sheen = 0;
+            this.Contest.CNT_Smart = 0;
+            this.Contest.CNT_Tough = 0;
+            this.Contest.Location = new System.Drawing.Point(21, 247);
+            this.Contest.Margin = new System.Windows.Forms.Padding(0);
+            this.Contest.Name = "Contest";
+            this.Contest.Size = new System.Drawing.Size(230, 50);
+            this.Contest.TabIndex = 117;
+            // 
+            // TID_Trainer
+            // 
+            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
+            this.TID_Trainer.Name = "TID_Trainer";
+            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
+            this.TID_Trainer.TabIndex = 57;
+            // 
             // PKMEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.tabMain);
             this.Name = "PKMEditor";
-            this.Size = new System.Drawing.Size(280, 420);
+            this.Size = new System.Drawing.Size(280, 488);
             this.tabMain.ResumeLayout(false);
             this.Tab_Main.ResumeLayout(false);
             this.FLP_Main.ResumeLayout(false);
@@ -3531,6 +2576,7 @@
             this.FLP_Purification.ResumeLayout(false);
             this.FLP_Purification.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).EndInit();
+            this.FLP_ShinyLeaf.ResumeLayout(false);
             this.Tab_Met.ResumeLayout(false);
             this.Tab_Met.PerformLayout();
             this.GB_EggConditions.ResumeLayout(false);
@@ -3549,37 +2595,6 @@
             this.FLP_EncounterType.ResumeLayout(false);
             this.FLP_TimeOfDay.ResumeLayout(false);
             this.Tab_Stats.ResumeLayout(false);
-            this.PAN_Contest.ResumeLayout(false);
-            this.PAN_Contest.PerformLayout();
-            this.FLP_Stats.ResumeLayout(false);
-            this.FLP_StatHeader.ResumeLayout(false);
-            this.FLP_HackedStats.ResumeLayout(false);
-            this.FLP_HackedStats.PerformLayout();
-            this.FLP_StatsHeaderRight.ResumeLayout(false);
-            this.FLP_HP.ResumeLayout(false);
-            this.FLP_HPRight.ResumeLayout(false);
-            this.FLP_HPRight.PerformLayout();
-            this.FLP_Atk.ResumeLayout(false);
-            this.FLP_AtkRight.ResumeLayout(false);
-            this.FLP_AtkRight.PerformLayout();
-            this.FLP_Def.ResumeLayout(false);
-            this.FLP_DefRight.ResumeLayout(false);
-            this.FLP_DefRight.PerformLayout();
-            this.FLP_SpA.ResumeLayout(false);
-            this.FLP_SpALeft.ResumeLayout(false);
-            this.FLP_SpARight.ResumeLayout(false);
-            this.FLP_SpARight.PerformLayout();
-            this.FLP_SpD.ResumeLayout(false);
-            this.FLP_SpDRight.ResumeLayout(false);
-            this.FLP_SpDRight.PerformLayout();
-            this.FLP_Spe.ResumeLayout(false);
-            this.FLP_SpeRight.ResumeLayout(false);
-            this.FLP_SpeRight.PerformLayout();
-            this.FLP_StatsTotal.ResumeLayout(false);
-            this.FLP_StatsTotalRight.ResumeLayout(false);
-            this.FLP_StatsTotalRight.PerformLayout();
-            this.FLP_HPType.ResumeLayout(false);
-            this.FLP_Characteristic.ResumeLayout(false);
             this.Tab_Attacks.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove3)).EndInit();
@@ -3737,80 +2752,6 @@
         private System.Windows.Forms.Label L_MetTimeOfDay;
         public System.Windows.Forms.ComboBox CB_MetTimeOfDay;
         private System.Windows.Forms.TabPage Tab_Stats;
-        private System.Windows.Forms.Panel PAN_Contest;
-        private System.Windows.Forms.MaskedTextBox TB_Sheen;
-        private System.Windows.Forms.MaskedTextBox TB_Tough;
-        private System.Windows.Forms.MaskedTextBox TB_Smart;
-        private System.Windows.Forms.MaskedTextBox TB_Cute;
-        private System.Windows.Forms.MaskedTextBox TB_Beauty;
-        private System.Windows.Forms.MaskedTextBox TB_Cool;
-        private System.Windows.Forms.Label Label_Sheen;
-        private System.Windows.Forms.Label Label_Tough;
-        private System.Windows.Forms.Label Label_Smart;
-        private System.Windows.Forms.Label Label_Cute;
-        private System.Windows.Forms.Label Label_Beauty;
-        private System.Windows.Forms.Label Label_Cool;
-        private System.Windows.Forms.Label Label_ContestStats;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Stats;
-        private System.Windows.Forms.FlowLayoutPanel FLP_StatHeader;
-        private System.Windows.Forms.FlowLayoutPanel FLP_HackedStats;
-        private System.Windows.Forms.CheckBox CHK_HackedStats;
-        private System.Windows.Forms.FlowLayoutPanel FLP_StatsHeaderRight;
-        private System.Windows.Forms.Label Label_IVs;
-        private System.Windows.Forms.Label Label_EVs;
-        private System.Windows.Forms.Label Label_Stats;
-        private System.Windows.Forms.FlowLayoutPanel FLP_HP;
-        private System.Windows.Forms.Label Label_HP;
-        private System.Windows.Forms.FlowLayoutPanel FLP_HPRight;
-        private System.Windows.Forms.MaskedTextBox TB_HPIV;
-        private System.Windows.Forms.MaskedTextBox TB_HPEV;
-        private System.Windows.Forms.MaskedTextBox Stat_HP;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Atk;
-        private System.Windows.Forms.Label Label_ATK;
-        private System.Windows.Forms.FlowLayoutPanel FLP_AtkRight;
-        private System.Windows.Forms.MaskedTextBox TB_ATKIV;
-        private System.Windows.Forms.MaskedTextBox TB_ATKEV;
-        private System.Windows.Forms.MaskedTextBox Stat_ATK;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Def;
-        private System.Windows.Forms.Label Label_DEF;
-        private System.Windows.Forms.FlowLayoutPanel FLP_DefRight;
-        private System.Windows.Forms.MaskedTextBox TB_DEFIV;
-        private System.Windows.Forms.MaskedTextBox TB_DEFEV;
-        private System.Windows.Forms.MaskedTextBox Stat_DEF;
-        private System.Windows.Forms.FlowLayoutPanel FLP_SpA;
-        private System.Windows.Forms.FlowLayoutPanel FLP_SpALeft;
-        private System.Windows.Forms.Label Label_SPA;
-        private System.Windows.Forms.Label Label_SPC;
-        private System.Windows.Forms.FlowLayoutPanel FLP_SpARight;
-        private System.Windows.Forms.MaskedTextBox TB_SPAIV;
-        private System.Windows.Forms.MaskedTextBox TB_SPAEV;
-        private System.Windows.Forms.MaskedTextBox Stat_SPA;
-        private System.Windows.Forms.FlowLayoutPanel FLP_SpD;
-        private System.Windows.Forms.Label Label_SPD;
-        private System.Windows.Forms.FlowLayoutPanel FLP_SpDRight;
-        private System.Windows.Forms.MaskedTextBox TB_SPDIV;
-        private System.Windows.Forms.MaskedTextBox TB_SPDEV;
-        private System.Windows.Forms.MaskedTextBox Stat_SPD;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Spe;
-        private System.Windows.Forms.Label Label_SPE;
-        private System.Windows.Forms.FlowLayoutPanel FLP_SpeRight;
-        private System.Windows.Forms.MaskedTextBox TB_SPEIV;
-        private System.Windows.Forms.MaskedTextBox TB_SPEEV;
-        private System.Windows.Forms.MaskedTextBox Stat_SPE;
-        private System.Windows.Forms.FlowLayoutPanel FLP_StatsTotal;
-        private System.Windows.Forms.Label Label_Total;
-        private System.Windows.Forms.FlowLayoutPanel FLP_StatsTotalRight;
-        private System.Windows.Forms.TextBox TB_IVTotal;
-        private System.Windows.Forms.TextBox TB_EVTotal;
-        private System.Windows.Forms.Label L_Potential;
-        private System.Windows.Forms.FlowLayoutPanel FLP_HPType;
-        private System.Windows.Forms.Label Label_HiddenPowerPrefix;
-        private System.Windows.Forms.ComboBox CB_HPType;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Characteristic;
-        private System.Windows.Forms.Label Label_CharacteristicPrefix;
-        private System.Windows.Forms.Label L_Characteristic;
-        private System.Windows.Forms.Button BTN_RandomEVs;
-        private System.Windows.Forms.Button BTN_RandomIVs;
         private System.Windows.Forms.TabPage Tab_Attacks;
         private System.Windows.Forms.PictureBox PB_WarnMove4;
         private System.Windows.Forms.PictureBox PB_WarnMove3;
@@ -3870,11 +2811,13 @@
         public System.Windows.Forms.GroupBox GB_OT;
         private System.Windows.Forms.Label Label_OTGender;
         private System.Windows.Forms.TextBox TB_OT;
-        private System.Windows.Forms.MaskedTextBox TB_SID;
-        private System.Windows.Forms.MaskedTextBox TB_TID;
         private System.Windows.Forms.Label Label_OT;
-        private System.Windows.Forms.Label Label_SID;
-        private System.Windows.Forms.Label Label_TID;
         private System.Windows.Forms.Label Label_EncryptionConstant;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ShinyLeaf;
+        private System.Windows.Forms.Label L_ShinyLeaf;
+        private Controls.ShinyLeaf ShinyLeaf;
+        private ContestStat Contest;
+        private StatEditor Stats;
+        private TrainerID TID_Trainer;
     }
 }

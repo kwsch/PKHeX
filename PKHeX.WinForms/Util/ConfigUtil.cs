@@ -5,7 +5,7 @@ namespace PKHeX.WinForms
 {
     public static class ConfigUtil
     {
-        public static bool checkConfig()
+        public static bool CheckConfig()
         {
             try
             {

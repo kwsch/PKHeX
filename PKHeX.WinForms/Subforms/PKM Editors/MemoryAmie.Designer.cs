@@ -53,6 +53,7 @@
             this.L_OT_Affection = new System.Windows.Forms.Label();
             this.M_OT_Affection = new System.Windows.Forms.MaskedTextBox();
             this.GB_Residence = new System.Windows.Forms.GroupBox();
+            this.B_ClearAll = new System.Windows.Forms.Button();
             this.CB_Region4 = new System.Windows.Forms.ComboBox();
             this.CB_Region3 = new System.Windows.Forms.ComboBox();
             this.CB_Region2 = new System.Windows.Forms.ComboBox();
@@ -88,7 +89,6 @@
             this.L_Handler = new System.Windows.Forms.Label();
             this.CB_Handler = new System.Windows.Forms.ComboBox();
             this.L_Arguments = new System.Windows.Forms.Label();
-            this.B_ClearAll = new System.Windows.Forms.Button();
             this.GB_M_OT.SuspendLayout();
             this.GB_Residence.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -125,7 +125,7 @@
             this.M_OT_Friendship.Name = "M_OT_Friendship";
             this.M_OT_Friendship.Size = new System.Drawing.Size(24, 20);
             this.M_OT_Friendship.TabIndex = 2;
-            this.M_OT_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
+            this.M_OT_Friendship.TextChanged += new System.EventHandler(this.Update255_MTB);
             // 
             // L_OT_Friendship
             // 
@@ -144,7 +144,7 @@
             this.L_Geo0.TabIndex = 68;
             this.L_Geo0.Text = "Latest:";
             this.L_Geo0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_Geo0.Click += new System.EventHandler(this.clickResetLocation);
+            this.L_Geo0.Click += new System.EventHandler(this.ClickResetLocation);
             // 
             // L_Geo1
             // 
@@ -154,7 +154,7 @@
             this.L_Geo1.TabIndex = 69;
             this.L_Geo1.Text = "Past 1:";
             this.L_Geo1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_Geo1.Click += new System.EventHandler(this.clickResetLocation);
+            this.L_Geo1.Click += new System.EventHandler(this.ClickResetLocation);
             // 
             // L_Region
             // 
@@ -182,7 +182,7 @@
             this.L_Geo2.TabIndex = 76;
             this.L_Geo2.Text = "Past 2:";
             this.L_Geo2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_Geo2.Click += new System.EventHandler(this.clickResetLocation);
+            this.L_Geo2.Click += new System.EventHandler(this.ClickResetLocation);
             // 
             // L_Geo3
             // 
@@ -192,7 +192,7 @@
             this.L_Geo3.TabIndex = 77;
             this.L_Geo3.Text = "Past 3:";
             this.L_Geo3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_Geo3.Click += new System.EventHandler(this.clickResetLocation);
+            this.L_Geo3.Click += new System.EventHandler(this.ClickResetLocation);
             // 
             // L_Geo4
             // 
@@ -202,7 +202,7 @@
             this.L_Geo4.TabIndex = 78;
             this.L_Geo4.Text = "Past 4:";
             this.L_Geo4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_Geo4.Click += new System.EventHandler(this.clickResetLocation);
+            this.L_Geo4.Click += new System.EventHandler(this.ClickResetLocation);
             // 
             // L_OT_Quality
             // 
@@ -279,7 +279,7 @@
             this.CB_OTVar.Name = "CB_OTVar";
             this.CB_OTVar.Size = new System.Drawing.Size(170, 21);
             this.CB_OTVar.TabIndex = 5;
-            this.CB_OTVar.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_OTVar.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // CB_OTMemory
             // 
@@ -290,60 +290,27 @@
             this.CB_OTMemory.Name = "CB_OTMemory";
             this.CB_OTMemory.Size = new System.Drawing.Size(240, 21);
             this.CB_OTMemory.TabIndex = 4;
-            this.CB_OTMemory.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_OTMemory.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // CB_OTQual
             // 
             this.CB_OTQual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_OTQual.FormattingEnabled = true;
-            this.CB_OTQual.Items.AddRange(new object[] {
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon fondly remembers",
-            "The Pokémon clearly remembers",
-            "The Pokémon definitely remembers"});
             this.CB_OTQual.Location = new System.Drawing.Point(86, 88);
             this.CB_OTQual.Name = "CB_OTQual";
             this.CB_OTQual.Size = new System.Drawing.Size(240, 21);
             this.CB_OTQual.TabIndex = 6;
-            this.CB_OTQual.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_OTQual.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // CB_OTFeel
             // 
             this.CB_OTFeel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_OTFeel.FormattingEnabled = true;
-            this.CB_OTFeel.Items.AddRange(new object[] {
-            "it was happy",
-            "it had fun",
-            "it was glad",
-            "it grinned",
-            "it got overwhelmed by emotion",
-            "its feelings were indescribable",
-            "it felt good",
-            "it got teary eyed",
-            "it got lighthearted",
-            "it got nervous",
-            "it felt comfortable",
-            "it was restless",
-            "it got a bit carried away",
-            "it felt sorry",
-            "it got emotional",
-            "it felt nostalgic",
-            "it had some difficulty",
-            "it felt exhausted",
-            "it couldn’t be true to its feelings",
-            "it felt proud",
-            "they ended up in a foul mood",
-            "it got angry",
-            "it got jealous",
-            "it got sleepy"});
             this.CB_OTFeel.Location = new System.Drawing.Point(86, 111);
             this.CB_OTFeel.Name = "CB_OTFeel";
             this.CB_OTFeel.Size = new System.Drawing.Size(170, 21);
             this.CB_OTFeel.TabIndex = 7;
-            this.CB_OTFeel.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_OTFeel.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // L_OT_Affection
             // 
@@ -361,7 +328,7 @@
             this.M_OT_Affection.Name = "M_OT_Affection";
             this.M_OT_Affection.Size = new System.Drawing.Size(24, 20);
             this.M_OT_Affection.TabIndex = 3;
-            this.M_OT_Affection.TextChanged += new System.EventHandler(this.update255_MTB);
+            this.M_OT_Affection.TextChanged += new System.EventHandler(this.Update255_MTB);
             // 
             // GB_Residence
             // 
@@ -389,6 +356,16 @@
             this.GB_Residence.TabIndex = 89;
             this.GB_Residence.TabStop = false;
             this.GB_Residence.Text = "Pokémon has Resided in:";
+            // 
+            // B_ClearAll
+            // 
+            this.B_ClearAll.Location = new System.Drawing.Point(82, 157);
+            this.B_ClearAll.Name = "B_ClearAll";
+            this.B_ClearAll.Size = new System.Drawing.Size(76, 23);
+            this.B_ClearAll.TabIndex = 79;
+            this.B_ClearAll.Text = "Clear All";
+            this.B_ClearAll.UseVisualStyleBackColor = true;
+            this.B_ClearAll.Click += new System.EventHandler(this.B_ClearAll_Click);
             // 
             // CB_Region4
             // 
@@ -455,8 +432,8 @@
             this.CB_Country4.Name = "CB_Country4";
             this.CB_Country4.Size = new System.Drawing.Size(102, 21);
             this.CB_Country4.TabIndex = 24;
-            this.CB_Country4.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
-            this.CB_Country4.TextChanged += new System.EventHandler(this.changeCountryText);
+            this.CB_Country4.SelectedIndexChanged += new System.EventHandler(this.ChangeCountryIndex);
+            this.CB_Country4.TextChanged += new System.EventHandler(this.ChangeCountryText);
             // 
             // CB_Country3
             // 
@@ -468,8 +445,8 @@
             this.CB_Country3.Name = "CB_Country3";
             this.CB_Country3.Size = new System.Drawing.Size(102, 21);
             this.CB_Country3.TabIndex = 22;
-            this.CB_Country3.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
-            this.CB_Country3.TextChanged += new System.EventHandler(this.changeCountryText);
+            this.CB_Country3.SelectedIndexChanged += new System.EventHandler(this.ChangeCountryIndex);
+            this.CB_Country3.TextChanged += new System.EventHandler(this.ChangeCountryText);
             // 
             // CB_Country2
             // 
@@ -481,8 +458,8 @@
             this.CB_Country2.Name = "CB_Country2";
             this.CB_Country2.Size = new System.Drawing.Size(102, 21);
             this.CB_Country2.TabIndex = 20;
-            this.CB_Country2.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
-            this.CB_Country2.TextChanged += new System.EventHandler(this.changeCountryText);
+            this.CB_Country2.SelectedIndexChanged += new System.EventHandler(this.ChangeCountryIndex);
+            this.CB_Country2.TextChanged += new System.EventHandler(this.ChangeCountryText);
             // 
             // CB_Country1
             // 
@@ -494,8 +471,8 @@
             this.CB_Country1.Name = "CB_Country1";
             this.CB_Country1.Size = new System.Drawing.Size(102, 21);
             this.CB_Country1.TabIndex = 18;
-            this.CB_Country1.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
-            this.CB_Country1.TextChanged += new System.EventHandler(this.changeCountryText);
+            this.CB_Country1.SelectedIndexChanged += new System.EventHandler(this.ChangeCountryIndex);
+            this.CB_Country1.TextChanged += new System.EventHandler(this.ChangeCountryText);
             // 
             // CB_Country0
             // 
@@ -507,8 +484,8 @@
             this.CB_Country0.Name = "CB_Country0";
             this.CB_Country0.Size = new System.Drawing.Size(102, 21);
             this.CB_Country0.TabIndex = 16;
-            this.CB_Country0.SelectedIndexChanged += new System.EventHandler(this.changeCountryIndex);
-            this.CB_Country0.TextChanged += new System.EventHandler(this.changeCountryText);
+            this.CB_Country0.SelectedIndexChanged += new System.EventHandler(this.ChangeCountryIndex);
+            this.CB_Country0.TextChanged += new System.EventHandler(this.ChangeCountryText);
             // 
             // L_Enjoyment
             // 
@@ -536,7 +513,7 @@
             this.M_Enjoyment.Size = new System.Drawing.Size(24, 20);
             this.M_Enjoyment.TabIndex = 28;
             this.M_Enjoyment.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.M_Enjoyment.TextChanged += new System.EventHandler(this.update255_MTB);
+            this.M_Enjoyment.TextChanged += new System.EventHandler(this.Update255_MTB);
             // 
             // M_Fullness
             // 
@@ -546,7 +523,7 @@
             this.M_Fullness.Size = new System.Drawing.Size(24, 20);
             this.M_Fullness.TabIndex = 27;
             this.M_Fullness.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.M_Fullness.TextChanged += new System.EventHandler(this.update255_MTB);
+            this.M_Fullness.TextChanged += new System.EventHandler(this.Update255_MTB);
             // 
             // tabControl1
             // 
@@ -620,7 +597,7 @@
             this.CB_CTVar.Name = "CB_CTVar";
             this.CB_CTVar.Size = new System.Drawing.Size(170, 21);
             this.CB_CTVar.TabIndex = 12;
-            this.CB_CTVar.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_CTVar.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // CB_CTMemory
             // 
@@ -631,60 +608,27 @@
             this.CB_CTMemory.Name = "CB_CTMemory";
             this.CB_CTMemory.Size = new System.Drawing.Size(240, 21);
             this.CB_CTMemory.TabIndex = 11;
-            this.CB_CTMemory.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_CTMemory.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // CB_CTQual
             // 
             this.CB_CTQual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_CTQual.FormattingEnabled = true;
-            this.CB_CTQual.Items.AddRange(new object[] {
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon fondly remembers",
-            "The Pokémon clearly remembers",
-            "The Pokémon definitely remembers"});
             this.CB_CTQual.Location = new System.Drawing.Point(86, 88);
             this.CB_CTQual.Name = "CB_CTQual";
             this.CB_CTQual.Size = new System.Drawing.Size(240, 21);
             this.CB_CTQual.TabIndex = 13;
-            this.CB_CTQual.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_CTQual.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // CB_CTFeel
             // 
             this.CB_CTFeel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_CTFeel.FormattingEnabled = true;
-            this.CB_CTFeel.Items.AddRange(new object[] {
-            "it was happy",
-            "it had fun",
-            "it was glad",
-            "it grinned",
-            "it got overwhelmed by emotion",
-            "its feelings were indescribable",
-            "it felt good",
-            "it got teary eyed",
-            "it got lighthearted",
-            "it got nervous",
-            "it felt comfortable",
-            "it was restless",
-            "it got a bit carried away",
-            "it felt sorry",
-            "it got emotional",
-            "it felt nostalgic",
-            "it had some difficulty",
-            "it felt exhausted",
-            "it couldn’t be true to its feelings",
-            "it felt proud",
-            "they ended up in a foul mood",
-            "it got angry",
-            "it got jealous",
-            "it got sleepy"});
             this.CB_CTFeel.Location = new System.Drawing.Point(86, 111);
             this.CB_CTFeel.Name = "CB_CTFeel";
             this.CB_CTFeel.Size = new System.Drawing.Size(170, 21);
             this.CB_CTFeel.TabIndex = 14;
-            this.CB_CTFeel.SelectedIndexChanged += new System.EventHandler(this.changeMemory);
+            this.CB_CTFeel.SelectedIndexChanged += new System.EventHandler(this.ChangeMemory);
             // 
             // L_CT_Affection
             // 
@@ -711,7 +655,7 @@
             this.M_CT_Affection.Name = "M_CT_Affection";
             this.M_CT_Affection.Size = new System.Drawing.Size(24, 20);
             this.M_CT_Affection.TabIndex = 10;
-            this.M_CT_Affection.TextChanged += new System.EventHandler(this.update255_MTB);
+            this.M_CT_Affection.TextChanged += new System.EventHandler(this.Update255_MTB);
             // 
             // M_CT_Friendship
             // 
@@ -720,7 +664,7 @@
             this.M_CT_Friendship.Name = "M_CT_Friendship";
             this.M_CT_Friendship.Size = new System.Drawing.Size(24, 20);
             this.M_CT_Friendship.TabIndex = 9;
-            this.M_CT_Friendship.TextChanged += new System.EventHandler(this.update255_MTB);
+            this.M_CT_Friendship.TextChanged += new System.EventHandler(this.Update255_MTB);
             // 
             // LCTV
             // 
@@ -797,16 +741,6 @@
             this.L_Arguments.TabIndex = 102;
             this.L_Arguments.Text = "(args)";
             this.L_Arguments.Visible = false;
-            // 
-            // B_ClearAll
-            // 
-            this.B_ClearAll.Location = new System.Drawing.Point(82, 157);
-            this.B_ClearAll.Name = "B_ClearAll";
-            this.B_ClearAll.Size = new System.Drawing.Size(76, 23);
-            this.B_ClearAll.TabIndex = 79;
-            this.B_ClearAll.Text = "Clear All";
-            this.B_ClearAll.UseVisualStyleBackColor = true;
-            this.B_ClearAll.Click += new System.EventHandler(this.B_ClearAll_Click);
             // 
             // MemoryAmie
             // 

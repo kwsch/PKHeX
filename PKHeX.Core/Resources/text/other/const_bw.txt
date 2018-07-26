@@ -1,3 +1,0 @@
-0182	Ns Castle	0:Event,1:Event,2:Before Reshiram/Zekrom,3:Before N,4:Event,5:Before Ghetsis
-0145	Victini	0:Event,1:Event,2:Battleable,3:Defeated,4:Captured,5:All event finished
-0206	Landorus	0:Event,1:Event,2:Event,3:Battleable,4:Disappeared

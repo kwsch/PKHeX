@@ -1,0 +1,21 @@
+0511	Uxie Disappeared
+0509	Mesprit (Verity Cavern) Disappeared
+0510	Azelf Disappeared
+0621	Cresselia(Fullmoon Island) Disappeared
+0288	Heatran Disappeared
+0609	Regigigas Disappeared
+0622	Giratina Disappeared
+0606	Darkrai Disappeared
+0623	Shaymin (Flower Paradise) Disappeared
+0620	Arceus Disappeared
+0286	Hall of Origin Disappeared
+0307	Fullmoon Island Ferry Accessable
+0316	Newmoon Island Ferry Accessable
+0301	Professor Oak (Route 224) Disappeared
+0634	Shaymin Disappeared
+2404	Entered Hall of Fame (Trainer Card Upgrade)
+2408	Cool Contest Master
+2409	Beauty Contest Master
+2410	Cute Contest Master
+2411	Smart Contest Master
+2412	Tough Contest Master

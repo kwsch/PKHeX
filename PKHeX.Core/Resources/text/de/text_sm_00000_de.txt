@@ -108,7 +108,7 @@ Route 10
 
 Route 11
 
-Küste von Ula-Ula
+Strand von Ula-Ula
 
 Route 13
 
@@ -188,7 +188,46 @@ Kampfbaum
 
 Æther-Paradies
 
-Ultradimension
+Ultratiefsee
 
 Malihe City
 Kap am Stadtrand
+Mele-Mele
+Akala
+Ula-Ula
+Poni
+Big Wave Beach
+
+Strandhöhle
+
+Kantai-Strand
+
+Strand von Poni
+
+Ultrametropolis
+
+Metropo Tower
+
+Ultrakraftwerk
+
+Ultratal
+
+Ultrawüste
+
+Ultrawald
+
+Ultradschungel
+
+Ultrawolkenkratzer
+
+Ultradimension Zero
+
+Rocket-Schloss
+
+Tunnel in der Ebene
+
+Pikachu-Tal
+
+Route 1
+Trainerschule
+Spaltberg-Tunnel

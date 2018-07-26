@@ -4,6 +4,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 6 <see cref="SaveFile"/> object.
+    /// </summary>
     public sealed class SAV6 : SaveFile
     {
         // Save Data Attributes
@@ -12,25 +15,25 @@ namespace PKHeX.Core
         public override string Extension => "";
         public SAV6(byte[] data = null)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G6ORAS] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G6ORAS];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             // Load Info
-            getBlockInfo();
-            getSAVOffsets();
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, SaveUtil.CRC16_CCITT);
+            GetSAVOffsets();
 
             HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
             Personal = ORAS ? PersonalTable.AO : PersonalTable.XY;
             if (!Exportable)
-                resetBoxes();
+                ClearBoxes();
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV6(Data); }
-        
+        public override SaveFile Clone() { return new SAV6((byte[])Data.Clone()); }
+
         public override int SIZE_STORED => PKX.SIZE_6STORED;
-        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK6();
         public override Type PKMType => typeof(PK6);
 
@@ -55,95 +58,12 @@ namespace PKHeX.Core
         public override bool HasGeolocation => true;
 
         // Blocks & Offsets
-        private int BlockInfoOffset;
-        private BlockInfo[] Blocks;
-        private void getBlockInfo()
-        {
-            BlockInfoOffset = Data.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(Data, BlockInfoOffset) != SaveUtil.BEEF)
-                BlockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-            int count = (Data.Length - BlockInfoOffset - 0x8) / 8;
-            BlockInfoOffset += 4;
+        private readonly int BlockInfoOffset;
+        private readonly BlockInfo[] Blocks;
+        protected override void SetChecksums() => Blocks.SetChecksums(Data);
+        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
-            Blocks = new BlockInfo[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                Blocks[i] = new BlockInfo
-                {
-                    Offset = CurrentPosition,
-                    Length = BitConverter.ToInt32(Data, BlockInfoOffset + 0 + 8 * i),
-                    ID = BitConverter.ToUInt16(Data, BlockInfoOffset + 4 + 8 * i),
-                    Checksum = BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + 8 * i)
-                };
-
-                // Expand out to nearest 0x200
-                CurrentPosition += Blocks[i].Length % 0x200 == 0 ? Blocks[i].Length : 0x200 - Blocks[i].Length % 0x200 + Blocks[i].Length;
-
-                if ((Blocks[i].ID != 0) || i == 0) continue;
-                count = i;
-                break;
-            }
-            // Fix Final Array Lengths
-            Array.Resize(ref Blocks, count);
-        }
-        protected override void setChecksums()
-        {
-            // Check for invalid block lengths
-            if (Blocks.Length < 3) // arbitrary...
-            {
-                Console.WriteLine("Not enough blocks ({0}), aborting setChecksums", Blocks.Length);
-                return;
-            }
-            // Apply checksums
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                { Console.WriteLine("Block {0} has invalid offset/length value.", i); return; }
-                byte[] array = new byte[Blocks[i].Length];
-                Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                BitConverter.GetBytes(SaveUtil.ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
-            }
-        }
-        public override bool ChecksumsValid
-        {
-            get
-            {
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                        return false;
-                    byte[] array = new byte[Blocks[i].Length];
-                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                    if (SaveUtil.ccitt16(array) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
-                        return false;
-                }
-                return true;
-            }
-        }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                int invalid = 0;
-                string rv = "";
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                        return $"Block {i} Invalid Offset/Length.";
-                    byte[] array = new byte[Blocks[i].Length];
-                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                    if (SaveUtil.ccitt16(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
-                        continue;
-
-                    invalid++;
-                    rv += $"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}" + Environment.NewLine;
-                }
-                // Return Outputs
-                rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
-                return rv;
-            }   
-        }
         public override ulong? Secure1
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
@@ -154,12 +74,12 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
             set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC);
         }
-        
-        private void getSAVOffsets()
+
+        private void GetSAVOffsets()
         {
             if (ORASDEMO)
             {
-                /* 00: */ Item = 0x00000;
+                /* 00: */ Bag = 0x00000;
                 /* 01: */ ItemInfo = 0x00C00; // Select Bound Items
                 /* 02: */ AdventureInfo = 0x00E00;
                 /* 03: */ Trainer1 = 0x01000;
@@ -176,16 +96,16 @@ namespace PKHeX.Core
                 /* 14: */ SUBE = 0x05000;
                 /* 15: */ PSSStats = 0x05400;
 
-                OFS_PouchHeldItem = Item + 0;
-                OFS_PouchKeyItem = Item + 0x640;
-                OFS_PouchTMHM = Item + 0x7C0;
-                OFS_PouchMedicine = Item + 0x970;
-                OFS_PouchBerry = Item + 0xA70;
+                OFS_PouchHeldItem = Bag + 0;
+                OFS_PouchKeyItem = Bag + 0x640;
+                OFS_PouchTMHM = Bag + 0x7C0;
+                OFS_PouchMedicine = Bag + 0x970;
+                OFS_PouchBerry = Bag + 0xA70;
             }
             else if (XY)
             {
                 Puff = 0x00000;
-                Item = 0x00400;
+                Bag = 0x00400;
                 ItemInfo = 0x1000;
                 AdventureInfo = 0x01200;
                 Trainer1 = 0x1400;
@@ -222,16 +142,16 @@ namespace PKHeX.Core
                 Spinda = PokeDex + 0x648;
                 WondercardData = WondercardFlags + 0x100;
 
-                OFS_PouchHeldItem = Item + 0;
-                OFS_PouchKeyItem = Item + 0x640;
-                OFS_PouchTMHM = Item + 0x7C0;
-                OFS_PouchMedicine = Item + 0x968;
-                OFS_PouchBerry = Item + 0xA68;
+                OFS_PouchHeldItem = Bag + 0;
+                OFS_PouchKeyItem = Bag + 0x640;
+                OFS_PouchTMHM = Bag + 0x7C0;
+                OFS_PouchMedicine = Bag + 0x968;
+                OFS_PouchBerry = Bag + 0xA68;
             }
             else if (ORAS)
             {
                 Puff = 0x00000;
-                Item = 0x00400;
+                Bag = 0x00400;
                 ItemInfo = 0x1000;
                 AdventureInfo = 0x01200;
                 Trainer1 = 0x01400;
@@ -273,11 +193,11 @@ namespace PKHeX.Core
                 WondercardData = WondercardFlags + 0x100;
                 Daycare2 = Daycare + 0x1F0;
 
-                OFS_PouchHeldItem = Item + 0;
-                OFS_PouchKeyItem = Item + 0x640;
-                OFS_PouchTMHM = Item + 0x7C0;
-                OFS_PouchMedicine = Item + 0x970;
-                OFS_PouchBerry = Item + 0xA70;
+                OFS_PouchHeldItem = Bag + 0;
+                OFS_PouchKeyItem = Bag + 0x640;
+                OFS_PouchTMHM = Bag + 0x7C0;
+                OFS_PouchMedicine = Bag + 0x970;
+                OFS_PouchBerry = Bag + 0xA70;
             }
             else // Empty input
             {
@@ -287,7 +207,7 @@ namespace PKHeX.Core
         }
 
         // Private Only
-        private int Item { get; set; } = int.MinValue;
+        private int Bag { get; set; } = int.MinValue;
         private int AdventureInfo { get; set; } = int.MinValue;
         private int Trainer2 { get; set; } = int.MinValue;
         private int LastViewedBox { get; set; } = int.MinValue;
@@ -322,20 +242,20 @@ namespace PKHeX.Core
                     case 26: return GameVersion.AS;
                     case 27: return GameVersion.OR;
                 }
-                return GameVersion.Unknown;
+                return GameVersion.Invalid;
             }
         }
-        
+
         // Player Information
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, TrainerCard + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, TrainerCard + 2);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 2);
         }
         public override int Game
         {
@@ -395,8 +315,8 @@ namespace PKHeX.Core
         }
         public override string OT
         {
-            get => getString(TrainerCard + 0x48, 0x1A);
-            set => setString(value, OTLength).CopyTo(Data, TrainerCard + 0x48);
+            get => GetString(TrainerCard + 0x48, 0x1A);
+            set => SetString(value, OTLength).CopyTo(Data, TrainerCard + 0x48);
         }
         public string OT_Nick
         {
@@ -428,26 +348,51 @@ namespace PKHeX.Core
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 4, 0x22));
             set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 4);
         }
+        public bool IsMegaEvolutionUnlocked
+        {
+            get => (Data[TrainerCard + 0x14A] & 0x01) != 0;
+            set => Data[TrainerCard + 0x14A] = (byte)((Data[TrainerCard + 0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
+        }
 
         public int M
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x02);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x02);
+            set
+            {
+                var val = BitConverter.GetBytes((ushort)value);
+                val.CopyTo(Data, Trainer1 + 0x02);
+                val.CopyTo(Data, Trainer1 + 0x02 + 0xF4);
+            }
         }
         public float X
         {
             get => BitConverter.ToSingle(Data, Trainer1 + 0x10) / 18;
-            set => BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x10);
+            set
+            {
+                var val = BitConverter.GetBytes(value * 18);
+                val.CopyTo(Data, Trainer1 + 0x10);
+                val.CopyTo(Data, Trainer1 + 0x10 + 0xF4);
+            }
         }
         public float Z
         {
             get => BitConverter.ToSingle(Data, Trainer1 + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14);
+            set
+            {
+                var val = BitConverter.GetBytes(value);
+                val.CopyTo(Data, Trainer1 + 0x14);
+                val.CopyTo(Data, Trainer1 + 0x14 + 0xF4);
+            }
         }
         public float Y
         {
             get => BitConverter.ToSingle(Data, Trainer1 + 0x18) / 18;
-            set => BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x18);
+            set
+            {
+                var val = BitConverter.GetBytes(value * 18);
+                val.CopyTo(Data, Trainer1 + 0x18);
+                val.CopyTo(Data, Trainer1 + 0x18 + 0xF4);
+            }
         }
         public int Style
         {
@@ -555,66 +500,66 @@ namespace PKHeX.Core
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); }
 
-        public uint getPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
-        public void setPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
-        public ushort getMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + 2 * index); }
-        public void setMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
-        public uint getEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + 2*index); }
-        public void setEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + 2*index); }
-        
+        public uint GetPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
+        public void SetPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
+        public ushort GetMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + 2 * index); }
+        public void SetMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
+        public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + 2*index); }
+        public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + 2*index); }
+
         // Daycare
         public override int DaycareSeedSize => 16;
         public override bool HasTwoDaycares => ORAS;
-        public override int getDaycareSlotOffset(int loc, int slot)
+        public override int GetDaycareSlotOffset(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs < 0)
                 return -1;
             return ofs + 8 + slot*(SIZE_STORED + 8);
         }
-        public override uint? getDaycareEXP(int loc, int slot)
+        public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
                 return BitConverter.ToUInt32(Data, ofs + (SIZE_STORED + 8)*slot + 4);
             return null;
         }
-        public override bool? getDaycareOccupied(int loc, int slot)
+        public override bool? IsDaycareOccupied(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
                 return Data[ofs + (SIZE_STORED + 8) * slot] == 1;
             return null;
         }
-        public override string getDaycareRNGSeed(int loc)
+        public override string GetDaycareRNGSeed(int loc)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs <= 0)
                 return null;
-            
+
             var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize/2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", "");
         }
-        public override bool? getDaycareHasEgg(int loc)
+        public override bool? IsDaycareHasEgg(int loc)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
                 return Data[ofs + 0x1E0] == 1;
             return null;
         }
-        public override void setDaycareEXP(int loc, int slot, uint EXP)
+        public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
                 BitConverter.GetBytes(EXP).CopyTo(Data, ofs + (SIZE_STORED + 8)*slot + 4);
         }
-        public override void setDaycareOccupied(int loc, int slot, bool occupied)
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
                 Data[ofs + (SIZE_STORED + 8)*slot] = (byte) (occupied ? 1 : 0);
         }
-        public override void setDaycareRNGSeed(int loc, string seed)
+        public override void SetDaycareRNGSeed(int loc, string seed)
         {
             if (loc != 0)
                 return;
@@ -630,14 +575,14 @@ namespace PKHeX.Core
                  .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
                  .Reverse().ToArray().CopyTo(Data, Daycare + 0x1E8);
         }
-        public override void setDaycareHasEgg(int loc, bool hasEgg)
+        public override void SetDaycareHasEgg(int loc, bool hasEgg)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
                 Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
         }
 
-        public byte[] Puffs { get => getData(Puff, 100); set => value.CopyTo(Data, Puff); }
+        public byte[] Puffs { get => GetData(Puff, 100); set => value.CopyTo(Data, Puff); }
         public int PuffCount { get => BitConverter.ToInt32(Data, Puff + 100); set => BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); }
 
         public int[] SelectItems
@@ -678,7 +623,7 @@ namespace PKHeX.Core
         }
 
         public override string JPEGTitle => JPEG < 0 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
-        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : getData(JPEG + 0x54, 0xE004);
+        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : GetData(JPEG + 0x54, 0xE004);
 
         // Inventory
         public override InventoryPouch[] Inventory
@@ -691,58 +636,58 @@ namespace PKHeX.Core
                 ushort[] legalMedicine = ORAS ? Legal.Pouch_Medicine_AO : Legal.Pouch_Medicine_XY;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 995, OFS_PouchHeldItem),
+                    new InventoryPouch(InventoryType.Items, legalItems, 999, OFS_PouchHeldItem),
                     new InventoryPouch(InventoryType.KeyItems, legalKey, 1, OFS_PouchKeyItem),
                     new InventoryPouch(InventoryType.TMHMs, legalTMHM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, legalMedicine, 995, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berry_XY, 995, OFS_PouchBerry),
+                    new InventoryPouch(InventoryType.Medicine, legalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berry_XY, 999, OFS_PouchBerry),
                 };
                 foreach (var p in pouch)
-                    p.getPouch(ref Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.setPouch(ref Data);
+                    p.SetPouch(Data);
             }
         }
 
         // Storage
         public override int CurrentBox { get => Data[LastViewedBox]; set => Data[LastViewedBox] = (byte)value; }
-        public override int getPartyOffset(int slot)
+        public override int GetPartyOffset(int slot)
         {
             return Party + SIZE_PARTY * slot;
         }
-        public override int getBoxOffset(int box)
+        public override int GetBoxOffset(int box)
         {
             return Box + SIZE_STORED*box*30;
         }
-        protected override int getBoxWallpaperOffset(int box)
+        protected override int GetBoxWallpaperOffset(int box)
         {
             int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : -1;
             if (ofs > -1)
                 return ofs + box;
             return ofs;
         }
-        public override string getBoxName(int box)
+        public override string GetBoxName(int box)
         {
             if (PCLayout < 0)
                 return "B" + (box + 1);
             return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
         }
-        public override void setBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            Encoding.Unicode.GetBytes(val.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
+            Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
             Edited = true;
         }
-        public override PKM getPKM(byte[] data)
+        public override PKM GetPKM(byte[] data)
         {
             return new PK6(data);
         }
-        protected override void setPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm)
         {
-            PK6 pk6 = pkm as PK6;
+            PK6 pk6 = (PK6)pkm;
             // Apply to this Save File
             int CT = pk6.CurrentHandler;
             DateTime Date = DateTime.Now;
@@ -757,7 +702,7 @@ namespace PKHeX.Core
             }
             pkm.RefreshChecksum();
         }
-        protected override void setDex(PKM pkm)
+        protected override void SetDex(PKM pkm)
         {
             if (PokeDex < 0)
                 return;
@@ -765,7 +710,7 @@ namespace PKHeX.Core
                 return;
             if (pkm.Species > MaxSpeciesID)
                 return;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return;
 
             const int brSize = 0x60;
@@ -779,7 +724,7 @@ namespace PKHeX.Core
             int bm = bit & 7; // mod8
             byte mask = (byte)(1 << bm);
             int ofs = PokeDex + 0x8 + bd;
-            
+
             // Owned quality flag
             if (origin < 0x18 && bit < 649 && !ORAS) // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
                 Data[ofs + 0x644] |= mask;
@@ -803,12 +748,12 @@ namespace PKHeX.Core
             Data[PokeDexLanguageFlags + (bit * 7 + lang) / 8] |= (byte)(1 << ((bit * 7 + lang) % 8));
 
             // Set DexNav count (only if not encountered previously)
-            if (ORAS && getEncounterCount(pkm.Species - 1) == 0)
-                setEncounterCount(pkm.Species - 1, 1);
+            if (ORAS && GetEncounterCount(pkm.Species - 1) == 0)
+                SetEncounterCount(pkm.Species - 1, 1);
 
             // Set Form flags
             int fc = Personal[pkm.Species].FormeCount;
-            int f = ORAS ? SaveUtil.getDexFormIndexORAS(pkm.Species, fc) : SaveUtil.getDexFormIndexXY(pkm.Species, fc);
+            int f = ORAS ? SaveUtil.GetDexFormIndexORAS(pkm.Species, fc) : SaveUtil.GetDexFormIndexXY(pkm.Species, fc);
             if (f < 0) return;
 
             int FormLen = ORAS ? 0x26 : 0x18;
@@ -830,8 +775,24 @@ namespace PKHeX.Core
             bit = f + pkm.AltForm;
             Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
         }
+        protected override void SetPartyValues(PKM pkm, bool isParty)
+        {
+            base.SetPartyValues(pkm, isParty);
+            ((PK6)pkm).FormDuration = GetFormDuration(pkm, isParty);
+        }
+        private static uint GetFormDuration(PKM pkm, bool isParty)
+        {
+            if (!isParty || pkm.AltForm == 0)
+                return 0;
+            switch (pkm.Species)
+            {
+                case 676: return 5; // Furfrou
+                case 720: return 3; // Hoopa
+                default: return 0;
+            }
+        }
 
-        public override bool getCaught(int species)
+        public override bool GetCaught(int species)
         {
             int bit = species - 1;
             int bd = bit >> 3; // div8
@@ -847,7 +808,7 @@ namespace PKHeX.Core
             return (1 << bm & Data[ofs + bd + 0x644]) != 0;
         }
 
-        public override bool getSeen(int species)
+        public override bool GetSeen(int species)
         {
             const int brSize = 0x60;
 
@@ -863,9 +824,9 @@ namespace PKHeX.Core
                     return true;
             return false;
         }
-        public override byte[] decryptPKM(byte[] data)
+        public override byte[] DecryptPKM(byte[] data)
         {
-            return PKX.decryptArray(data);
+            return PKX.DecryptArray(data);
         }
         public override int PartyCount
         {
@@ -926,7 +887,7 @@ namespace PKHeX.Core
                     return null;
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
-                    cards[i] = getWC6(i);
+                    cards[i] = GetWC6(i);
 
                 return cards;
             }
@@ -936,11 +897,11 @@ namespace PKHeX.Core
                     return;
                 if (value.Length > GiftCountMax)
                     Array.Resize(ref value, GiftCountMax);
-                
+
                 for (int i = 0; i < value.Length; i++)
-                    setWC6(value[i], i);
+                    SetWC6(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)
-                    setWC6(new WC6(), i);
+                    SetWC6(new WC6(), i);
             }
         }
 
@@ -950,7 +911,7 @@ namespace PKHeX.Core
             {
                 if (LinkInfo < 0)
                     return null;
-                return getData(LinkInfo, 0xC48);
+                return GetData(LinkInfo, 0xC48);
             }
             set
             {
@@ -962,16 +923,16 @@ namespace PKHeX.Core
             }
         }
 
-        private MysteryGift getWC6(int index)
+        private MysteryGift GetWC6(int index)
         {
             if (WondercardData < 0)
                 return null;
             if (index < 0 || index > GiftCountMax)
                 return null;
 
-            return new WC6(getData(WondercardData + index * WC6.Size, WC6.Size));
+            return new WC6(GetData(WondercardData + index * WC6.Size, WC6.Size));
         }
-        private void setWC6(MysteryGift wc6, int index)
+        private void SetWC6(MysteryGift wc6, int index)
         {
             if (WondercardData < 0)
                 return;
@@ -983,14 +944,48 @@ namespace PKHeX.Core
             Edited = true;
         }
 
+        // Gym History
+        private ushort[][] GymTeams
+        {
+            get
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return null; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                var data = GetData(ofs, size);
+                ushort[][] teams = new ushort[8][];
+                for (int i = 0; i < teams.Length; i++)
+                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
+                return teams;
+            }
+            set
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                byte[] data = new byte[size];
+                for (int i = 0; i < value.Length; i++)
+                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
+                SetData(data, ofs);
+            }
+        }
+
         // Writeback Validity
         public override string MiscSaveChecks()
         {
             string r = "";
-            byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
-                if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
+                if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
+                    continue;
                 r = $"0x200 chunk @ 0x{i*0x200:X5} is FF'd."
                     + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
 
@@ -1005,18 +1000,54 @@ namespace PKHeX.Core
             }
             return r;
         }
-        public override string MiscSaveInfo()
-        {
-            return Blocks.Aggregate("", (current, b) => current +
-                $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
-        }
+        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
 
-        public override string getString(int Offset, int Count) => PKX.getString6(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override string GetString(int Offset, int Length) => StringConverter.GetString6(Data, Offset, Length);
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.setString6(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetString6(value, maxLength, PadToSize, PadWith);
+        }
+
+        public OPower6 OPowerData
+        {
+            get => new OPower6(Data, OPower);
+            set => SetData(value.Write(), 0);
+        }
+
+        public void UnlockAllFriendSafariSlots()
+        {
+            if (!XY)
+                return;
+
+            // Unlock + reveal all safari slots if friend data is present
+            const int start = 0x1E7FF;
+            const int size = 0x15;
+            for (int i = 1; i < 101; i++)
+            {
+                int o = start + (i * size);
+                if (Data[o] != 0) // no friend data == 0x00
+                    Data[0] = 0x3D;
+            }
+            Edited = true;
+        }
+
+        public void UnlockAllAccessories()
+        {
+            if (!XY)
+                return;
+
+            new byte[]
+            {
+                0xFE,0xFF,0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+                0xFF,0xEF,0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFF,
+                0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xEF,
+                0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
+                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+            }.CopyTo(Data, Accessories);
         }
     }
 }

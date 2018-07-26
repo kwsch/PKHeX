@@ -30,10 +30,13 @@ Rubí Omega
 
 Sol
 Luna
-
-
-Go
+Ultrasol
+Ultraluna
+GO
 Roja
-Azul[INT]/Verde[JP]
-Azul[JP]
+Azul [INT]/Verde [JP]
+Azul [JP]
 Amarilla
+Oro
+Plata
+Cristal

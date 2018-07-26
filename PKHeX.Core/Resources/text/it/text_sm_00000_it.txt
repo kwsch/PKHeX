@@ -108,7 +108,7 @@ Percorso 10
 
 Percorso 11
 
-Lido di Ula Ula
+Spiaggia di Ula Ula
 
 Percorso 13
 
@@ -188,7 +188,46 @@ Albero della Lotta
 
 Æther Paradise
 
-Ultramondo
+Ultrabisso
 
 Malie
 Promontorio di Malie
+Mele Mele
+Akala
+Ula Ula
+Poni
+Spiaggia Big Wave
+
+Caverna Costiera
+
+Spiaggia di Kantai
+
+Spiaggia di Poni
+
+Ultramegalopoli
+
+Torre Megalopoli
+
+Ultracentrale
+
+Ultravalle
+
+Ultradeserto
+
+Ultraforesta
+
+Ultragiungla
+
+Ultragglomerato
+
+Ultramondo Ignoto
+
+Castello Team Rocket
+
+Grotta Prateria
+
+Valle dei Pikachu
+
+Percorso 1
+Scuola Allenatori
+Tunnel del Vulcano

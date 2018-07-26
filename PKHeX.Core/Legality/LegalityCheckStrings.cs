@@ -3,9 +3,11 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Legality Check Message Strings to indicate why certain <see cref="PKM"/> <see cref="LegalInfo"/> values are flagged.
+    /// </summary>
     public static class LegalityCheckStrings
     {
-
         #region General Strings
 
         /// <summary>Default text for indicating validity.</summary>
@@ -37,7 +39,7 @@ namespace PKHeX.Core
         public static string V502 { get; set; } = "Fishy";
         /// <summary>Severity string for <see cref="Severity.Valid"/></summary>
         public static string V503 { get; set; } = "Valid";
-        /// <summary>Severity string for <see cref="Severity.NotImplemented"/></summary>
+        /// <summary>Severity string for anything not implemented.</summary>
         public static string V504 { get; set; } = "Not Implemented";
 
         /// <summary>Original Trainer string used in various string formats such as Memories.</summary>
@@ -52,26 +54,26 @@ namespace PKHeX.Core
         public static string V174 { get; set; } = "Learned by Move Tutor.";
         public static string V175 { get; set; } = "Special Non-Relearn Move.";
         public static string V177 { get; set; } = "Learned by Level-up.";
-        public static string V330 { get; set; } = "Learned by Level-up in generation {0}.";
-        public static string V331 { get; set; } = "Learned by TM/HM in generation {0}.";
-        public static string V332 { get; set; } = "Learned by Move Tutor in generation {0}.";
+        public static string V330 { get; set; } = "Learned by Level-up in Generation {0}.";
+        public static string V331 { get; set; } = "Learned by TM/HM in Generation {0}.";
+        public static string V332 { get; set; } = "Learned by Move Tutor in Generation {0}.";
         public static string V333 { get; set; } = "Event Egg Move.";
-        public static string V344 { get; set; } = "Inherited egg move.";
+        public static string V344 { get; set; } = "Inherited Egg move.";
         public static string V345 { get; set; } = "Inherited move learned by Level-up.";
         public static string V346 { get; set; } = "Inherited tutor move.";
         public static string V349 { get; set; } = "Inherited TM/HM move.";
         public static string V355 { get; set; } = "Learned by evolving Nincada into Ninjask.";
-        public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in generation {0}.";
+        public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in Generation {0}.";
         public static string V361 { get; set; } = "Default move.";
-        public static string V362 { get; set; } = "Default move in generation {0}.";
+        public static string V362 { get; set; } = "Default move in Generation {0}.";
         public static string V372 { get; set; } = "{0} Berry";
-        public static string V380 { get; set; } = "Encounter Type match encounter.";
-        public static string V382 { get; set; } = "Encounter Type not implemented for pokemon encounter.";
+        public static string V380 { get; set; } = "Encounter Type matches encounter.";
+        public static string V382 { get; set; } = "Encounter Type not implemented for Pokémon encounter.";
         public static string V391 { get; set; } = "Porygon with valid Type A and B values.";
-        public static string V392 { get; set; } = "Valid Type A, match species type.";
-        public static string V393 { get; set; } = "Valid Type B, match species type.";
-        public static string V394 { get; set; } = "Catch rate match a valid held item from generation 2";
-        public static string V398 { get; set; } = "Catch Rate match a species from pokemon evolution chain.";
+        public static string V392 { get; set; } = "Valid Type A, matches species type.";
+        public static string V393 { get; set; } = "Valid Type B, matches species type.";
+        public static string V394 { get; set; } = "Catch rate matches a valid held item from Generation 2.";
+        public static string V398 { get; set; } = "Catch Rate matches a species from Pokémon evolution chain.";
         public static string V403 { get; set; } = "Valid International Stadium OT.";
         public static string V404 { get; set; } = "Valid Japanese Stadium OT.";
         #endregion
@@ -98,7 +100,7 @@ namespace PKHeX.Core
         public static string V212 {get; set;} = "Wurmple Evolution: {0}";
         public static string V215 {get; set;} = "PID should be equal to EC [with top bit flipped]!";
         public static string V216 {get; set;} = "PID should be equal to EC!";
-        public static string V220 {get; set;} = "N's Pokemon cannot be shiny.";
+        public static string V220 {get; set;} = "N's Pokémon cannot be shiny.";
         public static string V221 {get; set;} = "Hidden Grotto captures cannot be shiny.";
 
         public static string V14 {get; set;} = "Egg matches language Egg name."; // Valid
@@ -108,9 +110,8 @@ namespace PKHeX.Core
         public static string V11 {get; set;} = "Ingame Trade OT and Nickname have not been altered."; // Valid
         public static string V1 {get; set;} = "Nickname too long."; // Invalid
         public static string V2 {get; set;} = "Nickname is empty."; // Invalid
-        public static string V4 {get; set;} = "Language ID > 8."; // Invalid
-        public static string V5 {get; set;} = "Language ID > 10."; // Invalid
-        public static string V222 { get; set; } = "Cannot be given this Nickname."; // Invalid
+        public static string V5 {get; set;} = "Language ID should be {0}, not {1}."; // Invalid
+        public static string V222 {get; set;} = "Cannot be given this Nickname."; // Invalid
         public static string V3 {get; set;} = "Species index invalid for Nickname comparison."; // Invalid
         public static string V20 {get; set;} = "Nickname does not match species name."; // Invalid
         public static string V13 {get; set;} = "Egg name does not match language Egg name."; // Invalid
@@ -134,12 +135,13 @@ namespace PKHeX.Core
         public static string V27 {get; set;} = "EVs are all equal."; // Fishy
         public static string V31 {get; set;} = "All IVs are 0."; // Fishy
         public static string V32 {get; set;} = "All IVs are equal."; // Fishy
-        public static string V218 {get; set;} = "All IVs of N's Pokemon should be 30."; // Invalid
+        public static string V218 {get; set;} = "All IVs of N's Pokémon should be 30."; // Invalid
 
         public static string V28 {get; set;} = "Should have at least {0} IVs = 31."; // Invalid
         public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs = 31."; // Invalid
         public static string V30 {get; set;} = "IVs do not match Mystery Gift Data."; // Invalid
 
+        public static string V106 {get; set;} = "OT Name too short."; // Invalid
         public static string V38 {get; set;} = "OT Name too long."; // Invalid
         public static string V39 {get; set;} = "Incorrect RBY event OT Name."; // Invalid
         public static string V34 {get; set;} = "SID should be 0."; // Invalid
@@ -149,8 +151,8 @@ namespace PKHeX.Core
         public static string V36 {get; set;} = "TID is zero."; // Fishy
         public static string V37 {get; set;} = "SID is zero."; // Fishy
 
-        public static string V40 {get; set;} = "Can't Hyper Train a pokemon that isn't level 100."; // Invalid
-        public static string V41 {get; set;} = "Can't Hyper Train a pokemon with perfect IVs."; // Invalid
+        public static string V40 {get; set;} = "Can't Hyper Train a Pokémon that isn't level 100."; // Invalid
+        public static string V41 {get; set;} = "Can't Hyper Train a Pokémon with perfect IVs."; // Invalid
         public static string V42 {get; set;} = "Can't Hyper Train a perfect IV."; // Invalid
 
         public static string V49 {get; set;} = "Valid Pokémon Link gift."; // Valid
@@ -161,20 +163,20 @@ namespace PKHeX.Core
         public static string V45 {get; set;} = "Can't obtain this Pokémon Link gift in ORAS."; // Invalid
         public static string V46 {get; set;} = "Can't obtain this Pokémon Link gift in SM."; // Invalid
 
-        public static string V63 {get; set;} = "Valid un-hatched egg."; // Valid
-        public static string V53 {get; set;} = "Able to hatch an egg at Met Location."; // Valid
-        public static string V56 {get; set;} = "Able to hatch a traded egg at Met Location.";
-        public static string V54 {get; set;} = "Can't hatch an egg at Met Location."; // Invalid
-        public static string V55 {get; set;} = "Can't obtain egg from Egg Location."; // Invalid
-        public static string V57 {get; set;} = "Can't transfer eggs between generations."; // Invalid
-        public static string V50 {get; set;} = "Can't obtain egg for this species."; // Invalid
-        public static string V51 {get; set;} = "Invalid Met Location for hatched egg."; // Invalid
+        public static string V63 {get; set;} = "Valid un-hatched Egg."; // Valid
+        public static string V53 {get; set;} = "Able to hatch an Egg at Met Location."; // Valid
+        public static string V56 {get; set;} = "Able to hatch a traded Egg at Met Location.";
+        public static string V54 {get; set;} = "Can't hatch an Egg at Met Location."; // Invalid
+        public static string V55 {get; set;} = "Can't obtain Egg from Egg Location."; // Invalid
+        public static string V57 {get; set;} = "Can't transfer Eggs between Generations."; // Invalid
+        public static string V50 {get; set;} = "Can't obtain Egg for this species."; // Invalid
+        public static string V51 {get; set;} = "Invalid Met Location for hatched Egg."; // Invalid
         public static string V52 {get; set;} = "Invalid Met Level, expected {0}."; // Invalid
         public static string V58 {get; set;} = "Invalid Met Level for transfer."; // Invalid
         public static string V59 {get; set;} = "Invalid Egg Location, expected none."; // Invalid
         public static string V60 {get; set;} = "Invalid Met Location, expected Pal Park."; // Invalid
         public static string V61 {get; set;} = "Invalid Met Location, expected Transporter."; // Invalid
-        public static string V62 {get; set;} = "Invalid Egg Location, shouldn't be 'traded' while an egg."; // Invalid
+        public static string V62 {get; set;} = "Invalid Egg Location, shouldn't be 'traded' while an Egg."; // Invalid
 
         public static string V66 {get; set;} = "Valid Friend Safari encounter."; // Valid
         public static string V64 {get; set;} = "Friend Safari: Not valid color."; // Florges
@@ -198,7 +200,7 @@ namespace PKHeX.Core
         public static string V78 {get; set;} = "Unable to match to a Mystery Gift in the database."; // Invalid
         public static string V80 {get; set;} = "Unable to match an encounter from origin game."; // Invalid
         public static string V81 {get; set;} = "Invalid Transfer Met Location."; // Invalid
-        public static string V82 {get; set;} = "Mewtwo cannot be transferred while knowing Pay Day."; // Invalid
+        public static string V82 {get; set;} = "Incompatible transfer move."; // Invalid
 
         public static string V88 {get; set;} = "Current level is not below met level.";
         public static string V83 {get; set;} = "Met Level does not match Mystery Gift level.";
@@ -207,25 +209,13 @@ namespace PKHeX.Core
         public static string V86 {get; set;} = "Evolution not valid (or level/trade evolution unsatisfied).";
         public static string V87 {get; set;} = "Current experience matches level threshold."; // Fishy
 
-        public static string V89 {get; set;} = "Can't Super Train an egg."; // Invalid
+        public static string V89 {get; set;} = "Can't Super Train an Egg."; // Invalid
         public static string V90 {get; set;} = "Super Training missions are not available in games visited.";
         public static string V91 {get; set;} = "Can't have active Super Training unlocked flag for origins.";
         public static string V92 {get; set;} = "Can't have active Super Training complete flag for origins.";
         public static string V93 {get; set;} = "Super Training complete flag mismatch.";
         public static string V94 {get; set;} = "Distribution Super Training missions are not released."; // Fishy
         public static string V98 {get; set;} = "Unused Super Training Flag is flagged.";
-
-        public static string V95 {get; set;} = "Can't receive Ribbon(s) as an egg.";
-        public static string V96 {get; set;} = "GBA Champion Ribbon";
-        public static string V97 {get; set;} = "Artist Ribbon";
-        public static string V99 {get; set;} = "Sinnoh Champion Ribbon";
-        public static string V100 {get; set;} = "Legend Ribbon";
-        public static string V104 {get; set;} = "Record Ribbon";
-        public static string V101 {get; set;} = "Missing Ribbons: {0}";
-        public static string V102 {get; set;} = "Invalid Ribbons: {0}";
-        public static string V103 {get; set;} = "All ribbons accounted for.";
-        public static string V105 {get; set;} = "Battle Memory Ribbon";
-        public static string V106 {get; set;} = "Contest Memory Ribbon";
 
         public static string V107 {get; set;} = "Ability is not valid for species/form.";
         public static string V108 {get; set;} = "Hidden Ability mismatch for encounter type.";
@@ -244,13 +234,13 @@ namespace PKHeX.Core
         public static string V119 {get; set;} = "Correct ball for encounter type.";
         public static string V118 {get; set;} = "Can't have ball for encounter type.";
         public static string V116 {get; set;} = "Can't have Heavy Ball for light, low-catch rate species (Gen VII).";
-        public static string V117 {get; set;} = "Can't have Master Ball for regular egg.";
-        public static string V120 {get; set;} = "Can't have Cherish Ball for regular egg.";
+        public static string V117 {get; set;} = "Can't have Master Ball for regular Egg.";
+        public static string V120 {get; set;} = "Can't have Cherish Ball for regular Egg.";
         public static string V121 {get; set;} = "Can't obtain species in Ball.";
         public static string V122 {get; set;} = "Can't obtain Hidden Ability with Ball.";
         public static string V123 {get; set;} = "Ball possible for species.";
         public static string V125 {get; set;} = "No check satisfied, assuming illegal.";
-        public static string V126 {get; set;} = "Ball unobtainable in origin generation.";
+        public static string V126 {get; set;} = "Ball unobtainable in origin Generation.";
 
         public static string V145 {get; set;} = "History block is valid.";
         public static string V155 {get; set;} = "{0} Memory is valid.";
@@ -283,11 +273,11 @@ namespace PKHeX.Core
         public static string V150 {get; set;} = "Memory: Handling Trainer Memory missing.";
         public static string V152 {get; set;} = "Memory: Original Trainer Memory missing.";
         public static string V329 {get; set;} = "Memory: Not cleared properly.";
-        public static string V149 {get; set;} = "Memory: Can't have Handling Trainer Memory as egg.";
-        public static string V151 {get; set;} = "Memory: Can't have Original Trainer Memory as egg.";
+        public static string V149 {get; set;} = "Memory: Can't have Handling Trainer Memory as Egg.";
+        public static string V151 {get; set;} = "Memory: Can't have Original Trainer Memory as Egg.";
         public static string V164 {get; set;} = "{0} Memory: Species can be captured in game.";
         public static string V153 {get; set;} = "{0} Memory: Species can't learn this move.";
-        public static string V154 {get; set;} = "{0} Memory: Location doesn't have a Pokemon Center.";
+        public static string V154 {get; set;} = "{0} Memory: Location doesn't have a Pokémon Center.";
         public static string V160 {get; set;} = "{0} Memory: {0} did not hatch this.";
         public static string V202 {get; set;} = "{0} Memory: {0} did not catch this.";
         public static string V161 {get; set;} = "{0} Memory: Link Trade is not a valid first memory.";
@@ -298,6 +288,8 @@ namespace PKHeX.Core
         public static string V198 {get; set;} = "{0} Memory: Intensity should be index {1}.";
         public static string V199 {get; set;} = "{0} Memory: TextVar should be index {1}.";
         public static string V200 {get; set;} = "{0} Memory: Feeling should be index {1}.";
+        public static string V254 {get; set;} = "{0} Memory: Intensity should be at least {1}.";
+        public static string V255 {get; set;} = "{0} Memory: Invalid Feeling.";
 
         public static string V168 {get; set;} = "Duplicate Move.";
         public static string V176 {get; set;} = "Invalid Move.";
@@ -307,8 +299,8 @@ namespace PKHeX.Core
         public static string V170 {get; set;} = "Relearn Moves missing: {0}";
         public static string V178 {get; set;} = "Expected: {0}.";
 
-        public static string V179 {get; set;} = "Base egg move.";
-        public static string V180 {get; set;} = "Base egg move missing.";
+        public static string V179 {get; set;} = "Base Egg move.";
+        public static string V180 {get; set;} = "Base Egg move missing.";
         public static string V182 {get; set;} = "Not an expected Relearnable move.";
         public static string V183 {get; set;} = "Not an expected DexNav move.";
         public static string V184 {get; set;} = "Expected no Relearn Move in slot.";
@@ -333,7 +325,7 @@ namespace PKHeX.Core
         public static string V314 {get; set;} = "Invalid Eternal Flower encounter.";
         public static string V315 {get; set;} = "Valid Eternal Flower encounter.";
         public static string V316 {get; set;} = "Form cannot exist outside of Party.";
-        public static string V317 {get; set;} = "Form cannot be obtained for pre-Alola generation games.";
+        public static string V317 {get; set;} = "Form cannot be obtained in origin game.";
 
         public static string V319 {get; set;} = "Cannot apply PP Ups to an Egg.";
         public static string V320 {get; set;} = "Cannot increase Contest Stats of an Egg.";
@@ -346,43 +338,44 @@ namespace PKHeX.Core
         public static string V327 {get; set;} = "Special ingame N's Sparkle flag should not be checked.";
         public static string V328 {get; set;} = "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.";
 
-        public static string V334 {get; set;} = "Non-tradeback egg move. Incompatible with generation 1 exclusive moves.";
-        public static string V335 {get; set;} = "Generation 1 exclusive move. Incompatible with Non-tradeback egg moves.";
-        public static string V336 {get; set;} = "Egg Move. Incompatible with event egg moves.";
-        public static string V337 {get; set;} = "Event Egg Move. Incompatible with normal egg moves.";
-        public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to generation 5.";
-        public static string V339 {get; set;} = "Generation {0} HM. Should have been removed before transfered to generation {1}.";
-        public static string V340 {get; set;} = "Not an expected egg move.";
-        public static string V341 {get; set;} = "Egg Move. Not expected in an event egg.";
-        public static string V342 {get; set;} = "Event egg move missing.";
+        public static string V334 {get; set;} = "Non-tradeback Egg move. Incompatible with Generation 1 exclusive moves.";
+        public static string V335 {get; set;} = "Generation 1 exclusive move. Incompatible with Non-tradeback moves.";
+        public static string V336 {get; set;} = "Egg Move. Incompatible with event Egg moves.";
+        public static string V337 {get; set;} = "Event Egg Move. Incompatible with normal Egg moves.";
+        public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to Generation 5.";
+        public static string V339 {get; set;} = "Generation {0} HM. Should have been removed before transfered to Generation {1}.";
+        public static string V340 {get; set;} = "Not an expected Egg move.";
+        public static string V341 {get; set;} = "Egg Move. Not expected in an event Egg.";
+        public static string V342 {get; set;} = "Event Egg move missing.";
         public static string V343 {get; set;} = "Expected the following Moves: {0}";
-        public static string V347 {get; set;} = "Inherited move learned by Level-up. Not expected in an event egg.";
-        public static string V348 {get; set;} = "Inherited tutor move. Not expected in an event egg.";
-        public static string V350 {get; set;} = "Inherited TM/HM move. Not expected in an event egg.";
+        public static string V347 {get; set;} = "Inherited move learned by Level-up. Not expected in an event Egg.";
+        public static string V348 {get; set;} = "Inherited tutor move. Not expected in an event Egg.";
+        public static string V350 {get; set;} = "Inherited TM/HM move. Not expected in an event Egg.";
         public static string V351 {get; set;} = "Invalid Met Location, expected Transporter or Crown."; // Invalid
         public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
-        public static string V383 {get; set;} = "Non Platinum Darkrai from Newmoon Island.Unreleased event.";
+        public static string V383 {get; set;} = "Non Platinum Darkrai from Newmoon Island. Unreleased event.";
         public static string V384 {get; set;} = "Johto Route 45 surfing encounter. Unreachable Water tiles.";
+        public static string V413 {get; set;} = "Unreleased event.";
         public static string V357 {get; set;} = "Only one Ninjask move allowed.";
-        public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
-        public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
-        public static string V360 {get; set;} = "Unable to match an event egg encounter from origin game.";
+        public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event Egg moves.";
+        public static string V359 {get; set;} = "Unable to match a gift Egg encounter from origin game.";
+        public static string V360 {get; set;} = "Unable to match an event Egg encounter from origin game.";
         public static string V363 {get; set;} = "Incompatible moves. Learned at the same level in Red/Blue and Yellow.";
         public static string V365 {get; set;} = "Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.";
         public static string V366 {get; set;} = "Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.";
-        public static string V367 {get; set;} = "Individual EV for a level 100 encounter in generation 4 cannot be greater than 100.";
-        public static string V368 {get; set;} = "Eggs can not be infected with Pokérus."; // Invalid
+        public static string V367 {get; set;} = "Individual EV for a level 100 encounter in Generation 4 cannot be greater than 100.";
+        public static string V368 {get; set;} = "Eggs cannot be infected with Pokérus."; // Invalid
         public static string V369 {get; set;} = "Invalid E-Reader Berry.";
         public static string V370 {get; set;} = "Japanese E-Reader Berry in international savegame.";
         public static string V371 {get; set;} = "American E-Reader Berry in Japanese savegame.";
-        public static string V373 {get; set;} = "Ability does not match generation 3 species ability.";
-        public static string V374 {get; set;} = "Invalid egg hatch cycles.";
-        public static string V375 {get; set;} = "{0} Egg Move. Incompatible with {1} egg moves.";
-        public static string V376 {get; set;} = "{0} Exclusive Move. Incompatible with {1} egg moves.";
-        public static string V377 {get; set;} = "Egg Move. Not expected in a gift egg.";
-        public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift egg.";
+        public static string V373 {get; set;} = "Ability does not match Generation 3 species ability.";
+        public static string V374 {get; set;} = "Invalid Egg hatch cycles.";
+        public static string V375 {get; set;} = "{0} Egg Move. Incompatible with {1} Egg moves.";
+        public static string V376 {get; set;} = "{0} Exclusive Move. Incompatible with {1} Egg moves.";
+        public static string V377 {get; set;} = "Egg Move. Not expected in a gift Egg.";
+        public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift Egg.";
         public static string V379 {get; set;} = "{0} Inherited Move. Incompatible with {1} inherited moves.";
         public static string V381 {get; set;} = "Encounter Type does not match encounter.";
         public static string V385 {get; set;} = "Moves combinations is not compatible with {0} evolution.";
@@ -391,15 +384,44 @@ namespace PKHeX.Core
         public static string V388 {get; set;} = "Porygon with invalid Type A and B values. Does not a match a valid type combination.";
         public static string V389 {get; set;} = "Invalid Type A, does not match species type.";
         public static string V390 {get; set;} = "Invalid Type B, does not match species type.";
-        public static string V395 {get; set;} = "Catch rate does not match a valid held item from generation 2";
+        public static string V395 {get; set;} = "Catch rate does not match a valid held item from Generation 2.";
         public static string V396 {get; set;} = "Catch rate match species without encounters. Expected a preevolution catch rate.";
-        public static string V397 {get; set;} = "Catch rate does not match any species from pokemon evolution chain.";
-        public static string V399 {get; set;} = "Catch rate does not match any species from pokemon evolution chain or any generation 2 held items.";
+        public static string V397 {get; set;} = "Catch rate does not match any species from Pokémon evolution chain.";
+        public static string V399 {get; set;} = "Catch rate does not match any species from Pokémon evolution chain or any Generation 2 held items.";
         public static string V400 {get; set;} = "Unable to match encounter conditions to a possible RNG frame.";
         public static string V401 {get; set;} = "In-game trade {0} should have evolved into {1}.";
         public static string V402 {get; set;} = "Incorrect Stadium OT.";
         public static string V405 {get; set;} = "Outsider {0} should have evolved into {1}.";
-        public static string V406 {get; set;} = "Non japanese Shadow E-reader Pokémon. Unreleased encounter.";
+        public static string V406 {get; set;} = "Non Japanese Shadow E-reader Pokémon. Unreleased encounter.";
+        public static string V407 {get; set;} = "OT from Colosseum/XD cannot be female.";
+        public static string V408 {get; set;} = "Female OT from Generation 1/2 is invalid.";
+        public static string V409 {get; set;} = "Mystery Gift shiny mismatch.";
+        public static string V410 {get; set;} = "Mystery Gift fixed PID mismatch.";
+        public static string V411 {get; set;} = "Encounter Type PID mismatch.";
+        public static string V412 {get; set;} = "Non-tradeback pre evolution move. Incompatible with Generation 1 exclusive moves.";
+        public static string V414 {get; set;} = "Eggs cannot have Shiny Leaf/Crown."; // Invalid
+        public static string V415 {get; set;} = "Eggs cannot have Pokéathlon stats."; // Invalid
+        public static string V416 {get; set;} = "Mystery Gift cannot be received by this version."; // Invalid
+        public static string V417 {get; set;} = "Suspicious Original Trainer details.";
+        public static string V418 {get; set;} = "Individual EV without changing EXP cannot be greater than {0}.";
+        public static string V419 {get; set;} = "Eggs cannot hold items.";
+        public static string V420 {get; set;} = "Eggs cannot have modified move PP counts.";
+        public static string V421 {get; set;} = "OT from Generation 1/2 uses unavailable characters.";
+        public static string V422 {get; set;} = "Nickname from Generation 1/2 uses unavailable characters.";
+
+        public static string V600 { get; set; } = "Invalid Ribbons: {0}";
+        public static string V601 { get; set; } = "Missing Ribbons: {0}";
+        public static string V602 { get; set; } = "All ribbons accounted for.";
+        public static string V603 { get; set; } = "Can't receive Ribbon(s) as an Egg.";
+        public static string V604 { get; set; } = "Found a tree for Crystal headbutt encounter that matches OTID";
+        public static string V605 { get; set; } = "Found an unreacheable tree for Crystal headbutt encounter that matches OTID.";
+        public static string V606 { get; set; } = "Could not find a tree for Crystal headbutt encounter that matches OTID.";
+        public static string V607 { get; set; } = "Kanto Route 14 fishing encounter. Unreachable Water tiles.";
+        public static string V608 { get; set; } = "National Park fishing encounter. Unreachable Water tiles.";
+        public static string V609 { get; set; } = "Generation 2 Safari Zone fishing encounter. Unreachable zone.";
+        public static string V610 { get; set; } = "{0} origin cannot exist in the currently loaded ({1}) savegame."; // Invalid
+        public static string V611 { get; set; } = "Korean"; // Invalid
+        public static string V612 { get; set; } = "Non-Korean"; // Invalid
         #endregion
 
     }

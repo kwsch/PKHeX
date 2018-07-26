@@ -1,14 +1,12 @@
 ﻿using System.IO;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    public partial class Util
+    public static partial class Util
     {
-
         public static string CleanFileName(string fileName)
         {
-            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
+            return string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
         }
         public static string TrimFromZero(string input)
         {

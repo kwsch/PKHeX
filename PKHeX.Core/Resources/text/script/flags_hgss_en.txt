@@ -1,0 +1,18 @@
+0607	Red (Mt. Silver) Disappeared
+0774	Articuno Disappeared
+0663	Zapdos Disappeared
+0775	Moltres Disappeared
+0773	Mewtwo Disappeared
+0457	Raikou Roamed
+0458	Entei Roamed
+0459	Suicune (Burned Tower) Fled
+0673	Suicune (Route 25) Disappeared
+0782	Suicune (Back to Burned Tower) Disappeared
+0579	Lugia Disappeared
+0578	Ho-Oh Disappeared
+0781	Latias/Latios (Pewter City) Disappeared
+0721	Kyogre/Groudon Disappeared
+0722	Rayquaza Disappeared
+2404	Entered Hall of Fame (Trainer Card Upgrade)
+0388	Obtained 1 Shiny Crown (Trainer Card Upgrade)
+0241	Beat Pokeathlon Records (Trainer Card Upgrade)

@@ -444,7 +444,7 @@
             this.CB_Form.Name = "CB_Form";
             this.CB_Form.Size = new System.Drawing.Size(69, 21);
             this.CB_Form.TabIndex = 78;
-            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.updateForm);
+            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
             // 
             // CHK_Shiny
             // 
@@ -591,7 +591,7 @@
             0,
             0,
             0});
-            this.NUD_FPKM.ValueChanged += new System.EventHandler(this.changeFavPKM);
+            this.NUD_FPKM.ValueChanged += new System.EventHandler(this.ChangeFavPKM);
             // 
             // CB_Species
             // 
@@ -602,7 +602,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(122, 21);
             this.CB_Species.TabIndex = 65;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.updateSpecies);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateSpecies);
             // 
             // CB_HeldItem
             // 
@@ -864,7 +864,7 @@
             this.NUD_FX.Name = "NUD_FX";
             this.NUD_FX.Size = new System.Drawing.Size(40, 20);
             this.NUD_FX.TabIndex = 7;
-            this.NUD_FX.ValueChanged += new System.EventHandler(this.changeObjectQuality);
+            this.NUD_FX.ValueChanged += new System.EventHandler(this.ChangeObjectQuality);
             // 
             // NUD_FY
             // 
@@ -877,7 +877,7 @@
             this.NUD_FY.Name = "NUD_FY";
             this.NUD_FY.Size = new System.Drawing.Size(40, 20);
             this.NUD_FY.TabIndex = 6;
-            this.NUD_FY.ValueChanged += new System.EventHandler(this.changeObjectQuality);
+            this.NUD_FY.ValueChanged += new System.EventHandler(this.ChangeObjectQuality);
             // 
             // L_Rotation
             // 
@@ -913,7 +913,7 @@
             0,
             0,
             0});
-            this.NUD_FRot.ValueChanged += new System.EventHandler(this.changeObjectQuality);
+            this.NUD_FRot.ValueChanged += new System.EventHandler(this.ChangeObjectQuality);
             // 
             // NUD_FObjType
             // 
@@ -936,7 +936,7 @@
             0,
             0,
             -2147483648});
-            this.NUD_FObjType.ValueChanged += new System.EventHandler(this.changeObjectQuality);
+            this.NUD_FObjType.ValueChanged += new System.EventHandler(this.ChangeObjectQuality);
             // 
             // L_Index
             // 
@@ -968,7 +968,7 @@
             0,
             0,
             0});
-            this.NUD_FObject.ValueChanged += new System.EventHandler(this.changeObjectIndex);
+            this.NUD_FObject.ValueChanged += new System.EventHandler(this.ChangeObjectIndex);
             // 
             // L_BaseLocation
             // 

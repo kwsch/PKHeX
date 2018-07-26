@@ -3,20 +3,21 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class PGF : MysteryGift, IRibbonSet1, IRibbonSet2
+    /// <summary>
+    /// Generation 5 Mystery Gift Template File
+    /// </summary>
+    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IContestStats
     {
         public const int Size = 0xCC;
         public override int Format => 5;
 
         public PGF(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
-            if (data == null) Data = new byte[Size];
-            else Data = (byte[])data.Clone();
+            Data = data ?? new byte[Size];
         }
 
-        public ushort TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
-        public ushort SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes(value).CopyTo(Data, 0x02); }
+        public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+        public override int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         // Unused 0x05 0x06, 0x07
         public uint PID { get => BitConverter.ToUInt32(Data, 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, 0x08); }
@@ -47,18 +48,18 @@ namespace PKHeX.Core
         public int Move3 { get => BitConverter.ToUInt16(Data, 0x16); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); }
         public int Move4 { get => BitConverter.ToUInt16(Data, 0x18); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
         public override int Species { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
-        public int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+        public override int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
         public string Nickname
         {
-            get => PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16));
+            get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16));
             set => Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E);
         }
         public int Nature { get => Data[0x34]; set => Data[0x34] = (byte)value; }
-        public int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
-        public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
+        public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
+        public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-        public ushort EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes(value).CopyTo(Data, 0x38); }
+        public override int EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x38); }
         public ushort MetLocation { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
         public int MetLevel { get => Data[0x3C]; set => Data[0x3C] = (byte)value; }
         public int CNT_Cool { get => Data[0x3D]; set => Data[0x3D] = (byte)value; }
@@ -74,8 +75,8 @@ namespace PKHeX.Core
         public int IV_SPA { get => Data[0x47]; set => Data[0x47] = (byte)value; }
         public int IV_SPD { get => Data[0x48]; set => Data[0x48] = (byte)value; }
         // Unused 0x49
-        public string OT {
-            get => PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
+        public override string OT_Name {
+            get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
             set => Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); }
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
         public override int Level { get => Data[0x5B]; set => Data[0x5C] = (byte)value; }
@@ -83,12 +84,12 @@ namespace PKHeX.Core
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
         {
-            get => PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x60, 0x4A));
+            get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x60, 0x4A));
             set => Encoding.Unicode.GetBytes((value + '\uFFFF').PadRight(0x4A / 2, '\0')).CopyTo(Data, 0x60);
         }
 
         // Card Attributes
-        public override int Item { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+        public override int ItemID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
 
         private ushort Year { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes(value).CopyTo(Data, 0xAE); }
         private byte Month { get => Data[0xAD]; set => Data[0xAD] = value; }
@@ -127,7 +128,6 @@ namespace PKHeX.Core
             }
         }
 
-
         public override int CardID
         {
             get => BitConverter.ToUInt16(Data, 0xB0);
@@ -139,15 +139,25 @@ namespace PKHeX.Core
         public bool MultiObtain { get => Data[0xB4] == 1; set => Data[0xB4] = (byte)(value ? 1 : 0); }
 
         // Meta Accessible Properties
-        public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        public override int[] IVs
+        {
+            get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+            set
+            {
+                if (value?.Length != 6) return;
+                IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
+                IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
+            }
+        }
         public bool IsNicknamed => Nickname.Length > 0;
-
+        public override bool IsShiny => PIDType == 2;
+        public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
         public override int[] Moves => new[] { Move1, Move2, Move3, Move4 };
         public override bool IsPokémon { get => CardType == 1; set { if (value) CardType = 1; } }
         public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
         public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }
 
-        public override PKM convertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             if (!IsPokémon)
                 return null;
@@ -159,17 +169,17 @@ namespace PKHeX.Core
                 Month = (byte)dt.Month;
                 Year = (byte)dt.Year;
             }
-            int currentLevel = Level > 0 ? Level : (int)(Util.rnd32() % 100 + 1);
-            var pi = PersonalTable.B2W2.getFormeEntry(Species, Form);
+            int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
+            var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
             PK5 pk = new PK5
             {
                 Species = Species,
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
+                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
                 Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
-                Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
+                Version = OriginGame == 0 ? SAV.Game : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
                 Ball = Ball,
                 Move1 = Move1,
@@ -186,7 +196,7 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                EXP = PKX.getEXP(Level, Species),
+                EXP = PKX.GetEXP(Level, Species),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -208,34 +218,36 @@ namespace PKHeX.Core
 
                 FatefulEncounter = true,
             };
-            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-            pk.Move1_PP = pk.getMovePP(Move1, 0);
-            pk.Move2_PP = pk.getMovePP(Move2, 0);
-            pk.Move3_PP = pk.getMovePP(Move3, 0);
-            pk.Move4_PP = pk.getMovePP(Move4, 0);
-            if (OTGender == 3) // User's
+            if (SAV.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
+                pk.Version = (int)GameVersion.W + Util.Rand.Next(4);
+
+            if (Move1 == 0) // No moves defined
+                pk.Moves = MoveLevelUp.GetEncounterMoves(Species, Form, Level, (GameVersion)pk.Version);
+
+            pk.SetMaximumPPCurrent();
+            if (IsEgg) // User's
             {
                 pk.TID = SAV.TID;
                 pk.SID = SAV.SID;
                 pk.OT_Name = SAV.OT;
                 pk.OT_Gender = 1; // Red PKHeX OT
             }
-            else
+            else // Hardcoded
             {
-                pk.TID = IsEgg ? SAV.TID : TID;
-                pk.SID = IsEgg ? SAV.SID : SID;
-                pk.OT_Name = OT.Length > 0 ? OT : SAV.OT;
-                pk.OT_Gender = OTGender % 2; // %2 just in case?
+                pk.TID = TID;
+                pk.SID = SID;
+                pk.OT_Name = OT_Name;
+                pk.OT_Gender = (OTGender == 3 ? SAV.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
             }
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
+            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             // More 'complex' logic to determine final values
 
             // Dumb way to generate random IVs.
             int[] finalIVs = new int[6];
             for (int i = 0; i < IVs.Length; i++)
-                finalIVs[i] = IVs[i] == 0xFF ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+                finalIVs[i] = IVs[i] == 0xFF ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
             pk.IVs = finalIVs;
 
             int av = 0;
@@ -248,7 +260,7 @@ namespace PKHeX.Core
                     break;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = (int)(Util.rnd32() % (AbilityType - 1));
+                    av = Util.Rand.Next(AbilityType - 1);
                     break;
             }
             pk.HiddenAbility = av == 2;
@@ -258,34 +270,34 @@ namespace PKHeX.Core
                 pk.PID = PID;
             else
             {
-                pk.PID = Util.rnd32();
+                pk.PID = Util.Rand32();
 
                 // Force Gender
-                do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
+                do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)Util.Rand.Next(0x100); } while (!pk.IsGenderValid());
+
+                // Force Ability
+                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
 
                 if (PIDType == 2) // Force Shiny
                 {
                     uint gb = pk.PID & 0xFF;
-                    pk.PID = (uint)((gb ^ pk.TID ^ pk.SID) << 16) | gb;
+                    pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID, pk.SID);
                 }
                 else if (PIDType != 1) // Force Not Shiny
                 {
-                    if (((pk.PID >> 16) ^ (pk.PID & 0xffff) ^ pk.SID ^ pk.TID) < 8)
+                    if (pk.IsShiny)
                         pk.PID ^= 0x10000000;
                 }
-
-                // Force Ability
-                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
             }
 
             if (IsEgg)
             {
-                // pk.IsEgg = true;
+                pk.IsEgg = true;
                 pk.EggMetDate = Date;
-                // Force hatch
-                pk.IsEgg = false;
-                pk.Met_Location = 4; // Nuvema Town
+                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+                pk.IsNicknamed = true;
             }
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
             pk.RefreshChecksum();
             return pk;

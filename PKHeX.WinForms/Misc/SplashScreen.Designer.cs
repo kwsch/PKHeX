@@ -74,6 +74,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SplashScreen";
+            this.Opacity = 0.5D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Loading...";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

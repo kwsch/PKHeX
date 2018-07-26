@@ -3,33 +3,34 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class PK5 : PKM, IRibbonSet1, IRibbonSet2
+    /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
+    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
         public static readonly byte[] ExtraBytes =
         {
-            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
+            0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
-        public sealed override int SIZE_PARTY => PKX.SIZE_5PARTY;
+        public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int Format => 5;
-        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.getFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
 
         public PK5(byte[] decryptedData = null, string ident = null)
         {
-            Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
-            PKMConverter.checkEncrypted(ref Data);
+            Data = decryptedData ?? new byte[SIZE_PARTY];
+            PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new PK5(Data); }
+        public override PKM Clone() => new PK5((byte[])Data.Clone(), Identifier);
 
-        public override string getString(int Offset, int Count) => PKX.getString5(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength) => PKX.setString5(value, maxLength);
+        private string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => getData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => getData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
+        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
@@ -58,12 +59,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
+        public int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
+        public int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
+        public int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+        public int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
+        public int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
+        public int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
 
         private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
         private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
@@ -96,7 +97,7 @@ namespace PKHeX.Core
         public bool RibbonSouvenir          { get => (RIB3 & (1 << 0)) == 1 << 0; set => RIB3 = (byte)(RIB3 & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool RibbonWishing           { get => (RIB3 & (1 << 1)) == 1 << 1; set => RIB3 = (byte)(RIB3 & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool RibbonClassic           { get => (RIB3 & (1 << 2)) == 1 << 2; set => RIB3 = (byte)(RIB3 & ~(1 << 2) | (value ? 1 << 2 : 0)); }
-        public bool RibbonPremier           { get => (RIB3 & (1 << 3)) == 1 << 3; set => RIB3 = (byte)(RIB3 & ~(1 << 3) | (value ? 1 << 3 : 0)); }              
+        public bool RibbonPremier           { get => (RIB3 & (1 << 3)) == 1 << 3; set => RIB3 = (byte)(RIB3 & ~(1 << 3) | (value ? 1 << 3 : 0)); }
         public bool RIB3_4 { get => (RIB3 & (1 << 4)) == 1 << 4; set => RIB3 = (byte)(RIB3 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // Unused
         public bool RIB3_5 { get => (RIB3 & (1 << 5)) == 1 << 5; set => RIB3 = (byte)(RIB3 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Unused
         public bool RIB3_6 { get => (RIB3 & (1 << 6)) == 1 << 6; set => RIB3 = (byte)(RIB3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // Unused
@@ -125,12 +126,12 @@ namespace PKHeX.Core
         public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
         public override bool IsEgg { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
         public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0); }
-        
+
         private byte RIB4 { get => Data[0x3C]; set => Data[0x3C] = value; } // Hoenn 1a
         private byte RIB5 { get => Data[0x3D]; set => Data[0x3D] = value; } // Hoenn 1b
         private byte RIB6 { get => Data[0x3E]; set => Data[0x3E] = value; } // Hoenn 2a
         private byte RIB7 { get => Data[0x3F]; set => Data[0x3F] = value; } // Hoenn 2b
-        public bool RibbonG3Cool            { get => (RIB4 & (1 << 0)) == 1 << 0; set => RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); }             
+        public bool RibbonG3Cool            { get => (RIB4 & (1 << 0)) == 1 << 0; set => RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool RibbonG3CoolSuper       { get => (RIB4 & (1 << 1)) == 1 << 1; set => RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool RibbonG3CoolHyper       { get => (RIB4 & (1 << 2)) == 1 << 2; set => RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); }
         public bool RibbonG3CoolMaster      { get => (RIB4 & (1 << 3)) == 1 << 3; set => RIB4 = (byte)(RIB4 & ~(1 << 3) | (value ? 1 << 3 : 0)); }
@@ -173,7 +174,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => getString(0x48, 22); set => setString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 22); set => SetString(value, 11).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -216,7 +217,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => getString(0x68, 0x16); set => setString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 0x16); set => SetString(value, 7).CopyTo(Data, 0x68); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -243,6 +244,7 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x96); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x96); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
+        public byte[] HeldMailData { get => Data.Skip(0x9C).Take(0x38).ToArray(); set => value.CopyTo(Data, 0x9C); }
 
         // Generated Attributes
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
@@ -266,9 +268,6 @@ namespace PKHeX.Core
             }
         }
 
-        // Legality Extensions
-        public override bool WasEgg => GenNumber < 5 ? base.WasEgg : Legal.EggLocations5.Contains(Egg_Location);
-        
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_5;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
@@ -277,18 +276,29 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_5;
         public override int MaxGameID => Legal.MaxGameID_5; // B2
         public override int MaxIV => 31;
-        public override int MaxEV => 252;
+        public override int MaxEV => 255;
         public override int OTLength => 7;
         public override int NickLength => 10;
 
         // Methods
-        public override byte[] Encrypt()
+        protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.encryptArray45(Data);
+            return PKX.EncryptArray45(Data);
         }
 
-        public PK6 convertToPK6()
+        // Synthetic Trading Logic
+        public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2013)
+        {
+            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+            {
+                SetLinkTradeEgg(Day, Month, Year, 30003);
+                return true;
+            }
+            return false;
+        }
+
+        public PK6 ConvertToPK6()
         {
             PK6 pk6 = new PK6 // Convert away!
             {
@@ -313,7 +323,7 @@ namespace PKHeX.Core
                 else pk6.AbilityNumber = Gen5 ? 1 << (int)(PID >> 16 & 1) : 1 << (int)(PID & 1);
             }
             pk6.Markings = Markings;
-            pk6.Language = Language;
+            pk6.Language = Math.Max((int)LanguageID.Japanese, Language); // Hacked or Bad IngameTrade (Japanese B/W)
 
             pk6.CNT_Cool = CNT_Cool;
             pk6.CNT_Beauty = CNT_Beauty;
@@ -341,10 +351,10 @@ namespace PKHeX.Core
             pk6.Move4_PPUps = Move4_PPUps;
 
             // Fix PP
-            pk6.Move1_PP = pk6.getMovePP(pk6.Move1, pk6.Move1_PPUps);
-            pk6.Move2_PP = pk6.getMovePP(pk6.Move2, pk6.Move2_PPUps);
-            pk6.Move3_PP = pk6.getMovePP(pk6.Move3, pk6.Move3_PPUps);
-            pk6.Move4_PP = pk6.getMovePP(pk6.Move4, pk6.Move4_PPUps);
+            pk6.Move1_PP = pk6.GetMovePP(pk6.Move1, pk6.Move1_PPUps);
+            pk6.Move2_PP = pk6.GetMovePP(pk6.Move2, pk6.Move2_PPUps);
+            pk6.Move3_PP = pk6.GetMovePP(pk6.Move3, pk6.Move3_PPUps);
+            pk6.Move4_PP = pk6.GetMovePP(pk6.Move4, pk6.Move4_PPUps);
 
             pk6.IV_HP = IV_HP;
             pk6.IV_ATK = IV_ATK;
@@ -360,11 +370,11 @@ namespace PKHeX.Core
             pk6.AltForm = AltForm;
             pk6.Nature = Nature;
 
-            // Apply trash bytes for species name of current app language -- default to PKM's language
-            pk6.Nickname = PKX.getSpeciesName(Species, Language);
-            pk6.Nickname = Nickname.Length > 1 && !IsNicknamed
-                ? Nickname[0] + Nickname.Substring(1).ToLower() // Decapitalize
-                : Nickname;
+            // Apply trash bytes for species name of current app language -- default to PKM's language if no match
+            int curLang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
+            pk6.Nickname = PKX.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
+            if (IsNicknamed)
+                pk6.Nickname = Nickname;
 
             pk6.Version = Version;
 
@@ -386,7 +396,7 @@ namespace PKHeX.Core
             pk6.Met_Level = Met_Level;
             pk6.OT_Gender = OT_Gender;
             pk6.EncounterType = EncounterType;
-            
+
             // Ribbon Decomposer (Contest & Battle)
             byte contestribbons = 0;
             byte battleribbons = 0;
@@ -469,7 +479,7 @@ namespace PKHeX.Core
             bx34 |= ((Data[0x3F] & 0x08) >> 3) << 3;  // National Champion
             bx34 |= ((Data[0x26] & 0x20) >> 5) << 4;  // World Champion
             pk6.Data[0x34] = (byte)bx34;
-            
+
             // Write Transfer Location - location is dependent on 3DS system that transfers.
             pk6.Country = PKMConverter.Country;
             pk6.Region = PKMConverter.Region;
@@ -483,7 +493,7 @@ namespace PKHeX.Core
             pk6.Geo1_Country = PKMConverter.Country;
             pk6.HT_Intensity = 1;
             pk6.HT_Memory = 4;
-            pk6.HT_Feeling = (int)(Util.rnd32() % 10);
+            pk6.HT_Feeling = Memories.GetRandomFeeling(pk6.HT_Memory);
             // When transferred, friendship gets reset.
             pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 
@@ -497,10 +507,6 @@ namespace PKHeX.Core
 
             // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
             pk6.FixMoves();
-
-            // Decapitalize
-            if (!pk6.IsNicknamed && pk6.Nickname.Length > 1)
-                pk6.Nickname = char.ToUpper(pk6.Nickname[0]) + pk6.Nickname.Substring(1).ToLower();
 
             // Fix Name Strings
             pk6.Nickname = pk6.Nickname

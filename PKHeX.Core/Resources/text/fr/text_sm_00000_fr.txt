@@ -108,7 +108,7 @@ Route 10
 
 Route 11
 
-Côte Sauvage
+Plage d’Ula-Ula
 
 Route 13
 
@@ -188,7 +188,46 @@ Arbre de Combat
 
 Paradis Æther
 
-Ultra-Dimension
+Ultra-Abysses
 
 Malié
 Cap Passiloin
+Mele-Mele
+Akala
+Ula-Ula
+Poni
+Plage Big Wave
+
+Grotte de la Plage
+
+Plage d’Ho’ohale
+
+Plage de Poni
+
+Ultra-Mégalopole
+
+Tour Mégalopole
+
+Ultra-Centrale
+
+Ultra-Vallée
+
+Ultra-Désert
+
+Ultra-Forêt
+
+Ultra-Jungle
+
+Ultra-Gratte-Ciel
+
+Ultra-Dimension Zéro
+
+Château Rocket
+
+Grotte de la Plaine
+
+Plaine des Pikachu
+
+Route 1
+École de Dresseurs
+Tunnel Perce-Mont

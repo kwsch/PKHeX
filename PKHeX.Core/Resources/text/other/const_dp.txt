@@ -1,9 +1,0 @@
-0152	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
-0158	Heatran	00:Not appeared,01:Battleable,02:Disappeared
-0054	Fullmoon Is.	0:Not appeared,520:On the Map
-0055	Newmoon Is.	0:Not appeared,553:On the Map
-0056	Spring Path	0:Not appeared,786:Appeared
-0057	Seabreak Path	0:Not appeared,4136:Appeared
-0067	Member Card	0:Not activated,4617:Activated
-0068	Oak Letter	0:Not activated,4370:Activated
-0069	Azure Flute	0:Not activated,4387:Activated

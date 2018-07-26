@@ -2,13 +2,19 @@
 
 namespace PKHeX.Core
 {
-    public class SeedInfo
+    public struct SeedInfo
     {
         public uint Seed;
         public bool Charm3;
-        public static IEnumerable<SeedInfo> getSeedsUntilNature(PIDIV pidiv, FrameGenerator info)
+
+        /// <summary>
+        /// Yields an enumerable list of seeds until another valid PID breaks the chain.
+        /// </summary>
+        /// <param name="pidiv">Seed and RNG data</param>
+        /// <param name="info">Verification information</param>
+        /// <returns>Seed information data, which needs to be unrolled once for the nature call.</returns>
+        public static IEnumerable<SeedInfo> GetSeedsUntilNature(PIDIV pidiv, FrameGenerator info)
         {
-            bool reverse = pidiv.Type.IsReversedPID();
             bool charm3 = false;
 
             var seed = pidiv.OriginSeed;
@@ -21,10 +27,10 @@ namespace PKHeX.Core
                 var a = s2 >> 16;
                 var b = s1 >> 16;
 
-                var pid = reverse ? a << 16 | b : b << 16 | a;
+                var pid = b << 16 | a;
 
                 // Process Conditions
-                switch (verifyPIDCriteria(pid, info))
+                switch (VerifyPIDCriteria(pid, info))
                 {
                     case LockInfo.Pass:
                         yield break;
@@ -40,7 +46,42 @@ namespace PKHeX.Core
             }
         }
 
-        private static LockInfo verifyPIDCriteria(uint pid, FrameGenerator info)
+        /// <summary>
+        /// Yields an enumerable list of seeds until another valid PID breaks the chain.
+        /// </summary>
+        /// <param name="pidiv">Seed and RNG data</param>
+        /// <param name="info">Verification information</param>
+        /// <param name="form">Unown Form lock value</param>
+        /// <returns>Seed information data, which needs to be unrolled once for the nature call.</returns>
+        public static IEnumerable<SeedInfo> GetSeedsUntilUnownForm(PIDIV pidiv, FrameGenerator info, int form)
+        {
+            var seed = pidiv.OriginSeed;
+            yield return new SeedInfo { Seed = seed };
+
+            var s1 = seed;
+            var s2 = pidiv.RNG.Prev(s1);
+            while (true)
+            {
+                var a = s2 >> 16;
+                var b = s1 >> 16;
+                // PID is in reverse for FRLG Unown
+                var pid = a << 16 | b;
+
+                // Process Conditions
+                if (PKX.GetUnownForm(pid) == form) // matches form, does it match nature?
+                switch (VerifyPIDCriteria(pid, info))
+                {
+                    case LockInfo.Pass: // yes
+                        yield break;
+                }
+
+                s1 = pidiv.RNG.Prev(s2);
+                s2 = pidiv.RNG.Prev(s1);
+
+                yield return new SeedInfo { Seed = s1 };
+            }
+        }
+        private static LockInfo VerifyPIDCriteria(uint pid, FrameGenerator info)
         {
             // Nature locks are always a given
             var nval = pid % 25;

@@ -1,7 +1,8 @@
-﻿using System.Linq;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from the X &amp; Y games.
+    /// </summary>
     public class PersonalInfoXY : PersonalInfoBW
     {
         protected PersonalInfoXY() { } // For ORAS
@@ -13,14 +14,14 @@ namespace PKHeX.Core
             Data = data;
 
             // Unpack TMHM & Tutors
-            TMHM = getBits(Data.Skip(0x28).Take(0x10).ToArray());
-            TypeTutors = getBits(Data.Skip(0x38).Take(0x4).ToArray());
+            TMHM = GetBits(Data, 0x28, 0x10);
+            TypeTutors = GetBits(Data, 0x38, 0x4);
             // 0x3C-0x40 unknown
         }
         public override byte[] Write()
         {
-            setBits(TMHM).CopyTo(Data, 0x28);
-            setBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(TMHM).CopyTo(Data, 0x28);
+            SetBits(TypeTutors).CopyTo(Data, 0x38);
             return Data;
         }
     }

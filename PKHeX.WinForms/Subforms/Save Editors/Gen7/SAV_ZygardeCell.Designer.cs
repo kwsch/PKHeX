@@ -66,7 +66,7 @@
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
             this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv.Size = new System.Drawing.Size(400, 263);
+            this.dgv.Size = new System.Drawing.Size(480, 263);
             this.dgv.TabIndex = 0;
             // 
             // dgv_ref
@@ -94,7 +94,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(337, 306);
+            this.B_Cancel.Location = new System.Drawing.Point(417, 306);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 1;
@@ -105,7 +105,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(337, 281);
+            this.B_Save.Location = new System.Drawing.Point(417, 281);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 2;
@@ -174,7 +174,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 341);
+            this.ClientSize = new System.Drawing.Size(504, 341);
             this.Controls.Add(this.L_Collected);
             this.Controls.Add(this.NUD_Collected);
             this.Controls.Add(this.B_GiveAll);
@@ -185,10 +185,10 @@
             this.Controls.Add(this.dgv);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(440, 380);
+            this.MinimumSize = new System.Drawing.Size(520, 380);
             this.Name = "SAV_ZygardeCell";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Zygarde Cells";
+            this.Text = "Cells/Sticker Editor";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Cells)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Collected)).EndInit();

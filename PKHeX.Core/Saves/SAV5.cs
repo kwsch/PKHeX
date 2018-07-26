@@ -4,6 +4,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 <see cref="SaveFile"/> object.
+    /// </summary>
     public sealed class SAV5 : SaveFile
     {
         // Save Data Attributes
@@ -12,16 +15,16 @@ namespace PKHeX.Core
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
-            Data = data == null ? new byte[SaveUtil.SIZE_G5RAW] : (byte[])data.Clone();
+            Data = data ?? new byte[SaveUtil.SIZE_G5RAW];
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !IsRangeEmpty(0, Data.Length);
 
             // Get Version
             if (data == null)
                 Version = GameVersion.B2W2;
             else if (versionOverride != GameVersion.Any)
                 Version = versionOverride;
-            else Version = SaveUtil.getIsG5SAV(Data);
+            else Version = SaveUtil.GetIsG5SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -44,8 +47,10 @@ namespace PKHeX.Core
                     Daycare = 0x20E00;
                     PokeDex = 0x21600;
                     PokeDexLanguageFlags = PokeDex + 0x320;
+                    BattleSubway = 0x21D00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52000;
+                    EntreeForestOffset = 0x22C00;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -69,8 +74,10 @@ namespace PKHeX.Core
                     Daycare = 0x20D00;
                     PokeDex = 0x21400;
                     PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
+                    BattleSubway = 0x21B00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52800;
+                    EntreeForestOffset = 0x22A00;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -88,17 +95,17 @@ namespace PKHeX.Core
                     break;
             }
             HeldItems = Legal.HeldItems_BW;
-            getBlockInfo();
+            Blocks = Version == GameVersion.BW ? BlockInfoNDS.BlocksBW : BlockInfoNDS.BlocksB2W2;
 
             if (!Exportable)
-                resetBoxes();
+                ClearBoxes();
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV5(Data, Version); }
+        public override SaveFile Clone() { return new SAV5((byte[])Data.Clone(), Version); }
 
         public override int SIZE_STORED => PKX.SIZE_5STORED;
-        public override int SIZE_PARTY => PKX.SIZE_5PARTY;
+        protected override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
         public override Type PKMType => typeof(PK5);
 
@@ -119,282 +126,48 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
-        private BlockInfo[] Blocks;
-        private void getBlockInfo()
-        {
-            // Can be slick with just a list of block lengths, but oh well, precomputed.
-            if (Version == GameVersion.BW)
-            {
-                Blocks = new[]
-                {
-                    new BlockInfo(0x00000, 0x03E0, 0x003E2, 0x23F00), // Box Names
-                    new BlockInfo(0x00400, 0x0FF0, 0x013F2, 0x23F02), // Box 1
-                    new BlockInfo(0x01400, 0x0FF0, 0x023F2, 0x23F04), // Box 2
-                    new BlockInfo(0x02400, 0x0FF0, 0x033F2, 0x23F06), // Box 3
-                    new BlockInfo(0x03400, 0x0FF0, 0x043F2, 0x23F08), // Box 4
-                    new BlockInfo(0x04400, 0x0FF0, 0x053F2, 0x23F0A), // Box 5
-                    new BlockInfo(0x05400, 0x0FF0, 0x063F2, 0x23F0C), // Box 6
-                    new BlockInfo(0x06400, 0x0FF0, 0x073F2, 0x23F0E), // Box 7
-                    new BlockInfo(0x07400, 0x0FF0, 0x083F2, 0x23F10), // Box 8
-                    new BlockInfo(0x08400, 0x0FF0, 0x093F2, 0x23F12), // Box 9
-                    new BlockInfo(0x09400, 0x0FF0, 0x0A3F2, 0x23F14), // Box 10
-                    new BlockInfo(0x0A400, 0x0FF0, 0x0B3F2, 0x23F16), // Box 11
-                    new BlockInfo(0x0B400, 0x0FF0, 0x0C3F2, 0x23F18), // Box 12
-                    new BlockInfo(0x0C400, 0x0FF0, 0x0D3F2, 0x23F1A), // Box 13
-                    new BlockInfo(0x0D400, 0x0FF0, 0x0E3F2, 0x23F1C), // Box 14
-                    new BlockInfo(0x0E400, 0x0FF0, 0x0F3F2, 0x23F1E), // Box 15
-                    new BlockInfo(0x0F400, 0x0FF0, 0x103F2, 0x23F20), // Box 16
-                    new BlockInfo(0x10400, 0x0FF0, 0x113F2, 0x23F22), // Box 17
-                    new BlockInfo(0x11400, 0x0FF0, 0x123F2, 0x23F24), // Box 18
-                    new BlockInfo(0x12400, 0x0FF0, 0x133F2, 0x23F26), // Box 19
-                    new BlockInfo(0x13400, 0x0FF0, 0x143F2, 0x23F28), // Box 20
-                    new BlockInfo(0x14400, 0x0FF0, 0x153F2, 0x23F2A), // Box 21
-                    new BlockInfo(0x15400, 0x0FF0, 0x163F2, 0x23F2C), // Box 22
-                    new BlockInfo(0x16400, 0x0FF0, 0x173F2, 0x23F2E), // Box 23
-                    new BlockInfo(0x17400, 0x0FF0, 0x183F2, 0x23F30), // Box 24
-                    new BlockInfo(0x18400, 0x09C0, 0x18DC2, 0x23F32), // Inventory
-                    new BlockInfo(0x18E00, 0x0534, 0x19336, 0x23F34), // Party Pokemon
-                    new BlockInfo(0x19400, 0x0068, 0x1946A, 0x23F36), // Trainer Data
-                    new BlockInfo(0x19500, 0x009C, 0x1959E, 0x23F38), // Trainer Position
-                    new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x23F3A), // Unity Tower and survey stuff
-                    new BlockInfo(0x1AA00, 0x07C4, 0x1B1C6, 0x23F3C), // Pal Pad Player Data
-                    new BlockInfo(0x1B200, 0x0D54, 0x1BF56, 0x23F3E), // Pal Pad Friend Data
-                    new BlockInfo(0x1C000, 0x002C, 0x1C02E, 0x23F40), // Skin Info
-                    new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x23F42), // ??? Gym badge data
-                    new BlockInfo(0x1C800, 0x0A94, 0x1D296, 0x23F44), // Mystery Gift
-                    new BlockInfo(0x1D300, 0x01AC, 0x1D4AE, 0x23F46), // Dream World Stuff (Catalog)
-                    new BlockInfo(0x1D500, 0x03EC, 0x1D8EE, 0x23F48), // Chatter
-                    new BlockInfo(0x1D900, 0x005C, 0x1D95E, 0x23F4A), // Adventure Info
-                    new BlockInfo(0x1DA00, 0x01E0, 0x1DBE2, 0x23F4C), // Trainer Card Records
-                    new BlockInfo(0x1DC00, 0x00A8, 0x1DCAA, 0x23F4E), // ???
-                    new BlockInfo(0x1DD00, 0x0460, 0x1E162, 0x23F50), // (40d)
-                    new BlockInfo(0x1E200, 0x1400, 0x1F602, 0x23F52), // ???
-                    new BlockInfo(0x1F700, 0x02A4, 0x1F9A6, 0x23F54), // Contains flags and references for downloaded data (Musical)
-                    new BlockInfo(0x1FA00, 0x02DC, 0x1FCDE, 0x23F56), // ???
-                    new BlockInfo(0x1FD00, 0x034C, 0x2004E, 0x23F58), // ???
-                    new BlockInfo(0x20100, 0x03EC, 0x204EE, 0x23F5A), // ???
-                    new BlockInfo(0x20500, 0x00F8, 0x205FA, 0x23F5C), // ???
-                    new BlockInfo(0x20600, 0x02FC, 0x208FE, 0x23F5E), // Tournament Block
-                    new BlockInfo(0x20900, 0x0094, 0x20996, 0x23F60), // ???
-                    new BlockInfo(0x20A00, 0x035C, 0x20D5E, 0x23F62), // Battle Box Block
-                    new BlockInfo(0x20E00, 0x01CC, 0x20FCE, 0x23F64), // Daycare Block
-                    new BlockInfo(0x21000, 0x0168, 0x2116A, 0x23F66), // Strength Boulder Status Block
-                    new BlockInfo(0x21200, 0x00EC, 0x212EE, 0x23F68), // Badge Flags, Money, Trainer Sayings
-                    new BlockInfo(0x21300, 0x01B0, 0x214B2, 0x23F6A), // Entralink (Level & Powers etc)
-                    new BlockInfo(0x21500, 0x001C, 0x2151E, 0x23F6C), // ???
-                    new BlockInfo(0x21600, 0x04D4, 0x21AD6, 0x23F6E), // Pokedex
-                    new BlockInfo(0x21B00, 0x0034, 0x21B36, 0x23F70), // Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
-                    new BlockInfo(0x21C00, 0x003C, 0x21C3E, 0x23F72), // ???
-                    new BlockInfo(0x21D00, 0x01AC, 0x21EAE, 0x23F74), // ???
-                    new BlockInfo(0x21F00, 0x0B90, 0x22A92, 0x23F76), // ???
-                    new BlockInfo(0x22B00, 0x009C, 0x22B9E, 0x23F78), // Online Records
-                    new BlockInfo(0x22C00, 0x0850, 0x23452, 0x23F7A), // Entralink Forest pokémon data
-                    new BlockInfo(0x23500, 0x0028, 0x2352A, 0x23F7C), // ???
-                    new BlockInfo(0x23600, 0x0284, 0x23886, 0x23F7E), // ???
-                    new BlockInfo(0x23900, 0x0010, 0x23912, 0x23F80), // ???
-                    new BlockInfo(0x23A00, 0x005C, 0x23A5E, 0x23F82), // ???
-                    new BlockInfo(0x23B00, 0x016C, 0x23C6E, 0x23F84), // ???
-                    new BlockInfo(0x23D00, 0x0040, 0x23D42, 0x23F86), // ???
-                    new BlockInfo(0x23E00, 0x00FC, 0x23EFE, 0x23F88), // ???
-                    new BlockInfo(0x23F00, 0x008C, 0x23F9A, 0x23F9A), // Checksums */
-                };
-            }
-            else if (Version == GameVersion.B2W2)
-            {
-                Blocks = new[]
-                {
-                    // Offset, Length, CHKOfst, ChkMirror
-                    new BlockInfo(0x00000, 0x03e0, 0x003E2, 0x25F00), // Box Names
-                    new BlockInfo(0x00400, 0x0ff0, 0x013F2, 0x25F02), // Box 1
-                    new BlockInfo(0x01400, 0x0ff0, 0x023F2, 0x25F04), // Box 2
-                    new BlockInfo(0x02400, 0x0ff0, 0x033F2, 0x25F06), // Box 3
-                    new BlockInfo(0x03400, 0x0ff0, 0x043F2, 0x25F08), // Box 4
-                    new BlockInfo(0x04400, 0x0ff0, 0x053F2, 0x25F0A), // Box 5
-                    new BlockInfo(0x05400, 0x0ff0, 0x063F2, 0x25F0C), // Box 6
-                    new BlockInfo(0x06400, 0x0ff0, 0x073F2, 0x25F0E), // Box 7
-                    new BlockInfo(0x07400, 0x0ff0, 0x083F2, 0x25F10), // Box 8
-                    new BlockInfo(0x08400, 0x0ff0, 0x093F2, 0x25F12), // Box 9
-                    new BlockInfo(0x09400, 0x0ff0, 0x0A3F2, 0x25F14), // Box 10
-                    new BlockInfo(0x0A400, 0x0ff0, 0x0B3F2, 0x25F16), // Box 11
-                    new BlockInfo(0x0B400, 0x0ff0, 0x0C3F2, 0x25F18), // Box 12
-                    new BlockInfo(0x0C400, 0x0ff0, 0x0D3F2, 0x25F1A), // Box 13
-                    new BlockInfo(0x0D400, 0x0ff0, 0x0E3F2, 0x25F1C), // Box 14
-                    new BlockInfo(0x0E400, 0x0ff0, 0x0F3F2, 0x25F1E), // Box 15
-                    new BlockInfo(0x0F400, 0x0ff0, 0x103F2, 0x25F20), // Box 16
-                    new BlockInfo(0x10400, 0x0ff0, 0x113F2, 0x25F22), // Box 17
-                    new BlockInfo(0x11400, 0x0ff0, 0x123F2, 0x25F24), // Box 18
-                    new BlockInfo(0x12400, 0x0ff0, 0x133F2, 0x25F26), // Box 19
-                    new BlockInfo(0x13400, 0x0ff0, 0x143F2, 0x25F28), // Box 20
-                    new BlockInfo(0x14400, 0x0ff0, 0x153F2, 0x25F2A), // Box 21
-                    new BlockInfo(0x15400, 0x0ff0, 0x163F2, 0x25F2C), // Box 22
-                    new BlockInfo(0x16400, 0x0ff0, 0x173F2, 0x25F2E), // Box 23
-                    new BlockInfo(0x17400, 0x0ff0, 0x183F2, 0x25F30), // Box 24
-                    new BlockInfo(0x18400, 0x09ec, 0x18DEE, 0x25F32), // Inventory
-                    new BlockInfo(0x18E00, 0x0534, 0x19336, 0x25F34), // Party Pokemon
-                    new BlockInfo(0x19400, 0x00b0, 0x194B2, 0x25F36), // Trainer Data
-                    new BlockInfo(0x19500, 0x00a8, 0x195AA, 0x25F38), // Trainer Position
-                    new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x25F3A), // Unity Tower and survey stuff
-                    new BlockInfo(0x1AA00, 0x07c4, 0x1B1C6, 0x25F3C), // Pal Pad Player Data (30d)
-                    new BlockInfo(0x1B200, 0x0d54, 0x1BF56, 0x25F3E), // Pal Pad Friend Data
-                    new BlockInfo(0x1C000, 0x0094, 0x1C096, 0x25F40), // Skin Info
-                    new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x25F42), // Card Signature Block & ????
-                    new BlockInfo(0x1C800, 0x0a94, 0x1D296, 0x25F44), // Mystery Gift
-                    new BlockInfo(0x1D300, 0x01ac, 0x1D4AE, 0x25F46), // Dream World Stuff (Catalog)
-                    new BlockInfo(0x1D500, 0x03ec, 0x1D8EE, 0x25F48), // Chatter
-                    new BlockInfo(0x1D900, 0x005c, 0x1D95E, 0x25F4A), // Adventure data
-                    new BlockInfo(0x1DA00, 0x01e0, 0x1DBE2, 0x25F4C), // Trainer Card Records
-                    new BlockInfo(0x1DC00, 0x00a8, 0x1DCAA, 0x25F4E), // ???
-                    new BlockInfo(0x1DD00, 0x0460, 0x1E162, 0x25F50), // (40d)
-                    new BlockInfo(0x1E200, 0x1400, 0x1F602, 0x25F52), // ???
-                    new BlockInfo(0x1F700, 0x02a4, 0x1F9A6, 0x25F54), // Contains flags and references for downloaded data (Musical)
-                    new BlockInfo(0x1FA00, 0x00e0, 0x1FAE2, 0x25F56), // Fused Reshiram/Zekrom Storage
-                    new BlockInfo(0x1FB00, 0x034c, 0x1FE4E, 0x25F58), // ???
-                    new BlockInfo(0x1FF00, 0x04e0, 0x203E2, 0x25F5A), // Const Data Block and Event Flag Block (0x35E is the split)
-                    new BlockInfo(0x20400, 0x00f8, 0x204FA, 0x25F5C), // ???
-                    new BlockInfo(0x20500, 0x02fc, 0x207FE, 0x25F5E), // Tournament Block
-                    new BlockInfo(0x20800, 0x0094, 0x20896, 0x25F60), // ???
-                    new BlockInfo(0x20900, 0x035c, 0x20C5E, 0x25F62), // Battle Box Block
-                    new BlockInfo(0x20D00, 0x01d4, 0x20ED6, 0x25F64), // Daycare Block (50d)
-                    new BlockInfo(0x20F00, 0x01e0, 0x201E2, 0x25F66), // Strength Boulder Status Block
-                    new BlockInfo(0x21100, 0x00f0, 0x211F2, 0x25F68), // Badge Flags, Money, Trainer Sayings
-                    new BlockInfo(0x21200, 0x01b4, 0x213B6, 0x25F6A), // Entralink (Level & Powers etc)
-                    new BlockInfo(0x21400, 0x04dc, 0x218DE, 0x25F6C), // Pokedex
-                    new BlockInfo(0x21900, 0x0034, 0x21936, 0x25F6E), // Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
-                    new BlockInfo(0x21A00, 0x003c, 0x21A3E, 0x25F70), // ???
-                    new BlockInfo(0x21B00, 0x01ac, 0x21CAE, 0x25F72), // ???
-                    new BlockInfo(0x21D00, 0x0b90, 0x22892, 0x25F74), // ???
-                    new BlockInfo(0x22900, 0x00ac, 0x229AE, 0x25F76), // Online Records
-                    new BlockInfo(0x22A00, 0x0850, 0x23252, 0x25F78), // Entralink Forest pokémon data (60d)
-                    new BlockInfo(0x23300, 0x0284, 0x23586, 0x25F7A), // ???
-                    new BlockInfo(0x23600, 0x0010, 0x23612, 0x25F7C), // ???
-                    new BlockInfo(0x23700, 0x00a8, 0x237AA, 0x25F7E), // ???
-                    new BlockInfo(0x23800, 0x016c, 0x2396E, 0x25F80), // ???
-                    new BlockInfo(0x23A00, 0x0080, 0x23A82, 0x25F82), // ???
-                    new BlockInfo(0x23B00, 0x00fc, 0x23BFE, 0x25F84), // Hollow/Rival Block
-                    new BlockInfo(0x23C00, 0x16a8, 0x252AA, 0x25F86), // Join Avenue Block
-                    new BlockInfo(0x25300, 0x0498, 0x2579A, 0x25F88), // Medal data
-                    new BlockInfo(0x25800, 0x0060, 0x25862, 0x25F8A), // Key-related data
-                    new BlockInfo(0x25900, 0x00fc, 0x259FE, 0x25F8C), // (70d)
-                    new BlockInfo(0x25A00, 0x03e4, 0x25DE6, 0x25F8E), // ???
-                    new BlockInfo(0x25E00, 0x00f0, 0x25EF2, 0x25F90), // ???
-                    new BlockInfo(0x25F00, 0x0094, 0x25FA2, 0x25FA2), // Checksum Block (73d)
-                };
-            }
-            else
-            {
-                Blocks = new BlockInfo[] { };
-            }
-        }
-        protected override void setChecksums()
-        {
-            // Check for invalid block lengths
-            if (Blocks.Length < 3) // arbitrary...
-            {
-                Console.WriteLine("Not enough blocks ({0}), aborting setChecksums", Blocks.Length);
-                return;
-            }
-            // Apply checksums
-            foreach (BlockInfo b in Blocks)
-            {
-                byte[] array = Data.Skip(b.Offset).Take(b.Length).ToArray();
-                ushort chk = SaveUtil.ccitt16(array);
-                BitConverter.GetBytes(chk).CopyTo(Data, b.ChecksumOffset);
-                BitConverter.GetBytes(chk).CopyTo(Data, b.ChecksumMirror);
-            }
-        }
-        public override bool ChecksumsValid
-        {
-            get
-            {
-                // Check for invalid block lengths
-                if (Blocks.Length < 3) // arbitrary...
-                {
-                    Console.WriteLine("Not enough blocks ({0}), aborting setChecksums", Blocks.Length);
-                    return false;
-                }
+        private readonly BlockInfoNDS[] Blocks;
+        protected override void SetChecksums() => Blocks.SetChecksums(Data);
+        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
-                foreach (BlockInfo b in Blocks)
-                {
-                    byte[] array = Data.Skip(b.Offset).Take(b.Length).ToArray();
-                    ushort chk = SaveUtil.ccitt16(array);
-                    if (chk != BitConverter.ToUInt16(Data, b.ChecksumOffset))
-                        return false;
-                    if (chk != BitConverter.ToUInt16(Data, b.ChecksumMirror))
-                        return false;
-                }
-                return true;
-            }
-        }
-        public override string ChecksumInfo
-        {
-            get
-            {
-                // Check for invalid block lengths
-                if (Blocks.Length < 3) // arbitrary...
-                {
-                    Console.WriteLine("Not enough blocks ({0}), aborting setChecksums", Blocks.Length);
-                    return "Not a valid save to check.";
-                }
-                string r = "";
-                int invalid = 0;
-                for (int i = 0; i < Blocks.Length; i++)
-                {
-                    BlockInfo b = Blocks[i];
-                    byte[] array = Data.Skip(b.Offset).Take(b.Length).ToArray();
-                    ushort chk = SaveUtil.ccitt16(array);
-                    if (chk != BitConverter.ToUInt16(Data, b.ChecksumOffset))
-                    {
-                        r += $"Block {i} has been modified." + Environment.NewLine;
-                        invalid++;
-                    }
-                    else if (chk != BitConverter.ToUInt16(Data, b.ChecksumMirror))
-                    {
-                        r += $"Block {i} mirror does not match." + Environment.NewLine;
-                        invalid++;
-                    }
-                }
-                r += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
-                return r;
-            }
-        }
-        
         private const int wcSeed = 0x1D290;
 
         public readonly int CGearInfoOffset, CGearDataOffset;
-        private readonly int Trainer2, AdventureInfo;
+        private readonly int EntreeForestOffset;
+        private readonly int Trainer2, AdventureInfo, BattleSubway;
         public readonly int PokeDexLanguageFlags;
-        public override bool HasBoxWallpapers => false;
 
         // Daycare
         public override int DaycareSeedSize => 16;
-        public override int getDaycareSlotOffset(int loc, int slot)
+        public override int GetDaycareSlotOffset(int loc, int slot)
         {
             return Daycare + 4 + 0xE4 * slot;
         }
-        public override string getDaycareRNGSeed(int loc)
+        public override string GetDaycareRNGSeed(int loc)
         {
             if (Version != GameVersion.B2W2)
                 return null;
             var data = Data.Skip(Daycare + 0x1CC).Take(DaycareSeedSize/2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", "");
         }
-        public override uint? getDaycareEXP(int loc, int slot)
+        public override uint? GetDaycareEXP(int loc, int slot)
         {
             return BitConverter.ToUInt32(Data, Daycare + 4 + 0xDC + slot * 0xE4);
         }
-        public override bool? getDaycareOccupied(int loc, int slot)
+        public override bool? IsDaycareOccupied(int loc, int slot)
         {
             return BitConverter.ToUInt32(Data, Daycare + 0xE4*slot) == 1;
         }
-        public override void setDaycareEXP(int loc, int slot, uint EXP)
+        public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + 4 + 0xDC + slot * 0xE4);
         }
-        public override void setDaycareOccupied(int loc, int slot, bool occupied)
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
             BitConverter.GetBytes((uint)(occupied ? 1 : 0)).CopyTo(Data, Daycare + 0x1CC);
         }
-        public override void setDaycareRNGSeed(int loc, string seed)
+        public override void SetDaycareRNGSeed(int loc, string seed)
         {
             if (Version != GameVersion.B2W2)
                 return;
@@ -412,20 +185,20 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 995, OFS_PouchHeldItem),
+                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
                     new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
                     new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 995, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 995, OFS_PouchBerry),
+                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
                 };
                 foreach (var p in pouch)
-                    p.getPouch(ref Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.setPouch(ref Data);
+                    p.SetPouch(Data);
             }
         }
 
@@ -435,29 +208,29 @@ namespace PKHeX.Core
             get => Data[Party + 4];
             protected set => Data[Party + 4] = (byte)value;
         }
-        public override int getBoxOffset(int box)
+        public override int GetBoxOffset(int box)
         {
             return Box + SIZE_STORED * box * 30 + box * 0x10;
         }
-        public override int getPartyOffset(int slot)
+        public override int GetPartyOffset(int slot)
         {
             return Party + 8 + SIZE_PARTY*slot;
         }
-        public override string getBoxName(int box)
+        public override string GetBoxName(int box)
         {
             if (box >= BoxCount)
                 return "";
-            return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + 0x28 * box + 4, 0x28));
+            return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + 0x28 * box + 4, 0x28));
         }
-        public override void setBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            if (val.Length > 38)
+            if (value.Length > 38)
                 return;
-            val += '\uFFFF';
-            Encoding.Unicode.GetBytes(val.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
+            value += '\uFFFF';
+            Encoding.Unicode.GetBytes(value.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
             Edited = true;
         }
-        protected override int getBoxWallpaperOffset(int box)
+        protected override int GetBoxWallpaperOffset(int box)
         {
             return PCLayout + 0x3C4 + box;
         }
@@ -471,15 +244,23 @@ namespace PKHeX.Core
             get => BattleBox >= 0 && Data[BattleBox + 0x358] != 0; // wifi/live
             set { }
         }
-        public override PKM getPKM(byte[] data)
+        public override PKM GetPKM(byte[] data)
         {
             return new PK5(data);
         }
-        public override byte[] decryptPKM(byte[] data)
+        public override byte[] DecryptPKM(byte[] data)
         {
-            return PKX.decryptArray45(data);
+            return PKX.DecryptArray45(data);
         }
-        
+        protected override void SetPKM(PKM pkm)
+        {
+            var pk5 = (PK5)pkm;
+            // Apply to this Save File
+            DateTime Date = DateTime.Now;
+            if (pk5.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+                pkm.RefreshChecksum();
+        }
+
         // Mystery Gift
         public override MysteryGiftAlbum GiftAlbum
         {
@@ -487,7 +268,7 @@ namespace PKHeX.Core
             {
                 uint seed = BitConverter.ToUInt32(Data, wcSeed);
                 MysteryGiftAlbum Info = new MysteryGiftAlbum { Seed = seed };
-                byte[] wcData = Data.Skip(WondercardData).Take(0xA90).ToArray(); // Encrypted, Decrypt
+                byte[] wcData = GetData(WondercardData, 0xA90); // Encrypted, Decrypt
                 for (int i = 0; i < wcData.Length; i += 2)
                     BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ PKX.LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
 
@@ -525,22 +306,22 @@ namespace PKHeX.Core
         }
         protected override bool[] MysteryGiftReceivedFlags { get => null; set { } }
         protected override MysteryGift[] MysteryGiftCards { get => new MysteryGift[0]; set { } }
-        
+
         // Trainer Info
         public override string OT
         {
-            get => getString(Trainer1 + 0x4, 16);
-            set => setString(value, OTLength).CopyTo(Data, Trainer1 + 0x4);
+            get => GetString(Trainer1 + 0x4, 16);
+            set => SetString(value, OTLength).CopyTo(Data, Trainer1 + 0x4);
         }
-        public override ushort TID
+        public override int TID
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14 + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x14 + 0);
         }
-        public override ushort SID
+        public override int SID
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 2);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14 + 2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x14 + 2);
         }
         public override uint Money
         {
@@ -606,20 +387,42 @@ namespace PKHeX.Core
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
 
-        protected override void setDex(PKM pkm)
+        public int BP
+        {
+            get => BitConverter.ToUInt16(Data, BattleSubway);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleSubway);
+        }
+
+        public ushort GetPWTRecord(int id) => GetPWTRecord((PWTRecordID) id);
+        public ushort GetPWTRecord(PWTRecordID id)
+        {
+            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+                throw new ArgumentException(nameof(id));
+            int ofs = 0x2375C + (int)id * 2;
+            return BitConverter.ToUInt16(Data, ofs);
+        }
+        public void SetPWTRecord(int id, ushort value) => SetPWTRecord((PWTRecordID) id, value);
+        public void SetPWTRecord(PWTRecordID id, ushort value)
+        {
+            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+                throw new ArgumentException(nameof(id));
+            int ofs = 0x2375C + (int)id * 2;
+            SetData(BitConverter.GetBytes(value), ofs);
+        }
+
+        protected override void SetDex(PKM pkm)
         {
             if (pkm.Species == 0)
                 return;
             if (pkm.Species > MaxSpeciesID)
                 return;
-            if (Version == GameVersion.Unknown)
+            if (Version == GameVersion.Invalid)
                 return;
             if (PokeDex < 0)
                 return;
 
             const int brSize = 0x54;
             int bit = pkm.Species - 1;
-            int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
             int shift = shiny*2 + gender + 1;
@@ -642,12 +445,16 @@ namespace PKHeX.Core
                 Data[ofs + brSize*(shift + 4)] |= (byte)(1 << (bit&7));
 
             // Set the Language
-            if (lang < 0) lang = 1;
-            Data[PokeDexLanguageFlags + ((bit*7 + lang)>>3)] |= (byte)(1 << ((bit*7 + lang) & 7));
+            if (bit < 493) // shifted by 1, Gen5 species do not have international language bits
+            {
+                int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
+                if (lang < 0) lang = 1;
+                Data[PokeDexLanguageFlags + ((bit*7 + lang)>>3)] |= (byte)(1 << ((bit*7 + lang) & 7));
+            }
 
             // Formes
             int fc = Personal[pkm.Species].FormeCount;
-            int f = B2W2 ? SaveUtil.getDexFormIndexB2W2(pkm.Species, fc) : SaveUtil.getDexFormIndexBW(pkm.Species, fc);
+            int f = B2W2 ? SaveUtil.GetDexFormIndexB2W2(pkm.Species, fc) : SaveUtil.GetDexFormIndexBW(pkm.Species, fc);
             if (f < 0) return;
 
             int FormLen = B2W2 ? 0xB : 0x9;
@@ -670,7 +477,7 @@ namespace PKHeX.Core
             Data[FormDex + FormLen * (2 + shiny) + (bit>>3)] |= (byte)(1 << (bit&7));
         }
 
-        public override bool getCaught(int species)
+        public override bool GetCaught(int species)
         {
             int bit = species - 1;
             int bd = bit >> 3; // div8
@@ -679,7 +486,7 @@ namespace PKHeX.Core
                       + 0x08; // Magic + Flags
             return (1 << bm & Data[ofs + bd]) != 0;
         }
-        public override bool getSeen(int species)
+        public override bool GetSeen(int species)
         {
             const int brSize = 0x54;
 
@@ -695,12 +502,64 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override string getString(int Offset, int Count) => PKX.getString5(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override string GetString(int Offset, int Length) => StringConverter.GetString5(Data, Offset, Length);
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.setString5(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
+        }
+
+        // DLC
+        private int CGearSkinInfoOffset => CGearInfoOffset + (B2W2 ? 0x10 : 0) + 0x24;
+        private bool CGearSkinPresent
+        {
+            get => Data[CGearSkinInfoOffset + 2] == 1;
+            set => Data[CGearSkinInfoOffset + 2] = Data[Trainer1 + (B2W2 ? 0x6C : 0x54)] = (byte) (value ? 1 : 0);
+        }
+        public byte[] CGearSkinData
+        {
+            get
+            {
+                byte[] data = new byte[0x2600];
+                if (CGearSkinPresent)
+                    Array.Copy(Data, CGearDataOffset, data, 0, data.Length);
+                return data;
+            }
+            set
+            {
+                if (value == null)
+                    return; // no clearing
+                byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
+
+                byte[] bgdata = value;
+                SetData(bgdata, CGearDataOffset);
+
+                ushort chk = SaveUtil.CRC16_CCITT(bgdata);
+                var chkbytes = BitConverter.GetBytes(chk);
+                int footer = CGearDataOffset + bgdata.Length;
+
+                BitConverter.GetBytes((ushort)1).CopyTo(Data, footer); // block updated once
+                chkbytes.CopyTo(Data, footer + 2); // checksum
+                chkbytes.CopyTo(Data, footer + 0x100); // second checksum
+                dlcfooter.CopyTo(Data, footer + 0x102);
+                ushort skinchkval = SaveUtil.CRC16_CCITT(Data, footer + 0x100, 4);
+                BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
+
+                // Indicate in the save file that data is present
+                BitConverter.GetBytes((ushort)0xC21E).CopyTo(Data, 0x19438);
+
+                chkbytes.CopyTo(Data, CGearSkinInfoOffset);
+                CGearSkinPresent = true;
+
+                Edited = true;
+            }
+        }
+
+        public EntreeForest EntreeData
+        {
+            get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
+            set => SetData(value.Write(), EntreeForestOffset);
         }
     }
 }

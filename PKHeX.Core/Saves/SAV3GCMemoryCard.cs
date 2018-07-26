@@ -8,6 +8,9 @@ namespace PKHeX.Core
      * https://github.com/dolphin-emu/dolphin/
      */
 
+    /// <summary>
+    /// Flags for indicating what data is present in the Memory Card
+    /// </summary>
     public enum GCMemoryCardState
     {
         Invalid,
@@ -21,6 +24,9 @@ namespace PKHeX.Core
         DuplicateRSBOX,
     }
 
+    /// <summary>
+    /// GameCube save container which may or may not contain Generation 3 <see cref="SaveFile"/> objects.
+    /// </summary>
     public sealed class SAV3GCMemoryCard
     {
         private const int BLOCK_SIZE = 0x2000;
@@ -56,9 +62,9 @@ namespace PKHeX.Core
         private static int DirectoryBAK => BLOCK_SIZE * DirectoryBackup_Block;
         private static int BlockAlloc => BLOCK_SIZE * BlockAlloc_Block;
         private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
-        
+
         // Checksums
-        private void getChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
+        private void GetChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
         {
             csum = inv_csum = 0;
             var ofs = block * BLOCK_SIZE + offset;
@@ -74,28 +80,27 @@ namespace PKHeX.Core
             if (inv_csum == 0xffff)
                 inv_csum = 0;
         }
-        private uint verifyChecksums()
+        private uint VerifyChecksums()
         {
-            ushort csum, csum_inv;
             uint results = 0;
 
-            getChecksum(Header_Block, 0, 0xFE, out csum, out csum_inv);
+            GetChecksum(Header_Block, 0, 0xFE, out ushort csum, out ushort csum_inv);
             if (Header_Checksum != csum || (Header_Checksum_Inv != csum_inv))
                 results |= 1;
 
-            getChecksum(Directory_Block, 0, 0xFFE, out csum, out csum_inv);
+            GetChecksum(Directory_Block, 0, 0xFFE, out csum, out csum_inv);
             if (Directory_Checksum != csum || (Directory_Checksum_Inv != csum_inv))
                 results |= 2;
 
-            getChecksum(DirectoryBackup_Block, 0, 0xFFE, out csum, out csum_inv);
+            GetChecksum(DirectoryBackup_Block, 0, 0xFFE, out csum, out csum_inv);
             if (DirectoryBAK_Checksum != csum || (DirectoryBAK_Checksum_Inv != csum_inv))
                 results |= 4;
 
-            getChecksum(BlockAlloc_Block, 4, 0xFFE, out csum, out csum_inv);
+            GetChecksum(BlockAlloc_Block, 4, 0xFFE, out csum, out csum_inv);
             if (BlockAlloc_Checksum != csum || (BlockAlloc_Checksum_Inv != csum_inv))
                 results |= 8;
 
-            getChecksum(BlockAllocBackup_Block, 4, 0xFFE, out csum, out csum_inv);
+            GetChecksum(BlockAllocBackup_Block, 4, 0xFFE, out csum, out csum_inv);
             if ((BlockAllocBAK_Checksum != csum) || BlockAllocBAK_Checksum_Inv != csum_inv)
                 results |= 16;
 
@@ -115,11 +120,11 @@ namespace PKHeX.Core
         private int Directory_UpdateCounter => BigEndian.ToUInt16(Data, Directory + 0x1ffa);
         private int Directory_Checksum => BigEndian.ToUInt16(Data, Directory + 0x1ffc);
         private int Directory_Checksum_Inv => BigEndian.ToUInt16(Data, Directory + 0x1ffe);
-        
+
         private int DirectoryBAK_UpdateCounter => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffa);
         private int DirectoryBAK_Checksum => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffc);
         private int DirectoryBAK_Checksum_Inv => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffe);
-        
+
         private int BlockAlloc_Checksum => BigEndian.ToUInt16(Data, BlockAlloc + 0x0000);
         private int BlockAlloc_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAlloc + 0x0002);
 
@@ -128,7 +133,7 @@ namespace PKHeX.Core
 
         private int DirectoryBlock_Used;
         private int NumBlocks => Data.Length/BLOCK_SIZE - 5;
-        
+
         private int EntryCOLO = -1;
         private int EntryXD = -1;
         private int EntryRSBOX = -1;
@@ -140,7 +145,7 @@ namespace PKHeX.Core
 
         private bool IsCorruptedMemoryCard()
         {
-            uint csums = verifyChecksums();
+            uint csums = VerifyChecksums();
 
             if ((csums & 0x1) == 1) // Header checksum failed
                 return true;
@@ -150,8 +155,8 @@ namespace PKHeX.Core
                 if ((csums & 0x4) == 1) // backup is also wrong 
                     return true; // Directory checksum and directory backup checksum failed
 
-                restoreBackup(); // backup is correct, restore
-                csums = verifyChecksums(); // update checksums
+                RestoreBackup(); // backup is correct, restore
+                csums = VerifyChecksums(); // update checksums
             }
 
             if ((csums & 0x8) != 1)
@@ -160,10 +165,10 @@ namespace PKHeX.Core
                 return true;
 
             // backup is correct, restore
-            restoreBackup();
+            RestoreBackup();
             return false;
         }
-        private void restoreBackup()
+        private void RestoreBackup()
         {
             Array.Copy(Data, DirectoryBackup_Block*BLOCK_SIZE, Data, Directory_Block*BLOCK_SIZE, BLOCK_SIZE);
             Array.Copy(Data, BlockAllocBackup_Block*BLOCK_SIZE, Data, BlockAlloc_Block*BLOCK_SIZE, BLOCK_SIZE);
@@ -185,8 +190,8 @@ namespace PKHeX.Core
                 return GCMemoryCardState.Invalid;
 
             // Use the most recent directory block
-            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter 
-                ? DirectoryBackup_Block 
+            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter
+                ? DirectoryBackup_Block
                 : Directory_Block;
 
             string Empty_DEntry = EncodingType.GetString(RawEmpty_DEntry, 0, 4);
@@ -197,7 +202,7 @@ namespace PKHeX.Core
                 string GameCode = EncodingType.GetString(Data, offset, 4);
                 if (GameCode == Empty_DEntry)
                     continue;
-                
+
                 int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
                 int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 
@@ -229,10 +234,10 @@ namespace PKHeX.Core
             }
             if (SaveGameCount == 0)
                 return GCMemoryCardState.NoPkmSaveGame;
-            
+
             if (SaveGameCount > 1)
                 return GCMemoryCardState.MultipleSaveGame;
-            
+
             if (EntryCOLO > -1)
             {
                 EntrySelected = EntryCOLO;
@@ -258,7 +263,7 @@ namespace PKHeX.Core
                 if (EntryRSBOX > -1 && EntrySelected == EntryRSBOX)
                     return GameVersion.RSBOX;
                 return GameVersion.Any; //Default for no game selected
-            } 
+            }
         }
         public void SelectSaveGame(GameVersion Game)
         {
@@ -270,18 +275,18 @@ namespace PKHeX.Core
             }
         }
 
-        public string GCISaveName => getGCISaveGameName();
+        public string GCISaveName => GCISaveGameName();
         public byte[] SelectedSaveData { get => ReadSaveGameData(); set => WriteSaveGameData(value); }
         public byte[] Data { get; private set; }
 
-        private string getGCISaveGameName()
+        private string GCISaveGameName()
         {
             int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
             string GameCode = EncodingType.GetString(Data, offset, 4);
             string Makercode = EncodingType.GetString(Data, offset + 0x04, 2);
             string FileName = EncodingType.GetString(Data, offset + 0x08, DENTRY_STRLEN);
 
-            return Makercode + "-" + GameCode + "-" + FileName.Replace("\0", "") + ".gci";
+            return $"{Makercode}-{GameCode}-{FileName.Replace("\0", "")}.gci";
         }
         private byte[] ReadSaveGameData()
         {

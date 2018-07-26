@@ -1,0 +1,10 @@
+0669	Team Plasma Guide (Pokemon League Pokemon Center) Disappeared
+0661	Reshiram/Zekrom (N's Castle) Disappeared
+0766	Reshiram/Zekrom (Dragonspiral Tower) Disappeared
+0801	Kyurem Disappeared
+0812	Volcarona Disappeared
+0649	Cobalion Disappeared
+0650	Terrakion Disappeared
+0651	Virizion Disappeared
+0652	Obstacle (Victory Road) Cleared
+0653	Obstacle (Pinwheel Forest) Cleared

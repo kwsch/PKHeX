@@ -47,6 +47,7 @@
             // 
             // mnuLLegality
             // 
+            this.mnuLLegality.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.mnuLLegality.Name = "mnuLLegality";
             this.mnuLLegality.Size = new System.Drawing.Size(152, 22);
             this.mnuLLegality.Text = "Legality";
@@ -54,6 +55,7 @@
             // 
             // mnuLQR
             // 
+            this.mnuLQR.Image = global::PKHeX.WinForms.Properties.Resources.qr;
             this.mnuLQR.Name = "mnuLQR";
             this.mnuLQR.Size = new System.Drawing.Size(152, 22);
             this.mnuLQR.Text = "QR!";
@@ -61,6 +63,7 @@
             // 
             // mnuLSave
             // 
+            this.mnuLSave.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
             this.mnuLSave.Name = "mnuLSave";
             this.mnuLSave.Size = new System.Drawing.Size(152, 22);
             this.mnuLSave.Text = "Save as...";
@@ -68,8 +71,7 @@
             // 
             // ContextMenuPKM
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Name = "ContextMenuPKM";
             this.mnuL.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -1,0 +1,103 @@
+﻿RibbonChampionKalos	Maître Kalos
+RibbonChampionG3Hoenn	Maître Hoenn (RSE)
+RibbonChampionSinnoh	Maître Sinnoh
+RibbonBestFriends	Affection
+RibbonTraining	Perfectionnement
+RibbonBattlerSkillful	Élite
+RibbonBattlerExpert	Génie
+RibbonEffort	Effort
+RibbonAlert	Alerte
+RibbonShock	Choc
+RibbonDowncast	Déprime
+RibbonCareless	Négligence
+RibbonRelax	Détente
+RibbonSnooze	Sieste
+RibbonSmile	Sourire
+RibbonGorgeous	Sublime
+RibbonRoyal	Royal
+RibbonGorgeousRoyal	Royal Sublime
+RibbonArtist	Artiste
+RibbonFootprint	Empreinte
+RibbonRecord	Record
+RibbonLegend	Légende
+RibbonCountry	Pays
+RibbonNational	National
+RibbonEarth	Terre
+RibbonWorld	Monde
+RibbonClassic	Classique
+RibbonPremier	Premier
+RibbonEvent	Événement
+RibbonBirthday	Anniversaire
+RibbonSpecial	Spécial
+RibbonSouvenir	Souvenir
+RibbonWishing	Souhait
+RibbonChampionBattle	Vainqueur Championnat
+RibbonChampionRegional	Champion Régional
+RibbonChampionNational	Champion National
+RibbonChampionWorld	Champion du Monde
+RibbonCountMemoryContest	Souvenir Concours
+RibbonCountMemoryBattle	Souvenir Combat
+RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
+RibbonContestStar	Contest Star
+RibbonMasterCoolness	Coolness Master
+RibbonMasterBeauty	Beauty Master
+RibbonMasterCuteness	Cuteness Master
+RibbonMasterCleverness	Cleverness Master
+RibbonMasterToughness	Toughness Master
+RibbonChampionAlola	Alola Champion
+RibbonBattleRoyale	Battle Royal Champion
+RibbonBattleTreeGreat	Battle Tree Great
+RibbonBattleTreeMaster	Battle Tree Master
+RibbonG3Cool	Cool (G3)
+RibbonG3CoolSuper	Cool Super
+RibbonG3CoolHyper	Cool Hyper
+RibbonG3CoolMaster	Cool Master
+RibbonG3Beauty	Beauty (G3)
+RibbonG3BeautySuper	Beauty Super
+RibbonG3BeautyHyper	Beauty Hyper
+RibbonG3BeautyMaster	Beauty Master
+RibbonG3Cute	Cute (G3)
+RibbonG3CuteSuper	Cute Super
+RibbonG3CuteHyper	Cute Hyper
+RibbonG3CuteMaster	Cute Master
+RibbonG3Smart	Smart (G3)
+RibbonG3SmartSuper	Smart Super
+RibbonG3SmartHyper	Smart Hyper
+RibbonG3SmartMaster	Smart Master
+RibbonG3Tough	Tough (G3)
+RibbonG3ToughSuper	Tough Super
+RibbonG3ToughHyper	Tough Hyper
+RibbonG3ToughMaster	Tough Master
+RibbonG4Cool	Cool (G4)
+RibbonG4CoolGreat	Cool Great
+RibbonG4CoolUltra	Cool Ultra
+RibbonG4CoolMaster	Cool Master
+RibbonG4Beauty	Beauty (G4)
+RibbonG4BeautyGreat	Beauty Great
+RibbonG4BeautyUltra	Beauty Ultra
+RibbonG4BeautyMaster	Beauty Master
+RibbonG4Cute	Cute (G4)
+RibbonG4CuteGreat	Cute Great
+RibbonG4CuteUltra	Cute Ultra
+RibbonG4CuteMaster	Cute Master
+RibbonG4Smart	Smart (G4)
+RibbonG4SmartGreat	Smart Great
+RibbonG4SmartUltra	Smart Ultra
+RibbonG4SmartMaster	Smart Master
+RibbonG4Tough	Tough (G4)
+RibbonG4ToughGreat	Tough Great
+RibbonG4ToughUltra	Tough Ultra
+RibbonG4ToughMaster	Tough Master
+RibbonWinning	Winning
+RibbonVictory	Victory
+RibbonAbility	Ability
+RibbonAbilityGreat	Great Ability
+RibbonAbilityDouble	Double Ability
+RibbonAbilityMulti	Multi Ability
+RibbonAbilityPair	Pair Ability
+RibbonAbilityWorld	World Ability
+RibbonCountG3Cool	Cool
+RibbonCountG3Beauty	Beauty
+RibbonCountG3Cute	Cute
+RibbonCountG3Smart	Smart
+RibbonCountG3Tough	Tough

@@ -1,0 +1,17 @@
+0802	Cobalion Disappeared
+0302	Cobalion (Rematch, Level +20)
+0810	Terrakion Disappeared
+0329	Terrakion (Rematch, Level +20)
+0801	Virizion Disappeared
+0300	Virizion (Rematch, Level +20)
+0667	Reshiram/Zekrom Disappeared
+1004	Kyurem Disappeared
+0922	Regirock Disappeared
+0921	Regice Disappeared
+0923	Registeel Disappeared
+0918	Uxie Disappeared
+0919	Mesprit Disappeared
+0920	Azelf Disappeared
+0900	Heatran Disappeared
+0924	Regigigas Disappeared
+0897	Cresselia Disappeared

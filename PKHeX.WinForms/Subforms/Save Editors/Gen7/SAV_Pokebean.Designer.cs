@@ -58,7 +58,7 @@
             this.dgv.ShowEditingIcon = false;
             this.dgv.Size = new System.Drawing.Size(200, 186);
             this.dgv.TabIndex = 11;
-            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dropclick);
+            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(SAV_Pokebean.DropClick);
             // 
             // B_Save
             // 

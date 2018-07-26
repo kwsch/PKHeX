@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -7,7 +8,7 @@ namespace PKHeX.WinForms
 {
     public static class NetUtil
     {
-        public static string getStringFromURL(string webURL)
+        public static string GetStringFromURL(string webURL)
         {
             try
             {
@@ -18,11 +19,11 @@ namespace PKHeX.WinForms
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }
-        public static Image getImageFromURL(string webURL)
+        public static Image GetImageFromURL(string webURL)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace PKHeX.WinForms
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }

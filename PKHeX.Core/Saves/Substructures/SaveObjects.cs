@@ -13,6 +13,9 @@
         public ulong Seed;
     }
 
+    /// <summary>
+    /// Structure containing Mystery Gift Block Data
+    /// </summary>
     public struct MysteryGiftAlbum
     {
         public MysteryGift[] Gifts;

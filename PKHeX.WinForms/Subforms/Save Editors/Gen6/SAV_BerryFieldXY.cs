@@ -10,13 +10,13 @@ namespace PKHeX.WinForms
         private readonly SAV6 SAV;
         public SAV_BerryFieldXY(SaveFile sav)
         {
-            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV6)(Origin = sav).Clone();
             listBox1.SelectedIndex = 0;
         }
 
-        private void changefield(object sender, EventArgs e)
+        private void Changefield(object sender, EventArgs e)
         {
             // Change Berry Field
 
@@ -30,7 +30,6 @@ namespace PKHeX.WinForms
             int u6 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 6 * 2);
             int u7 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 7 * 2);
 
-
             // Display Data
             TB_Berry.Text = berry.ToString();
             TB_u1.Text = u1.ToString();
@@ -40,7 +39,6 @@ namespace PKHeX.WinForms
             TB_u5.Text = u5.ToString();
             TB_u6.Text = u6.ToString();
             TB_u7.Text = u7.ToString();
-
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)

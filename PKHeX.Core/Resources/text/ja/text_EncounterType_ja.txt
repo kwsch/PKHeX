@@ -1,18 +1,16 @@
-None
-Rock Smash (HGSS)
-Tall Grass
+﻿指定なし
+いわくだき (HGSS)
+草むら
 
-Dialga/Palkia
-Cave/Hall of Origin
+ディアルガ / パルキア
+洞窟 / はじまりのま
 
-Surfing/Fishing
+なみのり / 釣り
 
-Building/Enigma Stone
-Marsh/Safari
+建物 / なぞのすいしょう
+サファリ / 大湿原
 
-Starter/Fossil/Gift (DP)
-
-
+御三家 / 化石 / ギフト (DP)
 
 
 
@@ -21,5 +19,7 @@ Starter/Fossil/Gift (DP)
 
 
 
-Distortion World (Pt)
-Starter/Fossil/Gift (Pt/DP Trio)
+
+
+やぶれたせかい (Pt)
+御三家 / 化石 / ギフト (Pt/DP)

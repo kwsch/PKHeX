@@ -10,15 +10,15 @@ namespace PKHeX.Core
 
         public uint Time { get => BitConverter.ToUInt32(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
         public int Slot { get => Data[4]; set => Data[4] = (byte)value; }
-        public int Group { get => Data[5]; set { Data[5] = (byte)value; X = Group+1; } }
-        public int X { get => Data[6]; set => Data[6] = (byte)value; }
+        public int SubTable { get => Data[5]; set => Data[5] = (byte)value; } // offset by 1 with respect to Group
+        public int Group { get => Data[6]; set { Data[6] = (byte)value; SubTable = Math.Max(0, Group - 1); } }
         public int Shake { get => Data[7]; set => Data[7] = (byte)value; }
 
         public HoneyTree(byte[] data)
         {
             Data = data;
         }
-        
+
         public static readonly int[][] TableDP =
         {
             new[] {000, 000, 000, 000, 000, 000},

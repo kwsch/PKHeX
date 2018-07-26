@@ -101,7 +101,7 @@
             this.LB_DataEntry.Name = "LB_DataEntry";
             this.LB_DataEntry.Size = new System.Drawing.Size(59, 238);
             this.LB_DataEntry.TabIndex = 0;
-            this.LB_DataEntry.SelectedIndexChanged += new System.EventHandler(this.displayEntry);
+            this.LB_DataEntry.SelectedIndexChanged += new System.EventHandler(this.DisplayEntry);
             // 
             // RTB
             // 
@@ -179,7 +179,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(122, 21);
             this.CB_Species.TabIndex = 35;
-            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.updateSpecies);
+            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.UpdateSpecies);
             // 
             // Label_Species
             // 
@@ -199,7 +199,7 @@
             this.CHK_Nicknamed.Text = "Nickname:";
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Nicknamed.UseVisualStyleBackColor = true;
-            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.updateNickname);
+            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.UpdateNickname);
             // 
             // TB_Nickname
             // 
@@ -210,7 +210,7 @@
             this.TB_Nickname.Size = new System.Drawing.Size(122, 20);
             this.TB_Nickname.TabIndex = 37;
             this.TB_Nickname.TextChanged += new System.EventHandler(this.Write_Entry);
-            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.changeNickname);
+            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChangeNickname);
             // 
             // TB_EC
             // 
@@ -450,7 +450,7 @@
             this.Label_Gender.TabIndex = 72;
             this.Label_Gender.Text = "-";
             this.Label_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_Gender.Click += new System.EventHandler(this.updateGender);
+            this.Label_Gender.Click += new System.EventHandler(this.UpdateGender);
             // 
             // CB_Form
             // 
@@ -481,7 +481,7 @@
             this.CHK_Shiny.Size = new System.Drawing.Size(15, 14);
             this.CHK_Shiny.TabIndex = 75;
             this.CHK_Shiny.UseVisualStyleBackColor = true;
-            this.CHK_Shiny.CheckedChanged += new System.EventHandler(this.updateShiny);
+            this.CHK_Shiny.CheckedChanged += new System.EventHandler(this.UpdateShiny);
             // 
             // L_Shiny
             // 

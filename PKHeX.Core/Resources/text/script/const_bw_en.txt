@@ -1,0 +1,3 @@
+0182	N's Castle	0:Event,1:Event,2:Before Reshiram/Zekrom,3:Before N,4:Event,5:Before Ghetsis
+0145	Victini	0:Event,1:Event,2:Battleable,3:Defeated,4:Captured,5:Event Completed,6:Disappeared
+0206	Landorus	0:Event,1:Event,2:Event,3:Battleable,4:Disappeared

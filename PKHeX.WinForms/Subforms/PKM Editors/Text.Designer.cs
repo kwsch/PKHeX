@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.WinForms
 {
-    partial class f2_Text
+    partial class TrashEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f2_Text));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrashEditor));
             this.TB_Text = new System.Windows.Forms.TextBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_Cancel = new System.Windows.Forms.Button();
@@ -43,7 +43,7 @@
             this.NUD_Generation = new System.Windows.Forms.NumericUpDown();
             this.L_Language = new System.Windows.Forms.Label();
             this.L_Species = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.L_String = new System.Windows.Forms.Label();
             this.GB_Trash.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Generation)).BeginInit();
             this.SuspendLayout();
@@ -203,23 +203,23 @@
             this.L_Species.Text = "Species";
             this.L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // L_String
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.L_String.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(9, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 23);
-            this.label1.TabIndex = 44;
-            this.label1.Text = "String";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_String.Location = new System.Drawing.Point(9, 9);
+            this.L_String.Name = "L_String";
+            this.L_String.Size = new System.Drawing.Size(77, 23);
+            this.L_String.TabIndex = 44;
+            this.L_String.Text = "String";
+            this.L_String.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // f2_Text
+            // TrashEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(503, 219);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_String);
             this.Controls.Add(this.GB_Trash);
             this.Controls.Add(this.FLP_Hex);
             this.Controls.Add(this.FLP_Characters);
@@ -230,7 +230,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "f2_Text";
+            this.Name = "TrashEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Special Characters";
             this.GB_Trash.ResumeLayout(false);
@@ -255,6 +255,6 @@
         private System.Windows.Forms.NumericUpDown NUD_Generation;
         private System.Windows.Forms.Label L_Generation;
         private System.Windows.Forms.Button B_ClearTrash;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label L_String;
     }
 }

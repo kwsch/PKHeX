@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from the Sun &amp; Moon games.
+    /// </summary>
     public class PersonalInfoSM : PersonalInfoXY
     {
         public new const int SIZE = 0x54;
@@ -12,15 +14,21 @@ namespace PKHeX.Core
                 return;
             Data = data;
 
-            TMHM = getBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
-            TypeTutors = getBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
+            TMHM = GetBits(Data, 0x28, 0x10); // 36-39
+            TypeTutors = GetBits(Data, 0x38, 0x4); // 40
+
+            SpecialTutors = new[]
+            {
+                GetBits(Data, 0x3C, 0x0A),
+            };
         }
         public override byte[] Write()
         {
+            SetBits(TMHM).CopyTo(Data, 0x28);
+            SetBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
             return Data;
         }
-        
-        // No accessing for 3C-4B
 
         public int SpecialZ_Item { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
         public int SpecialZ_BaseMove { get => BitConverter.ToUInt16(Data, 0x4E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); }

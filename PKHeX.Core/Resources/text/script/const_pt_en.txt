@@ -1,0 +1,13 @@
+0196	Dialga	0:Battleable,1:Disappeared
+0197	Palkia	0:Battleable,1:Disappeared
+0085	Giratina (Distortion World)	13:Battleable,14:Disappeared
+0158	Heatran	00:Not Activated,01:Battleable,02:Disappeared
+0054	Fullmoon Island	0:Not Activated,520:On the Map
+0055	Newmoon Island	0:Not Activated,553:On the Map
+0056	Spring Path	0:Not appeared,786:Appeared
+0057	Seabreak Path	0:Not appeared,4136:Appeared
+0067	Member Card	0:Not Activated,4617:Activated
+0068	Oak's Letter	0:Not Activated,4370:Activated
+0069	Azure Flute	0:Not Activated,4387:Activated
+0087	Event Marley (Route 224)	0:Not Activated,1:Can be Activated,2:Activated
+0133	Marley (Route 224)	0:Not Activated,1:Activated,2:Appeared

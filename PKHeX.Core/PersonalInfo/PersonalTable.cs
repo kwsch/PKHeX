@@ -1,28 +1,91 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> table (array).
+    /// </summary>
+    /// <remarks>
+    /// Serves as the main object that is accessed for stat data in a particular generation/game format.
+    /// </remarks>
     public class PersonalTable
     {
-        public static readonly PersonalTable SM = new PersonalTable(Util.getBinaryResource("personal_sm"), GameVersion.SM);
-        public static readonly PersonalTable AO = new PersonalTable(Util.getBinaryResource("personal_ao"), GameVersion.ORAS);
-        public static readonly PersonalTable XY = new PersonalTable(Util.getBinaryResource("personal_xy"), GameVersion.XY);
-        public static readonly PersonalTable B2W2 = new PersonalTable(Util.getBinaryResource("personal_b2w2"), GameVersion.B2W2);
-        public static readonly PersonalTable BW = new PersonalTable(Util.getBinaryResource("personal_bw"), GameVersion.BW);
-        public static readonly PersonalTable HGSS = new PersonalTable(Util.getBinaryResource("personal_hgss"), GameVersion.HGSS);
-        public static readonly PersonalTable Pt = new PersonalTable(Util.getBinaryResource("personal_pt"), GameVersion.Pt);
-        public static readonly PersonalTable DP = new PersonalTable(Util.getBinaryResource("personal_dp"), GameVersion.DP);
-        public static readonly PersonalTable LG = new PersonalTable(Util.getBinaryResource("personal_lg"), GameVersion.LG);
-        public static readonly PersonalTable FR = new PersonalTable(Util.getBinaryResource("personal_fr"), GameVersion.FR);
-        public static readonly PersonalTable E = new PersonalTable(Util.getBinaryResource("personal_e"), GameVersion.E);
-        public static readonly PersonalTable RS = new PersonalTable(Util.getBinaryResource("personal_rs"), GameVersion.RS);
-        public static readonly PersonalTable C = new PersonalTable(Util.getBinaryResource("personal_c"), GameVersion.C);
-        public static readonly PersonalTable GS = new PersonalTable(Util.getBinaryResource("personal_c"), GameVersion.GS);
-        public static readonly PersonalTable RB = new PersonalTable(Util.getBinaryResource("personal_rb"), GameVersion.RBY);
-        public static readonly PersonalTable Y = new PersonalTable(Util.getBinaryResource("personal_y"), GameVersion.RBY);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.USUM"/>.
+        /// </summary>
+        public static readonly PersonalTable USUM = GetTable("uu", GameVersion.USUM);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.SM"/>.
+        /// </summary>
+        public static readonly PersonalTable SM = GetTable("sm", GameVersion.SM);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.ORAS"/>.
+        /// </summary>
+        public static readonly PersonalTable AO = GetTable("ao", GameVersion.ORAS);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.XY"/>.
+        /// </summary>
+        public static readonly PersonalTable XY = GetTable("xy", GameVersion.XY);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.B2W2"/>.
+        /// </summary>
+        public static readonly PersonalTable B2W2 = GetTable("b2w2", GameVersion.B2W2);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.BW"/>.
+        /// </summary>
+        public static readonly PersonalTable BW = GetTable("bw", GameVersion.BW);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.HGSS"/>.
+        /// </summary>
+        public static readonly PersonalTable HGSS = GetTable("hgss", GameVersion.HGSS);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.Pt"/>.
+        /// </summary>
+        public static readonly PersonalTable Pt = GetTable("pt", GameVersion.Pt);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.DP"/>.
+        /// </summary>
+        public static readonly PersonalTable DP = GetTable("dp", GameVersion.DP);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.LG"/>.
+        /// </summary>
+        public static readonly PersonalTable LG = GetTable("lg", GameVersion.LG);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.FR"/>.
+        /// </summary>
+        public static readonly PersonalTable FR = GetTable("fr", GameVersion.FR);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.E"/>.
+        /// </summary>
+        public static readonly PersonalTable E = GetTable("e", GameVersion.E);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.RS"/>.
+        /// </summary>
+        public static readonly PersonalTable RS = GetTable("rs", GameVersion.RS);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.C"/>.
+        /// </summary>
+        public static readonly PersonalTable C = GetTable("c", GameVersion.C);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.GS"/>.
+        /// </summary>
+        public static readonly PersonalTable GS = GetTable("c", GameVersion.GS);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.RB"/>.
+        /// </summary>
+        public static readonly PersonalTable RB = GetTable("rb", GameVersion.RBY);
+        /// <summary>
+        /// Personal Table used in <see cref="GameVersion.YW"/>.
+        /// </summary>
+        public static readonly PersonalTable Y = GetTable("y", GameVersion.RBY);
+        private static PersonalTable GetTable(string game, GameVersion format)
+        {
+            return new PersonalTable(Util.GetBinaryResource($"personal_{game}"), format);
+        }
 
-        private static byte[][] splitBytes(byte[] data, int size)
+        private static byte[][] SplitBytes(byte[] data, int size)
         {
             byte[][] r = new byte[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
@@ -32,135 +95,200 @@ namespace PKHeX.Core
             }
             return r;
         }
-        private PersonalTable(byte[] data, GameVersion format)
+        private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
         {
-            int size = 0;
-            switch (format)
-            {
-                case GameVersion.RBY: size = PersonalInfoG1.SIZE; break;
-                case GameVersion.GS:
-                case GameVersion.C: size = PersonalInfoG2.SIZE; break;
-                case GameVersion.RS:
-                case GameVersion.E:
-                case GameVersion.FR:
-                case GameVersion.LG: size = PersonalInfoG3.SIZE; break;
-                case GameVersion.DP:
-                case GameVersion.Pt:
-                case GameVersion.HGSS: size = PersonalInfoG4.SIZE; break;
-                case GameVersion.BW: size = PersonalInfoBW.SIZE; break;
-                case GameVersion.B2W2: size = PersonalInfoB2W2.SIZE; break;
-                case GameVersion.XY: size = PersonalInfoXY.SIZE; break;
-                case GameVersion.ORAS: size = PersonalInfoORAS.SIZE; break;
-                case GameVersion.SM: size = PersonalInfoSM.SIZE; break;
-            }
-
-            if (size == 0)
-            { Table = null; return; }
-
-            byte[][] entries = splitBytes(data, size);
-            PersonalInfo[] d = new PersonalInfo[data.Length / size];
-
             switch (format)
             {
                 case GameVersion.RBY:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG1(entries[i]);
-                    break;
+                    return z => new PersonalInfoG1(z);
+                case GameVersion.GS: case GameVersion.C:
+                    return z => new PersonalInfoG2(z);
+                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
+                    return z => new PersonalInfoG3(z);
+                case GameVersion.DP: case GameVersion.Pt: case GameVersion.HGSS:
+                    return z => new PersonalInfoG4(z);
+                case GameVersion.BW:
+                    return z => new PersonalInfoBW(z);
+                case GameVersion.B2W2:
+                    return z => new PersonalInfoB2W2(z);
+                case GameVersion.XY:
+                    return z => new PersonalInfoXY(z);
+                case GameVersion.ORAS:
+                    return z => new PersonalInfoORAS(z);
+                default:
+                    return z => new PersonalInfoSM(z);
+            }
+        }
+        private static int GetEntrySize(GameVersion format)
+        {
+            switch (format)
+            {
+                case GameVersion.RBY: return PersonalInfoG1.SIZE;
                 case GameVersion.GS:
-                case GameVersion.C:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG2(entries[i]);
-                    break;
+                case GameVersion.C: return PersonalInfoG2.SIZE;
                 case GameVersion.RS:
                 case GameVersion.E:
                 case GameVersion.FR:
-                case GameVersion.LG:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG3(entries[i]);
-                    break;
+                case GameVersion.LG: return PersonalInfoG3.SIZE;
                 case GameVersion.DP:
                 case GameVersion.Pt:
-                case GameVersion.HGSS:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG4(entries[i]);
-                    break;
-                case GameVersion.BW:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoBW(entries[i]);
-                    break;
-                case GameVersion.B2W2:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoB2W2(entries[i]);
-                    break;
-                case GameVersion.XY:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoXY(entries[i]);
-                    break;
-                case GameVersion.ORAS:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoORAS(entries[i]);
-                    break;
+                case GameVersion.HGSS: return PersonalInfoG4.SIZE;
+                case GameVersion.BW: return PersonalInfoBW.SIZE;
+                case GameVersion.B2W2: return PersonalInfoB2W2.SIZE;
+                case GameVersion.XY: return PersonalInfoXY.SIZE;
+                case GameVersion.ORAS: return PersonalInfoORAS.SIZE;
                 case GameVersion.SM:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoSM(entries[i]);
-                    break;
+                case GameVersion.USUM: return PersonalInfoSM.SIZE;
+
+                default: return -1;
             }
-            Table = d;
+        }
+        static PersonalTable() // Finish Setup
+        {
+            FixPersonalTableG1();
+            PopulateGen3Tutors();
+            PopulateGen4Tutors();
+        }
+        private static void FixPersonalTableG1()
+        {
+            // Update Yellow's catch rates; currently matches Red/Blue's values.
+            Y[25].CatchRate = 163; // Pikachu
+            Y[64].CatchRate = 96; // Kadabra
+
+            // Load Gen2 Gender Ratios into Gen1
+            for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
+                RB[i].Gender = Y[i].Gender = GS[i].Gender;
+        }
+        private static void PopulateGen3Tutors()
+        {
+            // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
+            var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
+            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
+            {
+                E[i].AddTMHM(TMHM[i]);
+                E[i].AddTypeTutors(tutors[i]);
+            }
+        }
+        private static void PopulateGen4Tutors()
+        {
+            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            for (int i = 0; i < tutors.Length; i++)
+                HGSS[i].AddTypeTutors(tutors[i]);
         }
 
+        public PersonalTable(byte[] data, GameVersion format)
+        {
+            Func<byte[], PersonalInfo> get = GetConstructor(format);
+            int size = GetEntrySize(format);
+            byte[][] entries = SplitBytes(data, size);
+            Table = new PersonalInfo[data.Length / size];
+            for (int i = 0; i < Table.Length; i++)
+                Table[i] = get(entries[i]);
+
+            MaxSpeciesID = format.GetMaxSpeciesID();
+        }
         private readonly PersonalInfo[] Table;
+
+        /// <summary>
+        /// Gets an index from the inner <see cref="Table"/> array.
+        /// </summary>
+        /// <remarks>Has built in length checks; returns empty (0) entry if out of range.</remarks>
+        /// <param name="index">Index to retrieve</param>
+        /// <returns>Requested index entry</returns>
         public PersonalInfo this[int index]
         {
             get
             {
-                if (index < Table.Length)
+                if (0 <= index && index < Table.Length)
                     return Table[index];
                 return Table[0];
             }
             set
             {
-                if (index < Table.Length)
+                if (index < 0 || index >= Table.Length)
                     return;
-                Table[index] = value; 
+                Table[index] = value;
             }
         }
 
-        public int[] getAbilities(int species, int forme)
+        /// <summary>
+        /// Gets the abilities possible for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// </summary>
+        /// <param name="species"><see cref="PKM.Species"/></param>
+        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <returns>Array of possible abilities</returns>
+        public int[] GetAbilities(int species, int forme)
         {
-            if (species >= Table.Length)
-            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
-            return this[getFormeIndex(species, forme)].Abilities;
-        }
-        public int getFormeIndex(int species, int forme)
-        {
-            if (species >= Table.Length)
-            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
-            return this[species].FormeIndex(species, forme);
-        }
-        public PersonalInfo getFormeEntry(int species, int forme)
-        {
-            return this[getFormeIndex(species, forme)];
+            return GetFormeEntry(species, forme).Abilities;
         }
 
+        /// <summary>
+        /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// </summary>
+        /// <param name="species"><see cref="PKM.Species"/></param>
+        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <returns>Entry index for the input criteria</returns>
+        public int GetFormeIndex(int species, int forme)
+        {
+            if (species > MaxSpeciesID)
+            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
+            return this[species].FormeIndex(species, forme);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="PersonalInfo"/> entry for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// </summary>
+        /// <param name="species"><see cref="PKM.Species"/></param>
+        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <returns>Entry for the input criteria</returns>
+        public PersonalInfo GetFormeEntry(int species, int forme)
+        {
+            return this[GetFormeIndex(species, forme)];
+        }
+
+        /// <summary>
+        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.AltForm"/> entreis.
+        /// </summary>
         public int TableLength => Table.Length;
-        public string[][] getFormList(string[] species, int MaxSpecies)
+
+        /// <summary>
+        /// Maximum Species ID for the Table.
+        /// </summary>
+        public readonly int MaxSpeciesID;
+
+        /// <summary>
+        /// Gets form names for every species.
+        /// </summary>
+        /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
+        /// <param name="MaxSpecies">Max Species ID (<see cref="PKM.Species"/>)</param>
+        /// <returns>Array of species containing an array of form names for that species.</returns>
+        public string[][] GetFormList(string[] species, int MaxSpecies)
         {
             string[][] FormList = new string[MaxSpecies+1][];
-            for (int i = 0; i <= MaxSpecies; i++) //Hardcode 721 species + null
+            for (int i = 0; i < FormList.Length; i++)
             {
                 int FormCount = this[i].FormeCount;
                 FormList[i] = new string[FormCount];
                 if (FormCount <= 0) continue;
                 FormList[i][0] = species[i];
                 for (int j = 1; j < FormCount; j++)
-                {
-                    FormList[i][j] = $"{species[i]} " + j;
-                }
+                    FormList[i][j] = $"{species[i]} {j}";
             }
 
             return FormList;
         }
-        public string[] getPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
+
+        /// <summary>
+        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> <see cref="PKM.AltForm"/> values.
+        /// </summary>
+        /// <param name="AltForms">Raw string resource (Forms) for the corresponding table.</param>
+        /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
+        /// <param name="MaxSpecies">Max Species ID (<see cref="PKM.Species"/>)</param>
+        /// <param name="baseForm">Pointers for base form IDs</param>
+        /// <param name="formVal">Pointers for table indexes for each form</param>
+        /// <returns>Sanitized list of species names, and outputs indexes for various lookup purposes.</returns>
+        public string[] GetPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
         {
             string[] result = new string[Table.Length];
             baseForm = new int[result.Length];
@@ -181,9 +309,17 @@ namespace PKHeX.Core
             }
             return result;
         }
+
+        /// <summary>
+        /// Checks to see if either of the input type combinations exist in the table.
+        /// </summary>
+        /// <remarks>Only useful for checking Generation 1 <see cref="PK1.Type_A"/> and <see cref="PK1.Type_B"/> properties.</remarks>
+        /// <param name="Type1">First type</param>
+        /// <param name="Type2">Second type</param>
+        /// <returns>Indication that the combination exists in the table.</returns>
         public bool IsValidTypeCombination(int Type1, int Type2)
         {
-            return Table.Any(p => p.Types[0] == Type1 && p.Types[1] == Type2);
+            return Table.Any(p => p.IsValidTypeCombination(Type1, Type2));
         }
     }
 }

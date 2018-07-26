@@ -14,10 +14,10 @@ namespace PKHeX.Core
     // u8  dex_data[0x60];
     // u16 crc16
     // sizeof(QR7) == 0x1A2
-    
+
     public static class QR7
     {
-        private static bool hasGenderDifferences(int species)
+        private static bool HasGenderDifferences(int species)
         {
             var gendered = new[]
             {
@@ -35,8 +35,8 @@ namespace PKHeX.Core
             BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
             basedata[0x2A] = (byte)formnum;
             basedata[0x2C] = (byte)(shiny ? 1 : 0);
-            var forme_index = PersonalTable.SM[species].FormeIndex(species, formnum);
-            var raw_gender = PersonalTable.SM[forme_index].Gender;
+            var forme_index = PersonalTable.USUM[species].FormeIndex(species, formnum);
+            var raw_gender = PersonalTable.USUM[forme_index].Gender;
             switch (raw_gender)
             {
                 case 0:
@@ -52,7 +52,7 @@ namespace PKHeX.Core
                     basedata[0x2B] = 2;
                     break;
                 default:
-                    basedata[0x2D] = (byte)(hasGenderDifferences(species) ? 0 : 1);
+                    basedata[0x2D] = (byte)(HasGenderDifferences(species) ? 0 : 1);
                     basedata[0x2B] = (byte)gender;
                     break;
             }
@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
             pk7.EncryptedPartyData.CopyTo(data, 0x30); // Copy in pokemon data
             GetRawQR(pk7.Species, pk7.AltForm, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
-            BitConverter.GetBytes((ushort) SaveUtil.check16(data.Take(0x1A0).ToArray(), 0)).CopyTo(data, 0x1A0);
+            BitConverter.GetBytes(SaveUtil.CRC16(data, 0, 0x1A0)).CopyTo(data, 0x1A0);
             return data;
         }
     }

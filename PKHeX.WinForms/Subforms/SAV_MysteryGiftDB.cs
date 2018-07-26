@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -14,11 +16,22 @@ namespace PKHeX.WinForms
     {
         private readonly PKMEditor PKME_Tabs;
         private readonly SaveFile SAV;
+        private readonly SAVEditor BoxView;
         public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
-            SAV = sav.SAV;
-            PKME_Tabs = tabs;
             InitializeComponent();
+
+            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View" };
+            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift" };
+            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM" };
+
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
+
+            SAV = sav.SAV;
+            BoxView = sav;
+            PKME_Tabs = tabs;
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
@@ -40,107 +53,94 @@ namespace PKHeX.WinForms
             };
 
             // Enable Scrolling when hovered over
-            PAN_Box.MouseHover += (sender, args) =>
-            {
-                if (ActiveForm == this)
-                    SCR_Box.Focus();
-            };
             foreach (var slot in PKXBOXES)
             {
-                slot.MouseEnter += (sender, args) =>
-                {
-                    if (ActiveForm == this)
-                        SCR_Box.Focus();
-                };
                 // Enable Click
-                slot.MouseClick += (sender, args) =>
+                slot.MouseClick += (sender, e) =>
                 {
                     if (ModifierKeys == Keys.Control)
-                        clickView(sender, args);
+                        ClickView(sender, e);
                 };
             }
-            
+
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
-            L_Viewed.Text = ""; // invis for now
-
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
-            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem("Save Gift");
-            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem("Save PKM");
+            L_Viewed.Text = string.Empty; // invis for now
+            var hover = new ToolTip();
+            L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
             // Assign event handlers
-            mnuView.Click += clickView;
-            mnuSaveMG.Click += clickSaveMG;
-            mnuSavePK.Click += clickSavePK;
-
-            // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
+            mnuView.Click += ClickView;
+            mnuSaveMG.Click += ClickSaveMG;
+            mnuSavePK.Click += ClickSavePK;
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
                 p.ContextMenuStrip = mnu;
 
             // Load Data
-            RawDB = new List<MysteryGift>();
-            RawDB.AddRange(Legal.MGDB_G4);
-            RawDB.AddRange(Legal.MGDB_G5);
-            RawDB.AddRange(Legal.MGDB_G6);
-            RawDB.AddRange(Legal.MGDB_G7);
-
-            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().OrderBy(mg => mg.Species));
-            foreach (var mg in RawDB)
-                mg.GiftUsed = false;
-            setResults(RawDB);
+            B_Search.Enabled = false;
+            L_Count.Text = "Loading...";
+            new Task(LoadDatabase).Start();
 
             Menu_SearchSettings.DropDown.Closing += (sender, e) =>
             {
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
-
-            populateComboBoxes();
+            CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.MGDatabasePath;
         private List<MysteryGift> Results;
-        private readonly List<MysteryGift> RawDB;
+        private List<MysteryGift> RawDB;
         private int slotSelected = -1; // = null;
         private Image slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
-        private const int MAXFORMAT = 7;
+        private const int MAXFORMAT = PKX.Generation;
 
         // Important Events
-        private void clickView(object sender, EventArgs e)
+        private void ClickView(object sender, EventArgs e)
         {
-            int index = getSenderIndex(sender);
-            PKME_Tabs.populateFields(Results[index].convertToPKM(SAV), false);
+            int index = GetSenderIndex(sender);
+            if (index < 0)
+                return;
+            PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
-            FillPKXBoxes(SCR_Box.Value);
+            UpdateSlotColor(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
-        private void clickSavePK(object sender, EventArgs e)
+        private void ClickSavePK(object sender, EventArgs e)
         {
-            int index = getSenderIndex(sender);
+            int index = GetSenderIndex(sender);
+            if (index < 0)
+                return;
             var gift = Results[index];
-            var pk = gift.convertToPKM(SAV);
+            var pk = gift.ConvertToPKM(SAV);
             WinFormsUtil.SavePKMDialog(pk);
         }
-        private void clickSaveMG(object sender, EventArgs e)
+        private void ClickSaveMG(object sender, EventArgs e)
         {
-            int index = getSenderIndex(sender);
+            int index = GetSenderIndex(sender);
+            if (index < 0)
+                return;
             var gift = Results[index];
+            if (gift.Data == null) // WC3
+            {
+                WinFormsUtil.Alert(MsgExportWC3DataFail);
+                return;
+            }
             WinFormsUtil.SaveMGDialog(gift);
         }
 
-        private int getSenderIndex(object sender)
+        private int GetSenderIndex(object sender)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
             if (index >= RES_MAX)
             {
@@ -155,17 +155,13 @@ namespace PKHeX.WinForms
             }
             return index;
         }
-        private void populateComboBoxes()
+        private void PopulateComboBoxes()
         {
             // Set the Text
-            CB_HeldItem.DisplayMember =
-            CB_Species.DisplayMember = "Text";
+            CB_HeldItem.InitializeBinding();
+            CB_Species.InitializeBinding();
 
-            // Set the Value
-            CB_HeldItem.ValueMember =
-            CB_Species.ValueMember = "Value";
-
-            var Any = new ComboItem {Text = "Any", Value = -1};
+            var Any = new ComboItem {Text = MsgAny, Value = -1};
 
             var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0);
@@ -175,22 +171,23 @@ namespace PKHeX.WinForms
 
             var DS_Item = new List<ComboItem>(GameInfo.ItemDataSource);
             DS_Item.Insert(0, Any); CB_HeldItem.DataSource = DS_Item;
-            
+
             // Set the Move ComboBoxes too..
             var DS_Move = new List<ComboItem>(GameInfo.MoveDataSource);
             DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                 {
-                    cb.DisplayMember = "Text"; cb.ValueMember = "Value";
+                    cb.InitializeBinding();
                     cb.DataSource = new BindingSource(DS_Move, null);
                 }
             }
 
             // Trigger a Reset
-            resetFilters(null, null);
+            ResetFilters(null, null);
+            B_Search.Enabled = true;
         }
-        private void resetFilters(object sender, EventArgs e)
+        private void ResetFilters(object sender, EventArgs e)
         {
             CHK_Shiny.Checked = CHK_IsEgg.Checked = true;
             CHK_Shiny.CheckState = CHK_IsEgg.CheckState = CheckState.Indeterminate;
@@ -203,9 +200,20 @@ namespace PKHeX.WinForms
             if (sender != null)
                 System.Media.SystemSounds.Asterisk.Play();
         }
+        private void LoadDatabase()
+        {
+            RawDB = new List<MysteryGift>(EncounterEvent.GetAllEvents());
+            foreach (var mg in RawDB)
+                mg.GiftUsed = false;
+            BeginInvoke(new MethodInvoker(delegate
+            {
+                SetResults(RawDB);
+                PopulateComboBoxes();
+            }));
+        }
 
         // IO Usage
-        private void openDB(object sender, EventArgs e)
+        private void OpenDB(object sender, EventArgs e)
         {
             if (Directory.Exists(DatabasePath))
                 Process.Start("explorer.exe", DatabasePath);
@@ -213,9 +221,9 @@ namespace PKHeX.WinForms
         private void Menu_Export_Click(object sender, EventArgs e)
         {
             if (Results == null || Results.Count == 0)
-            { WinFormsUtil.Alert("No results to export."); return; }
+            { WinFormsUtil.Alert(MsgDBCreateReportFail); return; }
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Export to a folder?"))
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -223,10 +231,9 @@ namespace PKHeX.WinForms
                 return;
 
             string path = fbd.SelectedPath;
-            if (!Directory.Exists(path)) // just in case...
-                Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
-            foreach (var gift in Results)
+            foreach (var gift in Results.Where(g => g.Data != null)) // WC3 have no data
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Data);
         }
 
@@ -247,16 +254,16 @@ namespace PKHeX.WinForms
             }
 
             // Primary Searchables
-            int species = WinFormsUtil.getIndex(CB_Species);
-            int item = WinFormsUtil.getIndex(CB_HeldItem);
+            int species = WinFormsUtil.GetIndex(CB_Species);
+            int item = WinFormsUtil.GetIndex(CB_HeldItem);
             if (species != -1) res = res.Where(pk => pk.Species == species);
             if (item != -1) res = res.Where(pk => pk.HeldItem == item);
 
             // Secondary Searchables
-            int move1 = WinFormsUtil.getIndex(CB_Move1);
-            int move2 = WinFormsUtil.getIndex(CB_Move2);
-            int move3 = WinFormsUtil.getIndex(CB_Move3);
-            int move4 = WinFormsUtil.getIndex(CB_Move4);
+            int move1 = WinFormsUtil.GetIndex(CB_Move1);
+            int move2 = WinFormsUtil.GetIndex(CB_Move2);
+            int move3 = WinFormsUtil.GetIndex(CB_Move3);
+            int move4 = WinFormsUtil.GetIndex(CB_Move4);
             if (move1 != -1) res = res.Where(pk => pk.Moves.Contains(move1));
             if (move2 != -1) res = res.Where(pk => pk.Moves.Contains(move2));
             if (move3 != -1) res = res.Where(pk => pk.Moves.Contains(move3));
@@ -265,58 +272,35 @@ namespace PKHeX.WinForms
             if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
             if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            
+
             slotSelected = -1; // reset the slot last viewed
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
-                var raw =
-                    RTB_Instructions.Lines
-                        .Where(line => !string.IsNullOrWhiteSpace(line))
-                        .Where(line => new[] { '!', '=' }.Contains(line[0]));
-
-                var filters = (from line in raw
-                        let eval = line[0] == '='
-                        let split = line.Substring(1).Split('=')
-                        where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                        select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
-
-                if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-                { WinFormsUtil.Error("Empty Filter Value detected."); return; }
-
-                res = res.Where(gift => // Compare across all filters
-                {
-                    foreach (var cmd in filters)
-                    {
-                        if (!gift.GetType().HasPropertyAll(typeof(PKM), cmd.PropertyName))
-                            return false;
-                        try { if (ReflectUtil.GetValueEquals(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
-                        catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
-                        return false;
-                    }
-                    return true;
-                });
+                var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
+                BatchEditing.ScreenStrings(filters);
+                res = res.Where(pkm => BatchEditing.IsFilterMatch(filters, pkm)); // Compare across all filters
             }
 
             var results = res.ToArray();
             if (results.Length == 0)
-            {
-                WinFormsUtil.Alert("No results found!");
-            }
-            setResults(new List<MysteryGift>(results)); // updates Count Label as well.
+                WinFormsUtil.Alert(MsgDBSearchNone);
+
+            SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
         }
-        private void updateScroll(object sender, ScrollEventArgs e)
+
+        private void UpdateScroll(object sender, ScrollEventArgs e)
         {
             if (e.OldValue != e.NewValue)
                 FillPKXBoxes(e.NewValue);
         }
-        private void setResults(List<MysteryGift> res)
+        private void SetResults(List<MysteryGift> res)
         {
             Results = new List<MysteryGift>(res);
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
-            if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
+            if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;
 
             SCR_Box.Value = 0;
             FillPKXBoxes(0);
@@ -334,10 +318,13 @@ namespace PKHeX.WinForms
             int begin = start * RES_MIN;
             int end = Math.Min(RES_MAX, Results.Count - start * RES_MIN);
             for (int i = 0; i < end; i++)
-                PKXBOXES[i].Image = Results[i + begin].Sprite(SAV);
+                PKXBOXES[i].Image = Results[i + begin].Sprite();
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
-
+            UpdateSlotColor(start);
+        }
+        private void UpdateSlotColor(int start)
+        {
             for (int i = 0; i < RES_MAX; i++)
                 PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
@@ -349,6 +336,19 @@ namespace PKHeX.WinForms
             if (!Menu_SearchAdvanced.Checked)
             { Size = MinimumSize; RTB_Instructions.Clear(); }
             else Size = MaximumSize;
+        }
+        private void Menu_Import_Click(object sender, EventArgs e)
+        {
+            if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
+                return;
+
+            int box = BoxView.Box.CurrentBox;
+            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, noSetb))
+                return;
+
+            BoxView.SetPKMBoxes();
+            BoxView.UpdateBoxViewers();
+            WinFormsUtil.Alert(result);
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e)
@@ -365,7 +365,7 @@ namespace PKHeX.WinForms
                 FillPKXBoxes(SCR_Box.Value = newval);
         }
 
-        private void changeFormatFilter(object sender, EventArgs e)
+        private void ChangeFormatFilter(object sender, EventArgs e)
         {
             if (CB_FormatComparator.SelectedIndex == 0)
             {

@@ -1,0 +1,103 @@
+﻿RibbonChampionKalos	칼로스챔피언리본
+RibbonChampionG3Hoenn	호연챔피언리본 (RSE)
+RibbonChampionSinnoh	신오챔피언리본
+RibbonBestFriends	절친리본
+RibbonTraining	수행리본
+RibbonBattlerSkillful	그레이트배틀리본
+RibbonBattlerExpert	마스터배틀리본
+RibbonEffort	노력리본
+RibbonAlert	뚝심리본
+RibbonShock	철렁리본
+RibbonDowncast	풀죽기리본
+RibbonCareless	덜렁이리본
+RibbonRelax	상쾌리본
+RibbonSnooze	잠보리본
+RibbonSmile	방글방글리본
+RibbonGorgeous	고저스리본
+RibbonRoyal	로열리본
+RibbonGorgeousRoyal	고저스로열리본
+RibbonArtist	브로마이드리본
+RibbonFootprint	발자국리본
+RibbonRecord	레코드리본
+RibbonLegend	레전드리본
+RibbonCountry	컨트리리본
+RibbonNational	내셔널리본
+RibbonEarth	어스리본
+RibbonWorld	월드리본
+RibbonClassic	클래식리본
+RibbonPremier	프리미어리본
+RibbonEvent	이벤트리본
+RibbonBirthday	버스데이리본
+RibbonSpecial	스페셜리본
+RibbonSouvenir	메모리얼리본
+RibbonWishing	위시리본
+RibbonChampionBattle	배틀챔피언리본
+RibbonChampionRegional	에리어챔피언리본
+RibbonChampionNational	내셔널챔피언리본
+RibbonChampionWorld	월드챔피언리본
+RibbonCountMemoryContest	추억콘테스트리본
+RibbonCountMemoryBattle	추억배틀리본
+RibbonChampionG6Hoenn	호연챔피언리본 (ORAS)
+RibbonContestStar	콘테스트스타리본
+RibbonMasterCoolness	근사함마스터리본
+RibbonMasterBeauty	아름다움마스터리본
+RibbonMasterCuteness	귀여움마스터리본
+RibbonMasterCleverness	슬기로움마스터리본
+RibbonMasterToughness	강인함마스터리본
+RibbonG3Cool	쿨리본 (G3)
+RibbonG3CoolSuper	쿨리본슈퍼
+RibbonG3CoolHyper	쿨리본하이퍼
+RibbonG3CoolMaster	쿨리본마스터
+RibbonG3Beauty	뷰티리본 (G3)
+RibbonG3BeautySuper	뷰티리본슈퍼
+RibbonG3BeautyHyper	뷰티리본하이퍼
+RibbonG3BeautyMaster	뷰티리본마스터
+RibbonG3Cute	큐트리본 (G3)
+RibbonG3CuteSuper	큐트리본슈퍼
+RibbonG3CuteHyper	큐트리본하이퍼
+RibbonG3CuteMaster	큐트리본마스터
+RibbonG3Smart	지니어스리본 (G3)
+RibbonG3SmartSuper	지니어스리본슈퍼
+RibbonG3SmartHyper	지니어스리본하이퍼
+RibbonG3SmartMaster	지니어스리본마스터
+RibbonG3Tough	파워풀리본 (G3)
+RibbonG3ToughSuper	파워풀리본슈퍼
+RibbonG3ToughHyper	파워풀리본하이퍼
+RibbonG3ToughMaster	파워풀리본마스터
+RibbonG4Cool	쿨리본 (G4)
+RibbonG4CoolGreat	쿨리본그레이트
+RibbonG4CoolUltra	쿨리본울트라
+RibbonG4CoolMaster	쿨리본마스터
+RibbonG4Beauty	뷰티리본 (G4)
+RibbonG4BeautyGreat	뷰티리본그레이트
+RibbonG4BeautyUltra	뷰티리본울트라
+RibbonG4BeautyMaster	뷰티리본마스터
+RibbonG4Cute	큐트리본 (G4)
+RibbonG4CuteGreat	큐트리본그레이트
+RibbonG4CuteUltra	큐트리본울트라
+RibbonG4CuteMaster	큐트리본마스터
+RibbonG4Smart	지니어스리본 (G4)
+RibbonG4SmartGreat	지니어스리본그레이트
+RibbonG4SmartUltra	지니어스리본울트라
+RibbonG4SmartMaster	지니어스리본마스터
+RibbonG4Tough	파워풀리본 (G4)
+RibbonG4ToughGreat	파워풀리본그레이트
+RibbonG4ToughUltra	파워풀리본울트라
+RibbonG4ToughMaster	파워풀리본마스터
+RibbonWinning	위닝리본
+RibbonVictory	빅토리리본
+RibbonAbility	어빌리티리본
+RibbonAbilityGreat	그레이트어빌리티리본
+RibbonAbilityDouble	더블어빌리티리본
+RibbonAbilityMulti	멀티어빌리티리본
+RibbonAbilityPair	페어어빌리티리본
+RibbonAbilityWorld	월드어빌리티리본
+RibbonCountG3Cool	쿨리본
+RibbonCountG3Beauty	뷰티리본
+RibbonCountG3Cute	큐트리본
+RibbonCountG3Smart	지니어스리본
+RibbonCountG3Tough = 파워풀리본
+RibbonChampionAlola	알로라챔피언리본
+RibbonBattleRoyale	로열마스터리본
+RibbonBattleTreeGreat	그레이트트리리본
+RibbonBattleTreeMaster	마스터트리리본

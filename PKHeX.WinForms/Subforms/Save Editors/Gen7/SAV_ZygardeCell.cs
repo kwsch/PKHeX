@@ -11,15 +11,16 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV;
         public SAV_ZygardeCell(SaveFile sav)
         {
-            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV7)(Origin = sav).Clone();
 
             // Constants @ 0x1C00
             // Cell Data @ 0x1D8C
             // Use constants 0x18C/2 = 198 thru +95
             ushort[] constants = SAV.EventConsts;
             ushort[] cells = constants.Skip(celloffset).Take(cellcount).ToArray();
-            
+
             int cellCount = constants[cellstotal];
             int cellCollected = constants[cellscollected];
 
@@ -32,6 +33,7 @@ namespace PKHeX.WinForms
 
             // Populate Grid
             dgv.Rows.Add(cellcount);
+            var locations = SAV.SM ? locationsSM : locationsUSUM;
             for (int i = 0; i < cellcount; i++)
             {
                 if (cells[i] > 2)
@@ -43,10 +45,10 @@ namespace PKHeX.WinForms
             }
         }
 
-        private const int cellstotal = 0x142/2;
-        private const int cellscollected = 0x152/2;
-        private const int celloffset = 198;
-        private const int cellcount = 95;
+        private const int cellstotal = 161;
+        private const int cellscollected = 169;
+        private const int celloffset = 0xC6;
+        private int cellcount => SAV.USUM ? 100 : 95;
         private readonly string[] states = {"None", "Available", "Received"};
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -64,9 +66,11 @@ namespace PKHeX.WinForms
 
             constants[cellstotal] = (ushort)NUD_Cells.Value;
             constants[cellscollected] = (ushort)NUD_Collected.Value;
+            if (SAV.USUM)
+                SAV.SetRecord(72, (int)NUD_Collected.Value);
 
             SAV.EventConsts = constants;
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
 
             Close();
         }
@@ -85,14 +89,15 @@ namespace PKHeX.WinForms
             }
 
             NUD_Collected.Value += added;
-            NUD_Cells.Value += added;
+            if (!SAV.USUM)
+                NUD_Cells.Value += added;
 
             System.Media.SystemSounds.Asterisk.Play();
         }
 
         #region locations -- lazy
 
-        private readonly string[] locations =
+        private readonly string[] locationsSM =
         {
             "Verdant Cave - Trial Site",
             "Ruins of Conflict - Outside",
@@ -189,6 +194,109 @@ namespace PKHeX.WinForms
             "Aether Foundation 1F - Outside (Day)",
             "Aether Foundation 1F - Entrance (Night)",
             "Aether Foundation 1F - Main Building",
+        };
+        private readonly string[] locationsUSUM =
+        {
+            "Hau'oli City (Shopping) - Salon (Outside)",
+            "Hau'oli City (Shopping) - Malasada Shop (Outside)",
+            "Hau'oli City (Shopping) - Ilima's House (2F)",
+            "Malie City - Library (1F)",
+            "Hau'oli City (Marina) - Pier",
+            "Route 2 - Southeast House",
+            "Hau'oli City (Shopping) - Ilima's House (Outside)",
+            "Hau'oli City (Shopping) - City Hall",
+            "Heahea City - Hotel (3F)",
+            "Route 2 - Berry Fields House",
+            "Route 2 - Berry Fields House (Outside)",
+            "Royal Avenue - Northeast",
+            "Hau'oli City (Shopping) - Pokemon Center (Outside)",
+            "Royal Avenue - South",
+            "Hokulani Observatory - Room",
+            "Hokulani Observatory - Reception",
+            "Hau'oli City (Shopping) - City Hall (Outside)",
+            "Konikoni City - Olivia's Jewelry Shop (2F)",
+            "Heahea City - Surfboard (Outside)",
+            "Po Town - Southwest",
+            "Hano Resort Lobby - Southwest Water",
+            "Hau'oli City (Shopping) - Northwest of Police Station",
+            "Hau'oli City (Marina) - Ferry Terminal (Outside)",
+            "Route 2 - Southeast House (Outside)",
+            "Route 2 - Pokemon Center (Outside)",
+            "Heahea City - West",
+            "Heahea City - Hotel West (Outside)",
+            "Heahea City - Hotel East (Outside)",
+            "Heahea City - Research Lab East (Outside)",
+            "Heahea City - Research Lab South (Outside)",
+            "Heahea City - Game Freak",
+            "Hokulani Observatory - Dead End",
+            "Heahea City - Game Freak Building (3F)",
+            "Heahea City - Research Lab",
+            "Heahea City - Hotel (1F)",
+            "Battle Royal Dome - 2F",
+            "Paniola Town - West",
+            "Paniola Town - Kiawe's House (1F)",
+            "Paniola Town - Kiawe's House (2F)",
+            "Paniola Ranch - Northwest",
+            "Paniola Ranch - Southeast",
+            "Hano Beach",
+            "Hano Resort - South",
+            "Hano Resort - North",
+            "Konikoni City Lighthouse (Through Diglett's Tunnel)",
+            "Battle Royal Dome - 1F",
+            "Route 8 - Aether Base (Outside)",
+            "Route 8 - Fossil Restoration Center (Outside)",
+            "Konikoni City - West",
+            "Konikoni City - Restaurant (1F)",
+            "Iki Town - Southwest",
+            "Hau'oli City (Shopping) - Ilima's House Pool",
+            "Wela Volcano Park - Rocks Behind Sign",
+            "Route 5 - South of Pokemon Center",
+            "Hano Beach - Below Sandygast",
+            "Malie City (Outer Cape) - Recycling Plant (Outside)",
+            "Malie City - Ferry Terminal (Outside)",
+            "Malie City - Apparel Shop (Outside)",
+            "Malie City - Salon (Outside)",
+            "Route 16 - Aether Base (Outside)",
+            "Blush Mountain - Power Plant (Outside)",
+            "Malie City - Library (2F)",
+            "Malie Garden - Northeast",
+            "Malie City - CommunityCenter",
+            "Hokulani Observatory - Outside",
+            "Mount Hokulani",
+            "Blush Mountain - Power Plant",
+            "Route 13",
+            "Route 14 - Front of Abandoned Megamart",
+            "Route 14 - North",
+            "Route 15 - Islet Surfboard (Outside)",
+            "Route 17 - Police Station (Outside)",
+            "Route 17 - Police Station",
+            "Po Town - Pokemon Center (Outside)",
+            "Exeggutor Island - Under Rock",
+            "Po Town - Shady House East (Outside)",
+            "Po Town - Pokemon Center",
+            "Po Town - Shady House (1F)",
+            "Route 13 - Motel (Outside)",
+            "Po Town - Shady House 2F (Outside)",
+            "Route 17 - South of Po Town",
+            "Ula'ula Meadow",
+            "Po Town - Shady House West Rocks (Outside) 1",
+            "Po Town - Shady House West Rocks (Outside) 2",
+            "Po Town - Shady House West Rocks (Outside) 3",
+            "Seafolk Village - Southeast Whiscash (Mina's Ship) (Outside)",
+            "Seafolk Village - Southwest Huntail",
+            "Seafolk Village - Southwest Huntail (Outside)",
+            "Seafolk Village - Southeast Whiscash (Mina's Ship)",
+            "Seafolk Village - West Wailord (Restaurant)",
+            "Seafolk Village - East Steelix",
+            "Poni Wilds - Southeast",
+            "Ancient Poni Path - Hapu's House (Kitchen)",
+            "Seafolk Village - Northeast",
+            "Ancient Poni Path - Hapu's House (Bedroom)",
+            "Ancient Poni Path - Southwest",
+            "Ancient Poni Path - Hapu's House (Courtyard)",
+            "Ancient Poni Path - Hapu's House (Outside Behind Well)",
+            "Ancient Poni Path - Northeast",
+            "Battle Tree - Entrance",
         };
 
         #endregion

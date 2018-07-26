@@ -4,7 +4,10 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class WC6 : MysteryGift, IRibbonSet1, IRibbonSet2
+    /// <summary>
+    /// Generation 6 Mystery Gift Template File
+    /// </summary>
+    public sealed class WC6 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IContestStats
     {
         public const int Size = 0x108;
         public const int SizeFull = 0x310;
@@ -13,12 +16,14 @@ namespace PKHeX.Core
 
         public WC6(byte[] data = null)
         {
-            Data = (byte[])(data?.Clone() ?? new byte[Size]);
+            Data = data ?? new byte[Size];
             if (Data.Length == SizeFull)
             {
-                if (Data[0x205] == 0)
-                    Data = new byte[Data.Length]; // Invalidate
-                Data = Data.Skip(SizeFull - Size).ToArray();
+                byte[] wc6 = new byte[Size];
+                if (Data[0x205] != 0) // Valid data
+                    Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
+                Data = wc6;
+
                 DateTime now = DateTime.Now;
                 Year = (uint)now.Year;
                 Month = (uint)now.Month;
@@ -27,7 +32,7 @@ namespace PKHeX.Core
             if (Year < 2000)
                 Data = new byte[Data.Length]; // Invalidate
         }
-        
+
         // General Card Properties
         public override int CardID {
             get => BitConverter.ToUInt16(Data, 0);
@@ -89,20 +94,20 @@ namespace PKHeX.Core
 
         // Item Properties
         public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }
-        public override int Item {
+        public override int ItemID {
             get => BitConverter.ToUInt16(Data, 0x68);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); }
         public override int Quantity {
             get => BitConverter.ToUInt16(Data, 0x70);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
-        
+
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
-        public override bool IsShiny => PIDType == 2;
-        public int TID {
+        public override bool IsShiny => PIDType == Shiny.Always;
+        public override int TID {
             get => BitConverter.ToUInt16(Data, 0x68);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); }
-        public int SID {
+        public override int SID {
             get => BitConverter.ToUInt16(Data, 0x6A);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); }
         public int OriginGame {
@@ -132,7 +137,7 @@ namespace PKHeX.Core
         public override int Species {
             get => BitConverter.ToUInt16(Data, 0x82);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x82); }
-        public int Form {
+        public override int Form {
             get => Data[0x84];
             set => Data[0x84] = (byte)value; }
         public int Language {
@@ -144,16 +149,16 @@ namespace PKHeX.Core
         public int Nature {
             get => Data[0xA0];
             set => Data[0xA0] = (byte)value; }
-        public int Gender {
+        public override int Gender {
             get => Data[0xA1];
             set => Data[0xA1] = (byte)value; }
-        public int AbilityType {
+        public override int AbilityType {
             get => Data[0xA2];
             set => Data[0xA2] = (byte)value; }
-        public int PIDType {
-            get => Data[0xA3];
+        public Shiny PIDType {
+            get => (Shiny)Data[0xA3];
             set => Data[0xA3] = (byte)value; }
-        public int EggLocation {
+        public override int EggLocation {
             get => BitConverter.ToUInt16(Data, 0xA4);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA4); }
         public int MetLocation  {
@@ -175,7 +180,7 @@ namespace PKHeX.Core
         public int IV_SPD { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
 
         public int OTGender { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
-        public string OT {
+        public override string OT_Name {
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB6, 0x1A)); set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6);
         }
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
@@ -227,7 +232,7 @@ namespace PKHeX.Core
         public bool RIB1_7 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Empty
 
         // Meta Accessible Properties
-        public int[] IVs
+        public override int[] IVs
         {
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
@@ -248,6 +253,7 @@ namespace PKHeX.Core
             }
         }
         public bool IsNicknamed => Nickname.Length > 0;
+        public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
 
         public override int[] Moves
         {
@@ -272,13 +278,13 @@ namespace PKHeX.Core
             }
         }
 
-        public override PKM convertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV)
         {
             if (!IsPokémon)
                 return null;
 
-            int currentLevel = Level > 0 ? Level : (int)(Util.rnd32()%100 + 1);
-            var pi = PersonalTable.AO.getFormeEntry(Species, Form);
+            int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
+            var pi = PersonalTable.AO.GetFormeEntry(Species, Form);
             PK6 pk = new PK6
             {
                 Species = Species,
@@ -286,10 +292,10 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
+                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
                 Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
-                EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.rnd32(),
+                EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
                 Version = OriginGame != 0 ? OriginGame : SAV.Game,
                 Language = Language != 0 ? Language : SAV.Language,
                 Ball = Ball,
@@ -308,13 +314,13 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                OT_Name = OT.Length > 0 ? OT : SAV.OT,
+                OT_Name = OT_Name.Length > 0 ? OT_Name : SAV.OT,
                 OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
-                HT_Name = OT.Length > 0 ? SAV.OT : "",
-                HT_Gender = OT.Length > 0 ? SAV.Gender : 0,
-                CurrentHandler = OT.Length > 0 ? 1 : 0,
-                
-                EXP = PKX.getEXP(Level, Species),
+                HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
+                HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
+                CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
+
+                EXP = PKX.GetEXP(Level, Species),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -334,7 +340,7 @@ namespace PKHeX.Core
                 RibbonChampionRegional = RibbonChampionRegional,
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
-                
+
                 OT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
@@ -344,59 +350,46 @@ namespace PKHeX.Core
 
                 EVs = EVs,
             };
-            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-            pk.Move1_PP = pk.getMovePP(Move1, 0);
-            pk.Move2_PP = pk.getMovePP(Move2, 0);
-            pk.Move3_PP = pk.getMovePP(Move3, 0);
-            pk.Move4_PP = pk.getMovePP(Move4, 0);
+            pk.SetMaximumPPCurrent();
 
             pk.MetDate = Date ?? DateTime.Now;
 
-            if (SAV.Generation > 6 && OriginGame == 0) // Gen7
-            {
-                pk.Version = (int)GameVersion.OR;
-            }
+            if (SAV.Generation > 6 && OriginGame == 0) // Gen7+, give random gen6 game
+                pk.Version = (int)GameVersion.X + Util.Rand.Next(4);
 
+            if (!IsEgg)
             if (pk.CurrentHandler == 0) // OT
             {
                 pk.OT_Memory = 3;
                 pk.OT_TextVar = 9;
                 pk.OT_Intensity = 1;
-                pk.OT_Feeling = Util.rand.Next(0, 9);
+                pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory, 10); // 0-9
             }
             else
             {
                 pk.HT_Memory = 3;
                 pk.HT_TextVar = 9;
                 pk.HT_Intensity = 1;
-                pk.HT_Feeling = Util.rand.Next(0, 9);
+                pk.HT_Feeling = Memories.GetRandomFeeling(pk.HT_Memory, 10); // 0-9
                 pk.HT_Friendship = pk.OT_Friendship;
             }
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
+            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
-            // More 'complex' logic to determine final values
-            
-            // Dumb way to generate random IVs.
             int[] finalIVs = new int[6];
-            switch (IVs[0])
+            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            if (ivflag == 0) // Random IVs
             {
-                case 0xFE:
-                    do { // 3 Perfect IVs
-                    for (int i = 0; i < 6; i++)
-                        finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
-                    } while (finalIVs.Count(r => r == 31) < 3); // 3*31
-                    break;
-                case 0xFD: 
-                    do { // 2 other 31s
-                    for (int i = 0; i < 6; i++)
-                        finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
-                    } while (finalIVs.Count(r => r == 31) < 2); // 2*31
-                    break;
-                default: // Random IVs
-                    for (int i = 0; i < 6; i++)
-                        finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
-                    break;
+                for (int i = 0; i < 6; i++)
+                    finalIVs[i] = IVs[i] > pk.MaxIV ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
+            }
+            else // 1/2/3 perfect IVs
+            {
+                int IVCount = ivflag - 0xFB;
+                do { finalIVs[Util.Rand.Next(6)] = 31; }
+                while (finalIVs.Count(r => r == 31) < IVCount);
+                for (int i = 0; i < 6; i++)
+                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
             }
             pk.IVs = finalIVs;
 
@@ -410,7 +403,7 @@ namespace PKHeX.Core
                     break;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = (int)(Util.rnd32()%(AbilityType - 1));
+                    av = Util.Rand.Next(AbilityType - 1);
                     break;
             }
             pk.Ability = pi.Abilities[av];
@@ -418,19 +411,19 @@ namespace PKHeX.Core
 
             switch (PIDType)
             {
-                case 00: // Specified
+                case Shiny.FixedValue: // Specified
                     pk.PID = PID;
                     break;
-                case 01: // Random
-                    pk.PID = Util.rnd32();
+                case Shiny.Random: // Random
+                    pk.PID = Util.Rand32();
                     break;
-                case 02: // Random Shiny
-                    pk.PID = Util.rnd32();
-                    pk.PID = (uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF));
+                case Shiny.Always: // Random Shiny
+                    pk.PID = Util.Rand32();
+                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
                     break;
-                case 03: // Random Nonshiny
-                    pk.PID = Util.rnd32();
-                    if ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF)) < 16) pk.PID ^= 0x10000000;
+                case Shiny.Never: // Random Nonshiny
+                    pk.PID = Util.Rand32();
+                    if (pk.IsShiny) pk.PID ^= 0x10000000;
                     break;
             }
 
@@ -438,7 +431,10 @@ namespace PKHeX.Core
             {
                 pk.IsEgg = true;
                 pk.EggMetDate = Date;
+                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+                pk.IsNicknamed = true;
             }
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
             pk.RefreshChecksum();
             return pk;

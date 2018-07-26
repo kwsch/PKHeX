@@ -1,7 +1,8 @@
-﻿using System.Linq;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from the Black 2 &amp; White 2 games.
+    /// </summary>
     public class PersonalInfoB2W2 : PersonalInfoBW
     {
         public new const int SIZE = 0x4C;
@@ -12,25 +13,25 @@ namespace PKHeX.Core
             Data = data;
 
             // Unpack TMHM & Tutors
-            TMHM = getBits(Data.Skip(0x28).Take(0x10).ToArray());
-            TypeTutors = getBits(Data.Skip(0x38).Take(0x4).ToArray());
+            TMHM = GetBits(Data, 0x28, 0x10);
+            TypeTutors = GetBits(Data, 0x38, 0x4);
             SpecialTutors = new[]
             {
-                getBits(Data.Skip(0x3C).Take(0x04).ToArray()),
-                getBits(Data.Skip(0x40).Take(0x04).ToArray()),
-                getBits(Data.Skip(0x44).Take(0x04).ToArray()),
-                getBits(Data.Skip(0x48).Take(0x04).ToArray()),
+                GetBits(Data, 0x3C, 0x04),
+                GetBits(Data, 0x40, 0x04),
+                GetBits(Data, 0x44, 0x04),
+                GetBits(Data, 0x48, 0x04),
             };
         }
 
         public override byte[] Write()
         {
-            setBits(TMHM).CopyTo(Data, 0x28);
-            setBits(TypeTutors).CopyTo(Data, 0x38);
-            setBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
-            setBits(SpecialTutors[1]).CopyTo(Data, 0x40);
-            setBits(SpecialTutors[2]).CopyTo(Data, 0x44);
-            setBits(SpecialTutors[3]).CopyTo(Data, 0x48);
+            SetBits(TMHM).CopyTo(Data, 0x28);
+            SetBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(SpecialTutors[0]).CopyTo(Data, 0x3C);
+            SetBits(SpecialTutors[1]).CopyTo(Data, 0x40);
+            SetBits(SpecialTutors[2]).CopyTo(Data, 0x44);
+            SetBits(SpecialTutors[3]).CopyTo(Data, 0x48);
             return Data;
         }
     }

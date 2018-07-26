@@ -108,7 +108,7 @@ Route 10
 
 Route 11
 
-Secluded Shore
+Ula’ula Beach
 
 Route 13
 
@@ -188,7 +188,46 @@ Battle Tree
 
 Aether Paradise
 
-Ultra Space
+Ultra Deep Sea
 
 Malie City
 Outer Cape
+Melemele
+Akala
+Ula’ula
+Poni
+Big Wave Beach
+
+Sandy Cave
+
+Heahea Beach
+
+Poni Beach
+
+Ultra Megalopolis
+
+Megalo Tower
+
+Ultra Plant
+
+Ultra Crater
+
+Ultra Desert
+
+Ultra Forest
+
+Ultra Jungle
+
+Ultra Ruin
+
+Ultra Space Wilds
+
+Team Rocket’s Castle
+
+Plains Grotto
+
+Pikachu Valley
+
+Route 1
+Trainers’ School
+Dividing Peak Tunnel

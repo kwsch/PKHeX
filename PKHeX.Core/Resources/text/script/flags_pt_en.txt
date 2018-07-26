@@ -1,0 +1,32 @@
+0481	Uxie Disappeared
+0479	Mesprit (Verity Cavern) Disappeared
+0480	Azelf Disappeared
+0208	Dialga Captured
+0209	Palkia Captured
+0591	Cresselia (Fullmoon Island) Disappeared
+0476	Charon (Stark Mountain) Disappeared
+0293	Heatran Battleable
+0288	Heatran Disappeared
+0579	Regigigas Disappeared
+0306	Hall of Origin (Spear Pillar) Appeared
+0461	Cynthia (Spear Pillar) Disappeared
+0672	Cynthia (Sendoff Spring) Disappeared
+0592	Giratina Disappeared
+0344	Darkrai Disappeared
+0301	Professor Oak (Route 224) #1 Disappeared
+0594	Professor Oak (Route 224) #2 Disappeared
+0714	Marley (Route 224) Disappeared
+0604	Seabreak Path Appeared
+0291	Shaymin (Flower Paradise) Disappeared
+0286	Arceus Disappeared
+0307	Fullmoon Island Ferry Accessable
+0316	Newmoon Island Ferry Accessable
+0578	Professor Oak (Eterna City) Disappeared
+0281	Articuno/Zapdos/Moltres Roamed (1)
+0153	Articuno/Zapdos/Moltres Roamed (2)
+2404	Entered Hall of Fame (Trainer Card Upgrade)
+2408	Cool Contest Master
+2409	Beauty Contest Master
+2410	Cute Contest Master
+2411	Smart Contest Master
+2412	Tough Contest Master

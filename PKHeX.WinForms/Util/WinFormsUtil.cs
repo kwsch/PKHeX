@@ -6,120 +6,38 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.WinForms
 {
     public static class WinFormsUtil
     {
-        #region Form Translation
-        internal static void TranslateInterface(Control form, string lang)
-        {
-            // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = "lang_" + lang + ".txt";
-            string[] rawlist;
-            if (File.Exists(externalLangPath))
-                rawlist = File.ReadAllLines(externalLangPath);
-            else
-            {
-                var file = "lang_" + lang;
-                rawlist = Util.getStringList(file);
-                if (rawlist.Length == 0)
-                {
-                    // Translation file does not exist as a resource; abort this function and don't translate UI.
-                    return;
-                }
-            }
+        internal static void TranslateInterface(Control form, string lang) => form.TranslateInterface(lang);
 
-            List<string> stringdata = new List<string>();
-            int start = -1;
-            for (int i = 0; i < rawlist.Length; i++)
-            {
-                // Find our starting point
-                if (!rawlist[i].Contains("! " + form.Name)) continue;
-                start = i;
-                break;
-            }
-            if (start < 0)
-                return;
-
-            // Rename Window Title
-            string[] WindowName = rawlist[start].Split(new[] { " = " }, StringSplitOptions.None);
-            if (WindowName.Length > 1) form.Text = WindowName[1];
-
-            // Fetch controls to rename
-            for (int i = start + 1; i < rawlist.Length; i++)
-            {
-                if (rawlist[i].Length == 0) continue; // Skip Over Empty Lines, errhandled
-                if (rawlist[i][0] == '-') continue; // Keep translating if line is a comment line
-                if (rawlist[i][0] == '!') // Stop if we have reached the end of translation
-                    break;
-                stringdata.Add(rawlist[i]); // Add the entry to process later.
-            }
-
-            if (stringdata.Count == 0)
-                return;
-
-            // Find control then change display Text.
-            form.SuspendLayout();
-            foreach (string str in stringdata)
-            {
-                string[] SplitString = str.Split(new[] { " = " }, StringSplitOptions.None);
-                if (SplitString.Length < 2)
-                    continue;
-
-                object c = FindControl(SplitString[0], form.Controls); // Find control within Form's controls
-                if (c == null) // Not found
-                    continue;
-
-                string text = SplitString[1]; // Text to set Control.Text to...
-
-                if (c is Control)
-                    (c as Control).Text = text;
-                else if (c is ToolStripItem)
-                    (c as ToolStripItem).Text = text;
-            }
-            form.ResumeLayout();
-        }
-        private static object FindControl(string name, Control.ControlCollection c)
-        {
-            Control control = c.Find(name, true).FirstOrDefault();
-            if (control != null)
-                return control;
-            foreach (MenuStrip menu in c.OfType<MenuStrip>())
-            {
-                var item = menu.Items.Find(name, true).FirstOrDefault();
-                if (item != null)
-                    return item;
-            }
-            foreach (ContextMenuStrip strip in FindContextMenuStrips(c.OfType<Control>()))
-            {
-                var item = strip.Items.Find(name, true).FirstOrDefault();
-                if (item != null)
-                    return item;
-            }
-            return null;
-        }
-        private static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
-        {
-            List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
-            foreach (Control control in c)
-            {
-                if (control.ContextMenuStrip != null)
-                    cs.Add(control.ContextMenuStrip);
-
-                else if (control.Controls.Count > 0)
-                    cs.AddRange(FindContextMenuStrips(control.Controls.OfType<Control>()));
-            }
-            return cs;
-        }
         internal static void CenterToForm(this Control child, Control parent)
         {
-            int x = parent.Location.X + (parent.Width - child.Width) / 2;
-            int y = parent.Location.Y + (parent.Height - child.Height) / 2;
+            int x = parent.Location.X + ((parent.Width - child.Width) / 2);
+            int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
         }
-        #endregion
 
-        public static Form FirstFormOfType<T>(this Form f) => f.OwnedForms.FirstOrDefault(form => form is T);
+        public static Form FirstFormOfType<T>(this Form f) => Array.Find(f.OwnedForms, form => form is T);
+
+        public static T FindFirstControlOfType<T>(Control aParent) where T : class
+        {
+            while (true)
+            {
+                var t = aParent as T;
+                if (t != null)
+                    return t;
+
+                if (aParent.Parent != null)
+                    aParent = aParent.Parent;
+                else
+                    return null;
+            }
+        }
+
         public static Control GetUnderlyingControl(object sender) => ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
 
         #region Message Displays
@@ -160,16 +78,20 @@ namespace PKHeX.WinForms
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
+        #endregion
 
-        internal static int getIndex(ComboBox cb)
+        /// <summary>
+        /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.
+        /// </summary>
+        /// <param name="cb">ComboBox to retrieve value for.</param>
+        internal static int GetIndex(ComboBox cb)
         {
             return (int)(cb?.SelectedValue ?? 0);
         }
 
         public static void PanelScroll(object sender, ScrollEventArgs e)
         {
-            var p = sender as Panel;
-            if (e.NewValue < 0)
+            if (!(sender is Panel p) || e.NewValue < 0)
                 return;
             switch (e.ScrollOrientation)
             {
@@ -181,19 +103,58 @@ namespace PKHeX.WinForms
                     break;
             }
         }
-        #endregion
 
-        public static bool IsClickonceDeployed
+        /// <summary>
+        /// Initializes the <see cref="control"/> to be bound to a provided <see cref="ComboItem"/> list.
+        /// </summary>
+        /// <param name="control">Control to initialize binding</param>
+        public static void InitializeBinding(this ListControl control)
         {
-            get
-            {
-#if CLICKONCE
-                return System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed;
-#else
-                return false;
-#endif
-            }
+            control.DisplayMember = nameof(ComboItem.Text);
+            control.ValueMember = nameof(ComboItem.Value);
         }
+
+        public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
+
+        /// <summary>
+        /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IEnumerable<Control> GetAllControlsOfType(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>().ToList();
+            return controls.SelectMany(ctrl => GetAllControlsOfType(ctrl, type))
+                .Concat(controls)
+                .Where(c => c.GetType() == type);
+        }
+
+#if CLICKONCE
+        public static bool IsClickonceDeployed => System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed;
+#else
+        public static bool IsClickonceDeployed => false;
+#endif
+
+        /// <summary>
+        /// Reads in custom extension types that allow the program to open more extensions.
+        /// </summary>
+        /// <param name="exts">Extensions to add</param>
+        public static void AddSaveFileExtensions(IEnumerable<string> exts) => CustomSaveExtensions.AddRange(exts);
+
+        private static readonly List<string> CustomSaveExtensions = new List<string>
+        {
+            // THESE ARE SAVE FILE EXTENSION TYPES. SAVE STATE (RAM SNAPSHOT) EXTENSIONS DO NOT GO HERE.
+            "sav", // standard
+            "dat", // VC data
+            "gci", // Dolphin GameCubeImage
+            "dsv", // DeSmuME
+            "srm", // RetroArch save files
+            "fla", // flashcard
+            "SaveRAM", // BizHawk
+        };
+
+        private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
 
         /// <summary>
         /// Opens a dialog to open a <see cref="SaveFile"/>, <see cref="PKM"/> file, or any other supported file.
@@ -201,16 +162,15 @@ namespace PKHeX.WinForms
         /// <param name="Extensions">Misc extensions of <see cref="PKM"/> files supported by the SAV.</param>
         /// <param name="path">Output result path</param>
         /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
-        public static bool OpenSAVPKMDialog(string[] Extensions, out string path)
+        public static bool OpenSAVPKMDialog(IEnumerable<string> Extensions, out string path)
         {
-            string supported = string.Join(";", Extensions.Select(s => "*." + s).Concat(new[] { "*.pkm" }));
+            string supported = string.Join(";", Extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
-                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;{supported};*.bak" +
-                         "|3DS Main Files|main" +
-                         "|Save Files|*.sav;*.dat;*.gci" +
-                         "|Decrypted PKM File|" + supported +
+                         $"|Supported Files (*.*)|main;*.bin;{supported};*.bak" + ExtraSaveExtensions +
+                         "|Save Files (*.sav)|main" + ExtraSaveExtensions +
+                         "|Decrypted PKM File (*.pkm)|" + supported +
                          "|Binary File|*.bin" +
                          "|Backup File|*.bak"
             };
@@ -220,18 +180,25 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.detectSaveFile(out path, cgse))
-                Error(path);
 
-            if (path != null)
-            { ofd.FileName = path; }
+            string msg = null;
+            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg, cgse);
+            if (sav == null && !string.IsNullOrWhiteSpace(msg))
+                Error(msg);
+
+            if (sav != null)
+                ofd.FileName = sav.FileName;
 
             if (ofd.ShowDialog() != DialogResult.OK)
+            {
+                path = null;
                 return false;
+            }
 
             path = ofd.FileName;
             return true;
         }
+
         /// <summary>
         /// Opens a dialog to save a <see cref="PKM"/> file.
         /// </summary>
@@ -240,12 +207,11 @@ namespace PKHeX.WinForms
         public static bool SavePKMDialog(PKM pk)
         {
             string pkx = pk.Extension;
-            string ekx = 'e' + pkx.Substring(1, pkx.Length - 1);
-            bool allowEncrypted = pk.Format > 2 && pkx[0] == 'p' || pkx[0] == 'b';
+            bool allowEncrypted = pk.Format > 3 || pk is PK3;
             SaveFileDialog sfd = new SaveFileDialog
             {
                 Filter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.{ekx}" : "") +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : "") +
                          "|Binary File|*.bin" +
                          "|All Files|*.*",
                 DefaultExt = pkx,
@@ -253,31 +219,30 @@ namespace PKHeX.WinForms
             };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
-            string path = sfd.FileName;
-            string ext = Path.GetExtension(path);
 
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                string bakpath = path + ".bak";
-                if (!File.Exists(bakpath))
-                {
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(bakpath, backupfile);
-                }
-            }
-
-            if (new[] { ".ekx", "." + ekx, ".bin" }.Contains(ext))
-                File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] { "." + pkx }.Contains(ext))
-                File.WriteAllBytes(path, pk.DecryptedBoxData);
-            else
-            {
-                Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
-                File.WriteAllBytes(path, pk.EncryptedPartyData);
-            }
+            SavePKM(pk, sfd.FileName, pkx);
             return true;
         }
+
+        private static void SavePKM(PKM pk, string path, string pkx)
+        {
+            SaveBackup(path);
+            string ext = Path.GetExtension(path);
+            var data = $".{pkx}" == ext ? pk.DecryptedBoxData : pk.EncryptedPartyData;
+            File.WriteAllBytes(path, data);
+        }
+
+        private static void SaveBackup(string path)
+        {
+            if (!File.Exists(path))
+                return;
+
+            // File already exists, save a .bak
+            string bakpath = $"{path}.bak";
+            if (!File.Exists(bakpath))
+                File.Move(path, bakpath);
+        }
+
         /// <summary>
         /// Opens a dialog to save a <see cref="SaveFile"/> file.
         /// </summary>
@@ -288,17 +253,18 @@ namespace PKHeX.WinForms
         {
             // Chunk Error Checking
             string err = SAV.MiscSaveChecks();
-            if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
+            if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, MsgSaveExportContinue) != DialogResult.Yes)
                 return false;
 
             SaveFileDialog main = new SaveFileDialog
             {
                 Filter = SAV.Filter,
                 FileName = SAV.FileName,
+                FilterIndex = 1000, // default to last, All Files
                 RestoreDirectory = true
             };
-            if (Directory.Exists(SAV.FilePath))
-                main.InitialDirectory = SAV.FilePath;
+            if (Directory.Exists(SAV.FileFolder))
+                main.InitialDirectory = SAV.FileFolder;
 
             // Export
             if (main.ShowDialog() != DialogResult.OK)
@@ -307,23 +273,24 @@ namespace PKHeX.WinForms
             if (SAV.HasBox)
                 SAV.CurrentBox = CurrentBox;
 
-            bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
-            bool gci = Path.GetExtension(main.FileName)?.ToLower() == ".gci";
+            var ext = Path.GetExtension(main.FileName)?.ToLower();
+            bool dsv = ext == ".dsv";
+            bool gci = ext == ".gci";
             try
             {
                 File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
                 SAV.Edited = false;
-                Alert("SAV exported to:", main.FileName);
+                Alert(MsgSaveExportSuccessPath, main.FileName);
             }
             catch (Exception x)
             {
                 if (x is UnauthorizedAccessException || x is FileNotFoundException || x is IOException)
-                    Error("Unable to save." + Environment.NewLine + x.Message,
-                        "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
+                    Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
                 else throw;
             }
             return true;
         }
+
         /// <summary>
         /// Opens a dialog to save a <see cref="MysteryGift"/> file.
         /// </summary>
@@ -333,7 +300,7 @@ namespace PKHeX.WinForms
         {
             SaveFileDialog output = new SaveFileDialog
             {
-                Filter = getMysterGiftFilter(gift.Format),
+                Filter = GetMysterGiftFilter(gift.Format),
                 FileName = Util.CleanFileName(gift.FileName)
             };
             if (output.ShowDialog() != DialogResult.OK)
@@ -344,32 +311,29 @@ namespace PKHeX.WinForms
             if (File.Exists(path))
             {
                 // File already exists, save a .bak
-                string bakpath = path + ".bak";
+                string bakpath = $"{path}.bak";
                 if (!File.Exists(bakpath))
-                {
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(bakpath, backupfile);
-                }
+                    File.Move(path, bakpath);
             }
 
             File.WriteAllBytes(path, gift.Data);
             return true;
         }
 
-        public static string getMysterGiftFilter(int Format)
+        /// <summary>
+        /// Gets the File Dialog filter for a Mystery Gift I/O operation.
+        /// </summary>
+        /// <param name="Format">Format specifier for the </param>
+        public static string GetMysterGiftFilter(int Format)
         {
+            const string all = "|All Files|*.*";
             switch (Format)
             {
-                case 4:
-                    return "Gen4 Mystery Gift|*.pgt;*.pcd|All Files|*.*";
-                case 5:
-                    return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
-                case 6:
-                    return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
-                case 7:
-                    return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
-                default:
-                    return "";
+                case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all;
+                case 5: return "Gen5 Mystery Gift|*.pgf" + all;
+                case 6: return "Gen6 Mystery Gift|*.wc6;*.wc6full" + all;
+                case 7: return "Gen7 Mystery Gift|*.wc7;*.wc7full" + all;
+                default: return string.Empty;
             }
         }
     }

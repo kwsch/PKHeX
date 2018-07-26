@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PKHeX.WinForms
@@ -8,15 +9,12 @@ namespace PKHeX.WinForms
         public SplashScreen()
         {
             InitializeComponent();
-            new Thread(() =>
+            new Task(() =>
             {
-                while (!Main.formInitialized)
+                while (!Main.IsInitialized)
                     Thread.Sleep(50);
 
-                if (InvokeRequired)
-                    try { Invoke((MethodInvoker)Close); }
-                    catch { Close(); }
-                else Close();
+                Invoke((MethodInvoker)Close);
             }).Start();
         }
     }

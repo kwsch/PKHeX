@@ -231,3 +231,4 @@ Herbogénesis
 Guardia Metálica
 Guardia Espectro
 Armadura Prisma
+Fuerza Cerebral
