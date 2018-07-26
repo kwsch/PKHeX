@@ -24,6 +24,14 @@ namespace PKHeX.WinForms
             };
             Owner = p.ParentForm;
 
+            MouseWheel += (s, e) =>
+            {
+                if (e.Delta > 1)
+                    Box.MoveLeft();
+                else
+                    Box.MoveRight();
+            };
+
             foreach (PictureBox pb in Box.SlotPictureBoxes)
                 pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;
         }

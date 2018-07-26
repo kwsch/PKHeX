@@ -93,6 +93,14 @@ namespace PKHeX.WinForms.Controls
                 pb.ContextMenuStrip = menu.mnuVSD;
             }
 
+            Tab_Box.MouseWheel += (s, e) =>
+            {
+                if (e.Delta > 1)
+                    Box.MoveLeft();
+                else
+                    Box.MoveRight();
+            };
+
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
             Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);

@@ -210,19 +210,15 @@ namespace PKHeX.WinForms.Controls
             ResetSlots();
             M?.RefreshHoverSlot(this);
         }
-        private void ClickBoxLeft(object sender, EventArgs e)
+        private void ClickBoxLeft(object sender, EventArgs e) => MoveLeft(ModifierKeys == Keys.Control);
+        public void MoveLeft(bool max = false)
         {
-            if (ModifierKeys == Keys.Control)
-                CurrentBox = 0;
-            else
-                CurrentBox = (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
+            CurrentBox = max ? 0 : (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
         }
-        private void ClickBoxRight(object sender, EventArgs e)
+        private void ClickBoxRight(object sender, EventArgs e) => MoveRight(ModifierKeys == Keys.Control);
+        public void MoveRight(bool max = false)
         {
-            if (ModifierKeys == Keys.Control)
-                CurrentBox = SAV.BoxCount - 1;
-            else
-                CurrentBox = (CurrentBox + 1) % SAV.BoxCount;
+            CurrentBox = max ? SAV.BoxCount - 1 : (CurrentBox + 1) % SAV.BoxCount;
         }
         private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
         {
