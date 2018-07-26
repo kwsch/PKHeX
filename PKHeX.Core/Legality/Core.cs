@@ -33,6 +33,7 @@ namespace PKHeX.Core
         public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
         public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
+        internal static bool IsNotFromActiveTrainer(PKM pkm) => !ActiveTrainer.IsFromTrainer(pkm);
 
         // Gen 1
         internal static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
@@ -1177,27 +1178,33 @@ namespace PKHeX.Core
         }
         private static IEnumerable<int> GetEvoMoves(PKM pkm, GameVersion Version, IReadOnlyList<EvoCriteria> vs, int Generation, int minLvLG1, int minLvLG2, bool LVL, bool Tutor, bool Machine, bool MoveReminder, bool RemoveTransferHM, bool moveTutor, int i, EvoCriteria evo)
         {
-            var minlvlevo1 = 1;
-            var minlvlevo2 = 1;
-            if (Generation == 1)
-            {
-                // Return moves from minLvLG1 if species if the species encounters
-                // For evolutions return moves using evolution min level as min level
-                minlvlevo1 = minLvLG1;
-                if (evo.MinLevel > 1)
-                    minlvlevo1 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
-            }
-            if (Generation == 2 && !AllowGen2MoveReminder(pkm))
-            {
-                minlvlevo2 = minLvLG2;
-                if (evo.MinLevel > 1)
-                    minlvlevo2 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
-            }
+            int minlvlevo1 = GetEvoMoveMinLevel1(pkm, Generation, minLvLG1, evo);
+            int minlvlevo2 = GetEvoMoveMinLevel2(pkm, Generation, minLvLG2, evo);
             var maxLevel = evo.Level;
             if (i != 0 && vs[i - 1].RequiresLvlUp) // evolution
                 ++maxLevel; // allow lvlmoves from the level it evolved to the next species
             return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation);
         }
+
+        private static int GetEvoMoveMinLevel1(PKM pkm, int Generation, int minLvLG1, EvoCriteria evo)
+        {
+            // Return moves from minLvLG1 if species if the species encounters
+            // For evolutions return moves using evolution min level as min level
+            if (Generation != 1)
+                return 1;
+            if (evo.MinLevel > 1)
+                return Math.Min(pkm.CurrentLevel, evo.MinLevel);
+            return minLvLG1;
+        }
+        private static int GetEvoMoveMinLevel2(PKM pkm, int Generation, int minLvLG2, EvoCriteria evo)
+        {
+            if (Generation != 2 || AllowGen2MoveReminder(pkm))
+                return 1;
+            if (evo.MinLevel > 1)
+                return Math.Min(pkm.CurrentLevel, evo.MinLevel);
+            return minLvLG2;
+        }
+
         private static IEnumerable<int> GetMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
         {
             List<int> r = new List<int>();
@@ -1239,19 +1246,6 @@ namespace PKHeX.Core
                 return true;
 
             return false;
-        }
-        internal static bool IsNotFromActiveTrainer(PKM pkm)
-        {
-            if (ActiveTrainer.Game == (int)GameVersion.Any)
-                return false;
-            var Outsider = ActiveTrainer.TID != pkm.TID || ActiveTrainer.OT != pkm.OT_Name;
-            if (pkm.Format <= 2)
-                return Outsider;
-            Outsider |= ActiveTrainer.SID != pkm.SID;
-            if (pkm.Format == 3) // Generation 3 does not check ot gender nor pokemon version
-                return Outsider;
-            Outsider |= ActiveTrainer.Gender != pkm.OT_Gender || ActiveTrainer.Game != pkm.Version;
-            return Outsider;
         }
 
         internal const GameVersion NONE = GameVersion.Invalid;
