@@ -60,13 +60,13 @@ namespace PKHeX.WinForms.Controls
                 return;
             BeginHoverSlot(pb);
         }
-        private Bitmap GetGlowSprite(PictureBox pb, PKM pk)
+        private Bitmap GetGlowSprite(PKM pk)
         {
             var baseSprite = SpriteUtil.GetSprite(pk.Species, pk.AltForm, pk.Gender, 0, pk.IsEgg, false, pk.Format);
 
             var pixels = ImageUtil.GetPixelData((Bitmap)baseSprite);
-            ImageUtil.GlowEdges(pixels, new[] {GlowInitial.B, GlowInitial.G, GlowInitial.R}, pb.Image.Width);
-            return ImageUtil.GetBitmap(pixels, pb.Image.Width, pb.Image.Height);
+            ImageUtil.GlowEdges(pixels, new[] {GlowInitial.B, GlowInitial.G, GlowInitial.R}, baseSprite.Width);
+            return ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height);
         }
         private void BeginHoverSlot(PictureBox pb)
         {
@@ -82,7 +82,7 @@ namespace PKHeX.WinForms.Controls
             {
                 HoverWorker?.Stop();
 
-                var GlowBase = GetGlowSprite(pb, pk);
+                var GlowBase = GetGlowSprite(pk);
                 hover = ImageUtil.LayerImage(GlowBase, Resources.slotHover, 0, 0);
                 HoverWorker = new BitmapAnimator(GlowBase, Resources.slotHover) { GlowFromColor = GlowInitial, GlowToColor = GlowFinal };
                 HoverWorker.Start(pb, OriginalBackground);
