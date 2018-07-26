@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
         public bool GlowHover { get; set; } = true;
         public Color GlowInitial { get; set; } = Color.White;
         public Color GlowFinal { get; set; } = Color.LightSkyBlue;
-        private BitmapAnimator HoverWorker;
+        public BitmapAnimator HoverWorker;
 
         private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
