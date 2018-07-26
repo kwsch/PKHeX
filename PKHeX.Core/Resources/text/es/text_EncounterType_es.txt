@@ -1,4 +1,4 @@
-None
+Ninguno
 Golpe roca (HGSS)
 Hierba Alta
 
@@ -10,7 +10,7 @@ Surfeando/Pescando
 Edificio/Misticristal 
 Pantano/Safari
 
-Inicial/Fosil/Regalo (DP)
+Inicial/Fósil/Regalo (DP)
 
 
 
@@ -21,5 +21,5 @@ Inicial/Fosil/Regalo (DP)
 
 
 
-Mundo Distorsion (Pt)
-Inicial/Fosil/Regalo (Pt/DP Trio)
+Mundo Distorsión (Pt)
+Inicial/Fósil/Regalo (Pt/DP Trio)
