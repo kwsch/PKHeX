@@ -13,7 +13,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (data.EncounterMatch is EncounterStatic)
                 VerifyCXDStarterCorrelation(data);
-            else if (pkm.WasEgg) // can't obtain eggs in CXD
+            else if (pkm.Egg_Location != 0) // can't obtain eggs in CXD
                 data.AddLine(GetInvalid(V80, CheckIdentifier.Encounter)); // invalid encounter
 
             if (pkm.OT_Gender == 1)
