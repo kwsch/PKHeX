@@ -217,7 +217,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean && Legal.SavegameLanguage >= 0)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
                         data.AddLine(GetInvalid(string.Format(V610, V611, V612), CheckIdentifier.Language));
                 }
                 VerifyTradeTable(data, Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
@@ -229,7 +229,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.SavegameLanguage != (int)LanguageID.Korean && Legal.SavegameLanguage >= 0)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
                         data.AddLine(GetInvalid(string.Format(V610, V611, V612), CheckIdentifier.Language));
                 }
                 else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang

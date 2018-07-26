@@ -60,12 +60,12 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static bool IsValidG4Korean(int currentLanguage)
         {
-            bool savKOR = Legal.SavegameLanguage == (int) LanguageID.Korean;
+            bool savKOR = Legal.ActiveTrainer.Language == (int) LanguageID.Korean;
             bool pkmKOR = currentLanguage == (int) LanguageID.Korean;
             if (savKOR == pkmKOR)
                 return true;
 
-            return Legal.SavegameLanguage < 0; // check not overriden by Legality settings
+            return Legal.ActiveTrainer.Language < 0; // check not overriden by Legality settings
         }
     }
 }

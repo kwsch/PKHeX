@@ -33,12 +33,6 @@ namespace PKHeX.Core
         public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
         public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
-        public static int SavegameLanguage => ActiveTrainer.Language;
-        private static string Savegame_OT => ActiveTrainer.OT;
-        private static int Savegame_TID => ActiveTrainer.TID;
-        private static int Savegame_SID => ActiveTrainer.SID;
-        private static int Savegame_Gender => ActiveTrainer.Gender;
-        private static GameVersion Savegame_Version => (GameVersion)ActiveTrainer.Game;
 
         // Gen 1
         internal static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
@@ -1222,9 +1216,9 @@ namespace PKHeX.Core
                 return false;
             if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
-            if (Savegame_Version == GameVersion.Any)
+            if (ActiveTrainer.Game == (int)GameVersion.Any)
                 return false;
-            var IsYellow = Savegame_Version == GameVersion.YW;
+            var IsYellow = ActiveTrainer.Game == (int)GameVersion.YW;
             if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
                 // If catch rate is Abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
@@ -1246,17 +1240,17 @@ namespace PKHeX.Core
 
             return false;
         }
-        internal static bool IsOutsider(PKM pkm)
+        internal static bool IsNotFromActiveTrainer(PKM pkm)
         {
-            if (Savegame_Version == GameVersion.Any)
+            if (ActiveTrainer.Game == (int)GameVersion.Any)
                 return false;
-            var Outsider = Savegame_TID != pkm.TID || Savegame_OT != pkm.OT_Name;
+            var Outsider = ActiveTrainer.TID != pkm.TID || ActiveTrainer.OT != pkm.OT_Name;
             if (pkm.Format <= 2)
                 return Outsider;
-            Outsider |= Savegame_SID != pkm.SID;
-            if (pkm.Format == 3) // Generation 3 does not check ot geneder nor pokemon version
+            Outsider |= ActiveTrainer.SID != pkm.SID;
+            if (pkm.Format == 3) // Generation 3 does not check ot gender nor pokemon version
                 return Outsider;
-            Outsider |= Savegame_Gender != pkm.OT_Gender || Savegame_Version != (GameVersion)pkm.Version;
+            Outsider |= ActiveTrainer.Gender != pkm.OT_Gender || ActiveTrainer.Game != pkm.Version;
             return Outsider;
         }
 

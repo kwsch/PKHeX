@@ -32,9 +32,9 @@ namespace PKHeX.Core
             var matchJP = Legal.EReaderBerriesNames_JP.Contains(Legal.EReaderBerryName);
             if (!matchJP && !matchUSA) // Does not match any released E-Reader berry
                 data.AddLine(GetInvalid(V369));
-            else if (matchJP && !Legal.SavegameJapanese && Legal.SavegameLanguage >= 0) // E-Reader is region locked
+            else if (matchJP && !Legal.SavegameJapanese && Legal.ActiveTrainer.Language >= 0) // E-Reader is region locked
                 data.AddLine(GetInvalid(V370));
-            else if (matchUSA && Legal.SavegameJapanese && Legal.SavegameLanguage >= 0) // E-Reader is region locked
+            else if (matchUSA && Legal.SavegameJapanese && Legal.ActiveTrainer.Language >= 0) // E-Reader is region locked
                 data.AddLine(GetInvalid(V371));
         }
     }
