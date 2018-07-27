@@ -47,8 +47,8 @@
                 return new bool[3];
             return new[]
             {
-                set.RibbonChampionSinnoh,
                 set.RibbonRecord,
+                set.RibbonChampionSinnoh,
                 set.RibbonLegend,
             };
         }
