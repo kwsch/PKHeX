@@ -1,25 +1,25 @@
-﻿Tubo pokécubos
+﻿Tubo Pokécubos
 Licuabayas
-Dar un pokécubo
+Dar un Pokécubo
 Dar
-Hacer pokécubos
+Hacer Pokécubos
 Hacer
 [~ 6]
 Color
 [VAR NUM3(0000)]
 [VAR PKNICK(0000)]
 [VAR MOVE(0000)]
-¿A qué pokémon quieres dárselo?
-¡Le has dado el pokécubo a [VAR PKNICK(0000)]!
+¿A qué Pokémon quieres dárselo?
+¡Le has dado el Pokécubo a [VAR PKNICK(0000)]!
 Elige qué color de baya quieres filtrar.
-Elige un pokécubo.
-¿Qué quieres hacer con el pokécubo?
+Elige un Pokécubo.
+¿Qué quieres hacer con el Pokécubo?
 Elige las bayas que quieres licuar.
 [~ 17]
 ¡Has conseguido [VAR NUM1(0001)] [VAR 01A3(0000)]![VAR BE05(0000)][VAR BE05(0001)]
-¿Quieres darle el pokécubo a [VAR PKNICK(0000)]?
+¿Quieres darle el Pokécubo a [VAR PKNICK(0000)]?
 ¡Los Huevos no pueden comérselos!
-¿A qué pokémon quieres dárselo?
+¿A qué Pokémon quieres dárselo?
 ¡No puedes meter más de cuatro!
 Bayas filtradas por color rojo.
 Bayas filtradas por color azul.
@@ -28,7 +28,7 @@ Bayas filtradas por color verde.
 Bayas filtradas por color amarillo.
 ¡A licuar!
 Recuperar baya
-Dar a un pokémon
+Dar a un Pokémon
 Salir
 Sí
 No
