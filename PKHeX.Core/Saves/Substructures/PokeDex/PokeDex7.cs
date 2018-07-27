@@ -17,11 +17,15 @@ namespace PKHeX.WinForms
         public readonly bool[][] Displayed = new bool[4][];
         public readonly bool[] LanguageFlags;
 
+        private readonly IList<int> FormBaseSpecies;
+
         public PokeDex7(SAV7 SAV)
         {
             Parent = SAV;
             if (Parent.Generation != 7)
                 return;
+
+            FormBaseSpecies = GetFormIndexBaseSpeciesList();
 
             int ofs = Parent.PokeDex + 0x8 + MiscLen;
             Owned = SetBits(Parent.Data, ofs, OwnedLen);
@@ -38,6 +42,7 @@ namespace PKHeX.WinForms
                 ofs += SeenDispLen;
             }
             LanguageFlags = SetBits(Parent.Data, Parent.PokeDexLanguageFlags, LanguageLen);
+
         }
 
         public void Write()
@@ -99,6 +104,71 @@ namespace PKHeX.WinForms
             return Parent.USUM
                 ? SaveUtil.GetDexFormIndexUSUM(spec, fc, Parent.MaxSpeciesID - 1)
                 : SaveUtil.GetDexFormIndexSM(spec, fc, Parent.MaxSpeciesID - 1);
+        }
+
+        public IEnumerable<string> GetEntryNames(IReadOnlyList<string> Species)
+        {
+            var names = new List<string>();
+            for (int i = 1; i <= Parent.MaxSpeciesID; i++)
+                names.Add($"{i:000} - {Species[i]}");
+
+            // Add Formes
+            int ctr = Parent.MaxSpeciesID;
+            for (int spec = 1; spec <= Parent.MaxSpeciesID; spec++)
+            {
+                int c = Parent.Personal[spec].FormeCount;
+                for (int f = 1; f < c; f++)
+                {
+                    int x = GetDexFormIndex(spec, c, f);
+                    if (x >= 0)
+                        names.Add($"{ctr++:000} - {Species[spec]}-{f}");
+                }
+            }
+            return names;
+        }
+
+        /// <summary>
+        /// Gets a list of Species IDs that a given dex-forme index corresponds to.
+        /// </summary>
+        /// <returns></returns>
+        private List<int> GetFormIndexBaseSpeciesList()
+        {
+            var baseSpecies = new List<int>();
+            for (int spec = 1; spec <= Parent.MaxSpeciesID; spec++)
+            {
+                int c = Parent.Personal[spec].FormeCount;
+                for (int f = 1; f < c; f++)
+                {
+                    int x = GetDexFormIndex(spec, c, f);
+                    if (x >= 0)
+                        baseSpecies.Add(spec);
+                }
+            }
+            return baseSpecies;
+        }
+
+        public int GetBaseSpeciesGenderValue(int index)
+        {
+            // meowstic special handling
+            const int meow = 678;
+            if (index == meow - 1 || (index >= Parent.MaxSpeciesID && FormBaseSpecies[index - Parent.MaxSpeciesID] == meow))
+                return index < Parent.MaxSpeciesID ? 0 : 254; // M : F
+
+            if (index < Parent.MaxSpeciesID)
+                return Parent.Personal[index + 1].Gender;
+
+            index -= Parent.MaxSpeciesID;
+            int spec = FormBaseSpecies[index];
+            return Parent.Personal[spec].Gender;
+        }
+
+
+        public int GetBaseSpecies(int index)
+        {
+            if (index <= Parent.MaxSpeciesID)
+                return index;
+
+            return FormBaseSpecies[index - Parent.MaxSpeciesID - 1];
         }
     }
 }
