@@ -20,7 +20,7 @@ namespace PKHeX.Core
         {
             // Encounter type data is only stored for gen 4 encounters
             // All eggs have encounter type none, even if they are from static encounters
-            if (!pkm.Gen4 || pkm.WasEgg)
+            if (!pkm.Gen4 || pkm.Egg_Location != 0)
                 return EncounterType.None;
 
             if (enc is EncounterSlot w)

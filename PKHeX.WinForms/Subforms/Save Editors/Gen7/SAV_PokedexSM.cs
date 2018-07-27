@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,27 +28,12 @@ namespace PKHeX.WinForms
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
 
-            for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
-                LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
 
             Dex = new PokeDex7(SAV);
-
-            // Add Formes
-            int ctr = SAV.MaxSpeciesID;
-            baseSpecies = new List<int>();
-            for (int spec = 1; spec < SAV.MaxSpeciesID + 1; spec++)
-            {
-                int c = SAV.Personal[spec].FormeCount;
-                for (int f = 1; f < c; f++)
-                {
-                    int x = Dex.GetDexFormIndex(spec, c, f);
-                    if (x == -1)
-                        continue;
-                    baseSpecies.Add(spec);
-                    ctr++;
-                    LB_Species.Items.Add($"{ctr:000} - {GameInfo.Strings.specieslist[spec]}-{f}");
-                }
-            }
+            var Species = GameInfo.Strings.Species;
+            var names = Dex.GetEntryNames(Species);
+            foreach (var n in names)
+                LB_Species.Items.Add(n);
 
             editing = false;
             LB_Species.SelectedIndex = 0;
@@ -62,21 +46,6 @@ namespace PKHeX.WinForms
         private int species = -1;
         private readonly CheckBox[] CP, CL;
 
-        private readonly List<int> baseSpecies;
-        private int GetBaseSpeciesGender(int index)
-        {
-            // meowstic special handling
-            const int meow = 678;
-            if (index == meow - 1 || index >= SAV.MaxSpeciesID && baseSpecies[index - SAV.MaxSpeciesID] == meow)
-                return index < SAV.MaxSpeciesID ? 0 : 254; // M : F
-
-            if (index < SAV.MaxSpeciesID)
-                return SAV.Personal[index + 1].Gender;
-
-            index -= SAV.MaxSpeciesID;
-            int spec = baseSpecies[index];
-            return SAV.Personal[spec].Gender;
-        }
 
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
@@ -111,7 +80,7 @@ namespace PKHeX.WinForms
 
             editing = true;
             int fspecies = LB_Species.SelectedIndex + 1;
-            var bspecies = fspecies <= SAV.MaxSpeciesID ? fspecies : baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
+            var bspecies = Dex.GetBaseSpecies(fspecies);
             int form = LB_Forms.SelectedIndex;
             if (form > 0)
             {
@@ -141,7 +110,7 @@ namespace PKHeX.WinForms
             LB_Forms.Items.Clear();
 
             int fspecies = LB_Species.SelectedIndex + 1;
-            var bspecies = fspecies <= SAV.MaxSpeciesID ? fspecies : baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
+            var bspecies = Dex.GetBaseSpecies(fspecies);
             bool hasForms = FormConverter.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
@@ -178,6 +147,7 @@ namespace PKHeX.WinForms
             }
             return true;
         }
+
         private void ChangeDisplayed(object sender, EventArgs e)
         {
             if (!((CheckBox) sender).Checked)
@@ -217,7 +187,7 @@ namespace PKHeX.WinForms
             CHK_P1.Enabled = species <= SAV.MaxSpeciesID;
             CHK_P1.Checked = CHK_P1.Enabled && Dex.Owned[pk];
 
-            int gt = GetBaseSpeciesGender(LB_Species.SelectedIndex);
+            int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
@@ -288,7 +258,7 @@ namespace PKHeX.WinForms
             {
                 CHK_P1.Checked = ModifierKeys != Keys.Control;
             }
-            int gt = GetBaseSpeciesGender(LB_Species.SelectedIndex);
+            int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
             CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
             CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255 && ModifierKeys != Keys.Control;
@@ -346,7 +316,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < SAV.MaxSpeciesID; i++)
             {
                 int spec = i + 1;
-                var gt = GetBaseSpeciesGender(i);
+                var gt = Dex.GetBaseSpeciesGenderValue(i);
 
                 // Set base species flags
                 LB_Species.SelectedIndex = i;

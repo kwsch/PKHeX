@@ -8,17 +8,19 @@ namespace PKHeX.Core
     public sealed class CXDVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (data.EncounterMatch is EncounterStatic)
                 VerifyCXDStarterCorrelation(data);
-            else if (pkm.WasEgg) // can't obtain eggs in CXD
+            else if (pkm.Egg_Location != 0) // can't obtain eggs in CXD
                 data.AddLine(GetInvalid(V80, CheckIdentifier.Encounter)); // invalid encounter
 
             if (pkm.OT_Gender == 1)
                 data.AddLine(GetInvalid(V407, CheckIdentifier.Trainer));
         }
+
         private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
         {
             var pidiv = data.Info.PIDIV;

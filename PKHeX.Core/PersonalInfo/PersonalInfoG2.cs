@@ -7,6 +7,7 @@
     {
         protected PersonalInfoG2() { }
         public const int SIZE = 0x20;
+
         public PersonalInfoG2(byte[] data)
         {
             if (data.Length != SIZE)
@@ -15,6 +16,7 @@
             Data = data;
             TMHM = GetBits(Data, 0x18, 0x8);
         }
+
         public override byte[] Write()
         {
             SetBits(TMHM).CopyTo(Data, 0x18);
@@ -37,8 +39,8 @@
         public override int Gender { get => Data[0xD]; set => Data[0xD] = (byte)value; }
         public override int HatchCycles { get => Data[0xF]; set => Data[0xF] = (byte)value; }
         public override int EXPGrowth { get => Data[0x16]; set => Data[0x16] = (byte)value; }
-        public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)(Data[0x17] & 0xF0 | value); }
-        public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)(Data[0x17] & 0x0F | value << 4); }
+        public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)((Data[0x17] & 0xF0) | value); }
+        public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)((Data[0x17] & 0x0F) | value << 4); }
 
         public override int[] Items
         {

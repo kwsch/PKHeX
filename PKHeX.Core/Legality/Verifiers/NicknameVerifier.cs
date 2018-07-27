@@ -106,7 +106,9 @@ namespace PKHeX.Core
                         data.AddLine(GetInvalid(V20));
                 }
                 else
+                {
                     data.AddLine(GetValid(V18));
+                }
             }
             return false;
         }
@@ -139,6 +141,7 @@ namespace PKHeX.Core
             else
                 data.AddLine(GetValid(V14, CheckIdentifier.Egg));
         }
+
         private void VerifyNicknameTrade(LegalityAnalysis data)
         {
             switch (data.Info.Generation)
@@ -177,7 +180,6 @@ namespace PKHeX.Core
             }
         }
 
-
         private void VerifyTrade12(LegalityAnalysis data)
         {
             var et = (EncounterTrade)data.EncounterOriginal;
@@ -187,6 +189,7 @@ namespace PKHeX.Core
             if (!EncounterGenerator.IsEncounterTrade1Valid(data.pkm, et))
                 data.AddLine(GetInvalid(V10, CheckIdentifier.Trainer));
         }
+
         private void VerifyTrade3(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -199,8 +202,11 @@ namespace PKHeX.Core
                 VerifyTradeTable(data, Encounters3.TradeFRLG, Encounters3.TradeGift_FRLG, lang);
             }
             else
+            {
                 VerifyTradeTable(data, Encounters3.TradeRSE, Encounters3.TradeGift_RSE);
+            }
         }
+
         private void VerifyTrade4(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -241,6 +247,7 @@ namespace PKHeX.Core
                 VerifyTradeTable(data, Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, lang);
             }
         }
+
         private static int DetectTradeLanguageG3DANTAEJynx(PKM pk, int lang)
         {
             if (lang != (int)LanguageID.Italian)
@@ -250,6 +257,7 @@ namespace PKHeX.Core
                 lang = (int)LanguageID.English; // translation error; OT was not localized => same as English
             return lang;
         }
+
         private static int DetectTradeLanguageG4MeisterMagikarp(PKM pkm, int lang)
         {
             if (lang == (int)LanguageID.English)
@@ -273,6 +281,7 @@ namespace PKHeX.Core
 
             return lang;
         }
+
         private static int DetectTradeLanguageG4SurgePikachu(PKM pkm, int lang)
         {
             if (lang == (int)LanguageID.French)
@@ -296,6 +305,7 @@ namespace PKHeX.Core
 
             return lang;
         }
+
         private void VerifyTrade5(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -318,6 +328,7 @@ namespace PKHeX.Core
                     VerifyTradeTable(data, Encounters5.TradeB2W2, Encounters5.TradeGift_B2W2);
             }
         }
+
         private void VerifyTrade6(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -326,6 +337,7 @@ namespace PKHeX.Core
             else if (pkm.AO)
                 VerifyTradeTable(data, Encounters6.TradeAO, Encounters6.TradeGift_AO, pkm.Language);
         }
+
         private void VerifyTrade7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -334,28 +346,37 @@ namespace PKHeX.Core
             else if (pkm.USUM)
                 VerifyTradeTable(data, Encounters7.TradeUSUM, Encounters7.TradeGift_USUM, pkm.Language);
         }
+
         private void VerifyTrade4Ranch(LegalityAnalysis data) => VerifyTradeOTOnly(data, Encounters4.RanchOTNames);
 
         private void VerifyTradeTable(LegalityAnalysis data, string[][] ots, EncounterTrade[] table) => VerifyTradeTable(data, ots, table, data.pkm.Language);
+
         private void VerifyTradeTable(LegalityAnalysis data, string[][] ots, EncounterTrade[] table, int language)
         {
             var validOT = language >= ots.Length ? ots[0] : ots[language];
             var index = Array.IndexOf(table, data.EncounterMatch);
             VerifyTradeOTNick(data, validOT, index);
         }
+
         private void VerifyTradeOTOnly(LegalityAnalysis data, string[] validOT)
+        {
+            var result = CheckTradeOTOnly(data, validOT);
+            data.AddLine(result);
+        }
+
+        private CheckResult CheckTradeOTOnly(LegalityAnalysis data, string[] validOT)
         {
             var pkm = data.pkm;
             if (pkm.IsNicknamed)
-                data.AddLine(GetInvalid(V9, CheckIdentifier.Nickname));
+                return GetInvalid(V9, CheckIdentifier.Nickname);
             int lang = pkm.Language;
             if (validOT.Length <= lang)
-                data.AddLine(GetInvalid(V8, CheckIdentifier.Trainer));
-            else if (validOT[lang] != pkm.OT_Name)
-                data.AddLine(GetInvalid(V10, CheckIdentifier.Trainer));
-            else
-                data.AddLine(GetValid(V11, CheckIdentifier.Nickname));
+                return GetInvalid(V8, CheckIdentifier.Trainer);
+            if (validOT[lang] != pkm.OT_Name)
+                return GetInvalid(V10, CheckIdentifier.Trainer);
+            return GetValid(V11, CheckIdentifier.Nickname);
         }
+
         private void VerifyTradeOTNick(LegalityAnalysis data, string[] validOT, int index)
         {
             if (validOT.Length == 0)
@@ -370,19 +391,26 @@ namespace PKHeX.Core
             }
 
             string nick = validOT[index];
-            string OT = validOT[validOT.Length / 2 + index];
+            string OT = validOT[(validOT.Length / 2) + index];
 
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterMatch;
-            if (nick != pkm.Nickname
-                && !(nick == "Quacklin’" && pkm.Nickname == "Quacklin'") // apostrophe farfetch'd edge case
-                && ((EncounterTrade)EncounterMatch).IsNicknamed) // trades that are not nicknamed (but are present in a table with others being named)
+            if (!IsNicknameMatch(nick, pkm, EncounterMatch)) // trades that are not nicknamed (but are present in a table with others being named)
                 data.AddLine(GetInvalid(V9, CheckIdentifier.Nickname));
             else
                 data.AddLine(GetValid(V11, CheckIdentifier.Nickname));
 
             if (OT != pkm.OT_Name)
                 data.AddLine(GetInvalid(V10, CheckIdentifier.Trainer));
+        }
+
+        private static bool IsNicknameMatch(string nick, PKM pkm, IEncounterable EncounterMatch)
+        {
+            if (nick != pkm.Nickname)
+                return false;
+            if (nick == "Quacklin’" && pkm.Nickname == "Quacklin'")
+                return true;
+            return ((EncounterTrade)EncounterMatch).IsNicknamed;
         }
     }
 }

@@ -92,10 +92,12 @@ namespace PKHeX.Core
             byte[] data = (byte[])Data.Clone();
             return GetMysteryGift(data);
         }
+
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type.
         /// </summary>
         public string Type => GetType().Name;
+
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.
         /// </summary>
@@ -126,7 +128,7 @@ namespace PKHeX.Core
         {
             int hash = 17;
             foreach (var b in Data)
-                hash = hash*31 + b;
+                hash = (hash * 31) + b;
             return hash;
         }
 

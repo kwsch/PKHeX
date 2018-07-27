@@ -121,7 +121,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterSlot> GetValidFriendSafari(PKM pkm)
         {
-            if (!pkm.XY || pkm.Met_Location != 148 || pkm.Met_Level != 30) // Friend Safari
+            if (!pkm.XY || pkm.Met_Location != 148 || pkm.Met_Level != 30 || pkm.Egg_Location != 0) // Friend Safari
                 return Enumerable.Empty<EncounterSlot>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm).Where(d => d.Level >= 30);
             return vs.SelectMany(z => Encounters6.FriendSafari[z.Species]);
@@ -129,7 +129,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, bool DexNav = false, int lvl = -1, bool ignoreLevel = false)
         {
-            if (pkm.WasEgg)
+            if (pkm.Egg_Location != 0)
                 return Enumerable.Empty<EncounterSlot>();
             if (lvl < 0)
                 lvl = GetMinLevelEncounter(pkm);

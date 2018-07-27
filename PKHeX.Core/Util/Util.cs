@@ -24,7 +24,7 @@ namespace PKHeX.Core
         }
 
         private static bool IsHex(char c) => (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
-        private static string TitleCase(string word) => word[0].ToString().ToUpper() + word.Substring(1, word.Length - 1).ToLower();
+        private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
 
         /// <summary>
         /// Filters the string down to only valid hex characters, returning a new string.

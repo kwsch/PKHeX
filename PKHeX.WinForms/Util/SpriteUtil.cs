@@ -13,14 +13,17 @@ namespace PKHeX.WinForms
             string str = PKX.GetResourceStringBall(ball);
             return (Image)Resources.ResourceManager.GetObject(str) ?? Resources._ball4; // Poké Ball (default)
         }
+
         public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false)
         {
             return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation, isBoxBGRed);
         }
+
         public static Image GetRibbonSprite(string name)
         {
             return Resources.ResourceManager.GetObject(name.Replace("CountG3", "G3").ToLower()) as Image;
         }
+
         public static Image GetTypeSprite(int type, int generation = PKX.Generation)
         {
             if (generation <= 2)
@@ -33,29 +36,33 @@ namespace PKHeX.WinForms
             if (gift.Empty)
                 return null;
 
-            Image img;
+            var img = GetBaseImage(gift);
+            if (gift.GiftUsed)
+                img = ImageUtil.ChangeOpacity(img, 0.3);
+            return img;
+        }
+
+        private static Image GetBaseImage(MysteryGift gift)
+        {
             if (gift.IsEgg && gift.Species == 490) // Manaphy Egg
-                img = (Image)(Resources.ResourceManager.GetObject("_490_e") ?? Resources.unknown);
-            else if (gift.IsPokémon)
-                img = GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
-            else if (gift.IsItem)
+                return (Image)(Resources.ResourceManager.GetObject("_490_e") ?? Resources.unknown);
+            if (gift.IsPokémon)
+                return GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
+            if (gift.IsItem)
             {
                 int item = gift.ItemID;
                 if (Legal.ZCrystalDictionary.TryGetValue(item, out int value))
                     item = value;
-                img = (Image)(Resources.ResourceManager.GetObject("item_" + item) ?? Resources.unknown);
+                return (Image)(Resources.ResourceManager.GetObject("item_" + item) ?? Resources.unknown);
             }
-            else
-                img = Resources.unknown;
-
-            if (gift.GiftUsed)
-                img = ImageUtil.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
-            return img;
+            return Resources.unknown;
         }
+
         private static Image GetSprite(PKM pkm, bool isBoxBGRed = false)
         {
             return GetSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
         }
+
         private static Image GetSprite(SaveFile SAV)
         {
             string file = "tr_00";
@@ -63,11 +70,13 @@ namespace PKHeX.WinForms
                 file = $"tr_{SAV.MultiplayerSpriteID:00}";
             return Resources.ResourceManager.GetObject(file) as Image;
         }
+
         private static Image GetWallpaper(SaveFile SAV, int box)
         {
             string s = BoxWallpaper.GetWallpaper(SAV, box);
             return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
         }
+
         private static Image GetSprite(PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
         {
             if (!pkm.Valid)
@@ -103,6 +112,7 @@ namespace PKHeX.WinForms
         public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
         public static Image Sprite(this SaveFile SAV) => GetSprite(SAV);
         public static Image Sprite(this PKM pkm, bool isBoxBGRed = false) => GetSprite(pkm, isBoxBGRed);
+
         public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
             => GetSprite(pkm, SAV, box, slot, flagIllegal);
     }

@@ -180,6 +180,7 @@ namespace PKHeX.WinForms
             byte[] data = QR7.GenerateQRData(pk7, box, slot, num_copies);
             return GenerateQRCode(data, ppm: 4);
         }
+
         private static Image GenerateQRCode(byte[] data, int ppm = 4)
         {
             using (var generator = new QRCodeGenerator())

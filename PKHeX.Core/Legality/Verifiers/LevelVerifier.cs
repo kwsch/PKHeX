@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public sealed class LevelVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Level;
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -50,6 +51,7 @@ namespace PKHeX.Core
             else
                 data.AddLine(GetValid(V88));
         }
+
         public void VerifyG1(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -73,6 +75,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 2 && !(EncounterMatch is EncounterTrade) && EncounterMatch.Species == pkm.Species && Legal.Trade_Evolution1.Contains(EncounterMatch.Species))
                 VerifyG1TradeEvo(data);
         }
+
         private void VerifyG1TradeEvo(LegalityAnalysis data)
         {
             var pkm = data.pkm;

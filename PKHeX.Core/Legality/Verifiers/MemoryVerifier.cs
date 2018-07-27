@@ -19,6 +19,7 @@ namespace PKHeX.Core
             VerifyHTMemory(data);
             data.AddLine(hist);
         }
+
         private CheckResult VerifyHistory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -30,7 +31,7 @@ namespace PKHeX.Core
                 if (pkm.Format < 6)
                     return GetValid(V128);
 
-                if (pkm.OT_Affection != 0 && Info.Generation <= 2 || IsInvalidContestAffection(pkm))
+                if ((pkm.OT_Affection != 0 && Info.Generation <= 2) || IsInvalidContestAffection(pkm))
                     return GetInvalid(V129);
                 if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
                     return GetInvalid(V130);
@@ -130,6 +131,7 @@ namespace PKHeX.Core
 
             return GetValid(V145);
         }
+
         private CheckResult VerifyHistory7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -156,6 +158,7 @@ namespace PKHeX.Core
 
             return GetValid(V145);
         }
+
         private bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
         {
             result = null;
@@ -170,6 +173,7 @@ namespace PKHeX.Core
 
             return true;
         }
+
         private bool VerifyHistoryUntradedEvolution(PKM pkm, IReadOnlyList<EvoCriteria>[] chain, out CheckResult result)
         {
             result = null;
@@ -193,6 +197,7 @@ namespace PKHeX.Core
             result = GetInvalid(V142);
             return true;
         }
+
         private CheckResult VerifyCommonMemory(PKM pkm, int handler)
         {
             Memories.GetMemoryVariables(pkm, out int m, out int t, out int i, out int f, out string tr, handler);
@@ -200,18 +205,23 @@ namespace PKHeX.Core
             if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6))
                 return GetInvalid(string.Format(V153, tr));
 
-            if (m == 6 && !Memories.LocationsWithPKCenter[0].Contains(t))
-                return GetInvalid(string.Format(V154, tr));
+            switch (m)
+            {
+                case 6 when !Memories.LocationsWithPKCenter[0].Contains(t):
+                    return GetInvalid(string.Format(V154, tr));
 
-            if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                if (!Legal.GetCanLearnMachineMove(new PK6 { Species = t, EXP = PKX.GetEXP(100, t) }, 19, 6))
+                // {0} saw {2} carrying {1} on its back. {4} that {3}.
+                case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.GetEXP(100, t)}, 19, 6):
                     return GetInvalid(string.Format(V153, tr));
 
-            if ((m == 16 || m == 48) && (t == 0 || !Legal.GetCanKnowMove(pkm, t, 6)))
-                return GetInvalid(string.Format(V153, tr));
+                case 16 when t == 0 || !Legal.GetCanKnowMove(pkm, t, 6):
+                case 48 when t == 0 || !Legal.GetCanKnowMove(pkm, t, 6):
+                    return GetInvalid(string.Format(V153, tr));
 
-            if (m == 49 && (t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                return GetInvalid(string.Format(V153, tr));
+                // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+                case 49 when t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6):
+                    return GetInvalid(string.Format(V153, tr));
+            }
 
             if (!Memories.CanHaveIntensity(m, i))
                 return GetInvalid(string.Format(V254, tr, Memories.GetMinimumIntensity(m)));
@@ -234,6 +244,7 @@ namespace PKHeX.Core
             if (pkm.OT_Feeling != f)
                 data.AddLine(GetInvalid(string.Format(V200, V205, f)));
         }
+
         private void VerifyOTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -289,7 +300,7 @@ namespace PKHeX.Core
                     if (matchingOriginGame != -1)
                     {
                         int gameID = Memories.LocationsWithPKCenter[1][matchingOriginGame];
-                        if (pkm.XY && gameID != 0 || pkm.AO && gameID != 1)
+                        if ((pkm.XY && gameID != 0) || (pkm.AO && gameID != 1))
                             data.AddLine(Severity.Invalid, string.Format(V162, V205), CheckIdentifier.Memory);
                     }
                     data.AddLine(VerifyCommonMemory(pkm, 0));
@@ -309,6 +320,7 @@ namespace PKHeX.Core
 
             data.AddLine(VerifyCommonMemory(pkm, 0));
         }
+
         private void VerifyHTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;

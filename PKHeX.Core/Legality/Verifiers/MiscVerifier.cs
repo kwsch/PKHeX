@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public sealed class MiscVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -18,20 +19,20 @@ namespace PKHeX.Core
 
                 if (pkm is IContestStats s && s.HasContestStats())
                     data.AddLine(GetInvalid(V320, CheckIdentifier.Egg));
-                if (pkm is PK4 pk4)
+
+                switch (pkm)
                 {
-                    if (pk4.ShinyLeaf != 0)
+                    case PK4 pk4 when pk4.ShinyLeaf != 0:
                         data.AddLine(GetInvalid(V414, CheckIdentifier.Egg));
-                    if (pk4.PokéathlonStat != 0)
+                        break;
+                    case PK4 pk4 when pk4.PokéathlonStat != 0:
                         data.AddLine(GetInvalid(V415, CheckIdentifier.Egg));
-                }
-                if (pkm is PK3)
-                {
-                    if (pkm.Language != 1) // All Eggs are Japanese and flagged specially for localized string
+                        break;
+                    case PK3 _ when pkm.Language != 1:  // All Eggs are Japanese and flagged specially for localized string
                         data.AddLine(GetInvalid(string.Format(V5, LanguageID.Japanese, (LanguageID)pkm.Language), CheckIdentifier.Egg));
+                        break;
                 }
             }
-
 
             VerifyMiscFatefulEncounter(data);
         }
@@ -52,6 +53,7 @@ namespace PKHeX.Core
             VerifyMiscG1Types(data, pk1);
             VerifyMiscG1CatchRate(data, pk1);
         }
+
         private void VerifyMiscG1Types(LegalityAnalysis data, PK1 pk1)
         {
             var Type_A = pk1.Type_A;
@@ -60,9 +62,13 @@ namespace PKHeX.Core
             {
                 // Can have any type combination of any species by using Conversion.
                 if (!Legal.Types_Gen1.Contains(Type_A))
+                {
                     data.AddLine(GetInvalid(V386));
+                }
                 else if (!Legal.Types_Gen1.Contains(Type_B))
+                {
                     data.AddLine(GetInvalid(V387));
+                }
                 else // Both match a type, ensure a gen1 species has this combo
                 {
                     var TypesAB_Match = PersonalTable.RB.IsValidTypeCombination(Type_A, Type_B);
@@ -81,6 +87,7 @@ namespace PKHeX.Core
                 data.AddLine(second);
             }
         }
+
         private void VerifyMiscG1CatchRate(LegalityAnalysis data, PK1 pk1)
         {
             var e = data.EncounterMatch;
@@ -98,14 +105,23 @@ namespace PKHeX.Core
                     break;
                 case TradebackType.Gen1_NotTradeback:
                     if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
+                    {
                         // Encounters detected by the catch rate, cant be invalid if match this encounters
                         data.AddLine(GetValid(V398));
-                    else if (pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate || Legal.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate)
+                    }
+                    else if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (Legal.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
+                    {
                         data.AddLine(GetInvalid(V396));
+                    }
                     else if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
+                    {
                         data.AddLine(GetInvalid(pk1.Gen1_NotTradeback ? V397 : V399));
+                    }
                     else
+                    {
                         data.AddLine(GetValid(V398));
+                    }
+
                     break;
             }
 
@@ -118,6 +134,7 @@ namespace PKHeX.Core
                 return false;
             }
         }
+
         private static void VerifyMiscFatefulEncounter(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -154,13 +171,13 @@ namespace PKHeX.Core
             if (pkm.FatefulEncounter)
                 data.AddLine(GetInvalid(V325, CheckIdentifier.Fateful));
         }
+
         private static void VerifyMiscEggCommon(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Move1_PPUps > 0 || pkm.Move2_PPUps > 0 || pkm.Move3_PPUps > 0 || pkm.Move4_PPUps > 0)
                 data.AddLine(GetInvalid(V319, CheckIdentifier.Egg));
-            if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0)
-                || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
+            if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0) || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
                 data.AddLine(GetInvalid(V420, CheckIdentifier.Egg));
 
             var EncounterMatch = data.EncounterMatch;
@@ -177,6 +194,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(msg, CheckIdentifier.Egg));
             }
         }
+
         private static void VerifyFatefulMysteryGift(LegalityAnalysis data, MysteryGift g)
         {
             var pkm = data.pkm;
@@ -193,12 +211,14 @@ namespace PKHeX.Core
                 : GetInvalid(V322, CheckIdentifier.Fateful);
             data.AddLine(result);
         }
+
         private static void VerifyWC3Shiny(LegalityAnalysis data, WC3 g3)
         {
             // check for shiny locked gifts
             if (!g3.Shiny.IsValid(data.pkm))
                 data.AddLine(GetInvalid(V409, CheckIdentifier.Fateful));
         }
+
         private static void VerifyFatefulIngameActive(LegalityAnalysis data)
         {
             var pkm = data.pkm;

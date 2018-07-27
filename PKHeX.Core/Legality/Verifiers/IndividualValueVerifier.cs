@@ -11,6 +11,7 @@ namespace PKHeX.Core
     public sealed class IndividualValueVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.IVs;
+
         public override void Verify(LegalityAnalysis data)
         {
             switch (data.EncounterMatch)
@@ -28,7 +29,9 @@ namespace PKHeX.Core
 
             var pkm = data.pkm;
             if (pkm.IVTotal == 0)
+            {
                 data.AddLine(Get(V321, Severity.Fishy));
+            }
             else
             {
                 var hpiv = pkm.IV_HP;
@@ -67,8 +70,10 @@ namespace PKHeX.Core
         private static bool GetIsFixedIVSequenceValid(IReadOnlyList<int> IVs, IReadOnlyList<int> pkIVs)
         {
             for (int i = 0; i < 6; i++)
+            {
                 if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
                     return false;
+            }
             return true;
         }
 

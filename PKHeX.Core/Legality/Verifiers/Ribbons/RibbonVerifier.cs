@@ -11,6 +11,7 @@ namespace PKHeX.Core
     public sealed class RibbonVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Ribbon;
+
         public override void Verify(LegalityAnalysis data)
         {
             var EncounterMatch = data.EncounterMatch;
@@ -33,7 +34,9 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(msg));
             }
             else
+            {
                 data.AddLine(GetValid(V602));
+            }
         }
 
         private static List<string> GetIncorrectRibbons(PKM pkm, object encounterContent, int gen)
@@ -51,6 +54,7 @@ namespace PKHeX.Core
                 result.Add(string.Format(V601, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
             return result;
         }
+
         private static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
         {
             var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
@@ -69,6 +73,7 @@ namespace PKHeX.Core
             }
             return false;
         }
+
         private static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, object encounterContent, int gen)
         {
             return GetInvalidRibbons(pkm, gen)
@@ -96,8 +101,10 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetUnique4 u4)
             {
                 if (!IsAllowedBattleFrontier(pkm.Species, pkm.AltForm, 4))
+                {
                     foreach (var z in GetInvalidRibbonsNone(u4.RibbonBitsAbility(), u4.RibbonNamesAbility()))
                         yield return z;
+                }
 
                 var c3 = u4.RibbonBitsContest3(); var c3n = u4.RibbonNamesContest3();
                 var c4 = u4.RibbonBitsContest4(); var c4n = u4.RibbonNamesContest4();
@@ -115,10 +122,12 @@ namespace PKHeX.Core
                     {
                         bool required = false;
                         for (int j = i + 3; j >= i; j--)
+                        {
                             if (bits[j])
                                 required = true;
                             else if (required)
                                 yield return new RibbonResult(names[j], false);
+                        }
                     }
                 }
             }
@@ -170,25 +179,32 @@ namespace PKHeX.Core
                     yield return new RibbonResult(nameof(s3.RibbonEffort));
             }
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, IRibbonSetCommon4 s4, int gen)
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
-            if (s4.RibbonFootprint && (pkm.Format < 6 && gen == 5 || gen >= 5 && pkm.CurrentLevel - pkm.Met_Level < 30))
+            if (s4.RibbonFootprint && ((pkm.Format < 6 && gen == 5) || (gen >= 5 && pkm.CurrentLevel - pkm.Met_Level < 30)))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
             bool gen34 = gen == 3 || gen == 4;
             bool not6 = pkm.Format < 6 || gen > 6 || gen < 3;
             bool noDaily = !gen34 && not6;
-            bool noCosmetic = !gen34 && (not6 || pkm.XY && pkm.IsUntraded);
+            bool noCosmetic = !gen34 && (not6 || (pkm.XY && pkm.IsUntraded));
 
             if (noDaily)
+            {
                 foreach (var z in GetInvalidRibbonsNone(s4.RibbonBitsDaily(), s4.RibbonNamesDaily()))
                     yield return z;
+            }
+
             if (noCosmetic)
+            {
                 foreach (var z in GetInvalidRibbonsNone(s4.RibbonBitsCosmetic(), s4.RibbonNamesCosmetic()))
                     yield return z;
+            }
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Any(PKM pkm, IRibbonSetCommon6 s6, int gen)
         {
             foreach (var p in GetInvalidRibbons6Memory(pkm, s6, gen))
@@ -201,7 +217,7 @@ namespace PKHeX.Core
 
             var contest = s6.RibbonBitsContest();
             bool allContest = contest.All(z => z);
-            if (allContest ^ s6.RibbonContestStar && !(untraded && pkm.XY)) // if not already checked
+            if ((allContest ^ s6.RibbonContestStar) && !(untraded && pkm.XY)) // if not already checked
                 yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
 
             // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
@@ -229,6 +245,7 @@ namespace PKHeX.Core
             result.Combine(new RibbonResult(nameof(s6.RibbonBattlerExpert)));
             yield return result;
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen)
         {
             int contest = 0;
@@ -249,6 +266,7 @@ namespace PKHeX.Core
             if (s6.RibbonCountMemoryBattle > battle)
                 yield return new RibbonResult(nameof(s6.RibbonCountMemoryBattle));
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Untraded(PKM pkm, IRibbonSetCommon6 s6)
         {
             if (pkm.XY)
@@ -275,6 +293,7 @@ namespace PKHeX.Core
                     yield return new RibbonResult(nameof(s6.RibbonChampionKalos));
             }
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Traded(PKM pkm, IRibbonSetCommon6 s6)
         {
             if (s6.RibbonTraining)
@@ -294,6 +313,7 @@ namespace PKHeX.Core
             result.Combine(new RibbonResult(nameof(s6.RibbonChampionG6Hoenn)));
             yield return result;
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbons7Any(PKM pkm, IRibbonSetCommon7 s7)
         {
             if (!IsAllowedBattleFrontier(pkm.Species))
@@ -322,14 +342,17 @@ namespace PKHeX.Core
                 {
                     // only require national ribbon if no longer on origin game
                     bool xd = s.Version == GameVersion.XD;
-                    eb[1] = !(xd && pkm is XK3 x && !x.RibbonNational || !xd && pkm is CK3 c && !c.RibbonNational);
+                    eb[1] = !((xd && pkm is XK3 x && !x.RibbonNational) || (!xd && pkm is CK3 c && !c.RibbonNational));
                 }
             }
 
             for (int i = 0; i < sb.Length; i++)
+            {
                 if (sb[i] != eb[i])
                     yield return new RibbonResult(names[i], !eb[i]); // only flag if invalid
+            }
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent2(PKM pkm, object encounterContent)
         {
             if (!(pkm is IRibbonSetEvent4 set2))
@@ -342,17 +365,23 @@ namespace PKHeX.Core
                 eb[1] = true; // require Wishing Ribbon
 
             for (int i = 0; i < sb.Length; i++)
+            {
                 if (sb[i] != eb[i])
                     yield return new RibbonResult(names[i], !eb[i]); // only flag if invalid
+            }
         }
+
         private static IEnumerable<RibbonResult> GetInvalidRibbonsNone(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
         {
             for (int i = 0; i < bits.Count; i++)
+            {
                 if (bits[i])
                     yield return new RibbonResult(names[i]);
+            }
         }
 
         private static bool IsAllowedInContest4(int species) => species != 201 && species != 132; // Disallow Unown and Ditto
+
         private static bool IsAllowedBattleFrontier(int species, int form = 0, int gen = 0)
         {
             if (gen == 4 && species == 172 && form == 1) // spiky

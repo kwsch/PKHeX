@@ -30,11 +30,13 @@ namespace PKHeX.WinForms.Controls
         public Color StatHyperTrained { get; set; } = Color.LightGreen;
 
         private IMainEditor MainEditor { get; set; }
+
         public void SetMainEditor(IMainEditor editor)
         {
             MainEditor = editor;
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = editor.HaX;
         }
+
         public bool Valid => pkm.Format < 3 || Convert.ToUInt32(TB_EVTotal.Text) <= 510 || CHK_HackedStats.Checked;
 
         private readonly Label[] L_Stats;
@@ -47,6 +49,7 @@ namespace PKHeX.WinForms.Controls
             get => MainEditor.ChangingFields;
             set => MainEditor.ChangingFields = value;
         }
+
         private bool FieldsInitialized => MainEditor.FieldsInitialized;
 
         private void ClickIV(object sender, EventArgs e)
@@ -55,7 +58,9 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             if (ModifierKeys.HasFlag(Keys.Alt)) // Min
+            {
                 t.Text = 0.ToString();
+            }
             else if (ModifierKeys.HasFlag(Keys.Control))
             {
                 var index = Array.IndexOf(MT_IVs, t);
@@ -69,6 +74,7 @@ namespace PKHeX.WinForms.Controls
                 UpdateStats();
             }
         }
+
         private void ClickEV(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox t))
@@ -85,6 +91,7 @@ namespace PKHeX.WinForms.Controls
             int newEV = pkm.GetMaximumEV(index);
             t.Text = newEV.ToString();
         }
+
         public void UpdateIVs(object sender, EventArgs e)
         {
             if (sender is MaskedTextBox m)
@@ -153,6 +160,7 @@ namespace PKHeX.WinForms.Controls
 
             UpdateStats();
         }
+
         private void UpdateRandomEVs(object sender, EventArgs e)
         {
             bool zero = ModifierKeys.HasFlag(Keys.Control);
@@ -160,6 +168,7 @@ namespace PKHeX.WinForms.Controls
             LoadEVs(evs);
             UpdateEVs(null, null);
         }
+
         private void UpdateHackedStats(object sender, EventArgs e)
         {
             foreach (var s in MT_Stats)
@@ -167,6 +176,7 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_HackedStats.Checked)
                 UpdateStats();
         }
+
         private void UpdateHackedStatText(object sender, EventArgs e)
         {
             if (!CHK_HackedStats.Checked || !(sender is TextBox tb))
@@ -179,6 +189,7 @@ namespace PKHeX.WinForms.Controls
             if (Convert.ToUInt32(text) > ushort.MaxValue)
                 tb.Text = "65535";
         }
+
         private void UpdateHyperTrainingFlag(int i, bool value)
         {
             if (value)
@@ -186,6 +197,7 @@ namespace PKHeX.WinForms.Controls
             else
                 MT_IVs[i].ResetBackColor();
         }
+
         private void UpdateHPType(object sender, EventArgs e)
         {
             if (ChangingFields || !FieldsInitialized)
@@ -196,6 +208,7 @@ namespace PKHeX.WinForms.Controls
             int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs, pkm.Format);
             LoadIVs(newIVs);
         }
+
         private void ClickStatLabel(object sender, MouseEventArgs e)
         {
             if (sender == Label_SPC)
@@ -217,10 +230,16 @@ namespace PKHeX.WinForms.Controls
         private void LoadHyperTraining()
         {
             if (!(pkm is IHyperTrain h))
-                foreach (var iv in MT_IVs) iv.ResetBackColor();
-            else for (int i = 0; i < MT_IVs.Length; i++)
+            {
+                foreach (var iv in MT_IVs)
+                    iv.ResetBackColor();
+                return;
+            }
+
+            for (int i = 0; i < MT_IVs.Length; i++)
                 UpdateHyperTrainingFlag(i, h.GetHT(i));
         }
+
         private void UpdateEVTotals()
         {
             int evtotal = pkm.EVTotal;
@@ -236,6 +255,7 @@ namespace PKHeX.WinForms.Controls
             TB_EVTotal.Text = evtotal.ToString();
             EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
         }
+
         public void UpdateStats()
         {
             // Generate the stats.
@@ -270,12 +290,14 @@ namespace PKHeX.WinForms.Controls
         }
 
         public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
+
         private void UpdateCharacteristic(int characteristic)
         {
             L_Characteristic.Visible = Label_CharacteristicPrefix.Visible = characteristic > -1;
             if (characteristic > -1)
                 L_Characteristic.Text = GameInfo.Strings.characteristics[characteristic];
         }
+
         private void RecolorStatLabels(int nature)
         {
             // Reset Label Colors
@@ -288,6 +310,7 @@ namespace PKHeX.WinForms.Controls
             L_Stats[incr].ForeColor = StatIncreased;
             L_Stats[decr].ForeColor = StatDecreased;
         }
+
         public string UpdateNatureModification(int nature)
         {
             // Reset Label Colors
@@ -299,6 +322,7 @@ namespace PKHeX.WinForms.Controls
                 return "-/-";
             return $"+{L_Stats[incr].Text} / -{L_Stats[decr].Text}".Replace(":", "");
         }
+
         public void SetATKIVGender(int gender)
         {
             pkm.SetATKIVGender(gender);
@@ -318,6 +342,7 @@ namespace PKHeX.WinForms.Controls
             Stat_SPD.Text = pk.Stat_SPD.ToString();
             Stat_SPE.Text = pk.Stat_SPE.ToString();
         }
+
         public void SavePartyStats(PKM pk)
         {
             int size = pk.SIZE_PARTY;
@@ -332,6 +357,7 @@ namespace PKHeX.WinForms.Controls
             pk.Stat_SPA = Util.ToInt32(Stat_SPA.Text);
             pk.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
         }
+
         public void LoadEVs(int[] EVs)
         {
             ChangingFields = true;
@@ -343,6 +369,7 @@ namespace PKHeX.WinForms.Controls
             TB_SPDEV.Text = EVs[5].ToString();
             ChangingFields = false;
         }
+
         public void LoadIVs(int[] IVs)
         {
             ChangingFields = true;
@@ -399,6 +426,7 @@ namespace PKHeX.WinForms.Controls
                 }
             }
         }
+
         public void InitializeDataSources()
         {
             CB_HPType.InitializeBinding();

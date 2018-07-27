@@ -24,7 +24,7 @@ namespace PKHeX.Core
                 data.AddLine(Get(V207, Severity.Fishy));
 
             var Info = data.Info;
-            if ((Info.Generation >= 6 || Info.Generation < 3 && pkm.Format >= 7) && pkm.PID == pkm.EncryptionConstant)
+            if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)
                 data.AddLine(GetInvalid(V208)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
             VerifyShiny(data);
@@ -75,6 +75,7 @@ namespace PKHeX.Core
             if (result != 0)
                 data.AddLine(GetInvalid(V411));
         }
+
         private void VerifyECPIDWurmple(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -91,6 +92,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(V210, CheckIdentifier.EC));
             }
         }
+
         private void VerifyEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -99,7 +101,9 @@ namespace PKHeX.Core
             if (pkm.EncryptionConstant == 0)
                 data.AddLine(Get(V201, Severity.Fishy, CheckIdentifier.EC));
             if (3 <= Info.Generation && Info.Generation <= 5)
+            {
                 VerifyTransferEC(data);
+            }
             else
             {
                 int xor = pkm.TSV ^ pkm.PSV;
@@ -107,6 +111,7 @@ namespace PKHeX.Core
                     data.AddLine(Get(V211, Severity.Fishy, CheckIdentifier.EC));
             }
         }
+
         private void VerifyTransferEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;

@@ -372,7 +372,7 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
-                    LearnBW.AddMoves(moves, species, form, max);
+                    // LearnBW.AddMoves(moves, species, form, max); // same as BW
                     return LearnB2W2.AddMoves(moves, species, form, max);
 
                 case B: case W: case BW:

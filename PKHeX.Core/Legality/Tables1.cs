@@ -9,6 +9,7 @@ namespace PKHeX.Core
         internal const int MaxMoveID_1 = 165;
         internal const int MaxItemID_1 = 255;
         internal const int MaxAbilityID_1 = 0;
+
         /// <summary>
         /// Generation 1 -> Generation 7 Transfer Location (Kanto)
         /// </summary>
@@ -73,23 +74,28 @@ namespace PKHeX.Core
             // Crobat Espeon Umbreon Blissey
             169,196,197,242
         };
+
         internal static readonly HashSet<int> SpecialMinMoveSlots = new HashSet<int>
         {
             25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
         };
+
         internal static readonly HashSet<int> Types_Gen1 = new HashSet<int>
         {
             0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
         };
+
         internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new HashSet<int>
         {
             12, 18, 31, 34, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
         };
+
         internal static readonly int[] Stadium_CatchRate =
         {
             167, // Normal Box
             168, // Gorgeous Box
         };
+
         internal static readonly HashSet<int> Stadium_GiftSpecies = new HashSet<int>
         {
             001, // Bulbasaur
@@ -102,6 +108,7 @@ namespace PKHeX.Core
             138, // Omanyte
             140, // Kabuto
         };
+
         internal static readonly HashSet<int> Trade_Evolution1 = new HashSet<int>
         {
             064,

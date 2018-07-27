@@ -74,6 +74,7 @@ namespace PKHeX.WinForms
                 return releaseKey;
             }
         }
+
         private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
 #if !DEBUG

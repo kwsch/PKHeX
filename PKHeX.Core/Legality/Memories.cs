@@ -145,6 +145,7 @@ namespace PKHeX.Core
                 return false;
             return (MemoryFeelings[memory] & (1 << feeling)) != 0;
         }
+
         public static bool CanHaveIntensity(int memory, int intensity)
         {
             if (memory >= MemoryFeelings.Length)
@@ -162,6 +163,7 @@ namespace PKHeX.Core
                     return feel;
             }
         }
+
         public static int GetMinimumIntensity(int memory)
         {
             if (memory > MemoryMinIntensity.Length)

@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public sealed class ItemVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.HeldItem;
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -20,6 +21,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg && pkm.HeldItem != 0)
                 data.AddLine(GetInvalid(V419));
         }
+
         private void VerifyEReaderBerry(LegalityAnalysis data)
         {
             if (Legal.EReaderBerryIsEnigma) // no E-Reader berry data provided, can't hold berry.

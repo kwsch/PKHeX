@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+﻿using System.Linq;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -13,6 +14,7 @@ namespace PKHeX.Core
         {
             "PKHeX",
         };
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -29,20 +31,30 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(V106));
 
             if (pkm.TID == 0 && pkm.SID == 0)
+            {
                 data.AddLine(Get(V33, Severity.Fishy));
+            }
             else if (pkm.VC)
             {
                 if (pkm.SID != 0)
                     data.AddLine(GetInvalid(V34));
             }
             else if (pkm.TID == pkm.SID)
+            {
                 data.AddLine(Get(V35, Severity.Fishy));
+            }
             else if (pkm.TID == 0)
+            {
                 data.AddLine(Get(V36, Severity.Fishy));
+            }
             else if (pkm.SID == 0)
+            {
                 data.AddLine(Get(V37, Severity.Fishy));
-            else if (pkm.TID == 12345 && pkm.SID == 54321 || IsOTNameSuspicious(ot))
+            }
+            else if ((pkm.TID == 12345 && pkm.SID == 54321) || IsOTNameSuspicious(ot))
+            {
                 data.AddLine(Get(V417, Severity.Fishy));
+            }
 
             if (pkm.VC)
                 VerifyOTG1(data);
@@ -55,6 +67,7 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid($"Wordfilter: {bad}"));
             }
         }
+
         public void VerifyOTG1(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -72,9 +85,10 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(V39));
             }
 
-            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || pkm.Format > 2 && pkm.VC1))
+            if (pkm.OT_Gender == 1 && ((pkm.Format == 2 && pkm.Met_Location == 0) || (pkm.Format > 2 && pkm.VC1)))
                 data.AddLine(GetInvalid(V408));
         }
+
         private void VerifyG1OTWithinBounds(LegalityAnalysis data, string str)
         {
             if (StringConverter.GetIsG1English(str))
@@ -97,7 +111,8 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(V421));
             }
         }
-        private CheckResult VerifyG1OTStadium(PKM pkm, string tr, EncounterStatic s)
+
+        private CheckResult VerifyG1OTStadium(PKM pkm, string tr, IVersion s)
         {
             bool jp = pkm.Japanese;
             bool valid;
@@ -110,10 +125,7 @@ namespace PKHeX.Core
 
         private bool IsOTNameSuspicious(string name)
         {
-            foreach (var ot in SuspiciousOTNames)
-                if (name.StartsWith(ot))
-                    return true;
-            return false;
+            return SuspiciousOTNames.Any(name.StartsWith);
         }
     }
 }

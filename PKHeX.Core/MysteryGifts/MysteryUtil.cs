@@ -71,6 +71,7 @@ namespace PKHeX.Core
                 }
             }
         }
+
         private static void AddLinesPKM(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
             int TID7() => (int)((uint)(gift.TID | (gift.SID << 16)) % 1000000);

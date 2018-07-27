@@ -44,6 +44,7 @@ namespace PKHeX.WinForms.Controls
             SE = se;
             Reset();
         }
+
         public void Reset() { DragInfo = new SlotChangeInfo(SAV); ColorizedBox = ColorizedSlot = -1; }
         public bool CanStartDrag => DragInfo.LeftMouseIsDown && !Cursor.Position.Equals(MouseDownPosition);
         private Point MouseDownPosition { get; set; }
@@ -53,6 +54,7 @@ namespace PKHeX.WinForms.Controls
             if (SE != null)
                 DragInfo.Cursor = ((Control)sender).FindForm().Cursor = z;
         }
+
         public void MouseEnter(object sender, EventArgs e)
         {
             var pb = (PictureBox)sender;
@@ -60,6 +62,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             BeginHoverSlot(pb);
         }
+
         private Bitmap GetGlowSprite(PKM pk)
         {
             var baseSprite = SpriteUtil.GetSprite(pk.Species, pk.AltForm, pk.Gender, 0, pk.IsEgg, false, pk.Format);
@@ -68,6 +71,7 @@ namespace PKHeX.WinForms.Controls
             ImageUtil.GlowEdges(pixels, new[] {GlowInitial.B, GlowInitial.G, GlowInitial.R}, baseSprite.Width);
             return ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height);
         }
+
         private void BeginHoverSlot(PictureBox pb)
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
@@ -99,6 +103,7 @@ namespace PKHeX.WinForms.Controls
             if (Settings.Default.HoverSlotPlayCry)
                 PlayCry(pk);
         }
+
         private void EndHoverSlot()
         {
             if (HoveredSlot != null)
@@ -111,6 +116,7 @@ namespace PKHeX.WinForms.Controls
             ShowSet.RemoveAll();
             Sounds.Stop();
         }
+
         public void RefreshHoverSlot(ISlotViewer<PictureBox> parent)
         {
             if (HoveredSlot == null || !parent.SlotPictureBoxes.Contains(HoveredSlot))
@@ -118,6 +124,7 @@ namespace PKHeX.WinForms.Controls
 
             BeginHoverSlot(HoveredSlot);
         }
+
         public void MouseLeave(object sender, EventArgs e)
         {
             EndHoverSlot();
@@ -126,11 +133,13 @@ namespace PKHeX.WinForms.Controls
                 return;
             pb.BackgroundImage = OriginalBackground;
         }
+
         public void MouseClick(object sender, MouseEventArgs e)
         {
             if (!DragInfo.DragDropInProgress)
                 SE.ClickSlot(sender, e);
         }
+
         public void MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -138,6 +147,7 @@ namespace PKHeX.WinForms.Controls
             if (e.Button == MouseButtons.Right)
                 DragInfo.RightMouseIsDown = false;
         }
+
         public void MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -148,6 +158,7 @@ namespace PKHeX.WinForms.Controls
             if (e.Button == MouseButtons.Right)
                 DragInfo.RightMouseIsDown = true;
         }
+
         public void QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
             if (e.Action != DragAction.Cancel && e.Action != DragAction.Drop)
@@ -156,6 +167,7 @@ namespace PKHeX.WinForms.Controls
             DragInfo.RightMouseIsDown = false;
             DragInfo.DragDropInProgress = false;
         }
+
         public void DragEnter(object sender, DragEventArgs e)
         {
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
@@ -166,6 +178,7 @@ namespace PKHeX.WinForms.Controls
             if (DragInfo.DragDropInProgress)
                 SetCursor((Cursor)DragInfo.Cursor, sender);
         }
+
         public void MouseMove(object sender, MouseEventArgs e)
         {
             if (!CanStartDrag)
@@ -182,6 +195,7 @@ namespace PKHeX.WinForms.Controls
             bool encrypt = Control.ModifierKeys == Keys.Control;
             HandleMovePKM(pb, encrypt);
         }
+
         public void DragDrop(object sender, DragEventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
@@ -204,15 +218,16 @@ namespace PKHeX.WinForms.Controls
         private void ShowSimulatorSetTooltip(Control pb, PKM pk)
         {
             if (pk.Species == 0)
-                ShowSet.RemoveAll();
-            else
             {
-                var set = new ShowdownSet(pk);
-                if (pk.Format <= 2) // Nature preview from IVs
-                    set.Nature = (int)(pk.EXP % 25);
-                ShowSet.SetToolTip(pb, set.LocalizedText(Settings.Default.Language));
+                ShowSet.RemoveAll();
+                return;
             }
+            var set = new ShowdownSet(pk);
+            if (pk.Format <= 2) // Nature preview from IVs
+                set.Nature = (int)(pk.EXP % 25);
+            ShowSet.SetToolTip(pb, set.LocalizedText(Settings.Default.Language));
         }
+
         private void PlayCry(PKM pk)
         {
             if (pk.Species == 0)
@@ -256,12 +271,14 @@ namespace PKHeX.WinForms.Controls
             if (DragInfo.Source.IsParty || DragInfo.Destination.IsParty)
                 SE.SetParty();
         }
+
         private async void DeleteAsync(string path, int delay)
         {
             await Task.Delay(delay).ConfigureAwait(true);
             if (File.Exists(path) && DragInfo.CurrentPath == null)
                 File.Delete(path);
         }
+
         private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
         {
             byte[] dragdata = SAV.DecryptPKM(DragInfo.Source.OriginalData);
@@ -284,6 +301,7 @@ namespace PKHeX.WinForms.Controls
 
             return newfile;
         }
+
         private bool TryMakeDragDropPKM(PictureBox pb, bool encrypt, PKM pkx, string newfile, out bool external)
         {
             File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
@@ -347,11 +365,13 @@ namespace PKHeX.WinForms.Controls
             if (DragInfo.Source.Parent == null) // internal file
                 DragInfo.Reset();
         }
+
         private void AlertInvalidate(string msg)
         {
             DragInfo.Destination.Slot = -1; // Invalidate
             WinFormsUtil.Alert(msg);
         }
+
         private bool TryLoadFiles(string[] files, DragEventArgs e, bool noEgg)
         {
             if (files.Length <= 0)
@@ -407,6 +427,7 @@ namespace PKHeX.WinForms.Controls
             Debug.WriteLine(c);
             return true;
         }
+
         private bool TrySetPKMDestination(object sender, DragEventArgs e, bool overwrite, bool clone, bool noEgg)
         {
             PKM pkz = GetPKM(true);
@@ -423,14 +444,16 @@ namespace PKHeX.WinForms.Controls
             SetCursor(SE.GetDefaultCursor, sender);
             return true;
         }
+
         private bool TrySetPKMSource(object sender, bool overwrite, bool clone)
         {
             if (overwrite && DragInfo.Destination.IsValid) // overwrite delete old slot
             {
                 // Clear from slot
                 SetPKM(SAV.BlankPKM, true, null);
+                return true;
             }
-            else if (!clone && DragInfo.Destination.IsValid)
+            if (!clone && DragInfo.Destination.IsValid)
             {
                 // Load data from destination
                 PKM pk = ((PictureBox)sender).Image != null
@@ -439,10 +462,9 @@ namespace PKHeX.WinForms.Controls
 
                 // Set destination pokemon data to source slot
                 SetPKM(pk, true, null);
+                return true;
             }
-            else
-                return false;
-            return true;
+            return false;
         }
 
         public void SetColor(int box, int slot, Image img)
@@ -471,6 +493,7 @@ namespace PKHeX.WinForms.Controls
 
         // PKM Get Set
         private PKM GetPKM(bool src) => GetPKM(src ? DragInfo.Source : DragInfo.Destination);
+
         public PKM GetPKM(SlotChange slot)
         {
             int o = slot.Offset;
@@ -485,7 +508,9 @@ namespace PKHeX.WinForms.Controls
             pk.Box = slot.Box;
             return pk;
         }
+
         private void SetPKM(PKM pk, bool src, Image img) => SetPKM(pk, src ? DragInfo.Source : DragInfo.Destination, src, img);
+
         public void SetPKM(PKM pk, SlotChange slot, bool src, Image img)
         {
             if (slot.IsParty)
@@ -511,6 +536,7 @@ namespace PKHeX.WinForms.Controls
             }
             SetColor(slot.Box, slot.Slot, img ?? Resources.slotSet);
         }
+
         private void SetPKMParty(PKM pk, bool src, SlotChange slot)
         {
             int o = slot.Offset;
