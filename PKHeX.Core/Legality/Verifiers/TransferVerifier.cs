@@ -10,6 +10,7 @@ namespace PKHeX.Core
     public sealed class TransferVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Encounter;
+
         public override void Verify(LegalityAnalysis data)
         {
             throw new NotImplementedException();
@@ -73,9 +74,10 @@ namespace PKHeX.Core
             if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
                 FlagIncompatibleTransferMove(pkm, Moves, 146, 2); // can't have Dizzy Punch at all
 
-            bool checkShiny = pkm.VC2 || pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1;
+            bool checkShiny = pkm.VC2 || (pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1);
             if (!checkShiny)
                 yield break;
+
             if (pkm.Gender == 1) // female
             {
                 if (pkm.PersonalInfo.Gender == 31 && pkm.IsShiny) // impossible gender-shiny

@@ -68,6 +68,7 @@ namespace PKHeX.Core
 
             return CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch);
         }
+
         private CheckResult VerifyAbility345(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilnum)
         {
             var pkm = data.pkm;
@@ -133,6 +134,7 @@ namespace PKHeX.Core
             // Fall through when gen3 pkm transferred to gen4/5
             return VerifyAbilityGen3Transfer(data, abilities, data.Info.EvoChainsAllGens[3][0].Species);
         }
+
         private AbilityState VerifyAbilityGen3Transfer(LegalityAnalysis data, IReadOnlyList<int> abilities, int maxGen3Species)
         {
             var pkm = data.pkm;
@@ -193,6 +195,7 @@ namespace PKHeX.Core
 
             return GetInvalid(pkm.Format < 6 ? V113 : V114);
         }
+
         private CheckResult VerifyAbilityPCD(LegalityAnalysis data, IReadOnlyList<int> abilities, PCD pcd)
         {
             var pkm = data.pkm;
@@ -237,6 +240,7 @@ namespace PKHeX.Core
             var state = pkm.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch;
             return CheckMatch(data.pkm, abilities, 5, state);
         }
+
         private CheckResult VerifyAbility6(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -256,6 +260,7 @@ namespace PKHeX.Core
 
             return VALID;
         }
+
         private CheckResult VerifyAbility7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -304,6 +309,7 @@ namespace PKHeX.Core
                 return false; // Cannot alter from hidden ability.
             return true;
         }
+
         private static int GetEncounterFixedAbilityNumber(IEncounterable enc)
         {
             switch (enc)

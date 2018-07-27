@@ -15,6 +15,7 @@ namespace PKHeX.Core
             VerifyMedalsRegular(data);
             VerifyMedalsEvent(data);
         }
+
         private void VerifyMedalsRegular(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -25,24 +26,25 @@ namespace PKHeX.Core
             int TrainCount = pkm.SuperTrainingMedalCount();
 
             if (pkm.IsEgg && TrainCount > 0)
-                data.AddLine(GetInvalid(V89));
-            else if (TrainCount > 0 && Info.Generation > 6)
-                data.AddLine(GetInvalid(V90));
-            else
             {
-                if (pkm.Format >= 7)
-                {
-                    if (pkm.SecretSuperTrainingUnlocked)
-                        data.AddLine(GetInvalid(V91));
-                    if (pkm.SecretSuperTrainingComplete)
-                        data.AddLine(GetInvalid(V92));
-                }
-                else
-                {
-                    if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
-                        data.AddLine(GetInvalid(V93));
-                }
+                data.AddLine(GetInvalid(V89));
+                return;
             }
+            if (TrainCount > 0 && Info.Generation > 6)
+            {
+                data.AddLine(GetInvalid(V90));
+                return;
+            }
+            if (pkm.Format >= 7)
+            {
+                if (pkm.SecretSuperTrainingUnlocked)
+                    data.AddLine(GetInvalid(V91));
+                if (pkm.SecretSuperTrainingComplete)
+                    data.AddLine(GetInvalid(V92));
+                return;
+            }
+            if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
+                data.AddLine(GetInvalid(V93));
         }
 
         private void VerifyMedalsEvent(LegalityAnalysis data)

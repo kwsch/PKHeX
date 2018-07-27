@@ -5,14 +5,10 @@ namespace PKHeX.WinForms
 {
     public static class CyberGadgetUtil
     {
-        public static string GetTempFolder()
-        {
-            return Path.Combine(Path.GetTempPath(), "3DSSE");
-        }
-        public static string GetCacheFolder()
-        {
-            return Path.Combine(GetBackupLocation(), "cache");
-        }
+        public static string GetTempFolder() => Path.Combine(Path.GetTempPath(), "3DSSE");
+        public static string GetCacheFolder() => Path.Combine(GetBackupLocation(), "cache");
+        private static string GetRegistryBase() => @"SOFTWARE\CYBER Gadget\3DSSaveEditor";
+
         private static string GetRegistryValue(string key)
         {
             Microsoft.Win32.RegistryKey currentUser = Microsoft.Win32.Registry.CurrentUser;
@@ -25,10 +21,7 @@ namespace PKHeX.WinForms
             currentUser.Close();
             return str;
         }
-        private static string GetRegistryBase()
-        {
-            return @"SOFTWARE\CYBER Gadget\3DSSaveEditor";
-        }
+
         private static string GetBackupLocation()
         {
             string registryValue = GetRegistryValue("Location");

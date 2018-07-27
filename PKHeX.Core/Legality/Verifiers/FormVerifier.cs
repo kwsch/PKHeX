@@ -21,6 +21,7 @@ namespace PKHeX.Core
         }
 
         private CheckResult VALID => GetValid(V318);
+
         private CheckResult VerifyForm(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -37,7 +38,9 @@ namespace PKHeX.Core
                 return GetInvalid(string.Format(V304, count - 1, pkm.AltForm));
 
             if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
+            {
                 VerifyFormFriendSafari(data);
+            }
             else if (EncounterMatch is EncounterEgg)
             {
                 if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm))
@@ -199,6 +202,9 @@ namespace PKHeX.Core
             return 0;
         }
 
+        private static readonly HashSet<int> BattleOnly;
+        private static readonly HashSet<int> SafariFloette = new HashSet<int> { 0, 1, 3 }; // 0/1/3 - RBY
+
         static FormVerifier()
         {
             BattleOnly = new HashSet<int>();
@@ -206,9 +212,7 @@ namespace PKHeX.Core
             BattleOnly.UnionWith(Legal.BattleMegas);
             BattleOnly.UnionWith(Legal.BattlePrimals);
         }
-        private static readonly HashSet<int> BattleOnly;
 
-        private static readonly HashSet<int> SafariFloette = new HashSet<int> {0, 1, 3}; // 0/1/3 - RBY
         private void VerifyFormFriendSafari(LegalityAnalysis data)
         {
             var pkm = data.pkm;

@@ -205,6 +205,7 @@ namespace PKHeX.Core
             EncryptPK();
             return true;
         }
+
         private void EncryptPK()
         {
             byte[] ekdata = new byte[PKX.SIZE_4PARTY];

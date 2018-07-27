@@ -34,6 +34,7 @@ namespace PKHeX.Core
             if (pkm.IsShiny)
                 data.AddLine(GetInvalid(V220, CheckIdentifier.Shiny));
         }
+
         private static bool VerifyNsPKMOTValid(PKM pkm)
         {
             if (pkm.TID != 00002 || pkm.SID != 00000)

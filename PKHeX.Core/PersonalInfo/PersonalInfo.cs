@@ -245,6 +245,7 @@
                 r[i] = (data[start + (i >> 3)] >> (i & 7) & 0x1) == 1;
             return r;
         }
+
         protected static byte[] SetBits(bool[] bits)
         {
             byte[] data = new byte[bits.Length>>3];
@@ -313,6 +314,7 @@
         /// Indicates that the entry is exclusively Female gendered.
         /// </summary>
         public bool OnlyFemale => Gender == 254;
+
         /// <summary>
         /// Indicates that the entry is exclusively Male gendered.
         /// </summary>

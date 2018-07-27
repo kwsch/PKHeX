@@ -16,31 +16,37 @@ namespace PKHeX.WinForms.Controls
             get => Util.ToInt32(TB_Sheen.Text);
             set => TB_Sheen.Text = value.ToString();
         }
+
         public int CNT_Cool
         {
             get => Util.ToInt32(TB_Cool.Text);
             set => TB_Cool.Text = value.ToString();
         }
+
         public int CNT_Beauty
         {
             get => Util.ToInt32(TB_Beauty.Text);
             set => TB_Beauty.Text = value.ToString();
         }
+
         public int CNT_Cute
         {
             get => Util.ToInt32(TB_Cute.Text);
             set => TB_Cute.Text = value.ToString();
         }
+
         public int CNT_Smart
         {
             get => Util.ToInt32(TB_Smart.Text);
             set => TB_Smart.Text = value.ToString();
         }
+
         public int CNT_Tough
         {
             get => Util.ToInt32(TB_Tough.Text);
             set => TB_Tough.Text = value.ToString();
         }
+
         private void Update255_MTB(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox tb)) return;

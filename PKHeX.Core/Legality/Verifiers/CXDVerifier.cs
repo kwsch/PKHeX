@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public sealed class CXDVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -19,6 +20,7 @@ namespace PKHeX.Core
             if (pkm.OT_Gender == 1)
                 data.AddLine(GetInvalid(V407, CheckIdentifier.Trainer));
         }
+
         private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
         {
             var pidiv = data.Info.PIDIV;

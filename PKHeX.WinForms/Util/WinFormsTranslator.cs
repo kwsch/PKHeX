@@ -14,6 +14,7 @@ namespace PKHeX.WinForms
 
         private static string GetTranslationFileNameInternal(string lang) => $"lang_{lang}";
         private static string GetTranslationFileNameExternal(string lang) => $"lang_{lang}.txt";
+
         private static TranslationContext GetContext(string lang)
         {
             if (Context.TryGetValue(lang, out var context))
@@ -81,8 +82,10 @@ namespace PKHeX.WinForms
                             break;
 
                         if (z.ContextMenuStrip != null) // control has attached menustrip
+                        {
                             foreach (var obj in GetToolStripMenuItems(z.ContextMenuStrip))
                                 yield return obj;
+                        }
 
                         if (z is ComboBox || z is TextBox || z is MaskedTextBox || z is LinkLabel || z is NumericUpDown)
                             break; // undesirable to modify, ignore
@@ -93,6 +96,7 @@ namespace PKHeX.WinForms
                 }
             }
         }
+
         private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
         {
             foreach (Control child in control.Controls)
@@ -106,6 +110,7 @@ namespace PKHeX.WinForms
                     yield return descendant;
             }
         }
+
         private static IEnumerable<object> GetToolStripMenuItems(ToolStrip menu)
         {
             foreach (var i in menu.Items.OfType<ToolStripMenuItem>())
@@ -116,6 +121,7 @@ namespace PKHeX.WinForms
                     yield return sub;
             }
         }
+
         private static IEnumerable<ToolStripMenuItem> GetToolsStripDropDownItems(ToolStripDropDownItem item)
         {
             foreach (var dropDownItem in item.DropDownItems.OfType<ToolStripMenuItem>())
@@ -200,6 +206,7 @@ namespace PKHeX.WinForms
         public bool RemoveUsedKeys { private get; set; }
         public const char Separator = '=';
         private readonly Dictionary<string, string> Translation = new Dictionary<string, string>();
+
         public TranslationContext(IEnumerable<string> content, char separator = Separator)
         {
             var entries = content.Select(z => z.Split(separator)).Where(z => z.Length == 2);

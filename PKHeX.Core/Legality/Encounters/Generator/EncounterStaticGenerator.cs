@@ -14,6 +14,7 @@ namespace PKHeX.Core
             var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxID);
             return GetPossible(pkm, dl, gameSource);
         }
+
         public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -22,6 +23,7 @@ namespace PKHeX.Core
             var encs = GetStaticEncounters(pkm, vs, gameSource);
             return encs.Where(e => AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
+
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             var poss = GetPossible(pkm, gameSource: gameSource);
@@ -33,6 +35,7 @@ namespace PKHeX.Core
             // Back Check against pkm
             return GetMatchingStaticEncounters(pkm, poss, lvl);
         }
+
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource)
         {
             var poss = GetPossible(pkm, vs, gameSource: gameSource);
@@ -86,7 +89,7 @@ namespace PKHeX.Core
                 if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
                     return false;
             }
-            else if (pkm.VC || pkm.GenNumber <= 2 && e.EggLocation != 0) // Gen2 Egg
+            else if (pkm.VC || (pkm.GenNumber <= 2 && e.EggLocation != 0)) // Gen2 Egg
             {
                 if (pkm.Format <= 2)
                 {
@@ -164,7 +167,9 @@ namespace PKHeX.Core
                 }
             }
             else if (e.Level > lvl)
+            {
                 return false;
+            }
 
             if (e.Gender != -1 && e.Gender != pkm.Gender)
                 return false;
@@ -174,9 +179,13 @@ namespace PKHeX.Core
                 return false;
 
             if (e.IVs != null && (e.Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            {
                 for (int i = 0; i < 6; i++)
+                {
                     if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
                         return false;
+                }
+            }
 
             if (pkm is IContestStats s && s.IsContestBelow(e))
                 return false;
@@ -196,6 +205,7 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
+
         private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, IReadOnlyList<DexLevel> dl, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -213,6 +223,7 @@ namespace PKHeX.Core
                 return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
             return new EncounterInvalid(pkm);
         }
+
         private static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
             var enc = new EncounterStatic
@@ -230,6 +241,7 @@ namespace PKHeX.Core
             enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
             return enc;
         }
+
         private static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
         {
             var enc = new EncounterStatic
@@ -247,6 +259,7 @@ namespace PKHeX.Core
             enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
             return enc;
         }
+
         internal static EncounterStatic GetStaticLocation(PKM pkm, int species = -1)
         {
             switch (pkm.GenNumber)
@@ -265,6 +278,7 @@ namespace PKHeX.Core
         {
             return pkm.Met_Location == e.Location && pkm.Egg_Location == e.EggLocation;
         }
+
         private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
         {
             var catch_rate = pk1.Catch_Rate;

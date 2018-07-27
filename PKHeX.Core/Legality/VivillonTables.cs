@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,11 +12,13 @@ namespace PKHeX.Core
             public byte mainform;
             public FormSubregionTable[] otherforms;
         }
+
         private struct FormSubregionTable
         {
             public byte form;
             public int[] region;
         }
+
         private static readonly int[][] VivillonCountryTable =
         {
                //missing ID 051,068,102,127,160,186
@@ -38,6 +41,7 @@ namespace PKHeX.Core
                /*16 Ocean       */ new[] { 049, 077},
                /*17 Jungle      */ new[] { 016, 021, 022, 025, 027, 031, 040, 046, 052, 169, 153, 156},
         };
+
         private static readonly CountryTable[] RegionFormTable =
         {
             new CountryTable{
@@ -272,13 +276,16 @@ namespace PKHeX.Core
         /// <param name="region">Console Region ID</param>
         public static int GetVivillonPattern(int country, int region)
         {
-            CountryTable ct = Array.Find(RegionFormTable, t => t.countryID == country);
+            var ct = Array.Find(RegionFormTable, t => t.countryID == country);
             if (ct.otherforms == null) // empty struct = no forms referenced
                 return ct.mainform; // No subregion table
 
             foreach (var sub in ct.otherforms)
+            {
                 if (sub.region.Contains(region))
                     return sub.form;
+            }
+
             return ct.mainform;
         }
 
@@ -295,9 +302,9 @@ namespace PKHeX.Core
                 case 0: // Japan
                     return country == 1;
                 case 1: // Americas
-                    return 8 <= country && country <= 52 || new[] { 153, 156, 168, 174, 186 }.Contains(country);
+                    return (8 <= country && country <= 52) || ExtendedAmericas.Contains(country);
                 case 2: // Europe
-                    return 64 <= country && country <= 127 || new[] { 169, 184, 185 }.Contains(country);
+                    return (64 <= country && country <= 127) || ExtendedEurope.Contains(country);
                 case 4: // China
                     return country == 144 || country == 160;
                 case 5: // Korea
@@ -308,5 +315,8 @@ namespace PKHeX.Core
                     return false;
             }
         }
+
+        private static readonly HashSet<int> ExtendedAmericas = new HashSet<int> {153, 156, 168, 174, 186};
+        private static readonly HashSet<int> ExtendedEurope = new HashSet<int> { 153, 156, 168, 174, 186 };
     }
 }

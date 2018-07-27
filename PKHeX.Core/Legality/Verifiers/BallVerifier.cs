@@ -39,9 +39,8 @@ namespace PKHeX.Core
             if (pkm.Species == 292 && Info.Generation > 3) // Shedinja. For gen3, copy the ball from Nincada
                 return VerifyBallEquals(data, 4); // Pokeball Only
 
-            if (pkm.Ball == 0x14 && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species)
-                && !EncounterMatch.EggEncounter && pkm.SM) // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
-                return GetInvalid(V116);
+            if (pkm.Ball == 0x14 && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
+                return GetInvalid(V116); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
 
             if (EncounterMatch is EncounterStatic e)
                 return VerifyBallStatic(data, e);
@@ -59,12 +58,14 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, 4); // Pokeball
             return VerifyBallEquals(data, g.Ball);
         }
+
         private CheckResult VerifyBallStatic(LegalityAnalysis data, EncounterStatic s)
         {
             if (s.Location == 75 && s.Generation == 5) // Entree Forest (Dream World)
                 return VerifyBallEquals(data, Legal.DreamWorldBalls);
             return VerifyBallEquals(data, Legal.GetWildBalls(data.pkm));
         }
+
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
         {
             if (w.Location == 30016 && w.Generation == 7) // Poké Pelago
@@ -81,6 +82,7 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, 0x18); // Sport Ball
             return VerifyBallEquals(data, Legal.GetWildBalls(data.pkm));
         }
+
         private CheckResult VerifyBallEgg(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -95,6 +97,7 @@ namespace PKHeX.Core
                 default: return VerifyBallInherited(data);
             }
         }
+
         private CheckResult VerifyBallInherited(LegalityAnalysis data)
         {
             switch (data.Info.Generation)
@@ -162,7 +165,6 @@ namespace PKHeX.Core
                 if (pkm.AbilityNumber == 4 && Legal.Ban_Gen3BallHidden.Contains(pkm.SpecForm))
                     return GetInvalid(V122);
                 return GetValid(V123);
-
             }
 
             if (species > 650 && species != 700) // Sylveon
@@ -174,6 +176,7 @@ namespace PKHeX.Core
 
             return NONE;
         }
+
         private CheckResult VerifyBallEggGen7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -230,7 +233,7 @@ namespace PKHeX.Core
             {
                 if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(V122); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if ((species > 731 && species <= 785) || Legal.PastGenAlolanNatives.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species))
+                if ((species > 731 && species <= 785) || (Legal.PastGenAlolanNatives.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(V123);
                 if (Legal.PastGenAlolanScans.Contains(species))
                     return GetValid(V123);
@@ -249,9 +252,6 @@ namespace PKHeX.Core
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);
         private CheckResult VerifyBallEquals(LegalityAnalysis data, HashSet<int> balls) => GetResult(balls.Contains(data.pkm.Ball));
         private CheckResult VerifyBallEquals(LegalityAnalysis data, ICollection<int> balls) => GetResult(balls.Contains(data.pkm.Ball));
-        private CheckResult GetResult(bool valid)
-        {
-            return valid ? GetValid(V119) : GetInvalid(V118);
-        }
+        private CheckResult GetResult(bool valid) => valid ? GetValid(V119) : GetInvalid(V118);
     }
 }

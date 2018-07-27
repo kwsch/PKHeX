@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public class PersonalInfoSM : PersonalInfoXY
     {
         public new const int SIZE = 0x54;
+
         public PersonalInfoSM(byte[] data)
         {
             if (data.Length != SIZE)
@@ -22,6 +23,7 @@ namespace PKHeX.Core
                 GetBits(Data, 0x3C, 0x0A),
             };
         }
+
         public override byte[] Write()
         {
             SetBits(TMHM).CopyTo(Data, 0x28);

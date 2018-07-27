@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace PKHeX.WinForms
 {
-    public partial class ErrorWindow : Form
+    public sealed partial class ErrorWindow : Form
     {
         public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
         {
@@ -17,9 +17,7 @@ namespace PKHeX.WinForms
             };
             var dialogResult = dialog.ShowDialog();
             if (dialogResult == DialogResult.Abort)
-            {
                 Environment.Exit(1);
-            }
             return dialogResult;
         }
 
@@ -55,6 +53,8 @@ namespace PKHeX.WinForms
             set => L_Message.Text = value;
         }
 
+        private Exception _error;
+
         public Exception Error
         {
             get => _error;
@@ -64,7 +64,6 @@ namespace PKHeX.WinForms
                 UpdateExceptionDetailsMessage();
             }
         }
-        private Exception _error;
 
         private void UpdateExceptionDetailsMessage()
         {

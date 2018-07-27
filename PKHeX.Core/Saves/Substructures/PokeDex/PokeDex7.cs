@@ -42,7 +42,6 @@ namespace PKHeX.WinForms
                 ofs += SeenDispLen;
             }
             LanguageFlags = SetBits(Parent.Data, Parent.PokeDexLanguageFlags, LanguageLen);
-
         }
 
         public void Write()
@@ -161,7 +160,6 @@ namespace PKHeX.WinForms
             int spec = FormBaseSpecies[index];
             return Parent.Personal[spec].Gender;
         }
-
 
         public int GetBaseSpecies(int index)
         {

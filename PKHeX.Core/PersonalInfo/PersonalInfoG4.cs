@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public class PersonalInfoG4 : PersonalInfoG3
     {
         public new const int SIZE = 0x2C;
+
         public PersonalInfoG4(byte[] data)
         {
             if (data.Length != SIZE)
@@ -18,6 +19,7 @@ namespace PKHeX.Core
             TMHM = GetBits(Data, 0x1C, 0x0D);
             TypeTutors = new bool[0]; // not stored in personal
         }
+
         public override byte[] Write()
         {
             SetBits(TMHM).CopyTo(Data, 0x1C);

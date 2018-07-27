@@ -67,6 +67,7 @@ namespace PKHeX.Core
                 return _allSuggestedMoves = GetSuggestedMoves(true, true, true);
             }
         }
+
         private IEnumerable<int> AllSuggestedRelearnMoves
         {
             get
@@ -76,12 +77,14 @@ namespace PKHeX.Core
                 if (Error || Info == null)
                     return new int[4];
                 var gender = pkm.PersonalInfo.Gender;
-                var inheritLvlMoves = gender > 0 && gender < 255 || Legal.MixedGenderBreeding.Contains(Info.EncounterMatch.Species);
+                var inheritLvlMoves = (gender > 0 && gender < 255) || Legal.MixedGenderBreeding.Contains(Info.EncounterMatch.Species);
                 return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, inheritLvlMoves).ToArray();
             }
         }
+
         private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;
         public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
+
         private string EncounterName
         {
             get
@@ -90,6 +93,7 @@ namespace PKHeX.Core
                 return $"{enc.GetEncounterTypeName()} ({SpeciesStrings[enc.Species]})";
             }
         }
+
         private string EncounterLocation
         {
             get
@@ -135,6 +139,7 @@ namespace PKHeX.Core
 #endif
             Parsed = true;
         }
+
         private void ParseLegality()
         {
             if (!pkm.IsOriginValid)
@@ -156,6 +161,7 @@ namespace PKHeX.Core
                 case 7: ParsePK7(); return;
             }
         }
+
         private void ParsePK1()
         {
             pkm.TradebackStatus = Legal.GetTradebackStatusInitial(pkm);
@@ -171,6 +177,7 @@ namespace PKHeX.Core
             if (pkm.Format == 2)
                 Item.Verify(this);
         }
+
         private void ParsePK3()
         {
             UpdateInfo();
@@ -184,6 +191,7 @@ namespace PKHeX.Core
             if (Info.EncounterMatch is WC3 z && z.NotDistributed)
                 AddLine(Severity.Invalid, V413, CheckIdentifier.Encounter);
         }
+
         private void ParsePK4()
         {
             UpdateInfo();
@@ -191,17 +199,20 @@ namespace PKHeX.Core
             if (pkm.Format > 4)
                 Transfer.VerifyTransferLegalityG4(this);
         }
+
         private void ParsePK5()
         {
             UpdateInfo();
             UpdateChecks();
             NHarmonia.Verify(this);
         }
+
         private void ParsePK6()
         {
             UpdateInfo();
             UpdateChecks();
         }
+
         private void ParsePK7()
         {
             UpdateInfo();
@@ -221,6 +232,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Adds a new Check parse value.
         /// </summary>
+        /// <param name="chk">Check result to add.</param>
         internal void AddLine(CheckResult chk) => Parse.Add(chk);
 
         private void UpdateVCTransferInfo()
@@ -235,11 +247,13 @@ namespace PKHeX.Core
             foreach (var z in Transfer.VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
                 AddLine(z);
         }
+
         private void UpdateInfo()
         {
             Info = EncounterFinder.FindVerifiedEncounter(pkm);
             Parse.AddRange(Info.Parse);
         }
+
         private void UpdateChecks()
         {
             PIDEC.Verify(this);
@@ -272,6 +286,7 @@ namespace PKHeX.Core
                 Misc.VerifyVersionEvolution(this);
             }
         }
+
         private string GetLegalityReport()
         {
             if (!Parsed || Info == null)
@@ -281,13 +296,19 @@ namespace PKHeX.Core
             var vMoves = Info.Moves;
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
+            {
                 if (!vMoves[i].Valid)
                     lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+            }
 
             if (pkm.Format >= 6)
-            for (int i = 0; i < 4; i++)
-                if (!vRelearn[i].Valid)
-                    lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (!vRelearn[i].Valid)
+                        lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                }
+            }
 
             if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
                 return V193;
@@ -301,6 +322,7 @@ namespace PKHeX.Core
 
             return string.Join(Environment.NewLine, lines);
         }
+
         private string GetVerboseLegalityReport()
         {
             if (!Parsed || Info == null)
@@ -315,13 +337,19 @@ namespace PKHeX.Core
             var vMoves = Info.Moves;
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
+            {
                 if (vMoves[i].Valid)
                     lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+            }
 
             if (pkm.Format >= 6)
-            for (int i = 0; i < 4; i++)
-                if (vRelearn[i].Valid)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (vRelearn[i].Valid)
                     lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                }
+            }
 
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);

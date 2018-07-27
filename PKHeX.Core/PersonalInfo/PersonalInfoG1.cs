@@ -7,6 +7,7 @@
     {
         protected PersonalInfoG1() { }
         public const int SIZE = 0x1C;
+
         public PersonalInfoG1(byte[] data)
         {
             if (data.Length != SIZE)
@@ -15,6 +16,7 @@
             Data = data;
             TMHM = GetBits(Data, 0x14, 0x8);
         }
+
         public override byte[] Write()
         {
             SetBits(TMHM).CopyTo(Data, 0x14);
@@ -58,6 +60,7 @@
         public override int BaseFriendship { get => 0; set { } }
         public override int EscapeRate { get => 0; set { } }
         public override int Color { get => 0; set { } }
+
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };

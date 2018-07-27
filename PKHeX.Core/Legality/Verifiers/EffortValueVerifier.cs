@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public sealed class EffortValueVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.EVs;
+
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
