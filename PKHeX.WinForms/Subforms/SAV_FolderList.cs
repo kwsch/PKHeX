@@ -334,6 +334,8 @@ namespace PKHeX.WinForms
             var first = enumerator.Current;
             var sav1 = new SavePreview(first, GetParentFolderName(first));
             LoadEntryInitial(dgData, list, sav1);
+
+            int ctr = 1; // refresh every 7 until 15+ are loaded
             Task.Run(async () => // load the rest async
             {
                 while (!dgData.IsHandleCreated)
@@ -345,11 +347,22 @@ namespace PKHeX.WinForms
                         continue;
                     var sav = new SavePreview(next, GetParentFolderName(next));
                     dgData.Invoke(new Action(() => LoadEntry(dgData, list, sav)));
+                    ctr++;
+                    if (ctr < 15 && ctr % 7 == 0)
+                        dgData.Invoke(new Action(() => Refresh(dgData)));
                 }
+                dgData.Invoke(new Action(() => Refresh(dgData)));
                 enumerator.Dispose();
             });
 
             return list;
+        }
+
+        private static void Refresh(DataGridView dgData)
+        {
+            dgData.SuspendLayout();
+            dgData.AutoResizeColumns();
+            dgData.Invalidate();
         }
 
         private static void LoadEntryInitial(DataGridView dgData, SaveList<SavePreview> list, SavePreview sav)
@@ -364,13 +377,10 @@ namespace PKHeX.WinForms
 
         private void LoadEntry(DataGridView dgData, ICollection<SavePreview> list, SavePreview sav)
         {
-            dgData.SuspendLayout();
             list.Add(sav);
             int count = list.Count;
             if (CB_FilterColumn.SelectedIndex != 0)
                 ToggleRowVisibility(dgData, CB_FilterColumn.SelectedIndex - 1, TB_FilterTextContains.Text, count - 1);
-            dgData.AutoResizeColumns();
-            dgData.ResumeLayout();
         }
 
         private void ChangeFilterIndex(object sender, EventArgs e)
