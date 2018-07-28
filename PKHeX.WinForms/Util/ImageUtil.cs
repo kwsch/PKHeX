@@ -58,7 +58,7 @@ namespace PKHeX.WinForms
             GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
             Marshal.Copy(ptr, data, 0, data.Length);
-            SetAllColorTo(data, c);
+            ChangeAllColorTo(data, c);
             Marshal.Copy(data, 0, ptr, data.Length);
             bmp.UnlockBits(bmpData);
 
@@ -106,13 +106,33 @@ namespace PKHeX.WinForms
             return argbData;
         }
 
+        public static void SetAllUsedPixelsOpaque(byte[] data)
+        {
+            for (int i = 0; i < data.Length; i += 4)
+                if (data[i + 3] != 0)
+                    data[i + 3] = 0xFF;
+        }
+
+        public static void RemovePixels(byte[] pixels, byte[] original)
+        {
+            for (int i = 0; i < original.Length; i += 4)
+            {
+                if (original[i + 3] == 0)
+                    continue;
+                pixels[i + 0] = 0;
+                pixels[i + 1] = 0;
+                pixels[i + 2] = 0;
+                pixels[i + 3] = 0;
+            }
+        }
+
         private static void SetAllTransparencyTo(byte[] data, double trans)
         {
             for (int i = 0; i < data.Length; i += 4)
                 data[i + 3] = (byte)(data[i + 3] * trans);
         }
 
-        private static void SetAllColorTo(byte[] data, Color c)
+        public static void ChangeAllColorTo(byte[] data, Color c)
         {
             byte R = c.R;
             byte G = c.G;

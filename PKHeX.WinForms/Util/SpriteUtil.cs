@@ -107,6 +107,31 @@ namespace PKHeX.WinForms
             return sprite;
         }
 
+        public static void GetSpriteGlow(PKM pk, byte[] bgr, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
+        {
+            bool egg = pk.IsEgg;
+            baseSprite = GetSprite(pk.Species, pk.AltForm, pk.Gender, 0, egg, false, pk.Format);
+            GetSpriteGlow(baseSprite, bgr, out pixels, forceHollow || egg);
+        }
+
+        public static void GetSpriteGlow(Image baseSprite, byte[] bgr, out byte[] pixels, bool forceHollow = false)
+        {
+            pixels = ImageUtil.GetPixelData((Bitmap) baseSprite);
+            if (!forceHollow)
+            {
+                ImageUtil.GlowEdges(pixels, bgr, baseSprite.Width);
+                return;
+            }
+
+            // If the image has any transparency, any derived background will bleed into it.
+            // Need to undo any transparency values if any present.
+            // Remove opaque pixels from original image, leaving only the glow effect pixels.
+            var original = (byte[]) pixels.Clone();
+            ImageUtil.SetAllUsedPixelsOpaque(pixels);
+            ImageUtil.GlowEdges(pixels, bgr, baseSprite.Width);
+            ImageUtil.RemovePixels(pixels, original);
+        }
+
         // Extension Methods
         public static Image WallpaperImage(this SaveFile SAV, int box) => GetWallpaper(SAV, box);
         public static Image Sprite(this MysteryGift gift) => GetSprite(gift);

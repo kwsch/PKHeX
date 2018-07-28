@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
         public bool GlowHover { get; set; } = true;
         public Color GlowInitial { get; set; } = Color.White;
         public Color GlowFinal { get; set; } = Color.LightSkyBlue;
-        public BitmapAnimator HoverWorker;
+        public readonly BitmapAnimator HoverWorker;
 
         private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
@@ -41,6 +41,7 @@ namespace PKHeX.WinForms.Controls
 
         public SlotChangeManager(SAVEditor se)
         {
+            HoverWorker = new BitmapAnimator(Resources.slotHover);
             SE = se;
             Reset();
         }
@@ -63,15 +64,6 @@ namespace PKHeX.WinForms.Controls
             BeginHoverSlot(pb);
         }
 
-        private Bitmap GetGlowSprite(PKM pk)
-        {
-            var baseSprite = SpriteUtil.GetSprite(pk.Species, pk.AltForm, pk.Gender, 0, pk.IsEgg, false, pk.Format);
-
-            var pixels = ImageUtil.GetPixelData((Bitmap)baseSprite);
-            ImageUtil.GlowEdges(pixels, new[] {GlowInitial.B, GlowInitial.G, GlowInitial.R}, baseSprite.Width);
-            return ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height);
-        }
-
         private void BeginHoverSlot(PictureBox pb)
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
@@ -84,12 +76,14 @@ namespace PKHeX.WinForms.Controls
             Bitmap hover;
             if (GlowHover)
             {
-                HoverWorker?.Stop();
+                HoverWorker.Stop();
 
-                var GlowBase = GetGlowSprite(pk);
+                var bgr = new[] { GlowInitial.B, GlowInitial.G, GlowInitial.R };
+                SpriteUtil.GetSpriteGlow(pk, bgr, out var glowdata, out var GlowBase);
                 hover = ImageUtil.LayerImage(GlowBase, Resources.slotHover, 0, 0);
-                HoverWorker = new BitmapAnimator(GlowBase, Resources.slotHover) { GlowFromColor = GlowInitial, GlowToColor = GlowFinal };
-                HoverWorker.Start(pb, OriginalBackground);
+                HoverWorker.GlowToColor = GlowFinal;
+                HoverWorker.GlowFromColor = GlowInitial;
+                HoverWorker.Start(pb, GlowBase, glowdata, OriginalBackground);
             }
             else
             {
@@ -108,8 +102,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (HoveredSlot != null)
             {
-                HoverWorker?.Stop();
-                HoverWorker = null;
+                HoverWorker.Stop();
                 HoveredSlot.BackgroundImage = OriginalBackground;
                 HoveredSlot = null;
             }
