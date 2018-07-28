@@ -261,7 +261,8 @@ namespace PKHeX.WinForms.Controls
             // Generate the stats.
             if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
             {
-                var pi = pkm.PersonalInfo;
+                var pt = MainEditor.RequestSaveFile.Personal;
+                var pi = pt.GetFormeEntry(pkm.Species, pkm.AltForm);
                 pkm.SetStats(pkm.GetStats(pi));
                 LoadBST(pi);
                 LoadPartyStats(pkm);

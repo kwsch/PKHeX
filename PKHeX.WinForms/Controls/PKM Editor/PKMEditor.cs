@@ -90,7 +90,7 @@ namespace PKHeX.WinForms.Controls
 
         private readonly PictureBox[] movePB, relearnPB;
         private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip();
-        private SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
+        public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 

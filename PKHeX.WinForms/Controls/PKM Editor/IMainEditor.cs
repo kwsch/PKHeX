@@ -6,5 +6,6 @@ namespace PKHeX.WinForms.Controls
     {
         void UpdateIVsGB(bool skipForm);
         PKM pkm { get; }
+        SaveFile RequestSaveFile { get; }
     }
 }
