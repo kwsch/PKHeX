@@ -101,13 +101,15 @@ namespace PKHeX.WinForms.Controls
         private void EndHoverSlot()
         {
             if (HoveredSlot != null)
-            {
-                HoverWorker.Stop();
-                HoveredSlot.BackgroundImage = OriginalBackground;
-                HoveredSlot = null;
-            }
+                HoverCancel();
             ShowSet.RemoveAll();
             Sounds.Stop();
+        }
+
+        public void HoverCancel()
+        {
+            HoverWorker.Stop();
+            HoveredSlot = null;
         }
 
         public void RefreshHoverSlot(ISlotViewer<PictureBox> parent)
@@ -300,6 +302,7 @@ namespace PKHeX.WinForms.Controls
             File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
             var img = (Bitmap)pb.Image;
             SetCursor(new Cursor(img.GetHicon()), pb);
+            HoverCancel();
             pb.Image = null;
             pb.BackgroundImage = Resources.slotDrag;
             // Thread Blocks on DoDragDrop

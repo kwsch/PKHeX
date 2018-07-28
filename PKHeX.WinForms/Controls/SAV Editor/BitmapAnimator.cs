@@ -32,7 +32,7 @@ namespace PKHeX.WinForms.Controls
 
         public new void Stop()
         {
-            if (pb == null)
+            if (pb == null || !Enabled)
                 return;
             Enabled = false;
 

@@ -35,6 +35,8 @@ namespace PKHeX.WinForms.Controls
             if ((sender as PictureBox)?.Image == null)
             { System.Media.SystemSounds.Asterisk.Play(); return; }
 
+            m.HoverCancel();
+
             m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false, true);
             m.SetColor(info.Box, info.Slot, Resources.slotView);
         }
@@ -59,6 +61,8 @@ namespace PKHeX.WinForms.Controls
             var errata = sav.IsPKMCompatible(pk);
             if (errata.Count > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
                 return;
+
+            m.HoverCancel();
 
             if (info.Type == StorageSlotType.Party) // Party
             {
@@ -101,6 +105,8 @@ namespace PKHeX.WinForms.Controls
             { WinFormsUtil.Alert(MsgSaveSlotEmpty); return; }
             if (sav.IsSlotLocked(info.Box, info.Slot))
             { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
+
+            m.HoverCancel();
 
             if (info.Type == StorageSlotType.Party) // Party
             {
