@@ -16,16 +16,33 @@ namespace PKHeX.Core
         public WC7(byte[] data = null)
         {
             Data = data ?? new byte[Size];
-            if (Data.Length == SizeFull)
-            {
-                byte[] wc6 = new byte[Size];
-                Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
-                Data = wc6;
-                DateTime now = DateTime.Now;
-                Year = (uint)now.Year;
-                Month = (uint)now.Month;
-                Day = (uint)now.Day;
-            }
+            if (Data.Length != SizeFull)
+                return;
+
+            // Load Restrictions
+            RestrictVersion = Data[0x000];
+            RestrictLanguage = Data[0x1FF];
+
+            byte[] wcx = new byte[Size];
+            Array.Copy(Data, SizeFull - Size, wcx, 0, wcx.Length);
+            Data = wcx;
+            DateTime now = DateTime.Now;
+            Year = (uint)now.Year;
+            Month = (uint)now.Month;
+            Day = (uint)now.Day;
+        }
+
+        public int RestrictLanguage { get; set; } = 0; // None
+        public byte RestrictVersion { get; set; } = 0; // Permit All
+        public bool CanBeReceivedByVersion(int v)
+        {
+            if (v < (int)GameVersion.SN || v > (int)GameVersion.UM)
+                return false;
+            if (RestrictVersion == 0)
+                return true; // no data
+            var bitIndex = v - (int)GameVersion.SN;
+            var bit = 1 << bitIndex;
+            return (RestrictVersion & bit) != 0;
         }
 
         // General Card Properties
@@ -377,7 +394,10 @@ namespace PKHeX.Core
             };
 
             if (SAV.Generation > 7 && OriginGame == 0) // Gen8+, give random gen7 game
-                pk.Version = (int)GameVersion.SN + Util.Rand.Next(4);
+            {
+                do { pk.Version = (int)GameVersion.SN + Util.Rand.Next(4); }
+                while (!CanBeReceivedByVersion(pk.Version));
+            }
 
             pk.SetMaximumPPCurrent();
 

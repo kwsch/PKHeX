@@ -37,13 +37,16 @@ namespace PKHeX.Core
             }
         }
         private static HashSet<MysteryGift> GetPCDDB(byte[] bin) => new HashSet<MysteryGift>(GetData(bin, PCD.Size).Select(d => new PCD(d)));
+
         private static HashSet<MysteryGift> GetPGFDB(byte[] bin) => new HashSet<MysteryGift>(GetData(bin, PGF.Size).Select(d => new PGF(d)));
+
         private static HashSet<MysteryGift> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<MysteryGift>(
-            GetData(wc6bin, WC6.Size).Select(d => new WC6(d)).Concat(
-            GetData(wc6full, WC6.SizeFull).Select(d => new WC6(d))));
+            GetData(wc6full, WC6.SizeFull).Select(d => new WC6(d))
+            .Concat(GetData(wc6bin, WC6.Size).Select(d => new WC6(d))));
+
         private static HashSet<MysteryGift> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<MysteryGift>(
-            GetData(wc7bin, WC7.Size).Select(d => new WC7(d)).Concat(
-            GetData(wc7full, WC7.SizeFull).Select(d => new WC7(d))));
+            GetData(wc7full, WC7.SizeFull).Select(d => new WC7(d))
+            .Concat(GetData(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
         public static void RefreshMGDB(params string[] paths)
         {

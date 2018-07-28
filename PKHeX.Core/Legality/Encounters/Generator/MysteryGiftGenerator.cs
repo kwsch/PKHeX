@@ -127,18 +127,10 @@ namespace PKHeX.Core
             {
                 if (!GetIsMatchWC6(pkm, wc, vs))
                     continue;
-
-                switch (wc.CardID)
-                {
-                    case 0525 when wc.IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
-                    case 0504 when wc.RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // magmar with/without classic
-                        deferred.Add(wc);
-                        continue;
-                }
-                if (wc.Species == pkm.Species) // best match
-                    yield return wc;
-                else
+                if (GetIsDeferredWC6(pkm, wc))
                     deferred.Add(wc);
+                else
+                    yield return wc;
             }
             foreach (var z in deferred)
                 yield return z;
@@ -164,10 +156,10 @@ namespace PKHeX.Core
                 if (wc.PIDType == 0 && pkm.PID != wc.PID)
                     continue;
 
-                if (wc.Species == pkm.Species) // best match
-                    yield return wc;
-                else
+                if (GetIsDeferredWC7(pkm, wc))
                     deferred.Add(wc);
+                else
+                    yield return wc;
             }
             foreach (var z in deferred)
                 yield return z;
@@ -400,18 +392,33 @@ namespace PKHeX.Core
 
             switch (wc.CardID)
             {
-                case 1624: // Rockruff
-                    if (pkm.Species == 745 && pkm.AltForm != 2)
-                        return false;
-                    if (pkm.Version == (int)GameVersion.US)
-                        return wc.Move3 == 424; // Fire Fang
-                    if (pkm.Version == (int)GameVersion.UM)
-                        return wc.Move3 == 422; // Thunder Fang
-                    return false;
                 case 2046: // Ash Greninja
                     return pkm.SM; // not USUM
             }
             return true;
+        }
+
+        private static bool GetIsDeferredWC6(PKM pkm, WC6 wc)
+        {
+            switch (wc.CardID)
+            {
+                case 0525 when wc.IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
+                case 0504 when wc.RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // magmar with/without classic
+                    return true;
+            }
+            if (wc.RestrictLanguage != 0 && wc.RestrictLanguage != pkm.Language)
+                return true;
+            if (!wc.CanBeReceivedByVersion(pkm.Version))
+                return true;
+            return wc.Species != pkm.Species;
+        }
+        private static bool GetIsDeferredWC7(PKM pkm, WC7 wc)
+        {
+            if (wc.RestrictLanguage != 0 && wc.RestrictLanguage != pkm.Language)
+                return true;
+            if (!wc.CanBeReceivedByVersion(pkm.Version))
+                return true;
+            return wc.Species != pkm.Species;
         }
 
         // Utility

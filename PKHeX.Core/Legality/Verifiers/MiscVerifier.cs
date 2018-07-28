@@ -160,6 +160,7 @@ namespace PKHeX.Core
                     VerifyWC3Shiny(data, w);
                     break;
                 case MysteryGift g when g.Format != 3: // WC3
+                    VerifyReceivability(data, g);
                     VerifyFatefulMysteryGift(data, g);
                     return;
                 case EncounterStatic s when s.Fateful: // ingame fateful
@@ -210,6 +211,24 @@ namespace PKHeX.Core
                 ? GetValid(V321, CheckIdentifier.Fateful)
                 : GetInvalid(V322, CheckIdentifier.Fateful);
             data.AddLine(result);
+        }
+
+        private static void VerifyReceivability(LegalityAnalysis data, MysteryGift g)
+        {
+            var pkm = data.pkm;
+            switch (g)
+            {
+                case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version):
+                case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version):
+                    data.AddLine(GetInvalid(V416, CheckIdentifier.GameOrigin));
+                    return;
+                case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:
+                    data.AddLine(GetInvalid(string.Format(V5, wc6.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
+                    return;
+                case WC7 wc7 when wc7.RestrictLanguage != 0 && wc7.Language != wc7.RestrictLanguage:
+                    data.AddLine(GetInvalid(string.Format(V5, wc7.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
+                    return;
+            }
         }
 
         private static void VerifyWC3Shiny(LegalityAnalysis data, WC3 g3)

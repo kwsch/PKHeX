@@ -19,6 +19,10 @@ namespace PKHeX.Core
             Data = data ?? new byte[Size];
             if (Data.Length == SizeFull)
             {
+                // Load Restrictions
+                RestrictVersion = Data[0x000];
+                RestrictLanguage = Data[0x1FF];
+
                 byte[] wc6 = new byte[Size];
                 if (Data[0x205] != 0) // Valid data
                     Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
@@ -31,6 +35,19 @@ namespace PKHeX.Core
             }
             if (Year < 2000)
                 Data = new byte[Data.Length]; // Invalidate
+        }
+
+        public int RestrictLanguage { get; set; } = 0; // None
+        public byte RestrictVersion { get; set; } = 0; // Permit All
+        public bool CanBeReceivedByVersion(int v)
+        {
+            if (v < (int)GameVersion.X || v > (int)GameVersion.OR)
+                return false;
+            if (RestrictVersion == 0)
+                return true; // no data
+            var bitIndex = v - (int) GameVersion.X;
+            var bit = 1 << bitIndex;
+            return (RestrictVersion & bit) != 0;
         }
 
         // General Card Properties
@@ -355,7 +372,10 @@ namespace PKHeX.Core
             pk.MetDate = Date ?? DateTime.Now;
 
             if (SAV.Generation > 6 && OriginGame == 0) // Gen7+, give random gen6 game
-                pk.Version = (int)GameVersion.X + Util.Rand.Next(4);
+            {
+                do { pk.Version = (int)GameVersion.X + Util.Rand.Next(4); }
+                while (!CanBeReceivedByVersion(pk.Version));
+            }
 
             if (!IsEgg)
             if (pk.CurrentHandler == 0) // OT
