@@ -98,6 +98,7 @@
             this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
             this.PAN_Box = new System.Windows.Forms.Panel();
             this.bpkx66 = new System.Windows.Forms.PictureBox();
@@ -132,7 +133,6 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -953,13 +953,21 @@
             this.Menu_Export.Text = "Export Results to Folder";
             this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
             // 
+            // Menu_Import
+            // 
+            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
+            this.Menu_Import.Name = "Menu_Import";
+            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
+            this.Menu_Import.Text = "Import Results to SaveFile";
+            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
+            // 
             // P_Results
             // 
             this.P_Results.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.P_Results.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.P_Results.Controls.Add(this.PAN_Box);
             this.P_Results.Controls.Add(this.SCR_Box);
-            this.P_Results.Location = new System.Drawing.Point(12, 27);
+            this.P_Results.Location = new System.Drawing.Point(12, 32);
             this.P_Results.Name = "P_Results";
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
@@ -1204,7 +1212,7 @@
             // B_Search
             // 
             this.B_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Search.Location = new System.Drawing.Point(317, 350);
+            this.B_Search.Location = new System.Drawing.Point(317, 355);
             this.B_Search.Name = "B_Search";
             this.B_Search.Size = new System.Drawing.Size(206, 30);
             this.B_Search.TabIndex = 102;
@@ -1262,7 +1270,7 @@
             // 
             // B_Reset
             // 
-            this.B_Reset.Location = new System.Drawing.Point(223, 3);
+            this.B_Reset.Location = new System.Drawing.Point(223, 8);
             this.B_Reset.Name = "B_Reset";
             this.B_Reset.Size = new System.Drawing.Size(75, 23);
             this.B_Reset.TabIndex = 111;
@@ -1272,7 +1280,7 @@
             // 
             // L_Count
             // 
-            this.L_Count.Location = new System.Drawing.Point(99, 11);
+            this.L_Count.Location = new System.Drawing.Point(99, 18);
             this.L_Count.Name = "L_Count";
             this.L_Count.Size = new System.Drawing.Size(83, 13);
             this.L_Count.TabIndex = 114;
@@ -1282,7 +1290,7 @@
             // L_Viewed
             // 
             this.L_Viewed.AutoSize = true;
-            this.L_Viewed.Location = new System.Drawing.Point(9, 381);
+            this.L_Viewed.Location = new System.Drawing.Point(9, 386);
             this.L_Viewed.Name = "L_Viewed";
             this.L_Viewed.Size = new System.Drawing.Size(85, 13);
             this.L_Viewed.TabIndex = 117;
@@ -1359,7 +1367,7 @@
             this.TLP_Filters.Controls.Add(this.CB_Move3, 1, 11);
             this.TLP_Filters.Controls.Add(this.L_Move4, 0, 12);
             this.TLP_Filters.Controls.Add(this.CB_Move4, 1, 12);
-            this.TLP_Filters.Location = new System.Drawing.Point(304, 11);
+            this.TLP_Filters.Location = new System.Drawing.Point(304, 16);
             this.TLP_Filters.Name = "TLP_Filters";
             this.TLP_Filters.RowCount = 17;
             this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -1379,7 +1387,7 @@
             this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.Size = new System.Drawing.Size(228, 354);
+            this.TLP_Filters.Size = new System.Drawing.Size(228, 359);
             this.TLP_Filters.TabIndex = 118;
             // 
             // FLP_Format
@@ -1456,25 +1464,17 @@
             // 
             this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_Instructions.Location = new System.Drawing.Point(63, 27);
+            this.RTB_Instructions.Location = new System.Drawing.Point(63, 32);
             this.RTB_Instructions.Name = "RTB_Instructions";
             this.RTB_Instructions.Size = new System.Drawing.Size(235, 352);
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 
-            // Menu_Import
-            // 
-            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
-            this.Menu_Import.Name = "Menu_Import";
-            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
-            this.Menu_Import.Text = "Import Results to SaveFile";
-            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
-            // 
             // SAV_MysteryGiftDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 396);
+            this.ClientSize = new System.Drawing.Size(544, 401);
             this.Controls.Add(this.B_Search);
             this.Controls.Add(this.TLP_Filters);
             this.Controls.Add(this.L_Viewed);
@@ -1486,9 +1486,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(800, 435);
+            this.MaximumSize = new System.Drawing.Size(800, 440);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(560, 435);
+            this.MinimumSize = new System.Drawing.Size(560, 440);
             this.Name = "SAV_MysteryGiftDB";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Database";
