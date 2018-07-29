@@ -7,6 +7,7 @@ namespace PKHeX.WinForms
     public partial class MemoryAmie : Form
     {
         private readonly TextMarkup TextArgs;
+
         public MemoryAmie(PKM pk)
         {
             InitializeComponent();
@@ -111,13 +112,17 @@ namespace PKHeX.WinForms
                         GB_M_CT.Text = $"{TextArgs.NeverLeft} {TextArgs.OT} - {TextArgs.Disabled}"; // Never Left : OT : Disabled
                     }
                     else
+                    {
                         GB_M_CT.Text = $"{TextArgs.MemoriesWith} {pkm.HT_Name}";
+                    }
                 }
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = enable;
                 M_OT_Affection.Enabled = true;
             }
             else
+            {
                 GB_M_OT.Text = GB_M_CT.Text = $"N/A: {GameInfo.Strings.eggname}";
+            }
 
             init = true;
 
@@ -125,6 +130,7 @@ namespace PKHeX.WinForms
             RTB_CT.Text = GetMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, pkm.HT_Name);
             RTB_OT.Text = GetMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, pkm.OT_Name);
         }
+
         private void SaveFields()
         {
             // Save Region & Country Data
@@ -168,6 +174,7 @@ namespace PKHeX.WinForms
             SaveFields();
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -195,6 +202,7 @@ namespace PKHeX.WinForms
                 CB_OTFeel.Items.Add(q);
             }
         }
+
         private void UpdateMemoryDisplay(object sender)
         {
             int memory = WinFormsUtil.GetIndex((ComboBox) sender);
@@ -215,6 +223,7 @@ namespace PKHeX.WinForms
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
         }
+
         private string GetMemoryString(ComboBox m, Control arg, Control q, Control f, string tr)
         {
             string result;
@@ -272,6 +281,7 @@ namespace PKHeX.WinForms
                 mta[index].SelectedValue = 0;
             }
         }
+
         private void ChangeCountryText(object sender, EventArgs e)
         {
             if (!(sender is ComboBox cb) || !string.IsNullOrWhiteSpace(cb.Text))

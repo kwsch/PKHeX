@@ -115,5 +115,16 @@ namespace PKHeX.Core
             message = null;
             return true;
         }
+
+        public static bool CanRecieveGift(this SaveFile SAV, MysteryGift gift)
+        {
+            if (gift.Species > SAV.MaxSpeciesID)
+                return false;
+            if (gift.Moves.Any(move => move > SAV.MaxMoveID))
+                return false;
+            if (gift.HeldItem > SAV.MaxItemID)
+                return false;
+            return true;
+        }
     }
 }

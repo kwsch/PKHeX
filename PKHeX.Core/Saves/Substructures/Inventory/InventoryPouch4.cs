@@ -4,7 +4,6 @@ namespace PKHeX.Core
 {
     public sealed class InventoryPouch4 : InventoryPouch
     {
-
         public InventoryPouch4(InventoryType type, ushort[] legal, int maxcount, int offset)
             : base(type, legal, maxcount, offset)
         {

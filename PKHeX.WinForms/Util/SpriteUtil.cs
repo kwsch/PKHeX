@@ -24,6 +24,29 @@ namespace PKHeX.WinForms
             return Resources.ResourceManager.GetObject(name.Replace("CountG3", "G3").ToLower()) as Image;
         }
 
+        public static Image GetRibbonSprite(string name, int max, int value)
+        {
+            var resource = GetRibbonSpriteName(name, max, value);
+            return (Bitmap)Resources.ResourceManager.GetObject(resource);
+        }
+
+        private static string GetRibbonSpriteName(string name, int max, int value)
+        {
+            if (max != 4) // Memory
+                return name.ToLower() + (max == value ? "2" : "");
+
+            // Count ribbons
+            string n = name.Replace("Count", "");
+            switch (value)
+            {
+                case 2: return (n + "Super").ToLower();
+                case 3: return (n + "Hyper").ToLower();
+                case 4: return (n + "Master").ToLower();
+                default:
+                    return n.ToLower();
+            }
+        }
+
         public static Image GetTypeSprite(int type, int generation = PKX.Generation)
         {
             if (generation <= 2)
