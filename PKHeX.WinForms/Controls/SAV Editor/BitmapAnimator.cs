@@ -19,6 +19,7 @@ namespace PKHeX.WinForms.Controls
         private readonly Image ExtraLayer;
         private Image[] GlowCache;
         public Image OriginalBackground;
+        private readonly object Lock = new object();
 
         private PictureBox pb;
         private int GlowInterval;
@@ -34,11 +35,15 @@ namespace PKHeX.WinForms.Controls
         {
             if (pb == null || !Enabled)
                 return;
-            Enabled = false;
+
+            lock (Lock)
+            {
+                Enabled = false;
+                pb.BackgroundImage = OriginalBackground;
+            }
 
             // reset logic
             GlowCounter = 0;
-            pb.BackgroundImage = OriginalBackground;
             for (int i = 0; i < GlowCache.Length; i++)
                 GlowCache[i] = null;
         }
@@ -61,7 +66,12 @@ namespace PKHeX.WinForms.Controls
                 return; // timer canceled, was waiting to proceed
             GlowCounter = (GlowCounter + 1) % (GlowInterval * 2); // loop backwards
             int frameIndex = GlowCounter >= GlowInterval ? (GlowInterval * 2) - GlowCounter : GlowCounter;
-            pb.BackgroundImage = GetFrame(frameIndex);
+
+            lock (Lock)
+            {
+                if (Enabled)
+                    pb.BackgroundImage = GetFrame(frameIndex);
+            }
         }
 
         private Image GetFrame(int frameIndex)
