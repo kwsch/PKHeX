@@ -1,4 +1,4 @@
-V = Válido.
+﻿V = Válido.
 V193 = ¡Legal!
 V190 = Error Interno.
 V189 = Análisis no Disponible para este Pokémon.
@@ -359,3 +359,4 @@ V609 = Encuentro mediante pesca en la Zona Safari de 2da Generación. Zona inalc
 V610 = {0} origen no puede existir en la partida cargada ({1}) actualmente.
 V611 = Coreano
 V612 = No es coreano.
+V613 = Eggs cannot receive experience.

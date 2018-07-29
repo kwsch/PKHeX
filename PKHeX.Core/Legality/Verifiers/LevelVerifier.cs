@@ -39,7 +39,16 @@ namespace PKHeX.Core
             {
                 int elvl = Legal.GetEggHatchLevel(pkm);
                 if (elvl != pkm.CurrentLevel)
+                {
                     data.AddLine(GetInvalid(string.Format(V52, elvl)));
+                    return;
+                }
+
+                var reqEXP = EncounterMatch is EncounterStatic s && s.Version == GameVersion.C
+                    ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
+                    : PKX.GetEXP(elvl, pkm.Species);
+                if (reqEXP != pkm.EXP)
+                    data.AddLine(GetInvalid(V613));
                 return;
             }
 

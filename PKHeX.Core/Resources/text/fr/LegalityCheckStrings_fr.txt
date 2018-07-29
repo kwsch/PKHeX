@@ -359,3 +359,4 @@ V609 = Rencontre par pêche dans le Parc Safari de la 2ème génération. Zone i
 V610 = L'origine de {0} ne peut pas exister dans cette sauvegarde ({1}).
 V611 = Coréen
 V612 = Non-Coréen
+V613 = Eggs cannot receive experience.
