@@ -73,6 +73,7 @@ namespace PKHeX.Core
             { GameVersion.Gen7, Legal.LevelUpSM },
             { GameVersion.VCEvents, Legal.LevelUpY },
         };
+
         private static readonly Dictionary<GameVersion, PersonalTable> Personal = new Dictionary<GameVersion, PersonalTable>
         {
             { GameVersion.RD, PersonalTable.RB },

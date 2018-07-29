@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Gen3 <see cref="GameVersion.RSBOX"/> Block Info
+    /// </summary>
     public sealed class BlockInfoRSBOX : BlockInfo
     {
         public readonly uint SaveCount;

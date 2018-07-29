@@ -114,7 +114,7 @@ namespace PKHeX.Core
                     slot = getslot();
                 }
 
-                int offset = SAV.GetBoxOffset(box) + slot * SAV.SIZE_STORED;
+                int offset = SAV.GetBoxOffset(box) + (slot * SAV.SIZE_STORED);
                 SAV.SetStoredSlot(pk, offset, noSetb);
 
                 if (++i == maxCount) // Boxes full!
@@ -150,7 +150,6 @@ namespace PKHeX.Core
                 yield return pk;
             }
         }
-
 
         /// <summary>
         /// Removes the <see cref="PKM.HeldItem"/> for all <see cref="PKM"/> in the <see cref="SaveFile.BoxData"/>.

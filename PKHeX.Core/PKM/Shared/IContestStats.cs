@@ -56,7 +56,9 @@
                 return true;
             return false;
         }
+
         public static bool IsContestBelow(this IContestStats current, IContestStats initial) => !current.IsContestAboveOrEqual(initial);
+
         public static bool IsContestAboveOrEqual(this IContestStats current, IContestStats initial)
         {
             if (current.CNT_Cool   < initial.CNT_Cool)

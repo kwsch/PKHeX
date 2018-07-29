@@ -3,15 +3,13 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-
-    // Utility Methods
-
     public class StringInstructionSet
     {
         public IList<StringInstruction> Filters { get; private set; }
         public IList<StringInstruction> Instructions { get; private set; }
 
         private const string SetSeparator = ";";
+
         public static IEnumerable<StringInstructionSet> GetBatchSets(IList<string> lines)
         {
             int start = 0;

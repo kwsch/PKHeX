@@ -252,7 +252,6 @@
         /// <see cref="LG"/>
         FRLG,
 
-
         /// <summary>
         /// Pokémon Box Ruby &amp; Sapphire [<see cref="SAV3RSBox"/>] identifier.
         /// </summary>
@@ -271,7 +270,6 @@
         /// <see cref="CXD"/>
         /// <remarks>Also used to mark XD-only origin data as this game shares a version ID with <see cref="COLO"/></remarks>
         XD,
-
 
         /// <summary>
         /// Pokémon Diamond &amp; Pearl [<see cref="SAV4"/>] identifier.

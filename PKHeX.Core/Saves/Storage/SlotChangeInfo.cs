@@ -21,6 +21,7 @@
         }
 
         public bool SameSlot => Source.Slot == Destination.Slot && Source.Box == Destination.Box;
+
         public void Reset()
         {
             LeftMouseIsDown = RightMouseIsDown = DragDropInProgress = false;

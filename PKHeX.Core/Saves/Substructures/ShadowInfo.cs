@@ -8,6 +8,7 @@ namespace PKHeX.Core
     {
         private readonly List<ShadowInfoEntryXD> Entries;
         private readonly int MaxLength;
+
         public ShadowInfoTableXD(byte[] data)
         {
             Entries = new List<ShadowInfoEntryXD>();
@@ -24,11 +25,14 @@ namespace PKHeX.Core
                     Entries.Add(entry);
             }
         }
+
         public byte[] FinalData => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();
+
         public ShadowInfoEntryXD GetEntry(int Species, uint PID)
         {
             return Entries.Find(entry => entry.PID == PID && entry.Species == Species) ?? new ShadowInfoEntryXD();
         }
+
         public void SetEntry(ShadowInfoEntryXD Entry)
         {
             var entry = GetEntry(Entry.Species, Entry.PID);
@@ -41,6 +45,7 @@ namespace PKHeX.Core
             else
                 Entries.Add(entry);
         }
+
         public ShadowInfoEntryXD this[int index] { get => Entries[index]; set => Entries[index] = value; }
         public int Count => Entries.Count;
     }
@@ -49,6 +54,7 @@ namespace PKHeX.Core
     {
         public byte[] Data { get; }
         internal const int SIZE_ENTRY = 72;
+
         public ShadowInfoEntryXD(byte[] data = null)
         {
             Data = data ?? new byte[SIZE_ENTRY];
@@ -68,10 +74,9 @@ namespace PKHeX.Core
     {
         public byte[] Data { get; }
         internal const int SIZE_ENTRY = 12;
-        public ShadowInfoEntryColo(byte[] data = null)
-        {
-            Data = data ?? new byte[SIZE_ENTRY];
-        }
+
+        public ShadowInfoEntryColo(byte[] data = null) => Data = data ?? new byte[SIZE_ENTRY];
+
         public uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
         public int Met_Location { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); }
         public uint _0x08 { get => BigEndian.ToUInt32(Data, 0x08); set => BigEndian.GetBytes(value).CopyTo(Data, 0x08); }

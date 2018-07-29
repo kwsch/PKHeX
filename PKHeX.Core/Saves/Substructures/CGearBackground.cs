@@ -48,7 +48,9 @@ namespace PKHeX.Core
                 data = PSKtoCGB(data);
             }
             else
+            {
                 _cgb = data;
+            }
 
             byte[] Region1 = data.Take(0x1FE0).ToArray();
             byte[] ColorData = data.Skip(0x1FE0).Take(0x20).ToArray();
@@ -84,7 +86,7 @@ namespace PKHeX.Core
                 Array.Copy(Tiles[i].Write(), 0, data, i*Tile.SIZE_TILE, Tile.SIZE_TILE);
 
             for (int i = 0; i < ColorPalette.Length; i++)
-                BitConverter.GetBytes(GetRGB555(ColorPalette[i])).CopyTo(data, 0x1FE0 + i*2);
+                BitConverter.GetBytes(GetRGB555(ColorPalette[i])).CopyTo(data, 0x1FE0 + (i * 2));
 
             Array.Copy(Map.Write(), 0, data, 0x2000, 0x600);
 
@@ -98,10 +100,13 @@ namespace PKHeX.Core
 
             // check odd bytes for anything not rotation flag
             for (int i = 0x2000; i < 0x2600; i += 2)
+            {
                 if ((data[i + 1] & ~0b1100) != 0)
                     return false;
+            }
             return true;
         }
+
         private static byte[] CGBtoPSK(byte[] cgb)
         {
             byte[] psk = (byte[])cgb.Clone();
@@ -115,6 +120,7 @@ namespace PKHeX.Core
             }
             return psk;
         }
+
         private static int GetPSKValue(ushort val)
         {
             int rot = val & 0xFF00;
@@ -122,11 +128,9 @@ namespace PKHeX.Core
             if (tile == 0xFF) // invalid tile?
                 tile = 0;
 
-            int result = tile + 15 * (tile / 17)
-                         + 0xA0A0
-                         + rot;
-            return result;
+            return tile + (15 * (tile / 17)) + 0xA0A0 + rot;
         }
+
         private static byte[] PSKtoCGB(byte[] psk)
         {
             byte[] cgb = (byte[])psk.Clone();
@@ -169,14 +173,14 @@ namespace PKHeX.Core
                 ColorChoices = new int[TileWidth*TileHeight];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    ColorChoices[i*2+0] = data[i] & 0xF;
-                    ColorChoices[i*2+1] = data[i] >> 4;
+                    var ofs = i * 2;
+                    ColorChoices[ofs + 0] = data[i] & 0xF;
+                    ColorChoices[ofs + 1] = data[i] >> 4;
                 }
             }
-            internal void SetTile(int[] Palette)
-            {
-                PixelData = GetTileData(Palette);
-            }
+
+            internal void SetTile(int[] Palette) => PixelData = GetTileData(Palette);
+
             private byte[] GetTileData(IReadOnlyList<int> Palette)
             {
                 const int pixels = TileWidth * TileHeight;
@@ -199,8 +203,9 @@ namespace PKHeX.Core
                 byte[] data = new byte[SIZE_TILE];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] |= (byte)(ColorChoices[i*2+0] & 0xF);
-                    data[i] |= (byte)((ColorChoices[i*2+1] & 0xF) << 4);
+                    var ofs = i * 2;
+                    data[i] |= (byte)(ColorChoices[ofs+0] & 0xF);
+                    data[i] |= (byte)((ColorChoices[ofs+1] & 0xF) << 4);
                 }
                 return data;
             }
@@ -215,6 +220,7 @@ namespace PKHeX.Core
                     return PixelDataY ?? (PixelDataY = FlipY(PixelData, TileHeight));
                 return PixelData;
             }
+
             private static byte[] FlipX(IReadOnlyList<byte> data, int width, int bpp = 4)
             {
                 byte[] result = new byte[data.Count];
@@ -225,7 +231,7 @@ namespace PKHeX.Core
                     int y = i / width;
 
                     x = width - x - 1; // flip x
-                    int dest = (y * width + x) * bpp;
+                    int dest = ((y * width) + x) * bpp;
 
                     var o = 4 * i;
                     result[dest + 0] = data[o + 0];
@@ -235,6 +241,7 @@ namespace PKHeX.Core
                 }
                 return result;
             }
+
             private static byte[] FlipY(IReadOnlyList<byte> data, int height, int bpp = 4)
             {
                 byte[] result = new byte[data.Count];
@@ -246,7 +253,7 @@ namespace PKHeX.Core
                     int y = i / width;
 
                     y = height - y - 1; // flip x
-                    int dest = (y * width + x) * bpp;
+                    int dest = ((y * width) + x) * bpp;
 
                     var o = 4 * i;
                     result[dest + 0] = data[o + 0];
@@ -256,6 +263,7 @@ namespace PKHeX.Core
                 }
                 return result;
             }
+
             internal int GetRotationValue(int[] tileColors)
             {
                 // Check all rotation types
@@ -264,22 +272,28 @@ namespace PKHeX.Core
 
                 // flip x
                 for (int i = 0; i < 64; i++)
-                    if (ColorChoices[(7 - (i & 7)) + 8 * (i / 8)] != tileColors[i])
+                {
+                    if (ColorChoices[(7 - (i & 7)) + (8 * (i / 8))] != tileColors[i])
                         goto check8;
+                }
                 return 4;
 
                 // flip y
                 check8:
                 for (int i = 0; i < 64; i++)
-                    if (ColorChoices[64 - 8 * (1 + (i / 8)) + (i & 7)] != tileColors[i])
+                {
+                    if (ColorChoices[64 - (8 * (1 + (i / 8))) + (i & 7)] != tileColors[i])
                         goto check12;
+                }
                 return 8;
 
                 // flip xy
                 check12:
                 for (int i = 0; i < 64; i++)
+                {
                     if (ColorChoices[63 - i] != tileColors[i])
                         return -1;
+                }
                 return 12;
             }
         }
@@ -299,6 +313,7 @@ namespace PKHeX.Core
                     Rotations[i/2] = data[i+1];
                 }
             }
+
             internal byte[] Write()
             {
                 byte[] data = new byte[TileChoices.Length * 2];
@@ -315,7 +330,7 @@ namespace PKHeX.Core
         {
             if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)
                 return (val & 0x5C00) | 0xFF;
-            return ((val % 0x20) + 0x11 * (((val & 0x3FF) - 0xA0) / 0x20)) | (val & 0x5C00);
+            return ((val % 0x20) + (17 * (((val & 0x3FF) - 0xA0) / 0x20))) | (val & 0x5C00);
         }
 
         private static byte Convert8to5(int colorval)
@@ -324,6 +339,7 @@ namespace PKHeX.Core
             while (colorval > Convert5To8[i]) i++;
             return i;
         }
+
         private static int GetRGB555_32(int val)
         {
             var R = (val >> 0 >> 3) & 0x1F;
@@ -331,6 +347,7 @@ namespace PKHeX.Core
             var B = (val >> 16 >> 3) & 0x1F;
             return 0xFF << 24 | R << 16 | G << 8 | B;
         }
+
         private static int GetRGB555_16(ushort val)
         {
             int R = (val >> 0) & 0x1F;
@@ -343,6 +360,7 @@ namespace PKHeX.Core
 
             return 0xFF << 24 | R << 16 | G << 8 | B;
         }
+
         private static ushort GetRGB555(int v)
         {
             var R = (byte)(v >> 16);
@@ -355,6 +373,7 @@ namespace PKHeX.Core
             val |= Convert8to5(B) << 10;
             return (ushort)val;
         }
+
         private static readonly int[] Convert5To8 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
                                                       0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
                                                       0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
@@ -384,6 +403,7 @@ namespace PKHeX.Core
             // Finished!
             return new CGearBackground(Palette, tilelist.ToArray(), tm);
         }
+
         private static int[] GetColorData(IReadOnlyList<int> pixels)
         {
             int[] colors = new int[pixels.Count];
@@ -391,6 +411,7 @@ namespace PKHeX.Core
                 colors[i] = GetRGB555_32(pixels[i]);
             return colors;
         }
+
         private static Tile[] GetTiles(IReadOnlyList<int> colors, int[] Palette)
         {
             var tiles = new Tile[0x300];
@@ -401,19 +422,23 @@ namespace PKHeX.Core
 
                 var t = new Tile();
                 for (uint ix = 0; ix < 8; ix++)
-                for (uint iy = 0; iy < 8; iy++)
                 {
-                    int index = (int)(y + iy) * Width + (int)(x + ix);
-                    int c = colors[index];
+                    for (uint iy = 0; iy < 8; iy++)
+                    {
+                        int index = ((int)(y + iy) * Width) + (int)(x + ix);
+                        int c = colors[index];
 
-                    t.ColorChoices[ix % 8 + iy * 8] = Array.IndexOf(Palette, c);
+                        t.ColorChoices[(ix % 8) + (iy * 8)] = Array.IndexOf(Palette, c);
+                    }
                 }
+
                 t.SetTile(Palette);
                 tiles[i] = t;
             }
 
             return tiles;
         }
+
         private static void GetTileList(IReadOnlyList<Tile> tiles, out List<Tile> tilelist, out TileMap tm)
         {
             tilelist = new List<Tile> { tiles[0] };
@@ -423,6 +448,7 @@ namespace PKHeX.Core
             for (int i = 1; i < tm.TileChoices.Length; i++)
                 FindPossibleRotatedTile(tiles[i], tilelist, tm, i);
         }
+
         private static void FindPossibleRotatedTile(Tile t, IList<Tile> tilelist, TileMap tm, int tileIndex)
         {
             // Test all tiles currently in the list
@@ -441,6 +467,7 @@ namespace PKHeX.Core
             tm.Rotations[tileIndex] = 0;
             tilelist.Add(t);
         }
+
         private CGearBackground(int[] Palette, Tile[] tilelist, TileMap tm)
         {
             Map = tm;
@@ -461,7 +488,7 @@ namespace PKHeX.Core
                 for (int iy = 0; iy < 8; iy++)
                 {
                     int src = iy * (4 * 8);
-                    int dest = ((y+iy) * Width + x) * 4;
+                    int dest = (((y+iy) * Width) + x) * 4;
                     Array.Copy(tileData, src, data, dest, 4*8);
                 }
             }

@@ -248,6 +248,7 @@ namespace PKHeX.Core
             var langs = GetAvailableGameLanguages(generation);
             return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
         }
+
         private static ICollection<int> GetAvailableGameLanguages(int generation = Generation)
         {
             if (generation < 3)
@@ -275,8 +276,11 @@ namespace PKHeX.Core
                 return priorlang;
 
             foreach (var lang in langs)
+            {
                 if (GetSpeciesNameGeneration(species, lang, generation) == nick)
                     return lang;
+            }
+
             return -1;
         }
 
@@ -361,8 +365,8 @@ namespace PKHeX.Core
         /// <returns>True if nature modification values are equal or the Nature is out of range.</returns>
         public static bool GetNatureModification(int nature, out int incr, out int decr)
         {
-            incr = nature / 5 + 1;
-            decr = nature % 5 + 1;
+            incr = (nature / 5) + 1;
+            decr = (nature % 5) + 1;
             return incr == decr || nature >= 25; // invalid
         }
 
@@ -410,7 +414,7 @@ namespace PKHeX.Core
         {
             byte[] sdata = (byte[])data.Clone();
             for (int block = 0; block < 4; block++)
-                Array.Copy(data, 8 + blockSize * blockPosition[block][sv], sdata, 8 + blockSize * block, blockSize);
+                Array.Copy(data, 8 + (blockSize * blockPosition[block][sv]), sdata, 8 + (blockSize * block), blockSize);
             return sdata;
         }
 
@@ -478,7 +482,7 @@ namespace PKHeX.Core
         private static void CryptPKM(byte[] data, uint pv, int blockSize)
         {
             const int start = 8;
-            int end = 4 * blockSize + start;
+            int end = (4 * blockSize) + start;
             CryptArray(data, pv, 8, end); // Blocks
             CryptArray(data, pv, end, data.Length); // Party Stats
         }
@@ -487,7 +491,7 @@ namespace PKHeX.Core
         private static void CryptPKM45(byte[] data, uint pv, uint chk, int blockSize)
         {
             const int start = 8;
-            int end = 4 * blockSize + start;
+            int end = (4 * blockSize) + start;
             CryptArray(data, chk, start, end); // Blocks
             CryptArray(data, pv, end, data.Length); // Party Stats
         }
@@ -502,7 +506,7 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Crypt(byte[] data, ref uint seed, int i)
         {
-            seed = 0x41C64E6D * seed + 0x00006073;
+            seed = (0x41C64E6D * seed) + 0x00006073;
             data[i] ^= (byte)(seed >> 16);
             data[i + 1] ^= (byte)(seed >> 24);
         }
@@ -581,7 +585,9 @@ namespace PKHeX.Core
                         continue;
                 }
                 else if (bits != (pid & 0x00010001)) // keep ability bits
+                {
                     continue;
+                }
 
                 if (gt == 255 || gt == 254 || gt == 0) // Set Gender(less)
                     return pid; // PID can be anything
@@ -685,7 +691,7 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static int GetUnownForm(uint pid)
         {
-            var val = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | pid & 0x3;
+            var val = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3);
             return (int)(val % 28);
         }
 
@@ -701,6 +707,7 @@ namespace PKHeX.Core
             int genderratio = Personal[species].Gender;
             return GetGenderFromPIDAndRatio(PID, genderratio);
         }
+
         public static int GetGenderFromPIDAndRatio(uint PID, int gr)
         {
             switch (gr)
@@ -745,7 +752,7 @@ namespace PKHeX.Core
 
             // Shuffle Away!
             for (int block = 0; block < 4; block++)
-                Array.Copy(data, 32 + 12 * blockPosition[block][sv], sdata, 32 + 12 * block, 12);
+                Array.Copy(data, 32 + (12 * blockPosition[block][sv]), sdata, 32 + (12 * block), 12);
 
             // Fill the Battle Stats back
             if (data.Length > SIZE_3STORED)
@@ -786,6 +793,7 @@ namespace PKHeX.Core
                 return value;
             return (byte)GCtoMainSeries[(LanguageGC)value];
         }
+
         private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new Dictionary<LanguageGC, LanguageID>
         {
             {LanguageGC.German, LanguageID.German},
@@ -806,6 +814,7 @@ namespace PKHeX.Core
                 return value;
             return (byte)MainSeriesToGC[(LanguageID)value];
         }
+
         private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new Dictionary<LanguageID, LanguageGC>
         {
             {LanguageID.German, LanguageGC.German},
@@ -850,6 +859,7 @@ namespace PKHeX.Core
                 ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer)
                 : prefer;
         }
+
         /// <summary>
         /// Roughly detects the PKM format from the file's extension.
         /// </summary>
@@ -937,6 +947,7 @@ namespace PKHeX.Core
 
         internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
         internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
+
         internal static bool IsPKMPresentGBA(byte[] data, int offset)
         {
             if (BitConverter.ToUInt32(data, offset) != 0) // PID
@@ -944,6 +955,7 @@ namespace PKHeX.Core
             ushort species = BitConverter.ToUInt16(data, offset + 0x20);
             return species != 0;
         }
+
         internal static bool IsPKMPresent(byte[] data, int offset)
         {
             if (BitConverter.ToUInt32(data, offset) != 0) // PID
@@ -951,6 +963,7 @@ namespace PKHeX.Core
             ushort species = BitConverter.ToUInt16(data, offset + 8);
             return species != 0;
         }
+
         public static Func<byte[], int, bool> GetFuncIsPKMPresent(PKM blank)
         {
             if (blank.Format >= 4)

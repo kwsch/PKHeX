@@ -85,7 +85,6 @@ namespace PKHeX.Core
             return saves.FirstOrDefault(z => z?.ChecksumsValid == true);
         }
 
-
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
         /// </summary>

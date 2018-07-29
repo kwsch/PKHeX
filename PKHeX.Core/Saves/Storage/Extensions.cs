@@ -7,6 +7,7 @@ namespace PKHeX.Core
         public static PKM GetPKM(this SaveFile sav, StorageSlotOffset slot) => slot.IsPartyFormat
             ? sav.GetPartySlot(slot.Offset)
             : sav.GetStoredSlot(slot.Offset);
+
         public static void SetPKM(this SaveFile sav, StorageSlotOffset slot, PKM pkm)
         {
             if (slot.IsPartyFormat)
@@ -14,6 +15,7 @@ namespace PKHeX.Core
             else
                 sav.SetStoredSlot(pkm, slot.Offset);
         }
+
         public static PKM[] GetExtraPKM(this SaveFile sav, List<StorageSlotOffset> slots = null)
         {
             slots = slots ?? sav.GetExtraSlots();
@@ -22,6 +24,7 @@ namespace PKHeX.Core
                 arr[i] = sav.GetPKM(slots[i]);
             return arr;
         }
+
         public static List<StorageSlotOffset> GetExtraSlots(this SaveFile sav, bool all = false)
         {
             var slots = GetExtraSlotsUnsafe(sav, all);
@@ -36,6 +39,7 @@ namespace PKHeX.Core
         }
 
         private static readonly List<StorageSlotOffset> None = new List<StorageSlotOffset>();
+
         private static List<StorageSlotOffset> GetExtraSlotsUnsafe(SaveFile sav, bool all)
         {
             switch (sav)
@@ -49,6 +53,7 @@ namespace PKHeX.Core
                 case SAV7 sav7: return GetExtraSlots7(sav7, all);
             }
         }
+
         private static List<StorageSlotOffset> GetExtraSlots2(SAV2 sav)
         {
             return new List<StorageSlotOffset>
@@ -66,6 +71,7 @@ namespace PKHeX.Core
                 new StorageSlotOffset {Type = StorageSlotType.Daycare, Offset = sav.GetBlockOffset(4) + 0xE18}
             };
         }
+
         private static List<StorageSlotOffset> GetExtraSlots4(SAV4 sav)
         {
             return new List<StorageSlotOffset>
@@ -73,6 +79,7 @@ namespace PKHeX.Core
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
             };
         }
+
         private static List<StorageSlotOffset> GetExtraSlots5(SAV5 sav)
         {
             return new List<StorageSlotOffset>
@@ -81,6 +88,7 @@ namespace PKHeX.Core
                 new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.Fused}
             };
         }
+
         private static List<StorageSlotOffset> GetExtraSlots6(SAV6 sav)
         {
             if (sav.ORASDEMO)
@@ -94,6 +102,7 @@ namespace PKHeX.Core
                 list.Add(new StorageSlotOffset{Type = StorageSlotType.Misc, Offset = sav.SUBE});
             return list;
         }
+
         private static List<StorageSlotOffset> GetExtraSlots7(SAV7 sav, bool all)
         {
             var list = new List<StorageSlotOffset>
@@ -102,11 +111,14 @@ namespace PKHeX.Core
                 new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(0)}
             };
             if (sav.USUM)
+            {
                 list.AddRange(new[]
-                {
+               {
                     new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(1)},
                     new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(2)},
                 });
+            }
+
             if (!all)
                 return list;
 

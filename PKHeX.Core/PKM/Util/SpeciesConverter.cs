@@ -66,8 +66,10 @@ namespace PKHeX.Core
             360, 346, 347, 341, 342, 343, 373, 374, 375, 381, 325, 395, 396, 397, 398, 399, 400, 401, 402, 403,
             407, 408, 404, 405, 406, 409, 410
         };
+
         private static readonly Dictionary<int, int> Dict3Values = oldIndex.Select((v, i) => new { Key = i, Value = v })
             .ToDictionary(o => o.Key, o => o.Value);
+
         private static readonly Dictionary<int, int> Dict4Values = oldIndex.Select((v, i) => new { Key = v, Value = i })
             .ToDictionary(o => o.Key, o => o.Value);
     }

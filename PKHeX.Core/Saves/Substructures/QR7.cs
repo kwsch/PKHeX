@@ -29,6 +29,7 @@ namespace PKHeX.Core
             };
             return gendered.Contains(species);
         }
+
         private static byte[] GetRawQR(int species, int formnum, bool shiny, int gender)
         {
             var basedata = "FFFFFFFFFFFF00000000000000000000000000000000000000000000000000000000000000000000D20200000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000".ToByteArray();
@@ -58,6 +59,7 @@ namespace PKHeX.Core
             }
             return basedata;
         }
+
         public static byte[] GenerateQRData(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
         {
             if (box > 31)

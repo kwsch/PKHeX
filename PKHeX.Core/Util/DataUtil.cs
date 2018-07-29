@@ -88,7 +88,9 @@ namespace PKHeX.Core
             stringListCache.Add(f, rawlist);
             return (string[])rawlist.Clone();
         }
+
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
+
         public static string[] GetNulledStringArray(string[] SimpleStringList)
         {
             try
@@ -240,6 +242,7 @@ namespace PKHeX.Core
                 .OrderBy(z => z.Text)
                 .ToList();
         }
+
         public static List<ComboItem> GetUnsortedCBList(string textfile)
         {
             string[] inputCSV = GetStringList(textfile);
@@ -248,6 +251,7 @@ namespace PKHeX.Core
                 .Select(data => new ComboItem { Text = data[1], Value = Convert.ToInt32(data[0]) })
                 .ToList();
         }
+
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
         {
             if (allowed?[0] == null)
@@ -258,6 +262,7 @@ namespace PKHeX.Core
                 .OrderBy(z => z.Text))
                 .ToList();
         }
+
         public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
         {
             if (allowed == null)
@@ -270,6 +275,7 @@ namespace PKHeX.Core
             cbList.AddRange(list);
             return cbList;
         }
+
         public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // First 3 Balls are always first

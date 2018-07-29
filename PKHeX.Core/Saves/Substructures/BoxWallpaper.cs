@@ -33,6 +33,7 @@
             }
             return s;
         }
+
         public static bool IsWallpaperRed(SaveFile SAV, int box)
         {
             switch (SAV.Generation)

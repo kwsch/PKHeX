@@ -7,6 +7,7 @@ namespace PKHeX.Core
     public class BV6 : BattleVideo
     {
         internal const int SIZE = 0x2E60;
+
         internal new static bool IsValid(byte[] data)
         {
             if (data.Length != SIZE)
@@ -53,6 +54,7 @@ namespace PKHeX.Core
         public override int Generation => 6;
 
         private const string NPC = "NPC";
+
         private string[] PlayerNames
         {
             get
@@ -78,6 +80,7 @@ namespace PKHeX.Core
                 }
             }
         }
+
         private PKM[][] PlayerTeams
         {
             get
@@ -131,6 +134,7 @@ namespace PKHeX.Core
         private int UploadMinute { get => Data[0x2E5D]; set => Data[0x2E5D] = (byte)value; }
         private int UploadSecond { get => Data[0x2E5E]; set => Data[0x2E5E] = (byte)value; }
         private int UploadFlags { get => Data[0x2E5F]; set => Data[0x2E5F] = (byte)value; }
+
         public DateTime UploadStamp
         {
             get => new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
@@ -139,11 +143,13 @@ namespace PKHeX.Core
 
         // Battle Instruction Parsing
         private static readonly string[] Action = { "0", "Fight", "2", "Switch", "Run", "5", "Rotate", "7", "MegaEvolve" };
+
         private static readonly string[] Target =
         {
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Opposite Enemy", "B", "C", "D",
             "All except User", "Everyone"
         };
+
         private static readonly string[] Rotate = { "0", "Right", "Left", "3" };
     }
 }

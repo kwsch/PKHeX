@@ -17,6 +17,7 @@
         public bool Editable { get; set; }
 
         public SlotChange() { }
+
         public SlotChange(SlotChange info, SaveFile sav)
         {
             Box = info.Box;

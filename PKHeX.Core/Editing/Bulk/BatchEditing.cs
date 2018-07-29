@@ -82,8 +82,10 @@ namespace PKHeX.Core
             if (typeIndex == 0) // Any
             {
                 foreach (var p in Props)
+                {
                     if (p.TryGetValue(propertyName, out var pi))
                         return pi.PropertyType.Name;
+                }
                 return null;
             }
 
@@ -282,23 +284,6 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="cmd">Command Filter</param>
         /// <param name="pkm">Pokémon to check.</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsPropertyFiltered(StringInstruction cmd, PKM pkm)
-        {
-            if (IsIdentifierFiltered(cmd, pkm))
-                return true;
-            if (!ReflectUtil.HasProperty(pkm, cmd.PropertyName, out var pi))
-                return false;
-            if (!pi.CanRead)
-                return false;
-            return pi.IsValueEqual(pkm, cmd.PropertyValue) == cmd.Evaluator;
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="PKM"/> should be filtered due to the <see cref="StringInstruction"/> provided.
-        /// </summary>
-        /// <param name="cmd">Command Filter</param>
-        /// <param name="pkm">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache</param>
         /// <returns>True if filtered, else false.</returns>
         private static bool IsPropertyFiltered(StringInstruction cmd, PKM pkm, IReadOnlyDictionary<string, PropertyInfo> props)
@@ -440,7 +425,7 @@ namespace PKHeX.Core
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
                 SetRandomIVs(pkm, cmd);
             else if (cmd.PropertyName == nameof(pkm.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))
-            { pkm.IsNicknamed = false; pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format); }
+                pkm.SetDefaultNickname();
             else
                 return false;
 

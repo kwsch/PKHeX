@@ -23,7 +23,7 @@ namespace PKHeX.Core
             GetIsPKMPresent = PKX.GetFuncIsPKMPresent(blank);
         }
 
-        private readonly int SlotsPerBox;
+        protected readonly int SlotsPerBox;
 
         public override string BAKName => $"{FileName} [{SaveUtil.CRC16(Data, Box, Data.Length - Box):X4}].bak";
         public override SaveFile Clone() => new BulkStorage((byte[])Data.Clone(), PKMType, Box, SlotsPerBox);
@@ -59,13 +59,14 @@ namespace PKHeX.Core
         public override int BoxCount { get; }
         protected override void SetChecksums() { }
 
-        public override int GetBoxOffset(int box) => Box + SlotsPerBox * SIZE_STORED;
+        public override int GetBoxOffset(int box) => Box + (box * (SlotsPerBox * SIZE_STORED));
         public override string GetBoxName(int box) => $"Box {box + 1:d2}";
         public override void SetBoxName(int box, string value) { }
         public override int GetPartyOffset(int slot) => int.MinValue;
 
         public override string GetString(int Offset, int Length)
             => StringConverter.GetString(Data, Generation, blank.Japanese, BigEndian, Length, Offset);
+
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
             => StringConverter.SetString(value, Generation, blank.Japanese, BigEndian, maxLength, padTo: PadToSize, padWith: PadWith);
     }

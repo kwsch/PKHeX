@@ -39,6 +39,7 @@ namespace PKHeX.Core
             get => GetBeanCounts();
             set => SetBeanCounts(value);
         }
+
         private int[] GetBeanCounts()
         {
             int[] beans = new int[Count];
@@ -46,6 +47,7 @@ namespace PKHeX.Core
                 beans[i] = SAV.GetPokebeanCount(i);
             return beans;
         }
+
         private void SetBeanCounts(IReadOnlyList<int> beans)
         {
             if (beans.Count != Count)
@@ -53,6 +55,7 @@ namespace PKHeX.Core
             for (int i = 0; i < beans.Count; i++)
                 SAV.SetPokebeanCount(i, beans[i]);
         }
+
         public void SetCountAll(int val)
         {
             for (int i = 0; i < Count; i++)

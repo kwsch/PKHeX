@@ -88,6 +88,7 @@ namespace PKHeX.Core
             375, 376, 377, 420, 421, 422, 423, 424, 425, 426, // 24
             427, NaN, NaN, NaN, NaN, NaN,
         };
+
         /// <summary> Gen3 items (index) and their corresponding Gen4 item ID (value) </summary>
         private static readonly ushort[] arr3 =
         {

@@ -390,6 +390,7 @@ namespace PKHeX.Core
         }
 
         public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
+
         private static Func<int, int, int> FlagHighLow(PKM pk)
         {
             if (pk.Format < 7)
@@ -427,6 +428,7 @@ namespace PKHeX.Core
                     throw new ArgumentOutOfRangeException(nameof(index));
             }
         }
+
         /// <summary>
         /// Sets one of the <see cref="PKM.IVs"/> based on its index within the array.
         /// </summary>
@@ -467,6 +469,7 @@ namespace PKHeX.Core
                     throw new ArgumentOutOfRangeException(nameof(index));
             }
         }
+
         /// <summary>
         /// Gets one of the <see cref="PKM.IVs"/> based on its index within the array.
         /// </summary>

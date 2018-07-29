@@ -22,10 +22,11 @@ namespace PKHeX.Core
             for (int i = 0; i < count; i++)
             {
                 byte[] data = new byte[SIZE_ENTRY];
-                Array.Copy(input, 4 + offset + SIZE_ENTRY * i, data, 0, SIZE_ENTRY);
+                Array.Copy(input, 4 + offset + (SIZE_ENTRY * i), data, 0, SIZE_ENTRY);
                 Entries.Add(new StrategyMemoEntry(XD, data));
             }
         }
+
         public byte[] FinalData => BigEndian.GetBytes((short)Entries.Count).Concat(_unk) // count followed by populated entries
             .Concat(Entries.SelectMany(entry => entry.Data)).ToArray();
 
@@ -33,6 +34,7 @@ namespace PKHeX.Core
         {
             return this[Species] ?? new StrategyMemoEntry(XD);
         }
+
         public void SetEntry(StrategyMemoEntry entry)
         {
             int index = Entries.FindIndex(ent => ent.Species == entry.Species);
@@ -41,10 +43,12 @@ namespace PKHeX.Core
             else
                 Entries.Add(entry);
         }
+
         public class StrategyMemoEntry
         {
             public readonly byte[] Data;
             private readonly bool XD;
+
             public StrategyMemoEntry(bool xd, byte[] data = null)
             {
                 Data = data ?? new byte[SIZE_ENTRY];
@@ -66,6 +70,7 @@ namespace PKHeX.Core
                     BigEndian.GetBytes((ushort)cval).CopyTo(Data, 0);
                 }
             }
+
             private bool Flag0 { get => Data[0] >> 6 == 1; set { Data[0] &= 0xBF; if (value) Data[0] |= 0x40; } } // Unused
             private bool Flag1 { get => Data[0] >> 7 == 1; set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } } // Complete Entry
             public int SID { get => BigEndian.ToUInt16(Data, 4); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 4); }
@@ -87,6 +92,7 @@ namespace PKHeX.Core
                         new byte[SIZE_ENTRY].CopyTo(Data, 0);
                 }
             }
+
             public bool Owned
             {
                 get

@@ -146,7 +146,6 @@ namespace PKHeX.Core
             return -1;
         }
 
-
         /// <summary>
         /// Checks if the <see cref="g1"/> version (or subset versions) is equivalent to <see cref="g2"/>.
         /// </summary>

@@ -37,6 +37,7 @@ namespace PKHeX.Core
 
         public static void HyperTrainClear(this IHyperTrain t) => t.HyperTrainFlags = 0;
         public static bool IsHyperTrained(this IHyperTrain t) => t.HyperTrainFlags != 0;
+
         public static bool IsHyperTrained(this IHyperTrain t, int index)
         {
             switch (index)

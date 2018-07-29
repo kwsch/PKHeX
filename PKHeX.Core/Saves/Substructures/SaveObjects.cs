@@ -6,6 +6,7 @@
         public PKM PKM;
         public bool Occupied;
     }
+
     public struct Daycare
     {
         public DaycareSlot[] Slots;

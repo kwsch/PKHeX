@@ -11,6 +11,7 @@ namespace PKHeX.Core
                 return GetTypeGB(IVs);
             return GetType(IVs);
         }
+
         public static int GetType(IReadOnlyList<int> IVs)
         {
             int hp = 0;
@@ -20,6 +21,7 @@ namespace PKHeX.Core
             hp /= 0x3F;
             return hp;
         }
+
         public static int GetTypeGB(IReadOnlyList<int> IVs)
         {
             var IV_ATK = IVs[1];
@@ -37,6 +39,7 @@ namespace PKHeX.Core
             }
             return SetIVsForType(hpVal, IVs);
         }
+
         public static bool SetIVsForType(int hpVal, int[] IVs)
         {
             if (IVs.All(z => z == 31))
@@ -59,6 +62,7 @@ namespace PKHeX.Core
                 IVs[i] = best[i];
             return true;
         }
+
         private static int[] GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
         {
             var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
@@ -85,6 +89,7 @@ namespace PKHeX.Core
             }
             return best;
         }
+
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(ICollection<T> list, int length)
         {
             // https://stackoverflow.com/a/10630026

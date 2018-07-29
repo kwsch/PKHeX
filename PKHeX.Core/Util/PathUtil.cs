@@ -8,6 +8,7 @@ namespace PKHeX.Core
         {
             return string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
         }
+
         public static string TrimFromZero(string input)
         {
             int index = input.IndexOf('\0');

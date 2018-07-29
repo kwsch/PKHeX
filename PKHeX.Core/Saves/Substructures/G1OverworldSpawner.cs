@@ -8,6 +8,7 @@ namespace PKHeX.Core
         private readonly SAV1 SAV;
         private readonly bool[] EventFlags;
         private readonly bool[] SpawnFlags;
+
         public G1OverworldSpawner(SAV1 sav)
         {
             SAV = sav;
@@ -83,6 +84,7 @@ namespace PKHeX.Core
 
             public void Invert() => SetState(!IsDespawned);
             public void Reset() => SetState(false);
+
             public void SetState(bool despawned)
             {
                 if (EventFlag != 0)
@@ -90,6 +92,7 @@ namespace PKHeX.Core
                 if (SpawnFlag != 0)
                     Spawn[SpawnFlag] = despawned;
             }
+
             public bool IsDespawned
             {
                 get
@@ -102,6 +105,7 @@ namespace PKHeX.Core
                     return result;
                 }
             }
+
             internal FlagPair() { }
         }
 

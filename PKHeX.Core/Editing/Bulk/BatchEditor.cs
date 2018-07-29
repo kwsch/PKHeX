@@ -67,8 +67,11 @@ namespace PKHeX.Core
             var editor = new BatchEditor();
             var sets = StringInstructionSet.GetBatchSets(lines).ToList();
             foreach (var pk in data)
-            foreach (var set in sets)
-                editor.ProcessPKM(pk, set.Filters, set.Instructions);
+            {
+                foreach (var set in sets)
+                    editor.ProcessPKM(pk, set.Filters, set.Instructions);
+            }
+
             return editor;
         }
     }

@@ -98,6 +98,7 @@ namespace PKHeX.Core
             var filepaths = Directory.EnumerateFiles(path, "*.*", opt);
             return SAV.LoadBoxes(filepaths, out result, boxStart, boxClear, noSetb);
         }
+
         /// <summary>
         /// Loads a folder of files to the <see cref="SaveFile"/>.
         /// </summary>
@@ -114,6 +115,7 @@ namespace PKHeX.Core
             var pks = GetPKMsFromPaths(filepaths, generation);
             return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
         }
+
         /// <summary>
         /// Loads a folder of files to the <see cref="SaveFile"/>.
         /// </summary>
@@ -129,6 +131,7 @@ namespace PKHeX.Core
             var pks = gifts.Select(z => z.ConvertToPKM(SAV));
             return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
         }
+
         /// <summary>
         /// Loads a folder of files to the <see cref="SaveFile"/>.
         /// </summary>

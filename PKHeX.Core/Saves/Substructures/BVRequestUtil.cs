@@ -19,6 +19,7 @@ namespace PKHeX.Core
         private const ushort INVALID = ushort.MaxValue;
         private const string _01IO = "01IO";
         private const string _WXYZ = "WXYZ";
+
         private static ushort CharToU16(char c)
         {
             if (_01IO.Contains(c))

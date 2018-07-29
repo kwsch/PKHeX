@@ -26,6 +26,7 @@ namespace PKHeX.Core
             new[] {415, 412, 420, 190, 214, 265},
             new[] {446, 446, 446, 446, 446, 446},
         };
+
         public static readonly int[][] TablePt =
         {
             TableDP[0],

@@ -9,6 +9,7 @@ namespace PKHeX.Core
     {
         protected PersonalInfoBW() { }
         public const int SIZE = 0x3C;
+
         public PersonalInfoBW(byte[] data)
         {
             if (data.Length != SIZE)
@@ -19,6 +20,7 @@ namespace PKHeX.Core
             TMHM = GetBits(Data, 0x28, 0x10);
             TypeTutors = GetBits(Data, 0x38, 0x4);
         }
+
         public override byte[] Write()
         {
             SetBits(TMHM).CopyTo(Data, 0x28);
@@ -75,6 +77,7 @@ namespace PKHeX.Core
                 Item3 = value[2];
             }
         }
+
         public override int[] Abilities
         {
             get => new[] { Ability1, Ability2, AbilityH };

@@ -61,8 +61,11 @@ namespace PKHeX.Core
                     if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
                     {
                         for (int i = data.Length - 0x10; i < data.Length; i++) // 0x10 of 00's at the end != PK6
+                        {
                             if (data[i] != 0)
                                 return 6;
+                        }
+
                         return -1;
                     }
                     return 6;
@@ -124,6 +127,7 @@ namespace PKHeX.Core
         /// <param name="prefer">Prefer a certain generation over another</param>
         /// <returns>Updated PKM if actually PK7</returns>
         private static PKM CheckPKMFormat7(PK6 pk, int prefer) => IsPK6FormatReallyPK7(pk, prefer) ? new PK7(pk.Data, pk.Identifier) : (PKM)pk;
+
         /// <summary>
         /// Checks if the input PK6 file is really a PK7.
         /// </summary>
@@ -165,8 +169,10 @@ namespace PKHeX.Core
             if (mb > 0xAAA)
                 return false;
             for (int i = 0; i < 6; i++)
+            {
                 if ((mb >> (i << 1) & 3) == 3) // markings are 10 or 01 (or 00), never 11
                     return false;
+            }
 
             return preferredFormat > 6;
         }
@@ -258,6 +264,7 @@ namespace PKHeX.Core
                     return pkm;
             }
         }
+
         private static PKM IntermediaryConvert(PKM pk, Type PKMType, int toFormat, ref string comment)
         {
             switch (pk)
@@ -436,6 +443,7 @@ namespace PKHeX.Core
             var argCount = constructors.First().GetParameters().Length;
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
         }
+
         public static PKM GetBlank(int gen)
         {
             var type = Type.GetType($"PKHeX.Core.PK{gen}");

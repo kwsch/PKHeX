@@ -14,6 +14,7 @@ namespace PKHeX.Core
             var c = ConvertValue(value, pi.PropertyType);
             return v.Equals(c);
         }
+
         public static void SetValue(PropertyInfo pi, object obj, object value)
         {
             var c = ConvertValue(value, pi.PropertyType);
@@ -33,22 +34,26 @@ namespace PKHeX.Core
                 .Distinct()
                 ;
         }
+
         public static IEnumerable<string> GetPropertiesCanWritePublic(Type type)
         {
             return GetAllPropertyInfoCanWritePublic(type).Select(p => p.Name)
                     .Distinct()
                 ;
         }
+
         public static IEnumerable<PropertyInfo> GetAllPropertyInfoCanWritePublic(Type type)
         {
             return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
                             .Where(p => p.CanWrite && p.SetMethod.IsPublic);
         }
+
         public static IEnumerable<PropertyInfo> GetAllPropertyInfoPublic(Type type)
         {
             return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
                 .Where(p => (p.CanRead && p.GetMethod.IsPublic) || (p.CanWrite && p.SetMethod.IsPublic));
         }
+
         public static IEnumerable<string> GetPropertiesPublic(Type type)
         {
             return GetAllPropertyInfoPublic(type).Select(p => p.Name)
@@ -107,11 +112,14 @@ namespace PKHeX.Core
                 typeInfo = typeInfo.BaseType?.GetTypeInfo();
             }
         }
+
         public static bool HasProperty(object obj, string name, out PropertyInfo pi) => (pi = GetPropertyInfo(obj?.GetType().GetTypeInfo(), name)) != null;
+
         public static PropertyInfo GetPropertyInfo(this TypeInfo typeInfo, string name)
         {
             return typeInfo.GetAllTypeInfo().Select(t => t.GetDeclaredProperty(name)).FirstOrDefault(pi => pi != null);
         }
+
         private static IEnumerable<T> GetAll<T>(this TypeInfo typeInfo, Func<TypeInfo, IEnumerable<T>> accessor)
         {
             return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));

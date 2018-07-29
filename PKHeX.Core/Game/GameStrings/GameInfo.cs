@@ -16,20 +16,24 @@ namespace PKHeX.Core
 
         // Lazy fetch implementation
         private static int DefaultLanguageIndex => Array.IndexOf(lang_val, DefaultLanguage);
+
         private static int GetLanguageIndex(string lang)
         {
             int l = Array.IndexOf(lang_val, lang);
             return l < 0 ? DefaultLanguageIndex : l;
         }
+
         public static GameStrings GetStrings(string lang)
         {
             int index = GetLanguageIndex(lang);
             return GetStrings(index);
         }
+
         public static GameStrings GetStrings(int index)
         {
             return Languages[index] ?? (Languages[index] = new GameStrings(lang_val[index]));
         }
+
         public static string GetTransporterName(string lang)
         {
             int index = GetLanguageIndex(lang);
@@ -39,6 +43,7 @@ namespace PKHeX.Core
         }
 
         public static GameStrings Strings { get; set; } = GetStrings(DefaultLanguage);
+
         public static string[] GetStrings(string ident, string lang, string type = "text")
         {
             string[] data = Util.GetStringList(ident, lang, type);
@@ -208,9 +213,13 @@ namespace PKHeX.Core
             int bankID = 0;
 
             if (format == 2)
+            {
                 gen = 2;
+            }
             else if (format == 3)
+            {
                 gen = 3;
+            }
             else if (generation == 4 && (eggmet || format == 4)) // 4
             {
                 const int size = 1000;

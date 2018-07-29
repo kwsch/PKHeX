@@ -17,6 +17,7 @@ namespace PKHeX.Core
         FreeSpace,
         ZCrystals,
     }
+
     public class InventoryItem
     {
         public bool New;
@@ -64,12 +65,13 @@ namespace PKHeX.Core
             {
                 items[i] = new InventoryItem
                 {
-                    Index = BitConverter.ToUInt16(Data, Offset + i*4),
-                    Count = BitConverter.ToUInt16(Data, Offset + i*4 + 2) ^ (ushort)SecurityKey
+                    Index = BitConverter.ToUInt16(Data, Offset + (i * 4)),
+                    Count = BitConverter.ToUInt16(Data, Offset + (i * 4) + 2) ^ (ushort)SecurityKey
                 };
             }
             Items = items;
         }
+
         public void SetPouch(byte[] Data)
         {
             if (Items.Length != PouchDataSize)
@@ -77,10 +79,11 @@ namespace PKHeX.Core
 
             for (int i = 0; i < Items.Length; i++)
             {
-                BitConverter.GetBytes((ushort)Items[i].Index).CopyTo(Data, Offset + i*4);
-                BitConverter.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i*4 + 2);
+                BitConverter.GetBytes((ushort)Items[i].Index).CopyTo(Data, Offset + (i * 4));
+                BitConverter.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + (i * 4) + 2);
             }
         }
+
         public void GetPouch7(byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
@@ -89,7 +92,7 @@ namespace PKHeX.Core
                 // 10bit itemID
                 // 10bit count
                 // 12bit flags/reserved
-                uint val = BitConverter.ToUInt32(Data, Offset + i*4);
+                uint val = BitConverter.ToUInt32(Data, Offset + (i * 4));
                 items[i] = new InventoryItem
                 {
                     Index = (int)(val & 0x3FF),
@@ -101,6 +104,7 @@ namespace PKHeX.Core
             Items = items;
             OriginalItems = Items.Select(i => i.Clone()).ToArray();
         }
+
         public void SetPouch7(byte[] Data, bool setNEW = false)
         {
             if (Items.Length != PouchDataSize)
@@ -118,7 +122,7 @@ namespace PKHeX.Core
                     val |= 0x40000000;
                 if (Items[i].FreeSpace)
                     val |= 0x100000;
-                BitConverter.GetBytes(val).CopyTo(Data, Offset + i * 4);
+                BitConverter.GetBytes(val).CopyTo(Data, Offset + (i * 4));
             }
         }
 
@@ -129,12 +133,13 @@ namespace PKHeX.Core
             {
                 items[i] = new InventoryItem
                 {
-                    Index = BigEndian.ToUInt16(Data, Offset + i * 4),
-                    Count = BigEndian.ToUInt16(Data, Offset + i * 4 + 2) ^ (ushort)SecurityKey
+                    Index = BigEndian.ToUInt16(Data, Offset + (i * 4)),
+                    Count = BigEndian.ToUInt16(Data, Offset + (i * 4) + 2) ^ (ushort)SecurityKey
                 };
             }
             Items = items;
         }
+
         public void SetPouchBigEndian(ref byte[] Data)
         {
             if (Items.Length != PouchDataSize)
@@ -142,8 +147,8 @@ namespace PKHeX.Core
 
             for (int i = 0; i < Items.Length; i++)
             {
-                BigEndian.GetBytes((ushort)Items[i].Index).CopyTo(Data, Offset + i * 4);
-                BigEndian.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i * 4 + 2);
+                BigEndian.GetBytes((ushort)Items[i].Index).CopyTo(Data, Offset + (i * 4));
+                BigEndian.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + (i * 4) + 2);
             }
         }
 
@@ -156,18 +161,22 @@ namespace PKHeX.Core
                 for (int i = 0; i < items.Length; i++)
                 {
                     if (Data[Offset + i] != 0)
+                    {
                         items[slot++] = new InventoryItem
                         {
                             Index = LegalItems[i],
                             Count = Data[Offset+i]
                         };
+                    }
                 }
                 while (slot < items.Length)
+                {
                     items[slot++] = new InventoryItem
                     {
                         Index = 0,
                         Count = 0
                     };
+                }
             }
             else
             {
@@ -188,8 +197,8 @@ namespace PKHeX.Core
                         default:
                             items[i] = new InventoryItem
                             {
-                                Index = Data[Offset + i * 2 + 1],
-                                Count = Data[Offset + i * 2 + 2]
+                                Index = Data[Offset + (i * 2) + 1],
+                                Count = Data[Offset + (i * 2) + 2]
                             };
                             break;
                     }
@@ -205,6 +214,7 @@ namespace PKHeX.Core
             }
             Items = items;
         }
+
         public void SetPouchG1(byte[] Data)
         {
             if (Items.Length != PouchDataSize)
@@ -231,11 +241,11 @@ namespace PKHeX.Core
                 default:
                     for (int i = 0; i < Items.Length; i++)
                     {
-                        Data[Offset + i * 2 + 1] = (byte)Items[i].Index;
-                        Data[Offset + i * 2 + 2] = (byte)Items[i].Count;
+                        Data[Offset + (i * 2) + 1] = (byte)Items[i].Index;
+                        Data[Offset + (i * 2) + 2] = (byte)Items[i].Count;
                     }
                     Data[Offset] = (byte)Count;
-                    Data[Offset + 1 + 2 * Count] = 0xFF;
+                    Data[Offset + 1 + (2 * Count)] = 0xFF;
                     break;
             }
         }
@@ -248,6 +258,7 @@ namespace PKHeX.Core
                 : list.ThenBy(item => item.Count);
             Items = list.Concat(Items.Where(item => item.Index == 0)).ToArray();
         }
+
         public void SortByIndex(bool reverse = false)
         {
             var list = Items.Where(item => item.Index != 0).OrderBy(item => item.Count == 0);
@@ -256,6 +267,7 @@ namespace PKHeX.Core
                 : list.ThenBy(item => item.Index);
             Items = list.Concat(Items.Where(item => item.Index == 0)).ToArray();
         }
+
         public void SortByName(string[] names, bool reverse = false)
         {
             var list = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderBy(item => item.Count == 0);

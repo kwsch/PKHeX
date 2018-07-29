@@ -2,11 +2,14 @@ using System;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Gen5 Block Info
+    /// </summary>
     public sealed class BlockInfoNDS : BlockInfo
     {
-        // Gen4/5
         private readonly int ChecksumOffset;
         private readonly int ChecksumMirror;
+
         private BlockInfoNDS(int offset, int length, int chkOffset, int chkMirror)
         {
             Offset = offset;
@@ -16,6 +19,7 @@ namespace PKHeX.Core
         }
 
         private ushort GetChecksum(byte[] data) => SaveUtil.CRC16_CCITT(data, Offset, Length);
+
         protected override bool ChecksumValid(byte[] data)
         {
             ushort chk = GetChecksum(data);
@@ -25,6 +29,7 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
+
         protected override void SetChecksum(byte[] data)
         {
             ushort chk = GetChecksum(data);
@@ -107,6 +112,7 @@ namespace PKHeX.Core
             new BlockInfoNDS(0x23E00, 0x00FC, 0x23EFE, 0x23F88), // ???
             new BlockInfoNDS(0x23F00, 0x008C, 0x23F9A, 0x23F9A), // Checksums */
         };
+
         public static readonly BlockInfoNDS[] BlocksB2W2 =
         {
             new BlockInfoNDS(0x00000, 0x03e0, 0x003E2, 0x25F00), // Box Names

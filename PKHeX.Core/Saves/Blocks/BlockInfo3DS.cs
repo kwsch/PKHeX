@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Gen6+ Block Info
+    /// </summary>
     public sealed class BlockInfo3DS : BlockInfo
     {
         public ushort Checksum;
@@ -9,7 +12,7 @@ namespace PKHeX.Core
         private readonly Func<byte[], int, int, ushort> CheckFunc;
 
         private BlockInfo3DS(Func<byte[], int, int, ushort> func) => CheckFunc = func;
-        private int ChecksumOffset => BlockInfoOffset + 6 + (int)ID * 8;
+        private int ChecksumOffset => BlockInfoOffset + 6 + ((int)ID * 8);
         private ushort GetChecksum(byte[] data) => CheckFunc(data, Offset, Length);
 
         protected override bool ChecksumValid(byte[] data)
@@ -18,6 +21,7 @@ namespace PKHeX.Core
             var old = BitConverter.ToUInt16(data, ChecksumOffset);
             return chk == old;
         }
+
         protected override void SetChecksum(byte[] data)
         {
             ushort chk = GetChecksum(data);
@@ -42,12 +46,13 @@ namespace PKHeX.Core
             int CurrentPosition = 0;
             for (int i = 0; i < Blocks.Length; i++)
             {
+                int ofs = i * 8;
                 Blocks[i] = new BlockInfo3DS(CheckFunc)
                 {
                     Offset = CurrentPosition,
-                    Length = BitConverter.ToInt32(data, blockInfoOffset + 0 + 8 * i),
-                    ID = BitConverter.ToUInt16(data, blockInfoOffset + 4 + 8 * i),
-                    Checksum = BitConverter.ToUInt16(data, blockInfoOffset + 6 + 8 * i),
+                    Length = BitConverter.ToInt32(data, blockInfoOffset + ofs + 0),
+                    ID = BitConverter.ToUInt16(data, blockInfoOffset + ofs + 4),
+                    Checksum = BitConverter.ToUInt16(data, blockInfoOffset + ofs + 6),
 
                     BlockInfoOffset = blockInfoOffset
                 };

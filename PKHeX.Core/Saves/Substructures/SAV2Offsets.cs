@@ -35,7 +35,7 @@
         public int AccumulatedChecksumEnd { get; private set; } = -1;
         public int OverallChecksumPosition { get; private set; } = -1;
         public int EventFlag { get; private set; } = int.MinValue;
-        public int Daycare { get; private set; }
+        public int Daycare { get; }
 
         public int PouchTMHM { get; private set; } = -1;
         public int PouchItem { get; private set; } = -1;
@@ -97,6 +97,7 @@
                     break;
             }
         }
+
         private void LoadOffsetsJapanese(GameVersion Version)
         {
             DaylightSavings = 0x2029;

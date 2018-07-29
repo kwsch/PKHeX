@@ -17,11 +17,14 @@ namespace PKHeX.Core
         {
             // Mega List
             if (IsFormListSingleMega(species))
+            {
                 return new[]
                 {
                     types[000], // Normal
                     forms[804], // Mega
                 };
+            }
+
             if (generation == 7 && Legal.Totem_USUM.Contains(species))
                 return GetFormsTotem(species, types, forms);
 
@@ -55,12 +58,14 @@ namespace PKHeX.Core
                 return form == 2;
             return form == 1;
         }
+
         public static int GetTotemBaseForm(int species, int form)
         {
             if (species == 778) // Mimikyu
                 return form -2;
             return form - 1;
         }
+
         public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
         {
             switch (species)
@@ -96,6 +101,7 @@ namespace PKHeX.Core
                     return GetFormsAlolan(generation, types, forms, species);
             }
         }
+
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch (species)
@@ -109,6 +115,7 @@ namespace PKHeX.Core
                     return GetFormsUnown(generation);
             }
         }
+
         private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             switch (species)
@@ -141,6 +148,7 @@ namespace PKHeX.Core
                     };
             }
         }
+
         private static string[] GetFormsGen4(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch (species)
@@ -203,6 +211,7 @@ namespace PKHeX.Core
                     return GetFormsArceus(generation, types);
             }
         }
+
         private static string[] GetFormsGen5(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             switch (species)
@@ -276,6 +285,7 @@ namespace PKHeX.Core
                     };
             }
         }
+
         private static string[] GetFormsGen6(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
         {
             switch (species)
@@ -404,6 +414,7 @@ namespace PKHeX.Core
                     };
             }
         }
+
         private static string[] GetFormsGen7(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             switch (species)
@@ -514,6 +525,7 @@ namespace PKHeX.Core
                     };
             }
         }
+
         private static string[] GetFormsPikachu(int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             switch (generation)
@@ -546,16 +558,21 @@ namespace PKHeX.Core
                     };
             }
         }
+
         private static string[] GetFormsPichu  (int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             if (generation == 4)
+            {
                 return new[]
                 {
                     types[000], // Normal
                     forms[000], // Spiky
                 };
+            }
+
             return new[] { "" };
         }
+
         private static string[] GetFormsArceus (int generation, IReadOnlyList<string> types)
         {
             switch (generation)
@@ -627,9 +644,11 @@ namespace PKHeX.Core
                     };
             }
         }
+
         private static string[] GetFormsTotem  (int species,    IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             if (species == 778) // Mimikyu
+            {
                 return new[]
                 {
                     forms[778], // Disguised
@@ -637,19 +656,25 @@ namespace PKHeX.Core
                     forms[1007], // Large
                     "*" + forms[1058], // Busted
                 };
+            }
+
             if (Legal.Totem_Alolan.Contains(species))
+            {
                 return new[]
                 {
                     types[0], // Normal
                     forms[810], // Alolan
                     forms[1007], // Large
                 };
+            }
+
             return new[]
             {
                 types[0], // Normal
                 forms[1007], // Large
             };
         }
+
         private static string[] GetFormsUnown(int generation)
         {
             switch (generation)
@@ -680,6 +705,7 @@ namespace PKHeX.Core
         }
 
         private static bool IsFormListSingleMega(int species) => Mega_6_Single.Contains(species);
+
         private static readonly HashSet<int> Mega_6_Single = new HashSet<int>
         {
             // XY

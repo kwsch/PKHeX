@@ -6,6 +6,7 @@ namespace PKHeX.Core
     public static partial class Util
     {
         public static readonly Random Rand = new Random();
+
         public static uint Rand32()
         {
             return (uint)Rand.Next(1 << 30) << 2 | (uint)Rand.Next(1 << 2);

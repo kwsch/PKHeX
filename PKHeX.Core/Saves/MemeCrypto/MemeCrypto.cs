@@ -71,11 +71,10 @@ namespace PKHeX.Core
                     sigBuffer.CopyTo(output, output.Length - 0x60);
                     memekey.AesDecrypt(output).CopyTo(output, 0);
                     // Check for 8-byte equality.
-                    if (BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0) ==
-                        BitConverter.ToUInt64(output, output.Length - 0x8))
-                    {
+                    var hash1 = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
+                    var hash2 = BitConverter.ToUInt64(output, output.Length - 0x8);
+                    if (hash1 == hash2) // compute == exist
                         return true;
-                    }
                 }
             }
 
@@ -147,7 +146,7 @@ namespace PKHeX.Core
         /// <returns>The resigned save data. Invalid input returns null.</returns>
         public static byte[] Resign7(byte[] sav7)
         {
-            if (sav7 == null || sav7.Length != SaveUtil.SIZE_G7SM && sav7.Length != SaveUtil.SIZE_G7USUM)
+            if (sav7 == null || (sav7.Length != SaveUtil.SIZE_G7SM && sav7.Length != SaveUtil.SIZE_G7USUM))
                 return null;
 
             // Save Chunks are 0x200 bytes each; Memecrypto signature is 0x100 bytes into the 2nd to last chunk.
@@ -169,9 +168,7 @@ namespace PKHeX.Core
                 Array.Resize(ref newSig, MemeCryptoSignatureLength);
 
                 if (VerifyMemeData(CurSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
-                {
                     Buffer.BlockCopy(memeSig, 0x20, newSig, 0x20, 0x60);
-                }
 
                 SignMemeData(newSig).CopyTo(outSav, MemeCryptoOffset);
             }
