@@ -371,8 +371,9 @@ namespace PKHeX.Core
 
             pk.MetDate = Date ?? DateTime.Now;
 
-            if (SAV.Generation > 6 && OriginGame == 0) // Gen7+, give random gen6 game
+            if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
+                // give random valid game
                 do { pk.Version = (int)GameVersion.X + Util.Rand.Next(4); }
                 while (!CanBeReceivedByVersion(pk.Version));
             }

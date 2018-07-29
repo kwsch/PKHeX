@@ -393,8 +393,9 @@ namespace PKHeX.Core
                 EVs = EVs,
             };
 
-            if (SAV.Generation > 7 && OriginGame == 0) // Gen8+, give random gen7 game
+            if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
+                // give random valid game
                 do { pk.Version = (int)GameVersion.SN + Util.Rand.Next(4); }
                 while (!CanBeReceivedByVersion(pk.Version));
             }
