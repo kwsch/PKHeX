@@ -410,17 +410,17 @@ namespace PKHeX.Core
         {
             get
             {
-                var pouch = new[]
+                InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 99, Offsets.PouchTMHM, 57),
-                    new InventoryPouch(InventoryType.Items, LegalItems, 99, Offsets.PouchItem, 20),
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Offsets.PouchKey, 26),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Offsets.PouchBall, 12),
-                    new InventoryPouch(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Offsets.PouchPC, 50)
+                    new InventoryPouchGB(InventoryType.TMHMs, LegalTMHMs, 99, Offsets.PouchTMHM, 57),
+                    new InventoryPouchGB(InventoryType.Items, LegalItems, 99, Offsets.PouchItem, 20),
+                    new InventoryPouchGB(InventoryType.KeyItems, LegalKeyItems, 99, Offsets.PouchKey, 26),
+                    new InventoryPouchGB(InventoryType.Balls, LegalBalls, 99, Offsets.PouchBall, 12),
+                    new InventoryPouchGB(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Offsets.PouchPC, 50)
                 };
                 foreach (var p in pouch)
                 {
-                    p.GetPouchG1(Data);
+                    p.GetPouch(Data);
                 }
                 return pouch;
             }
@@ -437,7 +437,7 @@ namespace PKHeX.Core
                     }
                     while (ofs < p.Items.Length)
                         p.Items[ofs++] = new InventoryItem();
-                    p.SetPouchG1(Data);
+                    p.SetPouch(Data);
                 }
             }
         }

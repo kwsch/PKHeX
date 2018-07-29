@@ -360,12 +360,12 @@ namespace PKHeX.Core
                 ushort[] legalItems = LegalItems;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, Japanese ? 0x25C4 : 0x25C9, 20),
-                    new InventoryPouch(InventoryType.PCItems, legalItems, 99, Japanese ? 0x27DC : 0x27E6, 50)
+                    new InventoryPouchGB(InventoryType.Items, legalItems, 99, Japanese ? 0x25C4 : 0x25C9, 20),
+                    new InventoryPouchGB(InventoryType.PCItems, legalItems, 99, Japanese ? 0x27DC : 0x27E6, 50)
                 };
                 foreach (var p in pouch)
                 {
-                    p.GetPouchG1(Data);
+                    p.GetPouch(Data);
                 }
                 return pouch;
             }
@@ -382,7 +382,7 @@ namespace PKHeX.Core
                     }
                     while (ofs < p.Items.Length)
                         p.Items[ofs++] = new InventoryItem();
-                    p.SetPouchG1(Data);
+                    p.SetPouch(Data);
                 }
             }
         }

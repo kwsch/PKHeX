@@ -1,0 +1,58 @@
+using System;
+using System.Linq;
+
+namespace PKHeX.Core
+{
+    public sealed class InventoryPouch7 : InventoryPouch
+    {
+        public InventoryPouch7(InventoryType type, ushort[] legal, int maxcount, int offset)
+            : base(type, legal, maxcount, offset)
+        {
+        }
+
+        public bool SetNew { get; set; } = false;
+        private InventoryItem[] OriginalItems;
+
+        public override void GetPouch(byte[] Data)
+        {
+            InventoryItem[] items = new InventoryItem[PouchDataSize];
+            for (int i = 0; i < items.Length; i++)
+            {
+                // 10bit itemID
+                // 10bit count
+                // 12bit flags/reserved
+                uint val = BitConverter.ToUInt32(Data, Offset + (i * 4));
+                items[i] = new InventoryItem
+                {
+                    Index = (int)(val & 0x3FF),
+                    Count = (int)(val >> 10 & 0x3FF),
+                    New = (val & 0x40000000) != 0, // 30th bit is "NEW"
+                    FreeSpace = (val >> 20 & 0x3FF) != 0, // "FREE SPACE" sortIndex
+                };
+            }
+            Items = items;
+            OriginalItems = Items.Select(i => i.Clone()).ToArray();
+        }
+
+        public override void SetPouch(byte[] Data)
+        {
+            if (Items.Length != PouchDataSize)
+                throw new ArgumentException("Item array length does not match original pouch size.");
+
+            for (int i = 0; i < Items.Length; i++)
+            {
+                // Build Item Value
+                uint val = 0;
+                val |= (uint)(Items[i].Index & 0x3FF);
+                val |= (uint)(Items[i].Count & 0x3FF) << 10;
+                if (SetNew)
+                    Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
+                if (Items[i].New)
+                    val |= 0x40000000;
+                if (Items[i].FreeSpace)
+                    val |= 0x100000;
+                BitConverter.GetBytes(val).CopyTo(Data, Offset + (i * 4));
+            }
+        }
+    }
+}

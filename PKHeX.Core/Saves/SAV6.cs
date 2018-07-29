@@ -636,11 +636,11 @@ namespace PKHeX.Core
                 ushort[] legalMedicine = ORAS ? Legal.Pouch_Medicine_AO : Legal.Pouch_Medicine_XY;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.KeyItems, legalKey, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.TMHMs, legalTMHM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, legalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berry_XY, 999, OFS_PouchBerry),
+                    new InventoryPouch4(InventoryType.Items, legalItems, 999, OFS_PouchHeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, legalKey, 1, OFS_PouchKeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, legalTMHM, 1, OFS_PouchTMHM),
+                    new InventoryPouch4(InventoryType.Medicine, legalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berry_XY, 999, OFS_PouchBerry),
                 };
                 foreach (var p in pouch)
                     p.GetPouch(Data);

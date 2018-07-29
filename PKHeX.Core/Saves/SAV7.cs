@@ -832,34 +832,34 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch;
                 if (SM)
-                pouch = new[]
+                pouch = new InventoryPouch[]
                 {
-                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                    new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
+                    new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
                 };
                 else // USUM
-                pouch = new[]
+                pouch = new InventoryPouch[]
                 {
-                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.KeyItems,  Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
-                    new InventoryPouch(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
+                    new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                    new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
+                    new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch7(InventoryType.KeyItems,  Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch7(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
                 };
                 foreach (var p in pouch)
-                    p.GetPouch7(Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch7(Data);
+                    p.SetPouch(Data);
             }
         }
 

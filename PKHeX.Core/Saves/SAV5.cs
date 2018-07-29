@@ -185,11 +185,11 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
+                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, OFS_PouchTMHM),
+                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
                 };
                 foreach (var p in pouch)
                     p.GetPouch(Data);
