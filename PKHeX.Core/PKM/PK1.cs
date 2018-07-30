@@ -367,7 +367,7 @@ namespace PKHeX.Core
                 CurrentLevel = CurrentLevel,
                 EXP = EXP,
                 Met_Level = CurrentLevel,
-                Nature = (int) (EXP%25),
+                Nature = Experience.GetNatureVC(EXP),
                 PID = Util.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
