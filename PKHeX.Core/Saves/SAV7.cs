@@ -12,7 +12,7 @@ namespace PKHeX.Core
     public sealed class SAV7 : SaveFile, ITrainerStatRecord
     {
         // Save Data Attributes
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
+        protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => "";
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>

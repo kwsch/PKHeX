@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3RSBox : SaveFile
     {
-        public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
+        protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter
         {
             get

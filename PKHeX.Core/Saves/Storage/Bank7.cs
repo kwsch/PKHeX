@@ -12,7 +12,7 @@ namespace PKHeX.Core
         }
 
         public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
-        public override string BAKName => $"{FileName} [{PlayTimeString}].bak";
+        protected override string BAKText => PlayTimeString;
         private const int GroupNameSize = 0x20;
         private const int BankNameSize = 0x24;
         private const int GroupNameSpacing = GroupNameSize + 2;

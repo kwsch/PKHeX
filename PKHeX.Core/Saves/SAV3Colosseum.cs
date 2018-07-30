@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
+        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter
         {
             get

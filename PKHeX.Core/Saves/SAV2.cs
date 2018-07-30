@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV2 : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
+        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>

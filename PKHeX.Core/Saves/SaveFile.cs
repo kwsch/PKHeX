@@ -17,7 +17,8 @@ namespace PKHeX.Core
         public byte[] Data;
         public bool Edited;
         public string FileName, FilePath, FileFolder;
-        public abstract string BAKName { get; }
+        public string BAKName => $"{FileName} [{BAKText}].bak";
+        protected abstract string BAKText { get; }
         public byte[] BAK { get; protected set; }
         public bool Exportable { get; protected set; }
         public abstract SaveFile Clone();

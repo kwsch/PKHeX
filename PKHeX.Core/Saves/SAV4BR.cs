@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4BR : SaveFile
     {
-        public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
+        protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => "PbrSaveData|*";
         public override string Extension => "";
 
