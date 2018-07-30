@@ -36,15 +36,11 @@ namespace PKHeX.Core
 
             sav.FilePath = path;
             sav.FileFolder = Path.GetDirectoryName(path);
+            sav.FileName = string.Empty;
+            var bakName = Util.CleanFileName(sav.BAKName);
             sav.FileName = Path.GetFileName(path);
-            if (!sav.FileName.EndsWith(".bak"))
-                return;
-
-            // trim off any bak details to get original file name
-            int index = sav.FileName.LastIndexOf(" [", StringComparison.Ordinal);
-            if (index < 0)
-                return;
-            sav.FileName = sav.FileName.Substring(0, index);
+            if (sav.FileName?.EndsWith(bakName) == true)
+                sav.FileName = sav.FileName.Substring(0, sav.FileName.Length - bakName.Length);
         }
 
         /// <summary>

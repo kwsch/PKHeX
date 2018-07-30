@@ -469,7 +469,7 @@ namespace PKHeX.Core
 
         private void ParseSpeciesNickname(string line)
         {
-            int index = line.LastIndexOf("(", StringComparison.Ordinal);
+            int index = line.LastIndexOf('(');
             string n1, n2;
             if (index > 1) // correct format
             {
@@ -479,7 +479,7 @@ namespace PKHeX.Core
             }
             else // nickname first (manually created set, incorrect)
             {
-                int end = line.IndexOf(")", StringComparison.Ordinal);
+                int end = line.IndexOf(')');
                 n2 = line.Substring(index + 1, end - 1);
                 n1 = line.Substring(end + 2);
             }
