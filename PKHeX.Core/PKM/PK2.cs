@@ -365,9 +365,17 @@ namespace PKHeX.Core
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
 
-            var hp = Stat_HPCurrent;
-            pk1.Stat_HPCurrent = hp != 0 ? hp : GetStat(PersonalInfo.HP, IV_ATK, EV_ATK, Stat_Level);
-            pk1.Stat_Level = Stat_Level;
+            var lvl = Stat_Level;
+            if (lvl == 0) // no party stats (originated from box format), need to regenerate
+            {
+                pk1.Stat_HPCurrent = GetStat(PersonalInfo.HP, IV_ATK, EV_ATK, Stat_Level);
+                pk1.Stat_Level = CurrentLevel;
+            }
+            else
+            {
+                pk1.Stat_HPCurrent = Stat_HPCurrent;
+                pk1.Stat_Level = Stat_Level;
+            }
             // Status = 0
             Array.Copy(otname, 0, pk1.otname, 0, otname.Length);
             Array.Copy(nick, 0, pk1.nick, 0, nick.Length);
