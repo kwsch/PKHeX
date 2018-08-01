@@ -406,8 +406,8 @@ namespace PKHeX.Core
 
         private static bool IsNicknameMatch(string nick, PKM pkm, IEncounterable EncounterMatch)
         {
-            if (nick != pkm.Nickname)
-                return false;
+            if (nick != pkm.Nickname) // if not match, must not be a nicknamed trade && not currently named
+                return !((EncounterTrade)EncounterMatch).IsNicknamed && !pkm.IsNicknamed;
             if (nick == "Quacklin’" && pkm.Nickname == "Quacklin'")
                 return true;
             return ((EncounterTrade)EncounterMatch).IsNicknamed;
