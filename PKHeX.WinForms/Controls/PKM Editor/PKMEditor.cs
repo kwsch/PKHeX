@@ -267,6 +267,8 @@ namespace PKHeX.WinForms.Controls
             LegalityChanged?.Invoke(Legality.Valid, null);
         }
 
+        private List<ComboItem> MoveDataAllowed = new List<ComboItem>();
+
         private void ReloadMoves(IReadOnlyCollection<int> moves)
         {
             // check prior movepool to not needlessly refresh the dataset
@@ -274,15 +276,20 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             AllowedMoves = new HashSet<int>(moves);
-            var moveList = GameInfo.Strings.MoveDataSource.OrderByDescending(m => AllowedMoves.Contains(m.Value)).ToList();
-            foreach (var c in Moves)
-            {
-                var index = WinFormsUtil.GetIndex(c);
-                c.DataSource = new BindingSource(moveList, null);
-                c.SelectedValue = index;
-                if (c.Visible)
-                    c.SelectionLength = 0; // flicker hack
-            }
+            MoveDataAllowed = GameInfo.Strings.MoveDataSource.OrderByDescending(m => AllowedMoves.Contains(m.Value)).ToList();
+
+            // defer repop until dropdown is opened; handled by dropdown event
+            for (int i = 0; i < IsMoveBoxOrdered.Count; i++)
+                IsMoveBoxOrdered[i] = false;
+        }
+
+        private void SetMoveDataSource(ComboBox c)
+        {
+            var index = WinFormsUtil.GetIndex(c);
+            c.DataSource = new BindingSource(MoveDataAllowed, null);
+            c.SelectedValue = index;
+            if (c.Visible)
+                c.SelectionLength = 0; // flicker hack
         }
 
         public void UpdateUnicode(string[] symbols)
@@ -1499,6 +1506,18 @@ namespace PKHeX.WinForms.Controls
 
             e.Graphics.FillRectangle(brush, e.Bounds);
             e.Graphics.DrawString(i.Text, e.Font, tBrush, e.Bounds, StringFormat.GenericDefault);
+        }
+
+        private readonly IList<bool> IsMoveBoxOrdered = new bool[4];
+
+        private void ValidateMoveDropDown(object sender, EventArgs e)
+        {
+            var s = (ComboBox) sender;
+            var index = Array.IndexOf(Moves, s);
+            if (IsMoveBoxOrdered[index])
+                return;
+            SetMoveDataSource(s);
+            IsMoveBoxOrdered[index] = true;
         }
 
         private void ValidateLocation(object sender, EventArgs e)
