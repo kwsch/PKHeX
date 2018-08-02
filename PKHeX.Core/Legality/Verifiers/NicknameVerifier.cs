@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
+            var EncounterMatch = data.EncounterOriginal;
 
             // If the Pokémon is not nicknamed, it should match one of the language strings.
             if (pkm.Nickname.Length == 0)
@@ -84,7 +84,7 @@ namespace PKHeX.Core
             }
             else
             {
-                var EncounterMatch = data.EncounterMatch;
+                var EncounterMatch = data.EncounterOriginal;
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
                 bool evolved = EncounterMatch.Species != pkm.Species;
                 bool match = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
@@ -394,7 +394,7 @@ namespace PKHeX.Core
             string OT = validOT[(validOT.Length / 2) + index];
 
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
+            var EncounterMatch = data.EncounterOriginal;
             if (!IsNicknameMatch(nick, pkm, EncounterMatch)) // trades that are not nicknamed (but are present in a table with others being named)
                 data.AddLine(GetInvalid(V9, CheckIdentifier.Nickname));
             else

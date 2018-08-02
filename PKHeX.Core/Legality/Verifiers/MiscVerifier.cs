@@ -181,7 +181,7 @@ namespace PKHeX.Core
             if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0) || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
                 data.AddLine(GetInvalid(V420, CheckIdentifier.Egg));
 
-            var EncounterMatch = data.EncounterMatch;
+            var EncounterMatch = data.EncounterOriginal;
             var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
             if (HatchCycles == 0 || HatchCycles == null)
                 HatchCycles = pkm.PersonalInfo.HatchCycles;

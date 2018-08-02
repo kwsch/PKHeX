@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
+            var EncounterMatch = data.EncounterOriginal;
             if (EncounterMatch is MysteryGift gift)
             {
                 if (gift.Level != pkm.Met_Level && pkm.HasOriginalMetLocation)
@@ -64,7 +64,7 @@ namespace PKHeX.Core
         public void VerifyG1(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
+            var EncounterMatch = data.EncounterOriginal;
             if (pkm.IsEgg)
             {
                 int elvl = Legal.GetEggHatchLevel(pkm);
