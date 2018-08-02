@@ -473,7 +473,7 @@ namespace PKHeX.Core
             string n1, n2;
             if (index > 1) // correct format
             {
-                n1 = line.Substring(0, index - 1);
+                n1 = line.Substring(0, index).Trim();
                 n2 = line.Substring(index).Trim();
                 n2 = ReplaceAll(n2, string.Empty, "[", "]", "(", ")"); // Trim out excess data
             }
