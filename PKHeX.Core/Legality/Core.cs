@@ -316,7 +316,7 @@ namespace PKHeX.Core
                     }
                     break;
             }
-            return new int[0];
+            return Array.Empty<int>();
         }
 
         internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria>[] evoChains, GameVersion Version)
@@ -843,7 +843,7 @@ namespace PKHeX.Core
                 case 5: return ReleasedHeldItems_5;
                 case 6: return ReleasedHeldItems_6;
                 case 7: return ReleasedHeldItems_7;
-                default: return new bool[0];
+                default: return Array.Empty<bool>();
             }
         }
 

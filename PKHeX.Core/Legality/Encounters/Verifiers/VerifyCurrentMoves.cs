@@ -95,14 +95,14 @@ namespace PKHeX.Core
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
                 ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
-                : new int[0];
+                : Array.Empty<int>();
 
             var Egg = MoveEgg.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
             bool volt = (info.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
-            var Special = volt && EventEggMoves.Length == 0 ? new[] { 344 } : new int[0]; // Volt Tackle for bred Pichu line
+            var Special = volt && EventEggMoves.Length == 0 ? new[] { 344 } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
 
             var source = new MoveParseSource
             {
@@ -127,7 +127,7 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMoves3DS(PKM pkm, int[] Moves, LegalInfo info)
         {
-            info.EncounterMoves.Relearn = info.Generation >= 6 ? pkm.RelearnMoves : new int[0];
+            info.EncounterMoves.Relearn = info.Generation >= 6 ? pkm.RelearnMoves : Array.Empty<int>();
             if (info.EncounterMatch is IMoveset)
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
 
@@ -155,7 +155,7 @@ namespace PKHeX.Core
             var G1Encounter = info.EncounterMatch;
             if (G1Encounter == null)
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
-            var InitialMoves = new int[0];
+            var InitialMoves = Array.Empty<int>();
             int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
             var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
             foreach (var ver in games)
@@ -189,8 +189,8 @@ namespace PKHeX.Core
         private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
         {
             if (EncounterMatch is IMoveset mg)
-                return mg.Moves ?? new int[0];
-            return new int[0];
+                return mg.Moves ?? Array.Empty<int>();
+            return Array.Empty<int>();
         }
         private static CheckMoveResult[] ParseMovesRelearn(PKM pkm, int[] Moves, LegalInfo info)
         {
@@ -848,7 +848,7 @@ namespace PKHeX.Core
         private static int[] GetGenMovesOrder(int start, int end)
         {
             if (end < 0)
-                return new int[0];
+                return Array.Empty<int>();
             if (start <= end)
                 return new[] {start};
             var order = new int[start - end + 1];

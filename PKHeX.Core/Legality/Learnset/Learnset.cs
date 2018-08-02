@@ -34,13 +34,13 @@ namespace PKHeX.Core
             if (minLevel <= 1 && maxLevel >= 100)
                 return Moves;
             if (minLevel > maxLevel)
-                return new int[0];
+                return Array.Empty<int>();
             int start = Array.FindIndex(Levels, z => z >= minLevel);
             if (start < 0)
-                return new int[0];
+                return Array.Empty<int>();
             int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
             if (end < 0)
-                return new int[0];
+                return Array.Empty<int>();
             int[] result = new int[end - start + 1];
             Array.Copy(Moves, start, result, 0, result.Length);
             return result;
@@ -147,14 +147,16 @@ namespace PKHeX.Core
             return Math.Max(end - 4, 1);
         }
 
-
         private Dictionary<int, int> Learn;
+
         private Dictionary<int, int> GetDictionary()
         {
             var dict = new Dictionary<int, int>();
             for (int i = 0; i < Moves.Length; i++)
+            {
                 if (!dict.ContainsKey(Moves[i]))
                     dict.Add(Moves[i], Levels[i]);
+            }
             return dict;
         }
 

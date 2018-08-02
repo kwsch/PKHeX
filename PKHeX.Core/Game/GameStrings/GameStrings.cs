@@ -244,7 +244,7 @@ namespace PKHeX.Core
         {
             switch (generation)
             {
-                case 0: return new string[0];
+                case 0: return Array.Empty<string>();
                 case 1: return g1items;
                 case 2: return g2items;
                 case 3: return GetItemStrings3(game);

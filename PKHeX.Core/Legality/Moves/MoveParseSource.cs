@@ -1,8 +1,10 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     internal class MoveParseSource
     {
-        private static readonly int[] Empty = new int[0];
+        private static readonly int[] Empty = Array.Empty<int>();
         public int[] CurrentMoves { get; set; } = Empty;
         public int[] SpecialSource { get; set; } = Empty;
         public int[] NonTradeBackLevelUpMoves { get; set; } = Empty;

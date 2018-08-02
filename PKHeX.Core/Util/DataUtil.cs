@@ -81,7 +81,7 @@ namespace PKHeX.Core
                 return (string[])stringListCache[f].Clone();
 
             var txt = GetStringResource(f); // Fetch File, \n to list.
-            if (txt == null) return new string[0];
+            if (txt == null) return Array.Empty<string>();
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].TrimEnd('\r');

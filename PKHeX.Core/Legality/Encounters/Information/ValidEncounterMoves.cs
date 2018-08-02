@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -13,7 +14,7 @@ namespace PKHeX.Core
         public List<int>[] LevelUpMoves { get; } = Empty;
         public List<int>[] TMHMMoves { get; } = Empty;
         public List<int>[] TutorMoves { get; } = Empty;
-        public int[] Relearn = new int[0];
+        public int[] Relearn = Array.Empty<int>();
         public int MinimumLevelGen1 { get; }
         public int MinimumLevelGen2 { get; }
 

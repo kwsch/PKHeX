@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -39,7 +40,7 @@ namespace PKHeX.Core
         private EggMoves6(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = new int[0]; return; }
+            { Count = 0; Moves = Array.Empty<int>(); return; }
             using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
             {
                 Moves = new int[Count = br.ReadUInt16()];
@@ -60,7 +61,7 @@ namespace PKHeX.Core
         private EggMoves7(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = new int[0]; return; }
+            { Count = 0; Moves = Array.Empty<int>(); return; }
             using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
             {
                 FormTableIndex = br.ReadUInt16();

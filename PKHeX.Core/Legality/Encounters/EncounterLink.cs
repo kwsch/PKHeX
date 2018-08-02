@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public int EggLocation { get => 0; set { } }
         public GameVersion Version { get; set; } = GameVersion.Gen6;
 
-        public int[] Moves { get; set; } = new int[0];
+        public int[] Moves { get; set; } = Array.Empty<int>();
 
         public string Name => "Pokémon Link Gift";
 

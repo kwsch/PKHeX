@@ -17,7 +17,7 @@ namespace PKHeX.Core
 
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x1C, 0x0D);
-            TypeTutors = new bool[0]; // not stored in personal
+            TypeTutors = Array.Empty<bool>(); // not stored in personal
         }
 
         public override byte[] Write()

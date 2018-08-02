@@ -42,8 +42,8 @@ namespace PKHeX.Core
             if (demo || !Exportable)
             {
                 PokeDex = -1; // Disabled
-                LockedSlots = new int[0];
-                TeamSlots = new int[0];
+                LockedSlots = Array.Empty<int>();
+                TeamSlots = Array.Empty<int>();
             }
             else // Valid slot locking info present
             {

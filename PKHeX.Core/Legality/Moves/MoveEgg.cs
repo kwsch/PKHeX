@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static PKHeX.Core.Legal;
 
 namespace PKHeX.Core
@@ -9,7 +10,7 @@ namespace PKHeX.Core
         {
             int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.GenNumber;
             if (!pkm.InhabitedGeneration(gen, species) || pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species))
-                return new int[0];
+                return Array.Empty<int>();
             if (version == GameVersion.Any)
                 version = (GameVersion)pkm.Version;
             return GetEggMoves(gen, species, formnum, version);
@@ -55,7 +56,7 @@ namespace PKHeX.Core
                     }
 
                 default:
-                    return new int[0];
+                    return Array.Empty<int>();
             }
         }
 
@@ -91,7 +92,7 @@ namespace PKHeX.Core
                 case GameVersion.UM:
                     return getMoves(LevelUpUSUM, PersonalTable.USUM);
             }
-            return new int[0];
+            return Array.Empty<int>();
 
             int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
         }

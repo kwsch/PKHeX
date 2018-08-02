@@ -200,7 +200,7 @@ namespace PKHeX.WinForms
                 case 6:
                 case 7:
                     return chars67;
-                default: return new ushort[0];
+                default: return Array.Empty<ushort>();
             }
         }
         private static readonly ushort[] chars67 =

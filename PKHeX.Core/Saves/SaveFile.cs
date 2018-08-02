@@ -237,7 +237,7 @@ namespace PKHeX.Core
             get
             {
                 if (!HasBattleBox)
-                    return new PKM[0];
+                    return Array.Empty<PKM>();
 
                 PKM[] data = new PKM[6];
                 for (int i = 0; i < data.Length; i++)
@@ -444,8 +444,8 @@ namespace PKHeX.Core
         public virtual int BoxesUnlocked { get => -1; set { } }
         public virtual byte[] BoxFlags { get => null; set { } }
         public virtual int CurrentBox { get => 0; set { } }
-        protected int[] LockedSlots = new int[0];
-        protected int[] TeamSlots = new int[0];
+        protected int[] LockedSlots = Array.Empty<int>();
+        protected int[] TeamSlots = Array.Empty<int>();
         public bool MoveBox(int box, int insertBeforeBox)
         {
             if (box == insertBeforeBox) // no movement required

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Stat/misc data for individual species or their associated alternate forme data.
@@ -234,7 +236,7 @@
         /// <summary>
         /// Special tutor learn compatibility flags for individual moves.
         /// </summary>
-        public bool[][] SpecialTutors { get; protected set; } = new bool[0][];
+        public bool[][] SpecialTutors { get; protected set; } = Array.Empty<bool[]>();
 
         protected static bool[] GetBits(byte[] data, int start = 0, int length = -1)
         {
