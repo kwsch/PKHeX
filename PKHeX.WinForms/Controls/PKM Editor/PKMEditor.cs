@@ -80,6 +80,7 @@ namespace PKHeX.WinForms.Controls
         private LegalityAnalysis Legality;
         private string[] gendersymbols = { "♂", "♀", "-" };
         private readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
+        private HashSet<int> AllowedMoves = new HashSet<int>();
 
         public event EventHandler LegalityChanged;
         public event EventHandler UpdatePreviewSprite;
@@ -261,8 +262,19 @@ namespace PKHeX.WinForms.Controls
             // Resort moves
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.Strings.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            ReloadMoves(Legality.AllSuggestedMovesAndRelearn);
+            FieldsLoaded |= tmp;
+            LegalityChanged?.Invoke(Legality.Valid, null);
+        }
+
+        private void ReloadMoves(IReadOnlyCollection<int> moves)
+        {
+            // check prior movepool to not needlessly refresh the dataset
+            if (AllowedMoves.Count <= moves.Count && moves.All(AllowedMoves.Contains))
+                return;
+
+            AllowedMoves = new HashSet<int>(moves);
+            var moveList = GameInfo.Strings.MoveDataSource.OrderByDescending(m => AllowedMoves.Contains(m.Value)).ToList();
             foreach (var c in Moves)
             {
                 var index = WinFormsUtil.GetIndex(c);
@@ -271,8 +283,6 @@ namespace PKHeX.WinForms.Controls
                 if (c.Visible)
                     c.SelectionLength = 0; // flicker hack
             }
-            FieldsLoaded |= tmp;
-            LegalityChanged?.Invoke(Legality.Valid, null);
         }
 
         public void UpdateUnicode(string[] symbols)
@@ -1481,8 +1491,7 @@ namespace PKHeX.WinForms.Controls
             if (e.Index < 0) return;
 
             var i = (ComboItem)((ComboBox)sender).Items[e.Index];
-            var moves = Legality.AllSuggestedMovesAndRelearn;
-            bool valid = moves?.Contains(i.Value) == true && !HaX;
+            bool valid = AllowedMoves.Contains(i.Value) && !HaX;
 
             bool current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
             Brush tBrush = current ? SystemBrushes.HighlightText : TextBrush;
