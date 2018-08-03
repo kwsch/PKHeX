@@ -392,7 +392,8 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
-                    // LearnBW.AddMoves(moves, species, form, max); // same as BW
+                    if (species != 646) // Kyurem moves are same for both versions, but forme movepool not present.
+                    LearnBW.AddMoves(moves, species, form, max);
                     return LearnB2W2.AddMoves(moves, species, form, max);
 
                 case B: case W: case BW:
