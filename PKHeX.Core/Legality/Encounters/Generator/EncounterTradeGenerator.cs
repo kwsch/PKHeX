@@ -12,20 +12,23 @@ namespace PKHeX.Core
             var p = EvolutionChain.GetValidPreEvolutions(pkm);
             return GetPossible(pkm, p, gameSource);
         }
+
         public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
             if (pkm.VC || pkm.Format <= 2)
-                return GetPossibleVC(pkm, vs, gameSource);
+                return GetPossibleVC(vs, gameSource);
             return GetPossibleNonVC(pkm, vs, gameSource);
         }
+
         public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             var p = EvolutionChain.GetValidPreEvolutions(pkm);
             return GetValidEncounterTrades(pkm, p, gameSource);
         }
+
         public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             if (GetIsFromGB(pkm))
@@ -38,6 +41,7 @@ namespace PKHeX.Core
             var poss = GetPossibleNonVC(pkm, p, gameSource);
             return poss.Where(z => IsEncounterTradeValid(pkm, z, lvl));
         }
+
         private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -49,11 +53,13 @@ namespace PKHeX.Core
             var table = GetEncounterTradeTable(pkm);
             return table?.Where(f => p.Any(r => r.Species == f.Species)) ?? Enumerable.Empty<EncounterTrade>();
         }
-        private static IEnumerable<EncounterTrade> GetPossibleVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+
+        private static IEnumerable<EncounterTrade> GetPossibleVC(IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             var table = GetEncounterTradeTableVC(gameSource);
             return table.Where(f => p.Any(r => r.Species == f.Species));
         }
+
         private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
         {
             if (GameVersion.RBY.Contains(gameSource))
@@ -62,6 +68,7 @@ namespace PKHeX.Core
                 return Encounters2.TradeGift_GSC;
             return null;
         }
+
         private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
         {
             switch (pkm.GenNumber)
@@ -74,13 +81,15 @@ namespace PKHeX.Core
             }
             return null;
         }
+
         private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource)
         {
-            var poss = GetPossibleVC(pkm, p, gameSource);
+            var poss = GetPossibleVC(p, gameSource);
             if (gameSource == GameVersion.RBY)
                 return poss.Where(z => GetIsValidTradeVC1(pkm, z));
             return poss.Where(z => GetIsValidTradeVC2(pkm, z));
         }
+
         private static bool GetIsValidTradeVC1(PKM pkm, EncounterTrade z)
         {
             if (z.Level > pkm.CurrentLevel) // minimum required level
@@ -104,6 +113,7 @@ namespace PKHeX.Core
             }
             return true;
         }
+
         private static bool GetIsValidTradeVC2(PKM pkm, EncounterTrade z)
         {
             if (z.Level > pkm.CurrentLevel) // minimum required level
@@ -127,12 +137,17 @@ namespace PKHeX.Core
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;
+
         private static bool IsEncounterTradeValid(PKM pkm, EncounterTrade z, int lvl)
         {
             if (z.IVs != null)
+            {
                 for (int i = 0; i < 6; i++)
+                {
                     if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
                         return false;
+                }
+            }
 
             if (z is EncounterTradePID p)
             {
@@ -159,16 +174,21 @@ namespace PKHeX.Core
                 var loc = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[z.Generation - 1];
                 if (loc != pkm.Met_Location)
                     return false;
+
                 if (pkm.Format < 5)
                 {
                     if (z.Level > lvl)
                         return false;
                 }
                 else if (z.Level != lvl)
+                {
                     return false;
+                }
             }
             else if (z.Level > lvl)
+            {
                 return false;
+            }
 
             if (z.CurrentLevel != -1 && z.CurrentLevel > pkm.CurrentLevel)
                 return false;

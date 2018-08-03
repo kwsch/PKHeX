@@ -54,6 +54,7 @@ namespace PKHeX.Core
                 yield return z;
             }
         }
+
         private static IEnumerable<IEncounterable> GetEncounters3(PKM pkm, LegalInfo info)
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
@@ -74,6 +75,7 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<IEncounterable> GetEncounters4(PKM pkm, LegalInfo info)
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
@@ -178,9 +180,10 @@ namespace PKHeX.Core
             foreach (var d in deferred)
                 yield return d;
         }
+
         private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
         {
-            bool crystal = pkm.Format == 2 && pkm.Met_Location != 0 || pkm.Format >= 7 && pkm.OT_Gender == 1;
+            bool crystal = (pkm.Format == 2 && pkm.Met_Location != 0) || (pkm.Format >= 7 && pkm.OT_Gender == 1);
             bool kadabra = pkm.Species == 64 && pkm is PK1 pk1
                            && (pk1.Catch_Rate == PersonalTable.RB[64].CatchRate
                             || pk1.Catch_Rate == PersonalTable.Y[64].CatchRate); // catch rate outsider, return gen1 first always
@@ -210,18 +213,21 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<IEncounterable> GenerateRawEncounters1(PKM pkm, bool crystal)
         {
             return pkm.Gen2_NotTradeback || crystal
                 ? Enumerable.Empty<IEncounterable>()
                 : GenerateRawEncounters12(pkm, GameVersion.RBY);
         }
+
         private static IEnumerable<IEncounterable> GenerateRawEncounters2(PKM pkm, bool crystal)
         {
             return pkm.Gen1_NotTradeback
                 ? Enumerable.Empty<IEncounterable>()
                 : GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC);
         }
+
         private static PeekEnumerator<IEncounterable> GetPreferredGBIterator(PKM pkm, PeekEnumerator<IEncounterable> g1i, PeekEnumerator<IEncounterable> g2i)
         {
             if (!g1i.PeekIsNext())
@@ -232,6 +238,7 @@ namespace PKHeX.Core
             var p2 = GetGBEncounterPriority(pkm, g2i.Current);
             return p1 > p2 ? g1i : g2i;
         }
+
         private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable Encounter)
         {
             switch (Encounter)
@@ -300,6 +307,7 @@ namespace PKHeX.Core
             { yield return z; ++ctr; }
             // if (ctr != 0) yield break;
         }
+
         private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)
         {
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg; // egg events?
@@ -323,12 +331,14 @@ namespace PKHeX.Core
             bool safari = pkm.Ball == 0x05; // never static encounters
             bool safariSport = safari || sport;
             if (!safariSport)
-            foreach (var z in GetValidStaticEncounter(pkm))
             {
-                if (z.Gift && pkm.Ball != 4)
-                    deferIncompat.Enqueue(z);
-                else
-                    yield return z;
+                foreach (var z in GetValidStaticEncounter(pkm))
+                {
+                    if (z.Gift && pkm.Ball != 4)
+                        deferIncompat.Enqueue(z);
+                    else
+                        yield return z;
+                }
             }
 
             int species = pkm.Species;
@@ -366,10 +376,12 @@ namespace PKHeX.Core
                 yield return z;
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
-            if (safariSport)
+            if (!safariSport)
+                yield break;
             foreach (var z in GetValidStaticEncounter(pkm))
                 yield return z;
         }
+
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
         {
             foreach (var z in GetValidGifts(pkm))
@@ -380,12 +392,14 @@ namespace PKHeX.Core
             var deferIncompat = new Queue<IEncounterable>();
             bool safari = pkm.Ball == 0x05; // never static encounters
             if (!safari)
-            foreach (var z in GetValidStaticEncounter(pkm))
             {
-                if (z.Gift && pkm.Ball != 4)
-                    deferIncompat.Enqueue(z);
-                else
-                    yield return z;
+                foreach (var z in GetValidStaticEncounter(pkm))
+                {
+                    if (z.Gift && pkm.Ball != 4)
+                        deferIncompat.Enqueue(z);
+                    else
+                        yield return z;
+                }
             }
 
             int species = pkm.Species;
@@ -421,13 +435,16 @@ namespace PKHeX.Core
             info.FrameMatches = false;
 
             if (pkm.Version != 15) // no eggs in C/XD
-            foreach (var z in GenerateEggs(pkm))
-                yield return z;
+            {
+                foreach (var z in GenerateEggs(pkm))
+                    yield return z;
+            }
 
             foreach (var z in deferIncompat)
                 yield return z;
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
-            if (safari)
+            if (!safari)
+                yield break;
             foreach (var z in GetValidStaticEncounter(pkm))
                 yield return z;
         }
@@ -445,6 +462,7 @@ namespace PKHeX.Core
                     return type == 0;
             }
         }
+
         internal static bool IsEncounterTrade1Valid(PKM pkm, EncounterTrade t)
         {
             string ot = pkm.OT_Name;

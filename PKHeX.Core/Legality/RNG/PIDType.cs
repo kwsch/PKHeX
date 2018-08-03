@@ -8,21 +8,27 @@
         /// <summary> Method 1 Variants (H1/J/K) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_1,
+
         /// <summary> Method H2 </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_2,
+
         /// <summary> Method H4 </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_4,
+
         /// <summary> Method H1_Unown (FRLG) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_1_Unown,
+
         /// <summary> Method H2_Unown (FRLG) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_2_Unown,
+
         /// <summary> Method H4_Unown (FRLG) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_4_Unown,
+
         /// <summary>  Method 1 Roamer (Gen3) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_1_Roamer,
@@ -32,36 +38,43 @@
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_R,
+
         /// <summary>
         /// Event Reversed Order PID without Origin Seed restrictions
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_U,
+
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny.
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_R_A,
+
         /// <summary>
         /// Event Reversed Order PID without Origin Seed restrictions, antishiny.
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_U_A,
+
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed, shiny
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_R_S,
+
         /// <summary>
         /// Event Reversed Order PID without Origin Seed restrictions, shiny
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_U_S,
+
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny (nyx)
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_R_AX,
+
         /// <summary>
         /// Event Reversed Order PID without Origin Seed restrictions, antishiny (nyx)
         /// </summary>
@@ -73,6 +86,7 @@
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         CuteCharm,
+
         /// <summary>
         /// Generation 4 Chained Shiny
         /// </summary>
@@ -85,6 +99,7 @@
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         CXD,
+
         /// <summary>
         /// Standard <see cref="GameVersion.CXD"/> PIDIV which is immediately after the RNG calls that create the TID and SID.
         /// </summary>

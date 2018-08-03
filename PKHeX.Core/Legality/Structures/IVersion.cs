@@ -10,6 +10,7 @@ namespace PKHeX.Core
     public static partial class Extensions
     {
         public static bool CanBeReceivedBy(this IVersion ver, GameVersion game) => ver.Version.Contains(game);
+
         public static GameVersion GetCompatibleVersion(this IVersion ver, GameVersion prefer)
         {
             if (ver.CanBeReceivedBy(prefer) || ver.Version <= GameVersion.Unknown)
@@ -20,9 +21,12 @@ namespace PKHeX.Core
         internal static void SetVersion(this IEnumerable<IVersion> arr, GameVersion game)
         {
             foreach (var z in arr)
+            {
                 if (z.Version <= 0)
                     z.Version = game;
+            }
         }
+
         internal static void SetVersion(this IEnumerable<EncounterArea> arr, GameVersion game)
         {
             foreach (var area in arr)

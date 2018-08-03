@@ -71,6 +71,7 @@ namespace PKHeX.Core
             area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
             return area.Slots.ToLookup(s => s.Species);
         }
+
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -81,6 +82,7 @@ namespace PKHeX.Core
             }
             ReduceAreasSize(ref Areas);
         }
+
         private static void MarkG6AOSlots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -109,6 +111,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradexy", "es"), // 7
             Util.GetStringList("tradexy", "ko"), // 8
         };
+
         internal static readonly string[][] TradeAO =
         {
             new string[0],                       // 0 - None
@@ -247,6 +250,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zapdos
             new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Moltres
         };
+
         private static readonly EncounterStatic[] Encounter_AO_Regular =
         {
             new EncounterStatic { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
@@ -352,7 +356,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new EncounterStatic { Species = 628, Level = 45, Location = 348 }, // Braviary
         };
+
         private static readonly EncounterStatic[] Encounter_AO = ConcatAll(Encounter_AO_Regular, PermuteCosplayPikachu().ToArray());
+
         private static IEnumerable<EncounterStatic> PermuteCosplayPikachu()
         {
             var CosplayPikachu = new EncounterStatic
@@ -361,8 +367,13 @@ namespace PKHeX.Core
                 Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
             };
             foreach (int loc in new[] { 178, 180, 186, 194 })
-            for (int f = 1; f <= 6; f++)
-            { var pk = CosplayPikachu.Clone(loc); pk.Form = f; yield return pk; }
+            {
+                for (int f = 1; f <= 6; f++)
+                {
+                    var pk = CosplayPikachu.Clone(loc); pk.Form = f;
+                    yield return pk;
+                }
+            }
         }
         #endregion
         #region Trade Tables
@@ -381,6 +392,7 @@ namespace PKHeX.Core
 
             new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, IsNicknamed = false, }, // Ralts
         };
+
         internal static readonly EncounterTrade[] TradeGift_AO =
         {
             new EncounterTrade { Species = 296, Level = 9, Ability = 2, Gender = 0, TID = 30724, Nature = Nature.Brave, IVs = new[] {-1, 31, -1, -1, -1, -1}, }, // Makuhita

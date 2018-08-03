@@ -7,6 +7,7 @@ namespace PKHeX.Core
     public class MemoryStrings
     {
         private readonly GameStrings s;
+
         public MemoryStrings(GameStrings strings)
         {
             s = strings;
@@ -30,7 +31,6 @@ namespace PKHeX.Core
         public List<ComboItem> SpecificLocations => specific.Value;
         public List<ComboItem> Species => species.Value;
 
-
         private List<ComboItem> GetMemories()
         {
             // Memory Chooser
@@ -47,7 +47,6 @@ namespace PKHeX.Core
             return Util.GetOffsetCBList(memory_list1, mems, 0, allowed);
         }
 
-
         public List<string> GetMemoryQualities()
         {
             List<string> list = new List<string>();
@@ -55,6 +54,7 @@ namespace PKHeX.Core
                 list.Add(s.memories[2 + i]);
             return list;
         }
+
         public List<string> GetMemoryFeelings()
         {
             List<string> list = new List<string>();

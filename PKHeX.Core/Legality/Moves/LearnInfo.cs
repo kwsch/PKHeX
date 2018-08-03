@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -15,6 +14,7 @@ namespace PKHeX.Core
         public MoveParseSource Source { get; set; }
 
         public readonly bool IsGen2Pkm;
+
         public LearnInfo(PKM pkm)
         {
             IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
@@ -25,6 +25,7 @@ namespace PKHeX.Core
     {
         public readonly GameVersion Game;
         public readonly int Level;
+
         public LearnVersion(int lv, GameVersion game = GameVersion.Any)
         {
             Game = game;

@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public int Ability { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Random;
-        public int[] Relearn { get; set; } = new int[4];
+        public int[] Relearn { get; set; } = Array.Empty<int>();
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }
         public Nature Nature { get; set; } = Nature.Random;
@@ -56,6 +56,7 @@ namespace PKHeX.Core
             Relearn = (int[])Relearn.Clone();
             IVs = (int[])IVs?.Clone();
         }
+
         internal virtual EncounterStatic Clone()
         {
             var result = (EncounterStatic)MemberwiseClone();
@@ -119,14 +120,16 @@ namespace PKHeX.Core
                 pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
                 if (pk is PK5 pk5)
                 {
-                    pk5.IVs = new[] { 30, 30, 30, 30, 30, 30 };
+                    pk5.IVs = new[] {30, 30, 30, 30, 30, 30};
                     pk5.NPokémon = p.NSparkle;
                     pk5.OT_Name = Legal.GetG5OT_NSparkle(lang);
                     pk5.TID = 00002;
                     pk5.SID = 00000;
                 }
                 else
+                {
                     SetIVs(pk);
+                }
                 if (Generation >= 5)
                     pk.Nature = nature;
                 pk.RefreshAbility(Ability >> 1);
@@ -160,7 +163,7 @@ namespace PKHeX.Core
             pk.HeldItem = HeldItem;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
-            if (pk.Format >= 6 && Relearn != null)
+            if (pk.Format >= 6 && Relearn.Length > 0)
                 pk.RelearnMoves = Relearn;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             if (Fateful)
@@ -179,7 +182,8 @@ namespace PKHeX.Core
 
         private void SanityCheckVersion(ref GameVersion version)
         {
-            if (Generation == 4 && (int)version != 12)
+            if (Generation != 4 || version == GameVersion.Pt)
+                return;
             switch (Species)
             {
                 case 491 when Location == 079: // DP Darkrai

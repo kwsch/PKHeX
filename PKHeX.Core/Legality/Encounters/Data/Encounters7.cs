@@ -60,10 +60,12 @@ namespace PKHeX.Core
             TradeGift_SM.SetVersion(GameVersion.SM);
             TradeGift_USUM.SetVersion(GameVersion.USUM);
         }
+
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {
             ReduceAreasSize(ref Areas);
         }
+
         private static void MarkG7SMSlots(ref EncounterArea[] Areas)
         {
             foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
@@ -173,6 +175,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 787, Level = 60, Shiny = Shiny.Never, Ability = 1, Location = 140, IV3 = true, }, // Tapu Bulu
             new EncounterStatic { Species = 788, Level = 60, Shiny = Shiny.Never, Ability = 1, Location = 180, IV3 = true, }, // Tapu Fini
         };
+
         internal static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
             // Trades - 4.bin
@@ -184,6 +187,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful, }, // Steenee
             new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
         };
+
         private static readonly EncounterStatic[] Encounter_USUM =
         {
             new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, },  // Rowlet
@@ -379,6 +383,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 739, Level = 31, Location = 118, }, // Route 16
             new EncounterStatic { Species = 739, Level = 32, Location = 120, }, // Route 17
         };
+
         internal static readonly EncounterTrade[] TradeGift_USUM =
         {
             // Trades - 4.bin
@@ -390,6 +395,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 422, Form = 0, Level = 44, Ability = 2, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet, }, // Shellos
             new EncounterTrade { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
         };
+
         internal static readonly string[][] TradeSM =
         {
             new string[0],                       // 0 - None
@@ -404,6 +410,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradesm", "zh"), // 9
             Util.GetStringList("tradesm", "zh"), // 10
         };
+
         internal static readonly string[][] TradeUSUM =
         {
             new string[0],                         // 0 - None
@@ -420,6 +427,7 @@ namespace PKHeX.Core
         };
 
         private static EncounterArea[] Encounter_Pelago_SN, Encounter_Pelago_MN, Encounter_Pelago_US, Encounter_Pelago_UM;
+
         private static void InitializePelagoAreas()
         {
             int[] minLevels = { 1, 11, 21, 37, 49 };
@@ -447,6 +455,7 @@ namespace PKHeX.Core
             speciesUU[3][3] = 309; // Houndour -> Electrike
             Encounter_Pelago_UM = GetPelagoArea(speciesUU, minLevels);
         }
+
         private static EncounterArea[] GetPelagoArea(int[][] species, int[] min)
         {
             // Species that appear at a lower level than the current table show up too.

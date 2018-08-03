@@ -10,6 +10,7 @@ namespace PKHeX.WinForms
     public partial class TrashEditor : Form
     {
         private readonly SaveFile SAV;
+
         public TrashEditor(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
         {
             InitializeComponent();
@@ -52,6 +53,7 @@ namespace PKHeX.WinForms
         private bool editing;
         private readonly bool bigendian;
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             FinalString = TB_Text.Text;
@@ -77,6 +79,7 @@ namespace PKHeX.WinForms
                 FLP_Characters.Controls.Add(l);
             }
         }
+
         private void AddTrashEditing(int count)
         {
             FLP_Hex.Visible = true;
@@ -87,7 +90,7 @@ namespace PKHeX.WinForms
             {
                 var l = GetLabel($"${i:X2}");
                 l.Font = courier;
-                var n = GetNUD(hex: true, min: 0, max: 255);
+                var n = GetNUD(min: 0, max: 255, hex: true);
                 n.Click += (s, e) =>
                 {
                     switch (ModifierKeys)
@@ -126,6 +129,7 @@ namespace PKHeX.WinForms
             TB_Text.Text = str;
             editing = false;
         }
+
         private void UpdateString(object sender, EventArgs e)
         {
             if (editing)
@@ -138,6 +142,7 @@ namespace PKHeX.WinForms
                 Bytes[i].Value = Raw[i];
             editing = false;
         }
+
         private void B_ApplyTrash_Click(object sender, EventArgs e)
         {
             string species = PKX.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
@@ -162,18 +167,21 @@ namespace PKHeX.WinForms
             for (int i = current.Length; i < data.Length; i++)
                 Bytes[i].Value = data[i];
         }
+
         private void B_ClearTrash_Click(object sender, EventArgs e)
         {
             byte[] current = SetString(TB_Text.Text);
             for (int i = current.Length; i < Bytes.Count; i++)
                 Bytes[i].Value = 0;
         }
+
         private byte[] SetString(string text)
         {
             return SAV is SAV2 s && s.Korean
                 ? StringConverter.SetString2KOR(text, Raw.Length)
                 : StringConverter.SetString(text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
         }
+
         private string GetString()
         {
             return SAV is SAV2 s && s.Korean
@@ -183,6 +191,7 @@ namespace PKHeX.WinForms
 
         // Helpers
         private static Label GetLabel(string str) => new Label {Text = str, AutoSize = true};
+
         private static NumericUpDown GetNUD(int min, int max, bool hex) => new NumericUpDown
         {
             Maximum = max,
@@ -203,6 +212,7 @@ namespace PKHeX.WinForms
                 default: return Array.Empty<ushort>();
             }
         }
+
         private static readonly ushort[] chars67 =
         {
             0xE081, 0xE082, 0xE083, 0xE084, 0xE085, 0xE086, 0xE087, 0xE08D,

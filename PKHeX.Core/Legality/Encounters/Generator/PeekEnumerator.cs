@@ -27,6 +27,7 @@ namespace PKHeX.Core
             didPeek = false;
             return true;
         }
+
         /// <summary>
         /// Sets the enumerator to its initial position, which is before the first element in the collection.
         /// </summary>
@@ -69,6 +70,7 @@ namespace PKHeX.Core
 
             return peek;
         }
+
         public T PeekOrDefault() => !TryFetchPeek() ? default(T) : peek;
 
         /// <summary>

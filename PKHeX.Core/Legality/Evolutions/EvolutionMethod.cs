@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +18,7 @@ namespace PKHeX.Core
         public bool RequiresLevelUp;
 
         internal static readonly HashSet<int> TradeMethods = new HashSet<int> {5, 6, 7};
-        private static readonly IReadOnlyCollection<GameVersion> NoBanlist = new GameVersion[0];
+        private static readonly IReadOnlyCollection<GameVersion> NoBanlist = Array.Empty<GameVersion>();
         internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
         internal IReadOnlyCollection<GameVersion> Banlist = NoBanlist;
 
@@ -25,8 +26,10 @@ namespace PKHeX.Core
         {
             RequiresLevelUp = false;
             if (Form > -1)
+            {
                 if (!skipChecks && pkm.AltForm != Form)
                     return false;
+            }
 
             if (!skipChecks && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded) // sm lacks usum kantonian evos
                 return false;
@@ -68,7 +71,7 @@ namespace PKHeX.Core
                 case 37: // Daytime on Version
                 case 38: // Nighttime on Version
                     // Version checks come in pairs, check for any pair match
-                    if ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded || skipChecks)
+                    if (((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks)
                         return skipChecks;
                     goto default;
 

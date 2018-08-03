@@ -22,7 +22,7 @@ namespace PKHeX.Core
                     return VerifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
                 case MysteryGift g:
                     return VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
-                case EncounterStatic s:
+                case EncounterStatic s when s.Relearn.Length > 0:
                     return VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
                 case EncounterEgg e:
                     return VerifyRelearnEggBase(pkm, info, e);
@@ -36,16 +36,18 @@ namespace PKHeX.Core
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
-            // Get gifts that match
 
             for (int i = 0; i < 4; i++)
+            {
                 res[i] = moves[i] != RelearnMoves[i]
                     ? new CheckResult(Severity.Invalid, string.Format(V178, MoveStrings[moves[i]]), CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
+            }
 
             info.RelearnBase = moves;
             return res;
         }
+
         private static CheckResult[] VerifyRelearnDexNav(PKM pkm, LegalInfo info)
         {
             CheckResult[] res = new CheckResult[4];
@@ -58,9 +60,11 @@ namespace PKHeX.Core
 
             // All other relearn moves must be empty.
             for (int i = 1; i < 4; i++)
+            {
                 res[i] = RelearnMoves[i] != 0
                     ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
+            }
 
             // Update the relearn base moves if the first relearn move is okay.
             info.RelearnBase = res[0].Valid
@@ -69,6 +73,7 @@ namespace PKHeX.Core
 
             return res;
         }
+
         private static CheckResult[] VerifyRelearnNone(PKM pkm, LegalInfo info)
         {
             CheckResult[] res = new CheckResult[4];
@@ -76,13 +81,16 @@ namespace PKHeX.Core
 
             // No relearn moves should be present.
             for (int i = 0; i < 4; i++)
+            {
                 res[i] = RelearnMoves[i] != 0
                     ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
+            }
 
             info.RelearnBase = new int[4];
             return res;
         }
+
         private static CheckResult[] VerifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
         {
             int[] RelearnMoves = pkm.RelearnMoves;
@@ -118,6 +126,7 @@ namespace PKHeX.Core
             info.RelearnBase = baseMoves;
             return res;
         }
+
         private static void FlagBaseEggMoves(CheckResult[] res, int required, IReadOnlyList<int> baseMoves, IReadOnlyList<int> RelearnMoves)
         {
             for (int i = 0; i < required; i++)
@@ -130,6 +139,7 @@ namespace PKHeX.Core
                 res[i] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
             }
         }
+
         private static void FlagRelearnMovesMissing(CheckResult[] res, int required, IReadOnlyList<int> baseMoves, int start)
         {
             for (int z = start; z < required; z++)
@@ -139,6 +149,7 @@ namespace PKHeX.Core
             string em = string.Join(", ", GetMoveNames(baseMoves));
             res[required - 1].Comment += string.Format(Environment.NewLine + V181, em);
         }
+
         private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)
         {
             bool splitInvalid = false;
@@ -157,6 +168,7 @@ namespace PKHeX.Core
 
             return splitInvalid;
         }
+
         private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEgg e, PKM pkm)
         {
             var other = e is EncounterEggSplit x ? x.OtherSpecies : Legal.GetBaseEggSpecies(pkm, 1);

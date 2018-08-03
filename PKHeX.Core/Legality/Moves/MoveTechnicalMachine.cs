@@ -27,35 +27,43 @@ namespace PKHeX.Core
         private static GameVersion GetIsMachine1(int species, int move)
         {
             for (int i = 0; i < Legal.TMHM_RBY.Length; i++)
-                if (Legal.TMHM_RBY[i] == move)
-                {
-                    if (PersonalTable.RB[species].TMHM[i])
-                        return GameVersion.RB;
-                    if (PersonalTable.Y[species].TMHM[i])
-                        return GameVersion.Y;
-                }
+            {
+                if (Legal.TMHM_RBY[i] != move)
+                    continue;
+                if (PersonalTable.RB[species].TMHM[i])
+                    return GameVersion.RB;
+                if (PersonalTable.Y[species].TMHM[i])
+                    return GameVersion.Y;
+            }
 
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine2(int species, int move)
         {
             for (int i = 0; i < Legal.TMHM_GSC.Length; i++)
+            {
                 if (Legal.TMHM_GSC[i] == move && PersonalTable.C[species].TMHM[i])
                     return GameVersion.GS;
+            }
 
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine3(int species, int move, int format, bool RemoveTransfer)
         {
             for (int i = 0; i < Legal.TM_3.Length; i++)
+            {
                 if (Legal.TM_3[i] == move && PersonalTable.E[species].TMHM[i])
                     return GameVersion.Gen3;
+            }
 
             if (!RemoveTransfer && format <= 3)
                 return GetIsMachine3HM(species, move);
 
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine3HM(int species, int move)
         {
             int x = 0;
@@ -67,17 +75,21 @@ namespace PKHeX.Core
             }
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine4(int species, int move, int format, bool RemoveTransfer, int form)
         {
             for (int i = 0; i < Legal.TM_3.Length; i++)
+            {
                 if (Legal.TM_4[i] == move && PersonalTable.HGSS.GetFormeEntry(species, form).TMHM[i])
                     return GameVersion.Gen4;
+            }
 
             if (RemoveTransfer && format > 4)
                 return GetIsMachine4HMTransfer(species, move, form);
 
             return GetIsMachine4HM(species, move, form);
         }
+
         private static GameVersion GetIsMachine4HMTransfer(int species, int move, int form)
         {
             // The combination of both these moves is illegal, it should be checked that the pokemon only learn one
@@ -95,6 +107,7 @@ namespace PKHeX.Core
             }
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine4HM(int species, int move, int form)
         {
             {
@@ -122,6 +135,7 @@ namespace PKHeX.Core
             }
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine5(int species, int move, int form)
         {
             for (int i = 0; i < Legal.TMHM_BW.Length; i++)
@@ -129,6 +143,7 @@ namespace PKHeX.Core
                     return PersonalTable.B2W2.GetFormeEntry(species, form).TMHM[i] ? GameVersion.Gen5 : Legal.NONE;
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine6(int species, int move, int form, GameVersion ver)
         {
             if (GameVersion.XY.Contains(ver))
@@ -149,6 +164,7 @@ namespace PKHeX.Core
                     }
             return Legal.NONE;
         }
+
         private static GameVersion GetIsMachine7(int species, int move, int form, GameVersion ver)
         {
             if (GameVersion.SM.Contains(ver) && species <= Legal.MaxSpeciesID_7)
@@ -201,6 +217,7 @@ namespace PKHeX.Core
             r.AddRange(Legal.TMHM_RBY.Where((_, m) => pi_rb.TMHM[m]));
             r.AddRange(Legal.TMHM_RBY.Where((_, m) => pi_y.TMHM[m]));
         }
+
         private static void AddMachine2(List<int> r, int species)
         {
             int index = PersonalTable.C.GetFormeIndex(species, 0);
@@ -209,6 +226,7 @@ namespace PKHeX.Core
             var pi_c = PersonalTable.C[index];
             r.AddRange(Legal.TMHM_GSC.Where((_, m) => pi_c.TMHM[m]));
         }
+
         private static void AddMachine3(List<int> r, int species, int format, bool RemoveTransfer)
         {
             int index = PersonalTable.E.GetFormeIndex(species, 0);
@@ -222,6 +240,7 @@ namespace PKHeX.Core
             else if (format > 3) //Remove HM
                 r.AddRange(Legal.HM_3.Where((_, m) => pi_c.TMHM[m + 50]).Except(Legal.HM_3));
         }
+
         private static void AddMachine4(List<int> r, int species, int format, bool RemoveTransfer, int form)
         {
             var pi_hgss = PersonalTable.HGSS.GetFormeEntry(species, form);
@@ -243,11 +262,13 @@ namespace PKHeX.Core
                 r.AddRange(Legal.HM_HGSS.Where((_, m) => pi_hgss.TMHM[m + 92]));
             }
         }
+
         private static void AddMachine5(List<int> r, int species, int form)
         {
             var pi = PersonalTable.B2W2.GetFormeEntry(species, form);
             r.AddRange(Legal.TMHM_BW.Where((_, m) => pi.TMHM[m]));
         }
+
         private static void AddMachine6(List<int> r, int species, int form, GameVersion ver = GameVersion.Any)
         {
             switch (ver)
@@ -267,6 +288,7 @@ namespace PKHeX.Core
                     break;
             }
         }
+
         private static void AddMachine7(List<int> r, int species, int form, GameVersion ver = GameVersion.Any)
         {
             switch (ver)
@@ -287,16 +309,19 @@ namespace PKHeX.Core
                     return;
             }
         }
+
         private static void AddMachine6XY(List<int> r, int species, int form)
         {
             var pi = PersonalTable.XY.GetFormeEntry(species, form);
             r.AddRange(Legal.TMHM_XY.Where((_, m) => pi.TMHM[m]));
         }
+
         private static void AddMachine6AO(List<int> r, int species, int form)
         {
             var pi = PersonalTable.AO.GetFormeEntry(species, form);
             r.AddRange(Legal.TMHM_AO.Where((_, m) => pi.TMHM[m]));
         }
+
         private static void AddMachineSM(List<int> r, int species, int form)
         {
             if (species > Legal.MaxSpeciesID_7)
@@ -304,6 +329,7 @@ namespace PKHeX.Core
             var pi = PersonalTable.SM.GetFormeEntry(species, form);
             r.AddRange(Legal.TMHM_SM.Where((_, m) => pi.TMHM[m]));
         }
+
         private static void AddMachineUSUM(List<int> r, int species, int form)
         {
             var pi = PersonalTable.USUM.GetFormeEntry(species, form);

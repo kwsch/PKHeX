@@ -130,8 +130,10 @@ namespace PKHeX.Core
             // generate possible eggs
             var eggs = GetEggs(pk, needs, version);
             if (!GameVersion.CXD.Contains(version))
-            foreach (var egg in eggs)
-                yield return egg;
+            {
+                foreach (var egg in eggs)
+                    yield return egg;
+            }
 
             // mystery gifts next
             var gifts = GetGifts(pk, needs);
@@ -304,7 +306,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterSlot slot, PKM pk)
+        private static bool IsUnobtainable(this EncounterSlot slot, ITrainerID pk)
         {
             switch (slot.Generation)
             {
@@ -312,9 +314,8 @@ namespace PKHeX.Core
                     if ((slot.Type & SlotType.Safari) != 0) // Safari Zone is unavailable in Gen 2.
                         return true;
 
-                    if ((slot.Type & SlotType.Headbutt) != 0)
-                    if (Encounters2.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree) // Unreachable Headbutt Trees.
-                        return true;
+                    if ((slot.Type & SlotType.Headbutt) != 0) // Unreachable Headbutt Trees.
+                        return Encounters2.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree;
                     break;
                 case 4:
                     if (slot.Location == 193 && slot.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.

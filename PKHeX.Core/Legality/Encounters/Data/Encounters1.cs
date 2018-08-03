@@ -52,8 +52,11 @@ namespace PKHeX.Core
             table[table.Length - 1] = FishOldGood_RBY;
 
             foreach (var arr in table)
-            foreach (var slot in arr.Slots)
-                slot.Area = arr;
+            {
+                foreach (var slot in arr.Slots)
+                    slot.Area = arr;
+            }
+
             return table;
         }
 
@@ -197,6 +200,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 051, Level = 05, Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
             new EncounterTrade { Species = 047, Level = 05, Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
         }).ToArray();
+
         private static readonly EncounterArea FishOldGood_RBY = new EncounterArea
         {
             Location = -1,

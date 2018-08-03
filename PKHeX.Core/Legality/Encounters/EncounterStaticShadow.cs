@@ -1,10 +1,13 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     internal class EncounterStaticShadow : EncounterStatic
     {
-        public EncounterLock[][] Locks { get; internal set; } = new EncounterLock[0][];
+        public EncounterLock[][] Locks { get; internal set; } = Array.Empty<EncounterLock[]>();
         public int Gauge { get; internal set; }
         public bool EReader { get; set; }
+
         internal override EncounterStatic Clone()
         {
             var result = (EncounterStaticShadow)base.Clone();

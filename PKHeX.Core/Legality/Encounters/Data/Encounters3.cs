@@ -92,8 +92,10 @@ namespace PKHeX.Core
         private static void MarkG3SlotsSafariZones(ref EncounterArea[] Areas, int location)
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
-            foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Type |= SlotType.Safari;
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                    Slot.Type |= SlotType.Safari;
+            }
         }
 
         private static readonly int[] Roaming_MetLocation_FRLG =
@@ -113,6 +115,7 @@ namespace PKHeX.Core
             36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
             46, 47, 48, 49,
         };
+
         private static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
             new EncounterStatic { Species = 380, Level = 40, Version = GameVersion.S, Roaming = true }, // Latias
@@ -120,6 +123,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.R, Roaming = true }, // Latios
             new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.E, Roaming = true }, // Latios
         };
+
         private static readonly EncounterStatic[] Encounter_RSE_Regular =
         {
             // Starters
@@ -173,6 +177,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 244, Level = 50, Roaming = true, }, // Entei
             new EncounterStatic { Species = 245, Level = 50, Roaming = true, }, // Suicune
         };
+
         private static readonly EncounterStatic[] Encounter_FRLG_Stationary =
         {
             // Starters @ Pallet Town
@@ -233,6 +238,7 @@ namespace PKHeX.Core
         private static readonly int[] TradeContest_Cute = { 05, 05, 30, 05, 05, 10 };
         private static readonly int[] TradeContest_Clever = { 05, 05, 05, 30, 05, 10 };
         private static readonly int[] TradeContest_Tough = { 05, 05, 05, 05, 30, 10 };
+
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
             new EncounterTradePID { Species = 296, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Level = 05, PID = 0x00009C40, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Slakoth (Level 5 Breeding) -> Makuhita
@@ -244,6 +250,7 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 052, Ability = 1, TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Level = 03, PID = 0x0000008B, Contest = TradeContest_Clever, Version = GameVersion.E, }, // Skitty (Level 3 Trade)-> Meowth*
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
+
         internal static readonly EncounterTrade[] TradeGift_FRLG =
         {
             new EncounterTradePID { Species = 122, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, PID = 0x00009CAE, Contest = TradeContest_Clever, }, // Mr. Mime
@@ -259,6 +266,7 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, PID = 0x482CAC89, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
+
         internal static readonly string[][] TradeRSE =
         {
             new string[0],                        // 0 - None
@@ -270,6 +278,7 @@ namespace PKHeX.Core
             new string[0],                        // 6 - None
             Util.GetStringList("traderse", "es"), // 7
         };
+
         internal static readonly string[][] TradeFRLG =
         {
             new string[0],                         // 0 - None
@@ -331,6 +340,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
                 },},
         };
+
         private static readonly EncounterArea[] SlotsFRLGUnown =
         {
             GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,26 }), // 188 = Monean Chamber
@@ -341,6 +351,7 @@ namespace PKHeX.Core
             GetUnownArea(193, new[] { 21,21,21,22,22,22,23,23,12,12,01,01 }), // 193 = Rixy Chamber
             GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,27 }), // 194 = Viapois Chamber
         };
+
         private static EncounterArea GetUnownArea(int location, IReadOnlyList<int> SlotForms)
         {
             return new EncounterArea
@@ -612,7 +623,9 @@ namespace PKHeX.Core
                 }
             },
         };
+
         internal static readonly EncounterStatic[] Encounter_CXD = ConcatAll(Encounter_Colo, Encounter_XD);
+
         private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
         {
             yield return arg;

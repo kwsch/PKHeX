@@ -142,7 +142,7 @@ namespace PKHeX.WinForms.Controls
 
         public void SetPKMFormatMode(int Format)
         {
-            byte[] extraBytes = new byte[0];
+            byte[] extraBytes = Array.Empty<byte>();
             switch (Format)
             {
                 case 1:
@@ -288,8 +288,6 @@ namespace PKHeX.WinForms.Controls
             var index = WinFormsUtil.GetIndex(c);
             c.DataSource = new BindingSource(MoveDataAllowed, null);
             c.SelectedValue = index;
-            if (c.Visible)
-                c.SelectionLength = 0; // flicker hack
         }
 
         public void UpdateUnicode(string[] symbols)

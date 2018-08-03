@@ -305,7 +305,7 @@ namespace PKHeX.Core
             }
         }
         protected override bool[] MysteryGiftReceivedFlags { get => null; set { } }
-        protected override MysteryGift[] MysteryGiftCards { get => new MysteryGift[0]; set { } }
+        protected override MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
 
         // Trainer Info
         public override string OT

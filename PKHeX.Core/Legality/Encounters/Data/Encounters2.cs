@@ -44,7 +44,7 @@ namespace PKHeX.Core
             // Fishing
             var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
 
-            EncounterArea[] Slots = new EncounterArea[0];
+            var Slots = Array.Empty<EncounterArea>();
             if (Version.Contains(GameVersion.GS))
                 Slots = GetSlots_GS(f);
             if (Version.Contains(GameVersion.C))
@@ -265,6 +265,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 021, Level = 10, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
             new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
         };
+
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
             new string[0],                        // 0 - None

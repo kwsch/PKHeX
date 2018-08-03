@@ -7,6 +7,7 @@ namespace PKHeX.Core
     public static class MysteryGiftVerifier
     {
         private static readonly Dictionary<int, MysteryGiftRestriction>[] RestrictionSet = Get();
+
         private static Dictionary<int, MysteryGiftRestriction>[] Get()
         {
             var s = new Dictionary<int, MysteryGiftRestriction>[PKX.Generation + 1];
@@ -16,6 +17,7 @@ namespace PKHeX.Core
         }
 
         private static string RestrictionSetName(int i) => $"mgrestrict{i}.pkl";
+
         private static Dictionary<int, MysteryGiftRestriction> GetRestriction(int generation)
         {
             var resource = RestrictionSetName(generation);

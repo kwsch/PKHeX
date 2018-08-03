@@ -10,6 +10,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV3 SAV;
+
         public SAV_Misc3(SaveFile sav)
         {
             InitializeComponent();
@@ -34,7 +35,7 @@ namespace PKHeX.WinForms
 
             if (SAV.FRLG)
             {
-                TB_OTName.Text = StringConverter.GetString3(SAV.Data, SAV.GetBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
+                TB_OTName.Text = SAV.GetString(SAV.GetBlockOffset(4) + 0xBCC, 8);
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
                 int[] HoennListMixed = {
                      277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
@@ -64,6 +65,7 @@ namespace PKHeX.WinForms
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (tabControl1.Controls.Contains(TAB_Joyful))
@@ -75,7 +77,7 @@ namespace PKHeX.WinForms
             if (SAV.FRLG)
             {
                 SAV.SetData(SAV.SetString(TB_OTName.Text, TB_OTName.MaxLength), SAV.GetBlockOffset(4) + 0xBCC);
-                ComboBox[] cba = new[] { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
+                ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
                 int ofsTCM = SAV.GetBlockOffset(2) + 0x106;
                 for (int i = 0; i < cba.Length; i++)
                     BitConverter.GetBytes((ushort)(int)cba[i].SelectedValue).CopyTo(SAV.Data, ofsTCM + (i << 1));
@@ -87,10 +89,8 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+
+        private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         #region Joyful
         private int JUMPS_IN_ROW, JUMPS_SCORE, JUMPS_5_IN_ROW;
@@ -249,6 +249,7 @@ namespace PKHeX.WinForms
         private string[][] BFT;
         private int[][] BFV;
         private string[] BFN;
+
         private void ChangeStat1(object sender, EventArgs e)
         {
             if (loading) return;

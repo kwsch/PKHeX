@@ -77,6 +77,7 @@ namespace PKHeX.Core
 
             return LearnNONE;
         }
+
         private static LearnVersion GetIsLevelUp2(int species, int move, int max, int form, int min, bool korean, GameVersion ver = Any)
         {
             // No Korean Crystal
@@ -95,6 +96,7 @@ namespace PKHeX.Core
             }
             return LearnNONE;
         }
+
         private static LearnVersion GetIsLevelUp3(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
             if (species == 386)
@@ -116,6 +118,7 @@ namespace PKHeX.Core
             }
             return LearnNONE;
         }
+
         private static LearnVersion GetIsLevelUp4(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
             switch (ver)
@@ -140,6 +143,7 @@ namespace PKHeX.Core
             }
             return LearnNONE;
         }
+
         private static LearnVersion GetIsLevelUp5(int species, int form, int move, int lvl, GameVersion ver = Any)
         {
             switch (ver)
@@ -156,6 +160,7 @@ namespace PKHeX.Core
             }
             return LearnNONE;
         }
+
         private static LearnVersion GetIsLevelUp6(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
             switch (ver)
@@ -173,6 +178,7 @@ namespace PKHeX.Core
             }
             return LearnNONE;
         }
+
         private static LearnVersion GetIsLevelUp7(int species, int move, int form, GameVersion ver = Any)
         {
             switch (ver)
@@ -223,17 +229,21 @@ namespace PKHeX.Core
                     return Invalid;
             }
         }
+
         private static Learnset GetDeoxysLearn3(int form, GameVersion ver = Any)
         {
             if (ver == Any)
-            switch (form)
             {
-                case 0: return LevelUpRS[386]; // Normal
-                case 1: return LevelUpFR[386]; // Attack
-                case 2: return LevelUpLG[386]; // Defense
-                case 3: return LevelUpE[386]; // Speed
-                default: return null;
+                switch (form)
+                {
+                    case 0: return LevelUpRS[386]; // Normal
+                    case 1: return LevelUpFR[386]; // Attack
+                    case 2: return LevelUpLG[386]; // Defense
+                    case 3: return LevelUpE[386]; // Speed
+                    default: return null;
+                }
             }
+
             var gen = ver.GetGeneration();
             if (gen != 3)
                 return GetDeoxysLearn3(form);
@@ -263,6 +273,7 @@ namespace PKHeX.Core
         {
             return AddMovesLevelUp1(new List<int>(), ver, species, form, max, min);
         }
+
         private static List<int> GetMovesLevelUp2(int species, int form, int max, int min, bool korean, bool removeNewGSCMoves, GameVersion ver = Any)
         {
             var moves = AddMovesLevelUp2(new List<int>(), ver, species, form, max, min, korean);
@@ -270,22 +281,27 @@ namespace PKHeX.Core
                 moves.RemoveAll(m => m > MaxMoveID_1);
             return moves;
         }
+
         private static List<int> GetMovesLevelUp3(int species, int form, int max, GameVersion ver = Any)
         {
             return AddMovesLevelUp3(new List<int>(), ver, species, max, form);
         }
+
         private static List<int> GetMovesLevelUp4(int species, int form, int max, GameVersion ver = Any)
         {
             return AddMovesLevelUp4(new List<int>(), ver, species, max, form);
         }
+
         private static List<int> GetMovesLevelUp5(int species, int form, int max, GameVersion ver = Any)
         {
             return AddMovesLevelUp5(new List<int>(), ver, species, max, form);
         }
+
         private static List<int> GetMovesLevelUp6(int species, int form, int max, GameVersion ver = Any)
         {
             return AddMovesLevelUp6(new List<int>(), ver, species, max, form);
         }
+
         private static List<int> GetMovesLevelUp7(int species, int form, int max, bool MoveReminder, GameVersion ver = Any)
         {
             return AddMovesLevelUp7(new List<int>(), ver, species, max, form, MoveReminder);
@@ -306,6 +322,7 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
         private static List<int> AddMovesLevelUp2(List<int> moves, GameVersion ver, int species, int form, int max, int min, bool korean)
         {
             switch (ver)
@@ -323,6 +340,7 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
         private static List<int> AddMovesLevelUp3(List<int> moves, GameVersion ver, int species, int max, int form)
         {
             if (species == 386)
@@ -347,6 +365,7 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
         private static List<int> AddMovesLevelUp4(List<int> moves, GameVersion ver, int species, int max, int form)
         {
             switch (ver)
@@ -367,6 +386,7 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
         private static List<int> AddMovesLevelUp5(List<int> moves, GameVersion ver, int species, int max, int form)
         {
             switch (ver)
@@ -382,6 +402,7 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
         private static List<int> AddMovesLevelUp6(List<int> moves, GameVersion ver, int species, int max, int form)
         {
             switch (ver)
@@ -397,6 +418,7 @@ namespace PKHeX.Core
             }
             return moves;
         }
+
         private static List<int> AddMovesLevelUp7(List<int> moves, GameVersion ver, int species, int max, int form, bool MoveReminder)
         {
             if (MoveReminder)
@@ -442,6 +464,7 @@ namespace PKHeX.Core
 
             return learn[index].GetEncounterMoves(level, lvl0, start);
         }
+
         private static int[] GetEncounterMoves2(int species, int level, GameVersion version)
         {
             var learn = GameData.GetLearnsets(version);

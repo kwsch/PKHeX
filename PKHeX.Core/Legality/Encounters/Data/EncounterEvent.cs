@@ -10,19 +10,19 @@ namespace PKHeX.Core
     public static class EncounterEvent
     {
         /// <summary>Event Database for Generation 3</summary>
-        public static MysteryGift[] MGDB_G3 { get; private set; } = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G3 { get; private set; } = Array.Empty<MysteryGift>();
 
         /// <summary>Event Database for Generation 4</summary>
-        public static MysteryGift[] MGDB_G4 { get; private set; } = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G4 { get; private set; } = Array.Empty<MysteryGift>();
 
         /// <summary>Event Database for Generation 5</summary>
-        public static MysteryGift[] MGDB_G5 { get; private set; } = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G5 { get; private set; } = Array.Empty<MysteryGift>();
 
         /// <summary>Event Database for Generation 6</summary>
-        public static MysteryGift[] MGDB_G6 { get; private set; } = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G6 { get; private set; } = Array.Empty<MysteryGift>();
 
         /// <summary>Event Database for Generation 7</summary>
-        public static MysteryGift[] MGDB_G7 { get; private set; } = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G7 { get; private set; } = Array.Empty<MysteryGift>();
 
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Length != 0;
@@ -36,6 +36,7 @@ namespace PKHeX.Core
                 yield return data;
             }
         }
+
         private static HashSet<MysteryGift> GetPCDDB(byte[] bin) => new HashSet<MysteryGift>(GetData(bin, PCD.Size).Select(d => new PCD(d)));
 
         private static HashSet<MysteryGift> GetPGFDB(byte[] bin) => new HashSet<MysteryGift>(GetData(bin, PGF.Size).Select(d => new PGF(d)));
@@ -56,19 +57,21 @@ namespace PKHeX.Core
             var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
 
             foreach (var path in paths.Where(Directory.Exists))
-            foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
             {
-                var fi = new FileInfo(file);
-                if (!MysteryGift.IsMysteryGift(fi.Length))
-                    continue;
-
-                var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
-                switch (gift?.Format)
+                foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
                 {
-                    case 4: g4.Add(gift); continue;
-                    case 5: g5.Add(gift); continue;
-                    case 6: g6.Add(gift); continue;
-                    case 7: g7.Add(gift); continue;
+                    var fi = new FileInfo(file);
+                    if (!MysteryGift.IsMysteryGift(fi.Length))
+                        continue;
+
+                    var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                    switch (gift?.Format)
+                    {
+                        case 4: g4.Add(gift); continue;
+                        case 5: g5.Add(gift); continue;
+                        case 6: g6.Add(gift); continue;
+                        case 7: g7.Add(gift); continue;
+                    }
                 }
             }
 

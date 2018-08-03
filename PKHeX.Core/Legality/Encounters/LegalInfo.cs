@@ -28,6 +28,7 @@ namespace PKHeX.Core
                 Parse.Clear();
             }
         }
+
         private IEncounterable _match;
 
         /// <summary>Indicates whether or not the <see cref="PKM"/> originated from <see cref="GameVersion.XD"/>.</summary>
@@ -71,6 +72,7 @@ namespace PKHeX.Core
 
         /// <summary>List of all near-matches that were rejected for a given reason.</summary>
         public List<EncounterRejected> InvalidMatches;
+
         internal void Reject(CheckResult c)
         {
             (InvalidMatches ?? (InvalidMatches = new List<EncounterRejected>())).Add(new EncounterRejected(EncounterMatch, c));

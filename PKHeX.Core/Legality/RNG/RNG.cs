@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
-    public class RNG
+    public sealed class RNG
     {
         public static readonly RNG LCRNG = new RNG(0x41C64E6D, 0x00006073, 0xEEB9EB65, 0x0A3561A1);
         public static readonly RNG XDRNG = new RNG(0x000343FD, 0x00269EC3, 0xB9B33155, 0xA170F641);
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             // with the current calc setup, the search loop's calculated value may be -1 (loop does subtraction)
             // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
             // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
-            uint right = mult * i + add;
+            uint right = (mult * i) + add;
             ushort val = (ushort) (right >> 16);
 
             f[val] = true; v[val] = (byte)i;
@@ -69,9 +69,10 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Next(uint seed) => seed * Mult + Add;
+        public uint Next(uint seed) => (seed * Mult) + Add;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Prev(uint seed) => seed * rMult + rAdd;
+        public uint Prev(uint seed) => (seed * rMult) + rAdd;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Advance(uint seed, int frames)
@@ -80,6 +81,7 @@ namespace PKHeX.Core
                 seed = Next(seed);
             return seed;
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Reverse(uint seed, int frames)
         {
@@ -104,6 +106,7 @@ namespace PKHeX.Core
             }
             return ivs;
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int[] GetSequentialIVsInt32(uint seed)
         {
@@ -130,7 +133,7 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal IEnumerable<uint> RecoverLower16Bits(uint first, uint second)
         {
-            uint k1 = second - first * Mult;
+            uint k1 = second - (first * Mult);
             for (uint i = 0, k3 = k1; i <= 255; ++i, k3 -= k2)
             {
                 ushort val = (ushort)(k3 >> 16);
@@ -138,6 +141,7 @@ namespace PKHeX.Core
                     yield return Prev(first | i << 8 | low8[val]);
             }
         }
+
         /// <summary>
         /// Gets the origin seeds for two 16 bit rand() calls (ignoring a rand() in between) using a meet-in-the-middle approach.
         /// </summary>
@@ -152,7 +156,7 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal IEnumerable<uint> RecoverLower16BitsGap(uint first, uint third)
         {
-            uint k1 = third - first * k0g;
+            uint k1 = third - (first * k0g);
             for (uint i = 0, k3 = k1; i <= 255; ++i, k3 -= k2s)
             {
                 ushort val = (ushort)(k3 >> 16);
@@ -160,6 +164,7 @@ namespace PKHeX.Core
                     yield return Prev(first | i << 8 | g_low8[val]);
             }
         }
+
         /// <summary>
         /// Gets the origin seeds for two successive 16 bit rand() calls using a Euclidean division approach.
         /// </summary>
@@ -178,6 +183,7 @@ namespace PKHeX.Core
             const long inc = 0x100000000; // 1 << 32;
             return GetPossibleSeedsEuclid(first, second, bitshift, inc);
         }
+
         /// <summary>
         /// Gets the origin seeds for two successive 15 bit rand() calls using a Euclidean division approach.
         /// </summary>
@@ -201,13 +207,13 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private IEnumerable<uint> GetPossibleSeedsEuclid(uint first, uint second, int bitshift, long inc)
         {
-            long t = second - Mult * first - t0;
+            long t = second - (Mult * first) - t0;
             long kmax = (((t1 - t) >> bitshift) << bitshift) + t;
             for (long k = t; k <= kmax; k += inc)
             {
                 // compute modulo in steps for reuse in yielded value (x % Mult)
                 long fix = k / Mult;
-                long remainder = k - Mult * fix;
+                long remainder = k - (Mult * fix);
                 if (remainder >> 16 == 0)
                     yield return Prev(first | (uint) fix);
             }

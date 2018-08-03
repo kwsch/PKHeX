@@ -27,6 +27,7 @@ namespace PKHeX.Core
 
             return null;
         }
+
         private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = GetSuggestedEncounterEggMetLevel(pkm);
@@ -73,6 +74,7 @@ namespace PKHeX.Core
                 Level = first.LevelMin,
             };
         }
+
         private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc = -1)
         {
             if (loc == -1)
@@ -143,6 +145,7 @@ namespace PKHeX.Core
             }
             return -1;
         }
+
         /// <summary>
         /// Gets the correct Transfer Met location for the origin game.
         /// </summary>

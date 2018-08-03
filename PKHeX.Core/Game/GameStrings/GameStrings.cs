@@ -34,6 +34,9 @@ namespace PKHeX.Core
         public IReadOnlyList<string> Natures => natures;
 
         private string[] Get(string ident) => GameInfo.GetStrings(ident, lang);
+        private const string NPC = "NPC";
+        private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
+        private static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetUnsortedCBList("languages");
 
         public GameStrings(string l)
         {
@@ -63,12 +66,7 @@ namespace PKHeX.Core
             metGSC_00000 = Get("gsc_00000");
 
             metCXD_00000 = Get("cxd_00000");
-            // Sanitize a little
-            var metSanitize = (string[])metCXD_00000.Clone();
-            for (int i = 0; i < metSanitize.Length; i++)
-                if (metCXD_00000.Count(r => r == metSanitize[i]) > 1)
-                    metSanitize[i] += $" [{i:000}]";
-            metCXD_00000 = metSanitize;
+            metCXD_00000 = SanitizeMetStringsCXD(metCXD_00000);
 
             // Current Generation strings
             natures = Util.GetNaturesList(l);
@@ -127,7 +125,19 @@ namespace PKHeX.Core
             InitializeDataSources();
         }
 
-        private const string NPC = "NPC";
+        private static string[] SanitizeMetStringsCXD(string[] cxd)
+        {
+            // Mark duplicate locations with their index
+            var metSanitize = (string[])cxd.Clone();
+            for (int i = 0; i < metSanitize.Length; i++)
+            {
+                if (cxd.Count(r => r == metSanitize[i]) > 1)
+                    metSanitize[i] += $" [{i:000}]";
+            }
+
+            return metSanitize;
+        }
+
         private void Sanitize()
         {
             SanitizeItemNames();
@@ -139,6 +149,7 @@ namespace PKHeX.Core
             var none = $"({itemlist[0]})";
             abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = puffs[0] = none;
         }
+
         private void SanitizeItemNames()
         {
             // Fix Item Names (Duplicate entries)
@@ -175,6 +186,7 @@ namespace PKHeX.Core
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
         }
+
         private void SanitizeMetLocations()
         {
             // Fix up some of the Location strings to make them more descriptive
@@ -182,6 +194,7 @@ namespace PKHeX.Core
             SanitizeMetG6XY();
             SanitizeMetG7SM();
         }
+
         private void SanitizeMetG5BW()
         {
             metHGSS_02000[1] += $" ({NPC})";     // Anything from an NPC
@@ -210,6 +223,7 @@ namespace PKHeX.Core
 
             metBW2_60000[3 - 1] += $" ({eggname})";  // Egg Treasure Hunter/Breeder, whatever...
         }
+
         private void SanitizeMetG6XY()
         {
             metXY_00000[104] += " (X/Y)";      // Victory Road
@@ -219,6 +233,7 @@ namespace PKHeX.Core
             metXY_30000[0] += $" ({NPC})";     // Anything from an NPC
             metXY_30000[1] += $" ({eggname})"; // Egg From Link Trade
         }
+
         private void SanitizeMetG7SM()
         {
             // Sun/Moon duplicates -- elaborate!
@@ -252,6 +267,7 @@ namespace PKHeX.Core
                 default: return itemlist;
             }
         }
+
         private string[] GetItemStrings3(GameVersion game)
         {
             switch (game)
@@ -387,6 +403,7 @@ namespace PKHeX.Core
             var items = GetItemStrings(generation, game);
             ItemDataSource = Util.GetCBList(items, (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int)i)).ToArray());
         }
+
         public IReadOnlyList<ComboItem> GetLocationList(GameVersion Version, int SaveFormat, bool egg)
         {
             if (SaveFormat == 2)
@@ -471,19 +488,22 @@ namespace PKHeX.Core
 
             // Currently on a future game, return corresponding list for generation
             if (Version <= GameVersion.CXD && SaveFormat == 4)
+            {
                 return MetGen4.Where(loc => loc.Value == Legal.Transfer3) // Pal Park to front
-                    .Concat(MetGen4.Take(4))
-                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Legal.Transfer3)).ToList();
+                   .Concat(MetGen4.Take(4))
+                   .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Legal.Transfer3)).ToList();
+            }
 
             if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
+            {
                 return MetGen5.Where(loc => loc.Value == Legal.Transfer4)
-                    .Concat(MetGen5.Take(3))
-                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Legal.Transfer4)).ToList();
+                   .Concat(MetGen5.Take(3))
+                   .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Legal.Transfer4)).ToList();
+            }
 
             return MetGen6;
         }
 
-        private static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetUnsortedCBList("languages");
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)
         {
             var languages = LanguageList.ToList();
@@ -494,14 +514,13 @@ namespace PKHeX.Core
             return languages;
         }
 
-        private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
         public IReadOnlyList<ComboItem> GetAbilityDataSource(IEnumerable<int> abils)
         {
             return abils.Select(GetItem).ToList();
             ComboItem GetItem(int ability, int index) => new ComboItem
             {
                 Value = ability,
-                Text = GameInfo.Strings.abilitylist[ability] + abilIdentifier[index]
+                Text = abilitylist[ability] + abilIdentifier[index]
             };
         }
     }

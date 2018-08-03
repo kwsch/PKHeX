@@ -184,7 +184,7 @@ namespace PKHeX.WinForms
                 // Data from Box: Delete from save file
                 int box = pk.Box-1;
                 int slot = pk.Slot-1;
-                int offset = SAV.GetBoxOffset(box) + slot*SAV.SIZE_STORED;
+                int offset = SAV.GetBoxOffset(box) + (slot *SAV.SIZE_STORED);
                 PKM pkSAV = SAV.GetStoredSlot(offset);
 
                 if (!pkSAV.DecryptedBoxData.SequenceEqual(pk.DecryptedBoxData)) // data still exists in SAV, unmodified
@@ -239,7 +239,7 @@ namespace PKHeX.WinForms
             slotColor = Properties.Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
                 SCR_Box.Maximum++;
-            SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
+            SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - (PKXBOXES.Length/6) + 1);
             FillPKXBoxes(SCR_Box.Value);
             WinFormsUtil.Alert(MsgDBAddFromTabsSuccess);
         }
@@ -320,8 +320,7 @@ namespace PKHeX.WinForms
 
         private void GenerateDBReport(object sender, EventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBCreateReportPrompt, MsgDBCreateReportWarning)
-                != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBCreateReportPrompt, MsgDBCreateReportWarning) != DialogResult.Yes)
                 return;
 
             ReportGrid reportGrid = new ReportGrid();
@@ -352,8 +351,10 @@ namespace PKHeX.WinForms
                     var sav = SaveUtil.GetVariantSAV(file);
                     var path = EXTERNAL_SAV + new FileInfo(file).Name;
                     if (sav.HasBox)
+                    {
                         foreach (var pk in sav.BoxData)
                             addPKM(pk);
+                    }
 
                     void addPKM(PKM pk)
                     {
@@ -658,7 +659,7 @@ namespace PKHeX.WinForms
                 return;
             }
             int begin = start*RES_MIN;
-            int end = Math.Min(RES_MAX, Results.Count - start*RES_MIN);
+            int end = Math.Min(RES_MAX, Results.Count - begin);
             for (int i = 0; i < end; i++)
                 PKXBOXES[i].Image = Results[i + begin].Sprite();
             for (int i = end; i < RES_MAX; i++)
@@ -666,8 +667,8 @@ namespace PKHeX.WinForms
 
             for (int i = 0; i < RES_MAX; i++)
                 PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
-            if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
-                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Properties.Resources.slotView;
+            if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
+                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Properties.Resources.slotView;
         }
 
         // Misc Update Methods
@@ -696,9 +697,15 @@ namespace PKHeX.WinForms
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
-            if (!Menu_SearchAdvanced.Checked)
-            { Size = MinimumSize; RTB_Instructions.Clear(); }
-            else Size = MaximumSize;
+            if (Menu_SearchAdvanced.Checked)
+            {
+                Size = MaximumSize;
+            }
+            else
+            {
+                Size = MinimumSize;
+                RTB_Instructions.Clear();
+            }
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();

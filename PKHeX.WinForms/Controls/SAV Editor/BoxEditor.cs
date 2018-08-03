@@ -62,6 +62,7 @@ namespace PKHeX.WinForms.Controls
                 Parent = FindForm(),
             };
         }
+
         private int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
         public int GetSlotOffset(int box, int slot) => GetOffset(slot, box);
         public int GetSlotOffset(int slot) => GetSlotOffset(CurrentBox, slot);
@@ -72,23 +73,28 @@ namespace PKHeX.WinForms.Controls
             get => CB_BoxSelect.Enabled;
             set => CB_BoxSelect.Enabled = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = value;
         }
+
         public bool ControlsEnabled
         {
             get => CB_BoxSelect.Enabled;
             set => CB_BoxSelect.Enabled = B_BoxLeft.Enabled = B_BoxRight.Enabled = value;
         }
+
         public int CurrentBox
         {
             get => CB_BoxSelect.SelectedIndex;
             set => CB_BoxSelect.SelectedIndex = value;
         }
+
         public string CurrentBoxName => CB_BoxSelect.Text;
+
         public int GetOffset(int slot, int box)
         {
             if (box < 0)
                 box = CurrentBox;
-            return SAV.GetBoxOffset(box) + slot * SAV.SIZE_STORED;
+            return SAV.GetBoxOffset(box) + (slot * SAV.SIZE_STORED);
         }
+
         public void Setup(SlotChangeManager m)
         {
             M = m;
@@ -96,6 +102,7 @@ namespace PKHeX.WinForms.Controls
             FlagIllegal = M.SE.FlagIllegal;
             Reset();
         }
+
         public void SetSlotFiller(PKM p, int box = -1, int slot = -1, PictureBox pb = null)
         {
             if (pb == null)
@@ -147,6 +154,7 @@ namespace PKHeX.WinForms.Controls
                     CB_BoxSelect.Items.Add($"Box {i+1}");
             }
         }
+
         public void ResetSlots()
         {
             int box = CurrentBox;
@@ -161,12 +169,13 @@ namespace PKHeX.WinForms.Controls
             {
                 var pb = SlotPictureBoxes[i];
                 if (i < SAV.BoxSlotCount)
-                    GetSlotFiller(boxoffset + SAV.SIZE_STORED * i, pb, box, i);
+                    GetSlotFiller(boxoffset + (SAV.SIZE_STORED * i), pb, box, i);
                 else
                     pb.Visible = false;
                 pb.BackgroundImage = slot == i ? M?.ColorizedColor : null;
             }
         }
+
         public bool SaveBoxBinary()
         {
             DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -192,6 +201,7 @@ namespace PKHeX.WinForms.Controls
             }
             return false;
         }
+
         public void ClearEvents()
         {
             B_BoxRight.Click -= ClickBoxRight;
@@ -204,6 +214,7 @@ namespace PKHeX.WinForms.Controls
             ResetBoxNames();
             ResetSlots();
         }
+
         private void GetBox(object sender, EventArgs e)
         {
             if (SAV.CurrentBox != CurrentBox)
@@ -211,16 +222,21 @@ namespace PKHeX.WinForms.Controls
             ResetSlots();
             M?.RefreshHoverSlot(this);
         }
+
         private void ClickBoxLeft(object sender, EventArgs e) => MoveLeft(ModifierKeys == Keys.Control);
+
         public void MoveLeft(bool max = false)
         {
             CurrentBox = max ? 0 : (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
         }
+
         private void ClickBoxRight(object sender, EventArgs e) => MoveRight(ModifierKeys == Keys.Control);
+
         public void MoveRight(bool max = false)
         {
             CurrentBox = max ? SAV.BoxCount - 1 : (CurrentBox + 1) % SAV.BoxCount;
         }
+
         private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
         {
             if (!SAV.IsPKMPresent(offset))

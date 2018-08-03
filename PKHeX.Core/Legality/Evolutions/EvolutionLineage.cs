@@ -14,14 +14,17 @@ namespace PKHeX.Core
         {
             int matchChain = -1;
             for (int i = 0; i < Chain.Count; i++)
+            {
                 if (Chain[i].StageEntryMethods.Any(e => e.Species == entry.Species))
                     matchChain = i;
+            }
 
             if (matchChain != -1)
                 Chain[matchChain].StageEntryMethods.Add(entry);
             else
                 Chain.Insert(0, new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> {entry}});
         }
+
         public void Insert(EvolutionStage evo)
         {
             Chain.Insert(0, evo);
@@ -71,6 +74,7 @@ namespace PKHeX.Core
             last.RequiresLvlUp = false;
             return dl;
         }
+
         private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
         {
             var last = dl[dl.Count - 1];

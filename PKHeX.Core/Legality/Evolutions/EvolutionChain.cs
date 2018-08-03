@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public static class EvolutionChain
     {
         private static readonly List<EvoCriteria> NONE = new List<EvoCriteria>(0);
+
         internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter, pkm.Species, pkm.CurrentLevel);
@@ -150,10 +151,13 @@ namespace PKHeX.Core
         internal static int GetEvoChainSpeciesIndex(IReadOnlyList<EvoCriteria> chain, int species)
         {
             for (int i = 0; i < chain.Count; i++)
+            {
                 if (chain[i].Species == species)
                     return i;
+            }
             return -1;
         }
+
         private static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
         {
             var vs = GetValidPreEvolutions(pkm);
@@ -231,16 +235,22 @@ namespace PKHeX.Core
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
             if (pkm.IsEgg && !skipChecks)
+            {
                 return new List<EvoCriteria>
                 {
                     new EvoCriteria { Species = pkm.Species, Level = lvl, MinLevel = lvl },
                 };
+            }
+
             if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
+            {
                 return new List<EvoCriteria>
                 {
                     new EvoCriteria { Species = 292, Level = lvl, MinLevel = 20 },
                     new EvoCriteria { Species = 290, Level = lvl, MinLevel = 1 }
                 };
+            }
+
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
@@ -248,6 +258,7 @@ namespace PKHeX.Core
             var et = EvolutionTree.GetEvolutionTree(tree);
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
+
         private static int GetMinLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))

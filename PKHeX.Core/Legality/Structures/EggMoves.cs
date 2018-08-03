@@ -13,29 +13,34 @@ namespace PKHeX.Core
         public bool GetHasEggMove(int move) => Moves.Contains(move);
     }
 
-    public class EggMoves2 : EggMoves
+    public sealed class EggMoves2 : EggMoves
     {
         private EggMoves2(byte[] data)
         {
             Count = data.Length;
             Moves = data.Select(i => (int) i).ToArray();
         }
+
         public static EggMoves[] GetArray(byte[] data, int count)
         {
             int[] ptrs = new int[count+1];
-            int baseOffset = (data[1] << 8 | data[0]) - count * 2;
+            int baseOffset = (data[1] << 8 | data[0]) - (count * 2);
             for (int i = 1; i < ptrs.Length; i++)
-                ptrs[i] = (data[(i - 1)*2 + 1] << 8 | data[(i - 1)*2]) - baseOffset;
+            {
+                var ofs = (i - 1) * 2;
+                ptrs[i] = (data[ofs + 1] << 8 | data[ofs]) - baseOffset;
+            }
 
             EggMoves[] entries = new EggMoves[count + 1];
-            entries[0] = new EggMoves2(new byte[0]);
+            entries[0] = new EggMoves2(Array.Empty<byte>());
             for (int i = 1; i < entries.Length; i++)
                 entries[i] = new EggMoves2(data.Skip(ptrs[i]).TakeWhile(b => b != 0xFF).ToArray());
 
             return entries;
         }
     }
-    public class EggMoves6 : EggMoves
+
+    public sealed class EggMoves6 : EggMoves
     {
         private EggMoves6(byte[] data)
         {
@@ -48,6 +53,7 @@ namespace PKHeX.Core
                     Moves[i] = br.ReadUInt16();
             }
         }
+
         public static EggMoves[] GetArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];
@@ -56,7 +62,8 @@ namespace PKHeX.Core
             return data;
         }
     }
-    public class EggMoves7 : EggMoves
+
+    public sealed class EggMoves7 : EggMoves
     {
         private EggMoves7(byte[] data)
         {
@@ -71,6 +78,7 @@ namespace PKHeX.Core
                     Moves[i] = br.ReadUInt16();
             }
         }
+
         public static EggMoves[] GetArray(byte[][] entries)
         {
             EggMoves[] data = new EggMoves[entries.Length];

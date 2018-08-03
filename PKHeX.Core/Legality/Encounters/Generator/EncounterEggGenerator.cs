@@ -14,6 +14,7 @@ namespace PKHeX.Core
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
             return GenerateEggs(pkm, evos, all);
         }
+
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<DexLevel> vs, bool all = false)
         {
             if (NoHatchFromEgg.Contains(pkm.Species))

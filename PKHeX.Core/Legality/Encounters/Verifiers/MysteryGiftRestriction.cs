@@ -39,15 +39,20 @@ namespace PKHeX.Core
         public static int GetSuggestedLanguage(this MysteryGiftRestriction value)
         {
             for (int i = (int)LanguageID.Japanese; i <= (int)LanguageID.Korean; i++)
+            {
                 if (value.HasFlagFast((MysteryGiftRestriction)(1 << i)))
                     return i;
+            }
             return -1;
         }
+
         public static int GetSuggestedRegion(this MysteryGiftRestriction value)
         {
             for (int i = (int)RegionID.Japan; i <= (int)RegionID.Taiwan; i++)
+            {
                 if (value.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << i)))
                     return i;
+            }
             return -1;
         }
     }

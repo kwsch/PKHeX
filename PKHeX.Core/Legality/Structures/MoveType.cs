@@ -31,6 +31,7 @@
                 return GetMoveTypeFromG12(type);
             return type;
         }
+
         private static MoveType GetMoveTypeFromG12(this MoveType type)
         {
             if (type <= MoveType.Rock)

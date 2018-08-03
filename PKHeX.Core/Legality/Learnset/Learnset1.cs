@@ -22,6 +22,7 @@ namespace PKHeX.Core
             Levels = levels.ToArray();
             Count = Moves.Length;
         }
+
         public static Learnset[] GetArray(byte[] input, int maxSpecies)
         {
             var data = new Learnset[maxSpecies + 1];

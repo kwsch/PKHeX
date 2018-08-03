@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -13,10 +14,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
-        public static bool IsMysteryGift(long len)
-        {
-            return new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size }.Contains((int)len);
-        }
+        public static bool IsMysteryGift(long len) => MGSizes.Contains((int)len);
+
+        private static readonly HashSet<int> MGSizes = new HashSet<int>(new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size });
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -133,8 +133,8 @@ namespace PKHeX.Core
         }
 
         // Search Properties
-        public virtual int[] Moves { get => new int[4]; set { } }
-        public virtual int[] RelearnMoves { get => new int[4]; set { } }
+        public virtual int[] Moves { get => Array.Empty<int>(); set { } }
+        public virtual int[] RelearnMoves { get => Array.Empty<int>(); set { } }
         public virtual int[] IVs { get => null; set { } }
         public virtual bool IsShiny => false;
         public virtual bool IsEgg { get => false; set { } }

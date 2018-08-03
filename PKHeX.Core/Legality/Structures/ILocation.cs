@@ -16,6 +16,7 @@
                 ? encounter.Location
                 : encounter.EggLocation;
         }
+
         internal static string GetEncounterLocation(this ILocation Encounter, int gen, int version = -1)
         {
             int loc = Encounter.GetLocation();

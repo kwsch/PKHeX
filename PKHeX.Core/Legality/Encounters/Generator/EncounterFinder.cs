@@ -17,7 +17,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Source data to find a match for</param>
         /// <returns>
         /// Information containing the matched encounter and any parsed checks.
-        /// If no clean match is found, the last checked match is returned. 
+        /// If no clean match is found, the last checked match is returned.
         /// If no match is found, an invalid encounter object is returned.
         /// </returns>
         public static LegalInfo FindVerifiedEncounter(PKM pkm)
@@ -76,8 +76,10 @@ namespace PKHeX.Core
                     return false;
             }
             else
+            {
                 for (int i = 0; i < 4; i++)
                     info.Relearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
+            }
 
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())

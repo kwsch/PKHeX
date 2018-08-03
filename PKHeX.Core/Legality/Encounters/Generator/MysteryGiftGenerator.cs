@@ -13,11 +13,13 @@ namespace PKHeX.Core
             var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies);
             return GetPossible(pkm, vs);
         }
+
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
         {
             var table = GetTable(pkm.GenNumber);
             return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
         }
+
         public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm)
         {
             int gen = pkm.GenNumber;
@@ -32,6 +34,7 @@ namespace PKHeX.Core
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
+
         private static IEnumerable<MysteryGift> GetTable(int generation)
         {
             switch (generation)
@@ -44,6 +47,7 @@ namespace PKHeX.Core
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
+
         private static IEnumerable<MysteryGift> GetMatchingWC3(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
@@ -65,9 +69,10 @@ namespace PKHeX.Core
             foreach (var z in validWC3)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
         {
-            if (DB == null || pkm.IsEgg && pkm.Format != 4) // transferred
+            if (DB == null || (pkm.IsEgg && pkm.Format != 4)) // transferred
                 yield break;
 
             if (IsRangerManaphy(pkm))
@@ -95,6 +100,7 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingPGF(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
@@ -116,6 +122,7 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingWC6(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
@@ -135,6 +142,7 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingWC7(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
@@ -164,6 +172,7 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static bool GetIsMatchWC3(PKM pkm, WC3 wc)
         {
             // Gen3 Version MUST match.
@@ -206,6 +215,7 @@ namespace PKHeX.Core
             }
             return true;
         }
+
         private static bool GetIsMatchPCD(PKM pkm, PK4 wc, IEnumerable<DexLevel> vs)
         {
             if (!wc.IsEgg)
@@ -250,6 +260,7 @@ namespace PKHeX.Core
 
             return true;
         }
+
         private static bool GetIsMatchPGF(PKM pkm, PGF wc, IEnumerable<DexLevel> vs)
         {
             if (!wc.IsEgg)
@@ -275,7 +286,10 @@ namespace PKHeX.Core
                         return false;
                 }
                 else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
                     return false; // can't be traded away for unshiny
+                }
+
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -292,6 +306,7 @@ namespace PKHeX.Core
 
             return true;
         }
+
         private static bool GetIsMatchWC6(PKM pkm, WC6 wc, IEnumerable<DexLevel> vs)
         {
             if (pkm.Egg_Location == 0) // Not Egg
@@ -316,7 +331,10 @@ namespace PKHeX.Core
                         return false;
                 }
                 else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
                     return false; // can't be traded away for unshiny
+                }
+
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -337,6 +355,7 @@ namespace PKHeX.Core
 
             return true;
         }
+
         private static bool GetIsMatchWC7(PKM pkm, WC7 wc, IEnumerable<DexLevel> vs)
         {
             if (pkm.Egg_Location == 0) // Not Egg
@@ -359,7 +378,9 @@ namespace PKHeX.Core
                     // Rockruff gift edge case; has altform 1 then evolves to altform 2
                 }
                 else
+                {
                     return false;
+                }
             }
 
             if (wc.IsEgg)
@@ -370,7 +391,10 @@ namespace PKHeX.Core
                         return false;
                 }
                 else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
                     return false; // can't be traded away for unshiny
+                }
+
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -412,6 +436,7 @@ namespace PKHeX.Core
                 return true;
             return wc.Species != pkm.Species;
         }
+
         private static bool GetIsDeferredWC7(PKM pkm, WC7 wc)
         {
             if (wc.RestrictLanguage != 0 && wc.RestrictLanguage != pkm.Language)
@@ -423,6 +448,7 @@ namespace PKHeX.Core
 
         // Utility
         private static readonly PGT RangerManaphy = new PGT {Data = {[0] = 7, [8] = 1}};
+
         private static bool IsRangerManaphy(PKM pkm)
         {
             var egg = pkm.Egg_Location;

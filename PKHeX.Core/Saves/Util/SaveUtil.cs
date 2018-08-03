@@ -456,43 +456,48 @@ namespace PKHeX.Core
         public static SaveFile GetVariantSAV(byte[] data)
         {
             // Pre-check for header/footer signatures
-            SaveFile sav;
-            byte[] header = new byte[0], footer = new byte[0];
+            byte[] header = Array.Empty<byte>(), footer = Array.Empty<byte>();
             CheckHeaderFooter(ref data, ref header, ref footer);
+            var sav = GetVariantSAVInternal(data);
+            if (sav == null)
+                return null;
+            sav.Header = header;
+            sav.Footer = footer;
+            return sav;
+        }
 
+        private static SaveFile GetVariantSAVInternal(byte[] data)
+        {
             switch (GetSAVGeneration(data))
             {
                 // Main Games
-                case GameVersion.Gen1:      sav = new SAV1(data); break;
-                case GameVersion.Gen2:      sav = new SAV2(data); break;
-                case GameVersion.Gen3:      sav = new SAV3(data); break;
-                case GameVersion.Gen4:      sav = new SAV4(data); break;
-                case GameVersion.Gen5:      sav = new SAV5(data); break;
-                case GameVersion.Gen6:      sav = new SAV6(data); break;
-                case GameVersion.Gen7:      sav = new SAV7(data); break;
+                case GameVersion.Gen1: return new SAV1(data);
+                case GameVersion.Gen2: return new SAV2(data);
+                case GameVersion.Gen3: return new SAV3(data);
+                case GameVersion.Gen4: return new SAV4(data);
+                case GameVersion.Gen5: return new SAV5(data);
+                case GameVersion.Gen6: return new SAV6(data);
+                case GameVersion.Gen7: return new SAV7(data);
 
                 // Side Games
-                case GameVersion.COLO:      sav = new SAV3Colosseum(data); break;
-                case GameVersion.XD:        sav = new SAV3XD(data); break;
-                case GameVersion.RSBOX:     sav = new SAV3RSBox(data); break;
-                case GameVersion.BATREV:    sav = new SAV4BR(data); break;
+                case GameVersion.COLO:   return new SAV3Colosseum(data);
+                case GameVersion.XD:     return new SAV3XD(data);
+                case GameVersion.RSBOX:  return new SAV3RSBox(data);
+                case GameVersion.BATREV: return new SAV4BR(data);
 
                 // Bulk Storage
-                case GameVersion.USUM:      sav = Bank7.GetBank7(data); break;
+                case GameVersion.USUM:   return Bank7.GetBank7(data);
 
                 // No pattern matched
                 default: return null;
             }
-            sav.Header = header;
-            sav.Footer = footer;
-            return sav;
         }
 
         public static SaveFile GetVariantSAV(SAV3GCMemoryCard MC)
         {
             // Pre-check for header/footer signatures
             SaveFile sav;
-            byte[] header = new byte[0], footer = new byte[0];
+            byte[] header = Array.Empty<byte>(), footer = Array.Empty<byte>();
             byte[] data = MC.SelectedSaveData;
             CheckHeaderFooter(ref data, ref header, ref footer);
 

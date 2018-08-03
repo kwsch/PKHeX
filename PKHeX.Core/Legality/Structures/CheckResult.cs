@@ -11,7 +11,8 @@
         public string Rating => Judgement.Description();
         internal readonly CheckIdentifier Identifier;
 
-        internal CheckResult(CheckIdentifier i) { Identifier = i; }
+        internal CheckResult(CheckIdentifier i) => Identifier = i;
+
         internal CheckResult(Severity s, string c, CheckIdentifier i)
         {
             Judgement = s;

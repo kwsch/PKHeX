@@ -18,6 +18,7 @@ namespace PKHeX.Core
         public bool IsDexNav => AllowDexNav && DexNav;
         public EncounterSlotPermissions Clone() => (EncounterSlotPermissions)MemberwiseClone();
     }
+
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>

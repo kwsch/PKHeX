@@ -80,9 +80,12 @@ namespace PKHeX.Core
         internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterArea> Areas, PersonalTable t)
         {
             foreach (EncounterArea Area in Areas)
-            foreach (var grp in Area.Slots.GroupBy(z => z.Type))
-                MarkEncountersStaticMagnetPull(grp, t);
+            {
+                foreach (var grp in Area.Slots.GroupBy(z => z.Type))
+                    MarkEncountersStaticMagnetPull(grp, t);
+            }
         }
+
         internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterSlot> grp, PersonalTable t)
         {
             GetStaticMagnet(t, grp, out List<EncounterSlot> s, out List<EncounterSlot> m);
@@ -99,6 +102,7 @@ namespace PKHeX.Core
                 slot.Permissions.MagnetPullCount = m.Count;
             }
         }
+
         internal static void MarkEncountersStaticMagnetPullPermutation(IEnumerable<EncounterSlot> grp, PersonalTable t, List<EncounterSlot> permuted)
         {
             GetStaticMagnet(t, grp, out List<EncounterSlot> s, out List<EncounterSlot> m);
@@ -137,6 +141,7 @@ namespace PKHeX.Core
                 slot.Permissions.MagnetPullCount = m.Count;
             }
         }
+
         private static void GetStaticMagnet(PersonalTable t, IEnumerable<EncounterSlot> grp, out List<EncounterSlot> s, out List<EncounterSlot> m)
         {
             const int steel = (int)MoveType.Steel;
@@ -162,8 +167,10 @@ namespace PKHeX.Core
         internal static void MarkEncountersVersion(IEnumerable<EncounterArea> Areas, GameVersion Version)
         {
             foreach (EncounterArea Area in Areas)
-            foreach (var Slot in Area.Slots.OfType<EncounterSlot1>())
-                Slot.Version = Version;
+            {
+                foreach (var Slot in Area.Slots)
+                    Slot.Version = Version;
+            }
         }
 
         /// <summary>
@@ -185,9 +192,12 @@ namespace PKHeX.Core
         internal static void MarkEncountersGeneration(int Generation, params IEnumerable<EncounterArea>[] Areas)
         {
             foreach (var table in Areas)
-            foreach (var area in table)
-                MarkEncountersGeneration(Generation, area.Slots);
+            {
+                foreach (var area in table)
+                    MarkEncountersGeneration(Generation, area.Slots);
+            }
         }
+
         private static void MarkEncountersGeneration(int Generation, IEnumerable<IGeneration> Encounters)
         {
             foreach (IGeneration enc in Encounters)
@@ -215,11 +225,14 @@ namespace PKHeX.Core
             foreach (var area in areas)
                 MarkEncounterAreas(area);
         }
+
         private static void MarkEncounterAreas(params EncounterArea[] areas)
         {
             foreach (var area in areas)
-            foreach (var slot in area.Slots)
-                slot.Area = area;
+            {
+                foreach (var slot in area.Slots)
+                    slot.Area = area;
+            }
         }
 
         internal static EncounterStatic Clone(this EncounterStatic s, int location)
@@ -228,6 +241,7 @@ namespace PKHeX.Core
             result.Location = location;
             return result;
         }
+
         internal static EncounterStatic[] Clone(this EncounterStatic s, int[] locations)
         {
             EncounterStatic[] Encounters = new EncounterStatic[locations.Length];
@@ -235,11 +249,13 @@ namespace PKHeX.Core
                 Encounters[i] = s.Clone(locations[i]);
             return Encounters;
         }
+
         internal static IEnumerable<EncounterStatic> DreamRadarClone(this EncounterStatic s)
         {
             for (int i = 0; i < 8; i++)
-                yield return s.DreamRadarClone(5 * i + 5);  // Level from 5->40 depends on the number of badges
+                yield return s.DreamRadarClone((5 * i) + 5);  // Level from 5->40 depends on the number of badges
         }
+
         private static EncounterStatic DreamRadarClone(this EncounterStatic s, int level)
         {
             var result = s.Clone(level);

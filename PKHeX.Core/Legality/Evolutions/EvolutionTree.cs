@@ -181,6 +181,7 @@ namespace PKHeX.Core
                 return pkm.Species;
             return Personal.GetFormeIndex(pkm.Species, pkm.AltForm);
         }
+
         private int GetIndex(EvolutionMethod evo)
         {
             int evolvesToSpecies = evo.Species;
