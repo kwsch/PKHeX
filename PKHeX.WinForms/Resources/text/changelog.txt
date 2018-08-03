@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/07/16 - New Update:
+18/08/03 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks @iiippppk, @WEERSOQUEER, @PrometheusG, @NinFanBoyFTW, paf, Cloud AC!
+ - - Added: Unavailable bred hidden abilities are now flagged for Gen5 origin entities (now covers all gens).
+ - - Added: WC6/7 mystery gift version compatibility checks based on wc*full data. Note: some gifts might still allow impossible future versions.
+ - Added: Hovering over a PKM preview slot now shows a glow effect around the sprite's edges. Can be disabled in settings.
+ - Added: Can now use the mouse wheel to scroll between boxes. Mouse must be inside the Box tab.
+ - Added: Folder List now has search filter capability (text in column's cell must contain the entered value).
+ - Changed: Spanish & Chinese translations updated. Thanks @ajtudela, @egzonqj, @kang1806!
+ - Changed: Folder List now loads much faster.
+ - Fixed: Initial file save detection now behaves correctly.
+ - Fixed: Undo/Redo box slot actions now behave correctly.
+ - Fixed: QR Code legal/illegal sprite now displays with the correct scaling.
+ - Fixed: PK3 Deoxys stats now use the current savefile base stats. Thanks @iiippppk!
+ - Fixed: PK2->PK1 from boxdata format now sets the Level and HP properties of the PK1. Thanks HaxAras!
+ - Internals: Pikachu Cosplay and Pikachu-Cap alt forme sprite resource names have been swapped for future usage. No functional change.
+ - Internals: A small amount of logic from the WinForms project has been relocated to PKHeX.Core, along with minor Core reorganization.
+ - Internals: Misc speed improvements in legality checking have been incorporated.
+ - Internals: Improved speed of PKM Editor interface related to loading & checking legality from tabs. Should be pretty much lag free!
+
+18/07/16 - New Update: (36403) [1286945]
  - Legality:
  - - Fixed: Misc regressions from previous update. Thanks all those who reported!
  - - Changed: Another round of legality check updates. Thanks Sabresite, paf, piplupwater, @egzonqj & @WEERSOQUEER !
