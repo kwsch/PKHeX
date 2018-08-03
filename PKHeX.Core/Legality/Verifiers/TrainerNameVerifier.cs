@@ -115,11 +115,9 @@ namespace PKHeX.Core
         private CheckResult VerifyG1OTStadium(PKM pkm, string tr, IVersion s)
         {
             bool jp = pkm.Japanese;
-            bool valid;
-            if (s.Version == GameVersion.Stadium)
-                valid = pkm.TID == 1999 && tr == (jp ? "スタジアム" : "STADIUM");
-            else // == GameVersion.Stadium2
-                valid = pkm.TID == 2000 && tr == (jp ? "スタジアム" : "Stadium");
+            var ot = Legal.GetGBStadiumOTName(jp, s.Version);
+            var id = Legal.GetGBStadiumOTID(jp, s.Version);
+            bool valid = ot == tr && id == pkm.TID;
             return valid ? GetValid(jp ? V404 : V403) : GetInvalid(V402);
         }
 
