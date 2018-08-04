@@ -1338,7 +1338,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (species <= MaxSpeciesID_1)
                 return true;
-            return !FutureEvolutionsGen1.Contains(species);
+            return FutureEvolutionsGen1.Contains(species);
         }
 
         public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any)
