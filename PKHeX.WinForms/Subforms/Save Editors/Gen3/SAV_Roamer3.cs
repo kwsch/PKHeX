@@ -36,6 +36,7 @@ namespace PKHeX.WinForms
             CHK_Active.Checked = Reader.Active;
             NUD_Level.Value = Math.Min(NUD_Level.Maximum, Reader.CurrentLevel);
         }
+
         private void SaveData()
         {
             int[] IVs = new int[6];
@@ -49,11 +50,13 @@ namespace PKHeX.WinForms
             Reader.Active = CHK_Active.Checked;
             Reader.CurrentLevel = (int)NUD_Level.Value;
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveData();
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();

@@ -55,10 +55,8 @@ namespace PKHeX.WinForms
         private const string PrefixLabel = "L_";
         private const string PrefixCHK = "CHK_";
 
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void B_Cancel_Click(object sender, EventArgs e) => Close();
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
@@ -86,6 +84,7 @@ namespace PKHeX.WinForms
             foreach (ColumnStyle style in TLP.ColumnStyles)
                 style.SizeType = SizeType.AutoSize;
         }
+
         private static void AddRegimenChoice(RegimenInfo reg, TableLayoutPanel TLP)
         {
             // Get row we add to
@@ -131,6 +130,7 @@ namespace PKHeX.WinForms
         {
             public readonly string Name;
             public bool CompletedRegimen;
+
             internal RegimenInfo(string name, bool completedRegimen)
             {
                 Name = name;
@@ -141,8 +141,10 @@ namespace PKHeX.WinForms
         private void B_All_Click(object sender, EventArgs e)
         {
             if (CHK_SecretUnlocked.Checked) // only give dist if Secret is Unlocked (None -> All -> All*)
+            {
                 foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())
                     c.Checked = true;
+            }
 
             if (pkm is PK6)
             {
@@ -152,6 +154,7 @@ namespace PKHeX.WinForms
             foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>())
                 c.Checked = true;
         }
+
         private void B_None_Click(object sender, EventArgs e)
         {
             CHK_SecretUnlocked.Checked = false;
@@ -161,6 +164,7 @@ namespace PKHeX.WinForms
             foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())
                 c.Checked = false;
         }
+
         private void CHK_Secret_CheckedChanged(object sender, EventArgs e)
         {
             if (!(pkm is PK6))

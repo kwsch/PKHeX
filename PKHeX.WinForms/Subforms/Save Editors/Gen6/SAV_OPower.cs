@@ -30,6 +30,7 @@ namespace PKHeX.WinForms
         }
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveData();
@@ -40,6 +41,7 @@ namespace PKHeX.WinForms
         private static readonly string[] Values = Enum.GetNames(typeof(OPower6Value));
 
         private OPower6Type Current;
+
         private void SaveData()
         {
             Data.MasterFlag = CHK_Master.Checked;
@@ -63,6 +65,7 @@ namespace PKHeX.WinForms
             CHK_MAX.Enabled = Data.GetHasOPowerMAX(Current);
             CHK_MAX.Checked = Data.GetOPowerMAX(Current);
         }
+
         private void SaveCurrent()
         {
             Data.SetOPowerLevel(Current, CB_Value.SelectedIndex);

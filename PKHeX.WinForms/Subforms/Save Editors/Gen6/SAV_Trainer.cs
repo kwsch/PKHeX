@@ -10,19 +10,22 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_Trainer(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6)(Origin = sav).Clone();
             if (Main.Unicode)
+            {
                 try
                 {
                     TB_OTName.Font = FontUtil.GetPKXFont(11);
                     if (SAV.XY)
                         TB_TRNick.Font = TB_OTName.Font;
                 }
-            catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+            }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
@@ -213,11 +216,12 @@ namespace PKHeX.WinForms
 
             CB_Stats.Items.Clear();
             for (int i = 0; i < statdata.Length / 2; i++)
-                CB_Stats.Items.Add(statdata[2 * i + 1]);
+                CB_Stats.Items.Add(statdata[(2 * i) + 1]);
             CB_Stats.SelectedIndex = 0;
 
             CHK_MegaUnlocked.Checked = SAV.IsMegaEvolutionUnlocked;
         }
+
         private readonly string[] statdata;
         private bool editing;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
@@ -332,12 +336,14 @@ namespace PKHeX.WinForms
             CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
         }
+
         private void GetBadges()
         {
             var bma = GetGen6BadgeSprites(SAV.ORAS);
             for (int i = 0; i < 8; i++)
                 pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
         }
+
         private static Bitmap[] GetGen6BadgeSprites(bool ORAS)
         {
             if (ORAS)
@@ -391,20 +397,27 @@ namespace PKHeX.WinForms
 
             // Maison Data
             if (SAV.MaisonStats > -1)
+            {
                 for (int i = 0; i < MaisonRecords.Length; i++)
                     MaisonRecords[i].Text = SAV.GetMaisonStat(i).ToString();
+            }
 
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
             if (!GB_Map.Enabled || SAV.X%0.5 != 0 || SAV.Z%0.5 != 0 || SAV.Y%0.5 != 0)
-                GB_Map.Enabled = false;
-            else try
             {
-                NUD_X.Value = (decimal)SAV.X;
-                NUD_Z.Value = (decimal)SAV.Z;
-                NUD_Y.Value = (decimal)SAV.Y;
+                GB_Map.Enabled = false;
             }
-            catch { GB_Map.Enabled = false; }
+            else
+            {
+                try
+                {
+                    NUD_X.Value = (decimal)SAV.X;
+                    NUD_Z.Value = (decimal)SAV.Z;
+                    NUD_Y.Value = (decimal)SAV.Y;
+                }
+                catch { GB_Map.Enabled = false; }
+            }
 
             // Load BP and PokeMiles
             TB_BP.Text = SAV.BP.ToString();
@@ -463,6 +476,7 @@ namespace PKHeX.WinForms
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
         }
+
         private void Save()
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 0x18);
@@ -486,8 +500,10 @@ namespace PKHeX.WinForms
 
             // Copy Maison Data in
             if (SAV.MaisonStats > -1)
+            {
                 for (int i = 0; i < MaisonRecords.Length; i++)
                     SAV.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
+            }
 
             // Copy Position
             if (GB_Map.Enabled && MapUpdated)
@@ -572,6 +588,7 @@ namespace PKHeX.WinForms
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
+
         private void ShowTSV(object sender, EventArgs e)
         {
             uint TID = Util.ToUInt32(MT_TID.Text);
@@ -585,16 +602,19 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void ChangeBadge(object sender, EventArgs e)
         {
             GetBadges();
         }
+
         private void ChangeSpecial(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
@@ -605,18 +625,21 @@ namespace PKHeX.WinForms
             if (box == MT_Hat)
                 box.Text = (val > 31 ? 31 : val).ToString();
         }
+
         private void Change255(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
+
         private void ChangeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
+
         private void ChangeStat(object sender, EventArgs e)
         {
             editing = true;
@@ -625,12 +648,14 @@ namespace PKHeX.WinForms
             L_Offset.Text = $"0x{offset:X3}";
             editing = false;
         }
+
         private void ChangeStatVal(object sender, EventArgs e)
         {
             if (editing) return;
             int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
             SAV.SetPSSStat(offset/4, uint.Parse(MT_Stat.Text));
         }
+
         private void GiveAllAccessories(object sender, EventArgs e)
         {
             SAV.UnlockAllAccessories();
@@ -642,10 +667,12 @@ namespace PKHeX.WinForms
             if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
                 Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
         }
+
         private void ToggleBadge(object sender, EventArgs e)
         {
             cba[Array.IndexOf(pba, sender)].Checked ^= true;
         }
+
         private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!editing)

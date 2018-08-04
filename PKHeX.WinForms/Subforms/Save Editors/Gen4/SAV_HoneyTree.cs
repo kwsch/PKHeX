@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV4 SAV;
+
         public SAV_HoneyTree(SaveFile sav)
         {
             InitializeComponent();
@@ -37,6 +38,7 @@ namespace PKHeX.WinForms
 
         private int TreeSpecies => Table[(int)NUD_Group.Value][(int)NUD_Slot.Value];
         private void B_Catchable_Click(object sender, EventArgs e) => NUD_Time.Value = 1080;
+
         private void ChangeGroupSlot(object sender, EventArgs e)
         {
             int species = TreeSpecies;
@@ -51,12 +53,14 @@ namespace PKHeX.WinForms
             if (species == 446 && !MunchlaxTrees.Contains(CB_TreeList.SelectedIndex))
                 WinFormsUtil.Alert("Catching Munchlax in this tree will make it illegal for this savegame's TID/SID combination.");
         }
+
         private void ChangeTree(object sender, EventArgs e)
         {
             SaveTree();
             entry = CB_TreeList.SelectedIndex;
             ReadTree();
         }
+
         private void ReadTree()
         {
             loading = true;
@@ -70,6 +74,7 @@ namespace PKHeX.WinForms
             ChangeGroupSlot(null, null);
             loading = false;
         }
+
         private void SaveTree()
         {
             if (Tree == null)
@@ -89,6 +94,7 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
     }
 }

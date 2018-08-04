@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_SimpleTrainer(SaveFile sav)
         {
             InitializeComponent();
@@ -152,6 +153,7 @@ namespace PKHeX.WinForms
 
             Loading = false;
         }
+
         private readonly CheckBox[] cba;
         private readonly bool Loading;
         private bool MapUpdated;
@@ -162,6 +164,7 @@ namespace PKHeX.WinForms
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
+
         private void Change255(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
@@ -249,10 +252,12 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private static int GetSeconds(DateTimePicker date, DateTimePicker time)
         {
             int val = (int)(date.Value - new DateTime(2000, 1, 1)).TotalSeconds;
@@ -260,6 +265,7 @@ namespace PKHeX.WinForms
             val += (int)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             return val;
         }
+
         private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!Loading)

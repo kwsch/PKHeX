@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -19,6 +18,7 @@ namespace PKHeX.WinForms
             CenterToParent();
             GetContextMenu();
         }
+
         private void GetContextMenu()
         {
             var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide, };
@@ -55,10 +55,11 @@ namespace PKHeX.WinForms
             SuspendLayout();
             BoxBar.Step = 1;
             var PL = new PokemonList<PKMPreview>();
+            var strings = GameInfo.Strings;
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
                 pkm.Stat_Level = PKX.GetLevel(pkm.Species, pkm.EXP); // recalc Level
-                PL.Add(new PKMPreview(pkm));
+                PL.Add(new PKMPreview(pkm, strings));
                 BoxBar.PerformStep();
             }
 
@@ -86,12 +87,14 @@ namespace PKHeX.WinForms
 
             ResumeLayout();
         }
+
         private void Data_Sorted(object sender, EventArgs e)
         {
             int height = SpriteUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }
+
         private void PromptSaveCSV(object sender, FormClosingEventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
@@ -104,6 +107,7 @@ namespace PKHeX.WinForms
             if (savecsv.ShowDialog() == DialogResult.OK)
                 Export_CSV(savecsv.FileName);
         }
+
         private void Export_CSV(string path)
         {
             var sb = new StringBuilder();
@@ -149,15 +153,6 @@ namespace PKHeX.WinForms
             for (int i = 1; i < lines.Length; i++)
                 newlines[i + 1] = lines[i].Replace('\t', '|');
             return newlines;
-        }
-    }
-    public static class ExtensionMethods
-    {
-        public static void DoubleBuffered(this DataGridView dgv, bool setting)
-        {
-            Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
         }
     }
 }

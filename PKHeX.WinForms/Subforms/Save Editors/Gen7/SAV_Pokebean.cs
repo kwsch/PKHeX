@@ -21,6 +21,7 @@ namespace PKHeX.WinForms
 
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
+
         private void LoadValues()
         {
             dgv.Rows.Clear();
@@ -69,12 +70,14 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_All_Click(object sender, EventArgs e)
         {
             Pouch.SetCountAll(255);
             LoadValues();
             System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void B_None_Click(object sender, EventArgs e)
         {
             Pouch.SetCountAll(0);

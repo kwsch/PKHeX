@@ -11,6 +11,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_MailBox(SaveFile sav)
         {
             InitializeComponent();
@@ -155,6 +156,7 @@ namespace PKHeX.WinForms
             editing = false;
             LB_PartyHeld.SelectedIndex = 0;
         }
+
         private readonly int[] HoennListMixed = {
                 277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
             304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
@@ -164,11 +166,13 @@ namespace PKHeX.WinForms
                                 346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
                 401,402,403,407,408,404,405,406,409,410
         };
+
         private void LoadList()
         {
             if (entry < 6) MakePartyList();
             else MakePCList();
         }
+
         private void MakePartyList()
         {
             LB_PartyHeld.BeginUpdate();
@@ -180,6 +184,7 @@ namespace PKHeX.WinForms
                 LB_PartyHeld.SelectedIndex = s;
             LB_PartyHeld.EndUpdate();
         }
+
         private void MakePCList()
         {
             LB_PCBOX.BeginUpdate();
@@ -211,6 +216,7 @@ namespace PKHeX.WinForms
                 LB_PCBOX.SelectedIndex = s;
             LB_PCBOX.EndUpdate();
         }
+
         private void LoadPKM(bool isInit)
         {
             for (int i = 0; i < p.Count; i++)
@@ -226,6 +232,7 @@ namespace PKHeX.WinForms
                 PKMNUDs[i].Value = k >= -1 && k <= 5 ? k : -1;
             }
         }
+
         private readonly Mail[] m;
         private bool editing;
         private int entry;
@@ -235,6 +242,7 @@ namespace PKHeX.WinForms
         private readonly ComboBox[] AppearPKMs;
         private readonly int Gen;
         private readonly byte ResetVer, ResetLang;
+
         private void Save()
         {
             switch (Gen)
@@ -247,7 +255,7 @@ namespace PKHeX.WinForms
                     Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
                     ofs += len << 1;
                     SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
-                    len = 0x2F * 10 + 1;
+                    len = (0x2F * 10) + 1;
                     Array.Copy(SAV.Data, ofs, SAV.Data, ofs + len, len);
                     break;
                 case 3:
@@ -270,6 +278,7 @@ namespace PKHeX.WinForms
             }
             SAV.PartyData = p;
         }
+
         private void TempSave()
         {
             switch (m[entry])
@@ -288,8 +297,11 @@ namespace PKHeX.WinForms
                     m3.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
 
                     for (int y = 0; y < 3; y++)
+                    {
                         for (int x = 0; x < 3; x++)
                             m3.SetMessage(y, x, (ushort)Messages[y][x].Value);
+                    }
+
                     m3.AuthorSID = (ushort)NUD_AuthorSID.Value;
                     int v = CB_AppearPKM1.SelectedValue as int? ?? 0;
                     m3.AppearPKM = v < 252 ? v : HoennListMixed[v - 252];
@@ -301,8 +313,11 @@ namespace PKHeX.WinForms
                     m4.MailType = v > 0 ? v - 1 : 0xFF;
 
                     for (int y = 0; y < 3; y++)
+                    {
                         for (int x = 0; x < 4; x++)
                             m4.SetMessage(y, x, (ushort)Messages[y][x].Value);
+                    }
+
                     m4.AuthorSID = (ushort)NUD_AuthorSID.Value;
                     for (int i = 0; i < AppearPKMs.Length; i++)
                         m4.SetAppearPKM(i, (AppearPKMs[i].SelectedValue as int?) + 7 ?? 0);
@@ -318,8 +333,11 @@ namespace PKHeX.WinForms
                     m5.MailType = v > 0 ? v - 1 : 0xFF;
 
                     for (int y = 0; y < 3; y++)
+                    {
                         for (int x = 0; x < 4; x++)
                             m5.SetMessage(y, x, (ushort)Messages[y][x].Value);
+                    }
+
                     m5.AuthorSID = (ushort)NUD_AuthorSID.Value;
                     for (int i = 0; i < Miscs.Length; i++)
                         m5.SetMisc(i, (ushort)Miscs[i].Value);
@@ -329,6 +347,7 @@ namespace PKHeX.WinForms
                     break;
             }
         }
+
         private string CheckValid()
         {
             string ret = "";
@@ -353,7 +372,9 @@ namespace PKHeX.WinForms
                             ret += $"{Environment.NewLine}Party#{i + 1} MailID mismatch";
                     }
                     else if (h != -1) //C
+                    {
                         ret += $"{Environment.NewLine}Party#{i + 1} MailID mismatch";
+                    }
                 }
                 for (int i = 0; i < 6; i++)
                 {
@@ -376,7 +397,9 @@ namespace PKHeX.WinForms
                             ret += $"{Environment.NewLine}MailID{i} MailType mismatch";
                     }
                     else if (m[i].IsEmpty == false) //Q
+                    {
                         ret += $"{Environment.NewLine}MailID{i} MailType mismatch";
+                    }
                 }
             }
             // Gen5
@@ -396,8 +419,10 @@ namespace PKHeX.WinForms
             // Gen*
             // Z: mail type is illegal
             for (int i = 0; i < m.Length; i++)
+            {
                 if (m[i].IsEmpty == null) // Z
                     ret += $"{Environment.NewLine}MailID{i} MailType mismatch";
+            }
 
             return ret;
         }
@@ -414,17 +439,20 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private bool ItemIsMail(int itemID) => Array.IndexOf(MailItemID, itemID) >= 0;
         private int MailTypeToCBIndex(int mailtype) => 1 + Array.IndexOf(MailItemID, mailtype);
         private int CBIndexToMailType(int cbindex) => cbindex <= 0 ? 0 : cbindex <= MailItemID.Length ? MailItemID[cbindex - 1] : MailItemID[0];
         private readonly int[] MailItemID;
         private readonly IList<PKM> p;
+
         private string GetSpeciesNameFromCB(int index)
         {
             foreach (ComboItem i in CB_AppearPKM1.Items)
                 if (index == i.Value) return i.Text;
             return "PKM";
         }
+
         private DialogResult ModifyHeldItem()
         {
             DialogResult ret = DialogResult.Abort;
@@ -438,6 +466,7 @@ namespace PKHeX.WinForms
             LoadPKM(false);
             return ret;
         }
+
         private void B_Delete_Click(object sender, EventArgs e)
         {
             if (entry < 0) return;
@@ -457,6 +486,7 @@ namespace PKHeX.WinForms
             LoadMail();
             editing = false;
         }
+
         private void EntryControl(object sender, EventArgs e)
         {
             if (editing) return;
@@ -486,6 +516,7 @@ namespace PKHeX.WinForms
             if (entry >= 0) LoadMail();
             editing = false;
         }
+
         private void LoadMail()
         {
             switch (m[entry])
@@ -505,8 +536,11 @@ namespace PKHeX.WinForms
                     CB_MailType.SelectedIndex = MailTypeToCBIndex(m3.MailType);
 
                     for (int y = 0; y < 3; y++)
+                    {
                         for (int x = 0; x < 3; x++)
                             Messages[y][x].Value = m3.GetMessage(y, x);
+                    }
+
                     NUD_AuthorSID.Value = m3.AuthorSID;
                     int v = Array.IndexOf(HoennListMixed, m3.AppearPKM);
                     AppearPKMs[0].SelectedValue = m3.AppearPKM < 252 ? m3.AppearPKM : v >= 0 ? 252 + v : 0;
@@ -517,8 +551,11 @@ namespace PKHeX.WinForms
                     CB_MailType.SelectedIndex = m4.IsEmpty == false ? m4.MailType + 1 : 0;
 
                     for (int y = 0; y < 3; y++)
+                    {
                         for (int x = 0; x < 4; x++)
                             Messages[y][x].Value = m4.GetMessage(y, x);
+                    }
+
                     NUD_AuthorSID.Value = m4.AuthorSID;
                     for (int i = 0; i < AppearPKMs.Length; i++)
                         AppearPKMs[i].SelectedValue = Math.Max(0, m4.GetAppearPKM(i) - 7);
@@ -532,8 +569,11 @@ namespace PKHeX.WinForms
                     CB_MailType.SelectedIndex = m5.IsEmpty == false ? m5.MailType + 1 : 0;
 
                     for (int y = 0; y < 3; y++)
+                    {
                         for (int x = 0; x < 4; x++)
                             Messages[y][x].Value = m5.GetMessage(y, x);
+                    }
+
                     NUD_AuthorSID.Value = m5.AuthorSID;
                     for (int i = 0; i < Miscs.Length; i++)
                         Miscs[i].Value = m5.GetMisc(i);
@@ -546,11 +586,13 @@ namespace PKHeX.WinForms
         }
 
         private readonly string[] gendersymbols = { "♂", "♀" };
+
         private void LoadOTlabel(int b)
         {
             Label_OTGender.Text = gendersymbols[b & 1];
             Label_OTGender.ForeColor = b == 1 ? Color.Red : Color.Blue;
         }
+
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
             if (entry < 0) return;

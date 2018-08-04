@@ -60,7 +60,7 @@ namespace PKHeX.WinForms
                 }
             }
             else
-                TB_OTName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false;
+            { TB_OTName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false; }
 
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
@@ -95,6 +95,7 @@ namespace PKHeX.WinForms
         #region Joyful
         private int JUMPS_IN_ROW, JUMPS_SCORE, JUMPS_5_IN_ROW;
         private int BERRIES_IN_ROW, BERRIES_SCORE, BERRIES_5_IN_ROW;
+
         private void ReadJoyful()
         {
             switch (SAV.Version)
@@ -125,6 +126,7 @@ namespace PKHeX.WinForms
             TB_B2.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_SCORE)).ToString();
             TB_B3.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_5_IN_ROW)).ToString();
         }
+
         private void SaveJoyful()
         {
             BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J1.Text)).CopyTo(SAV.Data, JUMPS_IN_ROW);
@@ -142,8 +144,10 @@ namespace PKHeX.WinForms
             var Pouches = SAV.Inventory;
             var itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version).ToArray();
             for (int i = 0; i < itemlist.Length; i++)
+            {
                 if (string.IsNullOrEmpty(itemlist[i]))
                     itemlist[i] = $"(Item #{i:000})";
+            }
 
             const int oldsea = 0x178;
             int[] tickets = {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
@@ -198,6 +202,7 @@ namespace PKHeX.WinForms
 
             B_GetTickets.Enabled = false;
         }
+
         private void ReadFerry()
         {
             CHK_Catchable.Checked = IsFerryFlagActive(0x864);
@@ -211,14 +216,17 @@ namespace PKHeX.WinForms
             CHK_InitialFaraway.Checked = IsFerryFlagActive(0x1B0);
             CHK_InitialNavel.Checked = IsFerryFlagActive(0x1DB);
         }
+
         private bool IsFerryFlagActive(int n)
         {
             return SAV.GetEventFlag(n);
         }
+
         private void SetFerryFlagFromNum(int n, bool b)
         {
             SAV.SetEventFlag(n, b);
         }
+
         private void SaveFerry()
         {
             SetFerryFlagFromNum(0x864, CHK_Catchable.Checked);
@@ -260,7 +268,10 @@ namespace PKHeX.WinForms
             foreach (RadioButton r in StatRBA)
                 r.Checked = false;
 
-            if (BFT[BFF[facility][1]] == null) CB_Stats2.Visible = false;
+            if (BFT[BFF[facility][1]] == null)
+            {
+                CB_Stats2.Visible = false;
+            }
             else
             {
                 CB_Stats2.Visible = true;
@@ -275,11 +286,13 @@ namespace PKHeX.WinForms
             editingcont = false;
             StatRBA[0].Checked = true;
         }
+
         private void ChangeStat(object sender, EventArgs e)
         {
             if (editingcont) return;
             StatAddrControl(SetValToSav: -2, SetSavToVal: true);
         }
+
         private void StatAddrControl(int SetValToSav = -2, bool SetSavToVal = false)
         {
             int Facility = CB_Stats1.SelectedIndex;
@@ -305,14 +318,14 @@ namespace PKHeX.WinForms
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0) return;
                 if (val > 9999) val = 9999;
-                BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + SetValToSav] + 4 * BattleType + 2 * RBi);
+                BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi));
                 return;
             }
             if (SetValToSav == -1)
             {
                 int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
                 int offset = SAV.GetBlockOffset(0) + 0xCDC;
-                BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, offset) & (uint)~(1 << p) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Data, offset);
+                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Data, offset) & (uint)~(1 << p)) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Data, offset);
                 return;
             }
             if (!SetSavToVal)
@@ -321,13 +334,14 @@ namespace PKHeX.WinForms
             editingval = true;
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
-                int vali = BitConverter.ToUInt16(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + i] + 4 * BattleType + 2 * RBi);
+                int vali = BitConverter.ToUInt16(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi));
                 if (vali > 9999) vali = 9999;
                 StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
             }
             CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Data, SAV.GetBlockOffset(0) + 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
             editingval = false;
         }
+
         private void ChangeStatVal(object sender, EventArgs e)
         {
             if (editingval) return;
@@ -390,11 +404,13 @@ namespace PKHeX.WinForms
             loading = false;
             CB_Stats1.SelectedIndex = 0;
         }
+
         private void SetFrontierSymbols()
         {
             for (int i = 0; i < SymbolButtonA.Length; i++)
                 SymbolButtonA[i].BackColor = SymbolColorA[Symbols[i]];
         }
+
         private void SaveBattleFrontier()
         {
             uint iSymbols = 0;
@@ -403,9 +419,10 @@ namespace PKHeX.WinForms
             if (CHK_ActivatePass.Checked)
                 iSymbols |= 1 << 14;
 
-            uint val = (uint)(BitConverter.ToUInt32(SAV.Data, ofsSymbols) & ~(0x7FFF << 4) | (iSymbols & 0x7FFF) << 4);
+            uint val = (uint)((BitConverter.ToUInt32(SAV.Data, ofsSymbols) & ~(0x7FFF << 4)) | (iSymbols & 0x7FFF) << 4);
             BitConverter.GetBytes(val).CopyTo(SAV.Data, ofsSymbols);
         }
+
         private void BTN_Symbol_Click(object sender, EventArgs e)
         {
             int index = Array.IndexOf(SymbolButtonA, sender);

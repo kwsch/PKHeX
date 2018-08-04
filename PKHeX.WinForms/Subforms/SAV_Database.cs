@@ -330,8 +330,26 @@ namespace PKHeX.WinForms
 
         private void LoadDatabase()
         {
+            RawDB = LoadPKMSaves(DatabasePath, Main.BackupPath, EXTERNAL_SAV, SAV);
+
+            // Load stats for pkm who do not have any
+            foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
+            {
+                pk.Stat_Level = pk.CurrentLevel;
+                pk.SetStats(pk.GetStats(pk.PersonalInfo));
+            }
+
+            try
+            {
+                BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
+            }
+            catch { /* Window Closed? */ }
+        }
+
+        private static List<PKM> LoadPKMSaves(string pkmdb, string savdb, string EXTERNAL_SAV, SaveFile SAV)
+        {
             var dbTemp = new ConcurrentBag<PKM>();
-            var files = Directory.EnumerateFiles(DatabasePath, "*", SearchOption.AllDirectories);
+            var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
             Parallel.ForEach(files, file =>
             {
                 FileInfo fi = new FileInfo(file);
@@ -344,7 +362,7 @@ namespace PKHeX.WinForms
             });
 
 #if LOADALL
-            if (SaveUtil.GetSavesFromFolder(Main.BackupPath, false, out IEnumerable<string> result))
+            if (SaveUtil.GetSavesFromFolder(savdb, false, out IEnumerable<string> result))
             {
                 Parallel.ForEach(result, file =>
                 {
@@ -364,25 +382,14 @@ namespace PKHeX.WinForms
                 });
             }
 #endif
+            // Fetch from save file
+            var savpkm = SAV.BoxData.Where(pk => pk.Species != 0);
+
+            var bakpkm = dbTemp.Where(pk => pk.Species != 0).OrderBy(pk => pk.Identifier);
+            var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
 
             // Prepare Database
-            RawDB = new List<PKM>(dbTemp.OrderBy(pk => pk.Identifier)
-                .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
-                .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
-                .Distinct());
-
-            // Load stats for pkm who do not have any
-            foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
-            {
-                pk.Stat_Level = pk.CurrentLevel;
-                pk.SetStats(pk.GetStats(pk.PersonalInfo));
-            }
-
-            try
-            {
-                BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
-            }
-            catch { /* Window Closed? */ }
+            return new List<PKM>(db);
         }
 
         // IO Usage

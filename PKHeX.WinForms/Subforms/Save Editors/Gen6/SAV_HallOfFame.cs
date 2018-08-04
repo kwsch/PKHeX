@@ -12,6 +12,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_HallOfFame(SaveFile sav)
         {
             InitializeComponent();
@@ -53,6 +54,7 @@ namespace PKHeX.WinForms
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
             editing = true;
         }
+
         private bool editing;
 
         private readonly string[] gendersymbols = Main.GenderSymbols;
@@ -91,11 +93,13 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_Close_Click(object sender, EventArgs e)
         {
             Origin.SetData(data, SAV.HoF);
             Close();
         }
+
         private void DisplayEntry(object sender, EventArgs e)
         {
             editing = false;
@@ -180,16 +184,21 @@ namespace PKHeX.WinForms
                 NUP_PartyIndex.Value = 1;
                 NUP_PartyIndex_ValueChanged(sender, e);
             }
-            else editing = true;
-        end:
+            else
+            {
+                editing = true;
+            }
+
+            end:
             RTB.Lines = s.ToArray();
             RTB.Font = new Font("Courier New", 8);
         }
+
         private void NUP_PartyIndex_ValueChanged(object sender, EventArgs e)
         {
             editing = false;
             int index = LB_DataEntry.SelectedIndex;
-            int offset = index * 0x1B4 + (Convert.ToInt32(NUP_PartyIndex.Value)-1) * 0x48;
+            int offset = (index * 0x1B4) + ((Convert.ToInt32(NUP_PartyIndex.Value)-1) * 0x48);
 
             if (offset < 0) return;
 
@@ -235,6 +244,7 @@ namespace PKHeX.WinForms
             bpkx.Image = SpriteUtil.GetSprite(species, (int)form, (int)gender, item, false, shiny == 1);
             editing = true;
         }
+
         private void Write_Entry(object sender, EventArgs e)
         {
             if (!editing)
@@ -244,7 +254,7 @@ namespace PKHeX.WinForms
 
             int index = LB_DataEntry.SelectedIndex;
             int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
-            int offset = index * 0x1B4 + partymember * 0x48;
+            int offset = (index * 0x1B4) + (partymember * 0x48);
 
             BitConverter.GetBytes(Convert.ToUInt16(CB_Species.SelectedValue)).CopyTo(data, offset + 0x00);
             BitConverter.GetBytes(Convert.ToUInt16(CB_HeldItem.SelectedValue)).CopyTo(data, offset + 0x02);
@@ -296,6 +306,7 @@ namespace PKHeX.WinForms
             bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
             DisplayEntry(null, null); // refresh text view
         }
+
         private void Validate_TextBoxes()
         {
             TB_Level.Text = Math.Min(Util.ToInt32(TB_Level.Text), 100).ToString();
@@ -303,6 +314,7 @@ namespace PKHeX.WinForms
             TB_TID.Text = Math.Min(Util.ToInt32(TB_TID.Text), ushort.MaxValue).ToString();
             TB_SID.Text = Math.Min(Util.ToInt32(TB_SID.Text), ushort.MaxValue).ToString();
         }
+
         private void UpdateNickname(object sender, EventArgs e)
         {
             if (!CHK_Nicknamed.Checked)
@@ -310,13 +322,18 @@ namespace PKHeX.WinForms
                 // Fetch Current Species and set it as Nickname Text
                 int species = WinFormsUtil.GetIndex(CB_Species);
                 if (species == 0 || species > 721)
-                    TB_Nickname.Text = "";
-                else try
                 {
-                    // get language
-                    TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
+                    TB_Nickname.Text = "";
                 }
-                catch { }
+                else
+                {
+                    try
+                    {
+                        // get language
+                        TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
+                    }
+                    catch { }
+                }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
 
@@ -332,11 +349,13 @@ namespace PKHeX.WinForms
             CB_Form.InitializeBinding();
             CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
         }
+
         private void UpdateSpecies(object sender, EventArgs e)
         {
             SetForms();
             UpdateNickname(null, null);
         }
+
         private void UpdateShiny(object sender, EventArgs e)
         {
             if (!editing)
@@ -345,6 +364,7 @@ namespace PKHeX.WinForms
 
             Write_Entry(null, null);
         }
+
         private void UpdateGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
@@ -376,6 +396,7 @@ namespace PKHeX.WinForms
 
             Write_Entry(null, null);
         }
+
         private void SetGenderLabel(int gender)
         {
             if (gender == 0)
@@ -397,8 +418,8 @@ namespace PKHeX.WinForms
         {
             if (LB_DataEntry.SelectedIndex < 1) { WinFormsUtil.Alert("Cannot delete your first Hall of Fame Clear entry."); return; }
             int index = LB_DataEntry.SelectedIndex;
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?")
-                != DialogResult.Yes) return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?") != DialogResult.Yes)
+                return;
 
             int offset = index * 0x1B4;
             if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));

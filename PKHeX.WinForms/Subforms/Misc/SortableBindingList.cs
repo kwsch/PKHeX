@@ -60,8 +60,10 @@ namespace PKHeX.WinForms
         {
             int count = Count;
             for (int i = 0; i < count; ++i)
+            {
                 if (prop.GetValue(this[i]).Equals(key))
                     return i;
+            }
 
             return -1;
         }

@@ -11,17 +11,17 @@ namespace PKHeX.WinForms
         public string Position => pkm.Identifier;
         public Image Sprite => pkm.Sprite();
         public string Nickname => pkm.Nickname;
-        public string Species => Get(GameInfo.Strings.specieslist, pkm.Species);
-        public string Nature => Get(GameInfo.Strings.natures, pkm.Nature);
+        public string Species => Get(Strings.specieslist, pkm.Species);
+        public string Nature => Get(Strings.natures, pkm.Nature);
         public string Gender => Get(Main.GenderSymbols, pkm.Gender);
         public string ESV => pkm.PSV.ToString("0000");
-        public string HP_Type => Get(GameInfo.Strings.types, pkm.HPType + 1);
-        public string Ability => Get(GameInfo.Strings.abilitylist, pkm.Ability);
-        public string Move1 => Get(GameInfo.Strings.movelist, pkm.Move1);
-        public string Move2 => Get(GameInfo.Strings.movelist, pkm.Move2);
-        public string Move3 => Get(GameInfo.Strings.movelist, pkm.Move3);
-        public string Move4 => Get(GameInfo.Strings.movelist, pkm.Move4);
-        public string HeldItem => Get(GameInfo.Strings.itemlist, pkm.HeldItem);
+        public string HP_Type => Get(Strings.types, pkm.HPType + 1);
+        public string Ability => Get(Strings.abilitylist, pkm.Ability);
+        public string Move1 => Get(Strings.movelist, pkm.Move1);
+        public string Move2 => Get(Strings.movelist, pkm.Move2);
+        public string Move3 => Get(Strings.movelist, pkm.Move3);
+        public string Move4 => Get(Strings.movelist, pkm.Move4);
+        public string HeldItem => Get(Strings.itemlist, pkm.HeldItem);
         public string HP => Stats[0].ToString();
         public string ATK => Stats[1].ToString();
         public string DEF => Stats[2].ToString();
@@ -30,10 +30,10 @@ namespace PKHeX.WinForms
         public string SPE => Stats[3].ToString();
         public string MetLoc => pkm.GetLocationString(eggmet: false);
         public string EggLoc => pkm.GetLocationString(eggmet: true);
-        public string Ball => Get(GameInfo.Strings.balllist, pkm.Ball);
+        public string Ball => Get(Strings.balllist, pkm.Ball);
         public string OT => pkm.OT_Name;
-        public string Version => Get(GameInfo.Strings.gamelist, pkm.Version);
-        public string OTLang => Get(GameInfo.Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
+        public string Version => Get(Strings.gamelist, pkm.Version);
+        public string OTLang => Get(Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
         public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
         public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
         public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
@@ -90,10 +90,10 @@ namespace PKHeX.WinForms
         public int Move2_PPUp => pkm.Move2_PPUps;
         public int Move3_PPUp => pkm.Move3_PPUps;
         public int Move4_PPUp => pkm.Move4_PPUps;
-        public string Relearn1 => Get(GameInfo.Strings.movelist, pkm.RelearnMove1);
-        public string Relearn2 => Get(GameInfo.Strings.movelist, pkm.RelearnMove2);
-        public string Relearn3 => Get(GameInfo.Strings.movelist, pkm.RelearnMove3);
-        public string Relearn4 => Get(GameInfo.Strings.movelist, pkm.RelearnMove4);
+        public string Relearn1 => Get(Strings.movelist, pkm.RelearnMove1);
+        public string Relearn2 => Get(Strings.movelist, pkm.RelearnMove2);
+        public string Relearn3 => Get(Strings.movelist, pkm.RelearnMove3);
+        public string Relearn4 => Get(Strings.movelist, pkm.RelearnMove4);
         public ushort Checksum => pkm.Checksum;
         public int Friendship => pkm.OT_Friendship;
         public int OT_Affection => pkm.OT_Affection;
@@ -107,9 +107,12 @@ namespace PKHeX.WinForms
 
         #endregion
 
-        public PKMPreview(PKM p)
+        private readonly GameStrings Strings;
+
+        public PKMPreview(PKM p, GameStrings strings)
         {
             pkm = p;
+            Strings = strings;
             Stats = pkm.GetStats(pkm.PersonalInfo);
         }
 

@@ -10,6 +10,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
+
         public SAV_PokedexSM(SaveFile sav)
         {
             InitializeComponent();
@@ -28,7 +29,6 @@ namespace PKHeX.WinForms
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
 
-
             Dex = new PokeDex7(SAV);
             var Species = GameInfo.Strings.Species;
             var names = Dex.GetEntryNames(Species);
@@ -46,7 +46,6 @@ namespace PKHeX.WinForms
         private int species = -1;
         private readonly CheckBox[] CP, CL;
 
-
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
@@ -60,6 +59,7 @@ namespace PKHeX.WinForms
             GetEntry();
             editing = false;
         }
+
         private void ChangeLBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
@@ -72,6 +72,7 @@ namespace PKHeX.WinForms
             GetEntry();
             editing = false;
         }
+
         private void ChangeLBForms(object sender, EventArgs e)
         {
             if (allModifying) return;
@@ -94,15 +95,22 @@ namespace PKHeX.WinForms
                         species = bspecies;
                 }
                 else
+                {
                     species = bspecies;
+                }
             }
-            else species = bspecies;
+            else
+            {
+                species = bspecies;
+            }
+
             CB_Species.SelectedValue = species;
             LB_Species.SelectedIndex = species - 1;
             LB_Species.TopIndex = LB_Species.SelectedIndex;
             GetEntry();
             editing = false;
         }
+
         private bool FillLBForms()
         {
             if (allModifying) return false;
@@ -129,7 +137,9 @@ namespace PKHeX.WinForms
 
             LB_Forms.DataSource = ds;
             if (fspecies <= SAV.MaxSpeciesID)
+            {
                 LB_Forms.SelectedIndex = 0;
+            }
             else
             {
                 int fc = SAV.Personal[bspecies].FormeCount;
@@ -163,10 +173,13 @@ namespace PKHeX.WinForms
             CHK_P4.Checked |= CHK_P8.Checked;
             CHK_P5.Checked |= CHK_P9.Checked;
         }
+
         private void ChangeEncountered(object sender, EventArgs e)
         {
             if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
+            {
                 CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
+            }
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
             {
                 if (sender == CHK_P2 && CHK_P2.Checked)
@@ -201,10 +214,11 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 9; i++)
             {
                 CL[i].Enabled = species <= SAV.MaxSpeciesID;
-                CL[i].Checked = CL[i].Enabled && Dex.LanguageFlags[pk*9 + i];
+                CL[i].Checked = CL[i].Enabled && Dex.LanguageFlags[(pk * 9) + i];
             }
             editing = false;
         }
+
         private void SetEntry()
         {
             if (species <= 0)
@@ -224,13 +238,14 @@ namespace PKHeX.WinForms
             Dex.Owned[pk] = CHK_P1.Checked;
 
             for (int i = 0; i < 9; i++)
-                Dex.LanguageFlags[pk*9 + i] = CL[i].Checked;
+                Dex.LanguageFlags[(pk * 9) + i] = CL[i].Checked;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
@@ -264,16 +279,22 @@ namespace PKHeX.WinForms
             CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255 && ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
+            {
                 foreach (var chk in new[] { CHK_P6, CHK_P7, CHK_P8, CHK_P9 })
                     chk.Checked = false;
+            }
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
+            {
                 (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+            }
         }
+
         private void B_Modify_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             modifyMenu.Show(btn.PointToScreen(new Point(0, btn.Height)));
         }
+
         private void ModifyAll(object sender, EventArgs e)
         {
             allModifying = true;
@@ -289,13 +310,14 @@ namespace PKHeX.WinForms
 
             SetEntry();
             // Turn off zh2 Petilil
-            Dex.LanguageFlags[548 * 9 + 8] = false;
+            Dex.LanguageFlags[(548 * 9) + 8] = false;
             GetEntry();
             allModifying = false;
             LB_Forms.Enabled = LB_Forms.Visible = true;
             LB_Species.SelectedIndex = 0;
             System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void ClearAll(object sender)
         {
             for (int i = 0; i < LB_Species.Items.Count; i++)
@@ -311,6 +333,7 @@ namespace PKHeX.WinForms
                 CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
             }
         }
+
         private void SetAll(object sender, int lang)
         {
             for (int i = 0; i < SAV.MaxSpeciesID; i++)
@@ -347,8 +370,10 @@ namespace PKHeX.WinForms
                 if (isForm)
                     return;
                 if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
+                {
                     if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
                         (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
+                }
 
                 return;
             }
@@ -393,8 +418,10 @@ namespace PKHeX.WinForms
             }
 
             if (!CHK_P1.Checked)
+            {
                 foreach (CheckBox t in CL)
                     t.Checked = false;
+            }
         }
     }
 }

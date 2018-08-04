@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -9,6 +8,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV4 SAV;
+
         public SAV_Underground(SaveFile sav)
         {
             InitializeComponent();

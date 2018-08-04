@@ -8,6 +8,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV3 SAV;
+
         public SAV_RTC3(SaveFile sav)
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace PKHeX.WinForms
             NUD_EMinute.Value = Math.Min(NUD_EMinute.Maximum, ClockElapsed.Minute);
             NUD_ESecond.Value = Math.Min(NUD_ESecond.Maximum, ClockElapsed.Second);
         }
+
         private void SaveData()
         {
             ClockInitial.Day = (ushort)NUD_IDay.Value;
@@ -46,6 +48,7 @@ namespace PKHeX.WinForms
             ClockElapsed.Minute = (byte)NUD_EMinute.Value;
             ClockElapsed.Second = (byte)NUD_ESecond.Value;
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveData();
@@ -56,10 +59,12 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Reset_Click(object sender, EventArgs e)
         {
             NUD_IDay.Value = NUD_IHour.Value = NUD_IMinute.Value = NUD_ISecond.Value = 0;
@@ -69,7 +74,7 @@ namespace PKHeX.WinForms
 
         private void B_BerryFix_Click(object sender, EventArgs e)
         {
-            NUD_EDay.Value = Math.Max(2*366 + 2, NUD_EDay.Value); // advance
+            NUD_EDay.Value = Math.Max((2 * 366) + 2, NUD_EDay.Value); // advance
             System.Media.SystemSounds.Asterisk.Play();
         }
     }

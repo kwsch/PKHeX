@@ -5,9 +5,11 @@ using System.Runtime.InteropServices;
 
 namespace PKHeX.WinForms
 {
+    /// <summary>
+    /// Image Layering/Blending Utility
+    /// </summary>
     public static class ImageUtil
     {
-        // Image Layering/Blending Utility
         public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double transparency)
         {
             if (baseLayer == null)
@@ -109,8 +111,10 @@ namespace PKHeX.WinForms
         public static void SetAllUsedPixelsOpaque(byte[] data)
         {
             for (int i = 0; i < data.Length; i += 4)
+            {
                 if (data[i + 3] != 0)
                     data[i + 3] = 0xFF;
+            }
         }
 
         public static void RemovePixels(byte[] pixels, byte[] original)

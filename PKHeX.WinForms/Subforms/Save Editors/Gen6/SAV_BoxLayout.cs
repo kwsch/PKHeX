@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_BoxLayout(SaveFile sav, int box)
         {
             InitializeComponent();
@@ -51,12 +52,14 @@ namespace PKHeX.WinForms
                     return false;
             }
         }
+
         private void LoadBoxNames()
         {
             LB_BoxSelect.Items.Clear();
             for (int i = 0; i < SAV.BoxCount; i++)
                 LB_BoxSelect.Items.Add(SAV.GetBoxName(i));
         }
+
         private void LoadUnlockedCount()
         {
             if (SAV.BoxesUnlocked <= 0)
@@ -72,6 +75,7 @@ namespace PKHeX.WinForms
                 CB_Unlocked.Items.Add(i);
             CB_Unlocked.SelectedIndex = Math.Min(max, SAV.BoxesUnlocked);
         }
+
         private void LoadFlags()
         {
             byte[] flags = SAV.BoxFlags;
@@ -99,6 +103,7 @@ namespace PKHeX.WinForms
         private NumericUpDown[] flagArr = new NumericUpDown[0];
         private bool editing;
         private bool renamingBox;
+
         private void ChangeBox(object sender, EventArgs e)
         {
             if (renamingBox)
@@ -110,6 +115,7 @@ namespace PKHeX.WinForms
 
             editing = false;
         }
+
         private void ChangeBoxDetails(object sender, EventArgs e)
         {
             if (editing)
@@ -120,10 +126,12 @@ namespace PKHeX.WinForms
             LB_BoxSelect.Items[LB_BoxSelect.SelectedIndex] = TB_BoxName.Text;
             renamingBox = false;
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (flagArr.Length > 0)
@@ -184,7 +192,10 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Locked/Team slots prevent movement of box(es).");
             }
             else
+            {
                 ChangeBox(null, null);
+            }
+
             editing = renamingBox = false;
         }
     }

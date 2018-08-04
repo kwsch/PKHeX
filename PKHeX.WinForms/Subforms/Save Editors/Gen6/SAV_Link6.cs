@@ -10,6 +10,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_Link6(SaveFile sav)
         {
             InitializeComponent();
@@ -46,10 +47,12 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Import_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog {Filter = PL6.Filter};
@@ -64,6 +67,7 @@ namespace PKHeX.WinForms
             LoadLinkData(data);
             B_Export.Enabled = true;
         }
+
         private void B_Export_Click(object sender, EventArgs e)
         {
             if (LinkInfo.Data == null)

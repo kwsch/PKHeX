@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     public partial class SAV_GameSelect : Form
     {
         public GameVersion Result = GameVersion.Invalid;
+
         public SAV_GameSelect(IEnumerable<ComboItem> items)
         {
             InitializeComponent();
@@ -18,12 +19,15 @@ namespace PKHeX.WinForms
             CB_Game.SelectedIndex = 0;
             CB_Game.Focus();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
+
         private void B_OK_Click(object sender, EventArgs e)
         {
             Result = (GameVersion)WinFormsUtil.GetIndex(CB_Game);
             Close();
         }
+
         private void SAV_GameSelect_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)

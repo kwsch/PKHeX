@@ -11,6 +11,7 @@ namespace PKHeX.WinForms
     public sealed partial class SAV_BoxList : Form
     {
         private readonly List<BoxEditor> Boxes = new List<BoxEditor>();
+
         public SAV_BoxList(SAVEditor p, SlotChangeManager m)
         {
             InitializeComponent();
@@ -86,11 +87,11 @@ namespace PKHeX.WinForms
             Debug.Assert(height * width >= count);
             width = Math.Min(4, width);
 
-            var padWidth = Boxes[0].Margin.Horizontal * 2 + 1;
-            Width = (Boxes[0].Width + padWidth) * width - padWidth/2 + 0x10;
+            var padWidth = (Boxes[0].Margin.Horizontal * 2) + 1;
+            Width = ((Boxes[0].Width + padWidth) * width) - (padWidth / 2) + 0x10;
 
-            var padHeight = Boxes[0].Margin.Vertical * 2 + 1;
-            Height = (Boxes[0].Height + padHeight) * height - padHeight/2;
+            var padHeight = (Boxes[0].Margin.Vertical * 2) + 1;
+            Height = ((Boxes[0].Height + padHeight) * height) - (padHeight / 2);
         }
 
         private static void Main_DragEnter(object sender, DragEventArgs e)

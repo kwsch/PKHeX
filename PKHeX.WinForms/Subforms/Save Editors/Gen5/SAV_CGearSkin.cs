@@ -12,6 +12,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV5 SAV;
+
         public SAV_CGearSkin(SaveFile sav)
         {
             InitializeComponent();
@@ -49,6 +50,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Error(ex.Message);
             }
         }
+
         private void B_ExportPNG_Click(object sender, EventArgs e)
         {
             Image png = PB_Background.Image;
@@ -63,6 +65,7 @@ namespace PKHeX.WinForms
 
             png.Save(sfd.FileName, ImageFormat.Png);
         }
+
         private void B_ImportCGB_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog
@@ -99,6 +102,7 @@ namespace PKHeX.WinForms
             byte[] data = bg.GetSkin(true);
             File.WriteAllBytes(sfd.FileName, data);
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             byte[] bgdata = bg.GetSkin(SAV.B2W2);
@@ -109,6 +113,7 @@ namespace PKHeX.WinForms
             }
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();

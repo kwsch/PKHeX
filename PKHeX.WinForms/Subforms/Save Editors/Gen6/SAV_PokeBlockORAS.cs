@@ -8,6 +8,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_PokeBlockORAS(SaveFile sav)
         {
             InitializeComponent();
@@ -19,19 +20,21 @@ namespace PKHeX.WinForms
             for (int i = 0; i < lbl_spec.Length; i++)
             {
                 lbl_spec[i].Text = $"{GameInfo.Strings.pokeblocks[94 + i]}:";
-                nup_spec[i].Value = BitConverter.ToUInt32(SAV.Data, SAV.Contest + i * 4);
+                nup_spec[i].Value = BitConverter.ToUInt32(SAV.Data, SAV.Contest + (i * 4));
             }
         }
+
         private readonly NumericUpDown[] nup_spec;
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < nup_spec.Length; i++)
-                BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV.Contest + i * 4);
+                BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV.Contest + (i * 4));
             Origin.SetData(SAV.Data, 0);
             Close();
         }
@@ -48,9 +51,10 @@ namespace PKHeX.WinForms
             {
                 ushort berry = plantable[Util.Rand.Next(1, plantable.Length)]; // get random berry item ID from list
                 BitConverter.GetBytes(berry).CopyTo(tree, 6); // put berry into tree.
-                tree.CopyTo(SAV.Data, SAV.BerryField + 0x10 * i); // put tree into plot
+                tree.CopyTo(SAV.Data, SAV.BerryField + (0x10 * i)); // put tree into plot
             }
         }
+
         private void B_GiveAllBlocks_Click(object sender, EventArgs e)
         {
             foreach (NumericUpDown n in nup_spec)

@@ -14,6 +14,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_EventFlags(SaveFile sav)
         {
             InitializeComponent();
@@ -47,7 +48,9 @@ namespace PKHeX.WinForms
             Text = $"{Text} ({gamePrefix.ToUpper()})";
 
             if (CB_Stats.Items.Count > 0)
+            {
                 CB_Stats.SelectedIndex = 0;
+            }
             else
             {
                 L_Stats.Visible = CB_Stats.Visible = MT_Stat.Visible = false;
@@ -75,6 +78,7 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Gather Updated Flags
@@ -156,6 +160,7 @@ namespace PKHeX.WinForms
             }
             return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
+
         private void AddFlagList(string[] list)
         {
             if (list == null || list.Length == 0)
@@ -172,26 +177,19 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    var flag = split[0];
-
-                    int n;
-                    if (flag.StartsWith("0x"))
-                    {
-                        flag = flag.Substring(2);
-                        n = Convert.ToInt16(flag, 16);
-                    }
-                    else
-                        n = Convert.ToInt16(flag);
+                    var flagIndex = split[0];
+                    int n = TryParseHexDec(flagIndex);
 
                     if (num.Contains(n))
                         continue;
                     num.Add(n);
                     desc.Add(split[1]);
-                } catch { }
+                }
+                catch { }
             }
             if (num.Count == 0)
             {
-                TLP_Flags.Controls.Add(new Label { Text = "Needs more research.", Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+                TLP_Flags.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
                 return;
             }
 
@@ -218,6 +216,15 @@ namespace PKHeX.WinForms
                 TLP_Flags.Controls.Add(lbl, 1, i);
             }
         }
+
+        private static int TryParseHexDec(string flag)
+        {
+            if (!flag.StartsWith("0x"))
+                return Convert.ToInt16(flag);
+            flag = flag.Substring(2);
+            return Convert.ToInt16(flag, 16);
+        }
+
         private void AddConstList(string[] list)
         {
             if (list == null || list.Length == 0)
@@ -236,21 +243,15 @@ namespace PKHeX.WinForms
                 try
                 {
                     var c = split[0];
-                    int n;
-                    if (c.StartsWith("0x40"))
-                    {
-                        c = c.Substring(4);
-                        n = Convert.ToInt16(c, 16);
-                    }
-                    else
-                        n = Convert.ToInt16(c);
+                    int n = TryParseHexDecConst(c);
 
                     if (num.Contains(n))
                         continue;
                     num.Add(n);
                     desc.Add(split[1]);
                     enums.Add(split.Length == 3 ? split[2] : "");
-                } catch { }
+                }
+                catch { }
             }
             if (num.Count == 0)
             {
@@ -312,6 +313,14 @@ namespace PKHeX.WinForms
             }
         }
 
+        private static int TryParseHexDecConst(string c)
+        {
+            if (!c.StartsWith("0x40"))
+                return Convert.ToInt16(c);
+            c = c.Substring(4);
+            return Convert.ToInt16(c, 16);
+        }
+
         private static int GetControlNum(Control c)
         {
             try
@@ -321,6 +330,7 @@ namespace PKHeX.WinForms
             }
             catch { return 0; }
         }
+
         private void ChangeCustomBool(object sender, EventArgs e)
         {
             if (editing)
@@ -332,6 +342,7 @@ namespace PKHeX.WinForms
                 c.Checked = c_CustomFlag.Checked;
             editing = false;
         }
+
         private void ChangeCustomFlag(object sender, EventArgs e)
         {
             int flag = (int)NUD_Flag.Value;
@@ -348,10 +359,12 @@ namespace PKHeX.WinForms
                 c_CustomFlag.Checked = flags[flag];
             }
         }
+
         private void ChangeCustomFlag(object sender, KeyEventArgs e)
         {
             ChangeCustomFlag(null, (EventArgs)e);
         }
+
         private void ToggleFlag(object sender, EventArgs e)
         {
             if (editing)
@@ -377,6 +390,7 @@ namespace PKHeX.WinForms
 
             editing = false;
         }
+
         private void ChangeConstantIndex(object sender, EventArgs e)
         {
             if (Constants.Length == 0)
@@ -387,6 +401,7 @@ namespace PKHeX.WinForms
             constEntry = CB_Stats.SelectedIndex; // Get Entry
             MT_Stat.Text = Constants[constEntry].ToString();
         }
+
         private void ToggleConst(object sender, EventArgs e)
         {
             if (editing)
@@ -419,12 +434,14 @@ namespace PKHeX.WinForms
             if (TB_NewSAV.Text.Length > 0 && TB_OldSAV.Text.Length > 0)
                 DiffSaves();
         }
+
         private void OpenSAV(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
                 LoadSAV(sender, ofd.FileName);
         }
+
         private void LoadSAV(object sender, string path)
         {
             if (sender == B_LoadOld)
@@ -432,6 +449,7 @@ namespace PKHeX.WinForms
             else
                 TB_NewSAV.Text = path;
         }
+
         private void DiffSaves()
         {
             if (!File.Exists(TB_OldSAV.Text)) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
@@ -454,9 +472,11 @@ namespace PKHeX.WinForms
                 bool[] oldBits = s1.EventFlags;
                 bool[] newBits = s2.EventFlags;
                 if (oldBits.Length != newBits.Length)
+                {
                     throw new Exception("Event flag lengths for games are different." +
                                         $"{Environment.NewLine}S1: {(GameVersion)s1.Game}" +
                                         $"{Environment.NewLine}S2: {(GameVersion)s2.Game}");
+                }
 
                 for (int i = 0; i < oldBits.Length; i++)
                 {
@@ -484,8 +504,10 @@ namespace PKHeX.WinForms
                 { WinFormsUtil.Alert("Event flag lengths for games are different.", $"S1: {(GameVersion)s1.Game}", $"S2: {(GameVersion)s2.Game}"); return; }
 
                 for (int i = 0; i < newConst.Length; i++)
+                {
                     if (oldConst[i] != newConst[i])
                         r += $"{i}: {oldConst[i]}->{newConst[i]}{Environment.NewLine}";
+                }
             }
             catch (Exception e)
             {
@@ -508,6 +530,7 @@ namespace PKHeX.WinForms
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
+
         private void Main_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);

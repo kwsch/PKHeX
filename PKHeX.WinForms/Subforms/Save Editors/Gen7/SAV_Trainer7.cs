@@ -10,6 +10,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
+
         public SAV_Trainer7(SaveFile sav)
         {
             InitializeComponent();
@@ -17,8 +18,10 @@ namespace PKHeX.WinForms
             SAV = (SAV7)(Origin = sav).Clone();
             Loading = true;
             if (Main.Unicode)
-            try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
-            catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+            {
+                try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
+                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+            }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
@@ -46,7 +49,7 @@ namespace PKHeX.WinForms
         private static readonly string[] TrainerStampTitle = { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
         private static readonly string[] BattleStyles = { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
         private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
-        private int skipFlag => SAV.USUM ? 4160 : 3200; // FlagMax - 768
+        private int SkipFlag => SAV.USUM ? 4160 : 3200; // FlagMax - 768
 
         private void GetComboBoxes()
         {
@@ -101,6 +104,7 @@ namespace PKHeX.WinForms
             foreach (string t in TrainerStampTitle)
                 LB_Stamps.Items.Add(t);
         }
+
         private void GetTextBoxes()
         {
             // Get Data
@@ -197,8 +201,7 @@ namespace PKHeX.WinForms
             if (SAV.SM)
                 LoadThrowTypeLists();
             else
-                CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible =
-                    LB_BallThrowTypeUnlocked.Visible = false;
+                CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible = LB_BallThrowTypeUnlocked.Visible = false;
 
             uint stampBits = SAV.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
@@ -262,7 +265,7 @@ namespace PKHeX.WinForms
                     FlyDestNameIndex[i] < 0
                     ? FlyDestAltName[u++]
                     : metLocationList.First(v => v.Value == FlyDestNameIndex[i]).Text
-                    , SAV.GetEventFlag(skipFlag + FlyDestFlagOfs[i])
+                    , SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i])
                 );
             }
             int[] MapUnmaskNameIndex = {
@@ -289,10 +292,11 @@ namespace PKHeX.WinForms
                     MapUnmaskNameIndex[i] < 0
                     ? MapUnmaskAltName[u++]
                     : metLocationList.First(v => v.Value == MapUnmaskNameIndex[i]).Text
-                    , SAV.GetEventFlag(skipFlag + MapUnmaskFlagOfs[i])
+                    , SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i])
                 );
             }
         }
+
         private void LoadUltraData()
         {
             NUD_Surf0.Value = SAV.GetSurfScore(0);
@@ -302,6 +306,7 @@ namespace PKHeX.WinForms
             TB_RotomOT.Font = TB_OTName.Font;
             TB_RotomOT.Text = SAV.RotomOT;
         }
+
         private void Save()
         {
             SaveTrainerInfo();
@@ -321,6 +326,7 @@ namespace PKHeX.WinForms
             if (SAV.USUM)
                 SaveUltraData();
         }
+
         private void SaveTrainerInfo()
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
@@ -367,6 +373,7 @@ namespace PKHeX.WinForms
             SAV.BP = (uint)NUD_BP.Value;
             SAV.FestaCoins = (uint)NUD_FC.Value;
         }
+
         private void SavePokeFinder()
         {
             SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
@@ -376,6 +383,7 @@ namespace PKHeX.WinForms
             SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
             SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
         }
+
         private void SaveBattleTree()
         {
             SAV.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
@@ -392,6 +400,7 @@ namespace PKHeX.WinForms
             SAV.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
             SAV.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
         }
+
         private void SaveTrainerAppearance()
         {
             // Skin changed && (gender matches || override)
@@ -400,10 +409,13 @@ namespace PKHeX.WinForms
             string gStr = CB_Gender.Items[gender].ToString();
             string sStr = CB_Gender.Items[skin].ToString();
 
-            if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex &&
-                (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
-                    SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
+            if (SAV.DressUpSkinColor == CB_SkinColor.SelectedIndex)
+                return;
+
+            if (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?"))
+                SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
         }
+
         private void SaveThrowType()
         {
             if (CB_BallThrowType.SelectedIndex >= 0)
@@ -419,6 +431,7 @@ namespace PKHeX.WinForms
             for (int i = 1; i < BattleStyles.Length; i++)
                 SAV.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
         }
+
         private void SaveFlags()
         {
             SAV.Stamps = GetBits(LB_Stamps);
@@ -431,10 +444,11 @@ namespace PKHeX.WinForms
             SAV.ZMoveUnlocked = CHK_UnlockZMove.Checked;
 
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
-                SAV.SetEventFlag(skipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
+                SAV.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
             for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
-                SAV.SetEventFlag(skipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
+                SAV.SetEventFlag(SkipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
         }
+
         private void SaveUltraData()
         {
             SAV.SetSurfScore(0, (int)NUD_Surf0.Value);
@@ -446,17 +460,23 @@ namespace PKHeX.WinForms
                 && TB_OTName.Text != SAV.OT // manually changed
                 && DialogResult.Yes == // wants to update
                 WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rotom OT does not match OT name. Update Rotom OT name with OT name?"))
+            {
                 SAV.RotomOT = TB_OTName.Text;
+            }
             else
+            {
                 SAV.RotomOT = TB_RotomOT.Text;
+            }
         }
 
         private static uint GetBits(ListBox listbox)
         {
             uint bits = 0;
             for (int i = 0; i < listbox.Items.Count; i++)
+            {
                 if (listbox.GetSelected(i))
                     bits |= (uint)(1 << i);
+            }
             return bits;
         }
 
@@ -476,35 +496,41 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void Change255(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
+
         private void ChangeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
+
         private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!Loading)
                 MapUpdated = true;
         }
+
         private void UpdateCountry(object sender, EventArgs e)
         {
             int index;
             if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
                 Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
         }
+
         private void B_Fashion_Click(object sender, EventArgs e)
         {
             var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing fashion unlock data.", "Continue?");
@@ -550,6 +576,7 @@ namespace PKHeX.WinForms
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
+
         private string UpdateTip(int index)
         {
             switch (index)
@@ -563,6 +590,7 @@ namespace PKHeX.WinForms
                     return null;
             }
         }
+
         private static string ConvertDateValueToString(int value, int secondsBias = -1)
         {
             const int spd = 86400; // seconds per day
@@ -588,12 +616,14 @@ namespace PKHeX.WinForms
                 LB_BallThrowTypeLearned.Visible = true;
             }
         }
+
         private void UpdateBallThrowTypeLearned(object sender, EventArgs e)
         {
             if (Loading) return;
             if (!LB_BallThrowTypeLearned.GetSelected(0))
                 LB_BallThrowTypeLearned.SetSelected(0, true);
         }
+
         private void UpdateBallThrowTypeUnlocked(object sender, EventArgs e)
         {
             if (Loading) return;
@@ -603,11 +633,13 @@ namespace PKHeX.WinForms
                     LB_BallThrowTypeUnlocked.SetSelected(i, true);
             }
         }
+
         private void B_AllFlyDest_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
                 CLB_FlyDest.SetItemChecked(i, true);
         }
+
         private void B_AllMapUnmask_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
