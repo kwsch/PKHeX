@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -702,7 +701,7 @@ namespace PKHeX.Core
         public int RecordCount => 200;
         public int GetRecord(int recordID)
         {
-            int ofs = GetRecordOffset(recordID);
+            int ofs = Records.GetOffset(Record, recordID);
             if (recordID < 100)
                 return BitConverter.ToInt32(Data, ofs);
             if (recordID < 200)
@@ -711,9 +710,9 @@ namespace PKHeX.Core
         }
         public void SetRecord(int recordID, int value)
         {
-            int ofs = GetRecordOffset(recordID);
-            var maxes = USUM ? RecordMaxType_USUM: RecordMaxType_SM;
-            int max = GetRecordMax(recordID, maxes);
+            int ofs = Records.GetOffset(Record, recordID);
+            var maxes = USUM ? Records.MaxType_USUM: Records.MaxType_SM;
+            int max = Records.GetMax(recordID, maxes);
             if (value > max)
                 value = max;
             if (recordID < 100)
@@ -721,65 +720,8 @@ namespace PKHeX.Core
             if (recordID < 200)
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
         }
-        public int GetRecordOffset(int recordID)
-        {
-            if (recordID < 100)
-                return Record + recordID*4;
-            if (recordID < 200)
-                return Record + recordID*2 + 200; // first 100 are 4bytes, so bias the difference
-            return -1;
-        }
-        public int GetRecordMax(int recordID) => GetRecordMax(recordID, USUM ? RecordMaxType_USUM : RecordMaxType_SM);
-        private static int GetRecordMax(int recordID, IReadOnlyList<int> maxes) => recordID < 200 ? RecordMax[maxes[recordID]] : 0;
-        private static readonly int[] RecordMax = {999999999, 9999999, 999999, 99999, 65535, 9999, 999};
-        private static readonly int[] RecordMaxType_SM =
-        {
-            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        };
-        private static readonly int[] RecordMaxType_USUM =
-        {
-            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-            0, 0, 0, 0, 0, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 4, 4, 4, 5, 5, 4, 5, 5
-        };
+        public int GetRecordMax(int recordID) => Records.GetMax(recordID, USUM ? Records.MaxType_USUM : Records.MaxType_SM);
+        public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
 
         public ushort PokeFinderCameraVersion
         {
