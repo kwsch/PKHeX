@@ -11,8 +11,6 @@ namespace PKHeX.Core
         internal byte[] nick;
         public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
-        public byte[] OT_Name_Raw => (byte[])otname.Clone();
-        public byte[] Nickname_Raw => (byte[])nick.Clone();
         public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
         public override int SIZE_PARTY => PKX.SIZE_1PARTY;
@@ -97,7 +95,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override byte[] Encrypt() => new PokemonList1(this).GetBytes();
+        protected override byte[] Encrypt() => new PokeList1(this).Write();
         public override byte[] EncryptedPartyData => Encrypt();
         public override byte[] EncryptedBoxData => Encrypt();
         public override byte[] DecryptedBoxData => Encrypt();
@@ -433,122 +431,5 @@ namespace PKHeX.Core
             pk7.RefreshChecksum();
             return pk7;
         }
-    }
-
-    public class PokemonList1
-    {
-        private const int CAPACITY_DAYCARE = 1;
-        private const int CAPACITY_PARTY = 6;
-        private const int CAPACITY_STORED = 20;
-        private const int CAPACITY_STORED_JP = 30;
-
-        private readonly bool Japanese;
-
-        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
-
-        public enum CapacityType
-        {
-            Daycare = CAPACITY_DAYCARE,
-            Party = CAPACITY_PARTY,
-            Stored = CAPACITY_STORED,
-            StoredJP = CAPACITY_STORED_JP,
-            Single
-        }
-
-        private static int GetEntrySize(CapacityType c) => c == CapacityType.Single || c == CapacityType.Party
-            ? PKX.SIZE_1PARTY
-            : PKX.SIZE_1STORED;
-        private static byte GetCapacity(CapacityType c) => c == CapacityType.Single ? (byte)1 : (byte)c;
-
-        private static byte[] GetEmptyList(CapacityType c, bool is_JP = false)
-        {
-            int cap = GetCapacity(c);
-            return new[] { (byte)0 }.Concat(Enumerable.Repeat((byte)0xFF, cap + 1)).Concat(Enumerable.Repeat((byte)0, GetEntrySize(c) * cap)).Concat(Enumerable.Repeat((byte)0x50, (is_JP ? PK1.STRLEN_J : PK1.STRLEN_U) * 2 * cap)).ToArray();
-        }
-
-        public PokemonList1(byte[] d, CapacityType c = CapacityType.Single, bool jp = false)
-        {
-            Japanese = jp;
-            Data = d ?? GetEmptyList(c, Japanese);
-            Capacity = GetCapacity(c);
-            Entry_Size = GetEntrySize(c);
-
-            if (Data.Length != DataSize)
-                Array.Resize(ref Data, DataSize);
-
-            Pokemon = new PK1[Capacity];
-            for (int i = 0; i < Capacity; i++)
-            {
-                int base_ofs = 2 + Capacity;
-                byte[] dat = new byte[Entry_Size];
-                byte[] otname = new byte[StringLength];
-                byte[] nick = new byte[StringLength];
-                Buffer.BlockCopy(Data, base_ofs + Entry_Size * i, dat, 0, Entry_Size);
-                Buffer.BlockCopy(Data, base_ofs + Capacity * Entry_Size + StringLength * i, otname, 0, StringLength);
-                Buffer.BlockCopy(Data, base_ofs + Capacity * Entry_Size + StringLength * (i + Capacity), nick, 0, StringLength);
-
-                Pokemon[i] = new PK1(dat, null, jp) {otname = otname, nick = nick};
-            }
-        }
-
-        public PokemonList1(CapacityType c = CapacityType.Single, bool jp = false)
-            : this(null, c, jp) => Count = 1;
-
-        public PokemonList1(PK1 pk)
-            : this(CapacityType.Single, pk.Japanese)
-        {
-            this[0] = pk;
-            Count = 1;
-        }
-
-        private readonly byte[] Data;
-        private readonly byte Capacity;
-        private readonly int Entry_Size;
-
-        public byte Count
-        {
-            get => Data[0];
-            set => Data[0] = value > Capacity ? Capacity : value;
-        }
-
-        public readonly PK1[] Pokemon;
-
-        public PK1 this[int i]
-        {
-            get
-            {
-                if (i > Capacity || i < 0) throw new ArgumentOutOfRangeException($"Invalid PokemonList Access: {i}");
-                return Pokemon[i];
-            }
-            set
-            {
-                if (value == null) return;
-                Pokemon[i] = (PK1)value.Clone();
-            }
-        }
-
-        private void Update()
-        {
-            int count = Array.FindIndex(Pokemon, pk => pk.Species == 0);
-            Count = count < 0 ? Capacity : (byte)count;
-            for (int i = 0; i < Count; i++)
-            {
-                int base_ofs = 2 + Capacity;
-                Data[1 + i] = (byte)SpeciesConverter.SetG1Species(Pokemon[i].Species);
-                Array.Copy(Pokemon[i].Data, 0, Data, base_ofs + Entry_Size * i, Entry_Size);
-                Array.Copy(Pokemon[i].OT_Name_Raw, 0, Data, base_ofs + Capacity * Entry_Size + StringLength * i, StringLength);
-                Array.Copy(Pokemon[i].Nickname_Raw, 0, Data, base_ofs + Capacity * Entry_Size + StringLength * (i + Capacity), StringLength);
-            }
-            Data[1 + Count] = byte.MaxValue;
-        }
-
-        public byte[] GetBytes()
-        {
-            Update();
-            return Data;
-        }
-
-        private int DataSize => Capacity * (Entry_Size + 1 + 2 * StringLength) + 2;
-        public static int GetDataLength(CapacityType c, bool jp = false) => GetCapacity(c) * (GetEntrySize(c) + 1 + 2 * (jp ? PK1.STRLEN_J : PK1.STRLEN_U)) + 2;
     }
 }

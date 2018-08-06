@@ -86,12 +86,12 @@ namespace PKHeX.Core
             switch (format)
             {
                 case 1:
-                    var PL1 = new PokemonList1(data, PokemonList1.CapacityType.Single, data.Length == PKX.SIZE_1JLIST);
+                    var PL1 = new PokeList1(data);
                     if (ident != null)
                         PL1[0].Identifier = ident;
                     return PL1[0];
                 case 2:
-                    var PL2 = new PokemonList2(data, PokemonList2.CapacityType.Single, data.Length == PKX.SIZE_2JLIST);
+                    var PL2 = new PokeList2(data);
                     if (ident != null)
                         PL2[0].Identifier = ident;
                     return PL2[0];

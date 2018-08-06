@@ -41,71 +41,56 @@ namespace PKHeX.Core
             Personal = PersonalTable.Y;
 
             // Stash boxes after the save file's end.
-            byte[] TempBox = new byte[SIZE_STOREDBOX];
+            int stored = SIZE_STOREDBOX;
+            int baseDest = Data.Length - SIZE_RESERVED;
+            var capacity = Japanese ? PokeListType.StoredJP : PokeListType.Stored;
             for (int i = 0; i < BoxCount; i++)
             {
-                if (i < BoxCount / 2)
-                    Array.Copy(Data, 0x4000 + i * TempBox.Length, TempBox, 0, TempBox.Length);
-                else
-                    Array.Copy(Data, 0x6000 + (i - BoxCount / 2) * TempBox.Length, TempBox, 0, TempBox.Length);
-                PokemonList1 PL1 = new PokemonList1(TempBox, Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
-                for (int j = 0; j < PL1.Pokemon.Length; j++)
+                int ofs = GetBoxRawDataOffset(i);
+                var box = GetData(ofs, stored);
+                var boxDest = baseDest + (i * SIZE_BOX);
+                var boxPL = new PokeList1(box, capacity, Japanese);
+                for (int j = 0; j < boxPL.Pokemon.Length; j++)
                 {
-                    if (j < PL1.Count)
-                    {
-                        byte[] pkDat = new PokemonList1(PL1[j]).GetBytes();
-                        pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + i * SIZE_BOX + j * SIZE_STORED);
-                    }
-                    else
-                    {
-                        byte[] pkDat = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
-                        pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + i * SIZE_BOX + j * SIZE_STORED);
-                    }
+                    var dest = boxDest + (j * SIZE_STORED);
+                    var pkDat = (j < boxPL.Count)
+                        ? new PokeList1(boxPL[j]).Write()
+                        : new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
+                    pkDat.CopyTo(Data, dest);
                 }
             }
 
-            Array.Copy(Data, Japanese ? 0x302D : 0x30C0, TempBox, 0, TempBox.Length);
-            PokemonList1 curBoxPL = new PokemonList1(TempBox, Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+            var current = GetData(Japanese ? 0x302D : 0x30C0, SIZE_STOREDBOX);
+            var curBoxPL = new PokeList1(current, capacity, Japanese);
             for (int i = 0; i < curBoxPL.Pokemon.Length; i++)
             {
-                if (i < curBoxPL.Count)
-                {
-                    byte[] pkDat = new PokemonList1(curBoxPL[i]).GetBytes();
-                    pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED);
-                }
-                else
-                {
-                    byte[] pkDat = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
-                    pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED);
-                }
+                var dest = Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED;
+                var pkDat = i < curBoxPL.Count
+                    ? new PokeList1(curBoxPL[i]).Write()
+                    : new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
+                pkDat.CopyTo(Data, dest);
             }
 
-            byte[] TempParty = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Party, Japanese)];
-            Array.Copy(Data, Japanese ? 0x2ED5 : 0x2F2C, TempParty, 0, TempParty.Length);
-            PokemonList1 partyList = new PokemonList1(TempParty, PokemonList1.CapacityType.Party, Japanese);
-            for (int i = 0; i < partyList.Pokemon.Length; i++)
+            var party = GetData(Japanese ? 0x2ED5 : 0x2F2C, SIZE_STOREDPARTY);
+            var partyPL = new PokeList1(party, PokeListType.Party, Japanese);
+            for (int i = 0; i < partyPL.Pokemon.Length; i++)
             {
-                if (i < partyList.Count)
-                {
-                    byte[] pkDat = new PokemonList1(partyList[i]).GetBytes();
-                    pkDat.CopyTo(Data, GetPartyOffset(i));
-                }
-                else
-                {
-                    byte[] pkDat = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
-                    pkDat.CopyTo(Data, GetPartyOffset(i));
-                }
+                var dest = GetPartyOffset(i);
+                var pkDat = i < partyPL.Count
+                    ? new PokeList1(partyPL[i]).Write()
+                    : new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
+                pkDat.CopyTo(Data, dest);
             }
 
             byte[] rawDC = new byte[0x38];
             Array.Copy(Data, Japanese ? 0x2CA7 : 0x2CF4, rawDC, 0, rawDC.Length);
-            byte[] TempDaycare = new byte[PokemonList1.GetDataLength(PokemonList1.CapacityType.Single, Japanese)];
+            byte[] TempDaycare = new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
             TempDaycare[0] = rawDC[0];
             Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY + StringLength, StringLength);
             Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY, StringLength);
             Array.Copy(rawDC, 1 + 2 * StringLength, TempDaycare, 2 + 1, PKX.SIZE_1STORED);
-            PokemonList1 daycareList = new PokemonList1(TempDaycare, PokemonList1.CapacityType.Single, Japanese);
-            daycareList.GetBytes().CopyTo(Data, GetPartyOffset(7));
+            PokeList1 daycareList = new PokeList1(TempDaycare, PokeListType.Single, Japanese);
+            daycareList.Write().CopyTo(Data, GetPartyOffset(7));
             Daycare = GetPartyOffset(7);
 
             EventFlag = Japanese ? 0x29E9 : 0x29F3;
@@ -127,25 +112,29 @@ namespace PKHeX.Core
 
         protected override byte[] Write(bool DSV)
         {
+            var capacity = Japanese ? PokeListType.StoredJP : PokeListType.Stored;
             for (int i = 0; i < BoxCount; i++)
             {
-                PokemonList1 boxPL = new PokemonList1(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+                var boxPL = new PokeList1(capacity, Japanese);
                 int slot = 0;
                 for (int j = 0; j < boxPL.Pokemon.Length; j++)
                 {
-                    PK1 boxPK = (PK1) GetPKM(GetData(GetBoxOffset(i) + j*SIZE_STORED, SIZE_STORED));
+                    PK1 boxPK = (PK1)GetPKM(GetData(GetBoxOffset(i) + (j * SIZE_STORED), SIZE_STORED));
                     if (boxPK.Species > 0)
                         boxPL[slot++] = boxPK;
                 }
-                if (i < BoxCount / 2)
-                    boxPL.GetBytes().CopyTo(Data, 0x4000 + i * SIZE_STOREDBOX);
-                else
-                    boxPL.GetBytes().CopyTo(Data, 0x6000 + (i - BoxCount / 2) * SIZE_STOREDBOX);
+
+                // copy to box location
+                var boxdata = boxPL.Write();
+                int ofs = GetBoxRawDataOffset(i);
+                SetData(boxdata, ofs);
+
+                // copy to active loc if current box
                 if (i == CurrentBox)
-                    boxPL.GetBytes().CopyTo(Data, Japanese ? 0x302D : 0x30C0);
+                    SetData(boxdata, Japanese ? 0x302D : 0x30C0);
             }
 
-            PokemonList1 partyPL = new PokemonList1(PokemonList1.CapacityType.Party, Japanese);
+            var partyPL = new PokeList1(PokeListType.Party, Japanese);
             int pSlot = 0;
             for (int i = 0; i < 6; i++)
             {
@@ -153,7 +142,7 @@ namespace PKHeX.Core
                 if (partyPK.Species > 0)
                     partyPL[pSlot++] = partyPK;
             }
-            partyPL.GetBytes().CopyTo(Data, Japanese ? 0x2ED5 : 0x2F2C);
+            partyPL.Write().CopyTo(Data, Japanese ? 0x2ED5 : 0x2F2C);
 
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
             byte[] rawDC = GetData(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
@@ -170,13 +159,21 @@ namespace PKHeX.Core
             return outData;
         }
 
+        private int GetBoxRawDataOffset(int i)
+        {
+            if (i < BoxCount / 2)
+                return 0x4000 + (i * SIZE_STOREDBOX);
+            return 0x6000 + ((i - (BoxCount / 2)) * SIZE_STOREDBOX);
+        }
+
         // Configuration
         public override SaveFile Clone() { return new SAV1(Write(DSV: false)); }
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
         protected override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
         private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
-        private int SIZE_STOREDBOX => PokemonList1.GetDataLength(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+        private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
+        private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);
 
         public override PKM BlankPKM => new PK1(null, null, Japanese);
         public override Type PKMType => typeof(PK1);
@@ -441,7 +438,7 @@ namespace PKHeX.Core
         public override PKM GetPKM(byte[] data)
         {
             if (data.Length == SIZE_STORED)
-                return new PokemonList1(data, PokemonList1.CapacityType.Single, Japanese)[0];
+                return new PokeList1(data, PokeListType.Single, Japanese)[0];
             return new PK1(data);
         }
         public override byte[] DecryptPKM(byte[] data)
