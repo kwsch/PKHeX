@@ -213,7 +213,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             uint flags = Util.ToUInt32(MT_Flags.Text);
-            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.PSSStats + 0x140, 4); // write pss
+            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.Record + 0x140, 4); // write pss
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
             Origin.SetData(SAV.Data, 0);
             Close();

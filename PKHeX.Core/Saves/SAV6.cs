@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV6 : SaveFile
+    public sealed class SAV6 : SaveFile, ITrainerStatRecord
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
@@ -94,7 +94,7 @@ namespace PKHeX.Core
                 /* 12: */ // = 0x04C00; [00004] // 87B1A23F const
                 /* 13: */ // = 0x04E00; [00048] // Repel Info, (Swarm?) and other overworld info
                 /* 14: */ SUBE = 0x05000;
-                /* 15: */ PSSStats = 0x05400;
+                /* 15: */ Record = 0x05400;
 
                 OFS_PouchHeldItem = Bag + 0;
                 OFS_PouchKeyItem = Bag + 0x640;
@@ -118,7 +118,7 @@ namespace PKHeX.Core
                 TrainerCard = 0x14000;
                 Party = 0x14200;
                 EventConst = 0x14A00;
-                PSSStats = 0x1E400;
+                Record = 0x1E400;
                 PokeDex = 0x15000;
                 Fused = 0x16000;
                 OPower = 0x16A00;
@@ -174,7 +174,7 @@ namespace PKHeX.Core
                 BerryField = 0x1C400;
                 WondercardFlags = 0x1CC00;
                 SUBE = 0x1D890;
-                PSSStats = 0x1F400;
+                Record = 0x1F400;
                 SuperTrain = 0x20200;
                 LinkInfo = 0x20E00;
                 Contest = 0x23600;
@@ -221,7 +221,7 @@ namespace PKHeX.Core
         // Accessible as SAV6
         public int TrainerCard { get; private set; } = 0x14000;
         public int PCFlags { get; private set; } = int.MinValue;
-        public int PSSStats { get; private set; } = int.MinValue;
+        public int Record { get; private set; } = int.MinValue;
         public int MaisonStats { get; private set; } = int.MinValue;
         public int EonTicket { get; private set; } = int.MinValue;
         public int PCBackgrounds { get; private set; } = int.MinValue;
@@ -500,8 +500,6 @@ namespace PKHeX.Core
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); }
 
-        public uint GetPSSStat(int index) { return BitConverter.ToUInt32(Data, PSSStats + 4*index); }
-        public void SetPSSStat(int index, uint value) { BitConverter.GetBytes(value).CopyTo(Data, PSSStats + 4*index); }
         public ushort GetMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + 2 * index); }
         public void SetMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + 2*index); }
         public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + 2*index); }
@@ -1049,5 +1047,30 @@ namespace PKHeX.Core
                 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
             }.CopyTo(Data, Accessories);
         }
+
+        public int RecordCount => 200;
+        public int GetRecord(int recordID)
+        {
+            int ofs = Records.GetOffset(Record, recordID);
+            if (recordID < 100)
+                return BitConverter.ToInt32(Data, ofs);
+            if (recordID < 200)
+                return BitConverter.ToInt16(Data, ofs);
+            return 0;
+        }
+        public void SetRecord(int recordID, int value)
+        {
+            int ofs = Records.GetOffset(Record, recordID);
+            var maxes = XY ? Records.MaxType_XY : Records.MaxType_AO;
+            int max = Records.GetMax(recordID, maxes);
+            if (value > max)
+                return; // out of range, don't set value
+            if (recordID < 100)
+                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+            if (recordID < 200)
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
+        }
+        public int GetRecordMax(int recordID) => Records.GetMax(recordID, XY ? Records.MaxType_XY : Records.MaxType_AO);
+        public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
     }
 }

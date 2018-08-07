@@ -32,6 +32,9 @@ namespace PKHeX.WinForms
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
+            TrainerStats.LoadRecords(SAV, Records.RecordList_6);
+            TrainerStats.GetToolTipText = UpdateTip;
+
             MaisonRecords = new[]
             {
                 TB_MCSN,TB_MCSS,TB_MBSN,TB_MBSS,
@@ -55,175 +58,15 @@ namespace PKHeX.WinForms
             if (SAV.MaisonStats < 0)
                 TC_Editor.TabPages.Remove(Tab_Maison);
 
-            editing = true;
             GetComboBoxes();
             GetTextBoxes();
             GetBadges();
-
-            statdata = new[] {
-                "0x000",	"0x000", // Steps taken?
-                "0x004",	"0x004", // Minutes Played / Pokemon Encountered?
-                "0x008",	"0x008",
-                "0x00C",	"0x00C",
-                "0x010",	"0x010",
-                "0x014",	"0x014",
-                "0x018",	"0x018",
-                "0x01C",	"Pokémon Captured",
-                "0x020",	"0x020",
-                "0x024",	"Eggs Hatched",
-                "0x028",	"Pokémon Evolved",
-                "0x02C",	"0x02C",
-                "0x030",	"~People Passed", // I think the following ones are Passerby actions...
-                "0x034",	"0x034",
-                "0x038",	"0x038",
-                "0x03C",	"0x03C",
-                "0x040",	"Link Trades",
-                "0x044",	"Link Battles",
-                "0x048",	"Link Battle Wins",
-                "0x04C",	"0x04C",
-                "0x050",	"0x050",
-                "0x054",	"0x054",
-                "0x058",	"0x058",
-                "0x05C",	"0x05C",
-                "0x060",	"0x060",
-                "0x064",	"0x064",
-                "0x068",	"0x068",
-                "0x06C",	"0x06C",
-                "0x070",	"0x070",
-                "0x074",	"0x074",
-                "0x078",	"0x078",
-                "0x07C",	"0x07C",
-                "0x080",	"0x080",
-                "0x084",	"0x084",
-                "0x088",	"BP Earned",
-                "0x08C",	"0x08C",
-                "0x090",	"0x090",
-                "0x094",	"0x094",
-                "0x098",	"0x098",
-                "0x09C",	"0x09C",
-                "0x0A0",	"0x0A0",
-                "0x0A4",	"0x0A4",
-                "0x0A8",	"0x0A8",
-                "0x0AC",	"0x0AC",
-                "0x0B0",	"0x0B0",
-                "0x0B4",	"0x0B4",
-                "0x0B8",	"0x0B8",
-                "0x0BC",	"0x0BC",
-                "0x0C0",	"0x0C0",
-                "0x0C4",	"0x0C4",
-                "0x0C8",	"0x0C8",
-                "0x0CC",	"0x0CC",
-                "0x0D0",	"0x0D0",
-                "0x0D4",	"0x0D4",
-                "0x0D8",	"0x0D8",
-                "0x0DC",	"0x0DC",
-                "0x0E0",	"0x0E0",
-                "0x0E4",	"0x0E4",
-                "0x0E8",	"0x0E8",
-                "0x0EC",	"Nice! Received",
-                "0x0F0",	"Birthday Wishes",
-                "0x0F4",	"Total People Met Online",
-                "0x0F8",	"0x0F8",
-                //"0x0FC",	"Current Pokemiles",
-                "0x100",	"Obtained Pokemiles",
-                "0x104",	"0x104",
-                "0x108",	"0x108",
-                "0x10C",	"Super Training Clears",
-                "0x110",	"Judge Evaluations",
-                "0x114",	"0x114",
-                "0x118",	"0x118", // Link Trades?
-                "0x11C",	"Link Battle", // Wins", // ?
-                "0x120",	"0x120", // Link Battle Losses?
-                "0x124",	"0x124",
-                "0x128",	"0x128",
-                "0x12C",	"0x12C",
-                "0x130",	"0x130",
-                "0x134",	"0x134",
-                "0x138",	"0x138",
-                "0x13C",	"0x13C",
-                "0x140",	"Flags Captured",
-                "0x144",	"0x144",
-                "0x148",	"0x148",
-                "0x14C",	"0x14C",
-                "0x150",	"0x150",
-                "0x154",	"0x154",
-                "0x158",	"0x158",
-                "0x15C",	"0x15C",
-                "0x160",	"0x160",
-                "0x164",	"0x164",
-                "0x168",	"0x168",
-                "0x16C",	"0x16C",
-                "0x170",	"0x170",
-                "0x174",	"0x174",
-                "0x178",	"0x178",
-                "0x17C",	"0x17C",
-                "0x180",	"0x180",
-                "0x184",	"0x184",
-                "0x188",	"0x188",
-                "0x18C",	"0x18C",
-                "0x190",	"0x190",
-                "0x194",	"0x194",
-                "0x198",	"0x198",
-                "0x19C",	"0x19C",
-                "0x1A0",	"0x1A0",
-                "0x1A4",	"0x1A4",
-                "0x1A8",	"0x1A8",
-                "0x1AC",	"0x1AC",
-                "0x1B0",	"0x1B0",
-                "0x1B4",	"0x1B4",
-                "0x1B8",	"0x1B8",
-                "0x1BC",	"Battle Tests",
-                "0x1C0",	"0x1C0",
-                "0x1C4",	"0x1C4",
-                "0x1C8",	"0x1C8",
-                "0x1CC",	"0x1CC",
-                "0x1D0",	"0x1D0",
-                "0x1D4",	"0x1D4",
-                "0x1D8",	"0x1D8",
-                "0x1DC",	"0x1DC",
-                "0x1E0",	"0x1E0",
-                "0x1E4",	"0x1E4",
-                "0x1E8",	"0x1E8",
-                "0x1EC",	"0x1EC",
-                "0x1F0",	"0x1F0",
-                "0x1F4",	"0x1F4",
-                "0x1F8",	"0x1F8",
-                "0x1FC",	"0x1FC",
-                "0x200",	"0x200",
-                "0x204",	"0x204",
-                "0x208",	"0x208",
-                "0x20C",	"0x20C",
-                "0x210",	"0x210",
-                "0x214",	"0x214",
-                "0x218",	"0x218",
-                "0x21C",	"0x21C",
-                "0x220",	"0x220",
-                "0x224",	"0x224",
-                "0x228",	"0x228",
-                "0x22C",	"0x22C",
-                "0x230",	"0x230",
-                "0x234",	"0x234",
-                "0x238",	"0x238",
-                "0x23C",	"0x23C",
-                "0x240",	"0x240",
-                "0x244",	"0x244",
-                "0x248",	"0x248",
-                "0x24C",	"0x24C",
-                "0x250",	"0x250",
-                "0x254",	"0x254",
-                "0x258",	"0x258",
-            }; // Offset, Title. Horrible implementation, but works.
-
-            CB_Stats.Items.Clear();
-            for (int i = 0; i < statdata.Length / 2; i++)
-                CB_Stats.Items.Add(statdata[(2 * i) + 1]);
-            CB_Stats.SelectedIndex = 0;
+            editing = false;
 
             CHK_MegaUnlocked.Checked = SAV.IsMegaEvolutionUnlocked;
         }
 
-        private readonly string[] statdata;
-        private bool editing;
+        private readonly bool editing = true;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
@@ -421,7 +264,7 @@ namespace PKHeX.WinForms
 
             // Load BP and PokeMiles
             TB_BP.Text = SAV.BP.ToString();
-            TB_PM.Text = SAV.GetPSSStat(0xFC/4).ToString();
+            TB_PM.Text = SAV.GetRecord(63).ToString();
 
             TB_Style.Text = SAV.Style.ToString();
 
@@ -516,9 +359,9 @@ namespace PKHeX.WinForms
 
             SAV.BP = ushort.Parse(TB_BP.Text);
             // Set Current PokéMiles
-            SAV.SetPSSStat(0xFC / 4, Util.ToUInt32(TB_PM.Text));
+            SAV.SetRecord(63, Util.ToInt32(TB_PM.Text));
             // Set Max Obtained Pokémiles
-            SAV.SetPSSStat(0x100 / 4, Util.ToUInt32(TB_PM.Text));
+            SAV.SetRecord(64, Util.ToInt32(TB_PM.Text));
             SAV.Style = byte.Parse(TB_Style.Text);
 
             // Copy Badges
@@ -640,22 +483,6 @@ namespace PKHeX.WinForms
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
 
-        private void ChangeStat(object sender, EventArgs e)
-        {
-            editing = true;
-            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
-            MT_Stat.Text = SAV.GetPSSStat(offset/4).ToString();
-            L_Offset.Text = $"0x{offset:X3}";
-            editing = false;
-        }
-
-        private void ChangeStatVal(object sender, EventArgs e)
-        {
-            if (editing) return;
-            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
-            SAV.SetPSSStat(offset/4, uint.Parse(MT_Stat.Text));
-        }
-
         private void GiveAllAccessories(object sender, EventArgs e)
         {
             SAV.UnlockAllAccessories();
@@ -685,6 +512,32 @@ namespace PKHeX.WinForms
                 return;
             SAV.MultiplayerSpriteID = WinFormsUtil.GetIndex(CB_MultiplayerSprite);
             PB_Sprite.Image = SAV.Sprite();
+        }
+
+        private string UpdateTip(int index)
+        {
+            switch (index)
+            {
+                case 2: // Storyline Completed Time
+                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    seconds -= seconds % 86400;
+                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                default:
+                    return null;
+            }
+        }
+
+        private static string ConvertDateValueToString(int value, int secondsBias = -1)
+        {
+            const int spd = 86400; // seconds per day
+            string tip = string.Empty;
+            if (value >= spd)
+                tip += (value / spd) + "d ";
+            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
+            if (secondsBias >= 0)
+                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
+            return tip;
         }
     }
 }

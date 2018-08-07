@@ -173,10 +173,6 @@ namespace PKHeX.WinForms
             this.L_MultiplayerSprite = new System.Windows.Forms.Label();
             this.PB_Sprite = new System.Windows.Forms.PictureBox();
             this.CB_MultiplayerSprite = new System.Windows.Forms.ComboBox();
-            this.L_Offset = new System.Windows.Forms.Label();
-            this.CB_Stats = new System.Windows.Forms.ComboBox();
-            this.L_Value = new System.Windows.Forms.Label();
-            this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
@@ -205,6 +201,7 @@ namespace PKHeX.WinForms
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
             this.L_TRNick = new System.Windows.Forms.Label();
             this.TB_TRNick = new System.Windows.Forms.TextBox();
+            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
@@ -1714,49 +1711,6 @@ namespace PKHeX.WinForms
             this.CB_MultiplayerSprite.TabIndex = 25;
             this.CB_MultiplayerSprite.SelectedIndexChanged += new System.EventHandler(this.CB_Multi_SelectedIndexChanged);
             // 
-            // L_Offset
-            // 
-            this.L_Offset.AutoSize = true;
-            this.L_Offset.Location = new System.Drawing.Point(22, 126);
-            this.L_Offset.Name = "L_Offset";
-            this.L_Offset.Size = new System.Drawing.Size(39, 13);
-            this.L_Offset.TabIndex = 28;
-            this.L_Offset.Text = "(offset)";
-            // 
-            // CB_Stats
-            // 
-            this.CB_Stats.DropDownHeight = 156;
-            this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Stats.DropDownWidth = 180;
-            this.CB_Stats.FormattingEnabled = true;
-            this.CB_Stats.IntegralHeight = false;
-            this.CB_Stats.Location = new System.Drawing.Point(25, 86);
-            this.CB_Stats.Name = "CB_Stats";
-            this.CB_Stats.Size = new System.Drawing.Size(121, 21);
-            this.CB_Stats.TabIndex = 23;
-            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
-            // 
-            // L_Value
-            // 
-            this.L_Value.AutoSize = true;
-            this.L_Value.Location = new System.Drawing.Point(22, 110);
-            this.L_Value.Name = "L_Value";
-            this.L_Value.Size = new System.Drawing.Size(34, 13);
-            this.L_Value.TabIndex = 22;
-            this.L_Value.Text = "Value";
-            // 
-            // MT_Stat
-            // 
-            this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MT_Stat.Location = new System.Drawing.Point(69, 107);
-            this.MT_Stat.Mask = "0000000000";
-            this.MT_Stat.Name = "MT_Stat";
-            this.MT_Stat.Size = new System.Drawing.Size(77, 20);
-            this.MT_Stat.TabIndex = 21;
-            this.MT_Stat.Text = "1231231234";
-            this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MT_Stat.TextChanged += new System.EventHandler(this.ChangeStatVal);
-            // 
             // TC_Editor
             // 
             this.TC_Editor.Controls.Add(this.Tab_Overview);
@@ -1805,16 +1759,13 @@ namespace PKHeX.WinForms
             // 
             // GB_Stats
             // 
+            this.GB_Stats.Controls.Add(this.TrainerStats);
             this.GB_Stats.Controls.Add(this.TB_BP);
             this.GB_Stats.Controls.Add(this.TB_PM);
             this.GB_Stats.Controls.Add(this.L_PM);
             this.GB_Stats.Controls.Add(this.TB_Style);
-            this.GB_Stats.Controls.Add(this.L_Offset);
             this.GB_Stats.Controls.Add(this.L_BP);
-            this.GB_Stats.Controls.Add(this.L_Value);
             this.GB_Stats.Controls.Add(this.L_Style);
-            this.GB_Stats.Controls.Add(this.MT_Stat);
-            this.GB_Stats.Controls.Add(this.CB_Stats);
             this.GB_Stats.Location = new System.Drawing.Point(209, 99);
             this.GB_Stats.Name = "GB_Stats";
             this.GB_Stats.Size = new System.Drawing.Size(171, 151);
@@ -2183,6 +2134,13 @@ namespace PKHeX.WinForms
             this.TB_TRNick.Text = "WWWWWWWWWWWW";
             this.TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // TrainerStats
+            // 
+            this.TrainerStats.Location = new System.Drawing.Point(23, 81);
+            this.TrainerStats.Name = "TrainerStats";
+            this.TrainerStats.Size = new System.Drawing.Size(146, 72);
+            this.TrainerStats.TabIndex = 9;
+            // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2352,10 +2310,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_MultiplayerSprite;
         private System.Windows.Forms.PictureBox PB_Sprite;
         private System.Windows.Forms.ComboBox CB_MultiplayerSprite;
-        private System.Windows.Forms.ComboBox CB_Stats;
-        private System.Windows.Forms.Label L_Value;
-        private System.Windows.Forms.MaskedTextBox MT_Stat;
-        private System.Windows.Forms.Label L_Offset;
         private System.Windows.Forms.Label L_Seconds;
         private System.Windows.Forms.Label L_Minutes;
         private System.Windows.Forms.MaskedTextBox MT_Seconds;
@@ -2414,5 +2368,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_TRNick;
         private System.Windows.Forms.TextBox TB_TRNick;
         private System.Windows.Forms.CheckBox CHK_MegaUnlocked;
+        private Subforms.Save_Editors.TrainerStat TrainerStats;
     }
 }

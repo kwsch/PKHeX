@@ -34,8 +34,9 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
         {
             Editing = true;
             int index = CB_Stats.SelectedIndex;
-            NUD_Stat.Maximum = SAV.GetRecordMax(index);
-            NUD_Stat.Value = SAV.GetRecord(index);
+            int val = SAV.GetRecord(index);
+            NUD_Stat.Maximum = Math.Max(val, SAV.GetRecordMax(index));
+            NUD_Stat.Value = val;
 
             int offset = SAV.GetRecordOffset(index);
             L_Offset.Text = $"Offset: 0x{offset:X3}";
