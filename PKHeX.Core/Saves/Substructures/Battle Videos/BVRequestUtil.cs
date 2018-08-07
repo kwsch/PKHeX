@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -10,64 +9,90 @@ namespace PKHeX.Core
         {
             code = code.Replace("-", string.Empty);
             Debug.Assert(code.Length == 16);
-            var video_id = StringToUInt64(code);
-            if (video_id == uint.MaxValue)
+            var video_id = StrToU64(code, out bool valid);
+            if (!valid)
                 return null;
             return $"https://ctr-bnda-live.s3.amazonaws.com/10.CTR_BNDA_datastore/ds/1/data/{video_id:D11}-00001"; // Sun datastore
         }
 
-        private const ushort INVALID = ushort.MaxValue;
-        private const string _01IO = "01IO";
-        private const string _WXYZ = "WXYZ";
-
-        private static ushort CharToU16(char c)
+        public static ulong StrToU64(string input, out bool valid)
         {
-            if (_01IO.Contains(c))
-                return INVALID;
-            int index = _WXYZ.IndexOf(c);
-            if (index >= 0)
-                c = _01IO[index];
-            if (c >= '0' && c <= '9')
-                c -= '0';
-            else
-                c -= '7';
-            return c;
+            var chk = Pull(0, 4) >> 4; // first four chars are checksum bits
+            var result = Pull(4, input.Length); // next 12 chars are the 70 value bits
+            var actual = SaveUtil.CRC16_CCITT(BitConverter.GetBytes(result));
+            valid = chk == actual;
+            return result;
+
+            ulong Pull(int start, int count)
+            {
+                ulong val = 0;
+                for (int i = start; i < count; i++)
+                {
+                    var c = input[i];
+                    if (c == '-')
+                        continue;
+
+                    val <<= 5;
+                    val |= Get5BitFromChar(c) & 0b11111;
+                }
+                return val;
+            }
         }
 
-        private static ulong StringToUInt64(string s)
+        public static string U64ToStr(ulong input, bool insertDash)
         {
-            // First 4 characters act as the checksum
-            ulong v1 = 0;
-            ulong v2 = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                var c = CharToU16(s[i]);
-                if (c == INVALID)
-                    return INVALID;
-                v2 = (uint)(((v1 | c) >> 27) | (v2 << 5));
-                v1 = (uint)((v1 | c) << 5);
-            }
-            var crc = ((v1 >> 5) | (uint)(v2 << 27)) >> 4;
-            crc |= (v2 >> 5) << 28 | (v2 >> 9) << 32;
+            uint chk = SaveUtil.CRC16_CCITT(BitConverter.GetBytes(input));
+            var buff = new char[16];
+            int ctr = 15;
+            Push(input, 12); // store value bits
+            Push(chk << 4, 4); // store checksum bits
+            return !insertDash ? string.Concat(buff) : GetStringWithDashesEvery(buff, 4);
 
-            // Last 12 characters act as the file ID (returned value)
-            ulong val = 0;
-            for (int i = 4; i < 16; i++)
+            void Push(ulong v, int count)
             {
-                var c = CharToU16(s[i]);
-                if (c == INVALID)
-                    return INVALID;
-                var v14 = val | c;
-                val = (val & 0xFFFFFFFF00000000) | (uint)(val | c);
-                if (i == 0xF)
-                    continue;
-                val = (uint)((val >> 32) << 5) << 32 | (uint)val | (v14 >> 27);
-                val = (val & 0xFFFFFFFF00000000) | (uint)(v14 << 5);
+                for (int i = 0; i < count; i++)
+                {
+                    buff[ctr--] = Set5BitToChar((char)(v & 0b11111));
+                    v >>= 5;
+                }
             }
+        }
 
-            if (SaveUtil.CRC16_CCITT(BitConverter.GetBytes(val)) != crc)
-                return uint.MaxValue;
-            return val;
+        private static string GetStringWithDashesEvery(char[] buff, int spacer)
+        {
+            var buff2 = new char[buff.Length + ((buff.Length / spacer) - 1)];
+            for (int i = 0, ctr = 0; i < buff.Length; i++)
+            {
+                buff2[ctr++] = buff[i];
+                if (i % spacer == 3 && ctr < buff2.Length)
+                    buff2[ctr++] = '-'; // add dash between every chunk of size {spacer}
+            }
+            return string.Concat(buff2);
+        }
+
+        private static char Set5BitToChar(char c)
+        {
+            c += c > 9 ? '7' : '0';
+            switch (c)
+            {
+                case '0': return 'W';
+                case '1': return 'X';
+                case 'I': return 'Y';
+                case 'O': return 'Z';
+                default: return c;
+            }
+        }
+
+        private static uint Get5BitFromChar(char c)
+        {
+            switch (c)
+            {
+                case 'W': c = '0'; break;
+                case 'X': c = '1'; break;
+                case 'Y': c = 'I'; break;
+                case 'Z': c = 'O'; break;
+            }
+            return c - c >='A' ? '7' : '0';
         }
     }
 }
