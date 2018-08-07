@@ -96,6 +96,8 @@ namespace PKHeX.Core
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
             Daycare = GetPartyOffset(7);
 
+            EventFlag = Offsets.EventFlag;
+
             // Enable Pokedex editing
             PokeDex = 0;
 
