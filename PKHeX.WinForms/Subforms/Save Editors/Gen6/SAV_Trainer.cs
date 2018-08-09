@@ -280,26 +280,7 @@ namespace PKHeX.WinForms
             if (SAV.XY)
             {
                 // Load Clothing Data
-                int hat = SAV.Data[SAV.TrainerCard + 0x31] >> 3;
-                int haircolor = SAV.Data[SAV.TrainerCard + 0x31] & 7;
-                MT_Hat.Text = hat.ToString();
-                MT_HairColor.Text = haircolor.ToString();
-                MT_14030.Text = SAV.Data[SAV.TrainerCard + 0x30].ToString();
-                MT_14031.Text = SAV.Data[SAV.TrainerCard + 0x31].ToString();
-                MT_14032.Text = SAV.Data[SAV.TrainerCard + 0x32].ToString();
-                MT_14033.Text = SAV.Data[SAV.TrainerCard + 0x33].ToString();
-                MT_14034.Text = SAV.Data[SAV.TrainerCard + 0x34].ToString();
-                MT_14035.Text = SAV.Data[SAV.TrainerCard + 0x35].ToString();
-                MT_14036.Text = SAV.Data[SAV.TrainerCard + 0x36].ToString();
-                MT_14037.Text = SAV.Data[SAV.TrainerCard + 0x37].ToString();
-                MT_14038.Text = SAV.Data[SAV.TrainerCard + 0x38].ToString();
-                MT_14039.Text = SAV.Data[SAV.TrainerCard + 0x39].ToString();
-                MT_1403A.Text = SAV.Data[SAV.TrainerCard + 0x3A].ToString();
-                MT_1403B.Text = SAV.Data[SAV.TrainerCard + 0x3B].ToString();
-                MT_1403C.Text = SAV.Data[SAV.TrainerCard + 0x3C].ToString();
-                MT_1403D.Text = SAV.Data[SAV.TrainerCard + 0x3D].ToString();
-                MT_1403E.Text = SAV.Data[SAV.TrainerCard + 0x3E].ToString();
-                MT_1403F.Text = SAV.Data[SAV.TrainerCard + 0x3F].ToString();
+                propertyGrid1.SelectedObject = TrainerFashion6.GetFashion(SAV.Data, SAV.TrainerCard + 0x30, SAV.Gender);
 
                 TB_TRNick.Text = SAV.OT_Nick;
             }
@@ -381,22 +362,9 @@ namespace PKHeX.WinForms
             // Appearance
             if (SAV.XY)
             {
-                SAV.Data[SAV.TrainerCard + 0x30] = byte.Parse(MT_14030.Text);
-                SAV.Data[SAV.TrainerCard + 0x31] = (byte)(byte.Parse(MT_HairColor.Text) | (byte.Parse(MT_Hat.Text) << 3));
-                SAV.Data[SAV.TrainerCard + 0x32] = byte.Parse(MT_14032.Text);
-                SAV.Data[SAV.TrainerCard + 0x33] = byte.Parse(MT_14033.Text);
-                SAV.Data[SAV.TrainerCard + 0x34] = byte.Parse(MT_14034.Text);
-                SAV.Data[SAV.TrainerCard + 0x35] = byte.Parse(MT_14035.Text);
-                SAV.Data[SAV.TrainerCard + 0x36] = byte.Parse(MT_14036.Text);
-                SAV.Data[SAV.TrainerCard + 0x37] = byte.Parse(MT_14037.Text);
-                SAV.Data[SAV.TrainerCard + 0x38] = byte.Parse(MT_14038.Text);
-                SAV.Data[SAV.TrainerCard + 0x39] = byte.Parse(MT_14039.Text);
-                SAV.Data[SAV.TrainerCard + 0x3A] = byte.Parse(MT_1403A.Text);
-                SAV.Data[SAV.TrainerCard + 0x3B] = byte.Parse(MT_1403B.Text);
-                SAV.Data[SAV.TrainerCard + 0x3C] = byte.Parse(MT_1403C.Text);
-                SAV.Data[SAV.TrainerCard + 0x3D] = byte.Parse(MT_1403D.Text);
-                SAV.Data[SAV.TrainerCard + 0x3E] = byte.Parse(MT_1403E.Text);
-                SAV.Data[SAV.TrainerCard + 0x3F] = byte.Parse(MT_1403F.Text);
+                // Save Clothing Data
+                var obj = (TrainerFashion6)propertyGrid1.SelectedObject;
+                obj.Write(SAV.Data, SAV.TrainerCard + 0x30);
 
                 SAV.OT_Nick = TB_TRNick.Text;
             }
@@ -456,17 +424,6 @@ namespace PKHeX.WinForms
         private void ChangeBadge(object sender, EventArgs e)
         {
             GetBadges();
-        }
-
-        private void ChangeSpecial(object sender, EventArgs e)
-        {
-            MaskedTextBox box = sender as MaskedTextBox;
-            int val = Util.ToInt32(box?.Text);
-
-            if (box == MT_HairColor)
-                box.Text = (val > 7 ? 7 : val).ToString();
-            if (box == MT_Hat)
-                box.Text = (val > 31 ? 31 : val).ToString();
         }
 
         private void Change255(object sender, EventArgs e)

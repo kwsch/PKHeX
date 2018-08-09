@@ -348,10 +348,21 @@ namespace PKHeX.Core
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 4, 0x22));
             set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 4);
         }
+
+        public short EyeColor
+        {
+            get => BitConverter.ToInt16(Data, TrainerCard + 0x148);
+            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0x148);
+        }
         public bool IsMegaEvolutionUnlocked
         {
             get => (Data[TrainerCard + 0x14A] & 0x01) != 0;
             set => Data[TrainerCard + 0x14A] = (byte)((Data[TrainerCard + 0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
+        }
+        public bool IsMegaRayquazaUnlocked
+        {
+            get => (Data[TrainerCard + 0x14A] & 0x02) != 0;
+            set => Data[TrainerCard + 0x14A] = (byte)((Data[TrainerCard + 0x14A] & ~2) | (value ? 2 : 0)); // in battle
         }
 
         public int M
