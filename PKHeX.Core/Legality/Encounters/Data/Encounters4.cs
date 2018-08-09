@@ -704,12 +704,12 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 355, Gender = 0, Level = 05, Moves = new[]{286}, }, // Duskull: Imprison
             new EncounterStatic{ Species = 129, Gender = 0, Level = 05, Moves = new[]{340}, }, // Magikarp: Bounce
             new EncounterStatic{ Species = 436, Gender = 2, Level = 05, Moves = new[]{433}, }, // Bronzor: Trick Room
-            new EncounterStatic{ Species = 239, Gender = 0, Level = 05, }, // Elekid
-            new EncounterStatic{ Species = 240, Gender = 0, Level = 05, }, // Magby
-            new EncounterStatic{ Species = 238, Gender = 1, Level = 05, }, // Smoochum
-            new EncounterStatic{ Species = 440, Gender = 1, Level = 05, }, // Happiny
-            new EncounterStatic{ Species = 173, Gender = 1, Level = 05, Moves = new[] {118}}, // Cleffa: Metronome
-            new EncounterStatic{ Species = 174, Gender = 0, Level = 05, }, // Igglybuff
+            new EncounterStatic{ Species = 239, Gender = 0, Level = 05, Moves = new[]{9}}, // Elekid: Thunder Punch (can be tutored)
+            new EncounterStatic{ Species = 240, Gender = 0, Level = 05, Moves = new[]{7}}, // Magby: Fire Punch (can be tutored)
+            new EncounterStatic{ Species = 238, Gender = 1, Level = 05, Moves = new[]{8}}, // Smoochum: Ice Punch (can be tutored)
+            new EncounterStatic{ Species = 440, Gender = 1, Level = 05, Moves = new[]{215}}, // Happiny: Heal Bell
+            new EncounterStatic{ Species = 173, Gender = 1, Level = 05, Moves = new[]{118}}, // Cleffa: Metronome
+            new EncounterStatic{ Species = 174, Gender = 0, Level = 05, Moves = new[]{273}}, // Igglybuff: Wish
         };
         #endregion
         #region Static Encounter/Gift Tables
