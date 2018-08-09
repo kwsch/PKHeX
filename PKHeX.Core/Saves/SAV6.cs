@@ -850,12 +850,12 @@ namespace PKHeX.Core
         public override int BoxesUnlocked { get => Data[PCFlags + 1] - 1; set => Data[PCFlags + 1] = (byte)(value + 1); }
         public override byte[] BoxFlags
         {
-            get => new[] { Data[PCFlags], Data[PCFlags + 2] };
+            get => new[] { Data[PCFlags] }; // 7 bits for wallpaper unlocks, top bit to unlock final box (delta episode)
             set
             {
-                if (value.Length != 2) return;
+                if (value.Length != 1)
+                    return;
                 Data[PCFlags] = value[0];
-                Data[PCFlags + 2] = value[1];
             }
         }
 
