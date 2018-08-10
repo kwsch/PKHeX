@@ -26,13 +26,10 @@ namespace PKHeX.Core
             foreach (var len in new[] { memeLen, memeLen - 2 }) // Account for Pokedex QR Edge case
             {
                 if (VerifyMemeData(input, out output, 0, len, memeIndex))
-                {
                     return true;
-                }
+
                 if (VerifyMemeData(input, out output, 0, len, MemeKeyIndex.PokedexAndSaveFile))
-                {
                     return true;
-                }
             }
 
             output = null;
@@ -44,9 +41,7 @@ namespace PKHeX.Core
             foreach (MemeKeyIndex keyIndex in Enum.GetValues(typeof(MemeKeyIndex)))
             {
                 if (VerifyMemeData(input, out output, keyIndex))
-                {
                     return true;
-                }
             }
             output = null;
             return false;

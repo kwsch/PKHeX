@@ -253,7 +253,7 @@ namespace PKHeX.Core
                 return m;
 
             var encounter = legal.GetSuggestedMetInfo();
-            if (encounter != null && encounter.Relearn.Length > 0)
+            if (encounter?.Relearn.Length > 0)
                 m = encounter.Relearn;
 
             return m;

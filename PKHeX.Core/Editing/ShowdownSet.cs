@@ -20,7 +20,7 @@ namespace PKHeX.Core
         private static readonly int[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
         private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
         private const string Language = "en";
-        private const int DefaultLanguageID = 2;
+        private const int DefaultLanguageID = (int)Core.LanguageID.English;
         private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(Language);
 
         /// <summary>

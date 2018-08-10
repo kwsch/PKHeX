@@ -55,6 +55,7 @@ namespace PKHeX.Core
 
         // Synthetic
         private int? _metLevel;
+
         public int Met_Level
         {
             get => _metLevel ?? (IsEgg ? 0 : Level);
@@ -120,7 +121,9 @@ namespace PKHeX.Core
                         pk.SID = TID;
                 }
                 else
+                {
                     pk.Language = lang;
+                }
 
                 pk.OT_Name = OT_Name ?? SAV.OT;
                 if (string.IsNullOrWhiteSpace(pk.OT_Name))
@@ -179,6 +182,7 @@ namespace PKHeX.Core
                 return 2;
             return hatchLang;
         }
+
         private static GameVersion GetRandomVersion(GameVersion version)
         {
             if (version <= GameVersion.CXD && version > GameVersion.Unknown) // single game

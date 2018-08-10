@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
         {
             LinkInfo = new PL6(data);
 
-            RTB_LinkSource.Text = LinkInfo.Origin_app;
+            RTB_LinkSource.Text = LinkInfo.Origin;
             CHK_LinkAvailable.Checked = LinkInfo.PL_enabled;
 
             NUD_BP.Value = LinkInfo.BattlePoints;

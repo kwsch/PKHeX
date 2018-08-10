@@ -808,9 +808,11 @@ namespace PKHeX.Core
 
         public bool IsRangeAll(int Offset, int Length, int value)
         {
-            for (int i = Offset; i < Offset + Length; i++)
+            for (int i = Offset + Length - 1; i >= Offset; i--)
+            {
                 if (Data[i] != value)
                     return false;
+            }
             return true;
         }
 

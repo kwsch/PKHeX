@@ -1155,7 +1155,7 @@ namespace PKHeX.WinForms
             PKM pkx = PreparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
             string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
-            string filename = $"{fn}{(encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}")}";
+            string filename = fn + (encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}");
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));

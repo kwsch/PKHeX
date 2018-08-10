@@ -23,23 +23,23 @@ namespace PKHeX.Core
         public uint PID { get => BitConverter.ToUInt32(Data, 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, 0x08); }
 
         private byte RIB0 { get => Data[0x0C]; set => Data[0x0C] = value; }
-        public bool RibbonCountry { get => (RIB0 & (1 << 0)) == 1 << 0; set => RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } // Country Ribbon
-        public bool RibbonNational { get => (RIB0 & (1 << 1)) == 1 << 1; set => RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } // National Ribbon
-        public bool RibbonEarth { get => (RIB0 & (1 << 2)) == 1 << 2; set => RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } // Earth Ribbon
-        public bool RibbonWorld { get => (RIB0 & (1 << 3)) == 1 << 3; set => RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } // World Ribbon
-        public bool RibbonClassic { get => (RIB0 & (1 << 4)) == 1 << 4; set => RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // Classic Ribbon
-        public bool RibbonPremier { get => (RIB0 & (1 << 5)) == 1 << 5; set => RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Premier Ribbon
-        public bool RibbonEvent { get => (RIB0 & (1 << 6)) == 1 << 6; set => RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // Event Ribbon
-        public bool RibbonBirthday { get => (RIB0 & (1 << 7)) == 1 << 7; set => RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Birthday Ribbon
         private byte RIB1 { get => Data[0x0D]; set => Data[0x0D] = value; }
-        public bool RibbonSpecial { get => (RIB1 & (1 << 0)) == 1 << 0; set => RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } // Special Ribbon
-        public bool RibbonSouvenir { get => (RIB1 & (1 << 1)) == 1 << 1; set => RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } // Souvenir Ribbon
-        public bool RibbonWishing { get => (RIB1 & (1 << 2)) == 1 << 2; set => RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } // Wishing Ribbon
-        public bool RibbonChampionBattle { get => (RIB1 & (1 << 3)) == 1 << 3; set => RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } // Battle Champ Ribbon
-        public bool RibbonChampionRegional { get => (RIB1 & (1 << 4)) == 1 << 4; set => RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // Regional Champ Ribbon
-        public bool RibbonChampionNational { get => (RIB1 & (1 << 5)) == 1 << 5; set => RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // National Champ Ribbon
-        public bool RibbonChampionWorld { get => (RIB1 & (1 << 6)) == 1 << 6; set => RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // World Champ Ribbon
-        public bool RIB1_7 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Empty
+        public bool RibbonCountry          { get => (RIB0 & (1 << 0)) == 1 << 0; set => RIB0 = (byte)((RIB0 & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
+        public bool RibbonNational         { get => (RIB0 & (1 << 1)) == 1 << 1; set => RIB0 = (byte)((RIB0 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
+        public bool RibbonEarth            { get => (RIB0 & (1 << 2)) == 1 << 2; set => RIB0 = (byte)((RIB0 & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
+        public bool RibbonWorld            { get => (RIB0 & (1 << 3)) == 1 << 3; set => RIB0 = (byte)((RIB0 & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
+        public bool RibbonClassic          { get => (RIB0 & (1 << 4)) == 1 << 4; set => RIB0 = (byte)((RIB0 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
+        public bool RibbonPremier          { get => (RIB0 & (1 << 5)) == 1 << 5; set => RIB0 = (byte)((RIB0 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
+        public bool RibbonEvent            { get => (RIB0 & (1 << 6)) == 1 << 6; set => RIB0 = (byte)((RIB0 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
+        public bool RibbonBirthday         { get => (RIB0 & (1 << 7)) == 1 << 7; set => RIB0 = (byte)((RIB0 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
+        public bool RibbonSpecial          { get => (RIB1 & (1 << 0)) == 1 << 0; set => RIB1 = (byte)((RIB1 & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
+        public bool RibbonSouvenir         { get => (RIB1 & (1 << 1)) == 1 << 1; set => RIB1 = (byte)((RIB1 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
+        public bool RibbonWishing          { get => (RIB1 & (1 << 2)) == 1 << 2; set => RIB1 = (byte)((RIB1 & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
+        public bool RibbonChampionBattle   { get => (RIB1 & (1 << 3)) == 1 << 3; set => RIB1 = (byte)((RIB1 & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
+        public bool RibbonChampionRegional { get => (RIB1 & (1 << 4)) == 1 << 4; set => RIB1 = (byte)((RIB1 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
+        public bool RibbonChampionNational { get => (RIB1 & (1 << 5)) == 1 << 5; set => RIB1 = (byte)((RIB1 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
+        public bool RibbonChampionWorld    { get => (RIB1 & (1 << 6)) == 1 << 6; set => RIB1 = (byte)((RIB1 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
+        public bool RIB1_7                 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)((RIB1 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
 
         public override int Ball { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x10); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); }
@@ -50,11 +50,13 @@ namespace PKHeX.Core
         public override int Species { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
         public override int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
+
         public string Nickname
         {
             get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16));
             set => Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E);
         }
+
         public int Nature { get => Data[0x34]; set => Data[0x34] = (byte)value; }
         public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
@@ -78,6 +80,7 @@ namespace PKHeX.Core
         public override string OT_Name {
             get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
             set => Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); }
+
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
         public override int Level { get => Data[0x5B]; set => Data[0x5C] = (byte)value; }
         public override bool IsEgg { get => Data[0x5C] == 1; set => Data[0x5C] = (byte)(value ? 1 : 0); }
@@ -133,9 +136,10 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt16(Data, 0xB0);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xB0);
         }
+
         public int CardLocation { get => Data[0xB2]; set => Data[0xB2] = (byte)value; }
         public int CardType { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
-        public override bool GiftUsed { get => Data[0xB4] >> 1 > 0; set => Data[0xB4] = (byte)(Data[0xB4] & ~2 | (value ? 2 : 0)); }
+        public override bool GiftUsed { get => Data[0xB4] >> 1 > 0; set => Data[0xB4] = (byte)((Data[0xB4] & ~2) | (value ? 2 : 0)); }
         public bool MultiObtain { get => Data[0xB4] == 1; set => Data[0xB4] = (byte)(value ? 1 : 0); }
 
         // Meta Accessible Properties
@@ -149,6 +153,7 @@ namespace PKHeX.Core
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
         }
+
         public bool IsNicknamed => Nickname.Length > 0;
         public override bool IsShiny => PIDType == 2;
         public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
@@ -267,16 +272,22 @@ namespace PKHeX.Core
             pk.Ability = pi.Abilities[av];
 
             if (PID != 0)
+            {
                 pk.PID = PID;
+            }
             else
             {
                 pk.PID = Util.Rand32();
 
                 // Force Gender
-                do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)Util.Rand.Next(0x100); } while (!pk.IsGenderValid());
+                do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)Util.Rand.Next(0x100); }
+                while (!pk.IsGenderValid());
 
                 // Force Ability
-                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
+                if (av == 1)
+                    pk.PID |= 0x10000;
+                else
+                    pk.PID &= 0xFFFEFFFF;
 
                 if (PIDType == 2) // Force Shiny
                 {

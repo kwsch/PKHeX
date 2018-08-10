@@ -10,17 +10,19 @@ namespace PKHeX.Core
         {
             switch (sav.Version)
             {
-                case GameVersion.DP: DataOffset = index * SIZE + 0x4BEC + sav.GBO; break;
-                case GameVersion.Pt: DataOffset = index * SIZE + 0x4E80 + sav.GBO; break;
-                case GameVersion.HGSS: DataOffset = index * SIZE + 0x3FA8 + sav.GBO; break;
+                case GameVersion.DP: DataOffset = (index * SIZE) + 0x4BEC + sav.GBO; break;
+                case GameVersion.Pt: DataOffset = (index * SIZE) + 0x4E80 + sav.GBO; break;
+                case GameVersion.HGSS: DataOffset = (index * SIZE) + 0x3FA8 + sav.GBO; break;
             }
             Data = sav.GetData(DataOffset, SIZE);
         }
+
         public Mail4(byte[] data)
         {
             Data = data;
             DataOffset = -1;
         }
+
         public Mail4(byte? lang = null, byte? ver = null)
         {
             Data = new byte[SIZE];
@@ -29,6 +31,7 @@ namespace PKHeX.Core
             if (ver != null) AuthorVersion = (byte)ver;
             ResetData();
         }
+
         private void ResetData()
         {
             AuthorTID = 0;
@@ -39,9 +42,12 @@ namespace PKHeX.Core
             for (int i = 0; i < 3; i++)
                 SetAppearPKM(i, 0xFFFF);
             for (int y = 0; y < 3; y++)
-            for (int x = 0; x < 4; x++)
-                SetMessage(y, x, (ushort)(x == 1 ? 0 : 0xFFFF));
+            {
+                for (int x = 0; x < 4; x++)
+                    SetMessage(y, x, (ushort)(x == 1 ? 0 : 0xFFFF));
+            }
         }
+
         public override void CopyTo(PK4 pk4) => pk4.HeldMailData = Data;
         public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
         public ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
@@ -50,10 +56,11 @@ namespace PKHeX.Core
         public byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
         public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
         public override string AuthorName { get => StringConverter.GetString4(Data, 8, 0x10); set => StringConverter.SetString4(value, 7, 8, 0xFFFF).CopyTo(Data, 8); }
-        public int GetAppearPKM(int index) => BitConverter.ToUInt16(Data, 0x1C - index * 2);
-        public void SetAppearPKM(int index, int value) => BitConverter.GetBytes((ushort)(value == 0 ? 0xFFFF : value)).CopyTo(Data, 0x1C - index * 2);
-        public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, 0x20 + (index1 * 4 + index2) * 2);
-        public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, 0x20 + (index1 * 4 + index2) * 2);
+        public int GetAppearPKM(int index) => BitConverter.ToUInt16(Data, 0x1C - (index * 2));
+        public void SetAppearPKM(int index, int value) => BitConverter.GetBytes((ushort)(value == 0 ? 0xFFFF : value)).CopyTo(Data, 0x1C - (index * 2));
+        public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, 0x20 + (((index1 * 4) + index2) * 2));
+        public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, 0x20 + (((index1 * 4) + index2) * 2));
+
         public override bool? IsEmpty
         {
             get
@@ -63,6 +70,7 @@ namespace PKHeX.Core
                 return null;
             }
         }
+
         public override void SetBlank() => SetBlank(null, null);
         public void SetBlank(byte? lang, byte? ver) => new Mail4(lang: lang, ver: ver).Data.CopyTo(Data, 0);
     }
