@@ -27,6 +27,8 @@ namespace PKHeX.WinForms
 
             MouseWheel += (s, e) =>
             {
+                if (parent.menu.Visible)
+                    return;
                 if (e.Delta > 1)
                     Box.MoveLeft();
                 else
