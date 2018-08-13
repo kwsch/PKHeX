@@ -27,9 +27,10 @@ namespace PKHeX.WinForms.Controls
                 case Keys.Alt: ClickDelete(sender, e); break;
             }
         }
+
         private void ClickView(object sender, EventArgs e)
         {
-            SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
+            var m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
                 return;
             if ((sender as PictureBox)?.Image == null)
@@ -40,9 +41,10 @@ namespace PKHeX.WinForms.Controls
             m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false, true);
             m.SetColor(info.Box, info.Slot, Resources.slotView);
         }
+
         private void ClickSet(object sender, EventArgs e)
         {
-            SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
+            var m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
                 return;
 
@@ -86,14 +88,17 @@ namespace PKHeX.WinForms.Controls
                 m.SetPKM(pk, info, true, Resources.slotSet);
             }
             else
+            {
                 return;
+            }
 
             editor.LastData = pk.Data;
             m.SE.RedoStack.Clear(); m.SE.Menu_Redo.Enabled = false;
         }
+
         private void ClickDelete(object sender, EventArgs e)
         {
-            SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
+            var m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
                 return;
 
@@ -122,19 +127,24 @@ namespace PKHeX.WinForms.Controls
                 }
                 m.SetPKM(sav.BlankPKM, info, true, Resources.slotDel);
             }
-            else return;
+            else
+            {
+                return;
+            }
 
             m.SE.RedoStack.Clear(); m.SE.Menu_Redo.Enabled = false;
         }
+
         private void ClickShowLegality(object sender, EventArgs e)
         {
-            SlotChangeManager m = GetSenderInfo(ref sender, out SlotChange info);
+            var m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
                 return;
 
             var pk = m.GetPKM(info);
             RequestEditorLegality?.Invoke(sender, e, pk);
         }
+
         private void MenuOpening(object sender, CancelEventArgs e)
         {
             var items = ((ContextMenuStrip)sender).Items;
@@ -161,6 +171,7 @@ namespace PKHeX.WinForms.Controls
             loc = view.GetSlotData(pb);
             return view.M;
         }
+
         private static void ToggleItem(ToolStripItemCollection items, ToolStripItem item, bool visible, bool first = false)
         {
             if (visible)
@@ -171,7 +182,9 @@ namespace PKHeX.WinForms.Controls
                     items.Add(item);
             }
             else if (items.Contains(item))
+            {
                 items.Remove(item);
+            }
         }
     }
 }

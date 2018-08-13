@@ -398,14 +398,14 @@ namespace PKHeX.WinForms.Controls
                     Label_SPA.Visible = false;
                     Label_SPC.Visible = true;
                     TB_HPIV.Enabled = false;
-                    SetMaskSize(Stat_HP.Size, "00000");
+                    SetEVMaskSize(Stat_HP.Size, "00000");
                     break;
                 case 2:
                     FLP_SpD.Visible = true;
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
                     TB_HPIV.Enabled = false;
-                    SetMaskSize(Stat_HP.Size, "00000");
+                    SetEVMaskSize(Stat_HP.Size, "00000");
                     TB_SPDEV.Enabled = TB_SPDIV.Enabled = false;
                     break;
                 default:
@@ -413,12 +413,12 @@ namespace PKHeX.WinForms.Controls
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
                     TB_HPIV.Enabled = true;
-                    SetMaskSize(TB_EVTotal.Size, "000");
+                    SetEVMaskSize(TB_EVTotal.Size, "000");
                     TB_SPDEV.Enabled = TB_SPDIV.Enabled = true;
                     break;
             }
 
-            void SetMaskSize(Size s, string Mask)
+            void SetEVMaskSize(Size s, string Mask)
             {
                 foreach (var ctrl in MT_EVs)
                 {

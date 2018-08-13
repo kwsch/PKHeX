@@ -836,16 +836,17 @@ namespace PKHeX.WinForms
             if (sav.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
                 File.WriteAllBytes(backupName, sav.BAK);
 
-            // Check location write protection
-            bool locked = true;
-            try { locked = File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly); }
-            catch { }
-
-            if (!locked)
+            if (!IsFileLocked(path))
                 return true;
 
             WinFormsUtil.Alert(MsgFileWriteProtected + Environment.NewLine + path, MsgFileWriteProtectedAdvice);
             return false;
+        }
+
+        private static bool IsFileLocked(string path)
+        {
+            try { return File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly); }
+            catch { return true; }
         }
 
         private static bool SanityCheckSAV(ref SaveFile sav)

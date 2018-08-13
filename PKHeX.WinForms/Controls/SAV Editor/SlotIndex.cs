@@ -13,7 +13,7 @@ namespace PKHeX.WinForms.Controls
     public static partial class Extensions
     {
         internal static bool IsEditable(this SlotIndex type) => type == SlotIndex.Party;
-        internal static bool IsParty(this SlotIndex type, int format) => type < SlotIndex.BattleBox || format== 5 && type == SlotIndex.BattleBox;
+        internal static bool IsParty(this SlotIndex type, int format) => type < SlotIndex.BattleBox || (format == 5 && type == SlotIndex.BattleBox);
 
         internal static SlotIndex GetMiscSlotType(int slot)
         {
@@ -21,6 +21,7 @@ namespace PKHeX.WinForms.Controls
             if (slot < (int)SlotIndex.Daycare) return SlotIndex.BattleBox;
             return SlotIndex.Daycare;
         }
+
         internal static StorageSlotType GetMiscSlotType(this SlotIndex type)
         {
             switch (type)

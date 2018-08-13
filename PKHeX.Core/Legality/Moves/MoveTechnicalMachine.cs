@@ -139,57 +139,74 @@ namespace PKHeX.Core
         private static GameVersion GetIsMachine5(int species, int move, int form)
         {
             for (int i = 0; i < Legal.TMHM_BW.Length; i++)
+            {
                 if (Legal.TMHM_BW[i] == move)
                     return PersonalTable.B2W2.GetFormeEntry(species, form).TMHM[i] ? GameVersion.Gen5 : Legal.NONE;
+            }
             return Legal.NONE;
         }
 
         private static GameVersion GetIsMachine6(int species, int move, int form, GameVersion ver)
         {
             if (GameVersion.XY.Contains(ver))
+            {
                 for (int i = 0; i < Legal.TMHM_XY.Length; i++)
-                    if (Legal.TMHM_XY[i] == move)
-                    {
-                        if (PersonalTable.XY.GetFormeEntry(species, form).TMHM[i])
-                            return GameVersion.XY;
-                        break;
-                    }
+                {
+                    if (Legal.TMHM_XY[i] != move)
+                        continue;
+                    if (PersonalTable.XY.GetFormeEntry(species, form).TMHM[i])
+                        return GameVersion.XY;
+                    break;
+                }
+            }
+
             if (GameVersion.ORAS.Contains(ver))
+            {
                 for (int i = 0; i < Legal.TMHM_AO.Length; i++)
-                    if (Legal.TMHM_AO[i] == move)
-                    {
-                        if (PersonalTable.AO.GetFormeEntry(species, form).TMHM[i])
-                            return GameVersion.ORAS;
-                        break;
-                    }
+                {
+                    if (Legal.TMHM_AO[i] != move)
+                        continue;
+                    if (PersonalTable.AO.GetFormeEntry(species, form).TMHM[i])
+                        return GameVersion.ORAS;
+                    break;
+                }
+            }
+
             return Legal.NONE;
         }
 
         private static GameVersion GetIsMachine7(int species, int move, int form, GameVersion ver)
         {
             if (GameVersion.SM.Contains(ver) && species <= Legal.MaxSpeciesID_7)
+            {
                 for (int i = 0; i < Legal.TMHM_XY.Length; i++)
-                    if (Legal.TMHM_XY[i] == move)
-                    {
-                        if (PersonalTable.SM.GetFormeEntry(species, form).TMHM[i])
-                            return GameVersion.SM;
-                        break;
-                    }
+                {
+                    if (Legal.TMHM_XY[i] != move)
+                        continue;
+                    if (PersonalTable.SM.GetFormeEntry(species, form).TMHM[i])
+                        return GameVersion.SM;
+                    break;
+                }
+            }
+
             if (GameVersion.ORAS.Contains(ver) && species <= Legal.MaxSpeciesID_7_USUM)
+            {
                 for (int i = 0; i < Legal.TMHM_SM.Length; i++)
-                    if (Legal.TMHM_SM[i] == move)
-                    {
-                        if (PersonalTable.USUM.GetFormeEntry(species, form).TMHM[i])
-                            return GameVersion.USUM;
-                        break;
-                    }
+                {
+                    if (Legal.TMHM_SM[i] != move)
+                        continue;
+                    if (PersonalTable.USUM.GetFormeEntry(species, form).TMHM[i])
+                        return GameVersion.USUM;
+                    break;
+                }
+            }
+
             return Legal.NONE;
         }
 
-
         internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion ver = GameVersion.Any, bool RemoveTransfer = true)
         {
-            List<int> r = new List<int>();
+            var r = new List<int>();
 
             switch (generation)
             {

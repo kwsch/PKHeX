@@ -51,10 +51,11 @@ namespace PKHeX.WinForms.Controls
                 Parent = FindForm(),
             };
         }
+
         public IList<PictureBox> SlotPictureBoxes => slots;
         public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
         public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
-        public bool GetSlotIsParty(int slot) => false;
+        public bool GetSlotIsParty(int _) => false;
         public int ViewIndex { get; set; } = -1;
 
         private IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)
@@ -89,9 +90,11 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < count; i++)
                 slots.Add(GetPictureBox(i));
         }
+
         private const int PadPixels = 2;
         private const int SlotWidth = 40;
         private const int SlotHeight = 30;
+
         private static PictureBox GetPictureBox(int index)
         {
             return new PictureBox
@@ -110,6 +113,7 @@ namespace PKHeX.WinForms.Controls
         {
             public StorageSlotType Type;
         }
+
         private void AddLabels()
         {
             for (var i = 0; i < names.Length; i++)
@@ -129,6 +133,7 @@ namespace PKHeX.WinForms.Controls
                 FLP_Slots.SetFlowBreak(label, true);
             }
         }
+
         private void SetLabelVisibility()
         {
             foreach (var l in Labels)

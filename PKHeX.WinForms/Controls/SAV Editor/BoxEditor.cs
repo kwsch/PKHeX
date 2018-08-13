@@ -129,7 +129,9 @@ namespace PKHeX.WinForms.Controls
             if (!SAV.HasBox)
                 return;
             if (!SAV.Exportable)
+            {
                 getBoxNamesDefault();
+            }
             else
             {
                 try { getBoxNamesFromSave(); }

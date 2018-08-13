@@ -39,8 +39,8 @@ namespace PKHeX.WinForms.Controls
             AddItem(Level.SortBox, GetItem("Random", "Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.wand));
 
             AddItem(Level.SortBoxAdvanced, GetItem("Usage", "Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart), s => s.Generation >= 3);
-            AddItem(Level.SortBoxAdvanced, GetItem("Potential", "IV Potential", () => Sort(list => list.OrderByCustom(pk => pk.MaxIV * 6 - pk.IVTotal)), Resources.numhilo));
-            AddItem(Level.SortBoxAdvanced, GetItem("Training", "EV Training", () => Sort(list => list.OrderByCustom(pk => pk.MaxEV * 6 - pk.EVTotal)), Resources.showdown));
+            AddItem(Level.SortBoxAdvanced, GetItem("Potential", "IV Potential", () => Sort(list => list.OrderByCustom(pk => (pk.MaxIV * 6) - pk.IVTotal)), Resources.numhilo));
+            AddItem(Level.SortBoxAdvanced, GetItem("Training", "EV Training", () => Sort(list => list.OrderByCustom(pk => (pk.MaxEV * 6) - pk.EVTotal)), Resources.showdown));
             AddItem(Level.SortBoxAdvanced, GetItem("Owner", "Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users));
             AddItem(Level.SortBoxAdvanced, GetItem("Type", "Type", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)), Resources.main));
             AddItem(Level.SortBoxAdvanced, GetItem("Version", "Version", () => Sort(list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version)), Resources.numlohi), s => s.Generation >= 3);
@@ -114,6 +114,7 @@ namespace PKHeX.WinForms.Controls
 
         private static bool All => (ModifierKeys & Keys.Shift) != 0;
         private static bool Reverse => (ModifierKeys & Keys.Control) != 0;
+
         private void Clear(Func<PKM, bool> criteria = null)
         {
             if (All)
@@ -121,6 +122,7 @@ namespace PKHeX.WinForms.Controls
             else
                 sav.ClearCurrent(criteria);
         }
+
         private void Sort(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
         {
             if (All)
@@ -128,6 +130,7 @@ namespace PKHeX.WinForms.Controls
             else
                 sav.SortCurrent(sorter, Reverse);
         }
+
         private void Modify(Action<PKM> action)
         {
             if (All)
