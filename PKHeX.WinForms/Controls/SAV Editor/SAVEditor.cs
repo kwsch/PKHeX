@@ -267,26 +267,7 @@ namespace PKHeX.WinForms.Controls
             L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
         }
 
-        public void SetParty()
-        {
-            // Refresh slots
-            if (SAV.HasParty)
-            {
-                var party = SAV.PartyData;
-                for (int i = 0; i < party.Count; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.Party].Image = GetSprite(party[i], -1); // i + (int)SlotIndex.Party); -- dont get sprite with "slot", implies in Box
-                for (int i = party.Count; i < 6; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.Party].Image = null;
-            }
-            if (SAV.HasBattleBox)
-            {
-                var battle = SAV.BattleBoxData;
-                for (int i = 0; i < battle.Count; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.BattleBox].Image = GetSprite(battle[i], -1); // , i + (int)SlotIndex.BattleBox); -- dont get sprite with "slot", implies in Box
-                for (int i = battle.Count; i < 6; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.BattleBox].Image = null;
-            }
-        }
+        public void SetParty() => ResetParty();
 
         public void ClickUndo()
         {
@@ -404,7 +385,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             int slot = GetSlot(pb);
-            pb.Image = GetSprite(p, slot);
+            pb.Image = GetSprite(p, slot < 6 ? -1 : slot);
             pb.BackColor = Color.Transparent;
         }
 
