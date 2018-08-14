@@ -596,8 +596,6 @@
     <None Remove="Resources\text\locale\sr_ID\sr_184.txt" />
     <None Remove="Resources\text\locale\sr_ID\sr_185.txt" />
     <None Remove="Resources\text\locale\sr_ID\sr_186.txt" />
-    <None Remove="Resources\text\other\LegalityCheckStrings_pt.txt" />
-    <None Remove="Resources\text\other\MessageStrings_pt.txt" />
     <None Remove="Resources\text\other\text_cxd_00000_ja.txt" />
     <None Remove="Resources\text\other\text_gsc_00000_ja.txt" />
     <None Remove="Resources\text\other\text_ItemsG1_ja.txt" />
@@ -605,7 +603,6 @@
     <None Remove="Resources\text\other\text_ItemsG3Colosseum_ja.txt" />
     <None Remove="Resources\text\other\text_ItemsG3XD_ja.txt" />
     <None Remove="Resources\text\other\text_ItemsG3_ja.txt" />
-    <None Remove="Resources\text\other\text_Ribbons_pt.txt" />
     <None Remove="Resources\text\other\text_rsefrlg_00000_ja.txt" />
     <None Remove="Resources\text\script\const_b2w2_en.txt" />
     <None Remove="Resources\text\script\const_b2w2_ko.txt" />
@@ -1309,8 +1306,6 @@
     <EmbeddedResource Include="Resources\text\locale\sr_ID\sr_184.txt" />
     <EmbeddedResource Include="Resources\text\locale\sr_ID\sr_185.txt" />
     <EmbeddedResource Include="Resources\text\locale\sr_ID\sr_186.txt" />
-    <EmbeddedResource Include="Resources\text\other\LegalityCheckStrings_pt.txt" />
-    <EmbeddedResource Include="Resources\text\other\MessageStrings_pt.txt" />
     <EmbeddedResource Include="Resources\text\other\text_cxd_00000_ja.txt" />
     <EmbeddedResource Include="Resources\text\other\text_gsc_00000_ja.txt" />
     <EmbeddedResource Include="Resources\text\other\text_ItemsG1_ja.txt" />
@@ -1318,7 +1313,6 @@
     <EmbeddedResource Include="Resources\text\other\text_ItemsG3Colosseum_ja.txt" />
     <EmbeddedResource Include="Resources\text\other\text_ItemsG3XD_ja.txt" />
     <EmbeddedResource Include="Resources\text\other\text_ItemsG3_ja.txt" />
-    <EmbeddedResource Include="Resources\text\other\text_Ribbons_pt.txt" />
     <EmbeddedResource Include="Resources\text\other\text_rsefrlg_00000_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\const_b2w2_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_b2w2_ko.txt" />

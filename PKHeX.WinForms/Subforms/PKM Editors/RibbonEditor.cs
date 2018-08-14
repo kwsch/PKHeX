@@ -12,8 +12,9 @@ namespace PKHeX.WinForms
         public RibbonEditor(PKM pk)
         {
             pkm = pk;
-            riblist = RibbonInfo.GetRibbonInfo(pkm);
             InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            riblist = RibbonInfo.GetRibbonInfo(pkm);
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_Ribbons.Padding = FLP_Ribbons.Padding = new Padding(0, 0, vertScrollWidth, 0);
 
@@ -21,7 +22,6 @@ namespace PKHeX.WinForms
             TLP_Ribbons.SuspendLayout();
             FLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
             TLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             PopulateRibbons();
             TLP_Ribbons.ResumeLayout();
         }

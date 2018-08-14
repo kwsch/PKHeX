@@ -87,7 +87,7 @@ namespace PKHeX.WinForms
                                 yield return obj;
                         }
 
-                        if (z is ComboBox || z is TextBox || z is MaskedTextBox || z is LinkLabel || z is NumericUpDown)
+                        if (z is ListControl || z is TextBoxBase || z is LinkLabel || z is NumericUpDown || z is ContainerControl)
                             break; // undesirable to modify, ignore
 
                         if (!string.IsNullOrWhiteSpace(z.Text))
