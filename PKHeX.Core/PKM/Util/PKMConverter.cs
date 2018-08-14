@@ -138,8 +138,6 @@ namespace PKHeX.Core
         {
             if (pk.Version > Legal.MaxGameID_6)
                 return true;
-            if (pk.Enjoyment != 0 || pk.Fullness != 0)
-                return false;
 
             // Check Ranges
             if (pk.Species > Legal.MaxSpeciesID_6)
