@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
         public SettingsEditor(object obj, params string[] blacklist)
         {
             InitializeComponent();
-            SettingsObject = obj;
+            SettingsObject = obj ?? Settings.Default;
             LoadSettings(blacklist);
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

@@ -86,6 +86,7 @@ namespace PKHeX.WinForms
             "Main.L_Potential", // ★☆☆☆ IV judge evaluation
             "SAV_HoneyTree.L_Tree0", // dynamic, don't bother
             "SAV_Misc3.BTN_Symbol", // symbols should stay as their current character
+            "SettingsEditor.BAKPrompt", // internal setting
         };
 
         private static readonly string[] PurgeBanlist =
