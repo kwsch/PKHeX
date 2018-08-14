@@ -364,6 +364,8 @@ namespace PKHeX.WinForms
         {
             new SettingsEditor(Settings.Default, nameof(Settings.Default.BAKPrompt)).ShowDialog();
 
+            // Reload text (if OT details hidden)
+            Text = GetProgramTitle(C_SAV.SAV);
             // Update final settings
             PKX.AllowShinySprite = Settings.Default.ShinySprites;
             SaveFile.SetUpdateDex = Settings.Default.SetUpdateDex;
@@ -820,6 +822,8 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle(SaveFile sav)
         {
+            if (Settings.Default.HideSAVDetails)
+                return GetProgramTitle() + $" - {sav.GetType().Name}";
             string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
             if (!sav.Exportable) // Blank save file
                 return title + $"{sav.FileName} [{sav.OT} ({sav.Version})]";
