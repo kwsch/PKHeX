@@ -269,8 +269,9 @@ namespace PKHeX.Core
             723, 724, 725, 726, 727, 728
         };
 
-        internal static readonly int[] UnreleasedMoves = {617, 721}; // Light of Ruin & Plasma Fists
-        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves).Concat(UnreleasedMoves)); // Struggle & Chatter
+        internal static readonly int[] UnreleasedMoves = {617}; // Light of Ruin
+        internal static readonly int[] CantSketchMoves = {165, 448}; // Struggle & Chatter
+        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(CantSketchMoves.Concat(Z_Moves).Concat(UnreleasedMoves));
 
         public static readonly HashSet<int> Legends = new HashSet<int>
         {
@@ -311,29 +312,29 @@ namespace PKHeX.Core
         };
         internal static readonly int[] FairyMoves =
         {
-            186, //Sweet Kiss
-            204, //Charm
-            236, //Moonlight 
-            574, //Disarming Voice 
-            577, //Draining Kiss 
-            578, //Crafty Shield 
-            579, //Flower Shield 
-            581, //Misty Terrain 
-            583, //Play Rough 
-            584, //Fairy Wind 
-            585, //Moonblast 
-            587, //Fairy Lock 
-            597, //Aromatic Mist 
-            601, //Geomancy 
-            605, //Dazzling Gleam 
-            608, //Baby-Doll Eyes 
-            617, //Light of Ruin 
-            656, //Twinkle Tackle 
-            657, //Twinkle Tackle 
-            666, //Floral Healing 
-            698, //Guardian of Alola 
-            705, //Fleur Cannon 
-            717, //Nature's Madness 
+            186, // Sweet Kiss
+            204, // Charm
+            236, // Moonlight
+            574, // Disarming Voice
+            577, // Draining Kiss
+            578, // Crafty Shield
+            579, // Flower Shield
+            581, // Misty Terrain
+            583, // Play Rough
+            584, // Fairy Wind
+            585, // Moonblast
+            587, // Fairy Lock
+            597, // Aromatic Mist
+            601, // Geomancy
+            605, // Dazzling Gleam
+            608, // Baby-Doll Eyes
+            617, // Light of Ruin
+            656, // Twinkle Tackle
+            657, // Twinkle Tackle
+            666, // Floral Healing
+            698, // Guardian of Alola
+            705, // Fleur Cannon
+            717, // Nature's Madness
         };
         // Moves that trigger the evolution by move
         internal static readonly int[][] MoveEvolutionWithMove =
