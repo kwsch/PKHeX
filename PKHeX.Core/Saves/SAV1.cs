@@ -32,11 +32,11 @@ namespace PKHeX.Core
             if (Version == GameVersion.Invalid)
                 return;
 
+            Japanese = SaveUtil.GetIsG1SAVJ(Data);
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
             if (Starter != 0)
                 Version = Yellow ? GameVersion.YW : GameVersion.RB;
 
-            Japanese = SaveUtil.GetIsG1SAVJ(Data);
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
