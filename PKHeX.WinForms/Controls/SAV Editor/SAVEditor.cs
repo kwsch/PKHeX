@@ -97,7 +97,7 @@ namespace PKHeX.WinForms.Controls
 
             Tab_Box.MouseWheel += (s, e) =>
             {
-                if (menu.Visible)
+                if (menu.mnuVSD.Visible)
                     return;
                 if (e.Delta > 1)
                     Box.MoveLeft();
