@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
             dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
             dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
 
-            var recent = SaveDetection.GetSaveFiles(drives, true, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
+            var recent = SaveDetection.GetSaveFiles(drives, false, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
             Recent = PopulateData(dgDataRecent, recent);
             var backup = SaveDetection.GetSaveFiles(drives, false, Main.BackupPath);
             Backup = PopulateData(dgDataBackup, backup);
