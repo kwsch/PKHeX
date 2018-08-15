@@ -75,7 +75,7 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(V222));
                     return true;
                 }
-                if (nickname.Length > GetNicknameMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
+                if (nickname.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
                 {
                     data.AddLine(GetInvalid(V1));
                     return true;
@@ -177,7 +177,7 @@ namespace PKHeX.Core
             else if (pkm.Korean && StringConverter.GetIsG2Korean(str))
             {
                 if (str.Length > 5)
-                    data.AddLine(GetInvalid(V38));
+                    data.AddLine(GetInvalid(V1));
             }
             else
             {
@@ -416,16 +416,6 @@ namespace PKHeX.Core
             if (nick == "Quacklin’" && pkm.Nickname == "Quacklin'")
                 return true;
             return ((EncounterTrade)EncounterMatch).IsNicknamed;
-        }
-
-        private static int GetNicknameMaxLength(int gen, LanguageID lang)
-        {
-            switch (lang)
-            {
-                case LanguageID.Korean:
-                case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
-                default: return gen >= 6 ? 12 : 6;
-            }
         }
     }
 }

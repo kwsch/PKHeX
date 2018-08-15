@@ -1397,5 +1397,15 @@ namespace PKHeX.Core
                 return s == GameVersion.Stadium2 ? 2000 : 1999;
             return 2000;
         }
+
+        public static int GetNicknameOTMaxLength(int gen, LanguageID lang)
+        {
+            switch (lang)
+            {
+                case LanguageID.Korean:
+                case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
+                default: return gen >= 6 ? 12 : 6;
+            }
+        }
     }
 }
