@@ -61,7 +61,7 @@ namespace PKHeX.Core
             else if (ot.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
             {
                 if (!pkm.IsEgg) // ignore eggs, on trade, OT is not updated if language is
-                    data.AddLine(GetInvalid(V38));
+                    data.AddLine(Get(V38, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
             }
 
             if (Legal.CheckWordFilter)

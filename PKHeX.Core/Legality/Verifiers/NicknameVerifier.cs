@@ -77,7 +77,7 @@ namespace PKHeX.Core
                 }
                 if (nickname.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    data.AddLine(GetInvalid(V1));
+                    data.AddLine(Get(V1, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
                     return true;
                 }
                 data.AddLine(GetValid(V17));

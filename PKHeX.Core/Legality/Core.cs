@@ -1404,7 +1404,7 @@ namespace PKHeX.Core
             {
                 case LanguageID.Korean:
                 case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
-                default: return gen >= 6 ? 12 : 6;
+                default: return gen >= 6 ? 12 : 10;
             }
         }
     }
