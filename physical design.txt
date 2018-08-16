@@ -1,0 +1,225 @@
+use shop
+db.createCollection("dvd")
+db.createCollection("order")
+db.createCollection("review")
+db.createCollection("addr")
+
+db.dvd.insert([
+
+{
+   DVD_id:001,
+   Title:'Spider-man',
+   Format:'MPEG-1',
+   Genre:'Action',
+   Key_Stars:'Tobey Maguire',
+   Year_Released:2002,
+   Price:10
+},
+
+{
+   DVD_id:002,
+   Title:'Titanic',
+   Format:'MPEG-2',
+   Genre:'Romance',
+   Key_Stars:'Leonardo DiCaprio',
+   Year_Released:1997,
+   Price:10
+},
+
+{
+   DVD_id:003,
+   Title:'The Wolf of Wallstreet',
+   Format:'MPEG-2',
+   Genre:'Black Comedy',
+   Key_Stars:'Leonardo DiCaprio',
+   Year_Released:2013,
+   Price:10
+},
+
+{
+   DVD_id:004,
+   Title:'Mission Impossible',
+   Format:'MPEG-1',
+   Genre:'Action',
+   Key_Stars:'Tom Cruise',
+   Year_Released:1998,
+   Price:15
+},
+
+{
+   DVD_id:005,
+   Title:'Matrix',
+   Format:'MPEG-1',
+   Genre:'Action',
+   Key_Stars:'Keanu Reeves',
+   Year_Released:1998,
+   Price:15
+},
+
+])
+
+db.order.insert([
+
+{
+   Cust_id:1604622,
+   First_name:'Kum',
+   Last_name:'Wai Chung',
+   Email:'wch1890@hotmail.com',
+   Order:[
+  {
+     DVD_id:001,
+     Quantity:1,
+     Date_ordered: new Date(2018,05,05)
+  },
+
+  {
+     DVD_id:003,
+     Quantity:2,
+     Date_ordered: new Date(2018,06,24)
+  }
+ ]},
+
+{
+   Cust_id:1604242,
+   First_name:'Joe',
+   Last_name:'Siew',
+   Email:'JoeJoeJoe@hotmail.com',
+   Order:[
+  {
+     DVD_id:001,
+     Quantity:2,
+     Date_ordered: new Date(2018,07,05)
+  },
+
+  {
+     DVD_id:004,
+     Quantity:2,
+     Date_ordered: new Date(2018,08,14)
+  }
+ ]},
+
+{
+   Cust_id:1604444,
+   First_name:'Lee',
+   Last_name:'Dew Yew',
+   Email:'DewYewLee@hotmail.com',
+   Order:[
+  {
+     DVD_id:002,
+     Quantity:1,
+     Date_ordered: new Date(2018,08,14)
+  }
+ ]},
+   
+])
+
+db.review.insert([
+
+{
+   Cust_id:1604622,
+   First_name:'Kum',
+   Last_name:'Wai Chung',
+   Review:[
+  {
+     Rating:8,
+     Subject:'Spider-man',
+     Description: 'Best spider-man movie'
+  },
+
+  {
+     Rating:4,
+     Subject:'The Wolf of Wallstreet',
+     Description: 'The movie is boring'
+  }
+ ]},
+
+{
+   Cust_id:1604242,
+   First_name:'Joe',
+   Last_name:'Siew',
+   Review:[
+  {
+     Rating:9,
+     Subject:'Spider-man',
+     Description:'Tobey Maguire is the best spider-man ever'
+  },
+
+  {
+     Rating:8,
+     Subject:'Mission Impossible',
+     Description:' '
+  }
+ ]},
+
+{
+   Cust_id:1604444,
+   First_name:'Lee',
+   Last_name:'Dew Yew',
+   Review:[
+  {
+     Rating:6,
+     Subject:'Titanic',
+     Description:' '
+  }
+ ]},
+   
+])
+
+db.addr.insert([
+
+{
+   Cust_id:1604622,
+   First_name:'Kum',
+   Last_name:'Wai Chung',
+   Street_addr1:'Jalan 1/146H',
+   Street_addr2:'Taman Sri Petaling',
+   City:'Kuala Lumpur',
+   State:'Wilayah Persekutuan'
+},
+
+{
+   Cust_id:1604242,
+   First_name:'Joe',
+   Last_name:'Siew',
+   Street_addr1:'Jalan 69/180',
+   Street_addr2:'Taman Gemilang',
+   City:'Kuala Lumpur',
+   State:'Wilayah Persekutuan'
+},
+
+{
+   Cust_id:1604444,
+   First_name:'Lee',
+   Last_name:'Dew Yew',
+   Street_addr1:'Jalan Pasir Puteh',
+   Street_addr2:'Taman Selesa',
+   City:'Putrajaya',
+   State:'Wilayah Persekutuan'
+},
+
+{
+   Cust_id:1502222,
+   First_name:'Lok',
+   Last_name:'Ka Keng',
+   Street_addr1:'Jalan Pasir Puteh',
+   Street_addr2:'Taman Timur Pankala',
+   City:'Ipoh',
+   State:'Perak'
+},
+
+{
+   Cust_id:1402222,
+   First_name:'Daniel',
+   Last_name:'Ka Keng',
+   Street_addr1:'Jalan Pasir Hitam',
+   Street_addr2:'Taman Barat Pankala',
+   City:'Ipoh',
+   State:'Perak'
+},
+
+])
+
+
+
+
+
