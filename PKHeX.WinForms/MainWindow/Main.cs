@@ -822,9 +822,9 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle(SaveFile sav)
         {
-            if (Settings.Default.HideSAVDetails)
-                return GetProgramTitle() + $" - {sav.GetType().Name}";
             string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
+            if (Settings.Default.HideSAVDetails)
+                return title + $"[{sav.Version}]";
             if (!sav.Exportable) // Blank save file
                 return title + $"{sav.FileName} [{sav.OT} ({sav.Version})]";
             return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName)); // more descriptive

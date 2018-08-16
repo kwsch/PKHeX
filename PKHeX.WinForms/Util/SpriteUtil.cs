@@ -96,7 +96,7 @@ namespace PKHeX.WinForms
 
         private static Image GetWallpaper(SaveFile SAV, int box)
         {
-            string s = BoxWallpaper.GetWallpaper(SAV, box);
+            string s = BoxWallpaper.GetWallpaperResourceName(SAV, box);
             return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
         }
 

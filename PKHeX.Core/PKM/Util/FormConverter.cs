@@ -82,6 +82,8 @@ namespace PKHeX.Core
             }
         }
 
+        private static readonly string[] EMPTY = {""};
+
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch (species)
@@ -107,7 +109,7 @@ namespace PKHeX.Core
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 172:
                     return GetFormsPichu(generation, types, forms);
@@ -121,7 +123,7 @@ namespace PKHeX.Core
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 351: // Casftorm
                     return new[]
@@ -154,7 +156,7 @@ namespace PKHeX.Core
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 412:
                 case 413:
@@ -217,7 +219,7 @@ namespace PKHeX.Core
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 550:
                     return new[]
@@ -291,7 +293,7 @@ namespace PKHeX.Core
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 658:
                     return new[]
@@ -420,7 +422,7 @@ namespace PKHeX.Core
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 741: // Oricorio
                     return new[]
@@ -495,12 +497,12 @@ namespace PKHeX.Core
         private static string[] GetFormsAlolan (int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
         {
             if (generation < 7)
-                return new[] { "" };
+                return EMPTY;
 
             switch (species)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 19: // Rattata
                 case 26: // Raichu
@@ -531,7 +533,7 @@ namespace PKHeX.Core
             switch (generation)
             {
                 default:
-                    return new[] { "" };
+                    return EMPTY;
 
                 case 6:
                     return new[]
@@ -570,7 +572,7 @@ namespace PKHeX.Core
                 };
             }
 
-            return new[] { "" };
+            return EMPTY;
         }
 
         private static string[] GetFormsArceus (int generation, IReadOnlyList<string> types)
