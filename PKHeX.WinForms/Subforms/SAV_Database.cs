@@ -123,6 +123,16 @@ namespace PKHeX.WinForms
             }
         }
 
+        private static string PIDHash(PKM pk)
+        {
+            switch (pk.Format)
+            {
+                case 1: return $"{((PK1)pk).DV16:X4}";
+                case 2: return $"{((PK2)pk).DV16:X4}";
+                default: return $"{pk.PID:X8}";
+            }
+        }
+
         // Important Events
         private void ClickView(object sender, EventArgs e)
         {
@@ -519,7 +529,12 @@ namespace PKHeX.WinForms
             }
 
             if (Menu_SearchClones.Checked)
-                res = res.GroupBy(Hash).Where(group => group.Count() > 1).SelectMany(z => z);
+            {
+                Func<PKM, string> method = Hash;
+                if (ModifierKeys == Keys.Control)
+                    method = PIDHash;
+                res = res.GroupBy(method).Where(group => group.Count() > 1).SelectMany(z => z);
+            }
 
             return res;
         }
