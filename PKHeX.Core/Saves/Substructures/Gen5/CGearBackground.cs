@@ -270,31 +270,47 @@ namespace PKHeX.Core
                 if (ColorChoices.SequenceEqual(tileColors))
                     return 0;
 
-                // flip x
+                if (IsMirrorX(tileColors))
+                    return 4;
+                if (IsMirrorY(tileColors))
+                    return 8;
+                if (IsMirrorXY(tileColors))
+                    return 12;
+
+                return -1;
+            }
+
+            private bool IsMirrorX(int[] tileColors)
+            {
                 for (int i = 0; i < 64; i++)
                 {
                     if (ColorChoices[(7 - (i & 7)) + (8 * (i / 8))] != tileColors[i])
-                        goto check8;
+                        return false;
                 }
-                return 4;
 
-                // flip y
-                check8:
+                return true;
+            }
+
+            private bool IsMirrorY(int[] tileColors)
+            {
                 for (int i = 0; i < 64; i++)
                 {
                     if (ColorChoices[64 - (8 * (1 + (i / 8))) + (i & 7)] != tileColors[i])
-                        goto check12;
+                        return false;
                 }
-                return 8;
 
-                // flip xy
-                check12:
+                return true;
+            }
+
+            private bool IsMirrorXY(int[] tileColors)
+            {
                 for (int i = 0; i < 64; i++)
                 {
                     if (ColorChoices[63 - i] != tileColors[i])
-                        return -1;
+                        return false;
                 }
-                return 12;
+
+                return true;
             }
         }
 
