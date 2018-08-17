@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
             WinFormsTranslator.DumpAll(Banlist); // dump current to file
             WinFormsTranslator.SetRemovalMode(); // remove used keys, don't add any
             WinFormsTranslator.LoadAllForms(LoadBanlist); // de-populate
-            WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
+            WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that stil remain
 
             // Move translated files from the debug exe loc to their project location
             var files = Directory.GetFiles(Application.StartupPath);
@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
             "Main.L_Characteristic=", // Characterstic (dynamic)
             "Main.L_Potential", // ★☆☆☆ IV judge evaluation
             "SAV_HoneyTree.L_Tree0", // dynamic, don't bother
-            "SAV_Misc3.BTN_Symbol", // symbols should stay as their current character
+            "SAV_Misc3.BTN_Symbol", // symbols should stays as their current character
         };
 
         private static readonly string[] PurgeBanlist =

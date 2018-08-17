@@ -112,7 +112,7 @@ namespace PKHeX.Tests.PKM
             var pkCC = new PK4 {PID = 0x00000037, IVs = new[] {16, 13, 12, 02, 18, 03}, Species = 1, Gender = 0};
             Assert.AreEqual(PIDType.CuteCharm, MethodFinder.Analyze(pkCC)?.Type, "Unable to match PID to Cute Charm spread");
 
-            // Antishiny Mystery Gift: TID/SID are zero. Original PID of 0x5271E97E is rerolled.
+            // Antishiny Mystery Gift: TID/SID are zero. Original PID of 0x5271E97E are rerolled.
             var pkASR = new PK4 {PID = 0x07578CB7, IVs = new[] {16, 13, 12, 02, 18, 03}};
             Assert.AreEqual(PIDType.G4MGAntiShiny, MethodFinder.Analyze(pkASR)?.Type, "Unable to match PID to Antishiny4 spread");
 
@@ -198,7 +198,7 @@ namespace PKHeX.Tests.PKM
             }
             // Test for Method H and K
             {
-                // Sapphire
+                // Saphire
                 // pk.Version = (int)GameVersion.S;
                 // var results = FrameFinder.GetFrames(pidiv, pk);
             }

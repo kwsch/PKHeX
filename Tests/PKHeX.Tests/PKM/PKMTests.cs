@@ -38,7 +38,7 @@ namespace PKHeX.Tests
                 0xC9, 0x30, // ド
                 0xE9, 0x30, // ラ
                 0xF3, 0x30, // ン
-                0x40, 0x26, // ♀
+                0x40, 0x28, // ♀
                 0x00, 0x00, // \0 terminator
             };
             CheckStringGetSet(nameof(pkm.Nickname), name_nidoran, pkm.Nickname, byte_nidoran, pkm.Nickname_Trash);
@@ -129,7 +129,7 @@ namespace PKHeX.Tests
             pk.Egg_Day = 0;
             pk.Egg_Month = 0;
             pk.Egg_Year = 0;
-            Assert.IsFalse(pk.MetDate.HasValue, "EggMetDate should be null when date components are all 0.");
+            Assert.IsFalse(pk.MetDate.HasValue, "EggMetDate should be null when date component are all 0.");
 
             // Ensure MetDate gives correct date
             pk.Egg_Day = 10;

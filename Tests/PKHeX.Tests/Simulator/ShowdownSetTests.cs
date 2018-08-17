@@ -140,7 +140,7 @@ namespace PKHeX.Tests.Simulator
         {
             int count = 0;
             var tr = new SimpleTrainerInfo();
-            for (int i = 1; i <= 807; i++)
+            for (int i = 1; i < 807; i++)
             {
                 var pk = new PK7 { Species = i };
                 pk.Gender = pk.GetSaneGender();
