@@ -124,11 +124,32 @@ namespace PKHeX.WinForms
 
                 editing = false;
                 NUP_PartyIndex_ValueChanged(sender, e);
-                goto end;
             }
-            foreach (Control t in editor_spec)
-                t.Enabled = true;
+            else
+            {
+                foreach (Control t in editor_spec)
+                    t.Enabled = true;
+                var moncount = AddEntries(offset, s, year, month, day);
 
+
+                if (sender != null)
+                {
+                    NUP_PartyIndex.Maximum = moncount == 0 ? 1 : moncount;
+                    NUP_PartyIndex.Value = 1;
+                    NUP_PartyIndex_ValueChanged(sender, e);
+                }
+                else
+                {
+                    editing = true;
+                }
+            }
+
+            RTB.Lines = s.ToArray();
+            RTB.Font = new Font("Courier New", 8);
+        }
+
+        private int AddEntries(int offset, List<string> s, uint year, uint month, uint day)
+        {
             s.Add($"Date: {year}/{month:00}/{day:00}");
             s.Add("");
             CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
@@ -136,62 +157,54 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 6; i++)
             {
                 int species = BitConverter.ToUInt16(data, offset + 0x00);
-                int helditem = BitConverter.ToUInt16(data, offset + 0x02);
-                int move1 = BitConverter.ToUInt16(data, offset + 0x04);
-                int move2 = BitConverter.ToUInt16(data, offset + 0x06);
-                int move3 = BitConverter.ToUInt16(data, offset + 0x08);
-                int move4 = BitConverter.ToUInt16(data, offset + 0x0A);
-
-                int TID = BitConverter.ToUInt16(data, offset + 0x10);
-                int SID = BitConverter.ToUInt16(data, offset + 0x12);
-
-                uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
-                // uint form = slgf & 0x1F;
-                uint gender = slgf >> 5 & 3; // 0 M; 1 F; 2 G
-                uint level = slgf >> 7 & 0x7F;
-                uint shiny = slgf >> 14 & 0x1;
-                // uint unkn = slgf >> 15;
-
-                string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-                string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
-
                 if (species == 0)
                     continue;
 
                 moncount++;
-                string genderstr=gendersymbols[gender];
-                string shinystr = shiny == 1 ? "Yes" : "No";
-
-                string[] movelist = GameInfo.Strings.movelist;
-                s.Add($"Name: {nickname}");
-                s.Add($" ({GameInfo.Strings.specieslist[species]} - {genderstr})");
-                s.Add($"Level: {level}");
-                s.Add($"Shiny: {shinystr}");
-                s.Add($"Held Item: {GameInfo.Strings.itemlist[helditem]}");
-                s.Add($"Move 1: {movelist[move1]}");
-                s.Add($"Move 2: {movelist[move2]}");
-                s.Add($"Move 3: {movelist[move3]}");
-                s.Add($"Move 4: {movelist[move4]}");
-                s.Add($"OT: {OTname} ({TID}/{SID})");
-                s.Add("");
+                AddEntryDescription(offset, s, species);
 
                 offset += 0x48;
             }
 
-            if (sender != null)
-            {
-                NUP_PartyIndex.Maximum = moncount == 0 ? 1 : moncount;
-                NUP_PartyIndex.Value = 1;
-                NUP_PartyIndex_ValueChanged(sender, e);
-            }
-            else
-            {
-                editing = true;
-            }
+            return moncount;
+        }
 
-            end:
-            RTB.Lines = s.ToArray();
-            RTB.Font = new Font("Courier New", 8);
+        private void AddEntryDescription(int offset, List<string> s, int species)
+        {
+            int helditem = BitConverter.ToUInt16(data, offset + 0x02);
+            int move1 = BitConverter.ToUInt16(data, offset + 0x04);
+            int move2 = BitConverter.ToUInt16(data, offset + 0x06);
+            int move3 = BitConverter.ToUInt16(data, offset + 0x08);
+            int move4 = BitConverter.ToUInt16(data, offset + 0x0A);
+
+            int TID = BitConverter.ToUInt16(data, offset + 0x10);
+            int SID = BitConverter.ToUInt16(data, offset + 0x12);
+
+            uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
+            // uint form = slgf & 0x1F;
+            uint gender = slgf >> 5 & 3; // 0 M; 1 F; 2 G
+            uint level = slgf >> 7 & 0x7F;
+            uint shiny = slgf >> 14 & 0x1;
+            // uint unkn = slgf >> 15;
+
+            string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
+            string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
+
+            string genderstr = gendersymbols[gender];
+            string shinystr = shiny == 1 ? "Yes" : "No";
+
+            string[] movelist = GameInfo.Strings.movelist;
+            s.Add($"Name: {nickname}");
+            s.Add($" ({GameInfo.Strings.specieslist[species]} - {genderstr})");
+            s.Add($"Level: {level}");
+            s.Add($"Shiny: {shinystr}");
+            s.Add($"Held Item: {GameInfo.Strings.itemlist[helditem]}");
+            s.Add($"Move 1: {movelist[move1]}");
+            s.Add($"Move 2: {movelist[move2]}");
+            s.Add($"Move 3: {movelist[move3]}");
+            s.Add($"Move 4: {movelist[move4]}");
+            s.Add($"OT: {OTname} ({TID}/{SID})");
+            s.Add("");
         }
 
         private void NUP_PartyIndex_ValueChanged(object sender, EventArgs e)
