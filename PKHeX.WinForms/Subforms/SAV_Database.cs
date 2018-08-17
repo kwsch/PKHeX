@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Core.Searching;
 using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
@@ -112,26 +113,6 @@ namespace PKHeX.WinForms
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
         private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
-
-        private static string Hash(PKM pk)
-        {
-            switch (pk.Format)
-            {
-                case 1: return $"{pk.Species:000}{((PK1) pk).DV16:X4}";
-                case 2: return $"{pk.Species:000}{((PK2) pk).DV16:X4}";
-                default: return $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.AltForm:00}";
-            }
-        }
-
-        private static string PIDHash(PKM pk)
-        {
-            switch (pk.Format)
-            {
-                case 1: return $"{((PK1)pk).DV16:X4}";
-                case 2: return $"{((PK2)pk).DV16:X4}";
-                default: return $"{pk.PID:X8}";
-            }
-        }
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -445,10 +426,11 @@ namespace PKHeX.WinForms
         // View Updates
         private IEnumerable<PKM> SearchDatabase()
         {
-            // Populate Search Query Result
+            var settings = GetSearchSettings();
+
             IEnumerable<PKM> res = RawDB;
 
-            // Filter for Selected Source
+            // pre-filter based on the file path (if specified)
             if (!Menu_SearchBoxes.Checked)
                 res = res.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal));
             if (!Menu_SearchDatabase.Checked)
@@ -459,173 +441,66 @@ namespace PKHeX.WinForms
 #endif
             }
 
-            int formatOption = (MAXFORMAT - CB_Format.SelectedIndex) + 1; // 0->(n-1) => 1->n
-            int formatOperand = CB_FormatComparator.SelectedIndex;
-            res = FilterByFormat(res, formatOption, formatOperand);
-            res = FilterByGeneration(res, CB_Generation.SelectedIndex);
+            // return filtered results
+            return settings.Search(res);
+        }
 
-            // Primary Searchables
-            int species = WinFormsUtil.GetIndex(CB_Species);
-            int ability = WinFormsUtil.GetIndex(CB_Ability);
-            int nature = WinFormsUtil.GetIndex(CB_Nature);
-            int item = WinFormsUtil.GetIndex(CB_HeldItem);
-            if (species != -1) res = res.Where(pk => pk.Species == species);
-            if (ability != -1) res = res.Where(pk => pk.Ability == ability);
-            if (nature != -1) res = res.Where(pk => pk.Nature == nature);
-            if (item != -1) res = res.Where(pk => pk.HeldItem == item);
-
-            // Secondary Searchables
-            int move1 = WinFormsUtil.GetIndex(CB_Move1);
-            int move2 = WinFormsUtil.GetIndex(CB_Move2);
-            int move3 = WinFormsUtil.GetIndex(CB_Move3);
-            int move4 = WinFormsUtil.GetIndex(CB_Move4);
-            var moves = new[] { move1, move2, move3, move4 }.Where(z => z > 0).ToList();
-            int count = moves.Count;
-            if (count > 0) res = res.Where(pk => pk.Moves.Intersect(moves).Count() == count);
-
-            int vers = WinFormsUtil.GetIndex(CB_GameOrigin);
-            if (vers != -1) res = res.Where(pk => pk.Version == vers);
-            int hptype = WinFormsUtil.GetIndex(CB_HPType);
-            if (hptype != -1) res = res.Where(pk => pk.HPType == hptype);
-
-            switch (CHK_Shiny.CheckState)
+        private SearchSettings GetSearchSettings()
+        {
+            var settings = new SearchSettings
             {
-                case CheckState.Checked:
-                    res = res.Where(pk => pk.IsShiny);
-                    break;
-                case CheckState.Unchecked:
-                    res = res.Where(pk => !pk.IsShiny);
-                    break;
+                Format = MAXFORMAT - CB_Format.SelectedIndex + 1, // 0->(n-1) => 1->n
+                SearchFormat = (SearchComparison)CB_FormatComparator.SelectedIndex,
+                Generation = CB_Generation.SelectedIndex,
+
+                Version = WinFormsUtil.GetIndex(CB_GameOrigin),
+                HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
+
+                Species = WinFormsUtil.GetIndex(CB_Species),
+                Ability = WinFormsUtil.GetIndex(CB_Ability),
+                Nature = WinFormsUtil.GetIndex(CB_Nature),
+                Item = WinFormsUtil.GetIndex(CB_HeldItem),
+
+                BatchInstructions = RTB_Instructions.Lines,
+
+                Level = int.TryParse(TB_Level.Text, out var lvl) ? (int?)lvl : null,
+                SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
+                EVType = CB_EVTrain.SelectedIndex,
+                IVType = CB_IV.SelectedIndex,
+            };
+
+            settings.AddMove(WinFormsUtil.GetIndex(CB_Move1));
+            settings.AddMove(WinFormsUtil.GetIndex(CB_Move2));
+            settings.AddMove(WinFormsUtil.GetIndex(CB_Move3));
+            settings.AddMove(WinFormsUtil.GetIndex(CB_Move4));
+
+            if (CHK_Shiny.CheckState != CheckState.Indeterminate)
+                settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;
+
+            if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
+            {
+                settings.SearchEgg = CHK_Shiny.CheckState == CheckState.Checked;
+                if (int.TryParse(MT_ESV.Text, out int esv))
+                    settings.ESV = esv;
             }
 
-            switch (CHK_IsEgg.CheckState)
-            {
-                case CheckState.Checked when int.TryParse(MT_ESV.Text, out int esv):
-                    res = res.Where(pk => pk.IsEgg && pk.PSV == esv);
-                    break;
-                case CheckState.Checked:
-                    res = res.Where(pk => pk.IsEgg);
-                    break;
-                case CheckState.Unchecked:
-                    res = res.Where(pk => !pk.IsEgg);
-                    break;
-            }
-
-            // Tertiary Searchables
-            res = FilterByLVL(res, CB_Level.SelectedIndex, TB_Level.Text);
-            res = FilterByIVs(res, CB_IV.SelectedIndex);
-            res = FilterByEVs(res, CB_EVTrain.SelectedIndex);
-
-            if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked)
-                res = res.Where(pk => new LegalityAnalysis(pk).Valid);
-            if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked)
-                res = res.Where(pk => !new LegalityAnalysis(pk).Valid);
-
-            if (RTB_Instructions.Lines.Any(line => line.Length > 0))
-            {
-                var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
-                BatchEditing.ScreenStrings(filters);
-                res = res.Where(pkm => BatchEditing.IsFilterMatch(filters, pkm)); // Compare across all filters
-            }
+            if (Menu_SearchLegal.Checked != Menu_SearchIllegal.Checked)
+                settings.SearchLegal = Menu_SearchLegal.Checked;
 
             if (Menu_SearchClones.Checked)
             {
-                Func<PKM, string> method = Hash;
-                if (ModifierKeys == Keys.Control)
-                    method = PIDHash;
-                res = res.GroupBy(method).Where(group => group.Count() > 1).SelectMany(z => z);
+                switch (ModifierKeys)
+                {
+                    case Keys.Control:
+                        settings.SearchClones = CloneDetectionMethod.HashPID;
+                        break;
+                    default:
+                        settings.SearchClones = CloneDetectionMethod.HashDetails;
+                        break;
+                }
             }
 
-            return res;
-        }
-
-        private static IEnumerable<PKM> FilterByFormat(IEnumerable<PKM> res, int format, int formatOperand)
-        {
-            switch (formatOperand)
-            {
-                default: return res; /* Do nothing */
-                case 1: res = res.Where(pk => pk.Format >= format); break;
-                case 2: res = res.Where(pk => pk.Format == format); break;
-                case 3: res = res.Where(pk => pk.Format <= format); break;
-            }
-
-            if (format <= 2) // 1-2
-                return res.Where(pk => pk.Format <= 2);
-            if (format >= 3 && format <= 6) // 3-6
-                return res.Where(pk => pk.Format >= 3);
-
-            return res;
-        }
-
-        private static IEnumerable<PKM> FilterByGeneration(IEnumerable<PKM> res, int option)
-        {
-            switch (option)
-            {
-                default: return res; /* Do nothing */
-                case 1: return res.Where(pk => pk.Gen7);
-                case 2: return res.Where(pk => pk.Gen6);
-                case 3: return res.Where(pk => pk.Gen5);
-                case 4: return res.Where(pk => pk.Gen4);
-                case 5: return res.Where(pk => pk.Gen3);
-                case 6: return res.Where(pk => pk.VC || pk.Format < 3);
-            }
-        }
-
-        private static IEnumerable<PKM> FilterByLVL(IEnumerable<PKM> res, int option, string lvl)
-        {
-            if (string.IsNullOrWhiteSpace(lvl))
-                return res;
-            if (!int.TryParse(lvl, out int level))
-                return res;
-            if (level > 100)
-                return res;
-
-            switch (option)
-            {
-                default: return res; // Any (Do nothing)
-                case 3: // <=
-                    return res.Where(pk => pk.Stat_Level <= level);
-                case 2: // ==
-                    return res.Where(pk => pk.Stat_Level == level);
-                case 1: // >=
-                    return res.Where(pk => pk.Stat_Level >= level);
-            }
-        }
-
-        private static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option)
-        {
-            switch (option)
-            {
-                default: return res; // Any (Do nothing)
-                case 1: // None (0)
-                    return res.Where(pk => pk.EVTotal == 0);
-                case 2: // Some (127-0)
-                    return res.Where(pk => pk.EVTotal < 128);
-                case 3: // Half (128-507)
-                    return res.Where(pk => pk.EVTotal >= 128 && pk.EVTotal < 508);
-                case 4: // Full (508+)
-                    return res.Where(pk => pk.EVTotal >= 508);
-            }
-        }
-
-        private static IEnumerable<PKM> FilterByIVs(IEnumerable<PKM> res, int option)
-        {
-            switch (option)
-            {
-                default: return res; // Do nothing
-                case 1: // <= 90
-                    return res.Where(pk => pk.IVTotal <= 90);
-                case 2: // 91-120
-                    return res.Where(pk => pk.IVTotal > 90 && pk.IVTotal <= 120);
-                case 3: // 121-150
-                    return res.Where(pk => pk.IVTotal > 120 && pk.IVTotal <= 150);
-                case 4: // 151-179
-                    return res.Where(pk => pk.IVTotal > 150 && pk.IVTotal < 180);
-                case 5: // 180+
-                    return res.Where(pk => pk.IVTotal >= 180);
-                case 6: // == 186
-                    return res.Where(pk => pk.IVTotal == 186);
-            }
+            return settings;
         }
 
         private async void B_Search_Click(object sender, EventArgs e)
@@ -769,7 +644,8 @@ namespace PKHeX.WinForms
             var deleted = 0;
             var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
                 .OrderByDescending(file => new FileInfo(file.Identifier).LastWriteTime);
-            var clones = db.GroupBy(Hash).Where(group => group.Count() > 1).SelectMany(z => z.Skip(1));
+
+            var clones = SearchUtil.GetExtraClones(db);
             foreach (var pk in clones)
             {
                 try { File.Delete(pk.Identifier); ++deleted; }

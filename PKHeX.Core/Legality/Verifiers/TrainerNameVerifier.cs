@@ -57,7 +57,9 @@ namespace PKHeX.Core
             }
 
             if (pkm.VC)
+            {
                 VerifyOTG1(data);
+            }
             else if (ot.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
             {
                 if (!pkm.IsEgg) // ignore eggs, on trade, OT is not updated if language is

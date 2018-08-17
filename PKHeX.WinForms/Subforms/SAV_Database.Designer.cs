@@ -1470,8 +1470,8 @@
             this.CB_Level.FormattingEnabled = true;
             this.CB_Level.Items.AddRange(new object[] {
             "Any",
-            ">=",
             "==",
+            ">=",
             "<="});
             this.CB_Level.Location = new System.Drawing.Point(22, 0);
             this.CB_Level.Margin = new System.Windows.Forms.Padding(0);
@@ -1602,12 +1602,13 @@
             this.CB_Generation.FormattingEnabled = true;
             this.CB_Generation.Items.AddRange(new object[] {
             "Any",
-            "Gen 7 (SM/USUM)",
-            "Gen 6 (XY/ORAS)",
-            "Gen 5 (BW/B2W2)",
-            "Gen 4 (DPPt/HGSS)",
+            "Gen 1 (RBY/GSC)",
+            "Gen 2 (RBY/GSC)",
             "Gen 3 (RSE/FRLG/CXD)",
-            "Gen 1/2 (RBY/GSC)"});
+            "Gen 4 (DPPt/HGSS)",
+            "Gen 5 (BW/B2W2)",
+            "Gen 6 (XY/ORAS)",
+            "Gen 7 (SM/USUM)"});
             this.CB_Generation.Location = new System.Drawing.Point(83, 293);
             this.CB_Generation.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Generation.Name = "CB_Generation";
@@ -1779,8 +1780,8 @@
             this.CB_FormatComparator.FormattingEnabled = true;
             this.CB_FormatComparator.Items.AddRange(new object[] {
             "Any",
-            ">=",
             "==",
+            ">=",
             "<="});
             this.CB_FormatComparator.Location = new System.Drawing.Point(0, 0);
             this.CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0);
