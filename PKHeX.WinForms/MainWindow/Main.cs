@@ -502,12 +502,12 @@ namespace PKHeX.WinForms
                 return;
 
             string ext = Path.GetExtension(path);
-            if (fi.Length > 0x10009C && fi.Length != SaveUtil.SIZE_G4BR && !SAV3GCMemoryCard.IsMemoryCardSize(fi.Length)) // pbr/GC have size > 1MB
+            if (FileUtil.IsFileTooBig(fi.Length))
             {
                 WinFormsUtil.Error(MsgFileSizeLarge + Environment.NewLine + string.Format(MsgFileSize, fi.Length), path);
                 return;
             }
-            if (fi.Length < 32)
+            if (FileUtil.IsFileTooSmall(fi.Length))
             {
                 WinFormsUtil.Error(MsgFileSizeSmall + Environment.NewLine + string.Format(MsgFileSize, fi.Length), path);
                 return;
@@ -525,19 +525,8 @@ namespace PKHeX.WinForms
 
         private void OpenFile(byte[] input, string path, string ext)
         {
-            if (TryLoadXorpadSAV(input, path))
-                return;
-            if (TryLoadSAV(input, path))
-                return;
-            if (TryLoadMemoryCard(input, path))
-                return;
-            if (TryLoadPKM(input, ext))
-                return;
-            if (TryLoadPCBoxBin(input))
-                return;
-            if (TryLoadBattleVideo(input))
-                return;
-            if (TryLoadMysteryGift(input, path, ext))
+            var obj = FileUtil.GetSupportedFile(input, ext, C_SAV.SAV);
+            if (obj != null && LoadFile(obj, path))
                 return;
 
             WinFormsUtil.Error(MsgFileUnsupported,
@@ -545,103 +534,46 @@ namespace PKHeX.WinForms
                 $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
         }
 
-        private bool TryLoadXorpadSAV(byte[] input, string path)
+        private bool LoadFile(object input, string path)
         {
-            if (input.Length == 0x10009C) // Resize to 1MB
+            if (input == null)
+                return false;
+
+            switch (input)
             {
-                Array.Copy(input, 0x9C, input, 0, 0x100000);
-                Array.Resize(ref input, 0x100000);
+                case PKM pk: return OpenPKM(pk);
+                case SaveFile s: return OpenSAV(s, path);
+                case BattleVideo b: return OpenBattleVideo(b);
+                case MysteryGift g: return OpenMysteryGift(g, path);
+                case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
+
+                case SAV3GCMemoryCard gc:
+                    if (!CheckGCMemoryCard(gc, path))
+                        return true;
+                    var mcsav = SaveUtil.GetVariantSAV(gc);
+                    return OpenSAV(mcsav, path);
             }
-            if (input.Length != 0x100000)
-                return false;
-            if (OpenXOR(input, path)) // Check if we can load the save via xorpad
-                return true;
-
-            if (BitConverter.ToUInt64(input, 0x10) != 0) // encrypted save
-            {
-                WinFormsUtil.Error(MsgFileLoadEncrypted + Environment.NewLine + MsgFileLoadEncryptedFail, path);
-                return true;
-            }
-
-            DialogResult sdr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgFileLoadXorpad1, MsgFileLoadXorpad2);
-            if (sdr == DialogResult.Cancel)
-                return true;
-
-            int savshift = sdr == DialogResult.Yes ? 0 : 0x7F000;
-            var psdata = SaveUtil.GetMainFromSaveContainer(input, savshift);
-            if (psdata != null)
-                return TryLoadSAV(psdata, path);
-
-            WinFormsUtil.Error(MsgFileLoadSaveFail, path);
-            return true;
+            return false;
         }
 
-        private bool TryLoadSAV(byte[] input, string path)
+        private bool OpenPKM(PKM pk)
         {
-            var sav = SaveUtil.GetVariantSAV(input);
-            if (sav == null)
-                return false;
-            OpenSAV(sav, path);
-            return true;
-        }
-
-        private bool TryLoadMemoryCard(byte[] input, string path)
-        {
-            if (!SAV3GCMemoryCard.IsMemoryCardSize(input))
-                return false;
-            SAV3GCMemoryCard MC = CheckGCMemoryCard(input, path);
-            if (MC == null)
-                return false;
-            var sav = SaveUtil.GetVariantSAV(MC);
-            if (sav == null)
-                return false;
-            OpenSAV(sav, path);
-            return true;
-        }
-
-        private bool TryLoadPKM(byte[] input, string ext)
-        {
-            if (ext == ".pgt") // size collision with pk6
-                return false;
-            var pk = PKMConverter.GetPKMfromBytes(input, prefer: PKX.GetPKMFormatFromExtension(ext, C_SAV.SAV.Generation));
-            if (pk == null)
-                return false;
-
+            pk = PKMConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
+            Debug.WriteLine(c);
             PKME_Tabs.PopulateFields(pk);
             return true;
         }
 
-        private bool TryLoadPCBoxBin(byte[] input)
+        private bool OpenBattleVideo(BattleVideo b)
         {
-            if (!C_SAV.IsPCBoxBin(input.Length))
-                return false;
-            if (!C_SAV.OpenPCBoxBin(input, out string c))
-            {
-                WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
-                return true;
-            }
-
-            WinFormsUtil.Alert(c);
-            return true;
-        }
-
-        private bool TryLoadBattleVideo(byte[] input)
-        {
-            if (!BattleVideo.IsValid(input))
-                return false;
-
-            BattleVideo b = BattleVideo.GetVariantBattleVideo(input);
             bool result = C_SAV.OpenBattleVideo(b, out string c);
             WinFormsUtil.Alert(c);
             Debug.WriteLine(c);
             return result;
         }
 
-        private bool TryLoadMysteryGift(byte[] input, string path, string ext)
+        private bool OpenMysteryGift(MysteryGift tg, string path)
         {
-            var tg = MysteryGift.GetMysteryGift(input, ext);
-            if (tg == null)
-                return false;
             if (!tg.IsPokémon)
             {
                 WinFormsUtil.Alert(MsgPKMMysteryGiftFail, path);
@@ -662,24 +594,15 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        private bool OpenXOR(byte[] input, string path)
+        private bool OpenPCBoxBin(IEnumerable<byte[]> pkms)
         {
-            // try to get a save file via xorpad in same folder
-            var folder = new DirectoryInfo(path).Parent.FullName;
-            var pads = Directory.EnumerateFiles(folder);
-            var s = SaveUtil.GetSAVfromXORpads(input, pads);
-
-            if (s == null) // failed to find xorpad in path folder
+            if (!C_SAV.OpenPCBoxBin(pkms.SelectMany(z => z).ToArray(), out string c))
             {
-                // try again
-                pads = Directory.EnumerateFiles(WorkingDirectory);
-                s = SaveUtil.GetSAVfromXORpads(input, pads);
+                WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
+                return true;
             }
 
-            if (s == null)
-                return false; // failed
-
-            OpenSAV(s, s.FileName);
+            WinFormsUtil.Alert(c);
             return true;
         }
 
@@ -699,30 +622,29 @@ namespace PKHeX.WinForms
             return dialog.Result;
         }
 
-        private static SAV3GCMemoryCard CheckGCMemoryCard(byte[] Data, string path)
+        private static bool CheckGCMemoryCard(SAV3GCMemoryCard MC, string path)
         {
-            var MC = new SAV3GCMemoryCard();
-            var MCState = MC.LoadMemoryCardFile(Data);
-            switch (MCState)
+            var state = MC.GetMemoryCardState();
+            switch (state)
             {
-                default: { WinFormsUtil.Error(MsgFileGameCubeBad, path); return null; }
-                case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error(MsgFileGameCubeNoGames, path); return null; }
+                default: { WinFormsUtil.Error(MsgFileGameCubeBad, path); return false; }
+                case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error(MsgFileGameCubeNoGames, path); return false; }
                 case GCMemoryCardState.DuplicateCOLO:
                 case GCMemoryCardState.DuplicateXD:
-                case GCMemoryCardState.DuplicateRSBOX: { WinFormsUtil.Error(MsgFileGameCubeDuplicate, path); return null; }
+                case GCMemoryCardState.DuplicateRSBOX: { WinFormsUtil.Error(MsgFileGameCubeDuplicate, path); return false; }
                 case GCMemoryCardState.MultipleSaveGame:
                     {
                         GameVersion Game = SelectMemoryCardSaveGame(MC);
                         if (Game == GameVersion.Invalid) //Cancel
-                            return null;
+                            return false;
                         MC.SelectSaveGame(Game);
                         break;
                     }
-                case GCMemoryCardState.SaveGameCOLO:    MC.SelectSaveGame(GameVersion.COLO); break;
-                case GCMemoryCardState.SaveGameXD:      MC.SelectSaveGame(GameVersion.XD); break;
-                case GCMemoryCardState.SaveGameRSBOX:   MC.SelectSaveGame(GameVersion.RSBOX); break;
+                case GCMemoryCardState.SaveGameCOLO: MC.SelectSaveGame(GameVersion.COLO); break;
+                case GCMemoryCardState.SaveGameXD: MC.SelectSaveGame(GameVersion.XD); break;
+                case GCMemoryCardState.SaveGameRSBOX: MC.SelectSaveGame(GameVersion.RSBOX); break;
             }
-            return MC;
+            return true;
         }
 
         private static void StoreLegalSaveGameData(SaveFile sav)
@@ -748,14 +670,14 @@ namespace PKHeX.WinForms
             return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path); // no sneaky plz; reuse string
         }
 
-        private void OpenSAV(SaveFile sav, string path)
+        private bool OpenSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
-            { WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path); return; }
+            { WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path); return true; }
 
             sav.SetFileInfo(path);
             if (!SanityCheckSAV(ref sav))
-                return;
+                return true;
             StoreLegalSaveGameData(sav);
             PKMConverter.Trainer = sav;
             SpriteUtil.Spriter.Initialize(sav); // refresh sprite generator
@@ -778,6 +700,7 @@ namespace PKHeX.WinForms
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
             SystemSounds.Beep.Play();
+            return true;
         }
 
         private void ResetSAVPKMEditors(SaveFile sav)
@@ -1010,10 +933,16 @@ namespace PKHeX.WinForms
                 return;
 
             var sav = C_SAV.SAV;
-            if (TryLoadPKM(input, sav.Generation.ToString()))
+            if (FileUtil.TryGetPKM(input, out var pk, sav.Generation.ToString(), sav))
+            {
+                OpenPKM(pk);
                 return;
-            if (TryLoadMysteryGift(input, url, null))
+            }
+            if (FileUtil.TryGetMysteryGift(input, out var mg, url))
+            {
+                OpenMysteryGift(mg, url);
                 return;
+            }
 
             WinFormsUtil.Alert(MsgQRDecodeFail, string.Format(MsgQRDecodeSize, input.Length));
         }

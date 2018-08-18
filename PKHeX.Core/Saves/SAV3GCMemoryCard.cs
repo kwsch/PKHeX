@@ -65,6 +65,8 @@ namespace PKHeX.Core
         private static int BlockAlloc => BLOCK_SIZE * BlockAlloc_Block;
         private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
 
+        public SAV3GCMemoryCard(byte[] data) => Data = data;
+
         // Checksums
         private void GetChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
         {
@@ -178,9 +180,8 @@ namespace PKHeX.Core
             Array.Copy(Data, BlockAllocBackup_Block*BLOCK_SIZE, Data, BlockAlloc_Block*BLOCK_SIZE, BLOCK_SIZE);
         }
 
-        public GCMemoryCardState LoadMemoryCardFile(byte[] data)
+        public GCMemoryCardState GetMemoryCardState()
         {
-            Data = data;
             if (!IsMemoryCardSize(Data))
                 return GCMemoryCardState.Invalid; // Invalid size
 
