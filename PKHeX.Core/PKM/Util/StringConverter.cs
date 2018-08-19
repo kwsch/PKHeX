@@ -146,7 +146,7 @@ namespace PKHeX.Core
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
                 return new[] { dict[G1TradeOT], dict[G1Terminator] };
 
-            List<byte> arr = new List<byte>();
+            var arr = new List<byte>(padTo);
             foreach (char c in value)
             {
                 if (!dict.TryGetValue(c, out byte val))
@@ -177,7 +177,7 @@ namespace PKHeX.Core
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
                 return new[] { dict[G1TradeOT], dict[G1Terminator] };
 
-            List<byte> arr = new List<byte>();
+            var arr = new List<byte>(padTo);
             foreach (char c in value)
             {
                 bool koreanChar = false;
