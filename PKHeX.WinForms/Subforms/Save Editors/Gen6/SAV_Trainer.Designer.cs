@@ -162,6 +162,7 @@ namespace PKHeX.WinForms
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.L_TRNick = new System.Windows.Forms.Label();
             this.TB_TRNick = new System.Windows.Forms.TextBox();
+            this.CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
@@ -1582,6 +1583,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Multiplayer
             // 
+            this.Tab_Multiplayer.Controls.Add(this.CHK_MegaRayquazaUnlocked);
             this.Tab_Multiplayer.Controls.Add(this.CHK_MegaUnlocked);
             this.Tab_Multiplayer.Controls.Add(this.L_MultiplayerSprite);
             this.Tab_Multiplayer.Controls.Add(this.GB_Sayings);
@@ -1598,7 +1600,7 @@ namespace PKHeX.WinForms
             // CHK_MegaUnlocked
             // 
             this.CHK_MegaUnlocked.AutoSize = true;
-            this.CHK_MegaUnlocked.Location = new System.Drawing.Point(123, 216);
+            this.CHK_MegaUnlocked.Location = new System.Drawing.Point(123, 214);
             this.CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
             this.CHK_MegaUnlocked.Size = new System.Drawing.Size(149, 17);
             this.CHK_MegaUnlocked.TabIndex = 76;
@@ -1660,6 +1662,16 @@ namespace PKHeX.WinForms
             this.TB_TRNick.TabIndex = 73;
             this.TB_TRNick.Text = "WWWWWWWWWWWW";
             this.TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // CHK_MegaRayquazaUnlocked
+            // 
+            this.CHK_MegaRayquazaUnlocked.AutoSize = true;
+            this.CHK_MegaRayquazaUnlocked.Location = new System.Drawing.Point(123, 230);
+            this.CHK_MegaRayquazaUnlocked.Name = "CHK_MegaRayquazaUnlocked";
+            this.CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(153, 17);
+            this.CHK_MegaRayquazaUnlocked.TabIndex = 77;
+            this.CHK_MegaRayquazaUnlocked.Text = "Mega Rayquaza Unlocked";
+            this.CHK_MegaRayquazaUnlocked.UseVisualStyleBackColor = true;
             // 
             // SAV_Trainer
             // 
@@ -1849,5 +1861,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_MegaUnlocked;
         private Subforms.Save_Editors.TrainerStat TrainerStats;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
     }
 }

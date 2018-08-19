@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = SAV.ORAS;
             L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = SAV.ORAS;
-            PB_Sprite.Visible = SAV.ORAS;
+            PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV.ORAS;
 
             L_Style.Visible = TB_Style.Visible = SAV.XY;
             if (!SAV.XY)
@@ -64,6 +64,7 @@ namespace PKHeX.WinForms
             editing = false;
 
             CHK_MegaUnlocked.Checked = SAV.IsMegaEvolutionUnlocked;
+            CHK_MegaRayquazaUnlocked.Checked = SAV.IsMegaRayquazaUnlocked;
         }
 
         private readonly bool editing = true;
@@ -168,7 +169,7 @@ namespace PKHeX.WinForms
                 new { Text = "Steven",                      Value = 71 },
                 new { Text = "Maxie",                       Value = 72 },
                 new { Text = "Archie",                      Value = 73 },
-                new { Text = "Pokécenter",                  Value = 0x80 },
+                new { Text = "Pokémon Center",                  Value = 0x80 },
                 new { Text = "Gift",                        Value = 0x81 },
             };
 
@@ -386,6 +387,7 @@ namespace PKHeX.WinForms
                 SAV.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
             SAV.IsMegaEvolutionUnlocked = CHK_MegaUnlocked.Checked;
+            SAV.IsMegaRayquazaUnlocked = CHK_MegaRayquazaUnlocked.Checked;
         }
 
         private void ClickOT(object sender, MouseEventArgs e)
