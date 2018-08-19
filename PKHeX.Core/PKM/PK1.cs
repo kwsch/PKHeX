@@ -177,6 +177,7 @@ namespace PKHeX.Core
         }
 
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); }
+        public int Stat_LevelBox { get => Data[3];set => Data[3] = (byte)value; }
         public int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
         public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
         public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
@@ -220,7 +221,7 @@ namespace PKHeX.Core
         public override int Stat_Level
         {
             get => Data[0x21];
-            set { Data[0x21] = (byte)value; Data[0x3] = (byte)value; }
+            set => Stat_LevelBox = Data[0x21] = (byte)value;
         }
         public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x22); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); }
         public override int Stat_ATK { get => BigEndian.ToUInt16(Data, 0x24); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); }

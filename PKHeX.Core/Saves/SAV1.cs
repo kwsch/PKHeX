@@ -526,6 +526,14 @@ namespace PKHeX.Core
             return GetFlag(Offsets.DexCaught + ofs, bit & 7);
         }
 
+        public override void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        {
+            // pkm that have never been boxed have yet to save the 'current level' for box indication
+            // set this value at this time
+            ((PK1)pkm).Stat_LevelBox = pkm.CurrentLevel;
+            base.SetStoredSlot(pkm, offset, trade, dex);
+        }
+
         private const int SpawnFlagCount = 0xF0;
 
         public bool[] EventSpawnFlags
