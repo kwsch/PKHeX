@@ -169,7 +169,7 @@ namespace PKHeX.WinForms
                 new { Text = "Steven",                      Value = 71 },
                 new { Text = "Maxie",                       Value = 72 },
                 new { Text = "Archie",                      Value = 73 },
-                new { Text = "Pokémon Center",                  Value = 0x80 },
+                new { Text = "Pokémon Center",              Value = 0x80 },
                 new { Text = "Gift",                        Value = 0x81 },
             };
 
