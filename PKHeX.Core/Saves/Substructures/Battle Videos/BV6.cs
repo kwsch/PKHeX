@@ -22,40 +22,38 @@ namespace PKHeX.Core
 
         private readonly byte[] Data;
 
-        private int Mode { get => Data[0x00]; set => Data[0x00] = (byte)value; }
-        private static readonly string[] BVmode =
-        {
-            "Link", "Maison", "Super Maison", "Battle Spot - Free", "Battle Spot - Rating",
-            "Battle Spot - Special", "UNUSED", "JP-1", "JP-2", "BROKEN",
-        };
-        private int Style { get => Data[0x01]; set => Data[0x01] = (byte)value; }
-        private static readonly string[] BVstyle = { "Single", "Double", "Triple", "Rotation", "Multi", };
-        private string Debug1
+        public int Mode { get => Data[0x00]; set => Data[0x00] = (byte)value; }
+
+        public int Style { get => Data[0x01]; set => Data[0x01] = (byte)value; }
+
+        public string Debug1
         {
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x6, 24));
             set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x6);
         }
-        private string Debug2
+
+        public string Debug2
         {
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x50, 24));
             set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x50);
         }
-        private ulong RNGConst1 { get => BitConverter.ToUInt64(Data, 0x1A0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); }
-        private ulong RNGConst2 { get => BitConverter.ToUInt64(Data, 0x1A4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A4); }
-        private ulong RNGSeed1 { get => BitConverter.ToUInt64(Data, 0x1A8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A8); }
-        private ulong RNGSeed2 { get => BitConverter.ToUInt64(Data, 0x1B0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1B0); }
 
-        private int Background { get => BitConverter.ToInt32(Data, 0x1BC); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1BC); }
-        private int _1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
-        private int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
-        private int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
+        public ulong RNGConst1 { get => BitConverter.ToUInt64(Data, 0x1A0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); }
+        public ulong RNGConst2 { get => BitConverter.ToUInt64(Data, 0x1A4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A4); }
+        public ulong RNGSeed1 { get => BitConverter.ToUInt64(Data, 0x1A8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A8); }
+        public ulong RNGSeed2 { get => BitConverter.ToUInt64(Data, 0x1B0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1B0); }
+
+        public int Background { get => BitConverter.ToInt32(Data, 0x1BC); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1BC); }
+        public int _1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
+        public int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
+        public int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
 
         public override PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
         public override int Generation => 6;
 
         private const string NPC = "NPC";
 
-        private string[] PlayerNames
+        public string[] PlayerNames
         {
             get
             {
@@ -81,7 +79,7 @@ namespace PKHeX.Core
             }
         }
 
-        private PKM[][] PlayerTeams
+        public PKM[][] PlayerTeams
         {
             get
             {
@@ -122,11 +120,7 @@ namespace PKHeX.Core
         private int MatchMinute { get => Data[0x2E55]; set => Data[0x2E55] = (byte)value; }
         private int MatchSecond { get => Data[0x2E56]; set => Data[0x2E56] = (byte)value; }
         private int MatchFlags { get => Data[0x2E57]; set => Data[0x2E57] = (byte)value; }
-        public DateTime MatchStamp
-        {
-            get => new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
-            set { MatchYear = value.Year; MatchDay = value.Day; MatchMonth = value.Month; MatchHour = value.Hour; MatchMinute = value.Minute; MatchSecond = value.Second; }
-        }
+
         private int UploadYear { get => BitConverter.ToUInt16(Data, 0x2E58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E58); }
         private int UploadDay { get => Data[0x2E5A]; set => Data[0x2E5A] = (byte)value; }
         private int UploadMonth { get => Data[0x2E5B]; set => Data[0x2E5B] = (byte)value; }
@@ -135,10 +129,56 @@ namespace PKHeX.Core
         private int UploadSecond { get => Data[0x2E5E]; set => Data[0x2E5E] = (byte)value; }
         private int UploadFlags { get => Data[0x2E5F]; set => Data[0x2E5F] = (byte)value; }
 
-        public DateTime UploadStamp
+        public DateTime? MatchStamp
         {
-            get => new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
-            set { UploadYear = value.Year; UploadDay = value.Day; UploadMonth = value.Month; UploadHour = value.Hour; UploadMinute = value.Minute; UploadSecond = value.Second; }
+            get
+            {
+                if (!Util.IsDateValid(MatchYear, MatchMonth, MatchDay))
+                    return null;
+                return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    MatchYear = value.Value.Year;
+                    MatchDay = value.Value.Day;
+                    MatchMonth = value.Value.Month;
+                    MatchHour = value.Value.Hour;
+                    MatchMinute = value.Value.Minute;
+                    MatchSecond = value.Value.Second;
+                }
+                else
+                {
+                    MatchYear = MatchDay = MatchMonth = MatchHour = MatchMinute = MatchSecond = MatchFlags = 0;
+                }
+            }
+        }
+
+        public DateTime? UploadStamp
+        {
+            get
+            {
+                if (!Util.IsDateValid(UploadYear, UploadMonth, UploadDay))
+                    return null;
+                return new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    UploadYear = value.Value.Year;
+                    UploadDay = value.Value.Day;
+                    UploadMonth = value.Value.Month;
+                    UploadHour = value.Value.Hour;
+                    UploadMinute = value.Value.Minute;
+                    UploadSecond = value.Value.Second;
+                }
+                else
+                {
+                    UploadYear = UploadDay = UploadMonth = UploadHour = UploadMinute = UploadSecond = UploadFlags = 0;
+                }
+            }
         }
 
         // Battle Instruction Parsing
@@ -146,10 +186,17 @@ namespace PKHeX.Core
 
         private static readonly string[] Target =
         {
-            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Opposite Enemy", "B", "C", "D",
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "Opposite Enemy", "11", "12", "13",
             "All except User", "Everyone"
         };
 
         private static readonly string[] Rotate = { "0", "Right", "Left", "3" };
+
+        public static readonly string[] BVmode =
+        {
+            "Link", "Maison", "Super Maison", "Battle Spot - Free", "Battle Spot - Rating",
+            "Battle Spot - Special", "UNUSED", "JP-1", "JP-2", "BROKEN",
+        };
+        public static readonly string[] BVstyle = { "Single", "Double", "Triple", "Rotation", "Multi", };
     }
 }
