@@ -190,5 +190,17 @@ namespace PKHeX.WinForms.Properties {
                 this["HideSAVDetails"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowEggSpriteAsHeldItem {
+            get {
+                return ((bool)(this["ShowEggSpriteAsHeldItem"]));
+            }
+            set {
+                this["ShowEggSpriteAsHeldItem"] = value;
+            }
+        }
     }
 }

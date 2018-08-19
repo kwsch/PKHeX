@@ -374,6 +374,7 @@ namespace PKHeX.WinForms
             PKME_Tabs.Unicode = Unicode = Settings.Default.Unicode;
             C_SAV.FlagIllegal = Settings.Default.FlagIllegal;
             C_SAV.M.GlowHover = Settings.Default.HoverSlotGlowEdges;
+            SpriteBuilder.ShowEggSpriteAsItem = Settings.Default.ShowEggSpriteAsHeldItem;
 
             PKME_Tabs.UpdateUnicode(GenderSymbols);
             PKME_Tabs_UpdatePreviewSprite(sender, e);

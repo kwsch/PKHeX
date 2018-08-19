@@ -6,6 +6,8 @@ namespace PKHeX.WinForms
 {
     public class SpriteBuilder : ISpriteBuilder<Image>
     {
+        public static bool ShowEggSpriteAsItem { get; set; } = true;
+
         public void Initialize(SaveFile sav)
         {
             if (sav.Generation != 3)
@@ -111,11 +113,30 @@ namespace PKHeX.WinForms
 
         private static Image LayerOverImageEgg(Image baseImage, int species)
         {
+            if (ShowEggSpriteAsItem)
+                return LayerOverImageEggAsItem(baseImage, species);
+            return LayerOverImageEggTransparentSpecies(baseImage, species);
+        }
+
+        private static Image GetEggSprite(int species) => species == 490 ? (Image)Resources.ResourceManager.GetObject("_490_e") : Resources.egg;
+
+        private const double EggUnderLayerTransparency = 0.33;
+        private const int EggOverLayerAsItemShiftX = 9;
+        private const int EggOverLayerAsItemShiftY = 2;
+
+        private static Image LayerOverImageEggTransparentSpecies(Image baseImage, int species)
+        {
             // Partially transparent species.
-            baseImage = ImageUtil.ChangeOpacity(baseImage, 0.33);
+            baseImage = ImageUtil.ChangeOpacity(baseImage, EggUnderLayerTransparency);
             // Add the egg layer over-top with full opacity.
-            var egg = species == 490 ? (Image)Resources.ResourceManager.GetObject("_490_e") : Resources.egg;
+            var egg = GetEggSprite(species);
             return ImageUtil.LayerImage(baseImage, egg, 0, 0);
+        }
+
+        private static Image LayerOverImageEggAsItem(Image baseImage, int species)
+        {
+            var egg = GetEggSprite(species);
+            return ImageUtil.LayerImage(baseImage, egg, EggOverLayerAsItemShiftX, EggOverLayerAsItemShiftY); // similar to held item, since they can't have any
         }
     }
 }
