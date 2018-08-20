@@ -1106,6 +1106,7 @@ SAV_ZygardeCell.L_Collected=回収
 SettingsEditor.ApplyMarkings=Apply Markings on Import
 SettingsEditor.FlagIllegal=不整合を表示
 SettingsEditor.HideSAVDetails=Hide Save File Details in Program Title
+SettingsEditor.HideSecretDetails=Hide Secret Details in Editors
 SettingsEditor.HoverSlotGlowEdges=Show PKM Glow on Hover
 SettingsEditor.HoverSlotPlayCry=Play PKM Slot Cry on Hover
 SettingsEditor.HoverSlotShowText=Show PKM Slot ToolTip on Hover

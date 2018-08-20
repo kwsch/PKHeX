@@ -240,13 +240,7 @@ namespace PKHeX.WinForms
             var Settings = Properties.Settings.Default;
             Settings.Upgrade();
 
-            PKME_Tabs.Unicode = Unicode = Settings.Unicode;
-            PKME_Tabs.UpdateUnicode(GenderSymbols);
-            CommonEdits.ShowdownSetIVMarkings = Settings.ApplyMarkings;
-            SaveFile.SetUpdateDex = Settings.SetUpdateDex;
-            SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = Settings.SetUpdatePKM;
-            C_SAV.FlagIllegal = Settings.FlagIllegal;
-            PKX.AllowShinySprite = Settings.ShinySprites;
+            ReloadProgramSettings(Settings);
 
             // Select Language
             string l = Settings.Language;
@@ -367,19 +361,25 @@ namespace PKHeX.WinForms
             // Reload text (if OT details hidden)
             Text = GetProgramTitle(C_SAV.SAV);
             // Update final settings
-            PKX.AllowShinySprite = Settings.Default.ShinySprites;
-            SaveFile.SetUpdateDex = Settings.Default.SetUpdateDex;
-            SaveFile.SetUpdatePKM = Settings.Default.SetUpdatePKM;
-            CommonEdits.ShowdownSetIVMarkings = Settings.Default.ApplyMarkings;
-            PKME_Tabs.Unicode = Unicode = Settings.Default.Unicode;
-            C_SAV.FlagIllegal = Settings.Default.FlagIllegal;
-            C_SAV.M.GlowHover = Settings.Default.HoverSlotGlowEdges;
-            SpriteBuilder.ShowEggSpriteAsItem = Settings.Default.ShowEggSpriteAsHeldItem;
+            ReloadProgramSettings(Settings.Default);
 
-            PKME_Tabs.UpdateUnicode(GenderSymbols);
             PKME_Tabs_UpdatePreviewSprite(sender, e);
             if (C_SAV.SAV.HasBox)
                 C_SAV.ReloadSlots();
+        }
+
+        private void ReloadProgramSettings(Settings settings)
+        {
+            PKME_Tabs.Unicode = Unicode = settings.Unicode;
+            PKME_Tabs.UpdateUnicode(GenderSymbols);
+            PKX.AllowShinySprite = settings.ShinySprites;
+            SaveFile.SetUpdateDex = settings.SetUpdateDex;
+            SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;
+            CommonEdits.ShowdownSetIVMarkings = settings.ApplyMarkings;
+            C_SAV.FlagIllegal = settings.FlagIllegal;
+            C_SAV.M.GlowHover = settings.HoverSlotGlowEdges;
+            SpriteBuilder.ShowEggSpriteAsItem = settings.ShowEggSpriteAsHeldItem;
+            PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.HideSecretDetails;
         }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)

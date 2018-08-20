@@ -1102,6 +1102,7 @@ SAV_ZygardeCell.L_Collected=Colectado:
 SettingsEditor.ApplyMarkings=Aplicar marcadores al importar
 SettingsEditor.FlagIllegal=Flag ilegal
 SettingsEditor.HideSAVDetails=Ocultar detalles de partidas guardadas en el título del programa
+SettingsEditor.HideSecretDetails=Hide Secret Details in Editors
 SettingsEditor.HoverSlotGlowEdges=Mostrar brillo PKM al pasar el ratón
 SettingsEditor.HoverSlotPlayCry=Reproducir grito PKM al pasar el ratón
 SettingsEditor.HoverSlotShowText=Mostrar info. PKM al pasar el ratón

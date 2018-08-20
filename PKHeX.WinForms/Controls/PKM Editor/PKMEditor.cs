@@ -63,6 +63,8 @@ namespace PKHeX.WinForms.Controls
 
         public PKM CurrentPKM { get => FieldsInitialized ? PreparePKM() : pkm; set => pkm = value; }
         public bool ModifyPKM { private get; set; } = true;
+        private bool _hideSecret;
+        public bool HideSecretValues { private get => _hideSecret; set => ToggleSecrets(_hideSecret = value, RequestSaveFile.Generation); }
         public bool Unicode { get; set; } = true;
         public bool HaX { get; set; }
         public byte[] LastData { private get; set; }
@@ -1569,10 +1571,16 @@ namespace PKHeX.WinForms.Controls
             ToggleInterface(pkm.Format);
         }
 
+        private void ToggleSecrets(bool hidden, int gen)
+        {
+            Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = gen >= 6 && !hidden;
+            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = gen >= 3 && !hidden;
+        }
+
         private void ToggleInterface(int gen)
         {
+            ToggleSecrets(HideSecretValues, gen);
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6;
-            Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = gen >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = gen >= 6;
 
             PB_MarkPentagon.Visible = gen >= 6;
@@ -1591,7 +1599,6 @@ namespace PKHeX.WinForms.Controls
             GB_Markings.Visible = gen >= 3;
             BTN_Ribbons.Visible = gen >= 3;
             CB_Form.Enabled = gen >= 3;
-            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = gen >= 3;
 
             FLP_FriendshipForm.Visible = gen >= 2;
             FLP_HeldItem.Visible = gen >= 2;
@@ -1658,7 +1665,7 @@ namespace PKHeX.WinForms.Controls
         private void CenterSubEditors()
         {
             // Recenter PKM SubEditors
-            FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
+            FLP_PKMEditors.Location = new Point((tabMain.TabPages[0].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
         }
 
         // Loading Setup

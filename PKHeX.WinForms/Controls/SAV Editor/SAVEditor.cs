@@ -23,7 +23,9 @@ namespace PKHeX.WinForms.Controls
         public readonly BoxMenuStrip SortMenu;
 
         public bool HaX;
-        public bool ModifyPKM;
+        public bool ModifyPKM { private get; set; }
+        private bool _hideSecret;
+        public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
         public ToolStripMenuItem Menu_Redo;
         public ToolStripMenuItem Menu_Undo;
         private bool FieldsLoaded;
@@ -1054,8 +1056,7 @@ namespace PKHeX.WinForms.Controls
         private void ToggleViewMisc(SaveFile sav)
         {
             // Generational Interface
-            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = sav.Exportable && sav.Generation >= 6;
-            TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && sav.Generation >= 6;
+            ToggleSecrets(sav, HideSecretDetails);
             B_VerifyCHK.Enabled = SAV.Exportable;
 
             if (sav is SAV4BR br)
@@ -1088,6 +1089,12 @@ namespace PKHeX.WinForms.Controls
                     TB_Secure2.Text = sav.Secure2?.ToString("X16");
                     break;
             }
+        }
+
+        private void ToggleSecrets(SaveFile sav, bool hide)
+        {
+            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = sav.Exportable && sav.Generation >= 6 && !hide;
+            TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && sav.Generation >= 6 && !hide;
         }
 
         // DragDrop
