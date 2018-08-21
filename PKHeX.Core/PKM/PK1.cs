@@ -76,6 +76,8 @@ namespace PKHeX.Core
             if (SpeciesID1 == updated)
                 return;
 
+            SpeciesID1 = updated;
+
             Type_A = PersonalInfo.Type1;
             Type_B = PersonalInfo.Type2;
 
