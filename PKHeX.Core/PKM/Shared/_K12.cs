@@ -149,7 +149,6 @@ namespace PKHeX.Core
         public override int Nature { get => 0; set { } }
         public override bool IsEgg { get => false; set { } }
         public override int HeldItem { get => 0; set { } }
-        public override bool CanHoldItem(ushort[] ValidArray) => false;
         public override ushort Sanity { get => 0; set { } }
         public override bool ChecksumValid => true;
         public override ushort Checksum { get => 0; set { } }
