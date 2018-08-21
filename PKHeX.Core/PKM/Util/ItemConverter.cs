@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -129,5 +130,43 @@ namespace PKHeX.Core
             368, 369, 370, 371, 372, 373, 374, 375, 376, 377,
         };
         #endregion
+
+        /// <summary>
+        /// Converts a Generation 1 (Teru-sama) Item ID to Generation 2 Item ID.
+        /// </summary>
+        /// <param name="g1val">Gen1 Item ID</param>
+        /// <returns>Gen2 Item ID</returns>
+        /// <remarks>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</remarks>
+        private static int GetTeruSamaItem(int g1val)
+        {
+            switch (g1val)
+            {
+                case 0x19: return 0x92; // Leftovers
+                case 0x2D: return 0x53; // Bitter Berry
+                case 0x32: return 0xAE; // Leftovers
+
+                case 0x5A:
+                case 0x64:
+                case 0x78:
+                case 0x87:
+                case 0xBE:
+                case 0xC3:
+                case 0xDC:
+                case 0xFA:
+                case 0xFF:
+                    return 0xAD; // Berry
+
+                default: return g1val;
+            }
+        }
+
+        public static int GetG2ItemTransfer(int g1val)
+        {
+            if (!IsItemTransferrable12((ushort) g1val))
+                return GetTeruSamaItem(g1val);
+            return g1val;
+        }
+
+        public static bool IsItemTransferrable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
     }
 }

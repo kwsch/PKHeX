@@ -125,7 +125,6 @@
                 set.RibbonAbilityMulti,
                 set.RibbonAbilityPair,
                 set.RibbonAbilityWorld,
-
             };
         }
 

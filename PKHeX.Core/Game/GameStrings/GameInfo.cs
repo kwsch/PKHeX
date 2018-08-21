@@ -89,30 +89,11 @@ namespace PKHeX.Core
         /// <returns>Country ID string</returns>
         private static string GetCountryString(int country, int language)
         {
-            string c;
-            // Get Country Text
-            try
-            {
-                string[] inputCSV = Util.GetStringList("countries");
-                // Set up our Temporary Storage
-                string[] unsortedList = new string[inputCSV.Length - 1];
-                int[] indexes = new int[inputCSV.Length - 1];
-
-                // Gather our data from the input file
-                for (int i = 1; i < inputCSV.Length; i++)
-                {
-                    string[] countryData = inputCSV[i].Split(',');
-                    if (countryData.Length <= 1) continue;
-                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                    unsortedList[i - 1] = countryData[language + 1];
-                }
-
-                int countrynum = Array.IndexOf(indexes, country);
-                c = unsortedList[countrynum];
-            }
-            catch { c = "Illegal"; }
-
-            return c;
+            var indexes = GetGlobalizedLocationIndexes("countries", language, out string[] unsortedList);
+            int index = Array.IndexOf(indexes, country);
+            if (index < 0)
+                return "Illegal";
+            return unsortedList[index];
         }
 
         /// <summary>
@@ -124,27 +105,29 @@ namespace PKHeX.Core
         /// <returns>Region ID string</returns>
         private static string GetRegionString(int country, int region, int language)
         {
-            // Get Region Text
-            try
+            var indexes = GetGlobalizedLocationIndexes($"sr_{country:000}", language, out string[] unsortedList);
+            int index = Array.IndexOf(indexes, region);
+            if (index < 0)
+                return "Illegal";
+            return unsortedList[index];
+        }
+
+        private static int[] GetGlobalizedLocationIndexes(string resource, int language, out string[] unsortedList)
+        {
+            string[] inputCSV = Util.GetStringList(resource);
+            // Set up our Temporary Storage
+            unsortedList = new string[inputCSV.Length - 1];
+            var indexes = new int[inputCSV.Length - 1];
+
+            // Gather our data from the input file
+            for (int i = 1; i < inputCSV.Length; i++)
             {
-                string[] inputCSV = Util.GetStringList($"sr_{country:000}");
-                // Set up our Temporary Storage
-                string[] unsortedList = new string[inputCSV.Length - 1];
-                int[] indexes = new int[inputCSV.Length - 1];
-
-                // Gather our data from the input file
-                for (int i = 1; i < inputCSV.Length; i++)
-                {
-                    string[] countryData = inputCSV[i].Split(',');
-                    if (countryData.Length <= 1) continue;
-                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                    unsortedList[i - 1] = countryData[language + 1];
-                }
-
-                int regionnum = Array.IndexOf(indexes, region);
-                return unsortedList[regionnum];
+                string[] countryData = inputCSV[i].Split(',');
+                if (countryData.Length <= 1) continue;
+                indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                unsortedList[i - 1] = countryData[language + 1];
             }
-            catch { return "Illegal"; }
+            return indexes;
         }
 
         /// <summary>

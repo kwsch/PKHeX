@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -83,8 +82,8 @@ namespace PKHeX.Core
             // Before updating catch rate, check if non-standard
             if (TradebackStatus != TradebackType.WasTradeback && !Legal.IsCatchRateHeldItem(Catch_Rate) && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
             {
-                int baseSpecies = Legal.GetBaseSpecies(this);
                 int Rate = Catch_Rate;
+                int baseSpecies = Legal.GetBaseSpecies(this);
                 for (int z = baseSpecies; z <= value; z++)
                 {
                     if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)
@@ -108,48 +107,14 @@ namespace PKHeX.Core
         {
             PK2 pk2 = new PK2(null, Identifier, Japanese) {Species = Species};
             Array.Copy(Data, 0x7, pk2.Data, 0x1, 0x1A);
+            otname.CopyTo(pk2.otname);
+            nick.CopyTo(pk2.nick);
 
-            var held = pk2.HeldItem;
-            if (!Legal.HeldItems_GSC.Contains((ushort)held))
-                pk2.HeldItem = GetConvertedHeldItem(held);
-
+            pk2.HeldItem = ItemConverter.GetG2ItemTransfer(pk2.HeldItem);
             pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
-            // Pokerus = 0
-            // Caught Data = 0
             pk2.Stat_Level = CurrentLevel;
-            Array.Copy(otname, 0, pk2.otname, 0, otname.Length);
-            Array.Copy(nick, 0, pk2.nick, 0, nick.Length);
 
             return pk2;
-        }
-
-        /// <summary>
-        /// Returns a Gen2 Item ID from the input Gen1 (Teru-sama) Item ID
-        /// </summary>
-        /// <param name="terusama">Gen1 Item ID</param>
-        /// <returns>Gen2 Item ID</returns>
-        /// <remarks>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</remarks>
-        private static int GetConvertedHeldItem(int terusama)
-        {
-            switch (terusama)
-            {
-                case 0x19: return 0x92; // Leftovers
-                case 0x2D: return 0x53; // Bitter Berry
-                case 0x32: return 0xAE; // Leftovers
-
-                case 0x5A:
-                case 0x64:
-                case 0x78:
-                case 0x87:
-                case 0xBE:
-                case 0xC3:
-                case 0xDC:
-                case 0xFA:
-                case 0xFF:
-                    return 0xAD; // Berry
-
-                default: return terusama;
-            }
         }
 
         public PK7 ConvertToPK7()
