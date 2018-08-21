@@ -61,13 +61,13 @@ namespace PKHeX.Core
             if (SAV.Generation > 1)
             {
                 ushort held = (ushort)pkm.HeldItem;
-
-                if (held > strings.Item.Count)
+                var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion) pkm.Version);
+                if (held > itemstr.Count)
                     errata.Add($"{MsgIndexItemRange} {held}");
                 else if (held > SAV.MaxItemID)
-                    errata.Add($"{MsgIndexItemGame} {strings.Item[held]}");
+                    errata.Add($"{MsgIndexItemGame} {itemstr[held]}");
                 else if (!pkm.CanHoldItem(SAV.HeldItems))
-                    errata.Add($"{MsgIndexItemHeld} {strings.Item[held]}");
+                    errata.Add($"{MsgIndexItemHeld} {itemstr[held]}");
             }
 
             if (pkm.Species > strings.Species.Count)
