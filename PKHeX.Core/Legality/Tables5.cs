@@ -202,7 +202,6 @@ namespace PKHeX.Core
             120, // Staryu
             132, // Ditto... can't breed anyway.
             137, // Porygon
-            302, // Sableye
             374, // Beldum
             436, // Bronzor
             622, // Golett
