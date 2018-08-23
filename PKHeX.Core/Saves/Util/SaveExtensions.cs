@@ -146,21 +146,5 @@ namespace PKHeX.Core
                 yield return pk;
             }
         }
-
-        /// <summary>
-        /// Removes the <see cref="PKM.HeldItem"/> for all <see cref="PKM"/> in the <see cref="SaveFile.BoxData"/>.
-        /// </summary>
-        /// <param name="SAV"><see cref="SaveFile"/> that is being operated on.</param>
-        /// <param name="item"><see cref="PKM.HeldItem"/> to set. If no argument is supplied, the held item will be removed.</param>
-        public static void SetBoxDataAllHeldItems(this SaveFile SAV, int item = 0)
-        {
-            var boxdata = SAV.BoxData;
-            foreach (PKM pk in boxdata)
-            {
-                pk.HeldItem = item;
-                pk.RefreshChecksum();
-            }
-            SAV.BoxData = boxdata;
-        }
     }
 }
