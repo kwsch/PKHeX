@@ -259,7 +259,7 @@ namespace PKHeX.Core
             if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
 
-            CountryTable ct = Array.Find(RegionFormTable, t => t.countryID == country);
+            var ct = Array.Find(RegionFormTable, t => t.countryID == country);
             if (ct.otherforms == null) // empty struct = no forms referenced
                 return true; // No subregion table
 
@@ -317,6 +317,6 @@ namespace PKHeX.Core
         }
 
         private static readonly HashSet<int> ExtendedAmericas = new HashSet<int> {153, 156, 168, 174, 186};
-        private static readonly HashSet<int> ExtendedEurope = new HashSet<int> { 153, 156, 168, 174, 186 };
+        private static readonly HashSet<int> ExtendedEurope = new HashSet<int> {169, 184, 185};
     }
 }

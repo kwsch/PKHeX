@@ -26,8 +26,8 @@ namespace PKHeX.Core
             {
                 pk.IsNicknamed = false;
                 pk.Nickname = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
-                if (pk is PK1 pk1) pk1.SetNotNicknamed();
-                if (pk is PK2 pk2) pk2.SetNotNicknamed();
+                if (pk is _K12 pk12)
+                    pk12.SetNotNicknamed();
             }
         }
 
@@ -516,8 +516,7 @@ namespace PKHeX.Core
             EVs[index] = 0;
             var sum = EVs.Sum();
             int remaining = 510 - sum;
-            var newEV = Math.Min(Math.Max(remaining, 0), 252);
-            return newEV;
+            return Math.Min(Math.Max(remaining, 0), 252);
         }
 
         /// <summary>

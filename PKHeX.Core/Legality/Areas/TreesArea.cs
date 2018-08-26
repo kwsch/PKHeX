@@ -10,18 +10,20 @@ namespace PKHeX.Core
     {
         /// <summary> Encounter is possible a reachable tree </summary>
         ValidTree,
+
         /// <summary> Encounter is only possible a tree reachable only with walk-through walls cheats </summary>
         InvalidTree,
+
         /// <summary> Encounter is not possible in any tree </summary>
         Impossible
     }
 
     /// <summary> Coordinate / Index Relationship for a Headbutt Tree </summary>
-    internal class TreeCoordinates
+    internal sealed class TreeCoordinates
     {
         internal int X { get; }
         internal int Y { get; }
-        internal int Index => (X*Y + X+Y) / 5 % 10;
+        internal int Index => ((X*Y) + X+Y) / 5 % 10;
 
         public TreeCoordinates(int x, int y)
         {
@@ -31,10 +33,11 @@ namespace PKHeX.Core
     }
 
     /// <summary> Trees on a given map </summary>
-    public class TreesArea
+    public sealed class TreesArea
     {
         private const int PivotCount = 10;
-        private static int[][] TrainerModerateTreeIndex { get; } = GenerateTrainersTreeIndex();
+        private static readonly int[][] TrainerModerateTreeIndex = GenerateTrainersTreeIndex();
+
         private static int[][] GenerateTrainersTreeIndex()
         {
             // A tree have a low encounter or moderate encounter base on the TID Pivot Index (TID % 10)
@@ -49,19 +52,20 @@ namespace PKHeX.Core
             }
             return TrainersIndex;
         }
+
         internal static TreesArea[] GetArray(byte[][] entries) => entries.Select(z => new TreesArea(z)).ToArray();
 
         public int Location { get; private set; }
-        public TreeEncounterAvailable[] GetTrees(SlotType t) => t == SlotType.Headbutt
-            ? TrainerModerateEncounterTree
-            : TrainerLowEncounterTree;
-
         private TreeEncounterAvailable[] TrainerModerateEncounterTree { get; set; }
         private TreeEncounterAvailable[] TrainerLowEncounterTree { get; set; }
         private int[] ValidTreeIndex { get; set; }
         private int[] InvalidTreeIndex { get; set; }
         private TreeCoordinates[] ValidTrees { get; set; }
         private TreeCoordinates[] InvalidTrees { get; set; }
+
+        public TreeEncounterAvailable[] GetTrees(SlotType t) => t == SlotType.Headbutt
+            ? TrainerModerateEncounterTree
+            : TrainerLowEncounterTree;
 
         private TreesArea(byte[] entry)
         {
@@ -116,6 +120,7 @@ namespace PKHeX.Core
                 return TreeEncounterAvailable.InvalidTree;
             return TreeEncounterAvailable.Impossible;
         }
+
         private TreeEncounterAvailable GetAvailableLow(int[] moderate)
         {
             if (ValidTreeIndex.Except(moderate).Any())
