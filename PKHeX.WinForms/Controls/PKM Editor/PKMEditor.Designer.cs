@@ -661,7 +661,6 @@
             this.CB_Nature.Size = new System.Drawing.Size(126, 21);
             this.CB_Nature.TabIndex = 9;
             this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
-            this.CB_Nature.MouseHover += new System.EventHandler(this.UpdateNatureModification);
             this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             //
             // FLP_HeldItem

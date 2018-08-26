@@ -296,6 +296,7 @@ namespace PKHeX.Core
         public IReadOnlyList<ComboItem> LegalMoveDataSource { get; private set; }
         public IReadOnlyList<ComboItem> HaXMoveDataSource { get; private set; }
         public IReadOnlyList<ComboItem> MoveDataSource { get; set; }
+        public IReadOnlyList<ComboItem> EncounterTypeDataSource { get; private set; }
 
         private IReadOnlyList<ComboItem> MetGen2 { get; set; }
         private IReadOnlyList<ComboItem> MetGen3 { get; set; }
@@ -316,6 +317,7 @@ namespace PKHeX.Core
             NatureDataSource = Util.GetCBList(natures, null);
             AbilityDataSource = Util.GetCBList(abilitylist, null);
             VersionDataSource = GetVersionList();
+            EncounterTypeDataSource = Util.GetCBList(encountertypelist, new[] {0}, Legal.Gen4EncounterTypes);
 
             HaXMoveDataSource = Util.GetCBList(movelist, null);
             MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();

@@ -64,7 +64,7 @@ namespace PKHeX.Core
             int favpkm = BitConverter.ToUInt16(Data, ofs + 0x9C) & 0x7FF;
 
             string gamename = GetGameName(game);
-            var countryRegion = GameInfo.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
+            var countryRegion = GeoLocation.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
             result.Add($"OT: {otname}");
             result.Add($"Message: {message}");
             result.Add($"Game: {gamename}");

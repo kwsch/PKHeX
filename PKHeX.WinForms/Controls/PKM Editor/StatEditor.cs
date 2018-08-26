@@ -185,8 +185,7 @@ namespace PKHeX.WinForms.Controls
             string text = tb.Text;
             if (string.IsNullOrWhiteSpace(text))
                 tb.Text = "0";
-
-            if (Convert.ToUInt32(text) > ushort.MaxValue)
+            else if (Convert.ToUInt32(text) > ushort.MaxValue)
                 tb.Text = "65535";
         }
 
@@ -242,18 +241,21 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateEVTotals()
         {
-            int evtotal = pkm.EVTotal;
-
-            if (evtotal > 510) // Background turns Red
-                TB_EVTotal.BackColor = EVsInvalid;
-            else if (evtotal == 510) // Maximum EVs
-                TB_EVTotal.BackColor = EVsMaxed;
-            else if (evtotal == 508) // Fishy EVs
-                TB_EVTotal.BackColor = EVsFishy;
-            else TB_EVTotal.BackColor = TB_IVTotal.BackColor;
-
+            var evtotal = pkm.EVTotal;
+            TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
             TB_EVTotal.Text = evtotal.ToString();
             EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
+        }
+
+        private Color GetEVTotalColor(int evtotal, Color defaultColor)
+        {
+            if (evtotal > 510) // Background turns Red
+                return EVsInvalid;
+            if (evtotal == 510) // Maximum EVs
+                return EVsMaxed;
+            if (evtotal == 508) // Fishy EVs
+                return EVsFishy;
+            return defaultColor;
         }
 
         public void UpdateStats()
@@ -267,7 +269,6 @@ namespace PKHeX.WinForms.Controls
                 LoadBST(pi);
                 LoadPartyStats(pkm);
             }
-            RecolorStatLabels(pkm.Nature);
         }
 
         private void LoadBST(PersonalInfo pi)
@@ -299,28 +300,18 @@ namespace PKHeX.WinForms.Controls
                 L_Characteristic.Text = GameInfo.Strings.characteristics[characteristic];
         }
 
-        private void RecolorStatLabels(int nature)
-        {
-            // Reset Label Colors
-            foreach (var label in L_Stats.Skip(1))
-                label.ResetForeColor();
-
-            // Set Colored StatLabels only if Nature isn't Neutral
-            if (PKX.GetNatureModification(nature, out int incr, out int decr))
-                return;
-            L_Stats[incr].ForeColor = StatIncreased;
-            L_Stats[decr].ForeColor = StatDecreased;
-        }
-
         public string UpdateNatureModification(int nature)
         {
             // Reset Label Colors
-            foreach (var label in L_Stats.Skip(1))
-                label.ResetForeColor();
+            for (var i = 1; i < L_Stats.Length; i++)
+                L_Stats[i].ResetForeColor();
 
             // Set Colored StatLabels only if Nature isn't Neutral
             if (PKX.GetNatureModification(nature, out int incr, out int decr))
                 return "-/-";
+
+            L_Stats[incr].ForeColor = StatIncreased;
+            L_Stats[decr].ForeColor = StatDecreased;
             return $"+{L_Stats[incr].Text} / -{L_Stats[decr].Text}".Replace(":", "");
         }
 

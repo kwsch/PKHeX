@@ -218,6 +218,7 @@ namespace PKHeX.WinForms.Controls
             Stats.UpdateIVs(null, null);
             UpdatePKRSInfected(null, null);
             UpdatePKRSCured(null, null);
+            UpdateNatureModification(null, null);
 
             if (HaX) // Load original values from pk not pkm
             {
@@ -417,11 +418,8 @@ namespace PKHeX.WinForms.Controls
 
         private static int GetSafeIndex(ComboBox cb, int index) => Math.Max(0, Math.Min(cb.Items.Count - 1, index));
 
-        private void SetIsShiny(object sender)
+        private void UpdateIsShiny()
         {
-            if (sender == TB_PID)
-                pkm.PID = Util.GetHexValue(TB_PID.Text);
-
             // Recalculate shininiess
             bool isShiny = pkm.IsShiny;
 
@@ -527,7 +525,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format <= 2)
             {
                 Stats.SetATKIVGender(newGender);
-                SetIsShiny(null);
+                UpdateIsShiny();
             }
             else if (pkm.Format <= 4)
             {
@@ -745,7 +743,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Species == 201 && !skipForm) // Unown
                 CB_Form.SelectedIndex = pkm.AltForm;
 
-            SetIsShiny(null);
+            UpdateIsShiny();
             UpdateSprite();
         }
 
@@ -763,7 +761,7 @@ namespace PKHeX.WinForms.Controls
             {
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP.Text);
-                int Species = WinFormsUtil.GetIndex(CB_Species);
+                int Species = pkm.Species;
                 int Level = PKX.GetLevel(Species, EXP);
                 if (Level == 100)
                     EXP = PKX.GetEXP(100, Species);
@@ -788,10 +786,10 @@ namespace PKHeX.WinForms.Controls
                     if (!HaX)
                         Level = 100;
                 }
-                if (Level > byte.MaxValue) MT_Level.Text = "255";
-
-                if (Level <= 100)
-                    TB_EXP.Text = PKX.GetEXP(Level, WinFormsUtil.GetIndex(CB_Species)).ToString();
+                if (Level > byte.MaxValue)
+                    MT_Level.Text = "255";
+                else if (Level <= 100)
+                    TB_EXP.Text = PKX.GetEXP(Level, pkm.Species).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
@@ -820,10 +818,9 @@ namespace PKHeX.WinForms.Controls
                 pkm.PID = PKX.GetRandomPID(pkm.Species, pkm.Gender, pkm.Version, pkm.Nature, pkm.AltForm, (uint)(CB_Ability.SelectedIndex * 0x10001));
 
             TB_PID.Text = pkm.PID.ToString("X8");
-            SetIsShiny(null);
-            UpdateSprite();
             if (pkm.Format >= 6 && 3 <= pkm.GenNumber && pkm.GenNumber <= 5)
                 TB_EC.Text = TB_PID.Text;
+            Update_ID(TB_EC, e);
         }
 
         private void UpdateRandomEC(object sender, EventArgs e)
@@ -832,14 +829,16 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, WinFormsUtil.GetIndex(CB_Species));
-            uint EC = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex/2);
-            TB_EC.Text = EC.ToString("X8");
+            pkm.EncryptionConstant = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex/2);
+            TB_EC.Text = pkm.EncryptionConstant.ToString("X8");
+            Update_ID(TB_EC, e);
             UpdateLegality();
         }
 
         private void Update255_MTB(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox tb)) return;
+            if (!(sender is MaskedTextBox tb))
+                return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
         }
@@ -1131,9 +1130,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateNatureModification(object sender, EventArgs e)
         {
-            if (sender != CB_Nature) return;
-            int nature = WinFormsUtil.GetIndex(CB_Nature);
-            string text = Stats.UpdateNatureModification(nature);
+            string text = Stats.UpdateNatureModification(pkm.Nature);
             NatureTip.SetToolTip(CB_Nature, text);
         }
 
@@ -1364,7 +1361,7 @@ namespace PKHeX.WinForms.Controls
                 Stats.UpdateIVs(null, null);
             }
 
-            SetIsShiny(null);
+            UpdateIsShiny();
             UpdatePreviewSprite?.Invoke(this, null);
             UpdateLegality();
         }
@@ -1382,14 +1379,16 @@ namespace PKHeX.WinForms.Controls
 
         private void Update_ID(object sender, EventArgs e)
         {
+            if (!FieldsLoaded)
+                return;
             // Trim out nonhex characters
-            TB_PID.Text = Util.GetHexValue(TB_PID.Text).ToString("X8");
-            TB_EC.Text = Util.GetHexValue(TB_EC.Text).ToString("X8");
+            TB_PID.Text = (pkm.PID = Util.GetHexValue(TB_PID.Text)).ToString("X8");
+            TB_EC.Text = (pkm.EncryptionConstant = Util.GetHexValue(TB_EC.Text)).ToString("X8");
 
-            SetIsShiny(sender);
+            UpdateIsShiny();
             UpdateSprite();
             Stats.UpdateCharacteristic();   // If the EC is changed, EC%6 (Characteristic) might be changed.
-            if (pkm.Format <= 4 && FieldsLoaded)
+            if (pkm.Format <= 4)
             {
                 FieldsLoaded = false;
                 pkm.PID = Util.GetHexValue(TB_PID.Text);
@@ -1465,9 +1464,9 @@ namespace PKHeX.WinForms.Controls
             }
             else if (sender == CB_Nature)
             {
-                pkm.Nature = CB_Nature.SelectedIndex;
                 if (pkm.Format <= 4)
                     UpdateRandomPID(sender, e);
+                pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
                 UpdateNatureModification(sender, EventArgs.Empty);
                 Stats.UpdateIVs(null, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
@@ -1747,7 +1746,7 @@ namespace PKHeX.WinForms.Controls
             SetCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.GetUnsortedCBList("regions3ds");
 
-            CB_EncounterType.DataSource = Util.GetCBList(GameInfo.Strings.encountertypelist, new[] { 0 }, Legal.Gen4EncounterTypes);
+            CB_EncounterType.DataSource = new BindingSource(GameInfo.EncounterTypeDataSource, null);
             CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
 
             // Sub editors

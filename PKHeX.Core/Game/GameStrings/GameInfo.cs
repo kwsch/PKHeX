@@ -7,7 +7,6 @@ namespace PKHeX.Core
     {
         private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送" };
         private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2" };
-        private static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
         private const string DefaultLanguage = "en";
         public static string CurrentLanguage { get; set; } = DefaultLanguage;
         public static int Language(string lang = null) => Array.IndexOf(lang_val, lang ?? CurrentLanguage);
@@ -17,7 +16,7 @@ namespace PKHeX.Core
         // Lazy fetch implementation
         private static int DefaultLanguageIndex => Array.IndexOf(lang_val, DefaultLanguage);
 
-        private static int GetLanguageIndex(string lang)
+        public static int GetLanguageIndex(string lang)
         {
             int l = Array.IndexOf(lang_val, lang);
             return l < 0 ? DefaultLanguageIndex : l;
@@ -63,72 +62,10 @@ namespace PKHeX.Core
         public static IReadOnlyList<ComboItem> LegalMoveDataSource => Strings.LegalMoveDataSource;
         public static IReadOnlyList<ComboItem> HaXMoveDataSource => Strings.HaXMoveDataSource;
         public static IReadOnlyList<ComboItem> MoveDataSource => Strings.MoveDataSource;
+        public static IReadOnlyList<ComboItem> EncounterTypeDataSource => Strings.EncounterTypeDataSource;
+
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameStrings.LanguageDataSource(gen);
 
-        /// <summary>
-        /// Gets Country and Region strings for corresponding IDs and language.
-        /// </summary>
-        /// <param name="country">Country ID</param>
-        /// <param name="region">Region ID</param>
-        /// <param name="language">Language ID</param>
-        /// <returns></returns>
-        public static Tuple<string, string> GetCountryRegionText(int country, int region, string language)
-        {
-            // Get Language we're fetching for
-            int lang = Array.IndexOf(lang_geo, language);
-            string c = GetCountryString(country, lang);
-            string r = GetRegionString(country, region, lang);
-            return new Tuple<string, string>(c, r); // country, region
-        }
-
-        /// <summary>
-        /// Gets the Country string for a given Country ID
-        /// </summary>
-        /// <param name="country">Country ID</param>
-        /// <param name="language">Language ID</param>
-        /// <returns>Country ID string</returns>
-        private static string GetCountryString(int country, int language)
-        {
-            var indexes = GetGlobalizedLocationIndexes("countries", language, out string[] unsortedList);
-            int index = Array.IndexOf(indexes, country);
-            if (index < 0)
-                return "Illegal";
-            return unsortedList[index];
-        }
-
-        /// <summary>
-        /// Gets the Region string for a specified country ID.
-        /// </summary>
-        /// <param name="country">Country ID</param>
-        /// <param name="region">Region ID</param>
-        /// <param name="language">Language ID</param>
-        /// <returns>Region ID string</returns>
-        private static string GetRegionString(int country, int region, int language)
-        {
-            var indexes = GetGlobalizedLocationIndexes($"sr_{country:000}", language, out string[] unsortedList);
-            int index = Array.IndexOf(indexes, region);
-            if (index < 0)
-                return "Illegal";
-            return unsortedList[index];
-        }
-
-        private static int[] GetGlobalizedLocationIndexes(string resource, int language, out string[] unsortedList)
-        {
-            string[] inputCSV = Util.GetStringList(resource);
-            // Set up our Temporary Storage
-            unsortedList = new string[inputCSV.Length - 1];
-            var indexes = new int[inputCSV.Length - 1];
-
-            // Gather our data from the input file
-            for (int i = 1; i < inputCSV.Length; i++)
-            {
-                string[] countryData = inputCSV[i].Split(',');
-                if (countryData.Length <= 1) continue;
-                indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                unsortedList[i - 1] = countryData[language + 1];
-            }
-            return indexes;
-        }
 
         /// <summary>
         /// Gets the location names array for a specified generation.
