@@ -233,7 +233,7 @@ namespace PKHeX.Core
             {
                 if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(V122); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if ((species > 731 && species <= 785) || (Legal.PastGenAlolanNatives.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
+                if ((species > 731 && species <= 785) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(V123);
                 if (Legal.PastGenAlolanScans.Contains(species))
                     return GetValid(V123);

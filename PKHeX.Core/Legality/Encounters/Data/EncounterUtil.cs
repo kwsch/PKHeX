@@ -41,6 +41,8 @@ namespace PKHeX.Core
                 case GameVersion.MN: return GetEncounterTables("sm", "mn");
                 case GameVersion.US: return GetEncounterTables("uu", "us");
                 case GameVersion.UM: return GetEncounterTables("uu", "um");
+                case GameVersion.GP: return GetEncounterTables("gg", "gp");
+                case GameVersion.GE: return GetEncounterTables("gg", "ge");
             }
             return null; // bad request
         }
