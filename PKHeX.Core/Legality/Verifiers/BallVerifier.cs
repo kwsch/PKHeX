@@ -41,7 +41,7 @@ namespace PKHeX.Core
             // Capture / Inherit cases -- can be one of many balls
             var pkm = data.pkm;
             if (pkm.Species == 292 && Info.Generation > 3) // Shedinja. For gen3, copy the ball from Nincada
-                return VerifyBallEquals(data, (int)Poké); // Pokeball Only
+                return VerifyBallEquals(data, (int)Poke); // Pokeball Only
 
             if (pkm.Ball == (int)Heavy && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
                 return GetInvalid(V116); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
@@ -55,14 +55,14 @@ namespace PKHeX.Core
                 case EncounterEgg _:
                     return VerifyBallEgg(data);
                 default:
-                    return VerifyBallEquals(data, (int)Poké); // Pokeball
+                    return VerifyBallEquals(data, (int)Poke); // Pokeball
             }
         }
 
         private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift g)
         {
             if (g.Gen4 && g.Species == 490 && g.Ball == 0) // there is no ball data in Manaphy Mystery Gift from Gen4
-                return VerifyBallEquals(data, (int)Poké); // Pokeball
+                return VerifyBallEquals(data, (int)Poke); // Pokeball
             return VerifyBallEquals(data, g.Ball);
         }
 
@@ -76,7 +76,7 @@ namespace PKHeX.Core
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
         {
             if (w.Location == 30016 && w.Generation == 7) // Poké Pelago
-                return VerifyBallEquals(data, (int)Poké); // Pokeball
+                return VerifyBallEquals(data, (int)Poke); // Pokeball
 
             var Info = data.Info;
 
@@ -94,11 +94,11 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (data.Info.Generation < 6) // No inheriting Balls
-                return VerifyBallEquals(data, (int)Poké); // Must be Pokéball -- no ball inheritance.
+                return VerifyBallEquals(data, (int)Poke); // Must be Pokéball -- no ball inheritance.
 
             switch ((Ball)pkm.Ball)
             {
-                case Poké: return GetValid(V119); // Poké Ball
+                case Poke: return GetValid(V119); // Poké Ball
                 case Master: return GetInvalid(V117); // Master Ball
                 case Cherish: return GetInvalid(V120); // Cherish Ball
                 default: return VerifyBallInherited(data);
@@ -120,7 +120,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
             if (pkm.Gender == 2 || Legal.BreedMaleOnly.Contains(species)) // Genderless
-                return VerifyBallEquals(data, (int)Poké); // Must be Pokéball as ball can only pass via mother (not Ditto!)
+                return VerifyBallEquals(data, (int)Poke); // Must be Pokéball as ball can only pass via mother (not Ditto!)
 
             Ball ball = (Ball)pkm.Ball;
 
@@ -189,7 +189,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
             if (722 <= species && species <= 730) // G7 Starters
-                return VerifyBallEquals(data, (int)Poké);
+                return VerifyBallEquals(data, (int)Poke);
 
             Ball ball = (Ball)pkm.Ball;
 
