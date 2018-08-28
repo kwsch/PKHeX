@@ -14,7 +14,8 @@ namespace PKHeX.WinForms.Controls
             Elapsed += TimerElapsed;
         }
 
-        private Image GlowBase;
+        private int imgWidth;
+        private int imgHeight;
         private byte[] GlowData;
         private readonly Image ExtraLayer;
         private Image[] GlowCache;
@@ -50,9 +51,12 @@ namespace PKHeX.WinForms.Controls
 
         public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image original)
         {
-            GlowBase = baseImage;
+            Enabled = false;
+            imgWidth = baseImage.Width;
+            imgHeight = baseImage.Height;
             GlowData = glowData;
             pb = pbox;
+            GlowCounter = 0;
             OriginalBackground = original;
             GlowCache = new Image[GlowFps];
             GlowInterval = 1000 / GlowFps;
@@ -85,10 +89,10 @@ namespace PKHeX.WinForms.Controls
             var frameData = (byte[])GlowData.Clone();
             ImageUtil.ChangeAllColorTo(frameData, frameColor);
 
-            frame = ImageUtil.GetBitmap(frameData, GlowBase.Width, GlowBase.Height);
+            frame = (Image)ImageUtil.GetBitmap(frameData, imgWidth, imgHeight).Clone();
             if (ExtraLayer != null)
-                frame = ImageUtil.LayerImage(frame, ExtraLayer, 0, 0, 1);
-            frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0, 1);
+                frame = ImageUtil.LayerImage(frame, ExtraLayer, 0, 0);
+            frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0);
             return GlowCache[frameIndex] = frame;
         }
 
