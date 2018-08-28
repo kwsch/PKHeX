@@ -35,9 +35,7 @@ namespace PKHeX.WinForms
             CB_BG.Items.Clear();
             switch (SAV.Generation)
             {
-                case 3:
-                    if (SAV.GameCube)
-                        goto default;
+                case 3 when !SAV.GameCube:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
                     return true;
                 case 4:

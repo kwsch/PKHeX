@@ -50,30 +50,19 @@ namespace PKHeX.Core
                     return !pkm.IsUntraded || skipChecks;
 
                 // Special Levelup Cases
-                case 16:
-                    if (!(pkm is IContestStats s) || s.CNT_Beauty < Argument)
-                        return skipChecks;
-                    goto default;
-                case 23: // Gender = Male
-                    if (pkm.Gender != 0)
-                        return false;
-                    goto default;
-                case 24: // Gender = Female
-                    if (pkm.Gender != 1)
-                        return false;
-                    goto default;
-                case 34: // Gender = Female, out Form1
-                    if (pkm.Gender != 1 || pkm.AltForm != 1)
-                        return false;
-                    goto default;
+                case 16 when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
+                    return skipChecks;
+                case 23 when pkm.Gender != 0: // Gender = Male
+                    return false;
+                case 24 when pkm.Gender != 1: // Gender = Female
+                    return false;
+                case 34 when pkm.Gender != 1 || pkm.AltForm != 1: // Gender = Female, out Form1
+                    return false;
 
-                case 36: // Any Time on Version
-                case 37: // Daytime on Version
-                case 38: // Nighttime on Version
-                    // Version checks come in pairs, check for any pair match
-                    if (((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks)
-                        return skipChecks;
-                    goto default;
+                case 36 when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks: // Any Time on Version
+                case 37 when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks: // Daytime on Version
+                case 38 when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks: // Nighttime on Version
+                    return skipChecks; // Version checks come in pairs, check for any pair match
 
                 default:
                     if (Level == 0 && lvl < 2)
