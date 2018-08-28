@@ -101,7 +101,7 @@ namespace PKHeX.Core
         public int CNT_Smart { get => Data[0x27]; set => Data[0x27] = (byte)value; }
         public int CNT_Tough { get => Data[0x28]; set => Data[0x28] = (byte)value; }
         public int CNT_Sheen { get => Data[0x29]; set => Data[0x29] = (byte)value; }
-        public byte PelagoEventStatus { get => Data[0x2A]; set => Data[0x2A] = value; }
+        public byte ResortEventStatus { get => Data[0x2A]; set => Data[0x2A] = value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)(PKRS & ~0xF | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)(PKRS & 0xF | value << 4); }

@@ -423,6 +423,7 @@ namespace PKHeX.Core
         public static string V611 { get; set; } = "Korean"; // Invalid
         public static string V612 { get; set; } = "Non-Korean"; // Invalid
         public static string V613 { get; set; } = "Eggs cannot receive experience.";
+        public static string V614 { get; set; } = "Incorrectly transferred from previous generation.";
         #endregion
 
     }

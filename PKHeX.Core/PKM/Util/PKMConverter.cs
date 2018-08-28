@@ -172,6 +172,9 @@ namespace PKHeX.Core
                     return false;
             }
 
+            if (pk.Data[0x2A] > 20) // ResortEventStatus is always < 20
+                return false;
+
             return preferredFormat > 6;
         }
 

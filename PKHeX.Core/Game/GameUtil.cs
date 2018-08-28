@@ -160,23 +160,21 @@ namespace PKHeX.Core
             {
                 case RB:
                     return g2 == RD || g2 == BU || g2 == GN;
+                case Stadium:
+                case EventsGBGen1:
+                case VCEvents:
                 case RBY:
                     return RB.Contains(g2) || g2 == YW;
                 case Gen1:
                     return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
-                case Stadium:
-                case EventsGBGen1:
-                case VCEvents:
-                    goto case RBY;
 
                 case GS: return g2 == GD || g2 == SV;
+                case Stadium2:
+                case EventsGBGen2:
                 case GSC:
                     return GS.Contains(g2) || g2 == C;
                 case Gen2:
                     return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
-                case Stadium2:
-                case EventsGBGen2:
-                    goto case GSC;
                 case GBCartEraOnly:
                     return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
 

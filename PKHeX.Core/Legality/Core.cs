@@ -178,7 +178,7 @@ namespace PKHeX.Core
             return r.Distinct();
         }
 
-        internal static IList<int> GetShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
+        internal static IList<int> GetShedinjaEvolveMoves(PKM pkm, int generation, int lvl = -1)
         {
             if (lvl == -1)
                 lvl = pkm.CurrentLevel;
@@ -189,13 +189,9 @@ namespace PKHeX.Core
             // Shedinja would appear with that move learned. Only one move above level 20 allowed, only in generations 3 and 4
             switch (generation)
             {
-                case 0: // Default (both)
                 case 3: // Ninjask have the same learnset in every gen 3 games
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpE[291].GetMoves(lvl, 20).ToList();
-
-                    if (generation == 0)
-                        goto case 4;
                     break;
                 case 4: // Ninjask have the same learnset in every gen 4 games
                     if (pkm.InhabitedGeneration(4))

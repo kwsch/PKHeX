@@ -34,6 +34,9 @@ namespace PKHeX.Core
                 }
             }
 
+            if (pkm is PK7 pk7 && pk7.ResortEventStatus >= 20)
+                data.AddLine(GetInvalid(V614));
+
             VerifyMiscFatefulEncounter(data);
         }
 
@@ -92,37 +95,30 @@ namespace PKHeX.Core
         {
             var e = data.EncounterMatch;
             var catch_rate = pk1.Catch_Rate;
-            switch (pk1.TradebackStatus)
-            {
-                case TradebackType.Any:
-                case TradebackType.WasTradeback:
-                    if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
-                        data.AddLine(GetValid(V394));
-                    else if (pk1.TradebackStatus == TradebackType.WasTradeback)
-                        data.AddLine(GetInvalid(V395));
-                    else
-                        goto case TradebackType.Gen1_NotTradeback;
-                    break;
-                case TradebackType.Gen1_NotTradeback:
-                    if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
-                    {
-                        // Encounters detected by the catch rate, cant be invalid if match this encounters
-                        data.AddLine(GetValid(V398));
-                    }
-                    else if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (Legal.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
-                    {
-                        data.AddLine(GetInvalid(V396));
-                    }
-                    else if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
-                    {
-                        data.AddLine(GetInvalid(pk1.Gen1_NotTradeback ? V397 : V399));
-                    }
-                    else
-                    {
-                        data.AddLine(GetValid(V398));
-                    }
+            var result = pk1.TradebackStatus == TradebackType.Gen1_NotTradeback
+                ? GetWasNotTradeback()
+                : GetWasTradeback();
+            data.AddLine(result);
 
-                    break;
+            CheckResult GetWasTradeback()
+            {
+                if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
+                    return GetValid(V394);
+                if (pk1.TradebackStatus == TradebackType.WasTradeback)
+                    return GetInvalid(V395);
+
+                return GetWasNotTradeback();
+            }
+
+            CheckResult GetWasNotTradeback()
+            {
+                if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
+                    return GetValid(V398); // Encounters detected by the catch rate, cant be invalid if match this encounters
+                if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (Legal.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
+                    return GetInvalid(V396);
+                if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
+                    return GetInvalid(pk1.Gen1_NotTradeback ? V397 : V399);
+                return GetValid(V398);
             }
 
             bool RateMatchesEncounter(int species)

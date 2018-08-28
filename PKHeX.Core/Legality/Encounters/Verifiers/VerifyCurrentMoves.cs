@@ -592,7 +592,7 @@ namespace PKHeX.Core
             var ShedinjaEvoMovesLearned = new List<int>();
             for (int gen = Math.Min(pkm.Format, 4); gen >= 3; gen--)
             {
-                var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, generation: gen);
+                var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, gen);
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
