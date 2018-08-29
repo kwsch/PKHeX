@@ -62,7 +62,10 @@ namespace PKHeX.WinForms
             else
             { TB_OTName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false; }
 
-            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            if (SAV.RS)
+                NUD_BP.Visible = L_BP.Visible = false;
+            else
+                NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
         }
 
@@ -83,7 +86,8 @@ namespace PKHeX.WinForms
                     BitConverter.GetBytes((ushort)(int)cba[i].SelectedValue).CopyTo(SAV.Data, ofsTCM + (i << 1));
             }
 
-            SAV.BP = (ushort)NUD_BP.Value;
+            if (!SAV.RS)
+                SAV.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
 
             Origin.SetData(SAV.Data, 0);
