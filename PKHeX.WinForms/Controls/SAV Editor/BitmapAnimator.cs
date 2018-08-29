@@ -73,8 +73,10 @@ namespace PKHeX.WinForms.Controls
 
             lock (Lock)
             {
-                if (Enabled)
-                    pb.BackgroundImage = GetFrame(frameIndex);
+                if (!Enabled)
+                    return;
+                try { pb.BackgroundImage = GetFrame(frameIndex); } // drawing GDI can be silly sometimes #2072
+                catch (AccessViolationException ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
             }
         }
 
@@ -89,7 +91,7 @@ namespace PKHeX.WinForms.Controls
             var frameData = (byte[])GlowData.Clone();
             ImageUtil.ChangeAllColorTo(frameData, frameColor);
 
-            frame = (Image)ImageUtil.GetBitmap(frameData, imgWidth, imgHeight).Clone();
+            frame = ImageUtil.GetBitmap(frameData, imgWidth, imgHeight);
             if (ExtraLayer != null)
                 frame = ImageUtil.LayerImage(frame, ExtraLayer, 0, 0);
             frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0);

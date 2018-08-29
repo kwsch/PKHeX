@@ -22,12 +22,9 @@ namespace PKHeX.WinForms
         {
             if (baseLayer == null)
                 return overLayer as Bitmap;
-            Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
+            Bitmap img = new Bitmap(baseLayer);
             using (Graphics gr = Graphics.FromImage(img))
-            {
-                gr.DrawImage(baseLayer, 0, 0);
                 gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
-            }
             return img;
         }
 
