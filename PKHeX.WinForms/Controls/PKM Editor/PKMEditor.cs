@@ -576,7 +576,17 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private void ClickBall(object sender, EventArgs e) => CB_Ball.SelectedIndex = 0;
+        private void ClickBall(object sender, EventArgs e)
+        {
+            pkm.Ball = WinFormsUtil.GetIndex(CB_Ball);
+            if (ModifierKeys.HasFlag(Keys.Alt))
+                CB_Ball.SelectedValue = (int)Ball.Poke;
+            else if (ModifierKeys.HasFlag(Keys.Shift))
+                CB_Ball.SelectedValue = BallRandomizer.ApplyBallLegalRandom(pkm);
+            else
+                CB_Ball.SelectedValue = BallRandomizer.ApplyBallLegalByColor(pkm);
+        }
+
         private void ClickShinyLeaf(object sender, EventArgs e) => ShinyLeaf.CheckAll(ModifierKeys != Keys.Control);
 
         private void ClickMetLocation(object sender, EventArgs e)
