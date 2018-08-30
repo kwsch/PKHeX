@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         private static List<EvoCriteria>[] GetChainSingle(PKM pkm, List<EvoCriteria> CompleteEvoChain)
         {
-            var chain = GetChainBase(pkm.Format);
+            var chain = GetChainBase(Math.Max(2, pkm.Format));
             chain[pkm.Format] = CompleteEvoChain;
             return chain;
         }
