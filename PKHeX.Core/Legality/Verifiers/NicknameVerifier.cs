@@ -105,10 +105,19 @@ namespace PKHeX.Core
 
                 if (!match)
                 {
-                    if (EncounterMatch is WC7 wc7 && wc7.IsAshGreninjaWC7(pkm))
-                        data.AddLine(GetValid(V19));
+                    if (EncounterMatch is WC7 wc7)
+                    {
+                        if (wc7.IsAshGreninjaWC7(pkm))
+                            data.AddLine(GetValid(V19));
+                        else if (wc7.Language != 0 && !wc7.IsNicknamed && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+                            data.AddLine(GetValid(V18)); // fixed language without nickname, nice job event maker!
+                        else
+                            data.AddLine(GetInvalid(V20));
+                    }
                     else
+                    {
                         data.AddLine(GetInvalid(V20));
+                    }
                 }
                 else
                 {

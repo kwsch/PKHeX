@@ -584,6 +584,11 @@ namespace PKHeX.WinForms.Controls
                 CB_Ball.SelectedValue = (int)Ball.Poke;
                 return;
             }
+            if (ModifierKeys.HasFlag(Keys.Shift))
+            {
+                CB_Ball.SelectedValue = BallRandomizer.ApplyBallLegalByColor(pkm);
+                return;
+            }
 
             var legal = BallRandomizer.GetLegalBalls(pkm).ToArray();
             var poss = ((Ball[]) Enum.GetValues(typeof(Ball))).Skip(1)
