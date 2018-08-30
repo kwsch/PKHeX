@@ -100,6 +100,24 @@ namespace PKHeX.Tests.Simulator
 
         [TestMethod]
         [TestCategory(SimulatorParse)]
+        public void SimulatorGetSplitBreed()
+        {
+            var set = new ShowdownSet(SetMunchSnorLax);
+            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, HT_Name = "PKHeX" }; // !! specify the HT name, we need tutors for this one
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.SN).ToList();
+            Assert.IsTrue(encs.Count > 0);
+            Assert.IsTrue(encs.All(z => z.Species > 150));
+
+            var info = new SimpleTrainerInfo();
+            var enc = encs[0];
+            var pk = enc.ConvertToPKM(info);
+
+            var la = new LegalityAnalysis(pk);
+            Assert.IsTrue(la.Valid);
+        }
+
+        [TestMethod]
+        [TestCategory(SimulatorParse)]
         public void SimulatorGetSmeargle()
         {
             var set = new ShowdownSet(SetSmeargle);
@@ -210,10 +228,22 @@ Careful Nature
 - Sleep Talk
 - Rest";
 
+        private const string SetMunchSnorLax =
+@"Snorlax @ Choice Band
+Ability: Thick Fat
+Level: 50
+EVs: 84 HP / 228 Atk / 180 Def / 12 SpD / 4 Spe
+Adamant Nature
+- Double-Edge
+- High Horsepower
+- Self-Destruct
+- Fire Punch";
+
         private static readonly string[] Sets =
         {
             SetGlaceonUSUMTutor,
             SetNicknamedTypeNull,
+            SetMunchSnorLax,
 
 @"Greninja @ Choice Specs
 Ability: Battle Bond
