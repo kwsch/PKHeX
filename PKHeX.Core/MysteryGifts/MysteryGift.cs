@@ -16,7 +16,7 @@ namespace PKHeX.Core
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
         public static bool IsMysteryGift(long len) => MGSizes.Contains((int)len);
 
-        private static readonly HashSet<int> MGSizes = new HashSet<int>(new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size });
+        private static readonly HashSet<int> MGSizes = new HashSet<int>{WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.

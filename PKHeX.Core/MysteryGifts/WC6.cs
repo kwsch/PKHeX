@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 Mystery Gift Template File
     /// </summary>
-    public sealed class WC6 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IContestStats
+    public sealed class WC6 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
     {
         public const int Size = 0x108;
         public const int SizeFull = 0x310;
