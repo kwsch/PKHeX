@@ -576,7 +576,63 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private void ClickBall(object sender, EventArgs e) => CB_Ball.SelectedIndex = 0;
+        private void ClickBall(object sender, EventArgs e)
+        {
+            pkm.Ball = WinFormsUtil.GetIndex(CB_Ball);
+            if (ModifierKeys.HasFlag(Keys.Alt))
+            {
+                CB_Ball.SelectedValue = (int)Ball.Poke;
+                return;
+            }
+            if (ModifierKeys.HasFlag(Keys.Shift))
+            {
+                CB_Ball.SelectedValue = BallRandomizer.ApplyBallLegalByColor(pkm);
+                return;
+            }
+
+            var legal = BallRandomizer.GetLegalBalls(pkm).ToArray();
+            var poss = ((Ball[]) Enum.GetValues(typeof(Ball))).Skip(1)
+                .TakeWhile(z => (int) z <= pkm.MaxBallID).ToArray();
+            var names = GameInfo.BallDataSource;
+
+            var frm = new Form
+            {
+                FormBorderStyle = FormBorderStyle.FixedToolWindow,
+                StartPosition = FormStartPosition.CenterParent,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                MaximizeBox = false,
+                MinimizeBox = false,
+            };
+            var flp = new FlowLayoutPanel {AutoSize = true, Dock = DockStyle.Fill};
+
+            for (int i = 0; i < poss.Length; i++)
+            {
+                var b = poss[i];
+                var img = SpriteUtil.GetBallSprite((int) b);
+                bool valid = legal.Contains(b);
+                var pb = new PictureBox
+                {
+                    Size = img.Size,
+                    Image = img,
+                    BackgroundImage = valid ? Resources.slotSet : Resources.slotDel,
+                    BackgroundImageLayout = ImageLayout.Tile
+                };
+                pb.MouseEnter += (_, __) => frm.Text = names.First(z => z.Value == (int)b).Text;
+                pb.Click += (_, __) =>
+                {
+                    CB_Ball.SelectedValue = (int)b;
+                    frm.Close();
+                };
+                flp.Controls.Add(pb);
+                const int width = 5;
+                if (i % width == width - 1)
+                    flp.SetFlowBreak(pb, true);
+            }
+            frm.Controls.Add(flp);
+            frm.ShowDialog();
+        }
+
         private void ClickShinyLeaf(object sender, EventArgs e) => ShinyLeaf.CheckAll(ModifierKeys != Keys.Control);
 
         private void ClickMetLocation(object sender, EventArgs e)

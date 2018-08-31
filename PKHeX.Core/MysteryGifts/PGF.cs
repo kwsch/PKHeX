@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 Mystery Gift Template File
     /// </summary>
-    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IContestStats
+    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
     {
         public const int Size = 0xCC;
         public override int Format => 5;

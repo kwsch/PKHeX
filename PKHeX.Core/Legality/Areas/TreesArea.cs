@@ -5,34 +5,9 @@ namespace PKHeX.Core
     // Pokemon Crystal Headbutt tree encounters by trainer id, based on mechanics described in
     // https://bulbapedia.bulbagarden.net/wiki/Headbutt_tree#Mechanics
 
-    /// <summary> Indicates the Availability of the Headbutt Tree </summary>
-    public enum TreeEncounterAvailable
-    {
-        /// <summary> Encounter is possible a reachable tree </summary>
-        ValidTree,
-
-        /// <summary> Encounter is only possible a tree reachable only with walk-through walls cheats </summary>
-        InvalidTree,
-
-        /// <summary> Encounter is not possible in any tree </summary>
-        Impossible
-    }
-
-    /// <summary> Coordinate / Index Relationship for a Headbutt Tree </summary>
-    internal sealed class TreeCoordinates
-    {
-        internal int X { get; }
-        internal int Y { get; }
-        internal int Index => ((X*Y) + X+Y) / 5 % 10;
-
-        public TreeCoordinates(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
-
-    /// <summary> Trees on a given map </summary>
+    /// <summary>
+    /// Generation 2 Headbutt Trees on a given map
+    /// </summary>
     public sealed class TreesArea
     {
         private const int PivotCount = 10;
@@ -40,13 +15,13 @@ namespace PKHeX.Core
 
         private static int[][] GenerateTrainersTreeIndex()
         {
-            // A tree have a low encounter or moderate encounter base on the TID Pivot Index (TID % 10)
-            // Calculate for every Trainer Pivot Index the 5 tree index for low encounters
+            // A tree has a low encounter or moderate encounter base on the TID Pivot Index (TID % 10)
+            // For every Trainer Pivot Index, calculate the low encounter trees (total of 5)
             int[][] TrainersIndex = new int[PivotCount][];
             for (int i = 0; i < PivotCount; i++)
             {
                 int[] ModerateEncounterTreeIndex = new int[5];
-                for (int j = 0; j <= 4; j++)
+                for (int j = 0; j < ModerateEncounterTreeIndex.Length; j++)
                     ModerateEncounterTreeIndex[j] = (i + j) % PivotCount;
                 TrainersIndex[i] = ModerateEncounterTreeIndex.OrderBy(x => x).ToArray();
             }
@@ -76,7 +51,7 @@ namespace PKHeX.Core
 
         private void ReadAreaRawData(byte[] entry)
         {
-            // Coordinates of trees for every are obtained with the program G2Map
+            // Coordinates of trees were obtained with the program G2Map
             // ValidTrees are those accessible by the player
             Location = entry[0];
             ValidTrees = new TreeCoordinates[entry[1]];
@@ -131,9 +106,9 @@ namespace PKHeX.Core
         }
 
         #if DEBUG
-        private void DumpLocation()
+        public void DumpLocation(string[] locationNames)
         {
-            string loc = GameInfo.GetStrings("en").metGSC_00000[Location];
+            string loc = locationNames[Location];
             System.Console.WriteLine($"Location: {loc}");
             System.Console.WriteLine("Valid:");
             foreach (var tree in ValidTrees)

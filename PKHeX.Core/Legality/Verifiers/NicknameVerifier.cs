@@ -90,31 +90,40 @@ namespace PKHeX.Core
             else
             {
                 var EncounterMatch = data.EncounterOriginal;
-                // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
-                bool evolved = EncounterMatch.Species != pkm.Species;
-                bool match = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
-                if (pkm.WasTradedEgg || evolved)
-                    match |= !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
-                if (!match && pkm.Format == 5 && !pkm.IsNative) // transfer
-                {
-                    if (evolved)
-                        match |= !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, 4);
-                    else
-                        match |= PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
-                }
-
-                if (!match)
-                {
-                    if (EncounterMatch is WC7 wc7 && wc7.IsAshGreninjaWC7(pkm))
-                        data.AddLine(GetValid(V19));
-                    else
-                        data.AddLine(GetInvalid(V20));
-                }
-                else
-                {
-                    data.AddLine(GetValid(V18));
-                }
+                bool valid = IsNicknameValid(pkm, EncounterMatch, nickname);
+                var result = valid ? GetValid(V18) : GetInvalid(V20);
+                data.AddLine(result);
             }
+            return false;
+        }
+
+        private bool IsNicknameValid(PKM pkm, IEncounterable EncounterMatch, string nickname)
+        {
+            if (PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname)
+                return true;
+
+            // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
+            bool evolved = EncounterMatch.Species != pkm.Species;
+            if ((pkm.WasTradedEgg || evolved) && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+                return true;
+
+            switch (EncounterMatch)
+            {
+                case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm):
+                    return true;
+                case ILangNick loc:
+                    if (loc.Language != 0 && !loc.IsNicknamed && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+                        return true; // fixed language without nickname, nice job event maker!
+                    break;
+            }
+
+            if (pkm.Format == 5 && !pkm.IsNative) // transfer
+            {
+                if (evolved)
+                   return !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, 4);
+                return PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
+            }
+
             return false;
         }
 
