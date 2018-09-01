@@ -17,8 +17,8 @@ namespace PKHeX.Core
             data.AddLine(result);
         }
 
-        private CheckResult VALID => GetValid(V115);
-        private CheckResult INVALID => GetInvalid(V223);
+        private CheckResult VALID => GetValid(LAbilityFlag);
+        private CheckResult INVALID => GetInvalid(LAbilityMismatch);
 
         private enum AbilityState : byte
         {
@@ -35,7 +35,7 @@ namespace PKHeX.Core
             int ability = pkm.Ability;
             int abilval = Array.IndexOf(abilities, ability);
             if (abilval < 0)
-                return GetInvalid(V107);
+                return GetInvalid(LAbilityUnexpected);
 
             if (data.EncounterMatch is MysteryGift g && g.Format >= 4)
                 return VerifyAbilityMG(data, abilities, g.AbilityType);
@@ -46,7 +46,7 @@ namespace PKHeX.Core
             // Check AbilityNumber points to ability
             int an = pkm.AbilityNumber >> 1;
             if (an >= abilities.Length || abilities[an] != ability)
-                return GetInvalid(V114);
+                return GetInvalid(LAbilityMismatchFlag);
 
             return VerifyAbility(data, abilities, abilval);
         }
@@ -92,13 +92,13 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if ((pkm.AbilityNumber == 4) != (EncounterAbility == 4))
-                return GetInvalid(V108);
+                return GetInvalid(LAbilityHiddenFail);
 
             if (data.EncounterMatch.Species != pkm.Species && state != AbilityState.CanMismatch) // evolved
                 return CheckMatch(pkm, abilities, data.Info.Generation, AbilityState.MustMatch);
 
             if (EncounterAbility == 1 << abilval)
-                return GetValid(V115);
+                return GetValid(LAbilityFlag);
 
             if (pkm.AbilityNumber == EncounterAbility)
                 return VALID;
@@ -107,7 +107,7 @@ namespace PKHeX.Core
                 return CheckMatch(pkm, abilities, data.Info.Generation, AbilityState.MustMatch);
 
             if (IsAbilityCapsuleModified(pkm, abilities, EncounterAbility))
-                return GetValid(V109);
+                return GetValid(LAbilityCapsuleUsed);
 
             return INVALID;
         }
@@ -159,7 +159,7 @@ namespace PKHeX.Core
             // If we reach here, it has not evolved in Gen4/5 games or has an invalid ability.
             // The ability does not need to match the PIDAbility, but only Gen3 ability is allowed.
             if (pkm.Ability != pers.Ability1) // Not evolved in Gen4/5, but doesn't have Gen3 only ability
-                data.AddLine(GetInvalid(V373)); // probably bad to do this here
+                data.AddLine(GetInvalid(LAbilityMismatch3)); // probably bad to do this here
 
             return AbilityState.CanMismatch;
         }
@@ -171,13 +171,13 @@ namespace PKHeX.Core
 
             var pkm = data.pkm;
             if (data.EncounterMatch is PGT) // Ranger Manaphy
-                return (pkm.Format >= 6 ? (pkm.AbilityNumber == 1) : (pkm.AbilityNumber < 4)) ? VALID : GetInvalid(V110);
+                return (pkm.Format >= 6 ? (pkm.AbilityNumber == 1) : (pkm.AbilityNumber < 4)) ? VALID : GetInvalid(LAbilityMismatchGift);
 
             int abilNumber = pkm.AbilityNumber;
             if (cardtype == 4) // 1/2/H
                 return VALID;
             if (cardtype == 3) // 1/2
-                return abilNumber == 4 ? GetInvalid(V110) : VALID;
+                return abilNumber == 4 ? GetInvalid(LAbilityMismatchGift) : VALID;
 
             // Only remaining matches are fixed index abilities
             int cardAbilIndex = 1 << cardtype;
@@ -187,13 +187,13 @@ namespace PKHeX.Core
             // Can still match if the ability was changed via ability capsule...
             // However, it can't change to/from Hidden Abilities.
             if (abilNumber == 4 || cardtype == 2)
-                return GetInvalid(V108);
+                return GetInvalid(LAbilityHiddenFail);
 
             // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
             if (pkm.Format >= 6 && abilities[0] != abilities[1])
-                return GetValid(V109);
+                return GetValid(LAbilityCapsuleUsed);
 
-            return GetInvalid(pkm.Format < 6 ? V113 : V114);
+            return GetInvalid(pkm.Format < 6 ? LAbilityMismatchPID : LAbilityMismatchFlag);
         }
 
         private CheckResult VerifyAbilityPCD(LegalityAnalysis data, IReadOnlyList<int> abilities, PCD pcd)
@@ -205,11 +205,11 @@ namespace PKHeX.Core
                 {
                     // Gen3-5 transfer with same ability -> 1st ability that matches
                     if (pkm.AbilityNumber == 1)
-                        return GetValid(V115);
+                        return GetValid(LAbilityFlag);
                     return CheckMatch(pkm, abilities, 4, AbilityState.MustMatch); // evolved, must match
                 }
                 if (pkm.AbilityNumber < 4) // Ability Capsule can change between 1/2
-                    return GetValid(V109);
+                    return GetValid(LAbilityCapsuleUsed);
             }
 
             if (pcd.Species != pkm.Species)
@@ -228,13 +228,13 @@ namespace PKHeX.Core
                     // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
                     bool grotto = w.Type == SlotType.HiddenGrotto;
                     if (pkm.AbilityNumber == 4 ^ grotto)
-                        return GetInvalid(grotto ? V217 : V108);
+                        return GetInvalid(grotto ? LAbilityMismatchGrotto : LAbilityHiddenFail);
                     break;
 
                 case EncounterEgg e when pkm.AbilityNumber == 4:
                     // Hidden Abilities for some are unbreedable or unreleased
                     if (Legal.Ban_BreedHidden5.Contains(e.Species))
-                        return GetInvalid(V112);
+                        return GetInvalid(LAbilityHiddenUnavailable);
                     break;
             }
             var state = pkm.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch;
@@ -253,10 +253,10 @@ namespace PKHeX.Core
             {
                 bool valid = slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde;
                 if (!valid)
-                    return GetInvalid(V300);
+                    return GetInvalid(LAbilityMismatchHordeSafari);
             }
             if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm))
-                return GetInvalid(V112);
+                return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
         }
@@ -269,10 +269,10 @@ namespace PKHeX.Core
             {
                 bool valid = slot.Type == SlotType.SOS;
                 if (!valid)
-                    return GetInvalid(V111);
+                    return GetInvalid(LAbilityMismatchSOS);
             }
             if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
-                return GetInvalid(V112);
+                return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
         }
@@ -287,11 +287,11 @@ namespace PKHeX.Core
         private CheckResult CheckMatch(PKM pkm, IReadOnlyList<int> abilities, int gen, AbilityState state)
         {
             if (3 <= gen && gen <= 4 && pkm.AbilityNumber == 4)
-                return GetInvalid(V112);
+                return GetInvalid(LAbilityHiddenUnavailable);
 
             // other cases of hidden ability already flagged, all that is left is 1/2 mismatching
             if (state == AbilityState.MustMatch && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
-                return GetInvalid(pkm.Format < 6 ? V113 : V114);
+                return GetInvalid(pkm.Format < 6 ? LAbilityMismatchPID : LAbilityMismatchFlag);
 
             return VALID;
         }

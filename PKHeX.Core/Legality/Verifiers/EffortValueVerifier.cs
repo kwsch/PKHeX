@@ -17,16 +17,16 @@ namespace PKHeX.Core
             var evs = pkm.EVs;
             int sum = pkm.EVTotal;
             if (sum > 0 && pkm.IsEgg)
-                data.AddLine(GetInvalid(V22));
+                data.AddLine(GetInvalid(LEffortEgg));
             if (pkm.Format >= 3 && sum > 510)
-                data.AddLine(GetInvalid(V25));
+                data.AddLine(GetInvalid(LEffortAbove510));
             if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
-                data.AddLine(GetInvalid(V26));
+                data.AddLine(GetInvalid(LEffortAbove252));
             if (pkm.Format == 4 && pkm.Gen4 && EncounterMatch.LevelMin == 100)
             {
                 // Cannot EV train at level 100 -- Certain events are distributed at level 100.
                 if (evs.Any(ev => ev > 100)) // EVs can only be increased by vitamins to a max of 100.
-                    data.AddLine(GetInvalid(V367));
+                    data.AddLine(GetInvalid(LEffortCap100));
             }
             else if (pkm.Format < 5)
             {
@@ -36,16 +36,16 @@ namespace PKHeX.Core
 
                 const int maxEV = 100; // Vitamin Max
                 if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
-                    data.AddLine(GetInvalid(string.Format(V418, maxEV)));
+                    data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, maxEV)));
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
             if (sum == 0 && !EncounterMatch.IsWithinRange(pkm))
-                data.AddLine(Get(V23, Severity.Fishy));
+                data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
             else if (sum == 508)
-                data.AddLine(Get(V24, Severity.Fishy));
+                data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
             else if (evs[0] != 0 && evs.All(ev => evs[0] == ev))
-                data.AddLine(Get(V27, Severity.Fishy));
+                data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
         }
     }
 }

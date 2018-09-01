@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
             if (!IsValidLanguageID(currentLanguage, maxLanguageID, pkm))
             {
-                data.AddLine(GetInvalid(string.Format(V5, $"<={(LanguageID)maxLanguageID}", (LanguageID)currentLanguage)));
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"<={(LanguageID)maxLanguageID}", (LanguageID)currentLanguage)));
                 return;
             }
 
@@ -28,16 +28,16 @@ namespace PKHeX.Core
             )
             {
                 bool kor = currentLanguage == (int)LanguageID.Korean;
-                var msgpkm = kor ? V611 : V612;
-                var msgsav = kor ? V612 : V611;
-                data.AddLine(GetInvalid(string.Format(V610, msgpkm, msgsav)));
+                var msgpkm = kor ? L_XKorean : L_XKoreanNon;
+                var msgsav = kor ? L_XKoreanNon : L_XKorean;
+                data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, msgpkm, msgsav)));
                 return;
             }
 
             // Korean Crystal does not exist, neither do VC1
             if (originalGeneration <= 2 && pkm.Korean && !GameVersion.GS.Contains((GameVersion)pkm.Version))
             {
-                data.AddLine(GetInvalid(string.Format(V5, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
             }
         }
 

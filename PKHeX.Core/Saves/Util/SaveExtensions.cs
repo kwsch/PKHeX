@@ -76,7 +76,7 @@ namespace PKHeX.Core
                 errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pkm.Species]}");
 
             if (!SAV.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
-                errata.Add(string.Format(LegalityCheckStrings.V304, Math.Max(0, SAV.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
+                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, SAV.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
 
             if (pkm.Moves.Any(m => m > strings.Move.Count))
                 errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pkm.Moves.Where(m => m > strings.Move.Count).Select(m => m.ToString()))}");

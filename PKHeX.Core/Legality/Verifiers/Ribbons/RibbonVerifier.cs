@@ -22,7 +22,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (GetIncorrectRibbonsEgg(pkm, encounterContent))
-                    data.AddLine(GetInvalid(V603));
+                    data.AddLine(GetInvalid(LRibbonEgg));
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace PKHeX.Core
             }
             else
             {
-                data.AddLine(GetValid(V602));
+                data.AddLine(GetValid(LRibbonAllValid));
             }
         }
 
@@ -49,9 +49,9 @@ namespace PKHeX.Core
 
             var result = new List<string>();
             if (missingRibbons.Count > 0)
-                result.Add(string.Format(V600, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", "")))));
+                result.Add(string.Format(LRibbonFInvalid_0, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", "")))));
             if (invalidRibbons.Count > 0)
-                result.Add(string.Format(V601, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
+                result.Add(string.Format(LRibbonFMissing_0, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
             return result;
         }
 

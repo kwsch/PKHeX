@@ -18,7 +18,7 @@ namespace PKHeX.Core
                 // DP/HGSS shedinja glitch -- only generation 4 spawns
                 bool ignore = pkm.Format == 4 && pkm.Species == 292 && pkm.Met_Level != pkm.CurrentLevel;
                 if (!ignore)
-                    data.AddLine(GetInvalid(V203));
+                    data.AddLine(GetInvalid(LGenderInvalidNone));
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace PKHeX.Core
             if (3 <= gen && gen <= 5)
             {
                 // Gender-PID & Nature-PID relationship check
-                var result = IsValidGenderPID(data) ? GetValid(V250) : GetInvalid(V251);
+                var result = IsValidGenderPID(data) ? GetValid(LPIDGenderMatch) : GetInvalid(LPIDGenderMismatch);
                 data.AddLine(result);
 
                 if (gen != 5)
@@ -38,15 +38,15 @@ namespace PKHeX.Core
 
             // Check fixed gender cases
             if ((pi.OnlyFemale && pkm.Gender != 1) || (pi.OnlyMale && pkm.Gender != 0))
-                data.AddLine(GetInvalid(V203));
+                data.AddLine(GetInvalid(LGenderInvalidNone));
         }
 
         private static void VerifyNaturePID(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var result = pkm.EncryptionConstant % 25 == pkm.Nature
-                ? GetValid(V252, CheckIdentifier.Nature)
-                : GetInvalid(V253, CheckIdentifier.Nature);
+                ? GetValid(LPIDNatureMatch, CheckIdentifier.Nature)
+                : GetInvalid(LPIDNatureMismatch, CheckIdentifier.Nature);
             data.AddLine(result);
         }
 

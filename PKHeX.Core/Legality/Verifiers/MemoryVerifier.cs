@@ -14,6 +14,8 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
+            if (data.pkm.Format < 6)
+                return;
             var hist = VerifyHistory(data);
             VerifyOTMemory(data);
             VerifyHTMemory(data);
@@ -28,45 +30,42 @@ namespace PKHeX.Core
 
             if (Info.Generation < 6)
             {
-                if (pkm.Format < 6)
-                    return GetValid(V128);
-
                 if ((pkm.OT_Affection != 0 && Info.Generation <= 2) || IsInvalidContestAffection(pkm))
-                    return GetInvalid(V129);
+                    return GetInvalid(LMemoryStatAffectionOT0);
                 if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
-                    return GetInvalid(V130);
+                    return GetInvalid(LMemoryIndexIDOT0);
             }
 
             if (pkm.Format >= 6 && Info.Generation != pkm.Format && pkm.CurrentHandler != 1)
-                return GetInvalid(V124);
+                return GetInvalid(LTransferHTFlagRequired);
 
             if (pkm.HT_Gender > 1)
-                return GetInvalid(string.Format(V131, pkm.HT_Gender));
+                return GetInvalid(string.Format(LMemoryHTGender, pkm.HT_Gender));
 
             if (EncounterMatch is WC6 wc6 && wc6.OT_Name.Length > 0)
             {
                 if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
-                    return GetInvalid(V132);
+                    return GetInvalid(LMemoryStatFriendshipOTBaseEvent);
                 if (pkm.OT_Affection != 0 && (pkm.AO || !pkm.IsUntraded) && IsInvalidContestAffection(pkm))
-                    return GetInvalid(V133);
+                    return GetInvalid(LMemoryStatAffectionOT0Event);
                 if (pkm.CurrentHandler != 1)
-                    return GetInvalid(V134);
+                    return GetInvalid(LMemoryHTEvent);
             }
             else if (EncounterMatch is WC7 wc7 && wc7.OT_Name.Length > 0 && wc7.TID != 18075) // Ash Pikachu QR Gift doesn't set Current Handler
             {
                 if (pkm.OT_Friendship != PersonalTable.USUM[EncounterMatch.Species].BaseFriendship)
-                    return GetInvalid(V132);
+                    return GetInvalid(LMemoryStatFriendshipOTBaseEvent);
                 if (pkm.OT_Affection != 0)
-                    return GetInvalid(V133);
+                    return GetInvalid(LMemoryStatAffectionOT0Event);
                 if (pkm.CurrentHandler != 1)
-                    return GetInvalid(V134);
+                    return GetInvalid(LMemoryHTEvent);
             }
             else if (EncounterMatch is MysteryGift mg && mg.Format < 6 && pkm.Format >= 6)
             {
                 if (pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
-                    return GetInvalid(V133);
+                    return GetInvalid(LMemoryStatAffectionOT0Event);
                 if (pkm.CurrentHandler != 1)
-                    return GetInvalid(V134);
+                    return GetInvalid(LMemoryHTEvent);
             }
 
             // Check sequential order (no zero gaps)
@@ -74,9 +73,9 @@ namespace PKHeX.Core
             {
                 var valid = t.GetValidity();
                 if (valid == GeoValid.CountryAfterPreviousEmpty)
-                    return GetInvalid(V135);
+                    return GetInvalid(LGeoBadOrder);
                 if (valid == GeoValid.RegionWithoutCountry)
-                    return GetInvalid(V136);
+                    return GetInvalid(LGeoNoRegion);
             }
             if (pkm.Format >= 7)
                 return VerifyHistory7(data);
@@ -87,19 +86,19 @@ namespace PKHeX.Core
             if (untraded) // Is not Traded
             {
                 if (pkm.HT_Name.Length != 0)
-                    return GetInvalid(V146);
+                    return GetInvalid(LGeoNoCountryHT);
                 if (pkm is IGeoTrack g && g.Geo1_Country != 0)
-                    return GetInvalid(V147);
+                    return GetInvalid(LGeoNoHT);
                 if (pkm.HT_Memory != 0)
-                    return GetInvalid(V148);
+                    return GetInvalid(LMemoryMissingHTName);
                 if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                    return GetInvalid(V139);
+                    return GetInvalid(LMemoryHTFlagInvalid);
                 if (pkm.HT_Friendship != 0)
-                    return GetInvalid(V140);
+                    return GetInvalid(LMemoryStatFriendshipHT0);
                 if (pkm.HT_Affection != 0)
-                    return GetInvalid(V141);
+                    return GetInvalid(LMemoryStatAffectionHT0);
                 if (pkm.XY && pkm is IContestStats s && s.HasContestStats())
-                    return GetInvalid(V138);
+                    return GetInvalid(LContestZero);
 
                 if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
                     return chk1;
@@ -109,27 +108,27 @@ namespace PKHeX.Core
             else // Is Traded
             {
                 if (pkm.Format == 6 && pkm.HT_Memory == 0 && !pkm.IsEgg)
-                    return GetInvalid(V150);
+                    return GetInvalid(LMemoryMissingHT);
             }
 
             // Memory ChecksResult
             if (pkm.IsEgg)
             {
                 if (pkm.HT_Memory != 0)
-                    return GetInvalid(V149);
+                    return GetInvalid(LMemoryArgBadHT);
                 if (pkm.OT_Memory != 0)
-                    return GetInvalid(V151);
+                    return GetInvalid(LMemoryArgBadEggOT);
             }
             else if (!(EncounterMatch is WC6))
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
-                    return GetInvalid(V152);
+                    return GetInvalid(LMemoryMissingOT);
                 if (Info.Generation < 6 && pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
-                    return GetInvalid(V129);
+                    return GetInvalid(LMemoryStatAffectionOT0);
             }
             // Unimplemented: Ingame Trade Memories
 
-            return GetValid(V145);
+            return GetValid(LMemoryValid);
         }
 
         private CheckResult VerifyHistory7(LegalityAnalysis data)
@@ -142,11 +141,11 @@ namespace PKHeX.Core
             {
                 var hasGeo = g.Geo1_Country != 0;
                 if (!hasGeo)
-                    return GetInvalid(V137);
+                    return GetInvalid(LGeoMemoryMissing);
             }
 
             if ((2 >= Info.Generation || Info.Generation >= 7) && pkm is IContestStats s && s.HasContestStats())
-                return GetInvalid(V138);
+                return GetInvalid(LContestZero);
 
             if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
             {
@@ -156,18 +155,18 @@ namespace PKHeX.Core
                     return chk2;
             }
 
-            return GetValid(V145);
+            return GetValid(LMemoryValid);
         }
 
         private bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
         {
             result = null;
             if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                result = GetInvalid(V139);
+                result = GetInvalid(LMemoryHTFlagInvalid);
             else if (pkm.HT_Friendship != 0)
-                result = GetInvalid(V140);
+                result = GetInvalid(LMemoryStatFriendshipHT0);
             else if (pkm.HT_Affection != 0)
-                result = GetInvalid(V141);
+                result = GetInvalid(LMemoryStatAffectionHT0);
             else
                 return false;
 
@@ -185,16 +184,16 @@ namespace PKHeX.Core
                 if (Legal.IsTradeEvolved(chain, pkm.Format))
                     return false;
                 if (pkm is IContestStats s && s.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                    result = GetInvalid(V143);
+                    result = GetInvalid(LEvoBeautyTradeLow);
                 else if (pkm.CurrentLevel == 1)
-                    result = GetInvalid(V144);
+                    result = GetInvalid(LEvoBeautyUntrained);
                 else
                     return false;
                 return true;
             }
             if (!Legal.IsTradeEvolved(chain, pkm.Format))
                 return false;
-            result = GetInvalid(V142);
+            result = GetInvalid(LEvoTradeRequiredMemory);
             return true;
         }
 
@@ -203,46 +202,46 @@ namespace PKHeX.Core
             Memories.GetMemoryVariables(pkm, out int m, out int t, out int i, out int f, out string tr, handler);
             int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], m);
             if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6))
-                return GetInvalid(string.Format(V153, tr));
+                return GetInvalid(string.Format(LMemoryArgBadMove, tr));
 
             switch (m)
             {
                 case 6 when !Memories.LocationsWithPKCenter[0].Contains(t):
-                    return GetInvalid(string.Format(V154, tr));
+                    return GetInvalid(string.Format(LMemoryArgBadPokecenter, tr));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
                 case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.GetEXP(100, t)}, 19, 6):
-                    return GetInvalid(string.Format(V153, tr));
+                    return GetInvalid(string.Format(LMemoryArgBadMove, tr));
 
                 case 16 when t == 0 || !Legal.GetCanKnowMove(pkm, t, 6):
                 case 48 when t == 0 || !Legal.GetCanKnowMove(pkm, t, 6):
-                    return GetInvalid(string.Format(V153, tr));
+                    return GetInvalid(string.Format(LMemoryArgBadMove, tr));
 
                 // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
                 case 49 when t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6):
-                    return GetInvalid(string.Format(V153, tr));
+                    return GetInvalid(string.Format(LMemoryArgBadMove, tr));
             }
 
             if (!Memories.CanHaveIntensity(m, i))
-                return GetInvalid(string.Format(V254, tr, Memories.GetMinimumIntensity(m)));
+                return GetInvalid(string.Format(LMemoryIndexIntensityMin, tr, Memories.GetMinimumIntensity(m)));
 
             if (m != 4 && !Memories.CanHaveFeeling(m, f))
-                return GetInvalid(string.Format(V255, tr));
+                return GetInvalid(string.Format(LMemoryFeelInvalid, tr));
 
-            return GetValid(string.Format(V155, tr));
+            return GetValid(string.Format(LMemoryF_0_Valid, tr));
         }
 
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
         {
             var pkm = data.pkm;
             if (pkm.OT_Memory != m)
-                data.AddLine(GetInvalid(string.Format(V197, V205, m)));
+                data.AddLine(GetInvalid(string.Format(LMemoryIndexID, L_XOT, m)));
             if (pkm.OT_Intensity != i)
-                data.AddLine(GetInvalid(string.Format(V198, V205, i)));
+                data.AddLine(GetInvalid(string.Format(LMemoryIndexIntensity, L_XOT, i)));
             if (pkm.OT_TextVar != t)
-                data.AddLine(GetInvalid(string.Format(V199, V205, t)));
+                data.AddLine(GetInvalid(string.Format(LMemoryIndexVar, L_XOT, t)));
             if (pkm.OT_Feeling != f)
-                data.AddLine(GetInvalid(string.Format(V200, V205, f)));
+                data.AddLine(GetInvalid(string.Format(LMemoryIndexFeel, L_XOT, f)));
         }
 
         private void VerifyOTMemory(LegalityAnalysis data)
@@ -288,11 +287,11 @@ namespace PKHeX.Core
             {
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
                     if (pkm.Egg_Location == 0)
-                        data.AddLine(Severity.Invalid, string.Format(V160, V205), CheckIdentifier.Memory);
+                        data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadHatch, L_XOT), CheckIdentifier.Memory);
                     break;
 
                 case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
-                    data.AddLine(Severity.Invalid, string.Format(V161, V205), CheckIdentifier.Memory);
+                    data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadOTEgg, L_XOT), CheckIdentifier.Memory);
                     return;
 
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
@@ -301,22 +300,22 @@ namespace PKHeX.Core
                     {
                         int gameID = Memories.LocationsWithPKCenter[1][matchingOriginGame];
                         if ((pkm.XY && gameID != 0) || (pkm.AO && gameID != 1))
-                            data.AddLine(Severity.Invalid, string.Format(V162, V205), CheckIdentifier.Memory);
+                            data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadLocation, L_XOT), CheckIdentifier.Memory);
                     }
                     data.AddLine(VerifyCommonMemory(pkm, 0));
                     return;
 
                 case 14:
                     if (!Legal.GetCanBeCaptured(pkm.OT_TextVar, Info.Generation, (GameVersion)pkm.Version))
-                        data.AddLine(Severity.Invalid, string.Format(V165, V205), CheckIdentifier.Memory);
+                        data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadSpecies, L_XOT), CheckIdentifier.Memory);
                     else
-                        data.AddLine(Severity.Valid, string.Format(V164, V205), CheckIdentifier.Memory);
+                        data.AddLine(Severity.Valid, string.Format(LMemoryArgSpecies, L_XOT), CheckIdentifier.Memory);
                     return;
             }
             if (pkm.XY && Memories.Memory_NotXY.Contains(pkm.OT_Memory))
-                data.AddLine(Severity.Invalid, string.Format(V163, V205), CheckIdentifier.Memory);
+                data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadID, L_XOT), CheckIdentifier.Memory);
             if (pkm.AO && Memories.Memory_NotAO.Contains(pkm.OT_Memory))
-                data.AddLine(Severity.Invalid, string.Format(V163, V205), CheckIdentifier.Memory);
+                data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadID, L_XOT), CheckIdentifier.Memory);
 
             data.AddLine(VerifyCommonMemory(pkm, 0));
         }
@@ -337,7 +336,7 @@ namespace PKHeX.Core
                 if (pkm.HT_Memory == 0)
                 {
                     if (pkm.HT_TextVar != 0 || pkm.HT_Intensity != 0 || pkm.HT_Feeling != 0)
-                        data.AddLine(Severity.Invalid, V329, CheckIdentifier.Memory);
+                        data.AddLine(Severity.Invalid, LMemoryCleared, CheckIdentifier.Memory);
                     return;
                 }
 
@@ -348,13 +347,13 @@ namespace PKHeX.Core
                     return;
 
                 if (pkm.HT_Memory != 4)
-                    data.AddLine(Severity.Invalid, V156, CheckIdentifier.Memory);
+                    data.AddLine(Severity.Invalid, LMemoryIndexLinkHT, CheckIdentifier.Memory);
                 if (pkm.HT_TextVar != 0)
-                    data.AddLine(Severity.Invalid, V157, CheckIdentifier.Memory);
+                    data.AddLine(Severity.Invalid, LMemoryIndexArgHT, CheckIdentifier.Memory);
                 if (pkm.HT_Intensity != 1)
-                    data.AddLine(Severity.Invalid, V158, CheckIdentifier.Memory);
+                    data.AddLine(Severity.Invalid, LMemoryIndexIntensityHT1, CheckIdentifier.Memory);
                 if (pkm.HT_Feeling > 10)
-                    data.AddLine(Severity.Invalid, V159, CheckIdentifier.Memory);
+                    data.AddLine(Severity.Invalid, LMemoryIndexFeelHT09, CheckIdentifier.Memory);
                 return;
             }
 
@@ -363,18 +362,18 @@ namespace PKHeX.Core
                 case 0:
                     if (string.IsNullOrEmpty(pkm.HT_Name))
                         return;
-                    data.AddLine(Severity.Invalid, V150, CheckIdentifier.Memory); return;
+                    data.AddLine(Severity.Invalid, LMemoryMissingHT, CheckIdentifier.Memory); return;
                 case 1: // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
-                    data.AddLine(Severity.Invalid, string.Format(V202, V206), CheckIdentifier.Memory); return;
+                    data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadCatch, L_XHT), CheckIdentifier.Memory); return;
 
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-                    data.AddLine(Severity.Invalid, string.Format(V160, V206), CheckIdentifier.Memory); return;
+                    data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadHatch, L_XHT), CheckIdentifier.Memory); return;
 
                 case 14:
                     if (Legal.GetCanBeCaptured(pkm.HT_TextVar, 6))
-                        data.AddLine(Severity.Valid, string.Format(V164, V206), CheckIdentifier.Memory);
+                        data.AddLine(Severity.Valid, string.Format(LMemoryArgSpecies, L_XHT), CheckIdentifier.Memory);
                     else
-                        data.AddLine(Severity.Invalid, string.Format(V165, V206), CheckIdentifier.Memory);
+                        data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadSpecies, L_XHT), CheckIdentifier.Memory);
                     return;
             }
             data.AddLine(VerifyCommonMemory(pkm, 1));

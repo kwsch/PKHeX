@@ -42,11 +42,11 @@ namespace PKHeX.Core
         {
             switch (s)
             {
-                case Severity.Indeterminate: return V500;
-                case Severity.Invalid: return V501;
-                case Severity.Fishy: return V502;
-                case Severity.Valid: return V503;
-                default: return V504;
+                case Severity.Indeterminate: return L_SIndeterminate;
+                case Severity.Invalid: return L_SInvalid;
+                case Severity.Fishy: return L_SFishy;
+                case Severity.Valid: return L_SValid;
+                default: return L_SNotImplemented;
             }
         }
     }

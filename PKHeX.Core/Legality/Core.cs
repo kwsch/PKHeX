@@ -33,7 +33,7 @@ namespace PKHeX.Core
         public static string EReaderBerryName { get; set; } = string.Empty;
 
         /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-        public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
+        public static string EReaderBerryDisplayName => string.Format(L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
         public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
         internal static bool IsNotFromActiveTrainer(PKM pkm) => !ActiveTrainer.IsFromTrainer(pkm);

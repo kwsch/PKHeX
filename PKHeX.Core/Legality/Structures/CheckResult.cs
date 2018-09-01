@@ -6,7 +6,7 @@
     public class CheckResult
     {
         internal readonly Severity Judgement = Severity.Valid;
-        internal string Comment = LegalityCheckStrings.V;
+        internal string Comment = LegalityCheckStrings.L_AValid;
         public bool Valid => Judgement >= Severity.Fishy;
         public string Rating => Judgement.Description();
         internal readonly CheckIdentifier Identifier;

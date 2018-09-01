@@ -28,32 +28,32 @@ namespace PKHeX.Core
 
             var ot = pkm.OT_Name;
             if (ot.Length == 0)
-                data.AddLine(GetInvalid(V106));
+                data.AddLine(GetInvalid(LOTShort));
 
             if (pkm.TID == 0 && pkm.SID == 0)
             {
-                data.AddLine(Get(V33, Severity.Fishy));
+                data.AddLine(Get(LOT_IDs0, Severity.Fishy));
             }
             else if (pkm.VC)
             {
                 if (pkm.SID != 0)
-                    data.AddLine(GetInvalid(V34));
+                    data.AddLine(GetInvalid(LOT_SID0Invalid));
             }
             else if (pkm.TID == pkm.SID)
             {
-                data.AddLine(Get(V35, Severity.Fishy));
+                data.AddLine(Get(LOT_IDEqual, Severity.Fishy));
             }
             else if (pkm.TID == 0)
             {
-                data.AddLine(Get(V36, Severity.Fishy));
+                data.AddLine(Get(LOT_TID0, Severity.Fishy));
             }
             else if (pkm.SID == 0)
             {
-                data.AddLine(Get(V37, Severity.Fishy));
+                data.AddLine(Get(LOT_SID0, Severity.Fishy));
             }
             else if ((pkm.TID == 12345 && pkm.SID == 54321) || IsOTNameSuspicious(ot))
             {
-                data.AddLine(Get(V417, Severity.Fishy));
+                data.AddLine(Get(LOTSuspicious, Severity.Fishy));
             }
 
             if (pkm.VC)
@@ -63,7 +63,7 @@ namespace PKHeX.Core
             else if (ot.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
             {
                 if (!pkm.IsEgg) // ignore eggs, on trade, OT is not updated if language is
-                    data.AddLine(Get(V38, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
+                    data.AddLine(Get(LOTLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
             }
 
             if (Legal.CheckWordFilter)
@@ -89,11 +89,11 @@ namespace PKHeX.Core
                 var OTMatch = (tr == Legal.GetG1OT_GFMew((int)LanguageID.Japanese))
                               || (tr == Legal.GetG1OT_GFMew((int)LanguageID.English));
                 if (!OTMatch || pkm.TID != 22796)
-                    data.AddLine(GetInvalid(V39));
+                    data.AddLine(GetInvalid(LG1OTEvent));
             }
 
             if (pkm.OT_Gender == 1 && ((pkm.Format == 2 && pkm.Met_Location == 0) || (pkm.Format > 2 && pkm.VC1)))
-                data.AddLine(GetInvalid(V408));
+                data.AddLine(GetInvalid(LG1OTGender));
         }
 
         private void VerifyG1OTWithinBounds(LegalityAnalysis data, string str)
@@ -101,21 +101,21 @@ namespace PKHeX.Core
             if (StringConverter.GetIsG1English(str))
             {
                 if (str.Length > 7 && !(data.EncounterOriginal is EncounterTrade)) // OT already verified; GER shuckle has 8 chars
-                    data.AddLine(GetInvalid(V38));
+                    data.AddLine(GetInvalid(LOTLong));
             }
             else if (StringConverter.GetIsG1Japanese(str))
             {
                 if (str.Length > 5)
-                    data.AddLine(GetInvalid(V38));
+                    data.AddLine(GetInvalid(LOTLong));
             }
             else if (data.pkm.Korean && StringConverter.GetIsG2Korean(str))
             {
                 if (str.Length > 5)
-                    data.AddLine(GetInvalid(V38));
+                    data.AddLine(GetInvalid(LOTLong));
             }
             else
             {
-                data.AddLine(GetInvalid(V421));
+                data.AddLine(GetInvalid(LG1CharOT));
             }
         }
 
@@ -125,7 +125,7 @@ namespace PKHeX.Core
             var ot = Legal.GetGBStadiumOTName(jp, s.Version);
             var id = Legal.GetGBStadiumOTID(jp, s.Version);
             bool valid = ot == tr && id == pkm.TID;
-            return valid ? GetValid(jp ? V404 : V403) : GetInvalid(V402);
+            return valid ? GetValid(jp ? LG1StadiumJapanese : LG1StadiumInternational) : GetInvalid(LG1Stadium);
         }
 
         private bool IsOTNameSuspicious(string name)

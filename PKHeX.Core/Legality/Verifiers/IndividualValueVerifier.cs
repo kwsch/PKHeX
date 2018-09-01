@@ -30,13 +30,13 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.IVTotal == 0)
             {
-                data.AddLine(Get(V321, Severity.Fishy));
+                data.AddLine(Get(LFatefulMystery, Severity.Fishy));
             }
             else
             {
                 var hpiv = pkm.IV_HP;
                 if (hpiv < 30 && AllIVsEqual(pkm, hpiv))
-                    data.AddLine(Get(V32, Severity.Fishy));
+                    data.AddLine(Get(LIVAllEqual, Severity.Fishy));
             }
         }
 
@@ -58,7 +58,7 @@ namespace PKHeX.Core
             {
                 bool valid = GetIsFixedIVSequenceValid(IVs, data.pkm.IVs);
                 if (!valid)
-                    data.AddLine(GetInvalid(V30));
+                    data.AddLine(GetInvalid(LEncGiftIVMismatch));
             }
             else
             {
@@ -91,7 +91,7 @@ namespace PKHeX.Core
         private void VerifyIVsFlawless(LegalityAnalysis data, int count)
         {
             if (data.pkm.IVs.Count(iv => iv == 31) < count)
-                data.AddLine(GetInvalid(string.Format(V28, count)));
+                data.AddLine(GetInvalid(string.Format(LIVF_COUNT0_31, count)));
         }
 
         private void VerifyIVsStatic(LegalityAnalysis data, EncounterStatic s)

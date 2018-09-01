@@ -40,7 +40,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 res[i] = moves[i] != RelearnMoves[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(V178, MoveStrings[moves[i]]), CheckIdentifier.RelearnMove)
+                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[moves[i]]), CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
@@ -55,14 +55,14 @@ namespace PKHeX.Core
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
             res[0] = !Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), true).Contains(RelearnMoves[0])
-                ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
+                ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
             // All other relearn moves must be empty.
             for (int i = 1; i < 4; i++)
             {
                 res[i] = RelearnMoves[i] != 0
-                    ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
+                    ? new CheckResult(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
@@ -83,7 +83,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 res[i] = RelearnMoves[i] != 0
-                    ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
+                    ? new CheckResult(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
@@ -136,18 +136,18 @@ namespace PKHeX.Core
                     FlagRelearnMovesMissing(res, required, baseMoves, i);
                     return;
                 }
-                res[i] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
+                res[i] = new CheckResult(Severity.Valid, LMoveRelearnEgg, CheckIdentifier.RelearnMove);
             }
         }
 
         private static void FlagRelearnMovesMissing(CheckResult[] res, int required, IReadOnlyList<int> baseMoves, int start)
         {
             for (int z = start; z < required; z++)
-                res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
+                res[z] = new CheckResult(Severity.Invalid, LMoveRelearnEggMissing, CheckIdentifier.RelearnMove);
 
             // provide the list of suggested base moves for the last required slot
             string em = string.Join(", ", GetMoveNames(baseMoves));
-            res[required - 1].Comment += string.Format(Environment.NewLine + V181, em);
+            res[required - 1].Comment += string.Format(Environment.NewLine + LMoveRelearnFExpect_0, em);
         }
 
         private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)
@@ -157,13 +157,13 @@ namespace PKHeX.Core
             for (int i = required; i < 4; i++)
             {
                 if (RelearnMoves[i] == 0) // empty
-                    res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.RelearnMove);
+                    res[i] = new CheckResult(Severity.Valid, LMoveSourceEmpty, CheckIdentifier.RelearnMove);
                 else if (inheritMoves.Contains(RelearnMoves[i])) // inherited
-                    res[i] = new CheckResult(Severity.Valid, V172, CheckIdentifier.RelearnMove);
+                    res[i] = new CheckResult(Severity.Valid, LMoveSourceRelearn, CheckIdentifier.RelearnMove);
                 else if (isSplit && splitMoves.Contains(RelearnMoves[i])) // inherited
                     splitInvalid = true;
                 else // not inheritable, flag
-                    res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
+                    res[i] = new CheckResult(Severity.Invalid, LMoveRelearnInvalid, CheckIdentifier.RelearnMove);
             }
 
             return splitInvalid;
@@ -177,7 +177,7 @@ namespace PKHeX.Core
                 if (res[i] != null)
                     continue;
 
-                string message = string.Format(V379, SpeciesStrings[other], SpeciesStrings[e.Species]);
+                string message = string.Format(LMoveEggFIncompatible0_1, SpeciesStrings[other], SpeciesStrings[e.Species]);
                 res[i] = new CheckResult(Severity.Invalid, message, CheckIdentifier.RelearnMove);
             }
         }

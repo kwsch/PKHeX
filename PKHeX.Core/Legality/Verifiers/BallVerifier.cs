@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class BallVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Ball;
-        private CheckResult NONE => GetInvalid(V125);
+        private CheckResult NONE => GetInvalid(LBallNone);
 
         public override void Verify(LegalityAnalysis data)
         {
@@ -44,7 +44,7 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, (int)Poke); // Pokeball Only
 
             if (pkm.Ball == (int)Heavy && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
-                return GetInvalid(V116); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
+                return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
 
             switch (EncounterMatch)
             {
@@ -98,9 +98,9 @@ namespace PKHeX.Core
 
             switch ((Ball)pkm.Ball)
             {
-                case Poke: return GetValid(V119); // Poké Ball
-                case Master: return GetInvalid(V117); // Master Ball
-                case Cherish: return GetInvalid(V120); // Cherish Ball
+                case Poke: return GetValid(LBallEnc); // Poké Ball
+                case Master: return GetInvalid(LBallEggMaster); // Master Ball
+                case Cherish: return GetInvalid(LBallEggCherish); // Cherish Ball
                 default: return VerifyBallInherited(data);
             }
         }
@@ -127,59 +127,59 @@ namespace PKHeX.Core
             if (ball == Safari) // Safari Ball
             {
                 if (!Legal.Inherit_Safari.Contains(species))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4)
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
             if (ball.IsApricornBall()) // Apricorn Ball
             {
                 if (!Legal.Inherit_Apricorn6.Contains(species))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4)
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
             if (ball == Sport) // Sport Ball
             {
                 if (!Legal.Inherit_Sport.Contains(species))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4)
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
             if (ball == Dream) // Dream Ball
             {
                 if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(species))
-                    return GetInvalid(V122);
+                    return GetInvalid(LBallAbility);
                 if (Legal.Inherit_Dream.Contains(species))
-                    return GetValid(V123);
-                return GetInvalid(V121);
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
             }
             if (Dusk <= ball && ball <= Quick) // Dusk Heal Quick
             {
                 if (!Legal.Ban_Gen4Ball_6.Contains(species))
-                    return GetValid(V123);
-                return GetInvalid(V121);
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
             }
             if (Ultra <= ball && ball <= Premier) // Don't worry, Safari was already checked.
             {
                 if (Legal.Ban_Gen3Ball.Contains(species))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4 && Legal.Ban_Gen3BallHidden.Contains(pkm.SpecForm))
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
 
             if (species > 650 && species != 700) // Sylveon
             {
                 if (Legal.WildPokeballs6.Contains(pkm.Ball))
-                    return GetValid(V123);
-                return GetInvalid(V121);
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
             }
 
             if (ball >= Dream)
-                return GetInvalid(V126);
+                return GetInvalid(LBallUnavailable);
 
             return NONE;
         }
@@ -196,54 +196,54 @@ namespace PKHeX.Core
             if (ball == Safari)
             {
                 if (!(Legal.Inherit_Safari.Contains(species) || Legal.Inherit_SafariMale.Contains(species)))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4 && Legal.Ban_SafariBallHidden_7.Contains(species))
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
             if (ball.IsApricornBall()) // Apricorn Ball
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
             if (ball == Sport) // Sport Ball
             {
                 if (!Legal.Inherit_Sport.Contains(species))
-                    return GetInvalid(V121);
+                    return GetInvalid(LBallSpecies);
                 if (pkm.AbilityNumber == 4 && (species == 313 || species == 314)) // Volbeat/Illumise
-                    return GetInvalid(V122);
-                return GetValid(V123);
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
             }
             if (ball == Dream) // Dream Ball
             {
                 if (Legal.Inherit_Dream.Contains(species) || Legal.Inherit_DreamMale.Contains(species))
-                    return GetValid(V123);
-                return GetInvalid(V121);
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
             }
             if (Dusk <= ball && ball <= Quick) // Dusk Heal Quick
             {
                 if (!Legal.Ban_Gen4Ball_7.Contains(species))
-                    return GetValid(V123);
-                return GetInvalid(V121);
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
             }
             if (Ultra <= ball && ball <= Premier) // Don't worry, Safari was already checked.
             {
                 if (!Legal.Ban_Gen3Ball_7.Contains(species))
-                    return GetValid(V123);
-                return GetInvalid(V121);
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
             }
 
             if (ball == Beast)
             {
                 if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
-                    return GetInvalid(V122); // Can't obtain Flabébé-Blue with Hidden Ability in wild
+                    return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
                 if ((species > 731 && species <= 785) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
-                    return GetValid(V123);
+                    return GetValid(LBallSpeciesPass);
                 if (Legal.PastGenAlolanScans.Contains(species))
-                    return GetValid(V123);
+                    return GetValid(LBallSpeciesPass);
                 // next statement catches all new alolans
             }
 
@@ -251,7 +251,7 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, Legal.WildPokeballs7);
 
             if (ball > Beast)
-                return GetInvalid(V126);
+                return GetInvalid(LBallUnavailable);
 
             return NONE;
         }
@@ -259,6 +259,6 @@ namespace PKHeX.Core
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);
         private CheckResult VerifyBallEquals(LegalityAnalysis data, HashSet<int> balls) => GetResult(balls.Contains(data.pkm.Ball));
         private CheckResult VerifyBallEquals(LegalityAnalysis data, ICollection<int> balls) => GetResult(balls.Contains(data.pkm.Ball));
-        private CheckResult GetResult(bool valid) => valid ? GetValid(V119) : GetInvalid(V118);
+        private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
     }
 }

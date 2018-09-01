@@ -19,20 +19,20 @@ namespace PKHeX.Core
             {
                 bool has = pk5.NPokémon;
                 if (checksRequired && !has)
-                    data.AddLine(GetInvalid(V326, CheckIdentifier.Fateful));
+                    data.AddLine(GetInvalid(LG5SparkleRequired, CheckIdentifier.Fateful));
                 if (!checksRequired && has)
-                    data.AddLine(GetInvalid(V327, CheckIdentifier.Fateful));
+                    data.AddLine(GetInvalid(LG5SparkleInvalid, CheckIdentifier.Fateful));
             }
 
             if (!checksRequired)
                 return;
 
             if (pkm.IVTotal != 30*6)
-                data.AddLine(GetInvalid(V218, CheckIdentifier.IVs));
+                data.AddLine(GetInvalid(LG5IVAll30, CheckIdentifier.IVs));
             if (!VerifyNsPKMOTValid(pkm))
-                data.AddLine(GetInvalid(V219, CheckIdentifier.Trainer));
+                data.AddLine(GetInvalid(LG5ID_N, CheckIdentifier.Trainer));
             if (pkm.IsShiny)
-                data.AddLine(GetInvalid(V220, CheckIdentifier.Shiny));
+                data.AddLine(GetInvalid(LG5PIDShinyN, CheckIdentifier.Shiny));
         }
 
         private static bool VerifyNsPKMOTValid(PKM pkm)

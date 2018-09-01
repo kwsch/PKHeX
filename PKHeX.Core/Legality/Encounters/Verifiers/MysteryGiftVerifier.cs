@@ -40,15 +40,15 @@ namespace PKHeX.Core
 
             var ver = (int)val >> 16;
             if (ver != 0 && !CanVersionRecieveGift(g.Format, ver, pk.Version))
-                return new CheckResult(Severity.Invalid, V416, CheckIdentifier.GameOrigin);
+                return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
 
             var lang = val & MysteryGiftRestriction.LangRestrict;
             if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
-                return new CheckResult(Severity.Invalid, string.Format(V5, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
+                return new CheckResult(Severity.Invalid, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
 
             var region = val & MysteryGiftRestriction.RegionRestrict;
             if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << pk.ConsoleRegion)))
-                return new CheckResult(Severity.Invalid, V301, CheckIdentifier.GameOrigin);
+                return new CheckResult(Severity.Invalid, LGeoHardwareRange, CheckIdentifier.GameOrigin);
 
             return new CheckResult(CheckIdentifier.GameOrigin);
         }
