@@ -1033,7 +1033,7 @@ namespace PKHeX.WinForms
 
             if (pb == dragout) dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
 
-            pb.Image = pk.Sprite(C_SAV.SAV, -1, -1, true);
+            pb.Image = pk.Sprite(C_SAV.SAV, -1, -1, flagIllegal: false);
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
         }
