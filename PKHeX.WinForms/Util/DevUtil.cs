@@ -96,10 +96,10 @@ namespace PKHeX.WinForms
             nameof(SettingsEditor),
         };
 
-        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings));
+        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false);
         private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
 
-        private static void DumpStrings(Type t)
+        private static void DumpStrings(Type t, bool sorted = true)
         {
             var dir = GetResourcePath();
             var langs = new[] {DefaultLanguage}.Concat(Languages);
@@ -110,6 +110,9 @@ namespace PKHeX.WinForms
                 var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
                     .OrderBy(z => z.Variable) // sort by length (V1 = 2, V100 = 4)
                     .Select(z => z.Line); // sorted lines
+
+                if (!sorted)
+                    export = entries;
 
                 var location = GetFileLocationInText(t.Name, dir, lang);
                 File.WriteAllLines(location, export);
