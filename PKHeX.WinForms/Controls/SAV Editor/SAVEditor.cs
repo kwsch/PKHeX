@@ -401,83 +401,25 @@ namespace PKHeX.WinForms.Controls
             if (!e.Button.HasFlag(MouseButtons.Right))
             {
                 if (ModifierKeys.HasFlag(Keys.Alt))
-                    ((ToolStripMenuItem)SortMenu.Items[0]).DropDownItems[0].PerformClick(); // Clear
+                    SortMenu.Clear();
                 else if (ModifierKeys.HasFlag(Keys.Control))
-                    GetSorter()(PKMSorting.OrderBySpecies, false); // Sort
+                    SortMenu.Sort();
                 return;
-
-                Action<Func<IEnumerable<PKM>, IEnumerable<PKM>>, bool> GetSorter() => ModifierKeys.HasFlag(Keys.Shift)
-                    ? SortAll
-                    : (Action<Func<IEnumerable<PKM>, IEnumerable<PKM>>, bool>) SortCurrent;
             }
             var pt = Tab_Box.PointToScreen(new Point(0, 0));
             SortMenu.Show(pt);
         }
 
-        public void ClearAll(Func<PKM, bool> criteria)
-        {
-            if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxClearAll, MsgSaveBoxClearAllFailBattle))
-                return;
-            SAV.ClearBoxes(deleteCriteria: criteria);
-            FinishBoxManipulation(MsgSaveBoxClearAllSuccess, true);
-        }
-
-        public void ClearCurrent(Func<PKM, bool> criteria)
-        {
-            if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxClearCurrent, MsgSaveBoxClearCurrentFailBattle))
-                return;
-            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox, criteria);
-            FinishBoxManipulation(MsgSaveBoxClearCurrentSuccess, false);
-        }
-
-        public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, bool reverse)
-        {
-            if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxSortAll, MsgSaveBoxSortAllFailBattle))
-                return;
-            SAV.SortBoxes(sortMethod: sorter, reverse: reverse);
-            FinishBoxManipulation(MsgSaveBoxSortAllSuccess, true);
-        }
-
-        public void SortCurrent(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, bool reverse)
-        {
-            if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxSortCurrent, MsgSaveBoxSortCurrentFailBattle))
-                return;
-            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox, sorter, reverse: reverse);
-            FinishBoxManipulation(MsgSaveBoxSortCurrentSuccess, false);
-        }
-
-        public void ModifyAll(Action<PKM> action)
-        {
-            SAV.ModifyBoxes(action);
-            FinishBoxManipulation(null, true);
-            SystemSounds.Asterisk.Play();
-        }
-
-        public void ModifyCurrent(Action<PKM> action)
-        {
-            SAV.ModifyBoxes(action, Box.CurrentBox, Box.CurrentBox);
-            FinishBoxManipulation(null, true);
-            SystemSounds.Asterisk.Play();
-        }
-
-        private void FinishBoxManipulation(string message, bool all)
+        public void FinishBoxManipulation(string message, bool all)
         {
             SetPKMBoxes();
             UpdateBoxViewers(all);
             if (message != null)
                 WinFormsUtil.Alert(message);
+            else
+                SystemSounds.Asterisk.Play();
         }
 
-        private bool CanManipulateRegion(int start, int end, string prompt, string fail)
-        {
-            if (prompt != null && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
-                return false;
-            if (!SAV.IsAnySlotLockedInBox(start, end))
-                return true;
-            if (fail != null)
-                WinFormsUtil.Alert(fail);
-            return false;
-        }
         #endregion
         private void ClickBoxDouble(object sender, MouseEventArgs e)
         {
