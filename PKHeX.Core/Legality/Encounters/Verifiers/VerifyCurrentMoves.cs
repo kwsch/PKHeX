@@ -199,8 +199,8 @@ namespace PKHeX.Core
 
         private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
         {
-            if (EncounterMatch is IMoveset mg)
-                return mg.Moves ?? Array.Empty<int>();
+            if (EncounterMatch is IMoveset mg && mg.Moves != null)
+                return mg.Moves;
             return Array.Empty<int>();
         }
 
@@ -507,7 +507,7 @@ namespace PKHeX.Core
         {
             // Check moves that are learned at the same level in red/blue and yellow, these are illegal because there is no move reminder
             // There are only two incompatibilites; there is no illegal combination in generation 2+.
-            var incompatible = new List<int>();
+            var incompatible = new List<int>(3);
 
             switch (pkm.Species)
             {
@@ -742,7 +742,7 @@ namespace PKHeX.Core
             // Obtain level1 moves
             var reqBase = GetRequiredBaseMoveCount(Moves, infoset);
 
-            var em = string.Empty;
+            var sb = new System.Text.StringBuilder();
             // Check if the required amount of Base Egg Moves are present.
             for (int i = 0; i < reqBase; i++)
             {
@@ -757,7 +757,7 @@ namespace PKHeX.Core
                     res[z] = new CheckMoveResult(MoveSource.Initial, gen, Severity.Invalid, LMoveRelearnEggMissing, CheckIdentifier.Move);
 
                 // provide the list of suggested base moves for the last required slot
-                em = string.Join(", ", GetMoveNames(infoset.Base));
+                sb.Append(string.Join(", ", GetMoveNames(infoset.Base)));
                 break;
             }
 
@@ -777,15 +777,15 @@ namespace PKHeX.Core
                     res[z] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Invalid, LMoveEggMissing, CheckIdentifier.Move);
 
                 // provide the list of suggested base moves and species moves for the last required slot
-                if (string.IsNullOrEmpty(em))
-                    em = string.Join(", ", GetMoveNames(infoset.Base));
-                em += ", ";
-                em += string.Join(", ", GetMoveNames(infoset.Special));
+                if (sb.Length == 0)
+                    sb.Append(string.Join(", ", GetMoveNames(infoset.Base)));
+                sb.Append(", ");
+                sb.Append(string.Join(", ", GetMoveNames(infoset.Special)));
                 break;
             }
 
-            if (!string.IsNullOrEmpty(em))
-                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, em);
+            if (sb.Length != 0)
+                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, sb.ToString());
 
             // Inherited moves appear after the required base moves.
             var AllowInheritedSeverity = infoset.AllowInherited ? Severity.Valid : Severity.Invalid;
@@ -841,28 +841,22 @@ namespace PKHeX.Core
 
         private static void UpdateGen1LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation, LegalInfo info)
         {
-            switch (generation)
-            {
-                case 1:
-                case 2:
-                    var lvlG1 = info.EncounterMatch?.LevelMin + 1 ?? 6;
-                    if (lvlG1 != defaultLvlG1)
-                        EncounterMoves.LevelUpMoves[1] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
-                    break;
-            }
+            if (generation >= 3)
+                return;
+            var lvlG1 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+            if (lvlG1 == defaultLvlG1)
+                return;
+            EncounterMoves.LevelUpMoves[1] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
         }
 
         private static void UpdateGen2LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG2, int generation, LegalInfo info)
         {
-            switch (generation)
-            {
-                case 1:
-                case 2:
-                    var lvlG2 = info.EncounterMatch?.LevelMin + 1 ?? 6;
-                    if (lvlG2 != defaultLvlG2)
-                        EncounterMoves.LevelUpMoves[2] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
-                    break;
-            }
+            if (generation >= 3)
+                return;
+            var lvlG2 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+            if (lvlG2 == defaultLvlG2)
+                return;
+            EncounterMoves.LevelUpMoves[2] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
         }
 
         public static int[] GetGenMovesCheckOrder(PKM pkm)
@@ -886,10 +880,12 @@ namespace PKHeX.Core
             return xfer;
         }
 
+        private static readonly int[] G2 = {2};
+        private static readonly int[] G12 = {1, 2};
         private static int[] GetGenMovesCheckOrderGB(PKM pkm, int originalGeneration)
         {
             if (originalGeneration == 2)
-                return pkm.Korean ? new[] {2} : new[] {2, 1};
+                return pkm.Korean ? G2 : G12;
             return new[] {1, 2}; // RBY
         }
 

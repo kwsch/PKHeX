@@ -115,7 +115,9 @@ namespace PKHeX.Core
                 inheritMoves.Add(344); // Volt Tackle
 
             // If any splitbreed moves are invalid, flag accordingly
-            var splitMoves = e is EncounterEggSplit s ? Legal.GetValidRelearn(pkm, s.OtherSpecies, inheritLvlMoves, e.Version).ToList() : new List<int>();
+            var splitMoves = e is EncounterEggSplit s
+                ? Legal.GetValidRelearn(pkm, s.OtherSpecies, inheritLvlMoves, e.Version).ToList()
+                : (IReadOnlyList<int>)Array.Empty<int>();
 
             // Inherited moves appear after the required base moves.
             // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.

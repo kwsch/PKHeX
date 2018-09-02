@@ -47,19 +47,19 @@ namespace PKHeX.Core
             return Util.GetOffsetCBList(memory_list1, mems, 0, allowed);
         }
 
-        public List<string> GetMemoryQualities()
+        public string[] GetMemoryQualities()
         {
-            List<string> list = new List<string>();
-            for (int i = 0; i < 7; i++)
-                list.Add(s.memories[2 + i]);
+            var list = new string[7];
+            for (int i = 0; i < list.Length; i++)
+                list[i] = s.memories[2 + i];
             return list;
         }
 
-        public List<string> GetMemoryFeelings()
+        public string[] GetMemoryFeelings()
         {
-            List<string> list = new List<string>();
+            var list = new string[24];
             for (int i = 0; i < 24; i++)
-                list.Add(s.memories[10 + i]);
+                list[i] = s.memories[10 + i];
             return list;
         }
 
