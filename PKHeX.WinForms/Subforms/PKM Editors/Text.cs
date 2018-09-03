@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
             string species = PKX.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
                 WinFormsUtil.GetIndex(CB_Language), (int) NUD_Generation.Value);
 
-            if (species?.Length == 0) // no result
+            if (string.IsNullOrEmpty(species)) // no result
                 species = CB_Species.Text;
 
             byte[] current = SetString(TB_Text.Text);
