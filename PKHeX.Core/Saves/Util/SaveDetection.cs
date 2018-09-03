@@ -63,6 +63,11 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Extra list of Backup Paths used for detecting a save file.
+        /// </summary>
+        public static readonly List<string> CustomBackupPaths = new List<string>();
+
+        /// <summary>
         /// Finds a compatible save file that was most recently saved (by file write time).
         /// </summary>
         /// <param name="drives">List of drives on the host machine.</param>
@@ -114,7 +119,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<string> GetFoldersToCheck(IReadOnlyList<string> drives, IEnumerable<string> extra)
         {
-            var foldersToCheck = extra.Where(f => f?.Length > 0);
+            var foldersToCheck = extra.Where(f => f?.Length > 0).Concat(CustomBackupPaths);
 
             string path3DS = Path.GetPathRoot(Get3DSLocation(drives));
             if (path3DS != null) // check for Homebrew/CFW backups
