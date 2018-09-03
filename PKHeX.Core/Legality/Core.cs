@@ -33,7 +33,7 @@ namespace PKHeX.Core
         public static string EReaderBerryName { get; set; } = string.Empty;
 
         /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-        public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
+        public static string EReaderBerryDisplayName => string.Format(L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
         public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
         internal static bool IsNotFromActiveTrainer(PKM pkm) => !ActiveTrainer.IsFromTrainer(pkm);
@@ -178,12 +178,12 @@ namespace PKHeX.Core
             return r.Distinct();
         }
 
-        internal static IList<int> GetShedinjaEvolveMoves(PKM pkm, int generation, int lvl = -1)
+        internal static int[] GetShedinjaEvolveMoves(PKM pkm, int generation, int lvl = -1)
         {
             if (lvl == -1)
                 lvl = pkm.CurrentLevel;
             if (pkm.Species != 292 || lvl < 20)
-                return new List<int>();
+                return Array.Empty<int>();
 
             // If nincada evolves into Ninjask an learn in the evolution a move from ninjask learnset pool
             // Shedinja would appear with that move learned. Only one move above level 20 allowed, only in generations 3 and 4
@@ -191,14 +191,14 @@ namespace PKHeX.Core
             {
                 case 3: // Ninjask have the same learnset in every gen 3 games
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpE[291].GetMoves(lvl, 20).ToList();
+                        return LevelUpE[291].GetMoves(lvl, 20);
                     break;
                 case 4: // Ninjask have the same learnset in every gen 4 games
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpPt[291].GetMoves(lvl, 20);
                     break;
             }
-            return new List<int>();
+            return Array.Empty<int>();
         }
 
         internal static int GetShedinjaMoveLevel(int species, int move, int generation)
@@ -817,14 +817,14 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 3:
-                    return 7; // 1-7 except 6
+                    return (int)LanguageID.Spanish; // 1-7 except 6
                 case 2:
                 case 4:
                 case 5:
                 case 6:
-                    return 8;
+                    return (int)LanguageID.Korean;
                 case 7:
-                    return 10;
+                    return (int)LanguageID.ChineseT;
             }
             return -1;
         }
@@ -1071,8 +1071,8 @@ namespace PKHeX.Core
 
         internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<DexLevel> evos, int skipOption = 0)
         {
-            if (pkm.Species == 292)
-                return 290;
+            if (pkm.Species == 292) // Shedinja
+                return 290; // Nincada
             switch (skipOption)
             {
                 case -1: return pkm.Species;

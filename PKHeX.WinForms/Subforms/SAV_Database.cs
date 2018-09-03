@@ -558,7 +558,7 @@ namespace PKHeX.WinForms
             int begin = start*RES_MIN;
             int end = Math.Min(RES_MAX, Results.Count - begin);
             for (int i = 0; i < end; i++)
-                PKXBOXES[i].Image = Results[i + begin].Sprite();
+                PKXBOXES[i].Image = Results[i + begin].Sprite(SAV, -1, -1, true);
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 

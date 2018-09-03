@@ -108,9 +108,6 @@ namespace PKHeX.WinForms
             bool inBox = slot >= 0 && slot < 30;
             var sprite = pkm.Species != 0 ? pkm.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(SAV, box)) : null;
 
-            if (slot <= -1) // from tabs
-                return sprite;
-
             if (flagIllegal)
             {
                 if (box >= 0)

@@ -15,10 +15,10 @@ namespace PKHeX.Core
             if (data.EncounterMatch is EncounterStatic)
                 VerifyCXDStarterCorrelation(data);
             else if (pkm.Egg_Location != 0) // can't obtain eggs in CXD
-                data.AddLine(GetInvalid(V80, CheckIdentifier.Encounter)); // invalid encounter
+                data.AddLine(GetInvalid(LEncInvalid, CheckIdentifier.Encounter)); // invalid encounter
 
             if (pkm.OT_Gender == 1)
-                data.AddLine(GetInvalid(V407, CheckIdentifier.Trainer));
+                data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
         }
 
         private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
@@ -41,7 +41,7 @@ namespace PKHeX.Core
                     return;
             }
             if (!valid)
-                data.AddLine(GetInvalid(V400, CheckIdentifier.PID));
+                data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
         }
     }
 }

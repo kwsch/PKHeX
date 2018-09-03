@@ -126,14 +126,14 @@ namespace PKHeX.Core
                     && Info.Relearn.All(m => m.Valid);
 
                 if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
-                    AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
+                    AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
             }
 #if SUPPRESS
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
-                AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
+                AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
                 Error = true;
             }
 #endif
@@ -143,7 +143,7 @@ namespace PKHeX.Core
         private void ParseLegality()
         {
             if (!pkm.IsOriginValid)
-                AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin);
+                AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
 
             if (pkm.Format == 1 || pkm.Format == 2) // prior to storing GameVersion
             {
@@ -189,7 +189,7 @@ namespace PKHeX.Core
                 CXD.Verify(this);
 
             if (Info.EncounterMatch is WC3 z && z.NotDistributed)
-                AddLine(Severity.Invalid, V413, CheckIdentifier.Encounter);
+                AddLine(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
         }
 
         private void ParsePK4()
@@ -242,7 +242,7 @@ namespace PKHeX.Core
                 return;
             Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm);
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
-            { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
+            { AddLine(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter); return; }
 
             foreach (var z in Transfer.VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
                 AddLine(z);
@@ -290,7 +290,7 @@ namespace PKHeX.Core
         private string GetLegalityReport()
         {
             if (!Parsed || Info == null)
-                return V189;
+                return L_AnalysisUnavailable;
 
             var lines = new List<string>();
             var vMoves = Info.Moves;
@@ -298,7 +298,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 if (!vMoves[i].Valid)
-                    lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+                    lines.Add(string.Format(L_F0_M_1_2, vMoves[i].Rating, i + 1, vMoves[i].Comment));
             }
 
             if (pkm.Format >= 6)
@@ -306,19 +306,19 @@ namespace PKHeX.Core
                 for (int i = 0; i < 4; i++)
                 {
                     if (!vRelearn[i].Valid)
-                        lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                        lines.Add(string.Format(L_F0_RM_1_2, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
                 }
             }
 
             if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
-                return V193;
+                return L_ALegal;
 
             // Build result string...
             var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
-            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => string.Format(L_F0_1, chk.Rating, chk.Comment)));
 
             if (lines.Count == 0)
-                return V190;
+                return L_AError;
 
             return string.Join(Environment.NewLine, lines);
         }
@@ -326,7 +326,7 @@ namespace PKHeX.Core
         private string GetVerboseLegalityReport()
         {
             if (!Parsed || Info == null)
-                return V189;
+                return L_AnalysisUnavailable;
 
             const string separator = "===";
             string[] br = {separator, ""};
@@ -339,7 +339,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 if (vMoves[i].Valid)
-                    lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+                    lines.Add(string.Format(L_F0_M_1_2, vMoves[i].Rating, i + 1, vMoves[i].Comment));
             }
 
             if (pkm.Format >= 6)
@@ -347,29 +347,29 @@ namespace PKHeX.Core
                 for (int i = 0; i < 4; i++)
                 {
                     if (vRelearn[i].Valid)
-                    lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                    lines.Add(string.Format(L_F0_RM_1_2, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
                 }
             }
 
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);
 
-            var outputLines = Parse.Where(chk => chk?.Valid == true && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
+            var outputLines = Parse.Where(chk => chk?.Valid == true && chk.Comment != L_AValid).OrderBy(chk => chk.Judgement); // Fishy sorted to top
+            lines.AddRange(outputLines.Select(chk => string.Format(L_F0_1, chk.Rating, chk.Comment)));
 
             lines.AddRange(br);
-            lines.Add(string.Format(V195, EncounterName));
+            lines.Add(string.Format(L_FEncounterType_0, EncounterName));
             var loc = EncounterLocation;
             if (!string.IsNullOrEmpty(loc))
-                lines.Add(string.Format(V196, "Location", loc));
+                lines.Add(string.Format(L_F0_1, "Location", loc));
             if (pkm.VC)
-                lines.Add(string.Format(V196, nameof(GameVersion), Info.Game));
+                lines.Add(string.Format(L_F0_1, nameof(GameVersion), Info.Game));
             var pidiv = Info.PIDIV ?? MethodFinder.Analyze(pkm);
             if (pidiv != null)
             {
                 if (!pidiv.NoSeed)
-                    lines.Add(string.Format(V248, pidiv.OriginSeed.ToString("X8")));
-                lines.Add(string.Format(V249, pidiv.Type));
+                    lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
+                lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
             }
             if (!Valid && Info.InvalidMatches != null)
             {

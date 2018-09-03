@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var type = GetEncounterTypeValue(data.pkm, data.EncounterMatch);
-            var result = !type.Contains(data.pkm.EncounterType) ? GetInvalid(V381) : GetValid(V380);
+            var result = !type.Contains(data.pkm.EncounterType) ? GetInvalid(LEncTypeMismatch) : GetValid(LEncTypeMatch);
             data.AddLine(result);
         }
 

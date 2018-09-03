@@ -179,11 +179,11 @@ namespace PKHeX.Core
             {
                 case 0:
                     m = pkm.OT_Memory; t = pkm.OT_TextVar; i = pkm.OT_Intensity; f = pkm.OT_Feeling;
-                    resultPrefix = LegalityCheckStrings.V205;
+                    resultPrefix = LegalityCheckStrings.L_XOT;
                     break;
                 case 1:
                     m = pkm.HT_Memory; t = pkm.HT_TextVar; i = pkm.HT_Intensity; f = pkm.HT_Feeling;
-                    resultPrefix = LegalityCheckStrings.V206;
+                    resultPrefix = LegalityCheckStrings.L_XHT;
                     break;
                 default:
                     m = t = i = f = 0;

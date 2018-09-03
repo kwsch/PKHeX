@@ -47,9 +47,9 @@ namespace PKHeX.Core
                 }
 
                 if (!info.FrameMatches && info.EncounterMatch is EncounterSlot && pkm.Version != (int)GameVersion.CXD) // if false, all valid RNG frame matches have already been consumed
-                    info.Parse.Add(new CheckResult(Severity.Fishy, V400, CheckIdentifier.PID)); // todo for further confirmation
+                    info.Parse.Add(new CheckResult(Severity.Fishy, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
                 if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
-                    info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
+                    info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));
 
                 return info;
             }
@@ -105,13 +105,13 @@ namespace PKHeX.Core
 
             string hint; // hint why an encounter was not found
             if (pkm.WasGiftEgg)
-                hint = V359;
+                hint = LEncGift;
             else if (pkm.WasEventEgg)
-                hint = V360;
+                hint = LEncGiftEggEvent;
             else if (pkm.WasEvent)
-                hint = V78;
+                hint = LEncGiftNotFound;
             else
-                hint = V80;
+                hint = LEncInvalid;
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
             info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);

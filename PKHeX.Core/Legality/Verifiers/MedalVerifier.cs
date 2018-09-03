@@ -22,29 +22,29 @@ namespace PKHeX.Core
             var Info = data.Info;
             uint value = BitConverter.ToUInt32(pkm.Data, 0x2C);
             if ((value & 3) != 0) // 2 unused flags
-                data.AddLine(GetInvalid(V98));
+                data.AddLine(GetInvalid(LSuperUnused));
             int TrainCount = pkm.SuperTrainingMedalCount();
 
             if (pkm.IsEgg && TrainCount > 0)
             {
-                data.AddLine(GetInvalid(V89));
+                data.AddLine(GetInvalid(LSuperEgg));
                 return;
             }
             if (TrainCount > 0 && Info.Generation > 6)
             {
-                data.AddLine(GetInvalid(V90));
+                data.AddLine(GetInvalid(LSuperUnavailable));
                 return;
             }
             if (pkm.Format >= 7)
             {
                 if (pkm.SecretSuperTrainingUnlocked)
-                    data.AddLine(GetInvalid(V91));
+                    data.AddLine(GetInvalid(LSuperNoUnlocked));
                 if (pkm.SecretSuperTrainingComplete)
-                    data.AddLine(GetInvalid(V92));
+                    data.AddLine(GetInvalid(LSuperNoComplete));
                 return;
             }
             if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
-                data.AddLine(GetInvalid(V93));
+                data.AddLine(GetInvalid(LSuperComplete));
         }
 
         private void VerifyMedalsEvent(LegalityAnalysis data)
@@ -53,7 +53,7 @@ namespace PKHeX.Core
             var Info = data.Info;
             byte value = pkm.Data[0x3A];
             if ((value & 0xC0) != 0) // 2 unused flags highest bits
-                data.AddLine(GetInvalid(V98));
+                data.AddLine(GetInvalid(LSuperUnused));
 
             int TrainCount = 0;
             for (int i = 0; i < 6; i++)
@@ -63,11 +63,11 @@ namespace PKHeX.Core
                 value >>= 1;
             }
             if (pkm.IsEgg && TrainCount > 0)
-                data.AddLine(GetInvalid(V89));
+                data.AddLine(GetInvalid(LSuperEgg));
             else if (TrainCount > 0 && Info.Generation > 6)
-                data.AddLine(GetInvalid(V90));
+                data.AddLine(GetInvalid(LSuperUnavailable));
             else if (TrainCount > 0)
-                data.AddLine(Get(V94, Severity.Fishy));
+                data.AddLine(Get(LSuperDistro, Severity.Fishy));
         }
     }
 }

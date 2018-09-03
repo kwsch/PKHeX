@@ -354,7 +354,7 @@ namespace PKHeX.Core
             switch (pk.Format)
             {
                 case 3: pk.HeldItem = ItemConverter.GetG3Item((ushort)item); break;
-                case 2: pk.HeldItem = ItemConverter.GetG2Item((ushort)item); break;
+                case 2: pk.HeldItem = (byte)item; break;
                 case 1: pk.HeldItem = 0; break;
                 default: pk.HeldItem = item; break;
             }

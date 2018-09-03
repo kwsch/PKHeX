@@ -21,11 +21,11 @@ namespace PKHeX.Core
                 VerifyECPIDWurmple(data);
 
             if (pkm.PID == 0)
-                data.AddLine(Get(V207, Severity.Fishy));
+                data.AddLine(Get(LPIDZero, Severity.Fishy));
 
             var Info = data.Info;
             if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)
-                data.AddLine(GetInvalid(V208)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
             VerifyShiny(data);
         }
@@ -39,7 +39,7 @@ namespace PKHeX.Core
             {
                 case EncounterStatic s:
                     if (!s.Shiny.IsValid(pkm))
-                        data.AddLine(GetInvalid(V209, CheckIdentifier.Shiny));
+                        data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
                     // gen5 correlation
                     if (Info.Generation != 5)
@@ -55,14 +55,14 @@ namespace PKHeX.Core
 
                 case EncounterSlot w:
                     if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
-                        data.AddLine(GetInvalid(V221, CheckIdentifier.Shiny));
+                        data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
                     if (Info.Generation == 5 && w.Type != SlotType.HiddenGrotto)
                         VerifyG5PID_IDCorrelation(data);
                     break;
 
                 case PCD d: // fixed PID
                     if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
-                        data.AddLine(GetInvalid(V410, CheckIdentifier.Shiny));
+                        data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                     break;
             }
         }
@@ -73,7 +73,7 @@ namespace PKHeX.Core
             var pid = pkm.EncryptionConstant;
             var result = (pid & 1) ^ (pid >> 31) ^ (pkm.TID & 1) ^ (pkm.SID & 1);
             if (result != 0)
-                data.AddLine(GetInvalid(V411));
+                data.AddLine(GetInvalid(LPIDTypeMismatch));
         }
 
         private void VerifyECPIDWurmple(LegalityAnalysis data)
@@ -84,12 +84,12 @@ namespace PKHeX.Core
             if (pkm.Species == 265)
             {
                 var spec = evoVal == 0 ? LegalityAnalysis.SpeciesStrings[267] : LegalityAnalysis.SpeciesStrings[269];
-                var msg = string.Format(V212, spec);
+                var msg = string.Format(L_XWurmpleEvo_0, spec);
                 data.AddLine(GetValid(msg, CheckIdentifier.EC));
             }
             else if (evoVal != Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species) / 2)
             {
-                data.AddLine(GetInvalid(V210, CheckIdentifier.EC));
+                data.AddLine(GetInvalid(LPIDEncryptWurmple, CheckIdentifier.EC));
             }
         }
 
@@ -99,7 +99,7 @@ namespace PKHeX.Core
             var Info = data.Info;
 
             if (pkm.EncryptionConstant == 0)
-                data.AddLine(Get(V201, Severity.Fishy, CheckIdentifier.EC));
+                data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
             if (3 <= Info.Generation && Info.Generation <= 5)
             {
                 VerifyTransferEC(data);
@@ -108,7 +108,7 @@ namespace PKHeX.Core
             {
                 int xor = pkm.TSV ^ pkm.PSV;
                 if (xor < 16 && xor >= 8 && (pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
-                    data.AddLine(Get(V211, Severity.Fishy, CheckIdentifier.EC));
+                    data.AddLine(Get(LTransferPIDECXor, Severity.Fishy, CheckIdentifier.EC));
             }
         }
 
@@ -128,7 +128,7 @@ namespace PKHeX.Core
             if (valid)
                 return;
 
-            var msg = xorPID ? V215 : V216;
+            var msg = xorPID ? LTransferPIDECBitFlip : LTransferPIDECEquals;
             data.AddLine(GetInvalid(msg, CheckIdentifier.EC));
         }
     }

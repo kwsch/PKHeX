@@ -265,9 +265,6 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
         {
-            if (allowed == null)
-                allowed = Enumerable.Range(0, inStrings.Count);
-
             var list = allowed
                 .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
                 .OrderBy(z => z.Text);
@@ -279,13 +276,17 @@ namespace PKHeX.Core
         public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // First 3 Balls are always first
-            List<ComboItem> newlist = new List<ComboItem>();
-            for (int i = 4; i > 1; i--) // add 4,3,2
-                newlist.Add(new ComboItem { Text = inStrings[i], Value = i });
+            var newlist = new List<ComboItem>(3 + stringNum.Length)
+            {
+                new ComboItem {Text = inStrings[4], Value = (int)Ball.Poke},
+                new ComboItem {Text = inStrings[3], Value = (int)Ball.Great},
+                new ComboItem {Text = inStrings[2], Value = (int)Ball.Ultra},
+            };
 
-            newlist.AddRange(stringNum
-                .Select((z, i) => new ComboItem { Text = inStrings[z], Value = stringVal[i] })
-                .OrderBy(z => z.Text));
+            var ordered = stringNum
+                .Select((z, i) => new ComboItem {Text = inStrings[z], Value = stringVal[i]})
+                .OrderBy(z => z.Text);
+            newlist.AddRange(ordered);
             return newlist;
         }
         #endregion

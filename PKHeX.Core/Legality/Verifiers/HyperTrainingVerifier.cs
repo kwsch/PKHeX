@@ -20,14 +20,14 @@ namespace PKHeX.Core
 
             if (pkm.CurrentLevel != 100)
             {
-                data.AddLine(GetInvalid(V40));
+                data.AddLine(GetInvalid(LHyperBelow100));
                 return;
             }
 
             int max = pkm.MaxIV;
             if (pkm.IVTotal == max * 6)
             {
-                data.AddLine(GetInvalid(V41));
+                data.AddLine(GetInvalid(LHyperPerfectAll));
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace PKHeX.Core
             {
                 if (pkm.GetIV(i) != max || !t.IsHyperTrained(i))
                     continue;
-                data.AddLine(GetInvalid(V42));
+                data.AddLine(GetInvalid(LHyperPerfectOne));
                 break;
             }
         }

@@ -20,9 +20,9 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (pkm.Format == 4 && pkm.Met_Location != Legal.Transfer3) // Pal Park
-                data.AddLine(GetInvalid(V60));
+                data.AddLine(GetInvalid(LEggLocationPalPark));
             if (pkm.Format != 4 && pkm.Met_Location != Legal.Transfer4)
-                data.AddLine(GetInvalid(V61));
+                data.AddLine(GetInvalid(LTransferEggLocationTransporter));
         }
 
         public void VerifyTransferLegalityG4(LegalityAnalysis data)
@@ -37,16 +37,16 @@ namespace PKHeX.Core
             {
                 case 251: // Celebi
                     if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
-                        data.AddLine(GetInvalid(V351));
+                        data.AddLine(GetInvalid(LTransferMet));
                     break;
                 case 243: // Raikou
                 case 244: // Entei
                 case 245: // Suicune
                     if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
-                        data.AddLine(GetInvalid(V351));
+                        data.AddLine(GetInvalid(LTransferMet));
                     break;
                 default:
-                    data.AddLine(GetInvalid(V61));
+                    data.AddLine(GetInvalid(LTransferEggLocationTransporter));
                     break;
             }
         }
@@ -62,13 +62,13 @@ namespace PKHeX.Core
                 bool exceptions = false;
                 exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == 151 && pkm.TID == 22796;
                 if (!exceptions)
-                    yield return GetInvalid(V79);
+                    yield return GetInvalid(LG1GBEncounter);
             }
 
             if (pkm.Met_Location != transfer.Location)
-                yield return GetInvalid(V81);
+                yield return GetInvalid(LTransferMetLocation);
             if (pkm.Egg_Location != transfer.EggLocation)
-                yield return GetInvalid(V59);
+                yield return GetInvalid(LEggLocationNone);
 
             // Flag Moves that cannot be transferred
             if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
@@ -81,12 +81,12 @@ namespace PKHeX.Core
             if (pkm.Gender == 1) // female
             {
                 if (pkm.PersonalInfo.Gender == 31 && pkm.IsShiny) // impossible gender-shiny
-                    yield return GetInvalid(V209, CheckIdentifier.PID);
+                    yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
             else if (pkm.Species == 201) // unown
             {
                 if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
-                    yield return GetInvalid(V209, CheckIdentifier.PID);
+                    yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
         }
 
@@ -98,7 +98,7 @@ namespace PKHeX.Core
 
             var chk = Moves[index];
             if (chk.Generation == gen) // not obtained from a future gen
-                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, V82, CheckIdentifier.Move);
+                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, LTransferMove, CheckIdentifier.Move);
         }
     }
 }

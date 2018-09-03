@@ -28,6 +28,7 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
 
+            DrawForeColor = ForeColor;
             if (TextBrush == null) TextBrush = new SolidBrush(CB_Move1.ForeColor);
             if (BackBrush == null) BackBrush = new SolidBrush(CB_Move1.BackColor);
 
@@ -298,12 +299,12 @@ namespace PKHeX.WinForms.Controls
             gendersymbols = symbols;
             if (!Unicode)
             {
-                BTN_Shinytize.Text = "*";
+                BTN_Shinytize.Text = ShinytizeDefault;
                 TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = GB_OT.Font;
             }
             else
             {
-                BTN_Shinytize.Text = "☆";
+                BTN_Shinytize.Text = ShinytizeUnicode;
                 TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont(11);
             }
             // Switch active gender labels to new if they are active.
@@ -329,6 +330,9 @@ namespace PKHeX.WinForms.Controls
         private Brush LegalMove { get; set; } = Brushes.PaleGreen;
         private Brush TextBrush { get; set; }
         private Brush BackBrush { get; set; }
+        private string ShinytizeDefault { get; set; } = "*";
+        private string ShinytizeUnicode { get; set; } = "☆";
+        private Color DrawForeColor { get; set; }
 
         private Color GetGenderColor(int gender)
         {
@@ -336,8 +340,18 @@ namespace PKHeX.WinForms.Controls
             {
                 case 0: return Color.Blue;
                 case 1: return Color.Red;
+                default: return DrawForeColor;
             }
-            return CB_Species.ForeColor;
+        }
+
+        private bool GetMarkingColor(int markval, out Color c)
+        {
+            switch (markval)
+            {
+                case 1: c = MarkBlue; return true;
+                case 2: c = MarkPink; return true;
+                default: c = MarkDefault; return false; // recolor not required
+            }
         }
 
         private void SetDetailsOT(ITrainerInfo SAV)
@@ -391,8 +405,8 @@ namespace PKHeX.WinForms.Controls
             if (!hasForms)
                 return;
 
-            var ds = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format).ToList();
-            if (ds.Count == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
+            var ds = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format);
+            if (ds.Length == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
                 CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
             else
                 CB_Form.DataSource = ds;
@@ -462,22 +476,6 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private bool GetMarkingColor(int markval, out Color c)
-        {
-            switch (markval)
-            {
-                case 1:
-                    c = MarkBlue;
-                    return true;
-                case 2:
-                    c = MarkPink;
-                    return true;
-                default:
-                    c = MarkDefault;
-                    return false;
-            }
-        }
-
         private void UpdateGender()
         {
             int Gender = pkm.GetSaneGender();
@@ -489,7 +487,7 @@ namespace PKHeX.WinForms.Controls
         {
             int index = CB.SelectedIndex;
             // fix for Korean / Chinese being swapped
-            string cl = GameInfo.CurrentLanguage + "";
+            string cl = GameInfo.CurrentLanguage;
             cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
             CB.DataSource = Util.GetCBList(type, cl);
@@ -706,7 +704,7 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? MsgProgramError : GameInfo.Strings.movelist[v]);
+                var movestrings = m.Select(v => v >= GameInfo.Strings.Move.Count ? MsgProgramError : GameInfo.Strings.Move[v]);
                 string r = string.Join(Environment.NewLine, movestrings);
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, r))
                     return false;
@@ -730,7 +728,7 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? MsgProgramError : GameInfo.Strings.movelist[v]);
+                var movestrings = m.Select(v => v >= GameInfo.Strings.Move.Count ? MsgProgramError : GameInfo.Strings.Move[v]);
                 string r = string.Join(Environment.NewLine, movestrings);
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, r))
                     return false;
@@ -810,8 +808,8 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateEXPLevel(object sender, EventArgs e)
         {
-            if (ChangingFields || !FieldsInitialized) return;
-
+            if (ChangingFields || !FieldsInitialized)
+                return;
             ChangingFields = true;
             if (sender == TB_EXP)
             {
@@ -998,7 +996,8 @@ namespace PKHeX.WinForms.Controls
             // Set the days back if they're legal, else set it to 1. (0 always passes).
             CB_PKRSDays.SelectedIndex = currentDuration < CB_PKRSDays.Items.Count ? currentDuration : 1;
 
-            if (CB_PKRSStrain.SelectedIndex != 0) return;
+            if (CB_PKRSStrain.SelectedIndex != 0)
+                return;
 
             // Never Infected
             CB_PKRSDays.SelectedIndex = 0;
@@ -1008,7 +1007,8 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSdays(object sender, EventArgs e)
         {
-            if (CB_PKRSDays.SelectedIndex != 0) return;
+            if (CB_PKRSDays.SelectedIndex != 0)
+                return;
 
             // If no days are selected
             if (CB_PKRSStrain.SelectedIndex == 0)
@@ -1018,7 +1018,8 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSCured(object sender, EventArgs e)
         {
-            if (!FieldsInitialized) return;
+            if (!FieldsInitialized)
+                return;
             // Cured PokeRus is toggled
             if (CHK_Cured.Checked)
             {
@@ -1054,9 +1055,12 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSInfected(object sender, EventArgs e)
         {
-            if (!FieldsInitialized) return;
-            if (CHK_Cured.Checked && !CHK_Infected.Checked) { CHK_Cured.Checked = false; return; }
-            if (CHK_Cured.Checked) return;
+            if (!FieldsInitialized)
+                return;
+            if (CHK_Cured.Checked && !CHK_Infected.Checked)
+            { CHK_Cured.Checked = false; return; }
+            if (CHK_Cured.Checked)
+                return;
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
             if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; Label_PKRSdays.Visible = CB_PKRSDays.Visible = false; }
             else if (CB_PKRSStrain.SelectedIndex == 0)
@@ -1233,7 +1237,7 @@ namespace PKHeX.WinForms.Controls
             // Fetch Current Species and set it as Nickname Text
             int species = WinFormsUtil.GetIndex(CB_Species);
             if (species < 1 || species > pkm.MaxSpeciesID)
-            { TB_Nickname.Text = ""; return; }
+            { TB_Nickname.Text = string.Empty; return; }
 
             if (CHK_IsEgg.Checked)
                 species = 0; // get the egg name.
@@ -1291,7 +1295,7 @@ namespace PKHeX.WinForms.Controls
             if (string.IsNullOrWhiteSpace(TB_OTt2.Text))
             {
                 ClickGT(GB_OT, null); // Switch CT over to OT.
-                Label_CTGender.Text = "";
+                Label_CTGender.Text = string.Empty;
                 TB_Friendship.Text = pkm.CurrentFriendship.ToString();
             }
             else if (string.IsNullOrWhiteSpace(Label_CTGender.Text))
@@ -1550,7 +1554,8 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateMovePaint(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0) return;
+            if (e.Index < 0)
+                return;
 
             var i = (ComboItem)((ComboBox)sender).Items[e.Index];
             bool valid = AllowedMoves.Contains(i.Value) && !HaX;
@@ -1587,15 +1592,8 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Secondary Windows for Ribbons/Amie/Memories
-        private void OpenRibbons(object sender, EventArgs e)
-        {
-            new RibbonEditor(pkm).ShowDialog();
-        }
-
-        private void OpenMedals(object sender, EventArgs e)
-        {
-            new SuperTrainingEditor(pkm).ShowDialog();
-        }
+        private void OpenRibbons(object sender, EventArgs e) => new RibbonEditor(pkm).ShowDialog();
+        private void OpenMedals(object sender, EventArgs e) => new SuperTrainingEditor(pkm).ShowDialog();
 
         private void OpenHistory(object sender, EventArgs e)
         {
@@ -1852,9 +1850,7 @@ namespace PKHeX.WinForms.Controls
         private static IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)
         {
             var abils = pkm.PersonalInfo.Abilities;
-            if (pkm.Format == 3 && abils[1] == abils[0])
-                abils = new[] { abils[0] };
-            return GameInfo.Strings.GetAbilityDataSource(abils);
+            return GameInfo.GetAbilityList(abils, pkm.Format);
         }
 
         private static PKM GetCompatiblePKM(SaveFile sav, PKM current)

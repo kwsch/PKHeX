@@ -22,10 +22,9 @@ namespace PKHeX.Core
 
         // Misc
         public readonly string[] wallpapernames, puffs;
-        public readonly string eggname;
         private readonly string lang;
 
-        public string EggName => eggname;
+        public string EggName { get; }
         public IReadOnlyList<string> Species => specieslist;
         public IReadOnlyList<string> Item => itemlist;
         public IReadOnlyList<string> Move => movelist;
@@ -97,10 +96,10 @@ namespace PKHeX.Core
             trainingbags = Get("trainingbag");
             trainingstage = Get("supertraining");
             puffs = Get("puff");
-            Array.Resize(ref puffs, puffs.Length + 1);
+            Array.Resize(ref puffs, puffs.Length + 1); // shift all down, 0th will be 'none' -- applied later
             Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
 
-            eggname = specieslist[0];
+            EggName = specieslist[0];
             metHGSS_00000 = Get("hgss_00000");
             metHGSS_02000 = Get("hgss_02000");
             metHGSS_03000 = Get("hgss_03000");
@@ -198,7 +197,7 @@ namespace PKHeX.Core
         private void SanitizeMetG5BW()
         {
             metHGSS_02000[1] += $" ({NPC})";     // Anything from an NPC
-            metHGSS_02000[2] += $" ({eggname})"; // Egg From Link Trade
+            metHGSS_02000[2] += $" ({EggName})"; // Egg From Link Trade
             metBW2_00000[36] = $"{metBW2_00000[84]}/{metBW2_00000[36]}"; // Cold Storage in BW = PWT in BW2
             metBW2_00000[40] += "(B/W)"; // Victory Road in BW
             metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
@@ -213,7 +212,7 @@ namespace PKHeX.Core
             // Localize the Poketransfer to the language (30001)
             metBW2_30000[1 - 1] = GameInfo.GetTransporterName(lang); // Default to English
             metBW2_30000[2 - 1] += $" ({NPC})";             // Anything from an NPC
-            metBW2_30000[3 - 1] += $" ({eggname})";         // Link Trade (Egg)
+            metBW2_30000[3 - 1] += $" ({EggName})";         // Link Trade (Egg)
 
             // Zorua/Zoroark events
             metBW2_30000[10 - 1] = $"{specieslist[251]} ({specieslist[570]} 1)"; // Celebi's Zorua Event
@@ -221,7 +220,7 @@ namespace PKHeX.Core
             metBW2_30000[12 - 1] = $"{specieslist[571]} (1)"; // Zoroark
             metBW2_30000[13 - 1] = $"{specieslist[571]} (2)"; // Zoroark
 
-            metBW2_60000[3 - 1] += $" ({eggname})";  // Egg Treasure Hunter/Breeder, whatever...
+            metBW2_60000[3 - 1] += $" ({EggName})";  // Egg Treasure Hunter/Breeder, whatever...
         }
 
         private void SanitizeMetG6XY()
@@ -231,7 +230,7 @@ namespace PKHeX.Core
             metXY_00000[202] += " (OR/AS)";    // Pokémon League
             metXY_00000[298] += " (OR/AS)";    // Victory Road
             metXY_30000[0] += $" ({NPC})";     // Anything from an NPC
-            metXY_30000[1] += $" ({eggname})"; // Egg From Link Trade
+            metXY_30000[1] += $" ({EggName})"; // Egg From Link Trade
         }
 
         private void SanitizeMetG7SM()
@@ -250,7 +249,7 @@ namespace PKHeX.Core
             metSM_00000_good.CopyTo(metSM_00000, 0);
 
             metSM_30000[0] += $" ({NPC})";      // Anything from an NPC
-            metSM_30000[1] += $" ({eggname})";  // Egg From Link Trade
+            metSM_30000[1] += $" ({EggName})";  // Egg From Link Trade
             for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
                 metSM_30000[i] += " (-)";
         }

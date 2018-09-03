@@ -24,8 +24,8 @@ namespace PKHeX.WinForms
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Update translation files with current values?"))
                 return;
-            DumpStringsMessage();
             DumpStringsLegality();
+            DumpStringsMessage();
             UpdateTranslations();
         }
 
@@ -96,10 +96,10 @@ namespace PKHeX.WinForms
             nameof(SettingsEditor),
         };
 
-        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings));
+        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false);
         private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
 
-        private static void DumpStrings(Type t, bool sort = false)
+        private static void DumpStrings(Type t, bool sorted = true)
         {
             var dir = GetResourcePath();
             var langs = new[] {DefaultLanguage}.Concat(Languages);
@@ -108,12 +108,10 @@ namespace PKHeX.WinForms
                 Util.SetLocalization(t, lang);
                 var entries = Util.GetLocalization(t);
                 var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
-                    .GroupBy(z => z.Variable.Length) // fancy sort!
-                    .OrderBy(z => z.Key) // sort by length (V1 = 2, V100 = 4)
-                    .SelectMany(z => z.OrderBy(n => n.Variable)) // select sets from ordered Names
+                    .OrderBy(z => z.Variable) // sort by length (V1 = 2, V100 = 4)
                     .Select(z => z.Line); // sorted lines
 
-                if (!sort) // discard linq
+                if (!sorted)
                     export = entries;
 
                 var location = GetFileLocationInText(t.Name, dir, lang);

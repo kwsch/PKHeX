@@ -18,7 +18,7 @@ namespace PKHeX.Core
         {
             return IsValidEvolution(pkm, info)
                 ? new CheckResult(CheckIdentifier.Evolution)
-                : new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
+                : new CheckResult(Severity.Invalid, LEvoInvalid, CheckIdentifier.Evolution);
         }
 
         /// <summary>

@@ -19,12 +19,12 @@ namespace PKHeX.Core
         {
             int consoleRegion = pkm.ConsoleRegion;
             if (consoleRegion >= 7)
-                return GetInvalid(V301);
+                return GetInvalid(LGeoHardwareRange);
 
             if (!Legal.IsConsoleRegionCountryValid(consoleRegion, pkm.Country))
-                return GetInvalid(V302);
+                return GetInvalid(LGeoHardwareInvalid);
 
-            return GetValid(V303);
+            return GetValid(LGeoHardwareValid);
         }
     }
 }

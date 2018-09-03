@@ -143,7 +143,6 @@ namespace PKHeX.Core
                     OFS_PouchBalls = BlockOfs[1] + 0x0600;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0640;
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
-                    Personal = PersonalTable.RS;
                     SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
                     EventFlag = BlockOfs[2] + 0x2A0;
                     EventConst = EventFlag + EventFlagMax / 8;
@@ -157,7 +156,6 @@ namespace PKHeX.Core
                     OFS_PouchBalls = BlockOfs[1] + 0x0650;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
-                    Personal = PersonalTable.E;
                     SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
                     EventFlag = BlockOfs[2] + 0x2F0;
                     EventConst = EventFlag + EventFlagMax / 8;
@@ -171,13 +169,13 @@ namespace PKHeX.Core
                     OFS_PouchBalls = BlockOfs[1] + 0x0430;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
-                    Personal = PersonalTable.FR;
                     SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     EventFlag = BlockOfs[2] + 0x000;
                     EventConst = EventFlag + EventFlagMax / 8;
                     Daycare = BlockOfs[4] + 0x100;
                     break;
             }
+            Personal = SaveUtil.GetG3Personal(Version);
             LoadEReaderBerryData();
             LegalItems = Legal.Pouch_Items_RS;
             LegalBalls = Legal.Pouch_Ball_RS;

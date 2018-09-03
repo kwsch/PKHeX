@@ -18,12 +18,12 @@ namespace PKHeX.Core
             // If the Pokémon is not nicknamed, it should match one of the language strings.
             if (pkm.Nickname.Length == 0)
             {
-                data.AddLine(GetInvalid(V2));
+                data.AddLine(GetInvalid(LNickLengthShort));
                 return;
             }
             if (pkm.Species > PKX.SpeciesLang[0].Length)
             {
-                data.AddLine(Get(V2, Severity.Indeterminate));
+                data.AddLine(Get(LNickLengthShort, Severity.Indeterminate));
                 return;
             }
 
@@ -34,7 +34,7 @@ namespace PKHeX.Core
             else if (EncounterMatch is MysteryGift m)
             {
                 if (pkm.IsNicknamed && !m.IsEgg)
-                   data.AddLine(Get(V0, Severity.Fishy));
+                   data.AddLine(Get(LEncGiftNicknamed, Severity.Fishy));
             }
 
             if (EncounterMatch is EncounterTrade)
@@ -66,32 +66,32 @@ namespace PKHeX.Core
                 {
                     if (!PKX.SpeciesDict[i].TryGetValue(nickname, out int index))
                         continue;
-                    var msg = index == pkm.Species && i != pkm.Language ? V15 : V16;
+                    var msg = index == pkm.Species && i != pkm.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
                     data.AddLine(Get(msg, Severity.Fishy));
                     return true;
                 }
                 if (StringConverter.HasEastAsianScriptCharacters(nickname)) // East Asian Scripts
                 {
-                    data.AddLine(GetInvalid(V222));
+                    data.AddLine(GetInvalid(LNickInvalidChar));
                     return true;
                 }
                 if (nickname.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    data.AddLine(Get(V1, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
+                    data.AddLine(Get(LNickLengthLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
                     return true;
                 }
-                data.AddLine(GetValid(V17));
+                data.AddLine(GetValid(LNickMatchNoOthers));
             }
             else if (pkm.Format < 3)
             {
                 // pk1/pk2 IsNicknamed getter checks for match, logic should only reach here if matches.
-                data.AddLine(GetValid(V18));
+                data.AddLine(GetValid(LNickMatchLanguage));
             }
             else
             {
                 var EncounterMatch = data.EncounterOriginal;
                 bool valid = IsNicknameValid(pkm, EncounterMatch, nickname);
-                var result = valid ? GetValid(V18) : GetInvalid(V20);
+                var result = valid ? GetValid(LNickMatchLanguage) : GetInvalid(LNickMatchLanguageFail);
                 data.AddLine(result);
             }
             return false;
@@ -136,24 +136,24 @@ namespace PKHeX.Core
             {
                 case 4:
                     if (pkm.IsNicknamed) // gen4 doesn't use the nickname flag for eggs
-                        data.AddLine(GetInvalid(V224, CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(LNickFlagEggNo, CheckIdentifier.Egg));
                     break;
                 case 7:
                     if (EncounterMatch is EncounterStatic ^ !pkm.IsNicknamed) // gen7 doesn't use for ingame gifts
-                        data.AddLine(GetInvalid(pkm.IsNicknamed ? V224 : V12, CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(pkm.IsNicknamed ? LNickFlagEggNo : LNickFlagEggYes, CheckIdentifier.Egg));
                     break;
                 default:
                     if (!pkm.IsNicknamed)
-                        data.AddLine(GetInvalid(V12, CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(LNickFlagEggYes, CheckIdentifier.Egg));
                     break;
             }
 
             if (pkm.Format == 2 && pkm.IsEgg && !PKX.IsNicknamedAnyLanguage(0, pkm.Nickname, 2))
-                data.AddLine(GetValid(V14, CheckIdentifier.Egg));
+                data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
             else if (PKX.GetSpeciesNameGeneration(0, pkm.Language, Info.Generation) != pkm.Nickname)
-                data.AddLine(GetInvalid(V13, CheckIdentifier.Egg));
+                data.AddLine(GetInvalid(LNickMatchLanguageEggFail, CheckIdentifier.Egg));
             else
-                data.AddLine(GetValid(V14, CheckIdentifier.Egg));
+                data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
         }
 
         private void VerifyNicknameTrade(LegalityAnalysis data)
@@ -176,21 +176,21 @@ namespace PKHeX.Core
             if (StringConverter.GetIsG1English(str))
             {
                 if (str.Length > 10)
-                    data.AddLine(GetInvalid(V1));
+                    data.AddLine(GetInvalid(LNickLengthLong));
             }
             else if (StringConverter.GetIsG1Japanese(str))
             {
                 if (str.Length > 5)
-                    data.AddLine(GetInvalid(V1));
+                    data.AddLine(GetInvalid(LNickLengthLong));
             }
             else if (pkm.Korean && StringConverter.GetIsG2Korean(str))
             {
                 if (str.Length > 5)
-                    data.AddLine(GetInvalid(V1));
+                    data.AddLine(GetInvalid(LNickLengthLong));
             }
             else
             {
-                data.AddLine(GetInvalid(V422));
+                data.AddLine(GetInvalid(LG1CharNick));
             }
         }
 
@@ -201,7 +201,7 @@ namespace PKHeX.Core
                 return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
 
             if (!EncounterGenerator.IsEncounterTrade1Valid(data.pkm, et))
-                data.AddLine(GetInvalid(V10, CheckIdentifier.Trainer));
+                data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
         }
 
         private void VerifyTrade3(LegalityAnalysis data)
@@ -238,7 +238,7 @@ namespace PKHeX.Core
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
                     if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
-                        data.AddLine(GetInvalid(string.Format(V610, V611, V612), CheckIdentifier.Language));
+                        data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
                 }
                 VerifyTradeTable(data, Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
             }
@@ -250,7 +250,7 @@ namespace PKHeX.Core
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
                     if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
-                        data.AddLine(GetInvalid(string.Format(V610, V611, V612), CheckIdentifier.Language));
+                        data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
                 }
                 else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang
                 {
@@ -329,7 +329,7 @@ namespace PKHeX.Core
             {
                 int lang = pkm.Language;
                 if (pkm.Format == 5 && lang == (int)LanguageID.Japanese)
-                    data.AddLine(GetInvalid(string.Format(V5, 0, LanguageID.Japanese), CheckIdentifier.Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, 0, LanguageID.Japanese), CheckIdentifier.Language));
 
                 lang = Math.Max(lang, 1);
                 VerifyTradeTable(data, Encounters5.TradeBW, Encounters5.TradeGift_BW, lang);
@@ -382,25 +382,25 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (pkm.IsNicknamed)
-                return GetInvalid(V9, CheckIdentifier.Nickname);
+                return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
             int lang = pkm.Language;
             if (validOT.Length <= lang)
-                return GetInvalid(V8, CheckIdentifier.Trainer);
+                return GetInvalid(LEncTradeIndexBad, CheckIdentifier.Trainer);
             if (validOT[lang] != pkm.OT_Name)
-                return GetInvalid(V10, CheckIdentifier.Trainer);
-            return GetValid(V11, CheckIdentifier.Nickname);
+                return GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer);
+            return GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname);
         }
 
         private void VerifyTradeOTNick(LegalityAnalysis data, string[] validOT, int index)
         {
             if (validOT.Length == 0)
             {
-                data.AddLine(Get(V7, Severity.Indeterminate, CheckIdentifier.Trainer));
+                data.AddLine(Get(LEncTradeVersionBad, Severity.Indeterminate, CheckIdentifier.Trainer));
                 return;
             }
             if (index == -1 || validOT.Length < index * 2)
             {
-                data.AddLine(Get(V8, Severity.Indeterminate, CheckIdentifier.Trainer));
+                data.AddLine(Get(LEncTradeIndexBad, Severity.Indeterminate, CheckIdentifier.Trainer));
                 return;
             }
 
@@ -410,12 +410,12 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterOriginal;
             if (!IsNicknameMatch(nick, pkm, EncounterMatch)) // trades that are not nicknamed (but are present in a table with others being named)
-                data.AddLine(GetInvalid(V9, CheckIdentifier.Nickname));
+                data.AddLine(GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname));
             else
-                data.AddLine(GetValid(V11, CheckIdentifier.Nickname));
+                data.AddLine(GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname));
 
             if (OT != pkm.OT_Name)
-                data.AddLine(GetInvalid(V10, CheckIdentifier.Trainer));
+                data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
         }
 
         private static bool IsNicknameMatch(string nick, PKM pkm, IEncounterable EncounterMatch)

@@ -121,7 +121,7 @@ namespace PKHeX.WinForms
             }
             else
             {
-                GB_M_OT.Text = GB_M_CT.Text = $"N/A: {GameInfo.Strings.eggname}";
+                GB_M_OT.Text = GB_M_CT.Text = $"N/A: {GameInfo.Strings.EggName}";
             }
 
             init = true;

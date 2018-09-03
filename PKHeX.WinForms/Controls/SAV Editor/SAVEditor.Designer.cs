@@ -154,6 +154,7 @@
             // 
             // Tab_Box
             // 
+            this.Tab_Box.AllowDrop = true;
             this.Tab_Box.Controls.Add(this.Box);
             this.Tab_Box.Location = new System.Drawing.Point(4, 22);
             this.Tab_Box.Name = "Tab_Box";
@@ -178,6 +179,7 @@
             // 
             // Tab_PartyBattle
             // 
+            this.Tab_PartyBattle.AllowDrop = true;
             this.Tab_PartyBattle.Controls.Add(this.PAN_BattleBox);
             this.Tab_PartyBattle.Controls.Add(this.L_ReadOnlyPBB);
             this.Tab_PartyBattle.Controls.Add(this.L_BattleBox);

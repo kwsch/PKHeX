@@ -66,6 +66,12 @@ namespace PKHeX.Core
 
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameStrings.LanguageDataSource(gen);
 
+        public static IReadOnlyList<ComboItem> GetAbilityList(int[] abils, int format)
+        {
+            if (format == 3 && abils[1] == abils[0])
+                abils = new[] { abils[0] };
+            return Strings.GetAbilityDataSource(abils);
+        }
 
         /// <summary>
         /// Gets the location names array for a specified generation.

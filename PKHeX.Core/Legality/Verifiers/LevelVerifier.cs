@@ -24,13 +24,13 @@ namespace PKHeX.Core
                         case WC7 wc7 when wc7.MetLevel == pkm.Met_Level:
                             break;
                         default:
-                            data.AddLine(GetInvalid(V83));
+                            data.AddLine(GetInvalid(LLevelMetGift));
                             return;
                     }
                 }
                 if (gift.Level > pkm.CurrentLevel)
                 {
-                    data.AddLine(GetInvalid(V84));
+                    data.AddLine(GetInvalid(LLevelMetGiftFail));
                     return;
                 }
             }
@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 int elvl = Legal.GetEggHatchLevel(pkm);
                 if (elvl != pkm.CurrentLevel)
                 {
-                    data.AddLine(GetInvalid(string.Format(V52, elvl)));
+                    data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
                     return;
                 }
 
@@ -48,17 +48,17 @@ namespace PKHeX.Core
                     ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
                     : PKX.GetEXP(elvl, pkm.Species);
                 if (reqEXP != pkm.EXP)
-                    data.AddLine(GetInvalid(V613));
+                    data.AddLine(GetInvalid(LEggEXP));
                 return;
             }
 
             int lvl = pkm.CurrentLevel;
             if (lvl < pkm.Met_Level)
-                data.AddLine(GetInvalid(V85));
+                data.AddLine(GetInvalid(LLevelMetBelow));
             else if (!EncounterMatch.IsWithinRange(pkm) && lvl != 100 && pkm.EXP == PKX.GetEXP(lvl, pkm.Species))
-                data.AddLine(Get(V87, Severity.Fishy));
+                data.AddLine(Get(LLevelEXPThreshold, Severity.Fishy));
             else
-                data.AddLine(GetValid(V88));
+                data.AddLine(GetValid(LLevelMetSane));
         }
 
         public void VerifyG1(LegalityAnalysis data)
@@ -69,14 +69,14 @@ namespace PKHeX.Core
             {
                 int elvl = Legal.GetEggHatchLevel(pkm);
                 if (elvl != pkm.CurrentLevel)
-                    data.AddLine(GetInvalid(string.Format(V52, elvl)));
+                    data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
                 return;
             }
             if (pkm.Met_Location != 0) // crystal
             {
                 int lvl = pkm.CurrentLevel;
                 if (lvl < pkm.Met_Level)
-                    data.AddLine(GetInvalid(V85));
+                    data.AddLine(GetInvalid(LLevelMetBelow));
             }
 
             // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
@@ -94,7 +94,7 @@ namespace PKHeX.Core
             // Pokemon have been traded but it is not evolved, trade evos are sequential dex numbers
             var unevolved = LegalityAnalysis.SpeciesStrings[pkm.Species];
             var evolved = LegalityAnalysis.SpeciesStrings[pkm.Species + 1];
-            data.AddLine(GetInvalid(string.Format(V405, unevolved, evolved)));
+            data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
         }
     }
 }

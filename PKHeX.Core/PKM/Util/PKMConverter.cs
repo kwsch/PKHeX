@@ -271,8 +271,8 @@ namespace PKHeX.Core
             switch (pk)
             {
                 // Non-sequential
-                case PK1 pk1 when toFormat >= 7: return pk1.ConvertToPK7();
-                case PK2 pk2 when toFormat >= 7: return pk2.ConvertToPK7();
+                case PK1 pk1 when toFormat > 2: return pk1.ConvertToPK7();
+                case PK2 pk2 when toFormat > 2: return pk2.ConvertToPK7();
                 case PK3 pk3 when PKMType == typeof(CK3): return pk3.ConvertToCK3();
                 case PK3 pk3 when PKMType == typeof(XK3): return pk3.ConvertToXK3();
                 case PK4 pk4 when PKMType == typeof(BK4): return pk4.ConvertToBK4();
