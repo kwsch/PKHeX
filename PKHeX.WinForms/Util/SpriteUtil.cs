@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
         private static Image GetBaseImage(MysteryGift gift)
         {
             if (gift.IsEgg && gift.Species == 490) // Manaphy Egg
-                return (Image)(Resources.ResourceManager.GetObject("_490_e") ?? Resources.unknown);
+                return Resources._490_e;
             if (gift.IsPokémon)
                 return GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
             if (gift.IsItem)
