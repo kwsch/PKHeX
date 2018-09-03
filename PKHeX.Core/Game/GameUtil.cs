@@ -88,7 +88,7 @@ namespace PKHeX.Core
         /// Gets a Version ID from the end of that Generation
         /// </summary>
         /// <param name="generation">Generation ID</param>
-        /// <returns>Version ID from requested generation. If none, return Unknown.</returns>
+        /// <returns>Version ID from requested generation. If none, return <see cref="Invalid"/>.</returns>
         public static GameVersion GetVersion(int generation)
         {
             switch (generation)

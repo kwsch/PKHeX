@@ -98,6 +98,7 @@ namespace PKHeX.WinForms
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         public static string CryPath => Path.Combine(WorkingDirectory, "sounds");
+        public static string SAVPaths => Path.Combine(WorkingDirectory, "savpaths.txt");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";

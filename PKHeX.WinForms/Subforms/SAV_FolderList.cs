@@ -19,7 +19,6 @@ namespace PKHeX.WinForms
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
         private readonly List<Label> TempTranslationLabels = new List<Label>();
-        private static string SAVPaths => Path.Combine(Main.WorkingDirectory, "savpaths.txt");
 
         public SAV_FolderList(Action<SaveFile> openSaveFile)
         {
@@ -121,7 +120,7 @@ namespace PKHeX.WinForms
             Button button = GetCustomButton(name);
             button.Click += (s, e) =>
             {
-                var loc = SAVPaths;
+                var loc = Main.SAVPaths;
                 if (!File.Exists(loc))
                 {
                     var custom = Paths.Where(z => z.Custom).ToList();
@@ -148,7 +147,7 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<CustomFolderPath> GetUserPaths()
         {
-            string loc = SAVPaths;
+            string loc = Main.SAVPaths;
             if (!File.Exists(loc))
                 return Enumerable.Empty<CustomFolderPath>();
 

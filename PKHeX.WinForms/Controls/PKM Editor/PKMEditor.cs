@@ -869,7 +869,7 @@ namespace PKHeX.WinForms.Controls
             else if (sender == BTN_RerollPID)
                 pkm.SetPIDGender(pkm.Gender);
             else if (sender == CB_Ability && CB_Ability.SelectedIndex != pkm.PIDAbility && pkm.PIDAbility > -1)
-                pkm.PID = PKX.GetRandomPID(pkm.Species, pkm.Gender, pkm.Version, pkm.Nature, pkm.AltForm, (uint)(CB_Ability.SelectedIndex * 0x10001));
+                pkm.SetAbilityIndex(CB_Ability.SelectedIndex);
 
             TB_PID.Text = pkm.PID.ToString("X8");
             if (pkm.Format >= 6 && 3 <= pkm.GenNumber && pkm.GenNumber <= 5)
@@ -882,8 +882,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 6)
                 return;
 
-            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, WinFormsUtil.GetIndex(CB_Species));
-            pkm.EncryptionConstant = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex/2);
+            pkm.SetRandomEC();
             TB_EC.Text = pkm.EncryptionConstant.ToString("X8");
             Update_ID(TB_EC, e);
             UpdateLegality();
@@ -903,7 +902,6 @@ namespace PKHeX.WinForms.Controls
                 pkm.AltForm = CB_Form.SelectedIndex;
 
             Stats.UpdateStats();
-            // Repopulate Abilities if Species Form has different abilities
             SetAbilityList();
 
             // Gender Forms
@@ -1247,10 +1245,8 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, lang, pkm.Format);
-            if (pkm.Format == 1)
-                ((PK1)pkm).SetNotNicknamed();
-            if (pkm.Format == 2)
-                ((PK2)pkm).SetNotNicknamed();
+            if (pkm is _K12 pk)
+                pk.SetNotNicknamed();
         }
 
         private void UpdateNicknameClick(object sender, MouseEventArgs e)
