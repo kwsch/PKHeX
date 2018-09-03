@@ -1223,5 +1223,55 @@ namespace PKHeX.Core
             }
             return null;
         }
+
+        /// <summary>
+        /// Force loads the provided <see cref="sav"/> to the requested <see cref="ver"/>.
+        /// </summary>
+        /// <param name="sav">SaveFile data to force</param>
+        /// <param name="ver">Version to retrieve for</param>
+        /// <returns>New <see cref="SaveFile"/> object.</returns>
+        public static SaveFile GetG3SaveOverride(SaveFile sav, GameVersion ver)
+        {
+            switch (ver) // Reset save file info
+            {
+                case GameVersion.R:
+                case GameVersion.S:
+                case GameVersion.RS:
+                    return new SAV3(sav.BAK, GameVersion.RS);
+                case GameVersion.E:
+                    return new SAV3(sav.BAK, GameVersion.E);
+                case GameVersion.FRLG:
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    return new SAV3(sav.BAK, GameVersion.FRLG);
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="PersonalTable"/> for a Gen3 save file.
+        /// </summary>
+        /// <param name="ver">Version to retrieve for</param>
+        /// <returns>Reference to the <see cref="PersonalTable"/>.</returns>
+        public static PersonalTable GetG3Personal(GameVersion ver)
+        {
+            switch (ver)
+            {
+                case GameVersion.FRLG:
+                case GameVersion.FR:
+                    return PersonalTable.FR;
+                case GameVersion.LG:
+                    return PersonalTable.LG;
+                case GameVersion.E:
+                    return PersonalTable.E;
+                case GameVersion.R:
+                case GameVersion.S:
+                case GameVersion.RS:
+                    return PersonalTable.RS;
+                default:
+                    return null;
+            }
+        }
     }
 }

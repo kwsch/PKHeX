@@ -804,26 +804,14 @@ namespace PKHeX.WinForms
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 WinFormsUtil.Alert(string.Format(MsgFileLoadVersionDetect, sav.Generation), MsgFileLoadVersionSelect);
-                var g = new[] {GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG};
-                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int) z));
+                var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
+                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
                 var dialog = new SAV_GameSelect(games);
                 dialog.ShowDialog();
 
-                switch (dialog.Result) // Reset save file info
-                {
-                    case GameVersion.R:
-                    case GameVersion.S:
-                        sav = new SAV3(sav.BAK, GameVersion.RS);
-                        break;
-                    case GameVersion.E:
-                        sav = new SAV3(sav.BAK, GameVersion.E);
-                        break;
-                    case GameVersion.FR:
-                    case GameVersion.LG:
-                        sav = new SAV3(sav.BAK, GameVersion.FRLG);
-                        break;
-                    default: return false;
-                }
+                sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
+                if (sav == null)
+                    return false;
                 if (sav.Version == GameVersion.FRLG)
                     sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
             }
@@ -838,17 +826,10 @@ namespace PKHeX.WinForms
                 var dialog = new SAV_GameSelect(games);
                 dialog.ShowDialog();
 
-                switch (dialog.Result)
-                {
-                    case GameVersion.FR:
-                        sav.Personal = PersonalTable.FR;
-                        break;
-                    case GameVersion.LG:
-                        sav.Personal = PersonalTable.LG;
-                        break;
-                    default:
-                        return false;
-                }
+                var pt = SaveUtil.GetG3Personal(dialog.Result);
+                if (pt == null)
+                    return false;
+                sav.Personal = pt;
             }
 
             return true;
