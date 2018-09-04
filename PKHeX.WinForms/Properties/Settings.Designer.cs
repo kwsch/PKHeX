@@ -12,7 +12,7 @@ namespace PKHeX.WinForms.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -140,6 +140,78 @@ namespace PKHeX.WinForms.Properties {
             }
             set {
                 this["ApplyMarkings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HoverSlotShowText {
+            get {
+                return ((bool)(this["HoverSlotShowText"]));
+            }
+            set {
+                this["HoverSlotShowText"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HoverSlotPlayCry {
+            get {
+                return ((bool)(this["HoverSlotPlayCry"]));
+            }
+            set {
+                this["HoverSlotPlayCry"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HoverSlotGlowEdges {
+            get {
+                return ((bool)(this["HoverSlotGlowEdges"]));
+            }
+            set {
+                this["HoverSlotGlowEdges"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideSAVDetails {
+            get {
+                return ((bool)(this["HideSAVDetails"]));
+            }
+            set {
+                this["HideSAVDetails"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowEggSpriteAsHeldItem {
+            get {
+                return ((bool)(this["ShowEggSpriteAsHeldItem"]));
+            }
+            set {
+                this["ShowEggSpriteAsHeldItem"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideSecretDetails {
+            get {
+                return ((bool)(this["HideSecretDetails"]));
+            }
+            set {
+                this["HideSecretDetails"] = value;
             }
         }
     }

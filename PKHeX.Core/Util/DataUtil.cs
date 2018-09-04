@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace PKHeX.Core
 {
-    public partial class Util
+    public static partial class Util
     {
         private const string TranslationSplitter = " = ";
         private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
@@ -15,7 +15,7 @@ namespace PKHeX.Core
         private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
         private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
-        #region String Lists        
+        #region String Lists
 
         /// <summary>
         /// Gets a list of all Pokémon species names.
@@ -81,14 +81,16 @@ namespace PKHeX.Core
                 return (string[])stringListCache[f].Clone();
 
             var txt = GetStringResource(f); // Fetch File, \n to list.
-            if (txt == null) return new string[0];
+            if (txt == null) return Array.Empty<string>();
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
-                rawlist[i] = rawlist[i].Trim();
+                rawlist[i] = rawlist[i].TrimEnd('\r');
             stringListCache.Add(f, rawlist);
             return (string[])rawlist.Clone();
         }
+
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
+
         public static string[] GetNulledStringArray(string[] SimpleStringList)
         {
             try
@@ -119,9 +121,11 @@ namespace PKHeX.Core
         public static string GetStringResource(string name)
         {
             if (!resourceNameMap.ContainsKey(name))
-                resourceNameMap.Add(name, manifestResourceNames.FirstOrDefault(x =>
-                    x.StartsWith("PKHeX.Core.Resources.text.") &&
-                    x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase)));
+            {
+                bool Match(string x) => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase);
+                var resname = Array.Find(manifestResourceNames, Match);
+                resourceNameMap.Add(name, resname);
+            }
 
             if (resourceNameMap[name] == null)
                 return null;
@@ -145,16 +149,19 @@ namespace PKHeX.Core
         private static IEnumerable<string> DumpStrings(Type t)
         {
             var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "");
-            return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p).ToString()}");
+            return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p)}");
         }
 
         /// <summary>
         /// Gets the current localization in a static class containing language-specific strings
         /// </summary>
+        /// <param name="t"></param>
+        /// <param name="existingLines">Existing localization lines (if provided)</param>
         public static string[] GetLocalization(Type t, string[] existingLines = null)
         {
-            existingLines = existingLines ?? new string[0];
             var currentLines = DumpStrings(t).ToArray();
+            if (existingLines == null)
+                return currentLines;
             var existing = GetProperties(existingLines);
             var current = GetProperties(currentLines);
 
@@ -173,7 +180,7 @@ namespace PKHeX.Core
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="lines">Lines containing the localized strings</param>
         private static void SetLocalization(Type t, IEnumerable<string> lines)
-        {            
+        {
             if (lines == null)
                 return;
             foreach (var line in lines.Where(l => l != null))
@@ -235,6 +242,7 @@ namespace PKHeX.Core
                 .OrderBy(z => z.Text)
                 .ToList();
         }
+
         public static List<ComboItem> GetUnsortedCBList(string textfile)
         {
             string[] inputCSV = GetStringList(textfile);
@@ -243,38 +251,42 @@ namespace PKHeX.Core
                 .Select(data => new ComboItem { Text = data[1], Value = Convert.ToInt32(data[0]) })
                 .ToList();
         }
-        public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
+
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
         {
             if (allowed?[0] == null)
-                allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
+                allowed = new[] { Enumerable.Range(0, inStrings.Count).ToArray() };
 
             return allowed.SelectMany(list => list
                 .Select(z => new ComboItem { Text = inStrings[z], Value = z })
                 .OrderBy(z => z.Text))
                 .ToList();
         }
-        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
-        {
-            if (allowed == null)
-                allowed = Enumerable.Range(0, inStrings.Length).ToArray();
 
+        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
+        {
             var list = allowed
-                .Select((z, i) => new ComboItem {Text = inStrings[z - offset], Value = z})
+                .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
                 .OrderBy(z => z.Text);
 
             cbList.AddRange(list);
             return cbList;
         }
+
         public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // First 3 Balls are always first
-            List<ComboItem> newlist = new List<ComboItem>();
-            for (int i = 4; i > 1; i--) // add 4,3,2
-                newlist.Add(new ComboItem { Text = inStrings[i], Value = i });
+            var newlist = new List<ComboItem>(3 + stringNum.Length)
+            {
+                new ComboItem {Text = inStrings[4], Value = (int)Ball.Poke},
+                new ComboItem {Text = inStrings[3], Value = (int)Ball.Great},
+                new ComboItem {Text = inStrings[2], Value = (int)Ball.Ultra},
+            };
 
-            newlist.AddRange(stringNum
-                .Select((z, i) => new ComboItem { Text = inStrings[z], Value = stringVal[i] })
-                .OrderBy(z => z.Text));
+            var ordered = stringNum
+                .Select((z, i) => new ComboItem {Text = inStrings[z], Value = stringVal[i]})
+                .OrderBy(z => z.Text);
+            newlist.AddRange(ordered);
             return newlist;
         }
         #endregion

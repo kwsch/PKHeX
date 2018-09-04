@@ -3,7 +3,7 @@
     /// <summary>
     /// Generation 3 Base <see cref="PKM"/> Class
     /// </summary>
-    public abstract class _K3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
+    public abstract class _K3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
     {
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_3;
@@ -26,7 +26,7 @@
         public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
         public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
-        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
+        public override int Ability { get { var pi = (PersonalInfoG3)PersonalInfo; return pi.Abilities[pi.HasSecondAbility && AbilityBit ? 1 : 0]; } set { } }
         public override uint EncryptionConstant { get => PID; set { } }
         public override int Nature { get => (int)(PID % 25); set { } }
         public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
@@ -36,6 +36,9 @@
         public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
         public override int CurrentHandler { get => 0; set { } }
         public override int Egg_Location { get => 0; set { } }
+
+        public override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // [0,1]->[1,2] ; [1,x]->[0,1]
+        public abstract bool AbilityBit { get; set; }
 
         public abstract bool RibbonEarth { get; set; }
         public abstract bool RibbonNational { get; set; }
@@ -58,6 +61,30 @@
         public abstract bool Unused2 { get; set; }
         public abstract bool Unused3 { get; set; }
         public abstract bool Unused4 { get; set; }
+
+        public abstract int CNT_Cool { get; set; }
+        public abstract int CNT_Beauty { get; set; }
+        public abstract int CNT_Cute { get; set; }
+        public abstract int CNT_Smart { get; set; }
+        public abstract int CNT_Tough { get; set; }
+        public abstract int CNT_Sheen { get; set; }
+
+        /// <summary>
+        /// Swaps bits at a given position
+        /// </summary>
+        /// <param name="value">Value to swap bits for</param>
+        /// <param name="p1">Position of first bit to be swapped</param>
+        /// <param name="p2">Position of second bit to be swapped</param>
+        /// <remarks>Generation 3 marking values are swapped (Square-Triangle, instead of Triangle-Square).</remarks>
+        /// <returns>Swapped bits value</returns>
+        protected static int SwapBits(int value, int p1, int p2)
+        {
+            int bit1 = (value >> p1) & 1;
+            int bit2 = (value >> p2) & 1;
+            int x = bit1 ^ bit2;
+            x = (x << p1) | (x << p2);
+            return value ^ x;
+        }
 
         /// <summary>
         /// Interconversion for Generation 3 <see cref="PKM"/> formats.

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -23,12 +22,13 @@ namespace PKHeX.Core
             get => _match;
             set
             {
-                if (EncounterMatch != null && (value.LevelMin != EncounterMatch.LevelMin || value.Species != EncounterMatch.Species))
-                    _evochains = null;
+                if (_match != null && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
+                    _evochains = null; // clear if evo chain has the potential to be different
                 _match = value;
                 Parse.Clear();
             }
         }
+
         private IEncounterable _match;
 
         /// <summary>Indicates whether or not the <see cref="PKM"/> originated from <see cref="GameVersion.XD"/>.</summary>
@@ -44,8 +44,8 @@ namespace PKHeX.Core
         public CheckMoveResult[] Moves { get; set; } = new CheckMoveResult[4];
 
         public ValidEncounterMoves EncounterMoves { get; set; }
-        public DexLevel[][] EvoChainsAllGens => _evochains ?? (_evochains = Legal.GetEvolutionChainsAllGens(pkm, EncounterMatch));
-        private DexLevel[][] _evochains;
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ?? (_evochains = EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch));
+        private IReadOnlyList<EvoCriteria>[] _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV { get; set; }
@@ -72,11 +72,10 @@ namespace PKHeX.Core
 
         /// <summary>List of all near-matches that were rejected for a given reason.</summary>
         public List<EncounterRejected> InvalidMatches;
+
         internal void Reject(CheckResult c)
         {
-            if (InvalidMatches == null)
-                InvalidMatches = new List<EncounterRejected>();
-            InvalidMatches.Add(new EncounterRejected(EncounterMatch, c));
+            (InvalidMatches ?? (InvalidMatches = new List<EncounterRejected>())).Add(new EncounterRejected(EncounterMatch, c));
         }
     }
 }

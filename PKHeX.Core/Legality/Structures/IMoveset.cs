@@ -5,6 +5,6 @@
     /// </summary>
     internal interface IMoveset
     {
-        int[] Moves { get; set; }
+        int[] Moves { get; }
     }
 }

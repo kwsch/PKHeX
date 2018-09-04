@@ -13,6 +13,7 @@ namespace PKHeX.Core
             val |= data[offset + 3] << 0;
             return (uint)val;
         }
+
         public static ushort ToUInt16(byte[] data, int offset)
         {
             int val = 0;
@@ -20,6 +21,7 @@ namespace PKHeX.Core
             val |= data[offset + 1] << 0;
             return (ushort)val;
         }
+
         public static int ToInt32(byte[] data, int offset)
         {
             int val = 0;
@@ -29,6 +31,7 @@ namespace PKHeX.Core
             val |= data[offset + 3] << 0;
             return val;
         }
+
         public static short ToInt16(byte[] data, int offset)
         {
             int val = 0;
@@ -41,14 +44,17 @@ namespace PKHeX.Core
         {
             return Invert(BitConverter.GetBytes(value));
         }
+
         public static byte[] GetBytes(short value)
         {
             return Invert(BitConverter.GetBytes(value));
         }
+
         public static byte[] GetBytes(uint value)
         {
             return Invert(BitConverter.GetBytes(value));
         }
+
         public static byte[] GetBytes(ushort value)
         {
             return Invert(BitConverter.GetBytes(value));
@@ -82,6 +88,7 @@ namespace PKHeX.Core
             }
             return result;
         }
+
         /// <summary>
         /// Returns the specified 32-bit signed integer value as an array of Binary Coded Decimal format bytes.
         /// </summary>

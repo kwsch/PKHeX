@@ -9,14 +9,13 @@ namespace PKHeX.WinForms
 {
     public static class FontUtil
     {
-
-        // Font Related
 #if WINDOWS
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
 #endif
 
         private static readonly PrivateFontCollection s_FontCollection = new PrivateFontCollection();
+
         private static FontFamily[] FontFamilies
         {
             get
@@ -25,10 +24,9 @@ namespace PKHeX.WinForms
                 return s_FontCollection.Families;
             }
         }
-        public static Font GetPKXFont(float size)
-        {
-            return new Font(FontFamilies[0], size);
-        }
+
+        public static Font GetPKXFont(float size) => new Font(FontFamilies[0], size);
+
         private static void SetPKXFont()
         {
             try

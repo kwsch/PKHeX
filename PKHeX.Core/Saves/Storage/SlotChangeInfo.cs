@@ -9,8 +9,8 @@
         public object Cursor { get; set; }
         public string CurrentPath { get; set; }
 
-        public SlotChange Source { get; private set; }
-        public SlotChange Destination { get; private set; }
+        public SlotChange Source { get; set; }
+        public SlotChange Destination { get; set; }
 
         private readonly byte[] BlankData;
 
@@ -21,6 +21,7 @@
         }
 
         public bool SameSlot => Source.Slot == Destination.Slot && Source.Box == Destination.Box;
+
         public void Reset()
         {
             LeftMouseIsDown = RightMouseIsDown = DragDropInProgress = false;

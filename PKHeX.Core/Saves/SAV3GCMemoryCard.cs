@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -35,18 +36,19 @@ namespace PKHeX.Core
         private const int DENTRY_SIZE = 0x40;
         private static int NumEntries_Directory => BLOCK_SIZE / DENTRY_SIZE;
 
-        private static readonly int[] validMCSizes =
+        private static readonly HashSet<int> ValidMemoryCardSizes = new HashSet<int>
         {
-            0x80000, // 512KB 59 Blocks Memory Card
-            0x100000, // 1MB
-            0x200000, // 2MB
-            0x400000, // 4MB 251 Blocks Memory Card
-            0x800000, // 8MB
+            0x0080000, // 512KB 59 Blocks Memory Card
+            0x0100000, // 1MB
+            0x0200000, // 2MB
+            0x0400000, // 4MB 251 Blocks Memory Card
+            0x0800000, // 8MB
             0x1000000, // 16MB 1019 Blocks Default Dolphin Memory Card
-            0x2000000, // 64MB 
-            0x4000000 // 128 MB
+            0x2000000, // 64MB
+            0x4000000, // 128 MB
         };
-        public static bool IsMemoryCardSize(long Size) => validMCSizes.Contains((int)Size);
+
+        public static bool IsMemoryCardSize(long Size) => ValidMemoryCardSizes.Contains((int)Size);
         public static bool IsMemoryCardSize(byte[] Data) => IsMemoryCardSize(Data.Length);
         private readonly byte[] RawEmpty_DEntry = { 0xFF, 0xFF, 0xFF, 0xFF };
 
@@ -62,24 +64,27 @@ namespace PKHeX.Core
         private static int DirectoryBAK => BLOCK_SIZE * DirectoryBackup_Block;
         private static int BlockAlloc => BLOCK_SIZE * BlockAlloc_Block;
         private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
-        
+
+        public SAV3GCMemoryCard(byte[] data) => Data = data;
+
         // Checksums
         private void GetChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
         {
             csum = inv_csum = 0;
-            var ofs = block * BLOCK_SIZE + offset;
+            var ofs = (block * BLOCK_SIZE) + offset;
 
             for (int i = 0; i < length; i++)
             {
-                var val = BigEndian.ToUInt16(Data, ofs + i*2);
+                var val = BigEndian.ToUInt16(Data, ofs + (i * 2));
                 csum += val;
-                inv_csum += (ushort)(val ^ 0xffff);
+                inv_csum += (ushort)~val;
             }
             if (csum == 0xffff)
                 csum = 0;
             if (inv_csum == 0xffff)
                 inv_csum = 0;
         }
+
         private uint VerifyChecksums()
         {
             uint results = 0;
@@ -120,11 +125,11 @@ namespace PKHeX.Core
         private int Directory_UpdateCounter => BigEndian.ToUInt16(Data, Directory + 0x1ffa);
         private int Directory_Checksum => BigEndian.ToUInt16(Data, Directory + 0x1ffc);
         private int Directory_Checksum_Inv => BigEndian.ToUInt16(Data, Directory + 0x1ffe);
-        
+
         private int DirectoryBAK_UpdateCounter => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffa);
         private int DirectoryBAK_Checksum => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffc);
         private int DirectoryBAK_Checksum_Inv => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffe);
-        
+
         private int BlockAlloc_Checksum => BigEndian.ToUInt16(Data, BlockAlloc + 0x0000);
         private int BlockAlloc_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAlloc + 0x0002);
 
@@ -132,8 +137,8 @@ namespace PKHeX.Core
         private int BlockAllocBAK_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAllocBAK + 0x0002);
 
         private int DirectoryBlock_Used;
-        private int NumBlocks => Data.Length/BLOCK_SIZE - 5;
-        
+        private int NumBlocks => (Data.Length/BLOCK_SIZE) - 5;
+
         private int EntryCOLO = -1;
         private int EntryXD = -1;
         private int EntryRSBOX = -1;
@@ -152,7 +157,7 @@ namespace PKHeX.Core
 
             if ((csums & 0x2) == 1)  // directory checksum error!
             {
-                if ((csums & 0x4) == 1) // backup is also wrong 
+                if ((csums & 0x4) == 1) // backup is also wrong
                     return true; // Directory checksum and directory backup checksum failed
 
                 RestoreBackup(); // backup is correct, restore
@@ -168,18 +173,17 @@ namespace PKHeX.Core
             RestoreBackup();
             return false;
         }
+
         private void RestoreBackup()
         {
             Array.Copy(Data, DirectoryBackup_Block*BLOCK_SIZE, Data, Directory_Block*BLOCK_SIZE, BLOCK_SIZE);
             Array.Copy(Data, BlockAllocBackup_Block*BLOCK_SIZE, Data, BlockAlloc_Block*BLOCK_SIZE, BLOCK_SIZE);
         }
 
-        public GCMemoryCardState LoadMemoryCardFile(byte[] data)
+        public GCMemoryCardState GetMemoryCardState()
         {
-            Data = data;
             if (!IsMemoryCardSize(Data))
-                // Invalid size
-                return GCMemoryCardState.Invalid;
+                return GCMemoryCardState.Invalid; // Invalid size
 
             // Size in megabits, not megabytes
             int m_sizeMb = Data.Length / BLOCK_SIZE / MBIT_TO_BLOCKS;
@@ -190,19 +194,19 @@ namespace PKHeX.Core
                 return GCMemoryCardState.Invalid;
 
             // Use the most recent directory block
-            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter 
-                ? DirectoryBackup_Block 
+            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter
+                ? DirectoryBackup_Block
                 : Directory_Block;
 
             string Empty_DEntry = EncodingType.GetString(RawEmpty_DEntry, 0, 4);
             // Search for pokemon savegames in the directory
             for (int i = 0; i < NumEntries_Directory; i++)
             {
-                int offset = DirectoryBlock_Used*BLOCK_SIZE + i*DENTRY_SIZE;
+                int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (i * DENTRY_SIZE);
                 string GameCode = EncodingType.GetString(Data, offset, 4);
                 if (GameCode == Empty_DEntry)
                     continue;
-                
+
                 int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
                 int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 
@@ -234,10 +238,10 @@ namespace PKHeX.Core
             }
             if (SaveGameCount == 0)
                 return GCMemoryCardState.NoPkmSaveGame;
-            
+
             if (SaveGameCount > 1)
                 return GCMemoryCardState.MultipleSaveGame;
-            
+
             if (EntryCOLO > -1)
             {
                 EntrySelected = EntryCOLO;
@@ -263,8 +267,9 @@ namespace PKHeX.Core
                 if (EntryRSBOX > -1 && EntrySelected == EntryRSBOX)
                     return GameVersion.RSBOX;
                 return GameVersion.Any; //Default for no game selected
-            } 
+            }
         }
+
         public void SelectSaveGame(GameVersion Game)
         {
             switch (Game)
@@ -281,20 +286,20 @@ namespace PKHeX.Core
 
         private string GCISaveGameName()
         {
-            int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
+            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
             string GameCode = EncodingType.GetString(Data, offset, 4);
             string Makercode = EncodingType.GetString(Data, offset + 0x04, 2);
             string FileName = EncodingType.GetString(Data, offset + 0x08, DENTRY_STRLEN);
 
             return $"{Makercode}-{GameCode}-{FileName.Replace("\0", "")}.gci";
         }
+
         private byte[] ReadSaveGameData()
         {
             if (EntrySelected == -1)
-                // Not selected any entry
-                return null;
+                return null; // No entry selected
 
-            int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
+            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
             int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
             int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 
@@ -303,12 +308,13 @@ namespace PKHeX.Core
 
             return SaveData;
         }
+
         private void WriteSaveGameData(byte[] SaveData)
         {
             if (EntrySelected == -1) // Can't write anywhere
                 return;
 
-            int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
+            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
             int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
             int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 

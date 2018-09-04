@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -10,33 +12,36 @@ namespace PKHeX.Core
             public byte mainform;
             public FormSubregionTable[] otherforms;
         }
+
         private struct FormSubregionTable
         {
             public byte form;
             public int[] region;
         }
+
         private static readonly int[][] VivillonCountryTable =
         {
                //missing ID 051,068,102,127,160,186
-               /* 0 Icy Snow    */ new[] { 018, 076, 096, 100, 107 },    
-               /* 1 Polar       */ new[] { 010, 018, 020, 049, 076, 096, 100, 107 },   
-               /* 2 Tundra      */ new[] { 001, 081, 096, },    
-               /* 3 Continental */ new[] { 010, 067, 073, 074, 075, 077, 078, 084, 087, 094, 096, 097, 100, 107, 136},         
-               /* 4 Garden      */ new[] { 065, 082, 095, 097, 101, 110, 125},       
-               /* 5 Elegant     */ new[] { 001 },              
-               /* 6 Meadow      */ new[] { 066, 077, 078, 083, 086, 088, 105, 108, 122},       
-               /* 7 Modern      */ new[] { 018, 049},                    
-               /* 8 Marine      */ new[] { 020, 064, 066, 070, 071, 073, 077, 078, 079, 080, 083, 089, 090, 091, 098, 099, 103, 105, 123, 124, 126, 184, 185},             
+               /* 0 Icy Snow    */ new[] { 018, 076, 096, 100, 107 },
+               /* 1 Polar       */ new[] { 010, 018, 020, 049, 076, 096, 100, 107 },
+               /* 2 Tundra      */ new[] { 001, 081, 096, },
+               /* 3 Continental */ new[] { 010, 067, 073, 074, 075, 077, 078, 084, 087, 094, 096, 097, 100, 107, 136},
+               /* 4 Garden      */ new[] { 065, 082, 095, 097, 101, 110, 125},
+               /* 5 Elegant     */ new[] { 001 },
+               /* 6 Meadow      */ new[] { 066, 077, 078, 083, 086, 088, 105, 108, 122},
+               /* 7 Modern      */ new[] { 018, 049},
+               /* 8 Marine      */ new[] { 020, 064, 066, 070, 071, 073, 077, 078, 079, 080, 083, 089, 090, 091, 098, 099, 103, 105, 123, 124, 126, 184, 185},
                /* 9 Archipelago */ new[] { 008, 009, 011, 012, 013, 017, 021, 023, 024, 028, 029, 032, 034, 035, 036, 037, 038, 043, 044, 045, 047, 048, 049, 052, 085, 104,},
-               /*10 High Plains */ new[] { 018, 036, 049, 100, 113},                
-               /*11 Sandstorm   */ new[] { 072, 109, 118, 119, 120, 121, 168, 174},                       
-               /*12 River       */ new[] { 065, 069, 085, 093, 104, 105, 114, 115, 116, 117},                      
+               /*10 High Plains */ new[] { 018, 036, 049, 100, 113},
+               /*11 Sandstorm   */ new[] { 072, 109, 118, 119, 120, 121, 168, 174},
+               /*12 River       */ new[] { 065, 069, 085, 093, 104, 105, 114, 115, 116, 117},
                /*13 Monsoon     */ new[] { 001, 128, 144, 169},
-               /*14-Savanna     */ new[] { 010, 015, 016, 041, 042, 050},      
+               /*14-Savanna     */ new[] { 010, 015, 016, 041, 042, 050},
                /*15 Sun         */ new[] { 036, 014, 019, 026, 030, 033, 036, 039, 065, 092, 106, 111, 112},
-               /*16 Ocean       */ new[] { 049, 077},                     
+               /*16 Ocean       */ new[] { 049, 077},
                /*17 Jungle      */ new[] { 016, 021, 022, 025, 027, 031, 040, 046, 052, 169, 153, 156},
         };
+
         private static readonly CountryTable[] RegionFormTable =
         {
             new CountryTable{
@@ -254,7 +259,7 @@ namespace PKHeX.Core
             if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
 
-            CountryTable ct = RegionFormTable.Where(t => t.countryID == country).FirstOrDefault();
+            var ct = Array.Find(RegionFormTable, t => t.countryID == country);
             if (ct.otherforms == null) // empty struct = no forms referenced
                 return true; // No subregion table
 
@@ -263,5 +268,55 @@ namespace PKHeX.Core
 
             return ct.otherforms.Any(e => e.form == form && e.region.Contains(region));
         }
+
+        /// <summary>
+        /// Compares the Vivillon pattern against its country and region to determine if the pattern is able to be obtained legally.
+        /// </summary>
+        /// <param name="country">Country ID</param>
+        /// <param name="region">Console Region ID</param>
+        public static int GetVivillonPattern(int country, int region)
+        {
+            var ct = Array.Find(RegionFormTable, t => t.countryID == country);
+            if (ct.otherforms == null) // empty struct = no forms referenced
+                return ct.mainform; // No subregion table
+
+            foreach (var sub in ct.otherforms)
+            {
+                if (sub.region.Contains(region))
+                    return sub.form;
+            }
+
+            return ct.mainform;
+        }
+
+        /// <summary>
+        /// Compares the <see cref="PKM.ConsoleRegion"/> and <see cref="PKM.Country"/> to determine if the country is available within that region.
+        /// </summary>
+        /// <param name="consoleRegion">Console region.</param>
+        /// <param name="country">Country of nationality</param>
+        /// <returns>Country is within Console Region</returns>
+        public static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
+        {
+            switch (consoleRegion)
+            {
+                case 0: // Japan
+                    return country == 1;
+                case 1: // Americas
+                    return (8 <= country && country <= 52) || ExtendedAmericas.Contains(country);
+                case 2: // Europe
+                    return (64 <= country && country <= 127) || ExtendedEurope.Contains(country);
+                case 4: // China
+                    return country == 144 || country == 160;
+                case 5: // Korea
+                    return country == 136;
+                case 6: // Taiwan
+                    return country == 144 || country == 128;
+                default:
+                    return false;
+            }
+        }
+
+        private static readonly HashSet<int> ExtendedAmericas = new HashSet<int> {153, 156, 168, 174, 186};
+        private static readonly HashSet<int> ExtendedEurope = new HashSet<int> {169, 184, 185};
     }
 }

@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -13,62 +12,93 @@ namespace PKHeX.Core
     /// </summary>
     public partial class LegalityAnalysis
     {
-        private PKM pkm;
+        internal readonly PKM pkm;
+        internal readonly PersonalInfo PersonalInfo;
         private readonly bool Error;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         private IEncounterable EncounterOriginalGB;
-        private IEncounterable EncounterMatch => Info.EncounterMatch;
-        private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
 
-        private CheckResult Encounter, History;
+        /// <summary>
+        /// Matched encounter data for the <see cref="pkm"/>.
+        /// </summary>
+        public IEncounterable EncounterMatch => Info.EncounterMatch;
 
+        /// <summary>
+        /// Original encounter data for the <see cref="pkm"/>.
+        /// </summary>
+        /// <remarks>
+        /// Generation 1/2 <see cref="pkm"/> that are transferred forward to Generation 7 are restricted to new encounter details.
+        /// By retaining their original match, more information can be provided by the parse.
+        /// </remarks>
+        public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
+
+        /// <summary>
+        /// Indicates if all checks ran to completion.
+        /// </summary>
+        /// <remarks>This value is false if any checks encountered an error.</remarks>
         public readonly bool Parsed;
+
+        /// <summary>
+        /// Indicates if all checks returned a <see cref="Severity.Valid"/> result.
+        /// </summary>
         public readonly bool Valid;
-        private readonly PersonalInfo PersonalInfo;
+
+        /// <summary>
+        /// Contains various data reused for multiple checks.
+        /// </summary>
         public LegalInfo Info { get; private set; }
-        public bool ParsedValid => Parsed && Valid;
-        public bool ParsedInvalid => Parsed && !Valid;
+
+        /// <summary>
+        /// Creates a report message with optional verbosity for in-depth analysis.
+        /// </summary>
+        /// <param name="verbose">Include all details in the parse, including valid check messages.</param>
+        /// <returns>Single line string</returns>
         public string Report(bool verbose = false) => verbose ? GetVerboseLegalityReport() : GetLegalityReport();
+
         private IEnumerable<int> AllSuggestedMoves
         {
             get
             {
                 if (_allSuggestedMoves != null)
                     return _allSuggestedMoves;
-                if (Error || pkm == null || !pkm.IsOriginValid)
+                if (Error || Info == null)
                     return new int[4];
                 return _allSuggestedMoves = GetSuggestedMoves(true, true, true);
             }
         }
+
         private IEnumerable<int> AllSuggestedRelearnMoves
         {
             get
             {
                 if (_allSuggestedRelearnMoves != null)
                     return _allSuggestedRelearnMoves;
-                if (Error || pkm == null || !pkm.IsOriginValid)
+                if (Error || Info == null)
                     return new int[4];
                 var gender = pkm.PersonalInfo.Gender;
-                var inheritLvlMoves = gender > 0 && gender < 255 || Legal.MixedGenderBreeding.Contains(Info.EncounterMatch.Species);
+                var inheritLvlMoves = (gender > 0 && gender < 255) || Legal.MixedGenderBreeding.Contains(Info.EncounterMatch.Species);
                 return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, inheritLvlMoves).ToArray();
             }
         }
+
         private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;
         public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
+
         private string EncounterName
         {
             get
             {
-                var enc = EncounterOriginalGB ?? EncounterMatch;
+                var enc = EncounterOriginal;
                 return $"{enc.GetEncounterTypeName()} ({SpeciesStrings[enc.Species]})";
             }
         }
+
         private string EncounterLocation
         {
             get
             {
-                var enc = (EncounterOriginalGB ?? EncounterMatch) as ILocation;
+                var enc = EncounterOriginal as ILocation;
                 return enc?.GetEncounterLocation(Info.Generation, pkm.Version);
             }
         }
@@ -80,247 +110,223 @@ namespace PKHeX.Core
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
         public LegalityAnalysis(PKM pk, PersonalTable table = null)
         {
+            pkm = pk;
 #if SUPPRESS
             try
 #endif
             {
-                PersonalInfo = table?.GetFormeEntry(pk.Species, pk.AltForm) ?? pk.PersonalInfo;
-                ParseLegality(pk);
+                PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
+                ParseLegality();
 
                 if (Parse.Count <= 0)
                     return;
 
-                Valid = Parse.All(chk => chk.Valid) 
-                    && Info.Moves.All(m => m.Valid) 
+                Valid = Parse.All(chk => chk.Valid)
+                    && Info.Moves.All(m => m.Valid)
                     && Info.Relearn.All(m => m.Valid);
 
-                if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch == null)
-                    AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
+                if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
+                    AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
             }
 #if SUPPRESS
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
-                AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
-                pkm = pk;
+                AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
                 Error = true;
             }
 #endif
             Parsed = true;
         }
-        private void ParseLegality(PKM pk)
+
+        private void ParseLegality()
         {
-            if (pk.Format == 1 || pk.Format == 2) // prior to storing GameVersion
+            if (!pkm.IsOriginValid)
+                AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
+
+            if (pkm.Format == 1 || pkm.Format == 2) // prior to storing GameVersion
             {
-                ParsePK1(pk);
+                ParsePK1();
                 return;
             }
-            switch (pk.GenNumber)
+            switch (pkm.GenNumber)
             {
-                case 3: ParsePK3(pk); return;
-                case 4: ParsePK4(pk); return;
-                case 5: ParsePK5(pk); return;
-                case 6: ParsePK6(pk); return;
+                case 3: ParsePK3(); return;
+                case 4: ParsePK4(); return;
+                case 5: ParsePK5(); return;
+                case 6: ParsePK6(); return;
 
                 case 1: case 2:
-                case 7: ParsePK7(pk); return;
+                case 7: ParsePK7(); return;
             }
         }
-        private void ParsePK1(PKM pk)
-        {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-            UpdateTradebackG12();
 
+        private void ParsePK1()
+        {
+            pkm.TradebackStatus = Legal.GetTradebackStatusInitial(pkm);
             UpdateInfo();
-            UpdateTypeInfo();
-            VerifyNickname();
-            VerifyDVs();
-            VerifyEVs();
-            VerifyLevelG1();
-            VerifyOTG1();
-            VerifyMiscG1();
+            if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
+                pkm.TradebackStatus = TradebackType.WasTradeback; // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
+
+            Nickname.Verify(this);
+            Level.Verify(this);
+            Level.VerifyG1(this);
+            Trainer.VerifyOTG1(this);
+            Misc.VerifyMiscG1(this);
+            if (pkm.Format == 2)
+                Item.Verify(this);
         }
-        private void ParsePK3(PKM pk)
-        {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
+        private void ParsePK3()
+        {
             UpdateInfo();
-            UpdateTypeInfo();
             UpdateChecks();
             if (pkm.Format > 3)
-                VerifyTransferLegalityG3();
+                Transfer.VerifyTransferLegalityG3(this);
 
-            if (pkm.Version == 15)
-                VerifyCXD();
+            if (pkm.Version == (int)GameVersion.CXD)
+                CXD.Verify(this);
 
             if (Info.EncounterMatch is WC3 z && z.NotDistributed)
-                AddLine(Severity.Invalid, V413, CheckIdentifier.Encounter);
+                AddLine(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
         }
-        private void ParsePK4(PKM pk)
-        {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
+        private void ParsePK4()
+        {
             UpdateInfo();
-            UpdateTypeInfo();
             UpdateChecks();
             if (pkm.Format > 4)
-                VerifyTransferLegalityG4();
+                Transfer.VerifyTransferLegalityG4(this);
         }
-        private void ParsePK5(PKM pk)
-        {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
+        private void ParsePK5()
+        {
             UpdateInfo();
-            UpdateTypeInfo();
+            UpdateChecks();
+            NHarmonia.Verify(this);
+        }
+
+        private void ParsePK6()
+        {
+            UpdateInfo();
             UpdateChecks();
         }
-        private void ParsePK6(PKM pk)
-        {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
-            UpdateInfo();
-            UpdateTypeInfo();
-            UpdateChecks();
-        }
-        private void ParsePK7(PKM pk)
+        private void ParsePK7()
         {
-            pkm = pk;
-            if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
-
             UpdateInfo();
             if (pkm.VC)
                 UpdateVCTransferInfo();
-            UpdateTypeInfo();
             UpdateChecks();
         }
 
-        private void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
-        private void AddLine(CheckResult chk) => Parse.Add(chk);
+        /// <summary>
+        /// Adds a new Check parse value.
+        /// </summary>
+        /// <param name="s">Check severity</param>
+        /// <param name="c">Check comment</param>
+        /// <param name="i">Check type</param>
+        internal void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
+
+        /// <summary>
+        /// Adds a new Check parse value.
+        /// </summary>
+        /// <param name="chk">Check result to add.</param>
+        internal void AddLine(CheckResult chk) => Parse.Add(chk);
 
         private void UpdateVCTransferInfo()
         {
             EncounterOriginalGB = EncounterMatch;
+            if (EncounterOriginalGB is EncounterInvalid)
+                return;
             Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm);
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
-            { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
+            { AddLine(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter); return; }
 
-            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
+            foreach (var z in Transfer.VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
                 AddLine(z);
         }
+
         private void UpdateInfo()
         {
             Info = EncounterFinder.FindVerifiedEncounter(pkm);
-            Encounter = Info.Parse[0];
             Parse.AddRange(Info.Parse);
         }
-        private void UpdateTradebackG12()
-        {
-            if (pkm.Format == 1)
-            {
-                Legal.SetTradebackStatusRBY(pkm);
-                return;
-            }
 
-            if (pkm.Format == 2 || pkm.VC2)
-            {
-                // Check for impossible tradeback scenarios
-                // Korean Gen2 games can't tradeback because there are no Gen1 Korean games released
-                bool g2only = pkm.Korean || pkm.IsEgg || pkm.HasOriginalMetLocation ||
-                              pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species);
-                pkm.TradebackStatus = g2only ? TradebackType.Gen2_NotTradeback : TradebackType.Any;
-                return;
-            }
-
-            // VC2 is released, we can assume it will be TradebackType.Any.
-            // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
-            // Met Date cannot be used definitively as the player can change their system clock.
-            pkm.TradebackStatus = TradebackType.Any;
-        }
-        private void UpdateTypeInfo()
-        {
-            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncounterMatch is IGeneration g && g.Generation != pkm.GenNumber)
-                // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
-                pkm.TradebackStatus = TradebackType.WasTradeback;
-
-            Type = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
-            var bt = Type.GetTypeInfo().BaseType;
-            if (bt != null && !(bt == typeof(Array) || bt == typeof(object) || bt.GetTypeInfo().IsPrimitive)) // a parent exists
-                Type = bt; // use base type
-        }
         private void UpdateChecks()
         {
-            VerifyECPID();
-            VerifyNickname();
-            VerifyOT();
-            VerifyIVs();
-            VerifyEVs();
-            VerifyLevel();
-            VerifyRibbons();
-            VerifyAbility();
-            VerifyBall();
-            VerifyForm();
-            VerifyMisc();
-            VerifyGender();
-            VerifyItem();
+            PIDEC.Verify(this);
+            Nickname.Verify(this);
+            Language.Verify(this);
+            Trainer.Verify(this);
+            IndividualValues.Verify(this);
+            EffortValues.Verify(this);
+            Level.Verify(this);
+            Ribbon.Verify(this);
+            Ability.Verify(this);
+            Ball.Verify(this);
+            Form.Verify(this);
+            Misc.Verify(this);
+            Gender.Verify(this);
+            Item.Verify(this);
             if (pkm.Format <= 6 && pkm.Format >= 4)
-                VerifyEncounterType(); // Gen 6->7 transfer deletes encounter type data
-            if (pkm.Format >= 6)
+                EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
+
+            if (pkm.Format < 6)
+                return;
+
+            Memory.Verify(this);
+            Medal.Verify(this);
+            ConsoleRegion.Verify(this);
+
+            if (pkm.Format >= 7)
             {
-                History = VerifyHistory();
-                AddLine(History);
-                VerifyOTMemory();
-                VerifyHTMemory();
-                VerifyHyperTraining();
-                VerifyMedals();
-                VerifyConsoleRegion();
-                VerifyVersionEvolution();
+                HyperTraining.Verify(this);
+                Misc.VerifyVersionEvolution(this);
             }
         }
+
         private string GetLegalityReport()
         {
-            if (!Parsed || pkm == null || Info == null)
-                return V189;
-            
+            if (!Parsed || Info == null)
+                return L_AnalysisUnavailable;
+
             var lines = new List<string>();
             var vMoves = Info.Moves;
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
+            {
                 if (!vMoves[i].Valid)
-                    lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+                    lines.Add(string.Format(L_F0_M_1_2, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+            }
 
             if (pkm.Format >= 6)
-            for (int i = 0; i < 4; i++)
-                if (!vRelearn[i].Valid)
-                    lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (!vRelearn[i].Valid)
+                        lines.Add(string.Format(L_F0_RM_1_2, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                }
+            }
 
             if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
-                return V193;
-            
+                return L_ALegal;
+
             // Build result string...
             var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
-            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => string.Format(L_F0_1, chk.Rating, chk.Comment)));
 
             if (lines.Count == 0)
-                return V190;
+                return L_AError;
 
             return string.Join(Environment.NewLine, lines);
         }
+
         private string GetVerboseLegalityReport()
         {
-            if (!Parsed || pkm == null || Info == null)
-                return V189;
+            if (!Parsed || Info == null)
+                return L_AnalysisUnavailable;
 
             const string separator = "===";
             string[] br = {separator, ""};
@@ -331,54 +337,62 @@ namespace PKHeX.Core
             var vMoves = Info.Moves;
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
+            {
                 if (vMoves[i].Valid)
-                    lines.Add(string.Format(V191, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+                    lines.Add(string.Format(L_F0_M_1_2, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+            }
 
             if (pkm.Format >= 6)
-            for (int i = 0; i < 4; i++)
-                if (vRelearn[i].Valid)
-                    lines.Add(string.Format(V192, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (vRelearn[i].Valid)
+                    lines.Add(string.Format(L_F0_RM_1_2, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                }
+            }
 
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);
-            
-            var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            lines.AddRange(outputLines.Select(chk => string.Format(V196, chk.Rating, chk.Comment)));
+
+            var outputLines = Parse.Where(chk => chk?.Valid == true && chk.Comment != L_AValid).OrderBy(chk => chk.Judgement); // Fishy sorted to top
+            lines.AddRange(outputLines.Select(chk => string.Format(L_F0_1, chk.Rating, chk.Comment)));
 
             lines.AddRange(br);
-            lines.Add(string.Format(V195, EncounterName));
+            lines.Add(string.Format(L_FEncounterType_0, EncounterName));
             var loc = EncounterLocation;
             if (!string.IsNullOrEmpty(loc))
-                lines.Add(string.Format(V196, "Location", loc));
+                lines.Add(string.Format(L_F0_1, "Location", loc));
             if (pkm.VC)
-                lines.Add(string.Format(V196, nameof(GameVersion), Info.Game));
+                lines.Add(string.Format(L_F0_1, nameof(GameVersion), Info.Game));
             var pidiv = Info.PIDIV ?? MethodFinder.Analyze(pkm);
             if (pidiv != null)
             {
                 if (!pidiv.NoSeed)
-                    lines.Add(string.Format(V248, pidiv.OriginSeed.ToString("X8")));
-                lines.Add(string.Format(V249, pidiv.Type));
+                    lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
+                lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
             }
             if (!Valid && Info.InvalidMatches != null)
             {
                 lines.Add("Other match(es):");
                 lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Name}: {z.Reason}"));
             }
-            
+
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }
 
-        // Suggestions
+        /// <summary>
+        /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
+        /// </summary>
         public int[] GetSuggestedRelearn()
         {
-            if (Info.RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid)
+            if (Info?.RelearnBase == null || Info.Generation < 6)
                 return new int[4];
 
-            if (!pkm.WasEgg)
+            if (!EncounterMatch.EggEncounter)
                 return Info.RelearnBase;
 
             List<int> window = new List<int>(Info.RelearnBase.Where(z => z != 0));
-            window.AddRange(pkm.Moves.Where((v, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
+            window.AddRange(pkm.Moves.Where((_, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
             window = window.Distinct().ToList();
             int[] moves = new int[4];
             int start = Math.Max(0, window.Count - 4);
@@ -386,14 +400,32 @@ namespace PKHeX.Core
             window.CopyTo(start, moves, 0, count);
             return moves;
         }
+
+        /// <summary>
+        /// Gets four moves which can be learned depending on the input arguments.
+        /// </summary>
+        /// <param name="tm">Allow TM moves</param>
+        /// <param name="tutor">Allow Tutor moves</param>
+        /// <param name="reminder">Allow Move Reminder</param>
         public int[] GetSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
-            if (pkm == null || !pkm.IsOriginValid)
-                return null;
             if (!Parsed)
                 return new int[4];
-            return Legal.GetValidMoves(pkm, Info.EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+            if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
+                return Legal.GetBaseEggMoves(pkm, pkm.Species, (GameVersion)pkm.Version, pkm.CurrentLevel);
+            if (!(tm || tutor || reminder) && (Info.Generation <= 2 || pkm.Species == EncounterOriginal.Species))
+            {
+                var lvl = Info.Generation <= 2 && pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
+                var ver = Info.Generation <= 2 && EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
+                return MoveLevelUp.GetEncounterMoves(pkm, lvl, ver);
+            }
+            var evos = Info.EvoChainsAllGens;
+            return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
+
+        /// <summary>
+        /// Gets an object containing met data properties that might be legal.
+        /// </summary>
         public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
 }

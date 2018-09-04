@@ -25,7 +25,7 @@
         /// </summary>
         public uint RandESV { get; set; }
 
-        public bool LevelSlotModified => Lead.IsLevelOrSlotModified() || Lead.HasFlag(LeadRequired.UsesLevelCall);
+        public bool LevelSlotModified => Lead.IsLevelOrSlotModified() || (Lead & LeadRequired.UsesLevelCall) != 0;
 
         public Frame(uint seed, FrameType type, RNG rng, LeadRequired lead)
         {
@@ -44,11 +44,8 @@
         public bool IsSlotCompatibile(EncounterSlot slot, PKM pkm)
         {
             bool usesLevel = !slot.FixedLevel;
-            if (FrameType != FrameType.MethodH)
-            {
-                if (Lead.HasFlag(LeadRequired.UsesLevelCall) != usesLevel)
-                    return false;
-            }
+            if (FrameType != FrameType.MethodH && (Lead & LeadRequired.UsesLevelCall) != 0 != usesLevel)
+                return false;
 
             // Level is before Nature, but usually isn't varied. Check ESV calc first.
             int s = GetSlot(slot);
@@ -81,8 +78,8 @@
         private int GetSlot(EncounterSlot slot)
         {
             // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
-            return Lead != LeadRequired.StaticMagnet 
-                ? SlotRange.GetSlot(slot.Type, RandESV, FrameType) 
+            return Lead != LeadRequired.StaticMagnet
+                ? SlotRange.GetSlot(slot.Type, RandESV, FrameType)
                 : SlotRange.GetSlotStaticMagnet(slot, RandESV);
         }
 

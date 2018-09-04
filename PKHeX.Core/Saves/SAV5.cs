@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class SAV5 : SaveFile
     {
         // Save Data Attributes
-        public override string BAKName => $"{FileName} [{OT} ({(GameVersion)Game}) - {PlayTimeString}].bak";
+        protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -50,6 +50,7 @@ namespace PKHeX.Core
                     BattleSubway = 0x21D00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52000;
+                    EntreeForestOffset = 0x22C00;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -76,6 +77,7 @@ namespace PKHeX.Core
                     BattleSubway = 0x21B00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52800;
+                    EntreeForestOffset = 0x22A00;
 
                     // Inventory offsets are the same for each game.
                     OFS_PouchHeldItem = 0x18400; // 0x188D7
@@ -132,6 +134,7 @@ namespace PKHeX.Core
         private const int wcSeed = 0x1D290;
 
         public readonly int CGearInfoOffset, CGearDataOffset;
+        private readonly int EntreeForestOffset;
         private readonly int Trainer2, AdventureInfo, BattleSubway;
         public readonly int PokeDexLanguageFlags;
 
@@ -182,11 +185,11 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
+                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, OFS_PouchTMHM),
+                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
                 };
                 foreach (var p in pouch)
                     p.GetPouch(Data);
@@ -219,12 +222,12 @@ namespace PKHeX.Core
                 return "";
             return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + 0x28 * box + 4, 0x28));
         }
-        public override void SetBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            if (val.Length > 38)
+            if (value.Length > 38)
                 return;
-            val += '\uFFFF';
-            Encoding.Unicode.GetBytes(val.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
+            value += '\uFFFF';
+            Encoding.Unicode.GetBytes(value.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + 0x28 * box + 4);
             Edited = true;
         }
         protected override int GetBoxWallpaperOffset(int box)
@@ -257,7 +260,7 @@ namespace PKHeX.Core
             if (pk5.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
                 pkm.RefreshChecksum();
         }
-        
+
         // Mystery Gift
         public override MysteryGiftAlbum GiftAlbum
         {
@@ -302,8 +305,8 @@ namespace PKHeX.Core
             }
         }
         protected override bool[] MysteryGiftReceivedFlags { get => null; set { } }
-        protected override MysteryGift[] MysteryGiftCards { get => new MysteryGift[0]; set { } }
-        
+        protected override MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
+
         // Trainer Info
         public override string OT
         {
@@ -499,14 +502,13 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString5(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
             return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
         }
-
 
         // DLC
         private int CGearSkinInfoOffset => CGearInfoOffset + (B2W2 ? 0x10 : 0) + 0x24;
@@ -552,6 +554,12 @@ namespace PKHeX.Core
 
                 Edited = true;
             }
+        }
+
+        public EntreeForest EntreeData
+        {
+            get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
+            set => SetData(value.Write(), EntreeForestOffset);
         }
     }
 }

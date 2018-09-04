@@ -15,8 +15,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             Reader = new Roamer3((SAV3)sav);
 
-            CB_Species.DisplayMember = "Text";
-            CB_Species.ValueMember = "Value";
+            CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
 
             LoadData();
@@ -33,7 +32,11 @@ namespace PKHeX.WinForms
             var iv = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV};
             for (int i = 0; i < iv.Length; i++)
                 iv[i].Text = IVs[i].ToString();
+
+            CHK_Active.Checked = Reader.Active;
+            NUD_Level.Value = Math.Min(NUD_Level.Maximum, Reader.CurrentLevel);
         }
+
         private void SaveData()
         {
             int[] IVs = new int[6];
@@ -44,12 +47,16 @@ namespace PKHeX.WinForms
             Reader.PID = Util.GetHexValue(TB_PID.Text);
             Reader.Species = WinFormsUtil.GetIndex(CB_Species);
             Reader.IVs = IVs;
+            Reader.Active = CHK_Active.Checked;
+            Reader.CurrentLevel = (int)NUD_Level.Value;
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveData();
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();

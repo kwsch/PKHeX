@@ -9,24 +9,43 @@ namespace PKHeX.Core
     {
         public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
+            int gen = pkm.GenNumber;
+            int maxID = gen == 2 ? MaxSpeciesID_2 : gen == 1 ? MaxSpeciesID_1 : -1;
+            var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxID);
+            return GetPossible(pkm, dl, gameSource);
+        }
+
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
+        {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var encs = GetStaticEncounters(pkm, gameSource: gameSource);
+            var encs = GetStaticEncounters(pkm, vs, gameSource);
             return encs.Where(e => AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
+
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             var poss = GetPossible(pkm, gameSource: gameSource);
 
             int lvl = GetMinLevelEncounter(pkm);
             if (lvl < 0)
-                yield break;
+                return Enumerable.Empty<EncounterStatic>();
 
             // Back Check against pkm
-            var enc = GetMatchingStaticEncounters(pkm, poss, lvl);
-            foreach (var z in enc)
-                yield return z;
+            return GetMatchingStaticEncounters(pkm, poss, lvl);
+        }
+
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource)
+        {
+            var poss = GetPossible(pkm, vs, gameSource: gameSource);
+
+            int lvl = GetMinLevelEncounter(pkm);
+            if (lvl < 0)
+                return Enumerable.Empty<EncounterStatic>();
+
+            // Back Check against pkm
+            return GetMatchingStaticEncounters(pkm, poss, lvl);
         }
 
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
@@ -38,7 +57,7 @@ namespace PKHeX.Core
                 if (!GetIsMatchStatic(pkm, e, lvl))
                     continue;
 
-                if (pkm.FatefulEncounter != e.Fateful)
+                if (GetIsMatchDeferred(pkm, e))
                     deferred.Add(e);
                 else
                     yield return e;
@@ -46,6 +65,16 @@ namespace PKHeX.Core
             foreach (var e in deferred)
                 yield return e;
         }
+
+        private static bool GetIsMatchDeferred(PKM pkm, EncounterStatic e)
+        {
+            if (pkm.FatefulEncounter != e.Fateful)
+                return true;
+            if (e.Ability == 4 && pkm.AbilityNumber != 4) // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
+                return true;
+            return false;
+        }
+
         private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, int lvl)
         {
             if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
@@ -60,7 +89,7 @@ namespace PKHeX.Core
                 if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
                     return false;
             }
-            else if (pkm.VC || pkm.GenNumber <= 2 && e.EggLocation != 0) // Gen2 Egg
+            else if (pkm.VC || (pkm.GenNumber <= 2 && e.EggLocation != 0)) // Gen2 Egg
             {
                 if (pkm.Format <= 2)
                 {
@@ -138,21 +167,27 @@ namespace PKHeX.Core
                 }
             }
             else if (e.Level > lvl)
+            {
                 return false;
+            }
 
             if (e.Gender != -1 && e.Gender != pkm.Gender)
                 return false;
             if (e.Form != pkm.AltForm && !e.SkipFormCheck && !IsFormChangeable(pkm, e.Species))
                 return false;
-            if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+            if (e.EggLocation == 60002 && e.Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
             if (e.IVs != null && (e.Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            {
                 for (int i = 0; i < 6; i++)
+                {
                     if (e.IVs[i] != -1 && e.IVs[i] != pkm.IVs[i])
                         return false;
+                }
+            }
 
-            if (pkm.IsContestBelow(e))
+            if (pkm is IContestStats s && s.IsContestBelow(e))
                 return false;
 
             // Defer to EC/PID check
@@ -163,33 +198,20 @@ namespace PKHeX.Core
             // if (e.Gift && pkm.Ball != 4) // PokéBall
             // continue;
 
-            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback)
-                if (!IsValidCatchRatePK1(e, pk1))
-                    return false;
+            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsValidCatchRatePK1(e, pk1))
+                return false;
 
             if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                 return false;
             return true;
         }
-        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
+
+        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, IReadOnlyList<DexLevel> dl, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
             var table = GetEncounterStaticTable(pkm, gameSource);
-            switch (pkm.GenNumber)
-            {
-                case 1:
-                    return GetStatic(pkm, table, maxspeciesorigin: MaxSpeciesID_1);
-                case 2:
-                    return GetStatic(pkm, table, maxspeciesorigin: MaxSpeciesID_2);
-                default:
-                    return GetStatic(pkm, table);
-            }
-        }
-        private static IEnumerable<EncounterStatic> GetStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin = -1, int lvl = -1, bool skip = false)
-        {
-            IEnumerable<DexLevel> dl = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: lvl, skipChecks: skip);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
 
@@ -201,6 +223,7 @@ namespace PKHeX.Core
                 return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
             return new EncounterInvalid(pkm);
         }
+
         private static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
             var enc = new EncounterStatic
@@ -218,6 +241,7 @@ namespace PKHeX.Core
             enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
             return enc;
         }
+
         private static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
         {
             var enc = new EncounterStatic
@@ -235,6 +259,7 @@ namespace PKHeX.Core
             enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
             return enc;
         }
+
         internal static EncounterStatic GetStaticLocation(PKM pkm, int species = -1)
         {
             switch (pkm.GenNumber)
@@ -244,8 +269,8 @@ namespace PKHeX.Core
                 case 2:
                     return GetGSStaticTransfer(species, pkm.Met_Level);
                 default:
-                    var table = GetEncounterStaticTable(pkm, (GameVersion)pkm.Version);
-                    return GetStatic(pkm, table, lvl: 100, skip: true).FirstOrDefault();
+                    var dl = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+                    return GetPossible(pkm, dl).FirstOrDefault();
             }
         }
 
@@ -253,6 +278,7 @@ namespace PKHeX.Core
         {
             return pkm.Met_Location == e.Location && pkm.Egg_Location == e.EggLocation;
         }
+
         private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
         {
             var catch_rate = pk1.Catch_Rate;

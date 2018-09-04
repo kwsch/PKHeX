@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
+        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter
         {
             get
@@ -96,7 +96,7 @@ namespace PKHeX.Core
             LegalBalls = Legal.Pouch_Ball_RS;
             LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
             LegalBerries = Legal.Pouch_Berries_RS;
-            LegalCologne = Legal.Pouch_Cologne_CXD;
+            LegalCologne = Legal.Pouch_Cologne_COLO;
 
             Personal = PersonalTable.RS;
             HeldItems = Legal.HeldItems_COLO;
@@ -150,7 +150,7 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_3;
         public override int MaxItemID => Legal.MaxItemID_3_COLO;
         public override int MaxGameID => Legal.MaxGameID_3;
-        
+
         public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
@@ -299,8 +299,7 @@ namespace PKHeX.Core
 
         protected override void SetPKM(PKM pkm)
         {
-            var pk = pkm as CK3;
-            if (pk == null)
+            if (!(pkm is CK3 pk))
                 return;
 
             if (pk.CurrentRegion == 0)
@@ -326,7 +325,7 @@ namespace PKHeX.Core
             }
             StrategyMemo.SetEntry(entry);
         }
-        
+
         private TimeSpan PlayedSpan
         {
             get => TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128);
@@ -365,21 +364,21 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 20), // 20 COLO, 30 XD
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
-                    new InventoryPouch(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
+                    new InventoryPouch3GC(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 20), // 20 COLO, 30 XD
+                    new InventoryPouch3GC(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
+                    new InventoryPouch3GC(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
+                    new InventoryPouch3GC(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
+                    new InventoryPouch3GC(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
+                    new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
                 };
                 foreach (var p in pouch)
-                    p.GetPouchBigEndian(ref Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouchBigEndian(ref Data);
+                    p.SetPouch(Data);
             }
         }
 
@@ -394,7 +393,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetBEString3(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

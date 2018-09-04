@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
+
         public SAV_ZygardeCell(SaveFile sav)
         {
             InitializeComponent();
@@ -19,8 +20,8 @@ namespace PKHeX.WinForms
             // Cell Data @ 0x1D8C
             // Use constants 0x18C/2 = 198 thru +95
             ushort[] constants = SAV.EventConsts;
-            ushort[] cells = constants.Skip(celloffset).Take(cellcount).ToArray();
-            
+            ushort[] cells = constants.Skip(celloffset).Take(CellCount).ToArray();
+
             int cellCount = constants[cellstotal];
             int cellCollected = constants[cellscollected];
 
@@ -32,9 +33,9 @@ namespace PKHeX.WinForms
                 combo.Items.Add(t); // add only the Names
 
             // Populate Grid
-            dgv.Rows.Add(cellcount);
+            dgv.Rows.Add(CellCount);
             var locations = SAV.SM ? locationsSM : locationsUSUM;
-            for (int i = 0; i < cellcount; i++)
+            for (int i = 0; i < CellCount; i++)
             {
                 if (cells[i] > 2)
                     throw new ArgumentException();
@@ -43,20 +44,18 @@ namespace PKHeX.WinForms
                 dgv.Rows[i].Cells[1].Value = locations[i];
                 dgv.Rows[i].Cells[2].Value = states[cells[i]];
             }
-            if (SAV.USUM)
-                L_Cells.Visible = NUD_Cells.Visible = false;
         }
 
         private const int cellstotal = 161;
         private const int cellscollected = 169;
         private const int celloffset = 0xC6;
-        private int cellcount => SAV.USUM ? 100 : 95;
+        private int CellCount => SAV.USUM ? 100 : 95;
         private readonly string[] states = {"None", "Available", "Received"};
 
         private void B_Save_Click(object sender, EventArgs e)
         {
             ushort[] constants = SAV.EventConsts;
-            for (int i = 0; i < cellcount; i++)
+            for (int i = 0; i < CellCount; i++)
             {
                 string str = (string)dgv.Rows[i].Cells[2].Value;
                 int val = Array.IndexOf(states, str);
@@ -76,10 +75,12 @@ namespace PKHeX.WinForms
 
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
             int added = 0;
@@ -91,7 +92,8 @@ namespace PKHeX.WinForms
             }
 
             NUD_Collected.Value += added;
-            NUD_Cells.Value += added;
+            if (!SAV.USUM)
+                NUD_Cells.Value += added;
 
             System.Media.SystemSounds.Asterisk.Play();
         }
@@ -196,6 +198,7 @@ namespace PKHeX.WinForms
             "Aether Foundation 1F - Entrance (Night)",
             "Aether Foundation 1F - Main Building",
         };
+
         private readonly string[] locationsUSUM =
         {
             "Hau'oli City (Shopping) - Salon (Outside)",

@@ -10,10 +10,13 @@ namespace PKHeX.Core
     {
         /// <summary> Distinguished Encoding Rules </summary>
         private readonly byte[] DER;
+
         /// <summary> Private Exponent, BigInteger </summary>
         private readonly BigInteger D;
+
         /// <summary> Public Exponent, BigInteger </summary>
         private readonly BigInteger E;
+
         /// <summary> Modulus, BigInteger </summary>
         private readonly BigInteger N;
 
@@ -84,9 +87,9 @@ namespace PKHeX.Core
             for (var i = 0; i < data.Length / 0x10; i++) // Reverse Phase 2
             {
                 var curblock = new byte[0x10];
-                Array.Copy(data, (data.Length / 0x10 - 1 - i) * 0x10, curblock, 0, 0x10);
+                Array.Copy(data, ((data.Length / 0x10) - 1 - i) * 0x10, curblock, 0, 0x10);
                 temp = AesEcbDecrypt(key, temp.Xor(curblock));
-                temp.CopyTo(outdata, (data.Length / 0x10 - 1 - i) * 0x10);
+                temp.CopyTo(outdata, ((data.Length / 0x10) - 1 - i) * 0x10);
             }
 
             // At this point we have Phase1(buf) ^ subkey.
@@ -95,12 +98,12 @@ namespace PKHeX.Core
             // How can we derive subkey?
             // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
             // = block first ^ block last ;)
-            Array.Copy(outdata, (data.Length / 0x10 - 1) * 0x10, temp, 0, 0x10);
+            Array.Copy(outdata, ((data.Length / 0x10) - 1) * 0x10, temp, 0, 0x10);
             temp = temp.Xor(outdata.Take(0x10).ToArray());
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
-                subkey[ofs + 0] = (byte)(2 * b1 + (b2 >> 7));
+                subkey[ofs + 0] = (byte)((2 * b1) + (b2 >> 7));
                 subkey[ofs + 1] = (byte)(2 * b2);
                 if (ofs + 2 < temp.Length)
                     subkey[ofs + 1] += (byte)(temp[ofs + 2] >> 7);
@@ -157,7 +160,7 @@ namespace PKHeX.Core
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
-                subkey[ofs + 0] = (byte)(2 * b1 + (b2 >> 7));
+                subkey[ofs + 0] = (byte)((2 * b1) + (b2 >> 7));
                 subkey[ofs + 1] = (byte)(2 * b2);
                 if (ofs + 2 < temp.Length)
                     subkey[ofs + 1] += (byte)(temp[ofs + 2] >> 7);
@@ -169,9 +172,9 @@ namespace PKHeX.Core
             for (var i = 0; i < data.Length / 0x10; i++)
             {
                 var curblock = new byte[0x10];
-                Array.Copy(outdata, (data.Length / 0x10 - 1 - i) * 0x10, curblock, 0, 0x10);
+                Array.Copy(outdata, ((data.Length / 0x10) - 1 - i) * 0x10, curblock, 0, 0x10);
                 byte[] temp2 = curblock.Xor(subkey);
-                Array.Copy(AesEcbEncrypt(key, temp2).Xor(temp), 0, outdata, (data.Length / 0x10 - 1 - i) * 0x10, 0x10);
+                Array.Copy(AesEcbEncrypt(key, temp2).Xor(temp), 0, outdata, ((data.Length / 0x10) - 1 - i) * 0x10, 0x10);
                 temp2.CopyTo(temp, 0);
             }
 
@@ -211,9 +214,6 @@ namespace PKHeX.Core
             return Exponentiate(M, E);
         }
 
-
-
-
         #region MemeKey Helper Methods
         /// <summary> Indicator value for a bad Exponent </summary>
         private static readonly BigInteger INVALID = BigInteger.MinusOne;
@@ -231,7 +231,6 @@ namespace PKHeX.Core
             else
                 Array.Copy(rawSig, outSig, 0x60);
             return outSig;
-
         }
         // Helper Method to retrieve data for loading
         private static void GetMemeData(MemeKeyIndex key, out byte[] d, out byte[] der)

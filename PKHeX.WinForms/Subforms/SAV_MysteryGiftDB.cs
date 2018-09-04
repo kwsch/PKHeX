@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
                         ClickView(sender, e);
                 };
             }
-            
+
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
             L_Viewed.Text = string.Empty; // invis for now
@@ -140,7 +140,7 @@ namespace PKHeX.WinForms
 
         private int GetSenderIndex(object sender)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
             if (index >= RES_MAX)
             {
@@ -158,12 +158,8 @@ namespace PKHeX.WinForms
         private void PopulateComboBoxes()
         {
             // Set the Text
-            CB_HeldItem.DisplayMember =
-            CB_Species.DisplayMember = nameof(ComboItem.Text);
-
-            // Set the Value
-            CB_HeldItem.ValueMember =
-            CB_Species.ValueMember = nameof(ComboItem.Value);
+            CB_HeldItem.InitializeBinding();
+            CB_Species.InitializeBinding();
 
             var Any = new ComboItem {Text = MsgAny, Value = -1};
 
@@ -175,14 +171,14 @@ namespace PKHeX.WinForms
 
             var DS_Item = new List<ComboItem>(GameInfo.ItemDataSource);
             DS_Item.Insert(0, Any); CB_HeldItem.DataSource = DS_Item;
-            
+
             // Set the Move ComboBoxes too..
             var DS_Move = new List<ComboItem>(GameInfo.MoveDataSource);
             DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
             {
                 foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
                 {
-                    cb.DisplayMember = nameof(ComboItem.Text); cb.ValueMember = nameof(ComboItem.Value);
+                    cb.InitializeBinding();
                     cb.DataSource = new BindingSource(DS_Move, null);
                 }
             }
@@ -276,37 +272,14 @@ namespace PKHeX.WinForms
             if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
             if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            
+
             slotSelected = -1; // reset the slot last viewed
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
-                var raw =
-                    RTB_Instructions.Lines
-                        .Where(line => !string.IsNullOrWhiteSpace(line))
-                        .Where(line => new[] { '!', '=' }.Contains(line[0]));
-
-                var filters = (from line in raw
-                        let eval = line[0] == '='
-                        let split = line.Substring(1).Split('=')
-                        where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                        select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
-
-                if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-                { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
-
-                res = res.Where(gift => // Compare across all filters
-                {
-                    foreach (var cmd in filters)
-                    {
-                        if (!gift.GetType().HasPropertyAll(cmd.PropertyName))
-                            return false;
-                        try { if (gift.GetType().IsValueEqual(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
-                        catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
-                        return false;
-                    }
-                    return true;
-                });
+                var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
+                BatchEditing.ScreenStrings(filters);
+                res = res.Where(pkm => BatchEditing.IsFilterMatch(filters, pkm)); // Compare across all filters
             }
 
             var results = res.ToArray();
@@ -316,6 +289,7 @@ namespace PKHeX.WinForms
             SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void UpdateScroll(object sender, ScrollEventArgs e)
         {
             if (e.OldValue != e.NewValue)
@@ -326,7 +300,7 @@ namespace PKHeX.WinForms
             Results = new List<MysteryGift>(res);
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
-            if (SCR_Box.Maximum > 0) SCR_Box.Maximum -= 1;
+            if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;
 
             SCR_Box.Value = 0;
             FillPKXBoxes(0);

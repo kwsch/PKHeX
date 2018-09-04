@@ -22,27 +22,35 @@ namespace PKHeX.WinForms.Controls
             TB_EVTotal.ForeColor = MT_EVs[0].ForeColor;
         }
 
+        public Color EVsInvalid { get; set; } = Color.Red;
+        public Color EVsMaxed { get; set; } = Color.Honeydew;
+        public Color EVsFishy { get; set; } = Color.LightYellow;
+        public Color StatIncreased { get; set; } = Color.Red;
+        public Color StatDecreased { get; set; } = Color.Blue;
+        public Color StatHyperTrained { get; set; } = Color.LightGreen;
+
         private IMainEditor MainEditor { get; set; }
+
         public void SetMainEditor(IMainEditor editor)
         {
             MainEditor = editor;
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = editor.HaX;
         }
+
         public bool Valid => pkm.Format < 3 || Convert.ToUInt32(TB_EVTotal.Text) <= 510 || CHK_HackedStats.Checked;
 
         private readonly Label[] L_Stats;
         private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_Stats, MT_Base;
         private readonly ToolTip EVTip = new ToolTip();
         private PKM pkm => MainEditor.pkm;
-        private bool[] HTs => new[] {pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPE, pkm.HT_SPA, pkm.HT_SPD};
 
         private bool ChangingFields
         {
             get => MainEditor.ChangingFields;
             set => MainEditor.ChangingFields = value;
         }
+
         private bool FieldsInitialized => MainEditor.FieldsInitialized;
-        private bool AllowHyperTrain => pkm.Format >= 7;
 
         private void ClickIV(object sender, EventArgs e)
         {
@@ -50,20 +58,23 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             if (ModifierKeys.HasFlag(Keys.Alt)) // Min
+            {
                 t.Text = 0.ToString();
+            }
             else if (ModifierKeys.HasFlag(Keys.Control))
             {
                 var index = Array.IndexOf(MT_IVs, t);
                 t.Text = pkm.GetMaximumIV(index, true).ToString();
             }
-            else if (AllowHyperTrain && ModifierKeys.HasFlag(Keys.Shift))
+            else if (pkm is IHyperTrain h && ModifierKeys.HasFlag(Keys.Shift))
             {
                 var index = Array.IndexOf(MT_IVs, t);
-                bool flag = pkm.HyperTrainInvert(index);
+                bool flag = h.HyperTrainInvert(index);
                 UpdateHyperTrainingFlag(index, flag);
                 UpdateStats();
             }
         }
+
         private void ClickEV(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox t))
@@ -80,6 +91,7 @@ namespace PKHeX.WinForms.Controls
             int newEV = pkm.GetMaximumEV(index);
             t.Text = newEV.ToString();
         }
+
         public void UpdateIVs(object sender, EventArgs e)
         {
             if (sender is MaskedTextBox m)
@@ -148,6 +160,7 @@ namespace PKHeX.WinForms.Controls
 
             UpdateStats();
         }
+
         private void UpdateRandomEVs(object sender, EventArgs e)
         {
             bool zero = ModifierKeys.HasFlag(Keys.Control);
@@ -155,6 +168,7 @@ namespace PKHeX.WinForms.Controls
             LoadEVs(evs);
             UpdateEVs(null, null);
         }
+
         private void UpdateHackedStats(object sender, EventArgs e)
         {
             foreach (var s in MT_Stats)
@@ -162,6 +176,7 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_HackedStats.Checked)
                 UpdateStats();
         }
+
         private void UpdateHackedStatText(object sender, EventArgs e)
         {
             if (!CHK_HackedStats.Checked || !(sender is TextBox tb))
@@ -170,17 +185,18 @@ namespace PKHeX.WinForms.Controls
             string text = tb.Text;
             if (string.IsNullOrWhiteSpace(text))
                 tb.Text = "0";
-
-            if (Convert.ToUInt32(text) > ushort.MaxValue)
+            else if (Convert.ToUInt32(text) > ushort.MaxValue)
                 tb.Text = "65535";
         }
+
         private void UpdateHyperTrainingFlag(int i, bool value)
         {
             if (value)
-                MT_IVs[i].BackColor = Color.LightGreen;
+                MT_IVs[i].BackColor = StatHyperTrained;
             else
                 MT_IVs[i].ResetBackColor();
         }
+
         private void UpdateHPType(object sender, EventArgs e)
         {
             if (ChangingFields || !FieldsInitialized)
@@ -188,9 +204,10 @@ namespace PKHeX.WinForms.Controls
 
             // Change IVs to match the new Hidden Power
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
-            int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs);
+            int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs, pkm.Format);
             LoadIVs(newIVs);
         }
+
         private void ClickStatLabel(object sender, MouseEventArgs e)
         {
             if (sender == Label_SPC)
@@ -211,80 +228,70 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadHyperTraining()
         {
-            var HT_Vals = HTs;
+            if (!(pkm is IHyperTrain h))
+            {
+                foreach (var iv in MT_IVs)
+                    iv.ResetBackColor();
+                return;
+            }
+
             for (int i = 0; i < MT_IVs.Length; i++)
-                UpdateHyperTrainingFlag(i, HT_Vals[i]);
+                UpdateHyperTrainingFlag(i, h.GetHT(i));
         }
+
         private void UpdateEVTotals()
         {
-            int evtotal = pkm.EVTotal;
-
-            if (evtotal > 510) // Background turns Red
-                TB_EVTotal.BackColor = Color.Red;
-            else if (evtotal == 510) // Maximum EVs
-                TB_EVTotal.BackColor = Color.Honeydew;
-            else if (evtotal == 508) // Fishy EVs
-                TB_EVTotal.BackColor = Color.LightYellow;
-            else TB_EVTotal.BackColor = TB_IVTotal.BackColor;
-
+            var evtotal = pkm.EVTotal;
+            TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
             TB_EVTotal.Text = evtotal.ToString();
             EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
         }
+
+        private Color GetEVTotalColor(int evtotal, Color defaultColor)
+        {
+            if (evtotal > 510) // Background turns Red
+                return EVsInvalid;
+            if (evtotal == 510) // Maximum EVs
+                return EVsMaxed;
+            if (evtotal == 508) // Fishy EVs
+                return EVsFishy;
+            return defaultColor;
+        }
+
         public void UpdateStats()
         {
             // Generate the stats.
             if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
             {
-                var pi = pkm.PersonalInfo;
+                var pt = MainEditor.RequestSaveFile.Personal;
+                var pi = pt.GetFormeEntry(pkm.Species, pkm.AltForm);
                 pkm.SetStats(pkm.GetStats(pi));
                 LoadBST(pi);
                 LoadPartyStats(pkm);
             }
-            RecolorStatLabels(pkm.Nature);
         }
 
         private void LoadBST(PersonalInfo pi)
         {
-            var stats = new[] {pi.HP, pi.ATK, pi.DEF, pi.SPE, pi.SPA, pi.SPD};
+            var stats = pi.Stats;
             for (int i = 0; i < stats.Length; i++)
             {
                 MT_Base[i].Text = stats[i].ToString("000");
-                MT_Base[i].BackColor = MapColor(stats[i]);
+                MT_Base[i].BackColor = ImageUtil.ColorBaseStat(stats[i]);
             }
             var bst = pi.BST;
             TB_BST.Text = bst.ToString("000");
-            TB_BST.BackColor = MapColor((int)(Math.Max(0, bst - 175) / 3f));
-        }
-        private static Color MapColor(int v)
-        {
-            const float maxval = 180; // shift the green cap down
-            float x = 100f * v / maxval;
-            if (x > 100)
-                x = 100;
-            double red = 255f * (x > 50 ? 1 - 2 * (x - 50) / 100.0 : 1.0);
-            double green = 255f * (x > 50 ? 1.0 : 2 * x / 100.0);
-
-            return Blend(Color.FromArgb((int)red, (int)green, 0), Color.White, 0.4);
-        }
-        private static Color Blend(Color color, Color backColor, double amount)
-        {
-            byte r = (byte)(color.R * amount + backColor.R * (1 - amount));
-            byte g = (byte)(color.G * amount + backColor.G * (1 - amount));
-            byte b = (byte)(color.B * amount + backColor.B * (1 - amount));
-            return Color.FromArgb(r, g, b);
+            TB_BST.BackColor = ImageUtil.ColorBaseStat((int)(Math.Max(0, bst - 175) / 3f));
         }
 
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
-            ChangingFields = true;
-            if (ModifierKeys.HasFlag(Keys.Control)) // Max IVs
-            {
-                int[] IVs = { pkm.MaxIV, pkm.MaxIV, pkm.MaxIV, pkm.MaxIV, pkm.MaxIV, pkm.MaxIV };
-                LoadIVs(IVs);
-            }
-            else
-                LoadIVs(pkm.SetRandomIVs());
+            int? flawless = ModifierKeys.HasFlag(Keys.Control) ? (int?)6 : null;
+            var IVs = pkm.SetRandomIVs(flawless);
+            LoadIVs(IVs);
         }
+
+        public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
 
         private void UpdateCharacteristic(int characteristic)
         {
@@ -292,29 +299,22 @@ namespace PKHeX.WinForms.Controls
             if (characteristic > -1)
                 L_Characteristic.Text = GameInfo.Strings.characteristics[characteristic];
         }
-        private void RecolorStatLabels(int nature)
-        {
-            // Reset Label Colors
-            foreach (var label in L_Stats.Skip(1))
-                label.ResetForeColor();
 
-            // Set Colored StatLabels only if Nature isn't Neutral
-            if (PKX.GetNatureModification(nature, out int incr, out int decr))
-                return;
-            L_Stats[incr].ForeColor = Color.Red;
-            L_Stats[decr].ForeColor = Color.Blue;
-        }
         public string UpdateNatureModification(int nature)
         {
             // Reset Label Colors
-            foreach (var label in L_Stats.Skip(1))
-                label.ResetForeColor();
+            for (var i = 1; i < L_Stats.Length; i++)
+                L_Stats[i].ResetForeColor();
 
             // Set Colored StatLabels only if Nature isn't Neutral
             if (PKX.GetNatureModification(nature, out int incr, out int decr))
                 return "-/-";
+
+            L_Stats[incr].ForeColor = StatIncreased;
+            L_Stats[decr].ForeColor = StatDecreased;
             return $"+{L_Stats[incr].Text} / -{L_Stats[decr].Text}".Replace(":", "");
         }
+
         public void SetATKIVGender(int gender)
         {
             pkm.SetATKIVGender(gender);
@@ -334,6 +334,7 @@ namespace PKHeX.WinForms.Controls
             Stat_SPD.Text = pk.Stat_SPD.ToString();
             Stat_SPE.Text = pk.Stat_SPE.ToString();
         }
+
         public void SavePartyStats(PKM pk)
         {
             int size = pk.SIZE_PARTY;
@@ -348,6 +349,7 @@ namespace PKHeX.WinForms.Controls
             pk.Stat_SPA = Util.ToInt32(Stat_SPA.Text);
             pk.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
         }
+
         public void LoadEVs(int[] EVs)
         {
             ChangingFields = true;
@@ -359,6 +361,7 @@ namespace PKHeX.WinForms.Controls
             TB_SPDEV.Text = EVs[5].ToString();
             ChangingFields = false;
         }
+
         public void LoadIVs(int[] IVs)
         {
             ChangingFields = true;
@@ -378,8 +381,6 @@ namespace PKHeX.WinForms.Controls
         {
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
-            CB_HPType.Enabled = gen >= 3;
-            FLP_HPType.Visible = gen >= 2;
 
             switch (gen)
             {
@@ -388,14 +389,14 @@ namespace PKHeX.WinForms.Controls
                     Label_SPA.Visible = false;
                     Label_SPC.Visible = true;
                     TB_HPIV.Enabled = false;
-                    SetMaskSize(Stat_HP.Size, "00000");
+                    SetEVMaskSize(Stat_HP.Size, "00000");
                     break;
                 case 2:
                     FLP_SpD.Visible = true;
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
                     TB_HPIV.Enabled = false;
-                    SetMaskSize(Stat_HP.Size, "00000");
+                    SetEVMaskSize(Stat_HP.Size, "00000");
                     TB_SPDEV.Enabled = TB_SPDIV.Enabled = false;
                     break;
                 default:
@@ -403,38 +404,25 @@ namespace PKHeX.WinForms.Controls
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
                     TB_HPIV.Enabled = true;
-                    SetMaskSize(TB_EVTotal.Size, "000");
+                    SetEVMaskSize(TB_EVTotal.Size, "000");
                     TB_SPDEV.Enabled = TB_SPDIV.Enabled = true;
                     break;
             }
 
-
-            void SetMaskSize(Size s, string Mask)
+            void SetEVMaskSize(Size s, string Mask)
             {
-                foreach (var ctrl in MT_EVs) 
+                foreach (var ctrl in MT_EVs)
                 {
                     ctrl.Size = s;
                     ctrl.Mask = Mask;
                 }
             }
         }
+
         public void InitializeDataSources()
         {
-            CB_HPType.DisplayMember = nameof(ComboItem.Text);
-            CB_HPType.ValueMember = nameof(ComboItem.Value);
+            CB_HPType.InitializeBinding();
             CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray(), null);
-        }
-    }
-
-    public static class Extensions
-    {
-        private static readonly string[] PotentialUnicode = {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"};
-        private static readonly string[] PotentialNoUnicode = {"+", "++", "+++", "++++"};
-
-        public static string GetPotentialString(this PKM pkm, bool unicode = true)
-        {
-            var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
-            return arr[pkm.PotentialRating];
         }
     }
 }

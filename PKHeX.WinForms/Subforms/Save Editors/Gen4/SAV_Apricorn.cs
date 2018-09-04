@@ -19,6 +19,7 @@ namespace PKHeX.WinForms
         private readonly SAV4 SAV;
         private const int Count = 7;
         private static readonly string[] itemlist = {"Red", "Yellow", "Blue", "Green", "Pink", "White", "Black"};
+
         private void Setup()
         {
             dgv.Rows.Clear();
@@ -63,18 +64,21 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_All_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < Count; i++)
                 SAV.SetApricornCount(i, 99);
             Setup();
         }
+
         private void B_None_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < Count; i++)
                 SAV.SetApricornCount(i, 0);
             Setup();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < Count; i++)

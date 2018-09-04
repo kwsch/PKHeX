@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -13,10 +14,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
-        public static bool IsMysteryGift(long len)
-        {
-            return new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size }.Contains((int)len);
-        }
+        public static bool IsMysteryGift(long len) => MGSizes.Contains((int)len);
+
+        private static readonly HashSet<int> MGSizes = new HashSet<int>{WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -80,7 +80,7 @@ namespace PKHeX.Core
         public string Extension => GetType().Name.ToLower();
         public string FileName => $"{CardHeader}.{Extension}";
         public byte[] Data { get; set; }
-        public abstract PKM ConvertToPKM(ITrainerInfo sav);
+        public abstract PKM ConvertToPKM(ITrainerInfo SAV);
         public abstract int Format { get; }
 
         /// <summary>
@@ -92,10 +92,12 @@ namespace PKHeX.Core
             byte[] data = (byte[])Data.Clone();
             return GetMysteryGift(data);
         }
+
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type.
         /// </summary>
         public string Type => GetType().Name;
+
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.
         /// </summary>
@@ -126,16 +128,18 @@ namespace PKHeX.Core
         {
             int hash = 17;
             foreach (var b in Data)
-                hash = hash*31 + b;
+                hash = (hash * 31) + b;
             return hash;
         }
 
         // Search Properties
-        public virtual int[] Moves { get => new int[4]; set { } }
-        public virtual int[] RelearnMoves { get => new int[4]; set { } }
+        public virtual int[] Moves { get => Array.Empty<int>(); set { } }
+        public virtual int[] RelearnMoves { get => Array.Empty<int>(); set { } }
+        public virtual int[] IVs { get => null; set { } }
         public virtual bool IsShiny => false;
         public virtual bool IsEgg { get => false; set { } }
         public virtual int HeldItem { get => -1; set { } }
+        public virtual int AbilityType { get => -1; set { } }
         public virtual object Content => this;
         public abstract int Gender { get; set; }
         public abstract int Form { get; set; }

@@ -91,7 +91,7 @@ namespace PKHeX.Core
             846,
         };
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
-        
+
         internal static readonly ushort[] Pouch_Key_SM = {
             216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
             705, 706, 765, 773, 797,
@@ -139,7 +139,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).Concat(Pouch_Roto_USUM).ToArray();
 
-        private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
+        internal static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
             0x1A, // Beast
@@ -185,7 +185,7 @@ namespace PKHeX.Core
             718,
 
             // Regular
-            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            023, 086, 108, 122, 138, 140, 163, 177, 179, 190, 204,
             206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
             345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
             559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
@@ -328,7 +328,7 @@ namespace PKHeX.Core
             782,
 
             // USUM Additions
-            023, 086, 108, 163, 177, 179, 190, 204,
+            023, 086, 108, 122, 163, 177, 179, 190, 204,
             206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
             352, 353, 357, 366, 427, 439, 458, 550,
             559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
@@ -406,7 +406,7 @@ namespace PKHeX.Core
         {
             029, 030, 031, 032, 033, 034, // Nidos
             313, 314, // Volbeat/Illumise
-            
+
             081, // Magnemite
             100, // Voltorb
             115, // Kangaskhan
@@ -416,7 +416,7 @@ namespace PKHeX.Core
             374, // Beldum
             436, // Bronzor
             440, // Happiny
-            
+
             // others not possible
             236, // Tyrogue (100% Male)
             120, // Staryu
@@ -486,7 +486,7 @@ namespace PKHeX.Core
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
-        private static readonly int[] TMHM_SM =
+        internal static readonly int[] TMHM_SM =
         {
             526, 337, 473, 347, 046, 092, 258, 339, 474, 237,
             241, 269, 058, 059, 063, 113, 182, 240, 355, 219,

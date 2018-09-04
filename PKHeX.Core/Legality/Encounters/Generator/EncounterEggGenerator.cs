@@ -9,6 +9,14 @@ namespace PKHeX.Core
         // EncounterEgg
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
+            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
+            int maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm.GenNumber);
+            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+            return GenerateEggs(pkm, evos, all);
+        }
+
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<DexLevel> vs, bool all = false)
+        {
             if (NoHatchFromEgg.Contains(pkm.Species))
                 yield break;
             if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm, pkm.GenNumber))
@@ -21,8 +29,8 @@ namespace PKHeX.Core
             var ver = (GameVersion)pkm.Version;
             int max = GetMaxSpeciesOrigin(gen);
 
-            var baseSpecies = GetBaseSpecies(pkm, 0);
-            int lvl = gen < 4 ? 5 : 1;
+            var baseSpecies = GetBaseSpecies(pkm, vs, 0);
+            int lvl = GetEggHatchLevel(gen);
             if (baseSpecies <= max)
             {
                 yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies };
@@ -33,12 +41,12 @@ namespace PKHeX.Core
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
                 yield break; // no other possible species
 
-            baseSpecies = GetBaseSpecies(pkm, 1);
-            if (baseSpecies <= max)
+            var other = GetBaseSpecies(pkm, vs, 1);
+            if (other <= max)
             {
-                yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
+                yield return new EncounterEggSplit { Version = ver, Level = lvl, Species = other, OtherSpecies = baseSpecies };
                 if (gen > 5 && (pkm.WasTradedEgg || all))
-                    yield return new EncounterEgg { Version = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies, SplitBreed = true };
+                    yield return new EncounterEggSplit { Version = GetOtherTradePair(ver), Level = lvl, Species = other, OtherSpecies = baseSpecies };
             }
         }
 

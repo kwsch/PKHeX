@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
-    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4
+    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public PK5(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
@@ -59,12 +59,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
+        public int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
+        public int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
+        public int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+        public int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
+        public int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
+        public int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
 
         private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
         private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
@@ -97,7 +97,7 @@ namespace PKHeX.Core
         public bool RibbonSouvenir          { get => (RIB3 & (1 << 0)) == 1 << 0; set => RIB3 = (byte)(RIB3 & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool RibbonWishing           { get => (RIB3 & (1 << 1)) == 1 << 1; set => RIB3 = (byte)(RIB3 & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool RibbonClassic           { get => (RIB3 & (1 << 2)) == 1 << 2; set => RIB3 = (byte)(RIB3 & ~(1 << 2) | (value ? 1 << 2 : 0)); }
-        public bool RibbonPremier           { get => (RIB3 & (1 << 3)) == 1 << 3; set => RIB3 = (byte)(RIB3 & ~(1 << 3) | (value ? 1 << 3 : 0)); }              
+        public bool RibbonPremier           { get => (RIB3 & (1 << 3)) == 1 << 3; set => RIB3 = (byte)(RIB3 & ~(1 << 3) | (value ? 1 << 3 : 0)); }
         public bool RIB3_4 { get => (RIB3 & (1 << 4)) == 1 << 4; set => RIB3 = (byte)(RIB3 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // Unused
         public bool RIB3_5 { get => (RIB3 & (1 << 5)) == 1 << 5; set => RIB3 = (byte)(RIB3 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Unused
         public bool RIB3_6 { get => (RIB3 & (1 << 6)) == 1 << 6; set => RIB3 = (byte)(RIB3 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // Unused
@@ -126,12 +126,12 @@ namespace PKHeX.Core
         public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
         public override bool IsEgg { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
         public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0); }
-        
+
         private byte RIB4 { get => Data[0x3C]; set => Data[0x3C] = value; } // Hoenn 1a
         private byte RIB5 { get => Data[0x3D]; set => Data[0x3D] = value; } // Hoenn 1b
         private byte RIB6 { get => Data[0x3E]; set => Data[0x3E] = value; } // Hoenn 2a
         private byte RIB7 { get => Data[0x3F]; set => Data[0x3F] = value; } // Hoenn 2b
-        public bool RibbonG3Cool            { get => (RIB4 & (1 << 0)) == 1 << 0; set => RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); }             
+        public bool RibbonG3Cool            { get => (RIB4 & (1 << 0)) == 1 << 0; set => RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool RibbonG3CoolSuper       { get => (RIB4 & (1 << 1)) == 1 << 1; set => RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool RibbonG3CoolHyper       { get => (RIB4 & (1 << 2)) == 1 << 2; set => RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); }
         public bool RibbonG3CoolMaster      { get => (RIB4 & (1 << 3)) == 1 << 3; set => RIB4 = (byte)(RIB4 & ~(1 << 3) | (value ? 1 << 3 : 0)); }
@@ -267,7 +267,7 @@ namespace PKHeX.Core
                 return pm6stat * 5 + maxIV % 5;
             }
         }
-        
+
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_5;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
@@ -396,7 +396,7 @@ namespace PKHeX.Core
             pk6.Met_Level = Met_Level;
             pk6.OT_Gender = OT_Gender;
             pk6.EncounterType = EncounterType;
-            
+
             // Ribbon Decomposer (Contest & Battle)
             byte contestribbons = 0;
             byte battleribbons = 0;
@@ -479,7 +479,7 @@ namespace PKHeX.Core
             bx34 |= ((Data[0x3F] & 0x08) >> 3) << 3;  // National Champion
             bx34 |= ((Data[0x26] & 0x20) >> 5) << 4;  // World Champion
             pk6.Data[0x34] = (byte)bx34;
-            
+
             // Write Transfer Location - location is dependent on 3DS system that transfers.
             pk6.Country = PKMConverter.Country;
             pk6.Region = PKMConverter.Region;
@@ -493,7 +493,7 @@ namespace PKHeX.Core
             pk6.Geo1_Country = PKMConverter.Country;
             pk6.HT_Intensity = 1;
             pk6.HT_Memory = 4;
-            pk6.HT_Feeling = Legal.GetRandomFeeling(pk6.HT_Memory);
+            pk6.HT_Feeling = Memories.GetRandomFeeling(pk6.HT_Memory);
             // When transferred, friendship gets reset.
             pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 

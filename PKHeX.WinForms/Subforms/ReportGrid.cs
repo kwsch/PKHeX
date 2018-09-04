@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -15,117 +11,6 @@ namespace PKHeX.WinForms
 {
     public partial class ReportGrid : Form
     {
-        private struct Preview
-        {
-            private readonly PKM pkm;
-            private readonly ushort[] Stats;
-            public string Position => pkm.Identifier;
-            public Image Sprite => pkm.Sprite();
-            public string Nickname => pkm.Nickname;
-            public string Species => Get(GameInfo.Strings.specieslist, pkm.Species);
-            public string Nature => Get(GameInfo.Strings.natures, pkm.Nature);
-            public string Gender => Get(Main.GenderSymbols, pkm.Gender);
-            public string ESV => pkm.PSV.ToString("0000");
-            public string HP_Type => Get(GameInfo.Strings.types, pkm.HPType+1);
-            public string Ability => Get(GameInfo.Strings.abilitylist, pkm.Ability);
-            public string Move1 => Get(GameInfo.Strings.movelist, pkm.Move1);
-            public string Move2 => Get(GameInfo.Strings.movelist, pkm.Move2);
-            public string Move3 => Get(GameInfo.Strings.movelist, pkm.Move3);
-            public string Move4 => Get(GameInfo.Strings.movelist, pkm.Move4);
-            public string HeldItem => Get(GameInfo.Strings.itemlist, pkm.HeldItem);
-            public string HP => Stats[0].ToString();
-            public string ATK => Stats[1].ToString();
-            public string DEF => Stats[2].ToString();
-            public string SPA => Stats[4].ToString();
-            public string SPD => Stats[5].ToString();
-            public string SPE => Stats[3].ToString();
-            public string MetLoc => pkm.GetLocationString(eggmet: false);
-            public string EggLoc => pkm.GetLocationString(eggmet: true);
-            public string Ball => Get(GameInfo.Strings.balllist, pkm.Ball);
-            public string OT => pkm.OT_Name;
-            public string Version => Get(GameInfo.Strings.gamelist, pkm.Version);
-            public string OTLang => Get(GameInfo.Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
-            public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
-            public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
-            public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
-            public string DSRegionID => pkm.Format > 5 ? pkm.ConsoleRegion.ToString() : "N/A";
-
-            #region Extraneous
-            public string EC => pkm.EncryptionConstant.ToString("X8");
-            public string PID => pkm.PID.ToString("X8");
-            public int HP_IV => pkm.IV_HP;
-            public int ATK_IV => pkm.IV_ATK;
-            public int DEF_IV => pkm.IV_DEF;
-            public int SPA_IV => pkm.IV_SPA;
-            public int SPD_IV => pkm.IV_SPD;
-            public int SPE_IV => pkm.IV_SPE;
-            public uint EXP => pkm.EXP;
-            public int Level => pkm.CurrentLevel;
-            public int HP_EV => pkm.EV_HP;
-            public int ATK_EV => pkm.EV_ATK;
-            public int DEF_EV => pkm.EV_DEF;
-            public int SPA_EV => pkm.EV_SPA;
-            public int SPD_EV => pkm.EV_SPD;
-            public int SPE_EV => pkm.EV_SPE;
-            public int Cool => pkm.CNT_Cool;
-            public int Beauty => pkm.CNT_Beauty;
-            public int Cute => pkm.CNT_Cute;
-            public int Smart => pkm.CNT_Smart;
-            public int Tough => pkm.CNT_Tough;
-            public int Sheen => pkm.CNT_Sheen;
-            public int Markings => pkm.MarkValue;
-
-            public string NotOT => pkm.Format > 5 ? pkm.HT_Name : "N/A";
-
-            public int AbilityNum => pkm.Format > 5 ? pkm.AbilityNumber : -1;
-            public int GenderFlag => pkm.Gender;
-            public int AltForms => pkm.AltForm;
-            public int PKRS_Strain => pkm.PKRS_Strain;
-            public int PKRS_Days => pkm.PKRS_Days;
-            public int MetLevel => pkm.Met_Level;
-            public int OT_Gender => pkm.OT_Gender;
-
-            public bool FatefulFlag => pkm.FatefulEncounter;
-            public bool IsEgg => pkm.IsEgg;
-            public bool IsNicknamed => pkm.IsNicknamed;
-            public bool IsShiny => pkm.IsShiny;
-
-            public int TID => pkm.TID;
-            public int SID => pkm.SID;
-            public int TSV => pkm.TSV;
-            public int Move1_PP => pkm.Move1_PP;
-            public int Move2_PP => pkm.Move2_PP;
-            public int Move3_PP => pkm.Move3_PP;
-            public int Move4_PP => pkm.Move4_PP;
-            public int Move1_PPUp => pkm.Move1_PPUps;
-            public int Move2_PPUp => pkm.Move2_PPUps;
-            public int Move3_PPUp => pkm.Move3_PPUps;
-            public int Move4_PPUp => pkm.Move4_PPUps;
-            public string Relearn1 => Get(GameInfo.Strings.movelist, pkm.RelearnMove1);
-            public string Relearn2 => Get(GameInfo.Strings.movelist, pkm.RelearnMove2);
-            public string Relearn3 => Get(GameInfo.Strings.movelist, pkm.RelearnMove3);
-            public string Relearn4 => Get(GameInfo.Strings.movelist, pkm.RelearnMove4);
-            public ushort Checksum => pkm.Checksum;
-            public int Friendship => pkm.OT_Friendship;
-            public int OT_Affection => pkm.OT_Affection;
-            public int Egg_Year => pkm.EggMetDate.GetValueOrDefault().Year;
-            public int Egg_Month => pkm.EggMetDate.GetValueOrDefault().Month;
-            public int Egg_Day => pkm.EggMetDate.GetValueOrDefault().Day;
-            public int Met_Year => pkm.MetDate.GetValueOrDefault().Year;
-            public int Met_Month => pkm.MetDate.GetValueOrDefault().Month;
-            public int Met_Day => pkm.MetDate.GetValueOrDefault().Day;
-            public int Encounter => pkm.EncounterType;
-
-            #endregion
-
-            public Preview(PKM p)
-            {
-                pkm = p;
-                Stats = pkm.GetStats(pkm.PersonalInfo);
-            }
-
-            private static string Get(IReadOnlyList<string> arr, int val) => arr?.Count > val ? arr[val] : null;
-        }
         public ReportGrid()
         {
             InitializeComponent();
@@ -133,6 +18,7 @@ namespace PKHeX.WinForms
             CenterToParent();
             GetContextMenu();
         }
+
         private void GetContextMenu()
         {
             var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide, };
@@ -161,15 +47,19 @@ namespace PKHeX.WinForms
 
             dgData.ContextMenuStrip = mnu;
         }
+
+        private sealed class PokemonList<T> : SortableBindingList<T> { }
+
         public void PopulateData(IList<PKM> Data)
         {
             SuspendLayout();
             BoxBar.Step = 1;
-            PokemonList PL = new PokemonList();
+            var PL = new PokemonList<PKMPreview>();
+            var strings = GameInfo.Strings;
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
                 pkm.Stat_Level = PKX.GetLevel(pkm.Species, pkm.EXP); // recalc Level
-                PL.Add(new Preview(pkm));
+                PL.Add(new PKMPreview(pkm, strings));
                 BoxBar.PerformStep();
             }
 
@@ -197,12 +87,14 @@ namespace PKHeX.WinForms
 
             ResumeLayout();
         }
+
         private void Data_Sorted(object sender, EventArgs e)
         {
-            int height = PKMUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
+            int height = SpriteUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }
+
         private void PromptSaveCSV(object sender, FormClosingEventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
@@ -215,6 +107,7 @@ namespace PKHeX.WinForms
             if (savecsv.ShowDialog() == DialogResult.OK)
                 Export_CSV(savecsv.FileName);
         }
+
         private void Export_CSV(string path)
         {
             var sb = new StringBuilder();
@@ -227,7 +120,7 @@ namespace PKHeX.WinForms
 
             File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         }
-        
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             bool cp = keyData == (Keys.Control | Keys.C) && ActiveControl is DataGridView;
@@ -244,129 +137,22 @@ namespace PKHeX.WinForms
 
             // Reformat datagrid clipboard content
             string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            int tabcount = lines[0].Count(c => c == '\t');
-
-            string[] newlines = new string[lines.Length + 1];
-            newlines[0] = lines[0].Replace('\t', '|');
-            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(t => '|')); // 2 pipes for each end
-            for (int i = 1; i < lines.Length; i++)
-                newlines[i + 1] = lines[i].Replace('\t', '|');
-
+            string[] newlines = ConvertTabbedToRedditTable(lines);
             Clipboard.SetText(string.Join(Environment.NewLine, newlines));
 
             return true;
         }
 
-        private sealed class PokemonList : SortableBindingList<Preview> { }
-    }
-    public static class ExtensionMethods
-    {
-        public static void DoubleBuffered(this DataGridView dgv, bool setting)
+        private static string[] ConvertTabbedToRedditTable(string[] lines)
         {
-            Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
-        }
-    }
-    public class SortableBindingList<T> : BindingList<T>
-    {
-        private readonly Dictionary<Type, PropertyComparer<T>> comparers;
-        private bool isSorted;
-        private ListSortDirection listSortDirection;
-        private PropertyDescriptor propertyDescriptor;
+            string[] newlines = new string[lines.Length + 1];
+            int tabcount = lines[0].Count(c => c == '\t');
 
-        protected SortableBindingList() : base(new List<T>())
-        {
-            comparers = new Dictionary<Type, PropertyComparer<T>>();
-        }
-
-        protected override bool SupportsSortingCore => true;
-
-        protected override bool IsSortedCore => isSorted;
-
-        protected override PropertyDescriptor SortPropertyCore => propertyDescriptor;
-
-        protected override ListSortDirection SortDirectionCore => listSortDirection;
-
-        protected override bool SupportsSearchingCore => true;
-
-        protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection direction)
-        {
-            List<T> itemsList = (List<T>)Items;
-
-            Type propertyType = property.PropertyType;
-            if (!comparers.TryGetValue(propertyType, out PropertyComparer<T> comparer))
-            {
-                comparer = new PropertyComparer<T>(property, direction);
-                comparers.Add(propertyType, comparer);
-            }
-
-            comparer.SetPropertyAndDirection(property, direction);
-            itemsList.Sort(comparer);
-
-            propertyDescriptor = property;
-            listSortDirection = direction;
-            isSorted = true;
-
-            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-        }
-
-        protected override void RemoveSortCore()
-        {
-            isSorted = false;
-            propertyDescriptor = base.SortPropertyCore;
-            listSortDirection = base.SortDirectionCore;
-
-            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-        }
-
-        protected override int FindCore(PropertyDescriptor property, object key)
-        {
-            int count = Count;
-            for (int i = 0; i < count; ++i)
-                if (property.GetValue(this[i]).Equals(key))
-                    return i;
-
-            return -1;
-        }
-    }
-    public class PropertyComparer<T> : IComparer<T>
-    {
-        private readonly IComparer comparer;
-        private PropertyDescriptor propertyDescriptor;
-        private int reverse;
-
-        public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
-        {
-            propertyDescriptor = property;
-            Type comparerForPropertyType = typeof(Comparer<>).MakeGenericType(property.PropertyType);
-            comparer = (IComparer)comparerForPropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);
-            SetListSortDirection(direction);
-        }
-
-        #region IComparer<T> Members
-
-        public int Compare(T x, T y)
-        {
-            return reverse * comparer.Compare(propertyDescriptor.GetValue(x), propertyDescriptor.GetValue(y));
-        }
-
-        #endregion
-
-        private void SetPropertyDescriptor(PropertyDescriptor descriptor)
-        {
-            propertyDescriptor = descriptor;
-        }
-
-        private void SetListSortDirection(ListSortDirection direction)
-        {
-            reverse = direction == ListSortDirection.Ascending ? 1 : -1;
-        }
-
-        public void SetPropertyAndDirection(PropertyDescriptor descriptor, ListSortDirection direction)
-        {
-            SetPropertyDescriptor(descriptor);
-            SetListSortDirection(direction);
+            newlines[0] = lines[0].Replace('\t', '|');
+            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(_ => '|')); // 2 pipes for each end
+            for (int i = 1; i < lines.Length; i++)
+                newlines[i + 1] = lines[i].Replace('\t', '|');
+            return newlines;
         }
     }
 }

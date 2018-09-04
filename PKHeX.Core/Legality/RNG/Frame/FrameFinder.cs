@@ -26,8 +26,8 @@ namespace PKHeX.Core
                 ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.AltForm)
                 : SeedInfo.GetSeedsUntilNature(pidiv, info);
 
-            var frames = pidiv.Type == PIDType.CuteCharm 
-                ? FilterCuteCharm(seeds, pidiv, info) 
+            var frames = pidiv.Type == PIDType.CuteCharm
+                ? FilterCuteCharm(seeds, pidiv, info)
                 : FilterNatureSync(seeds, pidiv, info);
 
             var refined = RefineFrames(frames, info);
@@ -335,7 +335,7 @@ namespace PKHeX.Core
                 natures[i] = natures[j];
                 natures[j] = temp;
             }
-            
+
             var likes = Pokeblock.GetLikedBlockFlavor(nature);
             // best case scenario is a perfect flavored pokeblock for the nature.
             // has liked flavor, and all other non-disliked flavors are present.

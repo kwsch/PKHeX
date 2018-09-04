@@ -27,6 +27,7 @@
             nameof(IRibbonSetOnly3.Unused1), nameof(IRibbonSetOnly3.Unused2),
             nameof(IRibbonSetOnly3.Unused3), nameof(IRibbonSetOnly3.Unused4),
         };
+
         internal static int[] RibbonCounts(this IRibbonSetOnly3 set)
         {
             if (set == null)
@@ -40,6 +41,7 @@
                 set.RibbonCountG3Tough,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetOnly3 set) => RibbonSetNamesOnly3;
+
+        internal static string[] RibbonNames(this IRibbonSetOnly3 _) => RibbonSetNamesOnly3;
     }
 }

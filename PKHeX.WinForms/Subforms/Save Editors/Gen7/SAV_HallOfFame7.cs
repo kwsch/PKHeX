@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
+
         public SAV_HallOfFame7(SaveFile sav)
         {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace PKHeX.WinForms
             };
             Setup();
         }
+
         private readonly ComboBox[] entries;
 
         private void Setup()
@@ -33,12 +35,11 @@ namespace PKHeX.WinForms
             var specList = GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList();
             for (int i = 0; i < entries.Length; i++)
             {
-                int o = ofs + 4 + i*2;
+                int o = ofs + 4 + (i * 2);
                 var cb = entries[i];
                 cb.Items.Clear();
 
-                cb.DisplayMember = "Text";
-                cb.ValueMember = "Value";
+                cb.InitializeBinding();
                 cb.DataSource = new BindingSource(specList, null);
 
                 cb.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, o);
@@ -54,6 +55,7 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_Close_Click(object sender, EventArgs e)
         {
             int ofs = SAV.HoF;
@@ -63,7 +65,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes((ushort)NUD_Count.Value).CopyTo(SAV.Data, ofs + 2);
             for (int i = 0; i < entries.Length; i++)
             {
-                int o = ofs + 4 + i * 2;
+                int o = ofs + 4 + (i * 2);
                 var cb = entries[i];
                 var val = WinFormsUtil.GetIndex(cb);
                 BitConverter.GetBytes((ushort)val).CopyTo(SAV.Data, o);

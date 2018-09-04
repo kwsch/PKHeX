@@ -16,70 +16,87 @@ namespace PKHeX.Core
         /// Personal Table used in <see cref="GameVersion.USUM"/>.
         /// </summary>
         public static readonly PersonalTable USUM = GetTable("uu", GameVersion.USUM);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.SM"/>.
         /// </summary>
         public static readonly PersonalTable SM = GetTable("sm", GameVersion.SM);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.ORAS"/>.
         /// </summary>
         public static readonly PersonalTable AO = GetTable("ao", GameVersion.ORAS);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.XY"/>.
         /// </summary>
         public static readonly PersonalTable XY = GetTable("xy", GameVersion.XY);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.B2W2"/>.
         /// </summary>
         public static readonly PersonalTable B2W2 = GetTable("b2w2", GameVersion.B2W2);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.BW"/>.
         /// </summary>
         public static readonly PersonalTable BW = GetTable("bw", GameVersion.BW);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.HGSS"/>.
         /// </summary>
         public static readonly PersonalTable HGSS = GetTable("hgss", GameVersion.HGSS);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.Pt"/>.
         /// </summary>
         public static readonly PersonalTable Pt = GetTable("pt", GameVersion.Pt);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.DP"/>.
         /// </summary>
         public static readonly PersonalTable DP = GetTable("dp", GameVersion.DP);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.LG"/>.
         /// </summary>
         public static readonly PersonalTable LG = GetTable("lg", GameVersion.LG);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.FR"/>.
         /// </summary>
         public static readonly PersonalTable FR = GetTable("fr", GameVersion.FR);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.E"/>.
         /// </summary>
         public static readonly PersonalTable E = GetTable("e", GameVersion.E);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.RS"/>.
         /// </summary>
         public static readonly PersonalTable RS = GetTable("rs", GameVersion.RS);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.C"/>.
         /// </summary>
         public static readonly PersonalTable C = GetTable("c", GameVersion.C);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.GS"/>.
         /// </summary>
         public static readonly PersonalTable GS = GetTable("c", GameVersion.GS);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.RB"/>.
         /// </summary>
         public static readonly PersonalTable RB = GetTable("rb", GameVersion.RBY);
+
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.YW"/>.
         /// </summary>
         public static readonly PersonalTable Y = GetTable("y", GameVersion.RBY);
+
         private static PersonalTable GetTable(string game, GameVersion format)
         {
             return new PersonalTable(Util.GetBinaryResource($"personal_{game}"), format);
@@ -95,6 +112,7 @@ namespace PKHeX.Core
             }
             return r;
         }
+
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
         {
             switch (format)
@@ -103,7 +121,7 @@ namespace PKHeX.Core
                     return z => new PersonalInfoG1(z);
                 case GameVersion.GS: case GameVersion.C:
                     return z => new PersonalInfoG2(z);
-                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG: 
+                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
                     return z => new PersonalInfoG3(z);
                 case GameVersion.DP: case GameVersion.Pt: case GameVersion.HGSS:
                     return z => new PersonalInfoG4(z);
@@ -119,6 +137,7 @@ namespace PKHeX.Core
                     return z => new PersonalInfoSM(z);
             }
         }
+
         private static int GetEntrySize(GameVersion format)
         {
             switch (format)
@@ -143,12 +162,14 @@ namespace PKHeX.Core
                 default: return -1;
             }
         }
+
         static PersonalTable() // Finish Setup
         {
             FixPersonalTableG1();
             PopulateGen3Tutors();
             PopulateGen4Tutors();
         }
+
         private static void FixPersonalTableG1()
         {
             // Update Yellow's catch rates; currently matches Red/Blue's values.
@@ -159,6 +180,7 @@ namespace PKHeX.Core
             for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
                 RB[i].Gender = Y[i].Gender = GS[i].Gender;
         }
+
         private static void PopulateGen3Tutors()
         {
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
@@ -170,6 +192,7 @@ namespace PKHeX.Core
                 E[i].AddTypeTutors(tutors[i]);
             }
         }
+
         private static void PopulateGen4Tutors()
         {
             var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
@@ -179,13 +202,16 @@ namespace PKHeX.Core
 
         public PersonalTable(byte[] data, GameVersion format)
         {
-            Func<byte[], PersonalInfo> get = GetConstructor(format);
+            var get = GetConstructor(format);
             int size = GetEntrySize(format);
             byte[][] entries = SplitBytes(data, size);
             Table = new PersonalInfo[data.Length / size];
             for (int i = 0; i < Table.Length; i++)
                 Table[i] = get(entries[i]);
+
+            MaxSpeciesID = format.GetMaxSpeciesID();
         }
+
         private readonly PersonalInfo[] Table;
 
         /// <summary>
@@ -206,7 +232,7 @@ namespace PKHeX.Core
             {
                 if (index < 0 || index >= Table.Length)
                     return;
-                Table[index] = value; 
+                Table[index] = value;
             }
         }
 
@@ -229,8 +255,8 @@ namespace PKHeX.Core
         /// <returns>Entry index for the input criteria</returns>
         public int GetFormeIndex(int species, int forme)
         {
-            if (species >= Table.Length)
-            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={Table.Length-1})"); species = 0; }
+            if (species > MaxSpeciesID)
+            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
             return this[species].FormeIndex(species, forme);
         }
 
@@ -249,6 +275,11 @@ namespace PKHeX.Core
         /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.AltForm"/> entreis.
         /// </summary>
         public int TableLength => Table.Length;
+
+        /// <summary>
+        /// Maximum Species ID for the Table.
+        /// </summary>
+        public readonly int MaxSpeciesID;
 
         /// <summary>
         /// Gets form names for every species.

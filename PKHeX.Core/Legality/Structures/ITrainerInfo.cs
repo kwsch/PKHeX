@@ -45,10 +45,36 @@ namespace PKHeX.Core
 
             if (pk.Format == 6)
             {
-                pk.Geo1_Country = SAV.Country;
-                pk.Geo1_Region = SAV.SubRegion;
+                var g = (IGeoTrack) pk;
+                g.Geo1_Country = SAV.Country;
+                g.Geo1_Region = SAV.SubRegion;
                 ((PK6)pk).TradeMemory(true);
             }
+        }
+
+        public static bool IsFromTrainer(this ITrainerInfo tr, PKM pk)
+        {
+            if (tr.Game == (int)GameVersion.Any)
+                return true;
+
+            if (tr.TID != pk.TID)
+                return false;
+            if (tr.OT != pk.OT_Name)
+                return false;
+            if (pk.Format <= 2)
+                return false;
+
+            if (tr.SID != pk.SID)
+                return false;
+            if (pk.Format == 3)
+                return false;
+
+            if (tr.Gender != pk.OT_Gender)
+                return false;
+            if (tr.Game != pk.Version)
+                return false;
+
+            return true;
         }
     }
 }

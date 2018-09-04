@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public class Learnset1 : Learnset
+    /// <summary>
+    /// Levelup Learn Movepool Information
+    /// </summary>
+    public sealed class Learnset1 : Learnset
     {
         private Learnset1(byte[] data, ref int offset)
         {
@@ -19,6 +22,7 @@ namespace PKHeX.Core
             Levels = levels.ToArray();
             Count = Moves.Length;
         }
+
         public static Learnset[] GetArray(byte[] input, int maxSpecies)
         {
             var data = new Learnset[maxSpecies + 1];

@@ -8,10 +8,10 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV7 : SaveFile
+    public sealed class SAV7 : SaveFile, ITrainerStatRecord
     {
         // Save Data Attributes
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
+        protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => "";
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
@@ -41,18 +41,18 @@ namespace PKHeX.Core
             if (demo || !Exportable)
             {
                 PokeDex = -1; // Disabled
-                LockedSlots = new int[0];
-                TeamSlots = new int[0];
+                LockedSlots = Array.Empty<int>();
+                TeamSlots = Array.Empty<int>();
             }
             else // Valid slot locking info present
             {
                 LoadLockedSlots();
             }
         }
-        
+
         // Configuration
         public override SaveFile Clone() { return new SAV7((byte[])Data.Clone()); }
-        
+
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK7();
@@ -143,7 +143,7 @@ namespace PKHeX.Core
             /* 05 */ EventConst     = Blocks[05].Offset; // 0x01C00  // [E00]    EventWork
             /* 06 */ PokeDex        = Blocks[06].Offset; // 0x02A00  // [F78]    ZukanData
             /* 07 */ GTS            = Blocks[07].Offset; // 0x03A00  // [228]    GtsData
-            /* 08 */ Fused          = Blocks[08].Offset; // 0x03E00  // [104]    UnionPokemon 
+            /* 08 */ Fused          = Blocks[08].Offset; // 0x03E00  // [104]    UnionPokemon
             /* 09 */ Misc           = Blocks[09].Offset; // 0x04000  // [200]    Misc
             /* 10 */ Trainer2       = Blocks[10].Offset; // 0x04200  // [020]    FieldMenu
             /* 11 */ ConfigSave     = Blocks[11].Offset; // 0x04400  // [004]    ConfigSave
@@ -191,7 +191,6 @@ namespace PKHeX.Core
             LastViewedBox =         PCLayout + 0x5E3;
             PCFlags =               PCLayout + 0x5E0;
 
-
             FashionLength = 0x1A08;
 
             TeamCount = 6;
@@ -221,7 +220,6 @@ namespace PKHeX.Core
         private int LastViewedBox { get; set; } = int.MinValue;
         private int WondercardFlags { get; set; } = int.MinValue;
         private int PlayTime { get; set; } = int.MinValue;
-        private int ItemInfo { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
         public int JoinFestaData { get; set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
@@ -278,7 +276,7 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
             }
         }
-        
+
         // Player Information
         public override int TID
         {
@@ -696,13 +694,14 @@ namespace PKHeX.Core
         public int ResumeSeconds { get => Data[AdventureInfo + 0xD]; set => Data[AdventureInfo + 0xD] = (byte)value; }
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); }
-        
+
         public ulong AlolaTime { get => BitConverter.ToUInt64(Data, AdventureInfo + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x48); }
 
         // Stat Records
+        public int RecordCount => 200;
         public int GetRecord(int recordID)
         {
-            int ofs = GetRecordOffset(recordID);
+            int ofs = Records.GetOffset(Record, recordID);
             if (recordID < 100)
                 return BitConverter.ToInt32(Data, ofs);
             if (recordID < 200)
@@ -711,9 +710,9 @@ namespace PKHeX.Core
         }
         public void SetRecord(int recordID, int value)
         {
-            int ofs = GetRecordOffset(recordID);
-            var maxes = USUM ? RecordMaxType_USUM: RecordMaxType_SM;
-            int max = GetRecordMax(recordID, maxes);
+            int ofs = Records.GetOffset(Record, recordID);
+            var maxes = USUM ? Records.MaxType_USUM: Records.MaxType_SM;
+            int max = Records.GetMax(recordID, maxes);
             if (value > max)
                 value = max;
             if (recordID < 100)
@@ -721,65 +720,8 @@ namespace PKHeX.Core
             if (recordID < 200)
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
         }
-        public int GetRecordOffset(int recordID)
-        {
-            if (recordID < 100)
-                return Record + recordID*4;
-            if (recordID < 200)
-                return Record + recordID*2 + 200; // first 100 are 4bytes, so bias the difference
-            return -1;
-        }
-
-        public static int GetRecordMax(int recordID, int[] maxes = null) => recordID < 200 ? RecordMax[(maxes ?? RecordMaxType_USUM)[recordID]] : 0;
-        private static readonly int[] RecordMax = {999999999, 9999999, 999999, 99999, 65535, 9999, 999};
-        private static readonly int[] RecordMaxType_SM =
-        {
-            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        };
-        private static readonly int[] RecordMaxType_USUM =
-        {
-            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-            0, 0, 0, 0, 0, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 4, 4, 4, 5, 5, 4, 5, 5
-        };
+        public int GetRecordMax(int recordID) => Records.GetMax(recordID, USUM ? Records.MaxType_USUM : Records.MaxType_SM);
+        public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
 
         public ushort PokeFinderCameraVersion
         {
@@ -832,34 +774,34 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch;
                 if (SM)
-                pouch = new[]
+                pouch = new InventoryPouch[]
                 {
-                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                    new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
+                    new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
                 };
                 else // USUM
-                pouch = new[]
+                pouch = new InventoryPouch[]
                 {
-                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.KeyItems,  Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
-                    new InventoryPouch(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
+                    new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                    new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
+                    new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch7(InventoryType.KeyItems,  Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch7(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
                 };
                 foreach (var p in pouch)
-                    p.GetPouch7(Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouch7(Data);
+                    p.SetPouch(Data);
             }
         }
 
@@ -942,9 +884,9 @@ namespace PKHeX.Core
                 return $"B{box + 1}";
             return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
         }
-        public override void SetBoxName(int box, string val)
+        public override void SetBoxName(int box, string value)
         {
-            Encoding.Unicode.GetBytes(val.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
+            Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + 0x22*box);
             Edited = true;
         }
         public override PKM GetPKM(byte[] data)
@@ -1023,7 +965,7 @@ namespace PKHeX.Core
                     int fc = Personal[pkm.Species].FormeCount;
                     if (fc > 1) // actually has forms
                     {
-                        int f = USUM 
+                        int f = USUM
                             ? SaveUtil.GetDexFormIndexUSUM(pkm.Species, fc, MaxSpeciesID - 1)
                             : SaveUtil.GetDexFormIndexSM(pkm.Species, fc, MaxSpeciesID - 1);
                         if (f >= 0) // bit index valid
@@ -1050,19 +992,18 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            uint duration = 0;
-            if (isParty && pkm.AltForm != 0)
-                switch (pkm.Species)
-                {
-                    case 676:
-                        duration = 5;
-                        break;
-                    case 720: // Hoopa
-                        duration = 3;
-                        break;
-                }
-
-            ((PK7)pkm).FormDuration = duration;
+            ((PK7)pkm).FormDuration = GetFormDuration(pkm, isParty);
+        }
+        private static uint GetFormDuration(PKM pkm, bool isParty)
+        {
+            if (!isParty || pkm.AltForm == 0)
+                return 0;
+            switch (pkm.Species)
+            {
+                case 676: return 5; // Furfrou
+                case 720: return 3; // Hoopa
+                default: return 0;
+            }
         }
         public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn, bool USUM)
         {
@@ -1311,7 +1252,7 @@ namespace PKHeX.Core
                 return;
             if (Daycare < 0)
                 return;
-            
+
             Data[Daycare + (SIZE_STORED + 1) * slot] = (byte)(occupied ? 1 : 0);
         }
         public override void SetDaycareRNGSeed(int loc, string seed)
@@ -1388,7 +1329,7 @@ namespace PKHeX.Core
                     return;
                 if (value.Length > GiftCountMax)
                     Array.Resize(ref value, GiftCountMax);
-                
+
                 for (int i = 0; i < value.Length; i++)
                     SetWC7(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)
@@ -1427,7 +1368,7 @@ namespace PKHeX.Core
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r.AppendLine($"0x200 chunk @ 0x{i*0x200:X5} is FF'd.");
+                r.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
                 r.AppendLine("Cyber will screw up (as of August 31st 2014).");
                 r.AppendLine();
 
@@ -1455,7 +1396,7 @@ namespace PKHeX.Core
             set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & ~2) | (value ? 2 : 0)); // in battle
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString7(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

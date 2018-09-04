@@ -19,10 +19,7 @@ namespace PKHeX.Core
         public XK3(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
         }
         public XK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new XK3((byte[])Data.Clone(), Identifier) {Purification = Purification};
@@ -63,7 +60,7 @@ namespace PKHeX.Core
         public bool UnusedFlag3     { get => (XDPKMFLAGS & (1 << 3)) == 1 << 3; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 3) | (value ? 1 << 3 : 0); }
         public bool BlockTrades     { get => (XDPKMFLAGS & (1 << 4)) == 1 << 4; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 4) | (value ? 1 << 4 : 0); }
         public override bool Valid  { get => (XDPKMFLAGS & (1 << 5)) == 0; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 5) | (value ? 0 : 1 << 5); } // invalid flag
-        public override int AbilityNumber { get => 1 << ((XDPKMFLAGS >> 6) & 1); set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | (((value >> 1) & 1) << 6); }
+        public override bool AbilityBit { get => 1 << ((XDPKMFLAGS >> 6) & 1) == 1; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 6) | ((value ? 1 : 0) << 6); }
         public override bool IsEgg  { get => (XDPKMFLAGS & (1 << 7)) == 1 << 7; set => XDPKMFLAGS = XDPKMFLAGS & ~(1 << 7) | (value ? 1 << 7 : 0); }
         // 0x1E-0x1F Unknown
         public override uint EXP { get => BigEndian.ToUInt32(Data, 0x20); set => BigEndian.GetBytes(value).CopyTo(Data, 0x20); }
@@ -163,7 +160,7 @@ namespace PKHeX.Core
         public override int IV_SPA { get => Data[0xAB]; set => Data[0xAB] = (byte)(value & 0x1F); }
         public override int IV_SPD { get => Data[0xAC]; set => Data[0xAC] = (byte)(value & 0x1F); }
         public override int IV_SPE { get => Data[0xAD]; set => Data[0xAD] = (byte)(value & 0x1F); }
-        
+
         // Contest
         public override int CNT_Cool { get => Data[0xAE]; set => Data[0xAE] = (byte)value; }
         public override int CNT_Beauty { get => Data[0xAF]; set => Data[0xAF] = (byte)value; }
@@ -177,7 +174,7 @@ namespace PKHeX.Core
         public override int RibbonCountG3Tough { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
 
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xBA); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xBA); }
-        
+
         // Purification information is stored in the save file and accessed based on the Shadow ID.
         public int Purification { get; set; }
 
@@ -247,6 +244,13 @@ namespace PKHeX.Core
                     return metLevel != 25;
                 case 197: // Umbreon
                     return metLevel != 26;
+
+                    // Gifts
+                case 213: // Shuckle
+                case 239: case 240: // Elekid
+                case 246: case 247: case 248: // Larvitar
+                case 307: case 308: // Meditite
+                    return metLevel == 20;
             }
             // all other cases handled, if not in Colo's table it's from XD.
             return !Legal.ValidSpecies_Colo.Contains(species);

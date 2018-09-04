@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -10,7 +11,7 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
         internal static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
-        internal static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
+        private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
 
         static Encounters2()
         {
@@ -43,7 +44,7 @@ namespace PKHeX.Core
             // Fishing
             var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
 
-            EncounterArea[] Slots = new EncounterArea[0];
+            var Slots = Array.Empty<EncounterArea>();
             if (Version.Contains(GameVersion.GS))
                 Slots = GetSlots_GS(f);
             if (Version.Contains(GameVersion.C))
@@ -139,14 +140,14 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 152, Level = 05, Location = 001, Version = GameVersion.GSC }, // Chikorita @ New Bark Town
             new EncounterStatic { Species = 155, Level = 05, Location = 001, Version = GameVersion.GSC }, // Cyndaquil @ New Bark Town
             new EncounterStatic { Species = 158, Level = 05, Location = 001, Version = GameVersion.GSC }, // Totodile @ New Bark Town
-            
+
             new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC, EggLocation = 256 }, // Togepi
             new EncounterStatic { Species = 131, Level = 20, Location = 010, Version = GameVersion.GSC }, // Lapras @ Union Cave
             new EncounterStatic { Species = 133, Level = 20, Location = 016, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
-            
+
             new EncounterStatic { Species = 185, Level = 20, Location = 020, Version = GameVersion.GSC }, // Sudowoodo @ Route 36
             new EncounterStatic { Species = 236, Level = 10, Location = 035, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
-            
+
             new EncounterStatic { Species = 130, Level = 30, Location = 038, Version = GameVersion.GSC, Shiny = Shiny.Always, }, // Gyarados @ Lake of Rage
             new EncounterStatic { Species = 074, Level = 21, Location = 036, Version = GameVersion.GSC }, // Geodude @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 109, Level = 21, Location = 036, Version = GameVersion.GSC }, // Koffing @ Rocket Hideout (Mahogany Town)
@@ -157,7 +158,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 211, Level = 05, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Old Rod)
             new EncounterStatic { Species = 211, Level = 20, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Good Rod)
             new EncounterStatic { Species = 211, Level = 40, Location = 008, Version = GameVersion.GSC }, // Qwilfish Swarm @ Route 32 (Super Rod)
-            
+
             new EncounterStatic { Species = 083, Level = 05, Moves = new [] { 226, 14, 97, 163 }, Version = GameVersion.Stadium2 }, // Stadium 2 Baton Pass Farfetch'd
             new EncounterStatic { Species = 207, Level = 05, Moves = new [] { 89, 68, 17 }, Version = GameVersion.Stadium2 }, // Stadium 2 Earthquake Gligar
 
@@ -191,14 +192,14 @@ namespace PKHeX.Core
 
             new EncounterStatic { Species = 249, Level = 70, Version = GameVersion.GD }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 249, Level = 40, Version = GameVersion.SV }, // Lugia @ Whirl Islands
-            
+
             new EncounterStatic { Species = 250, Level = 40, Version = GameVersion.GD }, // Ho-Oh @ Tin Tower
             new EncounterStatic { Species = 250, Level = 70, Version = GameVersion.SV }, // Ho-Oh @ Tin Tower
-            
+
             new EncounterStatic { Species = 137, Level = 15, Version = GameVersion.GS }, // Porygon @ Celadon Game Corner
             new EncounterStatic { Species = 133, Level = 15, Version = GameVersion.GS }, // Eevee @ Celadon Game Corner
             new EncounterStatic { Species = 122, Level = 15, Version = GameVersion.GS }, // Mr. Mime @ Celadon Game Corner
-            
+
             new EncounterStatic { Species = 063, Level = 10, Version = GameVersion.GS }, // Abra @ Goldenrod City (Game Corner)
             new EncounterStatic { Species = 147, Level = 10, Version = GameVersion.GS }, // Dratini @ Goldenrod City (Game Corner)
             new EncounterStatic { Species = 023, Level = 10, Version = GameVersion.GS }, // Ekans @ Goldenrod City (Game Corner) (Gold)
@@ -212,7 +213,7 @@ namespace PKHeX.Core
         private static readonly EncounterStatic[] Encounter_C_Exclusive =
         {
             new EncounterStatic { Species = 245, Level = 40, Location = 023, Version = GameVersion.C }, // Suicune @ Tin Tower
-            
+
             new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Pichu Dizzy Punch
             new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Cleffa Dizzy Punch
             new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Igglybuff Dizzy Punch
@@ -220,9 +221,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Smoochum Dizzy Punch
             new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Elekid Dizzy Punch
             new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256, EggCycles = 20 }, // Magby Dizzy Punch
-            
+
             new EncounterStatic { Species = 147, Level = 15, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
-            
+
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
             new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.C }, // Celebi @ Ilex Forest (VC)
@@ -260,10 +261,11 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 085, Level = 10, Gender = 1, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [wild]
             new EncounterTrade { Species = 178, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
             new EncounterTrade { Species = 082, Level = 05, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
-            
+
             new EncounterTrade { Species = 021, Level = 10, TID = 01001, Moves = new[] {64,45,43} }, // Spearow @ Goldenrod City for free
             new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
         };
+
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
             new string[0],                        // 0 - None
@@ -276,5 +278,16 @@ namespace PKHeX.Core
             Util.GetStringList("tradegsc", "es"), // 7
             Util.GetStringList("tradegsc", "ko"), // 8
         };
+
+        internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
+        {
+            var Area = Array.Find(HeadbuttTreesC, a => a.Location == encounter.Location);
+            if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
+                return TreeEncounterAvailable.Impossible;
+
+            var table = Area.GetTrees(encounter.Type);
+            var trainerpivot = TID % 10;
+            return table[trainerpivot];
+        }
     }
 }

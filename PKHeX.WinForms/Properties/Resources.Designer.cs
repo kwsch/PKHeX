@@ -4593,9 +4593,9 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _25_7c {
+        internal static System.Drawing.Bitmap _25_7 {
             get {
-                object obj = ResourceManager.GetObject("_25_7c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_7", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4603,9 +4603,9 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _25_7cs {
+        internal static System.Drawing.Bitmap _25_7s {
             get {
-                object obj = ResourceManager.GetObject("_25_7cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_7s", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21433,6 +21433,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Bag_Key {
+            get {
+                object obj = ResourceManager.GetObject("Bag_Key", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Bag_PCItems {
             get {
                 object obj = ResourceManager.GetObject("Bag_PCItems", resourceCulture);
@@ -22924,15 +22934,12 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///18/04/18 - New Update:
-        /// - Translations:
-        /// - - Resources are now more accessible for translation. Want to better localize PKHeX to your native language?
-        /// - - Locate the following files in the repo for the desired language (example: English)
-        /// - - LegalityCheckStrings_en.txt (Legality parsing messages)
-        /// - - MessageStrings_en.txt (Program message popup/alerts)
-        /// - - lang_en.txt (Program GUI display)
+        ///18/08/03 - New Update:
         /// - Legality:
-        /// - - Fixed: Accounted for OR/AS OT a [rest of string was truncated]&quot;;.
+        /// - - Changed: Another round of legality check updates. Thanks @iiippppk, @WEERSOQUEER, @PrometheusG, @NinFanBoyFTW, paf, Cloud AC!
+        /// - - Added: Unavailable bred hidden abilities are now flagged for Gen5 origin entities (now covers all gens).
+        /// - - Added: WC6/7 mystery gift version compatibility checks based on wc*full data. Note: some gifts might still allow impossible future versions.
+        /// - Added: Hovering over a  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -28121,7 +28128,7 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20180417.
+        ///   Looks up a localized string similar to 20180803.
         /// </summary>
         internal static string ProgramVersion {
             get {

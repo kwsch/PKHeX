@@ -24,7 +24,7 @@ namespace PKHeX.WinForms
             // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-            // Add the event handler for handling non-UI thread exceptions to the event. 
+            // Add the event handler for handling non-UI thread exceptions to the event.
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
             if (!CheckNETFramework())
@@ -39,13 +39,13 @@ namespace PKHeX.WinForms
         {
             if (IsOnWindows())
             {
-                #if MONO 
+                #if MONO
                 Error("Mono version should not be used on a Windows system.");
                 #endif
                 if (GetFrameworkVersion() >= 393295)
                     return true;
                 Error(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.");
-                Process.Start(@"https://www.microsoft.com/download/details.aspx?id=48130");
+                Process.Start("https://www.microsoft.com/download/details.aspx?id=48130");
                 return false;
             }
 
@@ -55,12 +55,14 @@ namespace PKHeX.WinForms
             Error("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.");
             return false;
         }
+
         private static bool IsOnWindows()
         {
             // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
             int p = (int)Environment.OSVersion.Platform;
             return p != 4 && p != 6 && p != 128;
         }
+
         private static int GetFrameworkVersion()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
@@ -72,6 +74,7 @@ namespace PKHeX.WinForms
                 return releaseKey;
             }
         }
+
         private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
 #if !DEBUG
@@ -95,8 +98,8 @@ namespace PKHeX.WinForms
 
         // Handle the UI exceptions by showing a dialog box, and asking the user whether
         // or not they wish to abort execution.
-        // NOTE: This exception cannot be kept from terminating the application - it can only 
-        // log the event, and inform the user about it. 
+        // NOTE: This exception cannot be kept from terminating the application - it can only
+        // log the event, and inform the user about it.
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = e.ExceptionObject as Exception;

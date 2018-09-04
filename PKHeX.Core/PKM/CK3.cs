@@ -21,10 +21,7 @@ namespace PKHeX.Core
         public CK3(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
         }
         public CK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new CK3((byte[])Data.Clone(), Identifier);
@@ -90,7 +87,7 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => BigEndian.ToUInt16(Data, 0x92); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x92); }
         public override int Stat_SPD { get => BigEndian.ToUInt16(Data, 0x94); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x94); }
         public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x96); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x96); }
-        
+
         // EVs
         public override int EV_HP {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0x98));
@@ -130,7 +127,7 @@ namespace PKHeX.Core
         public override int IV_SPE {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xAE));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xAE); }
-        
+
         public override int OT_Friendship { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }
 
         // Contest
@@ -145,7 +142,7 @@ namespace PKHeX.Core
         public override int RibbonCountG3Smart { get => Data[0xBA]; set => Data[0xBA] = (byte)value; }
         public override int RibbonCountG3Tough { get => Data[0xBB]; set => Data[0xBB] = (byte)value; }
         public override int CNT_Sheen { get => Data[0xBC]; set => Data[0xBC] = (byte)value; }
-        
+
         // Ribbons
         public override bool RibbonChampionG3Hoenn { get => Data[0xBD] == 1; set => Data[0xBD] = (byte)(value ? 1 : 0); }
         public override bool RibbonWinning { get => Data[0xBE] == 1; set => Data[0xBE] = (byte)(value ? 1 : 0); }
@@ -166,7 +163,7 @@ namespace PKHeX.Core
 
         public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
         public override bool IsEgg { get => Data[0xCB] == 1; set => Data[0xCB] = (byte)(value ? 1 : 0); }
-        public override int AbilityNumber { get => 1 << Data[0xCC]; set => Data[0xCC] = (byte)((value >> 1) & 1); }
+        public override bool AbilityBit { get => Data[0xCC] == 1; set => Data[0xCC] = (byte)(value ? 1 : 0); }
         public override bool Valid { get => Data[0xCD] == 0; set { if (value) Data[0xCD] = 0; } }
         // 0xCE unknown
         public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }

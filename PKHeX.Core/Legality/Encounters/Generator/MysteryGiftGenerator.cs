@@ -10,10 +10,16 @@ namespace PKHeX.Core
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
         {
             int maxSpecies = GetMaxSpeciesOrigin(pkm.Format);
-            var vs = GetValidPreEvolutions(pkm, maxSpecies).ToArray();
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies);
+            return GetPossible(pkm, vs);
+        }
+
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
+        {
             var table = GetTable(pkm.GenNumber);
             return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
         }
+
         public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm)
         {
             int gen = pkm.GenNumber;
@@ -28,6 +34,7 @@ namespace PKHeX.Core
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
+
         private static IEnumerable<MysteryGift> GetTable(int generation)
         {
             switch (generation)
@@ -40,13 +47,14 @@ namespace PKHeX.Core
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
+
         private static IEnumerable<MysteryGift> GetMatchingWC3(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
                 yield break;
 
             var validWC3 = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm, MaxSpeciesID_3).ToArray();
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm, MaxSpeciesID_3);
             var enumerable = DB.OfType<WC3>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC3 wc in enumerable)
             {
@@ -61,9 +69,10 @@ namespace PKHeX.Core
             foreach (var z in validWC3)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
         {
-            if (DB == null || pkm.IsEgg && pkm.Format != 4) // transferred
+            if (DB == null || (pkm.IsEgg && pkm.Format != 4)) // transferred
                 yield break;
 
             if (IsRangerManaphy(pkm))
@@ -74,7 +83,7 @@ namespace PKHeX.Core
             }
 
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm).ToArray();
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (PCD mg in enumerable)
             {
@@ -91,13 +100,14 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingPGF(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
                 yield break;
 
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm).ToArray();
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<PGF>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (PGF wc in enumerable)
             {
@@ -112,39 +122,33 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingWC6(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
                 yield break;
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm).ToArray();
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<WC6>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC6 wc in enumerable)
             {
                 if (!GetIsMatchWC6(pkm, wc, vs))
                     continue;
-
-                switch (wc.CardID)
-                {
-                    case 0525 when wc.IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
-                    case 0504 when wc.RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // magmar with/without classic
-                        deferred.Add(wc);
-                        continue;
-                }
-                if (wc.Species == pkm.Species) // best match
-                    yield return wc;
-                else
+                if (GetIsDeferredWC6(pkm, wc))
                     deferred.Add(wc);
+                else
+                    yield return wc;
             }
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static IEnumerable<MysteryGift> GetMatchingWC7(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
                 yield break;
             var deferred = new List<MysteryGift>();
-            var vs = GetValidPreEvolutions(pkm).ToArray();
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             var enumerable = DB.OfType<WC7>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC7 wc in enumerable)
             {
@@ -160,18 +164,19 @@ namespace PKHeX.Core
                 if (wc.PIDType == 0 && pkm.PID != wc.PID)
                     continue;
 
-                if (wc.Species == pkm.Species) // best match
-                    yield return wc;
-                else
+                if (GetIsDeferredWC7(pkm, wc))
                     deferred.Add(wc);
+                else
+                    yield return wc;
             }
             foreach (var z in deferred)
                 yield return z;
         }
+
         private static bool GetIsMatchWC3(PKM pkm, WC3 wc)
         {
             // Gen3 Version MUST match.
-            if (wc.Version != 0 && !((GameVersion)wc.Version).Contains((GameVersion)pkm.Version))
+            if (wc.Version != 0 && !(wc.Version).Contains((GameVersion)pkm.Version))
                 return false;
 
             bool hatchedEgg = wc.IsEgg && !pkm.IsEgg;
@@ -188,16 +193,17 @@ namespace PKHeX.Core
             if (wc.Fateful != pkm.FatefulEncounter)
             {
                 // XD Gifts only at level 20 get flagged after transfer
-                bool valid = wc.Level == 20 && pkm is XK3;
-                if (!valid)
+                if (wc.Version == GameVersion.XD != pkm is XK3)
                     return false;
             }
 
             if (pkm.IsNative)
             {
+                if (hatchedEgg)
+                    return true; // defer egg specific checks to later.
                 if (wc.Met_Level != pkm.Met_Level)
                     return false;
-                if (wc.Location != pkm.Met_Location && (!wc.IsEgg || pkm.IsEgg))
+                if (wc.Location != pkm.Met_Location)
                     return false;
             }
             else
@@ -209,7 +215,8 @@ namespace PKHeX.Core
             }
             return true;
         }
-        private static bool GetIsMatchPCD(PKM pkm, PKM wc, IEnumerable<DexLevel> vs)
+
+        private static bool GetIsMatchPCD(PKM pkm, PK4 wc, IEnumerable<DexLevel> vs)
         {
             if (!wc.IsEgg)
             {
@@ -248,11 +255,12 @@ namespace PKHeX.Core
             if (wc.PID == 1 && pkm.IsShiny) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
         }
+
         private static bool GetIsMatchPGF(PKM pkm, PGF wc, IEnumerable<DexLevel> vs)
         {
             if (!wc.IsEgg)
@@ -278,7 +286,10 @@ namespace PKHeX.Core
                         return false;
                 }
                 else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
                     return false; // can't be traded away for unshiny
+                }
+
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -290,11 +301,12 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 2 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
         }
+
         private static bool GetIsMatchWC6(PKM pkm, WC6 wc, IEnumerable<DexLevel> vs)
         {
             if (pkm.Egg_Location == 0) // Not Egg
@@ -319,7 +331,10 @@ namespace PKHeX.Core
                         return false;
                 }
                 else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
                     return false; // can't be traded away for unshiny
+                }
+
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -335,11 +350,12 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
         }
+
         private static bool GetIsMatchWC7(PKM pkm, WC7 wc, IEnumerable<DexLevel> vs)
         {
             if (pkm.Egg_Location == 0) // Not Egg
@@ -362,7 +378,9 @@ namespace PKHeX.Core
                     // Rockruff gift edge case; has altform 1 then evolves to altform 2
                 }
                 else
+                {
                     return false;
+                }
             }
 
             if (wc.IsEgg)
@@ -373,7 +391,10 @@ namespace PKHeX.Core
                         return false;
                 }
                 else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
                     return false; // can't be traded away for unshiny
+                }
+
                 if (pkm.IsEgg && !pkm.IsNative)
                     return false;
             }
@@ -390,27 +411,44 @@ namespace PKHeX.Core
             if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm.IsContestBelow(wc))
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             switch (wc.CardID)
             {
-                case 1624: // Rockruff
-                    if (pkm.Species == 745 && pkm.AltForm != 2)
-                        return false;
-                    if (pkm.Version == (int)GameVersion.US)
-                        return wc.Move3 == 424; // Fire Fang
-                    if (pkm.Version == (int)GameVersion.UM)
-                        return wc.Move3 == 422; // Thunder Fang
-                    return false;
                 case 2046: // Ash Greninja
                     return pkm.SM; // not USUM
             }
             return true;
         }
 
+        private static bool GetIsDeferredWC6(PKM pkm, WC6 wc)
+        {
+            switch (wc.CardID)
+            {
+                case 0525 when wc.IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
+                case 0504 when wc.RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // magmar with/without classic
+                    return true;
+            }
+            if (wc.RestrictLanguage != 0 && wc.RestrictLanguage != pkm.Language)
+                return true;
+            if (!wc.CanBeReceivedByVersion(pkm.Version))
+                return true;
+            return wc.Species != pkm.Species;
+        }
+
+        private static bool GetIsDeferredWC7(PKM pkm, WC7 wc)
+        {
+            if (wc.RestrictLanguage != 0 && wc.RestrictLanguage != pkm.Language)
+                return true;
+            if (!wc.CanBeReceivedByVersion(pkm.Version))
+                return true;
+            return wc.Species != pkm.Species;
+        }
+
         // Utility
         private static readonly PGT RangerManaphy = new PGT {Data = {[0] = 7, [8] = 1}};
+
         private static bool IsRangerManaphy(PKM pkm)
         {
             var egg = pkm.Egg_Location;

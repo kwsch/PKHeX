@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4 : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
+        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
         public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -27,8 +27,8 @@ namespace PKHeX.Core
             if (Version == GameVersion.Invalid)
                 return;
 
-            GetActiveGeneralBlock();
-            GetActiveStorageBlock();
+            generalBlock = GetActiveGeneralBlock();
+            storageBlock = GetActiveStorageBlock();
             GetSAVOffsets();
 
             switch (Version)
@@ -80,7 +80,7 @@ namespace PKHeX.Core
                     return new[] {new[] {0x0000, 0xCF18, 0xCF2A}, new[] {0xCF2C, 0x1F0FC, 0x1F10E}};
                 case GameVersion.HGSS:
                     return new[] {new[] {0x0000, 0xF618, 0xF626}, new[] {0xF700, 0x21A00, 0x21A0E}};
-                    
+
                 default:
                     return null;
             }
@@ -129,51 +129,68 @@ namespace PKHeX.Core
         }
 
         // Blocks & Offsets
-        private int generalBlock = -1; // Small Block
-        private int storageBlock = -1; // Big Block
-        private int hofBlock = -1; // Hall of Fame Block
+        private readonly int generalBlock = -1; // Small Block
+        private readonly int storageBlock = -1; // Big Block
+        private readonly int hofBlock = -1; // Hall of Fame Block
         private int SBO => 0x40000 * storageBlock;
         public int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
-        private void GetActiveGeneralBlock()
+        private int GetActiveGeneralBlock()
         {
             if (Version < 0)
-                return;
-            int ofs = 0;
+                return -1;
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (GetData(0x00000, 10).All(z => z == 0xFF))
-            { generalBlock = 1; return; }
-            if (GetData(0x40000, 10).All(z => z == 0xFF))
-            { generalBlock = 0; return; }
+            if (IsRangeAll(0x00000, 10, 0) || IsRangeAll(0x00000, 10, 0xFF))
+                return 1;
+            if (IsRangeAll(0x40000, 10, 0) || IsRangeAll(0x40000, 10, 0xFF))
+                return 0;
 
-            // Check SaveCount for current save
-            if (Version == GameVersion.DP) ofs = 0xC0F0; // DP
-            else if (Version == GameVersion.Pt) ofs = 0xCF1C; // PT
-            else if (Version == GameVersion.HGSS) ofs = 0xF618; // HGSS
-            generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
+            int ofs = GetActiveBlockSaveCounterOffset();
+            bool first = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000);
+            return first ? 0 : 1;
         }
-        private void GetActiveStorageBlock()
+
+        private int GetActiveStorageBlock()
         {
             if (Version < 0)
-                return;
-            int ofs = 0;
-
-            // Check SaveCount for current save
-            if (Version == GameVersion.DP) ofs = 0x1E2D0; // DP
-            else if (Version == GameVersion.Pt) ofs = 0x1F100; // PT
-            else if (Version == GameVersion.HGSS) ofs = 0x21A00; // HGSS
+                return -1;
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (GetData(ofs + 0x00000, 10).All(z => z == 0xFF))
-            { storageBlock = 1; return; }
-            if (GetData(ofs + 0x40000, 10).All(z => z == 0xFF))
-            { storageBlock = 0; return; }
+            if (IsRangeAll(0x00000, 10, 0) || IsRangeAll(0x00000, 10, 0xFF))
+                return 1;
+            if (IsRangeAll(0x40000, 10, 0) || IsRangeAll(0x40000, 10, 0xFF))
+                return 0;
 
-            storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
+            int ofs = GetStorageBlockSaveCounterOffset();
+            bool first = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000);
+            return first ? 0 : 1;
         }
+
+        private int GetActiveBlockSaveCounterOffset()
+        {
+            switch (Version)
+            {
+                case GameVersion.DP: return 0xC0F0;
+                case GameVersion.Pt: return 0xCF1C;
+                case GameVersion.HGSS: return 0xF618;
+                default: return -1;
+            }
+        }
+
+        private int GetStorageBlockSaveCounterOffset()
+        {
+            switch (Version)
+            {
+                case GameVersion.DP: return 0x1E2D0;
+                case GameVersion.Pt: return 0x1F100;
+                case GameVersion.HGSS: return 0x21A00;
+                default: return -1;
+            }
+        }
+
         private void GetSAVOffsets()
         {
             if (Version < 0)
@@ -299,14 +316,14 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 99, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls),
-                    new InventoryPouch(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
-                    new InventoryPouch(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
+                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 99, OFS_PouchTMHM),
+                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
+                    new InventoryPouch4(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls),
+                    new InventoryPouch4(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
+                    new InventoryPouch4(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
                 };
                 foreach (var p in pouch)
                     p.GetPouch(Data);
@@ -901,7 +918,7 @@ namespace PKHeX.Core
         }
         private static int GetGen4LanguageBitIndex(int lang)
         {
-            lang -= 1;
+            lang--;
             switch (lang) // invert ITA/GER
             {
                 case 3: return 4;
@@ -1215,7 +1232,7 @@ namespace PKHeX.Core
         public int GetApricornCount(int i) => !HGSS ? -1 : Data[0xE558 + GBO + i];
         public void SetApricornCount(int i, int count) => Data[0xE558 + GBO + i] = (byte)count;
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString4(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

@@ -9,7 +9,11 @@ namespace PKHeX.Core
             var rng = RNG.LCRNG;
             var A = rng.Next(seed);
             var B = rng.Next(A);
-            pk.PID = B & 0xFFFF0000 | A >> 16;
+            var pid = (B & 0xFFFF0000) | A >> 16;
+            if (type == PIDType.Method_1_Unown || type == PIDType.Method_2_Unown || type == PIDType.Method_4_Unown)
+                pk.PID = (pid >> 16) | (pid << 16); // swap halves
+            else
+                pk.PID = pid;
 
             var skipIV1Frame = type == PIDType.Method_2 || type == PIDType.Method_2_Unown;
             if (skipIV1Frame)
@@ -30,6 +34,7 @@ namespace PKHeX.Core
             }
             pk.IVs = IVs;
         }
+
         private static void SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
         {
             var rng = RNG.LCRNG;
@@ -42,8 +47,7 @@ namespace PKHeX.Core
 
             if (shiny)
             {
-                uint PID;
-                PID = X & 0xFFFF0000 | (uint)pk.SID ^ (uint)pk.TID ^ X >> 16;
+                uint PID = (X & 0xFFFF0000) | ((uint)pk.SID ^ (uint)pk.TID ^ X >> 16);
                 PID &= 0xFFFFFFF8;
                 PID |= B >> 16 & 0x7; // lowest 3 bits
 
@@ -52,10 +56,12 @@ namespace PKHeX.Core
             else if (type == PIDType.BACD_R_AX || type == PIDType.BACD_U_AX)
             {
                 uint low = B >> 16;
-                pk.PID = A & 0xFFFF0000 ^ (((uint)pk.TID ^ (uint)pk.SID ^ low) << 16) | low;
+                pk.PID = ((A & 0xFFFF0000) ^ (((uint)pk.TID ^ (uint)pk.SID ^ low) << 16)) | low;
             }
             else
-                pk.PID = A & 0xFFFF0000 | B >> 16;
+            {
+                pk.PID = (A & 0xFFFF0000) | B >> 16;
+            }
 
             pk.IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
 
@@ -63,18 +69,34 @@ namespace PKHeX.Core
             while (antishiny && pk.IsShiny)
                 pk.PID = unchecked(pk.PID + 1);
         }
+
         private static void SetValuesFromSeedXDRNG(PKM pk, uint seed)
         {
             var rng = RNG.XDRNG;
+            switch (pk.Species)
+            {
+                case 197: // Colo Umbreon
+                case 133: // XD Eevee
+                    pk.TID = (int)((seed = rng.Next(seed)) >> 16);
+                    pk.SID = (int)((seed = rng.Next(seed)) >> 16);
+                    seed = rng.Advance(seed, 2); // PID calls consumed
+                    break;
+                case 196: // Colo Espeon
+                    pk.TID = (int)((seed = rng.Next(seed)) >> 16);
+                    pk.SID = (int)((seed = rng.Next(seed)) >> 16);
+                    seed = rng.Advance(seed, 9); // PID calls consumed, skip over Umbreon
+                    break;
+            }
             var A = rng.Next(seed); // IV1
             var B = rng.Next(A); // IV2
             var C = rng.Next(B); // Ability?
             var D = rng.Next(C); // PID
             var E = rng.Next(D); // PID
 
-            pk.PID = D & 0xFFFF0000 | E >> 16;
+            pk.PID = (D & 0xFFFF0000) | E >> 16;
             pk.IVs = MethodFinder.GetIVsInt32(A >> 16, B >> 16);
         }
+
         private static void SetValuesFromSeedChannel(PKM pk, uint seed)
         {
             var rng = RNG.XDRNG;
@@ -85,7 +107,7 @@ namespace PKHeX.Core
             var D = rng.Next(C); // Version
             var E = rng.Next(D); // OT Gender
 
-            var TID = 40122;
+            const int TID = 40122;
             var SID = (int)(O >> 16);
             var pid1 = A >> 16;
             var pid2 = B >> 16;
@@ -106,6 +128,7 @@ namespace PKHeX.Core
             var method = GetGeneratorMethod(type);
             method(pk, seed);
         }
+
         private static Action<PKM, uint> GetGeneratorMethod(PIDType t)
         {
             switch (t)
@@ -146,11 +169,28 @@ namespace PKHeX.Core
                 case PIDType.CuteCharm:
                     break;
                 case PIDType.ChainShiny:
-                    break;
+                    return SetRandomChainShinyPID;
                 case PIDType.G4MGAntiShiny:
                     break;
             }
-            return (pk, seed) => { };
+            return (_, __) => { };
+        }
+
+        public static void SetRandomChainShinyPID(PKM pk, uint seed)
+        {
+            // 13 rand bits
+            // 1 3-bit for upper
+            // 1 3-bit for lower
+
+            uint Next() => (seed = RNG.LCRNG.Next(seed)) >> 16;
+            uint lower = Next() & 7;
+            uint upper = Next() & 7;
+            for (int i = 0; i < 13; i++)
+                lower |= (Next() & 1) << (3 + i);
+
+            upper = ((uint)(lower ^ pk.TID ^ pk.SID) & 0xFFF8) | (upper & 0x7);
+            pk.PID = upper << 16 | lower;
+            pk.IVs = MethodFinder.GetIVsInt32(Next(), Next());
         }
 
         public static void SetRandomPokeSpotPID(PKM pk, int nature, int gender, int ability, int slot)
@@ -165,7 +205,7 @@ namespace PKHeX.Core
                 var D = rng.Next(seed); // PID
                 var E = rng.Next(D); // PID
 
-                pk.PID = D & 0xFFFF0000 | E >> 16;
+                pk.PID = (D & 0xFFFF0000) | E >> 16;
                 if (!IsValidCriteria4(pk, nature, ability, gender))
                     continue;
 
@@ -188,7 +228,7 @@ namespace PKHeX.Core
                 nature = 0;
             uint pid = (uint)((TID ^ SID) >> 8 ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
             // Ensure nature is set to required nature without affecting shininess
-            pid += nature - pid % 25;
+            pid += nature - (pid % 25);
 
             // Ensure Gender is set to required gender without affecting other properties
             // If Gender is modified, modify the ability if appropriate
@@ -203,13 +243,13 @@ namespace PKHeX.Core
 
             if (currentGender == 0) // Male
             {
-                pid += (uint)(((gr - (pid & 0xFF)) / 25 + 1) * 25);
+                pid += (uint)((((gr - (pid & 0xFF)) / 25) + 1) * 25);
                 if ((nature & 1) != (pid & 1))
                     pid += 25;
             }
             else
             {
-                pid -= (uint)((((pid & 0xFF) - gr) / 25 + 1) * 25);
+                pid -= (uint)(((((pid & 0xFF) - gr) / 25) + 1) * 25);
                 if ((nature & 1) != (pid & 1))
                     pid -= 25;
             }
@@ -244,7 +284,7 @@ namespace PKHeX.Core
                     SetRandomWildPID4(pk, nature, ability, gender, specific);
                     break;
                 case 5:
-                    SetRandomWildPID5(pk, nature, ability, gender);
+                    SetRandomWildPID5(pk, nature, ability, gender, specific);
                     break;
                 default:
                     SetRandomWildPID(pk, nature, ability, gender);
@@ -281,7 +321,7 @@ namespace PKHeX.Core
 
         private static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
         {
-            if (pk.GetSaneGender(gender) != gender)
+            if (pk.GetSaneGender() != gender)
                 return false;
 
             if (pk.Nature != nature)
@@ -304,7 +344,8 @@ namespace PKHeX.Core
 
             return PIDType.Method_1;
         }
-        private static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender)
+
+        private static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
         {
             var tidbit = (pk.TID ^ pk.SID) & 1;
             pk.RefreshAbility(ability);
@@ -317,9 +358,17 @@ namespace PKHeX.Core
             while (true)
             {
                 uint seed = Util.Rand32();
-                var bitxor = (seed >> 31) ^ (seed & 1);
-                if (bitxor != tidbit)
-                    seed ^= 1;
+                if (specific == PIDType.G5MGShiny)
+                {
+                    SetValuesFromSeedMG5Shiny(pk, seed);
+                    seed = pk.PID;
+                }
+                else
+                {
+                    var bitxor = (seed >> 31) ^ (seed & 1);
+                    if (bitxor != tidbit)
+                        seed ^= 1;
+                }
 
                 if (seed % 25 != nature)
                     continue;
@@ -327,7 +376,7 @@ namespace PKHeX.Core
                     continue;
 
                 pk.PID = seed;
-                if (pk.GetSaneGender(gender) != gender)
+                if (pk.GetSaneGender() != gender)
                     continue;
 
                 SetRandomIVs(pk);

@@ -20,6 +20,7 @@
         {
             return encounter.LevelMin <= lvl && lvl <= encounter.LevelMax;
         }
+
         public static bool IsWithinRange(this IEncounterable encounter, PKM pkm)
         {
             if (!pkm.HasOriginalMetLocation)
@@ -30,6 +31,7 @@
                 return pkm.CurrentLevel == g.Level;
             return pkm.CurrentLevel == pkm.Met_Level;
         }
+
         internal static string GetEncounterTypeName(this IEncounterable Encounter) => Encounter?.Name ?? "Unknown";
     }
 }

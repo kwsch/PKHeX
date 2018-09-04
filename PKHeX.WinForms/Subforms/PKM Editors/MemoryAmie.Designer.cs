@@ -53,6 +53,7 @@
             this.L_OT_Affection = new System.Windows.Forms.Label();
             this.M_OT_Affection = new System.Windows.Forms.MaskedTextBox();
             this.GB_Residence = new System.Windows.Forms.GroupBox();
+            this.B_ClearAll = new System.Windows.Forms.Button();
             this.CB_Region4 = new System.Windows.Forms.ComboBox();
             this.CB_Region3 = new System.Windows.Forms.ComboBox();
             this.CB_Region2 = new System.Windows.Forms.ComboBox();
@@ -88,7 +89,6 @@
             this.L_Handler = new System.Windows.Forms.Label();
             this.CB_Handler = new System.Windows.Forms.ComboBox();
             this.L_Arguments = new System.Windows.Forms.Label();
-            this.B_ClearAll = new System.Windows.Forms.Button();
             this.GB_M_OT.SuspendLayout();
             this.GB_Residence.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -296,14 +296,6 @@
             // 
             this.CB_OTQual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_OTQual.FormattingEnabled = true;
-            this.CB_OTQual.Items.AddRange(new object[] {
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon fondly remembers",
-            "The Pokémon clearly remembers",
-            "The Pokémon definitely remembers"});
             this.CB_OTQual.Location = new System.Drawing.Point(86, 88);
             this.CB_OTQual.Name = "CB_OTQual";
             this.CB_OTQual.Size = new System.Drawing.Size(240, 21);
@@ -314,31 +306,6 @@
             // 
             this.CB_OTFeel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_OTFeel.FormattingEnabled = true;
-            this.CB_OTFeel.Items.AddRange(new object[] {
-            "it was happy",
-            "it had fun",
-            "it was glad",
-            "it grinned",
-            "it got overwhelmed by emotion",
-            "its feelings were indescribable",
-            "it felt good",
-            "it got teary eyed",
-            "it got lighthearted",
-            "it got nervous",
-            "it felt comfortable",
-            "it was restless",
-            "it got a bit carried away",
-            "it felt sorry",
-            "it got emotional",
-            "it felt nostalgic",
-            "it had some difficulty",
-            "it felt exhausted",
-            "it couldn’t be true to its feelings",
-            "it felt proud",
-            "they ended up in a foul mood",
-            "it got angry",
-            "it got jealous",
-            "it got sleepy"});
             this.CB_OTFeel.Location = new System.Drawing.Point(86, 111);
             this.CB_OTFeel.Name = "CB_OTFeel";
             this.CB_OTFeel.Size = new System.Drawing.Size(170, 21);
@@ -389,6 +356,16 @@
             this.GB_Residence.TabIndex = 89;
             this.GB_Residence.TabStop = false;
             this.GB_Residence.Text = "Pokémon has Resided in:";
+            // 
+            // B_ClearAll
+            // 
+            this.B_ClearAll.Location = new System.Drawing.Point(82, 157);
+            this.B_ClearAll.Name = "B_ClearAll";
+            this.B_ClearAll.Size = new System.Drawing.Size(76, 23);
+            this.B_ClearAll.TabIndex = 79;
+            this.B_ClearAll.Text = "Clear All";
+            this.B_ClearAll.UseVisualStyleBackColor = true;
+            this.B_ClearAll.Click += new System.EventHandler(this.B_ClearAll_Click);
             // 
             // CB_Region4
             // 
@@ -637,14 +614,6 @@
             // 
             this.CB_CTQual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_CTQual.FormattingEnabled = true;
-            this.CB_CTQual.Items.AddRange(new object[] {
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon remembers",
-            "The Pokémon fondly remembers",
-            "The Pokémon clearly remembers",
-            "The Pokémon definitely remembers"});
             this.CB_CTQual.Location = new System.Drawing.Point(86, 88);
             this.CB_CTQual.Name = "CB_CTQual";
             this.CB_CTQual.Size = new System.Drawing.Size(240, 21);
@@ -655,31 +624,6 @@
             // 
             this.CB_CTFeel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_CTFeel.FormattingEnabled = true;
-            this.CB_CTFeel.Items.AddRange(new object[] {
-            "it was happy",
-            "it had fun",
-            "it was glad",
-            "it grinned",
-            "it got overwhelmed by emotion",
-            "its feelings were indescribable",
-            "it felt good",
-            "it got teary eyed",
-            "it got lighthearted",
-            "it got nervous",
-            "it felt comfortable",
-            "it was restless",
-            "it got a bit carried away",
-            "it felt sorry",
-            "it got emotional",
-            "it felt nostalgic",
-            "it had some difficulty",
-            "it felt exhausted",
-            "it couldn’t be true to its feelings",
-            "it felt proud",
-            "they ended up in a foul mood",
-            "it got angry",
-            "it got jealous",
-            "it got sleepy"});
             this.CB_CTFeel.Location = new System.Drawing.Point(86, 111);
             this.CB_CTFeel.Name = "CB_CTFeel";
             this.CB_CTFeel.Size = new System.Drawing.Size(170, 21);
@@ -797,16 +741,6 @@
             this.L_Arguments.TabIndex = 102;
             this.L_Arguments.Text = "(args)";
             this.L_Arguments.Visible = false;
-            // 
-            // B_ClearAll
-            // 
-            this.B_ClearAll.Location = new System.Drawing.Point(82, 157);
-            this.B_ClearAll.Name = "B_ClearAll";
-            this.B_ClearAll.Size = new System.Drawing.Size(76, 23);
-            this.B_ClearAll.TabIndex = 79;
-            this.B_ClearAll.Text = "Clear All";
-            this.B_ClearAll.UseVisualStyleBackColor = true;
-            this.B_ClearAll.Click += new System.EventHandler(this.B_ClearAll_Click);
             // 
             // MemoryAmie
             // 

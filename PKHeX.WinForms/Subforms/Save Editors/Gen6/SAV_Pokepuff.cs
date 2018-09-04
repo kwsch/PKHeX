@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_Pokepuff(SaveFile sav)
         {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace PKHeX.WinForms
 
         private readonly string[] pfa = GameInfo.Strings.puffs;
         private int PuffCount { get; set; }
+
         private void Setup()
         {
             dgv.Rows.Clear();
@@ -78,24 +80,28 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_All_Click(object sender, EventArgs e)
         {
             int[] plus10 = {21, 22};
             byte[] newpuffs = new byte[PuffCount];
 
             if (ModifierKeys == Keys.Control)
+            {
                 for (int i = 0; i < PuffCount; i++)
-                    newpuffs[i] = (byte)plus10[Util.Rand32() & 1];
+                    newpuffs[i] = (byte)plus10[Util.Rand.Next(2)];
+            }
             else
             {
                 for (int i = 0; i < PuffCount; i++)
-                    newpuffs[i] = (byte)(i % (pfa.Length - 1) + 1);
+                    newpuffs[i] = (byte)((i % (pfa.Length - 1)) + 1);
                 Util.Shuffle(newpuffs);
             }
 
             Array.Copy(newpuffs, 0, SAV.Data, SAV.Puff, PuffCount);
             Setup();
         }
+
         private void B_None_Click(object sender, EventArgs e)
         {
             byte[] newpuffs = new byte[PuffCount];
@@ -107,6 +113,7 @@ namespace PKHeX.WinForms
             Array.Copy(newpuffs, 0, SAV.Data, SAV.Puff, PuffCount);
             Setup();
         }
+
         private void B_Sort_Click(object sender, EventArgs e)
         {
             var puffs = GetPuffs(false);
@@ -132,6 +139,7 @@ namespace PKHeX.WinForms
                 Array.Resize(ref arr, PuffCount);
             return arr;
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             SAV.Puffs = GetPuffs();

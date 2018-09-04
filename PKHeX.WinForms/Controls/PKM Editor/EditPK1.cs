@@ -10,15 +10,10 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             LoadMisc1(pk1);
+            TID_Trainer.LoadIDValues(pkm);
 
             // Attempt to detect language
-            if (pk1.Japanese)
-                CB_Language.SelectedIndex = 0;
-            else
-            {
-                int lang = PKX.GetSpeciesNameLanguage(pk1.Species, pk1.Nickname, 2);
-                CB_Language.SelectedValue = lang > 0 ? lang : 2;
-            }
+            CB_Language.SelectedValue = PKX.GetVCLanguage(pk1);
 
             LoadPartyStats(pk1);
             UpdateStats();

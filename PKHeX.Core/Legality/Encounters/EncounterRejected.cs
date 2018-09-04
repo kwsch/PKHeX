@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -21,6 +23,6 @@ namespace PKHeX.Core
             Check = check;
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new System.NotImplementedException();
+        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new ArgumentException($"Cannot convert an {nameof(EncounterRejected)} to PKM.");
     }
 }

@@ -10,24 +10,30 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_Trainer(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6)(Origin = sav).Clone();
             if (Main.Unicode)
+            {
                 try
                 {
                     TB_OTName.Font = FontUtil.GetPKXFont(11);
                     if (SAV.XY)
                         TB_TRNick.Font = TB_OTName.Font;
                 }
-            catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+            }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+
+            TrainerStats.LoadRecords(SAV, Records.RecordList_6);
+            TrainerStats.GetToolTipText = UpdateTip;
 
             MaisonRecords = new[]
             {
@@ -42,7 +48,7 @@ namespace PKHeX.WinForms
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = SAV.ORAS;
             L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = SAV.ORAS;
-            PB_Sprite.Visible = SAV.ORAS;
+            PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV.ORAS;
 
             L_Style.Visible = TB_Style.Visible = SAV.XY;
             if (!SAV.XY)
@@ -52,174 +58,16 @@ namespace PKHeX.WinForms
             if (SAV.MaisonStats < 0)
                 TC_Editor.TabPages.Remove(Tab_Maison);
 
-            editing = true;
             GetComboBoxes();
             GetTextBoxes();
             GetBadges();
-
-            statdata = new[] {
-                "0x000",	"0x000", // Steps taken?
-                "0x004",	"0x004", // Minutes Played / Pokemon Encountered?
-                "0x008",	"0x008",
-                "0x00C",	"0x00C",
-                "0x010",	"0x010",
-                "0x014",	"0x014",
-                "0x018",	"0x018",
-                "0x01C",	"Pokémon Captured",
-                "0x020",	"0x020",
-                "0x024",	"Eggs Hatched",
-                "0x028",	"Pokémon Evolved",
-                "0x02C",	"0x02C",
-                "0x030",	"~People Passed", // I think the following ones are Passerby actions...
-                "0x034",	"0x034",
-                "0x038",	"0x038",
-                "0x03C",	"0x03C",
-                "0x040",	"Link Trades",
-                "0x044",	"Link Battles",
-                "0x048",	"Link Battle Wins",
-                "0x04C",	"0x04C",
-                "0x050",	"0x050",
-                "0x054",	"0x054",
-                "0x058",	"0x058",
-                "0x05C",	"0x05C",
-                "0x060",	"0x060",
-                "0x064",	"0x064",
-                "0x068",	"0x068",
-                "0x06C",	"0x06C",
-                "0x070",	"0x070",
-                "0x074",	"0x074",
-                "0x078",	"0x078",
-                "0x07C",	"0x07C",
-                "0x080",	"0x080",
-                "0x084",	"0x084",
-                "0x088",	"BP Earned",
-                "0x08C",	"0x08C",
-                "0x090",	"0x090",
-                "0x094",	"0x094",
-                "0x098",	"0x098",
-                "0x09C",	"0x09C",
-                "0x0A0",	"0x0A0",
-                "0x0A4",	"0x0A4",
-                "0x0A8",	"0x0A8",
-                "0x0AC",	"0x0AC",
-                "0x0B0",	"0x0B0",
-                "0x0B4",	"0x0B4",
-                "0x0B8",	"0x0B8",
-                "0x0BC",	"0x0BC",
-                "0x0C0",	"0x0C0",
-                "0x0C4",	"0x0C4",
-                "0x0C8",	"0x0C8",
-                "0x0CC",	"0x0CC",
-                "0x0D0",	"0x0D0",
-                "0x0D4",	"0x0D4",
-                "0x0D8",	"0x0D8",
-                "0x0DC",	"0x0DC",
-                "0x0E0",	"0x0E0",
-                "0x0E4",	"0x0E4",
-                "0x0E8",	"0x0E8",
-                "0x0EC",	"Nice! Received",
-                "0x0F0",	"Birthday Wishes",
-                "0x0F4",	"Total People Met Online",
-                "0x0F8",	"0x0F8",
-                //"0x0FC",	"Current Pokemiles",
-                "0x100",	"Obtained Pokemiles",
-                "0x104",	"0x104",
-                "0x108",	"0x108",
-                "0x10C",	"Super Training Clears",
-                "0x110",	"Judge Evaluations",
-                "0x114",	"0x114",
-                "0x118",	"0x118", // Link Trades?
-                "0x11C",	"Link Battle", // Wins", // ?
-                "0x120",	"0x120", // Link Battle Losses?
-                "0x124",	"0x124",
-                "0x128",	"0x128",
-                "0x12C",	"0x12C",
-                "0x130",	"0x130",
-                "0x134",	"0x134",
-                "0x138",	"0x138",
-                "0x13C",	"0x13C",
-                "0x140",	"Flags Captured",
-                "0x144",	"0x144",
-                "0x148",	"0x148",
-                "0x14C",	"0x14C",
-                "0x150",	"0x150",
-                "0x154",	"0x154",
-                "0x158",	"0x158",
-                "0x15C",	"0x15C",
-                "0x160",	"0x160",
-                "0x164",	"0x164",
-                "0x168",	"0x168",
-                "0x16C",	"0x16C",
-                "0x170",	"0x170",
-                "0x174",	"0x174",
-                "0x178",	"0x178",
-                "0x17C",	"0x17C",
-                "0x180",	"0x180",
-                "0x184",	"0x184",
-                "0x188",	"0x188",
-                "0x18C",	"0x18C",
-                "0x190",	"0x190",
-                "0x194",	"0x194",
-                "0x198",	"0x198",
-                "0x19C",	"0x19C",
-                "0x1A0",	"0x1A0",
-                "0x1A4",	"0x1A4",
-                "0x1A8",	"0x1A8",
-                "0x1AC",	"0x1AC",
-                "0x1B0",	"0x1B0",
-                "0x1B4",	"0x1B4",
-                "0x1B8",	"0x1B8",
-                "0x1BC",	"Battle Tests",
-                "0x1C0",	"0x1C0",
-                "0x1C4",	"0x1C4",
-                "0x1C8",	"0x1C8",
-                "0x1CC",	"0x1CC",
-                "0x1D0",	"0x1D0",
-                "0x1D4",	"0x1D4",
-                "0x1D8",	"0x1D8",
-                "0x1DC",	"0x1DC",
-                "0x1E0",	"0x1E0",
-                "0x1E4",	"0x1E4",
-                "0x1E8",	"0x1E8",
-                "0x1EC",	"0x1EC",
-                "0x1F0",	"0x1F0",
-                "0x1F4",	"0x1F4",
-                "0x1F8",	"0x1F8",
-                "0x1FC",	"0x1FC",
-                "0x200",	"0x200",
-                "0x204",	"0x204",
-                "0x208",	"0x208",
-                "0x20C",	"0x20C",
-                "0x210",	"0x210",
-                "0x214",	"0x214",
-                "0x218",	"0x218",
-                "0x21C",	"0x21C",
-                "0x220",	"0x220",
-                "0x224",	"0x224",
-                "0x228",	"0x228",
-                "0x22C",	"0x22C",
-                "0x230",	"0x230",
-                "0x234",	"0x234",
-                "0x238",	"0x238",
-                "0x23C",	"0x23C",
-                "0x240",	"0x240",
-                "0x244",	"0x244",
-                "0x248",	"0x248",
-                "0x24C",	"0x24C",
-                "0x250",	"0x250",
-                "0x254",	"0x254",
-                "0x258",	"0x258",
-            }; // Offset, Title. Horrible implementation, but works.
-
-            CB_Stats.Items.Clear();
-            for (int i = 0; i < statdata.Length / 2; i++)
-                CB_Stats.Items.Add(statdata[2 * i + 1]);
-            CB_Stats.SelectedIndex = 0;
+            editing = false;
 
             CHK_MegaUnlocked.Checked = SAV.IsMegaEvolutionUnlocked;
+            CHK_MegaRayquazaUnlocked.Checked = SAV.IsMegaRayquazaUnlocked;
         }
-        private readonly string[] statdata;
-        private bool editing;
+
+        private readonly bool editing = true;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
@@ -237,27 +85,13 @@ namespace PKHeX.WinForms
                     new { Text = "TW", Value = 6 }
                 };
 
-            var language_list = new[] {
-                    new { Text = "ENG", Value = 2 },
-                    new { Text = "JPN", Value = 1 },
-                    new { Text = "FRE", Value = 3 },
-                    new { Text = "ITA", Value = 4 },
-                    new { Text = "GER", Value = 5 },
-                    new { Text = "SPA", Value = 7 },
-                    new { Text = "KOR", Value = 8 }
-                };
-
-            CB_3DSReg.DisplayMember = "Text";
-            CB_3DSReg.ValueMember = "Value";
+            CB_3DSReg.InitializeBinding();
             CB_3DSReg.DataSource = dsregion_list;
-            CB_Language.DisplayMember = "Text";
-            CB_Language.ValueMember = "Value";
-            CB_Language.DataSource = language_list;
+            CB_Language.InitializeBinding();
+            CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 
-            CB_Country.DisplayMember = "Text";
-            CB_Country.ValueMember = "Value";
-            CB_Region.DisplayMember = "Text";
-            CB_Region.ValueMember = "Value";
+            CB_Country.InitializeBinding();
+            CB_Region.InitializeBinding();
             Main.SetCountrySubRegion(CB_Country, "countries");
 
             var oras_sprite_list = new[] {
@@ -335,47 +169,46 @@ namespace PKHeX.WinForms
                 new { Text = "Steven",                      Value = 71 },
                 new { Text = "Maxie",                       Value = 72 },
                 new { Text = "Archie",                      Value = 73 },
-                new { Text = "Pokécenter",                  Value = 0x80 },
+                new { Text = "Pokémon Center",              Value = 0x80 },
                 new { Text = "Gift",                        Value = 0x81 },
             };
 
-            CB_MultiplayerSprite.DisplayMember = "Text";
-            CB_MultiplayerSprite.ValueMember = "Value";
+            CB_MultiplayerSprite.InitializeBinding();
             CB_MultiplayerSprite.DataSource = oras_sprite_list;
 
             L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
-            CB_Vivillon.DisplayMember = "Text";
-            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
         }
+
         private void GetBadges()
         {
-            // Fetch Badges
-            Bitmap[] bma = SAV.ORAS ? 
-                new[] {
-                                   Properties.Resources.badge_01, // ORAS Badges
-                                   Properties.Resources.badge_02,  
-                                   Properties.Resources.badge_03,   
-                                   Properties.Resources.badge_04,
-                                   Properties.Resources.badge_05, 
-                                   Properties.Resources.badge_06,  
-                                   Properties.Resources.badge_07, 
-                                   Properties.Resources.badge_08,
-                } : 
-                new [] {
-                                   Properties.Resources.badge_1, // XY Badges
-                                   Properties.Resources.badge_2,  
-                                   Properties.Resources.badge_3,   
-                                   Properties.Resources.badge_4,
-                                   Properties.Resources.badge_5, 
-                                   Properties.Resources.badge_6,  
-                                   Properties.Resources.badge_7, 
-                                   Properties.Resources.badge_8,
-                };
-
+            var bma = GetGen6BadgeSprites(SAV.ORAS);
             for (int i = 0; i < 8; i++)
                 pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
         }
+
+        private static Bitmap[] GetGen6BadgeSprites(bool ORAS)
+        {
+            if (ORAS)
+            {
+                return new[]
+                {
+                    Properties.Resources.badge_01, Properties.Resources.badge_02,
+                    Properties.Resources.badge_03, Properties.Resources.badge_04,
+                    Properties.Resources.badge_05, Properties.Resources.badge_06,
+                    Properties.Resources.badge_07, Properties.Resources.badge_08
+                };
+            }
+            return new[] // XY
+            {
+                Properties.Resources.badge_1, Properties.Resources.badge_2,
+                Properties.Resources.badge_3, Properties.Resources.badge_4,
+                Properties.Resources.badge_5, Properties.Resources.badge_6,
+                Properties.Resources.badge_7, Properties.Resources.badge_8,
+            };
+        }
+
         private void GetTextBoxes()
         {
             int badgeval = SAV.Badges;
@@ -387,7 +220,7 @@ namespace PKHeX.WinForms
 
             CB_Game.SelectedIndex = SAV.Game - 0x18;
             CB_Gender.SelectedIndex = SAV.Gender;
-            
+
             // Display Data
             TB_OTName.Text = OT_NAME;
 
@@ -408,24 +241,31 @@ namespace PKHeX.WinForms
 
             // Maison Data
             if (SAV.MaisonStats > -1)
+            {
                 for (int i = 0; i < MaisonRecords.Length; i++)
                     MaisonRecords[i].Text = SAV.GetMaisonStat(i).ToString();
+            }
 
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
             if (!GB_Map.Enabled || SAV.X%0.5 != 0 || SAV.Z%0.5 != 0 || SAV.Y%0.5 != 0)
-                GB_Map.Enabled = false;
-            else try
             {
-                NUD_X.Value = (decimal)SAV.X;
-                NUD_Z.Value = (decimal)SAV.Z;
-                NUD_Y.Value = (decimal)SAV.Y;
+                GB_Map.Enabled = false;
             }
-            catch { GB_Map.Enabled = false; }
+            else
+            {
+                try
+                {
+                    NUD_X.Value = (decimal)SAV.X;
+                    NUD_Z.Value = (decimal)SAV.Z;
+                    NUD_Y.Value = (decimal)SAV.Y;
+                }
+                catch { GB_Map.Enabled = false; }
+            }
 
             // Load BP and PokeMiles
             TB_BP.Text = SAV.BP.ToString();
-            TB_PM.Text = SAV.GetPSSStat(0xFC/4).ToString();
+            TB_PM.Text = SAV.GetRecord(63).ToString();
 
             TB_Style.Text = SAV.Style.ToString();
 
@@ -437,30 +277,11 @@ namespace PKHeX.WinForms
             // Load PSS Sprite
             CB_MultiplayerSprite.SelectedValue = SAV.MultiplayerSpriteID;
             PB_Sprite.Image = SAV.Sprite();
-            
+
             if (SAV.XY)
             {
                 // Load Clothing Data
-                int hat = SAV.Data[SAV.TrainerCard + 0x31] >> 3;
-                int haircolor = SAV.Data[SAV.TrainerCard + 0x31] & 7;
-                MT_Hat.Text = hat.ToString();
-                MT_HairColor.Text = haircolor.ToString();
-                MT_14030.Text = SAV.Data[SAV.TrainerCard + 0x30].ToString();
-                MT_14031.Text = SAV.Data[SAV.TrainerCard + 0x31].ToString();
-                MT_14032.Text = SAV.Data[SAV.TrainerCard + 0x32].ToString();
-                MT_14033.Text = SAV.Data[SAV.TrainerCard + 0x33].ToString();
-                MT_14034.Text = SAV.Data[SAV.TrainerCard + 0x34].ToString();
-                MT_14035.Text = SAV.Data[SAV.TrainerCard + 0x35].ToString();
-                MT_14036.Text = SAV.Data[SAV.TrainerCard + 0x36].ToString();
-                MT_14037.Text = SAV.Data[SAV.TrainerCard + 0x37].ToString();
-                MT_14038.Text = SAV.Data[SAV.TrainerCard + 0x38].ToString();
-                MT_14039.Text = SAV.Data[SAV.TrainerCard + 0x39].ToString();
-                MT_1403A.Text = SAV.Data[SAV.TrainerCard + 0x3A].ToString();
-                MT_1403B.Text = SAV.Data[SAV.TrainerCard + 0x3B].ToString();
-                MT_1403C.Text = SAV.Data[SAV.TrainerCard + 0x3C].ToString();
-                MT_1403D.Text = SAV.Data[SAV.TrainerCard + 0x3D].ToString();
-                MT_1403E.Text = SAV.Data[SAV.TrainerCard + 0x3E].ToString();
-                MT_1403F.Text = SAV.Data[SAV.TrainerCard + 0x3F].ToString();
+                propertyGrid1.SelectedObject = TrainerFashion6.GetFashion(SAV.Data, SAV.TrainerCard + 0x30, SAV.Gender);
 
                 TB_TRNick.Text = SAV.OT_Nick;
             }
@@ -480,11 +301,12 @@ namespace PKHeX.WinForms
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
         }
+
         private void Save()
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 0x18);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
-            
+
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
@@ -503,8 +325,10 @@ namespace PKHeX.WinForms
 
             // Copy Maison Data in
             if (SAV.MaisonStats > -1)
+            {
                 for (int i = 0; i < MaisonRecords.Length; i++)
                     SAV.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
+            }
 
             // Copy Position
             if (GB_Map.Enabled && MapUpdated)
@@ -517,9 +341,9 @@ namespace PKHeX.WinForms
 
             SAV.BP = ushort.Parse(TB_BP.Text);
             // Set Current PokéMiles
-            SAV.SetPSSStat(0xFC / 4, Util.ToUInt32(TB_PM.Text));
+            SAV.SetRecord(63, Util.ToInt32(TB_PM.Text));
             // Set Max Obtained Pokémiles
-            SAV.SetPSSStat(0x100 / 4, Util.ToUInt32(TB_PM.Text));
+            SAV.SetRecord(64, Util.ToInt32(TB_PM.Text));
             SAV.Style = byte.Parse(TB_Style.Text);
 
             // Copy Badges
@@ -539,22 +363,9 @@ namespace PKHeX.WinForms
             // Appearance
             if (SAV.XY)
             {
-                SAV.Data[SAV.TrainerCard + 0x30] = byte.Parse(MT_14030.Text);
-                SAV.Data[SAV.TrainerCard + 0x31] = (byte)(byte.Parse(MT_HairColor.Text) | (byte.Parse(MT_Hat.Text) << 3));
-                SAV.Data[SAV.TrainerCard + 0x32] = byte.Parse(MT_14032.Text);
-                SAV.Data[SAV.TrainerCard + 0x33] = byte.Parse(MT_14033.Text);
-                SAV.Data[SAV.TrainerCard + 0x34] = byte.Parse(MT_14034.Text);
-                SAV.Data[SAV.TrainerCard + 0x35] = byte.Parse(MT_14035.Text);
-                SAV.Data[SAV.TrainerCard + 0x36] = byte.Parse(MT_14036.Text);
-                SAV.Data[SAV.TrainerCard + 0x37] = byte.Parse(MT_14037.Text);
-                SAV.Data[SAV.TrainerCard + 0x38] = byte.Parse(MT_14038.Text);
-                SAV.Data[SAV.TrainerCard + 0x39] = byte.Parse(MT_14039.Text);
-                SAV.Data[SAV.TrainerCard + 0x3A] = byte.Parse(MT_1403A.Text);
-                SAV.Data[SAV.TrainerCard + 0x3B] = byte.Parse(MT_1403B.Text);
-                SAV.Data[SAV.TrainerCard + 0x3C] = byte.Parse(MT_1403C.Text);
-                SAV.Data[SAV.TrainerCard + 0x3D] = byte.Parse(MT_1403D.Text);
-                SAV.Data[SAV.TrainerCard + 0x3E] = byte.Parse(MT_1403E.Text);
-                SAV.Data[SAV.TrainerCard + 0x3F] = byte.Parse(MT_1403F.Text);
+                // Save Clothing Data
+                var obj = (TrainerFashion6)propertyGrid1.SelectedObject;
+                obj.Write(SAV.Data, SAV.TrainerCard + 0x30);
 
                 SAV.OT_Nick = TB_TRNick.Text;
             }
@@ -576,6 +387,7 @@ namespace PKHeX.WinForms
                 SAV.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
             SAV.IsMegaEvolutionUnlocked = CHK_MegaUnlocked.Checked;
+            SAV.IsMegaRayquazaUnlocked = CHK_MegaRayquazaUnlocked.Checked;
         }
 
         private void ClickOT(object sender, MouseEventArgs e)
@@ -589,6 +401,7 @@ namespace PKHeX.WinForms
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
+
         private void ShowTSV(object sender, EventArgs e)
         {
             uint TID = Util.ToUInt32(MT_TID.Text);
@@ -602,64 +415,36 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void ChangeBadge(object sender, EventArgs e)
         {
             GetBadges();
         }
-        private void ChangeSpecial(object sender, EventArgs e)
-        {
-            MaskedTextBox box = sender as MaskedTextBox;
-            int val = Util.ToInt32(box?.Text);
 
-            if (box == MT_HairColor)
-                box.Text = (val > 7 ? 7 : val).ToString();
-            if (box == MT_Hat)
-                box.Text = (val > 31 ? 31 : val).ToString();
-        }
         private void Change255(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box?.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox)sender;
+            if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
+
         private void ChangeFFFF(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box?.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox)sender;
+            if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
-        private void ChangeStat(object sender, EventArgs e)
-        {
-            editing = true;
-            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
-            MT_Stat.Text = SAV.GetPSSStat(offset/4).ToString();
-            L_Offset.Text = $"0x{offset:X3}";
-            editing = false;
-        }
-        private void ChangeStatVal(object sender, EventArgs e)
-        {
-            if (editing) return;
-            int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
-            SAV.SetPSSStat(offset/4, uint.Parse(MT_Stat.Text));
-        }
+
         private void GiveAllAccessories(object sender, EventArgs e)
         {
-            new byte[]
-            {
-                0xFE,0xFF,0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-                0xFF,0xEF,0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFF,
-                0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xEF,
-                0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-            }.CopyTo(SAV.Data, SAV.Accessories);
+            SAV.UnlockAllAccessories();
         }
 
         private void UpdateCountry(object sender, EventArgs e)
@@ -668,10 +453,12 @@ namespace PKHeX.WinForms
             if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
                 Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
         }
+
         private void ToggleBadge(object sender, EventArgs e)
         {
             cba[Array.IndexOf(pba, sender)].Checked ^= true;
         }
+
         private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!editing)
@@ -684,6 +471,32 @@ namespace PKHeX.WinForms
                 return;
             SAV.MultiplayerSpriteID = WinFormsUtil.GetIndex(CB_MultiplayerSprite);
             PB_Sprite.Image = SAV.Sprite();
+        }
+
+        private string UpdateTip(int index)
+        {
+            switch (index)
+            {
+                case 2: // Storyline Completed Time
+                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    seconds -= seconds % 86400;
+                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                default:
+                    return null;
+            }
+        }
+
+        private static string ConvertDateValueToString(int value, int secondsBias = -1)
+        {
+            const int spd = 86400; // seconds per day
+            string tip = string.Empty;
+            if (value >= spd)
+                tip += (value / spd) + "d ";
+            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
+            if (secondsBias >= 0)
+                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
+            return tip;
         }
     }
 }

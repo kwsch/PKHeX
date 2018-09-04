@@ -14,9 +14,24 @@ namespace PKHeX.Core
         public MoveParseSource Source { get; set; }
 
         public readonly bool IsGen2Pkm;
+
         public LearnInfo(PKM pkm)
         {
             IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
         }
+    }
+
+    public struct LearnVersion
+    {
+        public readonly GameVersion Game;
+        public readonly int Level;
+
+        public LearnVersion(int lv, GameVersion game = GameVersion.Any)
+        {
+            Game = game;
+            Level = lv;
+        }
+
+        public bool IsLevelUp => Level >= 0;
     }
 }

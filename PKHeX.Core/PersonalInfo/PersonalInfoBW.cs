@@ -3,12 +3,13 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the Black & White games.
+    /// <see cref="PersonalInfo"/> class with values from the Black &amp; White games.
     /// </summary>
     public class PersonalInfoBW : PersonalInfo
     {
         protected PersonalInfoBW() { }
         public const int SIZE = 0x3C;
+
         public PersonalInfoBW(byte[] data)
         {
             if (data.Length != SIZE)
@@ -19,6 +20,7 @@ namespace PKHeX.Core
             TMHM = GetBits(Data, 0x28, 0x10);
             TypeTutors = GetBits(Data, 0x38, 0x4);
         }
+
         public override byte[] Write()
         {
             SetBits(TMHM).CopyTo(Data, 0x28);
@@ -43,6 +45,7 @@ namespace PKHeX.Core
         public override int EV_SPE { get => EVYield >> 6 & 0x3; set => EVYield = (EVYield & ~(0x3 << 6)) | (value & 0x3) << 6; }
         public override int EV_SPA { get => EVYield >> 8 & 0x3; set => EVYield = (EVYield & ~(0x3 << 8)) | (value & 0x3) << 8; }
         public override int EV_SPD { get => EVYield >> 10 & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | (value & 0x3) << 10; }
+        public bool Telekenesis { get => (EVYield >> 12 & 1) == 1; set => EVYield = (EVYield & ~(0x1 << 12)) | (value ? 1 : 0) << 12; }
         public int Item1 { get => BitConverter.ToInt16(Data, 0x0C); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x0C); }
         public int Item2 { get => BitConverter.ToInt16(Data, 0x0E); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x0E); }
         public int Item3 { get => BitConverter.ToInt16(Data, 0x10); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0x10); }
@@ -59,7 +62,10 @@ namespace PKHeX.Core
         protected internal override int FormStatsIndex { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); }
         public override int FormeSprite { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); }
         public override int FormeCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public override int Color { get => Data[0x21]; set => Data[0x21] = (byte)value; }
+        public override int Color { get => Data[0x21] & 0x3F; set => Data[0x21] = (byte)((Data[0x21] & 0xC0) | (value & 0x3F)); }
+        public bool SpriteFlip { get => ((Data[0x21] >> 6) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x40) | (value ? 0x40 : 0)); }
+        public bool SpriteForme { get => ((Data[0x21] >> 7) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x80) | (value ? 0x80 : 0)); }
+
         public override int BaseEXP { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
         public override int Height { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Weight { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
@@ -75,6 +81,7 @@ namespace PKHeX.Core
                 Item3 = value[2];
             }
         }
+
         public override int[] Abilities
         {
             get => new[] { Ability1, Ability2, AbilityH };
@@ -86,5 +93,7 @@ namespace PKHeX.Core
                 AbilityH = (byte)value[2];
             }
         }
+
+        public bool HasHiddenAbility => AbilityH != Ability1;
     }
 }

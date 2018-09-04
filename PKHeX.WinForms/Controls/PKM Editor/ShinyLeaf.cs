@@ -28,8 +28,11 @@ namespace PKHeX.WinForms.Controls
             {
                 int value = 0;
                 for (int i = 0; i < Flags.Length; i++)
+                {
                     if (Flags[i].Checked)
                         value |= 1 << i;
+                }
+
                 return value;
             }
             set
@@ -45,7 +48,9 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             if (CHK_C == c)
+            {
                 c.Image = c.Checked ? Resources.crown : greyCrown;
+            }
             else
             {
                 if (!c.Checked)

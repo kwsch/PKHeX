@@ -12,7 +12,7 @@ namespace PKHeX.Tests.Util
         public void RecognizesCorrectDates()
         {
             Assert.IsTrue(Core.Util.IsDateValid(2000, 1, 1), "Failed to recognize 1/1/2000");
-            Assert.IsTrue(Core.Util.IsDateValid(2001, 1, 31), "Failed to recognize 1/31/2001");            
+            Assert.IsTrue(Core.Util.IsDateValid(2001, 1, 31), "Failed to recognize 1/31/2001");
         }
 
         [TestMethod]

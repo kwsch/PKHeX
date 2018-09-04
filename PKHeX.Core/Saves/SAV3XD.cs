@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3XD : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) #{SaveCount:0000}].bak";
+        protected override string BAKText => $"{OT} ({Version}) #{SaveCount:0000}";
         public override string Filter
         {
             get
@@ -103,7 +103,7 @@ namespace PKHeX.Core
             LegalBalls = Legal.Pouch_Ball_RS;
             LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
             LegalBerries = Legal.Pouch_Berries_RS;
-            LegalCologne = Legal.Pouch_Cologne_CXD;
+            LegalCologne = Legal.Pouch_Cologne_XD;
             LegalDisc = Legal.Pouch_Disc_XD;
 
             Personal = PersonalTable.RS;
@@ -286,10 +286,9 @@ namespace PKHeX.Core
         }
         protected override void SetPKM(PKM pkm)
         {
-            XK3 pk = pkm as XK3;
-            if (pk == null)
+            if (!(pkm is XK3 pk))
                 return; // shouldn't ever hit
-            
+
             if (pk.CurrentRegion == 0)
                 pk.CurrentRegion = 2; // NTSC-U
             if (pk.OriginalRegion == 0)
@@ -324,29 +323,29 @@ namespace PKHeX.Core
             }
             StrategyMemo.SetEntry(entry);
         }
-        
+
         public override InventoryPouch[] Inventory
         {
             get
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
-                    new InventoryPouch(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
-                    new InventoryPouch(InventoryType.BattleItems, LegalDisc, 999, OFS_PouchDisc, 60)
+                    new InventoryPouch3GC(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
+                    new InventoryPouch3GC(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
+                    new InventoryPouch3GC(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
+                    new InventoryPouch3GC(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
+                    new InventoryPouch3GC(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
+                    new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
+                    new InventoryPouch3GC(InventoryType.BattleItems, LegalDisc, 999, OFS_PouchDisc, 60)
                 };
                 foreach (var p in pouch)
-                    p.GetPouchBigEndian(ref Data);
+                    p.GetPouch(Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.SetPouchBigEndian(ref Data);
+                    p.SetPouch( Data);
             }
         }
 
@@ -361,7 +360,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
+        public override string GetString(int Offset, int Length) => StringConverter.GetBEString3(Data, Offset, Length);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

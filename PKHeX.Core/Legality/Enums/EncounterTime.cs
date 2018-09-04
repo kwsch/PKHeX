@@ -16,7 +16,8 @@ namespace PKHeX.Core
 
     internal static class EncounterTimeExtension
     {
-        internal static bool Contains(this EncounterTime t1, int t2) => t1 == EncounterTime.Any || t1.HasFlag((EncounterTime)(1 << t2));
+        internal static bool Contains(this EncounterTime t1, int t2) => t1 == EncounterTime.Any || (t1 & (EncounterTime)(1 << t2)) != 0;
+
         internal static int RandomValidTime(this EncounterTime t1)
         {
             int val = Util.Rand.Next(1, 4);

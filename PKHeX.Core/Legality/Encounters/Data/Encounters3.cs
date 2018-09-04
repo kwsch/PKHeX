@@ -25,7 +25,7 @@ namespace PKHeX.Core
             StaticFR = GetStaticEncounters(Encounter_FRLG, GameVersion.FR);
             StaticLG = GetStaticEncounters(Encounter_FRLG, GameVersion.LG);
 
-            EncounterArea[] get(string resource, string ident) 
+            EncounterArea[] get(string resource, string ident)
                 => EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
 
             var R_Slots = get("r", "ru");
@@ -92,8 +92,10 @@ namespace PKHeX.Core
         private static void MarkG3SlotsSafariZones(ref EncounterArea[] Areas, int location)
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
-            foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Type |= SlotType.Safari;
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                    Slot.Type |= SlotType.Safari;
+            }
         }
 
         private static readonly int[] Roaming_MetLocation_FRLG =
@@ -107,12 +109,13 @@ namespace PKHeX.Core
         private static readonly int[] Roaming_MetLocation_RSE =
         {
             //Roaming encounter is possible in tall grass and on water
-            //Route 101-138 
+            //Route 101-138
             16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
             36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
             46, 47, 48, 49,
         };
+
         private static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
             new EncounterStatic { Species = 380, Level = 40, Version = GameVersion.S, Roaming = true }, // Latias
@@ -120,9 +123,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.R, Roaming = true }, // Latios
             new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.E, Roaming = true }, // Latios
         };
+
         private static readonly EncounterStatic[] Encounter_RSE_Regular =
         {
-            // Starters 
+            // Starters
             new EncounterStatic { Gift = true, Species = 152, Level = 05, Location = 000, Version = GameVersion.E, }, // Chikorita @ Littleroot Town
             new EncounterStatic { Gift = true, Species = 155, Level = 05, Location = 000, Version = GameVersion.E, }, // Cyndaquil
             new EncounterStatic { Gift = true, Species = 158, Level = 05, Location = 000, Version = GameVersion.E, }, // Totodile
@@ -173,10 +177,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 244, Level = 50, Roaming = true, }, // Entei
             new EncounterStatic { Species = 245, Level = 50, Roaming = true, }, // Suicune
         };
+
         private static readonly EncounterStatic[] Encounter_FRLG_Stationary =
         {
             // Starters @ Pallet Town
-            new EncounterStatic { Gift = true, Species = 1, Level = 05, Location = 088, }, // Bulbasaur 
+            new EncounterStatic { Gift = true, Species = 1, Level = 05, Location = 088, }, // Bulbasaur
             new EncounterStatic { Gift = true, Species = 4, Level = 05, Location = 088, }, // Charmander
             new EncounterStatic { Gift = true, Species = 7, Level = 05, Location = 088, }, // Squirtle
 
@@ -192,7 +197,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 131, Level = 25, Location = 134, }, // Lapras @ Silph Co.
             new EncounterStatic { Gift = true, Species = 133, Level = 25, Location = 094, }, // Eevee @ Celadon City
             new EncounterStatic { Gift = true, Species = 175, Level = 05, EggLocation = 253 }, // Togepi Egg
-            
+
             // Celadon City Game Corner
             new EncounterStatic { Gift = true, Species = 063, Level = 09, Location = 94, Version = GameVersion.FR }, // Abra
             new EncounterStatic { Gift = true, Species = 035, Level = 08, Location = 94, Version = GameVersion.FR }, // Clefairy
@@ -215,7 +220,7 @@ namespace PKHeX.Core
             // Stationary Legendary
             new EncounterStatic { Species = 144, Level = 50, Location = 139, }, // Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 142, }, // Zapdos @ Power Plant
-            new EncounterStatic { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember. 
+            new EncounterStatic { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember.
             new EncounterStatic { Species = 150, Level = 70, Location = 141, }, // Mewtwo @ Cerulean Cave
 
             // Event
@@ -233,6 +238,7 @@ namespace PKHeX.Core
         private static readonly int[] TradeContest_Cute = { 05, 05, 30, 05, 05, 10 };
         private static readonly int[] TradeContest_Clever = { 05, 05, 05, 30, 05, 10 };
         private static readonly int[] TradeContest_Tough = { 05, 05, 05, 05, 30, 10 };
+
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
             new EncounterTradePID { Species = 296, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Level = 05, PID = 0x00009C40, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Slakoth (Level 5 Breeding) -> Makuhita
@@ -244,6 +250,7 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 052, Ability = 1, TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Level = 03, PID = 0x0000008B, Contest = TradeContest_Clever, Version = GameVersion.E, }, // Skitty (Level 3 Trade)-> Meowth*
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
+
         internal static readonly EncounterTrade[] TradeGift_FRLG =
         {
             new EncounterTradePID { Species = 122, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, PID = 0x00009CAE, Contest = TradeContest_Clever, }, // Mr. Mime
@@ -251,7 +258,7 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 032, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, PID = 0x4C970B9E, Contest = TradeContest_Cool, Version = GameVersion.LG, }, // Nidoran♂ *
             new EncounterTradePID { Species = 030, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, PID = 0x00EECA15, Contest = TradeContest_Cute, Version = GameVersion.FR,}, // Nidorina *
             new EncounterTradePID { Species = 033, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, PID = 0x00EECA19, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
-            new EncounterTradePID { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, PID = 0x451308AB, Contest = TradeContest_Tough, }, // Lickitung  * 
+            new EncounterTradePID { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, PID = 0x451308AB, Contest = TradeContest_Tough, }, // Lickitung  *
             new EncounterTradePID { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, PID = 0x498A2E1D, Contest = TradeContest_Beauty, }, // Jynx
             new EncounterTradePID { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, PID = 0x151943D7, Contest = TradeContest_Cool, }, // Farfetch'd
             new EncounterTradePID { Species = 101, Ability = 2, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, PID = 0x06341016, Contest = TradeContest_Cool, }, // Electrode
@@ -259,6 +266,7 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, PID = 0x482CAC89, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
+
         internal static readonly string[][] TradeRSE =
         {
             new string[0],                        // 0 - None
@@ -270,6 +278,7 @@ namespace PKHeX.Core
             new string[0],                        // 6 - None
             Util.GetStringList("traderse", "es"), // 7
         };
+
         internal static readonly string[][] TradeFRLG =
         {
             new string[0],                         // 0 - None
@@ -331,6 +340,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
                 },},
         };
+
         private static readonly EncounterArea[] SlotsFRLGUnown =
         {
             GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,26 }), // 188 = Monean Chamber
@@ -341,12 +351,13 @@ namespace PKHeX.Core
             GetUnownArea(193, new[] { 21,21,21,22,22,22,23,23,12,12,01,01 }), // 193 = Rixy Chamber
             GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,27 }), // 194 = Viapois Chamber
         };
+
         private static EncounterArea GetUnownArea(int location, IReadOnlyList<int> SlotForms)
         {
             return new EncounterArea
             {
                 Location = location,
-                Slots = SlotForms.Select((z, i) => new EncounterSlot
+                Slots = SlotForms.Select((_, i) => new EncounterSlot
                 {
                     Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass,
                     SlotNumber = i,
@@ -386,7 +397,7 @@ namespace PKHeX.Core
 
             // missing loc: Snagem Hideout
             new EncounterStaticShadow { Species = 193, Level = 33, Gauge = 05000, Moves = new[] {197,048,049,253}, Location = 025 }, // Yanma: Cipher Peon Nore @ Pyrite Bldg
-            
+
             new EncounterStaticShadow { Species = 223, Level = 20, Gauge = 04000, Moves = new[] {061,199,060,062}, Location = 028 }, // Remoraid: Miror B.Peon Reath @ Pyrite Bldg
             new EncounterStaticShadow { Species = 223, Level = 20, Gauge = 04000, Moves = new[] {061,199,060,062}, Location = 030 }, // Remoraid: Miror B.Peon Reath @ Pyrite Cave
             new EncounterStaticShadow { Species = 226, Level = 33, Gauge = 05000, Moves = new[] {017,048,061,036}, Location = 028 }, // Mantine: Miror B.Peon Ferma @ Pyrite Bldg
@@ -434,7 +445,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 168, Level = 43, Gauge = 06000, Moves = new[] {169,184,141,188}, Location = 069 }, // Ariados: Cipher Peon Lesar @ Shadow PKMN Lab
             new EncounterStaticShadow { Species = 210, Level = 43, Gauge = 06000, Moves = new[] {044,184,046,070}, Location = 069 }, // Granbull: Cipher Peon Tanie @ Shadow PKMN Lab
             new EncounterStaticShadow { Species = 329, Level = 43, Gauge = 06000, Moves = new[] {242,103,328,225}, Location = 068 }, // Vibrava: Cipher Peon Remil @ Shadow PKMN Lab
-            
+
             new EncounterStaticShadow { Species = 192, Level = 45, Gauge = 07000, Moves = new[] {241,074,275,076}, Location = 109 }, // Sunflora: Cipher Peon Baila @ Realgam Tower
             new EncounterStaticShadow { Species = 225, Level = 45, Gauge = 07000, Moves = new[] {059,213,217,019}, Location = 109 }, // Delibird: Cipher Peon Arton @ Realgam Tower
             new EncounterStaticShadow { Species = 214, Level = 45, Gauge = 07000, Moves = new[] {179,203,068,280}, Location = 111 }, // Heracross: Cipher Peon Dioge @ Realgam Tower
@@ -520,7 +531,7 @@ namespace PKHeX.Core
 
             new EncounterStaticShadow { Fateful = true, Species = 299, Level = 26, Gauge = 04000, Moves = new[] {085,270,086,157}, Location = 090 }, // Nosepass: Wanderer Miror B. @ Pyrite Colosseum/Realgam Colosseum/Poké Spots
             new EncounterStaticShadow { Fateful = true, Species = 299, Level = 26, Gauge = 04000, Moves = new[] {085,270,086,157}, Location = 113 }, // Nosepass: Wanderer Miror B. @ Pyrite Colosseum/Realgam Colosseum/Poké Spots
-            
+
             new EncounterStaticShadow { Fateful = true, Species = 335, Level = 28, Gauge = 05000, Moves = new[] {280,287,068,306}, Location = 071 }, // Zangoose: Thug Zook @ Cipher Key Lair
             new EncounterStaticShadow { Fateful = true, Species = 335, Level = 28, Gauge = 05000, Moves = new[] {280,287,068,306}, Location = 090 }, // Zangoose: Thug Zook @ Cipher Key Lair
 
@@ -528,7 +539,7 @@ namespace PKHeX.Core
 
             new EncounterStaticShadow { Fateful = true, Species = 058, Level = 28, Gauge = 04000, Moves = new[] {053,204,044,036}, Location = 064 }, // Growlithe: Cipher Peon Humah @ Cipher Key Lair
             new EncounterStaticShadow { Fateful = true, Species = 058, Level = 28, Gauge = 04000, Moves = new[] {053,204,044,036}, Location = 113 }, // Growlithe: Cipher Peon Humah @ Cipher Key Lair
-            
+
             new EncounterStaticShadow { Fateful = true, Species = 015, Level = 30, Gauge = 04500, Moves = new[] {188,226,041,014}, Location = 059 }, // Beedrill: Cipher Peon Lok @ Cipher Key Lair
             new EncounterStaticShadow { Fateful = true, Species = 012, Level = 30, Gauge = 04000, Moves = new[] {094,234,079,332}, Location = 059 }, // Butterfree: Cipher Peon Targ @ Cipher Key Lair
             new EncounterStaticShadow { Fateful = true, Species = 049, Level = 32, Gauge = 04000, Moves = new[] {318,287,164,094}, Location = 059 }, // Venomoth: Cipher Peon Angic @ Cipher Key Lair
@@ -612,7 +623,9 @@ namespace PKHeX.Core
                 }
             },
         };
+
         internal static readonly EncounterStatic[] Encounter_CXD = ConcatAll(Encounter_Colo, Encounter_XD);
+
         private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
         {
             yield return arg;

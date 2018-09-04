@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// This is fabricated data built to emulate the future generation Mystery Gift objects.
     /// Data here is not stored in any save file and cannot be naturally exported.
     /// </remarks>
-    public class WC3 : MysteryGift, IRibbonSetEvent3
+    public class WC3 : MysteryGift, IRibbonSetEvent3, IVersion
     {
         // Template Properties
 
@@ -24,11 +24,11 @@ namespace PKHeX.Core
         public override int SID { get; set; }
         public override int Location { get; set; } = 255;
         public override int EggLocation { get => 0; set {} }
-        public int Version { get; set; }
+        public GameVersion Version { get; set; }
         public int Language { get; set; } = -1;
         public override int Species { get; set; }
         public override bool IsEgg { get; set; }
-        public override int[] Moves { get; set; } = new int[0];
+        public override int[] Moves { get; set; } = Array.Empty<int>();
         public bool NotDistributed { get; set; }
         public Shiny Shiny { get; set; } = Shiny.Random;
         public bool Fateful { get; set; } // Obedience Flag
@@ -55,6 +55,7 @@ namespace PKHeX.Core
 
         // Synthetic
         private int? _metLevel;
+
         public int Met_Level
         {
             get => _metLevel ?? (IsEgg ? 0 : Level);
@@ -91,7 +92,7 @@ namespace PKHeX.Core
             }
             else
             {
-                pk.Version = GetRandomVersion(Version);
+                pk.Version = (int)GetRandomVersion(Version);
             }
             int lang = GetSafeLanguage(SAV.Language, Language);
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
@@ -103,7 +104,9 @@ namespace PKHeX.Core
                 pk.TID = SAV.TID;
                 pk.SID = SAV.SID;
                 pk.OT_Friendship = pi.BaseFriendship;
-                pk.Met_Location = 32;
+                pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
+                pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
+                pk.Met_Level = 0; // hatched
             }
             else
             {
@@ -118,7 +121,9 @@ namespace PKHeX.Core
                         pk.SID = TID;
                 }
                 else
+                {
                     pk.Language = lang;
+                }
 
                 pk.OT_Name = OT_Name ?? SAV.OT;
                 if (string.IsNullOrWhiteSpace(pk.OT_Name))
@@ -150,6 +155,9 @@ namespace PKHeX.Core
             }
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
 
+            if (Version == GameVersion.XD)
+                pk.FatefulEncounter = true; // pk3 is already converted from xk3
+
             if (Moves == null || Moves.Length == 0) // not completely defined
                 Moves = Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
             if (Moves.Length != 4)
@@ -174,18 +182,23 @@ namespace PKHeX.Core
                 return 2;
             return hatchLang;
         }
-        private static int GetRandomVersion(int version)
+
+        private static GameVersion GetRandomVersion(GameVersion version)
         {
-            if (version <= 15 && version > 0) // single game
+            if (version <= GameVersion.CXD && version > GameVersion.Unknown) // single game
                 return version;
 
             int rand = Util.Rand.Next(2); // 0 or 1
             switch (version)
             {
-                case (int)GameVersion.FRLG:
-                    return (int)GameVersion.FR + rand; // or LG
-                case (int)GameVersion.RS:
-                    return (int)GameVersion.S + rand; // or R
+                case GameVersion.FRLG:
+                    return GameVersion.FR + rand; // or LG
+                case GameVersion.RS:
+                    return GameVersion.S + rand; // or R
+
+                case GameVersion.COLO:
+                case GameVersion.XD:
+                    return GameVersion.CXD;
                 default:
                     throw new Exception($"Unknown GameVersion: {version}");
             }

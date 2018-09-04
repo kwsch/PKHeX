@@ -13,10 +13,15 @@ namespace PKHeX.WinForms
         public SettingsEditor(object obj, params string[] blacklist)
         {
             InitializeComponent();
-            SettingsObject = obj;
+            SettingsObject = obj ?? Settings.Default;
             LoadSettings(blacklist);
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            // reorder checkboxes
+            int ctr = 0;
+            foreach (var c in FLP_Settings.Controls.OfType<CheckBox>().OrderBy(z => z.Text).ToList())
+                FLP_Settings.Controls.SetChildIndex(c, ctr++);
+
             this.CenterToForm(FindForm());
         }
         private void SettingsEditor_FormClosing(object sender, FormClosingEventArgs e) => SaveSettings();

@@ -5,10 +5,8 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class SlotList : UserControl
+    public partial class SlotList : UserControl, ISlotViewer<PictureBox>
     {
-        public IReadOnlyList<PictureBox> SlotPictureBoxes => slots;
-
         private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
         private readonly LabelType[] Labels = new LabelType[names.Length];
         private readonly List<PictureBox> slots = new List<PictureBox>();
@@ -28,11 +26,10 @@ namespace PKHeX.WinForms.Controls
         /// <param name="list">Extra slots to show</param>
         /// <param name="enableDragDropContext">Events to set up</param>
         /// <remarks>Uses an object pool for viewers (only generates as needed)</remarks>
-        /// <returns>A list of picture boxes that were added to the view pool</returns>
-        public IEnumerable<PictureBox> Initialize(List<StorageSlotOffset> list, Action<Control> enableDragDropContext)
+        public void Initialize(List<StorageSlotOffset> list, Action<Control> enableDragDropContext)
         {
             SlotOffsets = list;
-            return LoadSlots(list.Count, enableDragDropContext);
+            LoadSlots(list.Count, enableDragDropContext);
         }
 
         /// <summary>
@@ -40,8 +37,26 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         public void HideAllSlots() => LoadSlots(0, null);
 
-        public int GetSlot(object sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public SlotChange GetSlotData(PictureBox view)
+        {
+            int slot = GetSlot(view);
+            return new SlotChange
+            {
+                Slot = GetSlot(view),
+                Box = ViewIndex,
+                Offset = GetSlotOffset(slot),
+                Type = StorageSlotType.Misc,
+                IsPartyFormat = GetSlotIsParty(slot),
+                Editable = false,
+                Parent = FindForm(),
+            };
+        }
+
+        public IList<PictureBox> SlotPictureBoxes => slots;
+        public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
         public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
+        public bool GetSlotIsParty(int _) => false;
+        public int ViewIndex { get; set; } = -1;
 
         private IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)
         {
@@ -75,9 +90,11 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < count; i++)
                 slots.Add(GetPictureBox(i));
         }
+
         private const int PadPixels = 2;
         private const int SlotWidth = 40;
         private const int SlotHeight = 30;
+
         private static PictureBox GetPictureBox(int index)
         {
             return new PictureBox
@@ -96,6 +113,7 @@ namespace PKHeX.WinForms.Controls
         {
             public StorageSlotType Type;
         }
+
         private void AddLabels()
         {
             for (var i = 0; i < names.Length; i++)
@@ -115,6 +133,7 @@ namespace PKHeX.WinForms.Controls
                 FLP_Slots.SetFlowBreak(label, true);
             }
         }
+
         private void SetLabelVisibility()
         {
             foreach (var l in Labels)

@@ -74,8 +74,8 @@
             this.TB_TID.TabIndex = 5;
             this.TB_TID.Text = "12345";
             this.TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_TID.TextChanged += new System.EventHandler(this.Update_ID);
             this.TB_TID.MouseHover += new System.EventHandler(this.UpdateTSV);
-            this.TB_TID.Validated += new System.EventHandler(this.Update_ID);
             // 
             // TB_TID7
             // 
@@ -88,8 +88,8 @@
             this.TB_TID7.TabIndex = 9;
             this.TB_TID7.Text = "123456";
             this.TB_TID7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_TID7.TextChanged += new System.EventHandler(this.Update_ID);
             this.TB_TID7.MouseHover += new System.EventHandler(this.UpdateTSV);
-            this.TB_TID7.Validated += new System.EventHandler(this.Update_ID);
             // 
             // Label_SID
             // 
@@ -113,8 +113,8 @@
             this.TB_SID.TabIndex = 6;
             this.TB_SID.Text = "12345";
             this.TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SID.TextChanged += new System.EventHandler(this.Update_ID);
             this.TB_SID.MouseHover += new System.EventHandler(this.UpdateTSV);
-            this.TB_SID.Validated += new System.EventHandler(this.Update_ID);
             // 
             // TB_SID7
             // 
@@ -127,8 +127,8 @@
             this.TB_SID7.TabIndex = 10;
             this.TB_SID7.Text = "1234";
             this.TB_SID7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_SID7.TextChanged += new System.EventHandler(this.Update_ID);
             this.TB_SID7.MouseHover += new System.EventHandler(this.UpdateTSV);
-            this.TB_SID7.Validated += new System.EventHandler(this.Update_ID);
             // 
             // TrainerID
             // 

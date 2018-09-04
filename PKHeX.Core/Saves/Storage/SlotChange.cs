@@ -12,10 +12,12 @@
         public int Box { get; set; } = -1;
         public PKM PKM { get; set; }
 
-        public bool IsParty => 30 <= Slot && Slot < 36;
+        public bool IsParty => IsPartyFormat;
         public bool IsValid => Slot > -1 && (Box > -1 || IsParty);
+        public bool Editable { get; set; }
 
         public SlotChange() { }
+
         public SlotChange(SlotChange info, SaveFile sav)
         {
             Box = info.Box;

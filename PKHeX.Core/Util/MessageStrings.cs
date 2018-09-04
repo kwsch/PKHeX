@@ -54,7 +54,7 @@ namespace PKHeX.Core
         public static string MsgFileLoadXorpad1 { get; set; } = "Press Yes to load the sav at 0x3000.";
         public static string MsgFileLoadXorpad2 { get; set; } = "Press No to load the sav at 0x82000.";
         public static string MsgFileLoadIncompatible { get; set; } = "Binary is not compatible with save file.";
-        
+
         public static string MsgFileLoadSaveFail { get; set; } = "The data file is not a valid save file.";
         public static string MsgFileLoadSaveDetected { get; set; } = "Save File Detected.";
         public static string MsgFileLoadSaveLoadFail { get; set; } = "Invalid save file loaded. Aborting.";
@@ -73,9 +73,18 @@ namespace PKHeX.Core
         public static string MsgFileWriteProtected { get; set; } = "File's location is write protected:";
         public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
         public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
-        public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size.";
+        public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could mean PKHeX doesn't support your save file or your save file is corrupt.";
+
+        public static string MsgPKMConvertSuccess { get; set; } = "Converted from {0} to {1}.";
         public static string MsgPKMConvertFail { get; set; } = "Conversion failed.";
         public static string MsgPKMMysteryGiftFail { get; set; } = "Mystery Gift is not a Pokémon.";
+        public static string MsgPKMConvertFailFormat { get; set; } = "Cannot convert a {0} to {1}";
+        public static string MsgPKMConvertFailBackwards { get; set; } = "Can't load {0}s to Gen{1} saves.";
+        public static string MsgPKMConvertFailForme { get; set; } = "Form cannot be transferred to future games.";
+        public static string MsgPKMConvertFailNoMethod { get; set; } = "Cannot transfer this format to the requested format.";
+        public static string MsgPKMConvertIncompatible { get; set; } = "Cannot load {0} {1}s to {2} saves.";
+        public static string MsgPKMConvertInternational { get; set; } = "International";
+        public static string MsgPKMConvertJapanese { get; set; } = "Japanese";
 
         public static string MsgClipboardLegalityExport { get; set; } = "Copy report to Clipboard?";
         public static string MsgClipboardFailRead { get; set; } = "Clipboard does not contain text.";
@@ -89,6 +98,7 @@ namespace PKHeX.Core
         public static string MsgSimulatorExportSuccess { get; set; } = "Exported Showdown Set to Clipboard:";
         public static string MsgSimulatorExportParty { get; set; } = "Showdown Team (Party) set to Clipboard.";
         public static string MsgSimulatorExportBattleBox { get; set; } = "Showdown Team (Battle Box) set to Clipboard.";
+        public static string MsgSimulatorExportList { get; set; } = "Showdown Sets copied to Clipboard.";
 
         public static string MsgLegalityAllowTradebacks { get; set; } = "Generation 1 Save File detected. Allow tradebacks from Generation 2 for legality purposes?";
         public static string MsgLegalityAllowTradebacksYes { get; set; } = "Yes: Allow Generation 2 tradeback learnsets";
@@ -151,7 +161,7 @@ namespace PKHeX.Core
         public static string MsgSaveBoxExportNo { get; set; } = "No: Export {0} (Box {1})";
         public static string MsgSaveBoxExportCancel { get; set; } = "Cancel: Abort";
         public static string MsgSaveBoxExportInvalid { get; set; } = "Invalid Box Data, unable to dump.";
-        public static string MsgSaveBoxExportPathCount { get; set; } = "Dumped Box(es) ( {0} pkm) to path:";
+        public static string MsgSaveBoxExportPathCount { get; set; } = "Dumped Box(es) ({0} pkm) to path:";
         public static string MsgSaveBoxExportPathInvalid { get; set; } = "Invalid path specified.";
         public static string MsgSaveBoxImportModifyIntro { get; set; } = "PKM Loading overrides:";
         public static string MsgSaveBoxImportModifyYes { get; set; } = "Yes - Modify .pk* when set to SAV";
@@ -173,8 +183,6 @@ namespace PKHeX.Core
 
         public static string MsgSaveSwitchDaycareView { get; set; } = "Would you like to switch the view to the other Daycare?";
         public static string MsgSaveSwitchDaycareCurrent { get; set; } = "Currently viewing daycare {0}.";
-        public static string MsgSaveGen6OPower { get; set; } = "No editing support for ORAS :(";
-        public static string MsgSaveGen6OPowerCheatDesc { get; set; } = "Max O-Powers with a working code?";
         public static string MsgSaveGen6Passerby { get; set; } = "Export Passerby Info to Clipboard?";
         public static string MsgSaveGen6FriendSafari { get; set; } = "No editing support for Friend Safari :(";
         public static string MsgSaveGen6FriendSafariCheatDesc { get; set; } = "Unlock all 3 slots for each friend?";

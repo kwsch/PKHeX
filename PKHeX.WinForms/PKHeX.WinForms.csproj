@@ -178,6 +178,9 @@
     <Compile Include="Controls\PKM Editor\TrainerID.Designer.cs">
       <DependentUpon>TrainerID.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\BitmapAnimator.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\SAV Editor\BoxEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -196,6 +199,7 @@
     <Compile Include="Controls\SAV Editor\ContextMenuSAV.Designer.cs">
       <DependentUpon>ContextMenuSAV.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\SlotIndex.cs" />
     <Compile Include="Controls\SAV Editor\SlotChangeManager.cs" />
     <Compile Include="Controls\SAV Editor\SAVEditor.cs">
       <SubType>UserControl</SubType>
@@ -209,7 +213,10 @@
     <Compile Include="Controls\SAV Editor\SlotList.Designer.cs">
       <DependentUpon>SlotList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SAV Editor\Sorter.cs" />
+    <Compile Include="Controls\SAV Editor\SlotViewer.cs" />
+    <Compile Include="Controls\SAV Editor\BoxMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +250,7 @@
     <Compile Include="Controls\PKM Editor\PKMEditor.Designer.cs">
       <DependentUpon>PKMEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainWindow\PluginLoader.cs" />
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -274,6 +282,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Misc\PKMPreview.cs" />
+    <Compile Include="Subforms\Misc\PropertyComparer.cs" />
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Apricorn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -552,6 +562,12 @@
     <Compile Include="Subforms\Save Editors\SAV_Wondercard.Designer.cs">
       <DependentUpon>SAV_Wondercard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\TrainerStat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\TrainerStat.Designer.cs">
+      <DependentUpon>TrainerStat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -576,19 +592,19 @@
     <Compile Include="Subforms\SettingsEditor.Designer.cs">
       <DependentUpon>SettingsEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Misc\SortableBindingList.cs" />
     <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\DevUtil.cs" />
     <Compile Include="Util\FontUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\NetUtil.cs" />
-    <Compile Include="Util\PathUtilWindows.cs" />
-    <Compile Include="Util\PKMUtil.cs" />
+    <Compile Include="Util\SpriteUtil.cs" />
     <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
     <Compile Include="Util\QRCoder\QRCode.cs" />
     <Compile Include="Util\QRCoder\QRCodeData.cs" />
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
-    <Compile Include="Util\SAVUtil.cs" />
+    <Compile Include="Util\SpriteBuilder.cs" />
     <Compile Include="Util\WinFormsTranslator.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
     <EmbeddedResource Include="Controls\PKM Editor\StatEditor.resx">
@@ -782,6 +798,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_Wondercard.resx">
       <DependentUpon>SAV_Wondercard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\TrainerStat.resx">
+      <DependentUpon>TrainerStat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>

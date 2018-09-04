@@ -48,11 +48,14 @@ namespace PKHeX.Core
 
             { GameVersion.RB, Legal.LevelUpRB },
             { GameVersion.RBY, Legal.LevelUpY },
+            { GameVersion.GS, Legal.LevelUpGS },
             { GameVersion.GSC, Legal.LevelUpC },
             { GameVersion.RS, Legal.LevelUpRS },
+            { GameVersion.RSE, Legal.LevelUpRS },
             { GameVersion.FRLG, Legal.LevelUpE },
             { GameVersion.CXD, Legal.LevelUpE },
             { GameVersion.DP, Legal.LevelUpDP },
+            { GameVersion.DPPt, Legal.LevelUpDP },
             { GameVersion.HGSS, Legal.LevelUpHGSS },
             { GameVersion.BW, Legal.LevelUpBW },
             { GameVersion.B2W2, Legal.LevelUpB2W2 },
@@ -70,6 +73,7 @@ namespace PKHeX.Core
             { GameVersion.Gen7, Legal.LevelUpSM },
             { GameVersion.VCEvents, Legal.LevelUpY },
         };
+
         private static readonly Dictionary<GameVersion, PersonalTable> Personal = new Dictionary<GameVersion, PersonalTable>
         {
             { GameVersion.RD, PersonalTable.RB },
@@ -111,11 +115,14 @@ namespace PKHeX.Core
 
             { GameVersion.RB, PersonalTable.RB },
             { GameVersion.RBY, PersonalTable.Y },
+            { GameVersion.GS, PersonalTable.GS },
             { GameVersion.GSC, PersonalTable.C },
             { GameVersion.RS, PersonalTable.RS },
+            { GameVersion.RSE, PersonalTable.RS },
             { GameVersion.FRLG, PersonalTable.E },
             { GameVersion.CXD, PersonalTable.E },
             { GameVersion.DP, PersonalTable.DP },
+            { GameVersion.DPPt, PersonalTable.DP },
             { GameVersion.HGSS, PersonalTable.HGSS },
             { GameVersion.BW, PersonalTable.BW },
             { GameVersion.B2W2, PersonalTable.B2W2 },

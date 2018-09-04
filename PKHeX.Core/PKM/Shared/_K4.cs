@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public abstract class _K4 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4
+    public abstract class _K4 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_4;
@@ -155,6 +155,13 @@ namespace PKHeX.Core
         public abstract bool RIBB_6 { get; set; }
         public abstract bool RIBB_7 { get; set; }
         #endregion
+
+        public abstract int CNT_Cool { get; set; }
+        public abstract int CNT_Beauty { get; set; }
+        public abstract int CNT_Cute { get; set; }
+        public abstract int CNT_Smart { get; set; }
+        public abstract int CNT_Tough { get; set; }
+        public abstract int CNT_Sheen { get; set; }
 
         protected T ConvertTo<T>() where T : _K4, new()
         {

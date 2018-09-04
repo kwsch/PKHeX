@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+
         public SAV_SuperTrain(SaveFile sav)
         {
             InitializeComponent();
@@ -31,26 +32,26 @@ namespace PKHeX.WinForms
         private readonly int offsetVal;
         private readonly int offsetTime;
         private readonly int offsetSpec;
+
         private void Setup()
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             {
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
+                CB_Species.InitializeBinding();
                 CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
 
-                CB_S2.DisplayMember = "Text";
-                CB_S2.ValueMember = "Value";
+                CB_S2.InitializeBinding();
                 CB_S2.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             }
             listBox1.SelectedIndex = 0;
             FillTrainingBags();
 
-            CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * 30);
-            TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 30).ToString();
-            TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 31).ToString();
+            CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + (4 * 30));
+            TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 30)).ToString();
+            TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 31)).ToString();
         }
+
         private void FillTrainingBags()
         {
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
@@ -67,8 +68,10 @@ namespace PKHeX.WinForms
             };
             {
                 foreach (string t in trba)
+                {
                     if (t.Length > 0)
                         dgvBag.Items.Add(t);
+                }
 
                 dgvBag.DisplayIndex = 1;
                 dgvBag.Width = 135;
@@ -84,7 +87,8 @@ namespace PKHeX.WinForms
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
                 dataGridView1.Rows[i].Cells[1].Value = trba[SAV.Data[offset + i]];
             }
-        }        
+        }
+
         private void DropClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -97,16 +101,18 @@ namespace PKHeX.WinForms
         }
 
         private bool loading = true;
+
         private void ChangeListRecordSelection(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
             loading = true;
-            TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * index).ToString();
-            TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + 4 * index).ToString();
-            CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * index);
+            TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * index)).ToString();
+            TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + (4 * index)).ToString();
+            CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + (4 * index));
             loading = false;
         }
+
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Copy Bags
@@ -122,34 +128,38 @@ namespace PKHeX.WinForms
                 }
                 bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
             }
-            try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(SAV.Data, offsetTime + 4 * 30); } catch { }
-            try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(SAV.Data, offsetTime + 4 * 31); } catch { }
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + 4 * 30);
+            try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(SAV.Data, offsetTime + (4 * 30)); } catch { }
+            try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(SAV.Data, offsetTime + (4 * 31)); } catch { }
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + (4 * 30));
             bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private void ChangeRecordSpecies(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0 || loading) return;
-            BitConverter.GetBytes(WinFormsUtil.GetIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + 4 * index);
+            BitConverter.GetBytes(WinFormsUtil.GetIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + (4 * index));
         }
+
         private void ChangeRecordVal(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0 || loading) return;
-            try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(SAV.Data, offsetVal + 4 * index); } catch { }
+            try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(SAV.Data, offsetVal + (4 * index)); } catch { }
         }
+
         private void ChangeRecordTime(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0 || loading) return;
-            try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(SAV.Data, offsetTime + 4 * index); } catch { }
+            try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(SAV.Data, offsetTime + (4 * index)); } catch { }
         }
     }
 }

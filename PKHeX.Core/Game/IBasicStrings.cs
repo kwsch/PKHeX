@@ -1,13 +1,15 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     public interface IBasicStrings
     {
-        string[] Species { get; }
-        string[] Item { get; }
-        string[] Move { get; }
-        string[] Ability { get; }
-        string[] Types { get; }
-        string[] Natures { get; }
+        IReadOnlyList<string> Species { get; }
+        IReadOnlyList<string> Item { get; }
+        IReadOnlyList<string> Move { get; }
+        IReadOnlyList<string> Ability { get; }
+        IReadOnlyList<string> Types { get; }
+        IReadOnlyList<string> Natures { get; }
         string EggName { get; }
     }
 }

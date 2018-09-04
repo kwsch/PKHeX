@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -22,7 +21,7 @@ namespace PKHeX.Core
         public int Ability { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Random;
-        public int[] Relearn { get; set; } = new int[4];
+        public int[] Relearn { get; set; } = Array.Empty<int>();
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }
         public Nature Nature { get; set; } = Nature.Random;
@@ -57,6 +56,7 @@ namespace PKHeX.Core
             Relearn = (int[])Relearn.Clone();
             IVs = (int[])IVs?.Clone();
         }
+
         internal virtual EncounterStatic Clone()
         {
             var result = (EncounterStatic)MemberwiseClone();
@@ -70,6 +70,8 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo SAV)
         {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
+            SanityCheckVersion(ref version);
+
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation);
@@ -80,7 +82,7 @@ namespace PKHeX.Core
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
             int gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
-            pk.Language = lang;
+            pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
@@ -98,30 +100,46 @@ namespace PKHeX.Core
             }
             if (EggEncounter)
             {
+                bool traded = (int)Version == SAV.Game;
+                pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
+                pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+                if (pk.GenNumber >= 4)
+                {
+                    pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+                    pk.EggMetDate = today;
+                }
                 pk.Egg_Location = EggLocation;
                 pk.EggMetDate = today;
             }
 
             pk.AltForm = Form;
-            pk.Language = lang;
 
-            if (this is EncounterStaticPID pid)
+            if (this is EncounterStaticPID p)
             {
-                pk.PID = pid.PID;
-                pk.Gender = pk.GetSaneGender(gender);
+                pk.PID = p.PID;
+                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
                 if (pk is PK5 pk5)
-                    pk5.NPokémon = pid.NSparkle;
+                {
+                    pk5.IVs = new[] {30, 30, 30, 30, 30, 30};
+                    pk5.NPokémon = p.NSparkle;
+                    pk5.OT_Name = Legal.GetG5OT_NSparkle(lang);
+                    pk5.TID = 00002;
+                    pk5.SID = 00000;
+                }
+                else
+                {
+                    SetIVs(pk);
+                }
+                if (Generation >= 5)
+                    pk.Nature = nature;
+                pk.RefreshAbility(Ability >> 1);
             }
             else
             {
                 var pidtype = GetPIDType();
                 PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability >> 1, gender, pidtype);
+                SetIVs(pk);
             }
-
-            if (IVs != null)
-                pk.SetRandomIVs(IVs, FlawlessIVCount);
-            else if (FlawlessIVCount > 0)
-                pk.SetRandomIVs(flawless: FlawlessIVCount);
 
             switch (pk.Format)
             {
@@ -138,14 +156,14 @@ namespace PKHeX.Core
                     break;
             }
 
-            this.CopyContestStatsTo(pk);
+            if (pk is IContestStats s)
+                this.CopyContestStatsTo(s);
 
-            var moves = Moves ?? Legal.GetEncounterMoves(pk, level, version);
-            if (pk.Format == 1 && moves.All(z => z == 0))
-                moves = (PersonalTable.RB[Species] as PersonalInfoG1).Moves;
+            var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
+            pk.HeldItem = HeldItem;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
-            if (pk.Format >= 6 && Relearn != null)
+            if (pk.Format >= 6 && Relearn.Length > 0)
                 pk.RelearnMoves = Relearn;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             if (Fateful)
@@ -162,13 +180,63 @@ namespace PKHeX.Core
             return pk;
         }
 
+        private void SanityCheckVersion(ref GameVersion version)
+        {
+            if (Generation != 4 || version == GameVersion.Pt)
+                return;
+            switch (Species)
+            {
+                case 491 when Location == 079: // DP Darkrai
+                case 492 when Location == 063: // DP Shaymin
+                    version = GameVersion.Pt;
+                    return;
+            }
+        }
+
+        private void SetIVs(PKM pk)
+        {
+            if (IVs != null)
+                pk.SetRandomIVs(IVs, FlawlessIVCount);
+            else if (FlawlessIVCount > 0)
+                pk.SetRandomIVs(flawless: FlawlessIVCount);
+        }
+
+        private int GetEdgeCaseLanguage(PKM pk, int lang)
+        {
+            switch (pk.Format)
+            {
+                case 1 when Species == 151 && Version == GameVersion.VCEvents: // VC Mew
+                    pk.TID = 22796;
+                    pk.OT_Name = Legal.GetG1OT_GFMew(lang);
+                    return lang;
+                case 1 when Version == GameVersion.EventsGBGen1:
+                case 2 when Version == GameVersion.EventsGBGen2:
+                case 3 when this is EncounterStaticShadow s && s.EReader:
+                case 3 when Species == 151:
+                    pk.OT_Name = "ゲーフリ";
+                    return 1; // Old Sea Map was only distributed to Japanese games.
+
+                default:
+                    return lang;
+            }
+        }
+
         private PIDType GetPIDType()
         {
-            if (Roaming)
-                return PIDType.Method_1_Roamer;
-            if (Version == GameVersion.HGSS && Location == 233) // Pokéwalker
-                return PIDType.Pokewalker;
-            return PIDType.None;
+            switch (Generation)
+            {
+                case 3 when Roaming && Version != GameVersion.E: // Roamer IV glitch was fixed in Emerald
+                    return PIDType.Method_1_Roamer;
+                case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
+                    return PIDType.ChainShiny;
+                case 4 when Species == 172: // Spiky Eared Pichu
+                case 4 when Location == 233: // Pokéwalker
+                    return PIDType.Pokewalker;
+                case 5 when Shiny == Shiny.Always:
+                    return PIDType.G5MGShiny;
+
+                default: return PIDType.None;
+            }
         }
     }
 }

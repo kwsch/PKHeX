@@ -103,7 +103,7 @@ namespace PKHeX.Core
             700, 701, 702, 703, 705, 706, 707, 712, 713, 714,
 
             // Illegal
-            716, 717, // For the cheaters who want useless items... 
+            716, 717, // For the cheaters who want useless items...
         };
 
         internal static readonly ushort[] Pouch_Key_AO =
@@ -226,7 +226,7 @@ namespace PKHeX.Core
         };
 
         #endregion
-        
+
         internal static readonly int[] EggLocations6 = {60002, 30002};
         internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
         {
@@ -288,7 +288,7 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>
         {
             010, 013, 046, 048, 123, 127, 265, 290, 314, 401, 415,
-            
+
             313, // Via Illumise
         };
         internal static readonly HashSet<int> Inherit_Safari = new HashSet<int>
@@ -409,117 +409,22 @@ namespace PKHeX.Core
             268, 269, // Cascoon Dustox
         };
         #endregion
-        #region Memory Table
-        internal static readonly int[] Memory_NotXY =
-        {
-            65, // {0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
-            66, // {0} participated in a contest with {1} and impressed many people. {4} that {3}.
-            67, // {0} participated in a contest with {1} and won the title. {4} that {3}.
-            68, // {0} soared through the sky with {1} and went to many different places. {4} that {3}.
-            69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
-        };
-        internal static readonly int[] Memory_NotAO =
-        {
-            11, // {0} went clothes shopping with {1}. {4} that {3}.
-            43, // {0} was impressed by the speed of the train it took with {1}. {4} that {3}.
-            44, // {0} encountered {2} with {1} using the Poké Radar. {4} that {3}.
-            56, // {0} was with {1} when (he/she) went to a boutique and tried on clothes, but (he/she) left the boutique without buying anything. {4} that {3}.
-            57, // {0} went to a nice restaurant with {1} and ate until it got totally full. {4} that {3}.
-            62, // {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
-        };
-        internal static readonly int[][] MoveSpecificMemories =
-        {
-            new[] {
-                20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
-                24, // {0} flew, carrying {1} on its back, to {2}. {4} that {3}.
-                35, // {0} proudly used Strength at {1}’s instruction in... {2}. {4} that {3}.
-                36, // {0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
-                37, // {0} shattered rocks to its heart’s content at {1}’s instruction in... {2}. {4} that {3}.
-                38, // {0} used Waterfall while carrying {1} on its back in... {2}. {4} that {3}.
-                69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
-            },
-            new[] { 57, 19, 70, 15, 249, 127, 291}, // Move IDs
-        };
-        internal static readonly int[][] LocationsWithPKCenter =
-        {
-            new[] {
-                // Kalos locations with a PKMN CENTER
-                18,  // Santalune City
-                22,  // Lumiose City
-                30,  // Camphrier Town
-                40,  // Cyllage City
-                44,  // Ambrette Town
-                52,  // Geosenge Towny
-                58,  // Shalour City
-                64,  // Coumarine City
-                70,  // Laverre City
-                76,  // Dendemille Town
-                86,  // Anistar City
-                90,  // Couriway Town
-                94,  // Snowbelle City
-                106, // Pokémon League (X/Y)
-                // Hoenn locations with a PKMN CENTER
-                172, // Oldale Town
-                174, // Dewford Town
-                176, // Lavaridge Town
-                178, // Fallarbor Town
-                180, // Verdanturf Town
-                182, // Pacifidlog Town
-                184, // Petalburg City
-                186, // Slateport City
-                188, // Mauville City
-                190, // Rustboro City
-                192, // Fortree City
-                194, // Lilycove City
-                196, // Mossdeep City
-                198, // Sootopolis City
-                200, // Ever Grande City
-                202, // Pokémon League (OR/AS)
-            },
-            new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // Region matching
-        };
-        public static readonly HashSet<int> MemoryGeneral = new HashSet<int> { 1, 2, 3, 4, 19, 24, 31, 32, 33, 35, 36, 37, 38, 39, 42, 52, 59 };
-        public static readonly HashSet<int> MemorySpecific = new HashSet<int> { 6 };
-        public static readonly HashSet<int> MemoryMove = new HashSet<int> { 12, 16, 48, 49 };
-        public static readonly HashSet<int> MemoryItem = new HashSet<int> { 5, 15, 26, 34, 40, 51 };
-        public static readonly HashSet<int> MemorySpecies = new HashSet<int> { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60 };
-        internal static readonly byte[] MemoryMinIntensity =
-        {
-            0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
-            3, 3, 3, 3, 3, 3, 3, 4, 5, 5,
-            5, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            3, 3, 1, 3, 2, 2, 4, 3, 4, 4,
-            4, 4, 2, 4, 2, 4, 3, 3, 4, 2,
-            3, 3, 3, 3, 3, 2, 3, 4, 4, 2,
-        };
-        internal static readonly uint[] MemoryFeelings =
-        {
-            0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,
-            0x80BDF9, 0x88FB7A, 0x083F79, 0x0001FE, 0xCFEFFF, 0x84EBAF, 0xB368B0, 0x091F7E, 0x0320A0, 0x080DDD,
-            0x081A7B, 0x404030, 0x0FFFFF, 0x9A08BC, 0x089A7B, 0x0032AA, 0x80FF7A, 0x0FFFFF, 0x0805FD, 0x098278,
-            0x0B3FFF, 0x8BBFFA, 0x8BBFFE, 0x81A97C, 0x8BB97C, 0x8BBF7F, 0x8BBF7F, 0x8BBF7F, 0x8BBF7F, 0xAC3ABE,
-            0xBFFFFF, 0x8B837C, 0x848AFA, 0x88FFFE, 0x8B0B7C, 0xB76AB2, 0x8B1FFF, 0xBE7AB8, 0xB77EB8, 0x8C9FFD,
-            0xBF9BFF, 0xF408B0, 0xBCFE7A, 0x8F3F72, 0x90DB7A, 0xBCEBFF, 0xBC5838, 0x9C3FFE, 0x9CFFFF, 0x96D83A,
-            0xB770B0, 0x881F7A, 0x839F7A, 0x839F7A, 0x839F7A, 0x53897F, 0x41BB6F, 0x0C35FF, 0x8BBF7F, 0x8BBF7F,
-        };
-        #endregion
 
         internal static readonly int[] MovePP_XY =
         {
-            00, 
-            35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20, 
-            30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 20, 20, 05, 35, 20, 25, 20, 20, 20, 15, 25, 15, 10, 20, 25, 10, 35, 30, 15, 10, 40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20, 
-            15, 10, 40, 15, 10, 30, 10, 20, 10, 40, 40, 20, 30, 30, 20, 30, 10, 10, 20, 05, 10, 30, 20, 20, 20, 05, 15, 15, 20, 10, 15, 35, 20, 15, 10, 10, 30, 15, 40, 20, 15, 10, 05, 10, 30, 10, 15, 20, 15, 40, 
-            20, 10, 05, 15, 10, 10, 10, 15, 30, 30, 10, 10, 20, 10, 01, 01, 10, 25, 10, 05, 15, 25, 15, 10, 15, 30, 05, 40, 15, 10, 25, 10, 30, 10, 20, 10, 10, 10, 10, 10, 20, 05, 40, 05, 05, 15, 05, 10, 05, 10, 
-            10, 10, 10, 20, 20, 40, 15, 10, 20, 20, 25, 05, 15, 10, 05, 20, 15, 20, 25, 20, 05, 30, 05, 10, 20, 40, 05, 20, 40, 20, 15, 35, 10, 05, 05, 05, 15, 05, 20, 05, 05, 15, 20, 10, 05, 05, 15, 10, 15, 15, 
-            10, 10, 10, 20, 10, 10, 10, 10, 15, 15, 15, 10, 20, 20, 10, 20, 20, 20, 20, 20, 10, 10, 10, 20, 20, 05, 15, 10, 10, 15, 10, 20, 05, 05, 10, 10, 20, 05, 10, 20, 10, 20, 20, 20, 05, 05, 15, 20, 10, 15, 
-            20, 15, 10, 10, 15, 10, 05, 05, 10, 15, 10, 05, 20, 25, 05, 40, 15, 05, 40, 15, 20, 20, 05, 15, 20, 20, 15, 15, 05, 10, 30, 20, 30, 15, 05, 40, 15, 05, 20, 05, 15, 25, 25, 15, 20, 15, 20, 15, 20, 10, 
-            20, 20, 05, 05, 10, 05, 40, 10, 10, 05, 10, 10, 15, 10, 20, 15, 30, 10, 20, 05, 10, 10, 15, 10, 10, 05, 15, 05, 10, 10, 30, 20, 20, 10, 10, 05, 05, 10, 05, 20, 10, 20, 10, 15, 10, 20, 20, 20, 15, 15, 
-            10, 15, 15, 15, 10, 10, 10, 20, 10, 30, 05, 10, 15, 10, 10, 05, 20, 30, 10, 30, 15, 15, 15, 15, 30, 10, 20, 15, 10, 10, 20, 15, 05, 05, 15, 15, 05, 10, 05, 20, 05, 15, 20, 05, 20, 20, 20, 20, 10, 20, 
-            10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05, 15, 10, 10, 10, 10, 10, 10, 15, 20, 15, 10, 15, 10, 15, 10, 20, 10, 15, 10, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 20, 15, 10, 
-            15, 15, 15, 15, 10, 10, 10, 10, 10, 15, 15, 15, 15, 05, 05, 15, 05, 10, 10, 10, 20, 20, 20, 10, 10, 30, 15, 15, 10, 15, 25, 10, 15, 10, 10, 10, 20, 10, 10, 10, 10, 10, 15, 15, 05, 05, 10, 10, 10, 05, 
-            05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20, 
+            00,
+            35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,
+            30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 20, 20, 05, 35, 20, 25, 20, 20, 20, 15, 25, 15, 10, 20, 25, 10, 35, 30, 15, 10, 40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20,
+            15, 10, 40, 15, 10, 30, 10, 20, 10, 40, 40, 20, 30, 30, 20, 30, 10, 10, 20, 05, 10, 30, 20, 20, 20, 05, 15, 15, 20, 10, 15, 35, 20, 15, 10, 10, 30, 15, 40, 20, 15, 10, 05, 10, 30, 10, 15, 20, 15, 40,
+            20, 10, 05, 15, 10, 10, 10, 15, 30, 30, 10, 10, 20, 10, 01, 01, 10, 25, 10, 05, 15, 25, 15, 10, 15, 30, 05, 40, 15, 10, 25, 10, 30, 10, 20, 10, 10, 10, 10, 10, 20, 05, 40, 05, 05, 15, 05, 10, 05, 10,
+            10, 10, 10, 20, 20, 40, 15, 10, 20, 20, 25, 05, 15, 10, 05, 20, 15, 20, 25, 20, 05, 30, 05, 10, 20, 40, 05, 20, 40, 20, 15, 35, 10, 05, 05, 05, 15, 05, 20, 05, 05, 15, 20, 10, 05, 05, 15, 10, 15, 15,
+            10, 10, 10, 20, 10, 10, 10, 10, 15, 15, 15, 10, 20, 20, 10, 20, 20, 20, 20, 20, 10, 10, 10, 20, 20, 05, 15, 10, 10, 15, 10, 20, 05, 05, 10, 10, 20, 05, 10, 20, 10, 20, 20, 20, 05, 05, 15, 20, 10, 15,
+            20, 15, 10, 10, 15, 10, 05, 05, 10, 15, 10, 05, 20, 25, 05, 40, 15, 05, 40, 15, 20, 20, 05, 15, 20, 20, 15, 15, 05, 10, 30, 20, 30, 15, 05, 40, 15, 05, 20, 05, 15, 25, 25, 15, 20, 15, 20, 15, 20, 10,
+            20, 20, 05, 05, 10, 05, 40, 10, 10, 05, 10, 10, 15, 10, 20, 15, 30, 10, 20, 05, 10, 10, 15, 10, 10, 05, 15, 05, 10, 10, 30, 20, 20, 10, 10, 05, 05, 10, 05, 20, 10, 20, 10, 15, 10, 20, 20, 20, 15, 15,
+            10, 15, 15, 15, 10, 10, 10, 20, 10, 30, 05, 10, 15, 10, 10, 05, 20, 30, 10, 30, 15, 15, 15, 15, 30, 10, 20, 15, 10, 10, 20, 15, 05, 05, 15, 15, 05, 10, 05, 20, 05, 15, 20, 05, 20, 20, 20, 20, 10, 20,
+            10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05, 15, 10, 10, 10, 10, 10, 10, 15, 20, 15, 10, 15, 10, 15, 10, 20, 10, 15, 10, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 20, 15, 10,
+            15, 15, 15, 15, 10, 10, 10, 10, 10, 15, 15, 15, 15, 05, 05, 15, 05, 10, 10, 10, 20, 20, 20, 10, 10, 30, 15, 15, 10, 15, 25, 10, 15, 10, 10, 10, 20, 10, 10, 10, 10, 10, 15, 15, 05, 05, 10, 10, 10, 05,
+            05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20,
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05,
         };
         internal static readonly int[] UnreleasedItems_6 =

@@ -1116,7 +1116,7 @@
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.Size = new System.Drawing.Size(122, 22);
             this.mnuSave.Text = "Save PKM";
-            this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
+            this.mnuSave.Click += new System.EventHandler(this.MnuSave_Click);
             // 
             // L_Grade
             // 

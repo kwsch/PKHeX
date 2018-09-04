@@ -31,21 +31,21 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsEditor));
             this.FLP_Settings = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
-            // 
+            //
             // FLP_Settings
-            // 
+            //
             this.FLP_Settings.AutoScroll = true;
             this.FLP_Settings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Settings.Location = new System.Drawing.Point(0, 0);
             this.FLP_Settings.Name = "FLP_Settings";
-            this.FLP_Settings.Size = new System.Drawing.Size(306, 161);
+            this.FLP_Settings.Size = new System.Drawing.Size(306, 311);
             this.FLP_Settings.TabIndex = 0;
-            // 
+            //
             // SettingsEditor
-            // 
+            //
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(306, 161);
+            this.ClientSize = new System.Drawing.Size(306, 311);
             this.Controls.Add(this.FLP_Settings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

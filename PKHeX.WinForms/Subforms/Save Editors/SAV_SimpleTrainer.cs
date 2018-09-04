@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+
         public SAV_SimpleTrainer(SaveFile sav)
         {
             InitializeComponent();
@@ -88,12 +89,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV3 sav3)
             {
                 GB_Map.Visible = false;
-                switch (sav3.Version)
-                {
-                    case GameVersion.E: badgeval = sav3.Badges; break;
-                    case GameVersion.FRLG: badgeval = sav3.Badges; break;
-                    default: GB_Badges.Visible = false; break; // RS
-                }
+                badgeval = sav3.Badges;
 
                 L_Started.Visible = L_Fame.Visible = false;
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
@@ -157,20 +153,22 @@ namespace PKHeX.WinForms
 
             Loading = false;
         }
+
         private readonly CheckBox[] cba;
         private readonly bool Loading;
         private bool MapUpdated;
 
         private void ChangeFFFF(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox)sender;
+            if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
+
         private void Change255(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox)sender;
+            if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > byte.MaxValue) box.Text = "255";
         }
 
@@ -254,10 +252,12 @@ namespace PKHeX.WinForms
             Origin.SetData(SAV.Data, 0);
             Close();
         }
+
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private static int GetSeconds(DateTimePicker date, DateTimePicker time)
         {
             int val = (int)(date.Value - new DateTime(2000, 1, 1)).TotalSeconds;
@@ -265,6 +265,7 @@ namespace PKHeX.WinForms
             val += (int)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             return val;
         }
+
         private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!Loading)

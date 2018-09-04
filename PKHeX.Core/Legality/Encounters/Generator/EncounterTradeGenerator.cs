@@ -9,31 +9,57 @@ namespace PKHeX.Core
     {
         public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            if (pkm.VC || pkm.Format <= 2)
-                return GetPossibleVC(pkm, gameSource);
-            return GetPossibleNonVC(pkm, gameSource);
+            var p = EvolutionChain.GetValidPreEvolutions(pkm);
+            return GetPossible(pkm, p, gameSource);
         }
-        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, GameVersion gameSource = GameVersion.Any)
+
+        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
             if (pkm.VC || pkm.Format <= 2)
-                return GetValidEncounterTradesVC(pkm, gameSource);
-            
-            var p = GetValidPreEvolutions(pkm);
+                return GetPossibleVC(vs, gameSource);
+            return GetPossibleNonVC(pkm, vs, gameSource);
+        }
+
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
+            var p = EvolutionChain.GetValidPreEvolutions(pkm);
+            return GetValidEncounterTrades(pkm, p, gameSource);
+        }
+
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        {
+            if (GetIsFromGB(pkm))
+                return GetValidEncounterTradesVC(pkm, p, gameSource);
+
+            int lvl = IsNotTrade(pkm);
+            if (lvl <= 0)
+                return Enumerable.Empty<EncounterTrade>();
+
+            var poss = GetPossibleNonVC(pkm, p, gameSource);
+            return poss.Where(z => IsEncounterTradeValid(pkm, z, lvl));
+        }
+
+        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            if (pkm.VC || pkm.Format <= 2)
+                return GetValidEncounterTradesVC(pkm, p, gameSource);
+
             var table = GetEncounterTradeTable(pkm);
             return table?.Where(f => p.Any(r => r.Species == f.Species)) ?? Enumerable.Empty<EncounterTrade>();
         }
-        private static IEnumerable<EncounterTrade> GetPossibleVC(PKM pkm, GameVersion gameSource = GameVersion.Any)
+
+        private static IEnumerable<EncounterTrade> GetPossibleVC(IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
         {
             var table = GetEncounterTradeTableVC(gameSource);
-            var p = GetValidPreEvolutions(pkm);
             return table.Where(f => p.Any(r => r.Species == f.Species));
         }
+
         private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
         {
             if (GameVersion.RBY.Contains(gameSource))
@@ -42,6 +68,7 @@ namespace PKHeX.Core
                 return Encounters2.TradeGift_GSC;
             return null;
         }
+
         private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
         {
             switch (pkm.GenNumber)
@@ -54,13 +81,15 @@ namespace PKHeX.Core
             }
             return null;
         }
-        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, GameVersion gameSource)
+
+        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource)
         {
-            var poss = GetPossibleVC(pkm, gameSource);
+            var poss = GetPossibleVC(p, gameSource);
             if (gameSource == GameVersion.RBY)
                 return poss.Where(z => GetIsValidTradeVC1(pkm, z));
             return poss.Where(z => GetIsValidTradeVC2(pkm, z));
         }
+
         private static bool GetIsValidTradeVC1(PKM pkm, EncounterTrade z)
         {
             if (z.Level > pkm.CurrentLevel) // minimum required level
@@ -84,6 +113,7 @@ namespace PKHeX.Core
             }
             return true;
         }
+
         private static bool GetIsValidTradeVC2(PKM pkm, EncounterTrade z)
         {
             if (z.Level > pkm.CurrentLevel) // minimum required level
@@ -92,45 +122,32 @@ namespace PKHeX.Core
                 return false;
             if (z.Gender >= 0 && z.Gender != pkm.Gender && pkm.Format <= 2)
                 return false;
-            if (z.IVs != null && !z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
+            if (z.IVs?.SequenceEqual(pkm.IVs) == false && pkm.Format <= 2)
                 return false;
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                 return false;
 
             int index = Array.IndexOf(Encounters2.TradeGift_GSC, z);
             int otIndex = Encounters2.TradeGift_GSC.Length + index;
-            bool valid;
             if (pkm.Japanese)
-                valid = Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Japanese][otIndex] == pkm.OT_Name;
-            else if (pkm.Korean)
-                valid = Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Korean][otIndex] == pkm.OT_Name;
-            else
-                valid = Array.FindIndex(Encounters2.TradeGift_GSC_OTs, 2, 6, arr => arr.Length > index && arr[otIndex] == pkm.OT_Name) >= 0;
-            if (!valid)
-                return false;
-
-            return true;
+                return Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Japanese][otIndex] == pkm.OT_Name;
+            if (pkm.Korean)
+                return Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Korean][otIndex] == pkm.OT_Name;
+            return Array.FindIndex(Encounters2.TradeGift_GSC_OTs, 2, 6, arr => arr.Length > index && arr[otIndex] == pkm.OT_Name) >= 0;
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            if (GetIsFromGB(pkm))
-                return GetValidEncounterTradesVC(pkm, gameSource);
 
-            int lvl = IsNotTrade(pkm);
-            if (lvl <= 0)
-                return Enumerable.Empty<EncounterTrade>();
-
-            var poss = GetPossibleNonVC(pkm);
-            return poss.Where(z => IsEncounterTradeValid(pkm, z, lvl));
-        }
         private static bool IsEncounterTradeValid(PKM pkm, EncounterTrade z, int lvl)
         {
             if (z.IVs != null)
+            {
                 for (int i = 0; i < 6; i++)
+                {
                     if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
                         return false;
+                }
+            }
 
             if (z is EncounterTradePID p)
             {
@@ -157,16 +174,21 @@ namespace PKHeX.Core
                 var loc = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[z.Generation - 1];
                 if (loc != pkm.Met_Location)
                     return false;
+
                 if (pkm.Format < 5)
                 {
                     if (z.Level > lvl)
                         return false;
                 }
                 else if (z.Level != lvl)
+                {
                     return false;
+                }
             }
             else if (z.Level > lvl)
+            {
                 return false;
+            }
 
             if (z.CurrentLevel != -1 && z.CurrentLevel > pkm.CurrentLevel)
                 return false;
@@ -177,10 +199,12 @@ namespace PKHeX.Core
                 return false;
             if (z.EggLocation != pkm.Egg_Location)
                 return false;
-            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
+            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
             //    countinue;
+            if (!z.Version.Contains((GameVersion)pkm.Version))
+                return false;
 
-            if (pkm.IsContestBelow(z))
+            if (pkm is IContestStats s && s.IsContestBelow(z))
                 return false;
 
             return true;
@@ -191,7 +215,7 @@ namespace PKHeX.Core
             int lang = pkm.Language;
             if (lang == (int)LanguageID.UNUSED_6) // invalid language
                 return 0;
-            if (lang == (int)LanguageID.Hacked && (pkm.Format != 5 || !pkm.BW)) // Japanese trades in BW have no language ID
+            if (lang == (int)LanguageID.Hacked && !IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
                 return 0;
 
             return GetMinLevelEncounter(pkm);

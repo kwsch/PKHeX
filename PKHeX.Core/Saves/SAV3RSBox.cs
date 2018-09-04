@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3RSBox : SaveFile
     {
-        public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
+        protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter
         {
             get
@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
             if (SaveUtil.GetIsG3BOXSAV(Data) != GameVersion.RSBOX)
                 return;
-            
+
             Blocks = new BlockInfo[2*BLOCK_COUNT];
             for (int i = 0; i < Blocks.Length; i++)
             {
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             SaveCount = SaveCounts.Max();
             int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
             Blocks = Blocks.Skip(ActiveSAV*BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();
-            
+
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
@@ -156,7 +156,7 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value)
         {
             int offset = Box + 0x1EC38 + 9 * box;
-            byte[] data = value == $"BOX {box + 1}" ? new byte[9] : SetString(value, 8); 
+            byte[] data = value == $"BOX {box + 1}" ? new byte[9] : SetString(value, 8);
             SetData(data, offset);
         }
         public override PKM GetPKM(byte[] data)
@@ -173,7 +173,7 @@ namespace PKHeX.Core
         }
 
         protected override void SetDex(PKM pkm) { }
-        
+
         public override void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
         {
             if (pkm == null) return;
@@ -191,7 +191,7 @@ namespace PKHeX.Core
             Edited = true;
         }
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
+        public override string GetString(int Offset, int Length) => StringConverter.GetString3(Data, Offset, Length, Japanese);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

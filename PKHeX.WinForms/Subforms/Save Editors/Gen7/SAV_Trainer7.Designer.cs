@@ -100,17 +100,15 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.L_Vivillon = new System.Windows.Forms.Label();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
-            this.NUD_Stat = new System.Windows.Forms.NumericUpDown();
+            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
             this.NUD_FC = new System.Windows.Forms.NumericUpDown();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_FC = new System.Windows.Forms.Label();
-            this.L_Offset = new System.Windows.Forms.Label();
             this.L_BP = new System.Windows.Forms.Label();
-            this.L_Value = new System.Windows.Forms.Label();
-            this.CB_Stats = new System.Windows.Forms.ComboBox();
             this.CB_AlolaTime = new System.Windows.Forms.ComboBox();
             this.L_AlolaTime = new System.Windows.Forms.Label();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
@@ -204,11 +202,9 @@
             this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
-            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.GB_Adventure.SuspendLayout();
@@ -845,6 +841,13 @@
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
             // 
+            // trainerID1
+            // 
+            this.trainerID1.Location = new System.Drawing.Point(6, 26);
+            this.trainerID1.Name = "trainerID1";
+            this.trainerID1.Size = new System.Drawing.Size(90, 64);
+            this.trainerID1.TabIndex = 66;
+            // 
             // CB_Vivillon
             // 
             this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -865,14 +868,11 @@
             // 
             // GB_Stats
             // 
-            this.GB_Stats.Controls.Add(this.NUD_Stat);
+            this.GB_Stats.Controls.Add(this.TrainerStats);
             this.GB_Stats.Controls.Add(this.NUD_FC);
             this.GB_Stats.Controls.Add(this.NUD_BP);
             this.GB_Stats.Controls.Add(this.L_FC);
-            this.GB_Stats.Controls.Add(this.L_Offset);
             this.GB_Stats.Controls.Add(this.L_BP);
-            this.GB_Stats.Controls.Add(this.L_Value);
-            this.GB_Stats.Controls.Add(this.CB_Stats);
             this.GB_Stats.Location = new System.Drawing.Point(212, 130);
             this.GB_Stats.Name = "GB_Stats";
             this.GB_Stats.Size = new System.Drawing.Size(171, 137);
@@ -880,13 +880,12 @@
             this.GB_Stats.TabStop = false;
             this.GB_Stats.Text = "Stats";
             // 
-            // NUD_Stat
+            // TrainerStats
             // 
-            this.NUD_Stat.Location = new System.Drawing.Point(59, 90);
-            this.NUD_Stat.Name = "NUD_Stat";
-            this.NUD_Stat.Size = new System.Drawing.Size(103, 20);
-            this.NUD_Stat.TabIndex = 31;
-            this.NUD_Stat.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            this.TrainerStats.Location = new System.Drawing.Point(19, 61);
+            this.TrainerStats.Name = "TrainerStats";
+            this.TrainerStats.Size = new System.Drawing.Size(146, 72);
+            this.TrainerStats.TabIndex = 67;
             // 
             // NUD_FC
             // 
@@ -931,16 +930,6 @@
             this.L_FC.Text = "Festa Coins:";
             this.L_FC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_Offset
-            // 
-            this.L_Offset.Font = new System.Drawing.Font("Courier New", 8.25F);
-            this.L_Offset.Location = new System.Drawing.Point(22, 113);
-            this.L_Offset.Name = "L_Offset";
-            this.L_Offset.Size = new System.Drawing.Size(140, 20);
-            this.L_Offset.TabIndex = 28;
-            this.L_Offset.Text = "(offset)";
-            this.L_Offset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // L_BP
             // 
             this.L_BP.Location = new System.Drawing.Point(9, 16);
@@ -949,28 +938,6 @@
             this.L_BP.TabIndex = 1;
             this.L_BP.Text = "BP:";
             this.L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Value
-            // 
-            this.L_Value.AutoSize = true;
-            this.L_Value.Location = new System.Drawing.Point(19, 92);
-            this.L_Value.Name = "L_Value";
-            this.L_Value.Size = new System.Drawing.Size(34, 13);
-            this.L_Value.TabIndex = 22;
-            this.L_Value.Text = "Value";
-            // 
-            // CB_Stats
-            // 
-            this.CB_Stats.DropDownHeight = 256;
-            this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Stats.DropDownWidth = 200;
-            this.CB_Stats.FormattingEnabled = true;
-            this.CB_Stats.IntegralHeight = false;
-            this.CB_Stats.Location = new System.Drawing.Point(22, 68);
-            this.CB_Stats.Name = "CB_Stats";
-            this.CB_Stats.Size = new System.Drawing.Size(140, 21);
-            this.CB_Stats.TabIndex = 23;
-            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
             // 
             // CB_AlolaTime
             // 
@@ -1705,21 +1672,21 @@
             // CHK_UnlockZMove
             // 
             this.CHK_UnlockZMove.AutoSize = true;
-            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 273);
+            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 271);
             this.CHK_UnlockZMove.Name = "CHK_UnlockZMove";
-            this.CHK_UnlockZMove.Size = new System.Drawing.Size(105, 17);
+            this.CHK_UnlockZMove.Size = new System.Drawing.Size(117, 17);
             this.CHK_UnlockZMove.TabIndex = 73;
-            this.CHK_UnlockZMove.Text = "Unlock Z Moves";
+            this.CHK_UnlockZMove.Text = "Unlocked Z-Moves";
             this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
             // 
             // CHK_UnlockMega
             // 
             this.CHK_UnlockMega.AutoSize = true;
-            this.CHK_UnlockMega.Location = new System.Drawing.Point(6, 256);
+            this.CHK_UnlockMega.Location = new System.Drawing.Point(6, 254);
             this.CHK_UnlockMega.Name = "CHK_UnlockMega";
-            this.CHK_UnlockMega.Size = new System.Drawing.Size(90, 17);
+            this.CHK_UnlockMega.Size = new System.Drawing.Size(149, 17);
             this.CHK_UnlockMega.TabIndex = 72;
-            this.CHK_UnlockMega.Text = "Unlock Mega";
+            this.CHK_UnlockMega.Text = "Unlocked Mega Evolution";
             this.CHK_UnlockMega.UseVisualStyleBackColor = true;
             // 
             // L_BallThrowType
@@ -2159,13 +2126,6 @@
             0,
             0});
             // 
-            // trainerID1
-            // 
-            this.trainerID1.Location = new System.Drawing.Point(6, 26);
-            this.trainerID1.Name = "trainerID1";
-            this.trainerID1.Size = new System.Drawing.Size(90, 64);
-            this.trainerID1.TabIndex = 66;
-            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2185,8 +2145,6 @@
             this.Tab_Overview.ResumeLayout(false);
             this.Tab_Overview.PerformLayout();
             this.GB_Stats.ResumeLayout(false);
-            this.GB_Stats.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).EndInit();
             this.GB_Adventure.ResumeLayout(false);
@@ -2332,7 +2290,6 @@
         private System.Windows.Forms.GroupBox GB_Stats;
         private System.Windows.Forms.Label L_FC;
         private System.Windows.Forms.Label L_BP;
-        private System.Windows.Forms.ComboBox CB_Stats;
         private System.Windows.Forms.NumericUpDown NUD_FC;
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.TabPage Tab_Misc;
@@ -2370,9 +2327,6 @@
         private System.Windows.Forms.Label L_Super;
         private System.Windows.Forms.ComboBox CB_SkinColor;
         private System.Windows.Forms.Label L_SkinColor;
-        private System.Windows.Forms.NumericUpDown NUD_Stat;
-        private System.Windows.Forms.Label L_Value;
-        private System.Windows.Forms.Label L_Offset;
         private System.Windows.Forms.ComboBox CB_Fashion;
         private System.Windows.Forms.TextBox TB_PlazaName;
         private System.Windows.Forms.Label L_PlazaName;
@@ -2412,5 +2366,6 @@
         private System.Windows.Forms.TextBox TB_RotomOT;
         private System.Windows.Forms.Label L_RotomOT;
         private Controls.TrainerID trainerID1;
+        private Subforms.Save_Editors.TrainerStat TrainerStats;
     }
 }

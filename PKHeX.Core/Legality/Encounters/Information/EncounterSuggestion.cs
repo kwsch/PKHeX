@@ -27,6 +27,7 @@ namespace PKHeX.Core
 
             return null;
         }
+
         private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = GetSuggestedEncounterEggMetLevel(pkm);
@@ -43,7 +44,7 @@ namespace PKHeX.Core
             if (!pkm.IsNative && pkm.GenNumber < 5)
                 return pkm.CurrentLevel; // be generous with transfer conditions
             if (pkm.Format < 5) // and native
-                return 0;
+                return pkm.Format == 2 && pkm.Met_Location != 0 ? 1 : 0;
             return 1; // gen5+
         }
 
@@ -73,6 +74,7 @@ namespace PKHeX.Core
                 Level = first.LevelMin,
             };
         }
+
         private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc = -1)
         {
             if (loc == -1)
@@ -83,9 +85,10 @@ namespace PKHeX.Core
             return encounter;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Gets a valid Egg hatch location for the origin game.
         /// </summary>
+        /// <param name="pkm">Pokémon data to suggest for</param>
         public static int GetSuggestedEggMetLocation(PKM pkm)
         {
             // Return one of legal hatch locations for game
@@ -142,9 +145,11 @@ namespace PKHeX.Core
             }
             return -1;
         }
-        /// <summary> 
+
+        /// <summary>
         /// Gets the correct Transfer Met location for the origin game.
         /// </summary>
+        /// <param name="pkm">Pokémon data to suggest for</param>
         /// <remarks>
         /// Returns -1 if the met location is not overriden with a transfer location
         /// </remarks>

@@ -48,6 +48,9 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.Label_Species = new System.Windows.Forms.Label();
             this.CHK_Shiny = new System.Windows.Forms.CheckBox();
+            this.CHK_Active = new System.Windows.Forms.CheckBox();
+            this.NUD_Level = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
@@ -255,11 +258,29 @@
             this.CHK_Shiny.Text = "Shiny?";
             this.CHK_Shiny.UseVisualStyleBackColor = true;
             // 
+            // CHK_Active
+            // 
+            this.CHK_Active.Location = new System.Drawing.Point(201, 61);
+            this.CHK_Active.Name = "CHK_Active";
+            this.CHK_Active.Size = new System.Drawing.Size(76, 30);
+            this.CHK_Active.TabIndex = 91;
+            this.CHK_Active.Text = "Roaming (Active)";
+            this.CHK_Active.UseVisualStyleBackColor = true;
+            // 
+            // NUD_Level
+            // 
+            this.NUD_Level.Location = new System.Drawing.Point(193, 12);
+            this.NUD_Level.Name = "NUD_Level";
+            this.NUD_Level.Size = new System.Drawing.Size(45, 20);
+            this.NUD_Level.TabIndex = 92;
+            // 
             // SAV_Roamer3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(278, 143);
+            this.Controls.Add(this.NUD_Level);
+            this.Controls.Add(this.CHK_Active);
             this.Controls.Add(this.CHK_Shiny);
             this.Controls.Add(this.Label_Species);
             this.Controls.Add(this.CB_Species);
@@ -287,6 +308,7 @@
             this.Name = "SAV_Roamer3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Roamer Editor";
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Level)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,5 +334,7 @@
         public System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label Label_Species;
         private System.Windows.Forms.CheckBox CHK_Shiny;
+        private System.Windows.Forms.CheckBox CHK_Active;
+        private System.Windows.Forms.NumericUpDown NUD_Level;
     }
 }

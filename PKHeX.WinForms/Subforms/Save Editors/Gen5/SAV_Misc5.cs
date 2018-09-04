@@ -10,6 +10,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV5 SAV;
+
         public SAV_Misc5(SaveFile sav)
         {
             InitializeComponent();
@@ -18,6 +19,7 @@ namespace PKHeX.WinForms
             ReadMain();
             if (SAV.B2W2) ReadEntralink();
             else TC_Misc.Controls.Remove(TAB_Entralink);
+            LoadForest();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -29,6 +31,7 @@ namespace PKHeX.WinForms
         {
             SaveMain();
             if (SAV.B2W2) SaveEntralink();
+            SaveForest();
             Origin.SetData(SAV.Data, 0);
             Close();
         }
@@ -42,6 +45,7 @@ namespace PKHeX.WinForms
         private uint valLibPass;
         private bool bLibPass;
         private const int ofsKS = 0x25828;
+
         private readonly uint[] keyKS = {
             // 0x34525, 0x11963,           // Selected City
             // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
@@ -49,8 +53,10 @@ namespace PKHeX.WinForms
             0x35691, 0x18256, 0x59389, 0x48292, 0x09892, // Obtained Keys(EasyMode, Challenge, City, Iron, Iceberg)
             0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818 // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
         };
+
         private uint[] valKS;
         private bool[] bKS;
+
         private void ReadMain()
         {
             string[] FlyDestA = null;
@@ -129,8 +135,7 @@ namespace PKHeX.WinForms
                     if (states.All(z => z.Value != c))
                         states.Add(new ComboItem {Text = $"Unknown (0x{c:X2})", Value = c});
                     cbr[i].Items.Clear();
-                    cbr[i].DisplayMember = "Text";
-                    cbr[i].ValueMember = "Value";
+                    cbr[i].InitializeBinding();
                     cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), null);
                     cbr[i].SelectedValue = c;
                 }
@@ -144,9 +149,11 @@ namespace PKHeX.WinForms
             {
                 GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
                 // KeySystem
-                string[] KeySystemA = {
+                string[] KeySystemA =
+                {
                     "Obtain EasyKey", "Obtain ChallengeKey", "Obtain CityKey", "Obtain IronKey", "Obtain IcebergKey",
-                    "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber", "Unlock IcebergChamber"
+                    "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber",
+                    "Unlock IcebergChamber"
                 };
                 uint KSID = BitConverter.ToUInt32(SAV.Data, ofsKS + 0x34);
                 valKS = new uint[keyKS.Length];
@@ -159,8 +166,12 @@ namespace PKHeX.WinForms
                     CLB_KeySystem.Items.Add(KeySystemA[i], bKS[i]);
                 }
             }
-            else GB_KeySystem.Visible = GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
+            else
+            {
+                GB_KeySystem.Visible = GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
+            }
         }
+
         private void SaveMain()
         {
             uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
@@ -169,11 +180,15 @@ namespace PKHeX.WinForms
                 if (FlyDestC[i] < 32)
                 {
                     if (CLB_FlyDest.GetItemChecked(i))
-                        valFly |= (uint)1 << FlyDestC[i];
+                        valFly |= (uint) 1 << FlyDestC[i];
                     else
-                        valFly &= ~((uint)1 << FlyDestC[i]);
+                        valFly &= ~((uint) 1 << FlyDestC[i]);
                 }
-                else SAV.Data[ofsFly + (FlyDestC[i] >> 3)] = (byte)(SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & ~(1 << (FlyDestC[i] & 7)) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] & 7)));
+                else
+                {
+                    var ofs = ofsFly + (FlyDestC[i] >> 3);
+                    SAV.Data[ofs] = (byte)((SAV.Data[ofs] & ~(1 << (FlyDestC[i] & 7))) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] & 7)));
+                }
             }
             BitConverter.GetBytes(valFly).CopyTo(SAV.Data, ofsFly);
 
@@ -190,7 +205,7 @@ namespace PKHeX.WinForms
                     SAV.Data[ofsRoamer + 0x2E + i] = (byte)d;
                     if (c != 1)
                         continue;
-                    new byte[14].CopyTo(SAV.Data, ofsRoamer + 4 + i * 0x14);
+                    new byte[14].CopyTo(SAV.Data, ofsRoamer + 4 + (i * 0x14));
                     SAV.Data[ofsRoamer + 0x2C + i] = 0;
                 }
 
@@ -202,10 +217,13 @@ namespace PKHeX.WinForms
             {
                 // KeySystem
                 for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
+                {
                     if (CLB_KeySystem.GetItemChecked(i) ^ bKS[i])
                         BitConverter.GetBytes(bKS[i] ? 0 : valKS[i]).CopyTo(SAV.Data, ofsKS + (i << 2));
+                }
             }
         }
+
         private void B_AllFlyDest_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
@@ -259,12 +277,14 @@ namespace PKHeX.WinForms
             new[] { 2400 }, // 37
             new[] { 2557 } // 38
         };
+
         private bool editing;
         private const int ofsFM = 0x25900;
         private readonly ToolTip TipExpB = new ToolTip(), TipExpW = new ToolTip();
         private NumericUpDown[] nudaE, nudaF;
         private ComboBox[] cba;
         private ToolTip[] ta;
+
         private void ReadEntralink()
         {
             editing = true;
@@ -312,8 +332,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < cba.Length; i++)
             {
                 cba[i].Items.Clear();
-                cba[i].DisplayMember = "Text";
-                cba[i].ValueMember = "Value";
+                cba[i].InitializeBinding();
                 cba[i].DataSource = new BindingSource(PassPowerB, null);
                 cba[i].SelectedValue = (int)SAV.Data[0x213A0 + i];
             }
@@ -383,6 +402,7 @@ namespace PKHeX.WinForms
             SetEntreeExpTooltip();
             editing = false;
         }
+
         private void SaveEntralink()
         {
             for (int i = 0; i < 2; i++)
@@ -400,6 +420,7 @@ namespace PKHeX.WinForms
                 BitConverter.GetBytes((ushort)nudaF[i].Value).CopyTo(SAV.Data, ofsFM + 0xF0 + (i << 1));
             SAV.Data[ofsFM + 0xFA] = (byte)NUD_FMMostParticipants.Value;
         }
+
         private void SetEntreeExpTooltip(bool? isBlack = null)
         {
             for (int i = 0; i < 2; i++)
@@ -410,7 +431,7 @@ namespace PKHeX.WinForms
                 if (lv < 9)
                     exp = lv * (lv + 1) * 5 / 2;
                 else
-                    exp = (lv - 9) * 50 + 225;
+                    exp = ((lv - 9) * 50) + 225;
                 exp += (int)nudaE[(i << 1) + 1].Value;
                 var lvl = lv == 999 ? -1 : nudaE[(i << 1) + 1].Maximum - nudaE[(i << 1) + 1].Value + 1;
                 var tip0 = $"{(i == 0 ? "White" : "Black")} LV {lv}{Environment.NewLine}" +
@@ -421,6 +442,7 @@ namespace PKHeX.WinForms
                 ta[i].SetToolTip(nudaE[(i << 1) + 1], tip0);
             }
         }
+
         private void SetNudMax(bool? isBlack = null)
         {
             for (int i = 0; i < 2; i++)
@@ -428,18 +450,20 @@ namespace PKHeX.WinForms
                 if (isBlack == true)
                     continue;
                 var lv = (int)nudaE[i << 1].Value;
-                var expmax = lv > 8 ? 49 : lv * 5 + 4;
+                var expmax = lv > 8 ? 49 : (lv * 5) + 4;
                 if (nudaE[(i << 1) + 1].Value > expmax)
                     nudaE[(i << 1) + 1].Value = expmax;
                 nudaE[(i << 1) + 1].Maximum = expmax;
             }
         }
+
         private void SetFMVal(int ofsB, int len, uint val)
         {
             int s = LB_FunfestMissions.SelectedIndex;
             if (s < 0 || s >= FMUnlockConditions.Length) return;
-            BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, ofsFM + (s << 2)) & ~(~(uint)0 >> (32 - len) << ofsB) | val << ofsB).CopyTo(SAV.Data, ofsFM + (s << 2));
+            BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Data, ofsFM + (s << 2)) & ~(~(uint)0 >> (32 - len) << ofsB)) | val << ofsB).CopyTo(SAV.Data, ofsFM + (s << 2));
         }
+
         private void LB_FunfestMissions_SelectedIndexChanged(object sender, EventArgs e)
         {
             int s = LB_FunfestMissions.SelectedIndex;
@@ -487,8 +511,11 @@ namespace PKHeX.WinForms
             const int FunfestFlag = 2438;
             SAV.Data[0x2025E + (FunfestFlag >> 3)] |= 1 << (FunfestFlag & 7);
             foreach (int[] ia in FMUnlockConditions)
+            {
                 for (int i = 0; i < ia?.Length; i++)
                     SAV.Data[0x2025E + (ia[i] >> 3)] |= (byte)(1 << (ia[i] & 7));
+            }
+
             L_FMUnlocked.Visible = true;
             L_FMLocked.Visible = false;
         }
@@ -517,6 +544,157 @@ namespace PKHeX.WinForms
         {
             if (editing) return;
             SetEntreeExpTooltip(isBlack: false);
+        }
+
+        private EntreeForest Forest;
+        private IList<EntreeSlot> AllSlots;
+
+        private void LoadForest()
+        {
+            Forest = SAV.EntreeData;
+            AllSlots = Forest.Slots;
+            NUD_Unlocked.Value = Forest.Unlock38Areas + 2;
+            CHK_Area9.Checked = Forest.Unlock9thArea;
+
+            var areas = AllSlots.Select(z => z.Area).Distinct()
+                .Select(z => new ComboItem {Text = z.ToString(), Value = (int) z}).ToList();
+
+            CB_Species.InitializeBinding();
+            CB_Move.InitializeBinding();
+            CB_Areas.InitializeBinding();
+
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Move.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
+            CB_Areas.DataSource = new BindingSource(areas, null);
+
+            CB_Areas.SelectedIndex = 0;
+        }
+
+        private void SaveForest()
+        {
+            Forest.Unlock38Areas = (int) NUD_Unlocked.Value - 2;
+            Forest.Unlock9thArea = CHK_Area9.Checked;
+            SAV.EntreeData = Forest;
+        }
+
+        private IList<EntreeSlot> CurrentSlots;
+
+        private void ChangeArea(object sender, EventArgs e)
+        {
+            var area = WinFormsUtil.GetIndex(CB_Areas);
+            CurrentSlots = AllSlots.Where(z => (int) z.Area == area).ToArray();
+            LB_Slots.Items.Clear();
+            foreach (var z in CurrentSlots.Select(z => GameInfo.Strings.Species[z.Species]))
+                LB_Slots.Items.Add(z);
+            LB_Slots.SelectedIndex = 0;
+        }
+
+        private void ChangeSlot(object sender, EventArgs e)
+        {
+            CurrentSlot = null;
+            var current = CurrentSlots[LB_Slots.SelectedIndex];
+            CB_Species.SelectedValue = current.Species;
+            SetForms(current);
+            SetGenders(current);
+            CB_Move.SelectedValue = current.Move;
+            CB_Gender.SelectedValue = current.Gender;
+            CB_Form.SelectedIndex = current.Form;
+            CurrentSlot = current;
+            SetSprite(current);
+        }
+
+        private EntreeSlot CurrentSlot;
+
+        private void UpdateSlotValue(object sender, EventArgs e)
+        {
+            if (CurrentSlot == null)
+                return;
+
+            if (sender == CB_Species)
+            {
+                CurrentSlot.Species = WinFormsUtil.GetIndex(CB_Species);
+                LB_Slots.Items[LB_Slots.SelectedIndex] = GameInfo.Strings.Species[CurrentSlot.Species];
+                SetForms(CurrentSlot);
+                SetGenders(CurrentSlot);
+            }
+            else if (sender == CB_Move)
+            {
+                CurrentSlot.Move = WinFormsUtil.GetIndex(CB_Move);
+            }
+            else if (sender == CB_Gender)
+            {
+                CurrentSlot.Gender = WinFormsUtil.GetIndex(CB_Gender);
+            }
+            else if (sender == CB_Form)
+            {
+                CurrentSlot.Form = CB_Form.SelectedIndex;
+            }
+            else if (sender == CHK_Invisible)
+            {
+                CurrentSlot.Invisible = CHK_Invisible.Checked;
+            }
+            else if (sender == NUD_Animation)
+            {
+                CurrentSlot.Animation = (int)NUD_Animation.Value;
+            }
+
+            SetSprite(CurrentSlot);
+        }
+
+        private void SetSprite(EntreeSlot slot)
+        {
+            PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, false, false);
+        }
+
+        private void SetGenders(EntreeSlot slot)
+        {
+            CB_Gender.InitializeBinding();
+            CB_Gender.DataSource = new BindingSource(GetGenderChoices(slot.Species), null);
+        }
+
+        private void B_RandForest_Click(object sender, EventArgs e)
+        {
+            var source = (SAV.B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
+            foreach (var s in AllSlots)
+            {
+                int r = Util.Rand.Next(source.Count);
+                var slot = source[r];
+                source.Remove(slot);
+                s.Species = slot.Species;
+                s.Form = slot.Form;
+                s.Move = slot.Moves?[Util.Rand.Next(slot.Moves.Length)] ?? 0;
+                s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender : slot.Gender;
+            }
+            ChangeArea(null, null); // refresh
+            NUD_Unlocked.Value = 8;
+            CHK_Area9.Checked = true;
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private static List<ComboItem> GetGenderChoices(int species)
+        {
+            var pi = PersonalTable.B2W2[species];
+            var list = new List<ComboItem>();
+            if (pi.Genderless)
+            {
+                list.Add(new ComboItem{Text = "Genderless", Value = 2});
+                return list;
+            }
+            if (!pi.OnlyFemale)
+                list.Add(new ComboItem { Text = "Male", Value = 0 });
+            if (!pi.OnlyMale)
+                list.Add(new ComboItem { Text = "Female", Value = 1 });
+            return list;
+        }
+
+        private void SetForms(EntreeSlot slot)
+        {
+            bool hasForms = PersonalTable.B2W2[slot.Species].HasFormes || slot.Species == 414;
+            L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
+
+            CB_Form.InitializeBinding();
+            var list = PKX.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Form.DataSource = new BindingSource(list, null);
         }
     }
 }

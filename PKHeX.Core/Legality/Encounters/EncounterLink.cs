@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public int EggLocation { get => 0; set { } }
         public GameVersion Version { get; set; } = GameVersion.Gen6;
 
-        public int[] Moves { get; set; } = new int[0];
+        public int[] Moves { get; set; } = Array.Empty<int>();
 
         public string Name => "Pokémon Link Gift";
 
@@ -58,18 +58,21 @@ namespace PKHeX.Core
             };
 
             SAV.ApplyToPKM(pk);
+            pk.Version = (int)version;
+            pk.Gender = pk.PersonalInfo.RandomGender;
             pk.Language = lang;
 
-            var moves = Moves.Length != 0 ? Moves : Legal.GetEncounterMoves(pk, Level, (GameVersion)version);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
+            pk.Moves = Moves;
+            pk.SetMaximumPPCurrent(Moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.SetRandomIVs(flawless: 3);
-            pk.RefreshAbility(Ability);
+            pk.RefreshAbility(Ability >> 1);
             if (RelearnMoves != null)
                 pk.RelearnMoves = RelearnMoves;
             if (RibbonClassic)
                 pk.RibbonClassic = true;
+
+            pk.SetRandomMemory6();
             if (!OT)
                 SAV.ApplyHandlingTrainerInfo(pk);
 

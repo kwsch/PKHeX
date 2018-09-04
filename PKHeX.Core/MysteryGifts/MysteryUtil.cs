@@ -71,6 +71,7 @@ namespace PKHeX.Core
                 }
             }
         }
+
         private static void AddLinesPKM(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
             int TID7() => (int)((uint)(gift.TID | (gift.SID << 16)) % 1000000);
@@ -91,11 +92,24 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Checks if the <see cref="MysteryGift"/> data is compatible with the <see cref="SaveFile"/>. Sets appropriate data to the save file in order to receive the gift.
+        /// </summary>
+        /// <param name="g">Gift data to potentially insert to the save file.</param>
+        /// <param name="SAV">Save file receiving the gift data.</param>
+        /// <param name="message">Error message if incompatible.</param>
+        /// <returns>True if compatible, false if incompatible.</returns>
         public static bool IsCardCompatible(this MysteryGift g, SaveFile SAV, out string message)
         {
             if (g.Format != SAV.Generation)
             {
                 message = MsgMysteryGiftSlotSpecialReject;
+                return false;
+            }
+
+            if (!SAV.CanRecieveGift(g))
+            {
+                message = MsgMysteryGiftTypeDetails;
                 return false;
             }
 
@@ -112,6 +126,23 @@ namespace PKHeX.Core
             }
 
             message = null;
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the gift values are receivable by the game.
+        /// </summary>
+        /// <param name="SAV">Save file receiving the gift data.</param>
+        /// <param name="gift">Gift data to potentially insert to the save file.</param>
+        /// <returns>True if compatible, false if incompatible.</returns>
+        public static bool CanRecieveGift(this SaveFile SAV, MysteryGift gift)
+        {
+            if (gift.Species > SAV.MaxSpeciesID)
+                return false;
+            if (gift.Moves.Any(move => move > SAV.MaxMoveID))
+                return false;
+            if (gift.HeldItem > SAV.MaxItemID)
+                return false;
             return true;
         }
     }

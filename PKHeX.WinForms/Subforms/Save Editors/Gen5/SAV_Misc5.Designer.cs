@@ -78,6 +78,25 @@
             this.CB_PassPower3 = new System.Windows.Forms.ComboBox();
             this.CB_PassPower2 = new System.Windows.Forms.ComboBox();
             this.CB_PassPower1 = new System.Windows.Forms.ComboBox();
+            this.TAB_Forest = new System.Windows.Forms.TabPage();
+            this.B_RandForest = new System.Windows.Forms.Button();
+            this.NUD_Unlocked = new System.Windows.Forms.NumericUpDown();
+            this.L_Area18 = new System.Windows.Forms.Label();
+            this.CHK_Area9 = new System.Windows.Forms.CheckBox();
+            this.PB_SlotPreview = new System.Windows.Forms.PictureBox();
+            this.CHK_Invisible = new System.Windows.Forms.CheckBox();
+            this.L_Animation = new System.Windows.Forms.Label();
+            this.NUD_Animation = new System.Windows.Forms.NumericUpDown();
+            this.L_Gender = new System.Windows.Forms.Label();
+            this.CB_Gender = new System.Windows.Forms.ComboBox();
+            this.L_Move = new System.Windows.Forms.Label();
+            this.L_Form = new System.Windows.Forms.Label();
+            this.L_Species = new System.Windows.Forms.Label();
+            this.CB_Move = new System.Windows.Forms.ComboBox();
+            this.CB_Form = new System.Windows.Forms.ComboBox();
+            this.CB_Species = new System.Windows.Forms.ComboBox();
+            this.CB_Areas = new System.Windows.Forms.ComboBox();
+            this.LB_Slots = new System.Windows.Forms.ListBox();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
@@ -98,6 +117,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestScore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestTotal)).BeginInit();
             this.GB_PassPowers.SuspendLayout();
+            this.TAB_Forest.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Unlocked)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_SlotPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Animation)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -129,6 +152,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_Misc.Controls.Add(this.TAB_Main);
             this.TC_Misc.Controls.Add(this.TAB_Entralink);
+            this.TC_Misc.Controls.Add(this.TAB_Forest);
             this.TC_Misc.Location = new System.Drawing.Point(12, 13);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
@@ -708,6 +732,251 @@
             this.CB_PassPower1.Size = new System.Drawing.Size(125, 21);
             this.CB_PassPower1.TabIndex = 0;
             // 
+            // TAB_Forest
+            // 
+            this.TAB_Forest.Controls.Add(this.B_RandForest);
+            this.TAB_Forest.Controls.Add(this.NUD_Unlocked);
+            this.TAB_Forest.Controls.Add(this.L_Area18);
+            this.TAB_Forest.Controls.Add(this.CHK_Area9);
+            this.TAB_Forest.Controls.Add(this.PB_SlotPreview);
+            this.TAB_Forest.Controls.Add(this.CHK_Invisible);
+            this.TAB_Forest.Controls.Add(this.L_Animation);
+            this.TAB_Forest.Controls.Add(this.NUD_Animation);
+            this.TAB_Forest.Controls.Add(this.L_Gender);
+            this.TAB_Forest.Controls.Add(this.CB_Gender);
+            this.TAB_Forest.Controls.Add(this.L_Move);
+            this.TAB_Forest.Controls.Add(this.L_Form);
+            this.TAB_Forest.Controls.Add(this.L_Species);
+            this.TAB_Forest.Controls.Add(this.CB_Move);
+            this.TAB_Forest.Controls.Add(this.CB_Form);
+            this.TAB_Forest.Controls.Add(this.CB_Species);
+            this.TAB_Forest.Controls.Add(this.CB_Areas);
+            this.TAB_Forest.Controls.Add(this.LB_Slots);
+            this.TAB_Forest.Location = new System.Drawing.Point(4, 22);
+            this.TAB_Forest.Name = "TAB_Forest";
+            this.TAB_Forest.Padding = new System.Windows.Forms.Padding(3);
+            this.TAB_Forest.Size = new System.Drawing.Size(333, 291);
+            this.TAB_Forest.TabIndex = 2;
+            this.TAB_Forest.Text = "Forest";
+            this.TAB_Forest.UseVisualStyleBackColor = true;
+            // 
+            // B_RandForest
+            // 
+            this.B_RandForest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_RandForest.Location = new System.Drawing.Point(142, 82);
+            this.B_RandForest.Name = "B_RandForest";
+            this.B_RandForest.Size = new System.Drawing.Size(185, 23);
+            this.B_RandForest.TabIndex = 17;
+            this.B_RandForest.Text = "Randomize All Areas";
+            this.B_RandForest.UseVisualStyleBackColor = true;
+            this.B_RandForest.Click += new System.EventHandler(this.B_RandForest_Click);
+            // 
+            // NUD_Unlocked
+            // 
+            this.NUD_Unlocked.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Unlocked.Location = new System.Drawing.Point(290, 33);
+            this.NUD_Unlocked.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.NUD_Unlocked.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUD_Unlocked.Name = "NUD_Unlocked";
+            this.NUD_Unlocked.Size = new System.Drawing.Size(37, 20);
+            this.NUD_Unlocked.TabIndex = 16;
+            this.NUD_Unlocked.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // L_Area18
+            // 
+            this.L_Area18.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Area18.Location = new System.Drawing.Point(139, 33);
+            this.L_Area18.Name = "L_Area18";
+            this.L_Area18.Size = new System.Drawing.Size(145, 21);
+            this.L_Area18.TabIndex = 15;
+            this.L_Area18.Text = "Areas 1-8 Unlocked:";
+            this.L_Area18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CHK_Area9
+            // 
+            this.CHK_Area9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CHK_Area9.AutoSize = true;
+            this.CHK_Area9.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_Area9.Location = new System.Drawing.Point(218, 59);
+            this.CHK_Area9.Name = "CHK_Area9";
+            this.CHK_Area9.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Area9.TabIndex = 14;
+            this.CHK_Area9.Text = "Area 9 Unlocked:";
+            this.CHK_Area9.UseVisualStyleBackColor = true;
+            // 
+            // PB_SlotPreview
+            // 
+            this.PB_SlotPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PB_SlotPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_SlotPreview.Location = new System.Drawing.Point(206, 132);
+            this.PB_SlotPreview.Name = "PB_SlotPreview";
+            this.PB_SlotPreview.Size = new System.Drawing.Size(42, 32);
+            this.PB_SlotPreview.TabIndex = 13;
+            this.PB_SlotPreview.TabStop = false;
+            // 
+            // CHK_Invisible
+            // 
+            this.CHK_Invisible.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CHK_Invisible.AutoSize = true;
+            this.CHK_Invisible.Location = new System.Drawing.Point(249, 271);
+            this.CHK_Invisible.Name = "CHK_Invisible";
+            this.CHK_Invisible.Size = new System.Drawing.Size(64, 17);
+            this.CHK_Invisible.TabIndex = 12;
+            this.CHK_Invisible.Text = "Invisible";
+            this.CHK_Invisible.UseVisualStyleBackColor = true;
+            this.CHK_Invisible.CheckedChanged += new System.EventHandler(this.UpdateSlotValue);
+            // 
+            // L_Animation
+            // 
+            this.L_Animation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Animation.Location = new System.Drawing.Point(139, 266);
+            this.L_Animation.Name = "L_Animation";
+            this.L_Animation.Size = new System.Drawing.Size(61, 21);
+            this.L_Animation.TabIndex = 11;
+            this.L_Animation.Text = "Animation:";
+            this.L_Animation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Animation
+            // 
+            this.NUD_Animation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Animation.Location = new System.Drawing.Point(206, 268);
+            this.NUD_Animation.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.NUD_Animation.Name = "NUD_Animation";
+            this.NUD_Animation.Size = new System.Drawing.Size(37, 20);
+            this.NUD_Animation.TabIndex = 10;
+            this.NUD_Animation.ValueChanged += new System.EventHandler(this.UpdateSlotValue);
+            // 
+            // L_Gender
+            // 
+            this.L_Gender.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Gender.Location = new System.Drawing.Point(139, 216);
+            this.L_Gender.Name = "L_Gender";
+            this.L_Gender.Size = new System.Drawing.Size(61, 21);
+            this.L_Gender.TabIndex = 9;
+            this.L_Gender.Text = "Gender:";
+            this.L_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Gender
+            // 
+            this.CB_Gender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Gender.FormattingEnabled = true;
+            this.CB_Gender.Location = new System.Drawing.Point(206, 216);
+            this.CB_Gender.Name = "CB_Gender";
+            this.CB_Gender.Size = new System.Drawing.Size(121, 21);
+            this.CB_Gender.TabIndex = 8;
+            this.CB_Gender.SelectedIndexChanged += new System.EventHandler(this.UpdateSlotValue);
+            // 
+            // L_Move
+            // 
+            this.L_Move.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Move.Location = new System.Drawing.Point(139, 238);
+            this.L_Move.Name = "L_Move";
+            this.L_Move.Size = new System.Drawing.Size(61, 21);
+            this.L_Move.TabIndex = 7;
+            this.L_Move.Text = "Move:";
+            this.L_Move.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Form
+            // 
+            this.L_Form.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Form.Location = new System.Drawing.Point(139, 193);
+            this.L_Form.Name = "L_Form";
+            this.L_Form.Size = new System.Drawing.Size(61, 21);
+            this.L_Form.TabIndex = 6;
+            this.L_Form.Text = "Form:";
+            this.L_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Species
+            // 
+            this.L_Species.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Species.Location = new System.Drawing.Point(139, 170);
+            this.L_Species.Name = "L_Species";
+            this.L_Species.Size = new System.Drawing.Size(61, 21);
+            this.L_Species.TabIndex = 5;
+            this.L_Species.Text = "Species:";
+            this.L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Move
+            // 
+            this.CB_Move.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Move.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Move.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Move.FormattingEnabled = true;
+            this.CB_Move.Location = new System.Drawing.Point(206, 239);
+            this.CB_Move.Name = "CB_Move";
+            this.CB_Move.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move.TabIndex = 4;
+            this.CB_Move.SelectedIndexChanged += new System.EventHandler(this.UpdateSlotValue);
+            // 
+            // CB_Form
+            // 
+            this.CB_Form.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Form.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Form.FormattingEnabled = true;
+            this.CB_Form.Location = new System.Drawing.Point(206, 193);
+            this.CB_Form.Name = "CB_Form";
+            this.CB_Form.Size = new System.Drawing.Size(121, 21);
+            this.CB_Form.TabIndex = 3;
+            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateSlotValue);
+            // 
+            // CB_Species
+            // 
+            this.CB_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Species.FormattingEnabled = true;
+            this.CB_Species.Location = new System.Drawing.Point(206, 170);
+            this.CB_Species.Name = "CB_Species";
+            this.CB_Species.Size = new System.Drawing.Size(121, 21);
+            this.CB_Species.TabIndex = 2;
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.UpdateSlotValue);
+            // 
+            // CB_Areas
+            // 
+            this.CB_Areas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Areas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Areas.FormattingEnabled = true;
+            this.CB_Areas.Location = new System.Drawing.Point(142, 6);
+            this.CB_Areas.Name = "CB_Areas";
+            this.CB_Areas.Size = new System.Drawing.Size(185, 21);
+            this.CB_Areas.TabIndex = 1;
+            this.CB_Areas.SelectedIndexChanged += new System.EventHandler(this.ChangeArea);
+            // 
+            // LB_Slots
+            // 
+            this.LB_Slots.Dock = System.Windows.Forms.DockStyle.Left;
+            this.LB_Slots.FormattingEnabled = true;
+            this.LB_Slots.Location = new System.Drawing.Point(3, 3);
+            this.LB_Slots.Name = "LB_Slots";
+            this.LB_Slots.Size = new System.Drawing.Size(133, 285);
+            this.LB_Slots.TabIndex = 0;
+            this.LB_Slots.SelectedIndexChanged += new System.EventHandler(this.ChangeSlot);
+            // 
             // SAV_Misc5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -717,6 +986,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(381, 414);
             this.Name = "SAV_Misc5";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Misc Editor";
@@ -741,6 +1011,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestScore)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestTotal)).EndInit();
             this.GB_PassPowers.ResumeLayout(false);
+            this.TAB_Forest.ResumeLayout(false);
+            this.TAB_Forest.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Unlocked)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_SlotPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Animation)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -796,5 +1071,24 @@
         private System.Windows.Forms.CheckBox CHK_FMNew;
         private System.Windows.Forms.NumericUpDown NUD_EntreeWhiteEXP;
         private System.Windows.Forms.NumericUpDown NUD_EntreeBlackEXP;
+        private System.Windows.Forms.TabPage TAB_Forest;
+        private System.Windows.Forms.ComboBox CB_Areas;
+        private System.Windows.Forms.ListBox LB_Slots;
+        private System.Windows.Forms.Label L_Move;
+        private System.Windows.Forms.Label L_Form;
+        private System.Windows.Forms.Label L_Species;
+        private System.Windows.Forms.ComboBox CB_Move;
+        private System.Windows.Forms.ComboBox CB_Form;
+        private System.Windows.Forms.ComboBox CB_Species;
+        private System.Windows.Forms.Label L_Gender;
+        private System.Windows.Forms.ComboBox CB_Gender;
+        private System.Windows.Forms.CheckBox CHK_Invisible;
+        private System.Windows.Forms.Label L_Animation;
+        private System.Windows.Forms.NumericUpDown NUD_Animation;
+        private System.Windows.Forms.PictureBox PB_SlotPreview;
+        private System.Windows.Forms.CheckBox CHK_Area9;
+        private System.Windows.Forms.Label L_Area18;
+        private System.Windows.Forms.NumericUpDown NUD_Unlocked;
+        private System.Windows.Forms.Button B_RandForest;
     }
 }

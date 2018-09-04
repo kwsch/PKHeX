@@ -30,14 +30,14 @@ namespace PKHeX.WinForms
             const int stretch = 50;
             Height += stretch;
 
-            if (pkm != null && pkm.Format == 7)
+            if (pkm?.Format == 7)
                 Height += 40;
 
             this.qr = qr;
             this.icon = icon;
             Lines = lines;
 
-            if (pkm != null && pkm.Format == 7)
+            if (pkm?.Format == 7)
                 UpdateBoxSlotCopies(null, null);
             else
                 RefreshImage();
@@ -45,15 +45,22 @@ namespace PKHeX.WinForms
 
         private void RefreshImage()
         {
-            Font font = !Main.Unicode ? FontLabel.Font : FontUtil.GetPKXFont((float)8.25);
+            Font font = !Main.Unicode ? Font : FontUtil.GetPKXFont((float)8.25);
             Image preview = new Bitmap(45, 45);
             using (Graphics gfx = Graphics.FromImage(preview))
             {
                 gfx.FillRectangle(new SolidBrush(Color.White), 0, 0, preview.Width, preview.Height);
-                gfx.DrawImage(icon, preview.Width / 2 - icon.Width / 2, preview.Height / 2 - icon.Height / 2);
+                int x = (preview.Width / 2) - (icon.Width / 2);
+                int y = (preview.Height / 2) - (icon.Height / 2);
+                gfx.DrawImage(icon, x, y);
             }
             // Layer on Preview Image
-            Image pic = ImageUtil.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2, 1);
+            Image pic;
+            {
+                int x = (qr.Width / 2) - (preview.Width / 2);
+                int y = (qr.Height / 2) - (preview.Height / 2);
+                pic = ImageUtil.LayerImage(qr, preview, x, y);
+            }
 
             Image newpic = new Bitmap(PB_QR.Width, PB_QR.Height);
             using (Graphics g = Graphics.FromImage(newpic))
@@ -77,10 +84,10 @@ namespace PKHeX.WinForms
             try { Clipboard.SetImage(PB_QR.BackgroundImage); }
             catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
         }
-        
+
         // QR Utility
         private const string QR6PathBad = "null/#"; // prefix to prevent URL from loading
-        private const string QR6Path = @"http://lunarcookies.github.io/b1s1.html#";
+        private const string QR6Path = "http://lunarcookies.github.io/b1s1.html#";
         private const string DecodeAPI = "http://api.qrserver.com/v1/read-qr-code/?fileurl=";
         private const int QRSize = 365;
         private static readonly string EncodeAPI = $"http://chart.apis.google.com/chart?chs={QRSize}x{QRSize}&cht=qr&chl=";
@@ -104,6 +111,7 @@ namespace PKHeX.WinForms
             try { return DecodeQRJson(data); }
             catch (Exception e) { WinFormsUtil.Alert(MsgQRUrlFailConvert, e.Message); return null; }
         }
+
         private static byte[] DecodeQRJson(string data)
         {
             const string cap = "\",\"error\":null}]}]";
@@ -122,7 +130,7 @@ namespace PKHeX.WinForms
                 string fstr = Regex.Unescape(pkstr);
                 byte[] raw = Encoding.Unicode.GetBytes(fstr);
                 // Remove 00 interstitials and retrieve from offset 0x30, take PK7 Stored Size (always)
-                return raw.ToList().Where((c, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
+                return raw.ToList().Where((_, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
             }
             // All except G7
             pkstr = pkstr.Substring(pkstr.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
@@ -172,6 +180,7 @@ namespace PKHeX.WinForms
             byte[] data = QR7.GenerateQRData(pk7, box, slot, num_copies);
             return GenerateQRCode(data, ppm: 4);
         }
+
         private static Image GenerateQRCode(byte[] data, int ppm = 4)
         {
             using (var generator = new QRCodeGenerator())
@@ -184,10 +193,8 @@ namespace PKHeX.WinForms
         {
             switch (format)
             {
-                case 6:
-                    return QR6Path;
-                default:
-                    return QR6PathBad;
+                case 6: return QR6Path;
+                default: return QR6PathBad;
             }
         }
     }

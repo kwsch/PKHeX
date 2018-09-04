@@ -27,6 +27,7 @@
     {
         public readonly MoveSource Source;
         public readonly int Generation;
+        public bool Flag;
 
         internal CheckMoveResult(MoveSource m, int g, CheckIdentifier i)
             : base(i)
@@ -34,12 +35,14 @@
             Source = m;
             Generation = g;
         }
+
         internal CheckMoveResult(MoveSource m, int g, Severity s, string c, CheckIdentifier i)
             : base(s, c, i)
         {
             Source = m;
             Generation = g;
         }
+
         internal CheckMoveResult(CheckMoveResult Org, Severity s, string c, CheckIdentifier i)
             : base(s, c, i)
         {

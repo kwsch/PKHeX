@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-    public sealed class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6
+    public sealed class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IContestStats, IGeoTrack
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -19,7 +19,7 @@ namespace PKHeX.Core
         public PK6(byte[] decryptedData = null, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
-            PKMConverter.CheckEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
@@ -95,12 +95,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x21]; set => Data[0x21] = (byte)value; }
         public override int EV_SPA { get => Data[0x22]; set => Data[0x22] = (byte)value; }
         public override int EV_SPD { get => Data[0x23]; set => Data[0x23] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x24]; set => Data[0x24] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x25]; set => Data[0x25] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x26]; set => Data[0x26] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x27]; set => Data[0x27] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x28]; set => Data[0x28] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x29]; set => Data[0x29] = (byte)value; }
+        public int CNT_Cool { get => Data[0x24]; set => Data[0x24] = (byte)value; }
+        public int CNT_Beauty { get => Data[0x25]; set => Data[0x25] = (byte)value; }
+        public int CNT_Cute { get => Data[0x26]; set => Data[0x26] = (byte)value; }
+        public int CNT_Smart { get => Data[0x27]; set => Data[0x27] = (byte)value; }
+        public int CNT_Tough { get => Data[0x28]; set => Data[0x28] = (byte)value; }
+        public int CNT_Sheen { get => Data[0x29]; set => Data[0x29] = (byte)value; }
         public override int MarkValue { get => Data[0x2A]; protected set => Data[0x2A] = (byte)value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)(PKRS & ~0xF | value); }
@@ -277,16 +277,16 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public override int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
-        public override int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
-        public override int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
-        public override int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
-        public override int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
-        public override int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
-        public override int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
-        public override int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
-        public override int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
-        public override int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
+        public int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
+        public int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
+        public int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
+        public int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
+        public int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
+        public int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
+        public int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
+        public int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
+        public int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
+        public int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
         public byte _0x9E { get => Data[0x9E]; set => Data[0x9E] = value; }
         public byte _0x9F { get => Data[0x9F]; set => Data[0x9F] = value; }
         public byte _0xA0 { get => Data[0xA0]; set => Data[0xA0] = value; }
@@ -373,7 +373,7 @@ namespace PKHeX.Core
         public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
         public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
-        
+
         // Complex Generated Attributes
 
         public override int Characteristic
@@ -437,58 +437,13 @@ namespace PKHeX.Core
                 HT_Name = "".PadRight(11, '\0');
                 return;
             }
-            
+
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (!Gen6)
                 /* OT_Affection = */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
-            Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
-            Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;
-            Geo3_Region = Geo3_Country > 0 ? Geo3_Region : 0;
-            Geo4_Region = Geo4_Country > 0 ? Geo4_Region : 0;
-            Geo5_Region = Geo5_Country > 0 ? Geo5_Region : 0;
-
-            while (true)
-            {
-                if (Geo5_Country != 0 && Geo4_Country == 0)
-                {
-                    Geo4_Country = Geo5_Country;
-                    Geo4_Region = Geo5_Region;
-                    Geo5_Country = Geo5_Region = 0;
-                }
-                if (Geo4_Country != 0 && Geo3_Country == 0)
-                {
-                    Geo3_Country = Geo4_Country;
-                    Geo3_Region = Geo4_Region;
-                    Geo4_Country = Geo4_Region = 0;
-                    continue;
-                }
-                if (Geo3_Country != 0 && Geo2_Country == 0)
-                {
-                    Geo2_Country = Geo3_Country;
-                    Geo2_Region = Geo3_Region;
-                    Geo3_Country = Geo3_Region = 0;
-                    continue;
-                }
-                if (Geo2_Country != 0 && Geo1_Country == 0)
-                {
-                    Geo1_Country = Geo2_Country;
-                    Geo1_Region = Geo2_Region;
-                    Geo2_Country = Geo2_Region = 0;
-                    continue;
-                }
-                if (Geo1_Country == 0 && !IsUntraded && !IsUntradedEvent6)
-                {
-                    if ((Country | Region) == 0)
-                        break;
-                    // Traded Non-Eggs/Events need to have a current location.
-                    Geo1_Country = Country;
-                    Geo1_Region = Region;
-                    continue;
-                }
-                break;
-            }
+            this.SanitizeGeoLocationData();
         }
 
         // Synthetic Trading Logic
@@ -509,14 +464,14 @@ namespace PKHeX.Core
 
             CurrentHandler = 0;
             if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+                this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             return true;
         }
         private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+                this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
@@ -532,34 +487,12 @@ namespace PKHeX.Core
                 TradeMemory(Bank);
         }
         // Misc Updates
-        private void TradeGeoLocation(int GeoCountry, int GeoRegion)
-        {
-            // Allow the method to abort if the values are invalid
-            if (GeoCountry < 0 || GeoRegion < 0)
-                return;
-
-            // Trickle down
-            Geo5_Country = Geo4_Country;
-            Geo5_Region = Geo4_Region;
-
-            Geo4_Country = Geo3_Country;
-            Geo4_Region = Geo3_Region;
-
-            Geo3_Country = Geo2_Country;
-            Geo3_Region = Geo2_Region;
-
-            Geo2_Country = Geo1_Country;
-            Geo2_Region = Geo1_Region;
-
-            Geo1_Country = GeoCountry;
-            Geo1_Region = GeoRegion;
-        }
         public void TradeMemory(bool Bank)
         {
             HT_Memory = 4; // Link trade to [VAR: General Location]
             HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             HT_Intensity = 1;
-            HT_Feeling = Legal.GetRandomFeeling(HT_Memory, Bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
+            HT_Feeling = Memories.GetRandomFeeling(HT_Memory, Bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
         }
 
         // Legality Properties
@@ -586,7 +519,7 @@ namespace PKHeX.Core
                 Markings = Markings, // Clears old Super Training Bag & Hits Remaining
                 Data = { [0x2A] = 0 }, // Clears old Marking Value
             };
-            
+
             switch (AbilityNumber)
             {
                 case 1: case 2: case 4: // Valid Ability Numbers

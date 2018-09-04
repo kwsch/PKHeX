@@ -2,7 +2,7 @@
 {
     /// <summary> Common Ribbons introduced in Generation 6 </summary>
     internal interface IRibbonSetCommon6
-    {                               
+    {
         bool RibbonChampionKalos { get; set; }
         bool RibbonChampionG6Hoenn { get; set; }
         bool RibbonBestFriends { get; set; }
@@ -30,12 +30,14 @@
             nameof(IRibbonSetCommon6.RibbonContestStar), nameof(IRibbonSetCommon6.RibbonMasterCoolness), nameof(IRibbonSetCommon6.RibbonMasterBeauty),
             nameof(IRibbonSetCommon6.RibbonMasterCuteness), nameof(IRibbonSetCommon6.RibbonMasterCleverness), nameof(IRibbonSetCommon6.RibbonMasterToughness),
         };
+
         private static readonly string[] RibbonSetNamesCommon6Contest =
         {
             nameof(IRibbonSetCommon6.RibbonMasterCoolness), nameof(IRibbonSetCommon6.RibbonMasterBeauty),
             nameof(IRibbonSetCommon6.RibbonMasterCuteness), nameof(IRibbonSetCommon6.RibbonMasterCleverness),
             nameof(IRibbonSetCommon6.RibbonMasterToughness),
         };
+
         internal static bool[] RibbonBits(this IRibbonSetCommon6 set)
         {
             if (set == null)
@@ -57,6 +59,7 @@
                 set.RibbonMasterToughness,
             };
         }
+
         internal static bool[] RibbonBitsContest(this IRibbonSetCommon6 set)
         {
             if (set == null)
@@ -70,7 +73,8 @@
                 set.RibbonMasterToughness,
             };
         }
-        internal static string[] RibbonNamesBool(this IRibbonSetCommon6 set) => RibbonSetNamesCommon6Bool;
-        internal static string[] RibbonNamesContest(this IRibbonSetCommon6 set) => RibbonSetNamesCommon6Contest;
+
+        internal static string[] RibbonNamesBool(this IRibbonSetCommon6 _) => RibbonSetNamesCommon6Bool;
+        internal static string[] RibbonNamesContest(this IRibbonSetCommon6 _) => RibbonSetNamesCommon6Contest;
     }
 }

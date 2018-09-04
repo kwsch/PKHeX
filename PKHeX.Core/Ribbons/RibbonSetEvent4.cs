@@ -22,6 +22,7 @@
             nameof(IRibbonSetEvent4.RibbonEvent), nameof(IRibbonSetEvent4.RibbonBirthday), nameof(IRibbonSetEvent4.RibbonSpecial),
             nameof(IRibbonSetEvent4.RibbonWorld), nameof(IRibbonSetEvent4.RibbonChampionWorld), nameof(IRibbonSetEvent4.RibbonSouvenir)
         };
+
         internal static bool[] RibbonBits(this IRibbonSetEvent4 set)
         {
             if (set == null)
@@ -39,6 +40,7 @@
                 set.RibbonSouvenir,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetEvent4 set) => RibbonSetNamesEvent4;
+
+        internal static string[] RibbonNames(this IRibbonSetEvent4 _) => RibbonSetNamesEvent4;
     }
 }

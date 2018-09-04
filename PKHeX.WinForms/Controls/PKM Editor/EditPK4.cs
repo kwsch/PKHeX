@@ -36,7 +36,6 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-
         private PKM PreparePK4()
         {
             var pk4 = pkm;
@@ -49,7 +48,7 @@ namespace PKHeX.WinForms.Controls
             SaveMisc4(pk4);
 
             pk4.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
-            
+
             // Minor properties
             switch (pk4)
             {

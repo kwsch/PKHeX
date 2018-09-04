@@ -18,6 +18,7 @@
             nameof(IRibbonSetEvent3.RibbonEarth), nameof(IRibbonSetEvent3.RibbonNational), nameof(IRibbonSetEvent3.RibbonCountry),
             nameof(IRibbonSetEvent3.RibbonChampionBattle), nameof(IRibbonSetEvent3.RibbonChampionRegional), nameof(IRibbonSetEvent3.RibbonChampionNational)
         };
+
         internal static bool[] RibbonBits(this IRibbonSetEvent3 set)
         {
             if (set == null)
@@ -32,6 +33,7 @@
                 set.RibbonChampionNational,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetEvent3 set) => RibbonSetNamesEvent3;
+
+        internal static string[] RibbonNames(this IRibbonSetEvent3 _) => RibbonSetNamesEvent3;
     }
 }

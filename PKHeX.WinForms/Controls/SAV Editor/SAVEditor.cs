@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -13,22 +12,44 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class SAVEditor : UserControl
+    public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFileProvider
     {
-        public SaveFile SAV;
-        public readonly PictureBox[] SlotPictureBoxes;
-        public readonly SlotChangeManager M;
+        public SaveFile SAV { get; set; }
+        public int CurrentBox => Box.CurrentBox;
+        public SlotChangeManager M { get; }
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         public readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
         public readonly ContextMenuSAV menu = new ContextMenuSAV();
-        public readonly ContextMenuStrip SortMenu;
+        public readonly BoxMenuStrip SortMenu;
 
         public bool HaX;
-        public bool ModifyPKM;
+        public bool ModifyPKM { private get; set; }
+        private bool _hideSecret;
+        public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
         public ToolStripMenuItem Menu_Redo;
         public ToolStripMenuItem Menu_Undo;
         private bool FieldsLoaded;
         public PKMEditor PKME_Tabs;
+
+        public SlotChange GetSlotData(PictureBox view)
+        {
+            int slot = GetSlot(view);
+            var type = Extensions.GetMiscSlotType(slot);
+            return new SlotChange
+            {
+                Slot = GetSlot(view),
+                Box = ViewIndex,
+                Offset = GetSlotOffset(slot),
+                Parent = FindForm(),
+                Type = type.GetMiscSlotType(),
+                Editable = type.IsEditable(),
+                IsPartyFormat = type.IsParty(SAV.Generation)
+            };
+        }
+
+        public IList<PictureBox> SlotPictureBoxes { get; }
+        public int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public int ViewIndex { get; set; } = -1;
 
         public bool FlagIllegal
         {
@@ -39,6 +60,7 @@ namespace PKHeX.WinForms.Controls
                 ReloadSlots();
             }
         }
+
         public void ReloadSlots()
         {
             UpdateBoxViewers(all: true);
@@ -49,44 +71,65 @@ namespace PKHeX.WinForms.Controls
         {
             var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.US, "PKHeX"));
             InitializeComponent();
-            var SupplementarySlots = new[]
+
+            L_SlotOccupied = new[] { L_DC1, L_DC2 };
+            TB_SlotEXP = new[] { TB_Daycare1XP, TB_Daycare2XP };
+            L_SlotEXP = new[] { L_XP1, L_XP2 };
+            SlotPictureBoxes = new[]
             {
                 ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
                 bbpkx1, bbpkx2, bbpkx3, bbpkx4, bbpkx5, bbpkx6,
 
                 dcpkx1, dcpkx2
             };
-            GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
             SAV = z.Result;
             Box.Setup(M = new SlotChangeManager(this));
             SL_Extra.M = M;
-            foreach (PictureBox pb in SupplementarySlots)
+
+            M.OtherSlots.Add(this);
+            SL_Extra.ViewIndex = -2;
+            M.OtherSlots.Add(SL_Extra);
+            Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
+            InitializeEvents();
+        }
+
+        private void InitializeEvents()
+        {
+            foreach (PictureBox pb in Box.SlotPictureBoxes)
+                pb.ContextMenuStrip = menu.mnuVSD;
+            foreach (PictureBox pb in SlotPictureBoxes)
             {
                 InitializeDragDrop(pb);
-            }
-            foreach (TabPage tab in tabBoxMulti.TabPages)
-                tab.AllowDrop = true;
-
-            Box.SlotPictureBoxes.AddRange(SupplementarySlots);
-            SlotPictureBoxes = Box.SlotPictureBoxes.ToArray();
-            foreach (PictureBox pb in SlotPictureBoxes)
                 pb.ContextMenuStrip = menu.mnuVSD;
+            }
+
+            GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+            Tab_Box.MouseWheel += (s, e) =>
+            {
+                if (menu.mnuVSD.Visible)
+                    return;
+                if (e.Delta > 1)
+                    Box.MoveLeft();
+                else
+                    Box.MoveRight();
+            };
 
             GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
-            SortMenu = this.GetSortStrip();
+            SortMenu.Opening += (s, x) => x.Cancel = !tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition));
         }
+
         private void InitializeDragDrop(Control pb)
         {
             pb.MouseEnter += M.MouseEnter;
             pb.MouseLeave += M.MouseLeave;
             pb.MouseClick += M.MouseClick;
-            pb.MouseMove += BoxSlot_MouseMove;
+            pb.MouseMove += M.MouseMove;
             pb.MouseDown += M.MouseDown;
             pb.MouseUp += M.MouseUp;
 
             pb.DragEnter += M.DragEnter;
-            pb.DragDrop += BoxSlot_DragDrop;
+            pb.DragDrop += M.DragDrop;
             pb.QueryContinueDrag += M.QueryContinueDrag;
             pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
             pb.AllowDrop = true;
@@ -95,6 +138,7 @@ namespace PKHeX.WinForms.Controls
 
         /// <summary>Occurs when the Control Collection requests a cloning operation to the current box.</summary>
         public event EventHandler RequestCloneData;
+
         /// <summary>Occurs when the Control Collection requests a save to be reloaded.</summary>
         public event EventHandler RequestReloadSave;
 
@@ -113,29 +157,15 @@ namespace PKHeX.WinForms.Controls
             }
             M.RequestExternalDragDrop += drop;
         }
-        
-        // Generic Subfunctions //
-        public int GetPKMOffset(int slot, int box = -1)
-        {
-            if (slot < (int)SlotIndex.Party) // Box Slot
-                return Box.GetOffset(slot, box);
 
+        // Generic Subfunctions //
+        public int GetSlotOffset(int slot)
+        {
             if (slot < (int)SlotIndex.BattleBox) // Party Slot
                 return SAV.GetPartyOffset(slot - (int)SlotIndex.Party);
             if (slot < (int)SlotIndex.Daycare) // Battle Box Slot
-                return SAV.BattleBox + (slot - (int)SlotIndex.BattleBox) * SAV.SIZE_STORED;
-            if (slot < (int)SlotIndex.GTS) // Daycare
-                return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot - (int)SlotIndex.Daycare);
-
-            slot -= 30+6+6+2;
-            return SL_Extra.GetSlotOffset(slot);
-        }
-        public int GetSlot(object sender)
-        {
-            int slot = Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
-            if (slot < 0) // check extra slots
-                slot = SL_Extra.GetSlot(sender) + SlotPictureBoxes.Length;
-            return slot;
+                return SAV.BattleBox + ((slot - (int)SlotIndex.BattleBox) * SAV.SIZE_STORED);
+            return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot - (int)SlotIndex.Daycare);
         }
 
         public int SwapBoxesViewer(int viewBox)
@@ -144,6 +174,7 @@ namespace PKHeX.WinForms.Controls
             Box.CurrentBox = viewBox;
             return mainBox;
         }
+
         public void UpdateBoxViewers(bool all = false)
         {
             foreach (var v in M.Boxes.Where(v => v.CurrentBox == Box.CurrentBox || all))
@@ -152,6 +183,7 @@ namespace PKHeX.WinForms.Controls
                 v.ResetSlots();
             }
         }
+
         public void SetPKMBoxes()
         {
             if (SAV.HasBox)
@@ -160,9 +192,10 @@ namespace PKHeX.WinForms.Controls
             ResetNonBoxSlots();
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
-            if (M?.ColorizedSlot >= (int)SlotIndex.Party)
+            if (M?.ColorizedSlot >= (int)SlotIndex.Party && M.ColorizedSlot < SlotPictureBoxes.Count)
                 SlotPictureBoxes[M.ColorizedSlot].BackgroundImage = M.ColorizedColor;
         }
+
         private void ResetNonBoxSlots()
         {
             ResetParty();
@@ -170,12 +203,14 @@ namespace PKHeX.WinForms.Controls
             ResetDaycare();
             ResetMiscSlots();
         }
+
         private void ResetMiscSlots()
         {
             var slots = SL_Extra.SlotPictureBoxes;
             for (int i = 0; i < SL_Extra.SlotCount; i++)
                 GetSlotFiller(SL_Extra.GetSlotOffset(i), slots[i]);
         }
+
         private void ResetParty()
         {
             if (!SAV.HasParty)
@@ -184,22 +219,24 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < 6; i++)
                 GetSlotFiller(SAV.GetPartyOffset(i), SlotPictureBoxes[i + (int)SlotIndex.Party]);
         }
+
         private void ResetBattleBox()
         {
             if (!SAV.HasBattleBox)
                 return;
 
             for (int i = 0; i < 6; i++)
-                GetSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + (int)SlotIndex.BattleBox]);
+                GetSlotFiller(SAV.BattleBox + (SAV.SIZE_STORED * i), SlotPictureBoxes[i + (int)SlotIndex.BattleBox]);
         }
+
+        private readonly Label[] L_SlotOccupied;
+        private readonly TextBox[] TB_SlotEXP;
+        private readonly Label[] L_SlotEXP;
+
         private void ResetDaycare()
         {
             if (!SAV.HasDaycare)
                 return;
-
-            Label[] L_SlotOccupied = {L_DC1, L_DC2};
-            TextBox[] TB_SlotEXP = {TB_Daycare1XP, TB_Daycare2XP};
-            Label[] L_SlotEXP = {L_XP1, L_XP2};
 
             for (int i = 0; i < 2; i++)
             {
@@ -211,7 +248,9 @@ namespace PKHeX.WinForms.Controls
                 bool? occ = SAV.IsDaycareOccupied(SAV.DaycareIndex, i);
                 L_SlotOccupied[i].Visible = occ != null;
                 if (occ == true) // If Occupied
+                {
                     L_SlotOccupied[i].Text = $"{i + 1}: ✓";
+                }
                 else
                 {
                     L_SlotOccupied[i].Text = $"{i + 1}: ✘";
@@ -231,33 +270,16 @@ namespace PKHeX.WinForms.Controls
             }
             L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
         }
-        public void SetParty()
-        {
-            // Refresh slots
-            if (SAV.HasParty)
-            {
-                var party = SAV.PartyData;
-                for (int i = 0; i < party.Count; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.Party].Image = GetSprite(party[i], i + (int)SlotIndex.Party);
-                for (int i = party.Count; i < 6; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.Party].Image = null;
-            }
-            if (SAV.HasBattleBox)
-            {
-                var battle = SAV.BattleBoxData;
-                for (int i = 0; i < battle.Count; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.BattleBox].Image = GetSprite(battle[i], i + (int)SlotIndex.BattleBox);
-                for (int i = battle.Count; i < 6; i++)
-                    SlotPictureBoxes[i + (int)SlotIndex.BattleBox].Image = null;
-            }
-        }
+
+        public void SetParty() => ResetParty();
+
         public void ClickUndo()
         {
-            if (!UndoStack.Any())
+            if (UndoStack.Count == 0)
                 return;
 
             SlotChange change = UndoStack.Pop();
-            if (change.Slot >= (int)SlotIndex.Party)
+            if (change.Box < 0)
                 return;
 
             RedoStack.Push(new SlotChange
@@ -270,13 +292,14 @@ namespace PKHeX.WinForms.Controls
             UndoSlotChange(change);
             M.SetColor(change.Box, change.Slot, Resources.slotSet);
         }
+
         public void ClickRedo()
         {
-            if (!RedoStack.Any())
+            if (RedoStack.Count == 0)
                 return;
 
             SlotChange change = RedoStack.Pop();
-            if (change.Slot >= (int)SlotIndex.Party)
+            if (change.Box < 0)
                 return;
 
             UndoStack.Push(new SlotChange
@@ -289,32 +312,39 @@ namespace PKHeX.WinForms.Controls
             UndoSlotChange(change);
             M.SetColor(change.Box, change.Slot, Resources.slotSet);
         }
+
         public void SetClonesToBox(PKM pk)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                    string.Format(MsgSaveBoxCloneFromTabs, Box.CurrentBoxName)) != DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgSaveBoxCloneFromTabs, Box.CurrentBoxName)) != DialogResult.Yes)
                 return;
 
-            int slotSkipped = 0;
-            for (int i = 0; i < SAV.BoxSlotCount; i++) // set to every slot in box
-            {
-                if (SAV.IsSlotLocked(Box.CurrentBox, i))
-                { slotSkipped++; continue; }
-                SAV.SetStoredSlot(pk, GetPKMOffset(i));
-                Box.SetSlotFiller(pk, Box.CurrentBox, i);
-            }
-
+            int slotSkipped = SetClonesToCurrentBox(pk, Box.CurrentBox);
             if (slotSkipped > 0)
                 WinFormsUtil.Alert(string.Format(MsgSaveBoxImportSkippedLocked, slotSkipped));
 
             UpdateBoxViewers();
         }
+
+        private int SetClonesToCurrentBox(PKM pk, int box)
+        {
+            int slotSkipped = 0;
+            for (int i = 0; i < SAV.BoxSlotCount; i++) // set to every slot in box
+            {
+                if (SAV.IsSlotLocked(box, i))
+                { slotSkipped++; continue; }
+                SAV.SetStoredSlot(pk, Box.GetSlotOffset(box, i));
+                Box.SetSlotFiller(pk, box, i);
+            }
+
+            return slotSkipped;
+        }
+
         public void ClickSlot(object sender, EventArgs e)
         {
             switch (ModifierKeys)
             {
                 case Keys.Control | Keys.Alt: ClickClone(sender, e); break;
-                default:
+                default: // forward to contextmenu for default behavior
                     menu.OmniClick(sender, e, ModifierKeys);
                     break;
             }
@@ -334,17 +364,17 @@ namespace PKHeX.WinForms.Controls
             M?.SetColor(box, slot, Resources.slotSet);
 
             if (Menu_Undo != null)
-                Menu_Undo.Enabled = UndoStack.Any();
+                Menu_Undo.Enabled = UndoStack.Count > 0;
             if (Menu_Redo != null)
-                Menu_Redo.Enabled = RedoStack.Any();
+                Menu_Redo.Enabled = RedoStack.Count > 0;
 
             SystemSounds.Asterisk.Play();
         }
+
         private void GetSlotFiller(int offset, PictureBox pb)
         {
             if (!SAV.IsPKMPresent(offset))
             {
-                // 00s present in slot.
                 pb.Image = null;
                 pb.BackColor = Color.Transparent;
                 return;
@@ -359,11 +389,10 @@ namespace PKHeX.WinForms.Controls
             }
 
             int slot = GetSlot(pb);
-            pb.Image = GetSprite(p, slot);
+            pb.Image = GetSprite(p, slot < 6 ? -1 : slot);
             pb.BackColor = Color.Transparent;
         }
 
-        #region Box Manipulation
         private void ClickBoxSort(object sender, MouseEventArgs e)
         {
             if (tabBoxMulti.SelectedTab != Tab_Box)
@@ -373,72 +402,25 @@ namespace PKHeX.WinForms.Controls
             if (!e.Button.HasFlag(MouseButtons.Right))
             {
                 if (ModifierKeys.HasFlag(Keys.Alt))
-                    ((ToolStripMenuItem)SortMenu.Items[0]).DropDownItems[0].PerformClick(); // Clear
+                    SortMenu.Clear();
                 else if (ModifierKeys.HasFlag(Keys.Control))
-                    ((ToolStripMenuItem)SortMenu.Items[1]).DropDownItems[0].PerformClick(); // Sort
+                    SortMenu.Sort();
                 return;
             }
             var pt = Tab_Box.PointToScreen(new Point(0, 0));
             SortMenu.Show(pt);
         }
-        public void ClearAll(Func<PKM, bool> criteria)
-        {
-            if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxClearAll, MsgSaveBoxClearAllFailBattle))
-                return;
-            SAV.ClearBoxes(deleteCriteria: criteria);
-            FinishBoxManipulation(MsgSaveBoxClearAllSuccess, true);
-        }
-        public void ClearCurrent(Func<PKM, bool> criteria)
-        {
-            if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxClearCurrent, MsgSaveBoxClearCurrentFailBattle))
-                return;
-            SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox, criteria);
-            FinishBoxManipulation(MsgSaveBoxClearCurrentSuccess, false);
-        }
-        public void SortAll(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, bool reverse)
-        {
-            if (!CanManipulateRegion(0, SAV.BoxCount - 1, MsgSaveBoxSortAll, MsgSaveBoxSortAllFailBattle))
-                return;
-            SAV.SortBoxes(sortMethod: sorter, reverse: reverse);
-            FinishBoxManipulation(MsgSaveBoxSortAllSuccess, true);
-        }
-        public void SortCurrent(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, bool reverse)
-        {
-            if (!CanManipulateRegion(Box.CurrentBox, Box.CurrentBox, MsgSaveBoxSortCurrent, MsgSaveBoxSortCurrentFailBattle))
-                return;
-            SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox, sorter, reverse: reverse);
-            FinishBoxManipulation(MsgSaveBoxSortCurrentSuccess, false);
-        }
-        public void ModifyAll(Action<PKM> action)
-        {
-            SAV.ModifyBoxes(action);
-            FinishBoxManipulation(null, true);
-            SystemSounds.Asterisk.Play();
-        }
-        public void ModifyCurrent(Action<PKM> action)
-        {
-            SAV.ModifyBoxes(action, Box.CurrentBox, Box.CurrentBox);
-            FinishBoxManipulation(null, true);
-            SystemSounds.Asterisk.Play();
-        }
-        private void FinishBoxManipulation(string message, bool all)
+
+        public void FinishBoxManipulation(string message, bool all)
         {
             SetPKMBoxes();
             UpdateBoxViewers(all);
             if (message != null)
                 WinFormsUtil.Alert(message);
+            else
+                SystemSounds.Asterisk.Play();
         }
-        private bool CanManipulateRegion(int start, int end, string prompt, string fail)
-        {
-            if (prompt != null && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
-                return false;
-            if (!SAV.IsAnySlotLockedInBox(start, end))
-                return true;
-            if (fail != null)
-                WinFormsUtil.Alert(fail);
-            return false;
-        }
-        #endregion
+
         private void ClickBoxDouble(object sender, MouseEventArgs e)
         {
             if (tabBoxMulti.SelectedTab == Tab_SAV)
@@ -456,7 +438,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     // close all subviews
                     for (int i = 1; i < M.Boxes.Count; i++)
-                        M.Boxes[i].ParentForm.Close();
+                        M.Boxes[i].ParentForm?.Close();
                 }
                 new SAV_BoxList(this, M).Show();
                 return;
@@ -465,36 +447,40 @@ namespace PKHeX.WinForms.Controls
             { var z = M.Boxes[1].ParentForm; z.CenterToForm(ParentForm); z.BringToFront(); return; }
             new SAV_BoxViewer(this, M).Show();
         }
+
         private void ClickClone(object sender, EventArgs e)
         {
-            if (GetSlot(sender) >= (int)SlotIndex.Party)
+            if (GetSlot((PictureBox)sender) >= 0)
                 return; // only perform action if cloning to boxes
             RequestCloneData?.Invoke(sender, e);
         }
+
         private void UpdateSaveSlot(object sender, EventArgs e)
         {
             if (SAV.Version != GameVersion.BATREV)
                 return;
             ((SAV4BR)SAV).CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
+            Box.ResetBoxNames(); // fix box names
             SetPKMBoxes();
+            UpdateBoxViewers(true);
         }
+
         private void UpdateStringSeed(object sender, EventArgs e)
         {
             if (!FieldsLoaded)
                 return;
 
-            TextBox tb = sender as TextBox;
-            if (tb == null)
+            if (!(sender is TextBox tb))
                 return;
 
-            if (tb.Text.Length == 0)
+            if (string.IsNullOrWhiteSpace(tb.Text))
             {
                 tb.Undo();
                 return;
             }
 
             string filterText = Util.GetOnlyHex(tb.Text);
-            if (filterText.Length != tb.Text.Length)
+            if (filterText.Length != tb.Text.Length || string.IsNullOrWhiteSpace(filterText))
             {
                 WinFormsUtil.Alert(MsgProgramErrorExpectedHex, tb.Text);
                 tb.Undo();
@@ -524,17 +510,18 @@ namespace PKHeX.WinForms.Controls
                 SAV.Edited = true;
             }
         }
+
         private void SwitchDaycare(object sender, EventArgs e)
         {
-            if (!SAV.HasTwoDaycares) return;
-            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveSwitchDaycareView,
-                    string.Format(MsgSaveSwitchDaycareCurrent, SAV.DaycareIndex + 1)))
-                // If ORAS, alter the daycare offset via toggle.
-                SAV.DaycareIndex ^= 1;
-
-            // Refresh Boxes
-            SetPKMBoxes();
+            if (!SAV.HasTwoDaycares)
+                return;
+            var current = string.Format(MsgSaveSwitchDaycareCurrent, SAV.DaycareIndex + 1);
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveSwitchDaycareView, current))
+                return;
+            SAV.DaycareIndex ^= 1;
+            ResetDaycare();
         }
+
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
             if (!SAV.HasBox)
@@ -555,11 +542,14 @@ namespace PKHeX.WinForms.Controls
         private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6(SAV).ShowDialog();
         private void B_Roamer_Click(object sender, EventArgs e) => new SAV_Roamer3(SAV).ShowDialog();
         private void B_OpenApricorn_Click(object sender, EventArgs e) => new SAV_Apricorn(SAV).ShowDialog();
+        private void B_CGearSkin_Click(object sender, EventArgs e) => new SAV_CGearSkin(SAV).ShowDialog();
+
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
             var form = SAV.Generation == 1 ? new SAV_EventReset1(SAV) as Form : new SAV_EventFlags(SAV);
             form.ShowDialog();
         }
+
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
             new SAV_BoxLayout(SAV, Box.CurrentBox).ShowDialog();
@@ -567,92 +557,67 @@ namespace PKHeX.WinForms.Controls
             Box.ResetSlots(); // refresh box background
             UpdateBoxViewers(all: true); // update subviewers
         }
+
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
             if (SAV.Generation < 6)
                 new SAV_SimpleTrainer(SAV).ShowDialog();
             else if (SAV.Generation == 6)
                 new SAV_Trainer(SAV).ShowDialog();
-            else if (SAV.Generation == 7)
+            else if (SAV is SAV7)
                 new SAV_Trainer7(SAV).ShowDialog();
-            // Refresh conversion info
-            PKMConverter.UpdateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
         }
+
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
             if (SAV.Generation != 6)
                 return;
-            if (SAV.ORAS)
-            {
-                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6OPower, MsgSaveGen6OPowerCheatDesc);
-                if (dr != DialogResult.Yes) return;
-                new byte[]
-                {
-                    0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00,
-                    0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-                    0x01, 0x00, 0x00, 0x00,
-                }.CopyTo(SAV.Data, ((SAV6)SAV).OPower);
-            }
-            else if (SAV.XY)
-                new SAV_OPower(SAV).ShowDialog();
+            new SAV_OPower((SAV6)SAV).ShowDialog();
         }
+
         private void B_OpenFriendSafari_Click(object sender, EventArgs e)
         {
             if (!SAV.XY)
                 return;
 
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6FriendSafari, MsgSaveGen6FriendSafariCheatDesc);
-            if (dr != DialogResult.Yes) return;
-
-            // Unlock + reveal all safari slots if friend data is present
-            for (int i = 1; i < 101; i++)
-                if (SAV.Data[0x1E7FF + 0x15 * i] != 0x00) // no friend data == 0x00
-                    SAV.Data[0x1E7FF + 0x15 * i] = 0x3D;
-            SAV.Edited = true;
+            if (dr == DialogResult.Yes)
+                ((SAV6)SAV).UnlockAllFriendSafariSlots();
         }
-        private void B_OpenPokedex_Click(object sender, EventArgs e)
+
+        private static Form GetPokeDexEditor(SaveFile sav)
         {
-            switch (SAV.Generation)
+            switch (sav)
             {
-                case 1:
-                case 2:
-                    new SAV_SimplePokedex(SAV).ShowDialog(); break;
-                case 3:
-                    if (SAV.GameCube)
-                        return;
-                    new SAV_SimplePokedex(SAV).ShowDialog(); break;
-                case 4:
-                    if (SAV is SAV4BR)
-                        return;
-                    new SAV_Pokedex4(SAV).ShowDialog(); break;
-                case 5:
-                    new SAV_Pokedex5(SAV).ShowDialog(); break;
-                case 6:
-                    if (SAV.ORAS)
-                        new SAV_PokedexORAS(SAV).ShowDialog();
-                    else if (SAV.XY)
-                        new SAV_PokedexXY(SAV).ShowDialog();
-                    break;
-                case 7:
-                    if (SAV.SM || SAV.USUM)
-                        new SAV_PokedexSM(SAV).ShowDialog();
-                    break;
+                case SAV1 s1: return new SAV_SimplePokedex(s1);
+                case SAV2 s2: return new SAV_SimplePokedex(s2);
+                case SAV3 s3: return new SAV_SimplePokedex(s3);
+                case SAV4 s4: return new SAV_Pokedex4(s4);
+                case SAV5 s5: return new SAV_Pokedex5(s5);
+                case SAV6 s6 when s6.XY: return new SAV_PokedexXY(s6);
+                case SAV6 s6 when s6.ORAS: return new SAV_PokedexORAS(s6);
+                case SAV7 s7 when s7.SM || s7.USUM: return new SAV_PokedexSM(s7);
+
+                default: return null;
             }
         }
+
+        private void B_OpenPokedex_Click(object sender, EventArgs e)
+        {
+            var editor = GetPokeDexEditor(SAV);
+            editor?.ShowDialog();
+        }
+
         private void B_OpenMiscEditor_Click(object sender, EventArgs e)
         {
             switch (SAV.Generation)
             {
-                case 3:
-                    new SAV_Misc3(SAV).ShowDialog(); break;
-                case 4:
-                    new SAV_Misc4(SAV).ShowDialog(); break;
-                case 5:
-                    new SAV_Misc5(SAV).ShowDialog(); break;
+                case 3: new SAV_Misc3(SAV).ShowDialog(); break;
+                case 4: new SAV_Misc4(SAV).ShowDialog(); break;
+                case 5: new SAV_Misc5(SAV).ShowDialog(); break;
             }
         }
+
         private void B_OpenRTCEditor_Click(object sender, EventArgs e)
         {
             switch (SAV.Generation)
@@ -663,6 +628,7 @@ namespace PKHeX.WinForms.Controls
                     new SAV_RTC3(SAV).ShowDialog(); break;
             }
         }
+
         private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e)
         {
             switch (SAV.Version)
@@ -672,75 +638,25 @@ namespace PKHeX.WinForms.Controls
                     new SAV_HoneyTree(SAV).ShowDialog(); break;
             }
         }
+
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {
             if (SAV.Generation != 6)
                 return;
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6Passerby))
                 return;
-            var result = new List<string> {"PSS List"};
-            string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
-            int offset = ((SAV6)SAV).PSS;
-            for (int g = 0; g < 3; g++)
-            {
-                result.Add("----");
-                result.Add(headers[g]);
-                result.Add("----");
-                // uint count = BitConverter.ToUInt32(savefile, offset + 0x4E20);
-                int r_offset = offset;
-
-                for (int i = 0; i < 100; i++)
-                {
-                    ulong unkn = BitConverter.ToUInt64(SAV.Data, r_offset);
-                    if (unkn == 0) break; // No data present here
-                    if (i > 0)
-                        result.Add("");
-
-                    string otname = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, r_offset + 8, 0x1A));
-                    string message = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, r_offset + 0x22, 0x22));
-
-                    // Trim terminated
-
-                    // uint unk1 = BitConverter.ToUInt32(savefile, r_offset + 0x44);
-                    // ulong unk2 = BitConverter.ToUInt64(savefile, r_offset + 0x48);
-                    // uint unk3 = BitConverter.ToUInt32(savefile, r_offset + 0x50);
-                    // uint unk4 = BitConverter.ToUInt16(savefile, r_offset + 0x54);
-                    byte region = SAV.Data[r_offset + 0x56];
-                    byte country = SAV.Data[r_offset + 0x57];
-                    byte game = SAV.Data[r_offset + 0x5A];
-                    // ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
-                    int favpkm = BitConverter.ToUInt16(SAV.Data, r_offset + 0x9C) & 0x7FF;
-                    string gamename;
-                    try { gamename = GameInfo.Strings.gamelist[game]; }
-                    catch { gamename = "UNKNOWN GAME"; }
-
-                    var cr = GameInfo.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
-                    result.Add($"OT: {otname}");
-                    result.Add($"Message: {message}");
-                    result.Add($"Game: {gamename}");
-                    result.Add($"Country: {cr.Item1}");
-                    result.Add($"Region: {cr.Item2}");
-                    result.Add($"Favorite: {GameInfo.Strings.specieslist[favpkm]}");
-
-                    r_offset += 0xC8; // Advance to next entry
-                }
-                offset += 0x5000; // Advance to next block
-            }
+            var result = PSS6.GetPSSParse((SAV6)SAV);
             Clipboard.SetText(string.Join(Environment.NewLine, result));
         }
+
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
             if (SAV.Generation == 6)
                 new SAV_HallOfFame(SAV).ShowDialog();
-            else if (SAV.Generation == 7)
+            else if (SAV is SAV7)
                 new SAV_HallOfFame7(SAV).ShowDialog();
         }
-        private void B_CGearSkin_Click(object sender, EventArgs e)
-        {
-            if (SAV.Generation != 5)
-                return; // can never be too safe
-            new SAV_CGearSkin(SAV).ShowDialog();
-        }
+
         private void B_JPEG_Click(object sender, EventArgs e)
         {
             byte[] jpeg = SAV.JPEGData;
@@ -751,6 +667,7 @@ namespace PKHeX.WinForms.Controls
             if (sfd.ShowDialog() != DialogResult.OK) return;
             File.WriteAllBytes(sfd.FileName, jpeg);
         }
+
         private void ClickVerifyCHK(object sender, EventArgs e)
         {
             if (SAV.Edited) { WinFormsUtil.Alert(MsgSaveChecksumFailEdited); return; }
@@ -769,19 +686,10 @@ namespace PKHeX.WinForms.Controls
                 return false;
 
             clearAll = dr == DialogResult.Yes;
-            noSetb = GetPKMSetOverride();
+            noSetb = GetPKMSetOverride(ModifyPKM);
             return true;
         }
-        private bool? GetPKMSetOverride()
-        {
-            var yn = ModifyPKM ? MsgYes : MsgNo;
-            DialogResult noSet = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                MsgSaveBoxImportModifyIntro,
-                MsgSaveBoxImportModifyYes + Environment.NewLine +
-                MsgSaveBoxImportModifyNo + Environment.NewLine +
-                string.Format(MsgSaveBoxImportModifyCurrent, yn));
-            return noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
-        }
+
         private static bool IsFolderPath(out string path)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -795,12 +703,12 @@ namespace PKHeX.WinForms.Controls
             ValidateChildren();
             return WinFormsUtil.SaveSAVDialog(SAV, SAV.CurrentBox);
         }
+
         public bool ExportBackup()
         {
             if (!SAV.Exportable)
                 return false;
-            SaveFileDialog sfd = new SaveFileDialog
-                { FileName = Util.CleanFileName(SAV.BAKName) };
+            var sfd = new SaveFileDialog {FileName = Util.CleanFileName(SAV.BAKName)};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
 
@@ -810,7 +718,7 @@ namespace PKHeX.WinForms.Controls
 
             return true;
         }
-        public bool IsPCBoxBin(int length) => PKX.IsPKM(length / SAV.SlotCount) || PKX.IsPKM(length / SAV.BoxSlotCount);
+
         public bool OpenPCBoxBin(byte[] input, out string c)
         {
             if (SAV.PCBinary.Length == input.Length)
@@ -840,6 +748,7 @@ namespace PKHeX.WinForms.Controls
             UpdateBoxViewers();
             return true;
         }
+
         public bool OpenBattleVideo(BattleVideo b, out string c)
         {
             if (b == null || SAV.Generation != b.Generation)
@@ -856,7 +765,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            bool? noSetb = GetPKMSetOverride();
+            bool? noSetb = GetPKMSetOverride(ModifyPKM);
             PKM[] data = b.BattlePKMs;
             int offset = SAV.GetBoxOffset(Box.CurrentBox);
             int slotSkipped = 0;
@@ -864,7 +773,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (SAV.IsSlotLocked(Box.CurrentBox, i))
                 { slotSkipped++; continue; }
-                SAV.SetStoredSlot(data[i], offset + i * SAV.SIZE_STORED, noSetb);
+                SAV.SetStoredSlot(data[i], offset + (i * SAV.SIZE_STORED), noSetb);
             }
 
             SetPKMBoxes();
@@ -874,6 +783,7 @@ namespace PKHeX.WinForms.Controls
 
             return true;
         }
+
         public bool DumpBoxes(out string result, string path = null, bool separate = false)
         {
             if (path == null && !IsFolderPath(out path))
@@ -887,6 +797,7 @@ namespace PKHeX.WinForms.Controls
             SAV.DumpBoxes(path, out result, separate);
             return true;
         }
+
         public bool DumpBox(out string result, string path = null)
         {
             if (path == null && !IsFolderPath(out path))
@@ -900,6 +811,7 @@ namespace PKHeX.WinForms.Controls
             SAV.DumpBox(path, out result, Box.CurrentBox);
             return true;
         }
+
         public bool LoadBoxes(out string result, string path = null)
         {
             result = string.Empty;
@@ -944,6 +856,7 @@ namespace PKHeX.WinForms.Controls
             FieldsLoaded = true;
             return WindowTranslationRequired;
         }
+
         private void ToggleViewReset()
         {
             // Close subforms that are save dependent
@@ -955,7 +868,9 @@ namespace PKHeX.WinForms.Controls
             Box.M = M;
             Box.ResetBoxNames();   // Display the Box Names
             M.SetColor(-1, -1, null);
+            SortMenu.ToggleVisibility();
         }
+
         private bool ToggleViewBox(SaveFile sav)
         {
             if (!sav.HasBox)
@@ -976,6 +891,7 @@ namespace PKHeX.WinForms.Controls
             tabBoxMulti.TabPages.Insert(0, Tab_Box);
             return true;
         }
+
         private bool ToggleViewParty(SaveFile sav, int BoxTab)
         {
             if (!sav.HasParty)
@@ -995,6 +911,7 @@ namespace PKHeX.WinForms.Controls
             tabBoxMulti.TabPages.Insert(index + 1, Tab_PartyBattle);
             return true;
         }
+
         private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
         {
             if (!sav.HasDaycare)
@@ -1004,7 +921,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            SlotPictureBoxes[43].Visible = sav.Generation >= 2; // Second daycare slot
+            SlotPictureBoxes[(int)SlotIndex.Daycare + 1].Visible = sav.Generation >= 2; // Second daycare slot
             if (tabBoxMulti.TabPages.Contains(Tab_Other))
                 return false;
 
@@ -1016,6 +933,7 @@ namespace PKHeX.WinForms.Controls
             tabBoxMulti.TabPages.Insert(index + 1, Tab_Other);
             return true;
         }
+
         private void ToggleViewSubEditors(SaveFile sav)
         {
             if (!sav.Exportable || sav is BulkStorage)
@@ -1031,8 +949,6 @@ namespace PKHeX.WinForms.Controls
                 GB_Daycare.Visible = sav.HasDaycare;
                 B_OpenSecretBase.Enabled = sav.HasSecretBase;
                 B_OpenPokepuffs.Enabled = sav.HasPuff;
-                B_OpenPokeBeans.Enabled = sav.Generation == 7;
-                B_CellsStickers.Enabled = sav.Generation == 7;
                 B_OUTPasserby.Enabled = sav.HasPSS;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
@@ -1047,8 +963,9 @@ namespace PKHeX.WinForms.Controls
                 B_OpenEventFlags.Enabled = sav.HasEvents;
                 B_OpenLinkInfo.Enabled = sav.HasLink;
                 B_CGearSkin.Enabled = sav.Generation == 5;
+                B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty; // Box RS
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR); // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;
 
@@ -1056,36 +973,33 @@ namespace PKHeX.WinForms.Controls
                 B_OpenApricorn.Enabled = sav.HGSS;
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
-                B_FestivalPlaza.Enabled = sav.Generation == 7;
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
-                var slots = SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
-                Box.SlotPictureBoxes.AddRange(slots);
+                SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
             }
-            GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
-            foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
+            GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.OfType<Control>().Any(c => c.Enabled);
+            foreach (Control c in FLP_SAVtools.Controls.OfType<Control>())
                 c.Visible = c.Enabled;
         }
+
         private void ToggleViewMisc(SaveFile sav)
         {
             // Generational Interface
-            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = sav.Exportable && sav.Generation >= 6;
-            TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && sav.Generation >= 6;
+            ToggleSecrets(sav, HideSecretDetails);
             B_VerifyCHK.Enabled = SAV.Exportable;
 
-            if (sav.Version == GameVersion.BATREV)
+            if (sav is SAV4BR br)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
-                CB_SaveSlot.DisplayMember = nameof(ComboItem.Text); CB_SaveSlot.ValueMember = nameof(ComboItem.Value);
-                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR)sav).SaveSlots.Select(i => new ComboItem
-                {
-                    Text = ((SAV4BR)sav).SaveNames[i],
-                    Value = i
-                }).ToList(), null);
-                CB_SaveSlot.SelectedValue = ((SAV4BR)sav).CurrentSlot;
+                var list = br.SaveNames.Select((z, i) => new ComboItem {Text = z, Value = i}).ToList();
+                CB_SaveSlot.InitializeBinding();
+                CB_SaveSlot.DataSource = new BindingSource(list, null);
+                CB_SaveSlot.SelectedValue = br.CurrentSlot;
             }
             else
+            {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
+            }
 
             switch (sav.Generation)
             {
@@ -1106,47 +1020,13 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
+        private void ToggleSecrets(SaveFile sav, bool hide)
+        {
+            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = sav.Exportable && sav.Generation >= 6 && !hide;
+            TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && sav.Generation >= 6 && !hide;
+        }
+
         // DragDrop
-        private void BoxSlot_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (M == null || M.DragActive)
-                return;
-
-            // Abort if there is no Pokemon in the given slot.
-            PictureBox pb = (PictureBox)sender;
-            if (pb.Image == null)
-                return;
-            int slot = GetSlot(pb);
-            int box = slot >= (int)SlotIndex.Party ? -1 : Box.CurrentBox;
-            if (SAV.IsSlotLocked(box, slot))
-                return;
-
-            bool encrypt = ModifierKeys == Keys.Control;
-            M.HandleMovePKM(pb, slot, box, encrypt);
-        }
-        private void BoxSlot_DragDrop(object sender, DragEventArgs e)
-        {
-            if (M == null)
-                return;
-
-            PictureBox pb = (PictureBox)sender;
-            int slot = GetSlot(pb);
-            int box = slot >= (int)SlotIndex.Party ? -1 : Box.CurrentBox;
-            if (SAV.IsSlotLocked(box, slot) || slot >= (int)SlotIndex.BattleBox)
-            {
-                SystemSounds.Asterisk.Play();
-                e.Effect = DragDropEffects.Copy;
-                M.DragInfo.Reset();
-                return;
-            }
-
-            bool overwrite = ModifierKeys == Keys.Alt;
-            bool clone = ModifierKeys == Keys.Control;
-            M.DragInfo.Destination.Parent = FindForm();
-            M.DragInfo.Destination.Slot = GetSlot(sender);
-            M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : Box.CurrentBox;
-            M.HandleDropPKM(sender, e, overwrite, clone);
-        }
         private void MultiDragOver(object sender, DragEventArgs e)
         {
             // iterate over all tabs to see if a tab switch should occur when drag/dropping
@@ -1159,27 +1039,29 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
         }
-        private void ClickShowdownExportParty(object sender, EventArgs e)
+
+        public void ClickShowdownExportParty(object sender, EventArgs e) => ExportShowdownText(SAV, MsgSimulatorExportParty, sav => sav.PartyData);
+        public void ClickShowdownExportBattleBox(object sender, EventArgs e) => ExportShowdownText(SAV, MsgSimulatorExportBattleBox, sav => sav.BattleBoxData);
+
+        public void ClickShowdownExportCurrentBox(object sender, EventArgs e)
         {
-            try
-            {
-                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.PartyData.Select(pk => pk.ShowdownText));
-                if (string.IsNullOrWhiteSpace(str)) return;
-                Clipboard.SetText(str);
-            }
-            catch { }
-            WinFormsUtil.Alert(MsgSimulatorExportParty);
+            if (!SAV.HasBox)
+                return;
+            ExportShowdownText(SAV, MsgSimulatorExportList,
+                sav => (ModifierKeys & Keys.Control) != 0 ? sav.BoxData : sav.GetBoxData(CurrentBox));
         }
-        private void ClickShowdownExportBattleBox(object sender, EventArgs e)
+
+        private static void ExportShowdownText(SaveFile SAV, string success, Func<SaveFile, IEnumerable<PKM>> func)
         {
             try
             {
-                var str = string.Join(Environment.NewLine + Environment.NewLine, SAV.BattleBoxData.Select(pk => pk.ShowdownText));
+                var pkms = func(SAV);
+                var str = ShowdownSet.GetShowdownSets(pkms, Environment.NewLine + Environment.NewLine);
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
             }
             catch { }
-            WinFormsUtil.Alert(MsgSimulatorExportBattleBox);
+            WinFormsUtil.Alert(success);
         }
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
@@ -1191,26 +1073,52 @@ namespace PKHeX.WinForms.Controls
                     new SAV_Underground(SAV).ShowDialog(); break;
             }
         }
+
         private void B_FestivalPlaza_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation == 7)
+            if (SAV is SAV7)
                 new SAV_FestivalPlaza(SAV).ShowDialog();
         }
+
         private void B_MailBox_Click(object sender, EventArgs e)
         {
             new SAV_MailBox(SAV).ShowDialog();
             ResetParty();
         }
 
-        private enum SlotIndex
+        private void GenerateLivingDex()
         {
-            Box = 0,        // -> 29 [30]
-            Party = 30,     // -> 35 [6]
-            BattleBox = 36, // -> 41 [6]
-            Daycare = 42,
-            GTS = 44,
-            Fused = 45,
-            SUBE = 46,
+            SAV.BoxData = GetLivingDex(SAV);
+            ReloadSlots();
+        }
+
+        private static bool? GetPKMSetOverride(bool currentSetting)
+        {
+            var yn = currentSetting ? MsgYes : MsgNo;
+            DialogResult noSet = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
+                MsgSaveBoxImportModifyIntro,
+                MsgSaveBoxImportModifyYes + Environment.NewLine +
+                MsgSaveBoxImportModifyNo + Environment.NewLine +
+                string.Format(MsgSaveBoxImportModifyCurrent, yn));
+            return noSet == DialogResult.Yes || noSet == DialogResult.No ? (bool?)false : null;
+        }
+
+        private static IList<PKM> GetLivingDex(SaveFile SAV)
+        {
+            var bd = SAV.BoxData;
+            var tr = SAV;
+            for (int i = 1; i <= 807; i++)
+            {
+                var pk = SAV.BlankPKM;
+                pk.Species = i;
+                pk.Gender = pk.GetSaneGender();
+                if (i == 678)
+                    pk.AltForm = pk.Gender;
+                var f = EncounterMovesetGenerator.GeneratePKMs(pk, tr).FirstOrDefault();
+                if (f != null)
+                    bd[i] = PKMConverter.ConvertToType(f, SAV.PKMType, out _);
+            }
+            return bd;
         }
     }
 }
