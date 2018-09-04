@@ -1245,10 +1245,10 @@ namespace PKHeX.Core
         }
 
         // Seals
+        private const byte SealMaxCount = 99;
         public byte[] SealCase { get => GetData(Seal, (int) Seal4.MAX); set => SetData(value, Seal); }
         public byte GetSealCount(Seal4 id) => Data[Seal + (int)id];
-        public byte SetSealCount(Seal4 id, byte value) => Data[Seal + (int)id] = value;
-        public void GiveAllSeals() => Enumerable.Repeat((byte)0xFF, (int) Seal4.MAX).CopyTo(Data, Seal);
-        public void ClearAllSeals() => Enumerable.Repeat((byte)0, (int)Seal4.MAX).CopyTo(Data, Seal);
+        public byte SetSealCount(Seal4 id, byte count) => Data[Seal + (int)id] = Math.Min(SealMaxCount, count);
+        public void SetAllSeals(byte count, bool unreleased = false) => Enumerable.Repeat(Math.Min(SealMaxCount, count), (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL)).CopyTo(Data, Seal);
     }
 }

@@ -100,6 +100,7 @@
         Burst,
         Twinkle,
 
-        MAX
+        MAX,
+        MAXLEGAL = Liquid,
     }
 }

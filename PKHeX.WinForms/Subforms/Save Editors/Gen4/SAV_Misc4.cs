@@ -779,5 +779,11 @@ namespace PKHeX.WinForms
         {
             SAV.PokewalkerCoursesUnlockAll();
         }
+
+        private void OnBAllSealsLegalOnClick(object sender, EventArgs e)
+        {
+            SAV.SetAllSeals(99, sender == B_AllSealsIllegal);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }

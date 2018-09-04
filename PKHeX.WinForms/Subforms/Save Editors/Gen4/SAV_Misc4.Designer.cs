@@ -100,6 +100,9 @@
             this.L_CastleRank01 = new System.Windows.Forms.Label();
             this.TAB_Walker = new System.Windows.Forms.TabPage();
             this.B_UnlockCourses = new System.Windows.Forms.Button();
+            this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.B_AllSealsLegal = new System.Windows.Forms.Button();
+            this.B_AllSealsIllegal = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).BeginInit();
@@ -139,6 +142,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
             this.TAB_Walker.SuspendLayout();
+            this.Tab_Misc.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -168,6 +172,7 @@
             this.TC_Misc.Controls.Add(this.TAB_Main);
             this.TC_Misc.Controls.Add(this.TAB_BF);
             this.TC_Misc.Controls.Add(this.TAB_Walker);
+            this.TC_Misc.Controls.Add(this.Tab_Misc);
             this.TC_Misc.Location = new System.Drawing.Point(12, 13);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
@@ -1149,6 +1154,38 @@
             this.B_UnlockCourses.UseVisualStyleBackColor = true;
             this.B_UnlockCourses.Click += new System.EventHandler(this.B_UnlockCourses_Click);
             // 
+            // Tab_Misc
+            // 
+            this.Tab_Misc.Controls.Add(this.B_AllSealsIllegal);
+            this.Tab_Misc.Controls.Add(this.B_AllSealsLegal);
+            this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Misc.Name = "Tab_Misc";
+            this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Misc.Size = new System.Drawing.Size(373, 239);
+            this.Tab_Misc.TabIndex = 3;
+            this.Tab_Misc.Text = "Misc";
+            this.Tab_Misc.UseVisualStyleBackColor = true;
+            // 
+            // B_AllSealsLegal
+            // 
+            this.B_AllSealsLegal.Location = new System.Drawing.Point(6, 6);
+            this.B_AllSealsLegal.Name = "B_AllSealsLegal";
+            this.B_AllSealsLegal.Size = new System.Drawing.Size(120, 37);
+            this.B_AllSealsLegal.TabIndex = 0;
+            this.B_AllSealsLegal.Text = "Give All Seals (Legal)";
+            this.B_AllSealsLegal.UseVisualStyleBackColor = true;
+            this.B_AllSealsLegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
+            // 
+            // B_AllSealsIllegal
+            // 
+            this.B_AllSealsIllegal.Location = new System.Drawing.Point(6, 49);
+            this.B_AllSealsIllegal.Name = "B_AllSealsIllegal";
+            this.B_AllSealsIllegal.Size = new System.Drawing.Size(120, 37);
+            this.B_AllSealsIllegal.TabIndex = 1;
+            this.B_AllSealsIllegal.Text = "Give All Seals (Illegal)";
+            this.B_AllSealsIllegal.UseVisualStyleBackColor = true;
+            this.B_AllSealsIllegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
+            // 
             // SAV_Misc4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1203,6 +1240,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
             this.TAB_Walker.ResumeLayout(false);
+            this.Tab_Misc.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1280,5 +1318,8 @@
         private System.Windows.Forms.Button B_UnlockCourses;
         private System.Windows.Forms.NumericUpDown NUD_Coin;
         private System.Windows.Forms.Label L_Coin;
+        private System.Windows.Forms.TabPage Tab_Misc;
+        private System.Windows.Forms.Button B_AllSealsIllegal;
+        private System.Windows.Forms.Button B_AllSealsLegal;
     }
 }
