@@ -106,8 +106,8 @@ namespace PKHeX.WinForms.Controls
             Resources.wand,
         };
 
-        public void Clear() => ((ToolStripMenuItem)Items[0]).DropDownItems[0].PerformClick();
-        public void Sort() => ((ToolStripMenuItem)Items[1]).DropDownItems[0].PerformClick();
+        public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, sav.SAV.CurrentBox, All);
+        public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, sav.SAV.CurrentBox, All);
 
         private static bool All => (ModifierKeys & Keys.Shift) != 0;
         private static bool Reverse => (ModifierKeys & Keys.Control) != 0;
