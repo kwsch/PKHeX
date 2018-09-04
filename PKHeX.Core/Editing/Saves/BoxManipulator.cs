@@ -4,27 +4,32 @@
     {
         protected abstract SaveFile SAV { get; }
 
+        /// <summary>
+        /// Executes the provided <see cref="manip"/> with the provided parameters.
+        /// </summary>
+        /// <param name="manip">Manipulation to perform on the <see cref="SAV"/> box data.</param>
+        /// <param name="box">Single box to modify; if <see cref="allBoxes"/> is set, this param is ignored.</param>
+        /// <param name="allBoxes">Indicates if all boxes are to be manipulated, or just one box.</param>
+        /// <param name="reverse">Manipulation action should be inverted (criteria) or reversed (sort).</param>
+        /// <returns>True if operation succeeded, false if no changes made.</returns>
         public bool Execute(IBoxManip manip, int box, bool allBoxes, bool reverse = false)
         {
             bool usable = manip.Usable?.Invoke(SAV) ?? true;
             if (!usable)
                 return false;
 
-            // determine start/stop
-            int start = allBoxes ? 0 : box;
-            int stop = allBoxes ? SAV.BoxCount - 1 : box;
-
-            var prompt = manip.GetPrompt(allBoxes);
-            var fail = manip.GetFail(allBoxes);
-            if (!CanManipulateRegion(start, stop, prompt, fail))
-                return false;
-
             var param = new BoxManipParam
             {
                 Reverse = reverse,
-                Start = start,
-                Stop = stop,
+                Start = allBoxes ? 0 : box,
+                Stop = allBoxes ? SAV.BoxCount - 1 : box,
             };
+
+            var prompt = manip.GetPrompt(allBoxes);
+            var fail = manip.GetFail(allBoxes);
+            if (!CanManipulateRegion(param.Start, param.Stop, prompt, fail))
+                return false;
+
 
             var result = manip.Execute(SAV, param);
             if (!result)
@@ -34,7 +39,21 @@
             return true;
         }
 
+        /// <summary>
+        /// Sanity check for modifying the box data.
+        /// </summary>
+        /// <param name="start">Start box</param>
+        /// <param name="end">End box</param>
+        /// <param name="prompt">Message asking about the operation.</param>
+        /// <param name="fail">Message indicating the operation cannot be performed.</param>
+        /// <returns></returns>
         protected virtual bool CanManipulateRegion(int start, int end, string prompt, string fail) => !SAV.IsAnySlotLockedInBox(start, end);
+
+        /// <summary>
+        /// Called if the <see cref="IBoxManip"/> operation modified any data.
+        /// </summary>
+        /// <param name="message">Optional message to show if applicable.</param>
+        /// <param name="all">Indicates if all boxes were manipulated, or just one box.</param>
         protected abstract void FinishBoxManipulation(string message, bool all);
     }
 }

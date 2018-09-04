@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
         /// Reads in custom extension types that allow the program to open more extensions.
         /// </summary>
         /// <param name="exts">Extensions to add</param>
-        public static void AddSaveFileExtensions(IEnumerable<string> exts) => CustomSaveExtensions.AddRange(exts);
+        public static void AddSaveFileExtensions(IEnumerable<string> exts) => CustomSaveExtensions.AddRange(exts.Except(CustomSaveExtensions));
 
         private static readonly List<string> CustomSaveExtensions = new List<string>
         {
@@ -184,13 +184,8 @@ namespace PKHeX.WinForms
             };
 
             // Detect main
-            string cgse = "";
-            string pathCache = CyberGadgetUtil.GetCacheFolder();
-            if (Directory.Exists(pathCache))
-                cgse = Path.Combine(pathCache);
-
             string msg = null;
-            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg, cgse);
+            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 Error(msg);
 

@@ -118,7 +118,7 @@ namespace PKHeX.WinForms
             return LayerOverImageEggTransparentSpecies(baseImage, species);
         }
 
-        private static Image GetEggSprite(int species) => species == 490 ? (Image)Resources.ResourceManager.GetObject("_490_e") : Resources.egg;
+        private static Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
 
         private const double EggUnderLayerTransparency = 0.33;
         private const int EggOverLayerAsItemShiftX = 9;

@@ -16,6 +16,8 @@ namespace PKHeX.WinForms.Controls
         {
             Manipulator = new BoxManipulatorWF(SAV);
             sav = SAV;
+            var Levels = BoxManipUtil.ManipCategories;
+            var LevelNames = BoxManipUtil.ManipCategoryNames;
             for (int i = 0; i < Levels.Length; i++)
             {
                 var level = Levels[i];
@@ -95,22 +97,6 @@ namespace PKHeX.WinForms.Controls
             foreach (var s in CustomItems)
                 s.SetVisibility(sav.SAV);
         }
-
-        private static readonly string[] LevelNames =
-        {
-            "Delete",
-            "Sort",
-            "SortAdvanced",
-            "Modify",
-        };
-
-        private static readonly IReadOnlyList<IBoxManip>[] Levels =
-        {
-            BoxManipClear.Common,
-            BoxManipSort.Common,
-            BoxManipSort.Advanced,
-            BoxManipModify.Common,
-        };
 
         private static readonly Image[] TopLevelImages =
         {

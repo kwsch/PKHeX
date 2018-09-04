@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
 
             for (int i = 0; i < itemlist.Length; i++)
             {
-                if (itemlist[i]?.Length == 0)
+                if (string.IsNullOrEmpty(itemlist[i]))
                     itemlist[i] = $"(Item #{i:000})";
             }
 

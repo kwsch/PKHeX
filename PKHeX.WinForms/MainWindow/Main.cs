@@ -30,6 +30,7 @@ namespace PKHeX.WinForms
 
             string[] args = Environment.GetCommandLineArgs();
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
+            FormLoadCustomBackupPaths();
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
 
@@ -98,6 +99,7 @@ namespace PKHeX.WinForms
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         public static string CryPath => Path.Combine(WorkingDirectory, "sounds");
+        public static string SAVPaths => Path.Combine(WorkingDirectory, "savpaths.txt");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
@@ -144,6 +146,23 @@ namespace PKHeX.WinForms
             #if DEBUG
             DevUtil.AddControl(Menu_Tools);
             #endif
+        }
+
+        private static void FormLoadCustomBackupPaths()
+        {
+            SaveDetection.CustomBackupPaths.Clear();
+            try
+            {
+                string pathCache = CyberGadgetUtil.GetCacheFolder();
+                if (Directory.Exists(pathCache))
+                    SaveDetection.CustomBackupPaths.Add(Path.Combine(pathCache));
+                string pathTemp = CyberGadgetUtil.GetTempFolder();
+                if (Directory.Exists(pathTemp))
+                    SaveDetection.CustomBackupPaths.Add(Path.Combine(pathTemp));
+                if (File.Exists(SAVPaths))
+                    SaveDetection.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
+            }
+            catch { }
         }
 
         private void FormLoadAddEvents()
@@ -1153,13 +1172,8 @@ namespace PKHeX.WinForms
 
         private static bool DetectSaveFile(out string path)
         {
-            string cgse = string.Empty;
-            string pathCache = CyberGadgetUtil.GetCacheFolder();
-            if (Directory.Exists(pathCache))
-                cgse = Path.Combine(pathCache);
-
             string msg = null;
-            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg, cgse);
+            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 WinFormsUtil.Error(msg);
 

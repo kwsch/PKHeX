@@ -65,7 +65,16 @@ namespace PKHeX.Core
             var abilities = pk.PersonalInfo.Abilities;
             int abilIndex = Array.IndexOf(abilities, abil);
             abilIndex = Math.Max(0, abilIndex);
+            pk.SetAbilityIndex(abilIndex);
+        }
 
+        /// <summary>
+        /// Sets the <see cref="PKM.Ability"/> value based on the provided ability index (0-2)
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="abilIndex">Desired <see cref="PKM.AbilityNumber"/> (shifted by 1) to set.</param>
+        public static void SetAbilityIndex(this PKM pk, int abilIndex)
+        {
             if (pk is PK5 pk5 && abilIndex == 2)
                 pk5.HiddenAbility = true;
             else if (pk.Format <= 5)
@@ -76,14 +85,16 @@ namespace PKHeX.Core
         /// <summary>
         /// Sets a Random <see cref="PKM.EncryptionConstant"/> value. The <see cref="PKM.EncryptionConstant"/> is not updated if the value should match the <see cref="PKM.PID"/> instead.
         /// </summary>
+        /// <remarks>Accounts for Wurmple evolutions.</remarks>
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetRandomEC(this PKM pk)
         {
             int gen = pk.GenNumber;
+            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pk.Species);
             if (gen < 6 && gen > 2)
                 pk.EncryptionConstant = pk.PID;
             else
-                pk.EncryptionConstant = Util.Rand32();
+                pk.EncryptionConstant = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex / 2);
         }
 
         /// <summary>

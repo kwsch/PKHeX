@@ -196,13 +196,13 @@
             this.giveNone,
             this.giveModify});
             this.giveMenu.Name = "modifyMenu";
-            this.giveMenu.Size = new System.Drawing.Size(153, 92);
+            this.giveMenu.Size = new System.Drawing.Size(113, 70);
             // 
             // giveAll
             // 
             this.giveAll.Image = global::PKHeX.WinForms.Properties.Resources.database;
             this.giveAll.Name = "giveAll";
-            this.giveAll.Size = new System.Drawing.Size(152, 22);
+            this.giveAll.Size = new System.Drawing.Size(112, 22);
             this.giveAll.Text = "All";
             this.giveAll.Click += new System.EventHandler(this.GiveAllItems);
             // 
@@ -210,7 +210,7 @@
             // 
             this.giveNone.Image = global::PKHeX.WinForms.Properties.Resources.open;
             this.giveNone.Name = "giveNone";
-            this.giveNone.Size = new System.Drawing.Size(152, 22);
+            this.giveNone.Size = new System.Drawing.Size(112, 22);
             this.giveNone.Text = "None";
             this.giveNone.Click += new System.EventHandler(this.RemoveAllItems);
             // 
@@ -218,7 +218,7 @@
             // 
             this.giveModify.Image = global::PKHeX.WinForms.Properties.Resources.settings;
             this.giveModify.Name = "giveModify";
-            this.giveModify.Size = new System.Drawing.Size(152, 22);
+            this.giveModify.Size = new System.Drawing.Size(112, 22);
             this.giveModify.Text = "Modify";
             this.giveModify.Click += new System.EventHandler(this.ModifyAllItems);
             // 
