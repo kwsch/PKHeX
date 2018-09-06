@@ -232,7 +232,8 @@ namespace PKHeX.Core
 
                     OFS_UG_Stats = 0x3A2C + GBO;
 
-                    _currentPoketchApp = 0x114E;
+                    _currentPoketchApp = 0x114E + GBO;
+                    Seal = 0x6178 + GBO;
                     break;
                 case GameVersion.Pt:
                     AdventureInfo = 0 + GBO;
@@ -268,7 +269,8 @@ namespace PKHeX.Core
 
                     OFS_UG_Stats = 0x3CB4 + GBO;
 
-                    _currentPoketchApp = 0x1162;
+                    _currentPoketchApp = 0x1162 + GBO;
+                    Seal = 0x6494 + GBO;
                     break;
                 case GameVersion.HGSS:
                     AdventureInfo = 0 + GBO;
@@ -301,12 +303,14 @@ namespace PKHeX.Core
                     Daycare = 0x15FC + GBO;
                     OFS_WALKER = 0xE70C + GBO;
                     Box = 0xF700 + SBO;
+                    Seal = 0x4E20 + GBO;
                     break;
             }
         }
 
         private int WondercardFlags = int.MinValue;
         private int AdventureInfo = int.MinValue;
+        private int Seal = int.MinValue;
 
         // Inventory
         private ushort[] LegalItems, LegalKeyItems, LegalTMHMs, LegalMedicine, LegalBerries, LegalBalls, LegalBattleItems, LegalMailItems;
@@ -1239,5 +1243,12 @@ namespace PKHeX.Core
                 PadToSize = maxLength + 1;
             return StringConverter.SetString4(value, maxLength, PadToSize, PadWith);
         }
+
+        // Seals
+        private const byte SealMaxCount = 99;
+        public byte[] SealCase { get => GetData(Seal, (int) Seal4.MAX); set => SetData(value, Seal); }
+        public byte GetSealCount(Seal4 id) => Data[Seal + (int)id];
+        public byte SetSealCount(Seal4 id, byte count) => Data[Seal + (int)id] = Math.Min(SealMaxCount, count);
+        public void SetAllSeals(byte count, bool unreleased = false) => Enumerable.Repeat(Math.Min(SealMaxCount, count), (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL)).CopyTo(Data, Seal);
     }
 }

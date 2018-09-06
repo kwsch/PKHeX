@@ -40,6 +40,20 @@
         }
 
         /// <summary>
+        /// Executes the provided <see cref="type"/> with the provided parameters.
+        /// </summary>
+        /// <param name="type">Manipulation to perform on the <see cref="SAV"/> box data.</param>
+        /// <param name="box">Single box to modify; if <see cref="allBoxes"/> is set, this param is ignored.</param>
+        /// <param name="allBoxes">Indicates if all boxes are to be manipulated, or just one box.</param>
+        /// <param name="reverse">Manipulation action should be inverted (criteria) or reversed (sort).</param>
+        /// <returns>True if operation succeeded, false if no changes made.</returns>
+        public bool Execute(BoxManipType type, int box, bool allBoxes, bool reverse = false)
+        {
+            var manip = type.GetManip();
+            return Execute(manip, box, allBoxes, reverse);
+        }
+
+        /// <summary>
         /// Sanity check for modifying the box data.
         /// </summary>
         /// <param name="start">Start box</param>
