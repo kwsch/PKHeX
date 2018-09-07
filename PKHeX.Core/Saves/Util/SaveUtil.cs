@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using static PKHeX.Core.MessageStrings;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -636,8 +638,7 @@ namespace PKHeX.Core
             }
             catch (ArgumentException)
             {
-                result = new[] {"Error encountered when detecting saves in the following folder:" + Environment.NewLine + folderPath,
-                    "Advise manually scanning to remove bad filenames from the folder." + Environment.NewLine + "Likely caused via Homebrew creating invalid filenames."};
+                result = new[] { MsgFileLoadFailAuto + Environment.NewLine + folderPath, MsgFileLoadFailAutoAdvise + Environment.NewLine + MsgFileLoadFailAutoCause };
                 return false;
             }
         }
@@ -864,6 +865,18 @@ namespace PKHeX.Core
             0x0310, 0x0002, 0x0320, 0x0004, 0x0321, 0x0002
         };
 
+        private static readonly ushort[] formtable_GG = // u16 species, u16 formcount
+        {
+            0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
+            0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0009,
+            0x001A, 0x0002, 0x001B, 0x0002, 0x001C, 0x0002, 0x0025, 0x0002,
+            0x0026, 0x0002, 0x0032, 0x0002, 0x0033, 0x0002, 0x0034, 0x0002,
+            0x0035, 0x0002, 0x0041, 0x0002, 0x004A, 0x0002, 0x004B, 0x0002,
+            0x004C, 0x0002, 0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002,
+            0x005E, 0x0002, 0x0067, 0x0002, 0x0069, 0x0003, 0x0073, 0x0002,
+            0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
+        };
+
         private static int GetDexFormBitIndex(int species, int formct, int start, IReadOnlyList<ushort> formtable)
         {
             int formindex = start;
@@ -1016,8 +1029,10 @@ namespace PKHeX.Core
 
         public static int GetDexFormIndexSM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_SM);
         public static int GetDexFormIndexUSUM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_USUM);
+        public static int GetDexFormIndexGG(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_GG);
         public static int GetDexFormCountSM(int species) => GetDexFormCount(species, formtable_SM);
         public static int GetDexFormCountUSUM(int species) => GetDexFormCount(species, formtable_USUM);
+        public static int GetDexFormCountGG(int species) => GetDexFormCount(species, formtable_GG);
 
         public static int GetCXDVersionID(int gen3version)
         {
@@ -1092,10 +1107,10 @@ namespace PKHeX.Core
 
             return new[]
             {
-                (ushort)((oldKeys[0] & 0xf)         | (oldKeys[1] << 4 & 0xf0)    | (oldKeys[2] << 8 & 0xf00)   | (oldKeys[3] << 12 & 0xf000)),
-                (ushort)((oldKeys[0] >> 4 & 0xf)    | (oldKeys[1] & 0xf0)         | (oldKeys[2] << 4 & 0xf00)   | (oldKeys[3] << 8 & 0xf000)),
-                (ushort)((oldKeys[2] & 0xf00)       | (oldKeys[1] & 0xf00) >> 4   | (oldKeys[0] & 0xf00) >> 8   | (oldKeys[3] << 4 & 0xf000)),
-                (ushort)((oldKeys[0] >> 12 & 0xf)   | (oldKeys[1] >> 8 & 0xf0)    | (oldKeys[2] >> 4 & 0xf00)   | (oldKeys[3] & 0xf000)),
+                (ushort)((oldKeys[0] >> 00 & 0xf) | (oldKeys[1] << 4 & 0xf0) | (oldKeys[2] << 8 & 0xf00) | (oldKeys[3] << 12 & 0xf000)),
+                (ushort)((oldKeys[0] >> 04 & 0xf) | (oldKeys[1] << 0 & 0xf0) | (oldKeys[2] << 4 & 0xf00) | (oldKeys[3] << 08 & 0xf000)),
+                (ushort)((oldKeys[0] >> 08 & 0xf) | (oldKeys[1] >> 4 & 0xf0) | (oldKeys[2] >> 0 & 0xf00) | (oldKeys[3] << 04 & 0xf000)),
+                (ushort)((oldKeys[0] >> 12 & 0xf) | (oldKeys[1] >> 8 & 0xf0) | (oldKeys[2] >> 4 & 0xf00) | (oldKeys[3] << 00 & 0xf000)),
             };
         }
 
@@ -1105,7 +1120,7 @@ namespace PKHeX.Core
         /// <param name="G7TID">Desired G7TID</param>
         /// <param name="minimizeSID">Optional param to yield minimum SID.</param>
         /// <returns>16bit TID/SID tuple</returns>
-        public static Tuple<uint, uint> GetTIDSID(uint G7TID, bool minimizeSID = false)
+        public static Tuple<ushort, ushort> GetTIDSID(uint G7TID, bool minimizeSID = false)
         {
             // 32 bit number = 4294 967295
             // lowest 6 digits G7TID
@@ -1120,10 +1135,10 @@ namespace PKHeX.Core
                 s7 = (uint)Util.Rand.Next(0, (int)s7);
                 val += s7 * 1000000;
             }
-            uint TID = val & 0xFFFF;
-            uint SID = val >> 16;
+            var TID = (ushort)(val & 0xFFFF);
+            var SID = (ushort)(val >> 16);
 
-            return new Tuple<uint, uint>(TID, SID);
+            return new Tuple<ushort, ushort>(TID, SID);
         }
 
         /// <summary>

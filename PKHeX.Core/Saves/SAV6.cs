@@ -55,7 +55,6 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_6; // OR
 
         // Feature Overrides
-        public override bool HasGeolocation => true;
 
         // Blocks & Offsets
         private readonly int BlockInfoOffset;
