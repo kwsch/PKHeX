@@ -78,7 +78,6 @@ namespace PKHeX.Core
         public int QRSaveData;
 
         // Feature Overrides
-        public override bool HasGeolocation => true;
 
         // Blocks & Offsets
         private readonly int BlockInfoOffset;

@@ -116,8 +116,6 @@ namespace PKHeX.Core
         public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
         public virtual bool HasNamableBoxes => HasBoxWallpapers;
-        public virtual bool HasSUBE => SUBE > -1 && !ORAS;
-        public virtual bool HasGeolocation => false;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
         public bool HasEvents => EventFlags != null;
         public bool HasLink => (ORAS && !ORASDEMO) || XY;
@@ -132,7 +130,6 @@ namespace PKHeX.Core
         public abstract int NickLength { get; }
         public virtual int MaxMoney => 9999999;
         public virtual int MaxCoins => 9999;
-        public virtual int MaxShadowID => 0;
 
         // Offsets
         protected int Box { get; set; } = int.MinValue;

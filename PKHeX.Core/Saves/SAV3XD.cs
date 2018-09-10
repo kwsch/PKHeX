@@ -29,7 +29,7 @@ namespace PKHeX.Core
         private readonly int Memo, Shadow;
         private readonly StrategyMemo StrategyMemo;
         private readonly ShadowInfoTableXD ShadowInfo;
-        public override int MaxShadowID => ShadowInfo.Count;
+        public int MaxShadowID => ShadowInfo.Count;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
