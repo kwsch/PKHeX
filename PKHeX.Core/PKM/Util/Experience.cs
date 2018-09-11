@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Calculations for <see cref="PKM.EXP"/> and <see cref="PKM.CurrentLevel"/>.
+    /// </summary>
     public static class Experience
     {
         /// <summary>
@@ -12,12 +15,12 @@
         {
             int growth = PKX.Personal[species].EXPGrowth;
             int tl = 1; // Initial Level. Iterate upwards to find the level
-            while (ExpTable[++tl, growth] <= exp)
+            while (ExpTable[tl, growth] <= exp)
             {
-                if (tl == 100)
-                    return 100;
+                if (++tl == 100)
+                    break;
             }
-            return --tl;
+            return tl;
         }
 
         /// <summary>
@@ -32,7 +35,7 @@
                 return 0;
             if (level > 100)
                 level = 100;
-            return ExpTable[level, PKX.Personal[species].EXPGrowth];
+            return ExpTable[level - 1, PKX.Personal[species].EXPGrowth];
         }
 
         /// <summary>
@@ -53,8 +56,8 @@
             if (level >= 100)
                 return 0;
             var growth = PKX.Personal[species].EXPGrowth;
-            var current = ExpTable[level, growth];
-            var next = ExpTable[level + 1, growth];
+            var current = ExpTable[level - 1, growth];
+            var next = ExpTable[level, growth];
             return next - current;
         }
 
@@ -70,8 +73,8 @@
             if (level >= 100)
                 return 0;
             var growth = PKX.Personal[species].EXPGrowth;
-            var current = ExpTable[level, growth];
-            var next = ExpTable[level + 1, growth];
+            var current = ExpTable[level - 1, growth];
+            var next = ExpTable[level, growth];
             var amount = next - current;
             double progress = exp - current;
             return progress / amount;
@@ -79,9 +82,11 @@
 
         #region ExpTable
 
+        /// <summary>
+        /// Experience required for next level [0,99]
+        /// </summary>
         private static readonly uint[,] ExpTable =
         {
-            {0000000, 0000000, 0000000, 0000000, 0000000, 0000000},
             {0000000, 0000000, 0000000, 0000000, 0000000, 0000000},
             {0000008, 0000015, 0000004, 0000009, 0000006, 0000010},
             {0000027, 0000052, 0000013, 0000057, 0000021, 0000033},
