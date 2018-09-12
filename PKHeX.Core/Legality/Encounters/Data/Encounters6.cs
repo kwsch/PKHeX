@@ -363,7 +363,7 @@ namespace PKHeX.Core
         {
             var CosplayPikachu = new EncounterStatic
             {
-                Species = 25, Level = 20, Gender = 1, Ability = 4, IV3 = true,
+                Species = 25, Level = 20, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1 }, IV3 = true,
                 Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
             };
             foreach (int loc in new[] { 178, 180, 186, 194 })
