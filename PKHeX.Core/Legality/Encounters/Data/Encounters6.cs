@@ -379,7 +379,7 @@ namespace PKHeX.Core
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_XY =
         {
-            new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, }, // Magikarp
+            new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, IVs = new[] {-1, 31, -1, -1, 31, -1 }, }, // Magikarp
             new EncounterTrade { Species = 133, Level = 5, Ability = 1, Gender = 1, TID = 29294, Nature = Nature.Docile, }, // Eevee
 
             new EncounterTrade { Species = 83, Level = 10, Ability = 1, Gender = 0, TID = 00185, Nature = Nature.Jolly, IVs = new[] {-1, -1, -1, 31, -1, -1}, }, // Farfetch'd
