@@ -16,10 +16,10 @@ namespace PKHeX.Core
 
         protected PokeListGB(byte[] d, PokeListType c = PokeListType.Single, bool jp = false)
         {
-            Data = d ?? GetEmptyList(c, jp);
-            StringLength = GetStringLength(jp);
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
+            StringLength = GetStringLength(jp);
+            Data = d ?? GetEmptyList(c, jp);
             var dataSize = 2 + (Capacity * (Entry_Size + 1 + (2 * StringLength)));
 
             if (Data.Length != dataSize)
