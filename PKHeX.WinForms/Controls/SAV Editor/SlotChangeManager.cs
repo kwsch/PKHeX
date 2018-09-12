@@ -228,7 +228,7 @@ namespace PKHeX.WinForms.Controls
             if (pk.Species == 0)
                 return;
 
-            var name = PKX.GetResourceStringSprite(pk.Species, pk.AltForm, pk.Gender, pk.Format).Replace('_','-');
+            var name = PKX.GetResourceStringSprite(pk.Species, pk.AltForm, pk.Gender, pk.Format).Replace('_','-').Substring(1);
             var path = Path.Combine(Main.CryPath, $"{name}.wav");
             if (!File.Exists(path))
             {
