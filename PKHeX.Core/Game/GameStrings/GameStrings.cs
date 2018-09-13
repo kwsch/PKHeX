@@ -160,8 +160,8 @@ namespace PKHeX.Core
             itemlist[736] += " (OR/AS)"; // S.S. Ticket
             itemlist[463] += " (DPPt)"; // Storage Key
             itemlist[734] += " (OR/AS)"; // Storage Key
-            itemlist[478] += " (HG/SS)"; // Basement Key
-            itemlist[478] += " (OR/AS)"; // Basement Key
+            itemlist[476] += " (HG/SS)"; // Basement Key
+            itemlist[723] += " (OR/AS)"; // Basement Key
             itemlist[621] += " (M)"; // Xtransceiver
             itemlist[626] += " (F)"; // Xtransceiver
             itemlist[629] += " (2)"; // DNA Splicers
