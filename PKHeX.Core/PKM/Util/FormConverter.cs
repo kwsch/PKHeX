@@ -409,10 +409,10 @@ namespace PKHeX.Core
                     return new[]
                     {
                         forms[718], // 50% (Aura Break)
-                        "10%", // (Aura Break)
-                        "10%-C", // Cell (Power Construct)
-                        "50%-C", // Cell (Power Construct)
-                        "100%-C" // Cell (Power Construct)
+                        forms[1013], // 10% (Aura Break)
+                        forms[1014] + "-C", // 10% Cell (Power Construct)
+                        forms[1015] + "-C", // 50% Cell (Power Construct)
+                        forms[1016], // 100% Cell (Power Construct)
                     };
             }
         }
