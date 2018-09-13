@@ -51,7 +51,7 @@ namespace PKHeX.Core
         private int GetOffsetPKMOT(int base_ofs, int i) => GetOffsetPKMData(base_ofs, Capacity) + (StringLength * i);
         private int GetOffsetPKMNickname(int base_ofs, int i) => GetOffsetPKMOT(base_ofs, Capacity) + (StringLength * i);
 
-        private static int GetStringLength(bool jp) => jp ? PK1.STRLEN_J : PK1.STRLEN_U;
+        private static int GetStringLength(bool jp) => jp ? _K12.STRLEN_J : _K12.STRLEN_U;
         protected bool IsFormatParty => IsCapacityPartyFormat((PokeListType)Capacity);
         protected static bool IsCapacityPartyFormat(PokeListType Capacity) => Capacity == PokeListType.Single || Capacity == PokeListType.Party;
 
