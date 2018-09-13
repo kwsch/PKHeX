@@ -19,9 +19,10 @@ http://projectpokemon.org/pkhex/
  - Changed: Key item sprite now shows instead of "?" for key item mystery gifts.
  - Changed: Spanish translations updated. Thanks @ajtudela!
  - Fixed: PK1<->PK2 transfers now set current level & hp. Thanks HaxAras & Vladcik!
+ - Fixed: PK2 parties now save correctly. Thanks AcroBlade!
  - Fixed: Clicking Relearn Moves groupbox under certain conditions no longer causes an error message. Thanks @ajtudela!
 
-18/08/03 - New Update:
+18/08/03 - New Update: (58852) [1345797]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks @iiippppk, @WEERSOQUEER, @PrometheusG, @NinFanBoyFTW, paf, Cloud AC!
  - - Added: Unavailable bred hidden abilities are now flagged for Gen5 origin entities (now covers all gens).

@@ -578,8 +578,7 @@ namespace PKHeX.Core
                     return "Pokeball"; // Vivillon
                 case 718: // Zygarde
                     form = form.Replace("-C", string.Empty);
-                    form = form.Replace("50%", string.Empty);
-                    return form.Replace("100%", "Complete");
+                    return form.Replace("50%", string.Empty);
                 case 774: // Minior
                     if (form.StartsWith("M-"))
                         return "Meteor";
@@ -618,7 +617,7 @@ namespace PKHeX.Core
                 case 718 when string.IsNullOrWhiteSpace(form):
                     return "50%";
                 case 718 when form == "Complete":
-                    return "100%";
+                    return form;
                 case 718 when ability == 211:
                     return "-C"; // Power Construct
 
