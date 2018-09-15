@@ -643,7 +643,9 @@ namespace PKHeX.Core
             // Ignore if there is an invalid move or an empty move, this validation is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
             // Ignore Mr. Mime and Sudowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
             // Ignore if encounter species is the evolution species, the pokemon was not evolved by the player
-            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3) || info.EncounterMatch.Species == pkm.Species)
+            if (info.EncounterMatch.Species == pkm.Species)
+                return;
+            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && info.Generation <= 3))
                 return;
 
             var ValidMoves = Legal.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
