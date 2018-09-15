@@ -511,9 +511,7 @@ namespace PKHeX.Core
             {189, "Mantine Surf Plays"},
             {190, "Photo Club Photos saved"},
             {191, "Battle Agency Battles"},
-
-
-
+            // 192-194 unknown
             {195, "Photo Club Sticker usage"},
             {196, "Photo Club Photo Shoots"},
             {197, "Highest Wormhole Travel Distance"},

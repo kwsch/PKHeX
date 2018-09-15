@@ -10,6 +10,7 @@ namespace PKHeX.Core
     public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
+
         public override string Filter
         {
             get
@@ -44,6 +45,7 @@ namespace PKHeX.Core
         private readonly SAV3GCMemoryCard MC;
         private bool IsMemoryCardSave => MC != null;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+
         public SAV3Colosseum(byte[] data = null)
         {
             Data = data ?? new byte[SaveUtil.SIZE_G3COLO];
@@ -56,7 +58,7 @@ namespace PKHeX.Core
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
             {
-                int slotOffset = SLOT_START + i * SLOT_SIZE;
+                int slotOffset = SLOT_START + (i * SLOT_SIZE);
                 int SaveCounter = BigEndian.ToInt32(Data, slotOffset + 4);
                 if (SaveCounter <= SaveCount)
                     continue;
@@ -68,7 +70,7 @@ namespace PKHeX.Core
             // Decrypt most recent save slot
             {
                 byte[] slot = new byte[SLOT_SIZE];
-                int slotOffset = SLOT_START + SaveIndex * SLOT_SIZE;
+                int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
                 Array.Copy(Data, slotOffset, slot, 0, slot.Length);
                 byte[] digest = new byte[20];
                 Array.Copy(slot, SLOT_SIZE - 20, digest, 0, digest.Length);
@@ -107,8 +109,10 @@ namespace PKHeX.Core
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
             for (int i = 0; i < 6; i++)
+            {
                 if (GetPartySlot(GetPartyOffset(i)).Species != 0)
                     PartyCount++;
+            }
         }
 
         public override byte[] Write(bool DSV, bool GCI)
@@ -122,7 +126,7 @@ namespace PKHeX.Core
 
             // Put save slot back in original save data
             byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
-            Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex*SLOT_SIZE, newSAV.Length);
+            Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
             if (!IsMemoryCardSave || GCI)
@@ -164,6 +168,7 @@ namespace PKHeX.Core
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();
         public void Dispose() => sha1?.Dispose();
+
         private byte[] EncryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
@@ -184,6 +189,7 @@ namespace PKHeX.Core
             }
             return d;
         }
+
         private byte[] DecryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
@@ -205,6 +211,7 @@ namespace PKHeX.Core
             }
             return d;
         }
+
         protected override void SetChecksums()
         {
             // Clear Header Checksum
@@ -232,7 +239,9 @@ namespace PKHeX.Core
             // Set Header Checksum
             BigEndian.GetBytes(newHC).CopyTo(Data, 12);
         }
+
         public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
+
         public override string ChecksumInfo
         {
             get
@@ -274,24 +283,29 @@ namespace PKHeX.Core
         // Storage
         public override int GetPartyOffset(int slot)
         {
-            return Party + SIZE_STORED * slot;
+            return Party + (SIZE_STORED * slot);
         }
+
         public override int GetBoxOffset(int box)
         {
-            return Box + (30 * SIZE_STORED + 0x14)*box + 0x14;
+            return Box + (((30 * SIZE_STORED) + 0x14)*box) + 0x14;
         }
+
         public override string GetBoxName(int box)
         {
-            return GetString(Box + 0x24A4*box, 16);
+            return GetString(Box + (0x24A4 * box), 16);
         }
+
         public override void SetBoxName(int box, string value)
         {
-            SetString(value, 8).CopyTo(Data, Box + 0x24A4*box);
+            SetString(value, 8).CopyTo(Data, Box + (0x24A4 * box));
         }
+
         public override PKM GetPKM(byte[] data)
         {
             return new CK3(data.Take(SIZE_STORED).ToArray());
         }
+
         public override byte[] DecryptPKM(byte[] data)
         {
             return data;
@@ -307,6 +321,7 @@ namespace PKHeX.Core
             if (pk.OriginalRegion == 0)
                 pk.OriginalRegion = 2; // NTSC-U
         }
+
         protected override void SetDex(PKM pkm)
         {
             // Dex Related
@@ -331,16 +346,19 @@ namespace PKHeX.Core
             get => TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128);
             set => BigEndian.GetBytes((uint)(value.TotalSeconds * 128) + 0x47000000).CopyTo(Data, 40);
         }
+
         public override int PlayedHours
         {
             get => (ushort)PlayedSpan.Hours;
             set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.Hours) + TimeSpan.FromHours(value); }
         }
+
         public override int PlayedMinutes
         {
             get => (byte)PlayedSpan.Minutes;
             set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromMinutes(time.Minutes) + TimeSpan.FromMinutes(value); }
         }
+
         public override int PlayedSeconds
         {
             get => (byte)PlayedSpan.Seconds;
@@ -394,6 +412,7 @@ namespace PKHeX.Core
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
         public override string GetString(int Offset, int Length) => StringConverter.GetBEString3(Data, Offset, Length);
+
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

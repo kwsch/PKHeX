@@ -21,6 +21,7 @@ namespace PKHeX.Core
             new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
         };
+
         private static IEnumerable<MysteryGift> GetIngameCXDData()
         {
             var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
@@ -43,6 +44,7 @@ namespace PKHeX.Core
                 };
             }
         }
+
         internal static readonly MysteryGift[] Encounter_Event3 = Encounter_Event3_Special.Concat(GetIngameCXDData()).ToArray();
 
         internal static readonly MysteryGift[] Encounter_Event3_FRLG =

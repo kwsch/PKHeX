@@ -31,6 +31,7 @@ namespace PKHeX.Core
         }
 
         public void SetBlock(byte[] data, int offset) => Data.CopyTo(data, offset);
+
         public static PokeBlock3 GetBlock(byte[] data, int offset)
         {
             byte[] result = new byte[SIZE];

@@ -30,6 +30,7 @@ namespace PKHeX.Core
             new OPowerFlagSet(3, Critical),
             new OPowerFlagSet(3, Accuracy),
         };
+
         static OPower6()
         {
             int index = 1; // Skip unused byte
@@ -42,6 +43,7 @@ namespace PKHeX.Core
 
         private readonly byte[] Data;
         private readonly int Offset;
+
         public OPower6(byte[] data, int offset)
         {
             Offset = offset;
@@ -71,6 +73,7 @@ namespace PKHeX.Core
         public void UnlockAll() => ToggleFlags(allEvents: true);
         public void UnlockRegular() => ToggleFlags();
         public void ClearAll() => ToggleFlags(clearOnly: true);
+
         private void ToggleFlags(bool allEvents = false, bool clearOnly = false)
         {
             foreach (var m in Mapping)

@@ -297,7 +297,7 @@ namespace PKHeX.Core
             // This pokemon could only have 3 moves from preevolutions that are not the move used to evolved
             // including special and eggs moves before realearn generations
             if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
-                ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, learnInfo.IncenseMoves, info);
+                ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, info);
         }
 
         private static void ParseMovesByGeneration(PKM pkm, IList<CheckMoveResult> res, int gen, LegalInfo info, LearnInfo learnInfo)
@@ -638,7 +638,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseEvolutionLevelupMove(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> IncenseMovesLearned, LegalInfo info)
+        private static void ParseEvolutionLevelupMove(PKM pkm, IList<CheckMoveResult> res, int[] moves, LegalInfo info)
         {
             // Ignore if there is an invalid move or an empty move, this validation is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
             // Ignore Mr. Mime and Sudowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
@@ -882,6 +882,7 @@ namespace PKHeX.Core
 
         private static readonly int[] G2 = {2};
         private static readonly int[] G12 = {1, 2};
+
         private static int[] GetGenMovesCheckOrderGB(PKM pkm, int originalGeneration)
         {
             if (originalGeneration == 2)

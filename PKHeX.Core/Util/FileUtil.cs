@@ -130,6 +130,7 @@ namespace PKHeX.Core
             pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
             return pk != null;
         }
+
         /// <summary>
         /// Tries to get an <see cref="IEnumerable{T}"/> object from the input parameters.
         /// </summary>
