@@ -343,13 +343,15 @@ namespace PKHeX.Core
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
         public string[] QRText => this.GetQRLines();
 
-        public virtual string FileName
+        public string FileName => $"{FileNameWithoutExtension}.{Extension}";
+
+        public virtual string FileNameWithoutExtension
         {
             get
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : "";
                 string star = IsShiny ? " ★" : "";
-                return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}.{Extension}";
+                return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}";
             }
         }
 
