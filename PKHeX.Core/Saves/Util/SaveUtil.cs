@@ -237,16 +237,7 @@ namespace PKHeX.Core
                     continue;
                 if (BlockOrder.Count(v => v == 0) == BlockOrder.Length)
                     continue;
-                uint GameCode = BitConverter.ToUInt32(data, (Block0 * 0x1000) + 0xAC + ofs);
-                switch (GameCode)
-                {
-                    case 0: return GameVersion.RS;
-                    case 1: return GameVersion.FRLG;
-                    case uint.MaxValue: return GameVersion.Unknown;  // what a hack
-                    default: return BitConverter.ToUInt32(data, (Block0 * 0x1000) + 0x1F4 + ofs) == 0
-                            ? GameVersion.RS
-                            : GameVersion.E;
-                }
+                return SAV3.GetVersion(data, (0x1000 * Block0) + ofs);
             }
             return GameVersion.Invalid;
         }

@@ -72,14 +72,6 @@ namespace PKHeX.Core
             BAK = (byte[])Data.Clone();
             Exportable = !IsRangeEmpty(0, Data.Length);
 
-            if (data == null)
-                Version = GameVersion.FRLG;
-            else if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else Version = SaveUtil.GetIsG3SAV(Data);
-            if (Version == GameVersion.Invalid)
-                return;
-
             int[] BlockOrder1 = GetBlockOrder(0);
             if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
@@ -99,6 +91,13 @@ namespace PKHeX.Core
                 int index = Array.IndexOf(BlockOrder, i);
                 BlockOfs[i] = index < 0 ? int.MinValue : (index * SIZE_BLOCK) + ABO;
             }
+
+            if (data == null)
+                Version = GameVersion.FRLG;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else
+                Version = GetVersion(Data, BlockOfs[0]);
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
@@ -195,6 +194,27 @@ namespace PKHeX.Core
             var count1 = BitConverter.ToUInt32(Data, (zeroBlock1 * SIZE_BLOCK) + 0x0FFC);
             var count2 = BitConverter.ToUInt32(Data, (zeroBlock2 * SIZE_BLOCK) + 0xEFFC);
             return count1 > count2 ? 0 : 1;
+        }
+
+        public static GameVersion GetVersion(byte[] data, int block0Ofs)
+        {
+            uint GameCode = BitConverter.ToUInt32(data, block0Ofs + 0xAC);
+            switch (GameCode)
+            {
+                case 1: return GameVersion.FRLG; // fixed value
+                case 0: return GameVersion.RS; // no battle tower record data
+                case uint.MaxValue: return GameVersion.Unknown; // what a hack
+                default:
+                    // Ruby doesn't set data as far down as Emerald.
+                    // 00 FF 00 00 00 00 00 00 00 FF 00 00 00 00 00 00
+                    // ^ byte pattern in Emerald saves, is all zero in Ruby/Sapphire as far as I can tell.
+                    // Some saves have had data @ 0x550
+                    if (BitConverter.ToUInt64(data, block0Ofs + 0xEE0) != 0)
+                        return GameVersion.E;
+                    if (BitConverter.ToUInt64(data, block0Ofs + 0xEE8) != 0)
+                        return GameVersion.E;
+                    return GameVersion.RS;
+            }
         }
 
         protected override byte[] Write(bool DSV)
