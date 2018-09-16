@@ -192,9 +192,9 @@ namespace PKHeX.Core
                 return 0;
             if (zeroBlock1 < 0)
                 return 1;
-            var count1 = BitConverter.ToUInt32(Data, (zeroBlock1 * SIZE_BLOCK) + 0xFFC);
+            var count1 = BitConverter.ToUInt32(Data, (zeroBlock1 * SIZE_BLOCK) + 0x0FFC);
             var count2 = BitConverter.ToUInt32(Data, (zeroBlock2 * SIZE_BLOCK) + 0xEFFC);
-            return count1 < count2 ? 0 : 1;
+            return count1 > count2 ? 0 : 1;
         }
 
         protected override byte[] Write(bool DSV)
