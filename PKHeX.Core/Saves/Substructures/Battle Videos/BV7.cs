@@ -5,6 +5,7 @@ namespace PKHeX.Core
     public class BV7 : BattleVideo
     {
         internal const int SIZE = 0x2BC0;
+
         internal new static bool IsValid(byte[] data)
         {
             return data.Length == SIZE;
@@ -30,7 +31,7 @@ namespace PKHeX.Core
                     Teams[t] = new PKM[6];
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = offsets[t] + PKX.SIZE_6PARTY * p;
+                        int offset = offsets[t] + (PKX.SIZE_6PARTY * p);
                         Teams[t][p] = new PK7(Data.Skip(offset).Take(PKX.SIZE_6STORED).ToArray(), $"Team {t}, Slot {p}");
                     }
                 }
@@ -44,7 +45,7 @@ namespace PKHeX.Core
                 {
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = offsets[t] + PKX.SIZE_6PARTY * p;
+                        int offset = offsets[t] + (PKX.SIZE_6PARTY * p);
                         Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
                     }
                 }

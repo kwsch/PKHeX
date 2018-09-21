@@ -20,6 +20,7 @@
         /// RNG Call Value for the Level Calc
         /// </summary>
         public uint RandLevel { get; set; }
+
         /// <summary>
         /// RNG Call Value for the Encounter Slot Calc
         /// </summary>

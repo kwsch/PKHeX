@@ -271,7 +271,7 @@ namespace PKHeX.WinForms.Controls
             LegalityChanged?.Invoke(Legality.Valid, null);
         }
 
-        private List<ComboItem> MoveDataAllowed = new List<ComboItem>();
+        private IReadOnlyList<ComboItem> MoveDataAllowed = new List<ComboItem>();
 
         private void ReloadMoves(IReadOnlyCollection<int> moves)
         {
@@ -1820,7 +1820,7 @@ namespace PKHeX.WinForms.Controls
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            MoveDataAllowed = GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
                 cb.InitializeBinding();

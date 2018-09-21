@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public sealed class SAV3RSBox : SaveFile
     {
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
+
         public override string Filter
         {
             get
@@ -18,10 +19,12 @@ namespace PKHeX.Core
                 return "GameCube Save File|*.gci|All Files|*.*";
             }
         }
+
         public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
         private readonly SAV3GCMemoryCard MC;
         private bool IsMemoryCardSave => MC != null;
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+
         public SAV3RSBox(byte[] data = null)
         {
             Data = data ?? new byte[SaveUtil.SIZE_G3BOX];
@@ -34,7 +37,7 @@ namespace PKHeX.Core
             Blocks = new BlockInfo[2*BLOCK_COUNT];
             for (int i = 0; i < Blocks.Length; i++)
             {
-                int offset = BLOCK_SIZE + i* BLOCK_SIZE;
+                int offset = BLOCK_SIZE + (i * BLOCK_SIZE);
                 Blocks[i] = new BlockInfoRSBOX(Data, offset);
             }
 
@@ -51,7 +54,7 @@ namespace PKHeX.Core
             // Copy block to the allocated location
             const int copySize = BLOCK_SIZE - 0x10;
             foreach (var b in Blocks)
-                Array.Copy(Data, b.Offset + 0xC, Data, (int)(Box + b.ID*copySize), copySize);
+                Array.Copy(Data, b.Offset + 0xC, Data, (int)(Box + (b.ID*copySize)), copySize);
 
             Personal = PersonalTable.RS;
             HeldItems = Legal.HeldItems_RS;
@@ -65,12 +68,13 @@ namespace PKHeX.Core
         private const int BLOCK_COUNT = 23;
         private const int BLOCK_SIZE = 0x2000;
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
+
         public override byte[] Write(bool DSV, bool GCI)
         {
             // Copy Box data back
             const int copySize = BLOCK_SIZE - 0x10;
             foreach (var b in Blocks)
-                Array.Copy(Data, (int)(Box + b.ID * copySize), Data, b.Offset + 0xC, copySize);
+                Array.Copy(Data, (int)(Box + (b.ID * copySize)), Data, b.Offset + 0xC, copySize);
 
             SetChecksums();
 
@@ -126,45 +130,51 @@ namespace PKHeX.Core
 
         // Storage
         public override int GetPartyOffset(int slot) => -1;
-        public override int GetBoxOffset(int box) => Box + 8 + SIZE_STORED * box * 30;
+        public override int GetBoxOffset(int box) => Box + 8 + (SIZE_STORED * box * 30);
+
         public override int CurrentBox
         {
             get => Data[Box + 4] * 2;
             set => Data[Box + 4] = (byte)(value / 2);
         }
+
         protected override int GetBoxWallpaperOffset(int box)
         {
             // Box Wallpaper is directly after the Box Names
-            int offset = Box + 0x1ED19 + box/2;
+            int offset = Box + 0x1ED19 + (box / 2);
             return offset;
         }
+
         public override string GetBoxName(int box)
         {
             // Tweaked for the 1-30/31-60 box showing
-            int lo = 30*(box%2) + 1;
-            int hi = 30*(box%2 + 1);
+            int lo = (30 *(box%2)) + 1;
+            int hi = 30*((box % 2) + 1);
             string boxName = $"[{lo:00}-{hi:00}] ";
             box /= 2;
 
-            int offset = Box + 0x1EC38 + 9 * box;
+            int offset = Box + 0x1EC38 + (9 * box);
             if (Data[offset] == 0 || Data[offset] == 0xFF)
                 boxName += $"BOX {box + 1}";
             boxName += GetString(offset, 9);
 
             return boxName;
         }
+
         public override void SetBoxName(int box, string value)
         {
-            int offset = Box + 0x1EC38 + 9 * box;
+            int offset = Box + 0x1EC38 + (9 * box);
             byte[] data = value == $"BOX {box + 1}" ? new byte[9] : SetString(value, 8);
             SetData(data, offset);
         }
+
         public override PKM GetPKM(byte[] data)
         {
             if (data.Length != PKX.SIZE_3STORED)
                 Array.Resize(ref data, PKX.SIZE_3STORED);
             return new PK3(data);
         }
+
         public override byte[] DecryptPKM(byte[] data)
         {
             if (data.Length != PKX.SIZE_3STORED)
@@ -192,6 +202,7 @@ namespace PKHeX.Core
         }
 
         public override string GetString(int Offset, int Length) => StringConverter.GetString3(Data, Offset, Length, Japanese);
+
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

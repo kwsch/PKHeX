@@ -388,15 +388,19 @@ namespace PKHeX.Core
             {046, "Ran From Battles"},
             {047, "Rock Smash Items"},
             {048, "Medicine Used"},
+            {049, "Pay Day Money Received"},
             {050, "Total Thumbs-Ups"},
             {051, "Times Twirled (Pirouette)"},
             {052, "Record Thumbs-ups"},
             {053, "Pokemon Petted"},
             {054, "Poké Pelago Visits"},
-            {055, "Poké Bean Trades"},
+            {055, "Poké Pelago Bean Trades"},
             {056, "Poké Pelago Tapped Pokémon"},
             {057, "Poké Pelago Bean Stacks put in Crate"},
             {058, "Poké Pelago Levels Gained"},
+            {059, "Poké Pelago Friendship Increased"},
+            {060, "Poké Pelago Eggs Hatched"},
+            {061, "Poké Pelago ???"},
             {062, "Battle Video QR Teams Scanned"},
             {063, "Battle Videos Watched"},
             {064, "Battle Videos Rebattled"},
@@ -407,6 +411,7 @@ namespace PKHeX.Core
             {069, "Items Reeled In"},
             // USUM
             {070, "Roto Lotos"},
+
             {072, "Stickers Collected"},
             {073, "Mantine Surf BP Earned"},
             {074, "Battle Agency Wins"},
@@ -486,7 +491,7 @@ namespace PKHeX.Core
             {172, "Berry Tree Battles won"},
             {173, "Bubbling Spot Encounters/Items"},
             {174, "Times laid down in Own Bed"},
-
+            // global missions
             {175, "Catch a lot of Pokémon!"},
             {176, "Trade Pokémon at the GTS!"},
             {177, "Hatch a lot of Eggs!"},
@@ -496,6 +501,7 @@ namespace PKHeX.Core
             {181, "Catch Crabrawler!"},
             {182, "Defend your Champion title!"},
             {183, "Fish Pokémon at rare spots!"},
+            {184, "Battle Royal!"},
             {185, "Try your luck!"},
             {186, "Get BP at the Battle Tree!"},
             {187, "Catch a lot of Pokémon!"},
@@ -505,6 +511,7 @@ namespace PKHeX.Core
             {189, "Mantine Surf Plays"},
             {190, "Photo Club Photos saved"},
             {191, "Battle Agency Battles"},
+            // 192-194 unknown
             {195, "Photo Club Sticker usage"},
             {196, "Photo Club Photo Shoots"},
             {197, "Highest Wormhole Travel Distance"},

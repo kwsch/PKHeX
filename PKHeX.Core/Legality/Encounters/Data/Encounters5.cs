@@ -678,6 +678,7 @@ namespace PKHeX.Core
 
         internal const int YancyTID = 10303;
         internal const int CurtisTID = 54118;
+
         internal static readonly EncounterTrade[] TradeGift_B2W2_YancyCurtis =
         {
             // player is male
@@ -707,8 +708,10 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
         };
+
         internal static readonly string[] TradeOT_B2W2_F = {null, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", null, "Belinda", "루리"};
         internal static readonly string[] TradeOT_B2W2_M = {null, "テツ", "Curtis", "Julien", "Dadi", "Markus", null, "Julián", "철권"};
+
         internal static readonly string[][] TradeBW =
         {
             new string[0],                       // 0 - None
@@ -721,6 +724,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradebw", "es"), // 7
             Util.GetStringList("tradebw", "ko"), // 8
         };
+
         internal static readonly string[][] TradeB2W2 =
         {
             new string[0],                         // 0 - None
@@ -733,6 +737,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradeb2w2", "es"), // 7
             Util.GetStringList("tradeb2w2", "ko"), // 8
         };
+
         internal static readonly EncounterTrade[] TradeGift_B2W2 = TradeGift_B2W2_Regular.Concat(TradeGift_B2W2_YancyCurtis).ToArray();
 
         #endregion

@@ -15,6 +15,7 @@ namespace PKHeX.Core
         public override string Extension => "";
 
         private const int SAVE_COUNT = 4;
+
         public SAV4BR(byte[] data = null)
         {
             Data = data ?? new byte[SaveUtil.SIZE_G4BR];
@@ -55,7 +56,7 @@ namespace PKHeX.Core
 
         private bool IsOTNamePresent(int i)
         {
-            return BitConverter.ToUInt16(Data, 0x390 + 0x6FF00 * i) != 0;
+            return BitConverter.ToUInt16(Data, 0x390 + (0x6FF00 * i)) != 0;
         }
 
         private readonly uint SaveCount;
@@ -73,6 +74,7 @@ namespace PKHeX.Core
         public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);
 
         private int _currentSlot;
+
         public int CurrentSlot
         {
             get => SaveSlots.IndexOf(_currentSlot);
@@ -115,8 +117,10 @@ namespace PKHeX.Core
             {
                 int ctr = 0;
                 for (int i = 0; i < 6; i++)
+                {
                     if (Data[GetPartyOffset(i) + 4] != 0) // sanity
                         ctr++;
+                }
                 return ctr;
             }
             protected set { }
@@ -130,6 +134,7 @@ namespace PKHeX.Core
             SetChecksum(Data, 0x1C0000, 0x100, 0x1C0008);
             SetChecksum(Data, 0x1C0000, 0x1C0000, 0x1BFF80 + 0x1C0000);
         }
+
         public override bool ChecksumsValid => IsChecksumsValid(Data);
         public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
@@ -143,30 +148,33 @@ namespace PKHeX.Core
 
         // Trainer Info
         public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
+
         private string GetOTName(int i)
         {
-            return Encoding.BigEndianUnicode.GetString(Data, 0x390 + 0x6FF00 * i, 0x10);
+            return Encoding.BigEndianUnicode.GetString(Data, 0x390 + (0x6FF00 * i), 0x10);
         }
 
         // Storage
         public override int GetPartyOffset(int slot)
         {
-            return Party + SIZE_PARTY * slot;
+            return Party + (SIZE_PARTY * slot);
         }
+
         public override int GetBoxOffset(int box)
         {
-            return Box + SIZE_STORED * box * 30;
+            return Box + (SIZE_STORED * box * 30);
         }
 
         // Save file does not have Box Name / Wallpaper info
         private int BoxName = -1;
         private const int BoxNameLength = 0x28;
+
         public override string GetBoxName(int box)
         {
             if (BoxName < 0)
                 return $"BOX {box + 1}";
 
-            var str = Encoding.BigEndianUnicode.GetString(Data, BoxName + box * BoxNameLength, BoxNameLength);
+            var str = Encoding.BigEndianUnicode.GetString(Data, BoxName + (box * BoxNameLength), BoxNameLength);
             str = Util.TrimFromZero(str);
             if (string.IsNullOrWhiteSpace(str))
                 return $"BOX {box + 1}";
@@ -178,7 +186,7 @@ namespace PKHeX.Core
             if (BoxName < 0)
                 return;
 
-            int ofs = BoxName + box * BoxNameLength;
+            int ofs = BoxName + (box * BoxNameLength);
             var str = Encoding.BigEndianUnicode.GetString(Data, ofs, BoxNameLength);
             str = Util.TrimFromZero(str);
             if (string.IsNullOrWhiteSpace(str))
@@ -194,12 +202,14 @@ namespace PKHeX.Core
             PKM bk = new BK4(pkm);
             return bk;
         }
+
         public override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }
 
         protected override void SetDex(PKM pkm) { }
+
         protected override void SetPKM(PKM pkm)
         {
             var pk4 = (BK4)pkm;
@@ -222,16 +232,16 @@ namespace PKHeX.Core
             {
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
+                    keys[i] = BigEndian.ToUInt16(input, base_ofs + (i * 2));
 
                 for (int ofs = base_ofs + 8; ofs < base_ofs + 0x1C0000; ofs += 8)
                 {
                     for (int i = 0; i < keys.Length; i++)
                     {
-                        ushort val = BigEndian.ToUInt16(input, ofs + i*2);
+                        ushort val = BigEndian.ToUInt16(input, ofs + (i * 2));
                         val -= keys[i];
-                        output[ofs + i * 2] = (byte)(val >> 8);
-                        output[ofs + i * 2 + 1] = (byte)val;
+                        output[ofs + (i * 2)] = (byte)(val >> 8);
+                        output[ofs + (i * 2) + 1] = (byte)val;
                     }
                     keys = SaveUtil.AdvanceGCKeys(keys);
                 }
@@ -247,16 +257,16 @@ namespace PKHeX.Core
             {
                 Array.Copy(input, base_ofs, output, base_ofs, 8);
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = BigEndian.ToUInt16(input, base_ofs + i * 2);
+                    keys[i] = BigEndian.ToUInt16(input, base_ofs + (i * 2));
 
                 for (int ofs = base_ofs + 8; ofs < base_ofs + 0x1C0000; ofs += 8)
                 {
                     for (int i = 0; i < keys.Length; i++)
                     {
-                        ushort val = BigEndian.ToUInt16(input, ofs + i * 2);
+                        ushort val = BigEndian.ToUInt16(input, ofs + (i * 2));
                         val += keys[i];
-                        output[ofs + i * 2] = (byte)(val >> 8);
-                        output[ofs + i * 2 + 1] = (byte)val;
+                        output[ofs + (i * 2)] = (byte)(val >> 8);
+                        output[ofs + (i * 2) + 1] = (byte)val;
                     }
                     keys = SaveUtil.AdvanceGCKeys(keys);
                 }
@@ -269,8 +279,8 @@ namespace PKHeX.Core
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + i*4);
-                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + i*4);
+                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
+                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + (i * 4));
             }
 
             uint[] checksums = new uint[16];
@@ -286,7 +296,7 @@ namespace PKHeX.Core
 
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                BigEndian.GetBytes(storedChecksums[i]).CopyTo(input, checksum_offset + i*4);
+                BigEndian.GetBytes(storedChecksums[i]).CopyTo(input, checksum_offset + (i * 4));
             }
 
             return checksums.SequenceEqual(storedChecksums);
@@ -297,8 +307,8 @@ namespace PKHeX.Core
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + i * 4);
-                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + i * 4);
+                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
+                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + (i * 4));
             }
 
             uint[] checksums = new uint[16];
@@ -307,18 +317,17 @@ namespace PKHeX.Core
             {
                 ushort val = BigEndian.ToUInt16(input, offset + i);
                 for (int j = 0; j < 16; j++)
-                {
                     checksums[j] += (uint)((val >> j) & 1);
-                }
             }
 
             for (int i = 0; i < checksums.Length; i++)
             {
-                BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + i * 4);
+                BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + (i * 4));
             }
         }
 
         public override string GetString(int Offset, int Length) => StringConverter.GetBEString4(Data, Offset, Length);
+
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

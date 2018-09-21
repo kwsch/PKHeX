@@ -18,7 +18,7 @@
         public override int NickLength => 10;
 
         // Generated Attributes
-        public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
+        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
         public override bool Japanese => Language == (int)LanguageID.Japanese;
         public override bool WasEvent => Met_Location == 255; // Fateful

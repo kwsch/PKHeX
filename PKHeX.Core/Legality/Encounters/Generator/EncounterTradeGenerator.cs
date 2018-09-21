@@ -127,13 +127,21 @@ namespace PKHeX.Core
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                 return false;
 
-            int index = Array.IndexOf(Encounters2.TradeGift_GSC, z);
-            int otIndex = Encounters2.TradeGift_GSC.Length + index;
+            return IsValidTradeOT12(z, pkm);
+        }
+
+        private static bool IsValidTradeOT12(EncounterTrade z, PKM pkm)
+        {
+            var OT = pkm.OT_Name;
             if (pkm.Japanese)
-                return Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Japanese][otIndex] == pkm.OT_Name;
+                return z.TrainerNames[(int) LanguageID.Japanese] == OT;
             if (pkm.Korean)
-                return Encounters2.TradeGift_GSC_OTs[(int)LanguageID.Korean][otIndex] == pkm.OT_Name;
-            return Array.FindIndex(Encounters2.TradeGift_GSC_OTs, 2, 6, arr => arr.Length > index && arr[otIndex] == pkm.OT_Name) >= 0;
+                return z.TrainerNames[(int)LanguageID.Korean] == OT;
+
+            const int start = (int) LanguageID.English;
+            const int end = (int) LanguageID.Italian;
+            var index = Array.FindIndex(z.TrainerNames, start, end - start, w => w == OT);
+            return index >= 0;
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;

@@ -31,6 +31,7 @@ namespace PKHeX.Core
             Debug.WriteLine($"Fetched {Identifier}: {BaseCount}");
             return BaseCount;
         }
+
         public void SetOPowerLevel(byte[] data, int offset, int value)
         {
             Debug.WriteLine($"Setting {Identifier}: {value}");
@@ -48,6 +49,7 @@ namespace PKHeX.Core
         {
             return data[Offset + offset + index] == (byte)OPowerFlagState.Unlocked;
         }
+
         private void SetFlag(byte[] data, int offset, int index, bool value)
         {
             if (index < Count)

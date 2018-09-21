@@ -6,22 +6,26 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         public static readonly HashSet<int> Empty = new HashSet<int>();
+
         public static readonly int[] Items_Ball =
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
             013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
             851
         };
+
         public static readonly int[] Gen4EncounterTypes = { 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
         public static readonly int[] Fossils = { 138, 140, 142, 345, 347, 408, 410, 564, 566, 696, 698 };
         public static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
+
         public static readonly HashSet<int> WildForms = new HashSet<int>
         {
             422, 423, // Shellos
             550, // Basculin
             669, 670, 671 // Flabébé
         };
+
         public static readonly HashSet<int> SplitBreed = new HashSet<int>
         {
             // Incense
@@ -35,6 +39,7 @@ namespace PKHeX.Core
             315, 407, // Roselia
             358, // Chimecho
         };
+
         /// <summary>
         /// Species that show their default Species sprite regardless of current <see cref="PKM.AltForm"/>
         /// </summary>
@@ -47,6 +52,7 @@ namespace PKHeX.Core
             773, // Silvally
             778, // Mimikyu
         };
+
         /// <summary>
         /// Species that show a <see cref="PKM.Gender"/> specific Sprite
         /// </summary>
@@ -57,6 +63,7 @@ namespace PKHeX.Core
             593, // Jellicent
             668, // Pyroar
         };
+
         public static readonly HashSet<int> FormChange = new HashSet<int> // Pokémon that can change form and retain it
         {
             386, // Deoxys
@@ -79,6 +86,7 @@ namespace PKHeX.Core
 
             800, // Necrozma
         };
+
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
         {
             386, // Deoxys
@@ -86,6 +94,7 @@ namespace PKHeX.Core
             492, // Shaymin
             720, // Hoopa
         };
+
         public static readonly HashSet<int> BreedMaleOnly = new HashSet<int>
         {
             128, // Tauros
@@ -239,6 +248,7 @@ namespace PKHeX.Core
             746, // Wishiwashi
             778, // Mimikyu
         };
+
         public static readonly HashSet<int> BattleMegas = new HashSet<int>
         {
             // XY
@@ -259,6 +269,7 @@ namespace PKHeX.Core
             // USUM
             800, // Ultra Necrozma
         };
+
         public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
 
         public static readonly HashSet<int> Z_Moves = new HashSet<int>
@@ -280,6 +291,7 @@ namespace PKHeX.Core
             647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
             791, 792, 800, 801, 802, 807
         };
+
         public static readonly HashSet<int> SubLegends = new HashSet<int>
         {
             144, 145, 146, 243, 244, 245, 377, 378, 379, 380, 381,
@@ -310,6 +322,7 @@ namespace PKHeX.Core
             700, // Sylveon (Eevee with Fairy Move)
             763, // Tsareena (Steenee with Stomp)
         };
+
         internal static readonly int[] FairyMoves =
         {
             186, // Sweet Kiss
@@ -394,6 +407,7 @@ namespace PKHeX.Core
             // Tsareena (Steenee with Stomp)
             new [] { false, false, false, false, false, false, false, false },
         };
+
         internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
         {
             29, // Nidoran♀
@@ -401,6 +415,7 @@ namespace PKHeX.Core
             313, // Volbeat
             314, // Illumise
         };
+
         internal static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
         {
             290, // Nincada
@@ -443,10 +458,12 @@ namespace PKHeX.Core
             (int) LanguageID.Italian,
             (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
         };
+
         public static readonly int[] Languages_3 =
         {
             (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German, (int) LanguageID.Spanish, (int) LanguageID.Italian,
         };
+
         public static readonly int[] Languages_46 = Languages_GB;
         public static readonly int[] Languages_7 = Languages_46.Concat(new[] { (int)LanguageID.ChineseS, (int)LanguageID.ChineseT }).ToArray();
 

@@ -10,6 +10,7 @@ namespace PKHeX.Core
     {
         private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
         private const int SIZE = 6;
+
         public EvolutionSet6(byte[] data)
         {
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];

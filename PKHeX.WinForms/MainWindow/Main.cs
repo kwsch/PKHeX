@@ -1089,7 +1089,7 @@ namespace PKHeX.WinForms
             // Create Temp File to Drag
             PKM pkx = PreparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+            string fn = pkx.FileNameWithoutExtension;
             string filename = fn + (encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}");
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file

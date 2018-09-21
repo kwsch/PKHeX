@@ -130,6 +130,7 @@ namespace PKHeX.Core
             pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
             return pk != null;
         }
+
         /// <summary>
         /// Tries to get an <see cref="IEnumerable{T}"/> object from the input parameters.
         /// </summary>
@@ -177,6 +178,43 @@ namespace PKHeX.Core
         {
             mg = MysteryGift.GetMysteryGift(data, ext);
             return mg != null;
+        }
+
+        /// <summary>
+        /// Gets a Temp location File Name for the <see cref="PKM"/>.
+        /// </summary>
+        /// <param name="pk">Data to be exported</param>
+        /// <param name="encrypt">Data is to be encrypted</param>
+        /// <returns>Path to temporary file location to write to.</returns>
+        public static string GetPKMTempFileName(PKM pk, bool encrypt)
+        {
+            string fn = pk.FileNameWithoutExtension;
+            string filename = fn + (encrypt ? $".ek{pk.Format}" : $".{pk.Extension}");
+
+            return Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+        }
+
+        /// <summary>
+        /// Gets a <see cref="PKM"/> from the provided <see cref="file"/> path, which is to be loaded to the <see cref="SaveFile"/>.
+        /// </summary>
+        /// <param name="file"><see cref="PKM"/> or <see cref="MysteryGift"/> file path.</param>
+        /// <param name="SAV">Generation Info</param>
+        /// <returns>New <see cref="PKM"/> reference from the file.</returns>
+        public static PKM GetSingleFromPath(string file, ITrainerInfo SAV)
+        {
+            var fi = new FileInfo(file);
+            if (!fi.Exists)
+                return null;
+            if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
+                return null;
+            var data = File.ReadAllBytes(file);
+            var ext = fi.Extension;
+            var mg = MysteryGift.GetMysteryGift(data, ext);
+            var gift = mg?.ConvertToPKM(SAV);
+            if (gift != null)
+                return gift;
+            int prefer = PKX.GetPKMFormatFromExtension(ext, SAV.Generation);
+            return PKMConverter.GetPKMfromBytes(data, prefer: prefer);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -217,10 +218,8 @@ namespace PKHeX.WinForms.Controls
                 ShowSet.RemoveAll();
                 return;
             }
-            var set = new ShowdownSet(pk);
-            if (pk.Format <= 2) // Nature preview from IVs
-                set.Nature = Experience.GetNatureVC(pk.EXP);
-            ShowSet.SetToolTip(pb, set.LocalizedText(Settings.Default.Language));
+            var text = GetLocalizedPreviewText(pk);
+            ShowSet.SetToolTip(pb, text);
         }
 
         private void PlayCry(PKM pk)
@@ -279,12 +278,10 @@ namespace PKHeX.WinForms.Controls
         {
             byte[] dragdata = SAV.DecryptPKM(DragInfo.Source.OriginalData);
             Array.Resize(ref dragdata, SAV.SIZE_STORED);
-            PKM pkx = SAV.GetPKM(dragdata);
-            string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
-            string filename = fn + (encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}");
 
             // Make File
-            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+            PKM pkx = SAV.GetPKM(dragdata);
+            string newfile = FileUtil.GetPKMTempFileName(pkx, encrypt);
             try
             {
                 TryMakeDragDropPKM(pb, encrypt, pkx, newfile, out external);
@@ -369,25 +366,17 @@ namespace PKHeX.WinForms.Controls
             WinFormsUtil.Alert(msg);
         }
 
-        private bool TryLoadFiles(string[] files, DragEventArgs e, bool noEgg)
+        private bool TryLoadFiles(IReadOnlyList<string> files, DragEventArgs e, bool noEgg)
         {
-            if (files.Length <= 0)
+            if (files.Count == 0)
                 return false;
-            string file = files[0];
-            FileInfo fi = new FileInfo(file);
-            if (!fi.Exists)
-                return false;
-            if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
+
+            var temp = FileUtil.GetSingleFromPath(files[0], SAV);
+            if (temp == null)
             {
                 RequestExternalDragDrop?.Invoke(this, e); // pass thru
                 return true; // treat as handled
             }
-
-            byte[] data = File.ReadAllBytes(file);
-            MysteryGift mg = MysteryGift.GetMysteryGift(data, fi.Extension);
-            if (fi.Extension.Length > 0 || !int.TryParse(fi.Extension[fi.Extension.Length - 1].ToString(), out var prefer))
-                prefer = SAV.Generation;
-            PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data, prefer: prefer);
 
             PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
             if (pk == null)
@@ -565,14 +554,7 @@ namespace PKHeX.WinForms.Controls
             if (index == other)
                 return;
             SAV.SwapBox(index, other);
-
-            foreach (var box in Boxes)
-            {
-                if (box.CurrentBox != index && box.CurrentBox != other)
-                    continue;
-                box.ResetSlots();
-                box.ResetBoxNames(box.CurrentBox);
-            }
+            UpdateBoxViewAtBoxIndexes(index, other);
         }
 
         public void Dispose()
@@ -582,6 +564,26 @@ namespace PKHeX.WinForms.Controls
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
             ColorizedColor?.Dispose();
+        }
+
+        private void UpdateBoxViewAtBoxIndexes(params int[] boxIndexes)
+        {
+            foreach (var box in Boxes)
+            {
+                var current = box.CurrentBox;
+                if (!boxIndexes.Contains(current))
+                    continue;
+                box.ResetSlots();
+                box.ResetBoxNames(current);
+            }
+        }
+
+        private static string GetLocalizedPreviewText(PKM pk)
+        {
+            var set = new ShowdownSet(pk);
+            if (pk.Format <= 2) // Nature preview from IVs
+                set.Nature = Experience.GetNatureVC(pk.EXP);
+            return set.LocalizedText(Settings.Default.Language);
         }
     }
 }
