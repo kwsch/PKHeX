@@ -56,6 +56,7 @@ namespace PKHeX.Core
                     return CalcSlot(ESV, H_Regular);
             }
         }
+
         private static int KSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
@@ -84,6 +85,7 @@ namespace PKHeX.Core
                     return CalcSlot(ESV, H_Regular);
             }
         }
+
         private static int JSlot(SlotType type, uint rand)
         {
             uint ESV = rand / 656;
@@ -145,6 +147,7 @@ namespace PKHeX.Core
 
             return slot.LevelMin + adjust;
         }
+
         public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             if (slot.Type.IsSweetScentType())
@@ -152,6 +155,7 @@ namespace PKHeX.Core
             return true; // todo
             //return GetCanEncounter(slot, frameType, rand, lead);
         }
+
         private static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;

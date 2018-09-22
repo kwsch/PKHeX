@@ -129,6 +129,20 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects based on the provided filter operations.
+        /// </summary>
+        /// <param name="list">Source list to sort</param>
+        /// <param name="filters">Filter operations to sort with (sorted with ThenBy after the initial sort).</param>
+        /// <returns>Enumerable list that is sorted</returns>
+        /// <remarks>Boolean sort doesn't pair well with <see cref="FinalSortBy"/>, so just keep original sorting order.</remarks>
+        public static IEnumerable<PKM> OrderByCustom(this IEnumerable<PKM> list, params Func<PKM, bool>[] filters)
+        {
+            var init = list.InitialSortBy();
+            return filters.Aggregate(init, (current, f) => current.ThenBy(f))
+                ;
+        }
+
+        /// <summary>
         /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects in reverse.
         /// </summary>
         /// <param name="list">Source list to revese sort</param>

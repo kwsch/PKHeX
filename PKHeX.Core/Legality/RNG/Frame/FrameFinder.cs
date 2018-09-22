@@ -75,6 +75,7 @@ namespace PKHeX.Core
                     yield return frame;
             }
         }
+
         private static IEnumerable<Frame> GenerateLeadSpecificFrames3(Frame f, FrameGenerator info)
         {
             // Check leads -- none in list if leads are not allowed
@@ -177,6 +178,7 @@ namespace PKHeX.Core
                     yield return frame;
             }
         }
+
         private static IEnumerable<Frame> GenerateLeadSpecificFrames4(Frame f, FrameGenerator info)
         {
             LeadRequired lead;
@@ -300,6 +302,7 @@ namespace PKHeX.Core
                 }
             }
         }
+
         private static bool IsValidPokeBlockNature(uint seed, uint nature, out uint natureOrigin)
         {
             if (nature % 6 == 0) // neutral

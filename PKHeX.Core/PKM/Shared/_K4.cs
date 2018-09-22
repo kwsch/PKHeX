@@ -16,8 +16,9 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
 
-        public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
+        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
+
         public override int Characteristic
         {
             get
@@ -33,7 +34,7 @@ namespace PKHeX.Core
                     if (IVs[pm6stat] == maxIV)
                         break; // P%6 is this stat
                 }
-                return pm6stat * 5 + maxIV % 5;
+                return (pm6stat * 5) + (maxIV % 5);
             }
         }
 
@@ -49,7 +50,7 @@ namespace PKHeX.Core
         public override int AbilityNumber { get => 1 << PIDAbility; set { } }
 
         // Legality Extensions
-        public override bool WasEvent => Met_Location >= 3000 && Met_Location <= 3076 || FatefulEncounter;
+        public override bool WasEvent => (Met_Location >= 3000 && Met_Location <= 3076) || FatefulEncounter;
         public override bool WasIngameTrade => Met_Location == 2001; // Trade
         public override bool WasEventEgg => WasEgg && Species == 490; // Manaphy was the only generation 4 released event egg
 
@@ -337,13 +338,13 @@ namespace PKHeX.Core
             // Transfer Trash Bytes
             for (int i = 0; i < 11; i++) // Nickname
             {
-                pk.Data[0x48 + 2*i] = Data[0x48 + 2*i + 1];
-                pk.Data[0x48 + 2*i + 1] = Data[0x48 + 2*i];
+                pk.Data[0x48 + (2 * i)] = Data[0x48 + (2 * i) + 1];
+                pk.Data[0x48 + (2 * i) + 1] = Data[0x48 + (2 * i)];
             }
             for (int i = 0; i < 8; i++) // OT_Name
             {
-                pk.Data[0x68 + 2*i] = Data[0x68 + 2*i + 1];
-                pk.Data[0x68 + 2*i + 1] = Data[0x68 + 2*i];
+                pk.Data[0x68 + (2 * i)] = Data[0x68 + (2 * i) + 1];
+                pk.Data[0x68 + (2 * i) + 1] = Data[0x68 + (2 * i)];
             }
             return pk;
         }

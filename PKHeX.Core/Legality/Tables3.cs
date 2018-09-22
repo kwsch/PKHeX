@@ -14,6 +14,7 @@ namespace PKHeX.Core
         internal const int MaxAbilityID_3 = 77;
         internal const int MaxBallID_3 = 0xC;
         internal const int MaxGameID_3 = 15; // CXD
+
         /// <summary>
         /// Generation 3 -> Generation 4 Transfer Location (Pal Park)
         /// </summary>
@@ -30,9 +31,11 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Items_RS = {
             13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 63, 64, 65, 66, 67, 68, 69, 70, 71, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 84, 85, 86, 93, 94, 95, 96, 97, 98, 103, 104, 106, 107, 108, 109, 110, 111, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 254, 255, 256, 257, 258
         };
+
         internal static readonly ushort[] Pouch_Key_RS = {
             259, 260, 261, 262, 263, 264, 265, 266, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288
         };
+
         internal static readonly ushort[] Pouch_TM_RS = {
             289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338,
         };
@@ -40,12 +43,15 @@ namespace PKHeX.Core
         public static readonly ushort[] Pouch_HM_RS = {
             339, 340, 341, 342, 343, 344, 345, 346
         };
+
         internal static readonly ushort[] Pouch_Berries_RS = {
             133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175
         };
+
         internal static readonly ushort[] Pouch_Ball_RS = {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
         };
+
         internal static readonly ushort[] Pouch_Key_FRLG = Pouch_Key_RS.Concat(new ushort[] { 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374 }).ToArray();
         internal static readonly ushort[] Pouch_Key_E = Pouch_Key_FRLG.Concat(new ushort[] { 375, 376 }).ToArray();
 
@@ -69,6 +75,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Cologne_COLO = {543, 544, 545};
         internal static readonly ushort[] Pouch_Items_COLO = Pouch_Items_RS.Concat(new ushort[] {537}).ToArray(); // Time Flute
         internal static readonly ushort[] HeldItems_COLO = new ushort[1].Concat(Pouch_Items_COLO).Concat(Pouch_Ball_RS).Concat(Pouch_Berries_RS).Concat(Pouch_TM_RS).ToArray();
+
         internal static readonly ushort[] Pouch_Key_COLO =
         {
             500, 501, 502, 503, 504, 505, 506, 507, 508, 509,
@@ -81,6 +88,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Cologne_XD = {513, 514, 515};
         internal static readonly ushort[] Pouch_Items_XD = Pouch_Items_RS.Concat(new ushort[] {511}).ToArray(); // Poké Snack
         internal static readonly ushort[] HeldItems_XD = new ushort[1].Concat(Pouch_Items_XD).Concat(Pouch_Ball_RS).Concat(Pouch_Berries_RS).Concat(Pouch_TM_RS).ToArray();
+
         internal static readonly ushort[] Pouch_Key_XD =
         {
             500, 501, 502, 503, 504, 505, 506, 507, 508, 509,
@@ -88,6 +96,7 @@ namespace PKHeX.Core
                            523, 524, 525, 526, 527, 528, 529,
             530, 531, 532, 533
         };
+
         internal static readonly ushort[] Pouch_Disc_XD =
         {
             534, 535, 536, 537, 538, 539,
@@ -98,6 +107,7 @@ namespace PKHeX.Core
             580, 581, 582, 583, 584, 585, 586, 587, 588, 589,
             590, 591, 592, 593
         };
+
         internal static readonly HashSet<int> WildPokeBalls3 = new HashSet<int> { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12};
 
         internal static readonly HashSet<int> FutureEvolutionsGen3 = new HashSet<int>
@@ -111,11 +121,14 @@ namespace PKHeX.Core
             // Yanmega Leafeon Glaceon Mamoswine Gliscor Probopass
             424, 461, 462, 463, 465, 469, 470, 471, 472, 473, 476
         };
+
         internal static readonly int[] UnreleasedItems_3 =
         {
             005, // Safari Ball
         };
+
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
+
         internal static readonly HashSet<string> EReaderBerriesNames_USA = new HashSet<string>
         {
             // USA Series 1
@@ -126,6 +139,7 @@ namespace PKHeX.Core
             "CHILAN",
             "NUTPEA",
         };
+
         internal static readonly HashSet<string> EReaderBerriesNames_JP = new HashSet<string>
         {
             // JP Series 1
@@ -144,6 +158,7 @@ namespace PKHeX.Core
             "ニニク", // NINIKU
             "トポ" // TOPO
         };
+
         internal static readonly int[] TM_3 =
         {
             264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
@@ -152,8 +167,10 @@ namespace PKHeX.Core
             280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
             259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
         };
+
         internal static readonly HashSet<int> HM_3 = new HashSet<int> { 15, 19, 57, 70, 148, 249, 127, 291};
         internal static readonly int[] TypeTutor3 = {338, 307, 308};
+
         internal static readonly int[] Tutor_3Mew =
         {
             185, // Feint Attack
@@ -163,6 +180,7 @@ namespace PKHeX.Core
             272, // Role Play
             192, // Zap Cannon
         };
+
         internal static readonly int[][] Tutor_Frontier =
         {
             new[] {135, 069, 138, 005, 025, 034, 157, 068, 086, 014},
@@ -230,6 +248,7 @@ namespace PKHeX.Core
             253, //Ingame egg gift
             255 // event/pokemon box
         };
+
         internal static readonly HashSet<int> ValidEggMet_FRLG = new HashSet<int>
         {
             146, //Four Island
@@ -258,6 +277,7 @@ namespace PKHeX.Core
             164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186,
             187, 188, 189, 190, 191, 192, 193, 194, 195, 196
         };
+
         internal static readonly HashSet<int> ValidMet_E = new HashSet<int>(ValidMet_RS.Concat(new[]
         {
             196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,

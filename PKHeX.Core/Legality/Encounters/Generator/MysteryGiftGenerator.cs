@@ -22,15 +22,13 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm)
         {
-            int gen = pkm.GenNumber;
-            var table = GetTable(gen);
-            switch (gen)
+            switch (pkm.GenNumber)
             {
-                case 3: return GetMatchingWC3(pkm, table);
-                case 4: return GetMatchingPCD(pkm, table);
-                case 5: return GetMatchingPGF(pkm, table);
-                case 6: return GetMatchingWC6(pkm, table);
-                case 7: return GetMatchingWC7(pkm, table);
+                case 3: return GetMatchingWC3(pkm, MGDB_G3);
+                case 4: return GetMatchingPCD(pkm, MGDB_G4);
+                case 5: return GetMatchingPGF(pkm, MGDB_G5);
+                case 6: return GetMatchingWC6(pkm, MGDB_G6);
+                case 7: return GetMatchingWC7(pkm, MGDB_G7);
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
@@ -48,15 +46,12 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingWC3(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<WC3> GetMatchingWC3(PKM pkm, IEnumerable<WC3> DB)
         {
-            if (DB == null)
-                yield break;
-
-            var validWC3 = new List<MysteryGift>();
+            var validWC3 = new List<WC3>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm, MaxSpeciesID_3);
-            var enumerable = DB.OfType<WC3>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
-            foreach (WC3 wc in enumerable)
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var wc in enumerable)
             {
                 if (!GetIsMatchWC3(pkm, wc))
                     continue;
@@ -70,9 +65,9 @@ namespace PKHeX.Core
                 yield return z;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<PCD> DB)
         {
-            if (DB == null || (pkm.IsEgg && pkm.Format != 4)) // transferred
+            if (pkm.IsEgg && pkm.Format != 4) // transferred
                 yield break;
 
             if (IsRangerManaphy(pkm))
@@ -82,10 +77,10 @@ namespace PKHeX.Core
                 yield break;
             }
 
-            var deferred = new List<MysteryGift>();
+            var deferred = new List<PCD>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            var enumerable = DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
-            foreach (PCD mg in enumerable)
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var mg in enumerable)
             {
                 var wc = mg.Gift.PK;
                 if (!GetIsMatchPCD(pkm, wc, vs))
@@ -101,15 +96,12 @@ namespace PKHeX.Core
                 yield return z;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingPGF(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<PGF> GetMatchingPGF(PKM pkm, IEnumerable<PGF> DB)
         {
-            if (DB == null)
-                yield break;
-
-            var deferred = new List<MysteryGift>();
+            var deferred = new List<PGF>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            var enumerable = DB.OfType<PGF>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
-            foreach (PGF wc in enumerable)
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var wc in enumerable)
             {
                 if (!GetIsMatchPGF(pkm, wc, vs))
                     continue;
@@ -123,14 +115,12 @@ namespace PKHeX.Core
                 yield return z;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingWC6(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<WC6> GetMatchingWC6(PKM pkm, IEnumerable<WC6> DB)
         {
-            if (DB == null)
-                yield break;
-            var deferred = new List<MysteryGift>();
+            var deferred = new List<WC6>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            var enumerable = DB.OfType<WC6>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
-            foreach (WC6 wc in enumerable)
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var wc in enumerable)
             {
                 if (!GetIsMatchWC6(pkm, wc, vs))
                     continue;
@@ -143,14 +133,12 @@ namespace PKHeX.Core
                 yield return z;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingWC7(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<WC7> GetMatchingWC7(PKM pkm, IEnumerable<WC7> DB)
         {
-            if (DB == null)
-                yield break;
-            var deferred = new List<MysteryGift>();
+            var deferred = new List<WC7>();
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            var enumerable = DB.OfType<WC7>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
-            foreach (WC7 wc in enumerable)
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var wc in enumerable)
             {
                 if (!GetIsMatchWC7(pkm, wc, vs))
                     continue;

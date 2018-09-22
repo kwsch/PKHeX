@@ -10,19 +10,19 @@ namespace PKHeX.Core
     public static class EncounterEvent
     {
         /// <summary>Event Database for Generation 3</summary>
-        public static MysteryGift[] MGDB_G3 { get; private set; } = Array.Empty<MysteryGift>();
+        public static WC3[] MGDB_G3 { get; private set; } = Array.Empty<WC3>();
 
         /// <summary>Event Database for Generation 4</summary>
-        public static MysteryGift[] MGDB_G4 { get; private set; } = Array.Empty<MysteryGift>();
+        public static PCD[] MGDB_G4 { get; private set; } = Array.Empty<PCD>();
 
         /// <summary>Event Database for Generation 5</summary>
-        public static MysteryGift[] MGDB_G5 { get; private set; } = Array.Empty<MysteryGift>();
+        public static PGF[] MGDB_G5 { get; private set; } = Array.Empty<PGF>();
 
         /// <summary>Event Database for Generation 6</summary>
-        public static MysteryGift[] MGDB_G6 { get; private set; } = Array.Empty<MysteryGift>();
+        public static WC6[] MGDB_G6 { get; private set; } = Array.Empty<WC6>();
 
         /// <summary>Event Database for Generation 7</summary>
-        public static MysteryGift[] MGDB_G7 { get; private set; } = Array.Empty<MysteryGift>();
+        public static WC7[] MGDB_G7 { get; private set; } = Array.Empty<WC7>();
 
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Length != 0;
@@ -37,15 +37,15 @@ namespace PKHeX.Core
             }
         }
 
-        private static HashSet<MysteryGift> GetPCDDB(byte[] bin) => new HashSet<MysteryGift>(GetData(bin, PCD.Size).Select(d => new PCD(d)));
+        private static HashSet<PCD> GetPCDDB(byte[] bin) => new HashSet<PCD>(GetData(bin, PCD.Size).Select(d => new PCD(d)));
 
-        private static HashSet<MysteryGift> GetPGFDB(byte[] bin) => new HashSet<MysteryGift>(GetData(bin, PGF.Size).Select(d => new PGF(d)));
+        private static HashSet<PGF> GetPGFDB(byte[] bin) => new HashSet<PGF>(GetData(bin, PGF.Size).Select(d => new PGF(d)));
 
-        private static HashSet<MysteryGift> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<MysteryGift>(
+        private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<WC6>(
             GetData(wc6full, WC6.SizeFull).Select(d => new WC6(d))
             .Concat(GetData(wc6bin, WC6.Size).Select(d => new WC6(d))));
 
-        private static HashSet<MysteryGift> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<MysteryGift>(
+        private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
             GetData(wc7full, WC7.SizeFull).Select(d => new WC7(d))
             .Concat(GetData(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
@@ -65,12 +65,12 @@ namespace PKHeX.Core
                         continue;
 
                     var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
-                    switch (gift?.Format)
+                    switch (gift)
                     {
-                        case 4: g4.Add(gift); continue;
-                        case 5: g5.Add(gift); continue;
-                        case 6: g6.Add(gift); continue;
-                        case 7: g7.Add(gift); continue;
+                        case PCD pcd: g4.Add(pcd); continue;
+                        case PGF pgf: g5.Add(pgf); continue;
+                        case WC6 wc6: g6.Add(wc6); continue;
+                        case WC7 wc7: g7.Add(wc7); continue;
                     }
                 }
             }
@@ -84,7 +84,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)
         {
-            var regular = new[]
+            var regular = new MysteryGift[][]
             {
                 MGDB_G4,
                 MGDB_G5,
@@ -92,7 +92,7 @@ namespace PKHeX.Core
                 MGDB_G7,
             }.SelectMany(z => z);
             regular = regular.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0);
-            var result = MGDB_G3.Concat(regular.Distinct());
+            var result = MGDB_G3.Concat(regular);
             if (sorted)
                 result = result.OrderBy(mg => mg.Species);
             return result;

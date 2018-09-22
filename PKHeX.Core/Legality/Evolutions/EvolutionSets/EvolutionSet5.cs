@@ -31,6 +31,7 @@ namespace PKHeX.Core
                 evo.Level = 0;
             return evo;
         }
+
         public static List<EvolutionSet> GetArray(byte[] data)
         {
             var evos = new List<EvolutionSet>();

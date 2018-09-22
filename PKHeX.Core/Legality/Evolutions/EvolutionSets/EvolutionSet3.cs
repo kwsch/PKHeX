@@ -40,6 +40,7 @@ namespace PKHeX.Core
             }
             return null;
         }
+
         public static List<EvolutionSet> GetArray(byte[] data)
         {
             EvolutionSet[] evos = new EvolutionSet[Legal.MaxSpeciesID_3 + 1];

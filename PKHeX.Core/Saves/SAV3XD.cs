@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public sealed class SAV3XD : SaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) #{SaveCount:0000}";
+
         public override string Filter
         {
             get
@@ -18,6 +19,7 @@ namespace PKHeX.Core
                 return "GameCube Save File|*.gci|All Files|*.*";
             }
         }
+
         public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
 
         private const int SLOT_SIZE = 0x28000;
@@ -36,6 +38,7 @@ namespace PKHeX.Core
         private readonly SAV3GCMemoryCard MC;
         private bool IsMemoryCardSave => MC != null;
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+
         public SAV3XD(byte[] data = null)
         {
             Data = data ?? new byte[SaveUtil.SIZE_G3XD];
@@ -48,7 +51,7 @@ namespace PKHeX.Core
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
             {
-                int slotOffset = SLOT_START + i * SLOT_SIZE;
+                int slotOffset = SLOT_START + (i * SLOT_SIZE);
                 int SaveCounter = BigEndian.ToInt32(Data, slotOffset + 4);
                 if (SaveCounter <= SaveCount)
                     continue;
@@ -60,12 +63,12 @@ namespace PKHeX.Core
             // Decrypt most recent save slot
             {
                 byte[] slot = new byte[SLOT_SIZE];
-                int slotOffset = SLOT_START + SaveIndex * SLOT_SIZE;
+                int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
                 Array.Copy(Data, slotOffset, slot, 0, slot.Length);
 
                 ushort[] keys = new ushort[4];
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = BigEndian.ToUInt16(slot, 8 + i * 2);
+                    keys[i] = BigEndian.ToUInt16(slot, 8 + (i * 2));
 
                 // Decrypt Slot
                 Data = SaveUtil.DecryptGC(slot, 0x00010, 0x27FD8, keys);
@@ -75,8 +78,8 @@ namespace PKHeX.Core
             ushort[] subLength = new ushort[16];
             for (int i = 0; i < 16; i++)
             {
-                subLength[i] = BigEndian.ToUInt16(Data, 0x20 + 2*i);
-                subOffsets[i] = BigEndian.ToUInt16(Data, 0x40 + 4*i) | BigEndian.ToUInt16(Data, 0x40 + 4*i + 2) << 16;
+                subLength[i] = BigEndian.ToUInt16(Data, 0x20 + (2 * i));
+                subOffsets[i] = BigEndian.ToUInt16(Data, 0x40 + (4 * i)) | BigEndian.ToUInt16(Data, 0x40 + (4 * i) + 2) << 16;
             }
             // Offsets are displaced by the 0xA8 savedata region
             Trainer1 = subOffsets[1] + 0xA8;
@@ -115,8 +118,10 @@ namespace PKHeX.Core
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
             for (int i = 0; i < 6; i++)
+            {
                 if (GetPartySlot(GetPartyOffset(i)).Species != 0)
                     PartyCount++;
+            }
         }
 
         public override byte[] Write(bool DSV, bool GCI)
@@ -129,12 +134,12 @@ namespace PKHeX.Core
             // Get updated save slot data
             ushort[] keys = new ushort[4];
             for (int i = 0; i < keys.Length; i++)
-                keys[i] = BigEndian.ToUInt16(Data, 8 + i * 2);
+                keys[i] = BigEndian.ToUInt16(Data, 8 + (i * 2));
             byte[] newSAV = SaveUtil.EncryptGC(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
             byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
-            Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex * SLOT_SIZE, newSAV.Length);
+            Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
             if (!IsMemoryCardSave || GCI)
@@ -180,7 +185,9 @@ namespace PKHeX.Core
         {
             Data = SetChecksums(Data, subOffsets[0]);
         }
+
         public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
+
         public override string ChecksumInfo
         {
             get
@@ -198,6 +205,7 @@ namespace PKHeX.Core
                 return $"Header Checksum {(header ? "V" : "Inv")}alid, Body Checksum {(body ? "V" : "Inv")}alid.";
             }
         }
+
         private static byte[] SetChecksums(byte[] input, int subOffset0)
         {
             if (input.Length != 0x28000)
@@ -218,19 +226,21 @@ namespace PKHeX.Core
             uint[] checksum = new uint[4];
             int dt = 8;
             for (int i = 0; i < 4; i++)
+            {
                 for (int j = 0; j < 0x9FF4; j += 2, dt += 2)
                     checksum[i] += BigEndian.ToUInt16(data, dt);
+            }
 
             ushort[] newchks = new ushort[8];
             for (int i = 0; i < 4; i++)
             {
                 newchks[i*2] = (ushort)(checksum[i] >> 16);
-                newchks[i*2+1] = (ushort)checksum[i];
+                newchks[(i * 2) + 1] = (ushort)checksum[i];
             }
 
             Array.Reverse(newchks);
             for (int i = 0; i < newchks.Length; i++)
-                BigEndian.GetBytes(newchks[i]).CopyTo(data, 0x10 + 2*i);
+                BigEndian.GetBytes(newchks[i]).CopyTo(data, 0x10 + (2 * i));
 
             return data;
         }
@@ -247,26 +257,31 @@ namespace PKHeX.Core
         // Storage
         public override int GetPartyOffset(int slot)
         {
-            return Party + SIZE_STORED * slot;
+            return Party + (SIZE_STORED * slot);
         }
+
         public override int GetBoxOffset(int box)
         {
-            return Box + (30 * SIZE_STORED + 0x14)*box + 0x14;
+            return Box + (((30 * SIZE_STORED) + 0x14)*box) + 0x14;
         }
+
         public override string GetBoxName(int box)
         {
-            return GetString(Box + (30 * SIZE_STORED + 0x14)*box, 16);
+            return GetString(Box + (((30 * SIZE_STORED) + 0x14)*box), 16);
         }
+
         public override void SetBoxName(int box, string value)
         {
             if (value.Length > 8)
                 value = value.Substring(0, 8); // Hard cap
-            SetString(value, 8).CopyTo(Data, Box + 0x24A4*box);
+            SetString(value, 8).CopyTo(Data, Box + (0x24A4 * box));
         }
+
         public override PKM GetPKM(byte[] data)
         {
             return new XK3(data.Take(SIZE_STORED).ToArray());
         }
+
         public override byte[] DecryptPKM(byte[] data)
         {
             return data;
@@ -276,6 +291,7 @@ namespace PKHeX.Core
         {
             return GetStoredSlot(offset);
         }
+
         public override PKM GetStoredSlot(int offset)
         {
             // Get Shadow Data
@@ -284,6 +300,7 @@ namespace PKHeX.Core
                 pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
             return pk;
         }
+
         protected override void SetPKM(PKM pkm)
         {
             if (!(pkm is XK3 pk))
@@ -361,6 +378,7 @@ namespace PKHeX.Core
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
         public override string GetString(int Offset, int Length) => StringConverter.GetBEString3(Data, Offset, Length);
+
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)

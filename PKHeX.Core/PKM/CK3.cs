@@ -13,6 +13,7 @@ namespace PKHeX.Core
             0xE4, 0xE5, 0xE6, 0xE7, 0xCE,
             // 0xFC onwards unused?
         };
+
         public override int SIZE_PARTY => PKX.SIZE_3CSTORED;
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         public override int Format => 3;
@@ -23,6 +24,7 @@ namespace PKHeX.Core
             Data = decryptedData ?? new byte[SIZE_PARTY];
             Identifier = ident;
         }
+
         public CK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new CK3((byte[])Data.Clone(), Identifier);
 
@@ -92,18 +94,23 @@ namespace PKHeX.Core
         public override int EV_HP {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0x98));
             set => BigEndian.GetBytes((ushort)(value & 0xFF)).CopyTo(Data, 0x98); }
+
         public override int EV_ATK {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0x9A));
             set => BigEndian.GetBytes((ushort)(value & 0xFF)).CopyTo(Data, 0x9A); }
+
         public override int EV_DEF {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0x9C));
             set => BigEndian.GetBytes((ushort)(value & 0xFF)).CopyTo(Data, 0x9C); }
+
         public override int EV_SPA {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0x9E));
             set => BigEndian.GetBytes((ushort)(value & 0xFF)).CopyTo(Data, 0x9E); }
+
         public override int EV_SPD {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0xA0));
             set => BigEndian.GetBytes((ushort)(value & 0xFF)).CopyTo(Data, 0xA0); }
+
         public override int EV_SPE {
             get => Math.Min(byte.MaxValue, BigEndian.ToUInt16(Data, 0xA2));
             set => BigEndian.GetBytes((ushort)(value & 0xFF)).CopyTo(Data, 0xA2); }
@@ -112,18 +119,23 @@ namespace PKHeX.Core
         public override int IV_HP {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xA4));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xA4); }
+
         public override int IV_ATK {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xA6));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xA6); }
+
         public override int IV_DEF {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xA8));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xA8); }
+
         public override int IV_SPA {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xAA));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xAA); }
+
         public override int IV_SPD {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xAC));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xAC); }
+
         public override int IV_SPE {
             get => Math.Min((ushort)31, BigEndian.ToUInt16(Data, 0xAE));
             set => BigEndian.GetBytes((ushort)(value & 0x1F)).CopyTo(Data, 0xAE); }
@@ -156,10 +168,10 @@ namespace PKHeX.Core
         public override bool RibbonNational { get => Data[0xC6] == 1; set => Data[0xC6] = (byte)(value ? 1 : 0); }
         public override bool RibbonEarth { get => Data[0xC7] == 1; set => Data[0xC7] = (byte)(value ? 1 : 0); }
         public override bool RibbonWorld { get => Data[0xC8] == 1; set => Data[0xC8] = (byte)(value ? 1 : 0); }
-        public override bool Unused1 { get => ((Data[0xC9] >> 0) & 1) == 1; set => Data[0xC9] = (byte)(Data[0xC9] & ~1 | (value ? 1 : 0)); }
-        public override bool Unused2 { get => ((Data[0xC9] >> 1) & 1) == 1; set => Data[0xC9] = (byte)(Data[0xC9] & ~2 | (value ? 2 : 0)); }
-        public override bool Unused3 { get => ((Data[0xC9] >> 2) & 1) == 1; set => Data[0xC9] = (byte)(Data[0xC9] & ~4 | (value ? 4 : 0)); }
-        public override bool Unused4 { get => ((Data[0xC9] >> 3) & 1) == 1; set => Data[0xC9] = (byte)(Data[0xC9] & ~8 | (value ? 8 : 0)); }
+        public override bool Unused1 { get => ((Data[0xC9] >> 0) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~1) | (value ? 1 : 0)); }
+        public override bool Unused2 { get => ((Data[0xC9] >> 1) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~2) | (value ? 2 : 0)); }
+        public override bool Unused3 { get => ((Data[0xC9] >> 2) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~4) | (value ? 4 : 0)); }
+        public override bool Unused4 { get => ((Data[0xC9] >> 3) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~8) | (value ? 8 : 0)); }
 
         public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
         public override bool IsEgg { get => Data[0xCB] == 1; set => Data[0xCB] = (byte)(value ? 1 : 0); }
@@ -178,6 +190,7 @@ namespace PKHeX.Core
         {
             return (byte[])Data.Clone();
         }
+
         public PK3 ConvertToPK3()
         {
             var pk = ConvertTo<PK3>();

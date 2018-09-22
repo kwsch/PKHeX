@@ -26,6 +26,7 @@ namespace PKHeX.Core
             }
             return null;
         }
+
         public static List<EvolutionSet> GetArray(byte[] data, int maxSpecies)
         {
             var evos = new List<EvolutionSet>();

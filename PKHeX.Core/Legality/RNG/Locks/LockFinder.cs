@@ -69,12 +69,14 @@ namespace PKHeX.Core
 
             return GetComplexLockFrame(cache, ctr, l, prior);
         }
+
         private static IEnumerable<SeedFrame> GetSingleLockFrame(FrameCache cache, int ctr, NPCLock l)
         {
             uint pid = cache[ctr + 1] << 16 | cache[ctr];
             if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
                 yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
         }
+
         private static IEnumerable<SeedFrame> GetComplexLockFrame(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
         {
             // Since the prior(next) lock is generated 7+2*n frames after, the worst case break is 7 frames after the PID.
@@ -116,6 +118,7 @@ namespace PKHeX.Core
         // Helpers
         private static bool IsShiny(uint TID, uint SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
+
         private static bool MatchesLock(NPCLock k, uint PID, int Gender)
         {
             if (k.Nature != null && k.Nature != PID % 25)
@@ -133,6 +136,7 @@ namespace PKHeX.Core
             var TIDf = RNG.XDRNG.Prev(SIDf);
             return SIDf >> 16 == SID && TIDf >> 16 == TID;
         }
+
         public static bool IsColoStarterValid(int species, ref uint seed, int TID, int SID, uint pkPID, uint IV1, uint IV2)
         {
             // reverse the seed the bare minimum
@@ -191,6 +195,7 @@ namespace PKHeX.Core
 
             return group;
         }
+
         private static uint GenerateStarterPID(ref uint uSeed, int TID, int SID)
         {
             uint PID;
