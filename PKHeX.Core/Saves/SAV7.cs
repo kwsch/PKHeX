@@ -1262,7 +1262,8 @@ namespace PKHeX.Core
 
                     if (locked)
                         LockedSlots[lockedCount++] = slotVal;
-                    else TeamSlots[teamCount++] = slotVal;
+                    else
+                        TeamSlots[teamCount++] = slotVal;
                 }
             }
             Array.Resize(ref LockedSlots, lockedCount);
