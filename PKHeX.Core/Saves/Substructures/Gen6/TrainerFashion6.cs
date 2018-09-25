@@ -55,9 +55,17 @@ namespace PKHeX.Core
         {
             Brown,
             Hazel,
-            No_Contacts,
+            None,
             Green,
             Blue,
+        }
+
+        public enum F6Skin
+        {
+            White,
+            Light,
+            Tan,
+            Dark,
         }
     }
 
@@ -68,10 +76,10 @@ namespace PKHeX.Core
 
         public uint Version  { get => GetBits(data0,  0, 3); set => data0 = SetBits(data0,  0, 3, value); }
         public uint Model    { get => GetBits(data0,  3, 3); set => data0 = SetBits(data0,  3, 3, value); }
-        public uint Skin     { get => GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, value); }
+        public F6Skin Skin     { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
         public F6HairColor HairColor { get => (F6HairColor)GetBits(data0,  8, 3); set => data0 = SetBits(data0,  8, 3, (uint)value); }
         public F6Hat Hat     { get => (F6Hat)GetBits(data0, 11, 5); set => data0 = SetBits(data0, 11, 5, (uint)value); }
-        public uint Front    { get => GetBits(data0, 16, 3); set => data0 = SetBits(data0, 16, 3, value); }
+        public F6HairStyleFront Front    { get => (F6HairStyleFront)GetBits(data0, 16, 3); set => data0 = SetBits(data0, 16, 3, (uint)value); }
         public F6HairStyle Hair { get => (F6HairStyle)GetBits(data0, 19, 4); set => data0 = SetBits(data0, 19, 4, (uint)value); }
         public uint Face     { get => GetBits(data0, 23, 3); set => data0 = SetBits(data0, 23, 3, value); }
         public uint Arms     { get => GetBits(data0, 26, 2); set => data0 = SetBits(data0, 26, 2, value); }
@@ -169,22 +177,22 @@ namespace PKHeX.Core
         public enum F6Hat
         {
             None,
-            _1,
+            Logo_Cap_Glitched, // hacked
             Logo_Cap_Black,
             Logo_Cap_Blue,
             Logo_Cap_Red,
             Logo_Cap_Green,
-            _6,
+            Fedora_Glitched, // hacked
             Fedora_Red,
             Fedora_Gray,
             Fedora_Black,
             Checkered_Fedora_Black,
-            _11,
+            Outdoors_Cap_Glitched, // hacked
             Outdoors_Cap_Red,
             Outdoors_Cap_Black,
             Outdoors_Cap_Olive,
             Outdoors_Cap_Beige,
-            _16,
+            Knit_Cap_Glitched, // hacked
             Knit_Cap_White,
             Knit_Cap_Black,
             Knit_Cap_Orange,
@@ -253,6 +261,12 @@ namespace PKHeX.Core
             Feather_Accessory_Red,
             Feather_Accessory_Green,
         }
+
+        public enum F6HairStyleFront
+        {
+            _0,
+            Default,
+        }
     }
 
     public class Fashion6Female : TrainerFashion6
@@ -262,7 +276,7 @@ namespace PKHeX.Core
 
         public uint Version  { get => GetBits(data0,  0, 3); set => data0 = SetBits(data0,  0, 3, value); }
         public uint Model    { get => GetBits(data0,  3, 3); set => data0 = SetBits(data0,  3, 3, value); }
-        public uint Skin     { get => GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, value); }
+        public F6Skin Skin     { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
         public F6HairColor HairColor{ get => (F6HairColor)GetBits(data0,  8, 3); set => data0 = SetBits(data0,  8, 3, (uint)value); }
         public F6Hat Hat      { get => (F6Hat)GetBits(data0, 11, 6); set => data0 = SetBits(data0, 11, 6, (uint)value); }
         public F6HairStyleFront Front { get => (F6HairStyleFront)GetBits(data0, 17, 3); set => data0 = SetBits(data0, 17, 3, (uint)value); }
@@ -335,7 +349,7 @@ namespace PKHeX.Core
 
         public enum F6Socks
         {
-            None,
+            _0,
             Knee_Socks_Black,
             Knee_Socks_White,
             Knee_Socks_Red,
@@ -399,7 +413,7 @@ namespace PKHeX.Core
         public enum F6Hat
         {
             None,
-            _1,
+            Felt_Hat_Glitched, // hacked
             Felt_Hat_Black,
             Felt_Hat_White,
             Felt_Hat_Gray,
@@ -411,19 +425,19 @@ namespace PKHeX.Core
             Felt_Hat_Aqua,
             Boater_Red,
             Boater_Blue,
-            _13,
+            Sports_Cap_Glitched, // hacked
             Sports_Cap_Aqua,
             Sports_Cap_Yellow,
             Sports_Cap_Green,
             Logo_Cap_Pink,
             Logo_Cap_Black,
-            _19,
+            Cycling_Cap_Glitched, // hacked
             Cycling_Cap_Blue,
             Cycling_Cap_White,
             Cycling_Cap_Beige,
             Exotic_Cap_Brown,
             Exotic_Cap_Purple,
-            _25,
+            Fedora_Glitched, // hacked
             Fedora_White,
             Fedora_Brown,
             Fedora_Red,
@@ -538,7 +552,7 @@ namespace PKHeX.Core
 
         public enum F6Accessory
         {
-            No_Accessory,
+            None,
             Button_Accessory_Gray,
             Button_Accessory_Pink,
             Button_Accessory_Purple,
