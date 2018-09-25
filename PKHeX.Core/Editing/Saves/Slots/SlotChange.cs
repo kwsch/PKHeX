@@ -25,5 +25,7 @@
             Offset = info.Offset;
             PKM = sav.GetStoredSlot(info.Offset);
         }
+
+        public SlotChange GetInverseData(SaveFile sav) => new SlotChange(this, sav);
     }
 }

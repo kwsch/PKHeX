@@ -226,13 +226,11 @@ namespace PKHeX.Core
                 if (value[0].Species == 0)
                     Debug.WriteLine($"Empty first slot, received {value.Count}.");
 
-                PKM[] newParty = new PKM[6];
-                value.Where(pk => pk.Species != 0).CopyTo(newParty);
-
-                for (int i = PartyCount; i < newParty.Length; i++)
-                    newParty[i] = BlankPKM;
-                for (int i = 0; i < newParty.Length; i++)
-                    SetPartySlot(newParty[i], GetPartyOffset(i));
+                int ctr = 0;
+                foreach (var exist in value.Where(pk => pk.Species != 0))
+                    SetPartySlot(exist, GetPartyOffset(ctr++));
+                for (int i = ctr; i < 6; i++)
+                    SetPartySlot(BlankPKM, GetPartyOffset(i));
             }
         }
 
@@ -531,11 +529,7 @@ namespace PKHeX.Core
         {
             int min = BoxSlotCount * box;
             int max = min + BoxSlotCount;
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
-                return false;
-            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
-                return false;
-            return true;
+            return !IsRegionOverwriteProtected(min, max);
         }
 
         protected virtual int GetBoxWallpaperOffset(int box) => -1;
@@ -662,13 +656,23 @@ namespace PKHeX.Core
         }
 
         public virtual bool IsSlotLocked(int box, int slot) => false;
+        public virtual bool IsSlotInBattleTeam(int box, int slot) => false;
+
+        public bool IsSlotOverwriteProtected(int box, int slot) => IsSlotLocked(box, slot) || IsSlotInBattleTeam(box, slot);
+
+        private bool IsRegionOverwriteProtected(int min, int max)
+        {
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
+                return true;
+            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
+                return true;
+            return false;
+        }
 
         public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)
         {
             return LockedSlots.Any(slot => BoxStart*BoxSlotCount <= slot && slot < (BoxEnd + 1)*BoxSlotCount);
         }
-
-        public virtual bool IsSlotInBattleTeam(int box, int slot) => false;
 
         public void SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
         {
@@ -678,11 +682,12 @@ namespace PKHeX.Core
             if (BoxEnd >= BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
+            Section = Section.Where(z => !IsSlotOverwriteProtected(z.Box, z.Slot));
             var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
             if (reverse)
                 Sorted = Sorted.ReverseSort();
 
-            Sorted.CopyTo(BD, start);
+            Sorted.CopyTo(BD, this, start);
             BoxData = BD;
         }
 
@@ -700,7 +705,7 @@ namespace PKHeX.Core
                 int offset = GetBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
                 {
-                    if (IsSlotLocked(i, p))
+                    if (IsSlotOverwriteProtected(i, p))
                         continue;
                     var ofs = offset + (SIZE_STORED * p);
                     if (deleteCriteria != null)
@@ -724,7 +729,7 @@ namespace PKHeX.Core
             {
                 for (int s = 0; s < BoxSlotCount; s++)
                 {
-                    if (IsSlotLocked(b, s))
+                    if (IsSlotOverwriteProtected(b, s))
                         continue;
                     var index = (b * BoxSlotCount) + s;
                     action(BD[index]);
@@ -746,7 +751,7 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
-            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this);
             BoxData = BD;
             return true;
         }
@@ -762,7 +767,7 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
-            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, start);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this, start);
             BoxData = BD;
             return true;
         }

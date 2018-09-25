@@ -1230,7 +1230,7 @@ namespace PKHeX.Core
 
         public override bool IsSlotLocked(int box, int slot)
         {
-            if (slot >= 30 || box >= BoxCount)
+            if ((uint)slot >= 30 || (uint)box >= BoxCount)
                 return false;
 
             int slotIndex = slot + (BoxSlotCount * box);
@@ -1239,7 +1239,7 @@ namespace PKHeX.Core
 
         public override bool IsSlotInBattleTeam(int box, int slot)
         {
-            if (slot >= 30 || box >= BoxCount)
+            if ((uint)slot >= 30 || (uint)box >= BoxCount)
                 return false;
 
             int slotIndex = slot + (BoxSlotCount * box);
@@ -1262,7 +1262,8 @@ namespace PKHeX.Core
 
                     if (locked)
                         LockedSlots[lockedCount++] = slotVal;
-                    else TeamSlots[teamCount++] = slotVal;
+                    else
+                        TeamSlots[teamCount++] = slotVal;
                 }
             }
             Array.Resize(ref LockedSlots, lockedCount);

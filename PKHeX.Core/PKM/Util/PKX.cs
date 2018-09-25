@@ -778,6 +778,29 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Copies a <see cref="PKM"/> list to the destination list, with an option to copy to a starting point.
+        /// </summary>
+        /// <param name="list">Source list to copy from</param>
+        /// <param name="dest">Destination list/array</param>
+        /// <param name="sav">Context for checking slot write protection</param>
+        /// <param name="start">Starting point to copy to</param>
+        /// <returns>Count of <see cref="PKM"/> copied.</returns>
+        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, SaveFile sav, int start = 0)
+        {
+            int ctr = start;
+            foreach (var z in list)
+            {
+                if (dest.Count <= ctr)
+                    break;
+                var exist = dest[ctr];
+                if (exist != null && sav.IsSlotOverwriteProtected(exist.Box, exist.Slot))
+                    continue;
+                dest[ctr++] = z;
+            }
+            return ctr - start;
+        }
+
+        /// <summary>
         /// Copies an <see cref="Enumerable"/> list to the destination list, with an option to copy to a starting point.
         /// </summary>
         /// <typeparam name="T">Typed object to copy</typeparam>
