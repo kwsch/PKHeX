@@ -34,7 +34,7 @@ namespace PKHeX.Core
         private const int MBIT_TO_BLOCKS = 0x10;
         private const int DENTRY_STRLEN = 0x20;
         private const int DENTRY_SIZE = 0x40;
-        private static int NumEntries_Directory => BLOCK_SIZE / DENTRY_SIZE;
+        private const int NumEntries_Directory = BLOCK_SIZE / DENTRY_SIZE;
 
         private static readonly HashSet<int> ValidMemoryCardSizes = new HashSet<int>
         {
@@ -45,12 +45,21 @@ namespace PKHeX.Core
             0x0800000, // 8MB
             0x1000000, // 16MB 1019 Blocks Default Dolphin Memory Card
             0x2000000, // 64MB
-            0x4000000, // 128 MB
+            0x4000000, // 128MB
         };
 
         public static bool IsMemoryCardSize(long Size) => ValidMemoryCardSizes.Contains((int)Size);
-        public static bool IsMemoryCardSize(byte[] Data) => IsMemoryCardSize(Data.Length);
-        private readonly byte[] RawEmpty_DEntry = { 0xFF, 0xFF, 0xFF, 0xFF };
+
+        public static bool IsMemoryCardSize(byte[] Data)
+        {
+            if (!IsMemoryCardSize(Data.Length))
+                return false; // bad size
+            if (BitConverter.ToUInt64(Data, 0) == ulong.MaxValue)
+                return false; // uninitialized
+            return true;
+        }
+
+        private static readonly byte[] RawEmpty_DEntry = { 0xFF, 0xFF, 0xFF, 0xFF };
 
         // Control blocks
         private const int Header_Block = 0;
@@ -59,11 +68,11 @@ namespace PKHeX.Core
         private const int BlockAlloc_Block = 3;
         private const int BlockAllocBackup_Block = 4;
 
-        private static int Header => BLOCK_SIZE * Header_Block;
-        private static int Directory => BLOCK_SIZE * Directory_Block;
-        private static int DirectoryBAK => BLOCK_SIZE * DirectoryBackup_Block;
-        private static int BlockAlloc => BLOCK_SIZE * BlockAlloc_Block;
-        private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
+        private const int Header = BLOCK_SIZE * Header_Block;
+        private const int Directory = BLOCK_SIZE * Directory_Block;
+        private const int DirectoryBAK = BLOCK_SIZE * DirectoryBackup_Block;
+        private const int BlockAlloc = BLOCK_SIZE * BlockAlloc_Block;
+        private const int BlockAllocBAK = BLOCK_SIZE * BlockAlloc_Block;
 
         public SAV3GCMemoryCard(byte[] data) => Data = data;
 
