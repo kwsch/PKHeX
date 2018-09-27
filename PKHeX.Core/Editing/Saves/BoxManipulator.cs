@@ -30,7 +30,6 @@
             if (!CanManipulateRegion(param.Start, param.Stop, prompt, fail))
                 return false;
 
-
             var result = manip.Execute(SAV, param);
             if (!result)
                 return false;

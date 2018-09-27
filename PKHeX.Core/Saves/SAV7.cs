@@ -780,6 +780,7 @@ namespace PKHeX.Core
 
         public int GetRecordMax(int recordID) => Records.GetMax(recordID, USUM ? Records.MaxType_USUM : Records.MaxType_SM);
         public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
+        public void AddRecord(int recordID) => SetRecord(recordID, GetRecord(recordID) + 1);
 
         public ushort PokeFinderCameraVersion
         {
@@ -982,6 +983,10 @@ namespace PKHeX.Core
                     pkm.CurrentFriendship = pk7.OppositeFriendship;
             }
             pkm.RefreshChecksum();
+
+            AddRecord(pkm.WasEgg ? 008 : 006); // egg, capture
+            if (pkm.CurrentHandler == 1)
+                AddRecord(011); // trade
         }
 
         protected override void SetDex(PKM pkm)
