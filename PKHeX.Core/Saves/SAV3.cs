@@ -155,7 +155,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     SeenFlagOffsets = new[] { PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98 };
-                    EventFlag = BlockOfs[2] + 0x000;
+                    EventFlag = BlockOfs[1] + 0xEE0;
                     EventConst = EventFlag + (EventFlagMax / 8);
                     Daycare = BlockOfs[4] + 0x100;
                     break;
@@ -261,7 +261,7 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
-        protected override int EventFlagMax => 8 * (RS ? 288 : 300); // 0x900 RS, else 0x960
+        protected override int EventFlagMax => 8 * (E ? 300 : 288); // 0x960 E, else 0x900
         protected override int EventConstMax => EventConst > 0 ? 0x100 : int.MinValue;
 
         public override bool HasParty => true;
