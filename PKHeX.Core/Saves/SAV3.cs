@@ -156,7 +156,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     SeenFlagOffsets = new[] { PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98 };
                     EventFlag = BlockOfs[1] + 0xEE0;
-                    EventConst = EventFlag + (EventFlagMax / 8);
+                    EventConst = BlockOfs[2] + 0x80; // EventFlag + (EventFlagMax / 8);
                     Daycare = BlockOfs[4] + 0x100;
                     break;
             }
@@ -381,6 +381,34 @@ namespace PKHeX.Core
             set => Data[BlockOfs[0] + 0x12] = (byte)value;
         }
 
+        public override bool GetEventFlag(int flagNumber)
+        {
+            if (flagNumber > EventFlagMax)
+                throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
+
+            var start = EventFlag;
+            if (Version == GameVersion.FRLG && flagNumber >= 0x500)
+            {
+                flagNumber -= 0x500;
+                start = BlockOfs[2];
+            }
+            return GetFlag(start + (flagNumber >> 3), flagNumber & 7);
+        }
+
+        public override void SetEventFlag(int flagNumber, bool value)
+        {
+            if (flagNumber > EventFlagMax)
+                throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
+
+            var start = EventFlag;
+            if (Version == GameVersion.FRLG && flagNumber >= 0x500)
+            {
+                flagNumber -= 0x500;
+                start = BlockOfs[2];
+            }
+            SetFlag(start + (flagNumber >> 3), flagNumber & 7, value);
+        }
+
         public int Badges
         {
             get
@@ -408,9 +436,9 @@ namespace PKHeX.Core
             get
             {
                 if (Version == GameVersion.FRLG)
-                    return 800; // dec
+                    return 0x820;
                 if (Version == GameVersion.RS)
-                    return 0x820; // hex
+                    return 0x807;
                 return 0x867; // emerald
             }
         }
