@@ -881,8 +881,10 @@ namespace PKHeX.Core
                       + 0x08; // Magic + Flags
 
             for (int i = 1; i <= 4; i++) // check all 4 seen flags (gender/shiny)
+            {
                 if ((Data[ofs + bd + (i * brSize)] & mask) != 0)
                     return true;
+            }
             return false;
         }
 
@@ -938,8 +940,10 @@ namespace PKHeX.Core
 
                 byte[] data = new byte[value.Length/8];
                 for (int i = 0; i < value.Length; i++)
+                {
                     if (value[i])
                         data[i>>3] |= (byte)(1 << (i&7));
+                }
 
                 data.CopyTo(Data, WondercardFlags);
                 Edited = true;

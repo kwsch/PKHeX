@@ -17,6 +17,7 @@ namespace PKHeX.WinForms
         private readonly PKMEditor PKME_Tabs;
         private readonly SaveFile SAV;
         private readonly SAVEditor BoxView;
+
         public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
             InitializeComponent();
@@ -91,6 +92,7 @@ namespace PKHeX.WinForms
             CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
+
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.MGDatabasePath;
         private List<MysteryGift> Results;
@@ -115,6 +117,7 @@ namespace PKHeX.WinForms
             UpdateSlotColor(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
+
         private void ClickSavePK(object sender, EventArgs e)
         {
             int index = GetSenderIndex(sender);
@@ -124,6 +127,7 @@ namespace PKHeX.WinForms
             var pk = gift.ConvertToPKM(SAV);
             WinFormsUtil.SavePKMDialog(pk);
         }
+
         private void ClickSaveMG(object sender, EventArgs e)
         {
             int index = GetSenderIndex(sender);
@@ -155,6 +159,7 @@ namespace PKHeX.WinForms
             }
             return index;
         }
+
         private void PopulateComboBoxes()
         {
             // Set the Text
@@ -187,6 +192,7 @@ namespace PKHeX.WinForms
             ResetFilters(null, null);
             B_Search.Enabled = true;
         }
+
         private void ResetFilters(object sender, EventArgs e)
         {
             CHK_Shiny.Checked = CHK_IsEgg.Checked = true;
@@ -200,6 +206,7 @@ namespace PKHeX.WinForms
             if (sender != null)
                 System.Media.SystemSounds.Asterisk.Play();
         }
+
         private void LoadDatabase()
         {
             RawDB = new List<MysteryGift>(EncounterEvent.GetAllEvents());
@@ -218,6 +225,7 @@ namespace PKHeX.WinForms
             if (Directory.Exists(DatabasePath))
                 Process.Start("explorer.exe", DatabasePath);
         }
+
         private void Menu_Export_Click(object sender, EventArgs e)
         {
             if (Results == null || Results.Count == 0)
@@ -295,6 +303,7 @@ namespace PKHeX.WinForms
             if (e.OldValue != e.NewValue)
                 FillPKXBoxes(e.NewValue);
         }
+
         private void SetResults(List<MysteryGift> res)
         {
             Results = new List<MysteryGift>(res);
@@ -307,6 +316,7 @@ namespace PKHeX.WinForms
 
             L_Count.Text = string.Format(Counter, Results.Count);
         }
+
         private void FillPKXBoxes(int start)
         {
             if (Results == null)
@@ -316,27 +326,35 @@ namespace PKHeX.WinForms
                 return;
             }
             int begin = start * RES_MIN;
-            int end = Math.Min(RES_MAX, Results.Count - start * RES_MIN);
+            int end = Math.Min(RES_MAX, Results.Count - (start * RES_MIN));
             for (int i = 0; i < end; i++)
                 PKXBOXES[i].Image = Results[i + begin].Sprite();
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
             UpdateSlotColor(start);
         }
+
         private void UpdateSlotColor(int start)
         {
             for (int i = 0; i < RES_MAX; i++)
                 PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
-            if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
-                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Properties.Resources.slotView;
+            if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < (RES_MIN * start) + RES_MAX)
+                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? Properties.Resources.slotView;
         }
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
             if (!Menu_SearchAdvanced.Checked)
-            { Size = MinimumSize; RTB_Instructions.Clear(); }
-            else Size = MaximumSize;
+            {
+                Size = MinimumSize;
+                RTB_Instructions.Clear();
+            }
+            else
+            {
+                Size = MaximumSize;
+            }
         }
+
         private void Menu_Import_Click(object sender, EventArgs e)
         {
             if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
@@ -355,6 +373,7 @@ namespace PKHeX.WinForms
         {
             Close();
         }
+
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             if (!PAN_Box.RectangleToScreen(PAN_Box.ClientRectangle).Contains(MousePosition))
