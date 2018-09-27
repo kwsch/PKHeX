@@ -759,6 +759,7 @@ namespace PKHeX.Core
                     pkm.CurrentFriendship = pk6.OppositeFriendship;
             }
             pkm.RefreshChecksum();
+            AddRecord(pkm.CurrentHandler == 1 ? 012 : pkm.WasEgg ? 009 : 007); // trade, egg, capture
         }
 
         protected override void SetDex(PKM pkm)
@@ -1151,5 +1152,6 @@ namespace PKHeX.Core
 
         public int GetRecordMax(int recordID) => Records.GetMax(recordID, XY ? Records.MaxType_XY : Records.MaxType_AO);
         public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
+        public void AddRecord(int recordID) => SetRecord(recordID, GetRecord(recordID) + 1);
     }
 }
