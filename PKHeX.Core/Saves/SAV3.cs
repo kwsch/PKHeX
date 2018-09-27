@@ -410,7 +410,7 @@ namespace PKHeX.Core
                 if (Version == GameVersion.FRLG)
                     return 800; // dec
                 if (Version == GameVersion.RS)
-                    return 0x807; // hex
+                    return 0x820; // hex
                 return 0x867; // emerald
             }
         }
