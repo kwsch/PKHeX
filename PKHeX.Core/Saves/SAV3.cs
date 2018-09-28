@@ -262,7 +262,7 @@ namespace PKHeX.Core
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
         protected override int EventFlagMax => 8 * (E ? 300 : 288); // 0x960 E, else 0x900
-        protected override int EventConstMax => EventConst > 0 ? 0x100 : int.MinValue;
+        protected override int EventConstMax => 0x100;
 
         public override bool HasParty => true;
 
@@ -383,7 +383,7 @@ namespace PKHeX.Core
 
         public override bool GetEventFlag(int flagNumber)
         {
-            if (flagNumber > EventFlagMax)
+            if (flagNumber >= EventFlagMax)
                 throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
 
             var start = EventFlag;
@@ -397,7 +397,7 @@ namespace PKHeX.Core
 
         public override void SetEventFlag(int flagNumber, bool value)
         {
-            if (flagNumber > EventFlagMax)
+            if (flagNumber >= EventFlagMax)
                 throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
 
             var start = EventFlag;

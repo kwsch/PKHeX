@@ -311,7 +311,7 @@ namespace PKHeX.Core
         /// <returns>Flag is Set (true) or not Set (false)</returns>
         public virtual bool GetEventFlag(int flagNumber)
         {
-            if (flagNumber > EventFlagMax)
+            if (flagNumber >= EventFlagMax)
                 throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
             return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
@@ -324,7 +324,7 @@ namespace PKHeX.Core
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
         public virtual void SetEventFlag(int flagNumber, bool value)
         {
-            if (flagNumber > EventFlagMax)
+            if (flagNumber >= EventFlagMax)
                 throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
             SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
