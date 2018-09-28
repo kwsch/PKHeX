@@ -759,7 +759,12 @@ namespace PKHeX.Core
                     pkm.CurrentFriendship = pk6.OppositeFriendship;
             }
             pkm.RefreshChecksum();
+            if (Record > 0)
+                AddCountAcquired(pkm);
+        }
 
+        private void AddCountAcquired(PKM pkm)
+        {
             AddRecord(pkm.WasEgg ? 009 : 007); // egg, capture
             if (pkm.CurrentHandler == 1)
                 AddRecord(012); // trade
