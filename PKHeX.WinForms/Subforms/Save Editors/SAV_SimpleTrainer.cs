@@ -63,7 +63,7 @@ namespace PKHeX.WinForms
                 CB_TextSpeed.SelectedIndex = sav1.TextSpeed;
 
                 MT_PikaFriend.Text = sav1.PikaFriendship.ToString();
-                if (SAV.Version == GameVersion.RB)
+                if (!SAV.Version.Contains(GameVersion.YW))
                     MT_PikaFriend.Visible = false;
             }
 
