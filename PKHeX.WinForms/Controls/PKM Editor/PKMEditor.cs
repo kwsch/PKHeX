@@ -93,7 +93,7 @@ namespace PKHeX.WinForms.Controls
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip();
+        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip(), SpeciesIDTip = new ToolTip();
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
@@ -1081,6 +1081,7 @@ namespace PKHeX.WinForms.Controls
             // Get Species dependent information
             if (FieldsLoaded)
                 pkm.Species = WinFormsUtil.GetIndex(CB_Species);
+            SpeciesIDTip.SetToolTip(CB_Species, pkm.Species.ToString("000"));
             SetAbilityList();
             SetForms();
             UpdateForm(null, null);
