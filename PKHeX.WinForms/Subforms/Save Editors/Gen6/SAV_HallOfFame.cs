@@ -151,7 +151,7 @@ namespace PKHeX.WinForms
         private int AddEntries(int offset, List<string> s, uint year, uint month, uint day)
         {
             s.Add($"Date: {year}/{month:00}/{day:00}");
-            s.Add("");
+            s.Add(string.Empty);
             CAL_MetDate.Value = new DateTime((int)year, (int)month, (int)day);
             int moncount = 0;
             for (int i = 0; i < 6; i++)
@@ -204,7 +204,7 @@ namespace PKHeX.WinForms
             s.Add($"Move 3: {movelist[move3]}");
             s.Add($"Move 4: {movelist[move4]}");
             s.Add($"OT: {OTname} ({TID}/{SID})");
-            s.Add("");
+            s.Add(string.Empty);
         }
 
         private void NUP_PartyIndex_ValueChanged(object sender, EventArgs e)
@@ -336,7 +336,7 @@ namespace PKHeX.WinForms
                 int species = WinFormsUtil.GetIndex(CB_Species);
                 if (species == 0 || species > 721)
                 {
-                    TB_Nickname.Text = "";
+                    TB_Nickname.Text = string.Empty;
                 }
                 else
                 {

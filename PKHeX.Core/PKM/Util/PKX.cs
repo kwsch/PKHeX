@@ -771,7 +771,7 @@ namespace PKHeX.Core
         public static string GetLocationString(this PKM pk, bool eggmet)
         {
             if (pk.Format < 2)
-                return "";
+                return string.Empty;
 
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
             return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
