@@ -94,6 +94,7 @@ namespace PKHeX.Core
                         return;
                 }
                 Catch_Rate = PersonalTable.RB[value].CatchRate;
+                HeldItem = PersonalTable.RB[value].CatchRate;
             }
         }
 
