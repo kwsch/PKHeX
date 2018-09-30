@@ -56,6 +56,8 @@ namespace PKHeX.Core
         public override int Move2_PPUps { get => (Data[0x1E] & 0xC0) >> 6; set => Data[0x1E] = (byte)((Data[0x1E] & 0x3F) | ((value & 0x3) << 6)); }
         public override int Move3_PPUps { get => (Data[0x1F] & 0xC0) >> 6; set => Data[0x1F] = (byte)((Data[0x1F] & 0x3F) | ((value & 0x3) << 6)); }
         public override int Move4_PPUps { get => (Data[0x20] & 0xC0) >> 6; set => Data[0x20] = (byte)((Data[0x20] & 0x3F) | ((value & 0x3) << 6)); }
+        public override int HeldItem { get => ItemConverter.GetG2ItemTransfer(Data[0x7]); set => Data[0x7] = (byte)value; }
+        public override int SpriteItem => ItemConverter.GetG4Item((byte)HeldItem);
         #endregion
 
         #region Party Attributes
@@ -69,6 +71,11 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => Stat_SPC; set => Stat_SPC = value; }
         public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
+
+        public int GetGen2Item(int itemID)
+        {
+            return ItemConverter.GetG2ItemTransfer(itemID);
+        }
 
         private void SetSpeciesValues(int value)
         {
@@ -92,13 +99,14 @@ namespace PKHeX.Core
                         return;
                 }
                 Catch_Rate = PersonalTable.RB[value].CatchRate;
+                HeldItem = PersonalTable.RB[value].CatchRate;
             }
         }
 
         public override int Version { get => (int)GameVersion.RBY; set { } }
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
-        public override bool CanHoldItem(ushort[] ValidArray) => false;
+        //public override bool CanHoldItem(ushort[] ValidArray) => false;
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;

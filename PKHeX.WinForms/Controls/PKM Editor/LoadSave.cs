@@ -153,6 +153,7 @@ namespace PKHeX.WinForms.Controls
             LoadIVs(pk);
             LoadEVs(pk);
             LoadMoves(pk);
+            CB_HeldItem.SelectedValue = pk.HeldItem;
         }
 
         private void SaveMisc1(PKM pk)
@@ -161,6 +162,8 @@ namespace PKHeX.WinForms.Controls
             SaveNickname(pk);
             SaveOT(pk);
             SaveMoves(pk);
+            if (pk is PK1 && WinFormsUtil.GetIndex(CB_HeldItem) != ((PK1)pk).GetGen2Item(((PK1)pk).Catch_Rate))
+                pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
         }
 
         private void LoadMisc2(PKM pk)

@@ -833,6 +833,7 @@ namespace PKHeX.Core
         {
             switch (generation)
             {
+                case 1:
                 case 2: return ReleasedHeldItems_2;
                 case 3: return ReleasedHeldItems_3;
                 case 4: return ReleasedHeldItems_4;

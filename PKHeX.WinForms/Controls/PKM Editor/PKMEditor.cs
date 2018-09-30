@@ -1651,7 +1651,7 @@ namespace PKHeX.WinForms.Controls
             CB_Form.Enabled = gen >= 3;
 
             FLP_FriendshipForm.Visible = gen >= 2;
-            FLP_HeldItem.Visible = gen >= 2;
+            FLP_HeldItem.Visible = gen >= 1;
             CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
             Label_OTGender.Visible = gen >= 2;
@@ -1811,6 +1811,11 @@ namespace PKHeX.WinForms.Controls
             GameInfo.Strings.SetItemDataSource(SAV.Version, SAV.Generation, SAV.MaxItemID, SAV.HeldItems, HaX);
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
+            else if (SAV.Generation == 1)
+            {
+                GameInfo.Strings.SetItemDataSource(GameVersion.GSC, 2, 255, SAV.HeldItems, HaX);
+                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= 255).ToList(), null);
+            }
 
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 

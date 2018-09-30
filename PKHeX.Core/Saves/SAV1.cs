@@ -103,6 +103,8 @@ namespace PKHeX.Core
 
             if (!Exportable)
                 ClearBoxes();
+
+            HeldItems = Legal.HeldItems_GSC;
         }
 
         private readonly SAV1Offsets Offsets;
