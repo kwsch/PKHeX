@@ -338,8 +338,13 @@ namespace PKHeX.Core
             var vRelearn = Info.Relearn;
             for (int i = 0; i < 4; i++)
             {
-                if (vMoves[i].Valid)
-                    lines.Add(string.Format(L_F0_M_1_2, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+                var move = vMoves[i];
+                if (!move.Valid)
+                    continue;
+                var msg = string.Format(L_F0_M_1_2, move.Rating, i + 1, move.Comment);
+                if (pkm.Format != move.Generation)
+                    msg += $" [Gen{move.Generation}]";
+                lines.Add(msg);
             }
 
             if (pkm.Format >= 6)
