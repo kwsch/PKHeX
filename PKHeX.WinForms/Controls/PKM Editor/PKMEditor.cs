@@ -1655,7 +1655,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
             Label_OTGender.Visible = gen >= 2;
-            Label_Gender.Visible = gen >= 1;
+            FLP_CatchRate.Visible = gen == 1;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;
