@@ -162,7 +162,8 @@ namespace PKHeX.WinForms.Controls
             SaveNickname(pk);
             SaveOT(pk);
             SaveMoves(pk);
-            pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
+            if (pk is PK1 && WinFormsUtil.GetIndex(CB_HeldItem) != ((PK1)pk).GetGen2Item(((PK1)pk).Catch_Rate))
+                pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
         }
 
         private void LoadMisc2(PKM pk)

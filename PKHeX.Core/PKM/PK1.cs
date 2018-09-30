@@ -72,6 +72,11 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
 
+        public int GetGen2Item(int itemID)
+        {
+            return ItemConverter.GetG2ItemTransfer(itemID);
+        }
+
         private void SetSpeciesValues(int value)
         {
             var updated = (byte)SpeciesConverter.SetG1Species(value);
