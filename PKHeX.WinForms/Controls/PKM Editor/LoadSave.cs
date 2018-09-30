@@ -153,6 +153,7 @@ namespace PKHeX.WinForms.Controls
             LoadIVs(pk);
             LoadEVs(pk);
             LoadMoves(pk);
+            CB_HeldItem.SelectedValue = pk.HeldItem;
         }
 
         private void SaveMisc1(PKM pk)
