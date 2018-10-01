@@ -557,12 +557,10 @@ namespace PKHeX.Core
         public override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(GetDaycareSlotOffset(loc, slot));
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
         public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + (slot * DaycareSlotSize);
-        public override bool? IsDaycareHasEgg(int loc) => GetDaycareRNGSeed(loc).Any(z => z != '0');
 
-        public override void SetDaycareHasEgg(int loc, bool hasEgg)
-        {
-            SetDaycareRNGSeed(loc, E ? Util.Rand32().ToString("X8") : Util.Rand.Next(0x10000).ToString("X4"));
-        }
+        private int EggEventFlag => GameVersion.FRLG.Contains(Version) ? 0x266 : 0x86;
+        public override bool? IsDaycareHasEgg(int loc) => GetEventFlag(EggEventFlag);
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => SetEventFlag(EggEventFlag, hasEgg);
 
         private int GetDaycareEXPOffset(int slot)
         {
