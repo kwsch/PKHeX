@@ -1,3 +1,59 @@
+0x1B1	Slateport Move Tutor Used
+0x1B2	Mauville Move Tutor Used
+0x1B3	Verdanturf Move Tutor Used
+0x1B4	Lavaridge Move Tutor Used
+0x1B5	Fallarbor Move Tutor Used
+0x1B6	Fortree Move Tutor Used
+0x1B7	Lilycove Move Tutor Used
+0x1B8	Mossdeep Move Tutor Used
+0x1B9	Sootopolis Move Tutor Used
+0x1BA	Pacifidlog Move Tutor Used
+
+0x099	Traded in Rustboro
+0x09A	Traded in Pacifidlog
+0x09B	Traded in Fortree
+0x09C	Traded in Battle Frontier
+
+0x097	Castform Received
+0x10A	Wynaut Received
+0x12A	Beldum Received
+
+0x1A3	Eon Ticket Used
+0x1AF	Aurora Ticket Used
+0x1B0	Old Sea Map Used
+
+0x091	Lugia Captured
+0x092	Ho-oh Captured
+0x1AD	Deoxys Captured
+0x1BB	Regirock Captured
+0x1BC	Regice Captured
+0x1BD	Registeel Captured
+0x1BE	Kyogre Captured
+0x1BF	Groudon Captured
+0x1C0	Rayquaza Captured
+0x1C9	Lati@s Captured
+0x1CA	Mew Captured
+
+0x2CE	Mew Overworld Hidden
+0x2FB	Deoxys Overworld Hidden
+0x2FC	Deoxys Triangle Overworld Hidden
+0x305	Rayquaza Overworld Hidden
+0x30E	Kyogre Overworld Hidden
+0x30F	Groundon Overworld Hidden
+0x320	Lugia Overworld Hidden
+0x321	Ho-oh Overworld Hidden
+0x3A7	Regirock Overworld Hidden
+0x3A8	Regice Overworld Hidden
+0x3A9	Registeel Overworld Hidden
+
+0x3D6	Kecleon Route 120 1 Overworld Hidden
+0x3D9	Kecleon Route 120 2 Overworld Hidden
+0x3DA	Kecleon Route 120 3 Overworld Hidden
+0x3DB	Kecleon Route 120 4 Overworld Hidden
+0x3DC	Kecleon Route 120 5 Overworld Hidden
+0x3DD	Kecleon Route 119 1 Overworld Hidden
+0x3DE	Kecleon Route 119 2 Overworld Hidden
+
 0x860	SYS_POKEMON_GET
 0x861	SYS_POKEDEX_GET
 0x862	SYS_POKENAV_GET
