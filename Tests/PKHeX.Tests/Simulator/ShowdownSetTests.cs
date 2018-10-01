@@ -118,6 +118,23 @@ namespace PKHeX.Tests.Simulator
 
         [TestMethod]
         [TestCategory(SimulatorParse)]
+        public void SimulatorGetVCEgg1()
+        {
+            var set = new ShowdownSet(SetSlowpoke12);
+            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, HT_Name = "PKHeX" };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
+            Assert.IsTrue(encs.Count > 0);
+
+            var info = new SimpleTrainerInfo();
+            var enc = encs[0];
+            var pk = enc.ConvertToPKM(info);
+
+            var la = new LegalityAnalysis(pk);
+            Assert.IsTrue(la.Valid);
+        }
+
+        [TestMethod]
+        [TestCategory(SimulatorParse)]
         public void SimulatorGetSmeargle()
         {
             var set = new ShowdownSet(SetSmeargle);
@@ -238,6 +255,17 @@ Adamant Nature
 - High Horsepower
 - Self-Destruct
 - Fire Punch";
+
+        private const string SetSlowpoke12 =
+@"Threat (Slowpoke) @ Eviolite
+Ability: Regenerator
+Shiny: Yes
+EVs: 248 HP / 252 Atk / 8 SpD
+Adamant Nature
+- Body Slam
+- Earthquake
+- Belly Drum
+- Iron Tail";
 
         private static readonly string[] Sets =
         {
