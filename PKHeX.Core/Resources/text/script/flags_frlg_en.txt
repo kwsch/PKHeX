@@ -1,8 +1,47 @@
-0082	Moltres Captured
-0093	Zapdos Captured
-0129	Mewtwo Captured
-0130	Articuno Captured
-0703	Zapdos Defeated
+0x2C0	ROCK SLIDE Move Tutor Used
+0x2C1	THUNDER WAVE Move Tutor Used
+0x2C2	ROCK SLIDE Move Tutor Used
+0x2C3	EXPLOSION Move Tutor Used
+0x2C4	MEGA PUNCH Move Tutor Used
+0x2C5	MEGA KICK Move Tutor Used
+0x2C6	DREAM EATER Move Tutor Used
+0x2C7	SOFTBOILED Move Tutor Used
+0x2C8	SUBSTITUTE Move Tutor Used
+0x2C9	SWORDS DANCE Move Tutor Used
+0x2CA	SEISMIC TOSS Move Tutor Used
+0x2CB	COUNTER Move Tutor Used
+0x2CC	METRONOME Move Tutor Used
+
+0x052	Moltres Captured
+0x054	Snorlax Captured Route 12
+0x05D	Zapdos Captured
+0x080	Snorlax Captured Route 16
+0x081	Mewtwo Captured
+0x082	Articuno Captured
+0x09B	Lugia Overworld
+0x09C	Ho-oh Overworld
+0x2E4	Deoxys Captured
+0x2F2	Lugia Captured
+0x2F3	Ho-oh Captured
+
+0x2BD	Moltres Defeated
+0x2BE	Articuno Defeated
+0x2BF	Zapdos Defeated
+0x2F5	Lugia Defeated
+0x2F6	Ho-oh Defeated
+0x2F7	Deoxys Defeated
+0x09A	Deoxys Triangle Hidden
+0x085	VOLTORB Defeated 1
+0x086	VOLTORB Defeated 2
+0x2D0	Electrode Defeated 1
+0x2D2	Electrode Defeated 2
+
+0x060	Hitmonlee Overworld
+0x061	Hitmonchan Overworld
+0x057	Eevee Received
+0x2DA	Togepi Egg Received
+0x2DB	Togepi Egg Ready
+
 0x820	BADGE01_GET
 0x821	BADGE02_GET
 0x822	BADGE03_GET
@@ -11,3 +50,7 @@
 0x825	BADGE06_GET
 0x826	BADGE07_GET
 0x827	BADGE08_GET
+
+0x82F	SYS_B_DASH
+0x834	SYS_PC_BILL
+0x844	SYS_RSE_LINK
