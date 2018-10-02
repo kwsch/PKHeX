@@ -71,7 +71,7 @@ namespace PKHeX.WinForms
             FLP_Characters.Visible = true;
             foreach (ushort c in chars)
             {
-                var l = GetLabel((char)c+"");
+                var l = GetLabel(((char)c).ToString());
                 l.Font = pkxFont;
                 l.AutoSize = false;
                 l.Size = new Size(20, 20);

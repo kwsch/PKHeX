@@ -110,8 +110,8 @@ namespace PKHeX.Core
         {
             PK2 pk2 = new PK2(null, Identifier, Japanese) {Species = Species};
             Array.Copy(Data, 0x7, pk2.Data, 0x1, 0x1A);
-            otname.CopyTo(pk2.otname, otname.Length);
-            nick.CopyTo(pk2.nick, nick.Length);
+            otname.CopyTo(pk2.otname, 0);
+            nick.CopyTo(pk2.nick, 0);
 
             pk2.HeldItem = ItemConverter.GetG2ItemTransfer(pk2.HeldItem);
             pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;

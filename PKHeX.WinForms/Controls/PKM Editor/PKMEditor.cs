@@ -93,7 +93,7 @@ namespace PKHeX.WinForms.Controls
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip();
+        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip(), SpeciesIDTip = new ToolTip();
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
@@ -1081,6 +1081,7 @@ namespace PKHeX.WinForms.Controls
             // Get Species dependent information
             if (FieldsLoaded)
                 pkm.Species = WinFormsUtil.GetIndex(CB_Species);
+            SpeciesIDTip.SetToolTip(CB_Species, pkm.Species.ToString("000"));
             SetAbilityList();
             SetForms();
             UpdateForm(null, null);
@@ -1654,7 +1655,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
             Label_OTGender.Visible = gen >= 2;
-            Label_Gender.Visible = gen >= 1;
+            FLP_CatchRate.Visible = gen == 1;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;

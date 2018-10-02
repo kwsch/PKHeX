@@ -22,7 +22,7 @@ namespace PKHeX.Core
         private const char Require = '=';
         private const char Apply = '.';
         private const char SplitRange = ',';
-        private const char SplitInstruction = '=';
+        public const char SplitInstruction = '=';
 
         // Extra Functionality
         private int Min, Max;

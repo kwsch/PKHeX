@@ -212,6 +212,9 @@
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
+            this.FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_CatchRate = new System.Windows.Forms.Label();
+            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -289,6 +292,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
             this.GB_ExtraBytes.SuspendLayout();
             this.GB_OT.SuspendLayout();
+            this.FLP_CatchRate.SuspendLayout();
             this.SuspendLayout();
             //
             // tabMain
@@ -341,6 +345,7 @@
             this.FLP_Main.Controls.Add(this.FLP_ShadowID);
             this.FLP_Main.Controls.Add(this.FLP_Purification);
             this.FLP_Main.Controls.Add(this.FLP_ShinyLeaf);
+            this.FLP_Main.Controls.Add(this.FLP_CatchRate);
             this.FLP_Main.Location = new System.Drawing.Point(0, 2);
             this.FLP_Main.Name = "FLP_Main";
             this.FLP_Main.Size = new System.Drawing.Size(272, 459);
@@ -1768,7 +1773,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(272, 462);
+            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -2535,6 +2540,35 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             //
+            // FLP_CatchRate
+            //
+            this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_CatchRate.Controls.Add(this.L_CatchRate);
+            this.FLP_CatchRate.Controls.Add(this.CR_PK1);
+            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 415);
+            this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_CatchRate.Name = "FLP_CatchRate";
+            this.FLP_CatchRate.Size = new System.Drawing.Size(272, 25);
+            this.FLP_CatchRate.TabIndex = 116;
+            //
+            // L_CatchRate
+            //
+            this.L_CatchRate.Location = new System.Drawing.Point(0, 0);
+            this.L_CatchRate.Margin = new System.Windows.Forms.Padding(0);
+            this.L_CatchRate.Name = "L_CatchRate";
+            this.L_CatchRate.Size = new System.Drawing.Size(110, 21);
+            this.L_CatchRate.TabIndex = 9;
+            this.L_CatchRate.Text = "Catch Rate:";
+            this.L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+            // CR_PK1
+            //
+            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
+            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
+            this.CR_PK1.Name = "CR_PK1";
+            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
+            this.CR_PK1.TabIndex = 10;
+            //
             // PKMEditor
             //
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -2639,6 +2673,7 @@
             this.GB_ExtraBytes.PerformLayout();
             this.GB_OT.ResumeLayout(false);
             this.GB_OT.PerformLayout();
+            this.FLP_CatchRate.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2828,5 +2863,8 @@
         private ContestStat Contest;
         private StatEditor Stats;
         private TrainerID TID_Trainer;
+        private System.Windows.Forms.FlowLayoutPanel FLP_CatchRate;
+        private System.Windows.Forms.Label L_CatchRate;
+        private CatchRate CR_PK1;
     }
 }

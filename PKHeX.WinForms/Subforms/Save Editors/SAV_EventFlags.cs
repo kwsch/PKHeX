@@ -249,7 +249,7 @@ namespace PKHeX.WinForms
                         continue;
                     num.Add(n);
                     desc.Add(split[1]);
-                    enums.Add(split.Length == 3 ? split[2] : "");
+                    enums.Add(split.Length == 3 ? split[2] : string.Empty);
                 }
                 catch { }
             }
@@ -457,84 +457,58 @@ namespace PKHeX.WinForms
             if (new FileInfo(TB_OldSAV.Text).Length > 0x100000) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
             if (new FileInfo(TB_NewSAV.Text).Length > 0x100000) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
 
-            SaveFile s1 = SaveUtil.GetVariantSAV(TB_OldSAV.Text);
-            SaveFile s2 = SaveUtil.GetVariantSAV(TB_NewSAV.Text);
+            var s1 = SaveUtil.GetVariantSAV(TB_OldSAV.Text);
+            var s2 = SaveUtil.GetVariantSAV(TB_NewSAV.Text);
             if (s1 == null) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
             if (s2 == null) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
 
             if (s1.GetType() != s2.GetType()) { WinFormsUtil.Alert(MsgSaveDifferentTypes, $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
             if (s1.Version != s2.Version) { WinFormsUtil.Alert(MsgSaveDifferentVersions, $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
 
-            string tbIsSet = "";
-            string tbUnSet = "";
-            try
-            {
-                bool[] oldBits = s1.EventFlags;
-                bool[] newBits = s2.EventFlags;
-                if (oldBits.Length != newBits.Length)
-                {
-                    throw new Exception("Event flag lengths for games are different." +
-                                        $"{Environment.NewLine}S1: {(GameVersion)s1.Game}" +
-                                        $"{Environment.NewLine}S2: {(GameVersion)s2.Game}");
-                }
+            var tbIsSet = new List<int>();
+            var tbUnSet = new List<int>();
+            var r = new List<string>();
+            bool[] oldBits = s1.EventFlags;
+            bool[] newBits = s2.EventFlags;
+            var oldConst = s1.EventConsts;
+            var newConst = s2.EventConsts;
 
-                for (int i = 0; i < oldBits.Length; i++)
-                {
-                    if (oldBits[i] == newBits[i]) continue;
-                    if (newBits[i])
-                        tbIsSet += $"{i:0000},";
-                    else
-                        tbUnSet += $"{i:0000},";
-                }
-            }
-            catch (Exception e)
+            for (int i = 0; i < oldBits.Length; i++)
             {
-                WinFormsUtil.Error("An unexpected error has occurred.", e);
-                Debug.WriteLine(e);
+                if (oldBits[i] != newBits[i])
+                    (newBits[i] ? tbIsSet : tbUnSet).Add(i);
             }
-            TB_IsSet.Text = tbIsSet;
-            TB_UnSet.Text = tbUnSet;
+            TB_IsSet.Text = string.Join(", ", tbIsSet.Select(z => $"{z:0000}"));
+            TB_UnSet.Text = string.Join(", ", tbUnSet.Select(z => $"{z:0000}"));
 
-            string r = "";
-            try
+            for (int i = 0; i < newConst.Length; i++)
             {
-                ushort[] oldConst = s1.EventConsts;
-                ushort[] newConst = s2.EventConsts;
-                if (oldConst.Length != newConst.Length)
-                { WinFormsUtil.Alert("Event flag lengths for games are different.", $"S1: {(GameVersion)s1.Game}", $"S2: {(GameVersion)s2.Game}"); return; }
-
-                for (int i = 0; i < newConst.Length; i++)
-                {
-                    if (oldConst[i] != newConst[i])
-                        r += $"{i}: {oldConst[i]}->{newConst[i]}{Environment.NewLine}";
-                }
-            }
-            catch (Exception e)
-            {
-                WinFormsUtil.Error("An unexpected error has occurred.", e);
-                Debug.WriteLine(e);
+                if (oldConst[i] != newConst[i])
+                    r.Add($"{i}: {oldConst[i]}->{newConst[i]}");
             }
 
-            if (string.IsNullOrEmpty(r))
+            if (r.Count == 0)
             {
                 WinFormsUtil.Alert("No Event Constant diff found.");
                 return;
             }
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
-                return;
-            Clipboard.SetText(r);
+            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
+                Clipboard.SetText(string.Join(Environment.NewLine, r));
         }
 
         private static void Main_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
         }
 
         private void Main_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            LoadSAV(WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "FlagDiff Researcher:", "Yes: Old Save" + Environment.NewLine + "No: New Save") == DialogResult.Yes ? B_LoadOld : B_LoadNew, files[0]);
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, Name, "Yes: Old Save" + Environment.NewLine + "No: New Save");
+            var button = dr == DialogResult.Yes ? B_LoadOld : B_LoadNew;
+            LoadSAV(button, files[0]);
         }
     }
 }

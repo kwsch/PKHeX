@@ -858,7 +858,7 @@ namespace PKHeX.WinForms
         {
             int index = CB.SelectedIndex;
             // fix for Korean / Chinese being swapped
-            string cl = GameInfo.CurrentLanguage + "";
+            string cl = GameInfo.CurrentLanguage;
             cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
             CB.DataSource = Util.GetCBList(type, cl);
