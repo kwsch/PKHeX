@@ -942,7 +942,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 146, Level = 50, Location = 219, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Moltres @ Mt. Silver Cave
             new EncounterStaticTyped { Species = 150, Level = 70, Location = 199, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Mewtwo @ Cerulean Cave
             new EncounterStatic { Species = 245, Level = 40, Location = 173, }, //Suicune @ Route 25
-            new EncounterStaticTyped { Species = 245, Level = 40, Location = 206, TypeEncounter = EncounterType.Building_EnigmaStone }, //Suicune @ Burned Tower
+            new EncounterStaticTyped { Species = 245, Level = 40, Location = 206, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Suicune @ Burned Tower
             new EncounterStaticTyped { Species = 249, Level = 45, Location = 218, Version = GameVersion.SS, TypeEncounter = EncounterType.Surfing_Fishing }, //Lugia @ Whirl Islands
             new EncounterStaticTyped { Species = 249, Level = 70, Location = 218, Version = GameVersion.HG, TypeEncounter = EncounterType.Surfing_Fishing }, //Lugia @ Whirl Islands
             new EncounterStaticTyped { Species = 250, Level = 45, Location = 205, Version = GameVersion.HG, TypeEncounter = EncounterType.Building_EnigmaStone }, //Ho-Oh @ Bell Tower
