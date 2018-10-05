@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static PKHeX.Core.Encounters1;
-using static PKHeX.Core.Encounters2;
-using static PKHeX.Core.Encounters3;
-using static PKHeX.Core.Encounters4;
-using static PKHeX.Core.Encounters5;
-using static PKHeX.Core.Encounters6;
-using static PKHeX.Core.Encounters7;
-using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -33,7 +25,7 @@ namespace PKHeX.Core
         public static string EReaderBerryName { get; set; } = string.Empty;
 
         /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-        public static string EReaderBerryDisplayName => string.Format(L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
+        public static string EReaderBerryDisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
         public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
         internal static bool IsNotFromActiveTrainer(PKM pkm) => !ActiveTrainer.IsFromTrainer(pkm);
@@ -83,7 +75,7 @@ namespace PKHeX.Core
         static Legal()
         {
             // Misc Fixes to Data pertaining to legality constraints
-            EggMovesUSUM[198].Moves = EggMovesUSUM[198].Moves.Take(15).ToArray(); // Remove Punishment from USUM Murkrow (no species can pass it #1829)
+            Array.Resize(ref EggMovesUSUM[198].Moves, 15); // Remove Punishment from USUM Murkrow (no species can pass it #1829)
         }
 
         public static void RefreshMGDB(string localDbPath) => EncounterEvent.RefreshMGDB(localDbPath);
@@ -576,146 +568,6 @@ namespace PKHeX.Core
             return IsEvolutionValid(pkm);
         }
 
-        // Generation Specific Fetching
-        internal static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            switch (gameSource)
-            {
-                case GameVersion.RBY:
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.YW:
-                    return StaticRBY;
-
-                case GameVersion.GSC:
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                    return GetEncounterStaticTableGSC(pkm);
-
-                case GameVersion.R: return StaticR;
-                case GameVersion.S: return StaticS;
-                case GameVersion.E: return StaticE;
-                case GameVersion.FR: return StaticFR;
-                case GameVersion.LG: return StaticLG;
-                case GameVersion.CXD: return Encounter_CXD;
-
-                case GameVersion.D: return StaticD;
-                case GameVersion.P: return StaticP;
-                case GameVersion.Pt: return StaticPt;
-                case GameVersion.HG: return StaticHG;
-                case GameVersion.SS: return StaticSS;
-
-                case GameVersion.B: return StaticB;
-                case GameVersion.W: return StaticW;
-                case GameVersion.B2: return StaticB2;
-                case GameVersion.W2: return StaticW2;
-
-                case GameVersion.X: return StaticX;
-                case GameVersion.Y: return StaticY;
-                case GameVersion.AS: return StaticA;
-                case GameVersion.OR: return StaticO;
-
-                case GameVersion.SN: return StaticSN;
-                case GameVersion.MN: return StaticMN;
-                case GameVersion.US: return StaticUS;
-                case GameVersion.UM: return StaticUM;
-
-                default: return Enumerable.Empty<EncounterStatic>();
-            }
-        }
-
-        internal static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            switch (gameSource)
-            {
-                case GameVersion.RBY:
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.YW:
-                    return SlotsRBY;
-
-                case GameVersion.GSC:
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                    return GetEncounterTableGSC(pkm);
-
-                case GameVersion.R: return SlotsR;
-                case GameVersion.S: return SlotsS;
-                case GameVersion.E: return SlotsE;
-                case GameVersion.FR: return SlotsFR;
-                case GameVersion.LG: return SlotsLG;
-                case GameVersion.CXD: return SlotsXD;
-
-                case GameVersion.D: return SlotsD;
-                case GameVersion.P: return SlotsP;
-                case GameVersion.Pt: return SlotsPt;
-                case GameVersion.HG: return SlotsHG;
-                case GameVersion.SS: return SlotsSS;
-
-                case GameVersion.B: return SlotsB;
-                case GameVersion.W: return SlotsW;
-                case GameVersion.B2: return SlotsB2;
-                case GameVersion.W2: return SlotsW2;
-
-                case GameVersion.X: return SlotsX;
-                case GameVersion.Y: return SlotsY;
-                case GameVersion.AS: return SlotsA;
-                case GameVersion.OR: return SlotsO;
-
-                case GameVersion.SN: return SlotsSN;
-                case GameVersion.MN: return SlotsMN;
-                case GameVersion.US: return SlotsUS;
-                case GameVersion.UM: return SlotsUM;
-
-                default: return Enumerable.Empty<EncounterArea>();
-            }
-        }
-
-        private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
-        {
-            if (!AllowGen2Crystal(pkm))
-                return StaticGS;
-            if (pkm.Format != 2)
-                return StaticGSC;
-
-            if (pkm.HasOriginalMetLocation)
-                return StaticC;
-            return StaticGSC;
-        }
-
-        private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)
-        {
-            if (!AllowGen2Crystal(pkm))
-                return SlotsGS;
-
-            // Gen 2 met location is lost outside gen 2 games
-            if (pkm.Format != 2)
-                return SlotsGSC;
-
-            // Format 2 with met location, encounter should be from Crystal
-            if (pkm.HasOriginalMetLocation)
-                return SlotsC;
-
-            // Format 2 without met location but pokemon could not be tradeback to gen 1,
-            // encounter should be from gold or silver
-            if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                return SlotsGS;
-
-            // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
-            // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
-            return SlotsGSC;
-        }
-
         internal static ICollection<int> GetWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)
@@ -994,46 +846,6 @@ namespace PKHeX.Core
                 count = evos.Count;
             }
             return startLevel;
-        }
-
-        internal static bool GetCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
-        {
-            switch (gen)
-            {
-                // Capture Memory only obtainable via Gen 6.
-                case 6:
-                    switch (version)
-                    {
-                        case GameVersion.Any:
-                            return FriendSafari.Contains(species)
-                                || GetCanBeCaptured(species, SlotsX, StaticX)
-                                || GetCanBeCaptured(species, SlotsY, StaticY)
-                                || GetCanBeCaptured(species, SlotsA, StaticA)
-                                || GetCanBeCaptured(species, SlotsO, StaticO);
-                        case GameVersion.X:
-                            return FriendSafari.Contains(species)
-                                || GetCanBeCaptured(species, SlotsX, StaticX);
-                        case GameVersion.Y:
-                            return FriendSafari.Contains(species)
-                                || GetCanBeCaptured(species, SlotsY, StaticY);
-
-                        case GameVersion.AS:
-                            return GetCanBeCaptured(species, SlotsA, StaticA);
-                        case GameVersion.OR:
-                            return GetCanBeCaptured(species, SlotsO, StaticO);
-                    }
-                    break;
-            }
-            return false;
-        }
-
-        private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
-        {
-            if (area.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
-                return true;
-            if (statics.Any(enc => enc.Species == species && !enc.Gift))
-                return true;
-            return false;
         }
 
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)

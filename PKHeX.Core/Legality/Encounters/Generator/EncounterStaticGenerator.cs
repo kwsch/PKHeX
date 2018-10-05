@@ -2,6 +2,13 @@
 using System.Linq;
 
 using static PKHeX.Core.Legal;
+using static PKHeX.Core.Encounters1;
+using static PKHeX.Core.Encounters2;
+using static PKHeX.Core.Encounters3;
+using static PKHeX.Core.Encounters4;
+using static PKHeX.Core.Encounters5;
+using static PKHeX.Core.Encounters6;
+using static PKHeX.Core.Encounters7;
 
 namespace PKHeX.Core
 {
@@ -303,6 +310,71 @@ namespace PKHeX.Core
             var table = e.Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
             var rate = table[e.Species].CatchRate;
             return catch_rate == rate;
+        }
+
+        // Generation Specific Fetching
+        private static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            switch (gameSource)
+            {
+                case GameVersion.RBY:
+                case GameVersion.RD:
+                case GameVersion.BU:
+                case GameVersion.GN:
+                case GameVersion.YW:
+                    return StaticRBY;
+
+                case GameVersion.GSC:
+                case GameVersion.GD:
+                case GameVersion.SV:
+                case GameVersion.C:
+                    return GetEncounterStaticTableGSC(pkm);
+
+                case GameVersion.R: return StaticR;
+                case GameVersion.S: return StaticS;
+                case GameVersion.E: return StaticE;
+                case GameVersion.FR: return StaticFR;
+                case GameVersion.LG: return StaticLG;
+                case GameVersion.CXD: return Encounter_CXD;
+
+                case GameVersion.D: return StaticD;
+                case GameVersion.P: return StaticP;
+                case GameVersion.Pt: return StaticPt;
+                case GameVersion.HG: return StaticHG;
+                case GameVersion.SS: return StaticSS;
+
+                case GameVersion.B: return StaticB;
+                case GameVersion.W: return StaticW;
+                case GameVersion.B2: return StaticB2;
+                case GameVersion.W2: return StaticW2;
+
+                case GameVersion.X: return StaticX;
+                case GameVersion.Y: return StaticY;
+                case GameVersion.AS: return StaticA;
+                case GameVersion.OR: return StaticO;
+
+                case GameVersion.SN: return StaticSN;
+                case GameVersion.MN: return StaticMN;
+                case GameVersion.US: return StaticUS;
+                case GameVersion.UM: return StaticUM;
+
+                default: return Enumerable.Empty<EncounterStatic>();
+            }
+        }
+
+        private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
+        {
+            if (!AllowGen2Crystal(pkm))
+                return StaticGS;
+            if (pkm.Format != 2)
+                return StaticGSC;
+
+            if (pkm.HasOriginalMetLocation)
+                return StaticC;
+            return StaticGSC;
         }
     }
 }
