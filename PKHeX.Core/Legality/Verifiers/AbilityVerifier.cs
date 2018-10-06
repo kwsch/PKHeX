@@ -91,6 +91,15 @@ namespace PKHeX.Core
         private CheckResult VerifyFixedAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, AbilityState state, int EncounterAbility, int abilval)
         {
             var pkm = data.pkm;
+            if (data.Info.EncounterMatch is IGeneration g && g.Generation >= 6)
+            {
+                if (IsAbilityCapsuleModified(pkm, abilities, EncounterAbility))
+                    return GetValid(LAbilityCapsuleUsed);
+                if (pkm.AbilityNumber != EncounterAbility)
+                    return INVALID;
+                return VALID;
+            }
+
             if ((pkm.AbilityNumber == 4) != (EncounterAbility == 4))
                 return GetInvalid(LAbilityHiddenFail);
 

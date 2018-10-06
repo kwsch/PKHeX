@@ -243,6 +243,7 @@ namespace PKHeX.Core
                 Location = Transfer1,
                 EggLocation = 0,
                 Level = pkmMetLevel,
+                Generation = 7,
                 Version = GameVersion.RBY
             };
             enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
@@ -261,6 +262,7 @@ namespace PKHeX.Core
                 Location = Transfer2,
                 EggLocation = 0,
                 Level = pkmMetLevel,
+                Generation = 7,
                 Version = GameVersion.GSC
             };
             enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
