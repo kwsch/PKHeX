@@ -19,6 +19,10 @@
         /// </summary>
         public static bool AllowGen1Tradeback { get; set; }
 
+        public static Severity NicknamedTrade { get; set; } = Severity.Invalid;
+        public static Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
+        public static Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
+
         /// <summary>
         /// Checks to see if Crystal is available to visit/originate from.
         /// </summary>
@@ -41,12 +45,6 @@
         /// <param name="pkm">Data being checked</param>
         /// <returns>True if Crystal data is allowed</returns>
         public static bool AllowGen2MoveReminder(PKM pkm) => !pkm.Korean && AllowGBCartEra;
-
-        /// <summary>
-        /// Savegame is Japanese
-        /// </summary>
-        /// <remarks>Useful for checking the origin of EBerry data.</remarks>
-        internal static bool SavegameJapanese => ActiveTrainer.Language == 1;
 
         internal static bool IsFromActiveTrainer(PKM pkm) => ActiveTrainer.IsFromTrainer(pkm);
 

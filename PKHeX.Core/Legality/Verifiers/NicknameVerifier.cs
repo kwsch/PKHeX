@@ -34,7 +34,7 @@ namespace PKHeX.Core
             else if (EncounterMatch is MysteryGift m)
             {
                 if (pkm.IsNicknamed && !m.IsEgg)
-                   data.AddLine(Get(LEncGiftNicknamed, Severity.Fishy));
+                   data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
 
             if (EncounterMatch is EncounterTrade)
@@ -409,10 +409,11 @@ namespace PKHeX.Core
 
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterOriginal;
-            if (!IsNicknameMatch(nick, pkm, EncounterMatch)) // trades that are not nicknamed (but are present in a table with others being named)
-                data.AddLine(GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname));
-            else
-                data.AddLine(GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname));
+            // trades that are not nicknamed (but are present in a table with others being named)
+            var result = IsNicknameMatch(nick, pkm, EncounterMatch)
+                ? GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname)
+                : Get(LEncTradeChangedNickname, ParseSettings.NicknamedTrade, CheckIdentifier.Nickname);
+            data.AddLine(result);
 
             if (OT != pkm.OT_Name)
                 data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
