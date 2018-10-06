@@ -506,7 +506,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)
         {
-            if (!AllowGen2Crystal(pkm))
+            if (!ParseSettings.AllowGen2Crystal(pkm))
                 return SlotsGS;
 
             // Gen 2 met location is lost outside gen 2 games

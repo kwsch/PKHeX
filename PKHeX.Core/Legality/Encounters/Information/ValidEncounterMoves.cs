@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public ValidEncounterMoves(PKM pkm, LegalInfo info)
         {
             MinimumLevelGen1 = pkm.GenNumber <= 2 ? info.EncounterMatch.LevelMin + 1 : 0;
-            MinimumLevelGen2 = Legal.AllowGen2MoveReminder(pkm) ? 1 : info.EncounterMatch.LevelMin + 1;
+            MinimumLevelGen2 = ParseSettings.AllowGen2MoveReminder(pkm) ? 1 : info.EncounterMatch.LevelMin + 1;
             EncounterSpecies = info.EncounterMatch.Species;
             EvolutionChains = info.EvoChainsAllGens;
             LevelUpMoves = Legal.GetValidMovesAllGens(pkm, EvolutionChains, minLvLG1: MinimumLevelGen1, minLvLG2: MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);

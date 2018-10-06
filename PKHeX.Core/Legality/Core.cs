@@ -6,18 +6,6 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
-        public static bool AllowGBCartEra { get; set; }
-        public static bool AllowGen1Tradeback { get; set; }
-        public static bool AllowGen2Crystal(bool Korean) => !Korean; // Pokemon Crystal was never released in Korea
-        public static bool AllowGen2Crystal(PKM pkm) => AllowGen2Crystal(pkm.Korean);
-        public static bool AllowGen2MoveReminder(PKM pkm) => !pkm.Korean && AllowGBCartEra; // Pokemon Stadium 2 was never released in Korea
-
-        public static bool CheckWordFilter { get; set; } = true;
-
-        /// <summary> e-Reader Berry originates from a Japanese SaveFile </summary>
-        public static bool SavegameJapanese => ActiveTrainer.Language == 1;
-
         /// <summary> e-Reader Berry is Enigma or special berry </summary>
         public static bool EReaderBerryIsEnigma { get; set; } = true;
 
@@ -26,9 +14,6 @@ namespace PKHeX.Core
 
         /// <summary> e-Reader Berry Name formatted in Title Case </summary>
         public static string EReaderBerryDisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
-
-        public static ITrainerInfo ActiveTrainer = new SimpleTrainerInfo {OT = string.Empty, Game = (int)GameVersion.Any, Language = -1};
-        internal static bool IsNotFromActiveTrainer(PKM pkm) => !ActiveTrainer.IsFromTrainer(pkm);
 
         // Gen 1
         internal static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
@@ -354,7 +339,7 @@ namespace PKHeX.Core
         // Encounter
         internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info)
         {
-            if (AllowGen2Crystal(Info.Korean) && Info.Game == GameVersion.C)
+            if (ParseSettings.AllowGen2Crystal(Info.Korean) && Info.Game == GameVersion.C)
                 yield return GameVersion.C;
 
             // Any encounter marked with version GSC is for pokemon with the same moves in GS and C
@@ -972,7 +957,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Pokémon to guess the tradeback status from.</param>
         internal static TradebackType GetTradebackStatusRBY(PK1 pkm)
         {
-            if (!AllowGen1Tradeback)
+            if (!ParseSettings.AllowGen1Tradeback)
                 return TradebackType.Gen1_NotTradeback;
 
             // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pkm's evolution chain.
@@ -994,7 +979,7 @@ namespace PKHeX.Core
             return TradebackType.Gen1_NotTradeback;
         }
 
-        internal static bool IsCatchRateHeldItem(int rate) => AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
+        internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
 
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
@@ -1078,7 +1063,7 @@ namespace PKHeX.Core
 
         private static int GetEvoMoveMinLevel2(PKM pkm, int Generation, int minLvLG2, EvoCriteria evo)
         {
-            if (Generation != 2 || AllowGen2MoveReminder(pkm))
+            if (Generation != 2 || ParseSettings.AllowGen2MoveReminder(pkm))
                 return 1;
             if (evo.MinLevel > 1)
                 return Math.Min(pkm.CurrentLevel, evo.MinLevel);
@@ -1103,26 +1088,24 @@ namespace PKHeX.Core
                 return false;
             if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
-            if (ActiveTrainer.Game == (int)GameVersion.Any)
+            if (ParseSettings.ActiveTrainer.Game == (int)GameVersion.Any)
                 return false;
-            var IsYellow = ActiveTrainer.Game == (int)GameVersion.YW;
+            var IsYellow = ParseSettings.ActiveTrainer.Game == (int)GameVersion.YW;
             if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
                 // If catch rate is Abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
-                var catch_rate = pk1.Catch_Rate;
                 // Yellow Kadabra catch rate in Red/Blue game, must be Alakazam
-                if (!IsYellow && catch_rate == PersonalTable.Y[64].CatchRate)
-                    return true;
-                // Red/Blue Kadabra catch rate in Yellow game, must be Alakazam
-                if (IsYellow && catch_rate == PersonalTable.RB[64].CatchRate)
+                var table = IsYellow ? PersonalTable.RB : PersonalTable.Y;
+                if (pk1.Catch_Rate == table[64].CatchRate)
                     return true;
             }
             if (IsYellow)
                 return false;
             // Yellow only moves in Red/Blue game, must be Alakazam
-            if (pk1.Moves.Contains(134)) // Kinesis, yellow only move
+            var moves = pk1.Moves;
+            if (moves.Contains(134)) // Kinesis, yellow only move
                 return true;
-            if (pk1.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Obtaining Disable below level 20 implies a yellow only move
+            if (pk1.CurrentLevel < 20 && moves.Contains(50)) // Obtaining Disable below level 20 implies a yellow only move
                 return true;
 
             return false;

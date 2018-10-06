@@ -28,7 +28,7 @@ namespace PKHeX.Core
                 gameSource = (GameVersion)pkm.Version;
 
             var encs = GetStaticEncounters(pkm, vs, gameSource);
-            return encs.Where(e => AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
+            return encs.Where(e => ParseSettings.AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
 
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
@@ -208,7 +208,7 @@ namespace PKHeX.Core
             if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsValidCatchRatePK1(e, pk1))
                 return false;
 
-            if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
+            if (!ParseSettings.AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                 return false;
             return true;
         }
@@ -367,7 +367,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
         {
-            if (!AllowGen2Crystal(pkm))
+            if (!ParseSettings.AllowGen2Crystal(pkm))
                 return StaticGS;
             if (pkm.Format != 2)
                 return StaticGSC;

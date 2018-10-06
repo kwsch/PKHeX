@@ -88,7 +88,7 @@ namespace PKHeX.Core
         private void VerifyG1TradeEvo(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && Legal.IsNotFromActiveTrainer(pkm)) || Legal.IsTradedKadabraG1(pkm);
+            var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && !ParseSettings.IsFromActiveTrainer(pkm)) || Legal.IsTradedKadabraG1(pkm);
             if (!mustevolve)
                 return;
             // Pokemon have been traded but it is not evolved, trade evos are sequential dex numbers

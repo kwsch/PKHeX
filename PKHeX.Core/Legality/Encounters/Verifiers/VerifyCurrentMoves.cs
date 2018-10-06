@@ -45,7 +45,7 @@ namespace PKHeX.Core
                 UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
-                if (!Legal.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
+                if (!ParseSettings.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
                     UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
             }
 
@@ -152,7 +152,7 @@ namespace PKHeX.Core
             }
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
-            if (info.Generation <= 2 && info.EncounterMatch is IGeneration g && (g.Generation == 1 || (g.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
+            if (info.Generation <= 2 && info.EncounterMatch is IGeneration g && (g.Generation == 1 || (g.Generation == 2 && !ParseSettings.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
                 return ParseMovesGenGB(pkm, Moves, info);
 
             return ParseMovesSpecialMoveset(pkm, Moves, info);

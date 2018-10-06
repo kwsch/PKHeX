@@ -54,7 +54,7 @@ namespace PKHeX.Core
                 return;
 
             // Non-nicknamed strings have already been checked.
-            if (Legal.CheckWordFilter && pkm.IsNicknamed && WordFilter.IsFiltered(nickname, out string bad))
+            if (ParseSettings.CheckWordFilter && pkm.IsNicknamed && WordFilter.IsFiltered(nickname, out string bad))
                 data.AddLine(GetInvalid($"Wordfilter: {bad}"));
         }
 
@@ -237,7 +237,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language != (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language >= 0)
                         data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
                 }
                 VerifyTradeTable(data, Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
@@ -249,7 +249,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language != (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language >= 0)
                         data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
                 }
                 else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang

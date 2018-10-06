@@ -66,7 +66,7 @@ namespace PKHeX.Core
                     data.AddLine(Get(LOTLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
             }
 
-            if (Legal.CheckWordFilter)
+            if (ParseSettings.CheckWordFilter)
             {
                 if (WordFilter.IsFiltered(ot, out string bad))
                     data.AddLine(GetInvalid($"Wordfilter: {bad}"));

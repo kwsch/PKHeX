@@ -33,11 +33,20 @@ namespace PKHeX.Core
             var matchUSA = Legal.EReaderBerriesNames_USA.Contains(Legal.EReaderBerryName);
             var matchJP = Legal.EReaderBerriesNames_JP.Contains(Legal.EReaderBerryName);
             if (!matchJP && !matchUSA) // Does not match any released E-Reader berry
+            {
                 data.AddLine(GetInvalid(LEReaderInvalid));
-            else if (matchJP && !Legal.SavegameJapanese && Legal.ActiveTrainer.Language >= 0) // E-Reader is region locked
-                data.AddLine(GetInvalid(LEReaderJapan));
-            else if (matchUSA && Legal.SavegameJapanese && Legal.ActiveTrainer.Language >= 0) // E-Reader is region locked
-                data.AddLine(GetInvalid(LEReaderAmerica));
+                return;
+            }
+            if (ParseSettings.ActiveTrainer.Language <= 0)
+                return;
+
+            bool jp = ParseSettings.ActiveTrainer.Language == 1;
+            if (matchJP == jp)
+                return; // matches
+
+            // E-Reader is region locked
+            var msg = matchUSA ? LEReaderAmerica : LEReaderJapan;
+            data.AddLine(GetInvalid(msg));
         }
     }
 }
