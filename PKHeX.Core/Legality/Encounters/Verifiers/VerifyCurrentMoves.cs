@@ -30,23 +30,27 @@ namespace PKHeX.Core
                 return ParseMovesForSmeargle(pkm, Moves, info); // Smeargle can have any moves except a few
 
             // gather valid moves for encounter species
-            info.EncounterMoves = new ValidEncounterMoves(pkm, info);
+            var restrict = new LevelUpRestriction(pkm, info);
+            info.EncounterMoves = new ValidEncounterMoves(pkm, restrict);
 
             if (info.Generation <= 3)
                 pkm.WasEgg = info.EncounterMatch.EggEncounter;
 
-            var EncounterMatchGen = info.EncounterMatch as IGeneration;
-            var defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
-            var defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
+            List<int> defaultG1LevelMoves = null;
+            List<int> defaultG2LevelMoves = null;
             var defaultTradeback = pkm.TradebackStatus;
-            if (EncounterMatchGen?.Generation <= 2)
+            bool gb = false;
+            if (info.EncounterMatch is IGeneration g && g.Generation <= 2)
             {
+                gb = true;
+                defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
+                defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
-                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
+                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, g.Generation, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
                 if (!ParseSettings.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
-                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
+                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen2, g.Generation, info);
             }
 
             var res = info.Generation < 6
@@ -57,7 +61,7 @@ namespace PKHeX.Core
                 return res;
 
             // not valid
-            if (EncounterMatchGen?.Generation <= 2) // restore generation 1 and 2 moves
+            if (gb) // restore generation 1 and 2 moves
             {
                 info.EncounterMoves.LevelUpMoves[1] = defaultG1LevelMoves;
                 if (pkm.InhabitedGeneration(2))
@@ -787,7 +791,7 @@ namespace PKHeX.Core
             }
 
             if (sb.Length != 0)
-                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, sb.ToString());
+                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, sb);
 
             // Inherited moves appear after the required base moves.
             var AllowInheritedSeverity = infoset.AllowInherited ? Severity.Valid : Severity.Invalid;
