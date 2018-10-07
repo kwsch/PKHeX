@@ -78,7 +78,7 @@ namespace PKHeX.Core
 
             var EncounterMatch = data.EncounterMatch;
             int eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
-            if (eabil >= 0)
+            if (eabil > 0)
                 return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
 
             int gen = data.Info.Generation;
