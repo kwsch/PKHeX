@@ -102,21 +102,23 @@ namespace PKHeX.Core
         private static LegalInfo VerifyWithoutEncounter(PKM pkm, LegalInfo info)
         {
             info.EncounterMatch = new EncounterInvalid(pkm);
-
-            string hint; // hint why an encounter was not found
-            if (pkm.WasGiftEgg)
-                hint = LEncGift;
-            else if (pkm.WasEventEgg)
-                hint = LEncGiftEggEvent;
-            else if (pkm.WasEvent)
-                hint = LEncGiftNotFound;
-            else
-                hint = LEncInvalid;
+            string hint = GetHintWhyNotFound(pkm);
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
             info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
+        }
+
+        private static string GetHintWhyNotFound(PKM pkm)
+        {
+            if (pkm.WasGiftEgg)
+                return LEncGift;
+            if (pkm.WasEventEgg)
+                return LEncGiftEggEvent;
+            if (pkm.WasEvent)
+                return LEncGiftNotFound;
+            return LEncInvalid;
         }
     }
 }

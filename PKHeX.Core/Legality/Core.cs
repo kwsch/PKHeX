@@ -1015,7 +1015,7 @@ namespace PKHeX.Core
                     formcount = 4;
 
                 for (int i = 0; i < formcount; i++)
-                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs[0].Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
+                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs[0].Level, i, Tutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn)
                     r.AddRange(pkm.RelearnMoves);
                 return r.Distinct();
@@ -1047,7 +1047,7 @@ namespace PKHeX.Core
             var maxLevel = evo.Level;
             if (i != 0 && vs[i - 1].RequiresLvlUp) // evolution
                 ++maxLevel; // allow lvlmoves from the level it evolved to the next species
-            return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation);
+            return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, Tutor, Version, LVL, moveTutor, Machine, MoveReminder, RemoveTransferHM, Generation);
         }
 
         private static int GetEvoMoveMinLevel1(PKM pkm, int Generation, int minLvLG1, EvoCriteria evo)
