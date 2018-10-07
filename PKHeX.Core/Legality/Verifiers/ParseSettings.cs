@@ -36,7 +36,7 @@
         /// </summary>
         /// <param name="pkm">Data being checked</param>
         /// <returns>True if Crystal data is allowed</returns>
-        public static bool AllowGen2Crystal(PKM pkm) => AllowGen2Crystal(pkm.Korean);
+        public static bool AllowGen2Crystal(PKM pkm) => !pkm.Korean;
 
         /// <summary>
         /// Checks to see if the Move Reminder (Relearner) is available.

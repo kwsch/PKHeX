@@ -507,81 +507,43 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<int> GetIncompatibleRBYMoves(PKM pkm, int[] moves)
+        private static IList<int> GetIncompatibleRBYMoves(PKM pkm, int[] moves)
         {
             // Check moves that are learned at the same level in red/blue and yellow, these are illegal because there is no move reminder
             // There are only two incompatibilites; there is no illegal combination in generation 2+.
-            var incompatible = new List<int>(3);
 
             switch (pkm.Species)
             {
                 // Vaporeon in Yellow learns Mist and Haze at level 42, Mist can only be learned if it leveled up in the daycare
                 // Vaporeon in Red/Blue learns Acid Armor at level 42 and level 47 in Yellow
                 case 134 when pkm.CurrentLevel < 47 && moves.Contains(151):
+                {
+
+                    var incompatible = new List<int>(3);
                     if (moves.Contains(54))
                         incompatible.Add(54);
                     if (moves.Contains(114))
                         incompatible.Add(114);
                     if (incompatible.Count != 0)
                         incompatible.Add(151);
-                    break;
+                    return incompatible;
+                }
 
                 // Flareon in Yellow learns Smog at level 42
                 // Flareon in Red Blue learns Leer at level 42 and level 47 in Yellow
                 case 136 when pkm.CurrentLevel < 47 && moves.Contains(43) && moves.Contains(123):
-                    incompatible.Add(43);
-                    incompatible.Add(123);
-                    break;
+                    return new[] {43, 123};
             }
 
-            return incompatible;
+            return Array.Empty<int>();
         }
 
         private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> tmhm)
         {
-            var species = SpeciesStrings;
-            var currentspecies = species[pkm.Species];
-            var previousspecies = string.Empty;
-            var incompatible_previous = new List<int>();
-            var incompatible_current = new List<int>();
-            if (pkm.Species == 34 && moves.Contains(31) && moves.Contains(37))
-            {
-                // Nidoking learns Thrash at level 23
-                // Nidorino learns Fury Attack at level 36, Nidoran♂ at level 30
-                // Other moves are either learned by Nidoran♂ up to level 23 or by TM
-                incompatible_current.Add(31);
-                incompatible_previous.Add(37);
-                previousspecies = species[33];
-            }
-            if (pkm.Species == 103 && moves.Contains(23) && moves.Any(m => Legal.G1Exeggcute_IncompatibleMoves.Contains(moves[m])))
-            {
-                // Exeggutor learns stomp at level 28
-                // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
-                incompatible_current.Add(23);
-                incompatible_previous.AddRange(Legal.G1Exeggcute_IncompatibleMoves);
-                previousspecies = species[103];
-            }
-            if (134 <= pkm.Species && pkm.Species <= 136)
-            {
-                previousspecies = species[133];
-                var ExclusiveMoves = Legal.GetExclusiveMovesG1(133, pkm.Species, tmhm, moves);
-                var EeveeLevels = Legal.GetMinLevelLearnMoveG1(133, ExclusiveMoves[0]);
-                var EvoLevels = Legal.GetMaxLevelLearnMoveG1(pkm.Species, ExclusiveMoves[1]);
+            GetIncompatibleEvolutionMoves(pkm, moves, tmhm,
+                out var previousspecies, out var incompatible_previous, out var incompatible_current);
 
-                for (int i = 0; i < ExclusiveMoves[0].Count; i++)
-                {
-                    // There is a evolution move with a lower level that current eevee move
-                    if (EvoLevels.Any(ev => ev < EeveeLevels[i]))
-                        incompatible_previous.Add(ExclusiveMoves[0][i]);
-                }
-                for (int i = 0; i < ExclusiveMoves[1].Count; i++)
-                {
-                    // There is a eevee move with a greather level that current evolution move
-                    if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
-                        incompatible_current.Add(ExclusiveMoves[1][i]);
-                }
-            }
-
+            var currentspecies = SpeciesStrings[pkm.Species];
             for (int m = 0; m < 4; m++)
             {
                 if (incompatible_current.Contains(moves[m]))
@@ -589,6 +551,56 @@ namespace PKHeX.Core
                 if (incompatible_previous.Contains(moves[m]))
                     res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(LMoveEvoFHigher, currentspecies, previousspecies), CheckIdentifier.Move);
             }
+        }
+
+        private static void GetIncompatibleEvolutionMoves(PKM pkm, int[] moves, List<int> tmhm, out string previousspecies, out IList<int> incompatible_previous, out IList<int> incompatible_current)
+        {
+            switch (pkm.Species)
+            {
+                case 34 when moves.Contains(31) && moves.Contains(37):
+                    // Nidoking learns Thrash at level 23
+                    // Nidorino learns Fury Attack at level 36, Nidoran♂ at level 30
+                    // Other moves are either learned by Nidoran♂ up to level 23 or by TM
+                    incompatible_current = new[] {31};
+                    incompatible_previous = new[] {37};
+                    previousspecies = SpeciesStrings[33];
+                    return;
+
+                case 103 when moves.Contains(23) && moves.Any(m => Legal.G1Exeggcute_IncompatibleMoves.Contains(moves[m])):
+                    // Exeggutor learns stomp at level 28
+                    // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
+                    incompatible_current = new[] {23};
+                    incompatible_previous = Legal.G1Exeggcute_IncompatibleMoves;
+                    previousspecies = SpeciesStrings[103];
+                    return;
+
+                case 134:
+                case 135:
+                case 136:
+                    incompatible_previous = new List<int>();
+                    incompatible_current = new List<int>();
+                    previousspecies = SpeciesStrings[133];
+                    var ExclusiveMoves = Legal.GetExclusiveMovesG1(133, pkm.Species, tmhm, moves);
+                    var EeveeLevels = Legal.GetMinLevelLearnMoveG1(133, ExclusiveMoves[0]);
+                    var EvoLevels = Legal.GetMaxLevelLearnMoveG1(pkm.Species, ExclusiveMoves[1]);
+
+                    for (int i = 0; i < ExclusiveMoves[0].Count; i++)
+                    {
+                        // There is a evolution move with a lower level that current eevee move
+                        if (EvoLevels.Any(ev => ev < EeveeLevels[i]))
+                            incompatible_previous.Add(ExclusiveMoves[0][i]);
+                    }
+                    for (int i = 0; i < ExclusiveMoves[1].Count; i++)
+                    {
+                        // There is a eevee move with a greather level that current evolution move
+                        if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
+                            incompatible_current.Add(ExclusiveMoves[1][i]);
+                    }
+                    return;
+            }
+            incompatible_previous = Array.Empty<int>();
+            incompatible_current = Array.Empty<int>();
+            previousspecies = string.Empty;
         }
 
         private static void ParseShedinjaEvolveMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves)
@@ -606,7 +618,8 @@ namespace PKHeX.Core
                     if (!ninjaskMoves.Contains(moves[m]))
                         continue;
 
-                    res[m] = new CheckMoveResult(MoveSource.ShedinjaEvo, gen, Severity.Valid, native ? LMoveNincadaEvo : string.Format(LMoveNincadaEvoF_0, gen), CheckIdentifier.Move);
+                    var msg = native ? LMoveNincadaEvo : string.Format(LMoveNincadaEvoF_0, gen);
+                    res[m] = new CheckMoveResult(MoveSource.ShedinjaEvo, gen, Severity.Valid, msg, CheckIdentifier.Move);
                     ShedinjaEvoMovesLearned.Add(m);
                 }
             }
