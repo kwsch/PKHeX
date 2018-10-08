@@ -55,7 +55,7 @@ namespace PKHeX.Core
         {
             var EncounterMatch = data.EncounterMatch;
             var eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
-            if (eabil >= 0)
+            if (eabil > 0)
                 return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilnum);
 
             var gen = data.Info.Generation;
