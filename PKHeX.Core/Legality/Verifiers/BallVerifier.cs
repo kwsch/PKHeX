@@ -61,7 +61,7 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift g)
         {
-            if (g.Gen4 && g.Species == 490 && g.Ball == 0) // there is no ball data in Manaphy Mystery Gift from Gen4
+            if (g.Generation == 4 && g.Species == 490 && g.Ball == 0) // there is no ball data in Manaphy Mystery Gift from Gen4
                 return VerifyBallEquals(data, (int)Poke); // Pokeball
             return VerifyBallEquals(data, g.Ball);
         }

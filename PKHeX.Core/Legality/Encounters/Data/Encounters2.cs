@@ -268,13 +268,13 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
-            new string[0],                        // 0 - None
+            Array.Empty<string>(),                // 0 - None
             Util.GetStringList("tradegsc", "ja"), // 1
             Util.GetStringList("tradegsc", "en"), // 2
             Util.GetStringList("tradegsc", "fr"), // 3
             Util.GetStringList("tradegsc", "it"), // 4
             Util.GetStringList("tradegsc", "de"), // 5
-            new string[0],                        // 6 - None
+            Array.Empty<string>(),                // 6 - None
             Util.GetStringList("tradegsc", "es"), // 7
             Util.GetStringList("tradegsc", "ko"), // 8
         };

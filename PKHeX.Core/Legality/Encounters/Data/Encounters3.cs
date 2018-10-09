@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -233,11 +234,11 @@ namespace PKHeX.Core
         private static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
         private static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
 
-        private static readonly int[] TradeContest_Cool = { 30, 05, 05, 05, 05, 10 };
+        private static readonly int[] TradeContest_Cool =   { 30, 05, 05, 05, 05, 10 };
         private static readonly int[] TradeContest_Beauty = { 05, 30, 05, 05, 05, 10 };
-        private static readonly int[] TradeContest_Cute = { 05, 05, 30, 05, 05, 10 };
+        private static readonly int[] TradeContest_Cute =   { 05, 05, 30, 05, 05, 10 };
         private static readonly int[] TradeContest_Clever = { 05, 05, 05, 30, 05, 10 };
-        private static readonly int[] TradeContest_Tough = { 05, 05, 05, 05, 30, 10 };
+        private static readonly int[] TradeContest_Tough =  { 05, 05, 05, 05, 30, 10 };
 
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
@@ -269,25 +270,25 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeRSE =
         {
-            new string[0],                        // 0 - None
+            Array.Empty<string>(),                // 0 - None
             Util.GetStringList("traderse", "ja"), // 1
             Util.GetStringList("traderse", "en"), // 2
             Util.GetStringList("traderse", "fr"), // 3
             Util.GetStringList("traderse", "it"), // 4
             Util.GetStringList("traderse", "de"), // 5
-            new string[0],                        // 6 - None
+            Array.Empty<string>(),                // 6 - None
             Util.GetStringList("traderse", "es"), // 7
         };
 
         internal static readonly string[][] TradeFRLG =
         {
-            new string[0],                         // 0 - None
+            Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradefrlg", "ja"), // 1
             Util.GetStringList("tradefrlg", "en"), // 2
             Util.GetStringList("tradefrlg", "fr"), // 3
             Util.GetStringList("tradefrlg", "it"), // 4
             Util.GetStringList("tradefrlg", "de"), // 5
-            new string[0],                         // 6 - None
+            Array.Empty<string>(),                 // 6 - None
             Util.GetStringList("tradefrlg", "es"), // 7
         };
 
@@ -423,7 +424,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 244, Level = 40, Gauge = 13000, Moves = new[] {241,043,044,126}, Location = 125 }, // Entei: Cipher Admin Dakim @ Deep Colosseum
             new EncounterStaticShadow { Species = 244, Level = 40, Gauge = 13000, Moves = new[] {241,043,044,126}, Location = 076 }, // Entei: Cipher Admin Dakim @ Mt. Battle
 
-            new EncounterStaticShadow { Species = 245, Level = 40, Gauge = 13000, Moves = new[] {240,043,016,057}, Location = 104 }, // Suicune (Surf): Cipher Admin Venus @ Realgam Tower
+            new EncounterStaticShadow { Species = 245, Level = 40, Gauge = 13000, Moves = new[] {240,043,016,057}, Location = 110 }, // Suicune (Surf): Cipher Admin Venus @ Realgam Tower
             new EncounterStaticShadow { Species = 245, Level = 40, Gauge = 13000, Moves = new[] {240,043,016,056}, Location = 125 }, // Suicune (Hydro Pump): Cipher Admin Venus @ Deep Colosseum
             new EncounterStaticShadow { Species = 245, Level = 40, Gauge = 13000, Moves = new[] {240,043,016,057}, Location = 055 }, // Suicune (Surf): Cipher Admin Venus @ The Under
 

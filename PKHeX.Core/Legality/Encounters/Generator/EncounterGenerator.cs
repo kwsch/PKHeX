@@ -141,7 +141,7 @@ namespace PKHeX.Core
                     case GameVersion.C when gsc && pkm.Format == 2: // Crystal specific data needs to be present
                         if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
                             continue;
-                        if (s.Species == 251 && AllowGBCartEra) // no celebi, the GameVersion.EventsGBGen2 will pass thru
+                        if (s.Species == 251 && ParseSettings.AllowGBCartEra) // no celebi, the GameVersion.EventsGBGen2 will pass thru
                             continue;
                         break;
                 }
@@ -171,7 +171,7 @@ namespace PKHeX.Core
                 if (WasEgg)
                 {
                     int eggspec = GetBaseEggSpecies(pkm);
-                    if (AllowGen2Crystal(pkm))
+                    if (ParseSettings.AllowGen2Crystal(pkm))
                         yield return new EncounterEgg { Species = eggspec, Version = GameVersion.C, Level = 5 }; // gen2 egg
                     yield return new EncounterEgg { Species = eggspec, Version = GameVersion.GS, Level = 5 }; // gen2 egg
                 }

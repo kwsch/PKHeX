@@ -66,12 +66,14 @@ namespace PKHeX.Core
                     data.AddLine(Get(LOTLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
             }
 
-            if (Legal.CheckWordFilter)
+            if (ParseSettings.CheckWordFilter)
             {
                 if (WordFilter.IsFiltered(ot, out string bad))
                     data.AddLine(GetInvalid($"Wordfilter: {bad}"));
                 if (WordFilter.IsFiltered(pkm.HT_Name, out bad))
                     data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+                if (ContainsTooManyNumbers(ot, data.Info.Generation))
+                    data.AddLine(GetInvalid($"Wordfilter: Too many numbers."));
             }
         }
 
@@ -131,6 +133,29 @@ namespace PKHeX.Core
         private bool IsOTNameSuspicious(string name)
         {
             return SuspiciousOTNames.Any(name.StartsWith);
+        }
+
+        public static bool ContainsTooManyNumbers(string str, int originalGeneration)
+        {
+            if (originalGeneration <= 3)
+                return false; // no limit from these generations
+            int max = originalGeneration < 6 ? 4 : 5;
+            if (str.Length < max)
+                return false;
+            int count = GetNumberCount(str);
+            return count > max;
+        }
+
+        private static int GetNumberCount(string str)
+        {
+            bool IsNumber(char c)
+            {
+                if ('０' <= c)
+                    return c <= '９';
+                return c <= '9' && '0' <= c;
+            }
+
+            return str.Count(IsNumber);
         }
     }
 }

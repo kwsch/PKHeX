@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -714,26 +715,26 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeBW =
         {
-            new string[0],                       // 0 - None
+            Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradebw", "ja"), // 1
             Util.GetStringList("tradebw", "en"), // 2
             Util.GetStringList("tradebw", "fr"), // 3
             Util.GetStringList("tradebw", "it"), // 4
             Util.GetStringList("tradebw", "de"), // 5
-            new string[0],                       // 6 - None
+            Array.Empty<string>(),               // 6 - None
             Util.GetStringList("tradebw", "es"), // 7
             Util.GetStringList("tradebw", "ko"), // 8
         };
 
         internal static readonly string[][] TradeB2W2 =
         {
-            new string[0],                         // 0 - None
+            Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradeb2w2", "ja"), // 1
             Util.GetStringList("tradeb2w2", "en"), // 2
             Util.GetStringList("tradeb2w2", "fr"), // 3
             Util.GetStringList("tradeb2w2", "it"), // 4
             Util.GetStringList("tradeb2w2", "de"), // 5
-            new string[0],                         // 6 - None
+            Array.Empty<string>(),                 // 6 - None
             Util.GetStringList("tradeb2w2", "es"), // 7
             Util.GetStringList("tradeb2w2", "ko"), // 8
         };

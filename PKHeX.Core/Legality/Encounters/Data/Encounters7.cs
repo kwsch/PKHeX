@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -398,13 +399,13 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeSM =
         {
-            new string[0],                       // 0 - None
+            Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradesm", "ja"), // 1
             Util.GetStringList("tradesm", "en"), // 2
             Util.GetStringList("tradesm", "fr"), // 3
             Util.GetStringList("tradesm", "it"), // 4
             Util.GetStringList("tradesm", "de"), // 5
-            new string[0],                       // 6 - None
+            Array.Empty<string>(),               // 6 - None
             Util.GetStringList("tradesm", "es"), // 7
             Util.GetStringList("tradesm", "ko"), // 8
             Util.GetStringList("tradesm", "zh"), // 9
@@ -413,13 +414,13 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeUSUM =
         {
-            new string[0],                         // 0 - None
+            Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradeusum", "ja"), // 1
             Util.GetStringList("tradeusum", "en"), // 2
             Util.GetStringList("tradeusum", "fr"), // 3
             Util.GetStringList("tradeusum", "it"), // 4
             Util.GetStringList("tradeusum", "de"), // 5
-            new string[0],                         // 6 - None
+            Array.Empty<string>(),                 // 6 - None
             Util.GetStringList("tradeusum", "es"), // 7
             Util.GetStringList("tradeusum", "ko"), // 8
             Util.GetStringList("tradeusum", "zh"), // 9

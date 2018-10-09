@@ -34,7 +34,7 @@ namespace PKHeX.Core
             else if (EncounterMatch is MysteryGift m)
             {
                 if (pkm.IsNicknamed && !m.IsEgg)
-                   data.AddLine(Get(LEncGiftNicknamed, Severity.Fishy));
+                   data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
 
             if (EncounterMatch is EncounterTrade)
@@ -54,8 +54,13 @@ namespace PKHeX.Core
                 return;
 
             // Non-nicknamed strings have already been checked.
-            if (Legal.CheckWordFilter && pkm.IsNicknamed && WordFilter.IsFiltered(nickname, out string bad))
-                data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+            if (ParseSettings.CheckWordFilter && pkm.IsNicknamed)
+            {
+                if (WordFilter.IsFiltered(nickname, out string bad))
+                    data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+                if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
+                    data.AddLine(GetInvalid("Wordfilter: Too many numbers."));
+            }
         }
 
         private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pkm, string nickname)
@@ -237,7 +242,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language != (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language >= 0)
                         data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
                 }
                 VerifyTradeTable(data, Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
@@ -249,7 +254,7 @@ namespace PKHeX.Core
                 {
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
                     // flag korean magikarp on gen4 saves since the pkm.Language is German
-                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && Legal.ActiveTrainer.Language != (int)LanguageID.Korean && Legal.ActiveTrainer.Language >= 0)
+                    if (pkm.Format == 4 && lang == (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language != (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language >= 0)
                         data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
                 }
                 else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang
@@ -409,10 +414,11 @@ namespace PKHeX.Core
 
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterOriginal;
-            if (!IsNicknameMatch(nick, pkm, EncounterMatch)) // trades that are not nicknamed (but are present in a table with others being named)
-                data.AddLine(GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname));
-            else
-                data.AddLine(GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname));
+            // trades that are not nicknamed (but are present in a table with others being named)
+            var result = IsNicknameMatch(nick, pkm, EncounterMatch)
+                ? GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname)
+                : Get(LEncTradeChangedNickname, ParseSettings.NicknamedTrade, CheckIdentifier.Nickname);
+            data.AddLine(result);
 
             if (OT != pkm.OT_Name)
                 data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));

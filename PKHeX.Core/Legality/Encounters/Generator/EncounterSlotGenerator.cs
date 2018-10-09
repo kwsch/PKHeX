@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
+using static PKHeX.Core.Encounters1;
+using static PKHeX.Core.Encounters2;
+using static PKHeX.Core.Encounters3;
+using static PKHeX.Core.Encounters4;
+using static PKHeX.Core.Encounters5;
+using static PKHeX.Core.Encounters6;
+using static PKHeX.Core.Encounters7;
 
 namespace PKHeX.Core
 {
@@ -443,6 +450,81 @@ namespace PKHeX.Core
                     Location = area.Location,
                     Slots = slots,
                 }).OrderBy(area => area.Slots.Min(x => x.LevelMin)).FirstOrDefault();
+        }
+
+        private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            switch (gameSource)
+            {
+                case GameVersion.RBY:
+                case GameVersion.RD:
+                case GameVersion.BU:
+                case GameVersion.GN:
+                case GameVersion.YW:
+                    return SlotsRBY;
+
+                case GameVersion.GSC:
+                case GameVersion.GD:
+                case GameVersion.SV:
+                case GameVersion.C:
+                    return GetEncounterTableGSC(pkm);
+
+                case GameVersion.R: return SlotsR;
+                case GameVersion.S: return SlotsS;
+                case GameVersion.E: return SlotsE;
+                case GameVersion.FR: return SlotsFR;
+                case GameVersion.LG: return SlotsLG;
+                case GameVersion.CXD: return SlotsXD;
+
+                case GameVersion.D: return SlotsD;
+                case GameVersion.P: return SlotsP;
+                case GameVersion.Pt: return SlotsPt;
+                case GameVersion.HG: return SlotsHG;
+                case GameVersion.SS: return SlotsSS;
+
+                case GameVersion.B: return SlotsB;
+                case GameVersion.W: return SlotsW;
+                case GameVersion.B2: return SlotsB2;
+                case GameVersion.W2: return SlotsW2;
+
+                case GameVersion.X: return SlotsX;
+                case GameVersion.Y: return SlotsY;
+                case GameVersion.AS: return SlotsA;
+                case GameVersion.OR: return SlotsO;
+
+                case GameVersion.SN: return SlotsSN;
+                case GameVersion.MN: return SlotsMN;
+                case GameVersion.US: return SlotsUS;
+                case GameVersion.UM: return SlotsUM;
+
+                default: return Enumerable.Empty<EncounterArea>();
+            }
+        }
+
+        private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)
+        {
+            if (!ParseSettings.AllowGen2Crystal(pkm))
+                return SlotsGS;
+
+            // Gen 2 met location is lost outside gen 2 games
+            if (pkm.Format != 2)
+                return SlotsGSC;
+
+            // Format 2 with met location, encounter should be from Crystal
+            if (pkm.HasOriginalMetLocation)
+                return SlotsC;
+
+            // Format 2 without met location but pokemon could not be tradeback to gen 1,
+            // encounter should be from gold or silver
+            if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                return SlotsGS;
+
+            // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
+            // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
+            return SlotsGSC;
         }
     }
 }

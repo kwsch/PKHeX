@@ -37,7 +37,7 @@ namespace PKHeX.Tests.Legality
                 folder = Directory.GetParent(folder).FullName;
 
             folder = Path.Combine(folder, "Legality");
-            Legal.AllowGBCartEra = true;
+            ParseSettings.AllowGBCartEra = true;
             VerifyAll(folder, "Legal", true);
             VerifyAll(folder, "Illegal", false);
         }
@@ -61,8 +61,8 @@ namespace PKHeX.Tests.Legality
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
                 Assert.IsNotNull(pkm, $"Failed to load PKM: {new FileInfo(file).Name}.");
 
-                Legal.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
-                Legal.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");
+                ParseSettings.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
+                ParseSettings.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");
                 var legality = new LegalityAnalysis(pkm);
                 Assert.IsTrue(legality.Valid == IsValid, $"Failed to validate PKM as {(IsValid ? "Valid" : "Invalid")}: {fi.Directory.Name}\\{fi.Name}.");
             }

@@ -127,7 +127,7 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
-        private readonly BlockInfoNDS[] Blocks;
+        public readonly BlockInfoNDS[] Blocks;
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
