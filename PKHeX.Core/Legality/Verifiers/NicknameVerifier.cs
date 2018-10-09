@@ -54,8 +54,13 @@ namespace PKHeX.Core
                 return;
 
             // Non-nicknamed strings have already been checked.
-            if (ParseSettings.CheckWordFilter && pkm.IsNicknamed && WordFilter.IsFiltered(nickname, out string bad))
-                data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+            if (ParseSettings.CheckWordFilter && pkm.IsNicknamed)
+            {
+                if (WordFilter.IsFiltered(nickname, out string bad))
+                    data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+                if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
+                    data.AddLine(GetInvalid("Wordfilter: Too many numbers."));
+            }
         }
 
         private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pkm, string nickname)
