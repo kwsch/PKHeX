@@ -55,8 +55,14 @@ namespace PKHeX.Core
         {
             var EncounterMatch = data.EncounterMatch;
             var eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
-            if (eabil > 0)
-                return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilnum);
+            if (eabil >= 0)
+            {
+
+                if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
+                    return GetInvalid(LAbilityHiddenFail);
+                if (eabil > 0)
+                    return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilnum);
+            }
 
             var gen = data.Info.Generation;
             switch (gen)
@@ -78,8 +84,13 @@ namespace PKHeX.Core
 
             var EncounterMatch = data.EncounterMatch;
             int eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
-            if (eabil > 0)
-                return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
+            if (eabil >= 0)
+            {
+                if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
+                    return GetInvalid(LAbilityHiddenFail);
+                if (eabil > 0)
+                    return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
+            }
 
             int gen = data.Info.Generation;
             if (gen == 5)
