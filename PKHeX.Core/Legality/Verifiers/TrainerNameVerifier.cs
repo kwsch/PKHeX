@@ -140,7 +140,7 @@ namespace PKHeX.Core
             if (originalGeneration <= 3)
                 return false; // no limit from these generations
             int max = originalGeneration < 6 ? 4 : 5;
-            if (str.Length < max)
+            if (str.Length <= max)
                 return false;
             int count = GetNumberCount(str);
             return count > max;
