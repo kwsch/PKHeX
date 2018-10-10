@@ -81,7 +81,7 @@ namespace PKHeX.Core
 
             // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
             // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked
-            if (pkm.Format <= 2 && !(EncounterMatch is EncounterTrade) && EncounterMatch.Species == pkm.Species && Legal.Trade_Evolution1.Contains(EncounterMatch.Species))
+            if (pkm.Format <= 2 && !(EncounterMatch is EncounterTrade) && EncounterMatch.Species == pkm.Species && GBRestrictions.Trade_Evolution1.Contains(EncounterMatch.Species))
                 VerifyG1TradeEvo(data);
         }
 

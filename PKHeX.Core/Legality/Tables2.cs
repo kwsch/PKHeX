@@ -65,12 +65,7 @@ namespace PKHeX.Core
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
 
-        internal static readonly int[] UnreleasedItems_2 =
-        {
-            // todo
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i) && !UnreleasedItems_2.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i)).ToArray();
 
         internal static readonly HashSet<int> TransferSpeciesDefaultAbility_2 = new HashSet<int>
         {

@@ -9,6 +9,54 @@ namespace PKHeX
 {
     internal static class GBRestrictions
     {
+        internal static readonly int[] G1CaterpieMoves = { 33, 81 };
+        internal static readonly int[] G1WeedleMoves = { 40, 81 };
+        internal static readonly int[] G1MetapodMoves = G1CaterpieMoves.Concat(new[] { 106 }).ToArray();
+        internal static readonly int[] G1KakunaMoves = G1WeedleMoves.Concat(new[] { 106 }).ToArray();
+        internal static readonly int[] G1Exeggcute_IncompatibleMoves = { 78, 77, 79 };
+
+        internal static readonly int[] Stadium_CatchRate =
+        {
+            167, // Normal Box
+            168, // Gorgeous Box
+        };
+
+        internal static readonly HashSet<int> Stadium_GiftSpecies = new HashSet<int>
+        {
+            001, // Bulbasaur
+            004, // Charmander
+            007, // Squirtle
+            054, // Psyduck (Amnesia)
+            106, // Hitmonlee
+            107, // Hitmonchan
+            133, // Eevee
+            138, // Omanyte
+            140, // Kabuto
+        };
+
+        internal static readonly HashSet<int> SpecialMinMoveSlots = new HashSet<int>
+        {
+            25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
+        };
+
+        internal static readonly HashSet<int> Types_Gen1 = new HashSet<int>
+        {
+            0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
+        };
+
+        internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new HashSet<int>
+        {
+            12, 18, 31, 34, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
+        };
+
+        internal static readonly HashSet<int> Trade_Evolution1 = new HashSet<int>
+        {
+            064,
+            067,
+            075,
+            093
+        };
+
         private static int[] GetMinLevelLearnMoveG1(int species, List<int> moves)
         {
             var r = new int[moves.Count];

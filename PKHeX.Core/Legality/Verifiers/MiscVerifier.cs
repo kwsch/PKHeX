@@ -64,11 +64,11 @@ namespace PKHeX.Core
             if (pk1.Species == 137) // Porygon
             {
                 // Can have any type combination of any species by using Conversion.
-                if (!Legal.Types_Gen1.Contains(Type_A))
+                if (!GBRestrictions.Types_Gen1.Contains(Type_A))
                 {
                     data.AddLine(GetInvalid(LG1TypePorygonFail1));
                 }
-                else if (!Legal.Types_Gen1.Contains(Type_B))
+                else if (!GBRestrictions.Types_Gen1.Contains(Type_B))
                 {
                     data.AddLine(GetInvalid(LG1TypePorygonFail2));
                 }
@@ -114,7 +114,7 @@ namespace PKHeX.Core
             {
                 if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
-                if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (Legal.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
+                if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (GBRestrictions.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
                     return GetInvalid(LG1CatchRateEvo);
                 if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
                     return GetInvalid(pk1.Gen1_NotTradeback ? LG1CatchRateChain : LG1CatchRateNone);
