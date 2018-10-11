@@ -305,7 +305,7 @@ namespace PKHeX.Core
                 // Amnesia Psyduck has different catch rates depending on language
                 if (e.Species == 054)
                     return catch_rate == (pk1.Japanese ? 167 : 168);
-                return Stadium_CatchRate.Contains(catch_rate);
+                return GBRestrictions.Stadium_CatchRate.Contains(catch_rate);
             }
 
             // Encounters can have different Catch Rates (RBG vs Y)
