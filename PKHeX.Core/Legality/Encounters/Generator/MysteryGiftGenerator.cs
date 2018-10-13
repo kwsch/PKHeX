@@ -161,6 +161,13 @@ namespace PKHeX.Core
                 yield return z;
         }
 
+        private static bool GetIsValidOTItalianMattleHoOh(string wc, string ot, bool ck3)
+        {
+            if (ck3 && ot.Length == 10)
+                return wc == ot;
+            return ot.Length == 7 && wc.StartsWith(ot);
+        }
+
         private static bool GetIsMatchWC3(PKM pkm, WC3 wc)
         {
             // Gen3 Version MUST match.
@@ -172,8 +179,19 @@ namespace PKHeX.Core
             {
                 if (wc.SID != -1 && wc.SID != pkm.SID) return false;
                 if (wc.TID != -1 && wc.TID != pkm.TID) return false;
-                if (wc.OT_Name != null && wc.OT_Name != pkm.OT_Name) return false;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
+                if (wc.OT_Name != null)
+                {
+                    if (ReferenceEquals(EncountersWC3.ColoHoOhItalian, wc.OT_Name))
+                    {
+                        if (!GetIsValidOTItalianMattleHoOh(wc.OT_Name, pkm.OT_Name, pkm is CK3))
+                            return false;
+                    }
+                    else if (wc.OT_Name != pkm.OT_Name)
+                    {
+                        return false;
+                    }
+                }
             }
 
             if (wc.Language != -1 && wc.Language != pkm.Language) return false;

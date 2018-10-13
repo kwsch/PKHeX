@@ -22,12 +22,14 @@ namespace PKHeX.Core
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
         };
 
+        internal const string ColoHoOhItalian = "MONTE LOTT";
+
         private static IEnumerable<WC3> GetIngameCXDData()
         {
             var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
             var h = new[] {null, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", null, "HORDEL"};
             var d = new[] {null, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", null, "GERMÁN"};
-            var m = new[] {null, "バトルやま", "MATTLE", "MT BATA", "MONTE L", "DUELLBE", null, "ERNESTO"};
+            var m = new[] {null, "バトルやま", "MATTLE", "MT BATA", ColoHoOhItalian, "DUELLBE", null, "ERNESTO"};
 
             return langs.SelectMany(l => GetIngame((int)l));
             IEnumerable<WC3> GetIngame(int l)
