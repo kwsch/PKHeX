@@ -157,7 +157,6 @@ namespace PKHeX.Core
 
         protected override byte[] Write(bool DSV)
         {
-            int len = SIZE_STOREDBOX;
             int splitAtIndex = (Japanese ? 6 : 7);
             for (int i = 0; i < BoxCount; i++)
             {
@@ -273,12 +272,15 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
-        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
+        private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
 
         // Checksums
         private ushort GetChecksum()
         {
-            return (ushort)Data.Skip(Offsets.Trainer1).Take(Offsets.AccumulatedChecksumEnd - Offsets.Trainer1 + 1).Sum(a => a);
+            ushort sum = 0;
+            for (int i = Offsets.Trainer1; i <= Offsets.AccumulatedChecksumEnd; i++)
+                sum += Data[i];
+            return sum;
         }
 
         protected override void SetChecksums()

@@ -182,7 +182,7 @@ namespace PKHeX.Core
 
         private static bool GetLCRNGRoamerMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            if (IVs.Skip(2).Any(iv => iv != 0) || IVs[1] > 7)
+            if (IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7)
                 return GetNonMatch(out pidiv);
             var iv1 = GetIVChunk(IVs, 0);
             var reg = GetSeedsFromPID(RNG.LCRNG, top, bot);
@@ -726,7 +726,7 @@ namespace PKHeX.Core
             if (PIDType.Method_1 != val)
                 return false;
             var IVs = pkm.IVs;
-            return !(IVs.Skip(2).Any(iv => iv != 0) || IVs[1] > 7);
+            return !(IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7);
         }
 
         public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)

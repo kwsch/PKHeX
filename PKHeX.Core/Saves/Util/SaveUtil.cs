@@ -759,31 +759,45 @@ namespace PKHeX.Core
                     input = input.Skip(header.Length).ToArray();
                     return;
                 }
-                if (!FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length)))
-                    return;
-                footer = input.Skip(SIZE_G4RAW).ToArray();
-                input = input.Take(SIZE_G4RAW).ToArray();
+                int start = input.Length - FOOTER_DSV.Length;
+                for (int i = 0; i < FOOTER_DSV.Length; i++)
+                {
+                    if (FOOTER_DSV[i] != input[start + i])
+                        return;
+                }
+
+                footer = GetSubsection(input, SIZE_G4RAW);
+                input = GetSubsection(input, 0, SIZE_G4RAW);
             }
             else if (input.Length == SIZE_G3BOXGCI)
             {
                 if (!IsGameMatchHeader(HEADER_RSBOX, input))
                     return; // not gci
-                header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
-                input = input.Skip(header.Length).ToArray();
+                header = GetSubsection(input, 0, SIZE_G3BOXGCI - SIZE_G3BOX);
+                input = GetSubsection(input, header.Length);
             }
             else if (input.Length == SIZE_G3COLOGCI)
             {
                 if (!IsGameMatchHeader(HEADER_COLO, input))
                     return; // not gci
-                header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
-                input = input.Skip(header.Length).ToArray();
+                header = GetSubsection(input, 0, SIZE_G3COLOGCI - SIZE_G3COLO);
+                input = GetSubsection(input, header.Length);
             }
             else if (input.Length == SIZE_G3XDGCI)
             {
                 if (!IsGameMatchHeader(HEADER_XD, input))
                     return; // not gci
-                header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
-                input = input.Skip(header.Length).ToArray();
+                header = GetSubsection(input, 0, SIZE_G3XDGCI - SIZE_G3XD);
+                input = GetSubsection(input, header.Length);
+            }
+
+            byte[] GetSubsection(byte[] data, int start, int length = -1)
+            {
+                if (length < 0)
+                    length = data.Length - start;
+                byte[] result = new byte[length];
+                Buffer.BlockCopy(data, start, result, 0, length);
+                return result;
             }
             bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
         }
