@@ -57,7 +57,6 @@ namespace PKHeX.Core
             var eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
             if (eabil >= 0)
             {
-
                 if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
                     return GetInvalid(LAbilityHiddenFail);
                 if (eabil > 0)

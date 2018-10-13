@@ -151,6 +151,13 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="g1">Version (set)</param>
         /// <param name="g2">Individual version</param>
+        public static bool Contains(this GameVersion g1, int g2) => g1.Contains((GameVersion) g2);
+
+        /// <summary>
+        /// Checks if the <see cref="g1"/> version (or subset versions) is equivalent to <see cref="g2"/>.
+        /// </summary>
+        /// <param name="g1">Version (set)</param>
+        /// <param name="g2">Individual version</param>
         public static bool Contains(this GameVersion g1, GameVersion g2)
         {
             if (g1 == g2 || g1 == Any)
