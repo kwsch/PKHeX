@@ -754,6 +754,8 @@ namespace PKHeX.Core
                     return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Encounters4.SafariZoneLocation_4.Contains(sl.Location);
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
+                case PCD d when d.Gift.PK.PID != 1:
+                    return true; // already matches PCD's fixed PID requirement
                 default: // eggs
                     return val == PIDType.None;
             }
