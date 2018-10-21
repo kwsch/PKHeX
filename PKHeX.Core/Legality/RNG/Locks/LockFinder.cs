@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -8,9 +9,40 @@ namespace PKHeX.Core
     public sealed class NPCLock
     {
         public int Species;
-        public uint? Nature = null;
-        public uint? Gender = null;
-        public bool Shadow = false;
+        public uint Nature;
+        public uint Gender;
+        public uint Ratio;
+        public bool Shadow;
+        public bool Seen = false;
+
+        public NPCLock(int s, uint n, uint g, uint r)
+        {
+            Species = s;
+            Nature = n;
+            Gender = g;
+            Ratio = r;
+        }
+
+        public NPCLock(int s, bool seen = false)
+        {
+            Species = s;
+            Nature = 25;
+            Shadow = true;
+            Seen = seen;
+        }
+
+        public bool MatchesLock(uint PID)
+        {
+            if (Shadow)
+                return true;
+            if (Gender != 2 && Gender != ((PID & 0xFF) < Ratio ? 1 : 0))
+                return false;
+            if (Nature != PID % 25)
+                return false;
+            return true;
+        }
+
+        internal NPCLock Clone() => (NPCLock)MemberwiseClone();
     }
 
     /// <summary>
@@ -49,7 +81,8 @@ namespace PKHeX.Core
                 return VerifyNPC(cache, ctr, PIDs, XD, out originFrame);
 
             var l = Locks.Pop();
-            foreach (var poss in FindPossibleLockFrames(cache, ctr, l, prior))
+            var frames = FindPossibleLockFrames(cache, ctr, l, prior);
+            foreach (var poss in frames)
             {
                 PIDs.Push(poss.PID); // possible match
                 if (FindLockSeed(cache, poss.FrameID, Locks, l, PIDs, XD, out originFrame))
@@ -73,7 +106,7 @@ namespace PKHeX.Core
         private static IEnumerable<SeedFrame> GetSingleLockFrame(FrameCache cache, int ctr, NPCLock l)
         {
             uint pid = cache[ctr + 1] << 16 | cache[ctr];
-            if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+            if (l.MatchesLock(pid))
                 yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
         }
 
@@ -91,11 +124,11 @@ namespace PKHeX.Core
                 if (p7 > start)
                 {
                     uint cid = cache[p7 + 1] << 16 | cache[p7];
-                    if (MatchesLock(prior, cid, PKX.GetGenderFromPID(prior.Species, cid)))
+                    if (prior.MatchesLock(cid))
                         yield break;
                 }
                 uint pid = cache[ctr + 1] << 16 | cache[ctr];
-                if (MatchesLock(l, pid, PKX.GetGenderFromPID(l.Species, pid)))
+                if (l.MatchesLock(pid))
                     yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
 
                 ctr += 2;
@@ -118,15 +151,6 @@ namespace PKHeX.Core
         // Helpers
         private static bool IsShiny(uint TID, uint SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
-
-        private static bool MatchesLock(NPCLock k, uint PID, int Gender)
-        {
-            if (k.Nature != null && k.Nature != PID % 25)
-                return false;
-            if (k.Gender != null && k.Gender != Gender)
-                return false;
-            return true;
-        }
 
         // Colosseum/XD Starters
         public static bool IsXDStarterValid(uint seed, int TID, int SID)
