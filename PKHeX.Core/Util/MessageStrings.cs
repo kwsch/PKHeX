@@ -47,6 +47,8 @@ namespace PKHeX.Core
         // ReSharper disable once UnusedMember.Global -- used only for release
         public static string MsgFileLoadFail { get; set; } = "Unable to load file.";
         public static string MsgFileLoadFailAuto { get; set; } = "An error occurred while attempting to auto-load your save file.";
+        public static string MsgFileLoadFailAutoAdvise { get; set; } = "It is advised to manually remove bad filenames from the folder.";
+        public static string MsgFileLoadFailAutoCause { get; set; } = "This is likely caused by Homebrew creating invalid filenames.";
         public static string MsgFileLoadVersionSelect { get; set; } = "Select version.";
         public static string MsgFileLoadVersionDetect { get; set; } = "Generation {0} Save File detected.";
         public static string MsgFileLoadEncrypted { get; set; } = "PKHeX only edits decrypted save files.";

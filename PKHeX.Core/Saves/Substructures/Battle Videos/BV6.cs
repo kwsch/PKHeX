@@ -60,7 +60,7 @@ namespace PKHeX.Core
                 string[] trainers = new string[4];
                 for (int i = 0; i < 4; i++)
                 {
-                    trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xEC + 0x1A*i, 0x1A));
+                    trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xEC + (0x1A * i), 0x1A));
                     if (string.IsNullOrWhiteSpace(trainers[i]))
                         trainers[i] = NPC;
                 }
@@ -74,7 +74,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < 4; i++)
                 {
                     string tr = value[i] == NPC ? "" : value[i];
-                    Encoding.Unicode.GetBytes(tr.PadRight(0x1A/2)).CopyTo(Data, 0xEC + 0x1A*i);
+                    Encoding.Unicode.GetBytes(tr.PadRight(0x1A/2)).CopyTo(Data, 0xEC + (0x1A * i));
                 }
             }
         }
@@ -90,8 +90,8 @@ namespace PKHeX.Core
                     Teams[t] = new PKM[6];
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = start + PKX.SIZE_6PARTY*(t*6 + p);
-                        offset += 8*((t*6 + p)/6); // 8 bytes padding between teams
+                        int offset = start + (PKX.SIZE_6PARTY*((t * 6) + p));
+                        offset += 8*(((t * 6) + p)/6); // 8 bytes padding between teams
                         Teams[t][p] = new PK6(Data.Skip(offset).Take(PKX.SIZE_6PARTY).ToArray(), $"Team {t}, Slot {p}");
                     }
                 }
@@ -105,8 +105,8 @@ namespace PKHeX.Core
                 {
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = start + PKX.SIZE_6PARTY*(t*6 + p);
-                        offset += 8*((t*6 + p)/6); // 8 bytes padding between teams
+                        int offset = start + (PKX.SIZE_6PARTY*((t * 6) + p));
+                        offset += 8*(((t * 6) + p)/6); // 8 bytes padding between teams
                         Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
                     }
                 }
@@ -197,6 +197,7 @@ namespace PKHeX.Core
             "Link", "Maison", "Super Maison", "Battle Spot - Free", "Battle Spot - Rating",
             "Battle Spot - Special", "UNUSED", "JP-1", "JP-2", "BROKEN",
         };
+
         public static readonly string[] BVstyle = { "Single", "Double", "Triple", "Rotation", "Multi", };
     }
 }

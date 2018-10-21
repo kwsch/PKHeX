@@ -31,6 +31,7 @@ namespace PKHeX.Core
             Data = data;
             PKX.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
         }
+
         public byte[] Write()
         {
             byte[] data = (byte[])Data.Clone();
@@ -75,6 +76,7 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(Data, EncryptionSeedOffset);
             private set => BitConverter.GetBytes(value).CopyTo(Data, EncryptionSeedOffset);
         }
+
         public void UnlockAllAreas()
         {
             Unlock38Areas = MaxUnlock38Areas;

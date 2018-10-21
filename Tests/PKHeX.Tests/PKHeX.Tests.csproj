@@ -73,6 +73,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Legality\LegalityTests.cs" />
+    <Compile Include="Legality\ShadowTests.cs" />
     <Compile Include="PKM\PIDIVTests.cs" />
     <Compile Include="PKM\PKMTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -93,7 +93,7 @@ namespace PKHeX.WinForms.Controls
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip();
+        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip(), SpeciesIDTip = new ToolTip();
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
@@ -271,7 +271,7 @@ namespace PKHeX.WinForms.Controls
             LegalityChanged?.Invoke(Legality.Valid, null);
         }
 
-        private List<ComboItem> MoveDataAllowed = new List<ComboItem>();
+        private IReadOnlyList<ComboItem> MoveDataAllowed = new List<ComboItem>();
 
         private void ReloadMoves(IReadOnlyCollection<int> moves)
         {
@@ -1081,6 +1081,7 @@ namespace PKHeX.WinForms.Controls
             // Get Species dependent information
             if (FieldsLoaded)
                 pkm.Species = WinFormsUtil.GetIndex(CB_Species);
+            SpeciesIDTip.SetToolTip(CB_Species, pkm.Species.ToString("000"));
             SetAbilityList();
             SetForms();
             UpdateForm(null, null);
@@ -1477,6 +1478,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             FieldsLoaded = false;
             NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
+            ((IShadowPKM)pkm).Purification = (int)NUD_Purification.Value;
+            UpdatePreviewSprite?.Invoke(this, null);
             FieldsLoaded = true;
         }
 
@@ -1654,7 +1657,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
             Label_OTGender.Visible = gen >= 2;
-            Label_Gender.Visible = gen >= 1;
+            FLP_CatchRate.Visible = gen == 1;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;
@@ -1820,7 +1823,7 @@ namespace PKHeX.WinForms.Controls
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            MoveDataAllowed = GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
                 cb.InitializeBinding();

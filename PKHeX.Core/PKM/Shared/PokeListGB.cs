@@ -16,10 +16,10 @@ namespace PKHeX.Core
 
         protected PokeListGB(byte[] d, PokeListType c = PokeListType.Single, bool jp = false)
         {
-            Data = d ?? GetEmptyList(c, jp);
-            StringLength = GetStringLength(jp);
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
+            StringLength = GetStringLength(jp);
+            Data = d ?? GetEmptyList(c, jp);
             var dataSize = 2 + (Capacity * (Entry_Size + 1 + (2 * StringLength)));
 
             if (Data.Length != dataSize)
@@ -51,7 +51,7 @@ namespace PKHeX.Core
         private int GetOffsetPKMOT(int base_ofs, int i) => GetOffsetPKMData(base_ofs, Capacity) + (StringLength * i);
         private int GetOffsetPKMNickname(int base_ofs, int i) => GetOffsetPKMOT(base_ofs, Capacity) + (StringLength * i);
 
-        private static int GetStringLength(bool jp) => jp ? PK1.STRLEN_J : PK1.STRLEN_U;
+        private static int GetStringLength(bool jp) => jp ? _K12.STRLEN_J : _K12.STRLEN_U;
         protected bool IsFormatParty => IsCapacityPartyFormat((PokeListType)Capacity);
         protected static bool IsCapacityPartyFormat(PokeListType Capacity) => Capacity == PokeListType.Single || Capacity == PokeListType.Party;
 

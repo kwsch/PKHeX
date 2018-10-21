@@ -510,9 +510,9 @@ namespace PKHeX.WinForms
 
             bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
             if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
-                Legal.CheckWordFilter = false;
+                ParseSettings.CheckWordFilter = false;
             var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
-            Legal.CheckWordFilter = true;
+            ParseSettings.CheckWordFilter = true;
 
             if (results.Count == 0)
             {

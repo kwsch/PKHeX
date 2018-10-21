@@ -11,6 +11,7 @@ namespace PKHeX.Core
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
@@ -105,13 +106,13 @@ namespace PKHeX.Core
                 DaycareFlags[0] = Data[offset]; offset++;
                 var pk1 = ReadPKMFromOffset(offset); // parent 1
                 var daycare1 = new PokeList2(pk1);
-                offset += StringLength * 2 + 0x20; // nick/ot/pkm
+                offset += (StringLength * 2) + 0x20; // nick/ot/pkm
                 DaycareFlags[1] = Data[offset]; offset++;
                 byte steps = Data[offset]; offset++;
                 byte BreedMotherOrNonDitto = Data[offset]; offset++;
                 var pk2 = ReadPKMFromOffset(offset); // parent 2
                 var daycare2 = new PokeList2(pk2);
-                offset += StringLength * 2 + PKX.SIZE_2STORED; // nick/ot/pkm
+                offset += (StringLength * 2) + PKX.SIZE_2STORED; // nick/ot/pkm
                 var pk3 = ReadPKMFromOffset(offset); // egg!
                 pk3.IsEgg = true;
                 var daycare3 = new PokeList2(pk3);
@@ -156,7 +157,6 @@ namespace PKHeX.Core
 
         protected override byte[] Write(bool DSV)
         {
-            int len = SIZE_STOREDBOX;
             int splitAtIndex = (Japanese ? 6 : 7);
             for (int i = 0; i < BoxCount; i++)
             {
@@ -164,7 +164,7 @@ namespace PKHeX.Core
                 int slot = 0;
                 for (int j = 0; j < boxPL.Pokemon.Length; j++)
                 {
-                    PK2 boxPK = (PK2) GetPKM(GetData(GetBoxOffset(i) + j*SIZE_STORED, SIZE_STORED));
+                    PK2 boxPK = (PK2) GetPKM(GetData(GetBoxOffset(i) + (j * SIZE_STORED), SIZE_STORED));
                     if (boxPK.Species > 0)
                         boxPL[slot++] = boxPK;
                 }
@@ -207,8 +207,10 @@ namespace PKHeX.Core
                     new ushort[] {0x7E39, 0x7E6A},
                 };
                 foreach (ushort[] p in offsetpairs)
+                {
                     for (int i = p[0]; i < p[1]; i++)
                         sum += Data[i];
+                }
                 BitConverter.GetBytes(sum).CopyTo(Data, 0x7E6B);
             }
             else
@@ -270,19 +272,24 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
-        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
+        private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
 
         // Checksums
         private ushort GetChecksum()
         {
-            return (ushort)Data.Skip(Offsets.Trainer1).Take(Offsets.AccumulatedChecksumEnd - Offsets.Trainer1 + 1).Sum(a => a);
+            ushort sum = 0;
+            for (int i = Offsets.Trainer1; i <= Offsets.AccumulatedChecksumEnd; i++)
+                sum += Data[i];
+            return sum;
         }
+
         protected override void SetChecksums()
         {
             ushort accum = GetChecksum();
             BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition);
             BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition2);
         }
+
         public override bool ChecksumsValid
         {
             get
@@ -303,7 +310,9 @@ namespace PKHeX.Core
             get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
             set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
         }
+
         public byte[] OT_Trash { get => GetData(Offsets.Trainer1 + 2, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); } }
+
         public override int Gender
         {
             get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
@@ -315,21 +324,26 @@ namespace PKHeX.Core
                 Data[Offsets.Palette] = (byte) value;
             }
         }
+
         public override int TID
         {
             get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
         }
+
         public override int SID { get => 0; set { } }
+
         public override int PlayedHours
         {
             get => BigEndian.ToUInt16(Data, Offsets.TimePlayed);
             set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.TimePlayed);
         }
+
         public override int PlayedMinutes
         {
             get => Data[Offsets.TimePlayed + 2];
             set => Data[Offsets.TimePlayed + 2] = (byte)value;
         }
+
         public override int PlayedSeconds
         {
             get => Data[Offsets.TimePlayed + 3];
@@ -341,21 +355,25 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt16(Data, Offsets.JohtoBadges);
             set { if (value < 0) return; BitConverter.GetBytes((ushort)value).CopyTo(Data, Offsets.JohtoBadges); }
         }
+
         private byte Options
         {
             get => Data[Offsets.Options];
             set => Data[Offsets.Options] = value;
         }
+
         public bool BattleEffects
         {
             get => (Options & 0x80) == 0;
             set => Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80));
         }
+
         public bool BattleStyleSwitch
         {
             get => (Options & 0x40) == 0;
             set => Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40));
         }
+
         public int Sound
         {
             get => (Options & 0x30) >> 4;
@@ -369,6 +387,7 @@ namespace PKHeX.Core
                 Options = (byte)((Options & 0xCF) | (new_sound << 4));
             }
         }
+
         public int TextSpeed
         {
             get => Options & 0x7;
@@ -382,6 +401,7 @@ namespace PKHeX.Core
                 Options = (byte)((Options & 0xF8) | new_speed);
             }
         }
+
         public override uint Money
         {
             get => BigEndian.ToUInt32(Data, Offsets.Money - 1) & 0xFFFFFF;
@@ -391,6 +411,7 @@ namespace PKHeX.Core
                 Array.Copy(data, 1, Data, Offsets.Money, 3);
             }
         }
+
         public uint Coin
         {
             get => BigEndian.ToUInt16(Data, Offsets.Money + 7);
@@ -402,6 +423,7 @@ namespace PKHeX.Core
         }
 
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs;
+
         public override InventoryPouch[] Inventory
         {
             get
@@ -439,7 +461,7 @@ namespace PKHeX.Core
         }
 
         private readonly byte[] DaycareFlags = new byte[2];
-        public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + slot*2);
+        public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + (slot * 2));
         public override uint? GetDaycareEXP(int loc, int slot) => null;
         public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlags[slot] & 1) != 0;
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
@@ -450,14 +472,17 @@ namespace PKHeX.Core
         {
             get => Data[Offsets.Party]; protected set => Data[Offsets.Party] = (byte)value;
         }
+
         public override int GetBoxOffset(int box)
         {
-            return Data.Length - SIZE_RESERVED + box * SIZE_BOX;
+            return Data.Length - SIZE_RESERVED + (box * SIZE_BOX);
         }
+
         public override int GetPartyOffset(int slot)
         {
-            return Data.Length - SIZE_RESERVED + BoxCount * SIZE_BOX + slot * SIZE_STORED;
+            return Data.Length - SIZE_RESERVED + (BoxCount * SIZE_BOX) + (slot * SIZE_STORED);
         }
+
         public override int CurrentBox
         {
             get => Data[Offsets.CurrentBoxIndex] & 0x7F; set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.OtherCurrentBox] & 0x80) | (value & 0x7F));
@@ -466,13 +491,14 @@ namespace PKHeX.Core
         public override string GetBoxName(int box)
         {
             int len = Korean ? 17 : 9;
-            return GetString(Offsets.BoxNames + box * len, len);
+            return GetString(Offsets.BoxNames + (box * len), len);
         }
+
         public override void SetBoxName(int box, string value)
         {
             int len = Korean ? 17 : 9;
             var data = SetString(value, len, len, 0x50);
-            SetData(data, Offsets.BoxNames + box * len);
+            SetData(data, Offsets.BoxNames + (box * len));
         }
 
         public override PKM GetPKM(byte[] data)
@@ -481,6 +507,7 @@ namespace PKHeX.Core
                 return new PokeList2(data, PokeListType.Single, Japanese)[0];
             return new PK2(data);
         }
+
         public override byte[] DecryptPKM(byte[] data)
         {
             return data;
@@ -496,6 +523,7 @@ namespace PKHeX.Core
             SetCaught(pkm.Species, true);
             SetSeen(pkm.Species, true);
         }
+
         private bool CanSetDex(int species)
         {
             if (species <= 0)
@@ -506,12 +534,14 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
+
         public override void SetSeen(int species, bool seen)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
             SetFlag(Offsets.PokedexSeen + ofs, bit & 7, seen);
         }
+
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
@@ -520,6 +550,7 @@ namespace PKHeX.Core
             if (caught && species == 201)
                 SetUnownFormFlags();
         }
+
         private void SetUnownFormFlags()
         {
             // Give all Unown caught to prevent a crash on pokedex view
@@ -528,6 +559,7 @@ namespace PKHeX.Core
             if (UnownFirstSeen == 0) // Invalid
                 UnownFirstSeen = 1; // A
         }
+
         /// <summary>
         /// Toggles the availability of Unown letter groups in the Wild
         /// </summary>
@@ -543,10 +575,12 @@ namespace PKHeX.Core
             get => Data[Offsets.PokedexSeen + 0x1F + 27];
             set => Data[Offsets.PokedexSeen + 0x1F + 27] = (byte)value;
         }
+
         /// <summary>
         /// Unlocks all Unown letters/forms in the wild.
         /// </summary>
         public void UnownUnlockAll() => UnownUnlocked = 0x0F; // all 4 bitflags
+
         /// <summary>
         /// Flag that determines if Unown Letters are available in the wild: A, B, C, D, E, F, G, H, I, J, K
         /// </summary>
@@ -555,6 +589,7 @@ namespace PKHeX.Core
             get => (UnownUnlocked & 1 << 0) == 1 << 0;
             set => UnownUnlocked |= 1 << 0;
         }
+
         /// <summary>
         /// Flag that determines if Unown Letters are available in the wild: L, M, N, O, P, Q, R
         /// </summary>
@@ -563,6 +598,7 @@ namespace PKHeX.Core
             get => (UnownUnlocked & 1 << 1) == 1 << 1;
             set => UnownUnlocked |= 1 << 1;
         }
+
         /// <summary>
         /// Flag that determines if Unown Letters are available in the wild: S, T, U, V, W
         /// </summary>
@@ -571,6 +607,7 @@ namespace PKHeX.Core
             get => (UnownUnlocked & 1 << 2) == 1 << 2;
             set => UnownUnlocked |= 1 << 2;
         }
+
         /// <summary>
         /// Flag that determines if Unown Letters are available in the wild: X, Y, Z
         /// </summary>
@@ -579,6 +616,7 @@ namespace PKHeX.Core
             get => (UnownUnlocked & 1 << 3) == 1 << 3;
             set => UnownUnlocked |= 1 << 3;
         }
+
         /// <summary>
         /// Chooses which Unown sprite to show in the regular Pokédex View
         /// </summary>
@@ -587,12 +625,14 @@ namespace PKHeX.Core
             get => Data[Offsets.PokedexSeen + 0x1F + 28];
             set => Data[Offsets.PokedexSeen + 0x1F + 28] = (byte)value;
         }
+
         public override bool GetSeen(int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
             return GetFlag(Offsets.PokedexSeen + ofs, bit & 7);
         }
+
         public override bool GetCaught(int species)
         {
             int bit = species - 1;
@@ -602,6 +642,7 @@ namespace PKHeX.Core
 
         // Misc
         public ushort ResetKey => GetResetKey();
+
         private ushort GetResetKey()
         {
             var val = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
@@ -609,6 +650,7 @@ namespace PKHeX.Core
             var tr = ot.Sum(z => z);
             return (ushort)(val + tr);
         }
+
         public void UnlockAllDecorations()
         {
             for (int i = 676; i <= 721; i++)
@@ -621,6 +663,7 @@ namespace PKHeX.Core
                 return StringConverter.GetString2KOR(Data, Offset, Length);
             return StringConverter.GetString1(Data, Offset, Length, Japanese);
         }
+
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (Korean)

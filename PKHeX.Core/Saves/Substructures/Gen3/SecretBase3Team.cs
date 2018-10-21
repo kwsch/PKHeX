@@ -18,6 +18,7 @@ namespace PKHeX.Core
 
         public readonly SecretBase3PKM[] Team;
         private readonly byte[] Data;
+
         public SecretBase3Team(byte[] data)
         {
             Team = new SecretBase3PKM[6];

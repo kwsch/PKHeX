@@ -56,7 +56,12 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             var eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
             if (eabil >= 0)
-                return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilnum);
+            {
+                if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
+                    return GetInvalid(LAbilityHiddenFail);
+                if (eabil > 0)
+                    return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilnum);
+            }
 
             var gen = data.Info.Generation;
             switch (gen)
@@ -79,7 +84,12 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             int eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
             if (eabil >= 0)
-                return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
+            {
+                if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
+                    return GetInvalid(LAbilityHiddenFail);
+                if (eabil > 0)
+                    return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
+            }
 
             int gen = data.Info.Generation;
             if (gen == 5)
@@ -91,6 +101,15 @@ namespace PKHeX.Core
         private CheckResult VerifyFixedAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, AbilityState state, int EncounterAbility, int abilval)
         {
             var pkm = data.pkm;
+            if (data.Info.EncounterMatch is IGeneration g && g.Generation >= 6)
+            {
+                if (IsAbilityCapsuleModified(pkm, abilities, EncounterAbility))
+                    return GetValid(LAbilityCapsuleUsed);
+                if (pkm.AbilityNumber != EncounterAbility)
+                    return INVALID;
+                return VALID;
+            }
+
             if ((pkm.AbilityNumber == 4) != (EncounterAbility == 4))
                 return GetInvalid(LAbilityHiddenFail);
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
@@ -942,7 +943,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 146, Level = 50, Location = 219, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Moltres @ Mt. Silver Cave
             new EncounterStaticTyped { Species = 150, Level = 70, Location = 199, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Mewtwo @ Cerulean Cave
             new EncounterStatic { Species = 245, Level = 40, Location = 173, }, //Suicune @ Route 25
-            new EncounterStaticTyped { Species = 245, Level = 40, Location = 206, TypeEncounter = EncounterType.Building_EnigmaStone }, //Suicune @ Burned Tower
+            new EncounterStaticTyped { Species = 245, Level = 40, Location = 206, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Suicune @ Burned Tower
             new EncounterStaticTyped { Species = 249, Level = 45, Location = 218, Version = GameVersion.SS, TypeEncounter = EncounterType.Surfing_Fishing }, //Lugia @ Whirl Islands
             new EncounterStaticTyped { Species = 249, Level = 70, Location = 218, Version = GameVersion.HG, TypeEncounter = EncounterType.Surfing_Fishing }, //Lugia @ Whirl Islands
             new EncounterStaticTyped { Species = 250, Level = 45, Location = 205, Version = GameVersion.HG, TypeEncounter = EncounterType.Building_EnigmaStone }, //Ho-Oh @ Bell Tower
@@ -1020,26 +1021,26 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeDPPt =
         {
-            new string[0],                         // 0 - None
+            Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradedppt", "ja"), // 1
             Util.GetStringList("tradedppt", "en"), // 2
             Util.GetStringList("tradedppt", "fr"), // 3
             Util.GetStringList("tradedppt", "it"), // 4
             Util.GetStringList("tradedppt", "de"), // 5
-            new string[0],                         // 6 - None
+            Array.Empty<string>(),                 // 6 - None
             Util.GetStringList("tradedppt", "es"), // 7
             Util.GetStringList("tradedppt", "ko"), // 8
         };
 
         internal static readonly string[][] TradeHGSS =
         {
-            new string[0],                         // 0 - None
+            Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradehgss", "ja"), // 1
             Util.GetStringList("tradehgss", "en"), // 2
             Util.GetStringList("tradehgss", "fr"), // 3
             Util.GetStringList("tradehgss", "it"), // 4
             Util.GetStringList("tradehgss", "de"), // 5
-            new string[0],                         // 6 - None
+            Array.Empty<string>(),                 // 6 - None
             Util.GetStringList("tradehgss", "es"), // 7
             Util.GetStringList("tradehgss", "ko"), // 8
         };

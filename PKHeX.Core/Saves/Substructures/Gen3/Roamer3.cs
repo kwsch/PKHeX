@@ -26,26 +26,31 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(SAV.Data, Offset);
             set => SAV.SetData(BitConverter.GetBytes(value), Offset);
         }
+
         public uint PID
         {
             get => BitConverter.ToUInt32(SAV.Data, Offset + 4);
             set => SAV.SetData(BitConverter.GetBytes(value), Offset + 4);
         }
+
         public int Species
         {
             get => SpeciesConverter.GetG4Species(BitConverter.ToInt16(SAV.Data, Offset + 8));
             set => SAV.SetData(BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)), Offset + 8);
         }
+
         public int HP_Current
         {
             get => BitConverter.ToInt16(SAV.Data, Offset + 10);
             set => SAV.SetData(BitConverter.GetBytes((short)value), Offset + 10);
         }
+
         public int CurrentLevel
         {
             get => SAV.Data[Offset + 12];
             set => SAV.Data[Offset + 12] = (byte)value;
         }
+
         public int Status { get => SAV.Data[Offset + 0x0D]; set => SAV.Data[Offset + 0x0D] = (byte)value; }
 
         public int CNT_Cool   { get => SAV.Data[Offset + 0x0E]; set => SAV.Data[Offset + 0x0E] = (byte)value; }

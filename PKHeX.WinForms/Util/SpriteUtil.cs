@@ -83,7 +83,16 @@ namespace PKHeX.WinForms
 
         private static Image GetSprite(PKM pkm, bool isBoxBGRed = false)
         {
-            return GetSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
+            var img = GetSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
+            if (pkm is IShadowPKM s && s.Purification > 0)
+            {
+                if (pkm.Species == 249) // Lugia
+                    img = Spriter.GetSprite(Resources._249x, 249, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
+                GetSpriteGlow(pkm, new byte[] { 75, 0, 130 }, out var pixels, out var baseSprite, true);
+                var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
+                img = ImageUtil.LayerImage(glowImg, img, 0, 0);
+            }
+            return img;
         }
 
         private static Image GetSprite(SaveFile SAV)

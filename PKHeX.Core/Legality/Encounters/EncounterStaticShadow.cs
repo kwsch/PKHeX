@@ -4,26 +4,35 @@ namespace PKHeX.Core
 {
     internal class EncounterStaticShadow : EncounterStatic
     {
-        public EncounterLock[][] Locks { get; internal set; } = Array.Empty<EncounterLock[]>();
+        public TeamLock[] Locks { get; internal set; } = Array.Empty<TeamLock>();
         public int Gauge { get; internal set; }
         public bool EReader { get; set; }
 
         internal override EncounterStatic Clone()
         {
             var result = (EncounterStaticShadow)base.Clone();
-            result.CloneLocks();
+            if (Locks.Length > 0)
+            {
+                result.Locks = new TeamLock[Locks.Length];
+                for (int i = 0; i < Locks.Length; i++)
+                    result.Locks[i] = Locks[i].Clone();
+            }
             return result;
         }
+    }
 
-        private void CloneLocks()
+    public class TeamLock
+    {
+        public int Species;
+        public string Comment;
+        public NPCLock[] Locks;
+
+        internal TeamLock Clone()
         {
-            Locks = new EncounterLock[Locks.Length][];
-            for (var i = 0; i < Locks.Length; i++)
-            {
-                Locks[i] = (EncounterLock[])Locks[i].Clone();
-                for (int j = 0; j < Locks[i].Length; j++)
-                    Locks[i][j] = Locks[i][j].Clone();
-            }
+            var c = new TeamLock { Comment = Comment, Locks = (NPCLock[])Locks.Clone() };
+            for (int i = 0; i < Locks.Length; i++)
+                Locks[i] = Locks[i].Clone();
+            return c;
         }
     }
 }

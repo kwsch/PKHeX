@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -101,26 +102,26 @@ namespace PKHeX.Core
 
         internal static readonly string[][] TradeXY =
         {
-            new string[0],                       // 0 - None
+            Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradexy", "ja"), // 1
             Util.GetStringList("tradexy", "en"), // 2
             Util.GetStringList("tradexy", "fr"), // 3
             Util.GetStringList("tradexy", "it"), // 4
             Util.GetStringList("tradexy", "de"), // 5
-            new string[0],                       // 6 - None
+            Array.Empty<string>(),               // 6 - None
             Util.GetStringList("tradexy", "es"), // 7
             Util.GetStringList("tradexy", "ko"), // 8
         };
 
         internal static readonly string[][] TradeAO =
         {
-            new string[0],                       // 0 - None
+            Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradeao", "ja"), // 1
             Util.GetStringList("tradeao", "en"), // 2
             Util.GetStringList("tradeao", "fr"), // 3
             Util.GetStringList("tradeao", "it"), // 4
             Util.GetStringList("tradeao", "de"), // 5
-            new string[0],                       // 6 - None
+            Array.Empty<string>(),               // 6 - None
             Util.GetStringList("tradeao", "es"), // 7
             Util.GetStringList("tradeao", "ko"), // 8
         };
@@ -363,7 +364,7 @@ namespace PKHeX.Core
         {
             var CosplayPikachu = new EncounterStatic
             {
-                Species = 25, Level = 20, Gender = 1, Ability = 4, IV3 = true,
+                Species = 25, Level = 20, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1 }, IV3 = true,
                 Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
             };
             foreach (int loc in new[] { 178, 180, 186, 194 })
@@ -379,7 +380,7 @@ namespace PKHeX.Core
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_XY =
         {
-            new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, }, // Magikarp
+            new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, IVs = new[] {-1, 31, -1, -1, 31, -1 }, }, // Magikarp
             new EncounterTrade { Species = 133, Level = 5, Ability = 1, Gender = 1, TID = 29294, Nature = Nature.Docile, }, // Eevee
 
             new EncounterTrade { Species = 83, Level = 10, Ability = 1, Gender = 0, TID = 00185, Nature = Nature.Jolly, IVs = new[] {-1, -1, -1, 31, -1, -1}, }, // Farfetch'd

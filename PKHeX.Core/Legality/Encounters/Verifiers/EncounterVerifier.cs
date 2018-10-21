@@ -366,7 +366,7 @@ namespace PKHeX.Core
             switch (MatchedGift)
             {
                 case PCD pcd:
-                    if (!pcd.CanBeReceivedBy(pkm.Version))
+                    if (!pcd.CanBeReceivedBy(pkm.Version) && pcd.Gift.PK.Version == 0)
                         return new CheckResult(Severity.Invalid, string.Format(L_XMatches0_1, MatchedGift.CardHeader, $"-- {LEncGiftVersionNotDistributed}"), CheckIdentifier.Encounter);
                     break;
             }

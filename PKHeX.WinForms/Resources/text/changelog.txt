@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/08/03 - New Update:
+18/09/11 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks HaxAras, @sora10pls, ICanSnake, Omnipotent Arceus, Raptor385, PF649, PrometheusG, @Narithegreat, Yami_Wheeler, crzyc, ThePunish3D, @Lusamine!
+ - - Added: Poké Pelago status legality checks have been enabled, which can detect improperly transferred files.
+ - Added: Clicking on the "Ball" label now brings up a list of all balls, with background color indicating legality.
+ - Added: Gen6 X/Y Trainer appearance can now be modified directly (instead of via raw hex editing).
+ - Added: Gen6 Trainer Stats can now be edited (full list of stats added).
+ - Added: Gen4 Misc Editor can now grant all Pokéball Seals. Thanks @sora10pls!
+ - Added: Custom Backup Paths are now included in the autodetect save file search. Thanks @ReignOfComputer!
+ - Added: User Settings can now hide sensitive pkm details (PID/EC text fields).
+ - Added: User Settings can now hide sensitive savefile details (program title bar, game sync fields).
+ - Added: Gen6/7 Can now unlock Mega Rayquaza early in the Trainer Editor.
+ - Changed: Species / Form cries are now generation specific (Cosplay Pikachu) and follow the same rules as sprites.
+ - Changed: Legality is now shown for Database slots.
+ - Changed: Legality string variable names are now much more descriptive (instead of V###).
+ - Changed: Key item sprite now shows instead of "?" for key item mystery gifts.
+ - Changed: Spanish translations updated. Thanks @ajtudela!
+ - Fixed: PK1<->PK2 transfers now set current level & hp. Thanks HaxAras & Vladcik!
+ - Fixed: PK2 parties now save correctly. Thanks AcroBlade!
+ - Fixed: Clicking Relearn Moves groupbox under certain conditions no longer causes an error message. Thanks @ajtudela!
+
+18/08/03 - New Update: (58852) [1345797]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks @iiippppk, @WEERSOQUEER, @PrometheusG, @NinFanBoyFTW, paf, Cloud AC!
  - - Added: Unavailable bred hidden abilities are now flagged for Gen5 origin entities (now covers all gens).

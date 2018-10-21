@@ -25,6 +25,7 @@ namespace PKHeX.Core
             foreach (var b in Blocks)
                 b.Delete();
         }
+
         public void MaximizeAll(bool createMissing = false)
         {
             foreach (var b in Blocks)

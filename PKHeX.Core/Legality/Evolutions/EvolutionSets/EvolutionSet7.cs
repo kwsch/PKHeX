@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public sealed class EvolutionSet7 : EvolutionSet
     {
         private const int SIZE = 8;
+
         public EvolutionSet7(byte[] data)
         {
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];

@@ -30,6 +30,7 @@ namespace PKHeX.Core
         public abstract byte[] Nickname_Trash { get; set; }
         public abstract byte[] OT_Trash { get; set; }
         public virtual byte[] HT_Trash { get; set; }
+
         protected byte[] GetData(int Offset, int Length)
         {
             if (Offset + Length > Data.Length)
@@ -55,8 +56,10 @@ namespace PKHeX.Core
                     return chk;
             }
         }
+
         protected abstract byte[] Encrypt();
         public abstract int Format { get; }
+
         private byte[] Write()
         {
             RefreshChecksum();
@@ -275,6 +278,7 @@ namespace PKHeX.Core
         public virtual bool Locked { get => false; set { } }
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
+
         private void SetID7(int sid7, int tid7)
         {
             var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
@@ -298,14 +302,15 @@ namespace PKHeX.Core
         public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE;
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
-        public bool Gen7 => Version >= 30 && Version <= 33;
+        public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
-        public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
+        public bool Gen3 => (Version >= 1 && Version <= 5) || Version == 15;
         public bool Gen2 => Version == (int)GameVersion.GSC;
         public bool Gen1 => Version == (int)GameVersion.RBY;
         public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1 || VC);
+
         public int GenNumber
         {
             get
@@ -322,6 +327,7 @@ namespace PKHeX.Core
                 return -1;
             }
         }
+
         public int DebutGeneration => Legal.GetDebutGeneration(Species);
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
@@ -337,15 +343,18 @@ namespace PKHeX.Core
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
         public string[] QRText => this.GetQRLines();
 
-        public virtual string FileName
+        public string FileName => $"{FileNameWithoutExtension}.{Extension}";
+
+        public virtual string FileNameWithoutExtension
         {
             get
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : "";
                 string star = IsShiny ? " ★" : "";
-                return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}.{Extension}";
+                return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}";
             }
         }
+
         public int[] IVs
         {
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
@@ -356,6 +365,7 @@ namespace PKHeX.Core
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
         }
+
         public int[] EVs
         {
             get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
@@ -366,6 +376,7 @@ namespace PKHeX.Core
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
         }
+
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
@@ -377,6 +388,7 @@ namespace PKHeX.Core
                 Move4 = value.Length > 3 ? value[3] : 0;
             }
         }
+
         public int[] RelearnMoves
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
@@ -388,6 +400,7 @@ namespace PKHeX.Core
                 RelearnMove4 = value.Length > 3 ? value[3] : 0;
             }
         }
+
         public int PIDAbility
         {
             get
@@ -428,8 +441,10 @@ namespace PKHeX.Core
                 sum |= (ivs[i] & 1) << i;
             return sum;
         }
+
         private int HPVal => GetHiddenPowerBitVal(IVs);
-        public virtual int HPPower => Format < 6 ? 40*HPVal/63 + 30 : 60;
+        public virtual int HPPower => Format < 6 ? (40 *HPVal/63) + 30 : 60;
+
         public virtual int HPType
         {
             get => 15 * HPVal / 63;
@@ -450,6 +465,7 @@ namespace PKHeX.Core
         public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
         public virtual bool WasLink => false;
         private bool _WasEgg;
+
         public bool WasEgg
         {
             get
@@ -466,6 +482,7 @@ namespace PKHeX.Core
             }
             set => _WasEgg = value;
         }
+
         public bool WasBredEgg
         {
             get
@@ -473,7 +490,7 @@ namespace PKHeX.Core
                 int loc = Egg_Location;
                 switch (GenNumber)
                 {
-                    case 4: return loc == 02000 || loc == 02002 || loc == 03002 && PtHGSS; // faraway
+                    case 4: return loc == 02000 || loc == 02002 || (loc == 03002 && PtHGSS); // faraway
                     case 5: return loc == 60002 || loc == 30003;
                     case 6:
                     case 7: return loc == 60002 || loc == 30002;
@@ -482,6 +499,7 @@ namespace PKHeX.Core
             }
             set => _WasEgg = value;
         }
+
         public virtual bool WasGiftEgg
         {
             get
@@ -497,8 +515,10 @@ namespace PKHeX.Core
                 return false;
             }
         }
-        public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
+
+        public virtual bool WasEvent => (Met_Location > 40000 && Met_Location < 50000) || FatefulEncounter;
         public virtual bool WasEventEgg => Gen4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
+
         public bool WasTradedEgg
         {
             get
@@ -514,7 +534,8 @@ namespace PKHeX.Core
                 }
             }
         }
-        public virtual bool WasIngameTrade => Met_Location == 30001 || Gen4 && Egg_Location == 2001;
+
+        public virtual bool WasIngameTrade => Met_Location == 30001 || (Gen4 && Egg_Location == 2001);
         public virtual bool IsUntraded => false;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
@@ -564,7 +585,7 @@ namespace PKHeX.Core
                 case 4: return 3 <= gen && gen <= 4;
                 case 5: return 3 <= gen && gen <= 5;
                 case 6: return 3 <= gen && gen <= 6;
-                case 7: return 3 <= gen && gen <= 7 || VC;
+                case 7: return (3 <= gen && gen <= 7) || VC;
                 default:
                     return false;
             }
@@ -574,7 +595,7 @@ namespace PKHeX.Core
         /// Checks if the PKM has its original met location.
         /// </summary>
         /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
-        public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
+        public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || (GenNumber <= 4 && Format != GenNumber));
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.
@@ -695,17 +716,19 @@ namespace PKHeX.Core
             PKX.ModifyStatsForNature(Stats, Nature);
             return Stats;
         }
+
         private ushort[] GetStats(PersonalInfo p, IHyperTrain t, int level)
         {
             ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(p.HP == 1 ? 1 : ((t.HT_HP ? 31 : IV_HP) + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
-            Stats[1] = (ushort)(((t.HT_ATK ? 31 : IV_ATK) + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
-            Stats[2] = (ushort)(((t.HT_DEF ? 31 : IV_DEF) + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
-            Stats[4] = (ushort)(((t.HT_SPA ? 31 : IV_SPA) + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
-            Stats[5] = (ushort)(((t.HT_SPD ? 31 : IV_SPD) + 2 * p.SPD + EV_SPD / 4) * level / 100 + 5);
-            Stats[3] = (ushort)(((t.HT_SPE ? 31 : IV_SPE) + 2 * p.SPE + EV_SPE / 4) * level / 100 + 5);
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : (((t.HT_HP ? 31 : IV_HP) + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
+            Stats[1] = (ushort)((((t.HT_ATK ? 31 : IV_ATK) + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
+            Stats[2] = (ushort)((((t.HT_DEF ? 31 : IV_DEF) + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
+            Stats[4] = (ushort)((((t.HT_SPA ? 31 : IV_SPA) + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
+            Stats[5] = (ushort)((((t.HT_SPD ? 31 : IV_SPD) + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
+            Stats[3] = (ushort)((((t.HT_SPE ? 31 : IV_SPE) + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
             return Stats;
         }
+
         private ushort[] GetStats(PersonalInfo p, int level)
         {
             ushort[] Stats = new ushort[6];
@@ -827,6 +850,7 @@ namespace PKHeX.Core
             if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
                 EncryptionConstant = PID;
         }
+
         /// <summary>
         /// Applies a shiny <see cref="SID"/> to the <see cref="PKM"/>.
         /// </summary>
@@ -836,6 +860,7 @@ namespace PKHeX.Core
             var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
             SID = (int)(xor & 0xFFF8) | Util.Rand.Next(8);
         }
+
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
@@ -849,6 +874,7 @@ namespace PKHeX.Core
             if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
                 EncryptionConstant = PID;
         }
+
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
@@ -862,6 +888,7 @@ namespace PKHeX.Core
             if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
                 EncryptionConstant = PID;
         }
+
         /// <summary>
         /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="AltForm"/>.
         /// </summary>

@@ -100,10 +100,10 @@ namespace PKHeX.Core
         {
                  216, 431, 442, 445, 446, 447, 450, 465, 466, 471, 628,
             629, 631, 632, 638, 641, 642, 643, 689, 695, 696, 697, 698,
-            700, 701, 702, 703, 705, 706, 707, 712, 713, 714,
+            700, 701, 702, 703, 705, 712, 713, 714,
 
             // Illegal
-            716, 717, // For the cheaters who want useless items...
+            // 716, 717, 706, 707,
         };
 
         internal static readonly ushort[] Pouch_Key_AO =
@@ -112,16 +112,17 @@ namespace PKHeX.Core
             629, 631, 632, 638, 697,
 
             // Illegal
-            716, 717, 745, 746, 747, 748, 749, 750, // For the cheaters who want useless items...
+            // 716, 717, 723, 745, 746, 747, 748, 749, 750, 766,
 
             // ORAS
             457, 474, 503,
 
             718, 719,
-            720, 721, 722, 723, 724, 725, 726, 727, 728, 729,
+            720, 721, 722,      724, 725, 726, 727, 728, 729,
             730, 731, 732, 733, 734, 735, 736, 738, 739,
             740, 741, 742, 743, 744,
-            751, 765, 766, 771, 772, 774, 775,
+            751,
+            765, 771, 772, 774, 775,
         };
 
         internal static readonly ushort[] Pouch_TMHM_XY =
@@ -228,6 +229,7 @@ namespace PKHeX.Core
         #endregion
 
         internal static readonly int[] EggLocations6 = {60002, 30002};
+
         internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,
@@ -236,6 +238,7 @@ namespace PKHeX.Core
             100, 101, 102, 103, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 135, 136,
             138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168
         };
+
         internal static readonly HashSet<int> ValidMet_AO = new HashSet<int>
         {
             170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198,
@@ -244,6 +247,7 @@ namespace PKHeX.Core
             288, 290, 292, 294, 296, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
             332, 334, 336, 338, 340, 342, 344, 346,      350, 352, 354
         };
+
         internal static readonly HashSet<int> FriendSafari = new HashSet<int>
         {
             190, 206, 216, 506, 294, 352, 531, 572, 113, 132, 133, 235,
@@ -265,6 +269,7 @@ namespace PKHeX.Core
             082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
+
         internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
         internal static readonly HashSet<int> WildPokeballs6 = new HashSet<int> {0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 
@@ -291,6 +296,7 @@ namespace PKHeX.Core
 
             313, // Via Illumise
         };
+
         internal static readonly HashSet<int> Inherit_Safari = new HashSet<int>
         {
             016, 019, 020, 021, 022, 023, 024, 025, 027, 029, 035, 039, 041,
@@ -318,6 +324,7 @@ namespace PKHeX.Core
 
             287, // Via Vigoroth
         };
+
         internal static readonly HashSet<int> Inherit_Dream = new HashSet<int>
         {
             010, 013, 016, 019, 021, 023, 027, 029, 037, 041, 043, 046, 048, 050, 052, 054, 056, 058, 060, 063, 066, 069,
@@ -347,6 +354,7 @@ namespace PKHeX.Core
             // Via Incense Breeding
             298, 360, 406, 433, 438, 439, 440, 446, 458,
         };
+
         internal static readonly HashSet<int> Ban_DreamHidden = new HashSet<int>
         {
             311, // Plusle
@@ -358,6 +366,7 @@ namespace PKHeX.Core
             356, // Dusclops
             477, // Dusknoir
         };
+
         internal static readonly HashSet<int> Ban_Gen3Ball = new HashSet<int>
         {
             252, 255, 258, //1 - Treeko, Torchic, Mudkip
@@ -371,6 +380,7 @@ namespace PKHeX.Core
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+
         internal static readonly HashSet<int> Ban_Gen3BallHidden = new HashSet<int>
         {
             // can have HA and can be in gen 3 ball as eggs but can not at same time.
@@ -386,6 +396,7 @@ namespace PKHeX.Core
             710 + (3 << 11), //Pumpkaboo-Super
             711 + (3 << 11), //Gourgeist-Super
         };
+
         internal static readonly HashSet<int> Ban_Gen4Ball_6 = new HashSet<int>
         {
             152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
@@ -427,6 +438,7 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20,
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05,
         };
+
         internal static readonly int[] UnreleasedItems_6 =
         {
             005, // Safari Ball
@@ -465,6 +477,7 @@ namespace PKHeX.Core
             590, // Relic Crown
             715, // Fairy Gem
         };
+
         internal static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
     }
 }

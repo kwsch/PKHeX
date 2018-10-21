@@ -671,7 +671,6 @@ namespace PKHeX.WinForms
         {
             Legal.EReaderBerryIsEnigma = sav.IsEBerryIsEnigma;
             Legal.EReaderBerryName = sav.EBerryName;
-            Legal.ActiveTrainer = sav;
         }
 
         private static PKM LoadTemplate(SaveFile sav)
@@ -798,26 +797,16 @@ namespace PKHeX.WinForms
 
         private static bool SanityCheckSAV(ref SaveFile sav)
         {
-            // Finish setting up the save file.
-            if (sav.Generation < 3)
+            var gb = ParseSettings.InitFromSaveFileData(sav);
+            if (sav.Generation == 1 && gb)
             {
-                bool vc = sav.FileName.EndsWith("dat");
-                Legal.AllowGBCartEra = !vc; // physical cart selected
-                Legal.AllowGen1Tradeback = true;
-                if (Legal.AllowGBCartEra && sav.Generation == 1)
-                {
-                    var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                        MsgLegalityAllowTradebacks,
-                        MsgLegalityAllowTradebacksYes + Environment.NewLine + MsgLegalityAllowTradebacksNo);
-                    if (drTradeback == DialogResult.Cancel)
-                        return false;
-                    Legal.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
-                }
-            }
-            else
-            {
-                Legal.AllowGBCartEra = false;
-                Legal.AllowGen1Tradeback = true;
+                var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
+                    MsgLegalityAllowTradebacks,
+                    MsgLegalityAllowTradebacksYes + Environment.NewLine + MsgLegalityAllowTradebacksNo);
+                if (drTradeback == DialogResult.Cancel)
+                    return false; // abort loading
+                ParseSettings.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
+                return true;
             }
 
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
@@ -858,7 +847,7 @@ namespace PKHeX.WinForms
         {
             int index = CB.SelectedIndex;
             // fix for Korean / Chinese being swapped
-            string cl = GameInfo.CurrentLanguage + "";
+            string cl = GameInfo.CurrentLanguage;
             cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
             CB.DataSource = Util.GetCBList(type, cl);
@@ -1089,7 +1078,7 @@ namespace PKHeX.WinForms
             // Create Temp File to Drag
             PKM pkx = PreparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+            string fn = pkx.FileNameWithoutExtension;
             string filename = fn + (encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}");
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file

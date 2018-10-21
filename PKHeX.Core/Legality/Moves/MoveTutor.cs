@@ -26,7 +26,7 @@ namespace PKHeX.Core
         private static GameVersion GetIsTutor1(PKM pkm, int species, int move)
         {
             // Surf Pikachu via Stadium
-            if (move != 57 || AllowGBCartEra)
+            if (move != 57 || ParseSettings.AllowGBCartEra)
                 return NONE;
             if (pkm.Format < 3 && (species == 25 || species == 26))
                 return GameVersion.Stadium;
@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor2(PKM pkm, int species, int move)
         {
-            if (!AllowGen2Crystal(pkm))
+            if (!ParseSettings.AllowGen2Crystal(pkm))
                 return NONE;
             var info = PersonalTable.C[species];
             for (int i = 0; i < Tutors_GSC.Length; i++)
@@ -184,7 +184,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor1(List<int> moves, int species, int format)
         {
-            if (AllowGBCartEra && format < 3 && (species == 25 || species == 26)) // Surf Pikachu via Stadium
+            if (ParseSettings.AllowGBCartEra && format < 3 && (species == 25 || species == 26)) // Surf Pikachu via Stadium
                 moves.Add(57);
         }
 

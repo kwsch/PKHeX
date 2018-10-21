@@ -97,12 +97,13 @@ namespace PKHeX.WinForms
             switch (e.ScrollOrientation)
             {
                 case ScrollOrientation.HorizontalScroll:
-                    p.HorizontalScroll.Value = e.NewValue;
+                    p.HorizontalScroll.Value = Clamp(e.NewValue, p.HorizontalScroll);
                     break;
                 case ScrollOrientation.VerticalScroll:
-                    p.VerticalScroll.Value = e.NewValue;
+                    p.VerticalScroll.Value = Clamp(e.NewValue, p.VerticalScroll);
                     break;
             }
+            int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
         }
 
         public static void DoubleBuffered(this DataGridView dgv, bool setting)

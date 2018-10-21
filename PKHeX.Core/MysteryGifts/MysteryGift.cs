@@ -152,11 +152,6 @@ namespace PKHeX.Core
         public int LevelMin => Level;
         public int LevelMax => Level;
         public abstract int Ball { get; set; }
-        public bool Gen7 => Format == 7;
-        public bool Gen6 => Format == 6;
-        public bool Gen5 => Format == 5;
-        public bool Gen4 => Format == 4;
-        public bool Gen3 => Format == 3;
         public virtual bool EggEncounter => IsEgg;
         public int Generation { get => Format; set {} }
         public abstract int EggLocation { get; set; }

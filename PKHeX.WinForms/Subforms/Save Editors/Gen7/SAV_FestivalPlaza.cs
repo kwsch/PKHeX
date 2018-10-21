@@ -619,7 +619,7 @@ namespace PKHeX.WinForms
             if (facility.IsIntroduced)
                 facility.TrainerFesID = new byte[12];
             facility.IsIntroduced = false;
-            facility.OT_Name = "";
+            facility.OT_Name = string.Empty;
             facility.Gender = 0;
             for (int i = 0; i < 4; i++)
                 facility.SetMessage(i, 0);
@@ -632,7 +632,7 @@ namespace PKHeX.WinForms
         {
             if (!SAV.HasParty) return;
             var party = SAV.PartyData;
-            string msg = "";
+            string msg = string.Empty;
             for (int i = 0; i < 3; i++)
             {
                 if (i < party.Count)

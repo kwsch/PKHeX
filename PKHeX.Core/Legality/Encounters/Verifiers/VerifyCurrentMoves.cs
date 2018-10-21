@@ -30,23 +30,27 @@ namespace PKHeX.Core
                 return ParseMovesForSmeargle(pkm, Moves, info); // Smeargle can have any moves except a few
 
             // gather valid moves for encounter species
-            info.EncounterMoves = new ValidEncounterMoves(pkm, info);
+            var restrict = new LevelUpRestriction(pkm, info);
+            info.EncounterMoves = new ValidEncounterMoves(pkm, restrict);
 
             if (info.Generation <= 3)
                 pkm.WasEgg = info.EncounterMatch.EggEncounter;
 
-            var EncounterMatchGen = info.EncounterMatch as IGeneration;
-            var defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
-            var defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
+            List<int> defaultG1LevelMoves = null;
+            List<int> defaultG2LevelMoves = null;
             var defaultTradeback = pkm.TradebackStatus;
-            if (EncounterMatchGen?.Generation <= 2)
+            bool gb = false;
+            if (info.EncounterMatch is IGeneration g && g.Generation <= 2)
             {
+                gb = true;
+                defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
+                defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
-                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
+                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, g.Generation, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
-                if (!Legal.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
-                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
+                if (!ParseSettings.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
+                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen2, g.Generation, info);
             }
 
             var res = info.Generation < 6
@@ -57,7 +61,7 @@ namespace PKHeX.Core
                 return res;
 
             // not valid
-            if (EncounterMatchGen?.Generation <= 2) // restore generation 1 and 2 moves
+            if (gb) // restore generation 1 and 2 moves
             {
                 info.EncounterMoves.LevelUpMoves[1] = defaultG1LevelMoves;
                 if (pkm.InhabitedGeneration(2))
@@ -152,7 +156,7 @@ namespace PKHeX.Core
             }
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
-            if (info.Generation <= 2 && info.EncounterMatch is IGeneration g && (g.Generation == 1 || (g.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
+            if (info.Generation <= 2 && info.EncounterMatch is IGeneration g && (g.Generation == 1 || (g.Generation == 2 && !ParseSettings.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
                 return ParseMovesGenGB(pkm, Moves, info);
 
             return ParseMovesSpecialMoveset(pkm, Moves, info);
@@ -166,7 +170,7 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = Array.Empty<int>();
             int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
+            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info);
             foreach (var ver in games)
             {
                 var VerInitialMoves = MoveLevelUp.GetEncounterMoves(G1Encounter.Species, 0, G1Encounter.LevelMin, ver);
@@ -231,7 +235,7 @@ namespace PKHeX.Core
         {
             CheckMoveResult[] res = new CheckMoveResult[4];
             bool AllParsed() => res.All(r => r != null);
-            var required = Legal.GetRequiredMoveCount(pkm, source.CurrentMoves, info, source.Base);
+            var required = pkm.Format != 1 ? 1 : GBRestrictions.GetRequiredMoveCount(pkm, source.CurrentMoves, info, source.Base);
 
             // Check empty moves and relearn moves before generation specific moves
             for (int m = 0; m < 4; m++)
@@ -297,7 +301,7 @@ namespace PKHeX.Core
             // This pokemon could only have 3 moves from preevolutions that are not the move used to evolved
             // including special and eggs moves before realearn generations
             if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
-                ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, learnInfo.IncenseMoves, info);
+                ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, info);
         }
 
         private static void ParseMovesByGeneration(PKM pkm, IList<CheckMoveResult> res, int gen, LegalInfo info, LearnInfo learnInfo)
@@ -503,87 +507,54 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<int> GetIncompatibleRBYMoves(PKM pkm, int[] moves)
+        private static IList<int> GetIncompatibleRBYMoves(PKM pkm, int[] moves)
         {
             // Check moves that are learned at the same level in red/blue and yellow, these are illegal because there is no move reminder
             // There are only two incompatibilites; there is no illegal combination in generation 2+.
-            var incompatible = new List<int>(3);
 
             switch (pkm.Species)
             {
                 // Vaporeon in Yellow learns Mist and Haze at level 42, Mist can only be learned if it leveled up in the daycare
                 // Vaporeon in Red/Blue learns Acid Armor at level 42 and level 47 in Yellow
                 case 134 when pkm.CurrentLevel < 47 && moves.Contains(151):
+                {
+                    var incompatible = new List<int>(3);
                     if (moves.Contains(54))
                         incompatible.Add(54);
                     if (moves.Contains(114))
                         incompatible.Add(114);
                     if (incompatible.Count != 0)
                         incompatible.Add(151);
-                    break;
+                    return incompatible;
+                }
 
                 // Flareon in Yellow learns Smog at level 42
                 // Flareon in Red Blue learns Leer at level 42 and level 47 in Yellow
                 case 136 when pkm.CurrentLevel < 47 && moves.Contains(43) && moves.Contains(123):
-                    incompatible.Add(43);
-                    incompatible.Add(123);
-                    break;
+                    return new[] {43, 123};
             }
 
-            return incompatible;
+            return Array.Empty<int>();
         }
 
         private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> tmhm)
         {
-            var species = SpeciesStrings;
-            var currentspecies = species[pkm.Species];
-            var previousspecies = string.Empty;
-            var incompatible_previous = new List<int>();
-            var incompatible_current = new List<int>();
-            if (pkm.Species == 34 && moves.Contains(31) && moves.Contains(37))
-            {
-                // Nidoking learns Thrash at level 23
-                // Nidorino learns Fury Attack at level 36, Nidoran♂ at level 30
-                // Other moves are either learned by Nidoran♂ up to level 23 or by TM
-                incompatible_current.Add(31);
-                incompatible_previous.Add(37);
-                previousspecies = species[33];
-            }
-            if (pkm.Species == 103 && moves.Contains(23) && moves.Any(m => Legal.G1Exeggcute_IncompatibleMoves.Contains(moves[m])))
-            {
-                // Exeggutor learns stomp at level 28
-                // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
-                incompatible_current.Add(23);
-                incompatible_previous.AddRange(Legal.G1Exeggcute_IncompatibleMoves);
-                previousspecies = species[103];
-            }
-            if (134 <= pkm.Species && pkm.Species <= 136)
-            {
-                previousspecies = species[133];
-                var ExclusiveMoves = Legal.GetExclusiveMovesG1(133, pkm.Species, tmhm, moves);
-                var EeveeLevels = Legal.GetMinLevelLearnMoveG1(133, ExclusiveMoves[0]);
-                var EvoLevels = Legal.GetMaxLevelLearnMoveG1(pkm.Species, ExclusiveMoves[1]);
+            GBRestrictions.GetIncompatibleEvolutionMoves(pkm, moves, tmhm,
+                out var prevSpeciesID,
+                out var incompatPrev,
+                out var incompatCurr);
 
-                for (int i = 0; i < ExclusiveMoves[0].Count; i++)
-                {
-                    // There is a evolution move with a lower level that current eevee move
-                    if (EvoLevels.Any(ev => ev < EeveeLevels[i]))
-                        incompatible_previous.Add(ExclusiveMoves[0][i]);
-                }
-                for (int i = 0; i < ExclusiveMoves[1].Count; i++)
-                {
-                    // There is a eevee move with a greather level that current evolution move
-                    if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
-                        incompatible_current.Add(ExclusiveMoves[1][i]);
-                }
-            }
+            if (prevSpeciesID == 0)
+                return;
 
+            var prev = SpeciesStrings[prevSpeciesID];
+            var curr = SpeciesStrings[pkm.Species];
             for (int m = 0; m < 4; m++)
             {
-                if (incompatible_current.Contains(moves[m]))
-                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(LMoveEvoFLower, currentspecies, previousspecies), CheckIdentifier.Move);
-                if (incompatible_previous.Contains(moves[m]))
-                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(LMoveEvoFHigher, currentspecies, previousspecies), CheckIdentifier.Move);
+                if (incompatCurr.Contains(moves[m]))
+                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(LMoveEvoFLower, curr, prev), CheckIdentifier.Move);
+                if (incompatPrev.Contains(moves[m]))
+                    res[m] = new CheckMoveResult(res[m], Severity.Invalid, string.Format(LMoveEvoFHigher, curr, prev), CheckIdentifier.Move);
             }
         }
 
@@ -602,7 +573,8 @@ namespace PKHeX.Core
                     if (!ninjaskMoves.Contains(moves[m]))
                         continue;
 
-                    res[m] = new CheckMoveResult(MoveSource.ShedinjaEvo, gen, Severity.Valid, native ? LMoveNincadaEvo : string.Format(LMoveNincadaEvoF_0, gen), CheckIdentifier.Move);
+                    var msg = native ? LMoveNincadaEvo : string.Format(LMoveNincadaEvoF_0, gen);
+                    res[m] = new CheckMoveResult(MoveSource.ShedinjaEvo, gen, Severity.Valid, msg, CheckIdentifier.Move);
                     ShedinjaEvoMovesLearned.Add(m);
                 }
             }
@@ -638,12 +610,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseEvolutionLevelupMove(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> IncenseMovesLearned, LegalInfo info)
+        private static void ParseEvolutionLevelupMove(PKM pkm, IList<CheckMoveResult> res, int[] moves, LegalInfo info)
         {
             // Ignore if there is an invalid move or an empty move, this validation is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
             // Ignore Mr. Mime and Sudowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
             // Ignore if encounter species is the evolution species, the pokemon was not evolved by the player
-            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3) || info.EncounterMatch.Species == pkm.Species)
+            if (info.EncounterMatch.Species == pkm.Species)
+                return;
+            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && info.Generation <= 3))
                 return;
 
             var ValidMoves = Legal.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
@@ -785,7 +759,7 @@ namespace PKHeX.Core
             }
 
             if (sb.Length != 0)
-                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, sb.ToString());
+                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, sb);
 
             // Inherited moves appear after the required base moves.
             var AllowInheritedSeverity = infoset.AllowInherited ? Severity.Valid : Severity.Invalid;
@@ -882,6 +856,7 @@ namespace PKHeX.Core
 
         private static readonly int[] G2 = {2};
         private static readonly int[] G12 = {1, 2};
+
         private static int[] GetGenMovesCheckOrderGB(PKM pkm, int originalGeneration)
         {
             if (originalGeneration == 2)

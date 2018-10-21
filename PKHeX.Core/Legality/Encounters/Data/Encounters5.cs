@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -669,7 +670,7 @@ namespace PKHeX.Core
         {
             new EncounterTrade { Species = 548, Level = 20, Ability = 2, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Timid, Version = GameVersion.B2, }, // Petilil
             new EncounterTrade { Species = 546, Level = 20, Ability = 1, TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest, Version = GameVersion.W2, }, // Cottonee
-            new EncounterTrade { Species = 526, Level = 35, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, }, // Gigalith
+            new EncounterTrade { Species = 526, Level = 35, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, IsNicknamed = false }, // Gigalith
             new EncounterTrade { Species = 465, Level = 45, Ability = 1, TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Hardy, }, // Tangrowth
             new EncounterTrade { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Calm, }, // Rotom
             new EncounterTrade { Species = 424, Level = 40, Ability = 2, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly, }, // Ambipom
@@ -678,6 +679,7 @@ namespace PKHeX.Core
 
         internal const int YancyTID = 10303;
         internal const int CurtisTID = 54118;
+
         internal static readonly EncounterTrade[] TradeGift_B2W2_YancyCurtis =
         {
             // player is male
@@ -707,32 +709,36 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
         };
+
         internal static readonly string[] TradeOT_B2W2_F = {null, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", null, "Belinda", "루리"};
         internal static readonly string[] TradeOT_B2W2_M = {null, "テツ", "Curtis", "Julien", "Dadi", "Markus", null, "Julián", "철권"};
+
         internal static readonly string[][] TradeBW =
         {
-            new string[0],                       // 0 - None
+            Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradebw", "ja"), // 1
             Util.GetStringList("tradebw", "en"), // 2
             Util.GetStringList("tradebw", "fr"), // 3
             Util.GetStringList("tradebw", "it"), // 4
             Util.GetStringList("tradebw", "de"), // 5
-            new string[0],                       // 6 - None
+            Array.Empty<string>(),               // 6 - None
             Util.GetStringList("tradebw", "es"), // 7
             Util.GetStringList("tradebw", "ko"), // 8
         };
+
         internal static readonly string[][] TradeB2W2 =
         {
-            new string[0],                         // 0 - None
+            Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradeb2w2", "ja"), // 1
             Util.GetStringList("tradeb2w2", "en"), // 2
             Util.GetStringList("tradeb2w2", "fr"), // 3
             Util.GetStringList("tradeb2w2", "it"), // 4
             Util.GetStringList("tradeb2w2", "de"), // 5
-            new string[0],                         // 6 - None
+            Array.Empty<string>(),                 // 6 - None
             Util.GetStringList("tradeb2w2", "es"), // 7
             Util.GetStringList("tradeb2w2", "ko"), // 8
         };
+
         internal static readonly EncounterTrade[] TradeGift_B2W2 = TradeGift_B2W2_Regular.Concat(TradeGift_B2W2_YancyCurtis).ToArray();
 
         #endregion

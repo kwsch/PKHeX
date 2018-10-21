@@ -16,13 +16,13 @@ namespace PKHeX.Core
         public override int OTLength => Japanese ? 5 : 7;
         public override int NickLength => Japanese ? 5 : 10;
 
-        public override string FileName
+        public override string FileNameWithoutExtension
         {
             get
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : "";
                 string star = IsShiny ? " ★" : "";
-                return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
+                return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}";
             }
         }
 

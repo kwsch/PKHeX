@@ -64,6 +64,7 @@ namespace PKHeX.Core
 
             477, 502, 432, 710, 707, 675, 673
         };
+
         internal static readonly ushort[] Pouch_Regular_SM = // 00
         {
             068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087,
@@ -82,28 +83,34 @@ namespace PKHeX.Core
             761, 762, 763, 764, 767, 768, 769, 770, 795, 796, 844, 849, 853, 854, 855, 856, 879, 880, 881, 882,
             883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920,
         };
+
         internal static readonly ushort[] Pouch_Ball_SM = { // 08
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 492, 493, 494, 495, 496, 497, 498, 576,
             851
         };
+
         internal static readonly ushort[] Pouch_Battle_SM = { // 16
             55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 577,
             846,
         };
+
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
 
         internal static readonly ushort[] Pouch_Key_SM = {
-            216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
+            216, 465, 466, 628, 629, 631, 632, 638,
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
+
         internal static readonly ushort[] Pouch_Key_USUM = Pouch_Key_SM.Concat(new ushort[] {
             933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
             440,
         }).ToArray();
+
         public static readonly ushort[] Pouch_Roto_USUM = {
             949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
         };
+
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345,
             346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363,
@@ -112,30 +119,38 @@ namespace PKHeX.Core
             400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
             418, 419, 618, 619, 620, 690, 691, 692, 693, 694,
         };
+
         internal static readonly ushort[] Pouch_Medicine_SM = { // 32
             17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 65, 66, 67, 134,
             504, 565, 566, 567, 568, 569, 570, 591, 645, 708, 709,
             852,
         };
+
         internal static readonly ushort[] Pouch_Berries_SM = {
             149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
             686, 687, 688,
         };
+
         internal static readonly ushort[] Pouch_ZCrystal_SM = { // Bead
             807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835,
         };
+
         internal static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
+
         internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
             927, 928, 929, 930, 931, 932
         }).ToArray();
+
         internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
             921, 922, 923, 924, 925, 926
         }).ToArray();
+
         public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
+
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).Concat(Pouch_Roto_USUM).ToArray();
 
@@ -144,6 +159,7 @@ namespace PKHeX.Core
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
             0x1A, // Beast
         };
+
         internal static readonly HashSet<int> AlolanOriginForms = new HashSet<int>
         {
             019, // Rattata
@@ -162,12 +178,14 @@ namespace PKHeX.Core
             088, // Grimer
             089, // Muk
         };
+
         internal static readonly HashSet<int> AlolanVariantEvolutions12 = new HashSet<int>
         {
             026, // Raichu
             103, // Exeggutor
             105, // Marowak
         };
+
         internal static readonly HashSet<int> EvolveToAlolanForms = new HashSet<int>(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
 
         public static readonly HashSet<int> PastGenAlolanNatives = new HashSet<int>
@@ -216,6 +234,7 @@ namespace PKHeX.Core
 
             100, 101 // Voltorb & Electrode
         };
+
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
             142, // Aerodacyl
@@ -281,6 +300,7 @@ namespace PKHeX.Core
             656, 657, 658, // Greninja
             653, 654, 655, // Delphox
         };
+
         internal static readonly HashSet<int> Inherit_Apricorn6 = new HashSet<int>
         {
             010, 013, 016, 019, 021, 023, 025, 027, 029, 035, 037, 039, 041,
@@ -308,6 +328,7 @@ namespace PKHeX.Core
             173, // Via Clefairy
             174, // Via Jigglypuff
         };
+
         internal static readonly HashSet<int> AlolanCaptureOffspring = new HashSet<int>
         {
             010, 019, 021, 025, 027, 035, 037, 039, 041, 046,
@@ -329,7 +350,7 @@ namespace PKHeX.Core
 
             // USUM Additions
             023, 086, 108, 122, 163, 177, 179, 190, 204,
-            206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
+            206, 214, 223, 226, 228, 238, 246, 303, 309, 341, 343,
             352, 353, 357, 366, 427, 439, 458, 550,
             559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
             667, 669, 676, 686, 690, 692, 701, 702,
@@ -342,7 +363,9 @@ namespace PKHeX.Core
             // Static Encounters
             100,
         };
+
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
+
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
         {
             100, // Voltorb
@@ -352,7 +375,9 @@ namespace PKHeX.Core
             // Others are capturable in the Alola region
             // Magnemite, Staryu, Tauros
         };
+
         internal static readonly HashSet<int> Inherit_Apricorn7 = new HashSet<int> (Inherit_Apricorn6.Concat(Inherit_ApricornMale7).Concat(PastGenAlolanScans).Concat(AlolanCaptureOffspring).Distinct());
+
         internal static readonly HashSet<int> Inherit_SafariMale = new HashSet<int>
         {
             128, // Tauros
@@ -364,6 +389,7 @@ namespace PKHeX.Core
             374, // Beldum
             436, // Bronzor
         };
+
         internal static readonly HashSet<int> Inherit_DreamMale = new HashSet<int>
         {
             // Starting with Gen7, Males pass Ball via breeding with Ditto.
@@ -392,16 +418,19 @@ namespace PKHeX.Core
             599, // Klink
             622, // Golett
         };
+
         internal static readonly HashSet<int> Ban_Gen3Ball_7 = new HashSet<int>
         {
             489, // Phione
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+
         internal static readonly HashSet<int> Ban_Gen4Ball_7 = new HashSet<int>
         {
             489, // Phione
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+
         internal static readonly HashSet<int> Ban_SafariBallHidden_7 = new HashSet<int>
         {
             029, 030, 031, 032, 033, 034, // Nidos
@@ -442,6 +471,7 @@ namespace PKHeX.Core
             105, // Marowak (Normal, Alolan, Totem)
             778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
         };
+
         internal static readonly HashSet<int> Totem_SM = new HashSet<int>
         {
             020, // Raticate
@@ -453,6 +483,7 @@ namespace PKHeX.Core
             778, // Mimikyu
             784, // Kommo-o
         };
+
         internal static readonly HashSet<int> Totem_USUM = new HashSet<int>
         {
             020, // Raticate
@@ -470,6 +501,7 @@ namespace PKHeX.Core
         };
 
         internal static readonly int[] EggLocations7 = {60002, 30002};
+
         internal static readonly HashSet<int> ValidMet_SM = new HashSet<int>
         {
             006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
@@ -479,6 +511,7 @@ namespace PKHeX.Core
 
             30016 // Poké Pelago
         };
+
         internal static readonly HashSet<int> ValidMet_USUM = new HashSet<int>(ValidMet_SM)
         {
             // 194, 195, 196, 197, // Unobtainable new Locations

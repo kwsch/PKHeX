@@ -14,6 +14,7 @@
 
         public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, RNG, lead);
         public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
+
         public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, RNG, lead)
         {
             RandESV = esv,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.Encounters6;
 
 namespace PKHeX.Core
 {
@@ -206,7 +207,7 @@ namespace PKHeX.Core
 
             switch (m)
             {
-                case 6 when !Memories.LocationsWithPKCenter[0].Contains(t):
+                case 6 when !Memories.LocationsWithPKCenter.Contains(t):
                     return GetInvalid(string.Format(LMemoryArgBadPokecenter, tr));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
@@ -295,18 +296,18 @@ namespace PKHeX.Core
                     return;
 
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                    int matchingOriginGame = Array.IndexOf(Memories.LocationsWithPKCenter[0], pkm.OT_TextVar);
+                    int matchingOriginGame = Array.IndexOf(Memories.LocationsWithPKCenter, pkm.OT_TextVar);
                     if (matchingOriginGame != -1)
                     {
-                        int gameID = Memories.LocationsWithPKCenter[1][matchingOriginGame];
-                        if ((pkm.XY && gameID != 0) || (pkm.AO && gameID != 1))
+                        var gameID = Memories.GetGameVersionForPokeCenterIndex(matchingOriginGame);
+                        if (!gameID.Contains((GameVersion)pkm.Version))
                             data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadLocation, L_XOT), CheckIdentifier.Memory);
                     }
                     data.AddLine(VerifyCommonMemory(pkm, 0));
                     return;
 
                 case 14:
-                    if (!Legal.GetCanBeCaptured(pkm.OT_TextVar, Info.Generation, (GameVersion)pkm.Version))
+                    if (!GetCanBeCaptured(pkm.OT_TextVar, Info.Generation, (GameVersion)pkm.Version))
                         data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadSpecies, L_XOT), CheckIdentifier.Memory);
                     else
                         data.AddLine(Severity.Valid, string.Format(LMemoryArgSpecies, L_XOT), CheckIdentifier.Memory);
@@ -370,7 +371,7 @@ namespace PKHeX.Core
                     data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadHatch, L_XHT), CheckIdentifier.Memory); return;
 
                 case 14:
-                    if (Legal.GetCanBeCaptured(pkm.HT_TextVar, 6))
+                    if (GetCanBeCaptured(pkm.HT_TextVar, 6))
                         data.AddLine(Severity.Valid, string.Format(LMemoryArgSpecies, L_XHT), CheckIdentifier.Memory);
                     else
                         data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadSpecies, L_XHT), CheckIdentifier.Memory);
@@ -396,6 +397,46 @@ namespace PKHeX.Core
             untraded |= !pkm.WasEventEgg;
             untraded &= gift.IsEgg;
             return untraded;
+        }
+
+        private static bool GetCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
+        {
+            switch (gen)
+            {
+                // Capture Memory only obtainable via Gen 6.
+                case 6:
+                    switch (version)
+                    {
+                        case GameVersion.Any:
+                            return Legal.FriendSafari.Contains(species)
+                                   || GetCanBeCaptured(species, SlotsX, StaticX)
+                                   || GetCanBeCaptured(species, SlotsY, StaticY)
+                                   || GetCanBeCaptured(species, SlotsA, StaticA)
+                                   || GetCanBeCaptured(species, SlotsO, StaticO);
+                        case GameVersion.X:
+                            return Legal.FriendSafari.Contains(species)
+                                   || GetCanBeCaptured(species, SlotsX, StaticX);
+                        case GameVersion.Y:
+                            return Legal.FriendSafari.Contains(species)
+                                   || GetCanBeCaptured(species, SlotsY, StaticY);
+
+                        case GameVersion.AS:
+                            return GetCanBeCaptured(species, SlotsA, StaticA);
+                        case GameVersion.OR:
+                            return GetCanBeCaptured(species, SlotsO, StaticO);
+                    }
+                    break;
+            }
+            return false;
+        }
+
+        private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
+        {
+            if (area.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
+                return true;
+            if (statics.Any(enc => enc.Species == species && !enc.Gift))
+                return true;
+            return false;
         }
     }
 }

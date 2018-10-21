@@ -578,6 +578,7 @@ namespace PKHeX.WinForms
         }
 
         private IList<EntreeSlot> CurrentSlots;
+        private int currentIndex = -1;
 
         private void ChangeArea(object sender, EventArgs e)
         {
@@ -586,13 +587,15 @@ namespace PKHeX.WinForms
             LB_Slots.Items.Clear();
             foreach (var z in CurrentSlots.Select(z => GameInfo.Strings.Species[z.Species]))
                 LB_Slots.Items.Add(z);
-            LB_Slots.SelectedIndex = 0;
+            LB_Slots.SelectedIndex = currentIndex = 0;
         }
 
         private void ChangeSlot(object sender, EventArgs e)
         {
             CurrentSlot = null;
-            var current = CurrentSlots[LB_Slots.SelectedIndex];
+            if (LB_Slots.SelectedIndex >= 0)
+                currentIndex = LB_Slots.SelectedIndex;
+            var current = CurrentSlots[currentIndex];
             CB_Species.SelectedValue = current.Species;
             SetForms(current);
             SetGenders(current);
@@ -613,7 +616,7 @@ namespace PKHeX.WinForms
             if (sender == CB_Species)
             {
                 CurrentSlot.Species = WinFormsUtil.GetIndex(CB_Species);
-                LB_Slots.Items[LB_Slots.SelectedIndex] = GameInfo.Strings.Species[CurrentSlot.Species];
+                LB_Slots.Items[currentIndex] = GameInfo.Strings.Species[CurrentSlot.Species];
                 SetForms(CurrentSlot);
                 SetGenders(CurrentSlot);
             }

@@ -151,6 +151,9 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 122, Level = 03, Version = GameVersion.RBY }, // Mr. Mime - Wild Jigglypuff
             new EncounterTrade { Species = 060, Level = 02, Version = GameVersion.RBY }, // Poliwag - Wild Rattata
             //new EncounterTrade { Species = 083, Level = 02 }, // Farfetch’d - Wild Pidgey
+
+            new EncounterTradeCatchRate { Species = 093, Level = 28, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Evolve Machop->Machoke
+            new EncounterTradeCatchRate { Species = 075, Level = 16, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Abra->Kadabra
         };
 
         internal static readonly EncounterTrade[] TradeGift_RBY_NoTradeback = TradeGift_RBY_Common.Concat(new[]
@@ -162,8 +165,6 @@ namespace PKHeX.Core
 
             new EncounterTrade { Species = 115, Level = 15, Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (GSC: 10)
             new EncounterTrade { Species = 128, Level = 28, Version = GameVersion.RBY }, // Tauros - Evolve Persian (GSC: 18)
-            new EncounterTradeCatchRate { Species = 093, Level = 20, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Trade Machoke (GSC: 10)
-            new EncounterTradeCatchRate { Species = 075, Level = 16, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Kadabra (GSC: 15)
             new EncounterTradeCatchRate { Species = 098, Level = 15, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Wild Growlithe (GSC: 5)
 
             //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (GSC: 6)
@@ -186,8 +187,6 @@ namespace PKHeX.Core
 
             new EncounterTrade { Species = 115, Level = 10, Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (RBY: 42)
             new EncounterTrade { Species = 128, Level = 18, Version = GameVersion.RBY }, // Tauros - Evolve Persian (RBY: 28)
-            new EncounterTradeCatchRate { Species = 093, Level = 05, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Trade Machoke (RBY: 20)
-            new EncounterTradeCatchRate { Species = 075, Level = 15, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Kadabra (RBY: 16)
             new EncounterTradeCatchRate { Species = 098, Level = 05, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Egg Growlithe (RBY: 15)
 
           //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (RBY: 6)

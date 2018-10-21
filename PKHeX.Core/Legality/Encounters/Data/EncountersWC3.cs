@@ -12,7 +12,7 @@ namespace PKHeX.Core
     /// </remarks>
     internal static class EncountersWC3
     {
-        internal static readonly MysteryGift[] Encounter_Event3_Special =
+        internal static readonly WC3[] Encounter_Event3_Special =
         {
             new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "アゲト", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
@@ -21,12 +21,15 @@ namespace PKHeX.Core
             new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
         };
-        private static IEnumerable<MysteryGift> GetIngameCXDData()
+
+        internal const string ColoHoOhItalian = "MONTE LOTT";
+
+        private static IEnumerable<WC3> GetIngameCXDData()
         {
             var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
             var h = new[] {null, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", null, "HORDEL"};
             var d = new[] {null, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", null, "GERMÁN"};
-            var m = new[] {null, "バトルやま", "MATTLE", "MT BATA", "MONTE L", "DUELLBE", null, "ERNESTO"};
+            var m = new[] {null, "バトルやま", "MATTLE", "MT BATA", ColoHoOhItalian, "DUELLBE", null, "ERNESTO"};
 
             return langs.SelectMany(l => GetIngame((int)l));
             IEnumerable<WC3> GetIngame(int l)
@@ -43,9 +46,10 @@ namespace PKHeX.Core
                 };
             }
         }
-        internal static readonly MysteryGift[] Encounter_Event3 = Encounter_Event3_Special.Concat(GetIngameCXDData()).ToArray();
 
-        internal static readonly MysteryGift[] Encounter_Event3_FRLG =
+        internal static readonly WC3[] Encounter_Event3 = Encounter_Event3_Special.Concat(GetIngameCXDData()).ToArray();
+
+        internal static readonly WC3[] Encounter_Event3_FRLG =
         {
             // PCJP - Egg Pokémon Present Eggs (March 21 to April 4, 2004)
             new WC3 { Species = 043, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{073} }, // Oddish with Leech Seed
@@ -79,7 +83,7 @@ namespace PKHeX.Core
             new WC3 { Species = 360, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new[]{321}, Method = PIDType.Method_2 }, // Wynaut with Tickle
         };
 
-        internal static readonly MysteryGift[] Encounter_Event3_RS =
+        internal static readonly WC3[] Encounter_Event3_RS =
         {
             // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
             new WC3 { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{298} }, // Pichu with Teeter Dance
@@ -228,7 +232,7 @@ namespace PKHeX.Core
             new WC3 { Species = 381, Level = 70, Version = GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 191, Shiny = Shiny.Never }, // Latios
         };
 
-        internal static readonly MysteryGift[] Encounter_Event3_Common =
+        internal static readonly WC3[] Encounter_Event3_Common =
         {
             // Pokémon Box
             new WC3 { Species = 333, IsEgg = true, Level = 05, Moves = new[]{206}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Swablu Egg with False Swipe
@@ -254,6 +258,6 @@ namespace PKHeX.Core
             new WC3 { Species = 360, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new[]{321}, Method = PIDType.BACD_R }, // Wynaut with Tickle
         };
 
-        internal static readonly MysteryGift[] Encounter_WC3 = EncounterUtil.ConcatAll(Encounter_Event3, Encounter_Event3_RS, Encounter_Event3_FRLG, Encounter_Event3_Common);
+        internal static readonly WC3[] Encounter_WC3 = EncounterUtil.ConcatAll(Encounter_Event3, Encounter_Event3_RS, Encounter_Event3_FRLG, Encounter_Event3_Common);
     }
 }

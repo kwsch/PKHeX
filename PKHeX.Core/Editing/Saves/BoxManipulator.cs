@@ -30,13 +30,26 @@
             if (!CanManipulateRegion(param.Start, param.Stop, prompt, fail))
                 return false;
 
-
             var result = manip.Execute(SAV, param);
             if (!result)
                 return false;
             var success = manip.GetSuccess(allBoxes);
             FinishBoxManipulation(success, allBoxes);
             return true;
+        }
+
+        /// <summary>
+        /// Executes the provided <see cref="type"/> with the provided parameters.
+        /// </summary>
+        /// <param name="type">Manipulation to perform on the <see cref="SAV"/> box data.</param>
+        /// <param name="box">Single box to modify; if <see cref="allBoxes"/> is set, this param is ignored.</param>
+        /// <param name="allBoxes">Indicates if all boxes are to be manipulated, or just one box.</param>
+        /// <param name="reverse">Manipulation action should be inverted (criteria) or reversed (sort).</param>
+        /// <returns>True if operation succeeded, false if no changes made.</returns>
+        public bool Execute(BoxManipType type, int box, bool allBoxes, bool reverse = false)
+        {
+            var manip = type.GetManip();
+            return Execute(manip, box, allBoxes, reverse);
         }
 
         /// <summary>

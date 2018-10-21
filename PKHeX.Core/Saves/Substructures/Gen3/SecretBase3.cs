@@ -16,6 +16,7 @@ namespace PKHeX.Core
         }
 
         public int SecretBaseLocation { get => Data[Offset + 0]; set => Data[Offset + 0] = (byte) value; }
+
         public int OT_Gender
         {
             get => (Data[Offset + 1] >> 4) & 1;
@@ -27,11 +28,13 @@ namespace PKHeX.Core
             get => StringConverter.GetString3(Data, Offset + 2, 7, Japanese);
             set => StringConverter.SetString3(value, 7, Japanese, 7).CopyTo(Data, Offset + 2);
         }
+
         public uint OT_ID
         {
             get => BitConverter.ToUInt32(Data, Offset + 9);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 9);
         }
+
         public int OT_Class { get => Data[Offset + 9] % 5; }
         public int Language { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
         public int _E       { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = (byte)value; }
@@ -44,6 +47,7 @@ namespace PKHeX.Core
             get => Data.Skip(Offset + 0x12).Take(0x10).ToArray();
             set => value.CopyTo(Data, Offset + 0x12);
         }
+
         public byte[] DecorationCoordinates
         {
             get => Data.Skip(Offset + 0x22).Take(0x10).ToArray();
