@@ -4333,6 +4333,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _249x {
+            get {
+                object obj = ResourceManager.GetObject("_249x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _24s {
             get {
                 object obj = ResourceManager.GetObject("_24s", resourceCulture);
@@ -22934,12 +22944,11 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///18/08/03 - New Update:
+        ///18/09/11 - New Update:
         /// - Legality:
-        /// - - Changed: Another round of legality check updates. Thanks @iiippppk, @WEERSOQUEER, @PrometheusG, @NinFanBoyFTW, paf, Cloud AC!
-        /// - - Added: Unavailable bred hidden abilities are now flagged for Gen5 origin entities (now covers all gens).
-        /// - - Added: WC6/7 mystery gift version compatibility checks based on wc*full data. Note: some gifts might still allow impossible future versions.
-        /// - Added: Hovering over a  [rest of string was truncated]&quot;;.
+        /// - - Changed: Another round of legality check updates. Thanks HaxAras, @sora10pls, ICanSnake, Omnipotent Arceus, Raptor385, PF649, PrometheusG, @Narithegreat, Yami_Wheeler, crzyc, ThePunish3D, @Lusamine!
+        /// - - Added: Poké Pelago status legality checks have been enabled, which can detect improperly transferred files.
+        /// - Added: Clicking on the &quot;Ball&quot; label now brings up a list of all balls, with background color i [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -28128,7 +28137,7 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20180803.
+        ///   Looks up a localized string similar to 20180911.
         /// </summary>
         internal static string ProgramVersion {
             get {

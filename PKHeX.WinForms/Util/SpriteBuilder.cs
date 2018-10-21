@@ -41,6 +41,11 @@ namespace PKHeX.WinForms
 
             var baseImage = GetBaseImage(species, form, gender, isShiny, generation);
 
+            return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed);
+        }
+
+        public Image GetSprite(Image baseImage, int species, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false)
+        {
             if (isEgg)
                 baseImage = LayerOverImageEgg(baseImage, species, heldItem != 0);
             if (isShiny)

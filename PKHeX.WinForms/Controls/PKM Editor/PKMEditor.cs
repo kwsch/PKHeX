@@ -1478,6 +1478,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             FieldsLoaded = false;
             NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
+            ((IShadowPKM)pkm).Purification = (int)NUD_Purification.Value;
+            UpdatePreviewSprite?.Invoke(this, null);
             FieldsLoaded = true;
         }
 
