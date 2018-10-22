@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    internal class EncounterStaticShadow : EncounterStatic
+    public class EncounterStaticShadow : EncounterStatic
     {
         public TeamLock[] Locks { get; internal set; } = Array.Empty<TeamLock>();
         public int Gauge { get; internal set; }

@@ -33,7 +33,7 @@ namespace PKHeX.Tests.Legality
 
             // Remoraid (M) (Docile)
             // Golbat (M) (Bashful)
-            // Verify(Encounters3Teams.Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 });
+            VerifySingle(Encounters3Teams.Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 });
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace PKHeX.Tests.Legality
             // Ralts (M) (Docile)
             // Voltorb (-) (Hardy)
             // Bagon (F) (Quirky)
-            // Verify(Encounters3Teams.Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 });
+            VerifySingle(Encounters3Teams.Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 });
         }
 
         [TestMethod]
@@ -64,19 +64,19 @@ namespace PKHeX.Tests.Legality
             // Jumpluff (M) (Docile)
             // Azumarill (F) (Hardy)
             // Shadow Tangela
-            // Verify(Encounters3Teams.Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 });
+            VerifySingle(Encounters3Teams.Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 });
 
             // Huntail (M) (Docile)
             // Cacturne (F) (Hardy)
             // Weezing (F) (Serious)
             // Ursaring (F) (Bashful)
-            // Verify(Encounters3Teams.Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 });
+            VerifySingle(Encounters3Teams.Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 });
 
             // Lairon (F) (Bashful)
             // Sealeo (F) (Serious)
             // Slowking (F) (Docile)
             // Ursaring (M) (Quirky)
-            // Verify(Encounters3Teams.Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 });
+            VerifySingle(Encounters3Teams.Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 });
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace PKHeX.Tests.Legality
         public void VerifyLock5()
         {
             // many prior, all non shadow
-            // Verify(Encounters3Teams.Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 });
+            VerifySingle(Encounters3Teams.Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 });
         }
 
         private static void Verify(TeamLock[] teams, uint pid, int[] ivs, bool xd = true)
@@ -93,6 +93,15 @@ namespace PKHeX.Tests.Legality
             var info = MethodFinder.Analyze(pk3);
             Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
             bool match = GetCanOriginateFrom(teams, info, xd, out var _);
+            Assert.IsTrue(match, "Unable to verify lock conditions: " + teams[0].Species);
+        }
+
+        private static void VerifySingle(TeamLock[] teams, uint pid, int[] ivs, bool xd = true)
+        {
+            var pk3 = new PK3 { PID = pid, IVs = ivs };
+            var info = MethodFinder.Analyze(pk3);
+            Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
+            bool match = LockFinder.IsFirstShadowLockValid(info, teams, xd);
             Assert.IsTrue(match, "Unable to verify lock conditions: " + teams[0].Species);
         }
 

@@ -152,6 +152,30 @@ namespace PKHeX.Core
         private static bool IsShiny(uint TID, uint SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
 
+        public static bool IsFirstShadowLockValid(EncounterStaticShadow s, PIDIV pv)
+        {
+            return IsFirstShadowLockValid(pv, s.Locks, s.Version == GameVersion.XD);
+        }
+
+        public static bool IsFirstShadowLockValid(PIDIV pv, TeamLock[] teams, bool XD)
+        {
+            if (teams.Length == 0)
+                return true;
+
+            foreach (var t in teams)
+            {
+                var locks = new Stack<NPCLock>(1);
+                locks.Push(t.Locks[t.Locks.Length - 1]);
+                var pids = new Stack<uint>();
+                var originSeed = pv.OriginSeed;
+                var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
+                var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var originFrame);
+                if (result)
+                    return true;
+            }
+            return false;
+        }
+
         // Colosseum/XD Starters
         public static bool IsXDStarterValid(uint seed, int TID, int SID)
         {
