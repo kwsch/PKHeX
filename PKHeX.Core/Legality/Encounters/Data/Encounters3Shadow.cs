@@ -14,7 +14,7 @@
             Locks = new NPCLock[] {
                 new NPCLock(216, 12, 0, 127), // Teddiursa (M) (Serious)
                 new NPCLock(039, 06, 1, 191), // Jigglypuff (F) (Docile)
-                new NPCLock(285, 18, 1, 127), // Shroomish (F) (Bashful)
+                new NPCLock(285, 18, 0, 127), // Shroomish (M) (Bashful)
         }};
 
         public static readonly TeamLock CMurkrow = new TeamLock {
@@ -22,7 +22,7 @@
             Locks = new NPCLock[] {
                 new NPCLock(318, 06, 0, 127), // Carvanha (M) (Docile)
                 new NPCLock(274, 12, 1, 127), // Nuzleaf (F) (Serious)
-                new NPCLock(228, 18, 1, 127), // Houndour (F) (Bashful)
+                new NPCLock(228, 18, 0, 127), // Houndour (M) (Bashful)
         }};
 
         public static readonly TeamLock CHeracross = new TeamLock {
@@ -35,8 +35,8 @@
         public static readonly TeamLock CUrsaring = new TeamLock {
             Species = 217, // Ursaring
             Locks = new NPCLock[] {
-                new NPCLock(067, 20, 0, 063), // Machoke (M) (Calm)
-                new NPCLock(259, 16, 1, 031), // Marshtomp (F) (Mild)
+                new NPCLock(067, 20, 1, 063), // Machoke (F) (Calm)
+                new NPCLock(259, 16, 0, 031), // Marshtomp (M) (Mild)
                 new NPCLock(275, 21, 1, 127), // Shiftry (F) (Gentle)
         }};
 
@@ -484,17 +484,17 @@
         public static readonly TeamLock XKangaskhan = new TeamLock {
             Species = 115, // Kangaskhan
             Locks = new NPCLock[] {
-                new NPCLock(101, 18, 2, 127), // Electrode (-) (Bashful)
-                new NPCLock(200), // Shadow Misdreavus
-                new NPCLock(344, 18, 2, 127), // Claydol (-) (Bashful)
+                new NPCLock(101, 00, 2, 256), // Electrode (-) (Hardy)
+                new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
+                new NPCLock(344, 12, 2, 256), // Claydol (-) (Serious)
         }};
 
         public static readonly TeamLock XBanette = new TeamLock {
             Species = 354, // Banette
             Locks = new NPCLock[] {
-                new NPCLock(101, 18, 2, 127), // Electrode (-) (Bashful)
-                new NPCLock(200), // Shadow Misdreavus
-                new NPCLock(344, 18, 2, 127), // Claydol (-) (Bashful)
+                new NPCLock(101, 00, 2, 256), // Electrode (-) (Hardy)
+                new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
+                new NPCLock(344, 12, 2, 256), // Claydol (-) (Serious)
                 new NPCLock(115), // Shadow Kangaskhan
         }};
 
@@ -502,9 +502,9 @@
             Species = 354, // Banette
             Comment = "Kangaskhan Seen",
             Locks = new NPCLock[] {
-                new NPCLock(101, 18, 2, 127), // Electrode (-) (Bashful)
-                new NPCLock(200), // Shadow Misdreavus
-                new NPCLock(344, 18, 2, 127), // Claydol (-) (Bashful)
+                new NPCLock(101, 00, 2, 256), // Electrode (-) (Hardy)
+                new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
+                new NPCLock(344, 12, 2, 256), // Claydol (-) (Serious)
                 new NPCLock(115, true), // Shadow Kangaskhan (Seen)
         }};
 
@@ -591,14 +591,14 @@
             Locks = new NPCLock[]
             {
                 new NPCLock(234, 06, 1, 127), // Stantler (F) (Docile)
-                new NPCLock(295, 24, 0, 256), // Exploud (M) (Quirky)
+                new NPCLock(295, 24, 0, 127), // Exploud (M) (Quirky)
         }};
 
         public static readonly TeamLock XChansey = new TeamLock {
             Species = 113, // Chansey
             Locks = new NPCLock[] {
                 new NPCLock(234, 06, 1, 127), // Stantler (F) (Docile)
-                new NPCLock(295, 24, 0, 256), // Exploud (M) (Quirky)
+                new NPCLock(295, 24, 0, 127), // Exploud (M) (Quirky)
                 new NPCLock(123), // Shadow Scyther
         }};
 
@@ -607,7 +607,7 @@
             Comment = "Scyther Seen",
             Locks = new NPCLock[] {
                 new NPCLock(234, 06, 1, 127), // Stantler (F) (Docile)
-                new NPCLock(295, 24, 0, 256), // Exploud (M) (Quirky)
+                new NPCLock(295, 24, 0, 127), // Exploud (M) (Quirky)
                 new NPCLock(123, true), // Shadow Scyther (Seen)
         }};
 
@@ -666,6 +666,7 @@
                 new NPCLock(065, 12, 0, 063), // Alakazam (M) (Serious)
                 new NPCLock(230, 18, 1, 127), // Kingdra (F) (Bashful)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
+                new NPCLock(125), // Shadow Electabuzz
         }};
 
         public static readonly TeamLock XSnorlaxSwellowSeen = new TeamLock {
@@ -676,6 +677,7 @@
                 new NPCLock(065, 12, 0, 063), // Alakazam (M) (Serious)
                 new NPCLock(230, 18, 1, 127), // Kingdra (F) (Bashful)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
+                new NPCLock(125), // Shadow Electabuzz
         }};
 
         public static readonly TeamLock XSnorlaxSwellowElectabuzzSeen = new TeamLock {
@@ -686,6 +688,7 @@
                 new NPCLock(065, 12, 0, 063), // Alakazam (M) (Serious)
                 new NPCLock(230, 18, 1, 127), // Kingdra (F) (Bashful)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
+                new NPCLock(125, true), // Shadow Electabuzz
         }};
 
         public static readonly TeamLock XPoliwrath = new TeamLock {
@@ -723,8 +726,8 @@
             Locks = new NPCLock[] {
                 new NPCLock(362, 00, 0, 127), // Glalie (M) (Hardy)
                 new NPCLock(181, 18, 0, 127), // Ampharos (M) (Bashful)
-                new NPCLock(286, 06, 0, 127), // Breloom (M) (Docile)
-                new NPCLock(232, 12, 1, 127), // Donphan (F) (Serious)
+                new NPCLock(286, 06, 1, 127), // Breloom (F) (Docile)
+                new NPCLock(232, 12, 0, 127), // Donphan (M) (Serious)
         }};
 
         public static readonly TeamLock XManectric = new TeamLock {
