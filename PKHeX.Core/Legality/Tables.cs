@@ -192,20 +192,26 @@ namespace PKHeX.Core
             805, // Stakataka
             806, // Blacephalon
             807, // Zeraora
+
+            808, // Meltan
+            809, // Melmetal
         };
 
         public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
         {
             150, // Mewtwo
             151, // Mew
+
             249, // Lugia
             250, // Ho-Oh
             251, // Celebi
+
             382, // Kyogre
             383, // Groudon
             384, // Rayquaza
             385, // Jirachi
             386, // Deoxys
+
             483, // Dialga
             484, // Palkia
             487, // Giratina
@@ -214,6 +220,7 @@ namespace PKHeX.Core
             491, // Darkrai
             492, // Shaymin
             493, // Arceus
+
             494, // Victini
             643, // Reshiram
             644, // Zekrom
@@ -221,12 +228,14 @@ namespace PKHeX.Core
             647, // Keldeo
             648, // Meloetta
             649, // Genesect
+
             716, // Xerneas
             717, // Yveltal
             718, // Zygarde
             719, // Diancie
             720, // Hoopa
             721, // Volcanion
+
             789, // Cosmog
             790, // Cosmoem
             791, // Solgaleo
@@ -235,6 +244,8 @@ namespace PKHeX.Core
             801, // Magearna
             802, // Marshadow
             807, // Zeraora
+            808, // Meltan
+            809, // Melmetal
         };
 
         public static readonly HashSet<int> BattleForms = new HashSet<int>
@@ -289,7 +300,7 @@ namespace PKHeX.Core
             150, 151, 249, 250, 251, 382, 383, 384, 385, 386, 483,
             484, 487, 489, 490, 491, 492, 493, 494, 643, 644, 646,
             647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
-            791, 792, 800, 801, 802, 807
+            791, 792, 800, 801, 802, 807, 808, 809,
         };
 
         public static readonly HashSet<int> SubLegends = new HashSet<int>
@@ -349,6 +360,7 @@ namespace PKHeX.Core
             705, // Fleur Cannon
             717, // Nature's Madness
         };
+
         // Moves that trigger the evolution by move
         internal static readonly int[][] MoveEvolutionWithMove =
         {
@@ -362,6 +374,7 @@ namespace PKHeX.Core
             FairyMoves, // Sylveon (Eevee with Fairy Move)
             new [] { 023 }, // Tsareena (Steenee with Stomp)
         };
+
         // Min level for any species for every generation to learn the move for evolution by move
         // 0 means it cant be learned in that generation
         internal static readonly int[][] MinLevelEvolutionWithMove =
@@ -385,6 +398,7 @@ namespace PKHeX.Core
             // Tsareena (Steenee with Stomp)
             new [] { 0, 0, 0, 0, 0, 0, 0, 2 },
         };
+
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
         internal static readonly bool[][] EggMoveEvolutionWithMove =
         {
@@ -434,6 +448,7 @@ namespace PKHeX.Core
             677, // Espurr
             678, // Meowstic (M/F) forme specific
         };
+
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
