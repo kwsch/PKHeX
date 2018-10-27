@@ -877,7 +877,17 @@ namespace PKHeX.Core
             return 2000;
         }
 
-        public static int GetNicknameOTMaxLength(int gen, LanguageID lang)
+        public static int GetMaxLengthOT(int gen, LanguageID lang)
+        {
+            switch (lang)
+            {
+                case LanguageID.Korean:
+                case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
+                default: return gen >= 6 ? 12 : 7;
+            }
+        }
+
+        public static int GetMaxLengthNickname(int gen, LanguageID lang)
         {
             switch (lang)
             {

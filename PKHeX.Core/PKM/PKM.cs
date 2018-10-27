@@ -519,19 +519,16 @@ namespace PKHeX.Core
         public virtual bool WasEvent => (Met_Location > 40000 && Met_Location < 50000) || FatefulEncounter;
         public virtual bool WasEventEgg => Gen4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
 
-        public bool WasTradedEgg
+        public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
+        public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
+
+        private int GetTradedEggLocation()
         {
-            get
+            switch (GenNumber)
             {
-                switch (GenNumber)
-                {
-                    case 4:
-                        return Egg_Location == 2002;
-                    case 5:
-                        return Egg_Location == 30003;
-                    default:
-                        return Egg_Location == 30002;
-                }
+                case 4: return 2002;
+                case 5: return 30003;
+                default: return 30002;
             }
         }
 

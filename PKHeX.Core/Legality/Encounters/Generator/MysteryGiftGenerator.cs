@@ -161,7 +161,7 @@ namespace PKHeX.Core
                 yield return z;
         }
 
-        private static bool GetIsValidOTItalianMattleHoOh(string wc, string ot, bool ck3)
+        private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
         {
             if (ck3 && ot.Length == 10)
                 return wc == ot;
@@ -180,14 +180,15 @@ namespace PKHeX.Core
                 if (wc.SID != -1 && wc.SID != pkm.SID) return false;
                 if (wc.TID != -1 && wc.TID != pkm.TID) return false;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
-                if (wc.OT_Name != null)
+                var wcOT = wc.OT_Name;
+                if (wcOT != null)
                 {
-                    if (ReferenceEquals(EncountersWC3.ColoHoOhItalian, wc.OT_Name))
+                    if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
                     {
-                        if (!GetIsValidOTItalianMattleHoOh(wc.OT_Name, pkm.OT_Name, pkm is CK3))
+                        if (!GetIsValidOTMattleHoOh(wcOT, pkm.OT_Name, pkm is CK3))
                             return false;
                     }
-                    else if (wc.OT_Name != pkm.OT_Name)
+                    else if (wcOT != pkm.OT_Name)
                     {
                         return false;
                     }

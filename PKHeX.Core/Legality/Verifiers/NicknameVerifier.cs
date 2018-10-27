@@ -80,7 +80,7 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(LNickInvalidChar));
                     return true;
                 }
-                if (nickname.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
+                if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pkm.Language))
                 {
                     data.AddLine(Get(LNickLengthLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
                     return true;

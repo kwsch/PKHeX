@@ -19,16 +19,16 @@
 0x081	Mewtwo Captured
 0x082	Articuno Captured
 0x09B	Lugia Overworld
-0x09C	Ho-oh Overworld
+0x09C	Ho-Oh Overworld
 0x2E4	Deoxys Captured
 0x2F2	Lugia Captured
-0x2F3	Ho-oh Captured
+0x2F3	Ho-Oh Captured
 
 0x2BD	Moltres Defeated
 0x2BE	Articuno Defeated
 0x2BF	Zapdos Defeated
 0x2F5	Lugia Defeated
-0x2F6	Ho-oh Defeated
+0x2F6	Ho-Oh Defeated
 0x2F7	Deoxys Defeated
 0x09A	Deoxys Triangle Hidden
 0x085	VOLTORB Defeated 1

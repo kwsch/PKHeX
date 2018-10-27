@@ -572,6 +572,8 @@ namespace PKHeX.Core
             pkm.IsEgg = false;
             pkm.SetNickname();
             pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
+            if (pkm.IsTradedEgg)
+                pkm.Egg_Location = pkm.Met_Location;
             var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
             if (loc >= 0)
                 pkm.Met_Location = loc;
