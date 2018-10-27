@@ -1,5 +1,4 @@
-﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace PKHeX.Core
 {

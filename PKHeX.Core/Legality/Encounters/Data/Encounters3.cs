@@ -269,7 +269,7 @@ namespace PKHeX.Core
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
 
-        internal static readonly string[][] TradeRSE =
+        private static readonly string[][] TradeRSE =
         {
             Array.Empty<string>(),                // 0 - None
             Util.GetStringList("traderse", "ja"), // 1
@@ -281,7 +281,7 @@ namespace PKHeX.Core
             Util.GetStringList("traderse", "es"), // 7
         };
 
-        internal static readonly string[][] TradeFRLG =
+        private static readonly string[][] TradeFRLG =
         {
             Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradefrlg", "ja"), // 1

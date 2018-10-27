@@ -100,7 +100,7 @@ namespace PKHeX.Core
             ReduceAreasSize(ref Areas);
         }
 
-        internal static readonly string[][] TradeXY =
+        private static readonly string[][] TradeXY =
         {
             Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradexy", "ja"), // 1
@@ -113,7 +113,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradexy", "ko"), // 8
         };
 
-        internal static readonly string[][] TradeAO =
+        private static readonly string[][] TradeAO =
         {
             Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradeao", "ja"), // 1

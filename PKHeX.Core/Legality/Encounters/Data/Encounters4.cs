@@ -80,6 +80,13 @@ namespace PKHeX.Core
 
             MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
             MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);
+
+            // divergent version trade fix
+            var shuckie1 = TradeGift_HGSS[TradeGift_HGSS.Length - 2];
+            var shuckie2 = TradeGift_HGSS[TradeGift_HGSS.Length - 1];
+            shuckie2.TrainerNames = shuckie1.TrainerNames;
+            shuckie2.Nicknames = shuckie1.Nicknames;
+
             foreach (var t in RanchGifts)
                 t.TrainerNames = RanchOTNames;
 
@@ -966,7 +973,7 @@ namespace PKHeX.Core
             Encounter_HGSS_Regular);
         #endregion
         #region Trade Tables
-        internal static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", null, "Eulalia" };
+        private static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", null, "Eulalia" };
 
         private static readonly EncounterTrade[] RanchGifts =
         {
@@ -1016,10 +1023,11 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}, PID = 0x00101596}, // Steelix
             //Gift
             new EncounterTradePID { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, PID = 0x00006B5E, Level = 20, Location = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
-            new EncounterTradePID { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, PID = 0x000214D7, Level = 20, Location = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
+            new EncounterTradePID { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, PID = 0x000214D7, Level = 20, Location = 130, Moves = new[]{132,117,227,219}, Version = GameVersion.HG },// Kirk's Shuckle
+            new EncounterTradePID { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, PID = 0x00020003, Level = 20, Location = 130, Moves = new[]{132,117,227,219}, Version = GameVersion.SS },// Kirk's Shuckle
         };
 
-        internal static readonly string[][] TradeDPPt =
+        private static readonly string[][] TradeDPPt =
         {
             Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradedppt", "ja"), // 1
@@ -1032,7 +1040,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradedppt", "ko"), // 8
         };
 
-        internal static readonly string[][] TradeHGSS =
+        private static readonly string[][] TradeHGSS =
         {
             Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradehgss", "ja"), // 1
