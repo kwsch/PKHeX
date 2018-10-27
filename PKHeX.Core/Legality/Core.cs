@@ -314,6 +314,21 @@ namespace PKHeX.Core
             return IsEvolutionValid(pkm);
         }
 
+        public static IReadOnlyList<int> GetPPTable(int format)
+        {
+            switch (format)
+            {
+                case 1: return MovePP_RBY;
+                case 2: return MovePP_GSC;
+                case 3: return MovePP_RS;
+                case 4: return MovePP_DP;
+                case 5: return MovePP_BW;
+                case 6: return MovePP_XY;
+                case 7: return MovePP_SM;
+                default: return Array.Empty<int>();
+            }
+        }
+
         internal static ICollection<int> GetWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)

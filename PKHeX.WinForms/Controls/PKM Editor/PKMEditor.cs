@@ -1399,7 +1399,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (PID)
                 {
-                    pkm.SetShinyPID();
+                    pkm.SetShiny();
                     TB_PID.Text = pkm.PID.ToString("X8");
 
                     if (pkm.GenNumber < 6 && TB_EC.Visible)
@@ -1413,7 +1413,7 @@ namespace PKHeX.WinForms.Controls
             }
             else
             {
-                pkm.SetShinyIVs();
+                pkm.SetShiny();
                 Stats.LoadIVs(pkm.IVs);
                 Stats.UpdateIVs(null, null);
             }

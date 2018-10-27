@@ -789,50 +789,19 @@ namespace PKHeX.Core
         /// <param name="move">Move ID</param>
         /// <param name="ppup">PP Ups count</param>
         /// <returns>Current PP for the move.</returns>
-        public virtual int GetMovePP(int move, int ppup)
-        {
-            return GetBasePP(move) * (5 + ppup) / 5;
-        }
+        public virtual int GetMovePP(int move, int ppup) => GetBasePP(move) * (5 + ppup) / 5;
 
         /// <summary>
         /// Gets the base PP of a move ID depending on the <see cref="PKM"/>'s format.
         /// </summary>
         /// <param name="move">Move ID</param>
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-        protected int GetBasePP(int move)
+        private int GetBasePP(int move)
         {
-            int[] pptable;
-            switch (Format)
-            {
-                case 1: pptable = Legal.MovePP_RBY; break;
-                case 2: pptable = Legal.MovePP_GSC; break;
-                case 3: pptable = Legal.MovePP_RS; break;
-                case 4: pptable = Legal.MovePP_DP; break;
-                case 5: pptable = Legal.MovePP_BW; break;
-                case 6: pptable = Legal.MovePP_XY; break;
-                case 7: pptable = Legal.MovePP_SM; break;
-                default: pptable = new int[1]; break;
-            }
-            if (move >= pptable.Length)
+            var pptable = Legal.GetPPTable(Format);
+            if (move >= pptable.Count)
                 move = 0;
             return pptable[move];
-        }
-
-        /// <summary>
-        /// Applies <see cref="IVs"/> to the <see cref="PKM"/> to make it shiny.
-        /// </summary>
-        /// <remarks>
-        /// Should only be used on <see cref="PK1"/> or <see cref="PK2"/> <see cref="PKM"/>s.
-        /// </remarks>
-        public void SetShinyIVs()
-        {
-            if (Format > 2)
-                return;
-
-            IV_ATK |= 2;
-            IV_DEF = 10;
-            IV_SPE = 10;
-            IV_SPA = 10;
         }
 
         /// <summary>
@@ -840,13 +809,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
+        /// If a <see cref="PKM"/> is in the <see cref="_K12"/> format, it will update the <see cref="IVs"/> instead.
         /// </remarks>
-        public void SetShinyPID()
+        public virtual void SetShiny()
         {
-            if (Format <= 2)
-                SetShinyIVs();
-
-            do PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
+            while (!IsShiny)
+                PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
             if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
                 EncryptionConstant = PID;
         }
@@ -957,7 +925,7 @@ namespace PKHeX.Core
                 return 3;
             if (XY)
             {
-                if (Met_Location == 148 && Met_Level == 30)
+                if (Met_Location == 148 && Met_Level == 30) // Friend Safari
                     return 2;
                 if (PersonalInfo.EggGroup1 == 15) // Undiscovered
                     return 3;

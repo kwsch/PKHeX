@@ -103,22 +103,19 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="shiny">Desired <see cref="PKM.IsShiny"/> state to set.</param>
         /// <returns></returns>
-        public static bool SetIsShiny(this PKM pk, bool shiny) => shiny ? pk.SetShiny() : pk.SetUnshiny();
+        public static bool SetIsShiny(this PKM pk, bool shiny) => shiny ? SetShiny(pk) : pk.SetUnshiny();
 
         /// <summary>
         /// Makes a <see cref="PKM"/> shiny.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
-        public static bool SetShiny(this PKM pk)
+        public static bool SetShiny(PKM pk)
         {
             if (pk.IsShiny)
                 return false;
 
-            if (pk.Format > 2)
-                pk.SetShinyPID();
-            else
-                pk.SetShinyIVs();
+            pk.SetShiny();
             return true;
         }
 

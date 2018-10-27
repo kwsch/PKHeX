@@ -130,8 +130,10 @@ namespace PKHeX.Core
         private static int CalcSlot(uint esv, Range[] ranges)
         {
             for (int i = 0; i < ranges.Length; ++i)
+            {
                 if (esv >= ranges[i].Min && esv <= ranges[i].Max)
                     return i;
+            }
 
             return -1;
         }

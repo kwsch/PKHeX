@@ -176,7 +176,7 @@ namespace PKHeX.Core
             pk7.IVs = new_ivs;
 
             if (IsShiny)
-                pk7.SetShinyPID();
+                pk7.SetShiny();
 
             int abil = 2; // Hidden
             if (Legal.TransferSpeciesDefaultAbility_1.Contains(Species))
