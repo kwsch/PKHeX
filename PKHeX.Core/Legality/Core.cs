@@ -727,7 +727,7 @@ namespace PKHeX.Core
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
 
-                // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
+                // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
                 if (species == 386 && pkm.Format == 3)
                     formcount = 4;
 

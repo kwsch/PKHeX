@@ -305,7 +305,7 @@ namespace PKHeX.Core
 
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 2 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
@@ -354,7 +354,7 @@ namespace PKHeX.Core
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
@@ -415,7 +415,7 @@ namespace PKHeX.Core
             if (wc.MetLevel != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))

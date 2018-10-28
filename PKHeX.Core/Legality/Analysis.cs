@@ -145,7 +145,7 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
                 AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
 
-            if (pkm.Format == 1 || pkm.Format == 2) // prior to storing GameVersion
+            if (pkm.Format <= 2) // prior to storing GameVersion
             {
                 ParsePK1();
                 return;

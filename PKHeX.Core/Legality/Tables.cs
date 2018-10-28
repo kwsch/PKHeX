@@ -16,7 +16,6 @@ namespace PKHeX.Core
 
         public static readonly int[] Gen4EncounterTypes = { 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
-        public static readonly int[] Fossils = { 138, 140, 142, 345, 347, 408, 410, 564, 566, 696, 698 };
         public static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
 
         public static readonly HashSet<int> WildForms = new HashSet<int>

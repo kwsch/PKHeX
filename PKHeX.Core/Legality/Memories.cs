@@ -180,7 +180,7 @@ namespace PKHeX.Core
             var bits = MemoryFeelings[memory];
             while (true)
             {
-                int feel = Util.Rand.Next(0, max);
+                int feel = Util.Rand.Next(max);
                 if ((bits & (1 << feel)) != 0)
                     return feel;
             }

@@ -1137,7 +1137,7 @@ namespace PKHeX.Core
                 uint s7 = 4294;
                 if (val > 967295)
                     s7--;
-                s7 = (uint)Util.Rand.Next(0, (int)s7);
+                s7 = (uint)Util.Rand.Next((int)s7);
                 val += s7 * 1000000;
             }
             var TID = (ushort)(val & 0xFFFF);

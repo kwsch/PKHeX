@@ -134,7 +134,7 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon4 s4)
             {
                 bool inhabited4 = 3 <= gen && gen <= 4;
-                IEnumerable<RibbonResult> iterate = GetInvalidRibbons4Any(pkm, s4, gen);
+                var iterate = GetInvalidRibbons4Any(pkm, s4, gen);
                 if (!inhabited4)
                     iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
                 foreach (var z in iterate)
@@ -382,12 +382,13 @@ namespace PKHeX.Core
 
         private static bool IsAllowedInContest4(int species) => species != 201 && species != 132; // Disallow Unown and Ditto
 
-        private static bool IsAllowedBattleFrontier(int species, int form = 0, int gen = 0)
+        private static bool IsAllowedBattleFrontier(int species) => !Legal.BattleFrontierBanlist.Contains(species);
+
+        private static bool IsAllowedBattleFrontier(int species, int form, int gen)
         {
             if (gen == 4 && species == 172 && form == 1) // spiky
                 return false;
-
-            return !Legal.BattleFrontierBanlist.Contains(species);
+            return IsAllowedBattleFrontier(species);
         }
     }
 }
