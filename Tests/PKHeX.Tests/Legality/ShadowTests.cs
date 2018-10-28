@@ -34,6 +34,21 @@ namespace PKHeX.Tests.Legality
             // Remoraid (M) (Docile) -- 73DB58CC
             // Golbat (M) (Bashful) -- F6B04390
             Verify(Encounters3Teams.Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 });
+
+            // 519AEF0E
+            // Duskull (M) (Quirky) -- 45BE3B97
+            // Spinarak (F) (Hardy) -- E18F5A3E
+            Verify(Encounters3Teams.ColoMakuhita, 0xC252FEBA, new[] { 15, 9, 17, 16, 24, 22 });
+
+            // 559C5F72 -- Quirky F => skip
+            // Duskull (M) (Quirky) -- A5AC2CCB
+            // Spinarak (F) (Hardy) -- D08FF135
+            Verify(Encounters3Teams.ColoMakuhita, 0x61C676FC, new[] { 20, 28, 21, 18, 9, 1 });
+
+            // 3CCB97BA -- Quirky F => skip * 2, Hardy Skip
+            // Duskull (M) (Quirky) -- 7F0D6783 @ 161
+            // Spinarak (F) (Hardy) -- 6C03F545 @ 182
+            Verify(Encounters3Teams.ColoMakuhita, 0x3B27608D, new[] { 7, 12, 5, 19, 3, 7 });
         }
 
         [TestMethod]
