@@ -1,50 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    /// <summary>
-    /// Locks associated to a given NPC PKM that appears before a <see cref="EncounterStaticShadow"/>.
-    /// </summary>
-    public sealed class NPCLock
-    {
-        public int Species;
-        public uint Nature;
-        public uint Gender;
-        public uint Ratio;
-        public bool Shadow;
-        public bool Seen = false;
-
-        public NPCLock(int s, uint n, uint g, uint r)
-        {
-            Species = s;
-            Nature = n;
-            Gender = g;
-            Ratio = r;
-        }
-
-        public NPCLock(int s, bool seen = false)
-        {
-            Species = s;
-            Nature = 25;
-            Shadow = true;
-            Seen = seen;
-        }
-
-        public bool MatchesLock(uint PID)
-        {
-            if (Shadow)
-                return true;
-            if (Gender != 2 && Gender != ((PID & 0xFF) < Ratio ? 1 : 0))
-                return false;
-            if (Nature != PID % 25)
-                return false;
-            return true;
-        }
-
-        internal NPCLock Clone() => (NPCLock)MemberwiseClone();
-    }
-
     /// <summary>
     /// Contains various Colosseum/XD 'wait for value' logic related to PKM generation.
     /// </summary>
@@ -97,7 +54,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<SeedFrame> FindPossibleLockFrames(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
         {
-            if (prior == null || prior.Shadow)
+            if (prior?.Shadow != false)
                 return GetSingleLockFrame(cache, ctr, l);
 
             return GetComplexLockFrame(cache, ctr, l, prior);
@@ -107,7 +64,7 @@ namespace PKHeX.Core
         {
             uint pid = cache[ctr + 1] << 16 | cache[ctr];
             if (l.MatchesLock(pid))
-                yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
+                yield return new SeedFrame { FrameID = ctr + (l.Seen ? 5 : 7), PID = pid };
         }
 
         private static IEnumerable<SeedFrame> GetComplexLockFrame(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
@@ -143,8 +100,11 @@ namespace PKHeX.Core
 
             // verify none are shiny
             foreach (var pid in PIDs)
+            {
                 if (IsShiny(tid, sid, pid))
                     return true; // todo
+            }
+
             return true;
         }
 
@@ -169,7 +129,7 @@ namespace PKHeX.Core
                 var pids = new Stack<uint>();
                 var originSeed = pv.OriginSeed;
                 var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
-                var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var originFrame);
+                var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var _);
                 if (result)
                     return true;
             }
@@ -195,7 +155,7 @@ namespace PKHeX.Core
             var rng = RNG.XDRNG;
             var SIDf = rng.Reverse(seed, rev);
             int ctr = 0;
-            uint temp = 0;
+            uint temp;
             while ((temp = rng.Prev(SIDf)) >> 16 != TID || SIDf >> 16 != SID)
             {
                 SIDf = temp;

@@ -31,9 +31,9 @@ namespace PKHeX.Tests.Legality
             // Linoone (F) (Hardy)
             Verify(Encounters3Teams.Natu, 0x8E14DAB6, new[] { 29, 24, 30, 16, 3, 18 });
 
-            // Remoraid (M) (Docile)
-            // Golbat (M) (Bashful)
-            VerifySingle(Encounters3Teams.Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 });
+            // Remoraid (M) (Docile) -- 73DB58CC
+            // Golbat (M) (Bashful) -- F6B04390
+            Verify(Encounters3Teams.Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 });
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace PKHeX.Tests.Legality
             // Luvdisc (F) (Docile)
             // Beautifly (M) (Hardy)
             // Roselia (M) (Quirky)
-            Verify(Encounters3Teams.Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 });
+            VerifySingle(Encounters3Teams.Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 });
 
             // Kadabra (M) (Docile)
             // Sneasel (F) (Hardy)
