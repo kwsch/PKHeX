@@ -69,7 +69,7 @@ namespace PKHeX.Core
                         info.PIDIV = seeds ?? info.PIDIV;
                     }
                     else if (ParseSettings.FlagCXDShadowFirstLockMismatch
-                        && z is EncounterStaticShadow s && !LockFinder.IsFirstShadowLockValid(s, info.PIDIV))
+                        && z is EncounterStaticShadow s && !LockFinder.IsAllShadowLockValid(s, info.PIDIV))
                     {
                         deferred.Add(s);
                         continue;

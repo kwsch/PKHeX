@@ -24,9 +24,9 @@ namespace PKHeX.Core
         public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
         {
             var locks = new Stack<NPCLock>(lockList);
-            var pids = new Stack<SeedFrame>();
+            var team = new Stack<SeedFrame>();
             var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
-            var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var originFrame);
+            var result = FindLockSeed(cache, 0, locks, null, team, XD, out var originFrame);
             origin = cache.GetSeed(originFrame);
             return result;
         }
@@ -117,6 +117,30 @@ namespace PKHeX.Core
             return IsFirstShadowLockValid(pv, s.Locks, s.Version == GameVersion.XD);
         }
 
+        public static bool IsAllShadowLockValid(EncounterStaticShadow s, PIDIV pv)
+        {
+            return IsAllShadowLockValid(pv, s.Locks, s.Version == GameVersion.XD);
+        }
+
+        public static bool IsAllShadowLockValid(PIDIV pv, TeamLock[] teams, bool XD)
+        {
+            if (teams.Length == 0)
+                return true;
+
+            foreach (var t in teams)
+            {
+                var locks = new Stack<NPCLock>(t.Locks);
+
+                var team = new Stack<SeedFrame>();
+                var originSeed = pv.OriginSeed;
+                var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
+                var result = FindLockSeed(cache, 0, locks, null, team, XD, out var _);
+                if (result)
+                    return true;
+            }
+            return false;
+        }
+
         public static bool IsFirstShadowLockValid(PIDIV pv, TeamLock[] teams, bool XD)
         {
             if (teams.Length == 0)
@@ -126,6 +150,7 @@ namespace PKHeX.Core
             {
                 var locks = new Stack<NPCLock>(1);
                 locks.Push(t.Locks[t.Locks.Length - 1]);
+
                 var team = new Stack<SeedFrame>();
                 var originSeed = pv.OriginSeed;
                 var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
