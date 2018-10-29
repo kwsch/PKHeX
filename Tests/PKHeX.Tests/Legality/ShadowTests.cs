@@ -77,11 +77,11 @@ namespace PKHeX.Tests.Legality
         [TestCategory(LegalityValidCategory)]
         public void VerifyLock4()
         {
-            // Ninetales (M) (Serious)
+            // Ninetales (F) (Serious)
             // Jumpluff (M) (Docile)
             // Azumarill (F) (Hardy)
             // Shadow Tangela
-            VerifySingle(Encounters3Teams.Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 });
+            Verify(Encounters3Teams.Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 });
 
             // Huntail (M) (Docile)
             // Cacturne (F) (Hardy)
@@ -125,7 +125,7 @@ namespace PKHeX.Tests.Legality
 
         [TestMethod]
         [TestCategory(VerifyPIDCategory)]
-        public void VerifyPIDResults()
+        public void VerifyPIDResultsDelcatty()
         {
             var results = new[]
             {
@@ -141,6 +141,26 @@ namespace PKHeX.Tests.Legality
                 new uint[] {0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C},
             };
             VerifyResults(results, Encounters3Teams.Delcatty);
+        }
+
+        [TestMethod]
+        [TestCategory(VerifyPIDCategory)]
+        public void VerifyPIDResultsButterfree()
+        {
+            var results = new[]
+            {
+                new uint[] {0x4D6BE487, 0xBB3EFBFB, 0x6FD7EE06, 0x289D435F, 0x0EC25CE5},
+                new uint[] {0xB04DF5B3, 0x661E499C, 0x94EB752D, 0xC5FA9DE5, 0x0A8C9738},
+                new uint[] {0xCBB9A3B0, 0x9AC1A0B8, 0xCA3CAD46, 0x54FFCA27, 0x1D5AEC4F},
+                new uint[] {0xB2AF145E, 0x455155C9, 0xB5CE4932, 0x4B8C6554, 0x55CE5E4B},
+                new uint[] {0x193A0F3B, 0xE1474ECF, 0x4C30D215, 0x72262B89, 0x9B2F5B53},
+                new uint[] {0xB73010B9, 0x361F1DB1, 0x2C65320A, 0x329A4A1E, 0x9334337E},
+                new uint[] {0xFB6A6770, 0xE0068ECC, 0xB99B326E, 0x08A18311, 0x92D31CC2},
+                new uint[] {0x5B1214BC, 0xB82FDDA9, 0x606D3D18, 0xA142F730, 0xCBA7A0C3},
+                new uint[] {0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A},
+                new uint[] {0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325},
+            };
+            VerifyResults(results, Encounters3Teams.Butterfree);
         }
 
         private static void VerifyResults(IReadOnlyList<uint[]> results, TeamLock[] team)
