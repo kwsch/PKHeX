@@ -307,7 +307,7 @@
         public static readonly TeamLock XTangela = new TeamLock {
             Species = 114, // Tangela
             Locks = new[] {
-                new NPCLock(038, 12, 0, 191), // Ninetales (M) (Serious)
+                new NPCLock(038, 12, 1, 191), // Ninetales (F) (Serious)
                 new NPCLock(189, 06, 0, 127), // Jumpluff (M) (Docile)
                 new NPCLock(184, 00, 1, 127), // Azumarill (F) (Hardy)
         }};
@@ -315,7 +315,7 @@
         public static readonly TeamLock XButterfree = new TeamLock {
             Species = 012, // Butterfree
             Locks = new[] {
-                new NPCLock(038, 12, 0, 191), // Ninetales (M) (Serious)
+                new NPCLock(038, 12, 1, 191), // Ninetales (F) (Serious)
                 new NPCLock(189, 06, 0, 127), // Jumpluff (M) (Docile)
                 new NPCLock(184, 00, 1, 127), // Azumarill (F) (Hardy)
                 new NPCLock(114), // Shadow Tangela
@@ -325,7 +325,7 @@
             Species = 012, // Butterfree
             Comment = "Tangela Seen",
             Locks = new[] {
-                new NPCLock(038, 12, 0, 191), // Ninetales (M) (Serious)
+                new NPCLock(038, 12, 1, 191), // Ninetales (F) (Serious)
                 new NPCLock(189, 06, 0, 127), // Jumpluff (M) (Docile)
                 new NPCLock(184, 00, 1, 127), // Azumarill (F) (Hardy)
                 new NPCLock(114, true), // Shadow Tangela (Seen)
