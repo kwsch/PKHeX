@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
         {
             var locks = new Stack<NPCLock>(lockList);
-            var pids = new Stack<uint>();
+            var pids = new Stack<SeedFrame>();
             var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
             var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var originFrame);
             origin = cache.GetSeed(originFrame);
@@ -32,19 +32,19 @@ namespace PKHeX.Core
         }
 
         // Recursively iterates to visit possible locks until all locks (or none) are satisfied.
-        private static bool FindLockSeed(FrameCache cache, int ctr, Stack<NPCLock> Locks, NPCLock prior, Stack<uint> PIDs, bool XD, out int originFrame)
+        private static bool FindLockSeed(FrameCache cache, int ctr, Stack<NPCLock> Locks, NPCLock prior, Stack<SeedFrame> team, bool XD, out int originFrame)
         {
             if (Locks.Count == 0)
-                return VerifyNPC(cache, ctr, PIDs, XD, out originFrame);
+                return VerifyNPC(cache, ctr, team, XD, out originFrame);
 
             var l = Locks.Pop();
             var frames = FindPossibleLockFrames(cache, ctr, l, prior);
             foreach (var poss in frames)
             {
-                PIDs.Push(poss.PID); // possible match
-                if (FindLockSeed(cache, poss.FrameID, Locks, l, PIDs, XD, out originFrame))
+                team.Push(poss); // possible match
+                if (FindLockSeed(cache, poss.FrameID, Locks, l, team, XD, out originFrame))
                     return true; // all locks are satisfied
-                PIDs.Pop(); // no match, remove
+                team.Pop(); // no match, remove
             }
 
             Locks.Push(l); // return the lock, lock is impossible
@@ -86,22 +86,22 @@ namespace PKHeX.Core
                 }
                 uint pid = cache[ctr + 1] << 16 | cache[ctr];
                 if (l.MatchesLock(pid))
-                    yield return new SeedFrame { FrameID = ctr + 6, PID = pid };
+                    yield return new SeedFrame { FrameID = ctr + (l.Seen ? 5 : 7), PID = pid };
 
                 ctr += 2;
             }
         }
 
-        private static bool VerifyNPC(FrameCache cache, int ctr, IEnumerable<uint> PIDs, bool XD, out int originFrame)
+        private static bool VerifyNPC(FrameCache cache, int ctr, IEnumerable<SeedFrame> team, bool XD, out int originFrame)
         {
             originFrame = ctr+2;
             var tid = cache[ctr+1];
             var sid = cache[ctr];
 
             // verify none are shiny
-            foreach (var pid in PIDs)
+            foreach (var pid in team)
             {
-                if (IsShiny(tid, sid, pid))
+                if (IsShiny(tid, sid, pid.PID))
                     return true; // todo
             }
 
@@ -126,10 +126,10 @@ namespace PKHeX.Core
             {
                 var locks = new Stack<NPCLock>(1);
                 locks.Push(t.Locks[t.Locks.Length - 1]);
-                var pids = new Stack<uint>();
+                var team = new Stack<SeedFrame>();
                 var originSeed = pv.OriginSeed;
                 var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
-                var result = FindLockSeed(cache, 0, locks, null, pids, XD, out var _);
+                var result = FindLockSeed(cache, 0, locks, null, team, XD, out var _);
                 if (result)
                     return true;
             }

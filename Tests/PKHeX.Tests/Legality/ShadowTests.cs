@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PKHeX.Core;
 
 namespace PKHeX.Tests.Legality
@@ -7,6 +8,7 @@ namespace PKHeX.Tests.Legality
     public class ShadowTests
     {
         private const string LegalityValidCategory = "Shadow Lock Validity Tests";
+        private const string VerifyPIDCategory = "Shadow Lock Result Tests";
 
         [TestMethod]
         [TestCategory(LegalityValidCategory)]
@@ -58,7 +60,7 @@ namespace PKHeX.Tests.Legality
             // Luvdisc (F) (Docile)
             // Beautifly (M) (Hardy)
             // Roselia (M) (Quirky)
-            VerifySingle(Encounters3Teams.Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 });
+            Verify(Encounters3Teams.Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 });
 
             // Kadabra (M) (Docile)
             // Sneasel (F) (Hardy)
@@ -68,7 +70,7 @@ namespace PKHeX.Tests.Legality
             // Ralts (M) (Docile)
             // Voltorb (-) (Hardy)
             // Bagon (F) (Quirky)
-            VerifySingle(Encounters3Teams.Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 });
+            Verify(Encounters3Teams.Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 });
         }
 
         [TestMethod]
@@ -85,13 +87,13 @@ namespace PKHeX.Tests.Legality
             // Cacturne (F) (Hardy)
             // Weezing (F) (Serious)
             // Ursaring (F) (Bashful)
-            VerifySingle(Encounters3Teams.Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 });
+            Verify(Encounters3Teams.Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 });
 
             // Lairon (F) (Bashful)
             // Sealeo (F) (Serious)
             // Slowking (F) (Docile)
             // Ursaring (M) (Quirky)
-            VerifySingle(Encounters3Teams.Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 });
+            Verify(Encounters3Teams.Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 });
         }
 
         [TestMethod]
@@ -118,6 +120,60 @@ namespace PKHeX.Tests.Legality
             Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
             bool match = LockFinder.IsFirstShadowLockValid(info, teams, xd);
             Assert.IsTrue(match, "Unable to verify lock conditions: " + teams[0].Species);
+        }
+
+
+        [TestMethod]
+        [TestCategory(VerifyPIDCategory)]
+        public void VerifyPIDResults()
+        {
+            var results = new[]
+            {
+                new uint[] {0xD118BA52, 0xA3127782, 0x16D95FA5, 0x31538B48},
+                new uint[] {0x7D5FFE3E, 0x1D5720ED, 0xE0D89C99, 0x3494CDA1},
+                new uint[] {0xAEB0C3A6, 0x956DC2FD, 0x3C11DCE8, 0xC93DF897},
+                new uint[] {0xACCE2655, 0xFF2BA0A2, 0x22A8A7E6, 0x5F5380F4},
+                new uint[] {0xDC1D1894, 0xFC0F75E2, 0x97BFAEBC, 0x38DDE117},
+                new uint[] {0xDE278967, 0xFD86C9F7, 0x3E16FCFD, 0x1956D8B5},
+                new uint[] {0xF8CB4CAE, 0x42DE628B, 0x48796CDA, 0xF6EAD3E2},
+                new uint[] {0x56548F49, 0xA308E7DA, 0x28CB8ADF, 0xBEADBDC3},
+                new uint[] {0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076},
+                new uint[] {0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C},
+            };
+            VerifyResults(results, Encounters3Teams.Delcatty);
+        }
+
+        private static void VerifyResults(IReadOnlyList<uint[]> results, TeamLock[] team)
+        {
+            var pkm = new PK3();
+            for (int i = 0; i < results.Count; i++)
+            {
+                var result = results[i];
+                var seeds = getSeeds(result[result.Length - 1]);
+                bool match = false;
+                foreach (var seed in seeds)
+                {
+                    PIDGenerator.SetValuesFromSeed(pkm, PIDType.CXD, seed);
+                    var info = MethodFinder.Analyze(pkm);
+                    Assert.IsTrue(seed == info.OriginSeed);
+                    Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
+                    if (!GetCanOriginateFrom(team, info, false, out var _))
+                        continue;
+                    match = true;
+                    break;
+                }
+                Assert.IsTrue(match, $"Unable to verify lock conditions for result {i}: " + team[0].Species);
+            }
+
+            IEnumerable<uint> getSeeds(uint PID)
+            {
+                var top = PID >> 16;
+                var bot = PID & 0xFFFF;
+
+                var seeds = MethodFinder.GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
+                foreach (var s in seeds)
+                    yield return RNG.XDRNG.Reverse(s, 3);
+            }
         }
 
         /// <summary>
