@@ -2,15 +2,26 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains various Colosseum/XD 'wait for value' logic related to PKM generation.
+    /// </summary>
+    /// <remarks>
+    /// When generating a Trainer Team, the game must generate PID values that match the programmed team specificiations.
+    /// The game is 'locked' into a PID generating loop until a valid PID is created, after which the routine is unlocked and proceeds to generate the next member.
+    /// These locks cause the <see cref="PKM.PID"/> of the current <see cref="PKM"/> to be rerolled until the requisite lock is satisfied.
+    /// This locking is the same as Method H/J/K and Gen3 Cute Charm by extension, with the additional restriction of not allowing shinies.
+    /// <see cref="PKM.Nature"/> locks require a certain <see cref="Nature"/>, which is derived from the <see cref="PKM.PID"/>.
+    /// <see cref="PKM.Gender"/> locks require a certain gender value, which is derived from the <see cref="PKM.PID"/> and <see cref="PersonalInfo.Gender"/> ratio.
+    /// </remarks>
     public sealed class TeamLockResult
     {
         public readonly uint OriginSeed;
         public readonly bool Valid;
 
-        internal readonly TeamLock Spec;
+        internal readonly TeamLock Specificiations;
 
         private int OriginFrame;
-        private int RCSV;
+        private int RCSV = NOT_FORCED;
 
         private readonly int TSV;
         private readonly Stack<NPCLock> Locks;
@@ -21,7 +32,7 @@ namespace PKHeX.Core
 
         internal TeamLockResult(TeamLock teamSpec, uint originSeed, int tsv)
         {
-            Locks = new Stack<NPCLock>((Spec = teamSpec).Locks);
+            Locks = new Stack<NPCLock>((Specificiations = teamSpec).Locks);
             Team = new Stack<SeedFrame>();
             Cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
             TSV = tsv;
@@ -127,7 +138,7 @@ namespace PKHeX.Core
             {
                 var pid = member.PID;
                 var psv = ((pid & 0xFFFF) ^ (pid >> 16)) >> 3;
-                bool shadow = Spec.Locks[pos].Shadow;
+                bool shadow = Specificiations.Locks[pos].Shadow;
                 if (!shadow && psv == CPUSV)
                     return false;
                 if (psv == TSV) // always false for Colo, which doesn't set the TSV field.

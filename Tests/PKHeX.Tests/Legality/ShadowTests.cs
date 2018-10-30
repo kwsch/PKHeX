@@ -104,21 +104,21 @@ namespace PKHeX.Tests.Legality
             VerifySingle(Encounters3Teams.Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 });
         }
 
-        private static void Verify(TeamLock[] teams, uint pid, int[] ivs, bool xd = true)
+        private static void Verify(TeamLock[] teams, uint pid, int[] ivs)
         {
             var pk3 = new PK3 { PID = pid, IVs = ivs };
             var info = MethodFinder.Analyze(pk3);
             Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
-            bool match = GetCanOriginateFrom(teams, info, xd, out var _);
+            bool match = GetCanOriginateFrom(teams, info);
             Assert.IsTrue(match, "Unable to verify lock conditions: " + teams[0].Species);
         }
 
-        private static void VerifySingle(TeamLock[] teams, uint pid, int[] ivs, bool xd = true)
+        private static void VerifySingle(TeamLock[] teams, uint pid, int[] ivs)
         {
             var pk3 = new PK3 { PID = pid, IVs = ivs };
             var info = MethodFinder.Analyze(pk3);
             Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
-            bool match = LockFinder.IsFirstShadowLockValid(info, teams, xd);
+            bool match = LockFinder.IsFirstShadowLockValid(info, teams);
             Assert.IsTrue(match, "Unable to verify lock conditions: " + teams[0].Species);
         }
 
@@ -177,7 +177,7 @@ namespace PKHeX.Tests.Legality
                     var info = MethodFinder.Analyze(pkm);
                     Assert.IsTrue(seed == info.OriginSeed);
                     Assert.AreEqual(PIDType.CXD, info.Type, "Unable to match PID to CXD spread!");
-                    if (!GetCanOriginateFrom(team, info, false, out var _))
+                    if (!GetCanOriginateFrom(team, info))
                         continue;
                     match = true;
                     break;
@@ -202,16 +202,9 @@ namespace PKHeX.Tests.Legality
         /// <param name="possibleTeams"></param>
         /// <param name="info"></param>
         /// <returns></returns>
-        private static bool GetCanOriginateFrom(TeamLock[] possibleTeams, PIDIV info, bool XD, out uint origin)
+        private static bool GetCanOriginateFrom(TeamLock[] possibleTeams, PIDIV info)
         {
-            foreach (var team in possibleTeams)
-            {
-                var result = LockFinder.FindLockSeed(info.OriginSeed, team.Locks, XD, out origin);
-                if (result)
-                    return true;
-            }
-            origin = 0;
-            return false;
+            return LockFinder.IsAllShadowLockValid(info, possibleTeams);
         }
     }
 }

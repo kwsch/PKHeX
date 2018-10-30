@@ -2,156 +2,45 @@
 
 namespace PKHeX.Core
 {
-    /// <summary>
-    /// Contains various Colosseum/XD 'wait for value' logic related to PKM generation.
-    /// </summary>
-    /// <remarks>
-    /// "Locks" are referring to the <see cref="IEncounterable"/> being "locked" to a certain value, e.g. requiring Nature to be neutral.
-    /// These locks cause the <see cref="PKM.PID"/> of the current <see cref="PKM"/> to be rerolled until the requisite lock is satisfied.
-    /// <see cref="PKM.Nature"/> locks require a certain <see cref="Nature"/>, which is derived from the <see cref="PKM.PID"/>.
-    /// <see cref="PKM.Gender"/> locks require a certain gender value, which is derived from the <see cref="PKM.PID"/> and <see cref="PersonalInfo.Gender"/> ratio.
-    /// Not sure if Abilities are locked for the encounter, assume not. When this code is eventually utilized, our understanding can be tested!
-    /// </remarks>
     public static class LockFinder
     {
-        public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
+        public static bool IsAllShadowLockValid(EncounterStaticShadow s, PIDIV pv, PKM pkm)
         {
-            var locks = new Stack<NPCLock>(lockList);
-            var team = new Stack<SeedFrame>();
-            var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
-            var result = FindLockSeed(cache, 0, locks, null, team, XD, out var originFrame);
-            origin = cache.GetSeed(originFrame);
-            return result;
-        }
-
-        // Recursively iterates to visit possible locks until all locks (or none) are satisfied.
-        private static bool FindLockSeed(FrameCache cache, int ctr, Stack<NPCLock> Locks, NPCLock prior, Stack<SeedFrame> team, bool XD, out int originFrame)
-        {
-            if (Locks.Count == 0)
-                return VerifyNPC(cache, ctr, team, XD, out originFrame);
-
-            var l = Locks.Pop();
-            var frames = FindPossibleLockFrames(cache, ctr, l, prior);
-            foreach (var poss in frames)
-            {
-                team.Push(poss); // possible match
-                if (FindLockSeed(cache, poss.FrameID, Locks, l, team, XD, out originFrame))
-                    return true; // all locks are satisfied
-                team.Pop(); // no match, remove
-            }
-
-            Locks.Push(l); // return the lock, lock is impossible
-            originFrame = 0;
-            return false;
-        }
-
-        private static IEnumerable<SeedFrame> FindPossibleLockFrames(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
-        {
-            if (prior?.Shadow != false)
-                return GetSingleLockFrame(cache, ctr, l);
-
-            return GetComplexLockFrame(cache, ctr, l, prior);
-        }
-
-        private static IEnumerable<SeedFrame> GetSingleLockFrame(FrameCache cache, int ctr, NPCLock l)
-        {
-            uint pid = cache[ctr + 1] << 16 | cache[ctr];
-            if (l.MatchesLock(pid))
-                yield return new SeedFrame { FrameID = ctr + (l.Seen ? 5 : 7), PID = pid };
-        }
-
-        private static IEnumerable<SeedFrame> GetComplexLockFrame(FrameCache cache, int ctr, NPCLock l, NPCLock prior)
-        {
-            // Since the prior(next) lock is generated 7+2*n frames after, the worst case break is 7 frames after the PID.
-            // Continue reversing until a sequential generation case is found.
-
-            // Check
-
-            int start = ctr;
-            while (true)
-            {
-                int p7 = ctr - 7;
-                if (p7 > start)
-                {
-                    uint cid = cache[p7 + 1] << 16 | cache[p7];
-                    if (prior.MatchesLock(cid))
-                        yield break;
-                }
-                uint pid = cache[ctr + 1] << 16 | cache[ctr];
-                if (l.MatchesLock(pid))
-                    yield return new SeedFrame { FrameID = ctr + (l.Seen ? 5 : 7), PID = pid };
-
-                ctr += 2;
-            }
-        }
-
-        private static bool VerifyNPC(FrameCache cache, int ctr, IEnumerable<SeedFrame> team, bool XD, out int originFrame)
-        {
-            originFrame = ctr+2;
-            var tid = cache[ctr+1];
-            var sid = cache[ctr];
-
-            // verify none are shiny
-            foreach (var pid in team)
-            {
-                if (IsShiny(tid, sid, pid.PID))
-                    return true; // todo
-            }
-
-            return true;
-        }
-
-        // Helpers
-        private static bool IsShiny(uint TID, uint SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
-        private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
-
-        public static bool IsFirstShadowLockValid(EncounterStaticShadow s, PIDIV pv)
-        {
-            return IsFirstShadowLockValid(pv, s.Locks, s.Version == GameVersion.XD);
-        }
-
-        public static bool IsAllShadowLockValid(EncounterStaticShadow s, PIDIV pv)
-        {
-            return IsAllShadowLockValid(pv, s.Locks, s.Version == GameVersion.XD);
-        }
-
-        public static bool IsAllShadowLockValid(PIDIV pv, TeamLock[] teams, bool XD)
-        {
+            var teams = s.Locks;
             if (teams.Length == 0)
                 return true;
 
+            var tsv = s.Version == GameVersion.XD ? pkm.TSV : -1; // no xd shiny shadow mons
+            return IsAllShadowLockValid(pv, teams, tsv);
+        }
+
+        public static bool IsAllShadowLockValid(PIDIV pv, IEnumerable<TeamLock> teams, int tsv = -1)
+        {
             foreach (var t in teams)
             {
-                var locks = new Stack<NPCLock>(t.Locks);
-
-                var team = new Stack<SeedFrame>();
-                var originSeed = pv.OriginSeed;
-                var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
-                var result = FindLockSeed(cache, 0, locks, null, team, XD, out var _);
-                if (result)
+                var result = new TeamLockResult(t, pv.OriginSeed, tsv);
+                if (result.Valid)
                     return true;
             }
             return false;
         }
 
-        public static bool IsFirstShadowLockValid(PIDIV pv, TeamLock[] teams, bool XD)
+        public static bool IsFirstShadowLockValid(PIDIV pv, TeamLock[] teams)
         {
             if (teams.Length == 0)
                 return true;
 
-            foreach (var t in teams)
+            var singleTeams = new TeamLock[teams.Length];
+            for (int i = 0; i < teams.Length; i++)
             {
-                var locks = new Stack<NPCLock>(1);
-                locks.Push(t.Locks[t.Locks.Length - 1]);
-
-                var team = new Stack<SeedFrame>();
-                var originSeed = pv.OriginSeed;
-                var cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
-                var result = FindLockSeed(cache, 0, locks, null, team, XD, out var _);
-                if (result)
-                    return true;
+                var t = teams[i];
+                var clone = t.Clone();
+                var first = t.Locks[t.Locks.Length - 1];
+                clone.Locks = new[] { first };
+                singleTeams[i] = clone;
             }
-            return false;
+
+            return IsAllShadowLockValid(pv, singleTeams);
         }
 
         // Colosseum/XD Starters
@@ -221,6 +110,8 @@ namespace PKHeX.Core
 
             return group;
         }
+
+        private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
 
         private static uint GenerateStarterPID(ref uint uSeed, int TID, int SID)
         {
