@@ -2,6 +2,8 @@
 {
     public static class Encounters3Shadow
     {
+        #region Colosseum
+
         public static readonly TeamLock CMakuhita = new TeamLock {
             Species = 296, // Makuhita
             Locks = new[] {
@@ -39,6 +41,38 @@
                 new NPCLock(259, 16, 0, 031), // Marshtomp (M) (Mild)
                 new NPCLock(275, 21, 1, 127), // Shiftry (F) (Gentle)
         }};
+
+        #endregion
+
+        #region E-Reader
+
+        public static readonly TeamLock ETogepi = new TeamLock {
+            Species = 175, // Togepi
+            Locks = new[] {
+                new NPCLock(302, 23, 0, 025), // Sableye (M) (Careful)
+                new NPCLock(088, 08, 0, 127), // Grimer (M) (Impish)
+                new NPCLock(316, 24, 0, 127), // Gulpin (M) (Quirky)
+        }};
+
+        public static readonly TeamLock EMareep = new TeamLock {
+            Species = 179, // Mareep
+            Locks = new[] {
+                new NPCLock(300, 04, 1, 191), // Skitty (F) (Naughty)
+                new NPCLock(211, 10, 1, 127), // Quilfish (F) (Timid)
+                new NPCLock(355, 12, 1, 127), // Duskull (F) (Serious)
+        }};
+
+        public static readonly TeamLock EScizor = new TeamLock {
+            Species = 212, // Scizor
+            Locks = new[] {
+                new NPCLock(198, 13, 0, 191), // Murkrow (M) (Jolly)
+                new NPCLock(344, 02, 2, 256), // Claydol (M) (Brave)
+                new NPCLock(208, 03, 0, 127), // Steelix (M) (Adamant)
+        }};
+
+        #endregion
+
+        #region XD
 
         public static readonly TeamLock XRalts = new TeamLock {
             Species = 280, // Ralts
@@ -1037,5 +1071,7 @@
                 new NPCLock(272, 12, 1, 127), // Ludicolo (F) (Serious)
                 new NPCLock(272, 00, 0, 127), // Ludicolo (M) (Hardy)
         }};
+
+        #endregion
     }
 }

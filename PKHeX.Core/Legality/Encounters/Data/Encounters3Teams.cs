@@ -11,6 +11,11 @@ namespace PKHeX.Core
         public static readonly TeamLock[] Heracross = { CHeracross };
         public static readonly TeamLock[] Ursaring = { CUrsaring };
 
+        // E-Reader
+        public static readonly TeamLock[] CTogepi = {ETogepi};
+        public static readonly TeamLock[] CMareep = {EMareep};
+        public static readonly TeamLock[] CScizor = {EScizor};
+
         // XD
         public static readonly TeamLock[] Spheal = { XSphealCipherLab, XSphealPhenacCityandPost };
         public static readonly TeamLock[] Seedot = { XSeedotCipherLab, XSeedotPhenacCity, XSeedotPost };
