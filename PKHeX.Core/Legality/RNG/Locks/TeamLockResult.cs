@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Contains various Colosseum/XD 'wait for value' logic related to PKM generation.
     /// </summary>
     /// <remarks>
-    /// When generating a Trainer Team, the game must generate PID values that match the programmed team specificiations.
+    /// When generating a Trainer Team, the game must generate PID values that match the programmed team specifications.
     /// The game is 'locked' into a PID generating loop until a valid PID is created, after which the routine is unlocked and proceeds to generate the next member.
     /// These locks cause the <see cref="PKM.PID"/> of the current <see cref="PKM"/> to be rerolled until the requisite lock is satisfied.
     /// This locking is the same as Method H/J/K and Gen3 Cute Charm by extension, with the additional restriction of not allowing shinies.
@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public readonly uint OriginSeed;
         public readonly bool Valid;
 
-        internal readonly TeamLock Specificiations;
+        internal readonly TeamLock Specifications;
 
         private int OriginFrame;
         private int RCSV = NOT_FORCED;
@@ -32,7 +32,7 @@ namespace PKHeX.Core
 
         internal TeamLockResult(TeamLock teamSpec, uint originSeed, int tsv)
         {
-            Locks = new Stack<NPCLock>((Specificiations = teamSpec).Locks);
+            Locks = new Stack<NPCLock>((Specifications = teamSpec).Locks);
             Team = new Stack<SeedFrame>();
             Cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
             TSV = tsv;
