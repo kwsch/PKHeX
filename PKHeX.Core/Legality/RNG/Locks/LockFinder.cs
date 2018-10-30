@@ -14,13 +14,6 @@ namespace PKHeX.Core
     /// </remarks>
     public static class LockFinder
     {
-        // Message Passing
-        private struct SeedFrame
-        {
-            public uint PID;
-            public int FrameID;
-        }
-
         public static bool FindLockSeed(uint originSeed, IEnumerable<NPCLock> lockList, bool XD, out uint origin)
         {
             var locks = new Stack<NPCLock>(lockList);
