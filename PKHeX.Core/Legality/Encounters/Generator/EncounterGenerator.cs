@@ -68,8 +68,7 @@ namespace PKHeX.Core
                         var seeds = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault();
                         info.PIDIV = seeds ?? info.PIDIV;
                     }
-                    else if (ParseSettings.FlagCXDShadowFirstLockMismatch
-                        && z is EncounterStaticShadow s && !LockFinder.IsAllShadowLockValid(s, info.PIDIV))
+                    else if (z is EncounterStaticShadow s && !LockFinder.IsAllShadowLockValid(s, info.PIDIV))
                     {
                         deferred.Add(s);
                         continue;

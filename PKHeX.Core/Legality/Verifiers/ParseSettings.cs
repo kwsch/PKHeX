@@ -24,11 +24,6 @@
         public static Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
 
         /// <summary>
-        /// Setting to specify if an analysis should flag a shadow encounter that does not match the first lock.
-        /// </summary>
-        public static bool FlagCXDShadowFirstLockMismatch { get; set; }
-
-        /// <summary>
         /// Checks to see if Crystal is available to visit/originate from.
         /// </summary>
         /// <remarks>Pokemon Crystal was never released in Korea.</remarks>
