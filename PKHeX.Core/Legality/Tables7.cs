@@ -17,10 +17,10 @@ namespace PKHeX.Core
         internal const int MaxItemID_7_USUM = 959;
         internal const int MaxAbilityID_7_USUM = 233;
 
-        internal const int MaxSpeciesID_7_GG = 808;
+        internal const int MaxSpeciesID_7_GG = 809;
         internal const int MaxMoveID_7_GG = 728; // todo
         internal const int MaxItemID_7_GG = 959; // todo
-        internal const int MaxAbilityID_7_GG = 233;
+        internal const int MaxAbilityID_7_GG = MaxAbilityID_7_USUM;
 
         #region Met Locations
 

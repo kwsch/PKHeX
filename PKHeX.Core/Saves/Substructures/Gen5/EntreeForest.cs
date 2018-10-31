@@ -63,7 +63,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Determines how many extra areas are available to enter. Areas 1 & 2 are already available by default.
+        /// Determines how many extra areas are available to enter. Areas 1 &amp; 2 are already available by default.
         /// </summary>
         public int Unlock38Areas
         {

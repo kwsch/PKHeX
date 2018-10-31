@@ -321,7 +321,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index & format.
+        /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index &amp; format.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="item">Held Item to apply</param>
@@ -609,7 +609,7 @@ namespace PKHeX.Core
         /// Gets a moveset for the provided <see cref="PKM"/> data.
         /// </summary>
         /// <param name="pkm">PKM to generate for</param>
-        /// <param name="random">Full movepool & shuffling</param>
+        /// <param name="random">Full movepool &amp; shuffling</param>
         /// <param name="la">Precomputed optional</param>
         /// <returns>4 moves</returns>
         public static int[] GetMoveSet(this PKM pkm, bool random = false, LegalityAnalysis la = null)

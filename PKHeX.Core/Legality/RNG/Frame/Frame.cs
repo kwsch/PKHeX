@@ -41,7 +41,7 @@
         /// </summary>
         /// <param name="slot">Slot Data</param>
         /// <param name="pkm">Ancillary pkm data for determining how to check level.</param>
-        /// <returns>Slot number for this frame & lead value.</returns>
+        /// <returns>Slot number for this frame &amp; lead value.</returns>
         public bool IsSlotCompatibile(EncounterSlot slot, PKM pkm)
         {
             bool usesLevel = !slot.FixedLevel;
@@ -75,7 +75,7 @@
         /// Gets the slot value for the input slot.
         /// </summary>
         /// <param name="slot">Slot Data</param>
-        /// <returns>Slot number for this frame & lead value.</returns>
+        /// <returns>Slot number for this frame &amp; lead value.</returns>
         private int GetSlot(EncounterSlot slot)
         {
             // Static and Magnet Pull do a slot search rather than slot mapping 0-99.

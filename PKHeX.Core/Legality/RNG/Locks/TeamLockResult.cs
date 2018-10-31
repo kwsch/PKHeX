@@ -48,7 +48,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Player Trainer Shiny Value
         /// </summary>
-        /// <remarks>Only used by <see cref="GameVersion.XD"/> encounters, which disallow shiny shadow members for both player && CPU TSVs.</remarks>
+        /// <remarks>Only used by <see cref="GameVersion.XD"/> encounters, which disallow shiny shadow members for both player &amp; CPU TSVs.</remarks>
         private readonly int TSV;
 
         private readonly Stack<NPCLock> Locks;

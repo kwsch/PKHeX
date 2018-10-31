@@ -215,7 +215,7 @@ namespace PKHeX.Core
         /// Gets a Friendship delta rating to indicate how much the <see cref="PKM.CurrentFriendship"/> has been raised vs its base Friendship value.
         /// </summary>
         /// <param name="pk">Pokémon data</param>
-        /// <returns>255 if maxed, else the difference between current & base.</returns>
+        /// <returns>255 if maxed, else the difference between current &amp; base.</returns>
         private static int GetFriendshipDelta(PKM pk)
         {
             var currentFriendship = pk.CurrentFriendship;
