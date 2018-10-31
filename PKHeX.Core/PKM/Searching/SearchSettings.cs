@@ -5,7 +5,7 @@ using System.Linq;
 namespace PKHeX.Core.Searching
 {
     /// <summary>
-    /// <see cref="PKM"/> search settings & searcher
+    /// <see cref="PKM"/> search settings &amp; searcher
     /// </summary>
     public class SearchSettings
     {

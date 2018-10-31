@@ -1,7 +1,26 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/09/11 - New Update:
+18/11/01 - New Update:
+ - Legality:
+ - - Added: Colosseum/XD Shadow encounters are now more thoroughly checked for RNG conditions (nature/gender/shiny locks).
+ - - Added: OT/Nickname length checks.
+ - - Fixed: Colosseum MATTLE Ho-Oh in different languages is now allowed as .ck3 to have the original too-long OT name.
+ - - Fixed: Gen4 Shuckie (different between HG & SS) is now accounted for properly.
+ - - Fixed: Gen4 KOR Pichu mystery gift is now accounted for properly.
+ - Added: Setting a pkm in gen6+ now updates the Captured/Hatched records for more legal storage count tracking.
+ - Added: Trainer Appearance editor for X/Y.
+ - Added: Gen1 can now set the Catch Rate property directly from the PKM Editor.
+ - Added: Gen3 FR/LG event flags are now editable correctly.
+ - Added: Gen3 now have more event flags listed in the Event Flag editor.
+ - Added: Gen3 now detects eggs the same as the game does via event flags.
+ - Added: Gen3 A purple glow now appears around shadow ck3/xk3 files.
+ - Added: Gen3 Shadow Lugia sprite is now shown for a shadow xk3 Lugia.
+ - Fixed: Gen3 Save File version is now detected more accurately (Emerald vs FR/LG).
+ - Fixed: Gen4/5 uninitialized save files are no longer confused with 512KB GameCube memory cards.
+ - Fixed: PKMDB now loads .ck3/.xk3/.bk4 files from the pkmdb folder.
+
+18/09/11 - New Update: (70131) [1415928]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks HaxAras, @sora10pls, ICanSnake, Omnipotent Arceus, Raptor385, PF649, PrometheusG, @Narithegreat, Yami_Wheeler, crzyc, ThePunish3D, @Lusamine!
  - - Added: Poké Pelago status legality checks have been enabled, which can detect improperly transferred files.
