@@ -806,3 +806,5 @@ Agoyon
 Muramura
 Kopplosio
 Zeraora
+Meltan
+Melmetal
