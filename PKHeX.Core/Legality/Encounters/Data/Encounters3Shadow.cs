@@ -144,11 +144,11 @@
             Species = 273, // Seedot
             Comment = "Post",
             Locks = new[] {
-                new NPCLock(043, 06, 0, 127), // Oddish (M) (Docile)
-                new NPCLock(331, 24, 1, 127), // Cacnea (F) (Quirky)
-                new NPCLock(285, 00, 1, 127), // Shroomish (F) (Hardy)
-                new NPCLock(270, 00, 0, 127), // Lotad (M) (Hardy)
-                new NPCLock(204, 06, 0, 127), // Pineco (M) (Docile)
+                new NPCLock(045, 06, 0, 127), // Vileplume (M) (Docile)
+                new NPCLock(332, 24, 1, 127), // Cacturne (F) (Quirky)
+                new NPCLock(286, 00, 1, 127), // Breloom (F) (Hardy)
+                new NPCLock(271, 00, 0, 127), // Lombre (M) (Hardy)
+                new NPCLock(205, 12, 0, 127), // Forretress (M) (Serious)
         }};
 
         public static readonly TeamLock XSpinarak = new TeamLock {
@@ -608,7 +608,7 @@
             Species = 106, // Hitmonlee
             Locks = new[] {
                 new NPCLock(326, 18, 0, 127), // Grumpig (M) (Bashful)
-                new NPCLock(227, 12, 0, 127), // Skarmory (M) (Serious)
+                new NPCLock(227, 12, 1, 127), // Skarmory (F) (Serious)
                 new NPCLock(375, 06, 2, 256), // Metang (-) (Docile)
                 new NPCLock(297, 24, 1, 063), // Hariyama (F) (Quirky)
         }};
@@ -678,8 +678,8 @@
             Species = 125, // Electabuzz
             Locks = new[] {
                 new NPCLock(277), // Shadow Swellow
-                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
         }};
 
@@ -688,8 +688,8 @@
             Comment = "Swellow Seen",
             Locks = new[] {
                 new NPCLock(277, true), // Shadow Swellow (Seen)
-                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
         }};
 
@@ -697,8 +697,8 @@
             Species = 143, // Snorlax
             Locks = new[] {
                 new NPCLock(277), // Shadow Swellow
-                new NPCLock(065, 12, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 18, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
                 new NPCLock(125), // Shadow Electabuzz
         }};
@@ -708,8 +708,8 @@
             Comment = "Swellow Seen",
             Locks = new[] {
                 new NPCLock(277, true), // Shadow Swellow (Seen)
-                new NPCLock(065, 12, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 18, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
                 new NPCLock(125), // Shadow Electabuzz
         }};
@@ -719,8 +719,8 @@
             Comment = "Swellow & Electabuzz Seen",
             Locks = new[] {
                 new NPCLock(277, true), // Shadow Swellow (Seen)
-                new NPCLock(065, 12, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 18, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
                 new NPCLock(125, true), // Shadow Electabuzz
         }};
