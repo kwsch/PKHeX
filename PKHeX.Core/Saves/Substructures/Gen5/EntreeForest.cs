@@ -23,7 +23,6 @@ namespace PKHeX.Core
 
         private const int EncryptionSeedOffset = 0x84C;
 
-
         private readonly byte[] Data;
 
         public EntreeForest(byte[] data)

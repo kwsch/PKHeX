@@ -479,6 +479,7 @@
                 new NPCLock(085), // Shadow Dodrio
                 new NPCLock(340, 18, 0, 127), // Whiscash (M) (Bashful)
         }};
+
         public static readonly TeamLock XRaticateDodrioSeen = new TeamLock {
             Species = 020, // Raticate
             Comment = "Dodrio Seen",
@@ -678,8 +679,8 @@
             Species = 125, // Electabuzz
             Locks = new[] {
                 new NPCLock(277), // Shadow Swellow
-                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
         }};
 
@@ -688,8 +689,8 @@
             Comment = "Swellow Seen",
             Locks = new[] {
                 new NPCLock(277, true), // Shadow Swellow (Seen)
-                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Serious)
-                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Bashful)
+                new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
+                new NPCLock(230, 6, 1, 127), // Kingdra (F) (Docile)
                 new NPCLock(214, 18, 1, 127), // Heracross (F) (Bashful)
         }};
 

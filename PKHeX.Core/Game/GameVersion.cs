@@ -354,7 +354,7 @@
         USUM,
 
         /// <summary>
-        /// Pokémon Let's Go (TBD)
+        /// Pokémon Let's Go Pikachu &amp; Eevee
         /// </summary>
         /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="GP"/>

@@ -122,7 +122,6 @@ namespace PKHeX.Tests.Legality
             Assert.IsTrue(match, "Unable to verify lock conditions: " + teams[0].Species);
         }
 
-
         [TestMethod]
         [TestCategory(VerifyPIDCategory)]
         public void VerifyPIDResultsDelcatty()
