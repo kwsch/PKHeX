@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
 
@@ -174,6 +175,7 @@ namespace PKHeX.Tests.Simulator
                 foreach (var e in ez)
                 {
                     var la = new LegalityAnalysis(e);
+                    la.Valid.Should().BeTrue($"Because all generated Pokemon for {i:000} should be valid");
                     Assert.True(la.Valid);
                     count++;
                 }
