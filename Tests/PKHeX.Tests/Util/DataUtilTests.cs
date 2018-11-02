@@ -12,7 +12,7 @@ namespace PKHeX.Tests.Util
         public void TestGetPokemonNames()
         {
             var names = PKHeX.Core.Util.GetSpeciesList("en");
-            Assert.AreEqual(808, names.Length);
+            Assert.AreEqual(810, names.Length);
         }
     }
 }
