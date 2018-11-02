@@ -58,15 +58,15 @@
             Species = 179, // Mareep
             Locks = new[] {
                 new NPCLock(300, 04, 1, 191), // Skitty (F) (Naughty)
-                new NPCLock(211, 10, 1, 127), // Quilfish (F) (Timid)
+                new NPCLock(211, 10, 1, 127), // Qwilfish (F) (Timid)
                 new NPCLock(355, 12, 1, 127), // Duskull (F) (Serious)
         }};
 
         public static readonly TeamLock EScizor = new TeamLock {
             Species = 212, // Scizor
             Locks = new[] {
-                new NPCLock(198, 13, 0, 191), // Murkrow (M) (Jolly)
-                new NPCLock(344, 02, 2, 256), // Claydol (M) (Brave)
+                new NPCLock(198, 13, 1, 191), // Murkrow (F) (Jolly)
+                new NPCLock(344, 02, 2, 256), // Claydol (-) (Brave)
                 new NPCLock(208, 03, 0, 127), // Steelix (M) (Adamant)
         }};
 
