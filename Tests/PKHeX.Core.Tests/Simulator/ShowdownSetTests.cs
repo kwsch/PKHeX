@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PKHeX.Core;
+using Xunit;
 
 namespace PKHeX.Tests.Simulator
 {
-    [TestClass]
     public class ShowdownSetTests
     {
         private const string SimulatorParse = "Set Parsing Tests";
@@ -17,160 +16,151 @@ namespace PKHeX.Tests.Simulator
                 EncounterEvent.RefreshMGDB();
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetParse()
         {
             foreach (var setstr in Sets)
             {
                 var set = new ShowdownSet(setstr).Text;
                 var lines = set.Split('\n').Select(z => z.Trim());
-                Assert.IsTrue(lines.All(z => setstr.Contains(z)), setstr);
+                Assert.True(lines.All(z => setstr.Contains(z)), setstr);
             }
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetEncounters()
         {
             var set = new ShowdownSet(SetGlaceonUSUMTutor);
             var pk7 = new PK7 {Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves};
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            Assert.IsTrue(!encs.Any());
+            Assert.True(!encs.Any());
             pk7.HT_Name = "PKHeX";
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
             var first = encs.FirstOrDefault();
-            Assert.IsTrue(first != null);
+            Assert.True(first != null);
 
             var egg = (EncounterEgg)first;
             var info = new SimpleTrainerInfo();
             var pk = egg.ConvertToPKM(info);
-            Assert.IsTrue(pk.Species != set.Species);
+            Assert.True(pk.Species != set.Species);
 
             var la = new LegalityAnalysis(pk);
-            Assert.IsTrue(la.Valid);
+            Assert.True(la.Valid);
 
             var test = EncounterMovesetGenerator.GeneratePKMs(pk7, info).ToList();
             foreach (var t in test)
             {
                 var la2 = new LegalityAnalysis(t);
-                Assert.IsTrue(la2.Valid);
+                Assert.True(la2.Valid);
             }
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetWC3()
         {
             var set = new ShowdownSet(SetROCKSMetang);
             var pk3 = new PK3 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
-            Assert.IsTrue(encs.Any());
+            Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
             var first = encs.FirstOrDefault();
-            Assert.IsTrue(first != null);
+            Assert.True(first != null);
 
             var wc3 = (WC3)first;
             var info = new SimpleTrainerInfo();
             var pk = wc3.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
-            Assert.IsTrue(la.Valid);
+            Assert.True(la.Valid);
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetCelebi()
         {
             var set = new ShowdownSet(SetCelebi);
             var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
-            Assert.IsTrue(encs.Any());
+            Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
             var first = encs.FirstOrDefault();
-            Assert.IsTrue(first != null);
+            Assert.True(first != null);
 
             var enc = first;
             var info = new SimpleTrainerInfo();
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
-            Assert.IsTrue(la.Valid);
+            Assert.True(la.Valid);
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetSplitBreed()
         {
             var set = new ShowdownSet(SetMunchSnorLax);
             var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, HT_Name = "PKHeX" }; // !! specify the HT name, we need tutors for this one
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.SN).ToList();
-            Assert.IsTrue(encs.Count > 0);
-            Assert.IsTrue(encs.All(z => z.Species > 150));
+            Assert.True(encs.Count > 0);
+            Assert.True(encs.All(z => z.Species > 150));
 
             var info = new SimpleTrainerInfo();
             var enc = encs[0];
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
-            Assert.IsTrue(la.Valid);
+            Assert.True(la.Valid);
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetVCEgg1()
         {
             var set = new ShowdownSet(SetSlowpoke12);
             var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, HT_Name = "PKHeX" };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
-            Assert.IsTrue(encs.Count > 0);
+            Assert.True(encs.Count > 0);
 
             var info = new SimpleTrainerInfo();
             var enc = encs[0];
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
-            Assert.IsTrue(la.Valid);
+            Assert.True(la.Valid);
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorGetSmeargle()
         {
             var set = new ShowdownSet(SetSmeargle);
             var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            Assert.IsTrue(encs.Any());
+            Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
             var first = encs.FirstOrDefault();
-            Assert.IsTrue(first != null);
+            Assert.NotNull(first);
 
             var enc = first;
             var info = new SimpleTrainerInfo();
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
-            Assert.IsTrue(la.Valid);
+            Assert.True(la.Valid);
         }
 
-        [TestMethod]
-        [TestCategory(SimulatorParse)]
+        [Fact]
         public void SimulatorParseMultiple()
         {
             var text = string.Join("\r\n\r\n", Sets);
             var lines = text.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None);
             var sets = ShowdownSet.GetShowdownSets(lines);
-            Assert.IsTrue(sets.Count() == Sets.Length);
+            Assert.True(sets.Count() == Sets.Length);
 
             sets = ShowdownSet.GetShowdownSets(Enumerable.Empty<string>());
-            Assert.IsTrue(!sets.Any());
+            Assert.True(!sets.Any());
 
             sets = ShowdownSet.GetShowdownSets(new [] {"", "   ", " "});
-            Assert.IsTrue(!sets.Any());
+            Assert.True(!sets.Any());
         }
 
-        //[TestMethod]
-        //[TestCategory(SimulatorParse)]
+        [Fact]
         public void TestGenerate()
         {
             int count = 0;
@@ -184,7 +174,7 @@ namespace PKHeX.Tests.Simulator
                 foreach (var e in ez)
                 {
                     var la = new LegalityAnalysis(e);
-                    Assert.IsTrue(la.Valid);
+                    Assert.True(la.Valid);
                     count++;
                 }
                 Debug.WriteLine($"Finished {i:000}");
