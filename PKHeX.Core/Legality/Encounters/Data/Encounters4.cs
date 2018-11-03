@@ -657,14 +657,14 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 418, Gender = 0, Level = 28, Moves = new[]{226},}, // Buizel: Baton Pass
             new EncounterStatic{ Species = 170, Gender = 1, Level = 17, }, // Chinchou
             new EncounterStatic{ Species = 223, Gender = 1, Level = 19, }, // Remoraid
-            new EncounterStatic{ Species = 422, Gender = 1, Level = 30, }, // Shellos
+            new EncounterStatic{ Species = 422, Gender = 1, Level = 30, Moves = new[]{243},}, // Shellos: Mirror Coat
             new EncounterStatic{ Species = 456, Gender = 1, Level = 26, }, // Finneon
             new EncounterStatic{ Species = 086, Gender = 1, Level = 27, }, // Seel
             new EncounterStatic{ Species = 129, Gender = 1, Level = 30, }, // Magikarp
-            new EncounterStatic{ Species = 054, Gender = 1, Level = 22, }, // Psyduck
+            new EncounterStatic{ Species = 054, Gender = 1, Level = 22, Moves = new[]{281},}, // Psyduck: Yawn
             new EncounterStatic{ Species = 090, Gender = 0, Level = 20, }, // Shellder
             new EncounterStatic{ Species = 025, Gender = 1, Level = 30, }, // Pikachu
-            new EncounterStatic{ Species = 417, Gender = 1, Level = 33, }, // Pachirisu
+            new EncounterStatic{ Species = 417, Gender = 1, Level = 33, Moves = new[]{175},}, // Pachirisu: Flail
             new EncounterStatic{ Species = 035, Gender = 1, Level = 31, }, // Clefairy
             new EncounterStatic{ Species = 039, Gender = 1, Level = 30, }, // Jigglypuff
             new EncounterStatic{ Species = 183, Gender = 1, Level = 25, }, // Marill
