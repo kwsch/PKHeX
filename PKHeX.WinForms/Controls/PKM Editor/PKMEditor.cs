@@ -1739,7 +1739,7 @@ namespace PKHeX.WinForms.Controls
 
             CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
             CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
-            CB_Species.SelectedValue = pkm.MaxSpeciesID;
+            CB_Species.SelectedValue = RequestSaveFile?.MaxSpeciesID ?? pkm.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
             LastData = null;
         }
