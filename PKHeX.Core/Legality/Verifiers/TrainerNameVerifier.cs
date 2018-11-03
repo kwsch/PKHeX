@@ -81,6 +81,8 @@ namespace PKHeX.Core
         {
             if (e.EggEncounter)
             {
+                if (e is WC3 wc3 && pkm.IsEgg && wc3.OT_Name == ot)
+                    return true; // Fixed OT Mystery Gift Egg
                 bool eggEdge = pkm.IsEgg ? pkm.IsTradedEgg : pkm.WasTradedEgg;
                 if (!eggEdge)
                     return false;
