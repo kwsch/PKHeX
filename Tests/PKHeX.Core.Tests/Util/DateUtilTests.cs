@@ -4,28 +4,30 @@ namespace PKHeX.Tests.Util
 {
     public class DateUtilTests
     {
-        [Fact]
-        public void RecognizesCorrectDates()
+        [Theory]
+        [InlineData(2000, 1, 1)]
+        [InlineData(2001, 1, 31)]
+        public void RecognizesCorrectDates(int year, int month, int day)
         {
-            Assert.True(Core.Util.IsDateValid(2000, 1, 1), "Failed to recognize 1/1/2000");
-            Assert.True(Core.Util.IsDateValid(2001, 1, 31), "Failed to recognize 1/31/2001");
+            Assert.True(Core.Util.IsDateValid(year, month, day), $"Failed to recognize {year}/{month}/{day}");
         }
 
-        [Fact]
-        public void MonthBoundaries()
+        [Theory]
+        [InlineData(2016, 1, 31)]
+        [InlineData(2016, 2, 28)]
+        [InlineData(2016, 3, 31)]
+        [InlineData(2016, 4, 30)]
+        [InlineData(2016, 5, 31)]
+        [InlineData(2016, 6, 30)]
+        [InlineData(2016, 7, 31)]
+        [InlineData(2016, 8, 31)]
+        [InlineData(2016, 9, 30)]
+        [InlineData(2016, 10, 31)]
+        [InlineData(2016, 11, 30)]
+        [InlineData(2016, 12, 31)]
+        public void RecognizesValidMonthBoundaries(int year, int month, int day)
         {
-            Assert.True(Core.Util.IsDateValid(2016, 1, 31), "Incorrect month boundary for January");
-            Assert.True(Core.Util.IsDateValid(2016, 2, 28), "Incorrect month boundary for February");
-            Assert.True(Core.Util.IsDateValid(2016, 3, 31), "Incorrect month boundary for March");
-            Assert.True(Core.Util.IsDateValid(2016, 4, 30), "Incorrect month boundary for April");
-            Assert.True(Core.Util.IsDateValid(2016, 5, 31), "Incorrect month boundary for May");
-            Assert.True(Core.Util.IsDateValid(2016, 6, 30), "Incorrect month boundary for June");
-            Assert.True(Core.Util.IsDateValid(2016, 7, 31), "Incorrect month boundary for July");
-            Assert.True(Core.Util.IsDateValid(2016, 8, 31), "Incorrect month boundary for August");
-            Assert.True(Core.Util.IsDateValid(2016, 9, 30), "Incorrect month boundary for September");
-            Assert.True(Core.Util.IsDateValid(2016, 10, 31), "Incorrect month boundary for October");
-            Assert.True(Core.Util.IsDateValid(2016, 11, 30), "Incorrect month boundary for November");
-            Assert.True(Core.Util.IsDateValid(2016, 12, 31), "Incorrect month boundary for December");
+            Assert.True(Core.Util.IsDateValid(year, month, day), $"Incorrect month boundary for {year}/{month}/{day}");
         }
 
         [Fact]
@@ -89,9 +91,8 @@ namespace PKHeX.Tests.Util
         }
 
         [Fact]
-        public void TestUIntOverload()
+        public void FailsWithMaxUInt()
         {
-            Assert.True(Core.Util.IsDateValid((uint)2000, (uint)1, (uint)1), "Failed 1/1/2000");
             Assert.False(Core.Util.IsDateValid(uint.MaxValue, uint.MaxValue, uint.MaxValue), "Failed with uint.MaxValue");
         }
     }
