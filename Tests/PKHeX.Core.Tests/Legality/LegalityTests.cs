@@ -19,7 +19,7 @@ namespace PKHeX.Tests.Legality
         [InlineData("18넘")]
         public void CensorsBadWords(string badword)
         {            
-            WordFilter.IsFiltered(badword, out _).Should().BeTrue($"the should have been identified as a bad word");
+            WordFilter.IsFiltered(badword, out _).Should().BeTrue($"the word should have been identified as a bad word");
         }
 
         [Fact]
