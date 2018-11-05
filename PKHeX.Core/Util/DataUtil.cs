@@ -88,9 +88,12 @@ namespace PKHeX.Core
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].TrimEnd('\r');
 
-            lock (getStringListLoadLock) // Seems to fix an issue where concurrently-running tests get a null from this function
-            {                
-                stringListCache.Add(f, rawlist);
+            lock (getStringListLoadLock) // Make sure only one thread can write to the cache
+            {     
+                if (!stringListCache.ContainsKey(f)) // Check cache again in case of race condition
+                {
+                    stringListCache.Add(f, rawlist);
+                }                
             }
 
             return (string[])rawlist.Clone();
