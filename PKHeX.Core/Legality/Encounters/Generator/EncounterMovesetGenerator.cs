@@ -32,7 +32,7 @@ namespace PKHeX.Core
 #if DEBUG
                     var la = new LegalityAnalysis(result);
                     if (!la.Valid)
-                        throw new Exception();
+                        throw new Exception("Legality analysis of generated Pokémon is invalid");
 #endif
                     yield return result;
                 }

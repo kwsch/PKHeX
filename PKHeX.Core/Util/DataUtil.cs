@@ -15,6 +15,8 @@ namespace PKHeX.Core
         private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
         private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
+        private static object getStringListLoadLock = new object();
+
         #region String Lists
 
         /// <summary>
@@ -85,7 +87,15 @@ namespace PKHeX.Core
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].TrimEnd('\r');
-            stringListCache.Add(f, rawlist);
+
+            lock (getStringListLoadLock) // Make sure only one thread can write to the cache
+            {     
+                if (!stringListCache.ContainsKey(f)) // Check cache again in case of race condition
+                {
+                    stringListCache.Add(f, rawlist);
+                }                
+            }
+
             return (string[])rawlist.Clone();
         }
 
