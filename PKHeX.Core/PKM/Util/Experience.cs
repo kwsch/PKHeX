@@ -14,12 +14,11 @@
         public static int GetLevel(int species, uint exp)
         {
             int growth = PKX.Personal[species].EXPGrowth;
+            if (exp >= ExpTable[99, growth])
+                return 100;
             int tl = 1; // Initial Level. Iterate upwards to find the level
-            while (ExpTable[tl, growth] <= exp)
-            {
-                if (++tl == 100)
-                    break;
-            }
+            while (exp >= ExpTable[tl, growth])
+                ++tl;
             return tl;
         }
 

@@ -207,7 +207,7 @@ namespace PKHeX.Core
 
             switch (m)
             {
-                case 6 when !Memories.LocationsWithPKCenter[0].Contains(t):
+                case 6 when !Memories.LocationsWithPKCenter.Contains(t):
                     return GetInvalid(string.Format(LMemoryArgBadPokecenter, tr));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
@@ -296,11 +296,11 @@ namespace PKHeX.Core
                     return;
 
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                    int matchingOriginGame = Array.IndexOf(Memories.LocationsWithPKCenter[0], pkm.OT_TextVar);
+                    int matchingOriginGame = Array.IndexOf(Memories.LocationsWithPKCenter, pkm.OT_TextVar);
                     if (matchingOriginGame != -1)
                     {
-                        int gameID = Memories.LocationsWithPKCenter[1][matchingOriginGame];
-                        if ((pkm.XY && gameID != 0) || (pkm.AO && gameID != 1))
+                        var gameID = Memories.GetGameVersionForPokeCenterIndex(matchingOriginGame);
+                        if (!gameID.Contains((GameVersion)pkm.Version))
                             data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadLocation, L_XOT), CheckIdentifier.Memory);
                     }
                     data.AddLine(VerifyCommonMemory(pkm, 0));

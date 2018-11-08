@@ -23,7 +23,7 @@
 0x1B0	Old Sea Map Used
 
 0x091	Lugia Captured
-0x092	Ho-oh Captured
+0x092	Ho-Oh Captured
 0x1AD	Deoxys Captured
 0x1BB	Regirock Captured
 0x1BC	Regice Captured
@@ -41,7 +41,7 @@
 0x30E	Kyogre Overworld Hidden
 0x30F	Groundon Overworld Hidden
 0x320	Lugia Overworld Hidden
-0x321	Ho-oh Overworld Hidden
+0x321	Ho-Oh Overworld Hidden
 0x3A7	Regirock Overworld Hidden
 0x3A8	Regice Overworld Hidden
 0x3A9	Registeel Overworld Hidden

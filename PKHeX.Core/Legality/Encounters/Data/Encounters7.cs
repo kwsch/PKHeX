@@ -397,7 +397,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
         };
 
-        internal static readonly string[][] TradeSM =
+        private static readonly string[][] TradeSM =
         {
             Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradesm", "ja"), // 1
@@ -412,7 +412,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradesm", "zh"), // 10
         };
 
-        internal static readonly string[][] TradeUSUM =
+        private static readonly string[][] TradeUSUM =
         {
             Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradeusum", "ja"), // 1

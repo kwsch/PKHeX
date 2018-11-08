@@ -1399,7 +1399,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (PID)
                 {
-                    pkm.SetShinyPID();
+                    pkm.SetShiny();
                     TB_PID.Text = pkm.PID.ToString("X8");
 
                     if (pkm.GenNumber < 6 && TB_EC.Visible)
@@ -1413,7 +1413,7 @@ namespace PKHeX.WinForms.Controls
             }
             else
             {
-                pkm.SetShinyIVs();
+                pkm.SetShiny();
                 Stats.LoadIVs(pkm.IVs);
                 Stats.UpdateIVs(null, null);
             }
@@ -1478,6 +1478,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             FieldsLoaded = false;
             NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
+            ((IShadowPKM)pkm).Purification = (int)NUD_Purification.Value;
+            UpdatePreviewSprite?.Invoke(this, null);
             FieldsLoaded = true;
         }
 
@@ -1737,7 +1739,7 @@ namespace PKHeX.WinForms.Controls
 
             CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
             CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
-            CB_Species.SelectedValue = pkm.MaxSpeciesID;
+            CB_Species.SelectedValue = RequestSaveFile?.MaxSpeciesID ?? pkm.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
             LastData = null;
         }

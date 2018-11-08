@@ -27,7 +27,7 @@ namespace PKHeX.Core
             var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
             var h = new[] {null, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", null, "HORDEL"};
             var d = new[] {null, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", null, "GERMÁN"};
-            var m = new[] {null, "バトルやま", "MATTLE", "MT BATA", "MONTE L", "DUELLBE", null, "ERNESTO"};
+            var m = new[] {null, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG﻿", null, "ERNESTO"}; // truncated on ck3->pk3 transfer
 
             return langs.SelectMany(l => GetIngame((int)l));
             IEnumerable<WC3> GetIngame(int l)
@@ -40,7 +40,7 @@ namespace PKHeX.Core
                     new WC3 { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 092, 164, 188, 277 }, Fateful = true }, // Shuckle @ Pyrite Town
                     new WC3 { Species = 246, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 201, 349, 044, 200 }, Fateful = true }, // Larvitar @ Pyrite Town
                     new WC3 { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 045, 086, 098, 270 } }, // Plusle @ Ingame Trade
-                    new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 105, 126, 241, 129 } }, // Ho-oh @ Mt. Battle
+                    new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 105, 126, 241, 129 } }, // Ho-oh @ Mt. Battle
                 };
             }
         }

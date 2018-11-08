@@ -214,8 +214,8 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             switch (g)
             {
-                case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version):
-                case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version):
+                case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
+                case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:

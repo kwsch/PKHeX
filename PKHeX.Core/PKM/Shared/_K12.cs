@@ -253,6 +253,17 @@ namespace PKHeX.Core
 
         public override int GetMovePP(int move, int ppup) => Math.Min(61, base.GetMovePP(move, ppup));
 
+        /// <summary>
+        /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.
+        /// </summary>
+        public override void SetShiny()
+        {
+            IV_ATK |= 2;
+            IV_DEF = 10;
+            IV_SPE = 10;
+            IV_SPA = 10;
+        }
+
         protected string GetString(int Offset, int Count)
         {
             if (Korean)

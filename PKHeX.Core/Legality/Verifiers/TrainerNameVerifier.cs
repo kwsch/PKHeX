@@ -60,10 +60,10 @@ namespace PKHeX.Core
             {
                 VerifyOTG1(data);
             }
-            else if (ot.Length > Legal.GetNicknameOTMaxLength(data.Info.Generation, (LanguageID)pkm.Language))
+            else if (ot.Length > Legal.GetMaxLengthOT(data.Info.Generation, (LanguageID)pkm.Language))
             {
-                if (!pkm.IsEgg) // ignore eggs, on trade, OT is not updated if language is
-                    data.AddLine(Get(LOTLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
+                if (!IsEdgeCaseLength(pkm, data.EncounterOriginal, ot))
+                    data.AddLine(Get(LOTLong, Severity.Invalid));
             }
 
             if (ParseSettings.CheckWordFilter)
@@ -75,6 +75,24 @@ namespace PKHeX.Core
                 if (ContainsTooManyNumbers(ot, data.Info.Generation))
                     data.AddLine(GetInvalid($"Wordfilter: Too many numbers."));
             }
+        }
+
+        public static bool IsEdgeCaseLength(PKM pkm, IEncounterable e, string ot)
+        {
+            if (e.EggEncounter)
+            {
+                if (e is WC3 wc3 && pkm.IsEgg && wc3.OT_Name == ot)
+                    return true; // Fixed OT Mystery Gift Egg
+                bool eggEdge = pkm.IsEgg ? pkm.IsTradedEgg : pkm.WasTradedEgg;
+                if (!eggEdge)
+                    return false;
+                var len = Legal.GetMaxLengthOT(pkm.GenNumber, LanguageID.English); // max case
+                return ot.Length <= len;
+            }
+
+            if (e is MysteryGift mg && mg.OT_Name.Length == ot.Length)
+                return true; // Mattle Ho-Oh
+            return false;
         }
 
         public void VerifyOTG1(LegalityAnalysis data)

@@ -201,7 +201,7 @@ namespace PKHeX.Core
             set => Encoding.Unicode.GetBytes(value.PadRight(12 + 1, '\0')).CopyTo(Data, 0x86);
         }
 
-        public int Nature { get => Data[0xA0]; set => Data[0xA0] = (byte)value; }
+        public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
         public override int Gender { get => Data[0xA1]; set => Data[0xA1] = (byte)value; }
         public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public Shiny PIDType { get => (Shiny)Data[0xA3]; set => Data[0xA3] = (byte)value; }
@@ -337,7 +337,7 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = metLevel,
-                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
+                Nature = Nature != -1 ? Nature : Util.Rand.Next(25),
                 Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),

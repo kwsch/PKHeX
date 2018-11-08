@@ -59,46 +59,55 @@ namespace PKHeX.Core
             new[] { 57, 19, 70, 15, 249, 127, 291}, // Move IDs
         };
 
-        internal static readonly int[][] LocationsWithPKCenter =
+        internal static readonly int[] LocationsWithPKCenter =
         {
-            new[] {
-                // Kalos locations with a PKMN CENTER
-                18,  // Santalune City
-                22,  // Lumiose City
-                30,  // Camphrier Town
-                40,  // Cyllage City
-                44,  // Ambrette Town
-                52,  // Geosenge Towny
-                58,  // Shalour City
-                64,  // Coumarine City
-                70,  // Laverre City
-                76,  // Dendemille Town
-                86,  // Anistar City
-                90,  // Couriway Town
-                94,  // Snowbelle City
-                106, // Pokémon League (X/Y)
-                // Hoenn locations with a PKMN CENTER
-                172, // Oldale Town
-                174, // Dewford Town
-                176, // Lavaridge Town
-                178, // Fallarbor Town
-                180, // Verdanturf Town
-                182, // Pacifidlog Town
-                184, // Petalburg City
-                186, // Slateport City
-                188, // Mauville City
-                190, // Rustboro City
-                192, // Fortree City
-                194, // Lilycove City
-                196, // Mossdeep City
-                198, // Sootopolis City
-                200, // Ever Grande City
-                202, // Pokémon League (OR/AS)
-            },
-            new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // Region matching
+            // Kalos locations with a PKMN CENTER
+            18,  // Santalune City
+            22,  // Lumiose City
+            30,  // Camphrier Town
+            40,  // Cyllage City
+            44,  // Ambrette Town
+            52,  // Geosenge Towny
+            58,  // Shalour City
+            64,  // Coumarine City
+            70,  // Laverre City
+            76,  // Dendemille Town
+            86,  // Anistar City
+            90,  // Couriway Town
+            94,  // Snowbelle City
+            106, // Pokémon League (X/Y)
+
+            // Hoenn locations with a PKMN CENTER
+            172, // Oldale Town
+            174, // Dewford Town
+            176, // Lavaridge Town
+            178, // Fallarbor Town
+            180, // Verdanturf Town
+            182, // Pacifidlog Town
+            184, // Petalburg City
+            186, // Slateport City
+            188, // Mauville City
+            190, // Rustboro City
+            192, // Fortree City
+            194, // Lilycove City
+            196, // Mossdeep City
+            198, // Sootopolis City
+            200, // Ever Grande City
+            202, // Pokémon League (OR/AS)
         };
 
-        internal static readonly byte[] MemoryMinIntensity =
+        internal static GameVersion GetGameVersionForPokeCenterIndex(int index)
+        {
+            return PokeCenterVersion[index] == 0 ? GameVersion.XY : GameVersion.ORAS;
+        }
+
+        private static readonly int[] PokeCenterVersion = // Region matching
+        {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+        };
+
+        private static readonly byte[] MemoryMinIntensity =
         {
             0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
             2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
@@ -109,7 +118,20 @@ namespace PKHeX.Core
             3, 3, 3, 3, 3, 2, 3, 4, 4, 2,
         };
 
-        internal static readonly uint[] MemoryFeelings =
+        public static int GetMemoryRarity(int memory) => (uint) memory >= MemoryRandChance.Length ? -1 : MemoryRandChance[memory];
+
+        private static readonly byte[] MemoryRandChance =
+        {
+            000, 100, 100, 100, 100, 005, 005, 005, 005, 005,
+            005, 005, 005, 005, 010, 020, 010, 001, 050, 030,
+            005, 005, 020, 005, 005, 005, 001, 050, 100, 050,
+            050, 002, 002, 005, 005, 005, 005, 005, 005, 002,
+            020, 020, 005, 010, 001, 001, 050, 030, 020, 020,
+            010, 010, 001, 010, 001, 050, 030, 030, 030, 002,
+            050, 020, 020, 020, 020, 010, 010, 050, 020, 005,
+        };
+
+        private static readonly uint[] MemoryFeelings =
         {
             0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,
             0x80BDF9, 0x88FB7A, 0x083F79, 0x0001FE, 0xCFEFFF, 0x84EBAF, 0xB368B0, 0x091F7E, 0x0320A0, 0x080DDD,
@@ -158,7 +180,7 @@ namespace PKHeX.Core
             var bits = MemoryFeelings[memory];
             while (true)
             {
-                int feel = Util.Rand.Next(0, max);
+                int feel = Util.Rand.Next(max);
                 if ((bits & (1 << feel)) != 0)
                     return feel;
             }

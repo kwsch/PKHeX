@@ -419,7 +419,7 @@ namespace PKHeX.Core
             else if (cmd.PropertyName == nameof(pkm.EncryptionConstant) && cmd.PropertyValue == nameof(pkm.PID))
                 pkm.EncryptionConstant = pkm.PID;
             else if (cmd.PropertyName == nameof(pkm.PID) && cmd.PropertyValue == CONST_SHINY)
-                pkm.SetShinyPID();
+                pkm.SetShiny();
             else if (cmd.PropertyName == nameof(pkm.Species) && cmd.PropertyValue == "0")
                 pkm.Data = new byte[pkm.Data.Length];
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)

@@ -314,6 +314,21 @@ namespace PKHeX.Core
             return IsEvolutionValid(pkm);
         }
 
+        public static IReadOnlyList<int> GetPPTable(int format)
+        {
+            switch (format)
+            {
+                case 1: return MovePP_RBY;
+                case 2: return MovePP_GSC;
+                case 3: return MovePP_RS;
+                case 4: return MovePP_DP;
+                case 5: return MovePP_BW;
+                case 6: return MovePP_XY;
+                case 7: return MovePP_SM;
+                default: return Array.Empty<int>();
+            }
+        }
+
         internal static ICollection<int> GetWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)
@@ -712,7 +727,7 @@ namespace PKHeX.Core
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
 
-                // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
+                // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
                 if (species == 386 && pkm.Format == 3)
                     formcount = 4;
 
@@ -862,7 +877,17 @@ namespace PKHeX.Core
             return 2000;
         }
 
-        public static int GetNicknameOTMaxLength(int gen, LanguageID lang)
+        public static int GetMaxLengthOT(int gen, LanguageID lang)
+        {
+            switch (lang)
+            {
+                case LanguageID.Korean:
+                case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
+                default: return gen >= 6 ? 12 : 7;
+            }
+        }
+
+        public static int GetMaxLengthNickname(int gen, LanguageID lang)
         {
             switch (lang)
             {

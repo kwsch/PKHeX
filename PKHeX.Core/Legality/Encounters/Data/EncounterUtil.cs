@@ -163,7 +163,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Sets the <see cref="EncounterSlot1.Version"/> value, for use in determining split-generation origins.
         /// </summary>
-        /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
+        /// <remarks>Only used for Gen 1 &amp; 2, as <see cref="PKM.Version"/> data is not present.</remarks>
         /// <param name="Areas">Ingame encounter data</param>
         /// <param name="Version">Version ID to set</param>
         internal static void MarkEncountersVersion(IEnumerable<EncounterArea> Areas, GameVersion Version)

@@ -806,3 +806,5 @@ Mandrillon
 Ama-Ama
 Pierroteknik
 Zeraora
+Meltan
+Melmetal

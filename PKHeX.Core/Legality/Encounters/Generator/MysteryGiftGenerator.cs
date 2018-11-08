@@ -161,6 +161,13 @@ namespace PKHeX.Core
                 yield return z;
         }
 
+        private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
+        {
+            if (ck3 && ot.Length == 10)
+                return wc == ot;
+            return ot.Length == 7 && wc.StartsWith(ot);
+        }
+
         private static bool GetIsMatchWC3(PKM pkm, WC3 wc)
         {
             // Gen3 Version MUST match.
@@ -172,8 +179,20 @@ namespace PKHeX.Core
             {
                 if (wc.SID != -1 && wc.SID != pkm.SID) return false;
                 if (wc.TID != -1 && wc.TID != pkm.TID) return false;
-                if (wc.OT_Name != null && wc.OT_Name != pkm.OT_Name) return false;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
+                var wcOT = wc.OT_Name;
+                if (wcOT != null)
+                {
+                    if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
+                    {
+                        if (!GetIsValidOTMattleHoOh(wcOT, pkm.OT_Name, pkm is CK3))
+                            return false;
+                    }
+                    else if (wcOT != pkm.OT_Name)
+                    {
+                        return false;
+                    }
+                }
             }
 
             if (wc.Language != -1 && wc.Language != pkm.Language) return false;
@@ -286,7 +305,7 @@ namespace PKHeX.Core
 
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 2 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
@@ -335,7 +354,7 @@ namespace PKHeX.Core
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
@@ -396,7 +415,7 @@ namespace PKHeX.Core
             if (wc.MetLevel != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))

@@ -1,0 +1,33 @@
+﻿using FluentAssertions;
+using PKHeX.Core;
+using Xunit;
+
+namespace PKHeX.Tests.Saves
+{
+    public class SMTests
+    {
+        private SAV7 GetSave()
+        {
+            return new SAV7(Core.Tests.Properties.Resources.SM_Project_802);
+        }
+
+        [Fact]
+        public void ChecksumsValid()
+        {
+            GetSave().ChecksumsValid.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ChecksumsUpdate()
+        {
+            var save = GetSave();
+            var originalChecksumInfo = save.ChecksumInfo;
+            var newSave = new SAV7(save.Write(false, false));
+
+            save.ChecksumInfo.Should().BeEquivalentTo(originalChecksumInfo, "because the checksum should have been modified");
+            save.ChecksumsValid.Should().BeTrue("because the checksum should be valid after write");
+            newSave.ChecksumsValid.Should().BeTrue("because the checksums should be valid after reopening the save");
+            newSave.ChecksumInfo.Should().BeEquivalentTo(save.ChecksumInfo, "because the checksums should be the same since write and open");
+        }
+    }
+}

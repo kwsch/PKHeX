@@ -341,14 +341,15 @@ namespace PKHeX.WinForms
         {
             var dbTemp = new ConcurrentBag<PKM>();
             var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
+            var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
             Parallel.ForEach(files, file =>
             {
                 FileInfo fi = new FileInfo(file);
-                if (!fi.Extension.Contains(".pk") || !PKX.IsPKM(fi.Length)) return;
+                if (!extensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length)) return;
                 var data = File.ReadAllBytes(file);
                 var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
                 var pk = PKMConverter.GetPKMfromBytes(data, file, prefer);
-                if (pk != null)
+                if (pk?.Species > 0)
                     dbTemp.Add(pk);
             });
 

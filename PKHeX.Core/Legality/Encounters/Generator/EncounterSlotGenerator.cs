@@ -84,8 +84,8 @@ namespace PKHeX.Core
                 return Enumerable.Empty<EncounterSlot>();
             var s = GetRawEncounterSlots(pkm, lvl, vs, gameSource);
 
-            bool IsSafariBall = pkm.Ball == 5;
-            bool IsSportBall = pkm.Ball == 0x18;
+            bool IsSafariBall = pkm.Ball == (int)Ball.Safari;
+            bool IsSportBall = pkm.Ball == (int)Ball.Sport;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
             int species = pkm.Species;
 
@@ -102,8 +102,8 @@ namespace PKHeX.Core
                 return Enumerable.Empty<EncounterSlot>();
             var s = GetRawEncounterSlots(pkm, lvl, gameSource);
 
-            bool IsSafariBall = pkm.Ball == 5;
-            bool IsSportBall = pkm.Ball == 0x18;
+            bool IsSafariBall = pkm.Ball == (int)Ball.Safari;
+            bool IsSportBall = pkm.Ball == (int)Ball.Sport;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
             int species = pkm.Species;
 
@@ -218,8 +218,8 @@ namespace PKHeX.Core
             // Edge Case Handling
             switch (species)
             {
-                case 744 when form == 1:
-                case 745 when form == 2:
+                case 744 when form == 1: // Rockruff Event
+                case 745 when form == 2: // Lycanroc Event
                     yield break;
             }
 
@@ -432,7 +432,7 @@ namespace PKHeX.Core
                 return false;
 
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            var table = pkm.Version == (int) GameVersion.AS ? Encounters6.SlotsA : Encounters6.SlotsO;
+            var table = pkm.Version == (int) GameVersion.AS ? SlotsA : SlotsO;
             int loc = pkm.Met_Location;
             var areas = table.Where(l => l.Location == loc);
             var d_areas = areas.Select(area => GetValidEncounterSlots(pkm, area, vs, DexNav: true));

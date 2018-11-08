@@ -95,7 +95,7 @@ namespace PKHeX.Core
             }
             pk.Language = lang;
 
-            var ability = Util.Rand.Next(0, 2);
+            var ability = Util.Rand.Next(2);
             var pidtype = GetPIDType();
             if (pidtype == PIDType.PokeSpot)
                 PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);

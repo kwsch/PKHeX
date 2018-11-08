@@ -130,7 +130,7 @@ namespace PKHeX.WinForms
                 string fstr = Regex.Unescape(pkstr);
                 byte[] raw = Encoding.Unicode.GetBytes(fstr);
                 // Remove 00 interstitials and retrieve from offset 0x30, take PK7 Stored Size (always)
-                return raw.ToList().Where((_, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
+                return raw.Where((_, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
             }
             // All except G7
             pkstr = pkstr.Substring(pkstr.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
