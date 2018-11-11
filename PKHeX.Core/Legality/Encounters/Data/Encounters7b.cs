@@ -1,0 +1,81 @@
+﻿using static PKHeX.Core.EncounterUtil;
+
+namespace PKHeX.Core
+{
+    internal static class Encounters7b
+    {
+        internal static readonly EncounterArea[] SlotsGP = GetEncounterTables(GameVersion.GP);
+        internal static readonly EncounterArea[] SlotsGE = GetEncounterTables(GameVersion.GE);
+        internal static readonly EncounterStatic[] StaticGP, StaticGE;
+
+        static Encounters7b()
+        {
+            StaticGP = GetStaticEncounters(Encounter_GG, GameVersion.GP);
+            StaticGE = GetStaticEncounters(Encounter_GG, GameVersion.GE);
+
+            SlotsGP.SetVersion(GameVersion.GP);
+            SlotsGE.SetVersion(GameVersion.GE);
+            Encounter_GG.SetVersion(GameVersion.GG);
+            TradeGift_GG.SetVersion(GameVersion.GG);
+            MarkEncountersGeneration(7, SlotsGP, SlotsGE);
+            MarkEncountersGeneration(7, StaticGP, StaticGE, TradeGift_GG);
+        }
+
+        private static readonly EncounterStatic[] Encounter_GG =
+        {
+            // encounters
+            new EncounterStatic { Species = 144, Level = 50, Location = 44, IV3 = true, }, // Articuno @ Seafoam Islands
+            new EncounterStatic { Species = 145, Level = 50, Location = 42, IV3 = true, }, // Zapdos @ Power Plant
+            new EncounterStatic { Species = 146, Level = 50, Location = 45, IV3 = true, }, // Moltres @ Victory Road
+            new EncounterStatic { Species = 150, Level = 70, Location = 46, IV3 = true, }, // Mewtwo @ Cerulean Cave
+            new EncounterStatic { Species = 143, Level = 34, Location = 14, IV3 = true, }, // Snorlax @ Route 12
+            new EncounterStatic { Species = 143, Level = 34, Location = 18, IV3 = true, }, // Snorlax @ Route 16
+            new EncounterStatic { Species = 100, Level = 42, Location = 42, IV3 = true, }, // Voltorb @ Power Plant
+            new EncounterStatic { Species = 101, Level = 42, Location = 42, IV3 = true, }, // Electrode @ Power Plant
+
+            // gifts
+            new EncounterStatic { Species = 025, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 8, Version = GameVersion.GP }, // Pikachu @ Pallet Town
+            new EncounterStatic { Species = 133, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 1, Version = GameVersion.GE }, // Eevee @ Pallet Town
+
+            new EncounterStatic { Species = 129, Level = 05, Location = 06, Gift = true, IVs = new[] {30,31,25,31,25,25} }, // Magikarp @ Route 4
+
+            new EncounterStatic { Species = 133, Level = 30, Location = 34, Gift = true }, // Eevee @ Celadon City
+            new EncounterStatic { Species = 131, Level = 34, Location = 38, Gift = true, IVs = new[] {31,25,25,25,30,30} }, // Lapras @ Saffron City (Silph Co. Employee)
+            new EncounterStatic { Species = 106, Level = 30, Location = 38, Gift = true, IVs = new[] {25,30,25,31,25,30} }, // Hitmonlee @ Saffron City (Karate Master)
+            new EncounterStatic { Species = 107, Level = 30, Location = 38, Gift = true, IVs = new[] {25,31,30,25,25,30} }, // Hitmonchan @ Saffron City (Karate Master)
+            new EncounterStatic { Species = 140, Level = 44, Location = 36, Gift = true, IV3 = true }, // Kabuto @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new EncounterStatic { Species = 138, Level = 44, Location = 36, Gift = true, IV3 = true }, // Omanyte @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new EncounterStatic { Species = 142, Level = 44, Location = 36, Gift = true, IV3 = true }, // Aerodactyl @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new EncounterStatic { Species = 001, Level = 12, Location = 31, Gift = true, IVs = new[] {31,25,30,25,25,30} }, // Bulbasaur @ Cerulean City
+            new EncounterStatic { Species = 004, Level = 14, Location = 26, Gift = true, IVs = new[] {25,30,25,31,30,25} }, // Charmander @ Route 24
+            new EncounterStatic { Species = 007, Level = 16, Location = 33, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Squirtle @ Vermillion City
+            new EncounterStatic { Species = 137, Level = 34, Location = 38, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Porygon @ Saffron City (Silph Co. Employee)
+            new EncounterStatic { Species = 053, Level = 16, Location = -1, Gift = true, IVs = new[] {30,30,25,31,25,25}, Version = GameVersion.GP }, // Persian @ PuppyCat Person ???
+            new EncounterStatic { Species = 059, Level = 16, Location = -1, Gift = true, IVs = new[] {25,30,25,31,30,25}, Version = GameVersion.GE }, // Arcanine @ PuppyCat Person ???
+        };
+
+        private static readonly string[] T1 = { null, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", null, "Tatiana", "미니꼬", "小幂妮", "小幂妮", };
+        private static readonly string[] T2 = { null, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", null, "Gelasio", "보아이스", "露冰冰", "露冰冰", };
+        private static readonly string[] T3 = { null, "レディダグ", "Diggette", "Taupilady", "LadyGlett", "Digga", null, "Glenda", "레이디그다", "蒂淑", "蒂淑", };
+        private static readonly string[] T4 = { null, "ワルモン", "Darko", "AlolaZeDark", "Mattetro", "Bösbert", null, "Sinesio", "나뻐기", "达怀丹", "达怀丹", };
+        private static readonly string[] T5 = { null, "エリッチ", "Psytrice", "TopDeTonCœur", "Chulia", "Assana", null, "Menchu", "엘리츄", "晶莹丘", "晶莹丘", };
+        private static readonly string[] T6 = { null, "ジェンガラ", "Genmar", "OSS-Dandy7", "Mr. Owak", "Knoggelius", null, "Mario", "젠구리", "申史加拉", "申史加拉", };
+        private static readonly string[] T7 = { null, "マニシ", "Exemann", "Koko-fan", "Exechiele", "Einrich", null, "Gunter", "마니시", "艾浩舒", "艾浩舒", };
+        private static readonly string[] T8 = { null, "コツブ", "Higeo", "Montagnou", "George", "Karstein", null, "Georgie", "산돌", "科布", "科布", };
+
+        // todo: can these even be shiny?
+        internal static readonly EncounterTrade[] TradeGift_GG =
+        {
+            new EncounterTrade { Species = 019, Level = 12, Form = 1, TrainerNames = T1, TID7 = 121106, OTGender = 1, Location = -1, IsNicknamed = false }, // Rattata
+            new EncounterTrade { Species = 027, Level = 27, Form = 1, TrainerNames = T2, TID7 = 703019, OTGender = 0, Location = -1, IsNicknamed = false, Version = GameVersion.GP }, // Sandshrew
+            new EncounterTrade { Species = 037, Level = 27, Form = 1, TrainerNames = T2, TID7 = 703019, OTGender = 0, Location = -1, IsNicknamed = false, Version = GameVersion.GE }, // Vulpix
+            new EncounterTrade { Species = 050, Level = 25, Form = 1, TrainerNames = T3, TID7 = 520159, OTGender = 1, Location = -1, IsNicknamed = false }, // Diglett
+            new EncounterTrade { Species = 052, Level = 44, Form = 1, TrainerNames = T4, TID7 = 000219, OTGender = 0, Location = -1, IsNicknamed = false, Version = GameVersion.GE }, // Meowth
+            new EncounterTrade { Species = 088, Level = 44, Form = 1, TrainerNames = T4, TID7 = 000219, OTGender = 0, Location = -1, IsNicknamed = false, Version = GameVersion.GP }, // Grimer
+            new EncounterTrade { Species = 026, Level = 30, Form = 1, TrainerNames = T5, TID7 = 940711, OTGender = 1, Location = -1, IsNicknamed = false }, // Raichu
+            new EncounterTrade { Species = 105, Level = 38, Form = 1, TrainerNames = T6, TID7 = 102595, OTGender = 0, Location = -1, IsNicknamed = false }, // Marowak
+            new EncounterTrade { Species = 103, Level = 46, Form = 1, TrainerNames = T7, TID7 = 060310, OTGender = 0, Location = -1, IsNicknamed = false }, // Exeggutor
+            new EncounterTrade { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Location = -1, IsNicknamed = false }, // Geodude
+        };
+    }
+}
