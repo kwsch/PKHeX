@@ -24,6 +24,9 @@ namespace PKHeX.Core
         /// <summary>Event Database for Generation 7</summary>
         public static WC7[] MGDB_G7 { get; private set; } = Array.Empty<WC7>();
 
+        /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
+        public static WC7[] MGDB_G7GG { get; private set; } = Array.Empty<WC7>();
+
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Length != 0;
 
@@ -48,6 +51,10 @@ namespace PKHeX.Core
         private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
             GetData(wc7full, WC7.SizeFull).Select(d => new WC7(d))
             .Concat(GetData(wc7bin, WC7.Size).Select(d => new WC7(d))));
+
+        private static HashSet<WC7> GetWC7DBGG(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
+            GetData(wc7full, WC7.SizeFull).Select(d => new WC7(d))
+                .Concat(GetData(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
         public static void RefreshMGDB(params string[] paths)
         {
@@ -80,6 +87,7 @@ namespace PKHeX.Core
             MGDB_G5 = g5.ToArray();
             MGDB_G6 = g6.ToArray();
             MGDB_G7 = g7.ToArray();
+            MGDB_G7GG = Array.Empty<WC7>();
         }
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)
