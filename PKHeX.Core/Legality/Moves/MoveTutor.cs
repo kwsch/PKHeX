@@ -238,6 +238,8 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor7(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
+            if (pkm.GG)
+                return;
             var pi = PersonalTable.USUM.GetFormeEntry(species, form);
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
             if (specialTutors && pkm.HasVisitedUSUM())
@@ -271,6 +273,14 @@ namespace PKHeX.Core
                     if (index >= 0 && index < CosplayPikachuMoves.Length)
                         r.Add(CosplayPikachuMoves[index]);
                     break;
+
+                case 25 when Generation == 7 && pkm.AltForm == 8:
+                    r.AddRange(Tutor_StarterPikachu);
+                    break;
+                case 133 when Generation == 7 && pkm.AltForm == 1:
+                    r.AddRange(Tutor_StarterEevee);
+                    break;
+
                 case 25 when Generation == 7:
                 case 26 when Generation == 7:
                     r.Add(344); // Volt Tackle
