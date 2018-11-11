@@ -1,4 +1,4 @@
-Niente
+﻿Niente
 Master Ball
 Ultra Ball
 Mega Ball
@@ -21,14 +21,14 @@ Antiscottatura
 Antigelo
 Sveglia
 Antiparalisi
-Ricarica Totale
+Ricarica totale
 Pozione Max
 Iperpozione
 Superpozione
-Cura Totale
+Cura totale
 Revitalizzante
 Revitalizz. Max
-Acqua Fresca
+Acqua fresca
 Gassosa
 Lemonsucco
 Latte Mumu
@@ -48,7 +48,7 @@ Proteina
 Ferro
 Carburante
 Calcio
-Caramella Rara
+Caramella rara
 PP-Su
 Zinco
 PP-Max
@@ -76,7 +76,7 @@ Coccio Giallo
 Coccio Verde
 Superrepellente
 Repellente Max
-Fune di Fuga
+Fune di fuga
 Repellente
 Pietrasolare
 Pietralunare
@@ -101,7 +101,7 @@ Radifossile
 Fossilunghia
 Helixfossile
 Domofossile
-Ambra Antica
+Ambra antica
 Fossilscudo
 Fossilcranio
 Osso Raro
@@ -111,22 +111,22 @@ Pietralbore
 Pietraovale
 Roccianima
 Grigiosfera
+Tè
 ???
-???
-???
+Autografo
 Idromodulo
 Voltmodulo
 Piromodulo
 Gelomodulo
 ???
-???
-???
-???
-???
-???
-???
-???
-???
+Box Pokémon
+Tasca rimedi
+Porta MT
+Portacaramelle
+Tasca potenziam.
+Valigia vestiti
+Tasca cattura
+Tasca lotta
 ???
 ???
 ???
@@ -214,7 +214,7 @@ Baccaroam
 Luminpolvere
 Erbachiara
 Crescicappa
-Condividi Esp.
+Condividi esp.
 Rapidartigli
 Calmanella
 Mentalerba
@@ -440,7 +440,7 @@ Turbinchiave
 Arcamuleto
 Galachiave
 Rossocatena
-Mappa Città
+Mappa città
 Cercasfide
 Salvadanaio
 Amo Vecchio
@@ -454,7 +454,7 @@ Lettera Oak
 Alalunare
 Scheda Soci
 Flauto Cielo
-Biglietto Nave
+Biglietto nave
 Tessera Gare
 Magmapietra
 Pacco
@@ -469,7 +469,7 @@ Chiave Segreta
 Ghicobox
 UnownBloc
 Piantabacche
-Ricerca Strum.
+Ricerca strum.
 Carta Blu
 Coda Slowpoke
 Campana Chiara
@@ -734,7 +734,7 @@ Chiave stanza 4
 Chiave stanza 6
 Chiave magazzino
 Devonscopio
-Biglietto Nave
+Biglietto nave
 MN07
 Maschera Devon
 Costume Live
@@ -859,49 +859,49 @@ Flauto solare
 Flauto lunare
 ???
 Lettera segreta
+Baccalampon argentata
+Baccalampon dorata
+Baccabana argentata
+Baccabana dorata
+Baccananas argentata
+Baccananas dorata
 ???
 ???
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Chiave segreta
+Biglietto nave
+Spettrosonda
+Pacco
+Apriporta
+Denti d’oro
+Chiave ascensore
 Fissacampo
 Smorzaurti
 Elettroseme
 Psicoseme
 Nebbiaseme
 Erbaseme
+Molla elastica
+Gessetto
+Biglia
+Orecchino
+Vetro marino
+Fogliadoro
+Fogliargento
+Pallina di fango
+Tropiconchiglia
+Foglialettera
+Foglialettera
+Bouquet
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Profumo invito
+Superprofumo
+Profumo Max
+Plumbeosalatini
 ROM Lotta
 ROM Volante
 ROM Veleno
@@ -958,3 +958,101 @@ PS’n’roll
 PP’n’roll
 Stat’n’roll
 Acchiappa’n’roll
+Caramella vitalità S
+Caramella potenza S
+Caramella protezione S
+Caramella acume S
+Caramella intuito S
+Caramella rapidità S
+Caramella vitalità M
+Caramella potenza M
+Caramella protezione M
+Caramella acume M
+Caramella intuito M
+Caramella rapidità M
+Caramella vitalità L
+Caramella potenza L
+Caramella protezione L
+Caramella acume L
+Caramella intuito L
+Caramella rapidità L
+Caramella Bulbasaur
+Caramella Charmander
+Caramella Squirtle
+Caramella Caterpie
+Caramella Weedle
+Caramella Pidgey
+Caramella Rattata
+Caramella Spearow
+Caramella Ekans
+Caramella Pikachu
+Caramella Sandshrew
+Caramella Nidoran♀
+Caramella Nidoran♂
+Caramella Clefairy
+Caramella Vulpix
+Caramella Jigglypuff
+Caramella Zubat
+Caramella Oddish
+Caramella Paras
+Caramella Venonat
+Caramella Diglett
+Caramella Meowth
+Caramella Psyduck
+Caramella Mankey
+Caramella Growlithe
+Caramella Poliwag
+Caramella Abra
+Caramella Machop
+Caramella Bellsprout
+Caramella Tentacool
+Caramella Geodude
+Caramella Ponyta
+Caramella Slowpoke
+Caramella Magnemite
+Caramella Farfetch’d
+Caramella Doduo
+Caramella Seel
+Caramella Grimer
+Caramella Shellder
+Caramella Gastly
+Caramella Onix
+Caramella Drowzee
+Caramella Krabby
+Caramella Voltorb
+Caramella Exeggcute
+Caramella Cubone
+Caramella Hitmonlee
+Caramella Hitmonchan
+Caramella Lickitung
+Caramella Koffing
+Caramella Rhyhorn
+Caramella Chansey
+Caramella Tangela
+Caramella Kangaskhan
+Caramella Horsea
+Caramella Goldeen
+Caramella Staryu
+Caramella Mr. Mime
+Caramella Scyther
+Caramella Jynx
+Caramella Electabuzz
+Caramella Pinsir
+Caramella Tauros
+Caramella Magikarp
+Caramella Lapras
+Caramella Ditto
+Caramella Eevee
+Caramella Porygon
+Caramella Omanyte
+Caramella Kabuto
+Caramella Aerodactyl
+Caramella Snorlax
+Caramella Articuno
+Caramella Zapdos
+Caramella Moltres
+Caramella Dratini
+Caramella Mewtwo
+Caramella Mew
+Caramella Meltan
+Caramella Magmar

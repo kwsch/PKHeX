@@ -1,4 +1,4 @@
------
+﻿-----
 Pfund
 Karateschlag
 Duplexhieb
@@ -727,3 +727,17 @@ Geballter Mondlaser
 Herzliche Knuddelkloppe
 Fataler Steinregen
 Rasselnder Seelentanz
+Britzelturbo
+Plätschersurfer
+Schwebesturz
+Pika-Flash
+Blubbsauger
+Knisterladung
+Flackerbrand
+Pulsieraura
+Quälzone
+Sprießbomben
+Klirrfrost
+Glitzersturm
+Evo-Crash
+Panzerfäuste

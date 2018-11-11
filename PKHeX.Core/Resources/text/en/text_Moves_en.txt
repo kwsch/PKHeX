@@ -1,4 +1,4 @@
-———
+﻿———
 Pound
 Karate Chop
 Double Slap
@@ -727,3 +727,17 @@ Menacing Moonraze Maelstrom
 Let’s Snuggle Forever
 Splintered Stormshards
 Clangorous Soulblaze
+Zippy Zap
+Splishy Splash
+Floaty Fall
+Pika Papow
+Bouncy Bubble
+Buzzy Buzz
+Sizzly Slide
+Glitzy Glow
+Baddy Bad
+Sappy Seed
+Freezy Frost
+Sparkly Swirl
+Veevee Volley
+Double Iron Bash

@@ -1,4 +1,4 @@
-―――――
+﻿―――――
 Écras’Face
 Poing-Karaté
 Torgnoles
@@ -727,3 +727,17 @@ Rayons Séléno-Explosifs
 Patati-Patattrape
 Hurlement des Roches-Lames
 Dracacophonie Flamboyante
+Pika-Sprint
+Pika-Splash
+Pika-Piqué
+Pika-Fracas
+Évo-Thalasso
+Évo-Dynamo
+Évo-Flambo
+Évo-Psycho
+Évo-Ténébro
+Évo-Écolo
+Évo-Congélo
+Évo-Fabulo
+Évo-Chardasso
+Écrous d’Poing
