@@ -141,6 +141,8 @@ namespace PKHeX.Core
                     return Legal.MaxSpeciesID_7;
                 if (USUM.Contains(game))
                     return Legal.MaxSpeciesID_7_USUM;
+                if (GG.Contains(game))
+                    return Legal.MaxSpeciesID_7b;
                 return Legal.MaxSpeciesID_7_USUM;
             }
             return -1;

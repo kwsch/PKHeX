@@ -117,7 +117,7 @@ namespace PKHeX.Core
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
         public virtual bool HasNamableBoxes => HasBoxWallpapers;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
-        public bool HasEvents => EventFlags != null;
+        public virtual bool HasEvents => EventFlags != null;
         public bool HasLink => (ORAS && !ORASDEMO) || XY;
 
         // Counts
@@ -454,6 +454,7 @@ namespace PKHeX.Core
         public virtual int CurrentBox { get => 0; set { } }
         protected int[] LockedSlots = Array.Empty<int>();
         protected int[] TeamSlots = Array.Empty<int>();
+        protected virtual IList<int>[] SlotPointers => new[] {LockedSlots,TeamSlots};
 
         public bool MoveBox(int box, int insertBeforeBox)
         {
@@ -491,6 +492,8 @@ namespace PKHeX.Core
                 SetBoxName(b, boxNames[i]);
                 SetBoxWallpaper(b, boxWallpapers[i]);
             }
+            SlotPointerUtil.UpdateMove(box, insertBeforeBox, BoxSlotCount, SlotPointers);
+
             return true;
         }
 
@@ -522,6 +525,10 @@ namespace PKHeX.Core
             int b1w = GetBoxWallpaper(box1);
             SetBoxWallpaper(box1, GetBoxWallpaper(box2));
             SetBoxWallpaper(box2, b1w);
+
+            // Pointers
+            SlotPointerUtil.UpdateSwap(box1, box2, BoxSlotCount, SlotPointers);
+
             return true;
         }
 
@@ -657,21 +664,23 @@ namespace PKHeX.Core
 
         public virtual bool IsSlotLocked(int box, int slot) => false;
         public virtual bool IsSlotInBattleTeam(int box, int slot) => false;
-
-        public bool IsSlotOverwriteProtected(int box, int slot) => IsSlotLocked(box, slot) || IsSlotInBattleTeam(box, slot);
+        protected virtual bool IsSlotOverwriteProtected(int box, int slot) => IsSlotLocked(box, slot) || IsSlotInBattleTeam(box, slot);
+        protected virtual bool IsSlotSwapProtected(int box, int slot) => false;
 
         private bool IsRegionOverwriteProtected(int min, int max)
         {
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
+            if (LockedSlots.Any(slot => WithinRange(slot, min, max))) // locked slot within box
                 return true;
-            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
+            if (TeamSlots.Any(slot => WithinRange(slot, min, max))) // team slot within box
                 return true;
             return false;
         }
 
+        private static bool WithinRange(int slot, int min, int max) => min <= slot && slot < max;
+
         public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)
         {
-            return LockedSlots.Any(slot => BoxStart*BoxSlotCount <= slot && slot < (BoxEnd + 1)*BoxSlotCount);
+            return LockedSlots.Any(slot => WithinRange(slot, BoxStart*BoxSlotCount, (BoxEnd + 1)*BoxSlotCount));
         }
 
         public void SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
@@ -682,13 +691,19 @@ namespace PKHeX.Core
             if (BoxEnd >= BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
-            Section = Section.Where(z => !IsSlotOverwriteProtected(z.Box, z.Slot));
+            Func<int, int, bool> skip = IsSlotSwapProtected;
+            Section = Section.Where(z => !skip(z.Box, z.Slot));
             var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
             if (reverse)
                 Sorted = Sorted.ReverseSort();
 
-            Sorted.CopyTo(BD, this, start);
-            BoxData = BD;
+            var result = Sorted.ToArray();
+            var boxclone = new PKM[BD.Count];
+            BD.CopyTo(boxclone, 0);
+            result.CopyTo(boxclone, this, skip, start);
+
+            SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
+            BoxData = boxclone;
         }
 
         public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
@@ -751,7 +766,7 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
-            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this, IsSlotOverwriteProtected);
             BoxData = BD;
             return true;
         }
@@ -767,7 +782,7 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
-            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this, start);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this, IsSlotOverwriteProtected, start);
             BoxData = BD;
             return true;
         }
@@ -832,7 +847,7 @@ namespace PKHeX.Core
         /// <param name="storedCount">Count of actual <see cref="PKM"/> stored.</param>
         /// <param name="slotPointers">Important slot pointers that need to be repointed if a slot moves.</param>
         /// <returns>True if <see cref="BoxData"/> was updated, false if no update done.</returns>
-        public bool CompressStorage(out int storedCount, params ushort[][] slotPointers)
+        public bool CompressStorage(out int storedCount, params IList<int>[] slotPointers)
         {
             // keep track of empty slots, and only write them at the end if slots were shifted (no need otherwise).
             var empty = new List<byte[]>();
@@ -850,14 +865,7 @@ namespace PKHeX.Core
                     {
                         shiftedSlots = true; // appending empty slots afterwards is now required since a rewrite was done
                         Buffer.BlockCopy(Data, offset, Data, Box + (ctr * size), size);
-                        foreach (var ptrSet in slotPointers)
-                        {
-                            for (int j = 0; j < ptrSet.Length; j++) // update ptr
-                            {
-                                if (ptrSet[j] == i)
-                                    ptrSet[j] = ctr;
-                            }
-                        }
+                        SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);
                     }
                     ctr++;
                     continue;
