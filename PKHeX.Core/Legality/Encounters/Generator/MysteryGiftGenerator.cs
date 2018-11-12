@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
         {
-            var table = GetTable(pkm.GenNumber);
+            var table = GetTable(pkm.GenNumber, pkm);
             return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
         }
 
@@ -28,12 +28,12 @@ namespace PKHeX.Core
                 case 4: return GetMatchingPCD(pkm, MGDB_G4);
                 case 5: return GetMatchingPGF(pkm, MGDB_G5);
                 case 6: return GetMatchingWC6(pkm, MGDB_G6);
-                case 7: return GetMatchingWC7(pkm, MGDB_G7);
+                case 7: return pkm.GG ? GetMatchingWC7(pkm, MGDB_G7GG) : GetMatchingWC7(pkm, MGDB_G7);
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
 
-        private static IEnumerable<MysteryGift> GetTable(int generation)
+        private static IEnumerable<MysteryGift> GetTable(int generation, PKM pkm)
         {
             switch (generation)
             {
@@ -41,7 +41,7 @@ namespace PKHeX.Core
                 case 4: return MGDB_G4;
                 case 5: return MGDB_G5;
                 case 6: return MGDB_G6;
-                case 7: return MGDB_G7;
+                case 7: return pkm.GG ? MGDB_G7GG : MGDB_G7;
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
