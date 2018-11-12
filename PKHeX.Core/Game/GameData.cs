@@ -45,6 +45,8 @@ namespace PKHeX.Core
             { GameVersion.MN, Legal.LevelUpSM },
             { GameVersion.US, Legal.LevelUpUSUM },
             { GameVersion.UM, Legal.LevelUpUSUM },
+            { GameVersion.GP, Legal.LevelUpGG },
+            { GameVersion.GE, Legal.LevelUpGG },
 
             { GameVersion.RB, Legal.LevelUpRB },
             { GameVersion.RBY, Legal.LevelUpY },
@@ -63,6 +65,8 @@ namespace PKHeX.Core
             { GameVersion.ORAS, Legal.LevelUpAO },
             { GameVersion.SM, Legal.LevelUpSM },
             { GameVersion.USUM, Legal.LevelUpUSUM },
+
+            { GameVersion.GG, Legal.LevelUpGG },
 
             { GameVersion.Gen1, Legal.LevelUpY },
             { GameVersion.Gen2, Legal.LevelUpC },
@@ -112,6 +116,8 @@ namespace PKHeX.Core
             { GameVersion.MN, PersonalTable.SM },
             { GameVersion.US, PersonalTable.USUM },
             { GameVersion.UM, PersonalTable.USUM },
+            { GameVersion.GP, PersonalTable.GG },
+            { GameVersion.GE, PersonalTable.GG },
 
             { GameVersion.RB, PersonalTable.RB },
             { GameVersion.RBY, PersonalTable.Y },
@@ -130,6 +136,8 @@ namespace PKHeX.Core
             { GameVersion.ORAS, PersonalTable.AO },
             { GameVersion.SM, PersonalTable.SM },
             { GameVersion.USUM, PersonalTable.USUM },
+
+            { GameVersion.GG, PersonalTable.GG },
 
             { GameVersion.Gen1, PersonalTable.Y },
             { GameVersion.Gen2, PersonalTable.C },

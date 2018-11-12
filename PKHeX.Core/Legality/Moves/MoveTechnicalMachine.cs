@@ -7,6 +7,8 @@ namespace PKHeX.Core
     {
         internal static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false)
         {
+            if (pkm.IsMovesetRestricted())
+                ver = (GameVersion) pkm.Version;
             switch (generation)
             {
                 case 1: return GetIsMachine1(species, move);
@@ -177,11 +179,23 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine7(int species, int move, int form, GameVersion ver)
         {
+            if (GameVersion.GG.Contains(ver))
+            {
+                for (int i = 0; i < Legal.TMHM_GG.Length; i++)
+                {
+                    if (Legal.TMHM_GG[i] != move)
+                        continue;
+                    if (PersonalTable.GG.GetFormeEntry(species, form).TMHM[i])
+                        return GameVersion.GG;
+                    break;
+                }
+            }
+
             if (GameVersion.SM.Contains(ver) && species <= Legal.MaxSpeciesID_7)
             {
-                for (int i = 0; i < Legal.TMHM_XY.Length; i++)
+                for (int i = 0; i < Legal.TMHM_SM.Length; i++)
                 {
-                    if (Legal.TMHM_XY[i] != move)
+                    if (Legal.TMHM_SM[i] != move)
                         continue;
                     if (PersonalTable.SM.GetFormeEntry(species, form).TMHM[i])
                         return GameVersion.SM;
@@ -189,7 +203,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (GameVersion.ORAS.Contains(ver) && species <= Legal.MaxSpeciesID_7_USUM)
+            if (GameVersion.USUM.Contains(ver) && species <= Legal.MaxSpeciesID_7_USUM)
             {
                 for (int i = 0; i < Legal.TMHM_SM.Length; i++)
                 {
@@ -207,6 +221,8 @@ namespace PKHeX.Core
         internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion ver = GameVersion.Any, bool RemoveTransfer = true)
         {
             var r = new List<int>();
+            if (pkm.IsMovesetRestricted())
+                ver = (GameVersion)pkm.Version;
 
             switch (generation)
             {
@@ -310,6 +326,11 @@ namespace PKHeX.Core
         {
             switch (ver)
             {
+                case GameVersion.GP:
+                case GameVersion.GE:
+                case GameVersion.GG:
+                    AddMachineGG(r, species, form);
+                    return;
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
@@ -351,6 +372,14 @@ namespace PKHeX.Core
         {
             var pi = PersonalTable.USUM.GetFormeEntry(species, form);
             r.AddRange(Legal.TMHM_SM.Where((_, m) => pi.TMHM[m]));
+        }
+
+        private static void AddMachineGG(List<int> r, int species, int form)
+        {
+            if (species > Legal.MaxSpeciesID_7b)
+                return;
+            var pi = PersonalTable.GG.GetFormeEntry(species, form);
+            r.AddRange(Legal.TMHM_GG.Where((_, m) => pi.TMHM[m]));
         }
     }
 }

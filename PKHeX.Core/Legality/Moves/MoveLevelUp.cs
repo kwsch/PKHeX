@@ -8,7 +8,8 @@ namespace PKHeX.Core
 {
     internal static class MoveLevelUp
     {
-        private static readonly LearnLookup LearnSM, LearnUSUM,
+        private static readonly LearnLookup
+            LearnSM, LearnUSUM, LearnGG,
             LearnXY, LearnAO,
             LearnBW, LearnB2W2,
             LearnDP, LearnPt, LearnHGSS,
@@ -20,6 +21,7 @@ namespace PKHeX.Core
         {
             LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM);
             LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM);
+            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, GG);
             LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY);
             LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS);
             LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW);
@@ -39,6 +41,7 @@ namespace PKHeX.Core
         {
             if (pkm.IsMovesetRestricted())
                 version = (GameVersion)pkm.Version;
+
             switch (generation)
             {
                 case 1: return GetIsLevelUp1(species, move, lvl, form, minlvlG1, version);
@@ -183,6 +186,9 @@ namespace PKHeX.Core
         {
             switch (ver)
             {
+                case GP: case GE: case GG:
+                    return LearnGG.GetIsLevelUp(species, form, move);
+
                 case Any:
                     if (species > MaxSpeciesID_7)
                         return LearnNONE;
@@ -426,6 +432,9 @@ namespace PKHeX.Core
                 max = 100; // Move reminder can teach any level in movepool now!
             switch (ver)
             {
+                case GP: case GE: case GG:
+                    return LearnGG.AddMoves(moves, species, form, max);
+
                 case Any:
                     if (species > MaxSpeciesID_7_USUM)
                         return moves;
