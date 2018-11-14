@@ -16,36 +16,45 @@ namespace PKHeX.Core
         protected abstract int DexLangIDCount { get; }
         protected abstract int GetDexLangFlag(int lang);
 
-        protected Func<int, int, int, int> DexFormIndexFetcher { get; set; }
+        public Func<int, int, int, int> DexFormIndexFetcher { get; protected set; }
 
         protected abstract bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn);
-        protected abstract void SetSpindaDexData(PKM pkm, bool alreadySeen);
+        protected virtual void SetSpindaDexData(PKM pkm, bool alreadySeen) { }
         protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
         protected abstract void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true);
 
-        public bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs, bitIndex);
-        public void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs, bitIndex, value);
+        protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
+        protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
 
-        public bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
-        public void SetCaught(int species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);
+        public virtual bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
+        public virtual void SetCaught(int species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);
 
         public int SeenCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetSeen);
         public int CaughtCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetCaught);
         public decimal PercentSeen => (decimal)SeenCount / SAV.MaxSpeciesID;
         public decimal PercentCaught => (decimal)CaughtCount / SAV.MaxSpeciesID;
 
-        public bool GetSeen(int species)
+        public virtual bool GetSeen(int species)
         {
             // check all 4 seen flags (gender/shiny)
             for (int i = 0; i < 4; i++)
             {
-                if (GetFlag(OFS_SEEN + (i * BitSeenSize), species - 1))
+                if (GetSeen(species, i))
                     return true;
             }
             return false;
         }
 
-        public void SetSeen(int species, bool value = true)
+        public bool GetSeen(int species, int i) => GetFlag(OFS_SEEN + (i * BitSeenSize), species - 1);
+        public void SetSeen(int species, int i, bool value) => SetFlag(OFS_SEEN + (i * BitSeenSize), species - 1, value);
+
+        public bool GetDisplayed(int bit, int i) => GetFlag(OFS_SEEN + ((i + 4) * BitSeenSize), bit);
+        public void SetDisplayed(int bit, int i, bool value) => SetFlag(OFS_SEEN + ((i + 4) * BitSeenSize), bit, value);
+
+        public bool GetLanguageFlag(int bit, int lang) => GetFlag(PokeDexLanguageFlags, (bit * DexLangIDCount) + lang);
+        public void SetLanguageFlag(int bit, int lang, bool value) => SetFlag(PokeDexLanguageFlags, (bit * DexLangIDCount) + lang, value);
+
+        public virtual void SetSeen(int species, bool value = true)
         {
             if (!value)
             {
@@ -79,12 +88,23 @@ namespace PKHeX.Core
             if (pkm.IsEgg) // do not add
                 return;
 
+            int species = pkm.Species;
+            if (species == 327) // Spinda
+                SetSpindaDexData(pkm, GetSeen(species));
+
             int bit = pkm.Species - 1;
-            SetCaught(pkm.Species); // Set the Owned Flag
-            if (pkm.Species == 327) // Spinda
-                SetSpindaDexData(pkm, GetSeen(pkm.Species));
-            SetAllDexSeenFlags(bit, pkm.AltForm, pkm.Gender & 1, pkm.IsShiny); // genderless -> male
-            SetAllDexFlagsLanguage(bit, pkm.Language);
+            int form = pkm.AltForm;
+            int gender = pkm.Gender & 1;
+            bool shiny = pkm.IsShiny;
+            int lang = pkm.Language;
+            SetDex(species, bit, form, gender, shiny, lang);
+        }
+
+        protected virtual void SetDex(int species, int bit, int form, int gender, bool shiny, int lang)
+        {
+            SetCaught(species); // Set the Owned Flag
+            SetAllDexSeenFlags(bit, form, gender, shiny); // genderless -> male
+            SetAllDexFlagsLanguage(bit, lang);
         }
 
         protected void SetDexFlags(int baseBit, int formBit, int gender, int shiny, bool value = true)
@@ -103,18 +123,18 @@ namespace PKHeX.Core
         private bool GetIsSpeciesFormAnyDisplayed(int baseBit, int formBit)
         {
             // Check Displayed Status for base form
-            for (int i = 4; i < 8; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if (GetFlag(OFS_SEEN + (i * BitSeenSize), baseBit))
+                if (GetDisplayed(baseBit, i))
                     return true;
             }
             if (baseBit == formBit)
                 return false;
 
             // If form is not base form, check form too
-            for (int i = 4; i < 8; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if (GetFlag(OFS_SEEN + (i * BitSeenSize), formBit))
+                if (GetDisplayed(formBit, i))
                     return true;
             }
             return false;
