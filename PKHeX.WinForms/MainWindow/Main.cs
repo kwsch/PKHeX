@@ -21,6 +21,8 @@ namespace PKHeX.WinForms
 {
     public partial class Main : Form
     {
+        private static readonly Version CurrentProgramVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
         public Main()
         {
             new Task(() => new SplashScreen().ShowDialog()).Start();
@@ -241,7 +243,7 @@ namespace PKHeX.WinForms
                 string data = NetUtil.GetStringFromURL(VersionPath);
                 if (data == null)
                     return;
-                if (Version.TryParse(data, out var upd) && Version.TryParse(Resources.ProgramVersion, out var cur) && upd <= cur)
+                if (Version.TryParse(data, out var upd) && upd <= CurrentProgramVersion)
                     return;
 
                 Invoke((MethodInvoker)(() =>
@@ -273,8 +275,7 @@ namespace PKHeX.WinForms
             if (Settings.Version.Length > 0) // already run on system
             {
                 Version.TryParse(Settings.Version, out Version lastrev);
-                Version.TryParse(Resources.ProgramVersion, out Version currrev);
-                showChangelog = lastrev < currrev;
+                showChangelog = lastrev < CurrentProgramVersion;
             }
 
             // BAK Prompt
@@ -754,7 +755,7 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle()
         {
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+            string version = CurrentProgramVersion.ToString(3);
             return $"PKH{(HaX ? "a" : "e")}X ({version})";
         }
 
