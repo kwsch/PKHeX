@@ -42,6 +42,15 @@ namespace PKHeX.Core
         public int Ball { get; set; } = 4;
         public int CurrentLevel { get; set; } = -1;
 
+        public int TID7
+        {
+            set
+            {
+                TID = (ushort) value;
+                SID = value >> 16;
+            }
+        }
+
         private const string _name = "In-game Trade";
         public string Name => _name;
         public bool Fateful { get; set; }
@@ -65,7 +74,7 @@ namespace PKHeX.Core
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
                 level = 25; // avoid some cases
-            var pk = PKMConverter.GetBlank(Generation);
+            var pk = PKMConverter.GetBlank(SAV.GetType());
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;

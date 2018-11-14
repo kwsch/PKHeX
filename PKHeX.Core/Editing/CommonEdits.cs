@@ -314,6 +314,9 @@ namespace PKHeX.Core
             pk.SetIsShiny(Set.Shiny);
             pk.SetRandomEC();
 
+            if (pk is IAwakened a)
+                a.SetSuggestedAwakenedValues(pk);
+
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);

@@ -489,8 +489,9 @@ namespace PKHeX.Core
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
         private const string ResourceSeparator = "_";
-        private const string ResourcePikachuCosplay = "c";
-        private const string ResourceShiny = "s";
+        private const string ResourcePikachuCosplay = "c"; // osplay
+        private const string ResourceShiny = "s"; // hiny
+        private const string ResourceGGStarter = "p"; //artner
         public static bool AllowShinySprite { get; set; }
 
         public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
@@ -507,6 +508,9 @@ namespace PKHeX.Core
 
             if (species == 25 && form > 0 && generation == 6) // Cosplay Pikachu
                 sb.Append(ResourcePikachuCosplay);
+            else if (GameVersion.GG.Contains(PKMConverter.Trainer.Game) && (species == 25 || species == 133) && form != 0)
+                sb.Append(ResourceGGStarter);
+
             if (shiny && AllowShinySprite)
                 sb.Append(ResourceShiny);
             return sb.ToString();
@@ -783,9 +787,10 @@ namespace PKHeX.Core
         /// <param name="list">Source list to copy from</param>
         /// <param name="dest">Destination list/array</param>
         /// <param name="sav">Context for checking slot write protection</param>
+        /// <param name="skip">Criteria for skipping a slot</param>
         /// <param name="start">Starting point to copy to</param>
         /// <returns>Count of <see cref="PKM"/> copied.</returns>
-        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, SaveFile sav, int start = 0)
+        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, SaveFile sav, Func<int, int, bool> skip, int start = 0)
         {
             int ctr = start;
             foreach (var z in list)
@@ -793,7 +798,7 @@ namespace PKHeX.Core
                 if (dest.Count <= ctr)
                     break;
                 var exist = dest[ctr];
-                if (exist != null && sav.IsSlotOverwriteProtected(exist.Box, exist.Slot))
+                if (exist != null && skip(exist.Box, exist.Slot))
                     continue;
                 dest[ctr++] = z;
             }

@@ -1,4 +1,4 @@
-None
+﻿None
 Master Ball
 Ultra Ball
 Great Ball
@@ -111,22 +111,22 @@ Dawn Stone
 Oval Stone
 Odd Keystone
 Griseous Orb
+Tea
 ???
-???
-???
+Autograph
 Douse Drive
 Shock Drive
 Burn Drive
 Chill Drive
 ???
-???
-???
-???
-???
-???
-???
-???
-???
+Pokémon Box
+Medicine Pocket
+TM Case
+Candy Jar
+Power-Up Pocket
+Clothing Trunk
+Catching Pocket
+Battle Pocket
 ???
 ???
 ???
@@ -859,49 +859,49 @@ Sun Flute
 Moon Flute
 ???
 Enigmatic Card
+Silver Razz Berry
+Golden Razz Berry
+Silver Nanab Berry
+Golden Nanab Berry
+Silver Pinap Berry
+Golden Pinap Berry
 ???
 ???
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Secret Key
+S.S. Ticket
+Silph Scope
+Parcel
+Card Key
+Gold Teeth
+Lift Key
 Terrain Extender
 Protective Pads
 Electric Seed
 Psychic Seed
 Misty Seed
 Grassy Seed
+Stretchy Spring
+Chalky Stone
+Marble
+Lone Earring
+Beach Glass
+Gold Leaf
+Silver Leaf
+Polished Mud Ball
+Tropical Shell
+Leaf Letter
+Leaf Letter
+Small Bouquet
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Lure
+Super Lure
+Max Lure
+Pewter Crunchies
 Fighting Memory
 Flying Memory
 Poison Memory
@@ -945,7 +945,7 @@ N-Solarizer
 N-Lunarizer
 N-Solarizer
 N-Lunarizer
-Ilima’s Normalium Z
+Ilima Normalium Z
 Left Poké Ball
 Roto Hatch
 Roto Bargain
@@ -958,3 +958,101 @@ Roto HP Restore
 Roto PP Restore
 Roto Boost
 Roto Catch
+Health Candy
+Mighty Candy
+Tough Candy
+Smart Candy
+Courage Candy
+Quick Candy
+Health Candy L
+Mighty Candy L
+Tough Candy L
+Smart Candy L
+Courage Candy L
+Quick Candy L
+Health Candy XL
+Mighty Candy XL
+Tough Candy XL
+Smart Candy XL
+Courage Candy XL
+Quick Candy XL
+Bulbasaur Candy
+Charmander Candy
+Squirtle Candy
+Caterpie Candy
+Weedle Candy
+Pidgey Candy
+Rattata Candy
+Spearow Candy
+Ekans Candy
+Pikachu Candy
+Sandshrew Candy
+Nidoran♀ Candy
+Nidoran♂ Candy
+Clefairy Candy
+Vulpix Candy
+Jigglypuff Candy
+Zubat Candy
+Oddish Candy
+Paras Candy
+Venonat Candy
+Diglett Candy
+Meowth Candy
+Psyduck Candy
+Mankey Candy
+Growlithe Candy
+Poliwag Candy
+Abra Candy
+Machop Candy
+Bellsprout Candy
+Tentacool Candy
+Geodude Candy
+Ponyta Candy
+Slowpoke Candy
+Magnemite Candy
+Farfetch’d Candy
+Doduo Candy
+Seel Candy
+Grimer Candy
+Shellder Candy
+Gastly Candy
+Onix Candy
+Drowzee Candy
+Krabby Candy
+Voltorb Candy
+Exeggcute Candy
+Cubone Candy
+Hitmonlee Candy
+Hitmonchan Candy
+Lickitung Candy
+Koffing Candy
+Rhyhorn Candy
+Chansey Candy
+Tangela Candy
+Kangaskhan Candy
+Horsea Candy
+Goldeen Candy
+Staryu Candy
+Mr. Mime Candy
+Scyther Candy
+Jynx Candy
+Electabuzz Candy
+Pinsir Candy
+Tauros Candy
+Magikarp Candy
+Lapras Candy
+Ditto Candy
+Eevee Candy
+Porygon Candy
+Omanyte Candy
+Kabuto Candy
+Aerodactyl Candy
+Snorlax Candy
+Articuno Candy
+Zapdos Candy
+Moltres Candy
+Dratini Candy
+Mewtwo Candy
+Mew Candy
+Meltan Candy
+Magmar Candy

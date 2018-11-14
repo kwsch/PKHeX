@@ -480,7 +480,7 @@ namespace PKHeX.WinForms
 
             if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
             {
-                settings.SearchEgg = CHK_Shiny.CheckState == CheckState.Checked;
+                settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;
                 if (int.TryParse(MT_ESV.Text, out int esv))
                     settings.ESV = esv;
             }

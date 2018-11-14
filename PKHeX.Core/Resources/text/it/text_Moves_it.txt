@@ -1,4 +1,4 @@
------
+﻿-----
 Botta
 Colpokarate
 Doppiasberla
@@ -727,3 +727,17 @@ Deflagrazione Lunare
 Dolcesacco di Botte
 Litotempesta Radiale
 Dracofonia Divampante
+Sprintaboom
+Surfasplash
+Piombaflap
+Pikasaetta
+Bollaslurp
+Elettrozap
+Fiammabam
+Auraswoosh
+Zona Buiabuia
+Bombafrush
+Scricchiagelo
+Sbrilluccibufera
+Eeveempatto
+Pugni Corazzati

@@ -1,4 +1,4 @@
-Kein
+﻿Kein
 Meisterball
 Hyperball
 Superball
@@ -108,25 +108,25 @@ Steinknochen
 Leuchtstein
 Finsterstein
 Funkelstein
-Ovaler Stein
+Ovalen Stein
 Spiritkern
 Platinum-Orb
+Tee
 ???
-???
-???
+Autogramm
 Aquamodul
 Blitzmodul
 Flammenmodul
 Gefriermodul
 ???
-???
-???
-???
-???
-???
-???
-???
-???
+Pokémon-Box
+Medizintasche
+TM-Box
+Bonbonglas
+Stärkungstasche
+Klamottenkoffer
+Fangtasche
+Kampftasche
 ???
 ???
 ???
@@ -258,11 +258,11 @@ Lucky Punch
 Metallstaub
 Kampfknochen
 Lauchstange
-Roter Schal
-Blauer Schal
+Roten Schal
+Blauen Schal
 Rosa Schal
-Grüner Schal
-Gelber Schal
+Grünen Schal
+Gelben Schal
 Großlinse
 Muskelband
 Schlauglas
@@ -465,7 +465,7 @@ Lagerschlüssel
 Geheimtrank
 Kampfkamera
 Gracidea
-?-Öffner
+Geheimschlüssel
 Aprikokobox
 Icognitoheft
 Pflanzset
@@ -473,7 +473,7 @@ Itemradar
 Blaue Karte
 Flegmon-Rute
 Klarglocke
-Türöffner
+Schlüsselkarte
 Kelleröffner
 Schiggykanne
 Rote Haut
@@ -532,8 +532,8 @@ Datenkarte26
 Datenkarte27
 Grüne Kugel
 Tresorkapsel
-Roter Edelstein
-Blauer Edelstein
+Roten Edelstein
+Blauen Edelstein
 Mytokristall
 Schönschuppe
 Evolith
@@ -582,11 +582,11 @@ Duftpilz
 Riesennugget
 Triperle
 Kometstück
-Alter Heller
-Alter Taler
-Alter Dukat
+Alten Heller
+Alten Taler
+Alten Dukaten
 Alte Vase
-Alter Reif
+Alten Reif
 Alte Statue
 Alte Krone
 Stratos-Eis
@@ -633,7 +633,7 @@ Ovalpin
 Schillerpin
 Plasmakarte
 Schnäuztuch
-Achromat
+Achromaten
 Fundsache
 Fundsache
 Wahrspiegel
@@ -695,8 +695,8 @@ TM99
 TM100
 Kraftwerks-Pass
 Mega-Ring
-Kurioser Stein
-Normaler Stein
+Kuriosen Stein
+Normalen Stein
 Rabattmarke
 Liftschlüssel
 TMV-Pass
@@ -851,57 +851,57 @@ Eisstein
 PokéMobil-Funk
 Ultraball
 Maxi-Malasada
-Roter Nektar
-Gelber Nektar
+Roten Nektar
+Gelben Nektar
 Rosa Nektar
-Purpurner Nektar
+Purpurnen Nektar
 Sonnenflöte
 Mondflöte
 ???
 Seltsame Karte
+Silberne Himmihbeere
+Goldene Himmihbeere
+Silberne Nanabbeere
+Goldene Nanabbeere
+Silberne Sananabeere
+Goldene Sananabeere
 ???
 ???
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Geheimschlüssel
+Bootsticket
+Silph Scope
+Paket
+Schlüsselkarte
+Goldenes Gebiss
+Aufzugsschlüssel
 Feldbeschichtung
 Schutzpolster
 Elektro-Samen
 Psycho-Samen
 Nebel-Samen
 Gras-Samen
+Spiralfeder
+Kreidestein
+Glasmurmel
+Ohrring
+Strandscherbe
+Goldblatt
+Silberblatt
+Glanzkugel
+Tropenmuschel
+Blattbrief
+Blattbrief
+Ministrauß
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Lockparfüm
+Super-Lockparfüm
+Top-Lockparfüm
+Marmoria-Kräcker
 Kampf-Disc
 Flug-Disc
 Gift-Disc
@@ -958,3 +958,101 @@ KP-Bon
 AP-Bon
 Statuswertebon
 Fangbon
+Energiebonbon
+Stärkebonbon
+Robustbonbon
+Gripsbonbon
+Mentalbonbon
+Flottbonbon
+Energiebonbon+
+Stärkebonbon+
+Robustbonbon+
+Gripsbonbon+
+Mentalbonbon+
+Flottbonbon+
+Energiebonbon++
+Stärkebonbon++
+Robustbonbon++
+Gripsbonbon++
+Mentalbonbon++
+Flottbonbon++
+Bisasam-Bonbon
+Glumanda-Bonbon
+Schiggy-Bonbon
+Raupy-Bonbon
+Hornliu-Bonbon
+Taubsi-Bonbon
+Rattfratz-Bonbon
+Habitak-Bonbon
+Rettan-Bonbon
+Pikachu-Bonbon
+Sandan-Bonbon
+Nidoran♀-Bonbon
+Nidoran♂-Bonbon
+Piepi-Bonbon
+Vulpix-Bonbon
+Pummeluff-Bonbon
+Zubat-Bonbon
+Myrapla-Bonbon
+Paras-Bonbon
+Bluzuk-Bonbon
+Digda-Bonbon
+Mauzi-Bonbon
+Enton-Bonbon
+Menki-Bonbon
+Fukano-Bonbon
+Quapsel-Bonbon
+Abra-Bonbon
+Machollo-Bonbon
+Knofensa-Bonbon
+Tentacha-Bonbon
+Kleinstein-Bonbon
+Ponita-Bonbon
+Flegmon-Bonbon
+Magnetilo-Bonbon
+Porenta-Bonbon
+Dodu-Bonbon
+Jurob-Bonbon
+Sleima-Bonbon
+Muschas-Bonbon
+Nebulak-Bonbon
+Onix-Bonbon
+Traumato-Bonbon
+Krabby-Bonbon
+Voltobal-Bonbon
+Owei-Bonbon
+Tragosso-Bonbon
+Kicklee-Bonbon
+Nockchan-Bonbon
+Schlurp-Bonbon
+Smogon-Bonbon
+Rihorn-Bonbon
+Chaneira-Bonbon
+Tangela-Bonbon
+Kangama-Bonbon
+Seeper-Bonbon
+Goldini-Bonbon
+Sterndu-Bonbon
+Pantimos-Bonbon
+Sichlor-Bonbon
+Rossana-Bonbon
+Elektek-Bonbon
+Pinsir-Bonbon
+Tauros-Bonbon
+Karpador-Bonbon
+Lapras-Bonbon
+Ditto-Bonbon
+Evoli-Bonbon
+Porygon-Bonbon
+Amonitas-Bonbon
+Kabuto-Bonbon
+Aerodactyl-Bonbon
+Relaxo-Bonbon
+Arktos-Bonbon
+Zapdos-Bonbon
+Lavados-Bonbon
+Dratini-Bonbon
+Mewtu-Bonbon
+Mew-Bonbon
+Meltan-Bonbon
+Magmar-Bonbon
