@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using PKHeX.Core;
+using System.IO;
 using Xunit;
 
 namespace PKHeX.Tests.Saves
@@ -8,7 +9,7 @@ namespace PKHeX.Tests.Saves
     {
         private SAV7 GetSave()
         {
-            return new SAV7(Core.Tests.Properties.Resources.SM_Project_802);
+            return new SAV7(File.ReadAllBytes("TestData/SM Project 802.main"));
         }
 
         [Fact]

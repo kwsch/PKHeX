@@ -12,7 +12,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKMConverter
     {
-        public static ITrainerInfo Trainer { private get; set; } = new SimpleTrainerInfo();
+        public static ITrainerInfo Trainer { get; set; } = new SimpleTrainerInfo();
         public static int Country => Trainer.Country;
         public static int Region => Trainer.SubRegion;
         public static int ConsoleRegion => Trainer.ConsoleRegion;
