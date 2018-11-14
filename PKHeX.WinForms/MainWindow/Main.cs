@@ -106,7 +106,7 @@ namespace PKHeX.WinForms
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
-        private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
+        private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/version.txt";
 
         #endregion
 
@@ -238,7 +238,7 @@ namespace PKHeX.WinForms
         private void FormLoadCheckForUpdates()
         {
             L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
-            new Task(() =>
+            Task.Run(() =>
             {
                 string data = NetUtil.GetStringFromURL(VersionPath);
                 if (data == null)
@@ -251,7 +251,7 @@ namespace PKHeX.WinForms
                     L_UpdateAvailable.Visible = true;
                     L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {upd:d}";
                 }));
-            }).Start();
+            });
         }
 
         private void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
@@ -282,7 +282,7 @@ namespace PKHeX.WinForms
             if (!Settings.BAKPrompt)
                 BAKprompt = Settings.BAKPrompt = true;
 
-            Settings.Version = Resources.ProgramVersion;
+            Settings.Version = CurrentProgramVersion.ToString();
         }
 
         private void FormLoadPlugins()

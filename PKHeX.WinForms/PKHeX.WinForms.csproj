@@ -1930,7 +1930,6 @@
     <EmbeddedResource Include="Resources\byte\fashion_m_sm_illegal" />
     <None Include="Resources\text\shortcuts.txt" />
     <None Include="Resources\text\changelog.txt" />
-    <None Include="Resources\text\version.txt" />
     <EmbeddedResource Include="Resources\byte\PGLDings-NormalRegular.ttf" />
     <None Include="Resources\icon.ico" />
     <None Include="Resources\img\warn.png" />

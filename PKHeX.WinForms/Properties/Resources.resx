@@ -5926,9 +5926,6 @@
   <data name="pgldings_normalregular" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\PGLDings-NormalRegular.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ProgramVersion" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\version.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="changelog" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\changelog.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

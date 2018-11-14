@@ -9,13 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.md = LICENSE.md
 		README.md = README.md
+		version.txt = version.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.WinForms", "PKHeX.WinForms\PKHeX.WinForms.csproj", "{D1B91861-A448-4762-A313-C7BC179F4415}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Core", "PKHeX.Core\PKHeX.Core.csproj", "{279E59F2-50EA-475D-8BA4-FA69F0578C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.Core.Tests", "Tests\PKHeX.Core.Tests\PKHeX.Core.Tests.csproj", "{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Core.Tests", "Tests\PKHeX.Core.Tests\PKHeX.Core.Tests.csproj", "{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
