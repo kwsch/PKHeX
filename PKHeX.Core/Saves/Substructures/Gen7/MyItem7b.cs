@@ -24,7 +24,7 @@ namespace PKHeX.Core
                     new InventoryPouch7b(InventoryType.Items, Legal.Pouch_Regular_GG, 999, Key, PouchSize7b.Items),
                     new InventoryPouch7b(InventoryType.BattleItems, Legal.Pouch_Battle_GG, 999, Battle, PouchSize7b.Battle),
                     new InventoryPouch7b(InventoryType.ZCrystals, Legal.Pouch_PowerUp_GG, 999, PowerUp, PouchSize7b.PowerUp),
-                    new InventoryPouch7b(InventoryType.FreeSpace, Legal.Pouch_Candy_GG, 999, Candy, PouchSize7b.Candy),
+                    new InventoryPouch7b(InventoryType.Candy, Legal.Pouch_Candy_GG, 999, Candy, PouchSize7b.Candy),
                 };
                 foreach (var p in pouch)
                     p.GetPouch(Data);
