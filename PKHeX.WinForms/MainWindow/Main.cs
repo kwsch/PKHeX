@@ -365,6 +365,14 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath));
         }
 
+        private void Menu_EncDatabase_Click(object sender, EventArgs e)
+        {
+            if (this.FirstFormOfType<SAV_Encounters>() is SAV_Encounters z)
+            { z.CenterToForm(this); z.BringToFront(); return; }
+
+            new SAV_Encounters(PKME_Tabs).Show();
+        }
+
         private void MainMenuMysteryDB(object sender, EventArgs e)
         {
             if (this.FirstFormOfType<SAV_MysteryGiftDB>() is SAV_MysteryGiftDB z)

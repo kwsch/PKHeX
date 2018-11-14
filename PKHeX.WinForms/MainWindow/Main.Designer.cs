@@ -66,6 +66,7 @@
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
             this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
+            this.Menu_EncDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
@@ -233,6 +234,7 @@
             this.Menu_Report,
             this.Menu_Database,
             this.Menu_MGDatabase,
+            this.Menu_EncDatabase,
             this.Menu_BatchEditor});
             this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
             this.Menu_Data.Name = "Menu_Data";
@@ -451,6 +453,16 @@
             this.PKME_Tabs.RequestShowdownExport += new System.EventHandler(this.PKME_Tabs_RequestShowdownExport);
             this.PKME_Tabs.SaveFileRequested += new PKHeX.WinForms.Controls.PKMEditor.ReturnSAVEventHandler(this.PKME_Tabs_SaveFileRequested);
             // 
+            // Menu_EncDatabase
+            // 
+            this.Menu_EncDatabase.Image = global::PKHeX.WinForms.Properties.Resources.users;
+            this.Menu_EncDatabase.Name = "Menu_EncDatabase";
+            this.Menu_EncDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.Menu_EncDatabase.ShowShortcutKeys = false;
+            this.Menu_EncDatabase.Size = new System.Drawing.Size(182, 22);
+            this.Menu_EncDatabase.Text = "E&ncounter Database";
+            this.Menu_EncDatabase.Click += new System.EventHandler(this.Menu_EncDatabase_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -520,6 +532,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Redo;
         private System.Windows.Forms.ToolStripMenuItem Menu_Settings;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportCurrentBox;
+        private System.Windows.Forms.ToolStripMenuItem Menu_EncDatabase;
     }
 }
 
