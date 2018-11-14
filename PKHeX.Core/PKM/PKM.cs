@@ -795,7 +795,7 @@ namespace PKHeX.Core
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
         private int GetBasePP(int move)
         {
-            var pptable = Legal.GetPPTable(Format);
+            var pptable = Legal.GetPPTable(this, Format);
             if (move >= pptable.Count)
                 move = 0;
             return pptable[move];

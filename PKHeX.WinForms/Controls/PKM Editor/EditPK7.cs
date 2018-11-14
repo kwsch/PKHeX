@@ -47,5 +47,51 @@ namespace PKHeX.WinForms.Controls
             pk7.RefreshChecksum();
             return pk7;
         }
+
+        private void PopulateFieldsPB7()
+        {
+            if (!(pkm is PB7 pk7))
+                return;
+
+            LoadMisc1(pk7);
+            LoadMisc2(pk7);
+            LoadMisc3(pk7);
+            LoadMisc4(pk7);
+            LoadMisc6(pk7);
+            LoadAVs(pk7);
+            SizeCP.LoadPKM(pk7);
+
+            LoadPartyStats(pk7);
+            UpdateStats();
+        }
+
+        private PKM PreparePB7()
+        {
+            if (!(pkm is PB7 pk7))
+                return null;
+
+            CheckTransferPIDValid();
+            SaveMisc1(pk7);
+            SaveMisc2(pk7);
+            SaveMisc3(pk7);
+            SaveMisc4(pk7);
+            SaveMisc6(pk7);
+
+            // Toss in Party Stats
+            SavePartyStats(pk7);
+
+            if (pk7.Stat_CP == 0)
+                pk7.ResetCP();
+
+            // heal values to original
+            pk7.FieldEventFatigue1 = pk7.FieldEventFatigue2 = 100;
+
+            pk7.FixMoves();
+            pk7.FixRelearn();
+            if (ModifyPKM)
+                pk7.FixMemories();
+            pk7.RefreshChecksum();
+            return pk7;
+        }
     }
 }
