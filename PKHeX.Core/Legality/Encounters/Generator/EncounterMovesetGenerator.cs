@@ -100,7 +100,7 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
             pk.Version = (int)version;
-            var et = EvolutionTree.GetEvolutionTree(PKX.Generation);
+            var et = EvolutionTree.GetEvolutionTree(pk, PKX.Generation);
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, dl);
 

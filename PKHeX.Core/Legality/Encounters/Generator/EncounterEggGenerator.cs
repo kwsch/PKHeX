@@ -9,7 +9,7 @@ namespace PKHeX.Core
         // EncounterEgg
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
-            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
+            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
             int maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm.GenNumber);
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
             return GenerateEggs(pkm, evos, all);
