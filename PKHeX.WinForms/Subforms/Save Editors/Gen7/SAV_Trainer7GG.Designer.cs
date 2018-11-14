@@ -63,12 +63,9 @@
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
-            this.CHK_UnlockZMove = new System.Windows.Forms.CheckBox();
-            this.CHK_UnlockMega = new System.Windows.Forms.CheckBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Adventure.SuspendLayout();
-            this.Tab_Misc.SuspendLayout();
             this.SuspendLayout();
             //
             // B_Cancel
@@ -384,8 +381,6 @@
             //
             // Tab_Misc
             //
-            this.Tab_Misc.Controls.Add(this.CHK_UnlockZMove);
-            this.Tab_Misc.Controls.Add(this.CHK_UnlockMega);
             this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
             this.Tab_Misc.Name = "Tab_Misc";
             this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
@@ -393,26 +388,6 @@
             this.Tab_Misc.TabIndex = 4;
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
-            //
-            // CHK_UnlockZMove
-            //
-            this.CHK_UnlockZMove.AutoSize = true;
-            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 271);
-            this.CHK_UnlockZMove.Name = "CHK_UnlockZMove";
-            this.CHK_UnlockZMove.Size = new System.Drawing.Size(117, 17);
-            this.CHK_UnlockZMove.TabIndex = 73;
-            this.CHK_UnlockZMove.Text = "Unlocked Z-Moves";
-            this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
-            //
-            // CHK_UnlockMega
-            //
-            this.CHK_UnlockMega.AutoSize = true;
-            this.CHK_UnlockMega.Location = new System.Drawing.Point(6, 254);
-            this.CHK_UnlockMega.Name = "CHK_UnlockMega";
-            this.CHK_UnlockMega.Size = new System.Drawing.Size(149, 17);
-            this.CHK_UnlockMega.TabIndex = 72;
-            this.CHK_UnlockMega.Text = "Unlocked Mega Evolution";
-            this.CHK_UnlockMega.UseVisualStyleBackColor = true;
             //
             // SAV_Trainer7GG
             //
@@ -434,8 +409,6 @@
             this.Tab_Overview.PerformLayout();
             this.GB_Adventure.ResumeLayout(false);
             this.GB_Adventure.PerformLayout();
-            this.Tab_Misc.ResumeLayout(false);
-            this.Tab_Misc.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -473,8 +446,6 @@
         private System.Windows.Forms.TabPage Tab_Overview;
         private System.Windows.Forms.GroupBox GB_Adventure;
         private System.Windows.Forms.TabPage Tab_Misc;
-        private System.Windows.Forms.CheckBox CHK_UnlockMega;
-        private System.Windows.Forms.CheckBox CHK_UnlockZMove;
         private Controls.TrainerID trainerID1;
         private System.Windows.Forms.TextBox TB_RivalName;
         private System.Windows.Forms.Label L_RivalName;

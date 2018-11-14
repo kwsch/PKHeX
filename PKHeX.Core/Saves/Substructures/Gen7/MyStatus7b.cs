@@ -51,17 +51,5 @@ namespace PKHeX.Core
             get => SAV.GetString(Offset + 0x38, 0x1A);
             set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x38);
         }
-
-        public bool MegaUnlocked
-        {
-            get => (Data[Offset + 0x6D] & 0x01) != 0;
-            set => Data[Offset + 0x6D] = (byte)((Data[Offset + 0x6D] & 0xFE) | (value ? 1 : 0)); // in battle
-        }
-
-        public bool ZMoveUnlocked
-        {
-            get => (Data[Offset + 0x6D] & 2) != 0;
-            set => Data[Offset + 0x6D] = (byte)((Data[Offset + 0x6D] & ~2) | (value ? 2 : 0)); // in battle
-        }
     }
 }

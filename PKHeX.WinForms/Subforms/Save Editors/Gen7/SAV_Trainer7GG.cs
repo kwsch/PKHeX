@@ -54,9 +54,6 @@ namespace PKHeX.WinForms
             MT_Hours.Text = SAV.PlayedHours.ToString();
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
-
-            CHK_UnlockMega.Checked = SAV.Status.MegaUnlocked;
-            CHK_UnlockZMove.Checked = SAV.Status.ZMoveUnlocked;
         }
 
         private void Save()
@@ -74,9 +71,6 @@ namespace PKHeX.WinForms
 
             SAV.OT = TB_OTName.Text;
             SAV.Misc.Rival = TB_RivalName.Text;
-
-            SAV.Status.MegaUnlocked = CHK_UnlockMega.Checked;
-            SAV.Status.ZMoveUnlocked = CHK_UnlockZMove.Checked;
 
             // Save PlayTime
             SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
