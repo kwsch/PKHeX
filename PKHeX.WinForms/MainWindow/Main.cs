@@ -241,7 +241,7 @@ namespace PKHeX.WinForms
                 string data = NetUtil.GetStringFromURL(VersionPath);
                 if (data == null)
                     return;
-                if (int.TryParse(data, out var upd) && int.TryParse(Resources.ProgramVersion, out var cur) && upd <= cur)
+                if (Version.TryParse(data, out var upd) && Version.TryParse(Resources.ProgramVersion, out var cur) && upd <= cur)
                     return;
 
                 Invoke((MethodInvoker)(() =>
@@ -272,8 +272,8 @@ namespace PKHeX.WinForms
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
-                int.TryParse(Settings.Version, out int lastrev);
-                int.TryParse(Resources.ProgramVersion, out int currrev);
+                Version.TryParse(Settings.Version, out Version lastrev);
+                Version.TryParse(Resources.ProgramVersion, out Version currrev);
                 showChangelog = lastrev < currrev;
             }
 
@@ -754,7 +754,7 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle()
         {
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(4);
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
             return $"PKH{(HaX ? "a" : "e")}X ({version})";
         }
 
