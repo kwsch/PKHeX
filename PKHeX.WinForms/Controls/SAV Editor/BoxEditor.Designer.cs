@@ -142,6 +142,7 @@
             this.bpkx30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx30.TabIndex = 59;
             this.bpkx30.TabStop = false;
+            this.bpkx30.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx29
             // 
@@ -152,6 +153,7 @@
             this.bpkx29.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx29.TabIndex = 58;
             this.bpkx29.TabStop = false;
+            this.bpkx29.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx28
             // 
@@ -162,6 +164,7 @@
             this.bpkx28.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx28.TabIndex = 57;
             this.bpkx28.TabStop = false;
+            this.bpkx28.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx27
             // 
@@ -172,6 +175,7 @@
             this.bpkx27.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx27.TabIndex = 56;
             this.bpkx27.TabStop = false;
+            this.bpkx27.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx26
             // 
@@ -182,6 +186,7 @@
             this.bpkx26.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx26.TabIndex = 55;
             this.bpkx26.TabStop = false;
+            this.bpkx26.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx25
             // 
@@ -192,6 +197,7 @@
             this.bpkx25.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx25.TabIndex = 54;
             this.bpkx25.TabStop = false;
+            this.bpkx25.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx24
             // 
@@ -202,6 +208,7 @@
             this.bpkx24.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx24.TabIndex = 53;
             this.bpkx24.TabStop = false;
+            this.bpkx24.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx23
             // 
@@ -212,6 +219,7 @@
             this.bpkx23.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx23.TabIndex = 52;
             this.bpkx23.TabStop = false;
+            this.bpkx23.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx22
             // 
@@ -222,6 +230,7 @@
             this.bpkx22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx22.TabIndex = 51;
             this.bpkx22.TabStop = false;
+            this.bpkx22.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx21
             // 
@@ -232,6 +241,7 @@
             this.bpkx21.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx21.TabIndex = 50;
             this.bpkx21.TabStop = false;
+            this.bpkx21.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx20
             // 
@@ -242,6 +252,7 @@
             this.bpkx20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx20.TabIndex = 49;
             this.bpkx20.TabStop = false;
+            this.bpkx20.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx19
             // 
@@ -252,6 +263,7 @@
             this.bpkx19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx19.TabIndex = 48;
             this.bpkx19.TabStop = false;
+            this.bpkx19.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx18
             // 
@@ -262,6 +274,7 @@
             this.bpkx18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx18.TabIndex = 47;
             this.bpkx18.TabStop = false;
+            this.bpkx18.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx17
             // 
@@ -272,6 +285,7 @@
             this.bpkx17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx17.TabIndex = 46;
             this.bpkx17.TabStop = false;
+            this.bpkx17.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx16
             // 
@@ -282,6 +296,7 @@
             this.bpkx16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx16.TabIndex = 45;
             this.bpkx16.TabStop = false;
+            this.bpkx16.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx15
             // 
@@ -292,6 +307,7 @@
             this.bpkx15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx15.TabIndex = 44;
             this.bpkx15.TabStop = false;
+            this.bpkx15.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx14
             // 
@@ -302,6 +318,7 @@
             this.bpkx14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx14.TabIndex = 43;
             this.bpkx14.TabStop = false;
+            this.bpkx14.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx13
             // 
@@ -312,6 +329,7 @@
             this.bpkx13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx13.TabIndex = 42;
             this.bpkx13.TabStop = false;
+            this.bpkx13.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx12
             // 
@@ -322,6 +340,7 @@
             this.bpkx12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx12.TabIndex = 41;
             this.bpkx12.TabStop = false;
+            this.bpkx12.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx11
             // 
@@ -332,6 +351,7 @@
             this.bpkx11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx11.TabIndex = 40;
             this.bpkx11.TabStop = false;
+            this.bpkx11.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx10
             // 
@@ -342,6 +362,7 @@
             this.bpkx10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx10.TabIndex = 39;
             this.bpkx10.TabStop = false;
+            this.bpkx10.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx9
             // 
@@ -352,6 +373,7 @@
             this.bpkx9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx9.TabIndex = 38;
             this.bpkx9.TabStop = false;
+            this.bpkx9.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx8
             // 
@@ -362,6 +384,7 @@
             this.bpkx8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx8.TabIndex = 37;
             this.bpkx8.TabStop = false;
+            this.bpkx8.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx7
             // 
@@ -372,6 +395,7 @@
             this.bpkx7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx7.TabIndex = 36;
             this.bpkx7.TabStop = false;
+            this.bpkx7.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx6
             // 
@@ -382,6 +406,7 @@
             this.bpkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx6.TabIndex = 35;
             this.bpkx6.TabStop = false;
+            this.bpkx6.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx5
             // 
@@ -392,6 +417,7 @@
             this.bpkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx5.TabIndex = 34;
             this.bpkx5.TabStop = false;
+            this.bpkx5.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx4
             // 
@@ -402,6 +428,7 @@
             this.bpkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx4.TabIndex = 33;
             this.bpkx4.TabStop = false;
+            this.bpkx4.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx3
             // 
@@ -412,6 +439,7 @@
             this.bpkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx3.TabIndex = 32;
             this.bpkx3.TabStop = false;
+            this.bpkx3.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx2
             // 
@@ -422,6 +450,7 @@
             this.bpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx2.TabIndex = 31;
             this.bpkx2.TabStop = false;
+            this.bpkx2.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // bpkx1
             // 
@@ -432,6 +461,7 @@
             this.bpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx1.TabIndex = 30;
             this.bpkx1.TabStop = false;
+            this.bpkx1.DoubleClick += new System.EventHandler(this.CallView);
             // 
             // B_BoxRight
             // 

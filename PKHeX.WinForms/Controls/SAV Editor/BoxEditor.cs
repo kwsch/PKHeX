@@ -253,6 +253,12 @@ namespace PKHeX.WinForms.Controls
             SetSlotFiller(p, box, slot, pb);
         }
 
+        private void CallView(object sender, EventArgs e)
+        {
+            ContextMenuSAV menuSAV = new ContextMenuSAV();
+            menuSAV.ClickView(sender, e);
+        }
+
         // Drag & Drop Handling
         private void BoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);
         private void BoxSlot_MouseLeave(object sender, EventArgs e) => M?.MouseLeave(sender, e);

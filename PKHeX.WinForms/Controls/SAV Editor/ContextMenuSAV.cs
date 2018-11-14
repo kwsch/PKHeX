@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private void ClickView(object sender, EventArgs e)
+        public void ClickView(object sender, EventArgs e)
         {
             var m = GetSenderInfo(ref sender, out SlotChange info);
             if (m == null)
