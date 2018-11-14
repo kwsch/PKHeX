@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -753,13 +754,8 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle()
         {
-#if DEBUG
-            var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string date = $"d-{d:yyyyMMdd}";
-#else
-            string date = Resources.ProgramVersion;
-#endif
-            return $"PKH{(HaX ? "a" : "e")}X ({date})";
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString(4);
+            return $"PKH{(HaX ? "a" : "e")}X ({version})";
         }
 
         private static string GetProgramTitle(SaveFile sav)
