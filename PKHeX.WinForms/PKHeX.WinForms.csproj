@@ -836,6 +836,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <Content Include="Resources\text\version.txt" />
     <None Include="Resources\img\Program\alphaZA.png" />
     <None Include="Resources\img\Program\alpaZA.png" />
     <None Include="Resources\img\Program\wand.png" />
