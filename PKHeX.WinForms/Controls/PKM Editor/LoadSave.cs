@@ -66,6 +66,7 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadIVs(PKM pk) => Stats.LoadIVs(pk.IVs);
         private void LoadEVs(PKM pk) => Stats.LoadEVs(pk.EVs);
+        private void LoadAVs(IAwakened a) => Stats.LoadAVs(a);
 
         private void LoadMoves(PKM pk)
         {
