@@ -221,7 +221,7 @@ namespace PKHeX.Core
                 case USUM:
                     return g2 == US || g2 == UM;
                 case GG:
-                    return g2 == GP || g2 == GE;
+                    return g2 == GP || g2 == GE || g2 == GO;
                 case Gen7:
                     return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
 

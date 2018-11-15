@@ -496,7 +496,6 @@ namespace PKHeX.Core
                 case GameVersion.US:
                 case GameVersion.UM:
 
-                case GameVersion.GO:
                 case GameVersion.RD:
                 case GameVersion.BU:
                 case GameVersion.GN:
@@ -509,6 +508,7 @@ namespace PKHeX.Core
 
                 case GameVersion.GP:
                 case GameVersion.GE:
+                case GameVersion.GO:
                     return MetGen7GG.Take(3).Concat(MetGen7GG.Skip(3).OrderByDescending(loc => loc.Value <= 54)).ToList(); // Pokémon League
             }
 

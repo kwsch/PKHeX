@@ -329,6 +329,7 @@ namespace PKHeX.Core
                 case GameVersion.GP:
                 case GameVersion.GE:
                 case GameVersion.GG:
+                case GameVersion.GO:
                     AddMachineGG(r, species, form);
                     return;
                 case GameVersion.SN:

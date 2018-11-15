@@ -186,7 +186,7 @@ namespace PKHeX.Core
         {
             switch (ver)
             {
-                case GP: case GE: case GG:
+                case GP: case GE: case GG: case GO:
                     return LearnGG.GetIsLevelUp(species, form, move);
 
                 case Any:
@@ -432,7 +432,7 @@ namespace PKHeX.Core
                 max = 100; // Move reminder can teach any level in movepool now!
             switch (ver)
             {
-                case GP: case GE: case GG:
+                case GP: case GE: case GG: case GO:
                     return LearnGG.AddMoves(moves, species, form, max);
 
                 case Any:

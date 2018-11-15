@@ -139,7 +139,7 @@
         #endregion
 
         /// <summary>
-        /// Pokémon Pokémon GO (Unused)
+        /// Pokémon GO (GO -> Lets Go transfers)
         /// </summary>
         GO = 34,
 
