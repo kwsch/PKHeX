@@ -63,9 +63,11 @@
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.B_ExportGoSummary = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Adventure.SuspendLayout();
+            this.Tab_Misc.SuspendLayout();
             this.SuspendLayout();
             //
             // B_Cancel
@@ -381,6 +383,7 @@
             //
             // Tab_Misc
             //
+            this.Tab_Misc.Controls.Add(this.B_ExportGoSummary);
             this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
             this.Tab_Misc.Name = "Tab_Misc";
             this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
@@ -388,6 +391,16 @@
             this.Tab_Misc.TabIndex = 4;
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
+            //
+            // B_ExportGoSummary
+            //
+            this.B_ExportGoSummary.Location = new System.Drawing.Point(6, 6);
+            this.B_ExportGoSummary.Name = "B_ExportGoSummary";
+            this.B_ExportGoSummary.Size = new System.Drawing.Size(131, 63);
+            this.B_ExportGoSummary.TabIndex = 0;
+            this.B_ExportGoSummary.Text = "Dump Summary of Go Park Entities";
+            this.B_ExportGoSummary.UseVisualStyleBackColor = true;
+            this.B_ExportGoSummary.Click += new System.EventHandler(this.B_ExportGoSummary_Click);
             //
             // SAV_Trainer7GG
             //
@@ -409,6 +422,7 @@
             this.Tab_Overview.PerformLayout();
             this.GB_Adventure.ResumeLayout(false);
             this.GB_Adventure.PerformLayout();
+            this.Tab_Misc.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -449,5 +463,6 @@
         private Controls.TrainerID trainerID1;
         private System.Windows.Forms.TextBox TB_RivalName;
         private System.Windows.Forms.Label L_RivalName;
+        private System.Windows.Forms.Button B_ExportGoSummary;
     }
 }

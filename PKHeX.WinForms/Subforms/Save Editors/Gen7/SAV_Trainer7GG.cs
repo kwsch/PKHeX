@@ -109,5 +109,15 @@ namespace PKHeX.WinForms
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
+
+        private void B_ExportGoSummary_Click(object sender, EventArgs e)
+        {
+            var block = new GoParkEntities(SAV);
+            var summary = block.DumpAll(GameInfo.Strings.Species).ToArray();
+            if (summary.Length == 0)
+                return;
+            Clipboard.SetText(string.Join(Environment.NewLine, summary));
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }
