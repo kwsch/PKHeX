@@ -503,6 +503,7 @@ namespace PKHeX.Core
 
                 case GameVersion.GP: return SlotsGP;
                 case GameVersion.GE: return SlotsGE;
+                case GameVersion.GO: return SlotsGO_GG;
 
                 default: return Enumerable.Empty<EncounterArea>();
             }

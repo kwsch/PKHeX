@@ -1,4 +1,6 @@
-﻿using static PKHeX.Core.EncounterUtil;
+﻿using System.Collections.Generic;
+using System.Linq;
+using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -7,6 +9,7 @@ namespace PKHeX.Core
         internal static readonly EncounterArea[] SlotsGP = GetEncounterTables(GameVersion.GP);
         internal static readonly EncounterArea[] SlotsGE = GetEncounterTables(GameVersion.GE);
         internal static readonly EncounterStatic[] StaticGP, StaticGE;
+        internal static readonly EncounterArea[] SlotsGO_GG = GetGoParkArea();
 
         static Encounters7b()
         {
@@ -77,5 +80,33 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 103, Level = 46, Form = 1, TrainerNames = T7, TID7 = 060310, OTGender = 0, Location = -1, IsNicknamed = false }, // Exeggutor
             new EncounterTrade { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Location = -1, IsNicknamed = false }, // Geodude
         };
+
+        private static EncounterArea[] GetGoParkArea()
+        {
+            var area = new EncounterArea { Location = 50 };
+            IEnumerable<EncounterSlot> GetAllSlot(int species)
+            {
+                yield return GetSlot(species, 0);
+                if (Legal.AlolanOriginForms.Contains(species) || Legal.EvolveToAlolanForms.Contains(species))
+                    yield return GetSlot(species, 1);
+            }
+
+            EncounterSlot GetSlot(int species, int form)
+            {
+                return new EncounterSlot
+                {
+                    Area = area,
+                    Generation = 7,
+                    Species = species,
+                    LevelMin = 2, // todo
+                    LevelMax = 60, // todo
+                    Form = form,
+                    Type = SlotType.GoPark,
+                    Version = GameVersion.GO,
+                };
+            }
+            area.Slots = Enumerable.Range(1, 149).Concat(Enumerable.Range(808, 2)).SelectMany(GetAllSlot).ToArray();
+            return new[] {area};
+        }
     }
 }
