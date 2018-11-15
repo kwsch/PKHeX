@@ -716,6 +716,9 @@ namespace PKHeX.WinForms.Controls
         public bool ExportSaveFile()
         {
             ValidateChildren();
+            bool reload = SAV is SAV7b b && b.FixPreWrite();
+            if (reload)
+                ReloadSlots();
             return WinFormsUtil.SaveSAVDialog(SAV, SAV.CurrentBox);
         }
 

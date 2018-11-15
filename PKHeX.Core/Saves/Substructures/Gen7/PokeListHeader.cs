@@ -79,7 +79,7 @@ namespace PKHeX.Core
             get => PokeListInfo[FOLLOW];
             set
             {
-                if ((ushort)value > 1000)
+                if ((ushort)value > 1000 && value != SLOT_EMPTY)
                     throw new ArgumentException(nameof(value));
                 PokeListInfo[FOLLOW] = (ushort)value;
             }
