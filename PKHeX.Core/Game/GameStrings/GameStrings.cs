@@ -183,8 +183,17 @@ namespace PKHeX.Core
             itemlist[842] += " (SM)"; // Fishing Rod
             itemlist[945] += " (2)"; // Used Solarizer
             itemlist[946] += " (2)"; // Used Lunarizer
-            itemlist[894] += " (P)"; // Leaf Letter
-            itemlist[895] += " (E)"; // Leaf Letter
+
+            itemlist[873] += " (GP/GE)"; // S.S. Ticket
+            itemlist[459] += " (HG/SS)"; // Parcel
+            itemlist[467] += " (Pt)"; // Secret Key
+            itemlist[475] += " (HG/SS)"; // Card Key
+            itemlist[894] += " (GP)"; // Leaf Letter
+            itemlist[895] += " (GE)"; // Leaf Letter
+
+            // some languages have same names for other items!
+            itemlist[878] += " (GP/GE)"; // Lift Key (Elevator Key=700)
+            itemlist[479] += " (HG/SS)"; // Lost Item (Dropped Item=636)
 
             // Append Z-Crystal flagging
             foreach (var i in Legal.Pouch_ZCrystal_USUM)
