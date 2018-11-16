@@ -257,6 +257,7 @@ namespace PKHeX.Core
         public static string LItemUnreleased { get; set; } = "Held item is unreleased.";
 
         public static string LIVAllEqual { get; set; } = "All IVs are equal.";
+        public static string LIVNotCorrect { get; set; } = "IVs do not match encounter requirements.";
         public static string LIVF_COUNT0_31 { get; set; } = "Should have at least {0} IVs = 31.";
 
         public static string LLevelEXPThreshold { get; set; } = "Current experience matches level threshold.";

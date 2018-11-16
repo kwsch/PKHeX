@@ -88,7 +88,6 @@ namespace PKHeX.Core
 
         private void VerifyIVsGen7(LegalityAnalysis data)
         {
-
             var pkm = data.pkm;
             if (pkm.GG)
             {
@@ -125,7 +124,7 @@ namespace PKHeX.Core
         private void VerifyIVsGoTransfer(LegalityAnalysis data)
         {
             if (!IsGoIVSetValid(data.pkm))
-                data.AddLine(GetInvalid(LEncGiftIVMismatch));
+                data.AddLine(GetInvalid(LIVNotCorrect));
         }
 
         private static bool IsGoIVSetValid(PKM pkm)
