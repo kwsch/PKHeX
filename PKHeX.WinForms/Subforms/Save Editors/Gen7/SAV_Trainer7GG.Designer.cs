@@ -63,6 +63,7 @@
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.Tab_Complex = new System.Windows.Forms.TabPage();
+            this.B_ExportGoFiles = new System.Windows.Forms.Button();
             this.L_GoSlotSummary = new System.Windows.Forms.Label();
             this.B_Import = new System.Windows.Forms.Button();
             this.B_Export = new System.Windows.Forms.Button();
@@ -389,6 +390,8 @@
             //
             // Tab_Complex
             //
+            this.Tab_Complex.AllowDrop = true;
+            this.Tab_Complex.Controls.Add(this.B_ExportGoFiles);
             this.Tab_Complex.Controls.Add(this.L_GoSlotSummary);
             this.Tab_Complex.Controls.Add(this.B_Import);
             this.Tab_Complex.Controls.Add(this.B_Export);
@@ -402,6 +405,18 @@
             this.Tab_Complex.TabIndex = 4;
             this.Tab_Complex.Text = "Go Complex";
             this.Tab_Complex.UseVisualStyleBackColor = true;
+            this.Tab_Complex.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
+            this.Tab_Complex.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
+            //
+            // B_ExportGoFiles
+            //
+            this.B_ExportGoFiles.Location = new System.Drawing.Point(6, 75);
+            this.B_ExportGoFiles.Name = "B_ExportGoFiles";
+            this.B_ExportGoFiles.Size = new System.Drawing.Size(131, 63);
+            this.B_ExportGoFiles.TabIndex = 6;
+            this.B_ExportGoFiles.Text = "Dump Individual Files of Go Park Entities";
+            this.B_ExportGoFiles.UseVisualStyleBackColor = true;
+            this.B_ExportGoFiles.Click += new System.EventHandler(this.B_ExportGoFiles_Click);
             //
             // L_GoSlotSummary
             //
@@ -460,12 +475,13 @@
             this.B_ExportGoSummary.Name = "B_ExportGoSummary";
             this.B_ExportGoSummary.Size = new System.Drawing.Size(131, 63);
             this.B_ExportGoSummary.TabIndex = 0;
-            this.B_ExportGoSummary.Text = "Dump Summary of Go Park Entities";
+            this.B_ExportGoSummary.Text = "Dump Text Summary of Go Park Entities";
             this.B_ExportGoSummary.UseVisualStyleBackColor = true;
             this.B_ExportGoSummary.Click += new System.EventHandler(this.B_ExportGoSummary_Click);
             //
             // SAV_Trainer7GG
             //
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(414, 366);
@@ -479,6 +495,8 @@
             this.Name = "SAV_Trainer7GG";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trainer Data Editor";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.TC_Editor.ResumeLayout(false);
             this.Tab_Overview.ResumeLayout(false);
             this.Tab_Overview.PerformLayout();
@@ -532,5 +550,6 @@
         private System.Windows.Forms.Button B_Import;
         private System.Windows.Forms.Button B_Export;
         private System.Windows.Forms.Label L_GoSlotSummary;
+        private System.Windows.Forms.Button B_ExportGoFiles;
     }
 }

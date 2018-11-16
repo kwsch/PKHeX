@@ -18,6 +18,8 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV7b)(Origin = sav).Clone();
             Park = new GoParkStorage(SAV);
+            UpdateGoSummary(0);
+
             if (Main.Unicode)
             {
                 try { TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont(11); }
@@ -28,7 +30,24 @@ namespace PKHeX.WinForms
 
             GetComboBoxes();
             LoadTrainerInfo();
+        }
 
+        // Drag & Drop Events
+        private void Main_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
+                e.Effect = DragDropEffects.Copy;
+            else if (e.Data != null) // within
+                e.Effect = DragDropEffects.Move;
+        }
+
+        private void Main_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files == null || files.Length == 0)
+                return;
+            ImportGP1From(files[0]);
+            e.Effect = DragDropEffects.Copy;
         }
 
         private void GetComboBoxes()
@@ -125,10 +144,26 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
+        private void B_ExportGoFiles_Click(object sender, EventArgs e)
+        {
+            var gofiles = Park.AllEntities.Where(z => z.Species != 0).ToArray();
+            if (gofiles.Length == 0)
+            {
+                WinFormsUtil.Alert("No entities present in Go Park to dump.");
+                return;
+            }
+            var fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var folder = fbd.SelectedPath;
+            foreach (var gpk in gofiles)
+                File.WriteAllBytes(Path.Combine(folder, gpk.FileName), gpk.Data);
+            WinFormsUtil.Alert($"Dumped {gofiles.Length} files to {folder}");
+        }
+
         private void B_Import_Click(object sender, EventArgs e)
         {
-            int index = (int)NUD_GoIndex.Value;
-            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
 
             var sfd = new OpenFileDialog
             {
@@ -141,13 +176,21 @@ namespace PKHeX.WinForms
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
-            var data = File.ReadAllBytes(sfd.FileName);
+            string path = sfd.FileName;
+            ImportGP1From(path);
+        }
+
+        private void ImportGP1From(string path)
+        {
+            var data = File.ReadAllBytes(path);
             if (data.Length != GP1.SIZE)
             {
                 WinFormsUtil.Error(MessageStrings.MsgFileLoadIncompatible);
                 return;
             }
 
+            int index = (int)NUD_GoIndex.Value;
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
             var gp1 = new GP1();
             data.CopyTo(gp1.Data);
             Park[index] = gp1;
