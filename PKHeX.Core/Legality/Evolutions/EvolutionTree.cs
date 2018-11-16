@@ -33,9 +33,8 @@ namespace PKHeX.Core
             Evolves4 = new EvolutionTree(new[] { get("g4") }, GameVersion.Gen4, PersonalTable.DP, Legal.MaxSpeciesID_4);
             Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.Gen5, PersonalTable.BW, Legal.MaxSpeciesID_5);
             Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
-            var uu = unpack("uu");
-            Evolves7 = new EvolutionTree(uu, GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
-            Evolves7b = new EvolutionTree(uu, GameVersion.Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
+            Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
+            Evolves7b = new EvolutionTree(unpack("gg"), GameVersion.Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
 
             // There's always oddballs.
             Evolves7.FixEvoTreeSM();
@@ -197,9 +196,6 @@ namespace PKHeX.Core
 
         private void FixEvoTreeGG()
         {
-            // Alolan Meowth now evolves at level 28 (not friendship). Copy from Meowth.
-            Lineage[Personal.GetFormeIndex(53, 1)] = Lineage[Personal.GetFormeIndex(53, 0)];
-
             // Ban Raichu Evolution on SM
             Lineage[Personal.GetFormeIndex(26, 0)]
                 .Chain[1].StageEntryMethods[0]

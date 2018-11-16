@@ -67,8 +67,8 @@
     <None Remove="Resources\byte\evos_g5.pkl" />
     <None Remove="Resources\byte\evos_gsc.pkl" />
     <None Remove="Resources\byte\evos_rby.pkl" />
-    <None Remove="Resources\byte\evos_sm.pkl" />
     <None Remove="Resources\byte\evos_uu.pkl" />
+    <None Remove="Resources\byte\evos_gg.pkl" />
     <None Remove="Resources\byte\hmtm_g3.pkl" />
     <None Remove="Resources\byte\lvlmove_ao.pkl" />
     <None Remove="Resources\byte\lvlmove_b2w2.pkl" />
@@ -799,8 +799,8 @@
     <EmbeddedResource Include="Resources\byte\evos_g5.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_gsc.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_rby.pkl" />
-    <EmbeddedResource Include="Resources\byte\evos_sm.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_uu.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_gg.pkl" />
     <EmbeddedResource Include="Resources\byte\hmtm_g3.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_ao.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_b2w2.pkl" />
