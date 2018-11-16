@@ -77,6 +77,11 @@ namespace PKHeX.Core
         public static string LAbilityMismatchSOS { get; set; } = "Hidden Ability on non-SOS wild encounter.";
         public static string LAbilityUnexpected { get; set; } = "Ability is not valid for species/form.";
 
+        public static string LAwakenedCap { get; set; } = "Individual AV cannot be greater than {0}.";
+        public static string LAwakenedShouldBeValue { get; set; } = "Individual AV should be greater than {0}.";
+        public static string LAwakenedShouldBeZero { get; set; } = "Cannot receive AVs.";
+        public static string LAwakenedEXPIncreased { get; set; } = "All AVs are zero, but leveled above Met Level.";
+
         public static string LBallAbility { get; set; } = "Can't obtain Hidden Ability with Ball.";
         public static string LBallEggCherish { get; set; } = "Can't have Cherish Ball for regular Egg.";
         public static string LBallEggMaster { get; set; } = "Can't have Master Ball for regular Egg.";
@@ -159,6 +164,7 @@ namespace PKHeX.Core
         public static string LEffortAllEqual { get; set; } = "EVs are all equal.";
         public static string LEffortCap100 { get; set; } = "Individual EV for a level 100 encounter in Generation 4 cannot be greater than 100.";
         public static string LEffortEgg { get; set; } = "Eggs cannot receive EVs.";
+        public static string LEffortShouldBeZero { get; set; } = "Cannot receive EVs.";
         public static string LEffortEXPIncreased { get; set; } = "All EVs are zero, but leveled above Met Level.";
         public static string LEffortUntrainedCap { get; set; } = "Individual EV without changing EXP cannot be greater than {0}.";
 
