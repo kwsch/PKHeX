@@ -116,7 +116,8 @@ namespace PKHeX.WinForms.Controls
                     t.Text = 0.ToString();
                 return;
             }
-            t.Text = Legal.AwakeningMax.ToString();
+            var max = Legal.AwakeningMax.ToString();
+            t.Text = t.Text == max ? 0.ToString() : max;
         }
 
         public void UpdateIVs(object sender, EventArgs e)
@@ -347,6 +348,27 @@ namespace PKHeX.WinForms.Controls
             LoadIVs(IVs);
         }
 
+        private void UpdateRandomAVs(object sender, EventArgs e)
+        {
+            if (!(pkm is IAwakened a))
+                return;
+
+            switch (ModifierKeys)
+            {
+                case Keys.Control:
+                    a.SetSuggestedAwakenedValues(pkm);
+                    break;
+                case Keys.Alt:
+                    a.AwakeningSetAllTo(0);
+                    break;
+                default:
+                    foreach (var index in Enumerable.Range(0, 6))
+                        a.SetAV(index, Util.Rand.Next(Legal.AwakeningMax + 1));
+                    break;
+            }
+            LoadAVs(a);
+        }
+
         public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
 
         private void UpdateCharacteristic(int characteristic)
@@ -480,7 +502,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             var showAV = pk is IAwakened;
-            Label_AVs.Visible = TB_AVTotal.Visible = showAV;
+            Label_AVs.Visible = TB_AVTotal.Visible = BTN_RandomAVs.Visible = showAV;
             foreach (var mtb in MT_AVs)
                 mtb.Visible = showAV;
             Label_EVs.Visible = TB_EVTotal.Visible = BTN_RandomEVs.Visible = !showAV;

@@ -36,6 +36,7 @@
             this.Label_Base = new System.Windows.Forms.Label();
             this.Label_IVs = new System.Windows.Forms.Label();
             this.Label_EVs = new System.Windows.Forms.Label();
+            this.Label_AVs = new System.Windows.Forms.Label();
             this.Label_Stats = new System.Windows.Forms.Label();
             this.FLP_HP = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HP = new System.Windows.Forms.Label();
@@ -43,6 +44,7 @@
             this.TB_BaseHP = new System.Windows.Forms.MaskedTextBox();
             this.TB_IVHP = new System.Windows.Forms.MaskedTextBox();
             this.TB_EVHP = new System.Windows.Forms.MaskedTextBox();
+            this.TB_AVHP = new System.Windows.Forms.MaskedTextBox();
             this.Stat_HP = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Atk = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_ATK = new System.Windows.Forms.Label();
@@ -50,6 +52,7 @@
             this.TB_BaseATK = new System.Windows.Forms.MaskedTextBox();
             this.TB_IVATK = new System.Windows.Forms.MaskedTextBox();
             this.TB_EVATK = new System.Windows.Forms.MaskedTextBox();
+            this.TB_AVATK = new System.Windows.Forms.MaskedTextBox();
             this.Stat_ATK = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Def = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_DEF = new System.Windows.Forms.Label();
@@ -57,6 +60,7 @@
             this.TB_BaseDEF = new System.Windows.Forms.MaskedTextBox();
             this.TB_IVDEF = new System.Windows.Forms.MaskedTextBox();
             this.TB_EVDEF = new System.Windows.Forms.MaskedTextBox();
+            this.TB_AVDEF = new System.Windows.Forms.MaskedTextBox();
             this.Stat_DEF = new System.Windows.Forms.MaskedTextBox();
             this.FLP_SpA = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_SpALeft = new System.Windows.Forms.FlowLayoutPanel();
@@ -66,6 +70,7 @@
             this.TB_BaseSPA = new System.Windows.Forms.MaskedTextBox();
             this.TB_IVSPA = new System.Windows.Forms.MaskedTextBox();
             this.TB_EVSPA = new System.Windows.Forms.MaskedTextBox();
+            this.TB_AVSPA = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPA = new System.Windows.Forms.MaskedTextBox();
             this.FLP_SpD = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPD = new System.Windows.Forms.Label();
@@ -73,6 +78,7 @@
             this.TB_BaseSPD = new System.Windows.Forms.MaskedTextBox();
             this.TB_IVSPD = new System.Windows.Forms.MaskedTextBox();
             this.TB_EVSPD = new System.Windows.Forms.MaskedTextBox();
+            this.TB_AVSPD = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPD = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Spe = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_SPE = new System.Windows.Forms.Label();
@@ -80,6 +86,7 @@
             this.TB_BaseSPE = new System.Windows.Forms.MaskedTextBox();
             this.TB_IVSPE = new System.Windows.Forms.MaskedTextBox();
             this.TB_EVSPE = new System.Windows.Forms.MaskedTextBox();
+            this.TB_AVSPE = new System.Windows.Forms.MaskedTextBox();
             this.Stat_SPE = new System.Windows.Forms.MaskedTextBox();
             this.FLP_StatsTotal = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Total = new System.Windows.Forms.Label();
@@ -87,6 +94,7 @@
             this.TB_BST = new System.Windows.Forms.TextBox();
             this.TB_IVTotal = new System.Windows.Forms.TextBox();
             this.TB_EVTotal = new System.Windows.Forms.TextBox();
+            this.TB_AVTotal = new System.Windows.Forms.TextBox();
             this.L_Potential = new System.Windows.Forms.Label();
             this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
@@ -97,14 +105,7 @@
             this.PAN_BTN = new System.Windows.Forms.Panel();
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.BTN_RandomEVs = new System.Windows.Forms.Button();
-            this.Label_AVs = new System.Windows.Forms.Label();
-            this.TB_AVHP = new System.Windows.Forms.MaskedTextBox();
-            this.TB_AVATK = new System.Windows.Forms.MaskedTextBox();
-            this.TB_AVDEF = new System.Windows.Forms.MaskedTextBox();
-            this.TB_AVSPA = new System.Windows.Forms.MaskedTextBox();
-            this.TB_AVSPD = new System.Windows.Forms.MaskedTextBox();
-            this.TB_AVSPE = new System.Windows.Forms.MaskedTextBox();
-            this.TB_AVTotal = new System.Windows.Forms.TextBox();
+            this.BTN_RandomAVs = new System.Windows.Forms.Button();
             this.FLP_Stats.SuspendLayout();
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
@@ -228,6 +229,16 @@
             this.Label_EVs.Text = "EVs";
             this.Label_EVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // Label_AVs
+            // 
+            this.Label_AVs.Location = new System.Drawing.Point(99, 0);
+            this.Label_AVs.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_AVs.Name = "Label_AVs";
+            this.Label_AVs.Size = new System.Drawing.Size(35, 21);
+            this.Label_AVs.TabIndex = 31;
+            this.Label_AVs.Text = "AVs";
+            this.Label_AVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Label_Stats
             // 
             this.Label_Stats.Location = new System.Drawing.Point(134, 0);
@@ -314,6 +325,19 @@
             this.TB_EVHP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVHP.Click += new System.EventHandler(this.ClickEV);
             this.TB_EVHP.TextChanged += new System.EventHandler(this.UpdateEVs);
+            // 
+            // TB_AVHP
+            // 
+            this.TB_AVHP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVHP.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVHP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVHP.Mask = "000";
+            this.TB_AVHP.Name = "TB_AVHP";
+            this.TB_AVHP.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVHP.TabIndex = 47;
+            this.TB_AVHP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVHP.Click += new System.EventHandler(this.ClickAV);
+            this.TB_AVHP.TextChanged += new System.EventHandler(this.UpdateAVs);
             // 
             // Stat_HP
             // 
@@ -406,6 +430,19 @@
             this.TB_EVATK.Click += new System.EventHandler(this.ClickEV);
             this.TB_EVATK.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
+            // TB_AVATK
+            // 
+            this.TB_AVATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVATK.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVATK.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVATK.Mask = "000";
+            this.TB_AVATK.Name = "TB_AVATK";
+            this.TB_AVATK.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVATK.TabIndex = 48;
+            this.TB_AVATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVATK.Click += new System.EventHandler(this.ClickAV);
+            this.TB_AVATK.TextChanged += new System.EventHandler(this.UpdateAVs);
+            // 
             // Stat_ATK
             // 
             this.Stat_ATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -496,6 +533,19 @@
             this.TB_EVDEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVDEF.Click += new System.EventHandler(this.ClickEV);
             this.TB_EVDEF.TextChanged += new System.EventHandler(this.UpdateEVs);
+            // 
+            // TB_AVDEF
+            // 
+            this.TB_AVDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVDEF.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVDEF.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVDEF.Mask = "000";
+            this.TB_AVDEF.Name = "TB_AVDEF";
+            this.TB_AVDEF.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVDEF.TabIndex = 49;
+            this.TB_AVDEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVDEF.Click += new System.EventHandler(this.ClickAV);
+            this.TB_AVDEF.TextChanged += new System.EventHandler(this.UpdateAVs);
             // 
             // Stat_DEF
             // 
@@ -611,6 +661,19 @@
             this.TB_EVSPA.Click += new System.EventHandler(this.ClickEV);
             this.TB_EVSPA.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
+            // TB_AVSPA
+            // 
+            this.TB_AVSPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVSPA.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVSPA.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVSPA.Mask = "000";
+            this.TB_AVSPA.Name = "TB_AVSPA";
+            this.TB_AVSPA.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVSPA.TabIndex = 50;
+            this.TB_AVSPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVSPA.Click += new System.EventHandler(this.ClickAV);
+            this.TB_AVSPA.TextChanged += new System.EventHandler(this.UpdateAVs);
+            // 
             // Stat_SPA
             // 
             this.Stat_SPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -701,6 +764,19 @@
             this.TB_EVSPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVSPD.Click += new System.EventHandler(this.ClickEV);
             this.TB_EVSPD.TextChanged += new System.EventHandler(this.UpdateEVs);
+            // 
+            // TB_AVSPD
+            // 
+            this.TB_AVSPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVSPD.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVSPD.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVSPD.Mask = "000";
+            this.TB_AVSPD.Name = "TB_AVSPD";
+            this.TB_AVSPD.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVSPD.TabIndex = 51;
+            this.TB_AVSPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVSPD.Click += new System.EventHandler(this.ClickAV);
+            this.TB_AVSPD.TextChanged += new System.EventHandler(this.UpdateAVs);
             // 
             // Stat_SPD
             // 
@@ -793,6 +869,19 @@
             this.TB_EVSPE.Click += new System.EventHandler(this.ClickEV);
             this.TB_EVSPE.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
+            // TB_AVSPE
+            // 
+            this.TB_AVSPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVSPE.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVSPE.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVSPE.Mask = "000";
+            this.TB_AVSPE.Name = "TB_AVSPE";
+            this.TB_AVSPE.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVSPE.TabIndex = 52;
+            this.TB_AVSPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_AVSPE.Click += new System.EventHandler(this.ClickAV);
+            this.TB_AVSPE.TextChanged += new System.EventHandler(this.UpdateAVs);
+            // 
             // Stat_SPE
             // 
             this.Stat_SPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -882,6 +971,19 @@
             this.TB_EVTotal.TabStop = false;
             this.TB_EVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // TB_AVTotal
+            // 
+            this.TB_AVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_AVTotal.Location = new System.Drawing.Point(97, 0);
+            this.TB_AVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.TB_AVTotal.MaxLength = 3;
+            this.TB_AVTotal.Name = "TB_AVTotal";
+            this.TB_AVTotal.ReadOnly = true;
+            this.TB_AVTotal.Size = new System.Drawing.Size(28, 20);
+            this.TB_AVTotal.TabIndex = 44;
+            this.TB_AVTotal.TabStop = false;
+            this.TB_AVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // L_Potential
             // 
             this.L_Potential.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -961,6 +1063,7 @@
             // PAN_BTN
             // 
             this.PAN_BTN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.PAN_BTN.Controls.Add(this.BTN_RandomAVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
             this.PAN_BTN.Location = new System.Drawing.Point(3, 214);
@@ -988,101 +1091,15 @@
             this.BTN_RandomEVs.UseVisualStyleBackColor = true;
             this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
             // 
-            // Label_AVs
+            // BTN_RandomAVs
             // 
-            this.Label_AVs.Location = new System.Drawing.Point(99, 0);
-            this.Label_AVs.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_AVs.Name = "Label_AVs";
-            this.Label_AVs.Size = new System.Drawing.Size(35, 21);
-            this.Label_AVs.TabIndex = 31;
-            this.Label_AVs.Text = "AVs";
-            this.Label_AVs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // TB_AVHP
-            // 
-            this.TB_AVHP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVHP.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVHP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVHP.Mask = "000";
-            this.TB_AVHP.Name = "TB_AVHP";
-            this.TB_AVHP.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVHP.TabIndex = 47;
-            this.TB_AVHP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_AVHP.Click += new System.EventHandler(this.ClickAV);
-            this.TB_AVHP.TextChanged += new System.EventHandler(this.UpdateAVs);
-            // 
-            // TB_AVATK
-            // 
-            this.TB_AVATK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVATK.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVATK.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVATK.Mask = "000";
-            this.TB_AVATK.Name = "TB_AVATK";
-            this.TB_AVATK.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVATK.TabIndex = 48;
-            this.TB_AVATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_AVATK.TextChanged += new System.EventHandler(this.UpdateAVs);
-            // 
-            // TB_AVDEF
-            // 
-            this.TB_AVDEF.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVDEF.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVDEF.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVDEF.Mask = "000";
-            this.TB_AVDEF.Name = "TB_AVDEF";
-            this.TB_AVDEF.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVDEF.TabIndex = 49;
-            this.TB_AVDEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_AVDEF.TextChanged += new System.EventHandler(this.UpdateAVs);
-            // 
-            // TB_AVSPA
-            // 
-            this.TB_AVSPA.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVSPA.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVSPA.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVSPA.Mask = "000";
-            this.TB_AVSPA.Name = "TB_AVSPA";
-            this.TB_AVSPA.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVSPA.TabIndex = 50;
-            this.TB_AVSPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_AVSPA.TextChanged += new System.EventHandler(this.UpdateAVs);
-            // 
-            // TB_AVSPD
-            // 
-            this.TB_AVSPD.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVSPD.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVSPD.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVSPD.Mask = "000";
-            this.TB_AVSPD.Name = "TB_AVSPD";
-            this.TB_AVSPD.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVSPD.TabIndex = 51;
-            this.TB_AVSPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_AVSPD.TextChanged += new System.EventHandler(this.UpdateAVs);
-            // 
-            // TB_AVSPE
-            // 
-            this.TB_AVSPE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVSPE.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVSPE.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVSPE.Mask = "000";
-            this.TB_AVSPE.Name = "TB_AVSPE";
-            this.TB_AVSPE.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVSPE.TabIndex = 52;
-            this.TB_AVSPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_AVSPE.TextChanged += new System.EventHandler(this.UpdateAVs);
-            // 
-            // TB_AVTotal
-            // 
-            this.TB_AVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AVTotal.Location = new System.Drawing.Point(97, 0);
-            this.TB_AVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.TB_AVTotal.MaxLength = 3;
-            this.TB_AVTotal.Name = "TB_AVTotal";
-            this.TB_AVTotal.ReadOnly = true;
-            this.TB_AVTotal.Size = new System.Drawing.Size(28, 20);
-            this.TB_AVTotal.TabIndex = 44;
-            this.TB_AVTotal.TabStop = false;
-            this.TB_AVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.BTN_RandomAVs.Location = new System.Drawing.Point(137, 3);
+            this.BTN_RandomAVs.Name = "BTN_RandomAVs";
+            this.BTN_RandomAVs.Size = new System.Drawing.Size(92, 23);
+            this.BTN_RandomAVs.TabIndex = 106;
+            this.BTN_RandomAVs.Text = "Randomize AVs";
+            this.BTN_RandomAVs.UseVisualStyleBackColor = true;
+            this.BTN_RandomAVs.Click += new System.EventHandler(this.UpdateRandomAVs);
             // 
             // StatEditor
             // 
@@ -1202,5 +1219,6 @@
         private System.Windows.Forms.MaskedTextBox TB_AVSPD;
         private System.Windows.Forms.MaskedTextBox TB_AVSPE;
         private System.Windows.Forms.TextBox TB_AVTotal;
+        private System.Windows.Forms.Button BTN_RandomAVs;
     }
 }
