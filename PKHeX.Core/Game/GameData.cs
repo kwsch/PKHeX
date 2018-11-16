@@ -45,6 +45,7 @@ namespace PKHeX.Core
             { GameVersion.MN, Legal.LevelUpSM },
             { GameVersion.US, Legal.LevelUpUSUM },
             { GameVersion.UM, Legal.LevelUpUSUM },
+            { GameVersion.GO, Legal.LevelUpGG },
             { GameVersion.GP, Legal.LevelUpGG },
             { GameVersion.GE, Legal.LevelUpGG },
 
@@ -116,6 +117,7 @@ namespace PKHeX.Core
             { GameVersion.MN, PersonalTable.SM },
             { GameVersion.US, PersonalTable.USUM },
             { GameVersion.UM, PersonalTable.USUM },
+            { GameVersion.GO, PersonalTable.GG },
             { GameVersion.GP, PersonalTable.GG },
             { GameVersion.GE, PersonalTable.GG },
 
