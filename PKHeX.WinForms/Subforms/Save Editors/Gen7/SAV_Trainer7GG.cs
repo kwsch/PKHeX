@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -9,12 +10,14 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV7b SAV;
+        private readonly GoParkStorage Park;
 
         public SAV_Trainer7GG(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV7b)(Origin = sav).Clone();
+            Park = new GoParkStorage(SAV);
             if (Main.Unicode)
             {
                 try { TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont(11); }
@@ -112,12 +115,79 @@ namespace PKHeX.WinForms
 
         private void B_ExportGoSummary_Click(object sender, EventArgs e)
         {
-            var block = new GoParkEntities(SAV);
-            var summary = block.DumpAll(GameInfo.Strings.Species).ToArray();
+            var summary = Park.DumpAll(GameInfo.Strings.Species).ToArray();
             if (summary.Length == 0)
+            {
+                WinFormsUtil.Alert("No entities present in Go Park to dump.");
                 return;
+            }
             Clipboard.SetText(string.Join(Environment.NewLine, summary));
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_Import_Click(object sender, EventArgs e)
+        {
+            int index = (int)NUD_GoIndex.Value;
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
+
+            var sfd = new OpenFileDialog
+            {
+                Filter = GoFilter,
+                FilterIndex = 0,
+                RestoreDirectory = true
+            };
+
+            // Export
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var data = File.ReadAllBytes(sfd.FileName);
+            if (data.Length != GP1.SIZE)
+            {
+                WinFormsUtil.Error(MessageStrings.MsgFileLoadIncompatible);
+                return;
+            }
+
+            var gp1 = new GP1();
+            data.CopyTo(gp1.Data);
+            Park[index] = gp1;
+            UpdateGoSummary((int)NUD_GoIndex.Value);
+        }
+
+        private const string GoFilter = "Go Park Entity |*.gp1|All Files|*.*";
+
+        private void B_Export_Click(object sender, EventArgs e)
+        {
+            int index = (int)NUD_GoIndex.Value;
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
+            var data = Park[index];
+
+            var sfd = new SaveFileDialog
+            {
+                FileName = data.FileName,
+                Filter = GoFilter,
+                FilterIndex = 0,
+                RestoreDirectory = true
+            };
+
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            File.WriteAllBytes(sfd.FileName, data.Data);
+        }
+
+        private void NUD_GoIndex_ValueChanged(object sender, EventArgs e) => UpdateGoSummary((int)NUD_GoIndex.Value);
+
+        private void UpdateGoSummary(int index)
+        {
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
+            int area = index / GoParkStorage.SlotsPerArea;
+            int slot = index % GoParkStorage.SlotsPerArea;
+
+            var data = Park[index];
+            var prefix = $"Area: {area + 1:00}, Slot: {slot + 1:00}{Environment.NewLine}";
+            var dump = data.Species == 0 ? "Empty" : data.Dump(GameInfo.Strings.Species, index);
+            L_GoSlotSummary.Text = prefix + dump;
         }
     }
 }

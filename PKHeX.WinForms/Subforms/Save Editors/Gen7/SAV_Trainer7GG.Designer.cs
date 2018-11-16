@@ -62,12 +62,18 @@
             this.L_RivalName = new System.Windows.Forms.Label();
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
-            this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.Tab_Complex = new System.Windows.Forms.TabPage();
+            this.L_GoSlotSummary = new System.Windows.Forms.Label();
+            this.B_Import = new System.Windows.Forms.Button();
+            this.B_Export = new System.Windows.Forms.Button();
+            this.L_GoSlot = new System.Windows.Forms.Label();
+            this.NUD_GoIndex = new System.Windows.Forms.NumericUpDown();
             this.B_ExportGoSummary = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Adventure.SuspendLayout();
-            this.Tab_Misc.SuspendLayout();
+            this.Tab_Complex.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_GoIndex)).BeginInit();
             this.SuspendLayout();
             //
             // B_Cancel
@@ -258,7 +264,7 @@
             //
             // L_Language
             //
-            this.L_Language.Location = new System.Drawing.Point(3, 102);
+            this.L_Language.Location = new System.Drawing.Point(3, 82);
             this.L_Language.Name = "L_Language";
             this.L_Language.Size = new System.Drawing.Size(80, 13);
             this.L_Language.TabIndex = 21;
@@ -308,7 +314,7 @@
             // TC_Editor
             //
             this.TC_Editor.Controls.Add(this.Tab_Overview);
-            this.TC_Editor.Controls.Add(this.Tab_Misc);
+            this.TC_Editor.Controls.Add(this.Tab_Complex);
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
@@ -363,7 +369,7 @@
             //
             this.trainerID1.Location = new System.Drawing.Point(6, 26);
             this.trainerID1.Name = "trainerID1";
-            this.trainerID1.Size = new System.Drawing.Size(90, 64);
+            this.trainerID1.Size = new System.Drawing.Size(90, 53);
             this.trainerID1.TabIndex = 66;
             //
             // GB_Adventure
@@ -381,16 +387,72 @@
             this.GB_Adventure.TabStop = false;
             this.GB_Adventure.Text = "Adventure Info";
             //
-            // Tab_Misc
+            // Tab_Complex
             //
-            this.Tab_Misc.Controls.Add(this.B_ExportGoSummary);
-            this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Misc.Name = "Tab_Misc";
-            this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Misc.Size = new System.Drawing.Size(386, 290);
-            this.Tab_Misc.TabIndex = 4;
-            this.Tab_Misc.Text = "Misc";
-            this.Tab_Misc.UseVisualStyleBackColor = true;
+            this.Tab_Complex.Controls.Add(this.L_GoSlotSummary);
+            this.Tab_Complex.Controls.Add(this.B_Import);
+            this.Tab_Complex.Controls.Add(this.B_Export);
+            this.Tab_Complex.Controls.Add(this.L_GoSlot);
+            this.Tab_Complex.Controls.Add(this.NUD_GoIndex);
+            this.Tab_Complex.Controls.Add(this.B_ExportGoSummary);
+            this.Tab_Complex.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Complex.Name = "Tab_Complex";
+            this.Tab_Complex.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Complex.Size = new System.Drawing.Size(386, 290);
+            this.Tab_Complex.TabIndex = 4;
+            this.Tab_Complex.Text = "Go Complex";
+            this.Tab_Complex.UseVisualStyleBackColor = true;
+            //
+            // L_GoSlotSummary
+            //
+            this.L_GoSlotSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.L_GoSlotSummary.Location = new System.Drawing.Point(165, 58);
+            this.L_GoSlotSummary.Name = "L_GoSlotSummary";
+            this.L_GoSlotSummary.Size = new System.Drawing.Size(189, 104);
+            this.L_GoSlotSummary.TabIndex = 5;
+            this.L_GoSlotSummary.Text = "Summary";
+            //
+            // B_Import
+            //
+            this.B_Import.Location = new System.Drawing.Point(198, 6);
+            this.B_Import.Name = "B_Import";
+            this.B_Import.Size = new System.Drawing.Size(75, 23);
+            this.B_Import.TabIndex = 4;
+            this.B_Import.Text = "Import";
+            this.B_Import.UseVisualStyleBackColor = true;
+            this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
+            //
+            // B_Export
+            //
+            this.B_Export.Location = new System.Drawing.Point(279, 6);
+            this.B_Export.Name = "B_Export";
+            this.B_Export.Size = new System.Drawing.Size(75, 23);
+            this.B_Export.TabIndex = 3;
+            this.B_Export.Text = "Export";
+            this.B_Export.UseVisualStyleBackColor = true;
+            this.B_Export.Click += new System.EventHandler(this.B_Export_Click);
+            //
+            // L_GoSlot
+            //
+            this.L_GoSlot.Location = new System.Drawing.Point(143, 35);
+            this.L_GoSlot.Name = "L_GoSlot";
+            this.L_GoSlot.Size = new System.Drawing.Size(85, 20);
+            this.L_GoSlot.TabIndex = 2;
+            this.L_GoSlot.Text = "Slot:";
+            this.L_GoSlot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+            // NUD_GoIndex
+            //
+            this.NUD_GoIndex.Location = new System.Drawing.Point(234, 35);
+            this.NUD_GoIndex.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.NUD_GoIndex.Name = "NUD_GoIndex";
+            this.NUD_GoIndex.Size = new System.Drawing.Size(120, 20);
+            this.NUD_GoIndex.TabIndex = 1;
+            this.NUD_GoIndex.ValueChanged += new System.EventHandler(this.NUD_GoIndex_ValueChanged);
             //
             // B_ExportGoSummary
             //
@@ -422,7 +484,8 @@
             this.Tab_Overview.PerformLayout();
             this.GB_Adventure.ResumeLayout(false);
             this.GB_Adventure.PerformLayout();
-            this.Tab_Misc.ResumeLayout(false);
+            this.Tab_Complex.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_GoIndex)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -459,10 +522,15 @@
         private System.Windows.Forms.TabControl TC_Editor;
         private System.Windows.Forms.TabPage Tab_Overview;
         private System.Windows.Forms.GroupBox GB_Adventure;
-        private System.Windows.Forms.TabPage Tab_Misc;
+        private System.Windows.Forms.TabPage Tab_Complex;
         private Controls.TrainerID trainerID1;
         private System.Windows.Forms.TextBox TB_RivalName;
         private System.Windows.Forms.Label L_RivalName;
         private System.Windows.Forms.Button B_ExportGoSummary;
+        private System.Windows.Forms.NumericUpDown NUD_GoIndex;
+        private System.Windows.Forms.Label L_GoSlot;
+        private System.Windows.Forms.Button B_Import;
+        private System.Windows.Forms.Button B_Export;
+        private System.Windows.Forms.Label L_GoSlotSummary;
     }
 }
