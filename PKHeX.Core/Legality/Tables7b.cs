@@ -234,7 +234,7 @@ namespace PKHeX.Core
             729, // Zippy Zap
             730, // Splishy Splash
             731, // Floaty Fall
-            732, // Pika Papow
+            // 732, // Pika Papow -- Joycon Shake
         };
 
         internal static readonly int[] Tutor_StarterEevee =
@@ -247,7 +247,7 @@ namespace PKHeX.Core
             738, // Sappy Seed
             739, // Freezy Frost
             740, // Sparkly Swirl
-            741, // Veevee Volley
+            // 741, // Veevee Volley -- Joycon Shake
         };
 
         #endregion
