@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
         {
-            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke,
+            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
         };
 
         #region Met Locations
