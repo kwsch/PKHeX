@@ -277,11 +277,11 @@ namespace PKHeX.Core
 
         private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
         {
-            if (Math.Abs(pb7.HeightAbsolute - pb7.CalcHeightAbsolute) > 0.001 && !IsStarter(pb7))
+            if (Math.Abs(pb7.HeightAbsolute - pb7.CalcHeightAbsolute) > 0.001)
                 data.AddLine(GetInvalid(LStatIncorrectHeight, CheckIdentifier.Encounter));
             if (Math.Abs(pb7.WeightAbsolute - pb7.CalcWeightAbsolute) > 0.001)
                 data.AddLine(GetInvalid(LStatIncorrectWeight, CheckIdentifier.Encounter));
-            if (pb7.Stat_CP != pb7.CalcCP)
+            if (pb7.Stat_CP != pb7.CalcCP && !IsStarter(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, CheckIdentifier.Encounter));
         }
 
