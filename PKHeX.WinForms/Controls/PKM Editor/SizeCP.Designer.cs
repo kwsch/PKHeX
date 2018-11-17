@@ -72,8 +72,6 @@
             // CHK_Auto
             //
             this.CHK_Auto.AutoSize = true;
-            this.CHK_Auto.Checked = true;
-            this.CHK_Auto.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CHK_Auto.Location = new System.Drawing.Point(39, 3);
             this.CHK_Auto.Name = "CHK_Auto";
             this.CHK_Auto.Size = new System.Drawing.Size(48, 17);
