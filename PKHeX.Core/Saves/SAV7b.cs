@@ -8,7 +8,7 @@ namespace PKHeX.Core
     public sealed class SAV7b : SaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
-        public override string Filter => "Main SAV|*.*";
+        public override string Filter => "savedata|*.bin";
         public override string Extension => string.Empty;
         public override string[] PKMExtensions => PKM.Extensions.Where(f => f[0] == 'B' && 7 == f[f.Length - 1] - 0x30).ToArray();
 
