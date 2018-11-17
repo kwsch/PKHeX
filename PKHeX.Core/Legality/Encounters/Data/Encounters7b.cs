@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -18,6 +19,8 @@ namespace PKHeX.Core
 
             SlotsGP.SetVersion(GameVersion.GP);
             SlotsGE.SetVersion(GameVersion.GE);
+            ManuallyAddRareSpawns(SlotsGP);
+            ManuallyAddRareSpawns(SlotsGE);
             Encounter_GG.SetVersion(GameVersion.GG);
             TradeGift_GG.SetVersion(GameVersion.GG);
             MarkEncountersGeneration(7, SlotsGP, SlotsGE);
@@ -99,7 +102,7 @@ namespace PKHeX.Core
                     Generation = 7,
                     Species = species,
                     LevelMin = 2, // todo
-                    LevelMax = 60, // todo
+                    LevelMax = 40, // todo
                     Form = form,
                     Type = SlotType.GoPark,
                     Version = GameVersion.GO,
@@ -107,6 +110,59 @@ namespace PKHeX.Core
             }
             area.Slots = Enumerable.Range(1, 149).Concat(Enumerable.Range(808, 2)).SelectMany(GetAllSlot).ToArray();
             return new[] {area};
+        }
+
+        // todo: manual addition of slots
+        private class RareSpawn
+        {
+            public int Species;
+            public int[] Locations;
+        }
+
+        private static readonly RareSpawn[] Rare =
+        {
+            // Normal
+            new RareSpawn {Species = 001, Locations = new[] {039}},
+            new RareSpawn {Species = 004, Locations = new[] {005, 006, 041}},
+            new RareSpawn {Species = 007, Locations = new[] {026, 027, 044}},
+            new RareSpawn {Species = 106, Locations = new[] {045}},
+            new RareSpawn {Species = 107, Locations = new[] {045}},
+            new RareSpawn {Species = 113, Locations = new[] {007, 008, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 023, 025, 040, 042, 043, 045, 047, 051}},
+            new RareSpawn {Species = 137, Locations = new[] {009}},
+            new RareSpawn {Species = 143, Locations = new[] {046}},
+
+            // Water
+            new RareSpawn {Species = 131, Locations = new[] {021, 022}},
+
+            // Fly
+            new RareSpawn {Species = 006, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}},
+            new RareSpawn {Species = 149, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}}
+        };
+
+        private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea> areas)
+        {
+            foreach (var table in areas)
+            {
+                var loc = table.Location;
+                var species = Rare.Where(z => z.Locations.Contains(loc)).Select(z => z.Species).ToArray();
+                if (species.Length == 0)
+                    continue;
+                var slots = table.Slots;
+                var first = slots[0];
+                var extra = species
+                    .Select(z => new EncounterSlot
+                    {
+                        Area = table,
+                        Species = z,
+                        LevelMin = (z == 006 || z == 149) ? 03 : first.LevelMin,
+                        LevelMax = (z == 006 || z == 149) ? 56 : first.LevelMax,
+                    }).ToArray();
+
+                int count = slots.Length;
+                Array.Resize(ref slots, count + extra.Length);
+                extra.CopyTo(slots, count);
+                table.Slots = slots;
+            }
         }
     }
 }
