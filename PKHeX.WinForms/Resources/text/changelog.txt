@@ -1,7 +1,17 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/11/01 - New Update:
+18/11/16 - New Update:
+ - Added: Let's Go Pikachu & Let's Go Eevee support. Thanks mattyoukhana (sora10pls) and SciresM for testing!
+ - - Legality: Complete detection & validation. Rare wild encounters & mystery gifts are not currently recognized.
+ - - Added: Added all new GP/GE content (Species, Moves, etc).
+ - - Added: Event Flag editor, Dex editor, Trainer Info editor, Inventory editor.
+ - - Notes: Exporting the save file will automatically remove empty slots between stored PKM.
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks theSlayer, Admiral-Fish, Sans!
+ - Added: Encounter browser (similar to Database / Mystery Gift Database). Press CTRL-N; viewing an encounter will generate a new PKM from the template.
+
+18/11/01 - New Update: (26086) [1442014]
  - Legality:
  - - Added: Colosseum/XD Shadow encounters are now more thoroughly checked for RNG conditions (nature/gender/shiny locks).
  - - Added: OT/Nickname length checks.
