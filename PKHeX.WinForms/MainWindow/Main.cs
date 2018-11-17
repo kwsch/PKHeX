@@ -47,7 +47,7 @@ namespace PKHeX.WinForms
             }
             else if (showChangelog)
             {
-                new About().ShowDialog();
+                new About(1).ShowDialog();
             }
 
             if (BAKprompt && !Directory.Exists(BackupPath))
