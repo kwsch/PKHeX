@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -36,6 +37,8 @@ namespace PKHeX.Core
 
             if (pkm is PK7 pk7 && pk7.ResortEventStatus >= 20)
                 data.AddLine(GetInvalid(LTransferBad));
+            if (pkm is PB7 pb7)
+                VerifyBelugaStats(data, pb7);
 
             VerifyMiscFatefulEncounter(data);
         }
@@ -271,5 +274,17 @@ namespace PKHeX.Core
                     break;
             }
         }
+
+        private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
+        {
+            if (Math.Abs(pb7.HeightAbsolute - pb7.CalcHeightAbsolute) > 0.001 && !IsStarter(pb7))
+                data.AddLine(GetInvalid(LStatIncorrectHeight, CheckIdentifier.Encounter));
+            if (Math.Abs(pb7.WeightAbsolute - pb7.CalcWeightAbsolute) > 0.001)
+                data.AddLine(GetInvalid(LStatIncorrectWeight, CheckIdentifier.Encounter));
+            if (pb7.Stat_CP != pb7.CalcCP)
+                data.AddLine(GetInvalid(LStatIncorrectCP, CheckIdentifier.Encounter));
+        }
+
+        private static bool IsStarter(PKM pb7) => (pb7.Species == 25 && pb7.AltForm == 8) || (pb7.Species == 133 && pb7.AltForm == 1);
     }
 }

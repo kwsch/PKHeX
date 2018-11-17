@@ -409,6 +409,10 @@ namespace PKHeX.Core
         public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
         public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: {0}";
 
+        public static string LStatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
+        public static string LStatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
+        public static string LStatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
+
         public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
         public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";
         public static string LSuperEgg { get; set; } = "Can't Super Train an Egg.";
