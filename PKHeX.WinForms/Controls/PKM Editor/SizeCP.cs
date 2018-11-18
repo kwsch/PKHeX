@@ -15,10 +15,14 @@ namespace PKHeX.WinForms.Controls
             pkm = pk as PB7;
             if (pkm == null)
                 return;
+            TryResetStats();
+            LoadStoredValues();
+        }
 
+        public void TryResetStats()
+        {
             if (CHK_Auto.Checked)
                 pkm.ResetCalculatedValues();
-            LoadStoredValues();
         }
 
         private void LoadStoredValues()

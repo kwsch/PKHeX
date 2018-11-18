@@ -914,6 +914,8 @@ namespace PKHeX.WinForms.Controls
 
             Stats.UpdateStats();
             SetAbilityList();
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
 
             // Gender Forms
             if (WinFormsUtil.GetIndex(CB_Species) == 201 && FieldsLoaded)
@@ -1110,6 +1112,10 @@ namespace PKHeX.WinForms.Controls
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
                 UpdateNickname(sender, e);
+
+            // Refresh more derived stats
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
 
             UpdateLegality();
         }
