@@ -663,7 +663,7 @@ namespace PKHeX.Core
             0, 0, 0, 0, 0, // Quirky
         };
 
-        public int CalcCP => AwakeCP + BaseCP;
+        public int CalcCP => Math.Min(10000, AwakeCP + BaseCP);
 
         public int BaseCP
         {
