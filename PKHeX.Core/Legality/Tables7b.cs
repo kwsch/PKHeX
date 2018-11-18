@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
         {
-            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke,
+            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
         };
 
         #region Met Locations
@@ -64,8 +64,8 @@ namespace PKHeX.Core
         };
 
         internal static readonly ushort[] Pouch_Candy_GG_Species =
-            {
-            979,
+        {
+            978, 979,
             980, 981, 982, 983, 984, 985, 986, 987, 988, 989,
             990, 991, 992, 993, 994, 995, 996, 997, 998, 999,
             1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009,
@@ -234,7 +234,7 @@ namespace PKHeX.Core
             729, // Zippy Zap
             730, // Splishy Splash
             731, // Floaty Fall
-            732, // Pika Papow
+            // 732, // Pika Papow -- Joycon Shake
         };
 
         internal static readonly int[] Tutor_StarterEevee =
@@ -247,7 +247,7 @@ namespace PKHeX.Core
             738, // Sappy Seed
             739, // Freezy Frost
             740, // Sparkly Swirl
-            741, // Veevee Volley
+            // 741, // Veevee Volley -- Joycon Shake
         };
 
         #endregion

@@ -120,7 +120,7 @@ namespace PKHeX.WinForms
                 {
                     int x = GetDexFormIndex(spec, c, f);
                     if (x >= 0)
-                        names.Add($"{ctr++:000} - {Species[spec]}-{f}");
+                        names.Add($"{++ctr:000} - {Species[spec]}-{f}");
                 }
             }
             return names;

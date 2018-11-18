@@ -55,6 +55,7 @@ namespace PKHeX.Core
         internal static readonly Learnset[] LevelUpSM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
         internal static readonly EggMoves[] EggMovesUSUM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
         internal static readonly Learnset[] LevelUpUSUM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
+        internal static readonly Learnset[] LevelUpGG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
 
         // Setup Help
         static Legal()
@@ -314,6 +315,21 @@ namespace PKHeX.Core
             return IsEvolutionValid(pkm);
         }
 
+        public static IReadOnlyList<int> GetPPTable(PKM pkm, int format)
+        {
+            switch (format)
+            {
+                case 1: return MovePP_RBY;
+                case 2: return MovePP_GSC;
+                case 3: return MovePP_RS;
+                case 4: return MovePP_DP;
+                case 5: return MovePP_BW;
+                case 6: return MovePP_XY;
+                case 7: return pkm.GG ? MovePP_GG : MovePP_SM;
+                default: return Array.Empty<int>();
+            }
+        }
+
         public static IReadOnlyList<int> GetPPTable(int format)
         {
             switch (format)
@@ -339,7 +355,7 @@ namespace PKHeX.Core
                 case 4: return pkm.HGSS ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt;
                 case 5: return WildPokeBalls5;
                 case 6: return WildPokeballs6;
-                case 7: return WildPokeballs7;
+                case 7: return pkm.GG ? WildPokeballs7b : WildPokeballs7;
 
                 default: return null;
             }
@@ -387,7 +403,7 @@ namespace PKHeX.Core
                 case 4: return MaxSpeciesID_4;
                 case 5: return MaxSpeciesID_5;
                 case 6: return MaxSpeciesID_6;
-                case 7: return MaxSpeciesID_7_USUM;
+                case 7: return MaxSpeciesID_7b;
                 default: return -1;
             }
         }
@@ -419,7 +435,7 @@ namespace PKHeX.Core
                 return 5;
             if (species <= MaxSpeciesID_6)
                 return 6;
-            if (species <= MaxSpeciesID_7_USUM)
+            if (species <= MaxSpeciesID_7b)
                 return 7;
             return -1;
         }
@@ -458,6 +474,8 @@ namespace PKHeX.Core
 
         internal static bool IsHeldItemAllowed(PKM pkm)
         {
+            if (pkm is PB7)
+                return pkm.HeldItem == 0;
             return IsHeldItemAllowed(pkm.HeldItem, pkm.Format);
         }
 
@@ -597,7 +615,7 @@ namespace PKHeX.Core
             if (startLevel == -1)
                 startLevel = 100;
 
-            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
+            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
             int count = 1;
             for (int i = 100; i >= startLevel; i--)
             {
@@ -636,7 +654,7 @@ namespace PKHeX.Core
         internal static int GetBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
         {
             int tree = generation != -1 ? generation : pkm.Format;
-            var table = EvolutionTree.GetEvolutionTree(tree);
+            var table = EvolutionTree.GetEvolutionTree(pkm, tree);
             int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : -1;
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
             return GetBaseSpecies(pkm, evos, skipOption);
@@ -805,7 +823,7 @@ namespace PKHeX.Core
         internal static bool HasVisitedB2W2(this PKM pkm) => pkm.InhabitedGeneration(5);
         internal static bool HasVisitedORAS(this PKM pkm) => pkm.InhabitedGeneration(6) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
-        internal static bool IsMovesetRestricted(this PKM pkm) => pkm.IsUntraded;
+        internal static bool IsMovesetRestricted(this PKM pkm) => (pkm.GG && pkm.Format == 7) || pkm.IsUntraded;
 
         internal static bool CanInhabitGen1(this PKM pkm)
         {

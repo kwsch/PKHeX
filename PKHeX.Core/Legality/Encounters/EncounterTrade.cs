@@ -74,7 +74,7 @@ namespace PKHeX.Core
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
                 level = 25; // avoid some cases
-            var pk = PKMConverter.GetBlank(SAV.GetType());
+            var pk = PKMConverter.GetBlank(SAV);
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;

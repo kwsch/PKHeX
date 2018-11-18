@@ -44,7 +44,7 @@ namespace PKHeX.Core
                 return GetFormsGen7(species, types, forms);
         }
 
-        private static bool IsGG() => false;
+        private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Trainer.Game);
 
         public static bool IsTotemForm(int species, int form, int generation = 7)
         {
@@ -85,7 +85,7 @@ namespace PKHeX.Core
         }
 
         private static readonly string[] EMPTY = {""};
-        private const string Partner = "Starter";
+        private const string Starter = nameof(Starter);
 
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
@@ -104,7 +104,7 @@ namespace PKHeX.Core
                     return new[]
                     {
                         types[000], // Normal
-                        Partner,
+                        Starter,
                     };
 
                 case 025:
@@ -572,7 +572,7 @@ namespace PKHeX.Core
                     if (!IsGG())
                         return arr;
                     System.Array.Resize(ref arr, arr.Length + 1);
-                    arr[arr.Length - 1] = Partner;
+                    arr[arr.Length - 1] = Starter;
                     return arr;
             }
         }

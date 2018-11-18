@@ -855,16 +855,17 @@ namespace PKHeX.Core
 
             ushort ctr = 0;
             int size = SIZE_STORED;
-            int count = BoxSlotCount;
+            int count = BoxSlotCount * BoxCount;
             for (int i = 0; i < count; i++)
             {
-                int offset = Box + (i * size);
+                int offset = GetBoxSlotOffset(i);
                 if (IsPKMPresent(offset))
                 {
                     if (ctr != i) // copy required
                     {
                         shiftedSlots = true; // appending empty slots afterwards is now required since a rewrite was done
-                        Buffer.BlockCopy(Data, offset, Data, Box + (ctr * size), size);
+                        int destOfs = GetBoxSlotOffset(ctr);
+                        Buffer.BlockCopy(Data, offset, Data, destOfs, size);
                         SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);
                     }
                     ctr++;
@@ -885,8 +886,8 @@ namespace PKHeX.Core
             for (int i = ctr; i < count; i++)
             {
                 var data = empty[i - ctr];
-                int offset = Box + (i * size);
-                Buffer.BlockCopy(Data, offset, data, 0, size);
+                int offset = GetBoxSlotOffset(i);
+                data.CopyTo(Data, offset);
             }
             return true;
         }

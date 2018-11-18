@@ -182,9 +182,20 @@ namespace PKHeX.WinForms.Controls
                     extraBytes = PK6.ExtraBytes;
                     break;
                 case 7:
-                    GetFieldsfromPKM = PopulateFieldsPK7;
-                    GetPKMfromFields = PreparePK7;
-                    extraBytes = PK7.ExtraBytes;
+                    switch (pkm)
+                    {
+                        case PK7 _:
+                            GetFieldsfromPKM = PopulateFieldsPK7;
+                            GetPKMfromFields = PreparePK7;
+                            extraBytes = PK7.ExtraBytes;
+                            break;
+
+                        case PB7 _:
+                            GetFieldsfromPKM = PopulateFieldsPB7;
+                            GetPKMfromFields = PreparePB7;
+                            extraBytes = PB7.ExtraBytes;
+                            break;
+                    }
                     break;
             }
 
@@ -555,7 +566,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickMarking(object sender, EventArgs e)
         {
-            int index = Array.IndexOf(Markings, sender);
+            int index = Array.IndexOf(Markings, (PictureBox)sender);
             pkm.ToggleMarking(index);
             SetMarkings();
         }
@@ -903,6 +914,8 @@ namespace PKHeX.WinForms.Controls
 
             Stats.UpdateStats();
             SetAbilityList();
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
 
             // Gender Forms
             if (WinFormsUtil.GetIndex(CB_Species) == 201 && FieldsLoaded)
@@ -1099,6 +1112,10 @@ namespace PKHeX.WinForms.Controls
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
                 UpdateNickname(sender, e);
+
+            // Refresh more derived stats
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
 
             UpdateLegality();
         }
@@ -1620,6 +1637,7 @@ namespace PKHeX.WinForms.Controls
         private void ToggleInterface(PKM t)
         {
             FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
+            FLP_SizeCP.Visible = t is PB7;
             ToggleInterface(pkm.Format);
         }
 
@@ -1670,7 +1688,7 @@ namespace PKHeX.WinForms.Controls
             FLP_TimeOfDay.Visible = gen == 2;
 
             Contest.ToggleInterface(pkm, gen);
-            Stats.ToggleInterface(gen);
+            Stats.ToggleInterface(pkm, gen);
 
             CenterSubEditors();
         }
@@ -1699,6 +1717,14 @@ namespace PKHeX.WinForms.Controls
             {
                 tabMain.TabPages.Insert(1, Tab_Met);
                 TranslationRequired = true;
+            }
+
+            if (!HaX && sav is SAV7b)
+            {
+                FLP_HeldItem.Visible = false;
+                FLP_Country.Visible = false;
+                FLP_SubRegion.Visible = false;
+                FLP_3DSRegion.Visible = false;
             }
 
             // Common HaX Interface

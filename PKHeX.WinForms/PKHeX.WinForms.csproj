@@ -157,6 +157,12 @@
     <Compile Include="Controls\PKM Editor\CatchRate.Designer.cs">
       <DependentUpon>CatchRate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PKM Editor\SizeCP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\SizeCP.Designer.cs">
+      <DependentUpon>SizeCP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PKM Editor\StatEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -490,11 +496,23 @@
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.Designer.cs">
       <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexGG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexGG.Designer.cs">
+      <DependentUpon>SAV_PokedexGG.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.Designer.cs">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7GG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7GG.Designer.cs">
+      <DependentUpon>SAV_Trainer7GG.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.cs">
       <SubType>Form</SubType>
@@ -519,6 +537,12 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\SAV_BoxViewer.Designer.cs">
       <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_EventWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_EventWork.Designer.cs">
+      <DependentUpon>SAV_EventWork.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\SAV_EventFlags.cs">
       <SubType>Form</SubType>
@@ -574,6 +598,12 @@
     <Compile Include="Subforms\Save Editors\TrainerStat.Designer.cs">
       <DependentUpon>TrainerStat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\SAV_Encounters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SAV_Encounters.Designer.cs">
+      <DependentUpon>SAV_Encounters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\SAV_Database.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -615,6 +645,9 @@
     <Compile Include="Util\WinFormsUtil.cs" />
     <EmbeddedResource Include="Controls\PKM Editor\CatchRate.resx">
       <DependentUpon>CatchRate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PKM Editor\SizeCP.resx">
+      <DependentUpon>SizeCP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PKM Editor\StatEditor.resx">
       <DependentUpon>StatEditor.cs</DependentUpon>
@@ -772,8 +805,14 @@
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Pokebean.resx">
       <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexGG.resx">
+      <DependentUpon>SAV_PokedexGG.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.resx">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7GG.resx">
+      <DependentUpon>SAV_Trainer7GG.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>
@@ -786,6 +825,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxViewer.resx">
       <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_EventWork.resx">
+      <DependentUpon>SAV_EventWork.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_EventFlags.resx">
       <DependentUpon>SAV_EventFlags.cs</DependentUpon>
@@ -810,6 +852,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\TrainerStat.resx">
       <DependentUpon>TrainerStat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SAV_Encounters.resx">
+      <DependentUpon>SAV_Encounters.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
@@ -836,6 +881,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\Shiny Pokemon Sprites\25-8ps.png" />
+    <None Include="Resources\img\Shiny Pokemon Sprites\25-1ps.png" />
+    <None Include="Resources\img\Shiny Pokemon Sprites\133-1ps.png" />
+    <None Include="Resources\img\Shiny Pokemon Sprites\809s.png" />
+    <None Include="Resources\img\Pokemon Sprites\809.png" />
+    <None Include="Resources\img\Shiny Pokemon Sprites\808s.png" />
+    <None Include="Resources\img\Pokemon Sprites\808.png" />
     <None Include="Resources\img\Program\alphaZA.png" />
     <None Include="Resources\img\Program\alpaZA.png" />
     <None Include="Resources\img\Program\wand.png" />
@@ -1916,6 +1968,9 @@
     <None Include="Resources\img\item\item_926.png" />
     <None Include="Resources\img\item\item_921.png" />
     <None Include="Resources\img\Pokemon Sprites\249x.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-1p.png" />
+    <None Include="Resources\img\Pokemon Sprites\133-1p.png" />
+    <None Include="Resources\img\Pokemon Sprites\25-8p.png" />
     <Content Include="Resources\img\Pokemon Sprites\803.png" />
     <Content Include="Resources\img\Pokemon Sprites\804.png" />
     <Content Include="Resources\img\Pokemon Sprites\805.png" />

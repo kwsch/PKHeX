@@ -19,6 +19,7 @@ namespace PKHeX.Core
         private static readonly EvolutionTree Evolves5;
         private static readonly EvolutionTree Evolves6;
         private static readonly EvolutionTree Evolves7;
+        private static readonly EvolutionTree Evolves7b;
 
         static EvolutionTree()
         {
@@ -33,9 +34,11 @@ namespace PKHeX.Core
             Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.Gen5, PersonalTable.BW, Legal.MaxSpeciesID_5);
             Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
             Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
+            Evolves7b = new EvolutionTree(unpack("gg"), GameVersion.Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
 
             // There's always oddballs.
             Evolves7.FixEvoTreeSM();
+            Evolves7b.FixEvoTreeGG();
         }
 
         internal static EvolutionTree GetEvolutionTree(int generation)
@@ -48,6 +51,22 @@ namespace PKHeX.Core
                 case 4: return Evolves4;
                 case 5: return Evolves5;
                 case 6: return Evolves6;
+                default:
+                    return Evolves7;
+            }
+        }
+
+        internal static EvolutionTree GetEvolutionTree(PKM pkm, int generation)
+        {
+            switch (generation)
+            {
+                case 1: return Evolves1;
+                case 2: return Evolves2;
+                case 3: return Evolves3;
+                case 4: return Evolves4;
+                case 5: return Evolves5;
+                case 6: return Evolves6;
+                case 7 when pkm.GG: return Evolves7b;
                 default:
                     return Evolves7;
             }
@@ -173,6 +192,22 @@ namespace PKHeX.Core
             Lineage[Personal.GetFormeIndex(105, 0)]
                 .Chain[0].StageEntryMethods[0]
                 .Banlist = EvolutionMethod.BanSM;
+        }
+
+        private void FixEvoTreeGG()
+        {
+            // Ban Raichu Evolution on SM
+            Lineage[Personal.GetFormeIndex(26, 0)]
+                .Chain[1].StageEntryMethods[0]
+                .Banlist = EvolutionMethod.BanGG;
+            // Ban Exeggutor Evolution on SM
+            Lineage[Personal.GetFormeIndex(103, 0)]
+                .Chain[0].StageEntryMethods[0]
+                .Banlist = EvolutionMethod.BanGG;
+            // Ban Marowak Evolution on SM
+            Lineage[Personal.GetFormeIndex(105, 0)]
+                .Chain[0].StageEntryMethods[0]
+                .Banlist = EvolutionMethod.BanGG;
         }
 
         private int GetIndex(PKM pkm)

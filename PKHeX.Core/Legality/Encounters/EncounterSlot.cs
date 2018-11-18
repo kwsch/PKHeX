@@ -70,7 +70,7 @@ namespace PKHeX.Core
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
-            var pk = PKMConverter.GetBlank(Generation);
+            var pk = PKMConverter.GetBlank(SAV);
             int nature = Util.Rand.Next(25);
             SAV.ApplyToPKM(pk);
 

@@ -20,8 +20,10 @@ Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.
 - Nickname/OT box: Bring up the ingame-special characters.
 - Individual IVs: Set IV to max (or max-1 if already max).
+- Individual AVs: Set AV to max (or 0 if already max).
 - Individual EVs: Set EV to max.
 - Randomize IVs: Set all IVs to max.
+- Randomize AVs: Set all AVs to max.
 - Randomize EVs: Set all EVs to 0.
 - PP Ups Label: Set all PP Ups to 0. (Click = 3)
 - Friendship Label: Set Friendship to 0. (Click = 255 or Base)
@@ -30,7 +32,9 @@ Control + Click on...
 Alt + Click on...
 - Preview Sprite to load from a QR url on your clipboard.
 - Species: Export Showdown/Smogon set to Clipboard.
+- Randomize AVs: Set all AVs to 0.
 - Individual IVs: Set IV to 0.
+- Individual AVs: Set AV to 0.
 - Individual EVs: Set EV to 0.
 
 Shift + Click on...
@@ -77,3 +81,6 @@ POKEPUFF:
 
 MYSTERY GIFT:
 - Alt-Click QR to import from QR image.
+
+TRAINER INFO (GO PIKACHU/EEVEE)
+- Drop Go Park entity file (gp1) to import to selected slot.

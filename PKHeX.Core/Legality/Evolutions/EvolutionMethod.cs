@@ -20,6 +20,7 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> TradeMethods = new HashSet<int> {5, 6, 7};
         private static readonly IReadOnlyCollection<GameVersion> NoBanlist = Array.Empty<GameVersion>();
         internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
+        internal static readonly IReadOnlyCollection<GameVersion> BanGG = new[] {GameVersion.GP, GameVersion.GE};
         internal IReadOnlyCollection<GameVersion> Banlist = NoBanlist;
 
         public bool Valid(PKM pkm, int lvl, bool skipChecks)

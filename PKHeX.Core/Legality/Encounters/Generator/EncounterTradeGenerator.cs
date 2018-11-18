@@ -77,7 +77,7 @@ namespace PKHeX.Core
                 case 4: return pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt;
                 case 5: return pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW;
                 case 6: return pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO;
-                case 7: return pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM;
+                case 7: return pkm.GG ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM;
             }
             return null;
         }

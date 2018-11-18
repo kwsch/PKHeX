@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     public class Zukan6 : Zukan
@@ -7,6 +9,15 @@ namespace PKHeX.Core
         protected override int BitSeenSize => 0x60;
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
+
+        public Zukan6(SaveFile sav, int dex, int langflag)
+        {
+            SAV = sav;
+            PokeDex = dex;
+            PokeDexLanguageFlags = langflag;
+            var wrap = SAV.ORAS ? SaveUtil.GetDexFormIndexORAS : (Func<int,int,int>)SaveUtil.GetDexFormIndexXY;
+            DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
+        }
 
         protected override int GetDexLangFlag(int lang)
         {
@@ -103,7 +114,7 @@ namespace PKHeX.Core
         private void SetFormFlags(int species, int form, int shiny, bool value = true)
         {
             int fc = SAV.Personal[species].FormeCount;
-            int f = SAV.ORAS ? SaveUtil.GetDexFormIndexORAS(species, fc) : SaveUtil.GetDexFormIndexXY(species, fc);
+            int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
             if (f < 0)
                 return;
 

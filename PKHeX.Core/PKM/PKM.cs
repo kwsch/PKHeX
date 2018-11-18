@@ -299,7 +299,7 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         public bool USUM => Version == (int)GameVersion.US || Version == (int)GameVersion.UM;
-        public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE;
+        public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE || Version == (int)GameVersion.GO;
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
@@ -795,7 +795,7 @@ namespace PKHeX.Core
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
         private int GetBasePP(int move)
         {
-            var pptable = Legal.GetPPTable(Format);
+            var pptable = Legal.GetPPTable(this, Format);
             if (move >= pptable.Count)
                 move = 0;
             return pptable[move];
