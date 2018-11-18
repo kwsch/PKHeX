@@ -41,8 +41,7 @@ namespace PKHeX.Core
         public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x00, 0x10));
         public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
 
-        public int Species => Data[0x28];
-
+        public int Species => BitConverter.ToInt32(Data, 0x28);
         public float LevelF => BitConverter.ToSingle(Data, 0x30);
         public int Level => Math.Max(1, (int)Math.Round(LevelF));
 
@@ -52,7 +51,7 @@ namespace PKHeX.Core
 
         public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
 
-        public bool Flag  => Data[0x72] == 1;
+        public int AltForm => Data[0x72];
         public bool IsShiny => Data[0x73] == 1;
 
         // https://bulbapedia.bulbagarden.net/wiki/List_of_moves_in_Pok%C3%A9mon_GO
@@ -67,8 +66,9 @@ namespace PKHeX.Core
         public string GenderString => (uint) Gender >= Genders.Length ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
         public string FileName => $"{ShinyString}{Nickname} lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2}.gp1";
+        public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
 
 
-        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]} {ShinyString}[{GenderString}]) @ lv{Level} - {IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, Captured in {GeoCityName} by {Username1}.";
+        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, Captured in {GeoCityName} by {Username1}.";
     }
 }
