@@ -148,6 +148,7 @@ namespace PKHeX.Core
         public override bool IsSlotInBattleTeam(int box, int slot) => Storage.IsSlotInBattleTeam(box, slot);
         public override bool IsSlotLocked(int box, int slot) => Storage.IsSlotLocked(box, slot);
         protected override bool IsSlotOverwriteProtected(int box, int slot) => false;
+        protected override void SetPartyValues(PKM pkm, bool isParty) => base.SetPartyValues(pkm, true);
 
         public override string GetBoxName(int box) => $"Box {box + 1}";
         public override void SetBoxName(int box, string value) { }
