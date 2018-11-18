@@ -82,7 +82,10 @@ namespace PKHeX.Core
                 }
                 if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    data.AddLine(Get(LNickLengthLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
+                    var severe = data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, LanguageID.English)
+                            ? Severity.Fishy
+                            : Severity.Invalid;
+                    data.AddLine(Get(LNickLengthLong, severe));
                     return true;
                 }
                 data.AddLine(GetValid(LNickMatchNoOthers));
