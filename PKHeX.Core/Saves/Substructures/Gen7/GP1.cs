@@ -68,7 +68,6 @@ namespace PKHeX.Core
         public string FileName => $"{ShinyString}{Nickname} lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2}.gp1";
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
 
-
         public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, Captured in {GeoCityName} by {Username1}.";
     }
 }
