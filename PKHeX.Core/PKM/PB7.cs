@@ -697,7 +697,8 @@ namespace PKHeX.Core
                 if (sum == 0)
                     return 0;
                 var lvl = CurrentLevel;
-                var scalar = ((lvl * 4.0f) / 100.0f) + 2.0f;
+                // var scalar = ((lvl * 4.0f) / 100.0f) + 2.0f;
+                var scalar = ((lvl * 4.0m) / 100.0m) + 2.0m; // they don't use decimal but c# rounding mode
                 return (int)(sum * scalar);
             }
         }
