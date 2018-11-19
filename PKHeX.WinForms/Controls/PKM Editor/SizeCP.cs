@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadStoredValues()
         {
             Loading = true;
-            MT_CP.Text = Math.Min(10000, pkm.Stat_CP).ToString();
+            MT_CP.Text = Math.Min(65535, pkm.Stat_CP).ToString();
 
             NUD_HeightScalar.Value = pkm.HeightScalar;
             TB_HeightAbs.Text = pkm.HeightAbsolute.ToString();
@@ -50,7 +50,7 @@ namespace PKHeX.WinForms.Controls
         private void MT_CP_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(MT_CP.Text, out var cp))
-                pkm.Stat_CP = Math.Min(10000, cp);
+                pkm.Stat_CP = Math.Min(65535, cp);
         }
 
         private void NUD_HeightScalar_ValueChanged(object sender, EventArgs e)
