@@ -142,8 +142,7 @@ namespace PKHeX.Core
             if (FollowerIndex > count && FollowerIndex != SLOT_EMPTY)
                 RemoveFollower();
 
-            if (result)
-                SetPointerData(PokeListInfo);
+            SetPointerData(PokeListInfo);
             return result;
         }
     }
