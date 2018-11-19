@@ -123,8 +123,17 @@ namespace PKHeX.Core
 
         private void VerifyIVsGoTransfer(LegalityAnalysis data)
         {
-            if (!IsGoIVSetValid(data.pkm))
+            var pkm = data.pkm;
+            if (!IsGoIVSetValid(pkm))
                 data.AddLine(GetInvalid(LIVNotCorrect));
+
+            if (!pkm.IsShiny)
+                return;
+            var banlist = pkm.AltForm == 1 && Legal.EvolveToAlolanForms.Contains(pkm.Species)
+                ? Legal.GoTransferSpeciesShinyBanAlola
+                : Legal.GoTransferSpeciesShinyBan;
+            if (banlist.Contains(pkm.Species))
+                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
 
         private static bool IsGoIVSetValid(PKM pkm)

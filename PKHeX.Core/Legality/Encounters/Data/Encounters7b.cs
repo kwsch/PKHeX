@@ -108,7 +108,7 @@ namespace PKHeX.Core
                     Version = GameVersion.GO,
                 };
             }
-            area.Slots = Enumerable.Range(1, 149).Concat(Enumerable.Range(808, 2)).SelectMany(GetAllSlot).ToArray();
+            area.Slots = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)).SelectMany(GetAllSlot).ToArray();
             return new[] {area};
         }
 
