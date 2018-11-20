@@ -157,8 +157,8 @@ namespace PKHeX.Core
                     {
                         Area = table,
                         Species = z,
-                        LevelMin = (z == 006 || z == 149) ? 03 : first.LevelMin,
-                        LevelMax = (z == 006 || z == 149) ? 56 : first.LevelMax,
+                        LevelMin = (z == 006 || z >= 144) ? 03 : first.LevelMin,
+                        LevelMax = (z == 006 || z >= 144) ? 56 : first.LevelMax,
                     }).ToArray();
 
                 int count = slots.Length;
