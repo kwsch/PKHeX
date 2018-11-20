@@ -315,7 +315,14 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             if (pk is IAwakened a)
+            {
                 a.SetSuggestedAwakenedValues(pk);
+                if (pk is PB7)
+                {
+                    for (int i = 0; i < 6; i++)
+                        pk.SetEV(i, 0);
+                }
+            }
 
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
