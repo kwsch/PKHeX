@@ -25,7 +25,7 @@ namespace PKHeX.Core
                 gen = 2;
                 Version = GameVersion.C;
             }
-            var pk = PKMConverter.GetBlank(SAV);
+            var pk = PKMConverter.GetBlank(gen, Version);
             SAV.ApplyToPKM(pk);
 
             pk.Species = Species;

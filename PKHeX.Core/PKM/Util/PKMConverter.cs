@@ -453,12 +453,14 @@ namespace PKHeX.Core
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
         }
 
-        public static PKM GetBlank(ITrainerInfo tr)
+        public static PKM GetBlank(int gen, GameVersion ver)
         {
-            if (tr.Generation == 7 && GameVersion.GG.Contains(tr.Game))
+            if (gen == 7 && GameVersion.GG.Contains(ver))
                 return new PB7();
-            return GetBlank(tr.Generation);
+            return GetBlank(gen);
         }
+
+        public static PKM GetBlank(int gen, int ver) => GetBlank(gen, (GameVersion) ver);
 
         public static PKM GetBlank(int gen)
         {

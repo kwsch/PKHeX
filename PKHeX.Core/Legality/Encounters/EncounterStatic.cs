@@ -74,7 +74,7 @@ namespace PKHeX.Core
 
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
-            var pk = PKMConverter.GetBlank(SAV);
+            var pk = PKMConverter.GetBlank(Generation, Version);
             int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
             var today = DateTime.Today;
             SAV.ApplyToPKM(pk);

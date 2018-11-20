@@ -7,7 +7,6 @@ namespace PKHeX.Tests.PKM
 {
     public class PIDIVTest
     {
-        private const string PIDIVTestCategory = "PKM PIDIV Matching Tests";
         // Note: IVs are stored HP/ATK/DEF/SPE/SPA/SPD
 
         [Fact]
@@ -178,7 +177,7 @@ namespace PKHeX.Tests.PKM
                 sync.Should().HaveCount(37);
                 noSync.Should().HaveCount(2);
 
-                var type = SlotType.Grass;
+                const SlotType type = SlotType.Grass;
                 var slots = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 };
                 Assert.True(slots.All(s => results.Any(z => z.GetSlot(type) == s)), "Required slots not present.");
                 var slotsForType = results.Where(z => !z.LevelSlotModified).Select(z => z.GetSlot(type)).Distinct().OrderBy(z => z);

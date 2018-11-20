@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using PKHeX.Core;
@@ -58,7 +57,6 @@ namespace PKHeX.Tests
                 Assert.Equal(instr, outstr);
             }
         }
-
 
         public class MetDateTests : PKMTests
         {
