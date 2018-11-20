@@ -569,7 +569,7 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
         public override int MaxItemID => Legal.MaxItemID_7_USUM;
         public override int MaxBallID => Legal.MaxBallID_7;
-        public override int MaxGameID => Legal.MaxGameID_7;
+        public override int MaxGameID => Legal.MaxGameID_7b;
         public override int MaxIV => 31;
         public override int MaxEV => 252;
         public override int OTLength => 12;
