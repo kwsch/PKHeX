@@ -6,9 +6,9 @@ using Xunit;
 
 namespace PKHeX.Tests
 {
-    public class PKMTests
+    public static class PKMTests
     {
-        public class StringTests : PKMTests
+        public class StringTests
         {
             [Fact]
             public void EncodesOTNameCorrectly()
@@ -58,7 +58,7 @@ namespace PKHeX.Tests
             }
         }
 
-        public class MetDateTests : PKMTests
+        public class MetDateTests
         {
             [Fact]
             public void MetDateNullWhenDateComponentsAreAllZero()
@@ -134,7 +134,7 @@ namespace PKHeX.Tests
             }
         }
 
-        public class EggMetDateTests : PKMTests
+        public class EggMetDateTests
         {
             [Fact]
             public void EggMetDateNullWhenDateComponentsAreAllZero()

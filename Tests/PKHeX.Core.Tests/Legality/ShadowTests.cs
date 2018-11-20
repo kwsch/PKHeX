@@ -5,9 +5,9 @@ using Xunit;
 
 namespace PKHeX.Tests.Legality
 {
-    public class ShadowTests
+    public static class ShadowTests
     {
-        public class ValidityTests : ShadowTests
+        public static class ValidityTests
         {
             public static IEnumerable<object[]> Lock1()
             {
@@ -119,7 +119,7 @@ namespace PKHeX.Tests.Legality
             }
         }
 
-        public class PIDTests : ShadowTests
+        public static class PIDTests
         {
             public static IEnumerable<object[]> TestData()
             {
