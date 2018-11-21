@@ -536,7 +536,7 @@ namespace PKHeX.Core
             CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
-                HT_Friendship = PersonalInfo.BaseFriendship;
+                HT_Friendship = CurrentFriendship; // PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
             }
             HT_Name = SAV_Trainer;
