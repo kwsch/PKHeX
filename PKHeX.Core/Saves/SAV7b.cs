@@ -30,7 +30,7 @@ namespace PKHeX.Core
             // Load Info
             const int len = 0xB8800; // 1mb always allocated
             BlockInfoOffset = len - 0x1F0;
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, SaveUtil.CRC16NoInvert, len);
+            Blocks = !Exportable ? BlockInfoGG : BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, SaveUtil.CRC16NoInvert, len);
             Personal = PersonalTable.GG;
 
             Box = GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
@@ -93,12 +93,37 @@ namespace PKHeX.Core
 
         // Blocks & Offsets
         private readonly int BlockInfoOffset;
-        private readonly BlockInfo[] Blocks;
+        public readonly BlockInfo[] Blocks;
         public override bool ChecksumsValid => CanReadChecksums() && Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => CanReadChecksums() ? Blocks.GetChecksumInfo(Data) : string.Empty;
 
-        public BlockInfo GetBlock(BelugaBlockIndex index) => Blocks[(int)index];
-        public int GetBlockOffset(BelugaBlockIndex index) => Blocks[(int)index].Offset;
+        public BlockInfo GetBlock(BelugaBlockIndex index) => Blocks[(int)index >= Blocks.Length ? 0 : (int)index];
+        public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
+
+        private static readonly BlockInfo[] BlockInfoGG =
+        {
+            new BlockInfo3DS {Length = 3472, Offset = 0},
+            new BlockInfo3DS {Length = 512, Offset = 3584},
+            new BlockInfo3DS {Length = 360, Offset = 4096},
+            new BlockInfo3DS {Length = 6144, Offset = 4608},
+            new BlockInfo3DS {Length = 8424, Offset = 10752},
+            new BlockInfo3DS {Length = 2352, Offset = 19456},
+            new BlockInfo3DS {Length = 4, Offset = 22016},
+            new BlockInfo3DS {Length = 304, Offset = 22528},
+            new BlockInfo3DS {Length = 18, Offset = 23040},
+            new BlockInfo3DS {Length = 260000, Offset = 23552},
+            new BlockInfo3DS {Length = 8, Offset = 283648},
+            new BlockInfo3DS {Length = 3728, Offset = 284160},
+            new BlockInfo3DS {Length = 4260, Offset = 288256},
+            new BlockInfo3DS {Length = 240, Offset = 292864},
+            new BlockInfo3DS {Length = 24592, Offset = 293376},
+            new BlockInfo3DS {Length = 512, Offset = 318464},
+            new BlockInfo3DS {Length = 152, Offset = 318976},
+            new BlockInfo3DS {Length = 104, Offset = 319488},
+            new BlockInfo3DS {Length = 432000, Offset = 320000},
+            new BlockInfo3DS {Length = 176, Offset = 752128},
+            new BlockInfo3DS {Length = 2368, Offset = 752640},
+        };
 
         private bool CanReadChecksums()
         {
