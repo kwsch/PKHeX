@@ -28,7 +28,10 @@ namespace PKHeX.Core
                 case 4: return GetMatchingPCD(pkm, MGDB_G4);
                 case 5: return GetMatchingPGF(pkm, MGDB_G5);
                 case 6: return GetMatchingWC6(pkm, MGDB_G6);
-                case 7: return pkm.GG ? GetMatchingWC7(pkm, MGDB_G7GG) : GetMatchingWC7(pkm, MGDB_G7);
+                case 7:
+                    return pkm.GG
+                        ? (IEnumerable<MysteryGift>) GetMatchingWB7(pkm, MGDB_G7GG)
+                        : GetMatchingWC7(pkm, MGDB_G7);
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
@@ -41,7 +44,8 @@ namespace PKHeX.Core
                 case 4: return MGDB_G4;
                 case 5: return MGDB_G5;
                 case 6: return MGDB_G6;
-                case 7: return pkm.GG ? MGDB_G7GG : MGDB_G7;
+                case 7:
+                    return pkm.GG ? (IEnumerable<MysteryGift>) MGDB_G7GG : MGDB_G7;
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
@@ -131,6 +135,22 @@ namespace PKHeX.Core
             }
             foreach (var z in deferred)
                 yield return z;
+        }
+
+        private static IEnumerable<WB7> GetMatchingWB7(PKM pkm, IEnumerable<WB7> DB)
+        {
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var wc in enumerable)
+            {
+                if (!GetIsMatchWB7(pkm, wc, vs))
+                    continue;
+
+                if (wc.PIDType == 0 && pkm.PID != wc.PID)
+                    continue;
+
+                yield return wc;
+            }
         }
 
         private static IEnumerable<WC7> GetMatchingWC7(PKM pkm, IEnumerable<WC7> DB)
@@ -358,6 +378,59 @@ namespace PKHeX.Core
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
+                return false;
+
+            return true;
+        }
+
+        private static bool GetIsMatchWB7(PKM pkm, WB7 wc, IEnumerable<DexLevel> vs)
+        {
+            if (pkm.Egg_Location == 0) // Not Egg
+            {
+                if (wc.OTGender != 3)
+                {
+                    if (wc.SID != pkm.SID) return false;
+                    if (wc.TID != pkm.TID) return false;
+                    if (wc.OTGender != pkm.OT_Gender) return false;
+                }
+                var OT = wc.GetOT(pkm.Language);
+                if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
+                if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) return false;
+                if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
+            }
+
+            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species)))
+                return false;
+
+            if (wc.IsEgg)
+            {
+                if (wc.EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30002)
+                        return false;
+                }
+                else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
+                    return false; // can't be traded away for unshiny
+                }
+
+                if (pkm.IsEgg && !pkm.IsNative)
+                    return false;
+            }
+            else
+            {
+                if (!wc.PIDType.IsValid(pkm)) return false;
+                if (wc.EggLocation != pkm.Egg_Location) return false;
+                if (wc.MetLocation != pkm.Met_Location) return false;
+            }
+
+            if (wc.MetLevel != pkm.Met_Level) return false;
+            if (wc.Ball != pkm.Ball) return false;
+            if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
+            if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
+
+            if (pkm is IAwakened s && s.IsAwakeningBelow(wc))
                 return false;
 
             return true;

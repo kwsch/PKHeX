@@ -115,6 +115,7 @@
     <None Remove="Resources\byte\wc6full.pkl" />
     <None Remove="Resources\byte\wc7.pkl" />
     <None Remove="Resources\byte\wc7full.pkl" />
+    <None Remove="Resources\byte\wb7full.pkl" />
     <None Remove="Resources\text\de\lang_de.txt" />
     <None Remove="Resources\text\de\LegalityCheckStrings_de.txt" />
     <None Remove="Resources\text\de\MessageStrings_en.txt" />
@@ -847,6 +848,7 @@
     <EmbeddedResource Include="Resources\byte\wc6full.pkl" />
     <EmbeddedResource Include="Resources\byte\wc7.pkl" />
     <EmbeddedResource Include="Resources\byte\wc7full.pkl" />
+    <EmbeddedResource Include="Resources\byte\wb7full.pkl" />
     <EmbeddedResource Include="Resources\text\de\lang_de.txt" />
     <EmbeddedResource Include="Resources\text\de\LegalityCheckStrings_de.txt" />
     <EmbeddedResource Include="Resources\text\de\MessageStrings_de.txt" />
