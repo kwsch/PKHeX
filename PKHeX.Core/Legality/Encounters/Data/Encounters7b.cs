@@ -119,6 +119,8 @@ namespace PKHeX.Core
             public int[] Locations;
         }
 
+        private static readonly int[] Sky = {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
+
         private static readonly RareSpawn[] Rare =
         {
             // Normal
@@ -135,11 +137,11 @@ namespace PKHeX.Core
             new RareSpawn {Species = 131, Locations = new[] {021, 022}},
 
             // Fly
-            new RareSpawn {Species = 006, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}},
-            new RareSpawn {Species = 144, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}},
-            new RareSpawn {Species = 145, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}},
-            new RareSpawn {Species = 146, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}},
-            new RareSpawn {Species = 149, Locations = new[] {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 023, 024, 025, 026, 027}}
+            new RareSpawn {Species = 006, Locations = Sky,},
+            new RareSpawn {Species = 144, Locations = Sky,},
+            new RareSpawn {Species = 145, Locations = Sky,},
+            new RareSpawn {Species = 146, Locations = Sky,},
+            new RareSpawn {Species = 149, Locations = Sky,},
         };
 
         private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea> areas)
