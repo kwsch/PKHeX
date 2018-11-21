@@ -42,7 +42,6 @@ namespace PKHeX.Core
             MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
 
             SlotsXYAlt.SetVersion(GameVersion.XY);
-            FriendSafari.SelectMany(z => z).SetVersion(GameVersion.XY);
             SlotsX.SetVersion(GameVersion.X);
             SlotsY.SetVersion(GameVersion.Y);
             SlotsA.SetVersion(GameVersion.AS);
@@ -67,6 +66,7 @@ namespace PKHeX.Core
                     LevelMax = 30,
                     Form = 0,
                     Type = SlotType.FriendSafari,
+                    Version = GameVersion.XY,
                 };
             }
             area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();

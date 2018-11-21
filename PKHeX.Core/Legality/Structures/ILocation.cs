@@ -29,6 +29,12 @@
                 return loc >= locs.Length ? null : locs[loc];
             }
 
+            if (GameVersion.GG.Contains(version) && Encounter.Location < 100)
+            {
+                var locs = GameInfo.Strings.metGG_00000;
+                return loc >= locs.Length ? null : locs[loc];
+            }
+
             return GameInfo.GetLocationName(loc != Encounter.Location, loc, gen, gen);
         }
     }

@@ -17,6 +17,7 @@ namespace PKHeX.WinForms.Controls
         public int BoxSlotCount { get; }
         public SlotChangeManager M { get; set; }
         public bool FlagIllegal { get; set; }
+        public bool CanSetCurrentBox { get; set; }
         private const int SlotCount = 30;
 
         public BoxEditor()
@@ -219,7 +220,7 @@ namespace PKHeX.WinForms.Controls
 
         private void GetBox(object sender, EventArgs e)
         {
-            if (SAV.CurrentBox != CurrentBox)
+            if (SAV.CurrentBox != CurrentBox && CanSetCurrentBox)
                 SAV.CurrentBox = CurrentBox;
             ResetSlots();
             M?.RefreshHoverSlot(this);

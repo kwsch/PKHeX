@@ -47,7 +47,7 @@ namespace PKHeX.WinForms
             }
             else if (showChangelog)
             {
-                new About().ShowDialog();
+                new About(1).ShowDialog();
             }
 
             if (BAKprompt && !Directory.Exists(BackupPath))
@@ -363,6 +363,14 @@ namespace PKHeX.WinForms
                 new SAV_Database(PKME_Tabs, C_SAV).Show();
             else
                 WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath));
+        }
+
+        private void Menu_EncDatabase_Click(object sender, EventArgs e)
+        {
+            if (this.FirstFormOfType<SAV_Encounters>() is SAV_Encounters z)
+            { z.CenterToForm(this); z.BringToFront(); return; }
+
+            new SAV_Encounters(PKME_Tabs).Show();
         }
 
         private void MainMenuMysteryDB(object sender, EventArgs e)

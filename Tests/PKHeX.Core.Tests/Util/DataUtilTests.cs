@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
 
 namespace PKHeX.Tests.Util
@@ -9,7 +8,7 @@ namespace PKHeX.Tests.Util
         [Fact]
         public void GetsCorrectNumberOfPokemonNames()
         {
-            var names = PKHeX.Core.Util.GetSpeciesList("en");
+            var names = Core.Util.GetSpeciesList("en");
             names.Length.Should().Be(810);
         }
     }

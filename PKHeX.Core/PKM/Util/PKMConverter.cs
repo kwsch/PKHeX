@@ -12,7 +12,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKMConverter
     {
-        public static ITrainerInfo Trainer { get; set; } = new SimpleTrainerInfo();
+        public static ITrainerInfo Trainer { internal get; set; } = new SimpleTrainerInfo();
         public static int Country => Trainer.Country;
         public static int Region => Trainer.SubRegion;
         public static int ConsoleRegion => Trainer.ConsoleRegion;
@@ -126,7 +126,12 @@ namespace PKHeX.Core
         /// <param name="pk">PKM to check</param>
         /// <param name="prefer">Prefer a certain generation over another</param>
         /// <returns>Updated PKM if actually PK7</returns>
-        private static PKM CheckPKMFormat7(PK6 pk, int prefer) => IsPK6FormatReallyPK7(pk, prefer) ? new PK7(pk.Data, pk.Identifier) : (PKM)pk;
+        private static PKM CheckPKMFormat7(PK6 pk, int prefer)
+        {
+            if (GameVersion.GG.Contains(pk.Version))
+                return new PB7(pk.Data);
+            return IsPK6FormatReallyPK7(pk, prefer) ? new PK7(pk.Data, pk.Identifier) : (PKM)pk;
+        }
 
         /// <summary>
         /// Checks if the input PK6 file is really a PK7.
@@ -315,8 +320,11 @@ namespace PKHeX.Core
                 default:
                     comment = null;
                     return false;
+
                 case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
                 case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
+                case 025 when pk.AltForm == 8 && pk.GG: // Buddy Pikachu
+                case 133 when pk.AltForm == 1 && pk.GG: // Buddy Eevee
                     comment = MsgPKMConvertFailForme;
                     return true;
             }
@@ -444,6 +452,15 @@ namespace PKHeX.Core
             var argCount = constructors.First().GetParameters().Length;
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
         }
+
+        public static PKM GetBlank(int gen, GameVersion ver)
+        {
+            if (gen == 7 && GameVersion.GG.Contains(ver))
+                return new PB7();
+            return GetBlank(gen);
+        }
+
+        public static PKM GetBlank(int gen, int ver) => GetBlank(gen, (GameVersion) ver);
 
         public static PKM GetBlank(int gen)
         {

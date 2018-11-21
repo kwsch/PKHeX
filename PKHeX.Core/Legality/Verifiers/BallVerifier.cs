@@ -54,6 +54,8 @@ namespace PKHeX.Core
                     return VerifyBallWild(data, w);
                 case EncounterEgg _:
                     return VerifyBallEgg(data);
+                case EncounterInvalid _:
+                    return VerifyBallEquals(data, pkm.Ball); // ignore me
                 default:
                     return VerifyBallEquals(data, (int)Poke); // Pokeball
             }

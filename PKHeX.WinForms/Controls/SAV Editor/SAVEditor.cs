@@ -546,7 +546,19 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
-            var form = SAV.Generation == 1 ? new SAV_EventReset1(SAV) as Form : new SAV_EventFlags(SAV);
+            Form form;
+            switch (SAV)
+            {
+                case SAV1 s:
+                    form = new SAV_EventReset1(s);
+                    break;
+                case SAV7b s:
+                    form = new SAV_EventWork(s);
+                    break;
+                default:
+                    form = new SAV_EventFlags(SAV);
+                    break;
+            }
             form.ShowDialog();
         }
 
@@ -566,6 +578,8 @@ namespace PKHeX.WinForms.Controls
                 new SAV_Trainer(SAV).ShowDialog();
             else if (SAV is SAV7)
                 new SAV_Trainer7(SAV).ShowDialog();
+            else if (SAV is SAV7b b)
+                new SAV_Trainer7GG(b).ShowDialog();
         }
 
         private void B_OpenOPowers_Click(object sender, EventArgs e)
@@ -597,6 +611,7 @@ namespace PKHeX.WinForms.Controls
                 case SAV6 s6 when s6.XY: return new SAV_PokedexXY(s6);
                 case SAV6 s6 when s6.ORAS: return new SAV_PokedexORAS(s6);
                 case SAV7 s7 when s7.SM || s7.USUM: return new SAV_PokedexSM(s7);
+                case SAV7b b7: return new SAV_PokedexGG(b7);
 
                 default: return null;
             }
@@ -701,6 +716,9 @@ namespace PKHeX.WinForms.Controls
         public bool ExportSaveFile()
         {
             ValidateChildren();
+            bool reload = SAV is SAV7b b && b.FixPreWrite();
+            if (reload)
+                ReloadSlots();
             return WinFormsUtil.SaveSAVDialog(SAV, SAV.CurrentBox);
         }
 
@@ -965,7 +983,8 @@ namespace PKHeX.WinForms.Controls
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR); // Box RS & Battle Revolution
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;
 

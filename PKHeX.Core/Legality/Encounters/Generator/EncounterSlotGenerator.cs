@@ -10,6 +10,7 @@ using static PKHeX.Core.Encounters4;
 using static PKHeX.Core.Encounters5;
 using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
+using static PKHeX.Core.Encounters7b;
 
 namespace PKHeX.Core
 {
@@ -159,7 +160,8 @@ namespace PKHeX.Core
 
             const int fluteBoost = 4;
             const int dexnavBoost = 30;
-            int df = DexNav ? fluteBoost : 0;
+            const int comboLureBonus = 1; // +1 if combo/lure?
+            int df = DexNav ? fluteBoost : IsCatchCombo(pkm) ? comboLureBonus : 0;
             int dn = DexNav ? fluteBoost + dexnavBoost : 0;
 
             // Get Valid levels
@@ -171,6 +173,12 @@ namespace PKHeX.Core
             if (DexNav && gen == 6)
                 return GetFilteredSlots6DexNav(pkm, lvl, encounterSlots, fluteBoost);
             return GetFilteredSlots67(pkm, encounterSlots);
+        }
+
+        private static bool IsCatchCombo(PKM pkm)
+        {
+            var ver = pkm.Version;
+            return ver == (int) GameVersion.GP || ver == (int) GameVersion.GE; // ignore GO Transfers
         }
 
         private static IEnumerable<EncounterSlot> GetValidEncounterSlots12(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, int lvl = -1, bool ignoreLevel = false)
@@ -499,6 +507,10 @@ namespace PKHeX.Core
                 case GameVersion.MN: return SlotsMN;
                 case GameVersion.US: return SlotsUS;
                 case GameVersion.UM: return SlotsUM;
+
+                case GameVersion.GP: return SlotsGP;
+                case GameVersion.GE: return SlotsGE;
+                case GameVersion.GO: return SlotsGO_GG;
 
                 default: return Enumerable.Empty<EncounterArea>();
             }

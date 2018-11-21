@@ -5,9 +5,9 @@ using Xunit;
 
 namespace PKHeX.Tests.Legality
 {
-    public class ShadowTests
+    public static class ShadowTests
     {
-        public class ValidityTests : ShadowTests
+        public static class ValidityTests
         {
             public static IEnumerable<object[]> Lock1()
             {
@@ -87,7 +87,6 @@ namespace PKHeX.Tests.Legality
                 yield return new object[] { Encounters3Teams.Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 } };
             }
 
-
             public static IEnumerable<object[]> Lock5()
             {
                 // many prior, all non shadow
@@ -120,8 +119,8 @@ namespace PKHeX.Tests.Legality
             }
         }
 
-        public class PIDTests : ShadowTests
-        {  
+        public static class PIDTests
+        {
             public static IEnumerable<object[]> TestData()
             {
                 yield return new object[]
@@ -193,7 +192,7 @@ namespace PKHeX.Tests.Legality
                     foreach (var s in seeds)
                         yield return RNG.XDRNG.Reverse(s, 3);
                 }
-            }            
+            }
         }
 
         /// <summary>

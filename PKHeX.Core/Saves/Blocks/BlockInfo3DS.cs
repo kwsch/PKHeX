@@ -39,7 +39,27 @@ namespace PKHeX.Core
             blockInfoOffset = data.Length - 0x200 + 0x10;
             if (BitConverter.ToUInt32(data, blockInfoOffset) != SaveUtil.BEEF)
                 blockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-            int count = (data.Length - blockInfoOffset - 0x8) / 8;
+            int len = data.Length;
+            return GetBlockInfo(data, ref blockInfoOffset, CheckFunc, len);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="BlockInfo"/> table for the input <see cref="data"/>.
+        /// </summary>
+        /// <param name="data">Complete data array</param>
+        /// <param name="blockInfoOffset">Offset the <see cref="BlockInfo"/> starts at.</param>
+        /// <param name="CheckFunc">Checksum method for validating each block.</param>
+        /// <param name="dataLength"></param>
+        public static BlockInfo[] GetBlockInfoData(byte[] data, ref int blockInfoOffset, Func<byte[], int, int, ushort> CheckFunc, int dataLength)
+        {
+            if (BitConverter.ToUInt32(data, blockInfoOffset) != SaveUtil.BEEF)
+                blockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
+            return GetBlockInfo(data, ref blockInfoOffset, CheckFunc, dataLength);
+        }
+
+        private static BlockInfo[] GetBlockInfo(byte[] data, ref int blockInfoOffset, Func<byte[], int, int, ushort> CheckFunc, int dataLength)
+        {
+            int count = (dataLength - blockInfoOffset - 0x8) / 8;
             blockInfoOffset += 4;
 
             var Blocks = new BlockInfo[count];

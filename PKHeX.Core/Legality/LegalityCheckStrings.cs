@@ -77,6 +77,11 @@ namespace PKHeX.Core
         public static string LAbilityMismatchSOS { get; set; } = "Hidden Ability on non-SOS wild encounter.";
         public static string LAbilityUnexpected { get; set; } = "Ability is not valid for species/form.";
 
+        public static string LAwakenedCap { get; set; } = "Individual AV cannot be greater than {0}.";
+        public static string LAwakenedShouldBeValue { get; set; } = "Individual AV should be greater than {0}.";
+        public static string LAwakenedShouldBeZero { get; set; } = "Cannot receive AVs.";
+        public static string LAwakenedEXPIncreased { get; set; } = "All AVs are zero, but leveled above Met Level.";
+
         public static string LBallAbility { get; set; } = "Can't obtain Hidden Ability with Ball.";
         public static string LBallEggCherish { get; set; } = "Can't have Cherish Ball for regular Egg.";
         public static string LBallEggMaster { get; set; } = "Can't have Master Ball for regular Egg.";
@@ -159,6 +164,7 @@ namespace PKHeX.Core
         public static string LEffortAllEqual { get; set; } = "EVs are all equal.";
         public static string LEffortCap100 { get; set; } = "Individual EV for a level 100 encounter in Generation 4 cannot be greater than 100.";
         public static string LEffortEgg { get; set; } = "Eggs cannot receive EVs.";
+        public static string LEffortShouldBeZero { get; set; } = "Cannot receive EVs.";
         public static string LEffortEXPIncreased { get; set; } = "All EVs are zero, but leveled above Met Level.";
         public static string LEffortUntrainedCap { get; set; } = "Individual EV without changing EXP cannot be greater than {0}.";
 
@@ -257,6 +263,7 @@ namespace PKHeX.Core
         public static string LItemUnreleased { get; set; } = "Held item is unreleased.";
 
         public static string LIVAllEqual { get; set; } = "All IVs are equal.";
+        public static string LIVNotCorrect { get; set; } = "IVs do not match encounter requirements.";
         public static string LIVF_COUNT0_31 { get; set; } = "Should have at least {0} IVs = 31.";
 
         public static string LLevelEXPThreshold { get; set; } = "Current experience matches level threshold.";
@@ -401,6 +408,10 @@ namespace PKHeX.Core
         public static string LRibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
         public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
         public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: {0}";
+
+        public static string LStatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
+        public static string LStatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
+        public static string LStatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
 
         public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
         public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";

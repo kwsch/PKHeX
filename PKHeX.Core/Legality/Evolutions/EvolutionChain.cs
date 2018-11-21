@@ -255,7 +255,7 @@ namespace PKHeX.Core
                 maxspeciesorigin = MaxSpeciesID_2;
 
             int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
-            var et = EvolutionTree.GetEvolutionTree(tree);
+            var et = EvolutionTree.GetEvolutionTree(pkm, tree);
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
 

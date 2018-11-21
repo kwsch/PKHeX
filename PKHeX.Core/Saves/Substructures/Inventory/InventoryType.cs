@@ -13,5 +13,6 @@ namespace PKHeX.Core
         PCItems,
         FreeSpace,
         ZCrystals,
+        Candy,
     }
 }

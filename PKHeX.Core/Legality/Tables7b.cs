@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
         {
-            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke,
+            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
         };
 
         #region Met Locations
@@ -64,8 +64,8 @@ namespace PKHeX.Core
         };
 
         internal static readonly ushort[] Pouch_Candy_GG_Species =
-            {
-            979,
+        {
+            978, 979,
             980, 981, 982, 983, 984, 985, 986, 987, 988, 989,
             990, 991, 992, 993, 994, 995, 996, 997, 998, 999,
             1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009,
@@ -234,7 +234,7 @@ namespace PKHeX.Core
             729, // Zippy Zap
             730, // Splishy Splash
             731, // Floaty Fall
-            732, // Pika Papow
+            // 732, // Pika Papow -- Joycon Shake
         };
 
         internal static readonly int[] Tutor_StarterEevee =
@@ -247,9 +247,128 @@ namespace PKHeX.Core
             738, // Sappy Seed
             739, // Freezy Frost
             740, // Sparkly Swirl
-            741, // Veevee Volley
+            // 741, // Veevee Volley -- Joycon Shake
         };
 
         #endregion
+
+        internal static readonly HashSet<int> GoTransferSpeciesShinyBan = new HashSet<int>
+        {
+            013, // Weedle
+            014, // Kakuna
+            015, // Beedrill
+            016, // Pidgey
+            017, // Pidgeotto
+            018, // Pidgeot
+            019, // Rattata
+            020, // Raticate
+            021, // Spearow
+            022, // Fearow
+            023, // Ekans
+            024, // Arbok
+            027, // Sandshrew
+            028, // Sandslash
+            032, // Nidoran-M
+            033, // Nidorino
+            034, // Nidoking
+            035, // Clefairy
+            036, // Clefable
+            037, // Vulpix
+            038, // Ninetales
+            039, // Jigglypuff
+            040, // Wigglytuff
+            041, // Zubat
+            042, // Golbat
+            043, // Oddish
+            044, // Gloom
+            045, // Vileplume
+            046, // Paras
+            047, // Parasect
+            048, // Venonat
+            049, // Venomoth
+            050, // Diglett
+            051, // Dugtrio
+            052, // Meowth
+            053, // Persian
+            054, // Psyduck
+            055, // Golduck
+            056, // Mankey
+            057, // Primeape
+            060, // Poliwag
+            061, // Poliwhirl
+            062, // Poliwrath
+            063, // Abra
+            064, // Kadabra
+            065, // Alakazam
+            066, // Machop
+            067, // Machoke
+            068, // Machamp
+            069, // Bellsprout
+            070, // Weepinbell
+            071, // Victreebel
+            072, // Tentacool
+            073, // Tentacruel
+            079, // Slowpoke
+            080, // Slowbro
+            083, // Farfetch'd
+            084, // Doduo
+            085, // Dodrio
+            086, // Seel
+            087, // Dewgong
+            095, // Onix
+            100, // Voltorb
+            101, // Electrode
+            102, // Exeggcute
+            103, // Exeggutor
+            106, // Hitmonlee
+            107, // Hitmonchan
+            108, // Lickitung
+            109, // Koffing
+            110, // Weezing
+            111, // Rhyhorn
+            112, // Rhydon
+            113, // Chansey
+            114, // Tangela
+            115, // Kangaskhan
+            116, // Horsea
+            117, // Seadra
+            118, // Goldeen
+            119, // Seaking
+            120, // Staryu
+            121, // Starmie
+            122, // Mr. Mime
+            123, // Scyther
+            124, // Jynx
+            128, // Tauros
+            131, // Lapras
+            132, // Ditto
+            137, // Porygon
+            143, // Snorlax
+            150, // Mewtwo
+            151, // Mew
+            808, // Meltan
+            809, // Melmetal
+        };
+
+        internal static readonly HashSet<int> GoTransferSpeciesShinyBanAlola = new HashSet<int>
+        {
+            019, // Rattata
+            020, // Raticate
+            026, // Raichu
+            027, // Sandshrew
+            028, // Sandslash
+            037, // Vulpix
+            038, // Ninetales
+            050, // Diglett
+            051, // Dugtrio
+            052, // Meowth
+            053, // Persian
+            074, // Geodude
+            075, // Graveler
+            076, // Golem
+            088, // Grimer
+            089, // Muk
+            103, // Exeggutor
+        };
     }
 }
