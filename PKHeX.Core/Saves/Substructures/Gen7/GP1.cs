@@ -42,12 +42,17 @@ namespace PKHeX.Core
         public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
 
         public int Species => BitConverter.ToInt32(Data, 0x28);
+        public int CP => BitConverter.ToInt32(Data, 0x2C);
         public float LevelF => BitConverter.ToSingle(Data, 0x30);
         public int Level => Math.Max(1, (int)Math.Round(LevelF));
 
         public int IV1 => BitConverter.ToInt32(Data, 0x50);
         public int IV2 => BitConverter.ToInt32(Data, 0x54);
         public int IV3 => BitConverter.ToInt32(Data, 0x58);
+        public int Date => BitConverter.ToInt32(Data, 0x5C); // ####.##.## YYYY.MM.DD
+        public int Year => Date / 1_00_00;
+        public int Month => (Date / 1_00) % 1_00;
+        public int Day => Date % 1_00;
 
         public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
 
@@ -65,9 +70,11 @@ namespace PKHeX.Core
         public static readonly string[] Genders = {"M", "F", "-"};
         public string GenderString => (uint) Gender >= Genders.Length ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
-        public string FileName => $"{ShinyString}{Nickname} lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2}.gp1";
+        public string FileName => $"{ShinyString}{Nickname} lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP}).gp1";
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
 
-        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, Captured in {GeoCityName} by {Username1}.";
+        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month}/{Day}";
+        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
+        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {StatMove}, {GeoTime}.";
     }
 }
