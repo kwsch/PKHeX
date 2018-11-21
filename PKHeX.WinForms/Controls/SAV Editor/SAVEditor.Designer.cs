@@ -167,6 +167,7 @@
             // Box
             // 
             this.Box.AllowDrop = true;
+            this.Box.CanSetCurrentBox = true;
             this.Box.ControlsEnabled = true;
             this.Box.ControlsVisible = true;
             this.Box.CurrentBox = -1;
