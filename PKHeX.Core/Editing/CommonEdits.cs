@@ -603,6 +603,8 @@ namespace PKHeX.Core
                 pkm.OT_Friendship = 1;
             else
                 pkm.CurrentFriendship = byte.MaxValue;
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
 
         /// <summary>
@@ -614,6 +616,8 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return;
             pkm.CurrentLevel = 100;
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
 
         /// <summary>
