@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public override int Format => 7;
 
-        public WB7() : this(new byte[SizeFull]) { }
+        public WB7() => Data = new byte[SizeFull];
         public WB7(byte[] data) => Data = data;
 
         public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
@@ -418,7 +418,7 @@ namespace PKHeX.Core
             if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
-                do { pk.Version = (int)GameVersion.SN + Util.Rand.Next(4); }
+                do { pk.Version = (int)GameVersion.GP + Util.Rand.Next(2); }
                 while (!CanBeReceivedByVersion(pk.Version));
             }
 

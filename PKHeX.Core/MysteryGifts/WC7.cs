@@ -13,9 +13,11 @@ namespace PKHeX.Core
         public const int SizeFull = 0x310;
         public override int Format => 7;
 
-        public WC7(byte[] data = null)
+        public WC7() => Data = new byte[Size];
+
+        public WC7(byte[] data)
         {
-            Data = data ?? new byte[Size];
+            Data = data;
             if (Data.Length != SizeFull)
                 return;
 

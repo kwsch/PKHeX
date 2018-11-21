@@ -15,16 +15,17 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public PK3(byte[] decryptedData = null, string ident = null)
+        public PK3() => Data = new byte[PKX.SIZE_3PARTY];
+
+        public PK3(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public PK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new PK3((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);

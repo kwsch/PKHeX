@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Notes about the next format
     /// </summary>
-    public class PB7 : PKM, IAwakened
+    public sealed class PB7 : PKM, IAwakened
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -21,9 +21,11 @@ namespace PKHeX.Core
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormeEntry(Species, AltForm);
 
-        public PB7(byte[] decryptedData = null, string ident = null)
+        public PB7() => Data = new byte[SIZE];
+
+        public PB7(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE];
+            Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, 7);
             Identifier = ident;
             if (Data.Length != SIZE)

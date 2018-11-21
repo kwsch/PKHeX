@@ -11,10 +11,8 @@ namespace PKHeX.Core
         public const int Size = 0xCC;
         public override int Format => 5;
 
-        public PGF(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PGF() => Data = new byte[Size];
+        public PGF(byte[] data) => Data = data;
 
         public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public override int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }

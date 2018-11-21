@@ -16,7 +16,9 @@ namespace PKHeX.Core
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
-        public PK4(byte[] decryptedData = null, string ident = null)
+        public PK4() => Data = new byte[PKX.SIZE_4PARTY];
+
+        public PK4(byte[] decryptedData, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data, Format);
@@ -25,7 +27,6 @@ namespace PKHeX.Core
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public PK4() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new PK4((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
