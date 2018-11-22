@@ -451,7 +451,7 @@ namespace PKHeX.Core
         public virtual int BoxSlotCount => 30;
         public virtual int BoxesUnlocked { get => -1; set { } }
         public virtual byte[] BoxFlags { get => null; set { } }
-        public virtual int CurrentBox { get => 0; set { } }
+        public virtual int CurrentBox { get; set; }
         protected int[] LockedSlots = Array.Empty<int>();
         protected int[] TeamSlots = Array.Empty<int>();
         protected virtual IList<int>[] SlotPointers => new[] {LockedSlots,TeamSlots};
