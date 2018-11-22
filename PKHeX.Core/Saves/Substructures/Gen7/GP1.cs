@@ -14,6 +14,8 @@ namespace PKHeX.Core
         public GP1() => Data = (byte[])Blank.Clone();
         public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
 
+        public GP1(byte[] data) => Data = data;
+
         public static GP1 FromData(byte[] data, int offset)
         {
             var gpkm = new GP1();
@@ -76,5 +78,57 @@ namespace PKHeX.Core
         public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month}/{Day}";
         public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
         public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {StatMove}, {GeoTime}.";
+
+        public PB7 ConvertToPB7(ITrainerInfo sav)
+        {
+            var pk = new PB7
+            {
+                Version = (int) GameVersion.GO,
+                Species = Species,
+                AltForm = AltForm,
+                Gender = Gender,
+                Met_Location = 50, // Go complex
+                Met_Year = Year - 2000,
+                Met_Month = Month,
+                Met_Day = Day,
+                Nickname = Nickname,
+                CurrentLevel = Level,
+                Met_Level = Level,
+                TID = sav.TID,
+                SID = sav.SID,
+                OT_Name = sav.OT,
+                Ball = 4,
+                Language = sav.Language,
+                Nature = Util.Rand.Next(25),
+                PID = Util.Rand32(),
+            };
+
+            var nick = PKX.GetSpeciesNameGeneration(Species, sav.Language, 7);
+            if (nick != Nickname)
+                pk.IsNicknamed = true;
+
+            pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;
+            pk.IV_ATK = pk.IV_SPA = (IV2 * 2) + 1;
+            pk.IV_HP = (IV1 * 2) + 1;
+            pk.IV_SPE = Util.Rand.Next(32);
+
+            pk.RefreshAbility(Util.Rand.Next(2));
+            if (IsShiny)
+                pk.SetShiny();
+
+            var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+
+            pk.HeightScalar = Util.Rand.Next(0x100);
+            pk.WeightScalar = Util.Rand.Next(0x100);
+
+            pk.AwakeningSetAllTo(2);
+            pk.ResetCalculatedValues();
+
+            pk.SetRandomEC();
+            return pk;
+        }
     }
 }

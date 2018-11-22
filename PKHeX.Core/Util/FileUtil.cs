@@ -58,7 +58,18 @@ namespace PKHeX.Core
                 return bv;
             if (TryGetMysteryGift(data, out MysteryGift g, ext))
                 return g;
+            if (TryGetGP1(data, out GP1 gp))
+                return gp;
             return null;
+        }
+
+        private static bool TryGetGP1(byte[] data, out GP1 gp1)
+        {
+            gp1 = null;
+            if (data.Length != GP1.SIZE || BitConverter.ToUInt32(data, 0x28) == 0)
+                return false;
+            gp1 = new GP1(data);
+            return true;
         }
 
         /// <summary>
@@ -205,6 +216,8 @@ namespace PKHeX.Core
             var fi = new FileInfo(file);
             if (!fi.Exists)
                 return null;
+            if (fi.Length == GP1.SIZE && TryGetGP1(File.ReadAllBytes(file), out var gp1))
+                return gp1.ConvertToPB7(SAV);
             if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
                 return null;
             var data = File.ReadAllBytes(file);

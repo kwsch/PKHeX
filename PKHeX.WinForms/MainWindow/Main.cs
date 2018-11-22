@@ -574,6 +574,7 @@ namespace PKHeX.WinForms
                 case BattleVideo b: return OpenBattleVideo(b);
                 case MysteryGift g: return OpenMysteryGift(g, path);
                 case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
+                case GP1 gp: return OpenPKM(gp.ConvertToPB7(C_SAV.SAV));
 
                 case SAV3GCMemoryCard gc:
                     if (!CheckGCMemoryCard(gc, path))
