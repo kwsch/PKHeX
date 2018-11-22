@@ -778,7 +778,7 @@ namespace PKHeX.Core
                 return string.Empty;
 
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
+            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
         }
 
         /// <summary>
