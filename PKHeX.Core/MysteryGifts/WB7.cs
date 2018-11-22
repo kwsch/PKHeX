@@ -26,7 +26,7 @@ namespace PKHeX.Core
                 return false;
             if (RestrictVersion == 0)
                 return true; // no data
-            var bitIndex = v - (int)GameVersion.SN;
+            var bitIndex = v - (int)GameVersion.GP;
             var bit = 1 << bitIndex;
             return (RestrictVersion & bit) != 0;
         }
