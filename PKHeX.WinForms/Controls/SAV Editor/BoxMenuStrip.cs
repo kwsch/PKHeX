@@ -57,6 +57,7 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.SortDate] = Resources.date,
             [BoxManipType.SortName] = Resources.alphaAZ,
             [BoxManipType.SortFavorite] = Resources.heart,
+            [BoxManipType.SortParty] = Resources.users,
             [BoxManipType.SortShiny] = Resources.showdown,
             [BoxManipType.SortRandom] = Resources.wand,
 

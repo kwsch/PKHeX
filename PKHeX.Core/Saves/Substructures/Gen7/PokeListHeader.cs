@@ -114,6 +114,15 @@ namespace PKHeX.Core
             return SAV.GetBoxSlotOffset(position);
         }
 
+        public int GetPartyIndex(int box, int slot)
+        {
+            int slotIndex = slot + (SAV.BoxSlotCount * box);
+            if ((uint)slotIndex >= MAX_SLOTS)
+                return MAX_SLOTS;
+            var index = Array.IndexOf(PokeListInfo, slotIndex);
+            return index >= 0 ? index : MAX_SLOTS;
+        }
+
         public bool IsSlotInBattleTeam(int box, int slot)
         {
             if ((uint)slot >= SAV.SlotCount || (uint)box >= SAV.BoxCount)
