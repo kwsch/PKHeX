@@ -72,8 +72,19 @@ namespace PKHeX.Core
         public static readonly string[] Genders = {"M", "F", "-"};
         public string GenderString => (uint) Gender >= Genders.Length ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
-        public string FileName => $"{ShinyString}{Nickname} lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP}).gp1";
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
+        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? PKX.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
+        public string FileName => $"{FileNameWithoutExtension}.gp1";
+
+        public string FileNameWithoutExtension
+        {
+            get
+            {
+                string form = AltForm > 0 ? $"-{AltForm:00}" : "";
+                string star = IsShiny ? " ★" : "";
+                return $"{Species:000}{form}{star} - {NickStr} -  lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP})";
+            }
+        }
 
         public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month}/{Day}";
         public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
@@ -91,7 +102,6 @@ namespace PKHeX.Core
                 Met_Year = Year - 2000,
                 Met_Month = Month,
                 Met_Day = Day,
-                Nickname = Nickname,
                 CurrentLevel = Level,
                 Met_Level = Level,
                 TID = sav.TID,
@@ -103,9 +113,16 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
             };
 
-            var nick = PKX.GetSpeciesNameGeneration(Species, sav.Language, 7);
-            if (nick != Nickname)
+            var nick = Nickname;
+            if (!string.IsNullOrWhiteSpace(nick))
+            {
+                pk.Nickname = nick;
                 pk.IsNicknamed = true;
+            }
+            else
+            {
+                pk.Nickname = PKX.GetSpeciesNameGeneration(Species, sav.Language, 7);
+            }
 
             pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;
             pk.IV_ATK = pk.IV_SPA = (IV2 * 2) + 1;
