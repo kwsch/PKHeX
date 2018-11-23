@@ -111,8 +111,7 @@ namespace PKHeX.Core
         /// <returns>True if any files are imported.</returns>
         public static bool LoadBoxes(this SaveFile SAV, IEnumerable<string> filepaths, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
         {
-            int generation = SAV.Generation;
-            var pks = GetPKMsFromPaths(filepaths, generation);
+            var pks = GetPossiblePKMsFromPaths(SAV, filepaths);
             return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
         }
 
@@ -162,13 +161,33 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> filepaths, int generation)
+        public static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> filepaths, int generation)
         {
             return filepaths
                 .Where(file => PKX.IsPKM(new FileInfo(file).Length))
                 .Select(File.ReadAllBytes)
                 .Select(data => PKMConverter.GetPKMfromBytes(data, prefer: generation))
                 .Where(temp => temp != null);
+        }
+
+        private static IEnumerable<PKM> GetPossiblePKMsFromPaths(SaveFile sav, IEnumerable<string> filepaths)
+        {
+            foreach (var f in filepaths)
+            {
+                var obj = FileUtil.GetSupportedFile(f, sav);
+                switch (obj)
+                {
+                    case PKM pk:
+                        yield return pk;
+                        break;
+                    case MysteryGift g when g.IsPokémon:
+                        yield return g.ConvertToPKM(sav);
+                        break;
+                    case GP1 g when g.Species != 0:
+                        yield return g.ConvertToPB7(sav);
+                        break;
+                }
+            }
         }
     }
 }
