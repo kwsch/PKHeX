@@ -63,6 +63,8 @@
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.Tab_Complex = new System.Windows.Forms.TabPage();
+            this.B_DeleteAll = new System.Windows.Forms.Button();
+            this.B_DeleteGo = new System.Windows.Forms.Button();
             this.B_ImportGoFiles = new System.Windows.Forms.Button();
             this.B_ExportGoFiles = new System.Windows.Forms.Button();
             this.L_GoSlotSummary = new System.Windows.Forms.Label();
@@ -392,6 +394,8 @@
             // Tab_Complex
             //
             this.Tab_Complex.AllowDrop = true;
+            this.Tab_Complex.Controls.Add(this.B_DeleteAll);
+            this.Tab_Complex.Controls.Add(this.B_DeleteGo);
             this.Tab_Complex.Controls.Add(this.B_ImportGoFiles);
             this.Tab_Complex.Controls.Add(this.B_ExportGoFiles);
             this.Tab_Complex.Controls.Add(this.L_GoSlotSummary);
@@ -410,30 +414,50 @@
             this.Tab_Complex.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.Tab_Complex.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             //
+            // B_DeleteAll
+            //
+            this.B_DeleteAll.Location = new System.Drawing.Point(303, 139);
+            this.B_DeleteAll.Name = "B_DeleteAll";
+            this.B_DeleteAll.Size = new System.Drawing.Size(75, 23);
+            this.B_DeleteAll.TabIndex = 9;
+            this.B_DeleteAll.Text = "Delete All";
+            this.B_DeleteAll.UseVisualStyleBackColor = true;
+            this.B_DeleteAll.Click += new System.EventHandler(this.B_DeleteAll_Click);
+            //
+            // B_DeleteGo
+            //
+            this.B_DeleteGo.Location = new System.Drawing.Point(222, 139);
+            this.B_DeleteGo.Name = "B_DeleteGo";
+            this.B_DeleteGo.Size = new System.Drawing.Size(75, 23);
+            this.B_DeleteGo.TabIndex = 8;
+            this.B_DeleteGo.Text = "Delete";
+            this.B_DeleteGo.UseVisualStyleBackColor = true;
+            this.B_DeleteGo.Click += new System.EventHandler(this.B_DeleteGo_Click);
+            //
             // B_ImportGoFiles
             //
-            this.B_ImportGoFiles.Location = new System.Drawing.Point(6, 144);
+            this.B_ImportGoFiles.Location = new System.Drawing.Point(122, 221);
             this.B_ImportGoFiles.Name = "B_ImportGoFiles";
-            this.B_ImportGoFiles.Size = new System.Drawing.Size(131, 63);
+            this.B_ImportGoFiles.Size = new System.Drawing.Size(110, 63);
             this.B_ImportGoFiles.TabIndex = 7;
-            this.B_ImportGoFiles.Text = "Dump Individual Files of Go Park Entities";
+            this.B_ImportGoFiles.Text = "Import from Folder (start at current slot)";
             this.B_ImportGoFiles.UseVisualStyleBackColor = true;
             this.B_ImportGoFiles.Click += new System.EventHandler(this.B_ImportGoFiles_Click);
             //
             // B_ExportGoFiles
             //
-            this.B_ExportGoFiles.Location = new System.Drawing.Point(6, 75);
+            this.B_ExportGoFiles.Location = new System.Drawing.Point(6, 221);
             this.B_ExportGoFiles.Name = "B_ExportGoFiles";
-            this.B_ExportGoFiles.Size = new System.Drawing.Size(131, 63);
+            this.B_ExportGoFiles.Size = new System.Drawing.Size(110, 63);
             this.B_ExportGoFiles.TabIndex = 6;
-            this.B_ExportGoFiles.Text = "Dump Individual Files of Go Park Entities";
+            this.B_ExportGoFiles.Text = "Export all to Folder";
             this.B_ExportGoFiles.UseVisualStyleBackColor = true;
             this.B_ExportGoFiles.Click += new System.EventHandler(this.B_ExportGoFiles_Click);
             //
             // L_GoSlotSummary
             //
             this.L_GoSlotSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.L_GoSlotSummary.Location = new System.Drawing.Point(165, 58);
+            this.L_GoSlotSummary.Location = new System.Drawing.Point(27, 58);
             this.L_GoSlotSummary.Name = "L_GoSlotSummary";
             this.L_GoSlotSummary.Size = new System.Drawing.Size(189, 104);
             this.L_GoSlotSummary.TabIndex = 5;
@@ -441,7 +465,7 @@
             //
             // B_Import
             //
-            this.B_Import.Location = new System.Drawing.Point(198, 6);
+            this.B_Import.Location = new System.Drawing.Point(222, 87);
             this.B_Import.Name = "B_Import";
             this.B_Import.Size = new System.Drawing.Size(75, 23);
             this.B_Import.TabIndex = 4;
@@ -451,7 +475,7 @@
             //
             // B_Export
             //
-            this.B_Export.Location = new System.Drawing.Point(279, 6);
+            this.B_Export.Location = new System.Drawing.Point(222, 58);
             this.B_Export.Name = "B_Export";
             this.B_Export.Size = new System.Drawing.Size(75, 23);
             this.B_Export.TabIndex = 3;
@@ -461,7 +485,7 @@
             //
             // L_GoSlot
             //
-            this.L_GoSlot.Location = new System.Drawing.Point(143, 35);
+            this.L_GoSlot.Location = new System.Drawing.Point(5, 35);
             this.L_GoSlot.Name = "L_GoSlot";
             this.L_GoSlot.Size = new System.Drawing.Size(85, 20);
             this.L_GoSlot.TabIndex = 2;
@@ -470,7 +494,7 @@
             //
             // NUD_GoIndex
             //
-            this.NUD_GoIndex.Location = new System.Drawing.Point(234, 35);
+            this.NUD_GoIndex.Location = new System.Drawing.Point(96, 35);
             this.NUD_GoIndex.Maximum = new decimal(new int[] {
             999,
             0,
@@ -483,7 +507,7 @@
             //
             // B_ExportGoSummary
             //
-            this.B_ExportGoSummary.Location = new System.Drawing.Point(6, 6);
+            this.B_ExportGoSummary.Location = new System.Drawing.Point(238, 221);
             this.B_ExportGoSummary.Name = "B_ExportGoSummary";
             this.B_ExportGoSummary.Size = new System.Drawing.Size(131, 63);
             this.B_ExportGoSummary.TabIndex = 0;
@@ -564,5 +588,7 @@
         private System.Windows.Forms.Label L_GoSlotSummary;
         private System.Windows.Forms.Button B_ExportGoFiles;
         private System.Windows.Forms.Button B_ImportGoFiles;
+        private System.Windows.Forms.Button B_DeleteAll;
+        private System.Windows.Forms.Button B_DeleteGo;
     }
 }

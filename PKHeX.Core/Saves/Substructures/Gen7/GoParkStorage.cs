@@ -51,5 +51,12 @@ namespace PKHeX.Core
 
         public IEnumerator<GP1> GetEnumerator() => (IEnumerator<GP1>)AllEntities.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => AllEntities.GetEnumerator();
+
+        public void DeleteAll()
+        {
+            var blank = new GP1();
+            for (int i = 0; i < Count; i++)
+                this[i] = blank;
+        }
     }
 }

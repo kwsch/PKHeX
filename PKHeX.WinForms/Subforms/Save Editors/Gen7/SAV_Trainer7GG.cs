@@ -232,7 +232,7 @@ namespace PKHeX.WinForms
             IEnumerable<string> files = Directory.GetFiles(fbd.SelectedPath);
             files = files.Where(z => Path.GetExtension(z) == ".gp1" && new FileInfo(z).Length == GP1.SIZE);
 
-            int ctr = 0;
+            int ctr = (int)NUD_GoIndex.Value;
             foreach (var f in files)
             {
                 while (true)
@@ -248,7 +248,7 @@ namespace PKHeX.WinForms
                 Park[ctr] = new GP1(data);
                 ctr++;
             }
-
+            UpdateGoSummary((int) NUD_GoIndex.Value);
             System.Media.SystemSounds.Asterisk.Play();
         }
 
@@ -264,6 +264,25 @@ namespace PKHeX.WinForms
             var prefix = $"Area: {area + 1:00}, Slot: {slot + 1:00}{Environment.NewLine}";
             var dump = data.Species == 0 ? "Empty" : data.Dump(GameInfo.Strings.Species, index);
             L_GoSlotSummary.Text = prefix + dump;
+        }
+
+        private void B_DeleteAll_Click(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Delete all slots?") != DialogResult.Yes)
+                return;
+
+            Park.DeleteAll();
+            UpdateGoSummary((int) NUD_GoIndex.Value);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_DeleteGo_Click(object sender, EventArgs e)
+        {
+            int index = (int)NUD_GoIndex.Value;
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
+            Park[index] = new GP1();
+            UpdateGoSummary((int)NUD_GoIndex.Value);
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }
