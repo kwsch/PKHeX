@@ -63,6 +63,7 @@
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.Tab_Complex = new System.Windows.Forms.TabPage();
+            this.B_ImportGoFiles = new System.Windows.Forms.Button();
             this.B_ExportGoFiles = new System.Windows.Forms.Button();
             this.L_GoSlotSummary = new System.Windows.Forms.Label();
             this.B_Import = new System.Windows.Forms.Button();
@@ -391,6 +392,7 @@
             // Tab_Complex
             //
             this.Tab_Complex.AllowDrop = true;
+            this.Tab_Complex.Controls.Add(this.B_ImportGoFiles);
             this.Tab_Complex.Controls.Add(this.B_ExportGoFiles);
             this.Tab_Complex.Controls.Add(this.L_GoSlotSummary);
             this.Tab_Complex.Controls.Add(this.B_Import);
@@ -407,6 +409,16 @@
             this.Tab_Complex.UseVisualStyleBackColor = true;
             this.Tab_Complex.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.Tab_Complex.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
+            //
+            // B_ImportGoFiles
+            //
+            this.B_ImportGoFiles.Location = new System.Drawing.Point(6, 144);
+            this.B_ImportGoFiles.Name = "B_ImportGoFiles";
+            this.B_ImportGoFiles.Size = new System.Drawing.Size(131, 63);
+            this.B_ImportGoFiles.TabIndex = 7;
+            this.B_ImportGoFiles.Text = "Dump Individual Files of Go Park Entities";
+            this.B_ImportGoFiles.UseVisualStyleBackColor = true;
+            this.B_ImportGoFiles.Click += new System.EventHandler(this.B_ImportGoFiles_Click);
             //
             // B_ExportGoFiles
             //
@@ -551,5 +563,6 @@
         private System.Windows.Forms.Button B_Export;
         private System.Windows.Forms.Label L_GoSlotSummary;
         private System.Windows.Forms.Button B_ExportGoFiles;
+        private System.Windows.Forms.Button B_ImportGoFiles;
     }
 }
