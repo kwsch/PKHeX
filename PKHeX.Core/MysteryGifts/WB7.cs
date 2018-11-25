@@ -152,8 +152,8 @@ namespace PKHeX.Core
 
         public int OriginGame
         {
-            get => Data[CardStart + 0x6C];
-            set => Data[CardStart + 0x6C] = (byte)value;
+            get => BitConverter.ToInt32(Data, CardStart + 0x6C);
+            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x6C);
         }
 
         public uint EncryptionConstant {
@@ -166,7 +166,7 @@ namespace PKHeX.Core
             get => Data[CardStart + 0x76];
             set => Data[CardStart + 0x76] = (byte)value; }
 
-        public override int HeldItem
+        public override int HeldItem // no references
         {
             get => BitConverter.ToUInt16(Data, CardStart + 0x78);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x78);
@@ -189,18 +189,11 @@ namespace PKHeX.Core
 
         public int Nature { get => (sbyte)Data[CardStart + 0xA0]; set => Data[CardStart + 0xA0] = (byte)value; }
         public override int Gender { get => Data[CardStart + 0xA1]; set => Data[CardStart + 0xA1] = (byte)value; }
-        public override int AbilityType { get => Data[CardStart + 0xA2]; set => Data[CardStart + 0xA2] = (byte)value; }
+        public override int AbilityType { get => Data[CardStart + 0xA2]; set => Data[CardStart + 0xA2] = (byte)value; } // no references
         public Shiny PIDType { get => (Shiny)Data[CardStart + 0xA3]; set => Data[CardStart + 0xA3] = (byte)value; }
         public override int EggLocation { get => BitConverter.ToUInt16(Data, CardStart + 0xA4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xA4); }
         public int MetLocation  { get => BitConverter.ToUInt16(Data, CardStart + 0xA6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xA6); }
         public int MetLevel { get => Data[CardStart + 0xA8]; set => Data[CardStart + 0xA8] = (byte)value; }
-
-        public int AV_HP { get => Data[CardStart + 0xA9]; set => Data[CardStart + 0xA9] = (byte)value; }
-        public int AV_ATK { get => Data[CardStart + 0xAA]; set => Data[CardStart + 0xAA] = (byte)value; }
-        public int AV_DEF { get => Data[CardStart + 0xAB]; set => Data[CardStart + 0xAB] = (byte)value; }
-        public int AV_SPE { get => Data[CardStart + 0xAC]; set => Data[CardStart + 0xAC] = (byte)value; }
-        public int AV_SPA { get => Data[CardStart + 0xAD]; set => Data[CardStart + 0xAD] = (byte)value; }
-        public int AV_SPD { get => Data[CardStart + 0xAE]; set => Data[CardStart + 0xAE] = (byte)value; }
 
         public int IV_HP { get => Data[CardStart + 0xAF]; set => Data[CardStart + 0xAF] = (byte)value; }
         public int IV_ATK { get => Data[CardStart + 0xB0]; set => Data[CardStart + 0xB0] = (byte)value; }
@@ -227,17 +220,12 @@ namespace PKHeX.Core
         public int RelearnMove3 { get => BitConverter.ToUInt16(Data, CardStart + 0xDC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDC); }
         public int RelearnMove4 { get => BitConverter.ToUInt16(Data, CardStart + 0xDE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDE); }
 
-        public int OT_Intensity { get => Data[CardStart + 0xE0]; set => Data[CardStart + 0xE0] = (byte)value; }
-        public int OT_Memory { get => Data[CardStart + 0xE1]; set => Data[CardStart + 0xE1] = (byte)value; }
-        public int OT_TextVar { get => BitConverter.ToUInt16(Data, CardStart + 0xE2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xE2); }
-        public int OT_Feeling { get => Data[CardStart + 0xE4]; set => Data[CardStart + 0xE4] = (byte)value; }
-
-        public int EV_HP {  get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
-        public int EV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
-        public int EV_DEF { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
-        public int EV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
-        public int EV_SPA { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
-        public int EV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
+        public int AV_HP {  get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
+        public int AV_ATK { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
+        public int AV_DEF { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
+        public int AV_SPE { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
+        public int AV_SPA { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
+        public int AV_SPD { get => Data[CardStart + 0xEB]; set => Data[CardStart + 0xEB] = (byte)value; }
 
         private byte RIB0 { get => Data[CardStart + 0x74]; set => Data[CardStart + 0x74] = value; }
         private byte RIB1 { get => Data[CardStart + 0x75]; set => Data[CardStart + 0x75] = value; }
@@ -267,17 +255,6 @@ namespace PKHeX.Core
                 if (value?.Length != 6) return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
-            }
-        }
-
-        public int[] EVs
-        {
-            get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
-            set
-            {
-                if (value?.Length != 6) return;
-                EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
-                EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
         }
 
@@ -406,13 +383,7 @@ namespace PKHeX.Core
                 RibbonChampionWorld = RibbonChampionWorld,
 
                 OT_Friendship = pi.BaseFriendship,
-                OT_Intensity = OT_Intensity,
-                OT_Memory = OT_Memory,
-                OT_TextVar = OT_TextVar,
-                OT_Feeling = OT_Feeling,
                 FatefulEncounter = true,
-
-                EVs = EVs,
             };
 
             if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
