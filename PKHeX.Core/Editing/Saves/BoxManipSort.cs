@@ -45,6 +45,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortDate, PKMSorting.OrderByDateObtained, s => s.Generation >= 4),
             new BoxManipSort(BoxManipType.SortName, list => list.OrderBySpeciesName(GameInfo.Strings.Species)),
             new BoxManipSort(BoxManipType.SortFavorite, list => list.OrderByCustom(pk => !(pk as PB7)?.Favorite), s => s is SAV7b),
+            new BoxManipSort(BoxManipType.SortParty, (list, sav) => list.OrderByCustom(pk => ((SAV7b)sav).Storage.GetPartyIndex(pk.Box - 1, pk.Slot - 1)), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortShiny, list => list.OrderByCustom(pk => !pk.IsShiny)),
             new BoxManipSort(BoxManipType.SortRandom, list => list.OrderByCustom(_ => Util.Rand32())),
         };

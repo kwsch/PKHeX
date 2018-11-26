@@ -17,7 +17,9 @@ namespace PKHeX.Core
         public override int Format => 6;
         public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormeEntry(Species, AltForm);
 
-        public PK6(byte[] decryptedData = null, string ident = null)
+        public PK6() => Data = new byte[PKX.SIZE_6PARTY];
+
+        public PK6(byte[] decryptedData, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data, Format);

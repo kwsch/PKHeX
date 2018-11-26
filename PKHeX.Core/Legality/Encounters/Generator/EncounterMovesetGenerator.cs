@@ -48,7 +48,7 @@ namespace PKHeX.Core
         /// <param name="generation">Specific generation to iterate versions for.</param>
         public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int generation, int[] moves = null)
         {
-            var vers = GameUtil.GetVersionsInGeneration(generation);
+            var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
             return GeneratePKMs(pk, info, moves, vers);
         }
 
@@ -61,7 +61,7 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, int generation, int[] moves = null)
         {
-            var vers = GameUtil.GetVersionsInGeneration(generation);
+            var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
             return GenerateEncounters(pk, moves, vers);
         }
 

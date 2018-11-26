@@ -14,6 +14,8 @@ namespace PKHeX.Core
         public GP1() => Data = (byte[])Blank.Clone();
         public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
 
+        public GP1(byte[] data) => Data = data;
+
         public static GP1 FromData(byte[] data, int offset)
         {
             var gpkm = new GP1();
@@ -42,12 +44,17 @@ namespace PKHeX.Core
         public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
 
         public int Species => BitConverter.ToInt32(Data, 0x28);
+        public int CP => BitConverter.ToInt32(Data, 0x2C);
         public float LevelF => BitConverter.ToSingle(Data, 0x30);
         public int Level => Math.Max(1, (int)Math.Round(LevelF));
 
         public int IV1 => BitConverter.ToInt32(Data, 0x50);
         public int IV2 => BitConverter.ToInt32(Data, 0x54);
         public int IV3 => BitConverter.ToInt32(Data, 0x58);
+        public int Date => BitConverter.ToInt32(Data, 0x5C); // ####.##.## YYYY.MM.DD
+        public int Year => Date / 1_00_00;
+        public int Month => (Date / 1_00) % 1_00;
+        public int Day => Date % 1_00;
 
         public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
 
@@ -65,9 +72,80 @@ namespace PKHeX.Core
         public static readonly string[] Genders = {"M", "F", "-"};
         public string GenderString => (uint) Gender >= Genders.Length ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
-        public string FileName => $"{ShinyString}{Nickname} lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2}.gp1";
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
+        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? PKX.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
+        public string FileName => $"{FileNameWithoutExtension}.gp1";
 
-        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, Captured in {GeoCityName} by {Username1}.";
+        public string FileNameWithoutExtension
+        {
+            get
+            {
+                string form = AltForm > 0 ? $"-{AltForm:00}" : "";
+                string star = IsShiny ? " ★" : "";
+                return $"{Species:000}{form}{star} - {NickStr} -  lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP})";
+            }
+        }
+
+        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month}/{Day}";
+        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
+        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {StatMove}, {GeoTime}.";
+
+        public PB7 ConvertToPB7(ITrainerInfo sav)
+        {
+            var pk = new PB7
+            {
+                Version = (int) GameVersion.GO,
+                Species = Species,
+                AltForm = AltForm,
+                Gender = Gender,
+                Met_Location = 50, // Go complex
+                Met_Year = Year - 2000,
+                Met_Month = Month,
+                Met_Day = Day,
+                CurrentLevel = Level,
+                Met_Level = Level,
+                TID = sav.TID,
+                SID = sav.SID,
+                OT_Name = sav.OT,
+                Ball = 4,
+                Language = sav.Language,
+                Nature = Util.Rand.Next(25),
+                PID = Util.Rand32(),
+            };
+
+            var nick = Nickname;
+            if (!string.IsNullOrWhiteSpace(nick))
+            {
+                pk.Nickname = nick;
+                pk.IsNicknamed = true;
+            }
+            else
+            {
+                pk.Nickname = PKX.GetSpeciesNameGeneration(Species, sav.Language, 7);
+            }
+
+            pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;
+            pk.IV_ATK = pk.IV_SPA = (IV2 * 2) + 1;
+            pk.IV_HP = (IV1 * 2) + 1;
+            pk.IV_SPE = Util.Rand.Next(32);
+
+            pk.RefreshAbility(Util.Rand.Next(2));
+            if (IsShiny)
+                pk.SetShiny();
+
+            var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+
+            pk.HeightScalar = Util.Rand.Next(0x100);
+            pk.WeightScalar = Util.Rand.Next(0x100);
+
+            pk.AwakeningSetAllTo(2);
+            pk.ResetCalculatedValues();
+
+            pk.SetRandomEC();
+            return pk;
+        }
     }
 }

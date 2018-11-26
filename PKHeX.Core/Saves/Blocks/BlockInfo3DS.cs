@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public ushort Checksum;
         private int BlockInfoOffset;
         private readonly Func<byte[], int, int, ushort> CheckFunc;
-
+        public BlockInfo3DS() { }
         private BlockInfo3DS(Func<byte[], int, int, ushort> func) => CheckFunc = func;
         private int ChecksumOffset => BlockInfoOffset + 6 + ((int)ID * 8);
         private ushort GetChecksum(byte[] data) => CheckFunc(data, Offset, Length);

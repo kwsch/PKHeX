@@ -69,7 +69,7 @@ namespace PKHeX.WinForms.Controls
 
         public SAVEditor()
         {
-            var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.US, "PKHeX"));
+            var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.GP, "PKHeX"));
             InitializeComponent();
 
             L_SlotOccupied = new[] { L_DC1, L_DC2 };

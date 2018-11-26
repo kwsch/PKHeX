@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -164,7 +165,6 @@ namespace PKHeX.WinForms
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-
             var sfd = new OpenFileDialog
             {
                 Filter = GoFilter,
@@ -182,15 +182,19 @@ namespace PKHeX.WinForms
 
         private void ImportGP1From(string path)
         {
+            int index = (int)NUD_GoIndex.Value;
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
+            ImportGP1From(path, index);
+        }
+
+        private void ImportGP1From(string path, int index)
+        {
             var data = File.ReadAllBytes(path);
             if (data.Length != GP1.SIZE)
             {
                 WinFormsUtil.Error(MessageStrings.MsgFileLoadIncompatible);
                 return;
             }
-
-            int index = (int)NUD_GoIndex.Value;
-            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
             var gp1 = new GP1();
             data.CopyTo(gp1.Data);
             Park[index] = gp1;
@@ -219,6 +223,35 @@ namespace PKHeX.WinForms
             File.WriteAllBytes(sfd.FileName, data.Data);
         }
 
+        private void B_ImportGoFiles_Click(object sender, EventArgs e)
+        {
+            var fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() != DialogResult.OK)
+                return;
+
+            IEnumerable<string> files = Directory.GetFiles(fbd.SelectedPath);
+            files = files.Where(z => Path.GetExtension(z) == ".gp1" && new FileInfo(z).Length == GP1.SIZE);
+
+            int ctr = (int)NUD_GoIndex.Value;
+            foreach (var f in files)
+            {
+                while (true)
+                {
+                    if (ctr >= GoParkStorage.Count)
+                        return;
+                    if (Park[ctr].Species != 0)
+                        ctr++;
+                    else
+                        break;
+                }
+                var data = File.ReadAllBytes(f);
+                Park[ctr] = new GP1(data);
+                ctr++;
+            }
+            UpdateGoSummary((int) NUD_GoIndex.Value);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void NUD_GoIndex_ValueChanged(object sender, EventArgs e) => UpdateGoSummary((int)NUD_GoIndex.Value);
 
         private void UpdateGoSummary(int index)
@@ -231,6 +264,25 @@ namespace PKHeX.WinForms
             var prefix = $"Area: {area + 1:00}, Slot: {slot + 1:00}{Environment.NewLine}";
             var dump = data.Species == 0 ? "Empty" : data.Dump(GameInfo.Strings.Species, index);
             L_GoSlotSummary.Text = prefix + dump;
+        }
+
+        private void B_DeleteAll_Click(object sender, EventArgs e)
+        {
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Delete all slots?") != DialogResult.Yes)
+                return;
+
+            Park.DeleteAll();
+            UpdateGoSummary((int) NUD_GoIndex.Value);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_DeleteGo_Click(object sender, EventArgs e)
+        {
+            int index = (int)NUD_GoIndex.Value;
+            index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
+            Park[index] = new GP1();
+            UpdateGoSummary((int)NUD_GoIndex.Value);
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
 }

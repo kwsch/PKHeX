@@ -17,6 +17,7 @@ namespace PKHeX.Core
         SortDate,
         SortName,
         SortFavorite,
+        SortParty,
         SortShiny,
         SortRandom,
 

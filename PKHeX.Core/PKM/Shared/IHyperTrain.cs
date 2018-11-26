@@ -96,6 +96,9 @@ namespace PKHeX.Core
             t.HT_SPE = IVs[3] != 31 && IVs[3] > 2;
             t.HT_SPA = IVs[4] != 31;
             t.HT_SPD = IVs[5] != 31;
+
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
     }
 }

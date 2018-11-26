@@ -23,19 +23,8 @@
             if (loc < 0)
                 return null;
 
-            if (version == (int)GameVersion.CXD) // handle C/XD locations
-            {
-                var locs = GameInfo.Strings.metCXD_00000;
-                return loc >= locs.Length ? null : locs[loc];
-            }
-
-            if (GameVersion.GG.Contains(version) && Encounter.Location < 100)
-            {
-                var locs = GameInfo.Strings.metGG_00000;
-                return loc >= locs.Length ? null : locs[loc];
-            }
-
-            return GameInfo.GetLocationName(loc != Encounter.Location, loc, gen, gen);
+            bool egg = loc != Encounter.Location;
+            return GameInfo.GetLocationName(egg, loc, gen, gen, (GameVersion)version);
         }
     }
 }

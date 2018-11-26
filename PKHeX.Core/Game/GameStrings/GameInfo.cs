@@ -78,13 +78,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="gen">Generation to get location names for.</param>
         /// <param name="bankID">BankID used to choose the text bank.</param>
+        /// <param name="version">Version of origin</param>
         /// <returns>List of location names.</returns>
-        private static IReadOnlyList<string> GetLocationNames(int gen, int bankID)
+        private static IReadOnlyList<string> GetLocationNames(int gen, int bankID, GameVersion version)
         {
             switch (gen)
             {
                 case 2: return Strings.metGSC_00000;
-                case 3: return Strings.metRSEFRLG_00000;
+                case 3:
+                    return version == GameVersion.CXD ? Strings.metCXD_00000 : Strings.metRSEFRLG_00000;
                 case 4:
                     switch (bankID)
                     {
@@ -112,6 +114,17 @@ namespace PKHeX.Core
                         default: return null;
                     }
                 case 7:
+                    if (GameVersion.GG.Contains(version))
+                    {
+                        switch (bankID)
+                        {
+                            case 0: return Strings.metGG_00000;
+                            case 3: return Strings.metGG_30000;
+                            case 4: return Strings.metGG_40000;
+                            case 6: return Strings.metGG_60000;
+                            default: return null;
+                        }
+                    }
                     switch (bankID)
                     {
                         case 0: return Strings.metSM_00000;
@@ -132,8 +145,9 @@ namespace PKHeX.Core
         /// <param name="locval">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
+        /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
         /// <returns>Location name</returns>
-        public static string GetLocationName(bool eggmet, int locval, int format, int generation)
+        public static string GetLocationName(bool eggmet, int locval, int format, int generation, GameVersion version)
         {
             int gen = -1;
             int bankID = 0;
@@ -169,7 +183,7 @@ namespace PKHeX.Core
                     locval--;
             }
 
-            var bank = GetLocationNames(gen, bankID);
+            var bank = GetLocationNames(gen, bankID, version);
             if (bank == null || bank.Count <= locval)
                 return string.Empty;
             return bank[locval];

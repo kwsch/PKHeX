@@ -45,10 +45,8 @@ namespace PKHeX.Core
         public override bool GiftUsed { get => false; set { } }
         public override object Content => PK;
 
-        public PGT(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PGT() => Data = new byte[Size];
+        public PGT(byte[] data) => Data = data;
 
         public byte CardType { get => Data[0]; set => Data[0] = value; }
         // Unused 0x01

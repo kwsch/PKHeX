@@ -16,7 +16,7 @@ namespace PKHeX.WinForms.Controls
         public PKMEditor()
         {
             InitializeComponent();
-            Legality = new LegalityAnalysis(pkm = new PK7());
+            Legality = new LegalityAnalysis(pkm = new PB7());
             SetPKMFormatMode(pkm.Format);
 
             GB_OT.Click += ClickGT;

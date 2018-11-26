@@ -101,8 +101,8 @@ namespace PKHeX.Core
                     Area = area,
                     Generation = 7,
                     Species = species,
-                    LevelMin = 2, // todo
-                    LevelMax = 40, // todo
+                    LevelMin = 1,
+                    LevelMax = 40,
                     Form = form,
                     Type = SlotType.GoPark,
                     Version = GameVersion.GO,

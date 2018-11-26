@@ -281,8 +281,8 @@ namespace PKHeX.Core
                     r.AddRange(Tutor_StarterEevee);
                     break;
 
-                case 25 when Generation == 7:
-                case 26 when Generation == 7:
+                case 25 when Generation == 7 && !(pkm is PB7):
+                case 26 when Generation == 7 && !(pkm is PB7):
                     r.Add(344); // Volt Tackle
                     break;
             }

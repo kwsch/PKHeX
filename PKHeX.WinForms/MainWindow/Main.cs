@@ -574,6 +574,7 @@ namespace PKHeX.WinForms
                 case BattleVideo b: return OpenBattleVideo(b);
                 case MysteryGift g: return OpenMysteryGift(g, path);
                 case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
+                case GP1 gp: return OpenPKM(gp.ConvertToPB7(C_SAV.SAV));
 
                 case SAV3GCMemoryCard gc:
                     if (!CheckGCMemoryCard(gc, path))
@@ -954,8 +955,8 @@ namespace PKHeX.WinForms
             Image qr;
             switch (pkx.Format)
             {
-                case 7:
-                    qr = QR.GenerateQRCode7((PK7)pkx);
+                case 7 when pkx is PK7 pk7:
+                    qr = QR.GenerateQRCode7(pk7);
                     break;
                 default:
                     if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
