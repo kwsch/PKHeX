@@ -16,13 +16,13 @@ namespace PKHeX.WinForms.Controls
             if (pkm == null)
                 return;
             TryResetStats();
-            LoadStoredValues();
         }
 
         public void TryResetStats()
         {
             if (CHK_Auto.Checked)
                 pkm.ResetCalculatedValues();
+            LoadStoredValues();
         }
 
         private void LoadStoredValues()

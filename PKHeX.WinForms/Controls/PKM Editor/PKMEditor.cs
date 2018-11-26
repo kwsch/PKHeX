@@ -911,6 +911,11 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
+            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var val))
+            {
+                pkm.CurrentFriendship = val;
+                UpdateStats();
+            }
         }
 
         private void UpdateForm(object sender, EventArgs e)
