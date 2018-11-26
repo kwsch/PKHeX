@@ -739,5 +739,18 @@ namespace PKHeX.Core
             ResetHeight();
             ResetWeight();
         }
+
+        public static int GetHeightRating(int heightScalar)
+        {
+            if (heightScalar < 0x10)
+                return 0; // 1/16 = XS
+            if (heightScalar < 0x30u)
+                return 1; // 2/16 = S
+            if (heightScalar < 0xD0u)
+                return 2; // average (10/16)
+            if (heightScalar < 0xF0u)
+                return 3; // 2/16 = L
+            return 4; // 1/16 = XL
+        }
     }
 }
