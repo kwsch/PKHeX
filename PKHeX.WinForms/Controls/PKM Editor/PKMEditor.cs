@@ -53,7 +53,13 @@ namespace PKHeX.WinForms.Controls
             TID_Trainer.UpdatedID += Update_ID;
         }
 
-        private void UpdateStats() => Stats.UpdateStats();
+        private void UpdateStats()
+        {
+            Stats.UpdateStats();
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
+        }
+
         private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
 
         private void SavePartyStats(PKM pk)
@@ -862,7 +868,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
                 pkm.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
             }
-            Stats.UpdateStats();
+            UpdateStats();
             UpdateLegality();
         }
 
@@ -912,10 +918,8 @@ namespace PKHeX.WinForms.Controls
             if (CB_Form == sender && FieldsLoaded)
                 pkm.AltForm = CB_Form.SelectedIndex;
 
-            Stats.UpdateStats();
+            UpdateStats();
             SetAbilityList();
-            if (pkm is PB7)
-                SizeCP.TryResetStats();
 
             // Gender Forms
             if (WinFormsUtil.GetIndex(CB_Species) == 201 && FieldsLoaded)
@@ -1112,10 +1116,6 @@ namespace PKHeX.WinForms.Controls
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
                 UpdateNickname(sender, e);
-
-            // Refresh more derived stats
-            if (pkm is PB7)
-                SizeCP.TryResetStats();
 
             UpdateLegality();
         }
