@@ -240,7 +240,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : PKX.GetLevel(pk.Species, pk.EXP)).ToString();
+                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
                 if (pk.Stat_HPMax != 0) // stats present
@@ -833,9 +833,10 @@ namespace PKHeX.WinForms.Controls
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP.Text);
                 int Species = pkm.Species;
-                int Level = PKX.GetLevel(Species, EXP);
+                int Form = pkm.AltForm;
+                int Level = Experience.GetLevel(EXP, Species, Form);
                 if (Level == 100)
-                    EXP = PKX.GetEXP(100, Species);
+                    EXP = Experience.GetEXP(100, Species, Form);
 
                 TB_Level.Text = Level.ToString();
                 if (!HaX)
@@ -860,7 +861,7 @@ namespace PKHeX.WinForms.Controls
                 if (Level > byte.MaxValue)
                     MT_Level.Text = "255";
                 else if (Level <= 100)
-                    TB_EXP.Text = PKX.GetEXP(Level, pkm.Species).ToString();
+                    TB_EXP.Text = Experience.GetEXP(Level, pkm.Species, pkm.AltForm).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
@@ -921,7 +922,11 @@ namespace PKHeX.WinForms.Controls
         private void UpdateForm(object sender, EventArgs e)
         {
             if (CB_Form == sender && FieldsLoaded)
+            {
                 pkm.AltForm = CB_Form.SelectedIndex;
+                uint EXP = Experience.GetEXP(pkm.CurrentLevel, pkm.Species, pkm.AltForm);
+                TB_EXP.Text = EXP.ToString();
+            }
 
             UpdateStats();
             SetAbilityList();
@@ -1112,7 +1117,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             // Recalculate EXP for Given Level
-            uint EXP = PKX.GetEXP(pkm.CurrentLevel, pkm.Species);
+            uint EXP = Experience.GetEXP(pkm.CurrentLevel, pkm.Species, pkm.AltForm);
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes

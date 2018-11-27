@@ -199,7 +199,7 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                EXP = PKX.GetEXP(Level, Species),
+                EXP = Experience.GetEXP(Level, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,

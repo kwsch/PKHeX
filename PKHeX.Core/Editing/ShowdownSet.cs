@@ -363,7 +363,7 @@ namespace PKHeX.Core
             Nature = pkm.Nature;
             Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2];
             Friendship = pkm.CurrentFriendship;
-            Level = PKX.GetLevel(pkm.Species, pkm.EXP);
+            Level = Experience.GetLevel(pkm.EXP, pkm.Species, pkm.AltForm);
             Shiny = pkm.IsShiny;
 
             FormIndex = pkm.AltForm;

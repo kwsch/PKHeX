@@ -211,12 +211,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current level of a species.
         /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
         /// <param name="exp">Experience points</param>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Current level of the species.</returns>
-        public static int GetLevel(int species, uint exp)
+        public static int GetLevel(uint exp, int species, int forme)
         {
-            return Experience.GetLevel(species, exp);
+            return Experience.GetLevel(exp, species, forme);
         }
 
         /// <summary>
@@ -224,10 +225,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="level">Current level</param>
         /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Experience points needed to have specified level.</returns>
-        public static uint GetEXP(int level, int species)
+        public static uint GetEXP(int level, int species, int forme)
         {
-            return Experience.GetEXP(level, species);
+            return Experience.GetEXP(level, species, forme);
         }
 
         /// <summary>

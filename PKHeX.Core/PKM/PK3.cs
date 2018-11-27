@@ -167,7 +167,7 @@ namespace PKHeX.Core
                 Species = Species,
                 TID = TID,
                 SID = SID,
-                EXP = IsEgg ? PKX.GetEXP(5, Species) : EXP,
+                EXP = IsEgg ? Experience.GetEXP(5, Species, 0) : EXP,
                 IsEgg = false,
                 OT_Friendship = 70,
                 Markings = Markings,
@@ -260,7 +260,7 @@ namespace PKHeX.Core
             pk4.OT_Name = OT_Name;
 
             // Set Final Data
-            pk4.Met_Level = PKX.GetLevel(pk4.Species, pk4.EXP);
+            pk4.Met_Level = Experience.GetLevel(pk4.EXP, pk4.Species, 0);
             pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
             pk4.IsNicknamed = IsNicknamed;
 
