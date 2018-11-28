@@ -232,5 +232,40 @@ namespace PKHeX.Core
                 maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
             return Lineage[index].GetExplicitLineage(pkm, maxLevel, skipChecks, MaxSpeciesTree, maxSpeciesOrigin, minLevel);
         }
+
+        public IEnumerable<int> GetEvolutionsAndPreEvolutions(int species, int form)
+        {
+            foreach (var s in GetPreEvolutions(species, form))
+                yield return s;
+            yield return species;
+            foreach (var s in GetEvolutions(species, form))
+                yield return s;
+        }
+
+        private IEnumerable<int> GetPreEvolutions(int species, int form)
+        {
+            int index = Personal.GetFormeIndex(species, form);
+            var node = Lineage[index];
+            foreach (var z in node.Chain)
+            {
+                foreach (var prevo in z.StageEntryMethods)
+                    yield return prevo.Species;
+            }
+        }
+
+        private IEnumerable<int> GetEvolutions(int species, int form)
+        {
+            int index = Personal.GetFormeIndex(species, form);
+            var node = Entries[index];
+            foreach (var z in node.PossibleEvolutions)
+            {
+                var s = z.Species;
+                if (s == 0)
+                    continue;
+                yield return s;
+                foreach (var next in GetEvolutions(s, form))
+                    yield return next;
+            }
+        }
     }
 }
