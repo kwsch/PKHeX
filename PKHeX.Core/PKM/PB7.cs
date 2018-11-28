@@ -705,17 +705,24 @@ namespace PKHeX.Core
             }
         }
 
+        public void ResetCP() => Stat_CP = CalcCP;
+
+        public void ResetCalculatedValues()
+        {
+            ResetCP();
+            ResetHeight();
+            ResetWeight();
+        }
+
         // ReSharper disable RedundantCast
         // Casts are as per the game code; they may seem redundant but every bit of precision matters?
         // This still doesn't precisely match :( -- just use a tolerance check when updating.
         // If anyone can figure out how to get all precision to match, feel free to update :)
-        public float HeightRatio => (float)((float)((float)(byte)HeightScalar / 255.0f) * 0.8f) + 0.6f;
-        public float WeightRatio => (float)((float)((float)((float)((float)(byte) WeightScalar / 255.0f) * 0.4f) + 0.8f));
+        public float HeightRatio => GetHeightRatio(HeightScalar);
+        public float WeightRatio => GetWeightRatio(WeightScalar);
 
-        public float CalcHeightAbsolute => HeightRatio * (float)PersonalInfo.Height;
-        public float CalcWeightAbsolute => HeightRatio * (float)(WeightRatio * (float)PersonalInfo.Weight);
-
-        public void ResetCP() => Stat_CP = CalcCP;
+        public float CalcHeightAbsolute => GetHeightAbsolute(PersonalInfo, HeightScalar);
+        public float CalcWeightAbsolute => GetWeightAbsolute(PersonalInfo, HeightScalar, WeightScalar);
 
         public void ResetHeight()
         {
@@ -733,13 +740,6 @@ namespace PKHeX.Core
                 WeightAbsolute = updated;
         }
 
-        public void ResetCalculatedValues()
-        {
-            ResetCP();
-            ResetHeight();
-            ResetWeight();
-        }
-
         public static int GetHeightRating(int heightScalar)
         {
             if (heightScalar < 0x10)
@@ -751,6 +751,30 @@ namespace PKHeX.Core
             if (heightScalar < 0xF0u)
                 return 3; // 2/16 = L
             return 4; // 1/16 = XL
+        }
+
+        private static float GetHeightRatio(int heightScalar)
+        {
+            return (float)((float)((float)(byte)heightScalar / 255.0f) * 0.8f) + 0.6f;
+        }
+
+        private static float GetWeightRatio(int weightScalar)
+        {
+            return (float)((float)((float)((float)((float)(byte)weightScalar / 255.0f) * 0.4f) + 0.8f));
+        }
+
+        public static float GetHeightAbsolute(PersonalInfo p, int heightScalar)
+        {
+            float HeightRatio = GetHeightRatio(heightScalar);
+            return HeightRatio * (float)p.Height;
+        }
+
+        public static float GetWeightAbsolute(PersonalInfo p, int heightScalar, int weightScalar)
+        {
+            float HeightRatio = GetHeightRatio(heightScalar);
+            float WeightRatio = GetWeightRatio(weightScalar);
+
+            return HeightRatio * (float)(WeightRatio * (float)p.Weight);
         }
     }
 }

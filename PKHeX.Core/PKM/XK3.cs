@@ -43,7 +43,7 @@ namespace PKHeX.Core
         public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x02); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x04); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x04); }
-        public override int OT_Friendship { get => Data[0x06]; set => Data[0x06] = (byte)value; }
+        public override int OT_Friendship { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); }
         public override int Met_Location { get => BigEndian.ToUInt16(Data, 0x08); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x08); }
         // 0x0A-0x0B Unknown
         // 0x0C-0x0D Unknown

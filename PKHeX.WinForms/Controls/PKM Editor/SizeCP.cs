@@ -8,7 +8,13 @@ namespace PKHeX.WinForms.Controls
     {
         private PB7 pkm;
         private bool Loading;
-        public SizeCP() => InitializeComponent();
+        public SizeCP()
+        {
+            InitializeComponent();
+            Initialized = true;
+        }
+
+        private readonly bool Initialized;
 
         public void LoadPKM(PKM pk)
         {
@@ -16,13 +22,15 @@ namespace PKHeX.WinForms.Controls
             if (pkm == null)
                 return;
             TryResetStats();
-            LoadStoredValues();
         }
 
         public void TryResetStats()
         {
+            if (!Initialized || pkm == null)
+                return;
             if (CHK_Auto.Checked)
                 pkm.ResetCalculatedValues();
+            LoadStoredValues();
         }
 
         private void LoadStoredValues()

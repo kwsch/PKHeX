@@ -20,9 +20,9 @@ namespace PKHeX.WinForms.Controls
         private void LoadSpeciesLevelEXP(PKM pk)
         {
             // Do first
-            pk.Stat_Level = PKX.GetLevel(pk.Species, pk.EXP);
+            pk.Stat_Level = Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm);
             if (pk.Stat_Level == 100 && !HaX)
-                pk.EXP = PKX.GetEXP(pk.Stat_Level, pk.Species);
+                pk.EXP = Experience.GetEXP(pk.Stat_Level, pk.Species, pk.AltForm);
 
             CB_Species.SelectedValue = pk.Species;
             TB_Level.Text = pk.Stat_Level.ToString();

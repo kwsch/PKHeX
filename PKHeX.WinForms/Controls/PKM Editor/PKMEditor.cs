@@ -53,7 +53,13 @@ namespace PKHeX.WinForms.Controls
             TID_Trainer.UpdatedID += Update_ID;
         }
 
-        private void UpdateStats() => Stats.UpdateStats();
+        private void UpdateStats()
+        {
+            Stats.UpdateStats();
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
+        }
+
         private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
 
         private void SavePartyStats(PKM pk)
@@ -234,7 +240,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : PKX.GetLevel(pk.Species, pk.EXP)).ToString();
+                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
                 if (pk.Stat_HPMax != 0) // stats present
@@ -827,9 +833,10 @@ namespace PKHeX.WinForms.Controls
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP.Text);
                 int Species = pkm.Species;
-                int Level = PKX.GetLevel(Species, EXP);
+                int Form = pkm.AltForm;
+                int Level = Experience.GetLevel(EXP, Species, Form);
                 if (Level == 100)
-                    EXP = PKX.GetEXP(100, Species);
+                    EXP = Experience.GetEXP(100, Species, Form);
 
                 TB_Level.Text = Level.ToString();
                 if (!HaX)
@@ -854,7 +861,7 @@ namespace PKHeX.WinForms.Controls
                 if (Level > byte.MaxValue)
                     MT_Level.Text = "255";
                 else if (Level <= 100)
-                    TB_EXP.Text = PKX.GetEXP(Level, pkm.Species).ToString();
+                    TB_EXP.Text = Experience.GetEXP(Level, pkm.Species, pkm.AltForm).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
@@ -862,7 +869,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
                 pkm.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
             }
-            Stats.UpdateStats();
+            UpdateStats();
             UpdateLegality();
         }
 
@@ -905,17 +912,24 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
+            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var val))
+            {
+                pkm.CurrentFriendship = val;
+                UpdateStats();
+            }
         }
 
         private void UpdateForm(object sender, EventArgs e)
         {
             if (CB_Form == sender && FieldsLoaded)
+            {
                 pkm.AltForm = CB_Form.SelectedIndex;
+                uint EXP = Experience.GetEXP(pkm.CurrentLevel, pkm.Species, pkm.AltForm);
+                TB_EXP.Text = EXP.ToString();
+            }
 
-            Stats.UpdateStats();
+            UpdateStats();
             SetAbilityList();
-            if (pkm is PB7)
-                SizeCP.TryResetStats();
 
             // Gender Forms
             if (WinFormsUtil.GetIndex(CB_Species) == 201 && FieldsLoaded)
@@ -1103,7 +1117,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             // Recalculate EXP for Given Level
-            uint EXP = PKX.GetEXP(pkm.CurrentLevel, pkm.Species);
+            uint EXP = Experience.GetEXP(pkm.CurrentLevel, pkm.Species, pkm.AltForm);
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
@@ -1112,10 +1126,6 @@ namespace PKHeX.WinForms.Controls
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
                 UpdateNickname(sender, e);
-
-            // Refresh more derived stats
-            if (pkm is PB7)
-                SizeCP.TryResetStats();
 
             UpdateLegality();
         }

@@ -40,7 +40,7 @@ namespace PKHeX.Core
                     return;
 
                 const int maxEV = 100; // Vitamin Max
-                if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
+                if (Experience.GetEXP(EncounterMatch.LevelMin, pkm.Species, pkm.AltForm) == pkm.EXP && evs.Any(ev => ev > maxEV))
                     data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, maxEV)));
             }
 

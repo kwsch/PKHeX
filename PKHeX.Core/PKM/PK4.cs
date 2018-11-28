@@ -410,7 +410,7 @@ namespace PKHeX.Core
             pk5.OT_Name = OT_Name;
 
             // Fix Level
-            pk5.Met_Level = PKX.GetLevel(pk5.Species, pk5.EXP);
+            pk5.Met_Level = Experience.GetLevel(pk5.EXP, pk5.Species, 0);
 
             // Remove HM moves; Defog should be kept if both are learned.
             int[] banned = Moves.Contains(250) && Moves.Contains(432) // Whirlpool & Defog
