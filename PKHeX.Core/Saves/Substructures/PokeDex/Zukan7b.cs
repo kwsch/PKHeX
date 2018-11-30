@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         public override void SetDex(PKM pkm)
         {
-            if (!TryGetIndex(pkm.AltForm, pkm.Species, out _))
+            if (!TryGetSizeEntryIndex(pkm.Species, pkm.AltForm, out _))
                 return;
             SetSizeData((PB7)pkm);
             base.SetDex(pkm);
@@ -45,72 +45,101 @@ namespace PKHeX.Core
 
         private static bool IsBuddy(int species, int form) => (species == 25 && form == 8) || (species == 133 && form == 1);
 
+        public const int DefaultEntryValue = 0x7F;
+
+        public bool GetSizeData(DexSizeType group, int species, int form, out int height, out int weight)
+        {
+            height = weight = DefaultEntryValue;
+            if (TryGetSizeEntryIndex(species, form, out var index))
+                return GetSizeData(group, index, out height, out weight);
+            return false;
+        }
+
+        public bool GetSizeData(DexSizeType group, int index, out int height, out int weight)
+        {
+            var ofs = GetDexSizeOffset(group, index);
+            height = BitConverter.ToUInt16(SAV.Data, ofs) >> 1;
+            weight = BitConverter.ToUInt16(SAV.Data, ofs + 2);
+            return !IsEntryUnset(height, weight);
+        }
+
+        private static bool IsEntryUnset(int height, int weight) => height == DefaultEntryValue && weight == DefaultEntryValue;
+
         private void SetSizeData(PB7 pkm)
         {
             int species = pkm.Species;
             int form = pkm.AltForm;
-            if (!TryGetIndex(form, species, out int index))
+            if (!TryGetSizeEntryIndex(species, form, out int index))
                 return;
 
             if (Math.Round(pkm.HeightAbsolute) < pkm.PersonalInfo.Height) // possible minimum height
             {
-                int ofs = GetDexSizeOffset(0, index);
+                int ofs = GetDexSizeOffset(DexSizeType.MinHeight, index);
                 var minHeight = BitConverter.ToUInt16(SAV.Data, ofs) >> 1;
                 var calcHeight = PB7.GetHeightAbsolute(pkm.PersonalInfo, minHeight);
                 if (Math.Round(pkm.HeightAbsolute) < Math.Round(calcHeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
-                    UpdateSizeIndex(pkm, 0);
+                    SetSizeData(pkm, DexSizeType.MinHeight);
             }
             else if (Math.Round(pkm.HeightAbsolute) > pkm.PersonalInfo.Height) // possible maximum height
             {
-                int ofs = GetDexSizeOffset(1, index);
+                int ofs = GetDexSizeOffset(DexSizeType.MaxHeight, index);
                 var maxHeight = BitConverter.ToUInt16(SAV.Data, ofs) >> 1;
                 var calcHeight = PB7.GetHeightAbsolute(pkm.PersonalInfo, maxHeight);
                 if (Math.Round(pkm.HeightAbsolute) > Math.Round(calcHeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
-                    UpdateSizeIndex(pkm, 1);
+                    SetSizeData(pkm, DexSizeType.MaxHeight);
             }
 
             if (Math.Round(pkm.WeightAbsolute) < pkm.PersonalInfo.Weight) // possible minimum weight
             {
-                int ofs = GetDexSizeOffset(2, index);
+                int ofs = GetDexSizeOffset(DexSizeType.MinWeight, index);
                 var minWeight = BitConverter.ToUInt16(SAV.Data, ofs + 2);
                 var minHeight = BitConverter.ToUInt16(SAV.Data, ofs) >> 1;
                 var calcWeight = PB7.GetWeightAbsolute(pkm.PersonalInfo, minHeight, minWeight);
                 if (Math.Round(pkm.WeightAbsolute) < Math.Round(calcWeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
-                    UpdateSizeIndex(pkm, 2);
+                    SetSizeData(pkm, DexSizeType.MinWeight);
             }
             else if (Math.Round(pkm.WeightAbsolute) > pkm.PersonalInfo.Weight) // possible maximum weight
             {
-                int ofs = GetDexSizeOffset(3, index);
+                int ofs = GetDexSizeOffset(DexSizeType.MaxWeight, index);
                 var maxWeight = BitConverter.ToUInt16(SAV.Data, ofs + 2);
                 var maxHeight = BitConverter.ToUInt16(SAV.Data, ofs) >> 1;
                 var calcWeight = PB7.GetWeightAbsolute(pkm.PersonalInfo, maxHeight, maxWeight);
                 if (Math.Round(pkm.WeightAbsolute) > Math.Round(calcWeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
-                    UpdateSizeIndex(pkm, 3);
+                    SetSizeData(pkm, DexSizeType.MaxWeight);
             }
         }
 
-        private int GetDexSizeOffset(int group, int index) => 0x3978 + (index * 6) + (group * 0x45C); // blockofs + 0xF78 + ([186*6]*n) + x*6
+        private int GetDexSizeOffset(DexSizeType group, int index) => 0x3978 + (index * 6) + ((int)group * 0x45C); // blockofs + 0xF78 + ([186*6]*n) + x*6
 
-        private void UpdateSizeIndex(PB7 pkm, int group)
+        private void SetSizeData(PB7 pkm, DexSizeType group)
         {
             var tree = EvolutionTree.GetEvolutionTree(pkm, 7);
             int species = pkm.Species;
             int form = pkm.AltForm;
 
+            int height = pkm.HeightScalar;
+            int weight = pkm.WeightScalar;
+
             // update for all species in potential lineage
             var allspec = tree.GetEvolutionsAndPreEvolutions(species, form);
             foreach (var s in allspec)
-            {
-                if (!TryGetIndex(form, s, out var index))
-                    continue; // shouldn't hit this
-
-                var ofs = GetDexSizeOffset(group, index);
-                BitConverter.GetBytes((ushort)(pkm.HeightScalar << 1)).CopyTo(SAV.Data, ofs);
-                BitConverter.GetBytes((ushort)(pkm.WeightScalar)).CopyTo(SAV.Data, ofs + 2);
-            }
+                SetSizeData(group, s, form, height, weight);
         }
 
-        private static bool TryGetIndex(int form, int species, out int index)
+        public void SetSizeData(DexSizeType group, int species, int form, int height, int weight)
+        {
+            if (TryGetSizeEntryIndex(species, form, out var index))
+                SetSizeData(group, index, height, weight);
+        }
+
+        public void SetSizeData(DexSizeType group, int index, int height, int weight)
+        {
+            var ofs = GetDexSizeOffset(group, index);
+            BitConverter.GetBytes((ushort)(height << 1)).CopyTo(SAV.Data, ofs);
+            BitConverter.GetBytes((ushort)(weight)).CopyTo(SAV.Data, ofs + 2);
+        }
+
+        public static bool TryGetSizeEntryIndex(int species, int form, out int index)
         {
             index = -1;
             if (form == 0 && species <= 151)
@@ -130,7 +159,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public static readonly ushort[] SizeDexInfoTable =
+        private static readonly ushort[] SizeDexInfoTable =
         {
             // spec, form, index
             808, 0, 151,
@@ -187,5 +216,13 @@ namespace PKHeX.Core
                     return count < formIn;
             }
         }
+    }
+
+    public enum DexSizeType
+    {
+        MinHeight,
+        MaxHeight,
+        MinWeight,
+        MaxWeight,
     }
 }
