@@ -8,18 +8,18 @@
         /// <summary>
         /// Gets the current level of a species.
         /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
         /// <param name="exp">Experience points</param>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Current level of the species.</returns>
-        public static int GetLevel(int species, uint exp)
+        public static int GetLevel(uint exp, int species, int forme = 0)
         {
-            int growth = PKX.Personal[species].EXPGrowth;
+            int growth = PKX.Personal.GetFormeEntry(species, forme).EXPGrowth;
+            if (exp >= ExpTable[99, growth])
+                return 100;
             int tl = 1; // Initial Level. Iterate upwards to find the level
-            while (ExpTable[tl, growth] <= exp)
-            {
-                if (++tl == 100)
-                    break;
-            }
+            while (exp >= ExpTable[tl, growth])
+                ++tl;
             return tl;
         }
 
@@ -28,14 +28,15 @@
         /// </summary>
         /// <param name="level">Current level</param>
         /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Experience points needed to have specified level.</returns>
-        public static uint GetEXP(int level, int species)
+        public static uint GetEXP(int level, int species, int forme = 0)
         {
             if (level <= 1)
                 return 0;
             if (level > 100)
                 level = 100;
-            return ExpTable[level - 1, PKX.Personal[species].EXPGrowth];
+            return ExpTable[level - 1, PKX.Personal.GetFormeEntry(species, forme).EXPGrowth];
         }
 
         /// <summary>
@@ -50,12 +51,13 @@
         /// </summary>
         /// <param name="level">Current Level</param>
         /// <param name="species"><see cref="PKM.Species"/></param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Percentage [0,1.00)</returns>
-        public static uint GetEXPToLevelUp(int level, int species)
+        public static uint GetEXPToLevelUp(int level, int species, int forme = 0)
         {
             if (level >= 100)
                 return 0;
-            var growth = PKX.Personal[species].EXPGrowth;
+            var growth = PKX.Personal.GetFormeEntry(species, forme).EXPGrowth;
             var current = ExpTable[level - 1, growth];
             var next = ExpTable[level, growth];
             return next - current;
@@ -65,14 +67,15 @@
         /// Gets a percentage for Experience Bar progress indication.
         /// </summary>
         /// <param name="level">Current Level</param>
-        /// <param name="species"><see cref="PKM.Species"/></param>
         /// <param name="exp">Current Experience</param>
+        /// <param name="species"><see cref="PKM.Species"/></param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Percentage [0,1.00)</returns>
-        public static double GetEXPToLevelUpPercentage(int level, int species, uint exp)
+        public static double GetEXPToLevelUpPercentage(int level, uint exp, int species, int forme = 0)
         {
             if (level >= 100)
                 return 0;
-            var growth = PKX.Personal[species].EXPGrowth;
+            var growth = PKX.Personal.GetFormeEntry(species, forme).EXPGrowth;
             var current = ExpTable[level - 1, growth];
             var next = ExpTable[level, growth];
             var amount = next - current;

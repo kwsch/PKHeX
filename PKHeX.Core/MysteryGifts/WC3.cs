@@ -71,7 +71,7 @@ namespace PKHeX.Core
                 Met_Location = Location,
                 Ball = 4,
 
-                EXP = PKX.GetEXP(Level, Species),
+                EXP = Experience.GetEXP(Level, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,

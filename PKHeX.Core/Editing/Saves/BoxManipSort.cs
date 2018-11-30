@@ -44,6 +44,8 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortLevelReverse, PKMSorting.OrderByDescendingLevel),
             new BoxManipSort(BoxManipType.SortDate, PKMSorting.OrderByDateObtained, s => s.Generation >= 4),
             new BoxManipSort(BoxManipType.SortName, list => list.OrderBySpeciesName(GameInfo.Strings.Species)),
+            new BoxManipSort(BoxManipType.SortFavorite, list => list.OrderByCustom(pk => !(pk as PB7)?.Favorite), s => s is SAV7b),
+            new BoxManipSort(BoxManipType.SortParty, (list, sav) => list.OrderByCustom(pk => ((SAV7b)sav).Storage.GetPartyIndex(pk.Box - 1, pk.Slot - 1)), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortShiny, list => list.OrderByCustom(pk => !pk.IsShiny)),
             new BoxManipSort(BoxManipType.SortRandom, list => list.OrderByCustom(_ => Util.Rand32())),
         };
@@ -57,6 +59,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortType, list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)),
             new BoxManipSort(BoxManipType.SortVersion, list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version), s => s.Generation >= 3),
             new BoxManipSort(BoxManipType.SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
+            new BoxManipSort(BoxManipType.SortCP, list => list.OrderByCustom(pk => (pk as PB7)?.Stat_CP), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
         };
     }

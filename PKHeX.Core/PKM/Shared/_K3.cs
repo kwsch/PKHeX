@@ -93,7 +93,7 @@
         /// <returns>New object with transferred properties.</returns>
         protected T ConvertTo<T>() where T : _K3, new()
         {
-            return new T // Convert away!
+            var pk = new T // Convert away!
             {
                 Species = Species,
                 Language = Language,
@@ -174,6 +174,11 @@
                 Unused3 = Unused3,
                 Unused4 = Unused4,
             };
+
+            var ck3 = pk as CK3;
+            if (ck3 != null)
+                ck3.Purification = -100; // purified
+            return pk;
         }
     }
 }

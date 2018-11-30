@@ -42,7 +42,6 @@ namespace PKHeX.Core
             MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
 
             SlotsXYAlt.SetVersion(GameVersion.XY);
-            FriendSafari.SelectMany(z => z).SetVersion(GameVersion.XY);
             SlotsX.SetVersion(GameVersion.X);
             SlotsY.SetVersion(GameVersion.Y);
             SlotsA.SetVersion(GameVersion.AS);
@@ -67,6 +66,7 @@ namespace PKHeX.Core
                     LevelMax = 30,
                     Form = 0,
                     Type = SlotType.FriendSafari,
+                    Version = GameVersion.XY,
                 };
             }
             area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
@@ -100,7 +100,7 @@ namespace PKHeX.Core
             ReduceAreasSize(ref Areas);
         }
 
-        internal static readonly string[][] TradeXY =
+        private static readonly string[][] TradeXY =
         {
             Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradexy", "ja"), // 1
@@ -113,7 +113,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradexy", "ko"), // 8
         };
 
-        internal static readonly string[][] TradeAO =
+        private static readonly string[][] TradeAO =
         {
             Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradeao", "ja"), // 1
@@ -305,7 +305,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 486, Level = 50, Location = 306, IV3 = true }, // Regigigas
 
             new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS, IV3 = true }, // Lugia
-            new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR, IV3 = true }, // Ho-oh
+            new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR, IV3 = true }, // Ho-Oh
 
             new EncounterStatic { Species = 483, Level = 50, Location = 348, Version = GameVersion.AS, IV3 = true }, // Dialga
             new EncounterStatic { Species = 484, Level = 50, Location = 348, Version = GameVersion.OR, IV3 = true }, // Palkia

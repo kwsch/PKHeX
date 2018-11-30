@@ -1,4 +1,4 @@
-Aucun
+﻿Aucun
 Master Ball
 Hyper Ball
 Super Ball
@@ -39,7 +39,7 @@ Herbe Rappel
 Huile
 Huile Max
 Élixir
-Max Élixir
+Élixir Max
 Lava Cookie
 Jus de Baie
 Cendre Sacrée
@@ -53,13 +53,13 @@ PP Plus
 Zinc
 PP Max
 Vieux Gâteau
-Défense Spéciale
+Garde-Stats
 Muscle +
 Attaque +
 Défense +
 Vitesse +
 Précision +
-Spécial +
+Atq. Spé. +
 Déf. Spé. +
 Poké Poupée
 Queue Skitty
@@ -75,7 +75,7 @@ Tesson Bleu
 Tesson Jaune
 Tesson Vert
 Super Repousse
-Max Repousse
+Repousse Max
 Corde Sortie
 Repousse
 Pierre Soleil
@@ -111,22 +111,22 @@ Pierre Aube
 Pierre Ovale
 Clé de Voûte
 Orbe Platiné
+Thé
 ???
-???
-???
+Dédicace de Bob
 Module Aqua
 Module Choc
 Module Pyro
 Module Cryo
 ???
-???
-???
-???
-???
-???
-???
-???
-???
+Boîte Pokémon
+Trousse de Soins
+Boîte CT
+Bonbonnière
+Poche à Renforts
+Malle à Costumes
+Poche de Capture
+Poche de Combat
 ???
 ???
 ???
@@ -441,7 +441,7 @@ Vieux Grigri
 Clé Galaxie
 Chaîne Rouge
 Carte
-Cherche VS
+Cherch’Combat
 Boîte Jetons
 Canne
 Super Canne
@@ -649,7 +649,7 @@ Sachet Senteur
 Lichen Lumineux
 Boule de Neige
 Lunettes Filtre
-Pokéflûte
+Poké Flûte
 Fertibondance
 Fertistantané
 Fertibérance
@@ -859,49 +859,49 @@ Flûte du Soleil
 Flûte de la Lune
 ???
 Message Mystère
+Baie Framby argentée
+Baie Framby dorée
+Baie Nanab argentée
+Baie Nanab dorée
+Baie Nanana argentée
+Baie Nanana dorée
 ???
 ???
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Clé Secrète
+Passe Bateau
+Scope Sylphe
+Colis
+Carte Magnétique
+Dentier en Or
+Clé Ascenseur
 Champ’Duit
 Pare-Effet
 Graine Électrik
 Graine Psychique
 Graine Brume
 Graine Herbe
+Ressort Détendu
+Craie
+Bille
+Boucle d’Oreille
+Galet de Verre
+Feuille Dorée
+Feuille Argentée
+Boulette de Boue
+Coquille du Sud
+Lettre Végétale
+Lettre Végétale
+Petit Bouquet
 ???
 ???
 ???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
-???
+Parfum
+Super Parfum
+Parfum Max
+Crok’Argenta
 ROM Combat
 ROM Vol
 ROM Poison
@@ -958,3 +958,101 @@ Moti-Récup’ PV
 Moti-Récup’ PP
 Moti-Soutien
 Moti-Capture
+Bonbon Santé S
+Bonbon Force S
+Bonbon Armure S
+Bonbon Esprit S
+Bonbon Mental S
+Bonbon Sprint S
+Bonbon Santé M
+Bonbon Force M
+Bonbon Armure M
+Bonbon Esprit M
+Bonbon Mental M
+Bonbon Sprint M
+Bonbon Santé L
+Bonbon Force L
+Bonbon Armure L
+Bonbon Esprit L
+Bonbon Mental L
+Bonbon Sprint L
+Bonbon Bulbizarre
+Bonbon Salamèche
+Bonbon Carapuce
+Bonbon Chenipan
+Bonbon Aspicot
+Bonbon Roucool
+Bonbon Rattata
+Bonbon Piafabec
+Bonbon Abo
+Bonbon Pikachu
+Bonbon Sabelette
+Bonbon Nidoran♀
+Bonbon Nidoran♂
+Bonbon Mélofée
+Bonbon Goupix
+Bonbon Rondoudou
+Bonbon Nosferapti
+Bonbon Mystherbe
+Bonbon Paras
+Bonbon Mimitoss
+Bonbon Taupiqueur
+Bonbon Miaouss
+Bonbon Psykokwak
+Bonbon Férosinge
+Bonbon Caninos
+Bonbon Ptitard
+Bonbon Abra
+Bonbon Machoc
+Bonbon Chétiflor
+Bonbon Tentacool
+Bonbon Racaillou
+Bonbon Ponyta
+Bonbon Ramoloss
+Bonbon Magnéti
+Bonbon Canarticho
+Bonbon Doduo
+Bonbon Otaria
+Bonbon Tadmorv
+Bonbon Kokiyas
+Bonbon Fantominus
+Bonbon Onix
+Bonbon Soporifik
+Bonbon Krabby
+Bonbon Voltorbe
+Bonbon Noeunoeuf
+Bonbon Osselait
+Bonbon Kicklee
+Bonbon Tygnon
+Bonbon Excelangue
+Bonbon Smogo
+Bonbon Rhinocorne
+Bonbon Leveinard
+Bonbon Saquedeneu
+Bonbon Kangourex
+Bonbon Hypotrempe
+Bonbon Poissirène
+Bonbon Stari
+Bonbon M. Mime
+Bonbon Insécateur
+Bonbon Lippoutou
+Bonbon Élektek
+Bonbon Scarabrute
+Bonbon Tauros
+Bonbon Magicarpe
+Bonbon Lokhlass
+Bonbon Métamorph
+Bonbon Évoli
+Bonbon Porygon
+Bonbon Amonita
+Bonbon Kabuto
+Bonbon Ptéra
+Bonbon Ronflex
+Bonbon Artikodin
+Bonbon Électhor
+Bonbon Sulfura
+Bonbon Minidraco
+Bonbon Mewtwo
+Bonbon Mew
+Bonbon Meltan
+Bonbon Magmar

@@ -79,10 +79,31 @@ namespace PKHeX.Core
 
         private void VerifyIVsSlot(LegalityAnalysis data, EncounterSlot w)
         {
+            switch (w.Generation)
+            {
+                case 6: VerifyIVsGen6(data, w); break;
+                case 7: VerifyIVsGen7(data); break;
+            }
+        }
+
+        private void VerifyIVsGen7(LegalityAnalysis data)
+        {
             var pkm = data.pkm;
-            if (w.Generation == 7 && pkm.AbilityNumber == 4) // SOS
+            if (pkm.GG)
+            {
+                if (pkm.Version == (int)GameVersion.GO)
+                    VerifyIVsGoTransfer(data);
+            }
+            else if (pkm.AbilityNumber == 4)
+            {
                 VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
-            else if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
+            }
+        }
+
+        private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)
+        {
+            var pkm = data.pkm;
+            if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
                 VerifyIVsFlawless(data, 3);
             else if (w.Type == SlotType.FriendSafari)
                 VerifyIVsFlawless(data, 2);
@@ -98,6 +119,36 @@ namespace PKHeX.Core
         {
             if (s.FlawlessIVCount != 0)
                 VerifyIVsFlawless(data, s.FlawlessIVCount);
+        }
+
+        private void VerifyIVsGoTransfer(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (!IsGoIVSetValid(pkm))
+                data.AddLine(GetInvalid(LIVNotCorrect));
+
+            if (!pkm.IsShiny)
+                return;
+            var banlist = pkm.AltForm == 1 && Legal.EvolveToAlolanForms.Contains(pkm.Species)
+                ? Legal.GoTransferSpeciesShinyBanAlola
+                : Legal.GoTransferSpeciesShinyBan;
+            if (banlist.Contains(pkm.Species))
+                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
+        }
+
+        private static bool IsGoIVSetValid(PKM pkm)
+        {
+            // Stamina*2 | 1 -> HP
+            // ATK * 2 | 1 -> ATK&SPA
+            // DEF * 2 | 1 -> DEF&SPD
+            // Speed is random.
+
+            // All IVs must be odd (except speed) and equal to their counterpart.
+            if ((pkm.GetIV(1) & 1) != 1 || pkm.GetIV(1) != pkm.GetIV(4)) // ATK=SPA
+                return false;
+            if ((pkm.GetIV(2) & 1) != 1 || pkm.GetIV(2) != pkm.GetIV(5)) // DEF=SPD
+                return false;
+            return (pkm.GetIV(0) & 1) == 1; // HP
         }
     }
 }

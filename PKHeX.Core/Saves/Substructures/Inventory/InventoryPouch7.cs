@@ -20,7 +20,9 @@ namespace PKHeX.Core
             {
                 // 10bit itemID
                 // 10bit count
-                // 12bit flags/reserved
+                // 10bit freespace index
+                // 1 bit new flag
+                // 1 bit reserved
                 uint val = BitConverter.ToUInt32(Data, Offset + (i * 4));
                 items[i] = new InventoryItem
                 {

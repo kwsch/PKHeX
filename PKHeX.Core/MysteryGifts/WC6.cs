@@ -14,9 +14,11 @@ namespace PKHeX.Core
         public const uint EonTicketConst = 0x225D73C2;
         public override int Format => 6;
 
-        public WC6(byte[] data = null)
+        public WC6() => Data = new byte[Size];
+
+        public WC6(byte[] data)
         {
-            Data = data ?? new byte[Size];
+            Data = data;
             if (Data.Length == SizeFull)
             {
                 // Load Restrictions
@@ -164,7 +166,7 @@ namespace PKHeX.Core
             set => Encoding.Unicode.GetBytes(value.PadRight(12 + 1, '\0')).CopyTo(Data, 0x86);
         }
 
-        public int Nature { get => Data[0xA0]; set => Data[0xA0] = (byte)value; }
+        public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
         public override int Gender { get => Data[0xA1]; set => Data[0xA1] = (byte)value; }
         public override int AbilityType {  get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public Shiny PIDType { get => (Shiny)Data[0xA3]; set => Data[0xA3] = (byte)value; }
@@ -297,7 +299,7 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
+                Nature = Nature != -1 ? Nature : Util.Rand.Next(25),
                 Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
@@ -325,7 +327,7 @@ namespace PKHeX.Core
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
-                EXP = PKX.GetEXP(Level, Species),
+                EXP = Experience.GetEXP(Level, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,

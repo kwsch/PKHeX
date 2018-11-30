@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKX
     {
-        internal static readonly PersonalTable Personal = PersonalTable.USUM;
+        internal static readonly PersonalTable Personal = PersonalTable.GG;
         public const int Generation = 7;
 
         internal const int SIZE_1ULIST = 69;
@@ -211,12 +211,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current level of a species.
         /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
         /// <param name="exp">Experience points</param>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Current level of the species.</returns>
-        public static int GetLevel(int species, uint exp)
+        public static int GetLevel(uint exp, int species, int forme)
         {
-            return Experience.GetLevel(species, exp);
+            return Experience.GetLevel(exp, species, forme);
         }
 
         /// <summary>
@@ -224,10 +225,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="level">Current level</param>
         /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Experience points needed to have specified level.</returns>
-        public static uint GetEXP(int level, int species)
+        public static uint GetEXP(int level, int species, int forme)
         {
-            return Experience.GetEXP(level, species);
+            return Experience.GetEXP(level, species, forme);
         }
 
         /// <summary>
@@ -489,8 +491,9 @@ namespace PKHeX.Core
         // Data Requests
         public static string GetResourceStringBall(int ball) => $"_ball{ball}";
         private const string ResourceSeparator = "_";
-        private const string ResourcePikachuCosplay = "c";
-        private const string ResourceShiny = "s";
+        private const string ResourcePikachuCosplay = "c"; // osplay
+        private const string ResourceShiny = "s"; // hiny
+        private const string ResourceGGStarter = "p"; //artner
         public static bool AllowShinySprite { get; set; }
 
         public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
@@ -507,6 +510,9 @@ namespace PKHeX.Core
 
             if (species == 25 && form > 0 && generation == 6) // Cosplay Pikachu
                 sb.Append(ResourcePikachuCosplay);
+            else if (GameVersion.GG.Contains(PKMConverter.Trainer.Game) && (species == 25 || species == 133) && form != 0)
+                sb.Append(ResourceGGStarter);
+
             if (shiny && AllowShinySprite)
                 sb.Append(ResourceShiny);
             return sb.ToString();
@@ -774,7 +780,7 @@ namespace PKHeX.Core
                 return string.Empty;
 
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
+            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
         }
 
         /// <summary>
@@ -783,9 +789,10 @@ namespace PKHeX.Core
         /// <param name="list">Source list to copy from</param>
         /// <param name="dest">Destination list/array</param>
         /// <param name="sav">Context for checking slot write protection</param>
+        /// <param name="skip">Criteria for skipping a slot</param>
         /// <param name="start">Starting point to copy to</param>
         /// <returns>Count of <see cref="PKM"/> copied.</returns>
-        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, SaveFile sav, int start = 0)
+        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, SaveFile sav, Func<int, int, bool> skip, int start = 0)
         {
             int ctr = start;
             foreach (var z in list)
@@ -793,7 +800,7 @@ namespace PKHeX.Core
                 if (dest.Count <= ctr)
                     break;
                 var exist = dest[ctr];
-                if (exist != null && sav.IsSlotOverwriteProtected(exist.Box, exist.Slot))
+                if (exist != null && skip(exist.Box, exist.Slot))
                     continue;
                 dest[ctr++] = z;
             }

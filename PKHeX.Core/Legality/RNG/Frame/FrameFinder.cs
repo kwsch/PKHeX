@@ -83,7 +83,7 @@ namespace PKHeX.Core
             // 3 different rand places
             LeadRequired lead;
             var prev0 = f.Seed; // 0
-            var prev1 = info.RNG.Prev(f.Seed); // -1 
+            var prev1 = info.RNG.Prev(f.Seed); // -1
             var prev2 = info.RNG.Prev(prev1); // -2
             var prev3 = info.RNG.Prev(prev2); // -3
 
@@ -183,7 +183,7 @@ namespace PKHeX.Core
         {
             LeadRequired lead;
             var prev0 = f.Seed; // 0
-            var prev1 = info.RNG.Prev(f.Seed); // -1 
+            var prev1 = info.RNG.Prev(f.Seed); // -1
             var prev2 = info.RNG.Prev(prev1); // -2
             var prev3 = info.RNG.Prev(prev2); // -3
 
@@ -292,7 +292,9 @@ namespace PKHeX.Core
                 if (reg)
                 {
                     if (seed.Charm3)
+                    {
                         yield return info.GetFrame(prev, LeadRequired.CuteCharm);
+                    }
                     else
                     {
                         if (info.Safari3)
@@ -314,8 +316,10 @@ namespace PKHeX.Core
             // unroll the RNG to a stack of seeds
             var stack = new Stack<uint>();
             for (uint i = 0; i < 25; i++)
-            for (uint j = 1 + i; j < 25; j++)
-                stack.Push(seed = RNG.LCRNG.Prev(seed));
+            {
+                for (uint j = 1 + i; j < 25; j++)
+                    stack.Push(seed = RNG.LCRNG.Prev(seed));
+            }
 
             natureOrigin = RNG.LCRNG.Prev(stack.Peek());
             if (natureOrigin >> 16 % 100 >= 80) // failed proc
@@ -328,15 +332,17 @@ namespace PKHeX.Core
 
             // shuffle nature list
             for (uint i = 0; i < 25; i++)
-            for (uint j = 1 + i; j < 25; j++)
             {
-                var s = stack.Pop();
-                if ((s >> 16 & 1) == 0)
-                    continue; // only swap if 1
+                for (uint j = 1 + i; j < 25; j++)
+                {
+                    var s = stack.Pop();
+                    if ((s >> 16 & 1) == 0)
+                        continue; // only swap if 1
 
-                var temp = natures[i];
-                natures[i] = natures[j];
-                natures[j] = temp;
+                    var temp = natures[i];
+                    natures[i] = natures[j];
+                    natures[j] = temp;
+                }
             }
 
             var likes = Pokeblock.GetLikedBlockFlavor(nature);

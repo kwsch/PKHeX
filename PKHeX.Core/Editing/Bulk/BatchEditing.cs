@@ -13,6 +13,7 @@ namespace PKHeX.Core
     {
         public static readonly Type[] Types =
         {
+            typeof (PB7),
             typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
             typeof (PK3), typeof (XK3), typeof (CK3),
             typeof (PK2), typeof (PK1),
@@ -419,7 +420,7 @@ namespace PKHeX.Core
             else if (cmd.PropertyName == nameof(pkm.EncryptionConstant) && cmd.PropertyValue == nameof(pkm.PID))
                 pkm.EncryptionConstant = pkm.PID;
             else if (cmd.PropertyName == nameof(pkm.PID) && cmd.PropertyValue == CONST_SHINY)
-                pkm.SetShinyPID();
+                pkm.SetShiny();
             else if (cmd.PropertyName == nameof(pkm.Species) && cmd.PropertyValue == "0")
                 pkm.Data = new byte[pkm.Data.Length];
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)

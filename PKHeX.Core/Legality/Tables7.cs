@@ -148,7 +148,7 @@ namespace PKHeX.Core
         }).ToArray();
 
         public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
-            .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
+            .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new KeyValuePair<int, int>(k, v))
             .ToDictionary(x => x.Key, x => x.Value);
 
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();

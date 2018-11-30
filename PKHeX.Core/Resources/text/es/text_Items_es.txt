@@ -1,4 +1,4 @@
-Ningún
+﻿Ningún
 Master Ball
 Ultra Ball
 Super Ball
@@ -111,22 +111,22 @@ Piedra Alba
 Piedra Oval
 Piedra Espíritu
 Griseosfera
+Té
 (?)
-(?)
-(?)
+Autógrafo
 HidroROM
 FulgoROM
 PiroROM
 CrioROM
 (?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
+Caja de Pokémon
+Botiquín
+Estuche de MT
+Tarro de Caramelos
+Bolsillo Mejoras
+Maleta
+Bolsillo Captura
+Bolsillo Combate
 (?)
 (?)
 (?)
@@ -859,49 +859,49 @@ Flauta Solar
 Flauta Lunar
 (?)
 Nota Intrigante
+Baya Frambu Plateada
+Baya Frambu Dorada
+Baya Latano Plateada
+Baya Latano Dorada
+Baya Pinia Plateada
+Baya Pinia Dorada
 (?)
 (?)
 (?)
 (?)
 (?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
+Llave Secreta
+Ticket del Barco
+Visor Silph
+Paquete
+Llave Magnética
+Dentadura de Oro
+Llave Ascensor
 Cubresuelos
 Paracontacto
 Semilla Electro
 Semilla Psique
 Semilla Bruma
 Semilla Hierba
+Muelle Estirado
+Tiza
+Canica
+Pendiente
+Cristal Marino
+Hoja de Oro
+Hoja de Plata
+Bola de Arcilla
+Concha Tropical
+Hoja Escrita
+Hoja Escrita
+Ramo Pequeño
 (?)
 (?)
 (?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
-(?)
+Colonia
+Supercolonia
+Colonia Máxima
+Rokikos
 Disco Lucha
 Disco Volador
 Disco Veneno
@@ -958,3 +958,101 @@ Cupón PS
 Cupón PP
 Cupón Refuerzo
 Cupón Captura
+Caramelo Vigor
+Caramelo Músculo
+Caramelo Aguante
+Caramelo Intelecto
+Caramelo Mente
+Caramelo Ímpetu
+Caramelo Vigor +
+Caramelo Músculo +
+Caramelo Aguante +
+Caramelo Intelecto +
+Caramelo Mente +
+Caramelo Ímpetu +
+Caramelo Vigor ++
+Caramelo Músculo ++
+Caramelo Aguante ++
+Caramelo Intelecto ++
+Caramelo Mente ++
+Caramelo Ímpetu ++
+Caramelo Bulbasaur
+Caramelo Charmander
+Caramelo Squirtle
+Caramelo Caterpie
+Caramelo Weedle
+Caramelo Pidgey
+Caramelo Rattata
+Caramelo Spearow
+Caramelo Ekans
+Caramelo Pikachu
+Caramelo Sandshrew
+Caramelo Nidoran♀
+Caramelo Nidoran♂
+Caramelo Clefairy
+Caramelo Vulpix
+Caramelo Jigglypuff
+Caramelo Zubat
+Caramelo Oddish
+Caramelo Paras
+Caramelo Venonat
+Caramelo Diglett
+Caramelo Meowth
+Caramelo Psyduck
+Caramelo Mankey
+Caramelo Growlithe
+Caramelo Poliwag
+Caramelo Abra
+Caramelo Machop
+Caramelo Bellsprout
+Caramelo Tentacool
+Caramelo Geodude
+Caramelo Ponyta
+Caramelo Slowpoke
+Caramelo Magnemite
+Caramelo Farfetch’d
+Caramelo Doduo
+Caramelo Seel
+Caramelo Grimer
+Caramelo Shellder
+Caramelo Gastly
+Caramelo Onix
+Caramelo Drowzee
+Caramelo Krabby
+Caramelo Voltorb
+Caramelo Exeggcute
+Caramelo Cubone
+Caramelo Hitmonlee
+Caramelo Hitmonchan
+Caramelo Lickitung
+Caramelo Koffing
+Caramelo Rhyhorn
+Caramelo Chansey
+Caramelo Tangela
+Caramelo Kangaskhan
+Caramelo Horsea
+Caramelo Goldeen
+Caramelo Staryu
+Caramelo Mr. Mime
+Caramelo Scyther
+Caramelo Jynx
+Caramelo Electabuzz
+Caramelo Pinsir
+Caramelo Tauros
+Caramelo Magikarp
+Caramelo Lapras
+Caramelo Ditto
+Caramelo Eevee
+Caramelo Porygon
+Caramelo Omanyte
+Caramelo Kabuto
+Caramelo Aerodactyl
+Caramelo Snorlax
+Caramelo Articuno
+Caramelo Zapdos
+Caramelo Moltres
+Caramelo Dratini
+Caramelo Mewtwo
+Caramelo Mew
+Caramelo Meltan
+Caramelo Magmar

@@ -11,10 +11,8 @@ namespace PKHeX.Core
         public const int Size = 0xCC;
         public override int Format => 5;
 
-        public PGF(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PGF() => Data = new byte[Size];
+        public PGF(byte[] data) => Data = data;
 
         public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public override int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
@@ -57,7 +55,7 @@ namespace PKHeX.Core
             set => Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E);
         }
 
-        public int Nature { get => Data[0x34]; set => Data[0x34] = (byte)value; }
+        public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }
         public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public override int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
@@ -181,7 +179,7 @@ namespace PKHeX.Core
                 Species = Species,
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : Util.Rand.Next(25),
+                Nature = Nature != -1 ? Nature : Util.Rand.Next(25),
                 Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? SAV.Game : OriginGame,
@@ -201,7 +199,7 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                EXP = PKX.GetEXP(Level, Species),
+                EXP = Experience.GetEXP(Level, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,

@@ -16,6 +16,8 @@ namespace PKHeX.Core
         SortLevelReverse,
         SortDate,
         SortName,
+        SortFavorite,
+        SortParty,
         SortShiny,
         SortRandom,
 
@@ -26,6 +28,7 @@ namespace PKHeX.Core
         SortType,
         SortVersion,
         SortBST,
+        SortCP,
         SortLegal,
 
         ModifyHatchEggs,

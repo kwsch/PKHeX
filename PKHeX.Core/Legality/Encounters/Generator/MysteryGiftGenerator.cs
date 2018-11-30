@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
         {
-            var table = GetTable(pkm.GenNumber);
+            var table = GetTable(pkm.GenNumber, pkm);
             return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
         }
 
@@ -28,12 +28,15 @@ namespace PKHeX.Core
                 case 4: return GetMatchingPCD(pkm, MGDB_G4);
                 case 5: return GetMatchingPGF(pkm, MGDB_G5);
                 case 6: return GetMatchingWC6(pkm, MGDB_G6);
-                case 7: return GetMatchingWC7(pkm, MGDB_G7);
+                case 7:
+                    return pkm.GG
+                        ? (IEnumerable<MysteryGift>) GetMatchingWB7(pkm, MGDB_G7GG)
+                        : GetMatchingWC7(pkm, MGDB_G7);
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
 
-        private static IEnumerable<MysteryGift> GetTable(int generation)
+        private static IEnumerable<MysteryGift> GetTable(int generation, PKM pkm)
         {
             switch (generation)
             {
@@ -41,7 +44,8 @@ namespace PKHeX.Core
                 case 4: return MGDB_G4;
                 case 5: return MGDB_G5;
                 case 6: return MGDB_G6;
-                case 7: return MGDB_G7;
+                case 7:
+                    return pkm.GG ? (IEnumerable<MysteryGift>) MGDB_G7GG : MGDB_G7;
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }
@@ -133,6 +137,22 @@ namespace PKHeX.Core
                 yield return z;
         }
 
+        private static IEnumerable<WB7> GetMatchingWB7(PKM pkm, IEnumerable<WB7> DB)
+        {
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
+            var enumerable = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            foreach (var wc in enumerable)
+            {
+                if (!GetIsMatchWB7(pkm, wc, vs))
+                    continue;
+
+                if (wc.PIDType == 0 && pkm.PID != wc.PID)
+                    continue;
+
+                yield return wc;
+            }
+        }
+
         private static IEnumerable<WC7> GetMatchingWC7(PKM pkm, IEnumerable<WC7> DB)
         {
             var deferred = new List<WC7>();
@@ -161,7 +181,7 @@ namespace PKHeX.Core
                 yield return z;
         }
 
-        private static bool GetIsValidOTItalianMattleHoOh(string wc, string ot, bool ck3)
+        private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
         {
             if (ck3 && ot.Length == 10)
                 return wc == ot;
@@ -180,14 +200,15 @@ namespace PKHeX.Core
                 if (wc.SID != -1 && wc.SID != pkm.SID) return false;
                 if (wc.TID != -1 && wc.TID != pkm.TID) return false;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
-                if (wc.OT_Name != null)
+                var wcOT = wc.OT_Name;
+                if (wcOT != null)
                 {
-                    if (ReferenceEquals(EncountersWC3.ColoHoOhItalian, wc.OT_Name))
+                    if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
                     {
-                        if (!GetIsValidOTItalianMattleHoOh(wc.OT_Name, pkm.OT_Name, pkm is CK3))
+                        if (!GetIsValidOTMattleHoOh(wcOT, pkm.OT_Name, pkm is CK3))
                             return false;
                     }
-                    else if (wc.OT_Name != pkm.OT_Name)
+                    else if (wcOT != pkm.OT_Name)
                     {
                         return false;
                     }
@@ -304,7 +325,7 @@ namespace PKHeX.Core
 
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 2 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
@@ -353,10 +374,63 @@ namespace PKHeX.Core
             if (wc.Level != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))
+                return false;
+
+            return true;
+        }
+
+        private static bool GetIsMatchWB7(PKM pkm, WB7 wc, IEnumerable<DexLevel> vs)
+        {
+            if (pkm.Egg_Location == 0) // Not Egg
+            {
+                if (wc.OTGender != 3)
+                {
+                    if (wc.SID != pkm.SID) return false;
+                    if (wc.TID != pkm.TID) return false;
+                    if (wc.OTGender != pkm.OT_Gender) return false;
+                }
+                var OT = wc.GetOT(pkm.Language);
+                if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
+                if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) return false;
+                if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
+            }
+
+            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species)))
+                return false;
+
+            if (wc.IsEgg)
+            {
+                if (wc.EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30002)
+                        return false;
+                }
+                else if (wc.PIDType == 0 && pkm.IsShiny)
+                {
+                    return false; // can't be traded away for unshiny
+                }
+
+                if (pkm.IsEgg && !pkm.IsNative)
+                    return false;
+            }
+            else
+            {
+                if (!wc.PIDType.IsValid(pkm)) return false;
+                if (wc.EggLocation != pkm.Egg_Location) return false;
+                if (wc.MetLocation != pkm.Met_Location) return false;
+            }
+
+            if (wc.MetLevel != pkm.Met_Level) return false;
+            if (wc.Ball != pkm.Ball) return false;
+            if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
+            if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
+
+            if (pkm is IAwakened s && s.IsAwakeningBelow(wc))
                 return false;
 
             return true;
@@ -414,7 +488,7 @@ namespace PKHeX.Core
             if (wc.MetLevel != pkm.Met_Level) return false;
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
-            if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) return false;
+            if (wc.Nature != -1 && wc.Nature != pkm.Nature) return false;
             if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(wc))

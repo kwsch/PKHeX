@@ -177,9 +177,11 @@ namespace PKHeX.WinForms
 
         private byte[] SetString(string text)
         {
-            return SAV is SAV2 s && s.Korean
-                ? StringConverter.SetString2KOR(text, Raw.Length)
-                : StringConverter.SetString(text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            if (SAV is SAV2 s && s.Korean)
+                return StringConverter.SetString2KOR(text, Raw.Length);
+            if (SAV is SAV7b)
+                return StringConverter.SetString7b(text, SAV.Generation, Raw.Length, SAV.Language);
+            return StringConverter.SetString(text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
         }
 
         private string GetString()

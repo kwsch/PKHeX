@@ -710,10 +710,10 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
         };
 
-        internal static readonly string[] TradeOT_B2W2_F = {null, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", null, "Belinda", "루리"};
-        internal static readonly string[] TradeOT_B2W2_M = {null, "テツ", "Curtis", "Julien", "Dadi", "Markus", null, "Julián", "철권"};
+        private static readonly string[] TradeOT_B2W2_F = {null, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", null, "Belinda", "루리"};
+        private static readonly string[] TradeOT_B2W2_M = {null, "テツ", "Curtis", "Julien", "Dadi", "Markus", null, "Julián", "철권"};
 
-        internal static readonly string[][] TradeBW =
+        private static readonly string[][] TradeBW =
         {
             Array.Empty<string>(),               // 0 - None
             Util.GetStringList("tradebw", "ja"), // 1
@@ -726,7 +726,7 @@ namespace PKHeX.Core
             Util.GetStringList("tradebw", "ko"), // 8
         };
 
-        internal static readonly string[][] TradeB2W2 =
+        private static readonly string[][] TradeB2W2 =
         {
             Array.Empty<string>(),                 // 0 - None
             Util.GetStringList("tradeb2w2", "ja"), // 1

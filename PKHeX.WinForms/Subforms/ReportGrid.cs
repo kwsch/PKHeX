@@ -58,7 +58,7 @@ namespace PKHeX.WinForms
             var strings = GameInfo.Strings;
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
-                pkm.Stat_Level = PKX.GetLevel(pkm.Species, pkm.EXP); // recalc Level
+                pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.Species, pkm.AltForm); // recalc Level
                 PL.Add(new PKMPreview(pkm, strings));
                 BoxBar.PerformStep();
             }

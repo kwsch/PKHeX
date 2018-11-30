@@ -44,6 +44,8 @@ namespace PKHeX.Core
                 return GetFormsGen7(species, types, forms);
         }
 
+        private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Trainer.Game);
+
         public static bool IsTotemForm(int species, int form, int generation = 7)
         {
             if (generation != 7)
@@ -83,6 +85,7 @@ namespace PKHeX.Core
         }
 
         private static readonly string[] EMPTY = {""};
+        private const string Starter = nameof(Starter);
 
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
@@ -96,6 +99,14 @@ namespace PKHeX.Core
                         forms[805], // Mega X
                         forms[806], // Mega Y
                     };
+
+                case 133 when IsGG():
+                    return new[]
+                    {
+                        types[000], // Normal
+                        Starter,
+                    };
+
                 case 025:
                     return GetFormsPikachu(generation, types, forms);
 
@@ -547,7 +558,7 @@ namespace PKHeX.Core
                         forms[734], // Cosplay
                     };
                 case 7:
-                    return new[]
+                    var arr = new[]
                     {
                         types[000], // Normal
                         forms[813], // Original
@@ -558,6 +569,11 @@ namespace PKHeX.Core
                         forms[818], // Alola
                         forms[1063] // Partner
                     };
+                    if (!IsGG())
+                        return arr;
+                    System.Array.Resize(ref arr, arr.Length + 1);
+                    arr[arr.Length - 1] = Starter;
+                    return arr;
             }
         }
 

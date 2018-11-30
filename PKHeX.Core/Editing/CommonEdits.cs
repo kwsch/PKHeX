@@ -103,22 +103,19 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="shiny">Desired <see cref="PKM.IsShiny"/> state to set.</param>
         /// <returns></returns>
-        public static bool SetIsShiny(this PKM pk, bool shiny) => shiny ? pk.SetShiny() : pk.SetUnshiny();
+        public static bool SetIsShiny(this PKM pk, bool shiny) => shiny ? SetShiny(pk) : pk.SetUnshiny();
 
         /// <summary>
         /// Makes a <see cref="PKM"/> shiny.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
-        public static bool SetShiny(this PKM pk)
+        public static bool SetShiny(PKM pk)
         {
             if (pk.IsShiny)
                 return false;
 
-            if (pk.Format > 2)
-                pk.SetShinyPID();
-            else
-                pk.SetShinyIVs();
+            pk.SetShiny();
             return true;
         }
 
@@ -317,6 +314,17 @@ namespace PKHeX.Core
             pk.SetIsShiny(Set.Shiny);
             pk.SetRandomEC();
 
+            if (pk is IAwakened a)
+            {
+                a.SetSuggestedAwakenedValues(pk);
+                if (pk is PB7 b)
+                {
+                    for (int i = 0; i < 6; i++)
+                        pk.SetEV(i, 0);
+                    b.ResetCalculatedValues();
+                }
+            }
+
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);
@@ -324,7 +332,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index & format.
+        /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index &amp; format.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="item">Held Item to apply</param>
@@ -575,6 +583,8 @@ namespace PKHeX.Core
             pkm.IsEgg = false;
             pkm.SetNickname();
             pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
+            if (pkm.IsTradedEgg)
+                pkm.Egg_Location = pkm.Met_Location;
             var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
             if (loc >= 0)
                 pkm.Met_Location = loc;
@@ -593,6 +603,8 @@ namespace PKHeX.Core
                 pkm.OT_Friendship = 1;
             else
                 pkm.CurrentFriendship = byte.MaxValue;
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
 
         /// <summary>
@@ -604,13 +616,15 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return;
             pkm.CurrentLevel = 100;
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
 
         /// <summary>
         /// Gets a moveset for the provided <see cref="PKM"/> data.
         /// </summary>
         /// <param name="pkm">PKM to generate for</param>
-        /// <param name="random">Full movepool & shuffling</param>
+        /// <param name="random">Full movepool &amp; shuffling</param>
         /// <param name="la">Precomputed optional</param>
         /// <returns>4 moves</returns>
         public static int[] GetMoveSet(this PKM pkm, bool random = false, LegalityAnalysis la = null)

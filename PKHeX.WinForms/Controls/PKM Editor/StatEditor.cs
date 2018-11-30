@@ -11,11 +11,12 @@ namespace PKHeX.WinForms.Controls
         public StatEditor()
         {
             InitializeComponent();
-            MT_EVs   = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPEEV, TB_SPAEV, TB_SPDEV};
-            MT_IVs   = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV};
+            MT_IVs   = new[] {TB_IVHP, TB_IVATK, TB_IVDEF, TB_IVSPE, TB_IVSPA, TB_IVSPD};
+            MT_EVs   = new[] {TB_EVHP, TB_EVATK, TB_EVDEF, TB_EVSPE, TB_EVSPA, TB_EVSPD};
+            MT_AVs   = new[] {TB_AVHP, TB_AVATK, TB_AVDEF, TB_AVSPE, TB_AVSPA, TB_AVSPD};
             MT_Stats = new[] {Stat_HP, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD};
             L_Stats  = new[] {Label_HP, Label_ATK, Label_DEF, Label_SPE, Label_SPA, Label_SPD};
-            MT_Base  = new[] {TB_HPBase, TB_ATKBase, TB_DEFBase, TB_SPEBase, TB_SPABase, TB_SPDBase};
+            MT_Base  = new[] {TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPE, TB_BaseSPA, TB_BaseSPD};
 
             TB_BST.ResetForeColor();
             TB_IVTotal.ForeColor = MT_EVs[0].ForeColor;
@@ -37,10 +38,22 @@ namespace PKHeX.WinForms.Controls
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = editor.HaX;
         }
 
-        public bool Valid => pkm.Format < 3 || Convert.ToUInt32(TB_EVTotal.Text) <= 510 || CHK_HackedStats.Checked;
+        public bool Valid
+        {
+            get
+            {
+                if (pkm.Format < 3)
+                    return true;
+                if (CHK_HackedStats.Checked)
+                    return true;
+                if (pkm is IAwakened a)
+                    return a.AwakeningAllValid();
+                return Convert.ToUInt32(TB_EVTotal.Text) <= 510;
+            }
+        }
 
         private readonly Label[] L_Stats;
-        private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_Stats, MT_Base;
+        private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_AVs, MT_Stats, MT_Base;
         private readonly ToolTip EVTip = new ToolTip();
         private PKM pkm => MainEditor.pkm;
 
@@ -92,6 +105,21 @@ namespace PKHeX.WinForms.Controls
             t.Text = newEV.ToString();
         }
 
+        private void ClickAV(object sender, EventArgs e)
+        {
+            if (!(sender is MaskedTextBox t))
+                return;
+
+            if (!ModifierKeys.HasFlag(Keys.Control)) // Max
+            {
+                if (ModifierKeys.HasFlag(Keys.Alt)) // Min
+                    t.Text = 0.ToString();
+                return;
+            }
+            var max = Legal.AwakeningMax.ToString();
+            t.Text = t.Text == max ? 0.ToString() : max;
+        }
+
         public void UpdateIVs(object sender, EventArgs e)
         {
             if (sender is MaskedTextBox m)
@@ -114,8 +142,8 @@ namespace PKHeX.WinForms.Controls
         {
             if (pkm.Format < 3)
             {
-                TB_HPIV.Text = pkm.IV_HP.ToString();
-                TB_SPDIV.Text = pkm.IV_SPD.ToString();
+                TB_IVHP.Text = pkm.IV_HP.ToString();
+                TB_IVSPD.Text = pkm.IV_SPD.ToString();
 
                 MainEditor.UpdateIVsGB(sender == null);
             }
@@ -154,10 +182,31 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 3)
             {
                 ChangingFields = true;
-                TB_SPDEV.Text = TB_SPAEV.Text;
+                TB_EVSPD.Text = TB_EVSPA.Text;
                 ChangingFields = false;
             }
 
+            UpdateStats();
+        }
+
+        private void UpdateAVs(object sender, EventArgs e)
+        {
+            if (!(pkm is IAwakened a))
+                return;
+            if (sender is MaskedTextBox m)
+            {
+                int value = Util.ToInt32(m.Text);
+                if (value > Legal.AwakeningMax)
+                {
+                    m.Text = Legal.AwakeningMax.ToString();
+                    return; // recursive on text set
+                }
+
+                int index = Array.IndexOf(MT_AVs, m);
+                a.SetAV(index, value);
+            }
+
+            UpdateAVTotals();
             UpdateStats();
         }
 
@@ -239,6 +288,14 @@ namespace PKHeX.WinForms.Controls
                 UpdateHyperTrainingFlag(i, h.GetHT(i));
         }
 
+        private void UpdateAVTotals()
+        {
+            if (!(pkm is IAwakened a))
+                return;
+            var total = a.AwakeningSum();
+            TB_AVTotal.Text = total.ToString();
+        }
+
         private void UpdateEVTotals()
         {
             var evtotal = pkm.EVTotal;
@@ -291,6 +348,27 @@ namespace PKHeX.WinForms.Controls
             LoadIVs(IVs);
         }
 
+        private void UpdateRandomAVs(object sender, EventArgs e)
+        {
+            if (!(pkm is IAwakened a))
+                return;
+
+            switch (ModifierKeys)
+            {
+                case Keys.Control:
+                    a.SetSuggestedAwakenedValues(pkm);
+                    break;
+                case Keys.Alt:
+                    a.AwakeningSetAllTo(0);
+                    break;
+                default:
+                    foreach (var index in Enumerable.Range(0, 6))
+                        a.SetAV(index, Util.Rand.Next(Legal.AwakeningMax + 1));
+                    break;
+            }
+            LoadAVs(a);
+        }
+
         public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
 
         private void UpdateCharacteristic(int characteristic)
@@ -318,7 +396,7 @@ namespace PKHeX.WinForms.Controls
         public void SetATKIVGender(int gender)
         {
             pkm.SetATKIVGender(gender);
-            TB_ATKIV.Text = pkm.IV_ATK.ToString();
+            TB_IVATK.Text = pkm.IV_ATK.ToString();
         }
 
         public void LoadPartyStats(PKM pk)
@@ -353,31 +431,45 @@ namespace PKHeX.WinForms.Controls
         public void LoadEVs(int[] EVs)
         {
             ChangingFields = true;
-             TB_HPEV.Text = EVs[0].ToString();
-            TB_ATKEV.Text = EVs[1].ToString();
-            TB_DEFEV.Text = EVs[2].ToString();
-            TB_SPEEV.Text = EVs[3].ToString();
-            TB_SPAEV.Text = EVs[4].ToString();
-            TB_SPDEV.Text = EVs[5].ToString();
+             TB_EVHP.Text = EVs[0].ToString();
+            TB_EVATK.Text = EVs[1].ToString();
+            TB_EVDEF.Text = EVs[2].ToString();
+            TB_EVSPE.Text = EVs[3].ToString();
+            TB_EVSPA.Text = EVs[4].ToString();
+            TB_EVSPD.Text = EVs[5].ToString();
             ChangingFields = false;
+            UpdateStats();
         }
 
         public void LoadIVs(int[] IVs)
         {
             ChangingFields = true;
-             TB_HPIV.Text = IVs[0].ToString();
-            TB_ATKIV.Text = IVs[1].ToString();
-            TB_DEFIV.Text = IVs[2].ToString();
-            TB_SPEIV.Text = IVs[3].ToString();
-            TB_SPAIV.Text = IVs[4].ToString();
-            TB_SPDIV.Text = IVs[5].ToString();
+             TB_IVHP.Text = IVs[0].ToString();
+            TB_IVATK.Text = IVs[1].ToString();
+            TB_IVDEF.Text = IVs[2].ToString();
+            TB_IVSPE.Text = IVs[3].ToString();
+            TB_IVSPA.Text = IVs[4].ToString();
+            TB_IVSPD.Text = IVs[5].ToString();
             ChangingFields = false;
             LoadHyperTraining();
-            RefreshDerivedValues(TB_SPDIV);
+            RefreshDerivedValues(TB_IVSPD);
             UpdateStats();
         }
 
-        public void ToggleInterface(int gen)
+        public void LoadAVs(IAwakened a)
+        {
+            ChangingFields = true;
+             TB_AVHP.Text = a.AV_HP.ToString();
+            TB_AVATK.Text = a.AV_ATK.ToString();
+            TB_AVDEF.Text = a.AV_DEF.ToString();
+            TB_AVSPE.Text = a.AV_SPE.ToString();
+            TB_AVSPA.Text = a.AV_SPA.ToString();
+            TB_AVSPD.Text = a.AV_SPD.ToString();
+            ChangingFields = false;
+            UpdateStats();
+        }
+
+        public void ToggleInterface(PKM pk, int gen)
         {
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
@@ -388,26 +480,34 @@ namespace PKHeX.WinForms.Controls
                     FLP_SpD.Visible = false;
                     Label_SPA.Visible = false;
                     Label_SPC.Visible = true;
-                    TB_HPIV.Enabled = false;
+                    TB_IVHP.Enabled = false;
                     SetEVMaskSize(Stat_HP.Size, "00000");
                     break;
                 case 2:
                     FLP_SpD.Visible = true;
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
-                    TB_HPIV.Enabled = false;
+                    TB_IVHP.Enabled = false;
                     SetEVMaskSize(Stat_HP.Size, "00000");
-                    TB_SPDEV.Enabled = TB_SPDIV.Enabled = false;
+                    TB_EVSPD.Enabled = TB_IVSPD.Enabled = false;
                     break;
                 default:
                     FLP_SpD.Visible = true;
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
-                    TB_HPIV.Enabled = true;
+                    TB_IVHP.Enabled = true;
                     SetEVMaskSize(TB_EVTotal.Size, "000");
-                    TB_SPDEV.Enabled = TB_SPDIV.Enabled = true;
+                    TB_EVSPD.Enabled = TB_IVSPD.Enabled = true;
                     break;
             }
+
+            var showAV = pk is IAwakened;
+            Label_AVs.Visible = TB_AVTotal.Visible = BTN_RandomAVs.Visible = showAV;
+            foreach (var mtb in MT_AVs)
+                mtb.Visible = showAV;
+            Label_EVs.Visible = TB_EVTotal.Visible = BTN_RandomEVs.Visible = !showAV;
+            foreach (var mtb in MT_EVs)
+                mtb.Visible = !showAV;
 
             void SetEVMaskSize(Size s, string Mask)
             {

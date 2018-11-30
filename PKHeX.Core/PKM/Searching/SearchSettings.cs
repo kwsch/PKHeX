@@ -5,13 +5,13 @@ using System.Linq;
 namespace PKHeX.Core.Searching
 {
     /// <summary>
-    /// <see cref="PKM"/> search settings & searcher
+    /// <see cref="PKM"/> search settings &amp; searcher
     /// </summary>
     public class SearchSettings
     {
         public int Format { private get; set; }
         public int Generation { private get; set; }
-        public int Species { private get; set; } = -1;
+        public int Species { get; set; } = -1;
         public int Ability { private get; set; } = -1;
         public int Nature { private get; set; } = -1;
         public int Item { private get; set; } = -1;
@@ -23,7 +23,7 @@ namespace PKHeX.Core.Searching
 
         public bool? SearchShiny { private get; set; }
         public bool? SearchLegal { private get; set; }
-        public bool? SearchEgg { private get; set; }
+        public bool? SearchEgg { get; set; }
         public int? ESV { private get; set; }
         public int? Level { private get; set; }
 
@@ -33,7 +33,7 @@ namespace PKHeX.Core.Searching
         public CloneDetectionMethod SearchClones { private get; set; }
         public IList<string> BatchInstructions { private get; set; }
 
-        private readonly List<int> Moves = new List<int>();
+        public readonly List<int> Moves = new List<int>();
 
         // ReSharper disable once CollectionNeverUpdated.Global
         /// <summary>
@@ -133,6 +133,20 @@ namespace PKHeX.Core.Searching
             if (ESV != null)
                 return res.Where(pk => pk.IsEgg && pk.PSV == ESV);
             return res.Where(pk => pk.IsEgg);
+        }
+
+        public GameVersion[] GetVersions(SaveFile SAV, GameVersion fallback)
+        {
+            if (Version > 0)
+                return new[] {(GameVersion) Version};
+            if (Generation != 0)
+            {
+                return fallback.GetGeneration() == Generation
+                    ? GameUtil.GetVersionsWithinRange(SAV, Generation).ToArray()
+                    : GameUtil.GameVersions;
+            }
+
+            return GameUtil.GameVersions;
         }
     }
 }

@@ -768,6 +768,8 @@ namespace PKHeX.Core
             AddRecord(pkm.WasEgg ? 009 : 007); // egg, capture
             if (pkm.CurrentHandler == 1)
                 AddRecord(012); // trade
+            if (!pkm.WasEgg)
+                AddRecord(005); // wild encounters
         }
 
         protected override void SetDex(PKM pkm)

@@ -468,6 +468,26 @@ namespace PKHeX.Core
             return Encoding.Unicode.GetBytes(temp);
         }
 
+        /// <summary>Gets the bytes for a Generation 7 string.</summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
+        /// <param name="language">Language specific conversion (Chinese)</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <param name="chinese">Chinese string remapping should be attempted</param>
+        /// <returns>Encoded data.</returns>
+        public static byte[] SetString7b(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
+        {
+            if (chinese)
+                value = ConvertString2BinG7_zh(value, language);
+            if (value.Length > maxLength)
+                value = value.Substring(0, 12); // Hard cap
+            string temp = UnSanitizeString7b(value, 7)
+                .PadRight(value.Length + 1, '\0') // Null Terminator
+                .PadRight(padTo, (char)padWith);
+            return Encoding.Unicode.GetBytes(temp);
+        }
+
         /// <summary>
         /// Converts Generation 1 encoded character to string.
         /// </summary>
@@ -2001,6 +2021,22 @@ namespace PKHeX.Core
             s = s.Replace('\uE08E', '\u2642'); // ♂ (gen6+)
             s = s.Replace('\u246E', '\u2640'); // ♀ (gen5)
             return s.Replace('\u246D', '\u2642'); // ♂ (gen5)
+        }
+
+        /// <summary>
+        /// Converts full width to half width when appropriate
+        /// </summary>
+        /// <param name="str">Input string to set.</param>
+        /// <param name="generation">Generation specific context</param>
+        /// <returns></returns>
+        private static string UnSanitizeString7b(string str, int generation)
+        {
+            var s = str;
+            if (generation >= 6)
+                s = str.Replace('\u0027', '\u2019'); // farfetch'd
+
+            // gender chars always full width
+            return s;
         }
 
         /// <summary>

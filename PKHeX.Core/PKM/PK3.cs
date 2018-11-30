@@ -15,16 +15,17 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public PK3(byte[] decryptedData = null, string ident = null)
+        public PK3() => Data = new byte[PKX.SIZE_3PARTY];
+
+        public PK3(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public PK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new PK3((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
@@ -166,7 +167,7 @@ namespace PKHeX.Core
                 Species = Species,
                 TID = TID,
                 SID = SID,
-                EXP = IsEgg ? PKX.GetEXP(5, Species) : EXP,
+                EXP = IsEgg ? Experience.GetEXP(5, Species, 0) : EXP,
                 IsEgg = false,
                 OT_Friendship = 70,
                 Markings = Markings,
@@ -259,7 +260,7 @@ namespace PKHeX.Core
             pk4.OT_Name = OT_Name;
 
             // Set Final Data
-            pk4.Met_Level = PKX.GetLevel(pk4.Species, pk4.EXP);
+            pk4.Met_Level = Experience.GetLevel(pk4.EXP, pk4.Species, 0);
             pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
             pk4.IsNicknamed = IsNicknamed;
 

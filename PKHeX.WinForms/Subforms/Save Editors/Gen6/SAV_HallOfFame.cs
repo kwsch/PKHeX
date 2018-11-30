@@ -131,7 +131,6 @@ namespace PKHeX.WinForms
                     t.Enabled = true;
                 var moncount = AddEntries(offset, s, year, month, day);
 
-
                 if (sender != null)
                 {
                     NUP_PartyIndex.Maximum = moncount == 0 ? 1 : moncount;

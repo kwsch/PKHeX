@@ -145,7 +145,7 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
                 AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
 
-            if (pkm.Format == 1 || pkm.Format == 2) // prior to storing GameVersion
+            if (pkm.Format <= 2) // prior to storing GameVersion
             {
                 ParsePK1();
                 return;
@@ -276,9 +276,12 @@ namespace PKHeX.Core
             if (pkm.Format < 6)
                 return;
 
-            Memory.Verify(this);
-            Medal.Verify(this);
-            ConsoleRegion.Verify(this);
+            if (pkm.Format < 8 && !(pkm is PB7))
+            {
+                Memory.Verify(this);
+                Medal.Verify(this);
+                ConsoleRegion.Verify(this);
+            }
 
             if (pkm.Format >= 7)
             {

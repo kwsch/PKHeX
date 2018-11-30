@@ -40,7 +40,8 @@ namespace PKHeX.Core
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
         public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
-        public override bool ChecksumValid => Valid;
+        public override bool ChecksumValid => true;
+        public override bool Valid => true;
 
         public override int Species { get => SpeciesConverter.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x00); }
         // 02-04 unused
@@ -176,14 +177,13 @@ namespace PKHeX.Core
         public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
         public override bool IsEgg { get => Data[0xCB] == 1; set => Data[0xCB] = (byte)(value ? 1 : 0); }
         public override bool AbilityBit { get => Data[0xCC] == 1; set => Data[0xCC] = (byte)(value ? 1 : 0); }
-        public override bool Valid { get => Data[0xCD] == 0; set { if (value) Data[0xCD] = 0; } }
+        public override bool FatefulEncounter { get => Data[0xCD] == 1; set { if (value) Data[0xCD] = 1; } }
         // 0xCE unknown
         public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xD8); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
         public int Purification { get => BigEndian.ToInt32(Data, 0xDC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xDC); }
         public uint EXP_Shadow { get => BigEndian.ToUInt32(Data, 0xC0); set => BigEndian.GetBytes(value).CopyTo(Data, 0xC0); }
-        public override bool FatefulEncounter { get => Data[0x11C] == 1; set => Data[0x11C] = (byte)(value ? 1 : 0); }
         public new int EncounterType { get => Data[0xFB]; set => Data[0xFB] = (byte)value; }
 
         protected override byte[] Encrypt()

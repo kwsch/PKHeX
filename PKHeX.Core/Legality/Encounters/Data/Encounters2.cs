@@ -266,7 +266,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
         };
 
-        internal static readonly string[][] TradeGift_GSC_OTs =
+        private static readonly string[][] TradeGift_GSC_OTs =
         {
             Array.Empty<string>(),                // 0 - None
             Util.GetStringList("tradegsc", "ja"), // 1

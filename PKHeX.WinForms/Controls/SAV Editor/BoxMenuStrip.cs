@@ -56,6 +56,8 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.SortLevelReverse] = Resources.valhilo,
             [BoxManipType.SortDate] = Resources.date,
             [BoxManipType.SortName] = Resources.alphaAZ,
+            [BoxManipType.SortFavorite] = Resources.heart,
+            [BoxManipType.SortParty] = Resources.users,
             [BoxManipType.SortShiny] = Resources.showdown,
             [BoxManipType.SortRandom] = Resources.wand,
 
@@ -66,6 +68,7 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.SortType] = Resources.main,
             [BoxManipType.SortVersion] = Resources.numlohi,
             [BoxManipType.SortBST] = Resources.vallohi,
+            [BoxManipType.SortCP] = Resources.vallohi,
             [BoxManipType.SortLegal] = Resources.export,
 
             [BoxManipType.ModifyHatchEggs] = Resources.about,

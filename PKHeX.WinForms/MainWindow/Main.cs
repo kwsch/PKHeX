@@ -47,7 +47,7 @@ namespace PKHeX.WinForms
             }
             else if (showChangelog)
             {
-                new About().ShowDialog();
+                new About(1).ShowDialog();
             }
 
             if (BAKprompt && !Directory.Exists(BackupPath))
@@ -365,6 +365,14 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath));
         }
 
+        private void Menu_EncDatabase_Click(object sender, EventArgs e)
+        {
+            if (this.FirstFormOfType<SAV_Encounters>() is SAV_Encounters z)
+            { z.CenterToForm(this); z.BringToFront(); return; }
+
+            new SAV_Encounters(PKME_Tabs).Show();
+        }
+
         private void MainMenuMysteryDB(object sender, EventArgs e)
         {
             if (this.FirstFormOfType<SAV_MysteryGiftDB>() is SAV_MysteryGiftDB z)
@@ -566,6 +574,7 @@ namespace PKHeX.WinForms
                 case BattleVideo b: return OpenBattleVideo(b);
                 case MysteryGift g: return OpenMysteryGift(g, path);
                 case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
+                case GP1 gp: return OpenPKM(gp.ConvertToPB7(C_SAV.SAV));
 
                 case SAV3GCMemoryCard gc:
                     if (!CheckGCMemoryCard(gc, path))
@@ -946,8 +955,8 @@ namespace PKHeX.WinForms
             Image qr;
             switch (pkx.Format)
             {
-                case 7:
-                    qr = QR.GenerateQRCode7((PK7)pkx);
+                case 7 when pkx is PK7 pk7:
+                    qr = QR.GenerateQRCode7(pk7);
                     break;
                 default:
                     if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
