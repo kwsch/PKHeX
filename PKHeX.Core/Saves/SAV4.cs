@@ -694,7 +694,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static int[] MatchMysteryGifts(MysteryGift[] value)
+        private int[] MatchMysteryGifts(MysteryGift[] value)
         {
             if (value == null)
                 return null;
@@ -721,6 +721,8 @@ namespace PKHeX.Core
                     if (!pcd.GiftEquals(pgt))
                         continue;
 
+                    if (!HGSS)
+                        j++; // hgss 0,1,2; dppt 1,2,3
                     cardMatch[i] = pgt.Slot = j;
                     break;
                 }
