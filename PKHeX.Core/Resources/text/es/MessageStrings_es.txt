@@ -234,3 +234,5 @@ MsgItemPouchRemoved = Los siguientes artículos se han eliminado de la bolsa {0}
 MsgSaveDifferentTypes = Los tipos de archivos de guardado son diferentes.
 MsgSaveDifferentVersions = Las versiones de los archivos de guardado no son iguales.
 MsgSaveNumberInvalid = Archivo de Guardado {0} no es válido.
+MsgFileLoadFailAutoAdvise = It is advised to manually remove bad filenames from the folder.
+MsgFileLoadFailAutoCause = This is likely caused by Homebrew creating invalid filenames.

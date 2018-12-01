@@ -270,8 +270,8 @@
             this.L_EventFlagWarn.Name = "L_EventFlagWarn";
             this.L_EventFlagWarn.Size = new System.Drawing.Size(262, 31);
             this.L_EventFlagWarn.TabIndex = 41;
-            this.L_EventFlagWarn.Text = "Altering Event Flags may impact other story events.\r\nSave file backups are recomm" +
-    "ended.";
+            this.L_EventFlagWarn.Text = "Altering Event Flags may impact other story events. Save file backups are recomme" +
+    "nded.";
             this.L_EventFlagWarn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TC_Features
