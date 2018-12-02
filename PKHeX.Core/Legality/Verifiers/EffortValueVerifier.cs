@@ -64,7 +64,7 @@ namespace PKHeX.Core
             if (!awakened.AwakeningAllValid())
                 data.AddLine(GetInvalid(LAwakenedCap));
             if (EncounterMatch is EncounterSlot s && s.Type == SlotType.GoPark && Enumerable.Range(0, 6).Select(awakened.GetAV).Any(z => z < 2))
-                data.AddLine(GetInvalid(LAwakenedShouldBeValue)); // go park transfers have 2 AVs for all stats.
+                data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2))); // go park transfers have 2 AVs for all stats.
             else if (awakened.AwakeningSum() == 0 && !EncounterMatch.IsWithinRange(pkm))
                 data.AddLine(Get(LAwakenedEXPIncreased, Severity.Fishy));
         }
