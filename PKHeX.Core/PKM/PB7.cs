@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Notes about the next format
     /// </summary>
-    public sealed class PB7 : PKM, IAwakened
+    public sealed class PB7 : PKM, IHyperTrain, IAwakened
     {
         public static readonly byte[] ExtraBytes =
         {
