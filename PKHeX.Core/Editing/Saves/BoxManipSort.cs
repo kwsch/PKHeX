@@ -57,7 +57,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortTraining, list => list.OrderByCustom(pk => (pk.MaxEV * 6) - pk.EVTotal)),
             new BoxManipSort(BoxManipType.SortOwner, (list, sav) => list.OrderByOwnership(sav)),
             new BoxManipSort(BoxManipType.SortType, list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)),
-            new BoxManipSort(BoxManipType.SortVersion, list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version), s => s.Generation >= 3),
+            new BoxManipSort(BoxManipType.SortVersion, list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version, pk => pk.Met_Location), s => s.Generation >= 3),
             new BoxManipSort(BoxManipType.SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
             new BoxManipSort(BoxManipType.SortCP, list => list.OrderByCustom(pk => (pk as PB7)?.Stat_CP), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
