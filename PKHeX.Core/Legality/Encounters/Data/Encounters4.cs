@@ -1602,29 +1602,41 @@ namespace PKHeX.Core
 
         private static readonly EncounterArea[] SlotsHGSS_Swarm =
         {
-            new EncounterArea {Location = 128, Slots = new[]{new EncounterSlot {Species = 340, Type = SlotType.Old_Rod },
-                new EncounterSlot {Species = 340, Type = SlotType.Good_Rod },
-                new EncounterSlot {Species = 340, Type = SlotType.Super_Rod },},}, // Whiscash @ Violet City
             new EncounterArea {Location = 143, Slots = new[]{new EncounterSlot {Species = 278, Type = SlotType.Surf },},}, // Wingull @ Vermillion City
             new EncounterArea {Location = 149, Slots = new[]{new EncounterSlot {Species = 261, Type = SlotType.Grass },},}, // Poochyena @ Route 1
-            new EncounterArea {Location = 160, Slots = new[]{new EncounterSlot {Species = 369, Type = SlotType.Old_Rod },},}, // Relicanth @ Route 12
-            new EncounterArea {Location = 160, Slots = new[]{new EncounterSlot {Species = 369, Type = SlotType.Good_Rod },},}, // Relicanth @ Route 12
-            new EncounterArea {Location = 160, Slots = new[]{new EncounterSlot {Species = 369, Type = SlotType.Super_Rod },},}, // Relicanth @ Route 12
             new EncounterArea {Location = 161, Slots = new[]{new EncounterSlot {Species = 113, Type = SlotType.Grass },},}, // Chansey @ Route 13
             new EncounterArea {Location = 167, Slots = new[]{new EncounterSlot {Species = 366, Type = SlotType.Surf },},}, // Clamperl @ Route 19
             new EncounterArea {Location = 173, Slots = new[]{new EncounterSlot {Species = 427, Type = SlotType.Grass },},}, // Buneary @ Route 25
             new EncounterArea {Location = 175, Slots = new[]{new EncounterSlot {Species = 370, Type = SlotType.Surf },},}, // Luvdisc @ Route 27
-            new EncounterArea {Location = 180, Slots = new[]{new EncounterSlot {Species = 211, Type = SlotType.Super_Rod },},}, // Qwilfish @ Route 32
             new EncounterArea {Location = 182, Slots = new[]{new EncounterSlot {Species = 280, Type = SlotType.Grass },},}, // Ralts @ Route 34
             new EncounterArea {Location = 183, Slots = new[]{new EncounterSlot {Species = 193, Type = SlotType.Grass },},}, // Yanma @ Route 35
             new EncounterArea {Location = 186, Slots = new[]{new EncounterSlot {Species = 209, Type = SlotType.Grass },},}, // Snubbull @ Route 38
-            new EncounterArea {Location = 192, Slots = new[]{new EncounterSlot {Species = 223, Type = SlotType.Good_Rod },
-                new EncounterSlot {Species = 223, Type = SlotType.Super_Rod },},}, // Remoraid @ Route 44
             new EncounterArea {Location = 193, Slots = new[]{new EncounterSlot {Species = 333, Type = SlotType.Grass },},}, // Swablu @ Route 45
             new EncounterArea {Location = 195, Slots = new[]{new EncounterSlot {Species = 132, Type = SlotType.Grass },},}, // Ditto @ Route 47
             new EncounterArea {Location = 216, Slots = new[]{new EncounterSlot {Species = 183, Type = SlotType.Grass },},}, // Marill @ Mt. Mortar
             new EncounterArea {Location = 220, Slots = new[]{new EncounterSlot {Species = 206, Type = SlotType.Grass },},}, // Dunsparce @ Dark Cave
             new EncounterArea {Location = 224, Slots = new[]{new EncounterSlot {Species = 401, Type = SlotType.Grass },},}, // Kricketot @ Viridian Forest
+
+            new EncounterArea {Location = 128, Slots = new[]{ // Whiscash @ Violet City
+                new EncounterSlot {Species = 340, Type = SlotType.Old_Rod },
+                new EncounterSlot {Species = 340, Type = SlotType.Good_Rod },
+                new EncounterSlot {Species = 340, Type = SlotType.Super_Rod },
+            },},
+            new EncounterArea {Location = 160, Slots = new[]{ // Relicanth @ Route 12
+                new EncounterSlot {Species = 369, Type = SlotType.Old_Rod },
+                new EncounterSlot {Species = 369, Type = SlotType.Good_Rod },
+                new EncounterSlot {Species = 369, Type = SlotType.Super_Rod },
+            },},
+            new EncounterArea {Location = 180, Slots = new[]{ // Qwilfish @ Route 32
+                new EncounterSlot {Species = 211, Type = SlotType.Old_Rod },
+                new EncounterSlot {Species = 211, Type = SlotType.Good_Rod },
+                new EncounterSlot {Species = 211, Type = SlotType.Super_Rod },
+            },},
+            new EncounterArea {Location = 192, Slots = new[]{ // Remoraid @ Route 44
+                new EncounterSlot {Species = 223, Type = SlotType.Old_Rod },
+                new EncounterSlot {Species = 223, Type = SlotType.Good_Rod },
+                new EncounterSlot {Species = 223, Type = SlotType.Super_Rod },
+            },},
         };
 
         private static readonly EncounterArea[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(new[] {
