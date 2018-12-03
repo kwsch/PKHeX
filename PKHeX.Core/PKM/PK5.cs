@@ -240,6 +240,8 @@ namespace PKHeX.Core
         // 0x86-0x87 Unused
         #endregion
 
+        #region Battle Stats
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0x88); set => BitConverter.GetBytes(value).CopyTo(Data, 0x88); }
         public override int Stat_Level { get => Data[0x8C]; set => Data[0x8C] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0x8E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x8E); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0x90); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x90); }
@@ -249,6 +251,7 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
         public byte[] HeldMailData { get => Data.Skip(0x9C).Take(0x38).ToArray(); set => value.CopyTo(Data, 0x9C); }
+        #endregion
 
         // Generated Attributes
         public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
@@ -321,7 +324,9 @@ namespace PKHeX.Core
             if (abilval >= 0 && abilities[abilval] == abilities[2] && HiddenAbility)
                 abilval = 2; // hidden ability shared with a regular ability
             if (abilval >= 0)
+            {
                 pk6.AbilityNumber = 1 << abilval;
+            }
             else // Fallback (shouldn't happen)
             {
                 if (HiddenAbility) pk6.AbilityNumber = 4; // Hidden, else G5 or G3/4 correlation.
