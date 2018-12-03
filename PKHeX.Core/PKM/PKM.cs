@@ -332,7 +332,7 @@ namespace PKHeX.Core
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
-        public int CurrentLevel { get => Experience.GetLevel(EXP, Species, AltForm); set => EXP = Experience.GetEXP(value, Species, AltForm); }
+        public int CurrentLevel { get => Experience.GetLevel(EXP, Species, AltForm); set => EXP = Experience.GetEXP(Stat_Level = value, Species, AltForm); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
         public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
         public int MarkSquare      { get => Markings[2]; set { var marks = Markings; marks[2] = value; Markings = marks; } }
