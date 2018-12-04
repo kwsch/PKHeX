@@ -263,14 +263,14 @@ namespace PKHeX.Core
         /// <summary>
         /// Updates stats according to the specified nature.
         /// </summary>
-        /// <param name="Stats">Current stats to amplify if appropriate</param>
+        /// <param name="stats">Current stats to amplify if appropriate</param>
         /// <param name="nature">Nature</param>
-        public static void ModifyStatsForNature(ushort[] Stats, int nature)
+        public static void ModifyStatsForNature(ushort[] stats, int nature)
         {
             if (GetNatureModification(nature, out int incr, out int decr))
                 return;
-            Stats[incr] *= 11; Stats[incr] /= 10;
-            Stats[decr] *= 9; Stats[decr] /= 10;
+            stats[incr] *= 11; stats[incr] /= 10;
+            stats[decr] *= 9; stats[decr] /= 10;
         }
 
         /// <summary>

@@ -232,7 +232,7 @@ namespace PKHeX.Core
         public override ushort[] GetStats(PersonalInfo p)
         {
             var lv = Stat_Level;
-            ushort[] Stats =
+            ushort[] stats =
             {
                 GetStat(p.HP , IV_HP , EV_HP , lv),
                 GetStat(p.ATK, IV_ATK, EV_ATK, lv),
@@ -241,8 +241,8 @@ namespace PKHeX.Core
                 GetStat(p.SPA, IV_SPA, EV_SPA, lv),
                 GetStat(p.SPD, IV_SPD, EV_SPD, lv),
             };
-            Stats[0] += (ushort)(5 + lv); // HP
-            return Stats;
+            stats[0] += (ushort)(5 + lv); // HP
+            return stats;
         }
 
         protected static ushort GetStat(int BV, int IV, int EV, int LV)

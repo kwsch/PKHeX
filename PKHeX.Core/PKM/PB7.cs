@@ -507,34 +507,28 @@ namespace PKHeX.Core
         }
 
         // Synthetic Trading Logic
-        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank, int Day = 1, int Month = 1, int Year = 2015)
+        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2015)
         {
             // Eggs do not have any modifications done if they are traded
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 SetLinkTradeEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
-                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
+            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_GENDER))
+                TradeHT(SAV_Trainer, SAV_GENDER);
         }
 
-        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER)
+        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER)
         {
             // Check to see if the OT matches the SAV's OT info.
             if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 return false;
 
             CurrentHandler = 0;
-            if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
-
             return true;
         }
 
-        private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        private void TradeHT(string SAV_Trainer, int SAV_GENDER)
         {
-            if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
-
             CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
@@ -543,21 +537,6 @@ namespace PKHeX.Core
             }
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
-
-            // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
-            if (HT_Memory == 0)
-                TradeMemory(Bank);
-        }
-
-        // Misc Updates
-        private void TradeGeoLocation(int GeoCountry, int GeoRegion)
-        {
-            // No geolocations are set, ever! -- except for bank. Don't set them anyway.
-        }
-
-        public void TradeMemory(bool Bank)
-        {
-            // no bank?
         }
 
         // Legality Properties
@@ -577,10 +556,7 @@ namespace PKHeX.Core
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override ushort[] GetStats(PersonalInfo p)
-        {
-            return CalculateStatsBeluga(p);
-        }
+        public override ushort[] GetStats(PersonalInfo p) => CalculateStatsBeluga(p);
 
         public ushort[] CalculateStatsBeluga(PersonalInfo p)
         {
@@ -588,7 +564,7 @@ namespace PKHeX.Core
             int nature = Nature;
             int friend = CurrentFriendship; // stats +10% depending on friendship!
             int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
-            ushort[] Stats =
+            ushort[] stats =
             {
                 (ushort)(AV_HP  + GetStat(p.HP,  HT_HP  ? 31 : IV_HP,  level) + 10 + level),
                 (ushort)(AV_ATK + (scalar * GetStat(p.ATK, HT_ATK ? 31 : IV_ATK, level, nature, 0) / 100)),
@@ -598,8 +574,8 @@ namespace PKHeX.Core
                 (ushort)(AV_SPD + (scalar * GetStat(p.SPD, HT_SPD ? 31 : IV_SPD, level, nature, 3) / 100)),
             };
             if (Species == 292)
-                Stats[0] = 1;
-            return Stats;
+                stats[0] = 1;
+            return stats;
         }
 
         /// <summary>
