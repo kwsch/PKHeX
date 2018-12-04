@@ -377,6 +377,18 @@ namespace PKHeX.Core
             }
         }
 
+        public int[] Stats
+        {
+            get => new[] { Stat_HPCurrent, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD };
+            set
+            {
+                if (value?.Length != 6)
+                    return;
+                Stat_HPCurrent = value[0]; Stat_ATK = value[1]; Stat_DEF = value[2];
+                Stat_SPE = value[3]; Stat_SPA = value[4]; Stat_SPD = value[5];
+            }
+        }
+
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };

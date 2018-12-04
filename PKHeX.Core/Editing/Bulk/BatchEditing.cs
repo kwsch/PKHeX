@@ -339,6 +339,9 @@ namespace PKHeX.Core
             var PKM = info.pkm;
             switch (name)
             {
+                case nameof(PKM.Stats):
+                    PKM.SetStats(PKM.GetStats(PKM.PersonalInfo));
+                    return ModifyResult.Modified;
                 case nameof(IHyperTrain.HyperTrainFlags):
                     PKM.SetSuggestedHyperTrainingData();
                     return ModifyResult.Modified;
