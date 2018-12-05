@@ -477,6 +477,7 @@ namespace PKHeX.WinForms.Controls
             PB_MarkCured.Image = changeOpacity(PB_MarkCured, getOpacity(CHK_Cured.Checked));
 
             PB_MarkPentagon.Image = changeOpacity(PB_MarkPentagon, getOpacity(pkm.Gen6));
+            PB_Favorite.Image = changeOpacity(PB_Favorite, getOpacity(pkm is PB7 pb7 && pb7.Favorite));
 
             // Gen7 Markings
             if (pkm.Format != 7)
@@ -574,6 +575,13 @@ namespace PKHeX.WinForms.Controls
         {
             int index = Array.IndexOf(Markings, (PictureBox)sender);
             pkm.ToggleMarking(index);
+            SetMarkings();
+        }
+
+        private void ClickFavorite(object sender, EventArgs e)
+        {
+            if (pkm is PB7 pb7)
+                pb7.Favorite ^= true;
             SetMarkings();
         }
 
@@ -1647,7 +1655,7 @@ namespace PKHeX.WinForms.Controls
         private void ToggleInterface(PKM t)
         {
             FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
-            FLP_SizeCP.Visible = t is PB7;
+            FLP_SizeCP.Visible = PB_Favorite.Visible = t is PB7;
             ToggleInterface(pkm.Format);
         }
 

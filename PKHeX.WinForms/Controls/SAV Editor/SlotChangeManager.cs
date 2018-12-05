@@ -564,6 +564,7 @@ namespace PKHeX.WinForms.Controls
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
             ColorizedColor?.Dispose();
+            HoverWorker?.Dispose();
         }
 
         private void UpdateBoxViewAtBoxIndexes(params int[] boxIndexes)
