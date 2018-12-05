@@ -455,6 +455,7 @@ namespace PKHeX.Core
         protected int[] LockedSlots = Array.Empty<int>();
         protected int[] TeamSlots = Array.Empty<int>();
         protected virtual IList<int>[] SlotPointers => new[] {LockedSlots,TeamSlots};
+        public virtual StorageSlotFlag GetSlotFlags(int index) => StorageSlotFlag.None;
 
         public bool MoveBox(int box, int insertBeforeBox)
         {
@@ -467,8 +468,6 @@ namespace PKHeX.Core
             int pos2 = BoxSlotCount*insertBeforeBox;
             int min = Math.Min(pos1, pos2);
             int max = Math.Max(pos1, pos2);
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within operation range
-                return false;
 
             int len = BoxSlotCount*SIZE_STORED;
             byte[] boxdata = GetData(GetBoxOffset(0), len*BoxCount); // get all boxes
@@ -835,7 +834,8 @@ namespace PKHeX.Core
 
         public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
 
-        public abstract string GetString(int Offset, int Length);
+        public abstract string GetString(byte[] data, int offset, int length);
+        public string GetString(int offset, int length) => GetString(Data, offset, length);
         public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
 
         public virtual string EBerryName => string.Empty;

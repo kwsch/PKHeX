@@ -64,8 +64,8 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value) { }
         public override int GetPartyOffset(int slot) => int.MinValue;
 
-        public override string GetString(int Offset, int Length)
-            => StringConverter.GetString(Data, Generation, blank.Japanese, BigEndian, Length, Offset);
+        public override string GetString(byte[] data, int offset, int length)
+            => StringConverter.GetString(data, Generation, blank.Japanese, BigEndian, length, offset);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
             => StringConverter.SetString(value, Generation, blank.Japanese, BigEndian, maxLength, padTo: PadToSize, padWith: PadWith);

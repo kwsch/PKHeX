@@ -178,7 +178,7 @@ namespace PKHeX.Core
         public override string GetBoxName(int box) => $"Box {box + 1}";
         public override void SetBoxName(int box, string value) { }
 
-        public override string GetString(int Offset, int Length) => StringConverter.GetString7(Data, Offset, Length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
