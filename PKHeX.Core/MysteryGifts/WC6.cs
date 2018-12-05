@@ -14,9 +14,11 @@ namespace PKHeX.Core
         public const uint EonTicketConst = 0x225D73C2;
         public override int Format => 6;
 
-        public WC6(byte[] data = null)
+        public WC6() => Data = new byte[Size];
+
+        public WC6(byte[] data)
         {
-            Data = data ?? new byte[Size];
+            Data = data;
             if (Data.Length == SizeFull)
             {
                 // Load Restrictions
@@ -325,7 +327,7 @@ namespace PKHeX.Core
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
-                EXP = PKX.GetEXP(Level, Species),
+                EXP = Experience.GetEXP(Level, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,

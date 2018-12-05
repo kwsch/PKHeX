@@ -75,14 +75,17 @@ namespace PKHeX.Core
                     data.AddLine(Get(msg, Severity.Fishy));
                     return true;
                 }
-                if (StringConverter.HasEastAsianScriptCharacters(nickname)) // East Asian Scripts
+                if (StringConverter.HasEastAsianScriptCharacters(nickname) && !(pkm is PB7)) // East Asian Scripts
                 {
                     data.AddLine(GetInvalid(LNickInvalidChar));
                     return true;
                 }
                 if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    data.AddLine(Get(LNickLengthLong, data.EncounterOriginal.EggEncounter ? Severity.Fishy : Severity.Invalid));
+                    var severe = data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, LanguageID.English)
+                            ? Severity.Fishy
+                            : Severity.Invalid;
+                    data.AddLine(Get(LNickLengthLong, severe));
                     return true;
                 }
                 data.AddLine(GetValid(LNickMatchNoOthers));

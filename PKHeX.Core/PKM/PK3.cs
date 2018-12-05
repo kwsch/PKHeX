@@ -15,16 +15,17 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public PK3(byte[] decryptedData = null, string ident = null)
+        public PK3() => Data = new byte[PKX.SIZE_3PARTY];
+
+        public PK3(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public PK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new PK3((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
@@ -138,6 +139,8 @@ namespace PKHeX.Core
         public override bool FatefulEncounter { get => RIB0 >> 31 == 1; set => RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); }
         #endregion
 
+        #region Battle Stats
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0x50); set => BitConverter.GetBytes(value).CopyTo(Data, 0x50); }
         public override int Stat_Level { get => Data[0x54]; set => Data[0x54] = (byte)value; }
         public sbyte HeldMailID { get => (sbyte)Data[0x55]; set => Data[0x55] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
@@ -147,6 +150,7 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x60); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
+        #endregion
 
         // Generated Attributes
         public override bool Japanese => IsEgg || Language == (int)LanguageID.Japanese;
@@ -166,7 +170,7 @@ namespace PKHeX.Core
                 Species = Species,
                 TID = TID,
                 SID = SID,
-                EXP = IsEgg ? PKX.GetEXP(5, Species) : EXP,
+                EXP = IsEgg ? Experience.GetEXP(5, Species, 0) : EXP,
                 IsEgg = false,
                 OT_Friendship = 70,
                 Markings = Markings,
@@ -259,7 +263,7 @@ namespace PKHeX.Core
             pk4.OT_Name = OT_Name;
 
             // Set Final Data
-            pk4.Met_Level = PKX.GetLevel(pk4.Species, pk4.EXP);
+            pk4.Met_Level = Experience.GetLevel(pk4.EXP, pk4.Species, 0);
             pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
             pk4.IsNicknamed = IsNicknamed;
 

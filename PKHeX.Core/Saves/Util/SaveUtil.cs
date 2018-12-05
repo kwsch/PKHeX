@@ -15,6 +15,7 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
+        public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
         public const int SIZE_G6XY = 0x65600;
@@ -54,7 +55,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> SIZES = new HashSet<int>(SIZES_2)
         {
-            SIZE_G7SM, SIZE_G7USUM,
+            SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
             SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
             SIZE_G4BR, SIZE_G4RAW,
@@ -92,6 +93,8 @@ namespace PKHeX.Core
             if (GetIsG7SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen7;
 
+            if (GetIsBelugaSAV(data) != GameVersion.Invalid)
+                return GameVersion.GG;
             if (GetIsG3COLOSAV(data) != GameVersion.Invalid)
                 return GameVersion.COLO;
             if (GetIsG3XDSAV(data) != GameVersion.Invalid)
@@ -430,6 +433,23 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
+        /// <summary>Determines if the input data belongs to a <see cref="SAV7b"/> save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        private static GameVersion GetIsBelugaSAV(byte[] data)
+        {
+            if (data.Length != SIZE_G7GG)
+                return GameVersion.Invalid;
+
+            const int actualLength = 0xB8800;
+            if (BitConverter.ToUInt32(data, actualLength - 0x1F0) != BEEF) // beef table start
+                return GameVersion.Invalid;
+            if (BitConverter.ToUInt16(data, actualLength - 0x200 + 0xB0) != 0x13) // check a block number to double check
+                return GameVersion.Invalid;
+
+            return GameVersion.GG;
+        }
+
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
@@ -477,6 +497,7 @@ namespace PKHeX.Core
                 case GameVersion.XD:     return new SAV3XD(data);
                 case GameVersion.RSBOX:  return new SAV3RSBox(data);
                 case GameVersion.BATREV: return new SAV4BR(data);
+                case GameVersion.GG:     return new SAV7b(data);
 
                 // Bulk Storage
                 case GameVersion.USUM:   return Bank7.GetBank7(data);
@@ -583,6 +604,8 @@ namespace PKHeX.Core
                     return new SAV7(new byte[SIZE_G7SM]);
                 case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
                     return new SAV7(new byte[SIZE_G7USUM]);
+                case GameVersion.GP: case GameVersion.GE: case GameVersion.GG:
+                    return new SAV7b(new byte[SIZE_G7GG]);
 
                 default:
                     return null;
@@ -711,10 +734,10 @@ namespace PKHeX.Core
         /// <returns>Checksum</returns>
         public static ushort CRC16(byte[] data, int start, int length, ushort initial)
         {
-            ushort chk = (ushort)~initial;
+            ushort chk = initial;
             for (var i = start; i < start + length; i++)
                 chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
-            return (ushort)~chk;
+            return chk;
         }
 
         /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
@@ -722,7 +745,14 @@ namespace PKHeX.Core
         /// <param name="start">Offset to start checksum at</param>
         /// <param name="length">Length of array to checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length) => CRC16(data, start, length, 0);
+        public static ushort CRC16(byte[] data, int start, int length) => (ushort)~CRC16(data, start, length, unchecked((ushort)~0));
+
+        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="length">Length of array to checksum</param>
+        /// <returns>Checksum</returns>
+        public static ushort CRC16NoInvert(byte[] data, int start, int length) => CRC16(data, start, length, 0);
 
         public static byte[] Resign7(byte[] sav7)
         {

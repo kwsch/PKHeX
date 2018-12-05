@@ -276,9 +276,12 @@ namespace PKHeX.Core
             if (pkm.Format < 6)
                 return;
 
-            Memory.Verify(this);
-            Medal.Verify(this);
-            ConsoleRegion.Verify(this);
+            if (pkm.Format < 8 && !(pkm is PB7))
+            {
+                Memory.Verify(this);
+                Medal.Verify(this);
+                ConsoleRegion.Verify(this);
+            }
 
             if (pkm.Format >= 7)
             {

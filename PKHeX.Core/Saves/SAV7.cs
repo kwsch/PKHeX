@@ -42,12 +42,11 @@ namespace PKHeX.Core
             if (demo || !Exportable)
             {
                 PokeDex = -1; // Disabled
-                LockedSlots = Array.Empty<int>();
                 TeamSlots = Array.Empty<int>();
             }
             else // Valid slot locking info present
             {
-                LoadLockedSlots();
+                LoadBattleTeams();
             }
         }
 
@@ -105,6 +104,7 @@ namespace PKHeX.Core
             if (!CanReadChecksums())
                 return;
             Blocks.SetChecksums(Data);
+            SaveBattleTeams();
             Data = SaveUtil.Resign7(Data);
             IsMemeCryptoApplied = true;
         }
@@ -197,7 +197,6 @@ namespace PKHeX.Core
             FashionLength = 0x1A08;
 
             TeamCount = 6;
-            LockedSlots = new int[6*TeamCount];
             TeamSlots = new int[6*TeamCount];
             if (USUM)
             {
@@ -992,6 +991,8 @@ namespace PKHeX.Core
             AddRecord(pkm.WasEgg ? 008 : 006); // egg, capture
             if (pkm.CurrentHandler == 1)
                 AddRecord(011); // trade
+            if (!pkm.WasEgg)
+                AddRecord(004); // wild encounters
         }
 
         protected override void SetDex(PKM pkm)
@@ -1238,46 +1239,55 @@ namespace PKHeX.Core
 
         public override int BoxesUnlocked { get => Data[PCFlags + 1]; set => Data[PCFlags + 1] = (byte)value; }
 
-        public override bool IsSlotLocked(int box, int slot)
+        private void LoadBattleTeams()
         {
-            if ((uint)slot >= 30 || (uint)box >= BoxCount)
-                return false;
-
-            int slotIndex = slot + (BoxSlotCount * box);
-            return LockedSlots.Any(s => s == slotIndex);
-        }
-
-        public override bool IsSlotInBattleTeam(int box, int slot)
-        {
-            if ((uint)slot >= 30 || (uint)box >= BoxCount)
-                return false;
-
-            int slotIndex = slot + (BoxSlotCount * box);
-            return TeamSlots.Any(s => s == slotIndex);
-        }
-
-        private void LoadLockedSlots()
-        {
-            int lockedCount = 0, teamCount = 0;
-            for (int i = 0; i < TeamCount; i++)
+            for (int i = 0; i < TeamCount*6; i++)
             {
-                bool locked = Data[PCBackgrounds - TeamCount - i] == 1;
-                for (int j = 0; j < 6; j++)
+                short val = BitConverter.ToInt16(Data, BattleBoxFlags + (i * 2));
+                if (val < 0)
                 {
-                    short val = BitConverter.ToInt16(Data, BattleBoxFlags + (((i * 6) + j) * 2));
-                    if (val < 0)
-                        continue;
-
-                    var slotVal = ((BoxSlotCount * (val >> 8)) + (val & 0xFF)) & 0xFFFF;
-
-                    if (locked)
-                        LockedSlots[lockedCount++] = slotVal;
-                    else
-                        TeamSlots[teamCount++] = slotVal;
+                    TeamSlots[i] = -1;
+                    continue;
                 }
+
+                int box = val >> 8;
+                int slot = val & 0xFF;
+                int index = (BoxSlotCount * box) + slot;
+                TeamSlots[i] = index & 0xFFFF;
             }
-            Array.Resize(ref LockedSlots, lockedCount);
-            Array.Resize(ref TeamSlots, teamCount);
+        }
+
+        private void SaveBattleTeams()
+        {
+            for (int i = 0; i < TeamCount * 6; i++)
+            {
+                int index = TeamSlots[i];
+                if (index < 0)
+                {
+                    BitConverter.GetBytes((short)index).CopyTo(Data, BattleBoxFlags + (i * 2));
+                    continue;
+                }
+
+                int box = index / BoxSlotCount;
+                int slot = index % BoxSlotCount;
+                int val = (box << 8) | slot;
+                BitConverter.GetBytes((short)val).CopyTo(Data, BattleBoxFlags + (i * 2));
+            }
+        }
+
+        private bool IsTeamLocked(int team) => Data[PCBackgrounds - TeamCount - team] == 1;
+
+        public override StorageSlotFlag GetSlotFlags(int index)
+        {
+            int team = Array.IndexOf(TeamSlots, index);
+            if (team < 0)
+                return StorageSlotFlag.None;
+
+            team /= 6;
+            var val = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
+            if (IsTeamLocked(team))
+                val |= StorageSlotFlag.Locked;
+            return val;
         }
 
         private int FusedCount => USUM ? 3 : 1;
@@ -1508,7 +1518,7 @@ namespace PKHeX.Core
             set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & ~2) | (value ? 2 : 0)); // in battle
         }
 
-        public override string GetString(int Offset, int Length) => StringConverter.GetString7(Data, Offset, Length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

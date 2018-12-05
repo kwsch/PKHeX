@@ -33,9 +33,9 @@
             this.B_Cancel = new System.Windows.Forms.Button();
             this.GB_FlagStatus = new System.Windows.Forms.GroupBox();
             this.NUD_Flag = new System.Windows.Forms.NumericUpDown();
+            this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
             this.CHK_CustomFlag = new System.Windows.Forms.Label();
             this.CB_Stats = new System.Windows.Forms.ComboBox();
-            this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
             this.L_Stats = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
             this.GB_Researcher = new System.Windows.Forms.GroupBox();
@@ -52,15 +52,15 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.GB_Flags = new System.Windows.Forms.TabPage();
             this.GB_Constants = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.TLP_Const = new System.Windows.Forms.TableLayoutPanel();
+            this.GB_Research = new System.Windows.Forms.TabPage();
             this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flag)).BeginInit();
             this.GB_Researcher.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.GB_Flags.SuspendLayout();
             this.GB_Constants.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.GB_Research.SuspendLayout();
             this.SuspendLayout();
             // 
             // c_CustomFlag
@@ -114,6 +114,17 @@
             this.NUD_Flag.ValueChanged += new System.EventHandler(this.ChangeCustomFlag);
             this.NUD_Flag.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ChangeCustomFlag);
             // 
+            // MT_Stat
+            // 
+            this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MT_Stat.Location = new System.Drawing.Point(159, 44);
+            this.MT_Stat.Mask = "00000";
+            this.MT_Stat.Name = "MT_Stat";
+            this.MT_Stat.Size = new System.Drawing.Size(34, 20);
+            this.MT_Stat.TabIndex = 34;
+            this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.MT_Stat.TextChanged += new System.EventHandler(this.ChangeCustomConst);
+            // 
             // CHK_CustomFlag
             // 
             this.CHK_CustomFlag.Location = new System.Drawing.Point(9, 17);
@@ -135,17 +146,6 @@
             this.CB_Stats.Size = new System.Drawing.Size(66, 21);
             this.CB_Stats.TabIndex = 36;
             this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.ChangeConstantIndex);
-            // 
-            // MT_Stat
-            // 
-            this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MT_Stat.Location = new System.Drawing.Point(159, 44);
-            this.MT_Stat.Mask = "00000";
-            this.MT_Stat.Name = "MT_Stat";
-            this.MT_Stat.Size = new System.Drawing.Size(34, 20);
-            this.MT_Stat.TabIndex = 34;
-            this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MT_Stat.TextChanged += new System.EventHandler(this.ChangeCustomConst);
             // 
             // L_Stats
             // 
@@ -301,7 +301,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.GB_Flags);
             this.tabControl1.Controls.Add(this.GB_Constants);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.GB_Research);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -330,18 +330,6 @@
             this.GB_Constants.Text = "Event Constants";
             this.GB_Constants.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.GB_FlagStatus);
-            this.tabPage3.Controls.Add(this.GB_Researcher);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(422, 283);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Research";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // TLP_Const
             // 
             this.TLP_Const.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -351,7 +339,7 @@
             this.TLP_Const.ColumnCount = 3;
             this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 416F));
             this.TLP_Const.Location = new System.Drawing.Point(3, 3);
             this.TLP_Const.Name = "TLP_Const";
             this.TLP_Const.RowCount = 1;
@@ -359,6 +347,18 @@
             this.TLP_Const.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_Const.Size = new System.Drawing.Size(416, 277);
             this.TLP_Const.TabIndex = 1;
+            // 
+            // GB_Research
+            // 
+            this.GB_Research.Controls.Add(this.GB_FlagStatus);
+            this.GB_Research.Controls.Add(this.GB_Researcher);
+            this.GB_Research.Location = new System.Drawing.Point(4, 22);
+            this.GB_Research.Name = "GB_Research";
+            this.GB_Research.Padding = new System.Windows.Forms.Padding(3);
+            this.GB_Research.Size = new System.Drawing.Size(422, 283);
+            this.GB_Research.TabIndex = 2;
+            this.GB_Research.Text = "Research";
+            this.GB_Research.UseVisualStyleBackColor = true;
             // 
             // SAV_EventFlags
             // 
@@ -385,7 +385,7 @@
             this.tabControl1.ResumeLayout(false);
             this.GB_Flags.ResumeLayout(false);
             this.GB_Constants.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.GB_Research.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -415,7 +415,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage GB_Flags;
         private System.Windows.Forms.TabPage GB_Constants;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage GB_Research;
         private System.Windows.Forms.TableLayoutPanel TLP_Const;
     }
 }

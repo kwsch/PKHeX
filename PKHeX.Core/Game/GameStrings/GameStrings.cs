@@ -19,6 +19,7 @@ namespace PKHeX.Core
         public readonly string[] metBW2_00000, metBW2_30000, metBW2_40000, metBW2_60000;
         public readonly string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000;
         public readonly string[] metSM_00000, metSM_30000, metSM_40000, metSM_60000;
+        public readonly string[] metGG_00000, metGG_30000, metGG_40000, metGG_60000;
 
         // Misc
         public readonly string[] wallpapernames, puffs;
@@ -116,6 +117,11 @@ namespace PKHeX.Core
             metSM_40000 = Get("sm_40000");
             metSM_60000 = Get("sm_60000");
 
+            metGG_00000 = Get("gg_00000");
+            metGG_30000 = metSM_30000;
+            metGG_40000 = Get("gg_40000");
+            metGG_60000 = metSM_60000;
+
             Sanitize();
 
             g4items = (string[])itemlist.Clone();
@@ -177,6 +183,17 @@ namespace PKHeX.Core
             itemlist[842] += " (SM)"; // Fishing Rod
             itemlist[945] += " (2)"; // Used Solarizer
             itemlist[946] += " (2)"; // Used Lunarizer
+
+            itemlist[873] += " (GP/GE)"; // S.S. Ticket
+            itemlist[459] += " (HG/SS)"; // Parcel
+            itemlist[467] += " (Pt)"; // Secret Key
+            itemlist[475] += " (HG/SS)"; // Card Key
+            itemlist[894] += " (GP)"; // Leaf Letter
+            itemlist[895] += " (GE)"; // Leaf Letter
+
+            // some languages have same names for other items!
+            itemlist[878] += " (GP/GE)"; // Lift Key (Elevator Key=700)
+            itemlist[479] += " (HG/SS)"; // Lost Item (Dropped Item=636)
 
             // Append Z-Crystal flagging
             foreach (var i in Legal.Pouch_ZCrystal_USUM)
@@ -304,6 +321,7 @@ namespace PKHeX.Core
         private IReadOnlyList<ComboItem> MetGen5 { get; set; }
         private IReadOnlyList<ComboItem> MetGen6 { get; set; }
         private IReadOnlyList<ComboItem> MetGen7 { get; set; }
+        private IReadOnlyList<ComboItem> MetGen7GG { get; set; }
 
         public MemoryStrings Memories { get; private set; }
 
@@ -327,6 +345,7 @@ namespace PKHeX.Core
         private IReadOnlyList<ComboItem> GetVersionList()
         {
             var ver = Util.GetCBList(gamelist,
+                Legal.Games_7gg,
                 Legal.Games_7usum, Legal.Games_7sm,
                 Legal.Games_6oras, Legal.Games_6xy,
                 Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r,
@@ -396,6 +415,17 @@ namespace PKHeX.Core
                 met_list = Util.GetOffsetCBList(met_list, metSM_40000, 40001, Legal.Met_SM_4);
                 met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, Legal.Met_SM_6);
                 MetGen7 = met_list;
+            }
+            // Gen 7 GG
+            {
+                var met_list = Util.GetCBList(metGG_00000, new[] { 0 });
+                met_list = Util.GetOffsetCBList(met_list, metGG_60000, 60001, new[] { 60002 });
+                met_list = Util.GetOffsetCBList(met_list, metGG_30000, 30001, new[] { 30002 });
+                met_list = Util.GetOffsetCBList(met_list, metGG_00000, 00000, Legal.Met_GG_0);
+                met_list = Util.GetOffsetCBList(met_list, metGG_30000, 30001, Legal.Met_GG_3);
+                met_list = Util.GetOffsetCBList(met_list, metGG_40000, 40001, Legal.Met_GG_4);
+                met_list = Util.GetOffsetCBList(met_list, metGG_60000, 60001, Legal.Met_GG_6);
+                MetGen7GG = met_list;
             }
         }
 
@@ -475,7 +505,6 @@ namespace PKHeX.Core
                 case GameVersion.US:
                 case GameVersion.UM:
 
-                case GameVersion.GO:
                 case GameVersion.RD:
                 case GameVersion.BU:
                 case GameVersion.GN:
@@ -485,6 +514,11 @@ namespace PKHeX.Core
                 case GameVersion.SV:
                 case GameVersion.C:
                     return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 234)).ToList(); // Dividing Peak Tunnel
+
+                case GameVersion.GP:
+                case GameVersion.GE:
+                case GameVersion.GO:
+                    return MetGen7GG.Take(3).Concat(MetGen7GG.Skip(3).OrderByDescending(loc => loc.Value <= 54)).ToList(); // Pokémon League
             }
 
             // Currently on a future game, return corresponding list for generation

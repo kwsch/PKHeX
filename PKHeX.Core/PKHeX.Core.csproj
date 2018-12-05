@@ -28,8 +28,10 @@
     <None Remove="Resources\byte\encounter_d.pkl" />
     <None Remove="Resources\byte\encounter_e.pkl" />
     <None Remove="Resources\byte\encounter_fr.pkl" />
+    <None Remove="Resources\byte\encounter_ge.pkl" />
     <None Remove="Resources\byte\encounter_gold.pkl" />
     <None Remove="Resources\byte\encounter_gold_h.pkl" />
+    <None Remove="Resources\byte\encounter_gp.pkl" />
     <None Remove="Resources\byte\encounter_gsc_f.pkl" />
     <None Remove="Resources\byte\encounter_hg.pkl" />
     <None Remove="Resources\byte\encounter_lg.pkl" />
@@ -65,8 +67,8 @@
     <None Remove="Resources\byte\evos_g5.pkl" />
     <None Remove="Resources\byte\evos_gsc.pkl" />
     <None Remove="Resources\byte\evos_rby.pkl" />
-    <None Remove="Resources\byte\evos_sm.pkl" />
     <None Remove="Resources\byte\evos_uu.pkl" />
+    <None Remove="Resources\byte\evos_gg.pkl" />
     <None Remove="Resources\byte\hmtm_g3.pkl" />
     <None Remove="Resources\byte\lvlmove_ao.pkl" />
     <None Remove="Resources\byte\lvlmove_b2w2.pkl" />
@@ -75,6 +77,7 @@
     <None Remove="Resources\byte\lvlmove_dp.pkl" />
     <None Remove="Resources\byte\lvlmove_e.pkl" />
     <None Remove="Resources\byte\lvlmove_fr.pkl" />
+    <None Remove="Resources\byte\lvlmove_gg.pkl" />
     <None Remove="Resources\byte\lvlmove_gs.pkl" />
     <None Remove="Resources\byte\lvlmove_hgss.pkl" />
     <None Remove="Resources\byte\lvlmove_lg.pkl" />
@@ -93,6 +96,7 @@
     <None Remove="Resources\byte\personal_dp" />
     <None Remove="Resources\byte\personal_e" />
     <None Remove="Resources\byte\personal_fr" />
+    <None Remove="Resources\byte\personal_gg" />
     <None Remove="Resources\byte\personal_gs" />
     <None Remove="Resources\byte\personal_hgss" />
     <None Remove="Resources\byte\personal_lg" />
@@ -111,6 +115,7 @@
     <None Remove="Resources\byte\wc6full.pkl" />
     <None Remove="Resources\byte\wc7.pkl" />
     <None Remove="Resources\byte\wc7full.pkl" />
+    <None Remove="Resources\byte\wb7full.pkl" />
     <None Remove="Resources\text\de\lang_de.txt" />
     <None Remove="Resources\text\de\LegalityCheckStrings_de.txt" />
     <None Remove="Resources\text\de\MessageStrings_en.txt" />
@@ -124,6 +129,8 @@
     <None Remove="Resources\text\de\text_Forms_de.txt" />
     <None Remove="Resources\text\de\text_Games_de.txt" />
     <None Remove="Resources\text\de\text_GenLoc_de.txt" />
+    <None Remove="Resources\text\de\text_gg_00000_de.txt" />
+    <None Remove="Resources\text\de\text_gg_40000_de.txt" />
     <None Remove="Resources\text\de\text_hgss_00000_de.txt" />
     <None Remove="Resources\text\de\text_hgss_02000_de.txt" />
     <None Remove="Resources\text\de\text_hgss_03000_de.txt" />
@@ -172,6 +179,8 @@
     <None Remove="Resources\text\en\text_Forms_en.txt" />
     <None Remove="Resources\text\en\text_Games_en.txt" />
     <None Remove="Resources\text\en\text_GenLoc_en.txt" />
+    <None Remove="Resources\text\en\text_gg_00000_en.txt" />
+    <None Remove="Resources\text\en\text_gg_40000_en.txt" />
     <None Remove="Resources\text\en\text_hgss_00000_en.txt" />
     <None Remove="Resources\text\en\text_hgss_02000_en.txt" />
     <None Remove="Resources\text\en\text_hgss_03000_en.txt" />
@@ -220,6 +229,8 @@
     <None Remove="Resources\text\es\text_Forms_es.txt" />
     <None Remove="Resources\text\es\text_Games_es.txt" />
     <None Remove="Resources\text\es\text_GenLoc_es.txt" />
+    <None Remove="Resources\text\es\text_gg_00000_es.txt" />
+    <None Remove="Resources\text\es\text_gg_40000_es.txt" />
     <None Remove="Resources\text\es\text_hgss_00000_es.txt" />
     <None Remove="Resources\text\es\text_hgss_02000_es.txt" />
     <None Remove="Resources\text\es\text_hgss_03000_es.txt" />
@@ -268,6 +279,8 @@
     <None Remove="Resources\text\fr\text_Forms_fr.txt" />
     <None Remove="Resources\text\fr\text_Games_fr.txt" />
     <None Remove="Resources\text\fr\text_GenLoc_fr.txt" />
+    <None Remove="Resources\text\fr\text_gg_00000_fr.txt" />
+    <None Remove="Resources\text\fr\text_gg_40000_fr.txt" />
     <None Remove="Resources\text\fr\text_hgss_00000_fr.txt" />
     <None Remove="Resources\text\fr\text_hgss_02000_fr.txt" />
     <None Remove="Resources\text\fr\text_hgss_03000_fr.txt" />
@@ -340,6 +353,8 @@
     <None Remove="Resources\text\it\text_Forms_it.txt" />
     <None Remove="Resources\text\it\text_Games_it.txt" />
     <None Remove="Resources\text\it\text_GenLoc_it.txt" />
+    <None Remove="Resources\text\it\text_gg_00000_it.txt" />
+    <None Remove="Resources\text\it\text_gg_40000_it.txt" />
     <None Remove="Resources\text\it\text_hgss_00000_it.txt" />
     <None Remove="Resources\text\it\text_hgss_02000_it.txt" />
     <None Remove="Resources\text\it\text_hgss_03000_it.txt" />
@@ -388,6 +403,8 @@
     <None Remove="Resources\text\ja\text_Forms_ja.txt" />
     <None Remove="Resources\text\ja\text_Games_ja.txt" />
     <None Remove="Resources\text\ja\text_GenLoc_ja.txt" />
+    <None Remove="Resources\text\ja\text_gg_00000_ja.txt" />
+    <None Remove="Resources\text\ja\text_gg_40000_ja.txt" />
     <None Remove="Resources\text\ja\text_hgss_00000_ja.txt" />
     <None Remove="Resources\text\ja\text_hgss_02000_ja.txt" />
     <None Remove="Resources\text\ja\text_hgss_03000_ja.txt" />
@@ -436,6 +453,8 @@
     <None Remove="Resources\text\ko\text_Forms_ko.txt" />
     <None Remove="Resources\text\ko\text_Games_ko.txt" />
     <None Remove="Resources\text\ko\text_GenLoc_ko.txt" />
+    <None Remove="Resources\text\ko\text_gg_00000_ko.txt" />
+    <None Remove="Resources\text\ko\text_gg_40000_ko.txt" />
     <None Remove="Resources\text\ko\text_hgss_00000_ko.txt" />
     <None Remove="Resources\text\ko\text_hgss_02000_ko.txt" />
     <None Remove="Resources\text\ko\text_hgss_03000_ko.txt" />
@@ -615,6 +634,7 @@
     <None Remove="Resources\text\script\const_dp_zh.txt" />
     <None Remove="Resources\text\script\const_e_en.txt" />
     <None Remove="Resources\text\script\const_frlg_en.txt" />
+    <None Remove="Resources\text\script\const_gg_en.txt" />
     <None Remove="Resources\text\script\const_hgss_en.txt" />
     <None Remove="Resources\text\script\const_hgss_ko.txt" />
     <None Remove="Resources\text\script\const_hgss_zh.txt" />
@@ -646,6 +666,7 @@
     <None Remove="Resources\text\script\flags_dp_zh.txt" />
     <None Remove="Resources\text\script\flags_e_en.txt" />
     <None Remove="Resources\text\script\flags_frlg_en.txt" />
+    <None Remove="Resources\text\script\flags_gg_en.txt" />
     <None Remove="Resources\text\script\flags_hgss_en.txt" />
     <None Remove="Resources\text\script\flags_hgss_ja.txt" />
     <None Remove="Resources\text\script\flags_hgss_ko.txt" />
@@ -688,6 +709,8 @@
     <None Remove="Resources\text\zh\text_Forms_zh.txt" />
     <None Remove="Resources\text\zh\text_Games_zh.txt" />
     <None Remove="Resources\text\zh\text_GenLoc_zh.txt" />
+    <None Remove="Resources\text\zh\text_zh_00000_zh.txt" />
+    <None Remove="Resources\text\zh\text_zh_40000_zh.txt" />
     <None Remove="Resources\text\zh\text_hgss_00000_zh.txt" />
     <None Remove="Resources\text\zh\text_hgss_02000_zh.txt" />
     <None Remove="Resources\text\zh\text_hgss_03000_zh.txt" />
@@ -738,9 +761,11 @@
     <EmbeddedResource Include="Resources\byte\encounter_d.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_e.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_fr.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_ge.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_gold.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_gold_h.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_gsc_f.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_gp.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_hg.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_lg.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_mn.pkl" />
@@ -775,8 +800,8 @@
     <EmbeddedResource Include="Resources\byte\evos_g5.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_gsc.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_rby.pkl" />
-    <EmbeddedResource Include="Resources\byte\evos_sm.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_uu.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_gg.pkl" />
     <EmbeddedResource Include="Resources\byte\hmtm_g3.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_ao.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_b2w2.pkl" />
@@ -785,6 +810,7 @@
     <EmbeddedResource Include="Resources\byte\lvlmove_dp.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_e.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_fr.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_gg.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_gs.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_hgss.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_lg.pkl" />
@@ -803,6 +829,7 @@
     <EmbeddedResource Include="Resources\byte\personal_dp" />
     <EmbeddedResource Include="Resources\byte\personal_e" />
     <EmbeddedResource Include="Resources\byte\personal_fr" />
+    <EmbeddedResource Include="Resources\byte\personal_gg" />
     <EmbeddedResource Include="Resources\byte\personal_gs" />
     <EmbeddedResource Include="Resources\byte\personal_hgss" />
     <EmbeddedResource Include="Resources\byte\personal_lg" />
@@ -821,6 +848,7 @@
     <EmbeddedResource Include="Resources\byte\wc6full.pkl" />
     <EmbeddedResource Include="Resources\byte\wc7.pkl" />
     <EmbeddedResource Include="Resources\byte\wc7full.pkl" />
+    <EmbeddedResource Include="Resources\byte\wb7full.pkl" />
     <EmbeddedResource Include="Resources\text\de\lang_de.txt" />
     <EmbeddedResource Include="Resources\text\de\LegalityCheckStrings_de.txt" />
     <EmbeddedResource Include="Resources\text\de\MessageStrings_de.txt" />
@@ -834,6 +862,8 @@
     <EmbeddedResource Include="Resources\text\de\text_Forms_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_Games_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_GenLoc_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_gg_00000_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_gg_40000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_hgss_00000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_hgss_02000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_hgss_03000_de.txt" />
@@ -882,6 +912,8 @@
     <EmbeddedResource Include="Resources\text\en\text_Forms_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_Games_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_GenLoc_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_gg_00000_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_gg_40000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_hgss_00000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_hgss_02000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_hgss_03000_en.txt" />
@@ -930,6 +962,8 @@
     <EmbeddedResource Include="Resources\text\es\text_Forms_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Games_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_GenLoc_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_gg_00000_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_gg_40000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_hgss_00000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_hgss_02000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_hgss_03000_es.txt" />
@@ -978,6 +1012,8 @@
     <EmbeddedResource Include="Resources\text\fr\text_Forms_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_Games_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_GenLoc_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_gg_00000_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_gg_40000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_hgss_00000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_hgss_02000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_hgss_03000_fr.txt" />
@@ -1050,6 +1086,8 @@
     <EmbeddedResource Include="Resources\text\it\text_Forms_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_Games_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_GenLoc_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_gg_00000_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_gg_40000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_hgss_00000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_hgss_02000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_hgss_03000_it.txt" />
@@ -1098,6 +1136,8 @@
     <EmbeddedResource Include="Resources\text\ja\text_Forms_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_Games_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_GenLoc_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_gg_00000_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_gg_40000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_hgss_00000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_hgss_02000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_hgss_03000_ja.txt" />
@@ -1146,6 +1186,8 @@
     <EmbeddedResource Include="Resources\text\ko\text_Forms_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Games_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_GenLoc_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_gg_00000_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_gg_40000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_hgss_00000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_hgss_02000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_hgss_03000_ko.txt" />
@@ -1324,6 +1366,7 @@
     <EmbeddedResource Include="Resources\text\script\const_dp_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\const_dp_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\const_e_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_gg_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_frlg_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_hgss_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_hgss_ko.txt" />
@@ -1356,6 +1399,7 @@
     <EmbeddedResource Include="Resources\text\script\flags_dp_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_e_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_frlg_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_gg_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_hgss_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_hgss_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_hgss_ko.txt" />
@@ -1398,6 +1442,8 @@
     <EmbeddedResource Include="Resources\text\zh\text_Forms_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Games_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_GenLoc_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_gg_00000_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_gg_40000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_hgss_00000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_hgss_02000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_hgss_03000_zh.txt" />

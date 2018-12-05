@@ -16,7 +16,9 @@ namespace PKHeX.Core
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
-        public PK4(byte[] decryptedData = null, string ident = null)
+        public PK4() => Data = new byte[PKX.SIZE_4PARTY];
+
+        public PK4(byte[] decryptedData, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data, Format);
@@ -25,7 +27,6 @@ namespace PKHeX.Core
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public PK4() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new PK4((byte[])Data.Clone(), Identifier);
 
         private string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
@@ -312,6 +313,8 @@ namespace PKHeX.Core
         // Unused 0x87
         #endregion
 
+        #region Battle Stats
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0x88); set => BitConverter.GetBytes(value).CopyTo(Data, 0x88); }
         public override int Stat_Level { get => Data[0x8C]; set => Data[0x8C] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0x8E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x8E); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0x90); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x90); }
@@ -321,6 +324,7 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
         public byte[] HeldMailData { get => Data.Skip(0x9C).Take(0x38).ToArray(); set => value.CopyTo(Data, 0x9C); }
+        #endregion
 
         // Methods
         protected override byte[] Encrypt()
@@ -409,7 +413,7 @@ namespace PKHeX.Core
             pk5.OT_Name = OT_Name;
 
             // Fix Level
-            pk5.Met_Level = PKX.GetLevel(pk5.Species, pk5.EXP);
+            pk5.Met_Level = Experience.GetLevel(pk5.EXP, pk5.Species, 0);
 
             // Remove HM moves; Defog should be kept if both are learned.
             int[] banned = Moves.Contains(250) && Moves.Contains(432) // Whirlpool & Defog

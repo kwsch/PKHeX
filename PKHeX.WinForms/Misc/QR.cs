@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
             this.icon = icon;
             Lines = lines;
 
-            if (pkm?.Format == 7)
+            if (pkm?.Format == 7 && pkm is PK7)
                 UpdateBoxSlotCopies(null, null);
             else
                 RefreshImage();

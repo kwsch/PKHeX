@@ -221,7 +221,7 @@ namespace PKHeX.Core
                 case USUM:
                     return g2 == US || g2 == UM;
                 case GG:
-                    return g2 == GP || g2 == GE;
+                    return g2 == GP || g2 == GE || g2 == GO;
                 case Gen7:
                     return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
 
@@ -233,7 +233,13 @@ namespace PKHeX.Core
         /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
         /// </summary>
         /// <param name="generation">Generation to look within</param>
-        public static GameVersion[] GetVersionsInGeneration(int generation) => GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
+        /// <param name="pkVersion"></param>
+        public static GameVersion[] GetVersionsInGeneration(int generation, int pkVersion)
+        {
+            if (GG.Contains(pkVersion))
+                return new[] {GO, GP, GE};
+            return GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
+        }
 
         /// <summary>
         /// List of possible <see cref="GameVersion"/> values within the provided <see cref="IGameValueLimit"/> criteria.
@@ -242,9 +248,13 @@ namespace PKHeX.Core
         /// <param name="generation">Generation format minimum (necessary for the CXD/Gen4 swap etc)</param>
         public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, int generation = -1)
         {
+            if (obj.MaxGameID == Legal.MaxGameID_7b) // edge case
+                return new[] {GO, GP, GE};
             var vers = GameVersions.Where(z => z >= (GameVersion)obj.MinGameID && z <= (GameVersion)obj.MaxGameID);
-            if (generation == -1)
+            if (generation < 0)
                 return vers;
+            if (obj.MaxGameID == Legal.MaxGameID_7 && generation == 7)
+                vers = vers.Where(z => z != GO);
             return vers.Where(z => z.GetGeneration() <= generation);
         }
     }

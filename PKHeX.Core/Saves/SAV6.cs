@@ -768,6 +768,8 @@ namespace PKHeX.Core
             AddRecord(pkm.WasEgg ? 009 : 007); // egg, capture
             if (pkm.CurrentHandler == 1)
                 AddRecord(012); // trade
+            if (!pkm.WasEgg)
+                AddRecord(005); // wild encounters
         }
 
         protected override void SetDex(PKM pkm)
@@ -1084,7 +1086,7 @@ namespace PKHeX.Core
 
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
 
-        public override string GetString(int Offset, int Length) => StringConverter.GetString6(Data, Offset, Length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString6(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

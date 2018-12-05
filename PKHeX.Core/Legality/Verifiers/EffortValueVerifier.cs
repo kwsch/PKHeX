@@ -13,6 +13,11 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
+            if (pkm is IAwakened a)
+            {
+                VerifyAwakenedValues(data, a);
+                return;
+            }
             var EncounterMatch = data.EncounterMatch;
             var evs = pkm.EVs;
             int sum = pkm.EVTotal;
@@ -35,7 +40,7 @@ namespace PKHeX.Core
                     return;
 
                 const int maxEV = 100; // Vitamin Max
-                if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
+                if (Experience.GetEXP(EncounterMatch.LevelMin, pkm.Species, pkm.AltForm) == pkm.EXP && evs.Any(ev => ev > maxEV))
                     data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, maxEV)));
             }
 
@@ -46,6 +51,22 @@ namespace PKHeX.Core
                 data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
             else if (evs[0] != 0 && evs.All(ev => evs[0] == ev))
                 data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
+        }
+
+        private void VerifyAwakenedValues(LegalityAnalysis data, IAwakened awakened)
+        {
+            var pkm = data.pkm;
+            int sum = pkm.EVTotal;
+            if (sum != 0)
+                data.AddLine(GetInvalid(LEffortShouldBeZero));
+
+            var EncounterMatch = data.EncounterMatch;
+            if (!awakened.AwakeningAllValid())
+                data.AddLine(GetInvalid(LAwakenedCap));
+            if (EncounterMatch is EncounterSlot s && s.Type == SlotType.GoPark && Enumerable.Range(0, 6).Select(awakened.GetAV).Any(z => z < 2))
+                data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2))); // go park transfers have 2 AVs for all stats.
+            else if (awakened.AwakeningSum() == 0 && !EncounterMatch.IsWithinRange(pkm))
+                data.AddLine(Get(LAwakenedEXPIncreased, Severity.Fishy));
         }
     }
 }

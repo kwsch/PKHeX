@@ -18,9 +18,11 @@ namespace PKHeX.Core
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
-        public PK7(byte[] decryptedData = null, string ident = null)
+        public PK7() => Data = new byte[PKX.SIZE_6PARTY];
+
+        public PK7(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
@@ -385,7 +387,7 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
-        public int Status { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
         public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
         public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }

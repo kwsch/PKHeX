@@ -105,6 +105,8 @@ namespace PKHeX.Core
         Purple_Flowers = 1 << 19,
         Red_Flowers    = 1 << 20,
 
+        GoPark = 1 << 21,
+
         // Combined
         Headbutt_Special = Headbutt | Special,
 

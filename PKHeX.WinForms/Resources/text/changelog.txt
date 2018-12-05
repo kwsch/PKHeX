@@ -1,7 +1,39 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/11/01 - New Update:
+18/12/02 - New Update:
+ - Legality:
+ - - Updated: Now recognizes Rare Spawn data & met locations.
+ - - Updated: Now restricts recognition of Pokémon GO encounters to their allowed levels within the app.
+ - - Fixed: Lure level boosts are now recognized as valid.
+ - - Fixed: Volt Tackle is no longer valid for LGPE Pikachu (USUM tutor).
+ - Added: Can now import a folder of mystery gifts to storage, automatically converting to PKM and transferring if applicable.
+ - Added: LGPE Size Records can now be viewed & edited within the Pokédex editor for applicable entries.
+ - Added: LGPE GP1 files can now be loaded directly into the program similar to mystery gifts.
+ - Added: LGPE GP1 files can now be imported from a folder to the GO Park via the Trainer Editor.
+ - Added: LGPE GP1 files can now be deleted from the GO Park, and can even clear the entire park.
+ - Added: LGPE PB7 set to storage will now set Size record data when appropriate.
+ - Fixed: LGPE CP now updates correctly when changing any stat-impacting value.
+ - Fixed: LGPE Party stats are now applied for all pkm set to storage, resulting in no more Level 0 stored pkm.
+ - Fixed: LGPE starter experience-level is now calculated correctly (different Experience Group).
+ - Fixed: LGPE box sorting now updates the party indexes as intended.
+ - Fixed: LGPE suggested moves no longer contain egg moves (data sourced from US/UM).
+ - Fixed: LGPE Articuno event flag now respawns the overworld entity.
+ - Fixed: Current Box sorting/modification now works as intended and apply to main window's current box.
+ - Changed: LGPE PB7 set to storage will copy the Friendship stat rather than the base Friendship if the handler changes.
+ - Changed: French translation updated. Thanks @Ntonio36!
+
+18/11/16 - New Update: (46894) [1488908]
+ - Added: Let's Go Pikachu & Let's Go Eevee support. Thanks mattyoukhana (sora10pls) and SciresM for testing!
+ - - Legality: Complete detection & validation. Rare wild encounters & mystery gifts are not currently recognized.
+ - - Added: Added all new GP/GE content (Species, Moves, etc).
+ - - Added: Event Flag editor, Dex editor, Trainer Info editor, Inventory editor.
+ - - Notes: Exporting the save file will automatically remove empty slots between stored PKM.
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks theSlayer, Admiral-Fish, Sans!
+ - Added: Encounter browser (similar to Database / Mystery Gift Database). Press CTRL-N; viewing an encounter will generate a new PKM from the template.
+
+18/11/01 - New Update: (26086) [1442014]
  - Legality:
  - - Added: Colosseum/XD Shadow encounters are now more thoroughly checked for RNG conditions (nature/gender/shiny locks).
  - - Added: OT/Nickname length checks.

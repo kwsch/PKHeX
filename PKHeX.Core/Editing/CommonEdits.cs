@@ -315,7 +315,15 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             if (pk is IAwakened a)
+            {
                 a.SetSuggestedAwakenedValues(pk);
+                if (pk is PB7 b)
+                {
+                    for (int i = 0; i < 6; i++)
+                        pk.SetEV(i, 0);
+                    b.ResetCalculatedValues();
+                }
+            }
 
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
@@ -595,6 +603,8 @@ namespace PKHeX.Core
                 pkm.OT_Friendship = 1;
             else
                 pkm.CurrentFriendship = byte.MaxValue;
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
 
         /// <summary>
@@ -606,6 +616,8 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return;
             pkm.CurrentLevel = 100;
+            if (pkm is PB7 pb)
+                pb.ResetCP();
         }
 
         /// <summary>

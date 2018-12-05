@@ -48,7 +48,7 @@ namespace PKHeX.Core
         /// <param name="generation">Specific generation to iterate versions for.</param>
         public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int generation, int[] moves = null)
         {
-            var vers = GameUtil.GetVersionsInGeneration(generation);
+            var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
             return GeneratePKMs(pk, info, moves, vers);
         }
 
@@ -61,7 +61,7 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, int generation, int[] moves = null)
         {
-            var vers = GameUtil.GetVersionsInGeneration(generation);
+            var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
             return GenerateEncounters(pk, moves, vers);
         }
 
@@ -100,7 +100,7 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
             pk.Version = (int)version;
-            var et = EvolutionTree.GetEvolutionTree(PKX.Generation);
+            var et = EvolutionTree.GetEvolutionTree(pk, PKX.Generation);
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, dl);
 
@@ -129,7 +129,7 @@ namespace PKHeX.Core
         {
             // generate possible eggs
             var eggs = GetEggs(pk, needs, version);
-            if (!GameVersion.CXD.Contains(version))
+            if (!GameVersion.CXD.Contains(version) && !GameVersion.GG.Contains(version))
             {
                 foreach (var egg in eggs)
                     yield return egg;

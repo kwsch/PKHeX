@@ -555,7 +555,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(int Offset, int Length) => StringConverter.GetString1(Data, Offset, Length, Japanese);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString1(data, offset, length, Japanese);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

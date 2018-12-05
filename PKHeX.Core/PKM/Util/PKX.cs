@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKX
     {
-        internal static readonly PersonalTable Personal = PersonalTable.USUM;
+        internal static readonly PersonalTable Personal = PersonalTable.GG;
         public const int Generation = 7;
 
         internal const int SIZE_1ULIST = 69;
@@ -211,12 +211,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current level of a species.
         /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
         /// <param name="exp">Experience points</param>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Current level of the species.</returns>
-        public static int GetLevel(int species, uint exp)
+        public static int GetLevel(uint exp, int species, int forme)
         {
-            return Experience.GetLevel(species, exp);
+            return Experience.GetLevel(exp, species, forme);
         }
 
         /// <summary>
@@ -224,10 +225,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="level">Current level</param>
         /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Experience points needed to have specified level.</returns>
-        public static uint GetEXP(int level, int species)
+        public static uint GetEXP(int level, int species, int forme)
         {
-            return Experience.GetEXP(level, species);
+            return Experience.GetEXP(level, species, forme);
         }
 
         /// <summary>
@@ -261,25 +263,55 @@ namespace PKHeX.Core
         /// <summary>
         /// Updates stats according to the specified nature.
         /// </summary>
-        /// <param name="Stats">Current stats to amplify if appropriate</param>
+        /// <param name="stats">Current stats to amplify if appropriate</param>
         /// <param name="nature">Nature</param>
-        public static void ModifyStatsForNature(ushort[] Stats, int nature)
+        public static void ModifyStatsForNature(ushort[] stats, int nature)
         {
             if (GetNatureModification(nature, out int incr, out int decr))
                 return;
-            Stats[incr] *= 11; Stats[incr] /= 10;
-            Stats[decr] *= 9; Stats[decr] /= 10;
+            stats[incr] *= 11; stats[incr] /= 10;
+            stats[decr] *= 9; stats[decr] /= 10;
         }
 
         /// <summary>
         /// Positions for shuffling.
         /// </summary>
-        private static readonly byte[][] blockPosition =
+        private static readonly byte[] BlockPosition =
         {
-            new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
-            new byte[] {1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2},
-            new byte[] {2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2, 0, 0, 0, 0, 0, 0, 3, 2, 3, 2, 1, 1},
-            new byte[] {3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0},
+            0, 1, 2, 3,
+            0, 1, 3, 2,
+            0, 2, 1, 3,
+            0, 3, 1, 2,
+            0, 2, 3, 1,
+            0, 3, 2, 1,
+            1, 0, 2, 3,
+            1, 0, 3, 2,
+            2, 0, 1, 3,
+            3, 0, 1, 2,
+            2, 0, 3, 1,
+            3, 0, 2, 1,
+            1, 2, 0, 3,
+            1, 3, 0, 2,
+            2, 1, 0, 3,
+            3, 1, 0, 2,
+            2, 3, 0, 1,
+            3, 2, 0, 1,
+            1, 2, 3, 0,
+            1, 3, 2, 0,
+            2, 1, 3, 0,
+            3, 1, 2, 0,
+            2, 3, 1, 0,
+            3, 2, 1, 0,
+
+            // duplicates of 0-7 to eliminate modulus
+            0, 1, 2, 3,
+            0, 1, 3, 2,
+            0, 2, 1, 3,
+            0, 3, 1, 2,
+            0, 2, 3, 1,
+            0, 3, 2, 1,
+            1, 0, 2, 3,
+            1, 0, 3, 2,
         };
 
         /// <summary>
@@ -287,7 +319,8 @@ namespace PKHeX.Core
         /// </summary>
         internal static readonly byte[] blockPositionInvert =
         {
-            0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
+            0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23,
+            0, 1, 2, 4, 3, 5, 6, 7, // duplicates of 0-7 to eliminate modulus
         };
 
         /// <summary>
@@ -301,8 +334,12 @@ namespace PKHeX.Core
         public static byte[] ShuffleArray(byte[] data, uint sv, int blockSize)
         {
             byte[] sdata = (byte[])data.Clone();
+            uint index = sv*4;
             for (int block = 0; block < 4; block++)
-                Array.Copy(data, 8 + (blockSize * blockPosition[block][sv]), sdata, 8 + (blockSize * block), blockSize);
+            {
+                int ofs = BlockPosition[index + block];
+                Array.Copy(data, 8 + (blockSize * ofs), sdata, 8 + (blockSize * block), blockSize);
+            }
             return sdata;
         }
 
@@ -315,7 +352,7 @@ namespace PKHeX.Core
         public static byte[] DecryptArray(byte[] ekm)
         {
             uint pv = BitConverter.ToUInt32(ekm, 0);
-            uint sv = (pv >> 0xD & 0x1F) % 24;
+            uint sv = pv >> 13 & 31;
 
             CryptPKM(ekm, pv, SIZE_6BLOCK);
             return ShuffleArray(ekm, sv, SIZE_6BLOCK);
@@ -328,7 +365,7 @@ namespace PKHeX.Core
         public static byte[] EncryptArray(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
-            uint sv = (pv >> 0xD & 0x1F) % 24;
+            uint sv = pv >> 13 & 31;
 
             byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_6BLOCK);
             CryptPKM(ekm, pv, SIZE_6BLOCK);
@@ -344,7 +381,7 @@ namespace PKHeX.Core
         {
             uint pv = BitConverter.ToUInt32(ekm, 0);
             uint chk = BitConverter.ToUInt16(ekm, 6);
-            uint sv = (pv >> 0xD & 0x1F) % 24;
+            uint sv = pv >> 13 & 31;
 
             CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
             return ShuffleArray(ekm, sv, SIZE_4BLOCK);
@@ -359,7 +396,7 @@ namespace PKHeX.Core
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint chk = BitConverter.ToUInt16(pkm, 6);
-            uint sv = (pv >> 0xD & 0x1F) % 24;
+            uint sv = pv >> 13 & 31;
 
             byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_4BLOCK);
             CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
@@ -372,7 +409,8 @@ namespace PKHeX.Core
             const int start = 8;
             int end = (4 * blockSize) + start;
             CryptArray(data, pv, 8, end); // Blocks
-            CryptArray(data, pv, end, data.Length); // Party Stats
+            if (data.Length > end)
+                CryptArray(data, pv, end, data.Length); // Party Stats
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -381,14 +419,20 @@ namespace PKHeX.Core
             const int start = 8;
             int end = (4 * blockSize) + start;
             CryptArray(data, chk, start, end); // Blocks
-            CryptArray(data, pv, end, data.Length); // Party Stats
+            if (data.Length > end)
+                CryptArray(data, pv, end, data.Length); // Party Stats
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CryptArray(byte[] data, uint seed, int start, int end)
         {
-            for (int i = start; i < end; i += 2)
-                Crypt(data, ref seed, i);
+            int i = start;
+            do // all block sizes are multiples of 4
+            {
+                Crypt(data, ref seed, i); i += 2;
+                Crypt(data, ref seed, i); i += 2;
+            }
+            while (i < end);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -639,12 +683,13 @@ namespace PKHeX.Core
         /// <returns></returns>
         private static byte[] ShuffleArray3(byte[] data, uint sv)
         {
-            byte[] sdata = new byte[data.Length];
-            Array.Copy(data, sdata, 32); // Copy unshuffled bytes
-
-            // Shuffle Away!
+            byte[] sdata = (byte[])data.Clone();
+            uint index = sv * 4;
             for (int block = 0; block < 4; block++)
-                Array.Copy(data, 32 + (12 * blockPosition[block][sv]), sdata, 32 + (12 * block), 12);
+            {
+                int ofs = BlockPosition[index + block];
+                Array.Copy(data, 32 + (12 * ofs), sdata, 32 + (12 * block), 12);
+            }
 
             // Fill the Battle Stats back
             if (data.Length > SIZE_3STORED)
@@ -778,7 +823,7 @@ namespace PKHeX.Core
                 return string.Empty;
 
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
+            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
         }
 
         /// <summary>

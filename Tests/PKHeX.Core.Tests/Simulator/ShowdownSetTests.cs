@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using FluentAssertions;
 using PKHeX.Core;
@@ -10,8 +9,6 @@ namespace PKHeX.Tests.Simulator
 {
     public class ShowdownSetTests
     {
-        private const string SimulatorParse = "Set Parsing Tests";
-
         static ShowdownSetTests()
         {
             if (!EncounterEvent.Initialized)
@@ -175,8 +172,8 @@ namespace PKHeX.Tests.Simulator
         public void PokemonGenerationReturnsLegalPokemon(int species)
         {
             int count = 0;
-            var tr = new SimpleTrainerInfo();    
-            
+            var tr = new SimpleTrainerInfo();
+
             var pk = new PK7 { Species = species };
             pk.Gender = pk.GetSaneGender();
             var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr);

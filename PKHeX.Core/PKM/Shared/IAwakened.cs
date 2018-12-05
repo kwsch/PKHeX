@@ -114,5 +114,24 @@ namespace PKHeX.Core
                     a.SetAV(i, 200);
             }
         }
+
+        public static bool IsAwakeningBelow(this IAwakened current, IAwakened initial) => !current.IsAwakeningAboveOrEqual(initial);
+
+        public static bool IsAwakeningAboveOrEqual(this IAwakened current, IAwakened initial)
+        {
+            if (current.AV_HP < initial.AV_HP)
+                return false;
+            if (current.AV_ATK < initial.AV_ATK)
+                return false;
+            if (current.AV_DEF < initial.AV_DEF)
+                return false;
+            if (current.AV_SPA < initial.AV_SPA)
+                return false;
+            if (current.AV_SPD < initial.AV_SPD)
+                return false;
+            if (current.AV_SPE < initial.AV_SPE)
+                return false;
+            return true;
+        }
     }
 }

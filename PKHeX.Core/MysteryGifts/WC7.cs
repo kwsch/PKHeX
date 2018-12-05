@@ -13,9 +13,11 @@ namespace PKHeX.Core
         public const int SizeFull = 0x310;
         public override int Format => 7;
 
-        public WC7(byte[] data = null)
+        public WC7() => Data = new byte[Size];
+
+        public WC7(byte[] data)
         {
-            Data = data ?? new byte[Size];
+            Data = data;
             if (Data.Length != SizeFull)
                 return;
 
@@ -365,7 +367,7 @@ namespace PKHeX.Core
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
-                EXP = PKX.GetEXP(currentLevel, Species),
+                EXP = Experience.GetEXP(currentLevel, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,

@@ -32,7 +32,7 @@ namespace PKHeX.Tests.Saves
                 Assert.Equal(decrypted[i], actual[i]);
             }
         }
-        
+
         [Fact]
         public void TestSignMemeBuffer()
         {

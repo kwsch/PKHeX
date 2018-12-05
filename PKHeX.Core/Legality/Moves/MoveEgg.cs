@@ -11,6 +11,10 @@ namespace PKHeX.Core
             int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.GenNumber;
             if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species)))
                 return Array.Empty<int>();
+
+            if (pkm.Version == 15 || pkm.GG)
+                return Array.Empty<int>();
+
             if (version == GameVersion.Any)
                 version = (GameVersion)pkm.Version;
             return GetEggMoves(gen, species, formnum, version);

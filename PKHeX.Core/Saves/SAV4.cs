@@ -694,7 +694,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static int[] MatchMysteryGifts(MysteryGift[] value)
+        private int[] MatchMysteryGifts(MysteryGift[] value)
         {
             if (value == null)
                 return null;
@@ -721,6 +721,8 @@ namespace PKHeX.Core
                     if (!pcd.GiftEquals(pgt))
                         continue;
 
+                    if (!HGSS)
+                        j++; // hgss 0,1,2; dppt 1,2,3
                     cardMatch[i] = pgt.Slot = j;
                     break;
                 }
@@ -1299,7 +1301,7 @@ namespace PKHeX.Core
         public int GetApricornCount(int i) => !HGSS ? -1 : Data[0xE558 + GBO + i];
         public void SetApricornCount(int i, int count) => Data[0xE558 + GBO + i] = (byte)count;
 
-        public override string GetString(int Offset, int Length) => StringConverter.GetString4(Data, Offset, Length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString4(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

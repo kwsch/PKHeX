@@ -16,7 +16,7 @@ namespace PKHeX.WinForms.Controls
         public PKMEditor()
         {
             InitializeComponent();
-            Legality = new LegalityAnalysis(pkm = new PK7());
+            Legality = new LegalityAnalysis(pkm = new PB7());
             SetPKMFormatMode(pkm.Format);
 
             GB_OT.Click += ClickGT;
@@ -53,7 +53,13 @@ namespace PKHeX.WinForms.Controls
             TID_Trainer.UpdatedID += Update_ID;
         }
 
-        private void UpdateStats() => Stats.UpdateStats();
+        private void UpdateStats()
+        {
+            Stats.UpdateStats();
+            if (pkm is PB7)
+                SizeCP.TryResetStats();
+        }
+
         private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
 
         private void SavePartyStats(PKM pk)
@@ -182,9 +188,20 @@ namespace PKHeX.WinForms.Controls
                     extraBytes = PK6.ExtraBytes;
                     break;
                 case 7:
-                    GetFieldsfromPKM = PopulateFieldsPK7;
-                    GetPKMfromFields = PreparePK7;
-                    extraBytes = PK7.ExtraBytes;
+                    switch (pkm)
+                    {
+                        case PK7 _:
+                            GetFieldsfromPKM = PopulateFieldsPK7;
+                            GetPKMfromFields = PreparePK7;
+                            extraBytes = PK7.ExtraBytes;
+                            break;
+
+                        case PB7 _:
+                            GetFieldsfromPKM = PopulateFieldsPB7;
+                            GetPKMfromFields = PreparePB7;
+                            extraBytes = PB7.ExtraBytes;
+                            break;
+                    }
                     break;
             }
 
@@ -223,7 +240,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : PKX.GetLevel(pk.Species, pk.EXP)).ToString();
+                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
                 if (pk.Stat_HPMax != 0) // stats present
@@ -460,6 +477,7 @@ namespace PKHeX.WinForms.Controls
             PB_MarkCured.Image = changeOpacity(PB_MarkCured, getOpacity(CHK_Cured.Checked));
 
             PB_MarkPentagon.Image = changeOpacity(PB_MarkPentagon, getOpacity(pkm.Gen6));
+            PB_Favorite.Image = changeOpacity(PB_Favorite, getOpacity(pkm is PB7 pb7 && pb7.Favorite));
 
             // Gen7 Markings
             if (pkm.Format != 7)
@@ -555,8 +573,15 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickMarking(object sender, EventArgs e)
         {
-            int index = Array.IndexOf(Markings, sender);
+            int index = Array.IndexOf(Markings, (PictureBox)sender);
             pkm.ToggleMarking(index);
+            SetMarkings();
+        }
+
+        private void ClickFavorite(object sender, EventArgs e)
+        {
+            if (pkm is PB7 pb7)
+                pb7.Favorite ^= true;
             SetMarkings();
         }
 
@@ -816,9 +841,10 @@ namespace PKHeX.WinForms.Controls
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP.Text);
                 int Species = pkm.Species;
-                int Level = PKX.GetLevel(Species, EXP);
+                int Form = pkm.AltForm;
+                int Level = Experience.GetLevel(EXP, Species, Form);
                 if (Level == 100)
-                    EXP = PKX.GetEXP(100, Species);
+                    EXP = Experience.GetEXP(100, Species, Form);
 
                 TB_Level.Text = Level.ToString();
                 if (!HaX)
@@ -843,7 +869,7 @@ namespace PKHeX.WinForms.Controls
                 if (Level > byte.MaxValue)
                     MT_Level.Text = "255";
                 else if (Level <= 100)
-                    TB_EXP.Text = PKX.GetEXP(Level, pkm.Species).ToString();
+                    TB_EXP.Text = Experience.GetEXP(Level, pkm.Species, pkm.AltForm).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
@@ -851,7 +877,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
                 pkm.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
             }
-            Stats.UpdateStats();
+            UpdateStats();
             UpdateLegality();
         }
 
@@ -894,14 +920,23 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
+            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var val))
+            {
+                pkm.CurrentFriendship = val;
+                UpdateStats();
+            }
         }
 
         private void UpdateForm(object sender, EventArgs e)
         {
             if (CB_Form == sender && FieldsLoaded)
+            {
                 pkm.AltForm = CB_Form.SelectedIndex;
+                uint EXP = Experience.GetEXP(pkm.CurrentLevel, pkm.Species, pkm.AltForm);
+                TB_EXP.Text = EXP.ToString();
+            }
 
-            Stats.UpdateStats();
+            UpdateStats();
             SetAbilityList();
 
             // Gender Forms
@@ -1090,7 +1125,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             // Recalculate EXP for Given Level
-            uint EXP = PKX.GetEXP(pkm.CurrentLevel, pkm.Species);
+            uint EXP = Experience.GetEXP(pkm.CurrentLevel, pkm.Species, pkm.AltForm);
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
@@ -1620,6 +1655,7 @@ namespace PKHeX.WinForms.Controls
         private void ToggleInterface(PKM t)
         {
             FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
+            FLP_SizeCP.Visible = PB_Favorite.Visible = t is PB7;
             ToggleInterface(pkm.Format);
         }
 
@@ -1670,7 +1706,7 @@ namespace PKHeX.WinForms.Controls
             FLP_TimeOfDay.Visible = gen == 2;
 
             Contest.ToggleInterface(pkm, gen);
-            Stats.ToggleInterface(gen);
+            Stats.ToggleInterface(pkm, gen);
 
             CenterSubEditors();
         }
@@ -1699,6 +1735,14 @@ namespace PKHeX.WinForms.Controls
             {
                 tabMain.TabPages.Insert(1, Tab_Met);
                 TranslationRequired = true;
+            }
+
+            if (!HaX && sav is SAV7b)
+            {
+                FLP_HeldItem.Visible = false;
+                FLP_Country.Visible = false;
+                FLP_SubRegion.Visible = false;
+                FLP_3DSRegion.Visible = false;
             }
 
             // Common HaX Interface

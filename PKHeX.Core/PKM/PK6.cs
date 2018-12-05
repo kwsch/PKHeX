@@ -17,7 +17,9 @@ namespace PKHeX.Core
         public override int Format => 6;
         public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormeEntry(Species, AltForm);
 
-        public PK6(byte[] decryptedData = null, string ident = null)
+        public PK6() => Data = new byte[PKX.SIZE_6PARTY];
+
+        public PK6(byte[] decryptedData, string ident = null)
         {
             Data = decryptedData ?? new byte[SIZE_PARTY];
             PKMConverter.CheckEncrypted(ref Data, Format);
@@ -355,6 +357,7 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0xF0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0xF2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); }

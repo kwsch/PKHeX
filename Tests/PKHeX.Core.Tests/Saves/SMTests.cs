@@ -9,7 +9,17 @@ namespace PKHeX.Tests.Saves
     {
         private SAV7 GetSave()
         {
-            return new SAV7(File.ReadAllBytes("TestData/SM Project 802.main"));
+            var folder = GetRepoPath();
+            var path = Path.Combine(folder, "TestData", "SM Project 802.main");
+            return new SAV7(File.ReadAllBytes(path));
+        }
+
+        private string GetRepoPath()
+        {
+            var folder = Directory.GetCurrentDirectory();
+            while (!folder.EndsWith(nameof(Tests)))
+                folder = Directory.GetParent(folder).FullName;
+            return folder;
         }
 
         [Fact]

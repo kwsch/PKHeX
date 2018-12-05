@@ -299,7 +299,7 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         public bool USUM => Version == (int)GameVersion.US || Version == (int)GameVersion.UM;
-        public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE;
+        public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE || Version == (int)GameVersion.GO;
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
@@ -332,7 +332,7 @@ namespace PKHeX.Core
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
-        public int CurrentLevel { get => PKX.GetLevel(Species, EXP); set => EXP = PKX.GetEXP(value, Species); }
+        public int CurrentLevel { get => Experience.GetLevel(EXP, Species, AltForm); set => EXP = Experience.GetEXP(Stat_Level = value, Species, AltForm); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
         public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
         public int MarkSquare      { get => Markings[2]; set { var marks = Markings; marks[2] = value; Markings = marks; } }
@@ -374,6 +374,18 @@ namespace PKHeX.Core
                 if (value?.Length != 6) return;
                 EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
+            }
+        }
+
+        public int[] Stats
+        {
+            get => new[] { Stat_HPCurrent, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD };
+            set
+            {
+                if (value?.Length != 6)
+                    return;
+                Stat_HPCurrent = value[0]; Stat_ATK = value[1]; Stat_DEF = value[2];
+                Stat_SPE = value[3]; Stat_SPA = value[4]; Stat_SPD = value[5];
             }
         }
 
@@ -708,48 +720,48 @@ namespace PKHeX.Core
         {
             int level = CurrentLevel;
 
-            ushort[] Stats = this is IHyperTrain t ? GetStats(p, t, level) : GetStats(p, level);
+            ushort[] stats = this is IHyperTrain t ? GetStats(p, t, level) : GetStats(p, level);
             // Account for nature
-            PKX.ModifyStatsForNature(Stats, Nature);
-            return Stats;
+            PKX.ModifyStatsForNature(stats, Nature);
+            return stats;
         }
 
         private ushort[] GetStats(PersonalInfo p, IHyperTrain t, int level)
         {
-            ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(p.HP == 1 ? 1 : (((t.HT_HP ? 31 : IV_HP) + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
-            Stats[1] = (ushort)((((t.HT_ATK ? 31 : IV_ATK) + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
-            Stats[2] = (ushort)((((t.HT_DEF ? 31 : IV_DEF) + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
-            Stats[4] = (ushort)((((t.HT_SPA ? 31 : IV_SPA) + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
-            Stats[5] = (ushort)((((t.HT_SPD ? 31 : IV_SPD) + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
-            Stats[3] = (ushort)((((t.HT_SPE ? 31 : IV_SPE) + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
-            return Stats;
+            ushort[] stats = new ushort[6];
+            stats[0] = (ushort)(p.HP == 1 ? 1 : (((t.HT_HP ? 31 : IV_HP) + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
+            stats[1] = (ushort)((((t.HT_ATK ? 31 : IV_ATK) + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
+            stats[2] = (ushort)((((t.HT_DEF ? 31 : IV_DEF) + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
+            stats[4] = (ushort)((((t.HT_SPA ? 31 : IV_SPA) + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
+            stats[5] = (ushort)((((t.HT_SPD ? 31 : IV_SPD) + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
+            stats[3] = (ushort)((((t.HT_SPE ? 31 : IV_SPE) + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
+            return stats;
         }
 
         private ushort[] GetStats(PersonalInfo p, int level)
         {
-            ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(p.HP == 1 ? 1 : ((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
-            Stats[1] = (ushort)(((IV_ATK + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
-            Stats[2] = (ushort)(((IV_DEF + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
-            Stats[4] = (ushort)(((IV_SPA + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
-            Stats[5] = (ushort)(((IV_SPD + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
-            Stats[3] = (ushort)(((IV_SPE + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
-            return Stats;
+            ushort[] stats = new ushort[6];
+            stats[0] = (ushort)(p.HP == 1 ? 1 : ((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
+            stats[1] = (ushort)(((IV_ATK + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
+            stats[2] = (ushort)(((IV_DEF + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
+            stats[4] = (ushort)(((IV_SPA + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
+            stats[5] = (ushort)(((IV_SPD + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
+            stats[3] = (ushort)(((IV_SPE + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
+            return stats;
         }
 
         /// <summary>
         /// Applies the specified stats to the <see cref="PKM"/>.
         /// </summary>
-        /// <param name="Stats">Battle Stats (H/A/B/S/C/D)</param>
-        public void SetStats(ushort[] Stats)
+        /// <param name="stats">Battle Stats (H/A/B/S/C/D)</param>
+        public void SetStats(ushort[] stats)
         {
-            Stat_HPMax = Stat_HPCurrent = Stats[0];
-            Stat_ATK = Stats[1];
-            Stat_DEF = Stats[2];
-            Stat_SPE = Stats[3];
-            Stat_SPA = Stats[4];
-            Stat_SPD = Stats[5];
+            Stat_HPMax = Stat_HPCurrent = stats[0];
+            Stat_ATK = stats[1];
+            Stat_DEF = stats[2];
+            Stat_SPE = stats[3];
+            Stat_SPA = stats[4];
+            Stat_SPD = stats[5];
         }
 
         /// <summary>
@@ -795,7 +807,7 @@ namespace PKHeX.Core
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
         private int GetBasePP(int move)
         {
-            var pptable = Legal.GetPPTable(Format);
+            var pptable = Legal.GetPPTable(this, Format);
             if (move >= pptable.Count)
                 move = 0;
             return pptable[move];

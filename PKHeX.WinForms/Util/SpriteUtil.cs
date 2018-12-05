@@ -127,9 +127,10 @@ namespace PKHeX.WinForms
             }
             if (inBox) // in box
             {
-                if (SAV.IsSlotLocked(box, slot))
+                var flags = SAV.GetSlotFlags(box, slot);
+                if (flags.HasFlagFast(StorageSlotFlag.Locked))
                     sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0);
-                else if (SAV.IsSlotInBattleTeam(box, slot))
+                else if (flags != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0);
             }
 

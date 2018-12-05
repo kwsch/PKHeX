@@ -113,6 +113,11 @@
             this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
             this.L_ShinyLeaf = new System.Windows.Forms.Label();
             this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
+            this.FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_CatchRate = new System.Windows.Forms.Label();
+            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
+            this.FLP_SizeCP = new System.Windows.Forms.FlowLayoutPanel();
+            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -180,6 +185,7 @@
             this.CB_Move2 = new System.Windows.Forms.ComboBox();
             this.CB_Move1 = new System.Windows.Forms.ComboBox();
             this.Tab_OTMisc = new System.Windows.Forms.TabPage();
+            this.PB_Favorite = new System.Windows.Forms.PictureBox();
             this.FLP_PKMEditors = new System.Windows.Forms.FlowLayoutPanel();
             this.BTN_Ribbons = new System.Windows.Forms.Button();
             this.BTN_Medals = new System.Windows.Forms.Button();
@@ -212,9 +218,6 @@
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
-            this.FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
-            this.L_CatchRate = new System.Windows.Forms.Label();
-            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -249,6 +252,8 @@
             this.FLP_Purification.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).BeginInit();
             this.FLP_ShinyLeaf.SuspendLayout();
+            this.FLP_CatchRate.SuspendLayout();
+            this.FLP_SizeCP.SuspendLayout();
             this.Tab_Met.SuspendLayout();
             this.GB_EggConditions.SuspendLayout();
             this.FLP_Met.SuspendLayout();
@@ -275,6 +280,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn1)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
             this.Tab_OTMisc.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Favorite)).BeginInit();
             this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
@@ -292,7 +298,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
             this.GB_ExtraBytes.SuspendLayout();
             this.GB_OT.SuspendLayout();
-            this.FLP_CatchRate.SuspendLayout();
             this.SuspendLayout();
             //
             // tabMain
@@ -308,7 +313,7 @@
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(280, 488);
+            this.tabMain.Size = new System.Drawing.Size(280, 565);
             this.tabMain.TabIndex = 1;
             //
             // Tab_Main
@@ -318,7 +323,7 @@
             this.Tab_Main.Location = new System.Drawing.Point(4, 22);
             this.Tab_Main.Name = "Tab_Main";
             this.Tab_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Main.Size = new System.Drawing.Size(272, 462);
+            this.Tab_Main.Size = new System.Drawing.Size(272, 539);
             this.Tab_Main.TabIndex = 0;
             this.Tab_Main.Text = "Main";
             this.Tab_Main.UseVisualStyleBackColor = true;
@@ -346,9 +351,10 @@
             this.FLP_Main.Controls.Add(this.FLP_Purification);
             this.FLP_Main.Controls.Add(this.FLP_ShinyLeaf);
             this.FLP_Main.Controls.Add(this.FLP_CatchRate);
+            this.FLP_Main.Controls.Add(this.FLP_SizeCP);
             this.FLP_Main.Location = new System.Drawing.Point(0, 2);
             this.FLP_Main.Name = "FLP_Main";
-            this.FLP_Main.Size = new System.Drawing.Size(272, 459);
+            this.FLP_Main.Size = new System.Drawing.Size(272, 536);
             this.FLP_Main.TabIndex = 103;
             //
             // FLP_PID
@@ -1329,6 +1335,54 @@
             this.ShinyLeaf.TabIndex = 116;
             this.ShinyLeaf.Value = 0;
             //
+            // FLP_CatchRate
+            //
+            this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_CatchRate.Controls.Add(this.L_CatchRate);
+            this.FLP_CatchRate.Controls.Add(this.CR_PK1);
+            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 415);
+            this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_CatchRate.Name = "FLP_CatchRate";
+            this.FLP_CatchRate.Size = new System.Drawing.Size(272, 25);
+            this.FLP_CatchRate.TabIndex = 116;
+            //
+            // L_CatchRate
+            //
+            this.L_CatchRate.Location = new System.Drawing.Point(0, 0);
+            this.L_CatchRate.Margin = new System.Windows.Forms.Padding(0);
+            this.L_CatchRate.Name = "L_CatchRate";
+            this.L_CatchRate.Size = new System.Drawing.Size(110, 21);
+            this.L_CatchRate.TabIndex = 9;
+            this.L_CatchRate.Text = "Catch Rate:";
+            this.L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            //
+            // CR_PK1
+            //
+            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
+            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
+            this.CR_PK1.Name = "CR_PK1";
+            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
+            this.CR_PK1.TabIndex = 10;
+            //
+            // FLP_SizeCP
+            //
+            this.FLP_SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_SizeCP.Controls.Add(this.SizeCP);
+            this.FLP_SizeCP.Location = new System.Drawing.Point(0, 440);
+            this.FLP_SizeCP.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_SizeCP.Name = "FLP_SizeCP";
+            this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
+            this.FLP_SizeCP.TabIndex = 117;
+            //
+            // SizeCP
+            //
+            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SizeCP.Location = new System.Drawing.Point(50, 0);
+            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
+            this.SizeCP.Name = "SizeCP";
+            this.SizeCP.Size = new System.Drawing.Size(204, 68);
+            this.SizeCP.TabIndex = 0;
+            //
             // Tab_Met
             //
             this.Tab_Met.AllowDrop = true;
@@ -2136,6 +2190,7 @@
             // Tab_OTMisc
             //
             this.Tab_OTMisc.AllowDrop = true;
+            this.Tab_OTMisc.Controls.Add(this.PB_Favorite);
             this.Tab_OTMisc.Controls.Add(this.FLP_PKMEditors);
             this.Tab_OTMisc.Controls.Add(this.TB_EC);
             this.Tab_OTMisc.Controls.Add(this.GB_nOT);
@@ -2147,10 +2202,22 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 539);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
+            //
+            // PB_Favorite
+            //
+            this.PB_Favorite.Image = global::PKHeX.WinForms.Properties.Resources.icon_favo;
+            this.PB_Favorite.InitialImage = global::PKHeX.WinForms.Properties.Resources.icon_favo;
+            this.PB_Favorite.Location = new System.Drawing.Point(23, 198);
+            this.PB_Favorite.Name = "PB_Favorite";
+            this.PB_Favorite.Size = new System.Drawing.Size(40, 40);
+            this.PB_Favorite.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Favorite.TabIndex = 10;
+            this.PB_Favorite.TabStop = false;
+            this.PB_Favorite.Click += new System.EventHandler(this.ClickFavorite);
             //
             // FLP_PKMEditors
             //
@@ -2540,41 +2607,12 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             //
-            // FLP_CatchRate
-            //
-            this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_CatchRate.Controls.Add(this.L_CatchRate);
-            this.FLP_CatchRate.Controls.Add(this.CR_PK1);
-            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 415);
-            this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_CatchRate.Name = "FLP_CatchRate";
-            this.FLP_CatchRate.Size = new System.Drawing.Size(272, 25);
-            this.FLP_CatchRate.TabIndex = 116;
-            //
-            // L_CatchRate
-            //
-            this.L_CatchRate.Location = new System.Drawing.Point(0, 0);
-            this.L_CatchRate.Margin = new System.Windows.Forms.Padding(0);
-            this.L_CatchRate.Name = "L_CatchRate";
-            this.L_CatchRate.Size = new System.Drawing.Size(110, 21);
-            this.L_CatchRate.TabIndex = 9;
-            this.L_CatchRate.Text = "Catch Rate:";
-            this.L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
-            // CR_PK1
-            //
-            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
-            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
-            this.CR_PK1.Name = "CR_PK1";
-            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
-            this.CR_PK1.TabIndex = 10;
-            //
             // PKMEditor
             //
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.tabMain);
             this.Name = "PKMEditor";
-            this.Size = new System.Drawing.Size(280, 488);
+            this.Size = new System.Drawing.Size(280, 565);
             this.tabMain.ResumeLayout(false);
             this.Tab_Main.ResumeLayout(false);
             this.FLP_Main.ResumeLayout(false);
@@ -2620,6 +2658,8 @@
             this.FLP_Purification.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).EndInit();
             this.FLP_ShinyLeaf.ResumeLayout(false);
+            this.FLP_CatchRate.ResumeLayout(false);
+            this.FLP_SizeCP.ResumeLayout(false);
             this.Tab_Met.ResumeLayout(false);
             this.Tab_Met.PerformLayout();
             this.GB_EggConditions.ResumeLayout(false);
@@ -2652,6 +2692,7 @@
             this.GB_CurrentMoves.PerformLayout();
             this.Tab_OTMisc.ResumeLayout(false);
             this.Tab_OTMisc.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Favorite)).EndInit();
             this.FLP_PKMEditors.ResumeLayout(false);
             this.FLP_PKMEditors.PerformLayout();
             this.GB_nOT.ResumeLayout(false);
@@ -2673,7 +2714,6 @@
             this.GB_ExtraBytes.PerformLayout();
             this.GB_OT.ResumeLayout(false);
             this.GB_OT.PerformLayout();
-            this.FLP_CatchRate.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2866,5 +2906,8 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_CatchRate;
         private System.Windows.Forms.Label L_CatchRate;
         private CatchRate CR_PK1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_SizeCP;
+        private SizeCP SizeCP;
+        private System.Windows.Forms.PictureBox PB_Favorite;
     }
 }

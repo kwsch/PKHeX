@@ -28,10 +28,8 @@ namespace PKHeX.Core
             set => Gift.Ball = value;
         }
 
-        public PCD(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PCD() => Data = new byte[Size];
+        public PCD(byte[] data) => Data = data;
 
         public PGT Gift
         {

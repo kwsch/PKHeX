@@ -13,6 +13,7 @@ namespace PKHeX.Core
     {
         public static readonly Type[] Types =
         {
+            typeof (PB7),
             typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
             typeof (PK3), typeof (XK3), typeof (CK3),
             typeof (PK2), typeof (PK1),
@@ -338,6 +339,9 @@ namespace PKHeX.Core
             var PKM = info.pkm;
             switch (name)
             {
+                case nameof(PKM.Stats):
+                    PKM.SetStats(PKM.GetStats(PKM.PersonalInfo));
+                    return ModifyResult.Modified;
                 case nameof(IHyperTrain.HyperTrainFlags):
                     PKM.SetSuggestedHyperTrainingData();
                     return ModifyResult.Modified;

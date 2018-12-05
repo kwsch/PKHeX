@@ -19,9 +19,11 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
         protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
-        private readonly IList<int> FormBaseSpecies;
+        private IList<int> FormBaseSpecies;
 
-        protected Zukan7() { }
+        protected Zukan7()
+        {
+        }
 
         public Zukan7(SaveFile sav, int dex, int langflag)
         {
@@ -29,9 +31,11 @@ namespace PKHeX.Core
             PokeDex = dex;
             PokeDexLanguageFlags = langflag;
             DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) SaveUtil.GetDexFormIndexSM : SaveUtil.GetDexFormIndexSM;
-            FormBaseSpecies = GetFormIndexBaseSpeciesList();
+            LoadDexList();
             Debug.Assert(BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
+
+        protected void LoadDexList() => FormBaseSpecies = GetFormIndexBaseSpeciesList();
 
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
@@ -191,7 +195,7 @@ namespace PKHeX.Core
             return index + SAV.MaxSpeciesID - 1;
         }
 
-        public IEnumerable<string> GetEntryNames(IReadOnlyList<string> Species)
+        public IList<string> GetEntryNames(IReadOnlyList<string> Species)
         {
             var names = new List<string>();
             for (int i = 1; i <= SAV.MaxSpeciesID; i++)
