@@ -330,7 +330,7 @@ namespace PKHeX.WinForms.Controls
             int slotSkipped = 0;
             for (int i = 0; i < SAV.BoxSlotCount; i++) // set to every slot in box
             {
-                if (SAV.IsSlotLocked(box, i))
+                if (SAV.IsSlotOverwriteProtected(box, i))
                 { slotSkipped++; continue; }
                 SAV.SetStoredSlot(pk, Box.GetSlotOffset(box, i));
                 Box.SetSlotFiller(pk, box, i);
@@ -789,7 +789,7 @@ namespace PKHeX.WinForms.Controls
             int slotSkipped = 0;
             for (int i = 0; i < 24; i++)
             {
-                if (SAV.IsSlotLocked(Box.CurrentBox, i))
+                if (SAV.IsSlotOverwriteProtected(Box.CurrentBox, i))
                 { slotSkipped++; continue; }
                 SAV.SetStoredSlot(data[i], offset + (i * SAV.SIZE_STORED), noSetb);
             }

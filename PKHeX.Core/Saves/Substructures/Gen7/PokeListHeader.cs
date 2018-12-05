@@ -123,22 +123,6 @@ namespace PKHeX.Core
             return index >= 0 ? index : MAX_SLOTS;
         }
 
-        public bool IsSlotInBattleTeam(int box, int slot)
-        {
-            if ((uint)slot >= SAV.SlotCount || (uint)box >= SAV.BoxCount)
-                return false;
-
-            int slotIndex = slot + (SAV.BoxSlotCount * box);
-            return PokeListInfo.Take(6).Any(s => s == slotIndex) || StarterIndex == slotIndex;
-        }
-
-        public bool IsSlotLocked(int box, int slot)
-        {
-            if ((uint)slot >= SAV.SlotCount || (uint)box >= SAV.BoxCount)
-                return false;
-            return false;
-        }
-
         public bool CompressStorage()
         {
             // Box Data is stored as a list, instead of an array. Empty interstitials are not legal.

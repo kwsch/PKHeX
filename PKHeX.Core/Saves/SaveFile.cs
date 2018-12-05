@@ -181,7 +181,7 @@ namespace PKHeX.Core
             int ofs = GetBoxOffset(box);
             for (int slot = 0; slot < BoxSlotCount; slot++, ofs += SIZE_STORED)
             {
-                if (!IsSlotLocked(box, slot))
+                if (!GetSlotFlags(box, slot).IsOverwriteProtected())
                     SetStoredSlot(value[index + slot], ofs);
             }
         }
@@ -204,7 +204,7 @@ namespace PKHeX.Core
                 data[i].Identifier = $"{boxName}:{slot + 1:00}";
                 data[i].Box = box + 1;
                 data[i].Slot = slot + 1;
-                data[i].Locked = IsSlotLocked(box, slot);
+                data[i].Locked = GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
             }
         }
 
@@ -452,10 +452,12 @@ namespace PKHeX.Core
         public virtual int BoxesUnlocked { get => -1; set { } }
         public virtual byte[] BoxFlags { get => null; set { } }
         public virtual int CurrentBox { get; set; }
-        protected int[] LockedSlots = Array.Empty<int>();
         protected int[] TeamSlots = Array.Empty<int>();
-        protected virtual IList<int>[] SlotPointers => new[] {LockedSlots,TeamSlots};
+        protected virtual IList<int>[] SlotPointers => new[] {TeamSlots};
         public virtual StorageSlotFlag GetSlotFlags(int index) => StorageSlotFlag.None;
+        public StorageSlotFlag GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
+        public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
+        public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
 
         public bool MoveBox(int box, int insertBeforeBox)
         {
@@ -661,25 +663,22 @@ namespace PKHeX.Core
             PartyCount--;
         }
 
-        public virtual bool IsSlotLocked(int box, int slot) => false;
-        public virtual bool IsSlotInBattleTeam(int box, int slot) => false;
-        protected virtual bool IsSlotOverwriteProtected(int box, int slot) => IsSlotLocked(box, slot) || IsSlotInBattleTeam(box, slot);
-        protected virtual bool IsSlotSwapProtected(int box, int slot) => false;
+        protected bool IsSlotSwapProtected(int box, int slot) => false;
 
         private bool IsRegionOverwriteProtected(int min, int max)
         {
-            if (LockedSlots.Any(slot => WithinRange(slot, min, max))) // locked slot within box
-                return true;
-            if (TeamSlots.Any(slot => WithinRange(slot, min, max))) // team slot within box
-                return true;
-            return false;
+            return SlotPointers.SelectMany(z => z)
+                .Where(z => GetSlotFlags(z).IsOverwriteProtected())
+                .Any(slot => WithinRange(slot, min, max));
         }
 
         private static bool WithinRange(int slot, int min, int max) => min <= slot && slot < max;
 
         public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)
         {
-            return LockedSlots.Any(slot => WithinRange(slot, BoxStart*BoxSlotCount, (BoxEnd + 1)*BoxSlotCount));
+            return SlotPointers.SelectMany(z => z)
+                .Where(z => GetSlotFlags(z).HasFlagFast(StorageSlotFlag.Locked))
+                .Any(slot => WithinRange(slot, BoxStart*BoxSlotCount, (BoxEnd + 1)*BoxSlotCount));
         }
 
         public void SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
@@ -758,7 +757,7 @@ namespace PKHeX.Core
 
         public bool SetPCBinary(byte[] data)
         {
-            if (LockedSlots.Length != 0)
+            if (IsRegionOverwriteProtected(0, SlotCount))
                 return false;
             if (data.Length != PCBinary.Length)
                 return false;
@@ -774,7 +773,8 @@ namespace PKHeX.Core
         {
             int start = box * BoxSlotCount;
             int end = start + BoxSlotCount;
-            if (LockedSlots.Any(slot => start <= slot && slot < end))
+
+            if (IsRegionOverwriteProtected(start, end))
                 return false;
             if (data.Length != GetBoxBinary(box).Length)
                 return false;
