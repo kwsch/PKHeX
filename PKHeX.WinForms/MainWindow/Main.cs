@@ -106,7 +106,6 @@ namespace PKHeX.WinForms
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
-        private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/version.txt";
 
         #endregion
 
@@ -240,17 +239,22 @@ namespace PKHeX.WinForms
             L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
             Task.Run(() =>
             {
-                string data = NetUtil.GetStringFromURL(VersionPath);
-                if (data == null)
-                    return;
-                if (Version.TryParse(data, out var upd) && upd <= CurrentProgramVersion)
-                    return;
-
-                Invoke((MethodInvoker)(() =>
+                try
                 {
-                    L_UpdateAvailable.Visible = true;
-                    L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {upd:d}";
-                }));
+                    var latestVersion = NetUtil.GetLatestPKHeXVersion();
+                    if (latestVersion == null || latestVersion <= CurrentProgramVersion)
+                        return;
+
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        L_UpdateAvailable.Visible = true;
+                        L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {latestVersion.ToString(3)}";
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Exception while checking for latest version: {ex}");
+                }                
             });
         }
 
