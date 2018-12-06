@@ -304,6 +304,8 @@ namespace PKHeX.Core
                 return false;
             if (!tradeEvo7b.Contains(enc.Species))
                 return false;
+            if (pb7.Met_Level != pb7.CurrentLevel)
+                return false;
             return !pb7.IsUntraded;
         }
 
