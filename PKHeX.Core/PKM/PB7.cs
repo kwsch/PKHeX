@@ -331,7 +331,7 @@ namespace PKHeX.Core
         public override int Met_Year { get => Data[0xD4]; set => Data[0xD4] = (byte)value; }
         public override int Met_Month { get => Data[0xD5]; set => Data[0xD5] = (byte)value; }
         public override int Met_Day { get => Data[0xD6]; set => Data[0xD6] = (byte)value; }
-        public int _0xD7 { get => Data[0xD7]; set => Data[0xD7] = (byte)value; }
+        public int Rank { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // unused but fetched for stat calcs, and set for trpoke data?
         public override int Egg_Location { get => BitConverter.ToUInt16(Data, 0xD8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
         public override int Met_Location { get => BitConverter.ToUInt16(Data, 0xDA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDA); }
         public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
