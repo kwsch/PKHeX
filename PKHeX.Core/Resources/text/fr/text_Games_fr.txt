@@ -2,11 +2,11 @@
 Saphir
 Rubis
 Émeraude
-RougeFeu
-VertFeuille
+Rouge Feu
+Vert Feuille
 
-OrHeartGold
-ArgentSoulSilver
+Or HeartGold
+Argent SoulSilver
 
 Diamant
 Perle
