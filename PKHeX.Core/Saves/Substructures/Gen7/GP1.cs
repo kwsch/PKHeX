@@ -48,6 +48,33 @@ namespace PKHeX.Core
         public float LevelF => BitConverter.ToSingle(Data, 0x30);
         public int Level => Math.Max(1, (int)Math.Round(LevelF));
 
+        public float HeightF => BitConverter.ToSingle(Data, 0x48);
+        public float WeightF => BitConverter.ToSingle(Data, 0x4C);
+
+        public byte HeightScalar
+        {
+            get
+            {
+                var height = HeightF * 100f;
+                var pi = PersonalTable.GG.GetFormeEntry(Species, AltForm);
+                var avgHeight = pi.Height;
+                return PB7.GetHeightScalar(height, avgHeight);
+            }
+        }
+
+        public byte WeightScalar
+        {
+            get
+            {
+                var height = HeightF * 100f;
+                var weight = WeightF * 10f;
+                var pi = PersonalTable.GG.GetFormeEntry(Species, AltForm);
+                var avgHeight = pi.Height;
+                var avgWeight = pi.Weight;
+                return PB7.GetWeightScalar(height, weight, avgHeight, avgWeight);
+            }
+        }
+
         public int IV1 => BitConverter.ToInt32(Data, 0x50);
         public int IV2 => BitConverter.ToInt32(Data, 0x54);
         public int IV3 => BitConverter.ToInt32(Data, 0x58);
@@ -138,8 +165,8 @@ namespace PKHeX.Core
             pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
-            pk.HeightScalar = Util.Rand.Next(0x100);
-            pk.WeightScalar = Util.Rand.Next(0x100);
+            pk.HeightScalar = HeightScalar;
+            pk.WeightScalar = WeightScalar;
 
             pk.AwakeningSetAllTo(2);
             pk.ResetCalculatedValues();

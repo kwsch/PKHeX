@@ -752,5 +752,23 @@ namespace PKHeX.Core
 
             return HeightRatio * (float)(WeightRatio * (float)p.Weight);
         }
+
+        public static byte GetHeightScalar(float height, int avgHeight)
+        {
+            // height is already *100
+            int v11 = (int)(float)((float)((float)(height + (float)((float)avgHeight * -0.6f)) / (float)((float)avgHeight * 0.8f)) * 255.0f);
+            int v12 = v11 & ~(v11 >> 31);
+            return (byte)Math.Min(255, v12);
+        }
+
+        public static byte GetWeightScalar(float height, float weight, int avgHeight, int avgWeight)
+        {
+            // height is already *100
+            // weight is already *10
+            float weightComponent = (height / avgHeight) * weight;
+            int v14 = (int)(float)((float)((float)(weightComponent + (float)((float)avgWeight * -0.8f)) / (float)((float)avgWeight * 0.4)) * 255.0f);
+            int v15 = v14 & ~(v14 >> 31);
+            return (byte)Math.Min(255, v15);
+        }
     }
 }
