@@ -200,19 +200,7 @@ namespace PKHeX.Core
         public override string Nickname
         {
             get => GetString(0x40, 24);
-            set
-            {
-                if (!IsNicknamed)
-                {
-                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7, Language);
-                    if (lang == 9 || lang == 10)
-                    {
-                        StringConverter.SetString7(value, 12, lang, chinese: true).CopyTo(Data, 0x40);
-                        return;
-                    }
-                }
-                SetString(value, 12).CopyTo(Data, 0x40);
-            }
+            set => SetString(value, 12).CopyTo(Data, 0x40);
         }
 
         public override int Move1
