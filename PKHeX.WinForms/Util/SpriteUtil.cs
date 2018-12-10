@@ -130,12 +130,23 @@ namespace PKHeX.WinForms
                 var flags = SAV.GetSlotFlags(box, slot);
                 if (flags.HasFlagFast(StorageSlotFlag.Locked))
                     sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0);
-                else if (flags != 0)
+                int team = flags.IsBattleTeam();
+                if (team >= 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0);
+                int party = flags.IsParty();
+                if (party >= 0)
+                    sprite = ImageUtil.LayerImage(sprite, PartyMarks[party], 24, 0);
+                if (flags.HasFlagFast(StorageSlotFlag.Starter))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.starter, 0, 0);
             }
 
             return sprite;
         }
+
+        private static readonly Image[] PartyMarks =
+        {
+            Resources.party1, Resources.party2, Resources.party3, Resources.party4, Resources.party5, Resources.party6,
+        };
 
         public static void GetSpriteGlow(PKM pk, byte[] bgr, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
         {

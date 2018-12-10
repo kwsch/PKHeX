@@ -1972,6 +1972,13 @@
     <None Include="Resources\img\Pokemon Sprites\133-1p.png" />
     <None Include="Resources\img\Pokemon Sprites\25-8p.png" />
     <None Include="Resources\img\misc\icon_favo.png" />
+    <None Include="Resources\img\misc\party1.png" />
+    <None Include="Resources\img\misc\party2.png" />
+    <None Include="Resources\img\misc\party3.png" />
+    <None Include="Resources\img\misc\party4.png" />
+    <None Include="Resources\img\misc\party5.png" />
+    <None Include="Resources\img\misc\party6.png" />
+    <None Include="Resources\img\misc\starter.png" />
     <Content Include="Resources\img\Pokemon Sprites\803.png" />
     <Content Include="Resources\img\Pokemon Sprites\804.png" />
     <Content Include="Resources\img\Pokemon Sprites\805.png" />

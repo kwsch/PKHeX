@@ -28219,6 +28219,66 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party1 {
+            get {
+                object obj = ResourceManager.GetObject("party1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party2 {
+            get {
+                object obj = ResourceManager.GetObject("party2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party3 {
+            get {
+                object obj = ResourceManager.GetObject("party3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party4 {
+            get {
+                object obj = ResourceManager.GetObject("party4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party5 {
+            get {
+                object obj = ResourceManager.GetObject("party5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party6 {
+            get {
+                object obj = ResourceManager.GetObject("party6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] pgldings_normalregular {
@@ -29412,6 +29472,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap slotView {
             get {
                 object obj = ResourceManager.GetObject("slotView", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap starter {
+            get {
+                object obj = ResourceManager.GetObject("starter", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
