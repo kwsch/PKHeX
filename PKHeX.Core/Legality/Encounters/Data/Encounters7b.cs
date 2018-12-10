@@ -17,10 +17,10 @@ namespace PKHeX.Core
             StaticGP = GetStaticEncounters(Encounter_GG, GameVersion.GP);
             StaticGE = GetStaticEncounters(Encounter_GG, GameVersion.GE);
 
-            SlotsGP.SetVersion(GameVersion.GP);
-            SlotsGE.SetVersion(GameVersion.GE);
             ManuallyAddRareSpawns(SlotsGP);
             ManuallyAddRareSpawns(SlotsGE);
+            SlotsGP.SetVersion(GameVersion.GP);
+            SlotsGE.SetVersion(GameVersion.GE);
             Encounter_GG.SetVersion(GameVersion.GG);
             TradeGift_GG.SetVersion(GameVersion.GG);
             MarkEncountersGeneration(7, SlotsGP, SlotsGE);
@@ -119,7 +119,7 @@ namespace PKHeX.Core
             public int[] Locations;
         }
 
-        private static readonly int[] Sky = {004, 005, 006, 009, 010, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
+        private static readonly int[] Sky = {004, 005, 006, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
 
         private static readonly RareSpawn[] Rare =
         {

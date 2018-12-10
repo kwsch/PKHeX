@@ -23024,13 +23024,13 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///18/11/01 - New Update:
+        ///18/12/02 - New Update:
         /// - Legality:
-        /// - - Added: Colosseum/XD Shadow encounters are now more thoroughly checked for RNG conditions (nature/gender/shiny locks).
-        /// - - Added: OT/Nickname length checks.
-        /// - - Fixed: Colosseum MATTLE Ho-Oh in different languages is now allowed as .ck3 to have the original too-long OT name.
-        /// - - Fixed: Gen4 Shuckie (different between HG &amp; SS) is now accounted for properly.
-        /// - - Fixed: Gen4 KOR Pichu mystery gift is now [rest of string was truncated]&quot;;.
+        /// - - Updated: Now recognizes Rare Spawn data &amp; met locations.
+        /// - - Updated: Now restricts recognition of Pokémon GO encounters to their allowed levels within the app.
+        /// - - Fixed: Lure level boosts are now recognized as valid.
+        /// - - Fixed: Volt Tackle is no longer valid for LGPE Pikachu (USUM tutor).
+        /// - Added: Can now import a folder of mystery gifts to storage, automatically converting to PKM and transferring  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -23264,6 +23264,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap icon {
             get {
                 object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_favo {
+            get {
+                object obj = ResourceManager.GetObject("icon_favo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -28209,6 +28219,66 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party1 {
+            get {
+                object obj = ResourceManager.GetObject("party1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party2 {
+            get {
+                object obj = ResourceManager.GetObject("party2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party3 {
+            get {
+                object obj = ResourceManager.GetObject("party3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party4 {
+            get {
+                object obj = ResourceManager.GetObject("party4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party5 {
+            get {
+                object obj = ResourceManager.GetObject("party5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap party6 {
+            get {
+                object obj = ResourceManager.GetObject("party6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] pgldings_normalregular {
@@ -28219,7 +28289,7 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20181101.
+        ///   Looks up a localized string similar to 20181202.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -29402,6 +29472,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap slotView {
             get {
                 object obj = ResourceManager.GetObject("slotView", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap starter {
+            get {
+                object obj = ResourceManager.GetObject("starter", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

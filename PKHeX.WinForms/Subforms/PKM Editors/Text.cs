@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -16,7 +15,6 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = sav;
-            bigendian = new[] { GameVersion.COLO, GameVersion.XD, GameVersion.BATREV, }.Contains(SAV.Version);
 
             FinalString = TB_NN.Text;
             Raw = FinalBytes = raw;
@@ -51,7 +49,6 @@ namespace PKHeX.WinForms
         public byte[] FinalBytes { get; private set; }
         private readonly byte[] Raw;
         private bool editing;
-        private readonly bool bigendian;
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -175,21 +172,8 @@ namespace PKHeX.WinForms
                 Bytes[i].Value = 0;
         }
 
-        private byte[] SetString(string text)
-        {
-            if (SAV is SAV2 s && s.Korean)
-                return StringConverter.SetString2KOR(text, Raw.Length);
-            if (SAV is SAV7b)
-                return StringConverter.SetString7b(text, SAV.Generation, Raw.Length, SAV.Language);
-            return StringConverter.SetString(text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
-        }
-
-        private string GetString()
-        {
-            return SAV is SAV2 s && s.Korean
-                ? StringConverter.GetString2KOR(Raw, 0, Raw.Length)
-                : StringConverter.GetString(Raw, SAV.Generation, SAV.Japanese, bigendian, Raw.Length);
-        }
+        private byte[] SetString(string text) => SAV.SetString(text, Raw.Length);
+        private string GetString() => SAV.GetString(Raw, 0, Raw.Length);
 
         // Helpers
         private static Label GetLabel(string str) => new Label {Text = str, AutoSize = true};

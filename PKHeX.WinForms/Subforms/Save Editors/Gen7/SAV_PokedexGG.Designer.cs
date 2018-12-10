@@ -69,17 +69,45 @@
             this.mnuForm1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFormAll = new System.Windows.Forms.ToolStripMenuItem();
             this.LB_Forms = new System.Windows.Forms.ListBox();
+            this.GB_SizeRecords = new System.Windows.Forms.GroupBox();
+            this.CHK_RMaxWeight = new System.Windows.Forms.CheckBox();
+            this.CHK_RMinWeight = new System.Windows.Forms.CheckBox();
+            this.CHK_RMaxHeight = new System.Windows.Forms.CheckBox();
+            this.CHK_RMinHeight = new System.Windows.Forms.CheckBox();
+            this.L_RWeight = new System.Windows.Forms.Label();
+            this.L_RHeight = new System.Windows.Forms.Label();
+            this.L_RWeightMax = new System.Windows.Forms.Label();
+            this.L_RHeightMax = new System.Windows.Forms.Label();
+            this.L_RWeightMin = new System.Windows.Forms.Label();
+            this.L_RHeightMin = new System.Windows.Forms.Label();
+            this.NUD_RWeightMax = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RWeightMin = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RHeightMaxWeight = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RHeightMinWeight = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RWeightMaxHeight = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RWeightMinHeight = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RHeightMax = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RHeightMin = new System.Windows.Forms.NumericUpDown();
             this.GB_Language.SuspendLayout();
             this.GB_Encountered.SuspendLayout();
             this.GB_Owned.SuspendLayout();
             this.GB_Displayed.SuspendLayout();
             this.modifyMenu.SuspendLayout();
+            this.GB_SizeRecords.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMaxWeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMinWeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMaxHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMinHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMin)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(244, 261);
+            this.B_Cancel.Location = new System.Drawing.Point(244, 393);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(80, 23);
             this.B_Cancel.TabIndex = 0;
@@ -92,7 +120,7 @@
             this.LB_Species.FormattingEnabled = true;
             this.LB_Species.Location = new System.Drawing.Point(12, 40);
             this.LB_Species.Name = "LB_Species";
-            this.LB_Species.Size = new System.Drawing.Size(160, 173);
+            this.LB_Species.Size = new System.Drawing.Size(160, 316);
             this.LB_Species.TabIndex = 2;
             this.LB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeLBSpecies);
             // 
@@ -301,7 +329,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(330, 261);
+            this.B_Save.Location = new System.Drawing.Point(330, 393);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(80, 23);
             this.B_Save.TabIndex = 24;
@@ -457,17 +485,279 @@
             // LB_Forms
             // 
             this.LB_Forms.FormattingEnabled = true;
-            this.LB_Forms.Location = new System.Drawing.Point(12, 222);
+            this.LB_Forms.Location = new System.Drawing.Point(12, 362);
             this.LB_Forms.Name = "LB_Forms";
             this.LB_Forms.Size = new System.Drawing.Size(160, 56);
             this.LB_Forms.TabIndex = 33;
             this.LB_Forms.SelectedIndexChanged += new System.EventHandler(this.ChangeLBForms);
             // 
+            // GB_SizeRecords
+            // 
+            this.GB_SizeRecords.Controls.Add(this.CHK_RMaxWeight);
+            this.GB_SizeRecords.Controls.Add(this.CHK_RMinWeight);
+            this.GB_SizeRecords.Controls.Add(this.CHK_RMaxHeight);
+            this.GB_SizeRecords.Controls.Add(this.CHK_RMinHeight);
+            this.GB_SizeRecords.Controls.Add(this.L_RWeight);
+            this.GB_SizeRecords.Controls.Add(this.L_RHeight);
+            this.GB_SizeRecords.Controls.Add(this.L_RWeightMax);
+            this.GB_SizeRecords.Controls.Add(this.L_RHeightMax);
+            this.GB_SizeRecords.Controls.Add(this.L_RWeightMin);
+            this.GB_SizeRecords.Controls.Add(this.L_RHeightMin);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RWeightMax);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RWeightMin);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RHeightMaxWeight);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RHeightMinWeight);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RWeightMaxHeight);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RWeightMinHeight);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RHeightMax);
+            this.GB_SizeRecords.Controls.Add(this.NUD_RHeightMin);
+            this.GB_SizeRecords.Location = new System.Drawing.Point(178, 261);
+            this.GB_SizeRecords.Name = "GB_SizeRecords";
+            this.GB_SizeRecords.Size = new System.Drawing.Size(230, 126);
+            this.GB_SizeRecords.TabIndex = 52;
+            this.GB_SizeRecords.TabStop = false;
+            this.GB_SizeRecords.Text = "Records";
+            // 
+            // CHK_RMaxWeight
+            // 
+            this.CHK_RMaxWeight.AutoSize = true;
+            this.CHK_RMaxWeight.Location = new System.Drawing.Point(174, 99);
+            this.CHK_RMaxWeight.Name = "CHK_RMaxWeight";
+            this.CHK_RMaxWeight.Size = new System.Drawing.Size(51, 17);
+            this.CHK_RMaxWeight.TabIndex = 69;
+            this.CHK_RMaxWeight.Text = "Used";
+            this.CHK_RMaxWeight.UseVisualStyleBackColor = true;
+            this.CHK_RMaxWeight.CheckedChanged += new System.EventHandler(this.CHK_RUsed_CheckedChanged);
+            // 
+            // CHK_RMinWeight
+            // 
+            this.CHK_RMinWeight.AutoSize = true;
+            this.CHK_RMinWeight.Location = new System.Drawing.Point(174, 79);
+            this.CHK_RMinWeight.Name = "CHK_RMinWeight";
+            this.CHK_RMinWeight.Size = new System.Drawing.Size(51, 17);
+            this.CHK_RMinWeight.TabIndex = 68;
+            this.CHK_RMinWeight.Text = "Used";
+            this.CHK_RMinWeight.UseVisualStyleBackColor = true;
+            this.CHK_RMinWeight.CheckedChanged += new System.EventHandler(this.CHK_RUsed_CheckedChanged);
+            // 
+            // CHK_RMaxHeight
+            // 
+            this.CHK_RMaxHeight.AutoSize = true;
+            this.CHK_RMaxHeight.Location = new System.Drawing.Point(174, 59);
+            this.CHK_RMaxHeight.Name = "CHK_RMaxHeight";
+            this.CHK_RMaxHeight.Size = new System.Drawing.Size(51, 17);
+            this.CHK_RMaxHeight.TabIndex = 67;
+            this.CHK_RMaxHeight.Text = "Used";
+            this.CHK_RMaxHeight.UseVisualStyleBackColor = true;
+            this.CHK_RMaxHeight.CheckedChanged += new System.EventHandler(this.CHK_RUsed_CheckedChanged);
+            // 
+            // CHK_RMinHeight
+            // 
+            this.CHK_RMinHeight.AutoSize = true;
+            this.CHK_RMinHeight.Location = new System.Drawing.Point(174, 41);
+            this.CHK_RMinHeight.Name = "CHK_RMinHeight";
+            this.CHK_RMinHeight.Size = new System.Drawing.Size(51, 17);
+            this.CHK_RMinHeight.TabIndex = 66;
+            this.CHK_RMinHeight.Text = "Used";
+            this.CHK_RMinHeight.UseVisualStyleBackColor = true;
+            this.CHK_RMinHeight.CheckedChanged += new System.EventHandler(this.CHK_RUsed_CheckedChanged);
+            // 
+            // L_RWeight
+            // 
+            this.L_RWeight.Location = new System.Drawing.Point(105, 15);
+            this.L_RWeight.Name = "L_RWeight";
+            this.L_RWeight.Size = new System.Drawing.Size(73, 20);
+            this.L_RWeight.TabIndex = 65;
+            this.L_RWeight.Text = "Weight";
+            this.L_RWeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // L_RHeight
+            // 
+            this.L_RHeight.Location = new System.Drawing.Point(20, 15);
+            this.L_RHeight.Name = "L_RHeight";
+            this.L_RHeight.Size = new System.Drawing.Size(74, 20);
+            this.L_RHeight.TabIndex = 64;
+            this.L_RHeight.Text = "Height";
+            this.L_RHeight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // L_RWeightMax
+            // 
+            this.L_RWeightMax.Location = new System.Drawing.Point(92, 96);
+            this.L_RWeightMax.Name = "L_RWeightMax";
+            this.L_RWeightMax.Size = new System.Drawing.Size(30, 20);
+            this.L_RWeightMax.TabIndex = 63;
+            this.L_RWeightMax.Text = "Max";
+            this.L_RWeightMax.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_RHeightMax
+            // 
+            this.L_RHeightMax.Location = new System.Drawing.Point(7, 56);
+            this.L_RHeightMax.Name = "L_RHeightMax";
+            this.L_RHeightMax.Size = new System.Drawing.Size(30, 20);
+            this.L_RHeightMax.TabIndex = 62;
+            this.L_RHeightMax.Text = "Max";
+            this.L_RHeightMax.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_RWeightMin
+            // 
+            this.L_RWeightMin.Location = new System.Drawing.Point(92, 76);
+            this.L_RWeightMin.Name = "L_RWeightMin";
+            this.L_RWeightMin.Size = new System.Drawing.Size(30, 20);
+            this.L_RWeightMin.TabIndex = 61;
+            this.L_RWeightMin.Text = "Min";
+            this.L_RWeightMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_RHeightMin
+            // 
+            this.L_RHeightMin.Location = new System.Drawing.Point(7, 36);
+            this.L_RHeightMin.Name = "L_RHeightMin";
+            this.L_RHeightMin.Size = new System.Drawing.Size(30, 20);
+            this.L_RHeightMin.TabIndex = 60;
+            this.L_RHeightMin.Text = "Min";
+            this.L_RHeightMin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_RWeightMax
+            // 
+            this.NUD_RWeightMax.Location = new System.Drawing.Point(128, 98);
+            this.NUD_RWeightMax.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RWeightMax.Name = "NUD_RWeightMax";
+            this.NUD_RWeightMax.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RWeightMax.TabIndex = 59;
+            this.NUD_RWeightMax.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RWeightMin
+            // 
+            this.NUD_RWeightMin.Location = new System.Drawing.Point(128, 78);
+            this.NUD_RWeightMin.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RWeightMin.Name = "NUD_RWeightMin";
+            this.NUD_RWeightMin.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RWeightMin.TabIndex = 58;
+            this.NUD_RWeightMin.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RHeightMaxWeight
+            // 
+            this.NUD_RHeightMaxWeight.Location = new System.Drawing.Point(128, 58);
+            this.NUD_RHeightMaxWeight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RHeightMaxWeight.Name = "NUD_RHeightMaxWeight";
+            this.NUD_RHeightMaxWeight.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RHeightMaxWeight.TabIndex = 57;
+            this.NUD_RHeightMaxWeight.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RHeightMinWeight
+            // 
+            this.NUD_RHeightMinWeight.Location = new System.Drawing.Point(128, 38);
+            this.NUD_RHeightMinWeight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RHeightMinWeight.Name = "NUD_RHeightMinWeight";
+            this.NUD_RHeightMinWeight.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RHeightMinWeight.TabIndex = 56;
+            this.NUD_RHeightMinWeight.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RWeightMaxHeight
+            // 
+            this.NUD_RWeightMaxHeight.Location = new System.Drawing.Point(43, 98);
+            this.NUD_RWeightMaxHeight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RWeightMaxHeight.Name = "NUD_RWeightMaxHeight";
+            this.NUD_RWeightMaxHeight.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RWeightMaxHeight.TabIndex = 55;
+            this.NUD_RWeightMaxHeight.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RWeightMinHeight
+            // 
+            this.NUD_RWeightMinHeight.Location = new System.Drawing.Point(43, 78);
+            this.NUD_RWeightMinHeight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RWeightMinHeight.Name = "NUD_RWeightMinHeight";
+            this.NUD_RWeightMinHeight.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RWeightMinHeight.TabIndex = 54;
+            this.NUD_RWeightMinHeight.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RHeightMax
+            // 
+            this.NUD_RHeightMax.Location = new System.Drawing.Point(43, 58);
+            this.NUD_RHeightMax.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RHeightMax.Name = "NUD_RHeightMax";
+            this.NUD_RHeightMax.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RHeightMax.TabIndex = 53;
+            this.NUD_RHeightMax.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RHeightMin
+            // 
+            this.NUD_RHeightMin.Location = new System.Drawing.Point(43, 38);
+            this.NUD_RHeightMin.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_RHeightMin.Name = "NUD_RHeightMin";
+            this.NUD_RHeightMin.Size = new System.Drawing.Size(40, 20);
+            this.NUD_RHeightMin.TabIndex = 52;
+            this.NUD_RHeightMin.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
             // SAV_PokedexGG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(417, 291);
+            this.ClientSize = new System.Drawing.Size(417, 423);
+            this.Controls.Add(this.GB_SizeRecords);
             this.Controls.Add(this.LB_Forms);
             this.Controls.Add(this.GB_Displayed);
             this.Controls.Add(this.GB_Owned);
@@ -496,6 +786,16 @@
             this.GB_Displayed.ResumeLayout(false);
             this.GB_Displayed.PerformLayout();
             this.modifyMenu.ResumeLayout(false);
+            this.GB_SizeRecords.ResumeLayout(false);
+            this.GB_SizeRecords.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMaxWeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMinWeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMaxHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RWeightMinHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RHeightMin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -542,5 +842,24 @@
         private System.Windows.Forms.CheckBox CHK_L8;
         private System.Windows.Forms.CheckBox CHK_L9;
         private System.Windows.Forms.ListBox LB_Forms;
+        private System.Windows.Forms.GroupBox GB_SizeRecords;
+        private System.Windows.Forms.CheckBox CHK_RMaxWeight;
+        private System.Windows.Forms.CheckBox CHK_RMinWeight;
+        private System.Windows.Forms.CheckBox CHK_RMaxHeight;
+        private System.Windows.Forms.CheckBox CHK_RMinHeight;
+        private System.Windows.Forms.Label L_RWeight;
+        private System.Windows.Forms.Label L_RHeight;
+        private System.Windows.Forms.Label L_RWeightMax;
+        private System.Windows.Forms.Label L_RHeightMax;
+        private System.Windows.Forms.Label L_RWeightMin;
+        private System.Windows.Forms.Label L_RHeightMin;
+        private System.Windows.Forms.NumericUpDown NUD_RWeightMax;
+        private System.Windows.Forms.NumericUpDown NUD_RWeightMin;
+        private System.Windows.Forms.NumericUpDown NUD_RHeightMaxWeight;
+        private System.Windows.Forms.NumericUpDown NUD_RHeightMinWeight;
+        private System.Windows.Forms.NumericUpDown NUD_RWeightMaxHeight;
+        private System.Windows.Forms.NumericUpDown NUD_RWeightMinHeight;
+        private System.Windows.Forms.NumericUpDown NUD_RHeightMax;
+        private System.Windows.Forms.NumericUpDown NUD_RHeightMin;
     }
 }

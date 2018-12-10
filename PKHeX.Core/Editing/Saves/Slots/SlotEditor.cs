@@ -145,7 +145,7 @@ namespace PKHeX.Core
         {
             if (c.Type > StorageSlotType.Party)
                 return true;
-            return SAV.IsSlotLocked(c.Box, c.Slot);
+            return SAV.IsSlotOverwriteProtected(c.Box, c.Slot);
         }
 
         private PKM ReadSlot(StorageSlotOffset slot) => SAV.GetPKM(slot);

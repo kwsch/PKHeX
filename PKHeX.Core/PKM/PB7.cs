@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Notes about the next format
     /// </summary>
-    public sealed class PB7 : PKM, IAwakened
+    public sealed class PB7 : PKM, IHyperTrain, IAwakened
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -200,19 +200,7 @@ namespace PKHeX.Core
         public override string Nickname
         {
             get => GetString(0x40, 24);
-            set
-            {
-                if (!IsNicknamed)
-                {
-                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7, Language);
-                    if (lang == 9 || lang == 10)
-                    {
-                        StringConverter.SetString7(value, 12, lang, chinese: true).CopyTo(Data, 0x40);
-                        return;
-                    }
-                }
-                SetString(value, 12).CopyTo(Data, 0x40);
-            }
+            set => SetString(value, 12).CopyTo(Data, 0x40);
         }
 
         public override int Move1
@@ -331,7 +319,7 @@ namespace PKHeX.Core
         public override int Met_Year { get => Data[0xD4]; set => Data[0xD4] = (byte)value; }
         public override int Met_Month { get => Data[0xD5]; set => Data[0xD5] = (byte)value; }
         public override int Met_Day { get => Data[0xD6]; set => Data[0xD6] = (byte)value; }
-        public int _0xD7 { get => Data[0xD7]; set => Data[0xD7] = (byte)value; }
+        public int Rank { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // unused but fetched for stat calcs, and set for trpoke data?
         public override int Egg_Location { get => BitConverter.ToUInt16(Data, 0xD8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
         public override int Met_Location { get => BitConverter.ToUInt16(Data, 0xDA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDA); }
         public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
@@ -352,7 +340,7 @@ namespace PKHeX.Core
         public float WeightAbsolute { get => BitConverter.ToSingle(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
         #endregion
         #region Battle Stats
-        public int Status { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
         public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
         public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
@@ -507,34 +495,28 @@ namespace PKHeX.Core
         }
 
         // Synthetic Trading Logic
-        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank, int Day = 1, int Month = 1, int Year = 2015)
+        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2015)
         {
             // Eggs do not have any modifications done if they are traded
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 SetLinkTradeEgg(Day, Month, Year);
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER))
-                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
+            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_GENDER))
+                TradeHT(SAV_Trainer, SAV_GENDER);
         }
 
-        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER)
+        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER)
         {
             // Check to see if the OT matches the SAV's OT info.
             if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
                 return false;
 
             CurrentHandler = 0;
-            if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
-
             return true;
         }
 
-        private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        private void TradeHT(string SAV_Trainer, int SAV_GENDER)
         {
-            if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-                TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
-
             CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
@@ -543,21 +525,6 @@ namespace PKHeX.Core
             }
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
-
-            // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
-            if (HT_Memory == 0)
-                TradeMemory(Bank);
-        }
-
-        // Misc Updates
-        private void TradeGeoLocation(int GeoCountry, int GeoRegion)
-        {
-            // No geolocations are set, ever! -- except for bank. Don't set them anyway.
-        }
-
-        public void TradeMemory(bool Bank)
-        {
-            // no bank?
         }
 
         // Legality Properties
@@ -577,10 +544,7 @@ namespace PKHeX.Core
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override ushort[] GetStats(PersonalInfo p)
-        {
-            return CalculateStatsBeluga(p);
-        }
+        public override ushort[] GetStats(PersonalInfo p) => CalculateStatsBeluga(p);
 
         public ushort[] CalculateStatsBeluga(PersonalInfo p)
         {
@@ -588,7 +552,7 @@ namespace PKHeX.Core
             int nature = Nature;
             int friend = CurrentFriendship; // stats +10% depending on friendship!
             int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
-            ushort[] Stats =
+            ushort[] stats =
             {
                 (ushort)(AV_HP  + GetStat(p.HP,  HT_HP  ? 31 : IV_HP,  level) + 10 + level),
                 (ushort)(AV_ATK + (scalar * GetStat(p.ATK, HT_ATK ? 31 : IV_ATK, level, nature, 0) / 100)),
@@ -598,8 +562,8 @@ namespace PKHeX.Core
                 (ushort)(AV_SPD + (scalar * GetStat(p.SPD, HT_SPD ? 31 : IV_SPD, level, nature, 3) / 100)),
             };
             if (Species == 292)
-                Stats[0] = 1;
-            return Stats;
+                stats[0] = 1;
+            return stats;
         }
 
         /// <summary>
@@ -775,6 +739,24 @@ namespace PKHeX.Core
             float WeightRatio = GetWeightRatio(weightScalar);
 
             return HeightRatio * (float)(WeightRatio * (float)p.Weight);
+        }
+
+        public static byte GetHeightScalar(float height, int avgHeight)
+        {
+            // height is already *100
+            int v11 = (int)(float)((float)((float)(height + (float)((float)avgHeight * -0.6f)) / (float)((float)avgHeight * 0.8f)) * 255.0f);
+            int v12 = v11 & ~(v11 >> 31);
+            return (byte)Math.Min(255, v12);
+        }
+
+        public static byte GetWeightScalar(float height, float weight, int avgHeight, int avgWeight)
+        {
+            // height is already *100
+            // weight is already *10
+            float weightComponent = (height / avgHeight) * weight;
+            int v14 = (int)(float)((float)((float)(weightComponent + (float)((float)avgWeight * -0.8f)) / (float)((float)avgWeight * 0.4)) * 255.0f);
+            int v15 = v14 & ~(v14 >> 31);
+            return (byte)Math.Min(255, v15);
         }
     }
 }

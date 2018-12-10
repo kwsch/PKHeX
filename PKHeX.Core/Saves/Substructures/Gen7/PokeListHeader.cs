@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// This block simply contains the following:
     /// u16 Party Pointers * 6: Indicates which index occupies this slot. <see cref="SLOT_EMPTY"/> if nothing in slot.
-    /// u16 Follower Pointer: Indicates which index is following the player. <see cref="SLOT_EMPTY"/> if nothing following.
+    /// u16 Starter Pointer: Indicates which index is the starter. <see cref="SLOT_EMPTY"/> if no starter yet.
     /// u16 List Count: Points to the next empty slot, and indicates how many slots are stored in the list.
     /// </remarks>
     public sealed class PokeListHeader : SaveBlock
@@ -23,7 +23,7 @@ namespace PKHeX.Core
         /// </summary>
         internal readonly int[] PokeListInfo;
 
-        private const int FOLLOW = 6;
+        private const int STARTER = 6;
         private const int COUNT = 7;
         private const int MAX_SLOTS = 1000;
         private const int SLOT_EMPTY = 1001;
@@ -72,16 +72,16 @@ namespace PKHeX.Core
             return true;
         }
 
-        public void RemoveFollower() => FollowerIndex = SLOT_EMPTY;
+        public void RemoveStarter() => StarterIndex = SLOT_EMPTY;
 
-        public int FollowerIndex
+        public int StarterIndex
         {
-            get => PokeListInfo[FOLLOW];
+            get => PokeListInfo[STARTER];
             set
             {
                 if ((ushort)value > 1000 && value != SLOT_EMPTY)
                     throw new ArgumentException(nameof(value));
-                PokeListInfo[FOLLOW] = (ushort)value;
+                PokeListInfo[STARTER] = (ushort)value;
             }
         }
 
@@ -123,22 +123,6 @@ namespace PKHeX.Core
             return index >= 0 ? index : MAX_SLOTS;
         }
 
-        public bool IsSlotInBattleTeam(int box, int slot)
-        {
-            if ((uint)slot >= SAV.SlotCount || (uint)box >= SAV.BoxCount)
-                return false;
-
-            int slotIndex = slot + (SAV.BoxSlotCount * box);
-            return PokeListInfo.Take(6).Any(s => s == slotIndex) || FollowerIndex == slotIndex;
-        }
-
-        public bool IsSlotLocked(int box, int slot)
-        {
-            if ((uint)slot >= SAV.SlotCount || (uint)box >= SAV.BoxCount)
-                return false;
-            return false;
-        }
-
         public bool CompressStorage()
         {
             // Box Data is stored as a list, instead of an array. Empty interstitials are not legal.
@@ -146,10 +130,17 @@ namespace PKHeX.Core
             var arr = PokeListInfo.Take(7).ToArray();
             var result = SAV.CompressStorage(out int count, arr);
             Debug.Assert(count <= MAX_SLOTS);
-            arr.CopyTo(PokeListInfo);
             Count = count;
-            if (FollowerIndex > count && FollowerIndex != SLOT_EMPTY)
-                RemoveFollower();
+            if (StarterIndex > count && StarterIndex != SLOT_EMPTY)
+            {
+                // uh oh, we lost the starter! might have been moved out of its proper slot incorrectly.
+                var spec = SAV.Version == GameVersion.GP ? 25 : 133;
+                bool Starter(int species, int form) => species == spec && form != 0;
+                int index = Array.FindIndex(SAV.BoxData.ToArray(), z => Starter(z.Species, z.AltForm));
+                if (index >= 0)
+                    arr[6] = index;
+            }
+            arr.CopyTo(PokeListInfo);
 
             SetPointerData(PokeListInfo);
             return result;

@@ -147,7 +147,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk.CurrentHandler;
             var Date = DateTime.Now;
-            pk.Trade(OT, TID, SID, Country, SubRegion, Gender, false, Date.Day, Date.Month, Date.Year);
+            pk.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year);
             if (CT != pk.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
@@ -170,15 +170,23 @@ namespace PKHeX.Core
 
         public override int GetPartyOffset(int slot) => Storage.GetPartyOffset(slot);
         public override int PartyCount { get => Storage.PartyCount; protected set => Storage.PartyCount = value; }
-        public override bool IsSlotInBattleTeam(int box, int slot) => Storage.IsSlotInBattleTeam(box, slot);
-        public override bool IsSlotLocked(int box, int slot) => Storage.IsSlotLocked(box, slot);
-        protected override bool IsSlotOverwriteProtected(int box, int slot) => false;
         protected override void SetPartyValues(PKM pkm, bool isParty) => base.SetPartyValues(pkm, true);
+
+        public override StorageSlotFlag GetSlotFlags(int index)
+        {
+            var val = StorageSlotFlag.None;
+            if (Storage.PokeListInfo[6] == index)
+                val |= StorageSlotFlag.Starter;
+            int position = Array.IndexOf(Storage.PokeListInfo, index);
+            if ((uint) position < 6)
+                val |= (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
+            return val;
+        }
 
         public override string GetBoxName(int box) => $"Box {box + 1}";
         public override void SetBoxName(int box, string value) { }
 
-        public override string GetString(int Offset, int Length) => StringConverter.GetString7(Data, Offset, Length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

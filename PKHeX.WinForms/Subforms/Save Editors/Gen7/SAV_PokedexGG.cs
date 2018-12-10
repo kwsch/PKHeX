@@ -36,6 +36,10 @@ namespace PKHeX.WinForms
             foreach (var n in names)
                 LB_Species.Items.Add(n);
 
+            RecordUsed = new[] { CHK_RMinHeight, CHK_RMaxHeight, CHK_RMinWeight, CHK_RMaxWeight };
+            RecordHeight = new[] { NUD_RHeightMin, NUD_RHeightMax, NUD_RWeightMinHeight, NUD_RWeightMaxHeight};
+            RecordWeight = new[] { NUD_RHeightMinWeight, NUD_RHeightMaxWeight, NUD_RWeightMin, NUD_RWeightMax};
+
             editing = false;
             LB_Species.SelectedIndex = 0;
             CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
@@ -46,6 +50,9 @@ namespace PKHeX.WinForms
         private bool allModifying;
         private int species = -1;
         private readonly CheckBox[] CP, CL;
+
+        private readonly CheckBox[] RecordUsed;
+        private readonly NumericUpDown[] RecordHeight, RecordWeight;
 
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
@@ -217,6 +224,9 @@ namespace PKHeX.WinForms
                 CL[i].Enabled = species <= SAV.MaxSpeciesID;
                 CL[i].Checked = CL[i].Enabled && Dex.GetLanguageFlag(pk, i);
             }
+
+            LoadRecord(species, Math.Max(0, LB_Forms.SelectedIndex));
+
             editing = false;
         }
 
@@ -240,6 +250,53 @@ namespace PKHeX.WinForms
 
             for (int i = 0; i < 9; i++)
                 Dex.SetLanguageFlag(pk, i, CL[i].Checked);
+
+            SetRecord(species, Math.Max(0, LB_Forms.SelectedIndex));
+        }
+
+        private void LoadRecord(int spec, int form)
+        {
+            bool hasRecord = Zukan7b.TryGetSizeEntryIndex(spec, form, out var index);
+            GB_SizeRecords.Visible = hasRecord;
+            if (!hasRecord)
+                return;
+
+            void set(DexSizeType type, NumericUpDown nudH, NumericUpDown nudW, CheckBox ck)
+            {
+                nudH.Enabled = nudW.Enabled = ck.Checked = Dex.GetSizeData(type, index, out int h, out int w);
+                nudH.Value = h;
+                nudW.Value = w;
+            }
+            set(DexSizeType.MinHeight, NUD_RHeightMin, NUD_RHeightMinWeight, CHK_RMinHeight);
+            set(DexSizeType.MaxHeight, NUD_RHeightMax, NUD_RHeightMaxWeight, CHK_RMaxHeight);
+            set(DexSizeType.MinWeight, NUD_RWeightMinHeight, NUD_RWeightMin, CHK_RMinWeight);
+            set(DexSizeType.MaxWeight, NUD_RWeightMaxHeight, NUD_RWeightMax, CHK_RMaxWeight);
+        }
+
+        private void SetRecord(int spec, int form)
+        {
+            bool hasRecord = Zukan7b.TryGetSizeEntryIndex(spec, form, out var index);
+            if (!hasRecord)
+                return;
+
+            int get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (int) Math.Max(0, Math.Min(255, nud.Value));
+
+            Dex.SetSizeData(DexSizeType.MinHeight, index, get(NUD_RHeightMin, CHK_RMinHeight), get(NUD_RHeightMinWeight, CHK_RMinHeight));
+            Dex.SetSizeData(DexSizeType.MaxHeight, index, get(NUD_RHeightMax, CHK_RMaxHeight), get(NUD_RHeightMaxWeight, CHK_RMaxHeight));
+            Dex.SetSizeData(DexSizeType.MinWeight, index, get(NUD_RWeightMinHeight, CHK_RMinWeight), get(NUD_RWeightMin, CHK_RMinWeight));
+            Dex.SetSizeData(DexSizeType.MaxWeight, index, get(NUD_RWeightMaxHeight, CHK_RMaxWeight), get(NUD_RWeightMax, CHK_RMaxWeight));
+        }
+
+        private void CHK_RUsed_CheckedChanged(object sender, EventArgs e)
+        {
+            var ck = (CheckBox) sender;
+            int index = Array.IndexOf(RecordUsed, ck);
+            var h = RecordHeight[index];
+            var w = RecordWeight[index];
+
+            h.Enabled = w.Enabled = ck.Checked;
+            if (!editing && !ck.Checked)
+                h.Value = w.Value = Zukan7b.DefaultEntryValue;
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -328,6 +385,9 @@ namespace PKHeX.WinForms
                 // remove seen/displayed
                 CHK_P2.Checked = CHK_P4.Checked = CHK_P3.Checked = CHK_P5.Checked = false;
                 CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
+
+                foreach (var ck in RecordUsed)
+                    ck.Checked = false;
             }
         }
 
@@ -343,6 +403,9 @@ namespace PKHeX.WinForms
                 if (sender != mnuSeenAll)
                     SetCaught(sender, gt, lang, false);
 
+                if (sender != mnuSeenAll)
+                    SetRecords();
+
                 if (spec == 25 || spec == 133)
                     continue; // ignore starter (setdex doesn't set buddy bit; totem raticate is not emitted below).
 
@@ -355,6 +418,21 @@ namespace PKHeX.WinForms
                     if (sender != mnuSeenAll)
                         SetCaught(sender, gt, lang, true);
                 }
+            }
+        }
+
+        private void SetRecords()
+        {
+            if (!GB_SizeRecords.Enabled)
+                return;
+            for (var r = 0; r < RecordUsed.Length; r++)
+            {
+                var ck = RecordUsed[r];
+                if (ck.Checked)
+                    continue;
+                ck.Checked = true;
+                RecordHeight[r].Value = r % 2 == 0 ? 0 : 255;
+                RecordWeight[r].Value = r % 2 == 0 ? 0 : 255;
             }
         }
 

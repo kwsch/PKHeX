@@ -139,6 +139,8 @@ namespace PKHeX.Core
         public override bool FatefulEncounter { get => RIB0 >> 31 == 1; set => RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); }
         #endregion
 
+        #region Battle Stats
+        public int Status_Condition { get => BitConverter.ToInt32(Data, 0x50); set => BitConverter.GetBytes(value).CopyTo(Data, 0x50); }
         public override int Stat_Level { get => Data[0x54]; set => Data[0x54] = (byte)value; }
         public sbyte HeldMailID { get => (sbyte)Data[0x55]; set => Data[0x55] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
@@ -148,6 +150,7 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x60); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
+        #endregion
 
         // Generated Attributes
         public override bool Japanese => IsEgg || Language == (int)LanguageID.Japanese;

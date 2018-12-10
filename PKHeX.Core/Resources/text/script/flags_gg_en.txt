@@ -1,7 +1,7 @@
 v0225	road016_2_pm0143_kabigon (Route 16 Snorlax)
 v0277	road012_pm0143_kabigon (Route 12 Snorlax)
 v0441	r010r0101_pm0145_thunder (Zapdos)
-v0499	r020d0105_1_pm0144_freezer (Articuno)
+v0500	r020d0105_2_pm0144_freezer (Articuno)
 v0513	r023d0102_pm0146_fire (Moltres)
 v0603	t004d0103_pm0150_mewtwo (Mewtwo)
 

@@ -266,8 +266,6 @@ namespace PKHeX.Core
             022, // Fearow
             023, // Ekans
             024, // Arbok
-            027, // Sandshrew
-            028, // Sandslash
             032, // Nidoran-M
             033, // Nidorino
             034, // Nidoking

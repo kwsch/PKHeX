@@ -9232,4 +9232,28 @@
   <data name="_25_8ps" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Shiny Pokemon Sprites\25-8ps.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icon_favo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\icon_favo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\party1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\party2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\party3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\party4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\party5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="party6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\party6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="starter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\starter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

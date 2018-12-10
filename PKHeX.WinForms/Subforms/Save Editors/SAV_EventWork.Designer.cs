@@ -52,7 +52,7 @@
             this.TC_Flag = new System.Windows.Forms.TabControl();
             this.GB_Constants = new System.Windows.Forms.TabPage();
             this.TC_Work = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.GB_Research = new System.Windows.Forms.TabPage();
             this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Flag)).BeginInit();
@@ -60,7 +60,7 @@
             this.TC_Features.SuspendLayout();
             this.GB_Flags.SuspendLayout();
             this.GB_Constants.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.GB_Research.SuspendLayout();
             this.SuspendLayout();
             // 
             // c_CustomFlag
@@ -270,8 +270,8 @@
             this.L_EventFlagWarn.Name = "L_EventFlagWarn";
             this.L_EventFlagWarn.Size = new System.Drawing.Size(262, 31);
             this.L_EventFlagWarn.TabIndex = 41;
-            this.L_EventFlagWarn.Text = "Altering Event Flags may impact other story events.\r\nSave file backups are recomm" +
-    "ended.";
+            this.L_EventFlagWarn.Text = "Altering Event Flags may impact other story events. Save file backups are recomme" +
+    "nded.";
             this.L_EventFlagWarn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // TC_Features
@@ -282,7 +282,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_Features.Controls.Add(this.GB_Flags);
             this.TC_Features.Controls.Add(this.GB_Constants);
-            this.TC_Features.Controls.Add(this.tabPage3);
+            this.TC_Features.Controls.Add(this.GB_Research);
             this.TC_Features.Location = new System.Drawing.Point(12, 12);
             this.TC_Features.Name = "TC_Features";
             this.TC_Features.SelectedIndex = 0;
@@ -329,17 +329,17 @@
             this.TC_Work.Size = new System.Drawing.Size(416, 277);
             this.TC_Work.TabIndex = 0;
             // 
-            // tabPage3
+            // GB_Research
             // 
-            this.tabPage3.Controls.Add(this.GB_FlagStatus);
-            this.tabPage3.Controls.Add(this.GB_Researcher);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(422, 283);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Research";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.GB_Research.Controls.Add(this.GB_FlagStatus);
+            this.GB_Research.Controls.Add(this.GB_Researcher);
+            this.GB_Research.Location = new System.Drawing.Point(4, 22);
+            this.GB_Research.Name = "GB_Research";
+            this.GB_Research.Padding = new System.Windows.Forms.Padding(3);
+            this.GB_Research.Size = new System.Drawing.Size(422, 283);
+            this.GB_Research.TabIndex = 2;
+            this.GB_Research.Text = "Research";
+            this.GB_Research.UseVisualStyleBackColor = true;
             // 
             // SAV_EventWork
             // 
@@ -368,7 +368,7 @@
             this.TC_Features.ResumeLayout(false);
             this.GB_Flags.ResumeLayout(false);
             this.GB_Constants.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.GB_Research.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -392,7 +392,7 @@
         private System.Windows.Forms.TabControl TC_Features;
         private System.Windows.Forms.TabPage GB_Flags;
         private System.Windows.Forms.TabPage GB_Constants;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage GB_Research;
         private System.Windows.Forms.TabControl TC_Work;
         private System.Windows.Forms.TabControl TC_Flag;
         private System.Windows.Forms.NumericUpDown NUD_Stat;

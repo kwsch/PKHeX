@@ -2,7 +2,7 @@
 0661	Reshiram/Zekrom (N's Castle) Disappeared
 0766	Reshiram/Zekrom (Dragonspiral Tower) Disappeared
 0801	Kyurem Disappeared
-0812	Volcarona Disappeared
+0810	Volcarona Disappeared
 0649	Cobalion Disappeared
 0650	Terrakion Disappeared
 0651	Virizion Disappeared

@@ -103,7 +103,7 @@ namespace PKHeX.Core
             {
                 int box = getbox();
                 int slot = getslot();
-                while (SAV.IsSlotLocked(box, slot))
+                while (SAV.IsSlotOverwriteProtected(box, slot))
                 {
                     ++i;
                     box = getbox();
