@@ -80,17 +80,7 @@ namespace PKHeX.WinForms
         public static bool HaX { get; private set; }
         public static bool IsInitialized { get; private set; }
 
-        private readonly string[] main_langlist =
-            {
-                "日本語", // JPN
-                "English", // ENG
-                "Français", // FRE
-                "Italiano", // ITA
-                "Deutsch", // GER
-                "Español", // SPA
-                "한국어", // KOR
-                "中文", // CHN
-            };
+        private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
 
         private static readonly List<IPlugin> Plugins = new List<IPlugin>();
         #endregion
@@ -254,7 +244,7 @@ namespace PKHeX.WinForms
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"Exception while checking for latest version: {ex}");
-                }                
+                }
             });
         }
 
@@ -273,13 +263,13 @@ namespace PKHeX.WinForms
             int lang = GameInfo.Language(l);
             if (lang < 0)
                 lang = GameInfo.Language();
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : 1; // english
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : (int)ProgramLanguage.English;
 
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
-                Version.TryParse(Settings.Version, out Version lastrev);
-                showChangelog = lastrev < CurrentProgramVersion;
+                bool parsed = Version.TryParse(Settings.Version, out Version lastrev);
+                showChangelog = parsed && lastrev < CurrentProgramVersion;
             }
 
             // BAK Prompt
