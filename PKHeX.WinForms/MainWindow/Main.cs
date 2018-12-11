@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,8 @@ namespace PKHeX.WinForms
 {
     public partial class Main : Form
     {
+        private static readonly Version CurrentProgramVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
         public Main()
         {
             new Task(() => new SplashScreen().ShowDialog()).Start();
@@ -103,7 +106,6 @@ namespace PKHeX.WinForms
         private static readonly string TemplatePath = Path.Combine(WorkingDirectory, "template");
         private static readonly string PluginPath = Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
-        private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
         #endregion
 
@@ -235,20 +237,25 @@ namespace PKHeX.WinForms
         private void FormLoadCheckForUpdates()
         {
             L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
-            new Task(() =>
+            Task.Run(() =>
             {
-                string data = NetUtil.GetStringFromURL(VersionPath);
-                if (data == null)
-                    return;
-                if (int.TryParse(data, out var upd) && int.TryParse(Resources.ProgramVersion, out var cur) && upd <= cur)
-                    return;
-
-                Invoke((MethodInvoker)(() =>
+                try
                 {
-                    L_UpdateAvailable.Visible = true;
-                    L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {upd:d}";
-                }));
-            }).Start();
+                    var latestVersion = NetUtil.GetLatestPKHeXVersion();
+                    if (latestVersion == null || latestVersion <= CurrentProgramVersion)
+                        return;
+
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        L_UpdateAvailable.Visible = true;
+                        L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {latestVersion.ToString(3)}";
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Exception while checking for latest version: {ex}");
+                }                
+            });
         }
 
         private void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
@@ -271,16 +278,15 @@ namespace PKHeX.WinForms
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
-                int.TryParse(Settings.Version, out int lastrev);
-                int.TryParse(Resources.ProgramVersion, out int currrev);
-                showChangelog = lastrev < currrev;
+                Version.TryParse(Settings.Version, out Version lastrev);
+                showChangelog = lastrev < CurrentProgramVersion;
             }
 
             // BAK Prompt
             if (!Settings.BAKPrompt)
                 BAKprompt = Settings.BAKPrompt = true;
 
-            Settings.Version = Resources.ProgramVersion;
+            Settings.Version = CurrentProgramVersion.ToString();
         }
 
         private void FormLoadPlugins()
@@ -762,13 +768,8 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle()
         {
-#if DEBUG
-            var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string date = $"d-{d:yyyyMMdd}";
-#else
-            string date = Resources.ProgramVersion;
-#endif
-            return $"PKH{(HaX ? "a" : "e")}X ({date})";
+            string version = CurrentProgramVersion.ToString(3);
+            return $"PKH{(HaX ? "a" : "e")}X ({version})";
         }
 
         private static string GetProgramTitle(SaveFile sav)

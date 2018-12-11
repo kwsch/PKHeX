@@ -28289,15 +28289,6 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20181202.
-        /// </summary>
-        internal static string ProgramVersion {
-            get {
-                return ResourceManager.GetString("ProgramVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap qr {
