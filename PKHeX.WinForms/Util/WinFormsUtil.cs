@@ -139,12 +139,6 @@ namespace PKHeX.WinForms
                 .Where(c => c.GetType() == type);
         }
 
-#if CLICKONCE
-        public static bool IsClickonceDeployed => System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed;
-#else
-        public static bool IsClickonceDeployed => false;
-#endif
-
         /// <summary>
         /// Reads in custom extension types that allow the program to open more extensions.
         /// </summary>

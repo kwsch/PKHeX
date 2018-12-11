@@ -146,9 +146,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'ClickOnce'">
-    <Reference Include="System.Deployment" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\PKM Editor\IMainEditor.cs" />
     <Compile Include="Controls\PKM Editor\CatchRate.cs">

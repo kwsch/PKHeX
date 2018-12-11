@@ -200,7 +200,7 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
-        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
+        private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
 
         public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
 
@@ -421,15 +421,9 @@ namespace PKHeX.Core
                 return null;
         }
 
-        public override void SetDaycareEXP(int loc, int slot, uint EXP)
-        {
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) { } // todo
 
-        }
-
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
-
-        }
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { } // todo
 
         // Storage
         public override int PartyCount

@@ -1028,7 +1028,7 @@ namespace PKHeX.Core
         }
 
         // Gym History
-        private ushort[][] GymTeams
+        public ushort[][] GymTeams
         {
             get
             {

@@ -413,8 +413,10 @@ namespace PKHeX.Core
                 int pm6stat = 0;
 
                 for (int i = 0; i < 6; i++)
+                {
                     if (IVs[pm6stat = pm6++ % 6] == maxIV)
                         break;
+                }
                 return (pm6stat * 5) + (maxIV % 5);
             }
         }

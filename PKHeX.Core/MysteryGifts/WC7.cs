@@ -28,10 +28,9 @@ namespace PKHeX.Core
             byte[] wcx = new byte[Size];
             Array.Copy(Data, SizeFull - Size, wcx, 0, wcx.Length);
             Data = wcx;
+
             DateTime now = DateTime.Now;
-            Year = (uint)now.Year;
-            Month = (uint)now.Month;
-            Day = (uint)now.Day;
+            RawDate = SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
         }
 
         public int RestrictLanguage { get; set; } = 0; // None
@@ -71,20 +70,22 @@ namespace PKHeX.Core
         private uint Year
         {
             get => (RawDate / 10000) + 2000;
-            set => RawDate = ((value - 2000) * 10000) + (RawDate % 10000);
+            set => RawDate = SetDate(value, Month, Day);
         }
 
         private uint Month
         {
             get => RawDate % 10000 / 100;
-            set => RawDate = ((Year - 2000) * 10000) + (value * 100) + (RawDate % 100);
+            set => RawDate = SetDate(Year, value, Day);
         }
 
         private uint Day
         {
             get => RawDate % 100;
-            set => RawDate = ((Year - 2000) * 10000) + (Month * 100) + value;
+            set => RawDate = SetDate(Year, Month, value);
         }
+
+        private static uint SetDate(uint year, uint month, uint day) => ((year - 2000) * 10000) + (month * 100) + day;
 
         /// <summary>
         /// Gets or sets the date of the card.

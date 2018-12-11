@@ -560,11 +560,11 @@ namespace PKHeX.WinForms.Controls
         public void Dispose()
         {
             Sounds.Dispose();
+            HoverWorker.Dispose();
             SE?.Dispose();
             OriginalBackground?.Dispose();
             CurrentBackground?.Dispose();
             ColorizedColor?.Dispose();
-            HoverWorker?.Dispose();
         }
 
         private void UpdateBoxViewAtBoxIndexes(params int[] boxIndexes)

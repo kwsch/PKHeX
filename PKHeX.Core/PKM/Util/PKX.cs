@@ -831,11 +831,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="list">Source list to copy from</param>
         /// <param name="dest">Destination list/array</param>
-        /// <param name="sav">Context for checking slot write protection</param>
         /// <param name="skip">Criteria for skipping a slot</param>
         /// <param name="start">Starting point to copy to</param>
         /// <returns>Count of <see cref="PKM"/> copied.</returns>
-        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, SaveFile sav, Func<int, int, bool> skip, int start = 0)
+        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<int, int, bool> skip, int start = 0)
         {
             int ctr = start;
             foreach (var z in list)

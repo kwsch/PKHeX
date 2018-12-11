@@ -94,14 +94,14 @@ namespace PKHeX.WinForms
 
         #region Path Variables
 
-        public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Application.StartupPath;
-        public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
-        public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
-        public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
-        public static string CryPath => Path.Combine(WorkingDirectory, "sounds");
-        public static string SAVPaths => Path.Combine(WorkingDirectory, "savpaths.txt");
-        private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
-        private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
+        public static readonly string WorkingDirectory = Application.StartupPath;
+        public static readonly string DatabasePath = Path.Combine(WorkingDirectory, "pkmdb");
+        public static readonly string MGDatabasePath = Path.Combine(WorkingDirectory, "mgdb");
+        public static readonly string BackupPath = Path.Combine(WorkingDirectory, "bak");
+        public static readonly string CryPath = Path.Combine(WorkingDirectory, "sounds");
+        public static readonly string SAVPaths = Path.Combine(WorkingDirectory, "savpaths.txt");
+        private static readonly string TemplatePath = Path.Combine(WorkingDirectory, "template");
+        private static readonly string PluginPath = Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
         private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
