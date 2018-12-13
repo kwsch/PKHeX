@@ -85,7 +85,7 @@ namespace PKHeX.Core
             set => RawDate = SetDate(Year, Month, value);
         }
 
-        private static uint SetDate(uint year, uint month, uint day) => ((year - 2000) * 10000) + (month * 100) + day;
+        private static uint SetDate(uint year, uint month, uint day) => Math.Max(0, year - 2000) * 10000 + (month * 100) + day;
 
         /// <summary>
         /// Gets or sets the date of the card.

@@ -18,21 +18,21 @@ namespace PKHeX.Core
 
         public WC6(byte[] data)
         {
-            Data = data;
-            if (Data.Length != SizeFull)
-                return;
+            Data = data; if (Data.Length == SizeFull)
+            {
+                // Load Restrictions
+                RestrictVersion = Data[0x000];
+                RestrictLanguage = Data[0x1FF];
+                byte[] wc6 = new byte[Size];
+                if (Data[0x205] != 0) // Valid data
+                    Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
+                Data = wc6;
 
-            // Load Restrictions
-            RestrictVersion = Data[0x000];
-            RestrictLanguage = Data[0x1FF];
-
-            byte[] wc6 = new byte[Size];
-            if (Data[0x205] != 0) // Valid data
-                Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
-            Data = wc6;
-
-            DateTime now = DateTime.Now;
-            RawDate = SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
+                DateTime now = DateTime.Now;
+                SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
+            }
+            if (Year < 2000)
+                Data = new byte[Data.Length]; // Invalidate
         }
 
         public int RestrictLanguage { get; set; } = 0; // None
