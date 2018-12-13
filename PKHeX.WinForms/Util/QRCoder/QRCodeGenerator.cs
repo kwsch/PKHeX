@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+// ReSharper disable UnusedMember.Local
 
 // From: https://github.com/codebude/QRCoder
 namespace QRCoder
@@ -103,15 +104,19 @@ namespace QRCoder
             for (var i = 0; i < Math.Max(eccInfo.CodewordsInGroup1, eccInfo.CodewordsInGroup2); i++)
             {
                 foreach (var codeBlock in codeWordWithECC)
+                {
                     if (codeBlock.CodeWords.Count > i)
                         interleavedWordsSb.Append(codeBlock.CodeWords[i]);
+                }
             }
 
             for (var i = 0; i < eccInfo.ECCPerBlock; i++)
             {
                 foreach (var codeBlock in codeWordWithECC)
+                {
                     if (codeBlock.ECCWords.Count > i)
                         interleavedWordsSb.Append(codeBlock.ECCWords[i]);
+                }
             }
             interleavedWordsSb.Append(new string('0', remainderBits[version - 1]));
             var interleavedData = interleavedWordsSb.ToString();
@@ -227,8 +232,8 @@ namespace QRCoder
                 {
                     for (var y = 0; y < 3; y++)
                     {
-                        qrCode.ModuleMatrix[y + size - 11][x] = vStr[x * 3 + y] == '1';
-                        qrCode.ModuleMatrix[x][y + size - 11] = vStr[x * 3 + y] == '1';
+                        qrCode.ModuleMatrix[y + size - 11][x] = vStr[(x * 3) + y] == '1';
+                        qrCode.ModuleMatrix[x][y + size - 11] = vStr[(x * 3) + y] == '1';
                     }
                 }
             }
@@ -379,10 +384,11 @@ namespace QRCoder
                 });
                 }
             }
+
             public static void PlaceDarkModule(ref QRCodeData qrCode, int version, ref List<Rectangle> blockedModules)
             {
-                qrCode.ModuleMatrix[4 * version + 9][8] = true;
-                blockedModules.Add(new Rectangle(8, 4 * version + 9, 1, 1));
+                qrCode.ModuleMatrix[(4 * version) + 9][8] = true;
+                blockedModules.Add(new Rectangle(8, (4 * version) + 9, 1, 1));
             }
 
             public static void PlaceFinderPatterns(ref QRCodeData qrCode, ref List<Rectangle> blockedModules)
@@ -515,10 +521,12 @@ namespace QRCoder
                     {
                         for (var x = 0; x < size - 1; x++)
                         {
-                            if (qrCode.ModuleMatrix[y][x] == qrCode.ModuleMatrix[y][x + 1] &&
-                                qrCode.ModuleMatrix[y][x] == qrCode.ModuleMatrix[y + 1][x] &&
-                                qrCode.ModuleMatrix[y][x] == qrCode.ModuleMatrix[y + 1][x + 1])
+                            if (qrCode.ModuleMatrix[y][x] == qrCode.ModuleMatrix[y][x + 1]
+                                && qrCode.ModuleMatrix[y][x] == qrCode.ModuleMatrix[y + 1][x]
+                                && qrCode.ModuleMatrix[y][x] == qrCode.ModuleMatrix[y + 1][x + 1])
+                            {
                                 score2 += 3;
+                            }
                         }
                     }
 
@@ -527,54 +535,54 @@ namespace QRCoder
                     {
                         for (var x = 0; x < size - 10; x++)
                         {
-                            if ((qrCode.ModuleMatrix[y][x] &&
-                                !qrCode.ModuleMatrix[y][x + 1] &&
-                                qrCode.ModuleMatrix[y][x + 2] &&
-                                qrCode.ModuleMatrix[y][x + 3] &&
-                                qrCode.ModuleMatrix[y][x + 4] &&
-                                !qrCode.ModuleMatrix[y][x + 5] &&
-                                qrCode.ModuleMatrix[y][x + 6] &&
-                                !qrCode.ModuleMatrix[y][x + 7] &&
-                                !qrCode.ModuleMatrix[y][x + 8] &&
-                                !qrCode.ModuleMatrix[y][x + 9] &&
-                                !qrCode.ModuleMatrix[y][x + 10]) ||
-                                (!qrCode.ModuleMatrix[y][x] &&
-                                !qrCode.ModuleMatrix[y][x + 1] &&
-                                !qrCode.ModuleMatrix[y][x + 2] &&
-                                !qrCode.ModuleMatrix[y][x + 3] &&
-                                qrCode.ModuleMatrix[y][x + 4] &&
-                                !qrCode.ModuleMatrix[y][x + 5] &&
-                                qrCode.ModuleMatrix[y][x + 6] &&
-                                qrCode.ModuleMatrix[y][x + 7] &&
-                                qrCode.ModuleMatrix[y][x + 8] &&
-                                !qrCode.ModuleMatrix[y][x + 9] &&
-                                qrCode.ModuleMatrix[y][x + 10]))
+                            if ((qrCode.ModuleMatrix[y][x]
+                                && !qrCode.ModuleMatrix[y][x + 1]
+                                && qrCode.ModuleMatrix[y][x + 2]
+                                && qrCode.ModuleMatrix[y][x + 3]
+                                && qrCode.ModuleMatrix[y][x + 4]
+                                && !qrCode.ModuleMatrix[y][x + 5]
+                                && qrCode.ModuleMatrix[y][x + 6]
+                                && !qrCode.ModuleMatrix[y][x + 7]
+                                && !qrCode.ModuleMatrix[y][x + 8]
+                                && !qrCode.ModuleMatrix[y][x + 9]
+                                && !qrCode.ModuleMatrix[y][x + 10])
+                                || (!qrCode.ModuleMatrix[y][x]
+                                && !qrCode.ModuleMatrix[y][x + 1]
+                                && !qrCode.ModuleMatrix[y][x + 2]
+                                && !qrCode.ModuleMatrix[y][x + 3]
+                                && qrCode.ModuleMatrix[y][x + 4]
+                                && !qrCode.ModuleMatrix[y][x + 5]
+                                && qrCode.ModuleMatrix[y][x + 6]
+                                && qrCode.ModuleMatrix[y][x + 7]
+                                && qrCode.ModuleMatrix[y][x + 8]
+                                && !qrCode.ModuleMatrix[y][x + 9]
+                                && qrCode.ModuleMatrix[y][x + 10]))
                             {
                                 score3 += 40;
                             }
 
-                            if ((qrCode.ModuleMatrix[x][y] &&
-                                !qrCode.ModuleMatrix[x + 1][y] &&
-                                qrCode.ModuleMatrix[x + 2][y] &&
-                                qrCode.ModuleMatrix[x + 3][y] &&
-                                qrCode.ModuleMatrix[x + 4][y] &&
-                                !qrCode.ModuleMatrix[x + 5][y] &&
-                                qrCode.ModuleMatrix[x + 6][y] &&
-                                !qrCode.ModuleMatrix[x + 7][y] &&
-                                !qrCode.ModuleMatrix[x + 8][y] &&
-                                !qrCode.ModuleMatrix[x + 9][y] &&
-                                !qrCode.ModuleMatrix[x + 10][y]) ||
-                                (!qrCode.ModuleMatrix[x][y] &&
-                                !qrCode.ModuleMatrix[x + 1][y] &&
-                                !qrCode.ModuleMatrix[x + 2][y] &&
-                                !qrCode.ModuleMatrix[x + 3][y] &&
-                                qrCode.ModuleMatrix[x + 4][y] &&
-                                !qrCode.ModuleMatrix[x + 5][y] &&
-                                qrCode.ModuleMatrix[x + 6][y] &&
-                                qrCode.ModuleMatrix[x + 7][y] &&
-                                qrCode.ModuleMatrix[x + 8][y] &&
-                                !qrCode.ModuleMatrix[x + 9][y] &&
-                                qrCode.ModuleMatrix[x + 10][y]))
+                            if ((qrCode.ModuleMatrix[x][y]
+                                && !qrCode.ModuleMatrix[x + 1][y]
+                                && qrCode.ModuleMatrix[x + 2][y]
+                                && qrCode.ModuleMatrix[x + 3][y]
+                                && qrCode.ModuleMatrix[x + 4][y]
+                                && !qrCode.ModuleMatrix[x + 5][y]
+                                && qrCode.ModuleMatrix[x + 6][y]
+                                && !qrCode.ModuleMatrix[x + 7][y]
+                                && !qrCode.ModuleMatrix[x + 8][y]
+                                && !qrCode.ModuleMatrix[x + 9][y]
+                                && !qrCode.ModuleMatrix[x + 10][y])
+                                || (!qrCode.ModuleMatrix[x][y]
+                                && !qrCode.ModuleMatrix[x + 1][y]
+                                && !qrCode.ModuleMatrix[x + 2][y]
+                                && !qrCode.ModuleMatrix[x + 3][y]
+                                && qrCode.ModuleMatrix[x + 4][y]
+                                && !qrCode.ModuleMatrix[x + 5][y]
+                                && qrCode.ModuleMatrix[x + 6][y]
+                                && qrCode.ModuleMatrix[x + 7][y]
+                                && qrCode.ModuleMatrix[x + 8][y]
+                                && !qrCode.ModuleMatrix[x + 9][y]
+                                && qrCode.ModuleMatrix[x + 10][y]))
                             {
                                 score3 += 40;
                             }
@@ -584,13 +592,17 @@ namespace QRCoder
                     //Penalty 4
                     double blackModules = 0;
                     foreach (var row in qrCode.ModuleMatrix)
+                    {
                         foreach (bool bit in row)
+                        {
                             if (bit)
                                 blackModules++;
+                        }
+                    }
 
                     var percent = (blackModules / (qrCode.ModuleMatrix.Count * qrCode.ModuleMatrix.Count)) * 100;
-                    var prevMultipleOf5 = Math.Abs((int) Math.Floor(percent/5)*5 - 50)/5;
-                    var nextMultipleOf5 = Math.Abs((int)Math.Floor(percent / 5) * 5 -45)/5;
+                    var prevMultipleOf5 = Math.Abs(((int) Math.Floor(percent/5)*5) - 50)/5;
+                    var nextMultipleOf5 = Math.Abs(((int)Math.Floor(percent / 5) * 5) - 45)/5;
                     var score4 = Math.Min(prevMultipleOf5, nextMultipleOf5)*10;
 
                     return score1 + score2 + score3 + score4;
@@ -600,7 +612,7 @@ namespace QRCoder
                 public static bool Pattern2(int x, int y) => y % 2 == 0;
                 public static bool Pattern3(int x, int y) => x % 3 == 0;
                 public static bool Pattern4(int x, int y) => (x + y) % 3 == 0;
-                public static bool Pattern5(int x, int y) => ((y / 2) + (x / 3) % 2) == 0;
+                public static bool Pattern5(int x, int y) => ((y / 2) + ((x / 3) % 2)) == 0;
                 public static bool Pattern6(int x, int y) => ((x * y) % 2) + ((x * y) % 3) == 0;
                 public static bool Pattern7(int x, int y) => (((x * y) % 2) + ((x * y) % 3)) % 2 == 0;
                 public static bool Pattern8(int x, int y) => (((x + y) % 2) + ((x * y) % 3)) % 2 == 0;
@@ -614,12 +626,16 @@ namespace QRCoder
             var generatorPolynom = CalculateGeneratorPolynom(eccWords);
 
             for (var i = 0; i < messagePolynom.PolyItems.Count; i++)
+            {
                 messagePolynom.PolyItems[i] = new PolynomItem(messagePolynom.PolyItems[i].Coefficient,
-                    messagePolynom.PolyItems[i].Exponent + eccWords);
+                   messagePolynom.PolyItems[i].Exponent + eccWords);
+            }
 
             for (var i = 0; i < generatorPolynom.PolyItems.Count; i++)
+            {
                 generatorPolynom.PolyItems[i] = new PolynomItem(generatorPolynom.PolyItems[i].Coefficient,
-                    generatorPolynom.PolyItems[i].Exponent + (messagePolynom.PolyItems.Count-1));
+                   generatorPolynom.PolyItems[i].Exponent + (messagePolynom.PolyItems.Count - 1));
+            }
 
             var leadTermSource = messagePolynom;
             for (var i = 0; (leadTermSource.PolyItems.Count > 0 && leadTermSource.PolyItems[leadTermSource.PolyItems.Count - 1].Exponent > 0); i++)
@@ -694,7 +710,7 @@ namespace QRCoder
         private static Polynom CalculateMessagePolynom(string bitString)
         {
             var messagePol = new Polynom();
-            for (var i = bitString.Length / 8 - 1; i >= 0; i--)
+            for (var i = (bitString.Length / 8) - 1; i >= 0; i--)
             {
                 messagePol.PolyItems.Add(new PolynomItem(BinToDec(bitString.Substring(0, 8)), i));
                 bitString = bitString.Remove(0, 8);
@@ -838,7 +854,7 @@ namespace QRCoder
             while (plainText.Length >= 2)
             {
                 var token = plainText.Substring(0, 2);
-                var dec = alphanumEncDict[token[0]] * 45 + alphanumEncDict[token[1]];
+                var dec = (alphanumEncDict[token[0]] * 45) + alphanumEncDict[token[1]];
                 codeText += DecToBin(dec, 11);
                 plainText = plainText.Substring(2);
             }
@@ -885,8 +901,8 @@ namespace QRCoder
                 var polItemRes = new PolynomItem
                 (
 
-                        longPoly.PolyItems[i].Coefficient ^
-                        (shortPoly.PolyItems.Count > i ? shortPoly.PolyItems[i].Coefficient : 0),
+                        longPoly.PolyItems[i].Coefficient
+                        ^ (shortPoly.PolyItems.Count > i ? shortPoly.PolyItems[i].Coefficient : 0),
                     messagePolynom.PolyItems[0].Exponent - i
                 );
                 resultPolynom.PolyItems.Add(polItemRes);
@@ -1183,6 +1199,7 @@ namespace QRCoder
                 BlocksInGroup2 = blocksInGroup2;
                 CodewordsInGroup2 = codewordsInGroup2;
             }
+
             public int Version { get; }
             public ECCLevel ErrorCorrectionLevel { get; }
             public int TotalDataCodewords { get; }
@@ -1200,6 +1217,7 @@ namespace QRCoder
                 Version = version;
                 Details = versionInfoDetails;
             }
+
             public int Version { get; }
             public List<VersionInfoDetails> Details { get; }
         }
@@ -1223,6 +1241,7 @@ namespace QRCoder
                 ExponentAlpha = exponentAlpha;
                 IntegerValue = integerValue;
             }
+
             public int ExponentAlpha { get; }
             public int IntegerValue { get; }
         }

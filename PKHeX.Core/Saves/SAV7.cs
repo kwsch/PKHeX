@@ -835,9 +835,23 @@ namespace PKHeX.Core
         {
             get
             {
-                InventoryPouch[] pouch;
-                if (SM)
-                pouch = new InventoryPouch[]
+                var bag = GetPouches();
+                foreach (var p in bag)
+                    p.GetPouch(Data);
+                return bag;
+            }
+            set
+            {
+                foreach (var p in value)
+                    p.SetPouch(Data);
+            }
+        }
+
+        private InventoryPouch[] GetPouches()
+        {
+            if (SM)
+            {
+                return new InventoryPouch[]
                 {
                     new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
                     new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
@@ -846,26 +860,17 @@ namespace PKHeX.Core
                     new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
                     new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
                 };
-                else // USUM
-                pouch = new InventoryPouch[]
-                {
-                    new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                    new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch7(InventoryType.KeyItems,  Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
-                    new InventoryPouch7(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
-                };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
             }
-            set
+            return new InventoryPouch[] // USUM
             {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+                new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
+                new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
+                new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
+                new InventoryPouch7(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
+            };
         }
 
         // Battle Tree
@@ -1421,8 +1426,10 @@ namespace PKHeX.Core
 
                 byte[] data = new byte[value.Length/8];
                 for (int i = 0; i < value.Length; i++)
+                {
                     if (value[i])
                         data[i>>3] |= (byte)(1 << (i&7));
+                }
 
                 data.CopyTo(Data, WondercardFlags);
                 Edited = true;

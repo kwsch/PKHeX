@@ -658,10 +658,7 @@ namespace PKHeX.Core
             return BitConverter.ToUInt32(Data, ofs);
         }
 
-        public override bool? IsDaycareOccupied(int loc, int slot)
-        {
-            return null;
-        }
+        public override bool? IsDaycareOccupied(int loc, int slot) => null; // todo
 
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
@@ -669,10 +666,7 @@ namespace PKHeX.Core
             BitConverter.GetBytes(EXP).CopyTo(Data, ofs);
         }
 
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
-
-        }
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { } // todo
 
         // Mystery Gift
         private bool MysteryGiftActive { get => (Data[GBO + 72] & 1) == 1; set => Data[GBO + 72] = (byte)((Data[GBO + 72] & 0xFE) | (value ? 1 : 0)); }

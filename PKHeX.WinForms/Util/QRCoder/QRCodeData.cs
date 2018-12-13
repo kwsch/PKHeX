@@ -23,7 +23,7 @@ namespace QRCoder
 
         private static int ModulesPerSideFromVersion(int version)
         {
-            return 21 + (version - 1) * 4;
+            return 21 + ((version - 1) * 4);
         }
 
         public void Dispose()

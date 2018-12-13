@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,8 @@ namespace PKHeX.WinForms
 {
     public partial class Main : Form
     {
+        private static readonly Version CurrentProgramVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
         public Main()
         {
             new Task(() => new SplashScreen().ShowDialog()).Start();
@@ -77,33 +80,22 @@ namespace PKHeX.WinForms
         public static bool HaX { get; private set; }
         public static bool IsInitialized { get; private set; }
 
-        private readonly string[] main_langlist =
-            {
-                "日本語", // JPN
-                "English", // ENG
-                "Français", // FRE
-                "Italiano", // ITA
-                "Deutsch", // GER
-                "Español", // SPA
-                "한국어", // KOR
-                "中文", // CHN
-            };
+        private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
 
         private static readonly List<IPlugin> Plugins = new List<IPlugin>();
         #endregion
 
         #region Path Variables
 
-        public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Application.StartupPath;
-        public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
-        public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
-        public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
-        public static string CryPath => Path.Combine(WorkingDirectory, "sounds");
-        public static string SAVPaths => Path.Combine(WorkingDirectory, "savpaths.txt");
-        private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
-        private static string PluginPath => Path.Combine(WorkingDirectory, "plugins");
+        public static readonly string WorkingDirectory = Application.StartupPath;
+        public static readonly string DatabasePath = Path.Combine(WorkingDirectory, "pkmdb");
+        public static readonly string MGDatabasePath = Path.Combine(WorkingDirectory, "mgdb");
+        public static readonly string BackupPath = Path.Combine(WorkingDirectory, "bak");
+        public static readonly string CryPath = Path.Combine(WorkingDirectory, "sounds");
+        public static readonly string SAVPaths = Path.Combine(WorkingDirectory, "savpaths.txt");
+        private static readonly string TemplatePath = Path.Combine(WorkingDirectory, "template");
+        private static readonly string PluginPath = Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
-        private const string VersionPath = "https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
         #endregion
 
@@ -235,20 +227,25 @@ namespace PKHeX.WinForms
         private void FormLoadCheckForUpdates()
         {
             L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
-            new Task(() =>
+            Task.Run(() =>
             {
-                string data = NetUtil.GetStringFromURL(VersionPath);
-                if (data == null)
-                    return;
-                if (int.TryParse(data, out var upd) && int.TryParse(Resources.ProgramVersion, out var cur) && upd <= cur)
-                    return;
-
-                Invoke((MethodInvoker)(() =>
+                try
                 {
-                    L_UpdateAvailable.Visible = true;
-                    L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {upd:d}";
-                }));
-            }).Start();
+                    var latestVersion = NetUtil.GetLatestPKHeXVersion();
+                    if (latestVersion == null || latestVersion <= CurrentProgramVersion)
+                        return;
+
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        L_UpdateAvailable.Visible = true;
+                        L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {latestVersion.ToString(3)}";
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Exception while checking for latest version: {ex}");
+                }
+            });
         }
 
         private void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
@@ -266,21 +263,20 @@ namespace PKHeX.WinForms
             int lang = GameInfo.Language(l);
             if (lang < 0)
                 lang = GameInfo.Language();
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : 1; // english
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : (int)ProgramLanguage.English;
 
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
-                int.TryParse(Settings.Version, out int lastrev);
-                int.TryParse(Resources.ProgramVersion, out int currrev);
-                showChangelog = lastrev < currrev;
+                bool parsed = Version.TryParse(Settings.Version, out Version lastrev);
+                showChangelog = parsed && lastrev < CurrentProgramVersion;
             }
 
             // BAK Prompt
             if (!Settings.BAKPrompt)
                 BAKprompt = Settings.BAKPrompt = true;
 
-            Settings.Version = Resources.ProgramVersion;
+            Settings.Version = CurrentProgramVersion.ToString();
         }
 
         private void FormLoadPlugins()
@@ -762,13 +758,8 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle()
         {
-#if DEBUG
-            var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string date = $"d-{d:yyyyMMdd}";
-#else
-            string date = Resources.ProgramVersion;
-#endif
-            return $"PKH{(HaX ? "a" : "e")}X ({date})";
+            string version = CurrentProgramVersion.ToString(3);
+            return $"PKH{(HaX ? "a" : "e")}X ({version})";
         }
 
         private static string GetProgramTitle(SaveFile sav)

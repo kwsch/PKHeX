@@ -146,9 +146,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'ClickOnce'">
-    <Reference Include="System.Deployment" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\PKM Editor\IMainEditor.cs" />
     <Compile Include="Controls\PKM Editor\CatchRate.cs">
@@ -881,6 +878,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\text\version.txt" />
     <None Include="Resources\img\Shiny Pokemon Sprites\25-8ps.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\25-1ps.png" />
     <None Include="Resources\img\Shiny Pokemon Sprites\133-1ps.png" />
@@ -1993,7 +1991,6 @@
     <EmbeddedResource Include="Resources\byte\fashion_m_sm_illegal" />
     <None Include="Resources\text\shortcuts.txt" />
     <None Include="Resources\text\changelog.txt" />
-    <None Include="Resources\text\version.txt" />
     <EmbeddedResource Include="Resources\byte\PGLDings-NormalRegular.ttf" />
     <None Include="Resources\icon.ico" />
     <None Include="Resources\img\warn.png" />

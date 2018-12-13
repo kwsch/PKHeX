@@ -983,8 +983,8 @@ namespace PKHeX.WinForms.Controls
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty && !(SAV is SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && !(SAV is SAV4BR)) || SAV is SAV7b; // Box RS & Battle Revolution
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && !(SAV is SAV4BR)) || SAV is SAV7b; // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;
 

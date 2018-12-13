@@ -888,6 +888,9 @@ namespace PKHeX.Core
         /// <returns>Randomized IVs if desired.</returns>
         public int[] SetRandomIVs(int? flawless = null)
         {
+            if (Version == (int)GameVersion.GO && flawless != 6)
+                return SetRandomIVsGO();
+
             int[] ivs = new int[6];
             for (int i = 0; i < 6; i++)
                 ivs[i] = Util.Rand.Next(MaxIV + 1);
@@ -899,9 +902,17 @@ namespace PKHeX.Core
                     ivs[i] = MaxIV;
                 Util.Shuffle(ivs); // Randomize IV order
             }
+            return IVs = ivs;
+        }
 
-            IVs = ivs;
-            return ivs;
+        private int[] SetRandomIVsGO()
+        {
+            int[] ivs = new int[6];
+            ivs[0] = (Util.Rand.Next(16) << 1) | 1; // hp
+            ivs[1] = ivs[4] = (Util.Rand.Next(16) << 1) | 1; // attack
+            ivs[2] = ivs[5] = (Util.Rand.Next(16) << 1) | 1; // defense
+            ivs[3] = Util.Rand.Next(MaxIV + 1); // speed
+            return IVs = ivs;
         }
 
         /// <summary>

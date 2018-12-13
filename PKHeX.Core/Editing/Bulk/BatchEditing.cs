@@ -339,6 +339,17 @@ namespace PKHeX.Core
             var PKM = info.pkm;
             switch (name)
             {
+                // pb7 only
+                case nameof(PB7.Stat_CP) when PKM is PB7 pb7:
+                    pb7.ResetCP();
+                    return ModifyResult.Modified;
+                case nameof(PB7.HeightAbsolute) when PKM is PB7 pb7:
+                    pb7.HeightAbsolute = pb7.CalcHeightAbsolute;
+                    return ModifyResult.Modified;
+                case nameof(PB7.WeightAbsolute) when PKM is PB7 pb7:
+                    pb7.WeightAbsolute = pb7.CalcWeightAbsolute;
+                    return ModifyResult.Modified;
+
                 case nameof(PKM.Stats):
                     PKM.SetStats(PKM.GetStats(PKM.PersonalInfo));
                     return ModifyResult.Modified;

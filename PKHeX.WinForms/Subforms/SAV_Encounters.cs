@@ -275,7 +275,6 @@ namespace PKHeX.WinForms
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
-
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();

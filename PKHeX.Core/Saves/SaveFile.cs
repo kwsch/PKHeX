@@ -698,7 +698,7 @@ namespace PKHeX.Core
             var result = Sorted.ToArray();
             var boxclone = new PKM[BD.Count];
             BD.CopyTo(boxclone, 0);
-            result.CopyTo(boxclone, this, skip, start);
+            result.CopyTo(boxclone, skip, start);
 
             SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
             BoxData = boxclone;
@@ -764,7 +764,7 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
-            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this, IsSlotOverwriteProtected);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, IsSlotOverwriteProtected);
             BoxData = BD;
             return true;
         }
@@ -781,7 +781,7 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
-            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, this, IsSlotOverwriteProtected, start);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, IsSlotOverwriteProtected, start);
             BoxData = BD;
             return true;
         }

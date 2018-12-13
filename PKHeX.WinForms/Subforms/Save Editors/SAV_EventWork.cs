@@ -212,7 +212,6 @@ namespace PKHeX.WinForms
 
         private void HandleSpecialFlags()
         {
-
         }
 
         private void ChangeCustomFlag(object sender, EventArgs e)
