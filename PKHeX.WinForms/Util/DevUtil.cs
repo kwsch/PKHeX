@@ -81,6 +81,8 @@ namespace PKHeX.WinForms
             nameof(SplashScreen),
             "Gender=", // editor gender labels
             "BTN_Shinytize", // ☆
+            "Main.L_SizeH", // height rating
+            "Main.L_SizeW", // weight rating
             "Main.B_Box", // << and >> arrows
             "Main.L_Characteristic=", // Characterstic (dynamic)
             "Main.L_Potential", // ★☆☆☆ IV judge evaluation

@@ -704,15 +704,15 @@ namespace PKHeX.Core
                 WeightAbsolute = updated;
         }
 
-        public static int GetHeightRating(int heightScalar)
+        public static int GetSizeRating(int scalar)
         {
-            if (heightScalar < 0x10)
+            if (scalar < 0x10)
                 return 0; // 1/16 = XS
-            if (heightScalar < 0x30u)
+            if (scalar < 0x30u)
                 return 1; // 2/16 = S
-            if (heightScalar < 0xD0u)
+            if (scalar < 0xD0u)
                 return 2; // average (10/16)
-            if (heightScalar < 0xF0u)
+            if (scalar < 0xF0u)
                 return 3; // 2/16 = L
             return 4; // 1/16 = XL
         }

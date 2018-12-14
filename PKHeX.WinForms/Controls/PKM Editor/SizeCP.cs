@@ -15,6 +15,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         private readonly bool Initialized;
+        private static readonly string[] SizeClass = {"XS", "S", "", "L", "XL"};
 
         public void LoadPKM(PKM pk)
         {
@@ -64,6 +65,8 @@ namespace PKHeX.WinForms.Controls
         private void NUD_HeightScalar_ValueChanged(object sender, EventArgs e)
         {
             pkm.HeightScalar = (byte) NUD_HeightScalar.Value;
+            L_SizeH.Text = SizeClass[PB7.GetSizeRating(pkm.HeightScalar)];
+
             if (!CHK_Auto.Checked || Loading)
                 return;
             pkm.ResetHeight();
@@ -73,6 +76,8 @@ namespace PKHeX.WinForms.Controls
         private void NUD_WeightScalar_ValueChanged(object sender, EventArgs e)
         {
             pkm.WeightScalar = (byte) NUD_WeightScalar.Value;
+            L_SizeW.Text = SizeClass[PB7.GetSizeRating(pkm.WeightScalar)];
+
             if (!CHK_Auto.Checked || Loading)
                 return;
             pkm.ResetWeight();
