@@ -83,7 +83,7 @@ namespace PKHeX.Core
             {
                 if (e is WC3 wc3 && pkm.IsEgg && wc3.OT_Name == ot)
                     return true; // Fixed OT Mystery Gift Egg
-                bool eggEdge = pkm.IsEgg ? pkm.IsTradedEgg : pkm.WasTradedEgg;
+                bool eggEdge = pkm.IsEgg ? pkm.IsTradedEgg || pkm.Format == 3 : pkm.WasTradedEgg;
                 if (!eggEdge)
                     return false;
                 var len = Legal.GetMaxLengthOT(pkm.GenNumber, LanguageID.English); // max case
