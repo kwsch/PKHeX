@@ -31,20 +31,23 @@ namespace PKHeX.Core
         private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese);
 
+        private const string EggNameJapanese = "タマゴ";
+
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x08, 10); set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }
         public override byte[] OT_Trash { get => GetData(0x14, 7); set { if (value?.Length == 7) value.CopyTo(Data, 0x14); } }
 
         // At top for System.Reflection execution order hack
-        public override bool IsEgg { get => EggFlag; set => EggFlag = value; }
-        public override int Language { get => LangID; set => LangID = value; }
 
         // 0x20 Intro
         public override uint PID { get => BitConverter.ToUInt32(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
         public override int TID { get => BitConverter.ToUInt16(Data, 0x04); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04); }
         public override int SID { get => BitConverter.ToUInt16(Data, 0x06); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); }
-        public override string Nickname { get => GetString(0x08, 10); set => SetString(IsEgg ? "タマゴ" : value, 10).CopyTo(Data, 0x08); }
-        private int LangID { get => BitConverter.ToUInt16(Data, 0x12) & 0xFF; set => BitConverter.GetBytes((ushort)(IsEgg ? 0x601 : value | 0x200)).CopyTo(Data, 0x12); }
+        public override string Nickname { get => GetString(0x08, 10); set => SetString(IsEgg ? EggNameJapanese : value, 10).CopyTo(Data, 0x08); }
+        public override int Language { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+        public bool FlagIsBadEgg   { get => (Data[0x13] & 1) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~1) | (value ? 1 : 0)); }
+        public bool FlagHasSpecies { get => (Data[0x13] & 2) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~2) | (value ? 2 : 0)); }
+        public bool FlagIsEgg      { get => (Data[0x13] & 4) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~4) | (value ? 4 : 0)); }
         public override string OT_Name { get => GetString(0x14, 7); set => SetString(value, 7).CopyTo(Data, 0x14); }
         public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); protected set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
         public override ushort Checksum { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C); }
@@ -52,7 +55,17 @@ namespace PKHeX.Core
 
         #region Block A
         public int SpeciesID3 { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); } // raw access
-        public override int Species { get => SpeciesConverter.GetG4Species(SpeciesID3); set => SpeciesID3 = SpeciesConverter.GetG3Species(value); }
+
+        public override int Species
+        {
+            get => SpeciesConverter.GetG4Species(SpeciesID3);
+            set
+            {
+                SpeciesID3 = SpeciesConverter.GetG3Species(value);
+                FlagHasSpecies = Species > 0;
+            }
+        }
+
         public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
 
@@ -111,7 +124,22 @@ namespace PKHeX.Core
         public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
         public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
         public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
-        private bool EggFlag { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
+
+        public override bool IsEgg
+        {
+            get => ((IV32 >> 30) & 1) == 1;
+            set
+            {
+                IV32 = (uint) ((IV32 & ~0x40000000) | (uint) (value ? 0x40000000 : 0));
+                FlagIsEgg = value;
+                if (value)
+                {
+                    Nickname = EggNameJapanese;
+                    Language = (int) LanguageID.Japanese;
+                }
+            }
+        }
+
         public override bool AbilityBit { get => IV32 >> 31 == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (uint)(value ? 1 << 31 : 0); }
 
         private uint RIB0 { get => BitConverter.ToUInt32(Data, 0x4C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x4C); }
@@ -159,6 +187,12 @@ namespace PKHeX.Core
         {
             RefreshChecksum();
             return PKX.EncryptArray3(Data);
+        }
+
+        public override void RefreshChecksum()
+        {
+            FlagIsBadEgg = false;
+            base.RefreshChecksum();
         }
 
         public PK4 ConvertToPK4()
