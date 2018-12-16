@@ -11,6 +11,22 @@ namespace PKHeX.Core
     public static class EncounterMovesetGenerator
     {
         /// <summary>
+        /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters"/> generator.
+        /// </summary>
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
+        public static IEnumerable<EncounterOrder> PriorityList { get; set; } = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+
+        public enum EncounterOrder
+        {
+            Egg,
+            Mystery,
+            Link,
+            Static,
+            Trade,
+            Slot,
+        }
+
+        /// <summary>
         /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned.
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
@@ -104,8 +120,7 @@ namespace PKHeX.Core
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, dl);
 
-            foreach (var enc in GetPossible(pk, needs, version))
-                yield return enc;
+            return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type));
         }
 
         private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> dl)
@@ -118,47 +133,19 @@ namespace PKHeX.Core
             return moves.Except(canlearn).ToArray();
         }
 
-        /// <summary>
-        /// Gets possible encounters that allow all moves requested to be learned.
-        /// </summary>
-        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
-        /// <param name="needs">Moves which cannot be taught by the player.</param>
-        /// <param name="version">Specific version to iterate for. Necessary for retrieving possible Egg Moves.</param>
-        /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<IEncounterable> GetPossible(PKM pk, IReadOnlyCollection<int> needs, GameVersion version)
+        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyCollection<int> needs, GameVersion version, EncounterOrder type)
         {
-            // generate possible eggs
-            var eggs = GetEggs(pk, needs, version);
-            if (!GameVersion.CXD.Contains(version) && !GameVersion.GG.Contains(version))
+            switch (type)
             {
-                foreach (var egg in eggs)
-                    yield return egg;
+                case EncounterOrder.Egg: return GetEggs(pk, needs, version);
+                case EncounterOrder.Mystery: return GetGifts(pk, needs);
+                case EncounterOrder.Link: return GetLink(pk, needs);
+                case EncounterOrder.Static: return GetStatic(pk, needs);
+                case EncounterOrder.Trade: return GetTrades(pk, needs);
+                case EncounterOrder.Slot: return GetSlots(pk, needs);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
-
-            // mystery gifts next
-            var gifts = GetGifts(pk, needs);
-            foreach (var gift in gifts)
-                yield return gift;
-
-            // link stuff
-            var links = GetLink(pk, needs);
-            foreach (var link in links)
-                yield return link;
-
-            // static encounters last
-            var statics = GetStatic(pk, needs);
-            foreach (var enc in statics)
-                yield return enc;
-
-            // trades for kicks
-            var trades = GetTrades(pk, needs);
-            foreach (var trade in trades)
-                yield return trade;
-
-            // why not slots
-            var slots = GetSlots(pk, needs);
-            foreach (var slot in slots)
-                yield return slot;
         }
 
         /// <summary>
@@ -170,6 +157,9 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, GameVersion version)
         {
+            if (GameVersion.CXD.Contains(version) || GameVersion.GG.Contains(version))
+                yield break; // no eggs from these games
+
             var eggs = EncounterEggGenerator.GenerateEggs(pk, all: true);
             foreach (var egg in eggs)
             {
