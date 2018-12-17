@@ -140,6 +140,7 @@ namespace PKHeX.Core
 
         public static string MsgSaveSlotEmpty { get; set; } = "Can't have an empty/egg party.";
         public static string MsgSaveSlotLocked { get; set; } = "Can't modify a locked slot.";
+        public static string MsgSaveSlotBadData { get; set; } = "Unable to set to this slot.";
 
         public static string MsgSaveBackup { get; set; } = "Saved Backup of current SAV to:";
         public static string MsgSaveCurrentGeneration { get; set; } = "Current SAV Generation: {0}";

@@ -65,7 +65,7 @@ namespace PKHeX.Core
         public static BatchEditor Execute(IList<string> lines, IEnumerable<PKM> data)
         {
             var editor = new BatchEditor();
-            var sets = StringInstructionSet.GetBatchSets(lines).ToList();
+            var sets = StringInstructionSet.GetBatchSets(lines).ToArray();
             foreach (var pk in data)
             {
                 foreach (var set in sets)
