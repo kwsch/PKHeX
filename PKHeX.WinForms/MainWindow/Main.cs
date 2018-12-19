@@ -674,8 +674,11 @@ namespace PKHeX.WinForms
 
         private static void StoreLegalSaveGameData(SaveFile sav)
         {
-            Legal.EReaderBerryIsEnigma = sav.IsEBerryIsEnigma;
-            Legal.EReaderBerryName = sav.EBerryName;
+            if (sav is SAV3 sav3)
+            {
+                Legal.EReaderBerryIsEnigma = sav3.IsEBerryIsEnigma;
+                Legal.EReaderBerryName = sav3.EBerryName;
+            }
         }
 
         private static PKM LoadTemplate(SaveFile sav)
@@ -827,7 +830,7 @@ namespace PKHeX.WinForms
                 if (sav.Version == GameVersion.FRLG)
                     sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
             }
-            else if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
+            else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
             {
                 string fr = GameInfo.VersionDataSource.First(r => r.Value == (int) GameVersion.FR).Text;
                 string lg = GameInfo.VersionDataSource.First(l => l.Value == (int) GameVersion.LG).Text;
