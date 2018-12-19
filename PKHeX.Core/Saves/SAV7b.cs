@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public sealed class SAV7b : SaveFile
+    public sealed class SAV7b : SaveFile, ISecureValueStorage
     {
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "savedata|*.bin";
@@ -195,16 +195,16 @@ namespace PKHeX.Core
             return StringConverter.SetString7b(value, maxLength, Language, PadToSize, PadWith);
         }
 
-        public override ulong? Secure1
+        public ulong TimeStampCurrent
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
-            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14);
         }
 
-        public override ulong? Secure2
+        public ulong TimeStampPrevious
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
-            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
         }
 
         public override GameVersion Version

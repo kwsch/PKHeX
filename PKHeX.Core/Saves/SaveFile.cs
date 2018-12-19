@@ -28,7 +28,6 @@ namespace PKHeX.Core
         public bool Japanese { get; protected set; }
         public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
         public bool IndeterminateGame => Version == GameVersion.Unknown;
-        public virtual bool IndeterminateSubVersion => false;
         public abstract string Extension { get; }
 
         public virtual string[] PKMExtensions => PKM.Extensions.Where(f =>
@@ -103,7 +102,6 @@ namespace PKHeX.Core
         public bool HasBerryField => BerryField > -1;
         public bool HasHoF => HoF > -1;
         public bool HasSecretBase => SecretBase > -1;
-        public bool HasPuff => Puff > -1;
         public bool HasPSS => PSS > -1;
         public bool HasOPower => OPower > -1;
         public bool HasJPEG => JPEGData != null;
@@ -148,7 +146,6 @@ namespace PKHeX.Core
         public int PokeDex { get; protected set; } = int.MinValue;
         public int SuperTrain { get; protected set; } = int.MinValue;
         public int SecretBase { get; protected set; } = int.MinValue;
-        public int Puff { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
         public int BerryField { get; protected set; } = int.MinValue;
         public int OPower { get; protected set; } = int.MinValue;
@@ -430,8 +427,6 @@ namespace PKHeX.Core
         public abstract void SetBoxName(int box, string value);
         public virtual int GameSyncIDSize { get; } = 8;
         public virtual string GameSyncID { get => null; set { } }
-        public virtual ulong? Secure1 { get => null; set { } }
-        public virtual ulong? Secure2 { get => null; set { } }
 
         // Daycare
         public int DaycareIndex = 0;
@@ -457,6 +452,7 @@ namespace PKHeX.Core
         public virtual StorageSlotFlag GetSlotFlags(int index) => StorageSlotFlag.None;
         public StorageSlotFlag GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
         public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
+        public bool IsSlotLocked(int slot) => IsSlotLocked(slot / BoxSlotCount, slot % BoxSlotCount);
         public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
 
         public bool MoveBox(int box, int insertBeforeBox)
@@ -837,9 +833,6 @@ namespace PKHeX.Core
         public abstract string GetString(byte[] data, int offset, int length);
         public string GetString(int offset, int length) => GetString(Data, offset, length);
         public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
-
-        public virtual string EBerryName => string.Empty;
-        public virtual bool IsEBerryIsEnigma => true;
 
         /// <summary>
         /// Compresses the <see cref="BoxData"/> by pulling out the empty storage slots and putting them at the end, retaining all existing data.

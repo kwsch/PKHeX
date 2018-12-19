@@ -35,8 +35,6 @@
             this.B_All = new System.Windows.Forms.Button();
             this.B_Sort = new System.Windows.Forms.Button();
             this.B_None = new System.Windows.Forms.Button();
-            this.L_Count = new System.Windows.Forms.Label();
-            this.MT_CNT = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +59,7 @@
             this.dgv.ShowEditingIcon = false;
             this.dgv.Size = new System.Drawing.Size(200, 186);
             this.dgv.TabIndex = 11;
-            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(SAV_Pokepuff.DropClick);
+            this.dgv.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DropClick);
             // 
             // B_Save
             // 
@@ -115,34 +113,11 @@
             this.B_None.UseVisualStyleBackColor = true;
             this.B_None.Click += new System.EventHandler(this.B_None_Click);
             // 
-            // L_Count
-            // 
-            this.L_Count.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.L_Count.AutoSize = true;
-            this.L_Count.Location = new System.Drawing.Point(12, 240);
-            this.L_Count.Name = "L_Count";
-            this.L_Count.Size = new System.Drawing.Size(32, 13);
-            this.L_Count.TabIndex = 17;
-            this.L_Count.Text = "CNT:";
-            // 
-            // MT_CNT
-            // 
-            this.MT_CNT.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.MT_CNT.Location = new System.Drawing.Point(50, 237);
-            this.MT_CNT.Mask = "00000";
-            this.MT_CNT.Name = "MT_CNT";
-            this.MT_CNT.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_CNT.Size = new System.Drawing.Size(39, 20);
-            this.MT_CNT.TabIndex = 18;
-            this.MT_CNT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // SAV_Pokepuff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(224, 272);
-            this.Controls.Add(this.MT_CNT);
-            this.Controls.Add(this.L_Count);
             this.Controls.Add(this.B_None);
             this.Controls.Add(this.B_Sort);
             this.Controls.Add(this.B_All);
@@ -159,7 +134,6 @@
             this.Text = "‎Poké Puffs Editor";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -171,7 +145,5 @@
         private System.Windows.Forms.Button B_All;
         private System.Windows.Forms.Button B_Sort;
         private System.Windows.Forms.Button B_None;
-        private System.Windows.Forms.Label L_Count;
-        private System.Windows.Forms.MaskedTextBox MT_CNT;
     }
 }

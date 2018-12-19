@@ -318,11 +318,8 @@ namespace PKHeX
 
         internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info)
         {
-            if (ParseSettings.AllowGen2Crystal(Info.Korean) && Info.Game == GameVersion.C)
+            if (ParseSettings.AllowGen2Crystal(Info.Korean) && Info.Game.Contains(GameVersion.C))
                 yield return GameVersion.C;
-
-            // Any encounter marked with version GSC is for pokemon with the same moves in GS and C
-            // it is sufficient to check just GS's case
             yield return GameVersion.GS;
         }
 

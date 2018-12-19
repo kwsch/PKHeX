@@ -631,7 +631,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.
         /// </summary>
-        public void RefreshChecksum() => Checksum = CalculateChecksum();
+        public virtual void RefreshChecksum() => Checksum = CalculateChecksum();
 
         /// <summary>
         /// Reorders moves and fixes PP if necessary.

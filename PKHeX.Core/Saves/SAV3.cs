@@ -240,7 +240,6 @@ namespace PKHeX.Core
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
-        public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         protected override int SIZE_PARTY => PKX.SIZE_3PARTY;
@@ -794,7 +793,7 @@ namespace PKHeX.Core
         private uint EBerryChecksum => BitConverter.ToUInt32(Data, BlockOfs[4] + OFFSET_EBERRY + SIZE_EBERRY - 4);
         private bool IsEBerryChecksumValid { get; set; }
 
-        public override string EBerryName
+        public string EBerryName
         {
             get
             {
@@ -804,7 +803,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override bool IsEBerryIsEnigma => string.IsNullOrEmpty(EBerryName.Trim());
+        public bool IsEBerryIsEnigma => string.IsNullOrEmpty(EBerryName.Trim());
 
         private void LoadEReaderBerryData()
         {

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV6 : SaveFile, ITrainerStatRecord
+    public sealed class SAV6 : SaveFile, ITrainerStatRecord, IPokePuff, ISecureValueStorage
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
@@ -56,6 +56,8 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_6; // OR
 
         // Feature Overrides
+        public int Puff { get; set; } = -1;
+        public bool HasPuffData => Puff >= 0;
 
         // Blocks & Offsets
         private readonly int BlockInfoOffset;
@@ -64,16 +66,16 @@ namespace PKHeX.Core
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
-        public override ulong? Secure1
+        public ulong TimeStampCurrent
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
-            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14);
         }
 
-        public override ulong? Secure2
+        public ulong TimeStampPrevious
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
-            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
         }
 
         private void GetSAVOffsets()
@@ -632,7 +634,7 @@ namespace PKHeX.Core
                 Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
         }
 
-        public byte[] Puffs { get => GetData(Puff, 100); set => value.CopyTo(Data, Puff); }
+        public byte[] Puffs { get => GetData(Puff, 100); set => SetData(value, Puff); }
         public int PuffCount { get => BitConverter.ToInt32(Data, Puff + 100); set => BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); }
 
         public int[] SelectItems

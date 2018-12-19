@@ -907,14 +907,7 @@ namespace PKHeX.Core
 
         internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
         internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
-
-        internal static bool IsPKMPresentGBA(byte[] data, int offset)
-        {
-            if (BitConverter.ToUInt32(data, offset) != 0) // PID
-                return true;
-            ushort species = BitConverter.ToUInt16(data, offset + 0x20);
-            return species != 0;
-        }
+        internal static bool IsPKMPresentGBA(byte[] data, int offset) => (data[offset + 0x13] & 0xFB) == 2; // ignore egg flag, must be FlagHasSpecies.
 
         internal static bool IsPKMPresent(byte[] data, int offset)
         {

@@ -500,13 +500,13 @@ namespace PKHeX.WinForms.Controls
                 SAV.GameSyncID = value;
                 SAV.Edited = true;
             }
-            else if (SAV.Generation >= 6)
+            else if (SAV is ISecureValueStorage s)
             {
                 var value = Convert.ToUInt64(filterText, 16);
                 if (tb == TB_Secure1)
-                    SAV.Secure1 = value;
+                    s.TimeStampCurrent = value;
                 else if (tb == TB_Secure2)
-                    SAV.Secure2 = value;
+                    s.TimeStampPrevious = value;
                 SAV.Edited = true;
             }
         }
@@ -966,7 +966,7 @@ namespace PKHeX.WinForms.Controls
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = sav.HasBattleBox;
                 GB_Daycare.Visible = sav.HasDaycare;
                 B_OpenSecretBase.Enabled = sav.HasSecretBase;
-                B_OpenPokepuffs.Enabled = sav.HasPuff;
+                B_OpenPokepuffs.Enabled = sav is IPokePuff p && p.HasPuffData;
                 B_OUTPasserby.Enabled = sav.HasPSS;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
@@ -1020,21 +1020,23 @@ namespace PKHeX.WinForms.Controls
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
             }
 
+            if (sav is ISecureValueStorage s)
+            {
+                TB_Secure1.Text = s.TimeStampCurrent.ToString("X16");
+                TB_Secure2.Text = s.TimeStampPrevious.ToString("X16");
+            }
+
             switch (sav.Generation)
             {
                 case 6:
                     TB_GameSync.Enabled = sav.GameSyncID != null;
                     TB_GameSync.MaxLength = sav.GameSyncIDSize;
                     TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
-                    TB_Secure1.Text = sav.Secure1?.ToString("X16");
-                    TB_Secure2.Text = sav.Secure2?.ToString("X16");
                     break;
                 case 7:
                     TB_GameSync.Enabled = sav.GameSyncID != null;
                     TB_GameSync.MaxLength = sav.GameSyncIDSize;
                     TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
-                    TB_Secure1.Text = sav.Secure1?.ToString("X16");
-                    TB_Secure2.Text = sav.Secure2?.ToString("X16");
                     break;
             }
         }

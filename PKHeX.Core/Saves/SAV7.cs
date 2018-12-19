@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV7 : SaveFile, ITrainerStatRecord
+    public sealed class SAV7 : SaveFile, ITrainerStatRecord, ISecureValueStorage
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
@@ -109,16 +109,16 @@ namespace PKHeX.Core
             IsMemeCryptoApplied = true;
         }
 
-        public override ulong? Secure1
+        public ulong TimeStampCurrent
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
-            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14);
         }
 
-        public override ulong? Secure2
+        public ulong TimeStampPrevious
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
-            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
         }
 
         private void GetSAVOffsets()

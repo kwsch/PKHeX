@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
 {
     internal class EggInfoSource
     {
-        public EggInfoSource(PKM pkm, IEnumerable<int> specialMoves, EncounterEgg e)
+        public EggInfoSource(PKM pkm, IReadOnlyList<int> specialMoves, EncounterEgg e)
         {
             // Eggs with special moves cannot inherit levelup moves as the current moves are predefined.
-            Special = specialMoves.Where(m => m != 0).ToList();
+            Special = specialMoves;
             bool notSpecial = Special.Count == 0;
             AllowInherited = notSpecial && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
 
@@ -19,10 +20,10 @@ namespace PKHeX.Core
             Egg = MoveEgg.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
             LevelUp = AllowLevelUp
                 ? Legal.GetBaseEggMoves(pkm, e.Species, e.Version, 100).Except(Base).ToList()
-                : new List<int>();
+                : (IReadOnlyList<int>)Array.Empty<int>();
             Tutor = e.Version == GameVersion.C
                 ? MoveTutor.GetTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2).ToList()
-                : new List<int>();
+                : (IReadOnlyList<int>)Array.Empty<int>();
 
             // Only TM/HM moves from the source game of the egg, not any other games from the same generation
             TMHM = MoveTechnicalMachine.GetTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, e.Version).ToList();
@@ -46,6 +47,8 @@ namespace PKHeX.Core
 
         public bool IsInherited(int m)
         {
+            if (m == 0)
+                return false;
             if (Base.Contains(m))
                 return false;
             return Special.Contains(m) || Egg.Contains(m) || LevelUp.Contains(m) || TMHM.Contains(m) || Tutor.Contains(m);

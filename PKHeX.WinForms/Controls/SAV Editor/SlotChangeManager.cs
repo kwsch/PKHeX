@@ -218,7 +218,7 @@ namespace PKHeX.WinForms.Controls
                 ShowSet.RemoveAll();
                 return;
             }
-            var text = GetLocalizedPreviewText(pk);
+            var text = GetLocalizedPreviewText(pk, Settings.Default.Language);
             ShowSet.SetToolTip(pb, text);
         }
 
@@ -227,17 +227,13 @@ namespace PKHeX.WinForms.Controls
             if (pk.Species == 0)
                 return;
 
-            var name = PKX.GetResourceStringSprite(pk.Species, pk.AltForm, pk.Gender, pk.Format).Replace('_','-').Substring(1);
-            var path = Path.Combine(Main.CryPath, $"{name}.wav");
+            string path = GetCryPath(pk, Main.CryPath);
             if (!File.Exists(path))
-            {
-                path = Path.Combine(Main.CryPath, $"{pk.Species}.wav");
-                if (!File.Exists(path))
-                    return;
-            }
+                return;
 
             Sounds.SoundLocation = path;
-            try { Sounds.Play(); } catch { }
+            try { Sounds.Play(); }
+            catch { }
         }
 
         private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control
@@ -261,7 +257,8 @@ namespace PKHeX.WinForms.Controls
 
             // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
             // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
-            int delay = external ? 500 : 0;
+            // Keep it to 10 seconds; Discord upload only stores the file path until you click Upload.
+            int delay = external ? 10_000 : 0;
             DeleteAsync(newfile, delay);
             if (DragInfo.Source.IsParty || DragInfo.Destination.IsParty)
                 SE.SetParty();
@@ -340,19 +337,19 @@ namespace PKHeX.WinForms.Controls
             }
             if (SAV.IsSlotLocked(DragInfo.Destination.Box, DragInfo.Destination.Slot))
             {
-                AlertInvalidate("Unable to set to locked slot.");
+                AlertInvalidate(MessageStrings.MsgSaveSlotLocked);
                 return;
             }
             bool noEgg = DragInfo.Destination.IsParty && SE.SAV.IsPartyAllEggs(DragInfo.Destination.Slot) && !SE.HaX;
             if (DragInfo.Source.Offset < 0) // external source
             {
                 if (!TryLoadFiles(files, e, noEgg))
-                    AlertInvalidate("Unable to set to this slot.");
+                    AlertInvalidate(MessageStrings.MsgSaveSlotBadData);
                 return;
             }
             if (!TrySetPKMDestination(sender, e, overwrite, clone, noEgg))
             {
-                AlertInvalidate("Unable to set to this slot.");
+                AlertInvalidate(MessageStrings.MsgSaveSlotEmpty);
                 return;
             }
 
@@ -401,7 +398,7 @@ namespace PKHeX.WinForms.Controls
             if (errata.Count > 0)
             {
                 string concat = string.Join(Environment.NewLine, errata);
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, concat, "Continue?"))
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, concat, MessageStrings.MsgContinue))
                 {
                     Debug.WriteLine(c);
                     Debug.WriteLine(concat);
@@ -579,12 +576,21 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private static string GetLocalizedPreviewText(PKM pk)
+        private static string GetCryPath(PKM pk, string cryFolder)
+        {
+            var name = PKX.GetResourceStringSprite(pk.Species, pk.AltForm, pk.Gender, pk.Format).Replace('_', '-').Substring(1);
+            var path = Path.Combine(cryFolder, $"{name}.wav");
+            if (!File.Exists(path))
+                path = Path.Combine(cryFolder, $"{pk.Species}.wav");
+            return path;
+        }
+
+        private static string GetLocalizedPreviewText(PKM pk, string language)
         {
             var set = new ShowdownSet(pk);
             if (pk.Format <= 2) // Nature preview from IVs
                 set.Nature = Experience.GetNatureVC(pk.EXP);
-            return set.LocalizedText(Settings.Default.Language);
+            return set.LocalizedText(language);
         }
     }
 }
