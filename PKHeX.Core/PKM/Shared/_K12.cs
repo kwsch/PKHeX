@@ -16,6 +16,8 @@ namespace PKHeX.Core
         public override int OTLength => Japanese ? 5 : 7;
         public override int NickLength => Japanese ? 5 : 10;
 
+        public override byte[] ExtraBytes => Array.Empty<byte>();
+
         public override string FileNameWithoutExtension
         {
             get

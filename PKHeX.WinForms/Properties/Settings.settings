@@ -50,5 +50,8 @@
     <Setting Name="HideSecretDetails" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DefaultSaveVersion" Type="PKHeX.Core.GameVersion" Scope="User">
+      <Value Profile="(Default)">GP</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

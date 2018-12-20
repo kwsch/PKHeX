@@ -8,12 +8,14 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class PB7 : PKM, IHyperTrain, IAwakened
     {
-        public static readonly byte[] ExtraBytes =
+        public static readonly byte[] Unused =
         {
             0x2A, // Old Marking Value (PelagoEventStatus)
             0x36, 0x37, // Unused Ribbons
             0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xE4, 0xE5, 0xE6, 0xE7
         };
+
+        public override byte[] ExtraBytes => Unused;
 
         public override int SIZE_PARTY => SIZE;
         public override int SIZE_STORED => SIZE;

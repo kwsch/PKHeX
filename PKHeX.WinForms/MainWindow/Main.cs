@@ -27,15 +27,17 @@ namespace PKHeX.WinForms
         {
             new Task(() => new SplashScreen().ShowDialog()).Start();
             new Task(() => Legal.RefreshMGDB(MGDatabasePath)).Start();
-            InitializeComponent();
-
-            FormLoadAddEvents();
-
             string[] args = Environment.GetCommandLineArgs();
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
+
+            InitializeComponent();
+            FormInitializeSecond();
+
+            FormLoadAddEvents();
             FormLoadCustomBackupPaths();
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
+            FormLoadPlugins();
 
             IsInitialized = true; // Splash Screen closes on its own.
             PKME_Tabs_UpdatePreviewSprite(null, null);
@@ -105,12 +107,8 @@ namespace PKHeX.WinForms
             showChangelog = false;
             BAKprompt = false;
 
-            CB_MainLanguage.Items.AddRange(main_langlist);
             HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
                 || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).EndsWith(nameof(HaX));
-
-            PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
-            PB_Legal.Visible = !HaX;
 
             try
             {
@@ -127,17 +125,9 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Error(MsgSettingsLoadFail, e);
             }
 
-            FormLoadPlugins();
             var exts = Path.Combine(WorkingDirectory, "savexts.txt");
             if (File.Exists(exts))
                 WinFormsUtil.AddSaveFileExtensions(File.ReadLines(exts));
-
-            PKME_Tabs.InitializeFields();
-            PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
-
-            #if DEBUG
-            DevUtil.AddControl(Menu_Tools);
-            #endif
         }
 
         private static void FormLoadCustomBackupPaths()
@@ -196,32 +186,44 @@ namespace PKHeX.WinForms
                 else
                     OpenQuick(arg, force: true);
             }
-            if (!C_SAV.SAV.Exportable) // No SAV loaded from exe args
+            if (C_SAV.SAV == null) // No SAV loaded from exe args
             {
+                #if !DEBUG
                 try
+                #endif
                 {
                     if (!DetectSaveFile(out string path) && path != null)
                         WinFormsUtil.Error(path); // `path` contains the error message
 
+                    bool savLoaded = false;
                     if (path != null && File.Exists(path))
                     {
-                        OpenQuick(path, force: true);
+                        var sav = SaveUtil.GetVariantSAV(path);
+                        savLoaded = OpenSAV(sav, path);
                     }
-                    else
+                    if (!savLoaded)
                     {
-                        OpenSAV(C_SAV.SAV, null);
+                        var ver = Settings.Default.DefaultSaveVersion;
+                        var sav = SaveUtil.GetBlankSAV(ver, "PKHeX");
+                        OpenSAV(sav, null);
                         C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
                     }
                 }
+                #if !DEBUG
                 catch (Exception ex)
                 {
                     ErrorWindow.ShowErrorDialog(MsgFileLoadFailAuto, ex, true);
                 }
+                #endif
             }
-            if (pkmArg != null)
-                OpenQuick(pkmArg, force: true);
-            else
-                GetPreview(dragout);
+
+            if (pkmArg != null && File.Exists(pkmArg))
+            {
+                byte[] data = File.ReadAllBytes(pkmArg);
+                var pk = PKMConverter.GetPKMfromBytes(data);
+                if (pk != null)
+                    OpenPKM(pk);
+            }
         }
 
         private void FormLoadCheckForUpdates()
@@ -256,15 +258,6 @@ namespace PKHeX.WinForms
             var Settings = Properties.Settings.Default;
             Settings.Upgrade();
 
-            ReloadProgramSettings(Settings);
-
-            // Select Language
-            string l = Settings.Language;
-            int lang = GameInfo.Language(l);
-            if (lang < 0)
-                lang = GameInfo.Language();
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : (int)ProgramLanguage.English;
-
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
@@ -277,6 +270,25 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
 
             Settings.Version = CurrentProgramVersion.ToString();
+        }
+
+        private void FormInitializeSecond()
+        {
+            var settings = Settings.Default;
+            ReloadProgramSettings(settings);
+            CB_MainLanguage.Items.AddRange(main_langlist);
+            PB_Legal.Visible = !HaX;
+            PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
+
+            #if DEBUG
+            DevUtil.AddControl(Menu_Tools);
+            #endif
+
+            // Select Language
+            int lang = GameInfo.Language(settings.Language);
+            if (lang < 0)
+                lang = GameInfo.Language();
+            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : (int)ProgramLanguage.English;
         }
 
         private void FormLoadPlugins()
@@ -585,6 +597,8 @@ namespace PKHeX.WinForms
         {
             pk = PKMConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
             Debug.WriteLine(c);
+            if (pk == null)
+                return false;
             PKME_Tabs.PopulateFields(pk);
             return true;
         }
@@ -691,10 +705,10 @@ namespace PKHeX.WinForms
             string path = Path.Combine(TemplatePath, $"{di.Name}.{blank.Extension}");
 
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
-                return null;
+                return blank;
 
             var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path); // no sneaky plz; reuse string
+            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path) ?? blank; // no sneaky plz; reuse string
         }
 
         private bool OpenSAV(SaveFile sav, string path)
@@ -710,7 +724,6 @@ namespace PKHeX.WinForms
             SpriteUtil.Spriter.Initialize(sav); // refresh sprite generator
 
             // clean fields
-            C_SAV.M.Reset();
             Menu_ExportSAV.Enabled = sav.Exportable;
 
             // No changes made yet
@@ -718,6 +731,7 @@ namespace PKHeX.WinForms
             Menu_Redo.Enabled = false;
 
             ResetSAVPKMEditors(sav);
+            C_SAV.M.Reset();
 
             Text = GetProgramTitle(sav);
             TryBackupExportCheck(sav, path);
@@ -732,13 +746,23 @@ namespace PKHeX.WinForms
 
         private void ResetSAVPKMEditors(SaveFile sav)
         {
-            bool WindowToggleRequired = C_SAV.SAV.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
-            PKM pk = PreparePKM();
-            var blank = sav.BlankPKM;
-            PKME_Tabs.CurrentPKM = blank;
-            PKME_Tabs.SetPKMFormatMode(sav.Generation);
-            PKME_Tabs.PopulateFields(blank);
+            bool WindowToggleRequired = C_SAV.SAV?.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
             C_SAV.SAV = sav;
+
+            var pk = LoadTemplate(sav);
+            var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
+            bool init = PKME_Tabs.pkm == null;
+            PKME_Tabs.CurrentPKM = pk;
+            if (init)
+            {
+                PKME_Tabs.InitializeBinding();
+                PKME_Tabs.SetPKMFormatMode(sav.Generation, pk);
+                PKME_Tabs.ChangeLanguage(sav, pk); // populates fields
+            }
+            else
+            {
+                PKME_Tabs.PopulateFields(pk);
+            }
 
             // Initialize Overall Info
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = C_SAV.SAV.HasBox;
@@ -750,10 +774,11 @@ namespace PKHeX.WinForms
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
                 WinFormsUtil.TranslateInterface(this, CurrentLanguage);
 
+            PKME_Tabs.PopulateFields(pk);
+            if (isBlank)
+                PKME_Tabs.TemplateFields(sav);
             if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
                 PKME_Tabs.FlickerInterface();
-
-            PKME_Tabs.TemplateFields(LoadTemplate(sav));
             foreach (var p in Plugins)
                 p.NotifySaveLoaded();
             sav.Edited = false;
@@ -876,9 +901,13 @@ namespace PKHeX.WinForms
 
             Menu_Options.DropDown.Close();
 
-            PKM pk = C_SAV.SAV.GetPKM(PKME_Tabs.CurrentPKM.Data);
             InitializeStrings();
-            PKME_Tabs.ChangeLanguage(C_SAV.SAV, pk);
+            if (C_SAV.SAV != null)
+            {
+                PKM pk = C_SAV.SAV.GetPKM(PKME_Tabs.CurrentPKM.Data);
+                PKME_Tabs.ChangeLanguage(C_SAV.SAV, pk);
+            }
+
             string ProgramTitle = Text;
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
             Text = ProgramTitle;

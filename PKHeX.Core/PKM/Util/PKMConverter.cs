@@ -199,7 +199,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Converts a PKM from one Generation 3 format to another. If it matches the destination format, the conversion will automatically return.
+        /// Converts a PKM from one Generation format to another. If it matches the destination format, the conversion will automatically return.
         /// </summary>
         /// <param name="pk">PKM to convert</param>
         /// <param name="PKMType">Format/Type to convert to</param>

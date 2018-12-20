@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
@@ -25,7 +24,7 @@ namespace PKHeX.WinForms.Controls
         public bool HaX;
         public bool ModifyPKM { private get; set; }
         private bool _hideSecret;
-        public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
+        public bool HideSecretDetails { private get => _hideSecret; set { if (SAV != null) ToggleSecrets(SAV, _hideSecret = value); } }
         public ToolStripMenuItem Menu_Redo;
         public ToolStripMenuItem Menu_Undo;
         private bool FieldsLoaded;
@@ -57,7 +56,8 @@ namespace PKHeX.WinForms.Controls
             set
             {
                 Box.FlagIllegal = value && !HaX;
-                ReloadSlots();
+                if (SAV != null)
+                    ReloadSlots();
             }
         }
 
@@ -69,7 +69,6 @@ namespace PKHeX.WinForms.Controls
 
         public SAVEditor()
         {
-            var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.GP, "PKHeX"));
             InitializeComponent();
 
             L_SlotOccupied = new[] { L_DC1, L_DC2 };
@@ -82,14 +81,13 @@ namespace PKHeX.WinForms.Controls
 
                 dcpkx1, dcpkx2
             };
-            SAV = z.Result;
+            Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
             Box.Setup(M = new SlotChangeManager(this));
             SL_Extra.M = M;
 
             M.OtherSlots.Add(this);
             SL_Extra.ViewIndex = -2;
             M.OtherSlots.Add(SL_Extra);
-            Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
             InitializeEvents();
         }
 

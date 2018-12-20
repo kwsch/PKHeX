@@ -13,6 +13,7 @@ namespace PKHeX.Core
         public abstract int SIZE_STORED { get; }
         public string Extension => GetType().Name.ToLower();
         public abstract PersonalInfo PersonalInfo { get; }
+        public abstract byte[] ExtraBytes { get; }
 
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage

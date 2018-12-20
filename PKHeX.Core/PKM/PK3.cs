@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
     public sealed class PK3 : _K3
     {
-        public static readonly byte[] ExtraBytes =
+        private static readonly byte[] Unused =
         {
             0x2A, 0x2B
         };
@@ -14,6 +14,8 @@ namespace PKHeX.Core
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
+
+        public override byte[] ExtraBytes => Unused;
 
         public PK3() => Data = new byte[PKX.SIZE_3PARTY];
 

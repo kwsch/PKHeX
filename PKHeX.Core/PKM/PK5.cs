@@ -6,10 +6,12 @@ namespace PKHeX.Core
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
     public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
-        public static readonly byte[] ExtraBytes =
+        private static readonly byte[] Unused =
         {
             0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
+
+        public override byte[] ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
