@@ -201,6 +201,8 @@ namespace PKHeX.Core
 
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
+            // differentiate G3 Card Key from Colo
+            g3coloitems[500 + 10] += " (COLO)";
         }
 
         private void SanitizeMetLocations()
