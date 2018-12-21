@@ -657,6 +657,7 @@
     <None Remove="Resources\text\script\flags_b2w2_ko.txt" />
     <None Remove="Resources\text\script\flags_b2w2_zh.txt" />
     <None Remove="Resources\text\script\flags_bw_en.txt" />
+    <None Remove="Resources\text\script\flags_bw_fr.txt" />
     <None Remove="Resources\text\script\flags_bw_ja.txt" />
     <None Remove="Resources\text\script\flags_bw_ko.txt" />
     <None Remove="Resources\text\script\flags_bw_zh.txt" />
@@ -672,6 +673,7 @@
     <None Remove="Resources\text\script\flags_hgss_ko.txt" />
     <None Remove="Resources\text\script\flags_hgss_zh.txt" />
     <None Remove="Resources\text\script\flags_oras_en.txt" />
+    <None Remove="Resources\text\script\flags_oras_fr.txt" />
     <None Remove="Resources\text\script\flags_oras_ja.txt" />
     <None Remove="Resources\text\script\flags_oras_ko.txt" />
     <None Remove="Resources\text\script\flags_oras_zh.txt" />
@@ -1390,6 +1392,7 @@
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_bw_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_bw_fr.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_bw_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_bw_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_bw_zh.txt" />
@@ -1405,6 +1408,7 @@
     <EmbeddedResource Include="Resources\text\script\flags_hgss_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_hgss_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_oras_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_oras_fr.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_oras_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_oras_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_oras_zh.txt" />
