@@ -29,7 +29,7 @@ namespace PKHeX.Core
                 Data = wc6;
 
                 DateTime now = DateTime.Now;
-                SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
+                RawDate = SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
             }
             if (Year < 2000)
                 Data = new byte[Data.Length]; // Invalidate
