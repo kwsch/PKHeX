@@ -797,10 +797,11 @@ namespace PKHeX.WinForms
         private static string GetProgramTitle(SaveFile sav)
         {
             string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
+            var ver = GameInfo.GetVersionName(sav.Version);
             if (Settings.Default.HideSAVDetails)
-                return title + $"[{sav.Version}]";
+                return title + $"[{ver}]";
             if (!sav.Exportable) // Blank save file
-                return title + $"{sav.FileName} [{sav.OT} ({sav.Version})]";
+                return title + $"{sav.FileName} [{sav.OT} ({ver})]";
             return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName)); // more descriptive
         }
 
@@ -857,8 +858,8 @@ namespace PKHeX.WinForms
             }
             else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
             {
-                string fr = GameInfo.VersionDataSource.First(r => r.Value == (int) GameVersion.FR).Text;
-                string lg = GameInfo.VersionDataSource.First(l => l.Value == (int) GameVersion.LG).Text;
+                string fr = GameInfo.GetVersionName(GameVersion.FR);
+                string lg = GameInfo.GetVersionName(GameVersion.LG);
                 string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
                 WinFormsUtil.Alert(string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
                 var g = new[] {GameVersion.FR, GameVersion.LG};
@@ -902,15 +903,13 @@ namespace PKHeX.WinForms
             Menu_Options.DropDown.Close();
 
             InitializeStrings();
+            WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
             if (C_SAV.SAV != null)
             {
                 PKM pk = C_SAV.SAV.GetPKM(PKME_Tabs.CurrentPKM.Data);
                 PKME_Tabs.ChangeLanguage(C_SAV.SAV, pk);
+                Text = GetProgramTitle(C_SAV.SAV);
             }
-
-            string ProgramTitle = Text;
-            WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
-            Text = ProgramTitle;
         }
 
         private static void InitializeStrings()

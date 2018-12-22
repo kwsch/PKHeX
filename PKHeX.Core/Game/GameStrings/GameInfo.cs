@@ -52,6 +52,13 @@ namespace PKHeX.Core
             return data;
         }
 
+        public static string GetVersionName(GameVersion version)
+        {
+            var list = (List<ComboItem>) VersionDataSource;
+            var first = list.Find(z => z.Value == (int) version);
+            return first.Equals(default(ComboItem)) ? version.ToString() : first.Text;
+        }
+
         // DataSource providing
         public static IReadOnlyList<ComboItem> ItemDataSource => Strings.ItemDataSource;
         public static IReadOnlyList<ComboItem> SpeciesDataSource => Strings.SpeciesDataSource;
