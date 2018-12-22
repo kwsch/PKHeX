@@ -697,10 +697,10 @@ namespace PKHeX.WinForms
 
         private static PKM LoadTemplate(SaveFile sav)
         {
-            if (!Directory.Exists(TemplatePath))
-                return null;
-
             var blank = sav.BlankPKM;
+            if (!Directory.Exists(TemplatePath))
+                return blank;
+
             var di = new DirectoryInfo(TemplatePath);
             string path = Path.Combine(TemplatePath, $"{di.Name}.{blank.Extension}");
 
