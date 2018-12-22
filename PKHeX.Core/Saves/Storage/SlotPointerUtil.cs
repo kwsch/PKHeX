@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < p.Count; i++)
                 {
                     var index = p[i];
-                    if (index >= bd.Count)
+                    if ((uint)index >= bd.Count)
                         continue;
                     var pk = bd[index];
                     var newIndex = result.IndexOf(pk);
