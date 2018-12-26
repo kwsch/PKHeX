@@ -53,6 +53,7 @@ namespace PKHeX.WinForms
                 foreach (PictureBox pb in boxEditor.SlotPictureBoxes)
                     pb.ContextMenuStrip = p.SlotPictureBoxes[0].ContextMenuStrip;
                 boxEditor.Setup(m);
+                boxEditor.Reset();
                 boxEditor.CurrentBox = i;
                 boxEditor.CB_BoxSelect.Enabled = false;
                 Boxes.Add(boxEditor);

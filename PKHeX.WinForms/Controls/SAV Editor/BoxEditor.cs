@@ -211,7 +211,7 @@ namespace PKHeX.WinForms.Controls
             CB_BoxSelect.SelectedIndexChanged -= GetBox;
         }
 
-        private void Reset()
+        public void Reset()
         {
             ResetBoxNames();
             ResetSlots();

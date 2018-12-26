@@ -13,6 +13,7 @@ namespace PKHeX.WinForms
             parent = p;
             InitializeComponent();
             Box.Setup(m);
+            Box.Reset();
             CenterToParent();
 
             AllowDrop = true;
@@ -37,6 +38,8 @@ namespace PKHeX.WinForms
 
             foreach (PictureBox pb in Box.SlotPictureBoxes)
                 pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;
+            Box.ResetBoxNames(); // fix box names
+            Box.ResetSlots(); // refresh box background
         }
 
         public int CurrentBox => Box.CurrentBox;
