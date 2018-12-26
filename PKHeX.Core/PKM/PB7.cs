@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    /// <summary>
-    /// Notes about the next format
-    /// </summary>
-    public sealed class PB7 : PKM, IHyperTrain, IAwakened
+    /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
+    public sealed class PB7 : _K6, IHyperTrain, IAwakened
     {
         public static readonly byte[] Unused =
         {
             0x2A, // Old Marking Value (PelagoEventStatus)
-            0x36, 0x37, // Unused Ribbons
-            0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xE4, 0xE5, 0xE6, 0xE7
+            0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, // Unused Ribbons
+            0x58, 0x59, // Nickname Terminator
+            0x73,
+            0x90, 0x91, // HT Terminator
+            0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, // Old Geolocation/memories
+            0xA7, 0xAA, 0xAB,
+            0xAC, 0xAD, // Fatigue, no GUI editing
+            0xC8, 0xC9, // OT Terminator
         };
 
         public override byte[] ExtraBytes => Unused;
@@ -46,11 +49,6 @@ namespace PKHeX.Core
                 chk += BitConverter.ToUInt16(Data, i);
             return chk;
         }
-
-        // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }
-        public override byte[] HT_Trash { get => GetData(0x78, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x78); } }
-        public override byte[] OT_Trash { get => GetData(0xB0, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0xB0); } }
 
         // Structure
         #region Block A
@@ -129,71 +127,15 @@ namespace PKHeX.Core
         public int AV_SPE { get => Data[0x27]; set => Data[0x27] = (byte)value; }
         public int AV_SPA { get => Data[0x28]; set => Data[0x28] = (byte)value; }
         public int AV_SPD { get => Data[0x29]; set => Data[0x29] = (byte)value; }
-        public byte ResortEventStatus { get => Data[0x2A]; set => Data[0x2A] = value; }
+        public byte _0x2A { get => Data[0x2A]; set => Data[0x2A] = value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
         public float HeightAbsolute { get => BitConverter.ToSingle(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
         private uint RIB0 { get => BitConverter.ToUInt32(Data, 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, 0x30); }
         private uint RIB1 { get => BitConverter.ToUInt32(Data, 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, 0x34); }
-        public bool RibbonChampionKalos         { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = ((RIB0 & ~(1u << 00)) | (value ? 1u << 00 : 0)); }
-        public bool RibbonChampionG3Hoenn       { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = ((RIB0 & ~(1u << 01)) | (value ? 1u << 01 : 0)); }
-        public bool RibbonChampionSinnoh        { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = ((RIB0 & ~(1u << 02)) | (value ? 1u << 02 : 0)); }
-        public bool RibbonBestFriends           { get => (RIB0 & (1 << 03)) == 1 << 03; set => RIB0 = ((RIB0 & ~(1u << 03)) | (value ? 1u << 03 : 0)); }
-        public bool RibbonTraining              { get => (RIB0 & (1 << 04)) == 1 << 04; set => RIB0 = ((RIB0 & ~(1u << 04)) | (value ? 1u << 04 : 0)); }
-        public bool RibbonBattlerSkillful       { get => (RIB0 & (1 << 05)) == 1 << 05; set => RIB0 = ((RIB0 & ~(1u << 05)) | (value ? 1u << 05 : 0)); }
-        public bool RibbonBattlerExpert         { get => (RIB0 & (1 << 06)) == 1 << 06; set => RIB0 = ((RIB0 & ~(1u << 06)) | (value ? 1u << 06 : 0)); }
-        public bool RibbonEffort                { get => (RIB0 & (1 << 07)) == 1 << 07; set => RIB0 = ((RIB0 & ~(1u << 07)) | (value ? 1u << 07 : 0)); }
-        public bool RibbonAlert                 { get => (RIB0 & (1 << 08)) == 1 << 08; set => RIB0 = ((RIB0 & ~(1u << 08)) | (value ? 1u << 08 : 0)); }
-        public bool RibbonShock                 { get => (RIB0 & (1 << 09)) == 1 << 09; set => RIB0 = ((RIB0 & ~(1u << 09)) | (value ? 1u << 09 : 0)); }
-        public bool RibbonDowncast              { get => (RIB0 & (1 << 10)) == 1 << 10; set => RIB0 = ((RIB0 & ~(1u << 10)) | (value ? 1u << 10 : 0)); }
-        public bool RibbonCareless              { get => (RIB0 & (1 << 11)) == 1 << 11; set => RIB0 = ((RIB0 & ~(1u << 11)) | (value ? 1u << 11 : 0)); }
-        public bool RibbonRelax                 { get => (RIB0 & (1 << 12)) == 1 << 12; set => RIB0 = ((RIB0 & ~(1u << 12)) | (value ? 1u << 12 : 0)); }
-        public bool RibbonSnooze                { get => (RIB0 & (1 << 13)) == 1 << 13; set => RIB0 = ((RIB0 & ~(1u << 13)) | (value ? 1u << 13 : 0)); }
-        public bool RibbonSmile                 { get => (RIB0 & (1 << 14)) == 1 << 14; set => RIB0 = ((RIB0 & ~(1u << 14)) | (value ? 1u << 14 : 0)); }
-        public bool RibbonGorgeous              { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = ((RIB0 & ~(1u << 15)) | (value ? 1u << 15 : 0)); }
-        public bool RibbonRoyal                 { get => (RIB0 & (1 << 16)) == 1 << 16; set => RIB0 = ((RIB0 & ~(1u << 16)) | (value ? 1u << 16 : 0)); }
-        public bool RibbonGorgeousRoyal         { get => (RIB0 & (1 << 17)) == 1 << 17; set => RIB0 = ((RIB0 & ~(1u << 17)) | (value ? 1u << 17 : 0)); }
-        public bool RibbonArtist                { get => (RIB0 & (1 << 18)) == 1 << 18; set => RIB0 = ((RIB0 & ~(1u << 18)) | (value ? 1u << 18 : 0)); }
-        public bool RibbonFootprint             { get => (RIB0 & (1 << 19)) == 1 << 19; set => RIB0 = ((RIB0 & ~(1u << 19)) | (value ? 1u << 19 : 0)); }
-        public bool RibbonRecord                { get => (RIB0 & (1 << 20)) == 1 << 20; set => RIB0 = ((RIB0 & ~(1u << 20)) | (value ? 1u << 20 : 0)); }
-        public bool RibbonLegend                { get => (RIB0 & (1 << 21)) == 1 << 21; set => RIB0 = ((RIB0 & ~(1u << 21)) | (value ? 1u << 21 : 0)); }
-        public bool RibbonCountry               { get => (RIB0 & (1 << 22)) == 1 << 22; set => RIB0 = ((RIB0 & ~(1u << 22)) | (value ? 1u << 22 : 0)); }
-        public bool RibbonNational              { get => (RIB0 & (1 << 23)) == 1 << 23; set => RIB0 = ((RIB0 & ~(1u << 23)) | (value ? 1u << 23 : 0)); }
-        public bool RibbonEarth                 { get => (RIB0 & (1 << 24)) == 1 << 24; set => RIB0 = ((RIB0 & ~(1u << 24)) | (value ? 1u << 24 : 0)); }
-        public bool RibbonWorld                 { get => (RIB0 & (1 << 25)) == 1 << 25; set => RIB0 = ((RIB0 & ~(1u << 25)) | (value ? 1u << 25 : 0)); }
-        public bool RibbonClassic               { get => (RIB0 & (1 << 26)) == 1 << 26; set => RIB0 = ((RIB0 & ~(1u << 26)) | (value ? 1u << 26 : 0)); }
-        public bool RibbonPremier               { get => (RIB0 & (1 << 27)) == 1 << 27; set => RIB0 = ((RIB0 & ~(1u << 27)) | (value ? 1u << 27 : 0)); }
-        public bool RibbonEvent                 { get => (RIB0 & (1 << 28)) == 1 << 28; set => RIB0 = ((RIB0 & ~(1u << 28)) | (value ? 1u << 28 : 0)); }
-        public bool RibbonBirthday              { get => (RIB0 & (1 << 29)) == 1 << 29; set => RIB0 = ((RIB0 & ~(1u << 29)) | (value ? 1u << 29 : 0)); }
-        public bool RibbonSpecial               { get => (RIB0 & (1 << 30)) == 1 << 30; set => RIB0 = ((RIB0 & ~(1u << 30)) | (value ? 1u << 30 : 0)); }
-        public bool RibbonSouvenir              { get => (RIB0 & (1 << 31)) == 1 << 31; set => RIB0 = ((RIB0 & ~(1u << 31)) | (value ? 1u << 31 : 0)); }
-        public bool RibbonWishing               { get => (RIB1 & (1 << 00)) == 1 << 00; set => RIB1 = ((RIB1 & ~(1u << 00)) | (value ? 1u << 00 : 0)); }
-        public bool RibbonChampionBattle        { get => (RIB1 & (1 << 01)) == 1 << 01; set => RIB1 = ((RIB1 & ~(1u << 01)) | (value ? 1u << 01 : 0)); }
-        public bool RibbonChampionRegional      { get => (RIB1 & (1 << 02)) == 1 << 02; set => RIB1 = ((RIB1 & ~(1u << 02)) | (value ? 1u << 02 : 0)); }
-        public bool RibbonChampionNational      { get => (RIB1 & (1 << 03)) == 1 << 03; set => RIB1 = ((RIB1 & ~(1u << 03)) | (value ? 1u << 03 : 0)); }
-        public bool RibbonChampionWorld         { get => (RIB1 & (1 << 04)) == 1 << 04; set => RIB1 = ((RIB1 & ~(1u << 04)) | (value ? 1u << 04 : 0)); }
-        public bool RIB4_5                      { get => (RIB1 & (1 << 05)) == 1 << 05; set => RIB1 = ((RIB1 & ~(1u << 05)) | (value ? 1u << 05 : 0)); } // Unused
-        public bool RIB4_6                      { get => (RIB1 & (1 << 06)) == 1 << 06; set => RIB1 = ((RIB1 & ~(1u << 06)) | (value ? 1u << 06 : 0)); } // Unused
-        public bool RibbonChampionG6Hoenn       { get => (RIB1 & (1 << 07)) == 1 << 07; set => RIB1 = ((RIB1 & ~(1u << 07)) | (value ? 1u << 07 : 0)); }
-        public bool RibbonContestStar           { get => (RIB1 & (1 << 08)) == 1 << 08; set => RIB1 = ((RIB1 & ~(1u << 08)) | (value ? 1u << 08 : 0)); }
-        public bool RibbonMasterCoolness        { get => (RIB1 & (1 << 09)) == 1 << 09; set => RIB1 = ((RIB1 & ~(1u << 09)) | (value ? 1u << 09 : 0)); }
-        public bool RibbonMasterBeauty          { get => (RIB1 & (1 << 10)) == 1 << 10; set => RIB1 = ((RIB1 & ~(1u << 10)) | (value ? 1u << 10 : 0)); }
-        public bool RibbonMasterCuteness        { get => (RIB1 & (1 << 11)) == 1 << 11; set => RIB1 = ((RIB1 & ~(1u << 11)) | (value ? 1u << 11 : 0)); }
-        public bool RibbonMasterCleverness      { get => (RIB1 & (1 << 12)) == 1 << 12; set => RIB1 = ((RIB1 & ~(1u << 12)) | (value ? 1u << 12 : 0)); }
-        public bool RibbonMasterToughness       { get => (RIB1 & (1 << 13)) == 1 << 13; set => RIB1 = ((RIB1 & ~(1u << 13)) | (value ? 1u << 13 : 0)); }
-        public bool RibbonChampionAlola         { get => (RIB1 & (1 << 14)) == 1 << 14; set => RIB1 = ((RIB1 & ~(1u << 14)) | (value ? 1u << 14 : 0)); }
-        public bool RibbonBattleRoyale          { get => (RIB1 & (1 << 15)) == 1 << 15; set => RIB1 = ((RIB1 & ~(1u << 15)) | (value ? 1u << 15 : 0)); }
-        public bool RibbonBattleTreeGreat       { get => (RIB1 & (1 << 16)) == 1 << 16; set => RIB1 = ((RIB1 & ~(1u << 16)) | (value ? 1u << 16 : 0)); }
-        public bool RibbonBattleTreeMaster      { get => (RIB1 & (1 << 17)) == 1 << 17; set => RIB1 = ((RIB1 & ~(1u << 17)) | (value ? 1u << 17 : 0)); }
-        public bool RIB6_2                      { get => (RIB1 & (1 << 18)) == 1 << 18; set => RIB1 = ((RIB1 & ~(1u << 18)) | (value ? 1u << 18 : 0)); } // Unused
-        public bool RIB6_3                      { get => (RIB1 & (1 << 19)) == 1 << 19; set => RIB1 = ((RIB1 & ~(1u << 19)) | (value ? 1u << 19 : 0)); } // Unused
-        public bool RIB6_4                      { get => (RIB1 & (1 << 20)) == 1 << 20; set => RIB1 = ((RIB1 & ~(1u << 20)) | (value ? 1u << 20 : 0)); } // Unused
-        public bool RIB6_5                      { get => (RIB1 & (1 << 21)) == 1 << 21; set => RIB1 = ((RIB1 & ~(1u << 21)) | (value ? 1u << 21 : 0)); } // Unused
-        public bool RIB6_6                      { get => (RIB1 & (1 << 22)) == 1 << 22; set => RIB1 = ((RIB1 & ~(1u << 22)) | (value ? 1u << 22 : 0)); } // Unused
-        public bool RIB6_7                      { get => (RIB1 & (1 << 23)) == 1 << 23; set => RIB1 = ((RIB1 & ~(1u << 23)) | (value ? 1u << 23 : 0)); } // Unused
-        public int RibbonCountMemoryContest { get => Data[0x38]; set => Data[0x38] = (byte)value; }
-        public int RibbonCountMemoryBattle { get => Data[0x39]; set => Data[0x39] = (byte)value; }
+        public byte _0x38 { get => Data[0x38]; set => Data[0x38] = value; }
+        public byte _0x39 { get => Data[0x39]; set => Data[0x39] = value; }
         public int HeightScalar { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
         public int WeightScalar { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
         public uint FormDuration { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
@@ -278,16 +220,16 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
-        public int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
-        public int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
-        public int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
-        public int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
-        public int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
-        public int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
-        public int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
-        public int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
-        public int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
+        public byte _0x94 { get => Data[0x94]; set => Data[0x94] = value; }
+        public byte _0x95 { get => Data[0x95]; set => Data[0x95] = value; }
+        public byte _0x96 { get => Data[0x96]; set => Data[0x96] = value; }
+        public byte _0x97 { get => Data[0x97]; set => Data[0x97] = value; }
+        public byte _0x98 { get => Data[0x98]; set => Data[0x98] = value; }
+        public byte _0x99 { get => Data[0x99]; set => Data[0x99] = value; }
+        public byte _0x9A { get => Data[0x9A]; set => Data[0x9A] = value; }
+        public byte _0x9B { get => Data[0x9B]; set => Data[0x9B] = value; }
+        public byte _0x9C { get => Data[0x9C]; set => Data[0x9C] = value; }
+        public byte _0x9D { get => Data[0x9D]; set => Data[0x9D] = value; }
         public byte _0x9E { get => Data[0x9E]; set => Data[0x9E] = value; }
         public byte _0x9F { get => Data[0x9F]; set => Data[0x9F] = value; }
         public byte _0xA0 { get => Data[0xA0]; set => Data[0xA0] = value; }
@@ -360,44 +302,6 @@ namespace PKHeX.Core
         // 102/103 unused
         #endregion
 
-        // Simple Generated Attributes
-        public override int CurrentFriendship
-        {
-            get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
-            set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
-        }
-
-        public int OppositeFriendship
-        {
-            get => CurrentHandler == 1 ? OT_Friendship : HT_Friendship;
-            set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }
-        }
-
-        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
-        public override int TSV => (TID ^ SID) >> 4;
-        public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
-        public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
-
-        // Complex Generated Attributes
-        public override int Characteristic
-        {
-            get
-            {
-                // Characteristic with EC%6
-                int pm6 = (int)(EncryptionConstant % 6); // EC MOD 6
-                int maxIV = IVs.Max();
-                int pm6stat = 0;
-
-                for (int i = 0; i < 6; i++)
-                {
-                    if (IVs[pm6stat = pm6++ % 6] == maxIV)
-                        break;
-                }
-
-                return (pm6stat * 5) + (maxIV % 5);
-            }
-        }
-
         public override int[] Markings
         {
             get
@@ -419,95 +323,7 @@ namespace PKHeX.Core
             }
         }
 
-        // Methods
-        protected override byte[] Encrypt()
-        {
-            RefreshChecksum();
-            return PKX.EncryptArray(Data);
-        }
-
-        // General User-error Fixes
-        public void FixRelearn()
-        {
-            while (true)
-            {
-                if (RelearnMove4 != 0 && RelearnMove3 == 0)
-                {
-                    RelearnMove3 = RelearnMove4;
-                    RelearnMove4 = 0;
-                }
-                if (RelearnMove3 != 0 && RelearnMove2 == 0)
-                {
-                    RelearnMove2 = RelearnMove3;
-                    RelearnMove3 = 0;
-                    continue;
-                }
-                if (RelearnMove2 != 0 && RelearnMove1 == 0)
-                {
-                    RelearnMove1 = RelearnMove2;
-                    RelearnMove2 = 0;
-                    continue;
-                }
-                break;
-            }
-        }
-
-        public void FixMemories()
-        {
-            if (IsUntraded)
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
-
-            Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
-            Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;
-            Geo3_Region = Geo3_Country > 0 ? Geo3_Region : 0;
-            Geo4_Region = Geo4_Country > 0 ? Geo4_Region : 0;
-            Geo5_Region = Geo5_Country > 0 ? Geo5_Region : 0;
-
-            while (true)
-            {
-                if (Geo5_Country != 0 && Geo4_Country == 0)
-                {
-                    Geo4_Country = Geo5_Country;
-                    Geo4_Region = Geo5_Region;
-                    Geo5_Country = Geo5_Region = 0;
-                }
-                if (Geo4_Country != 0 && Geo3_Country == 0)
-                {
-                    Geo3_Country = Geo4_Country;
-                    Geo3_Region = Geo4_Region;
-                    Geo4_Country = Geo4_Region = 0;
-                    continue;
-                }
-                if (Geo3_Country != 0 && Geo2_Country == 0)
-                {
-                    Geo2_Country = Geo3_Country;
-                    Geo2_Region = Geo3_Region;
-                    Geo3_Country = Geo3_Region = 0;
-                    continue;
-                }
-                if (Geo2_Country != 0 && Geo1_Country == 0)
-                {
-                    Geo1_Country = Geo2_Country;
-                    Geo1_Region = Geo2_Region;
-                    Geo2_Country = Geo2_Region = 0;
-                    continue;
-                }
-                break;
-            }
-        }
-
-        // Synthetic Trading Logic
-        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2015)
-        {
-            // Eggs do not have any modifications done if they are traded
-            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-                SetLinkTradeEgg(Day, Month, Year);
-            // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_GENDER))
-                TradeHT(SAV_Trainer, SAV_GENDER);
-        }
-
-        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER)
+        protected override bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             // Check to see if the OT matches the SAV's OT info.
             if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
@@ -517,7 +333,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private void TradeHT(string SAV_Trainer, int SAV_GENDER)
+        protected override void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
@@ -529,10 +345,11 @@ namespace PKHeX.Core
             HT_Gender = SAV_GENDER;
         }
 
-        // Legality Properties
-        public override bool WasLink => Met_Location == 30011;
-        public override bool WasEvent => (Met_Location > 40000 && Met_Location < 50000) || FatefulEncounter;
-        public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
+        public void FixMemories()
+        {
+            if (IsUntraded)
+                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+        }
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_7b;
@@ -541,10 +358,6 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_7_USUM;
         public override int MaxBallID => Legal.MaxBallID_7;
         public override int MaxGameID => Legal.MaxGameID_7b;
-        public override int MaxIV => 31;
-        public override int MaxEV => 252;
-        public override int OTLength => 12;
-        public override int NickLength => 12;
 
         public override ushort[] GetStats(PersonalInfo p) => CalculateStatsBeluga(p);
 
@@ -594,7 +407,7 @@ namespace PKHeX.Core
 
         private static int AmplifyStat(int nature, int index, int initial)
         {
-            switch (AbilityAmpTable[(5 * nature) + index])
+            switch (GetNatureAmp(nature, index))
             {
                 case 1: return 110 * initial / 100; // 110%
                 case -1: return 90 * initial / 100; // 90%
@@ -602,7 +415,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static readonly sbyte[] AbilityAmpTable =
+        private static sbyte GetNatureAmp(int nature, int index)
+        {
+            if ((uint) nature >= 25)
+                return -1;
+            return NatureAmpTable[(5 * nature) + index];
+        }
+
+        private static readonly sbyte[] NatureAmpTable =
         {
             0, 0, 0, 0, 0, // Hardy
             1,-1, 0, 0, 0, // Lonely

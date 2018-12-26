@@ -365,25 +365,6 @@ namespace PKHeX.Core
 
                 EXP = Experience.GetEXP(currentLevel, Species, 0),
 
-                // Ribbons
-                RibbonCountry = RibbonCountry,
-                RibbonNational = RibbonNational,
-
-                RibbonEarth = RibbonEarth,
-                RibbonWorld = RibbonWorld,
-                RibbonClassic = RibbonClassic,
-                RibbonPremier = RibbonPremier,
-                RibbonEvent = RibbonEvent,
-                RibbonBirthday = RibbonBirthday,
-                RibbonSpecial = RibbonSpecial,
-                RibbonSouvenir = RibbonSouvenir,
-
-                RibbonWishing = RibbonWishing,
-                RibbonChampionBattle = RibbonChampionBattle,
-                RibbonChampionRegional = RibbonChampionRegional,
-                RibbonChampionNational = RibbonChampionNational,
-                RibbonChampionWorld = RibbonChampionWorld,
-
                 OT_Friendship = pi.BaseFriendship,
                 FatefulEncounter = true,
             };

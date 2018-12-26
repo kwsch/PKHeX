@@ -147,7 +147,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk.CurrentHandler;
             var Date = DateTime.Now;
-            pk.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year);
+            pk.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, false, Date.Year);
             if (CT != pk.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
