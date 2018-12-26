@@ -22,6 +22,8 @@ namespace PKHeX.Core
 
             if (pkm.PID == 0)
                 data.AddLine(Get(LPIDZero, Severity.Fishy));
+            if (pkm.Nature >= 25) // out of range
+                data.AddLine(GetInvalid(LPIDNatureMismatch));
 
             var Info = data.Info;
             if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)

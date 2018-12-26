@@ -264,14 +264,14 @@ namespace PKHeX.Core
                 result.Add($"EVs: {string.Join(" / ", evstr)}");
 
             // Secondary Stats
-            if (Ability > -1 && Ability < Strings.Ability.Count)
+            if ((uint)Ability < Strings.Ability.Count)
                 result.Add($"Ability: {Strings.Ability[Ability]}");
             if (Level != 100)
                 result.Add($"Level: {Level}");
             if (Shiny)
                 result.Add("Shiny: Yes");
 
-            if (Nature > -1)
+            if ((uint)Nature < Strings.Natures.Count)
                 result.Add($"{Strings.Natures[Nature]} Nature");
 
             // Moves
@@ -292,7 +292,7 @@ namespace PKHeX.Core
             if (HeldItem > 0)
             {
                 var items = Strings.GetItemStrings(Format);
-                if (HeldItem < items.Count)
+                if ((uint)HeldItem < items.Count)
                     result += $" @ {items[HeldItem]}";
             }
             return result;
