@@ -830,21 +830,19 @@ namespace PKHeX.Core
 
         public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
 
-        public bool IsStorageFull => NextOpenBoxSlot < 0;
+        public bool IsStorageFull => NextOpenBoxSlot() == StorageFullValue;
+        private const int StorageFullValue = -1;
 
-        public int NextOpenBoxSlot
+        public int NextOpenBoxSlot(int lastKnownOccupied = -1)
         {
-            get
+            int count = BoxSlotCount * BoxCount;
+            for (int i = lastKnownOccupied + 1; i < count; i++)
             {
-                int count = BoxSlotCount * BoxCount;
-                for (int i = 0; i < count; i++)
-                {
-                    int offset = GetBoxSlotOffset(i);
-                    if (!IsPKMPresent(offset))
-                        return i;
-                }
-                return -1;
+                int offset = GetBoxSlotOffset(i);
+                if (!IsPKMPresent(offset))
+                    return i;
             }
+            return StorageFullValue;
         }
 
         public abstract string GetString(byte[] data, int offset, int length);
