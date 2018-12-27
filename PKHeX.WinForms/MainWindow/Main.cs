@@ -808,7 +808,7 @@ namespace PKHeX.WinForms
 
         private static bool TryBackupExportCheck(SaveFile sav, string path)
         {
-            if (string.IsNullOrWhiteSpace(path)) // not actual save
+            if (string.IsNullOrWhiteSpace(path) || !Settings.Default.BAKEnabled) // not actual save
                 return false;
 
             // If backup folder exists, save a backup.
@@ -942,10 +942,10 @@ namespace PKHeX.WinForms
                 string url = Clipboard.GetText();
                 if (!string.IsNullOrWhiteSpace(url))
                 {
-                    if (!url.StartsWith("http") || url.Contains('\n'))
-                        ClickShowdownImportPKM(sender, e);
-                    else
+                    if (url.StartsWith("http") && !url.Contains('\n')) // qr payload
                         ImportQRToTabs(url);
+                    else
+                        ClickShowdownImportPKM(sender, e);
                     return;
                 }
             }
@@ -1006,7 +1006,7 @@ namespace PKHeX.WinForms
                 sprite = ImageUtil.LayerImage(sprite, img, 24, 0);
             }
 
-            string[] r = pkx.QRText;
+            string[] r = pkx.GetQRLines();
             string refer = GetProgramTitle();
             new QR(qr, sprite, pkx, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})").ShowDialog();
         }

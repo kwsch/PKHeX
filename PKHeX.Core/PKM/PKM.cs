@@ -342,7 +342,6 @@ namespace PKHeX.Core
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
         public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
-        public string[] QRText => this.GetQRLines();
 
         public string FileName => $"{FileNameWithoutExtension}.{Extension}";
 
