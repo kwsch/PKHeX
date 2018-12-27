@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -455,6 +456,64 @@ namespace PKHeX.Core
 
             pk.RefreshChecksum();
             return pk;
+        }
+
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            if (pkm.Egg_Location == 0) // Not Egg
+            {
+                if (OTGender != 3)
+                {
+                    if (SID != pkm.SID) return false;
+                    if (TID != pkm.TID) return false;
+                    if (OTGender != pkm.OT_Gender) return false;
+                }
+                var OT = GetOT(pkm.Language);
+                if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
+                if (OriginGame != 0 && OriginGame != pkm.Version) return false;
+                if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
+            }
+
+            if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
+                return false;
+
+            if (IsEgg)
+            {
+                if (EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30002)
+                        return false;
+                }
+                else if (PIDType == 0 && pkm.IsShiny)
+                {
+                    return false; // can't be traded away for unshiny
+                }
+
+                if (pkm.IsEgg && !pkm.IsNative)
+                    return false;
+            }
+            else
+            {
+                if (!PIDType.IsValid(pkm)) return false;
+                if (EggLocation != pkm.Egg_Location) return false;
+                if (MetLocation != pkm.Met_Location) return false;
+            }
+
+            if (MetLevel != pkm.Met_Level) return false;
+            if (Ball != pkm.Ball) return false;
+            if (OTGender < 3 && OTGender != pkm.OT_Gender) return false;
+            if (Nature != -1 && Nature != pkm.Nature) return false;
+            if (Gender != 3 && Gender != pkm.Gender) return false;
+
+            if (pkm is IAwakened s && s.IsAwakeningBelow(this))
+                return false;
+
+            return true;
+        }
+
+        protected override bool IsMatchDeferred(PKM pkm)
+        {
+            return pkm.Species == Species;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -130,5 +132,58 @@ namespace PKHeX.Core
         }
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
+
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            var wc = Gift.PK;
+            if (!wc.IsEgg)
+            {
+                if (wc.TID != pkm.TID) return false;
+                if (wc.SID != pkm.SID) return false;
+                if (wc.OT_Name != pkm.OT_Name) return false;
+                if (wc.OT_Gender != pkm.OT_Gender) return false;
+                if (wc.Language != 0 && wc.Language != pkm.Language) return false;
+
+                if (pkm.Format != 4) // transferred
+                {
+                    // met location: deferred to general transfer check
+                    if (wc.CurrentLevel > pkm.Met_Level) return false;
+                }
+                else
+                {
+                    if (wc.Egg_Location + 3000 != pkm.Met_Location) return false;
+                    if (wc.CurrentLevel != pkm.Met_Level) return false;
+                }
+            }
+            else // Egg
+            {
+                if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != 2002) // traded
+                    return false;
+                if (wc.CurrentLevel != pkm.Met_Level)
+                    return false;
+                if (pkm.IsEgg && !pkm.IsNative)
+                    return false;
+            }
+
+            if (wc.AltForm != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
+                return false;
+
+            if (wc.Ball != pkm.Ball) return false;
+            if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
+            if (wc.PID == 1 && pkm.IsShiny) return false;
+            if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
+
+            if (pkm is IContestStats s && s.IsContestBelow(wc))
+                return false;
+
+            return true;
+        }
+
+        protected override bool IsMatchDeferred(PKM pkm)
+        {
+            if (!CanBeReceivedBy(pkm.Version))
+                return false;
+            return Species != pkm.Species;
+        }
     }
 }

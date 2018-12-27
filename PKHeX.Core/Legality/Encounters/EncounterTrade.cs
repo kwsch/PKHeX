@@ -200,5 +200,132 @@ namespace PKHeX.Core
             pk.OT_TextVar = 40;
             pk.OT_Feeling = 5;
         }
+
+        public bool IsMatch(PKM pkm, int lvl)
+        {
+            if (IVs != null)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
+                        return false;
+                }
+            }
+
+            if (this is EncounterTradePID p)
+            {
+                if (p.PID != pkm.EncryptionConstant)
+                    return false;
+                if (Nature != Nature.Random && (int)Nature != pkm.Nature) // gen5 BW only
+                    return false;
+            }
+            else
+            {
+                if (!Shiny.IsValid(pkm))
+                    return false;
+                if (Nature != Nature.Random && (int)Nature != pkm.Nature)
+                    return false;
+                if (Gender != -1 && Gender != pkm.Gender)
+                    return false;
+            }
+            if (TID != pkm.TID)
+                return false;
+            if (SID != pkm.SID)
+                return false;
+
+            if (pkm.HasOriginalMetLocation)
+            {
+                var loc = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
+                if (loc != pkm.Met_Location)
+                    return false;
+
+                if (pkm.Format < 5)
+                {
+                    if (Level > lvl)
+                        return false;
+                }
+                else if (Level != lvl)
+                {
+                    return false;
+                }
+            }
+            else if (Level > lvl)
+            {
+                return false;
+            }
+
+            if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
+                return false;
+
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, pkm.Species))
+                return false;
+            if (OTGender != -1 && OTGender != pkm.OT_Gender)
+                return false;
+            if (EggLocation != pkm.Egg_Location)
+                return false;
+            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
+            //    countinue;
+            if (!Version.Contains((GameVersion)pkm.Version))
+                return false;
+
+            if (pkm is IContestStats s && s.IsContestBelow(this))
+                return false;
+
+            return true;
+        }
+
+        public bool IsMatchVC1(PKM pkm)
+        {
+            if (Level > pkm.CurrentLevel) // minimum required level
+                return false;
+            if (pkm.Format != 1 || !pkm.Gen1_NotTradeback)
+                return true;
+
+            // Even if the in game trade uses the tables with source pokemon allowing generation 2 games, the traded pokemon could be a non-tradeback pokemon
+            var rate = (pkm as PK1)?.Catch_Rate;
+            if (this is EncounterTradeCatchRate r)
+            {
+                if (rate != r.Catch_Rate)
+                    return false;
+            }
+            else
+            {
+                if (Version == GameVersion.YW && rate != PersonalTable.Y[Species].CatchRate)
+                    return false;
+                if (Version != GameVersion.YW && rate != PersonalTable.RB[Species].CatchRate)
+                    return false;
+            }
+            return true;
+        }
+
+        public bool IsMatchVC2(PKM pkm)
+        {
+            if (Level > pkm.CurrentLevel) // minimum required level
+                return false;
+            if (TID != pkm.TID)
+                return false;
+            if (Gender >= 0 && Gender != pkm.Gender && pkm.Format <= 2)
+                return false;
+            if (IVs?.SequenceEqual(pkm.IVs) == false && pkm.Format <= 2)
+                return false;
+            if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
+                return false;
+
+            return IsValidTradeOT12(pkm);
+        }
+
+        private bool IsValidTradeOT12(PKM pkm)
+        {
+            var OT = pkm.OT_Name;
+            if (pkm.Japanese)
+                return TrainerNames[(int)LanguageID.Japanese] == OT;
+            if (pkm.Korean)
+                return TrainerNames[(int)LanguageID.Korean] == OT;
+
+            const int start = (int)LanguageID.English;
+            const int end = (int)LanguageID.Italian;
+            var index = Array.FindIndex(TrainerNames, start, end - start, w => w == OT);
+            return index >= 0;
+        }
     }
 }

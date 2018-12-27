@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -221,5 +222,8 @@ namespace PKHeX.Core
                 pk4.PID = RNG.ARNG.Next(pk4.PID);
             return seed;
         }
+
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
+        protected override bool IsMatchDeferred(PKM pkm) => false;
     }
 }

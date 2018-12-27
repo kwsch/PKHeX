@@ -80,8 +80,21 @@ namespace PKHeX.Core
         public string Extension => GetType().Name.ToLower();
         public string FileName => $"{CardHeader}.{Extension}";
         public byte[] Data { get; set; }
-        public abstract PKM ConvertToPKM(ITrainerInfo SAV);
         public abstract int Format { get; }
+
+        public abstract PKM ConvertToPKM(ITrainerInfo SAV);
+
+        protected abstract bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs);
+        protected abstract bool IsMatchDeferred(PKM pkm);
+
+        public EncounterMatchRating IsMatch(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            if (!IsMatchExact(pkm, vs))
+                return EncounterMatchRating.None;
+            if (IsMatchDeferred(pkm))
+                return EncounterMatchRating.Deferred;
+            return EncounterMatchRating.Match;
+        }
 
         /// <summary>
         /// Creates a deep copy of the <see cref="MysteryGift"/> object data.

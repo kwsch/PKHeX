@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -237,6 +238,132 @@ namespace PKHeX.Core
 
                 default: return PIDType.None;
             }
+        }
+
+        public bool IsMatch(PKM pkm, int lvl)
+        {
+            if (Nature != Nature.Random && pkm.Nature != (int)Nature)
+                return false;
+            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3 && !pkm.IsEgg)
+                return false;
+            if (this is EncounterStaticPID p && p.PID != pkm.PID)
+                return false;
+
+            if (pkm.Gen3 && EggLocation != 0) // Gen3 Egg
+            {
+                if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
+                    return false;
+            }
+            else if (pkm.VC || (pkm.GenNumber <= 2 && EggLocation != 0)) // Gen2 Egg
+            {
+                if (pkm.Format <= 2)
+                {
+                    if (pkm.IsEgg)
+                    {
+                        if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
+                            return false;
+                    }
+                    else
+                    {
+                        switch (pkm.Met_Level)
+                        {
+                            case 0 when pkm.Met_Location != 0:
+                                return false;
+                            case 1 when pkm.Met_Location == 0:
+                                return false;
+                            default:
+                                if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
+                                    return false;
+                                break;
+                        }
+                    }
+                    if (pkm.Met_Level == 1)
+                        lvl = 5; // met @ 1, hatch @ 5.
+                }
+            }
+            else if (EggLocation != pkm.Egg_Location)
+            {
+                if (pkm.IsEgg) // unhatched
+                {
+                    if (EggLocation != pkm.Met_Location)
+                        return false;
+                    if (pkm.Egg_Location != 0)
+                        return false;
+                }
+                else if (pkm.Gen4)
+                {
+                    if (pkm.Egg_Location != 2002) // Link Trade
+                    {
+                        // check Pt/HGSS data
+                        if (pkm.Format <= 4)
+                            return false; // must match
+                        if (EggLocation >= 3000 || EggLocation <= 2010) // non-Pt/HGSS egg gift
+                            return false;
+
+                        // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
+                        if (pkm.Egg_Location != 3002) // Faraway Place
+                            return false;
+                    }
+                }
+                else
+                {
+                    if (pkm.Egg_Location != 30002) // Link Trade
+                        return false;
+                }
+            }
+            else if (EggLocation != 0 && pkm.Gen4)
+            {
+                // Check the inverse scenario for 4->5 eggs
+                if (EggLocation < 3000 && EggLocation > 2010) // Pt/HGSS egg gift
+                {
+                    if (pkm.Format > 4)
+                        return false; // locations match when it shouldn't
+                }
+            }
+
+            if (pkm.HasOriginalMetLocation)
+            {
+                if (!EggEncounter && Location != 0 && Location != pkm.Met_Location)
+                    return false;
+                if (Level != lvl)
+                {
+                    if (!(pkm.Format == 3 && EggEncounter && lvl == 0))
+                        return false;
+                }
+            }
+            else if (Level > lvl)
+            {
+                return false;
+            }
+
+            if (Gender != -1 && Gender != pkm.Gender)
+                return false;
+            if (Form != pkm.AltForm && !SkipFormCheck && !Legal.IsFormChangeable(pkm, Species))
+                return false;
+            if (EggLocation == 60002 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+                return false;
+
+            if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (IVs[i] != -1 && IVs[i] != pkm.IVs[i])
+                        return false;
+                }
+            }
+
+            if (pkm is IContestStats s && s.IsContestBelow(this))
+                return false;
+
+            // Defer to EC/PID check
+            // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
+            // continue;
+
+            // Defer ball check to later
+            // if (e.Gift && pkm.Ball != 4) // PokéBall
+            // continue;
+
+            return true;
         }
     }
 }

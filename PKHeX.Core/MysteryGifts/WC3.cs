@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -38,6 +39,13 @@ namespace PKHeX.Core
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
+
+        public bool RibbonEarth { get; set; }
+        public bool RibbonNational { get; set; }
+        public bool RibbonCountry { get; set; }
+        public bool RibbonChampionBattle { get; set; }
+        public bool RibbonChampionRegional { get; set; }
+        public bool RibbonChampionNational { get; set; }
 
         // Description
         public override string CardTitle { get; set; } = "Generation 3 Event";
@@ -204,11 +212,71 @@ namespace PKHeX.Core
             }
         }
 
-        public bool RibbonEarth { get; set; }
-        public bool RibbonNational { get; set; }
-        public bool RibbonCountry { get; set; }
-        public bool RibbonChampionBattle { get; set; }
-        public bool RibbonChampionRegional { get; set; }
-        public bool RibbonChampionNational { get; set; }
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            // Gen3 Version MUST match.
+            if (Version != 0 && !(Version).Contains((GameVersion)pkm.Version))
+                return false;
+
+            bool hatchedEgg = IsEgg && !pkm.IsEgg;
+            if (!hatchedEgg)
+            {
+                if (SID != -1 && SID != pkm.SID) return false;
+                if (TID != -1 && TID != pkm.TID) return false;
+                if (OT_Gender < 3 && OT_Gender != pkm.OT_Gender) return false;
+                var wcOT = OT_Name;
+                if (wcOT != null)
+                {
+                    if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
+                    {
+                        if (!GetIsValidOTMattleHoOh(wcOT, pkm.OT_Name, pkm is CK3))
+                            return false;
+                    }
+                    else if (wcOT != pkm.OT_Name)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (Language != -1 && Language != pkm.Language) return false;
+            if (Ball != pkm.Ball) return false;
+            if (Fateful != pkm.FatefulEncounter)
+            {
+                // XD Gifts only at level 20 get flagged after transfer
+                if (Version == GameVersion.XD != pkm is XK3)
+                    return false;
+            }
+
+            if (pkm.IsNative)
+            {
+                if (hatchedEgg)
+                    return true; // defer egg specific checks to later.
+                if (Met_Level != pkm.Met_Level)
+                    return false;
+                if (Location != pkm.Met_Location)
+                    return false;
+            }
+            else
+            {
+                if (pkm.IsEgg)
+                    return false;
+                if (Level > pkm.Met_Level)
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
+        {
+            if (ck3 && ot.Length == 10)
+                return wc == ot;
+            return ot.Length == 7 && wc.StartsWith(ot);
+        }
+
+        protected override bool IsMatchDeferred(PKM pkm)
+        {
+            return Species != pkm.Species;
+        }
     }
 }
