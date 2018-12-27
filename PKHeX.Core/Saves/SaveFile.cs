@@ -830,6 +830,23 @@ namespace PKHeX.Core
 
         public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
 
+        public bool IsStorageFull => NextOpenBoxSlot < 0;
+
+        public int NextOpenBoxSlot
+        {
+            get
+            {
+                int count = BoxSlotCount * BoxCount;
+                for (int i = 0; i < count; i++)
+                {
+                    int offset = GetBoxSlotOffset(i);
+                    if (!IsPKMPresent(offset))
+                        return i;
+                }
+                return -1;
+            }
+        }
+
         public abstract string GetString(byte[] data, int offset, int length);
         public string GetString(int offset, int length) => GetString(Data, offset, length);
         public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
