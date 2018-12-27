@@ -192,7 +192,8 @@ namespace PKHeX.WinForms
                 try
                 #endif
                 {
-                    if (!DetectSaveFile(out string path) && path != null)
+                    string path = null;
+                    if (Settings.Default.DetectSaveOnStartup && !DetectSaveFile(out path) && path != null)
                         WinFormsUtil.Error(path); // `path` contains the error message
 
                     bool savLoaded = false;

@@ -226,5 +226,17 @@ namespace PKHeX.WinForms.Properties {
                 this["DefaultSaveVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DetectSaveOnStartup {
+            get {
+                return ((bool)(this["DetectSaveOnStartup"]));
+            }
+            set {
+                this["DetectSaveOnStartup"] = value;
+            }
+        }
     }
 }

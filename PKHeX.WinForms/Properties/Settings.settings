@@ -53,5 +53,8 @@
     <Setting Name="DefaultSaveVersion" Type="PKHeX.Core.GameVersion" Scope="User">
       <Value Profile="(Default)">GP</Value>
     </Setting>
+    <Setting Name="DetectSaveOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
