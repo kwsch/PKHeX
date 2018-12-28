@@ -1664,6 +1664,8 @@ namespace PKHeX.WinForms.Controls
         {
             FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
             FLP_SizeCP.Visible = PB_Favorite.Visible = t is PB7;
+            BTN_Medals.Visible = BTN_History.Visible = t.Format >= 6 && !(t is PB7);
+            BTN_Ribbons.Visible = t.Format >= 3 && !(t is PB7);
             ToggleInterface(pkm.Format);
         }
 
@@ -1677,7 +1679,7 @@ namespace PKHeX.WinForms.Controls
         {
             ToggleSecrets(HideSecretValues, gen);
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6;
-            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = gen >= 6;
+            GB_nOT.Visible = GB_RelearnMoves.Visible = gen >= 6;
 
             PB_MarkPentagon.Visible = gen >= 6;
             PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkHorohoro.Visible = gen >= 7;
@@ -1693,7 +1695,6 @@ namespace PKHeX.WinForms.Controls
             FLP_Ability.Visible = gen >= 3;
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
             GB_Markings.Visible = gen >= 3;
-            BTN_Ribbons.Visible = gen >= 3;
             CB_Form.Enabled = gen >= 3;
 
             FLP_FriendshipForm.Visible = gen >= 2;
