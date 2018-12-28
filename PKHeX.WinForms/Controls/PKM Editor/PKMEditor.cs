@@ -1758,9 +1758,6 @@ namespace PKHeX.WinForms.Controls
             MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
             TB_Level.Visible = !HaX;
 
-            // Setup PKM Preparation/Extra Bytes
-            SetPKMFormatMode(pkm.Format, pkm);
-
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (pkm.Format == 2)
                 UpdateOriginGame(null, null);

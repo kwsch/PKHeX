@@ -765,6 +765,7 @@ namespace PKHeX.WinForms
             }
             else
             {
+                PKME_Tabs.SetPKMFormatMode(sav.Generation, pk);
                 PKME_Tabs.PopulateFields(pk);
             }
 

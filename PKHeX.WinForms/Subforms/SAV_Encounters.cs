@@ -172,6 +172,8 @@ namespace PKHeX.WinForms
             pk.Species = species;
 
             var parent = GameUtil.GetMetLocationVersionGroup(SAV.Version);
+            if (parent == GameVersion.Invalid)
+                parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(SAV.Generation));
             var vers = GameUtil.GameVersions.Where(z => parent.Contains(z)).ToArray();
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
         }
