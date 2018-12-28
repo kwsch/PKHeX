@@ -102,7 +102,7 @@ namespace PKHeX.Core
             {
                 pk.Version = (int)GetRandomVersion(Version);
             }
-            int lang = GetSafeLanguage(SAV.Language, Language);
+            int lang = (int)GetSafeLanguage((LanguageID)SAV.Language, (LanguageID)Language);
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg) // ugly workaround for character table interactions
             {
@@ -182,12 +182,12 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private static int GetSafeLanguage(int hatchLang, int supplied)
+        private static LanguageID GetSafeLanguage(LanguageID hatchLang, LanguageID supplied)
         {
-            if (supplied >= 1)
+            if (supplied >= LanguageID.Japanese)
                 return supplied;
-            if (hatchLang < 0 || hatchLang > 8) // ko
-                return 2;
+            if (hatchLang < LanguageID.Hacked || hatchLang > LanguageID.Korean) // ko
+                return LanguageID.English;
             return hatchLang;
         }
 

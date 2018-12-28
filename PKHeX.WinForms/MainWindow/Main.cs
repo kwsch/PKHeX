@@ -135,12 +135,15 @@ namespace PKHeX.WinForms
             SaveDetection.CustomBackupPaths.Clear();
             try
             {
+                // cybergadget paths
                 string pathCache = CyberGadgetUtil.GetCacheFolder();
                 if (Directory.Exists(pathCache))
                     SaveDetection.CustomBackupPaths.Add(Path.Combine(pathCache));
                 string pathTemp = CyberGadgetUtil.GetTempFolder();
                 if (Directory.Exists(pathTemp))
                     SaveDetection.CustomBackupPaths.Add(Path.Combine(pathTemp));
+
+                // custom user paths
                 if (File.Exists(SAVPaths))
                     SaveDetection.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
             }
@@ -832,7 +835,7 @@ namespace PKHeX.WinForms
         private static bool SanityCheckSAV(ref SaveFile sav)
         {
             var gb = ParseSettings.InitFromSaveFileData(sav);
-            if (sav.Generation == 1 && gb)
+            if (sav is SAV1 && gb) // tradeback toggle
             {
                 var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
                     MsgLegalityAllowTradebacks,
@@ -843,35 +846,38 @@ namespace PKHeX.WinForms
                 return true;
             }
 
-            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
+            if (sav is SAV3 s3)
             {
-                WinFormsUtil.Alert(string.Format(MsgFileLoadVersionDetect, sav.Generation), MsgFileLoadVersionSelect);
-                var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
-                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                var dialog = new SAV_GameSelect(games);
-                dialog.ShowDialog();
+                if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
+                {
+                    WinFormsUtil.Alert(string.Format(MsgFileLoadVersionDetect, sav.Generation), MsgFileLoadVersionSelect);
+                    var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
+                    var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                    var dialog = new SAV_GameSelect(games);
+                    dialog.ShowDialog();
 
-                sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
-                if (sav == null)
-                    return false;
-                if (sav.Version == GameVersion.FRLG)
-                    sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
-            }
-            else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
-            {
-                string fr = GameInfo.GetVersionName(GameVersion.FR);
-                string lg = GameInfo.GetVersionName(GameVersion.LG);
-                string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
-                WinFormsUtil.Alert(string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
-                var g = new[] {GameVersion.FR, GameVersion.LG};
-                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int) z));
-                var dialog = new SAV_GameSelect(games);
-                dialog.ShowDialog();
+                    sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
+                    if (sav == null)
+                        return false;
+                    if (sav.Version == GameVersion.FRLG)
+                        sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
+                }
+                else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
+                {
+                    string fr = GameInfo.GetVersionName(GameVersion.FR);
+                    string lg = GameInfo.GetVersionName(GameVersion.LG);
+                    string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
+                    WinFormsUtil.Alert(string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
+                    var g = new[] { GameVersion.FR, GameVersion.LG };
+                    var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                    var dialog = new SAV_GameSelect(games);
+                    dialog.ShowDialog();
 
-                var pt = SaveUtil.GetG3Personal(dialog.Result);
-                if (pt == null)
-                    return false;
-                sav.Personal = pt;
+                    var pt = SaveUtil.GetG3Personal(dialog.Result);
+                    if (pt == null)
+                        return false;
+                    sav.Personal = pt;
+                }
             }
 
             return true;

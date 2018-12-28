@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public int Location { get; set; } = 30011;
         public int Ability { get; set; } = 1;
         public int Ball { get; set; } = 4; // Pokéball
-        public int[] RelearnMoves { get; set; } = new int[4];
+        public int[] RelearnMoves { get; set; } = Array.Empty<int>();
         public bool OT { get; set; } = true; // Receiver is OT?
 
         public bool EggEncounter => false;
@@ -67,7 +67,7 @@ namespace PKHeX.Core
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.SetRandomIVs(flawless: 3);
             pk.RefreshAbility(Ability >> 1);
-            if (RelearnMoves != null)
+            if (RelearnMoves.Length > 0)
                 pk.RelearnMoves = RelearnMoves;
             if (RibbonClassic)
                 pk.RibbonClassic = true;
