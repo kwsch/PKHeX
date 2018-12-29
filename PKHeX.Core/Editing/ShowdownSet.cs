@@ -94,6 +94,11 @@ namespace PKHeX.Core
         public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
 
         /// <summary>
+        /// <see cref="PKM.HPType"/> of the Set entity.
+        /// </summary>
+        public int HiddenPowerType { get; set; } = -1;
+
+        /// <summary>
         /// <see cref="PKM.Moves"/> of the Set entity.
         /// </summary>
         public int[] Moves { get; } = {0, 0, 0, 0};
@@ -326,7 +331,11 @@ namespace PKHeX.Core
             {
                 var str = $"- {Strings.Move[move]}";
                 if (move == 237) // Hidden Power
-                    str += $" [{Strings.Types[1+HiddenPower.GetType(IVs, Format)]}]";
+                {
+                    var hpVal = HiddenPower.GetType(IVs, Format);
+                    str += $" [{Strings.Types[1+ hpVal]}]";
+                    HiddenPowerType = hpVal;
+                }
                 yield return str;
             }
         }
@@ -509,6 +518,7 @@ namespace PKHeX.Core
             type = ReplaceAll(type, string.Empty, "[", "]", "(", ")"); // Trim out excess data
             int hpVal = Array.IndexOf(Strings.types, type) - 1; // Get HP Type
 
+            HiddenPowerType = hpVal;
             if (IVs.Any(z => z != 31))
             {
                 if (!HiddenPower.SetIVsForType(hpVal, IVs, Format))
