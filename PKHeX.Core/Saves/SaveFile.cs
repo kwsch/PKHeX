@@ -452,8 +452,9 @@ namespace PKHeX.Core
         public virtual StorageSlotFlag GetSlotFlags(int index) => StorageSlotFlag.None;
         public StorageSlotFlag GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
         public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
-        public bool IsSlotLocked(int slot) => IsSlotLocked(slot / BoxSlotCount, slot % BoxSlotCount);
+        public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotFlag.Locked);
         public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
+        public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
 
         public bool MoveBox(int box, int insertBeforeBox)
         {

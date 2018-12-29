@@ -91,33 +91,41 @@ namespace PKHeX.Core
             return errata;
         }
 
-        public static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, int boxStart, bool? noSetb)
+        /// <summary>
+        /// Imports compatible <see cref="PKM"/> data to the <see cref="SAV"/>, starting at the provided box.
+        /// </summary>
+        /// <param name="SAV">Save File that will receive the <see cref="compat"/> data.</param>
+        /// <param name="compat">Compatible <see cref="PKM"/> data that can be set to the <see cref="SAV"/> without conversion.</param>
+        /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
+        /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
+        /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
+        /// <returns>Count of injected <see cref="PKM"/>.</returns>
+        public static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, bool? noSetb = null)
         {
             int startCount = boxStart * SAV.BoxSlotCount;
             int maxCount = SAV.BoxCount * SAV.BoxSlotCount;
-            int i = startCount;
-            int getbox() => i / SAV.BoxSlotCount;
-            int getslot() => i % SAV.BoxSlotCount;
+            int index = startCount;
 
             foreach (var pk in compat)
             {
-                int box = getbox();
-                int slot = getslot();
-                while (SAV.IsSlotOverwriteProtected(box, slot))
+                if (overwrite)
                 {
-                    ++i;
-                    box = getbox();
-                    slot = getslot();
+                    while (SAV.IsSlotOverwriteProtected(index))
+                        ++index;
+                }
+                else
+                {
+                    index = SAV.NextOpenBoxSlot(index-1);
+                    if (index < 0) // Boxes full!
+                        break;
                 }
 
-                int offset = SAV.GetBoxOffset(box) + (slot * SAV.SIZE_STORED);
-                SAV.SetStoredSlot(pk, offset, noSetb);
+                SAV.SetBoxSlotAtIndex(pk, index, noSetb);
 
-                if (++i == maxCount) // Boxes full!
+                if (++index == maxCount) // Boxes full!
                     break;
             }
-            i -= startCount; // actual imported count
-            return i;
+            return index - startCount; // actual imported count
         }
 
         public static IEnumerable<PKM> GetCompatible(this SaveFile SAV, IEnumerable<PKM> pks)

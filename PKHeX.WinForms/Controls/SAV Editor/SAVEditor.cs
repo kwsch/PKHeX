@@ -691,9 +691,9 @@ namespace PKHeX.WinForms.Controls
         }
 
         // File I/O
-        public bool GetBulkImportSettings(out bool clearAll, out bool? noSetb)
+        public bool GetBulkImportSettings(out bool clearAll, out bool overwrite, out bool? noSetb)
         {
-            clearAll = false; noSetb = false;
+            clearAll = false; noSetb = false; overwrite = false;
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgSaveBoxImportClear, MsgSaveBoxImportClearNo);
             if (dr == DialogResult.Cancel)
                 return false;
@@ -843,10 +843,10 @@ namespace PKHeX.WinForms.Controls
             if (!Directory.Exists(path))
                 return false;
 
-            if (!GetBulkImportSettings(out bool clearAll, out bool? noSetb))
+            if (!GetBulkImportSettings(out bool clearAll, out var overwrite, out var noSetb))
                 return false;
 
-            SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, noSetb);
+            SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, overwrite, noSetb);
             SetPKMBoxes();
             UpdateBoxViewers();
             return true;

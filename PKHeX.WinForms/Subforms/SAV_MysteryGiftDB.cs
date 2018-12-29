@@ -357,11 +357,11 @@ namespace PKHeX.WinForms
 
         private void Menu_Import_Click(object sender, EventArgs e)
         {
-            if (!BoxView.GetBulkImportSettings(out var clearAll, out var noSetb))
+            if (!BoxView.GetBulkImportSettings(out var clearAll, out var overwrite, out var noSetb))
                 return;
 
             int box = BoxView.Box.CurrentBox;
-            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, noSetb))
+            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, overwrite, noSetb))
                 return;
 
             BoxView.SetPKMBoxes();
