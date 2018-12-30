@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace PKHeX.Core
 {
-
     public class WR7 : MysteryGift
     {
         public const int SIZE = 0x140;
@@ -97,7 +95,7 @@ namespace PKHeX.Core
         public override int EggLocation { get; set; }
         public override int Ball { get; set; } = 4;
 
-        public override string CardTitle { get; set; } = $"{nameof(WB7)} Record";
+        public override string CardTitle { get => $"{nameof(WB7)} Record ({OT_Name}) [{LanguageReceived}]"; set { } }
 
         public override bool IsItem
         {
