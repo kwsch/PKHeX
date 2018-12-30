@@ -6,7 +6,7 @@ namespace PKHeX.Core
 {
     public class WR7 : MysteryGift
     {
-        public const int SIZE = 0x140;
+        public const int Size = 0x140;
 
         public WR7(byte[] data) => Data = data;
 
@@ -88,7 +88,6 @@ namespace PKHeX.Core
 
         // Mystery Gift implementation
         public override int Format => 7;
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria) => throw new Exception("Non-convertible format.");
         protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         public override int Location { get; set; }
@@ -115,6 +114,22 @@ namespace PKHeX.Core
                 if (value)
                     GiftType = WR7GiftType.Pokemon;
             }
+        }
+
+        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        {
+            if (!IsPokémon)
+                return null;
+
+            var pk = new PB7();
+            SAV.ApplyToPKM(pk);
+            if (!GameVersion.GG.Contains((GameVersion) SAV.Game))
+                pk.Version = (int) GameVersion.GP;
+
+            pk.Species = Species;
+            pk.Met_Level = pk.CurrentLevel = Level;
+
+            return pk; // can't really do much more
         }
     }
 }

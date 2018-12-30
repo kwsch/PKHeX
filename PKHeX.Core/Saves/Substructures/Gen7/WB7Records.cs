@@ -13,14 +13,14 @@ namespace PKHeX.Core
         private const int RecordMax = 10; // 0xE90 > (0x140 * 0xA = 0xC80), not sure what final 0x210 bytes are used for
         private const int FlagCountMax = 0x1C00; // (7168) end of the block?
 
-        private int FlagStart => Offset + (RecordMax * WR7.SIZE);
+        private int FlagStart => Offset + (RecordMax * WR7.Size);
 
         private int GetRecordOffset(int index)
         {
             if (index >= RecordMax)
                 throw new ArgumentException(nameof(index));
 
-            return Offset + (index * WR7.SIZE);
+            return Offset + (index * WR7.Size);
         }
 
         private int GetFlagOffset(int flag)
@@ -33,8 +33,8 @@ namespace PKHeX.Core
         public WR7 GetRecord(int index)
         {
             int ofs = GetRecordOffset(index);
-            byte[] data = new byte[WR7.SIZE];
-            Array.Copy(Data, ofs, data, 0, WR7.SIZE);
+            byte[] data = new byte[WR7.Size];
+            Array.Copy(Data, ofs, data, 0, WR7.Size);
             return new WR7(data);
         }
 
