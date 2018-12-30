@@ -30,8 +30,7 @@ namespace PKHeX.Core
         public int Ball { get; set; } = 4; // Only checked when is Gift
         public GameVersion Version { get; set; } = GameVersion.Any;
         public int[] IVs { get; set; }
-        public int FlawlessIVCount { get; internal set; }
-        public bool IV3 { set => FlawlessIVCount = value ? 3 : 0; }
+        public int FlawlessIVCount { get; set; }
 
         public int[] Contest { set => this.SetContestStats(value); }
         public int CNT_Cool { get; set; }

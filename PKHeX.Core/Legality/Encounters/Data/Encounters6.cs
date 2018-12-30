@@ -241,15 +241,15 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 354, Level = 49, Location = 98 }, // Banette
             new EncounterStatic { Species = 354, Level = 50, Location = 98 }, // Banette
 
-            new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = Shiny.Never, IV3 = true }, // Xerneas
-            new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = Shiny.Never, IV3 = true }, // Yveltal
-            new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zygarde
+            new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Xerneas
+            new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Yveltal
+            new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
 
-            new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Mewtwo
+            new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mewtwo
 
-            new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Articuno
-            new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Zapdos
-            new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, IV3 = true }, // Moltres
+            new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Articuno
+            new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zapdos
+            new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
         };
 
         private static readonly EncounterStatic[] Encounter_AO_Regular =
@@ -291,56 +291,56 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 319, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
             new EncounterStatic { Species = 323, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
 
-            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Ability = 1, Gift = true, IV3 = true }, // Latias
-            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Ability = 1, Gift = true, IV3 = true }, // Latios
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Ability = 1, Gift = true, FlawlessIVCount = 3 }, // Latias
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Ability = 1, Gift = true, FlawlessIVCount = 3 }, // Latios
 
-            new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = Shiny.Never, IV3 = true }, // Kyogre
-            new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = Shiny.Never, IV3 = true }, // Groudon
-            new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = Shiny.Never, IV3 = true }, // Rayquaza
-            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = Shiny.Never, IV3 = true, Fateful = true }, // Deoxys
+            new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Kyogre
+            new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Groudon
+            new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Rayquaza
+            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3, Fateful = true }, // Deoxys
 
-            new EncounterStatic { Species = 377, Level = 40, Location = 278, IV3 = true }, // Regirock
-            new EncounterStatic { Species = 378, Level = 40, Location = 306, IV3 = true }, // Regice
-            new EncounterStatic { Species = 379, Level = 40, Location = 308, IV3 = true }, // Registeel
-            new EncounterStatic { Species = 486, Level = 50, Location = 306, IV3 = true }, // Regigigas
+            new EncounterStatic { Species = 377, Level = 40, Location = 278, FlawlessIVCount = 3 }, // Regirock
+            new EncounterStatic { Species = 378, Level = 40, Location = 306, FlawlessIVCount = 3 }, // Regice
+            new EncounterStatic { Species = 379, Level = 40, Location = 308, FlawlessIVCount = 3 }, // Registeel
+            new EncounterStatic { Species = 486, Level = 50, Location = 306, FlawlessIVCount = 3 }, // Regigigas
 
-            new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS, IV3 = true }, // Lugia
-            new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR, IV3 = true }, // Ho-Oh
+            new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Lugia
+            new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Ho-Oh
 
-            new EncounterStatic { Species = 483, Level = 50, Location = 348, Version = GameVersion.AS, IV3 = true }, // Dialga
-            new EncounterStatic { Species = 484, Level = 50, Location = 348, Version = GameVersion.OR, IV3 = true }, // Palkia
+            new EncounterStatic { Species = 483, Level = 50, Location = 348, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Dialga
+            new EncounterStatic { Species = 484, Level = 50, Location = 348, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Palkia
 
-            new EncounterStatic { Species = 644, Level = 50, Location = 340, Version = GameVersion.AS, IV3 = true }, // Zekrom
-            new EncounterStatic { Species = 643, Level = 50, Location = 340, Version = GameVersion.OR, IV3 = true }, // Reshiram
+            new EncounterStatic { Species = 644, Level = 50, Location = 340, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Zekrom
+            new EncounterStatic { Species = 643, Level = 50, Location = 340, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Reshiram
 
-            new EncounterStatic { Species = 642, Level = 50, Location = 348, Version = GameVersion.AS, IV3 = true }, // Thundurus
-            new EncounterStatic { Species = 641, Level = 50, Location = 348, Version = GameVersion.OR, IV3 = true }, // Tornadus
+            new EncounterStatic { Species = 642, Level = 50, Location = 348, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Thundurus
+            new EncounterStatic { Species = 641, Level = 50, Location = 348, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Tornadus
 
-            new EncounterStatic { Species = 485, Level = 50, Location = 312, IV3 = true }, // Heatran
-            new EncounterStatic { Species = 487, Level = 50, Location = 348, IV3 = true }, // Giratina
-            new EncounterStatic { Species = 488, Level = 50, Location = 344, IV3 = true }, // Cresselia
-            new EncounterStatic { Species = 645, Level = 50, Location = 348, IV3 = true }, // Landorus
-            new EncounterStatic { Species = 646, Level = 50, Location = 342, IV3 = true }, // Kyurem
+            new EncounterStatic { Species = 485, Level = 50, Location = 312, FlawlessIVCount = 3 }, // Heatran
+            new EncounterStatic { Species = 487, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Giratina
+            new EncounterStatic { Species = 488, Level = 50, Location = 344, FlawlessIVCount = 3 }, // Cresselia
+            new EncounterStatic { Species = 645, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Landorus
+            new EncounterStatic { Species = 646, Level = 50, Location = 342, FlawlessIVCount = 3 }, // Kyurem
 
-            new EncounterStatic { Species = 243, Level = 50, Location = 334, IV3 = true }, // Raikou
-            new EncounterStatic { Species = 244, Level = 50, Location = 334, IV3 = true }, // Entei
-            new EncounterStatic { Species = 245, Level = 50, Location = 334, IV3 = true }, // Suicune
+            new EncounterStatic { Species = 243, Level = 50, Location = 334, FlawlessIVCount = 3 }, // Raikou
+            new EncounterStatic { Species = 244, Level = 50, Location = 334, FlawlessIVCount = 3 }, // Entei
+            new EncounterStatic { Species = 245, Level = 50, Location = 334, FlawlessIVCount = 3 }, // Suicune
 
-            new EncounterStatic { Species = 480, Level = 50, Location = 338, IV3 = true }, // Uxie
-            new EncounterStatic { Species = 481, Level = 50, Location = 338, IV3 = true }, // Mesprit
-            new EncounterStatic { Species = 482, Level = 50, Location = 338, IV3 = true }, // Azelf
+            new EncounterStatic { Species = 480, Level = 50, Location = 338, FlawlessIVCount = 3 }, // Uxie
+            new EncounterStatic { Species = 481, Level = 50, Location = 338, FlawlessIVCount = 3 }, // Mesprit
+            new EncounterStatic { Species = 482, Level = 50, Location = 338, FlawlessIVCount = 3 }, // Azelf
 
-            new EncounterStatic { Species = 638, Level = 50, Location = 336, IV3 = true }, // Cobalion
-            new EncounterStatic { Species = 639, Level = 50, Location = 336, IV3 = true }, // Terrakion
-            new EncounterStatic { Species = 640, Level = 50, Location = 336, IV3 = true }, // Virizion
+            new EncounterStatic { Species = 638, Level = 50, Location = 336, FlawlessIVCount = 3 }, // Cobalion
+            new EncounterStatic { Species = 639, Level = 50, Location = 336, FlawlessIVCount = 3 }, // Terrakion
+            new EncounterStatic { Species = 640, Level = 50, Location = 336, FlawlessIVCount = 3 }, // Virizion
 
             new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119
             new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120
             new EncounterStatic { Species = 352, Level = 40, Location = 176, Gender = 1, }, // Kecleon @ Lavaridge
             new EncounterStatic { Species = 352, Level = 45, Location = 196, Ability = 4, }, // Kecleon @ Mossdeep City
 
-            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS, IV3 = true }, // Latios
-            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR, IV3 = true }, // Latias
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Latios
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Latias
 
             new EncounterStatic { Species = 101, Level = 40, Location = 292, Version = GameVersion.AS }, // Electrode
             new EncounterStatic { Species = 101, Level = 40, Location = 314, Version = GameVersion.OR }, // Electrode
@@ -364,7 +364,7 @@ namespace PKHeX.Core
         {
             var CosplayPikachu = new EncounterStatic
             {
-                Species = 25, Level = 20, Gender = 1, Ability = 4, IV3 = true,
+                Species = 25, Level = 20, Gender = 1, Ability = 4, FlawlessIVCount = 3,
                 Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
             };
             foreach (int loc in new[] { 178, 180, 186, 194 })

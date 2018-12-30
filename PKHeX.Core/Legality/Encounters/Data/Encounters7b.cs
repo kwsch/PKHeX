@@ -30,14 +30,14 @@ namespace PKHeX.Core
         private static readonly EncounterStatic[] Encounter_GG =
         {
             // encounters
-            new EncounterStatic { Species = 144, Level = 50, Location = 44, IV3 = true, }, // Articuno @ Seafoam Islands
-            new EncounterStatic { Species = 145, Level = 50, Location = 42, IV3 = true, }, // Zapdos @ Power Plant
-            new EncounterStatic { Species = 146, Level = 50, Location = 45, IV3 = true, }, // Moltres @ Victory Road
-            new EncounterStatic { Species = 150, Level = 70, Location = 46, IV3 = true, }, // Mewtwo @ Cerulean Cave
-            new EncounterStatic { Species = 143, Level = 34, Location = 14, IV3 = true, }, // Snorlax @ Route 12
-            new EncounterStatic { Species = 143, Level = 34, Location = 18, IV3 = true, }, // Snorlax @ Route 16
-            new EncounterStatic { Species = 100, Level = 42, Location = 42, IV3 = true, }, // Voltorb @ Power Plant
-            new EncounterStatic { Species = 101, Level = 42, Location = 42, IV3 = true, }, // Electrode @ Power Plant
+            new EncounterStatic { Species = 144, Level = 50, Location = 44, FlawlessIVCount = 3, }, // Articuno @ Seafoam Islands
+            new EncounterStatic { Species = 145, Level = 50, Location = 42, FlawlessIVCount = 3, }, // Zapdos @ Power Plant
+            new EncounterStatic { Species = 146, Level = 50, Location = 45, FlawlessIVCount = 3, }, // Moltres @ Victory Road
+            new EncounterStatic { Species = 150, Level = 70, Location = 46, FlawlessIVCount = 3, }, // Mewtwo @ Cerulean Cave
+            new EncounterStatic { Species = 143, Level = 34, Location = 14, FlawlessIVCount = 3, }, // Snorlax @ Route 12
+            new EncounterStatic { Species = 143, Level = 34, Location = 18, FlawlessIVCount = 3, }, // Snorlax @ Route 16
+            new EncounterStatic { Species = 100, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Voltorb @ Power Plant
+            new EncounterStatic { Species = 101, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Electrode @ Power Plant
 
             // gifts
             new EncounterStatic { Species = 025, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 8, Version = GameVersion.GP }, // Pikachu @ Pallet Town
@@ -49,9 +49,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 131, Level = 34, Location = 52, Gift = true, IVs = new[] {31,25,25,25,30,30} }, // Lapras @ Saffron City (Silph Co. Employee, inside)
             new EncounterStatic { Species = 106, Level = 30, Location = 38, Gift = true, IVs = new[] {25,30,25,31,25,30} }, // Hitmonlee @ Saffron City (Karate Master)
             new EncounterStatic { Species = 107, Level = 30, Location = 38, Gift = true, IVs = new[] {25,31,30,25,25,30} }, // Hitmonchan @ Saffron City (Karate Master)
-            new EncounterStatic { Species = 140, Level = 44, Location = 36, Gift = true, IV3 = true }, // Kabuto @ Cinnabar Island (Cinnabar Pokémon Lab)
-            new EncounterStatic { Species = 138, Level = 44, Location = 36, Gift = true, IV3 = true }, // Omanyte @ Cinnabar Island (Cinnabar Pokémon Lab)
-            new EncounterStatic { Species = 142, Level = 44, Location = 36, Gift = true, IV3 = true }, // Aerodactyl @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new EncounterStatic { Species = 140, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Kabuto @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new EncounterStatic { Species = 138, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Omanyte @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new EncounterStatic { Species = 142, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Aerodactyl @ Cinnabar Island (Cinnabar Pokémon Lab)
             new EncounterStatic { Species = 001, Level = 12, Location = 31, Gift = true, IVs = new[] {31,25,30,25,25,30} }, // Bulbasaur @ Cerulean City
             new EncounterStatic { Species = 004, Level = 14, Location = 26, Gift = true, IVs = new[] {25,30,25,31,30,25} }, // Charmander @ Route 24
             new EncounterStatic { Species = 007, Level = 16, Location = 33, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Squirtle @ Vermillion City
