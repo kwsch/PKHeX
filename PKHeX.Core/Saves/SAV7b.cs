@@ -45,6 +45,7 @@ namespace PKHeX.Core
             Played = new PlayTime7b(this);
             Misc = new Misc7b(this);
             EventWork = new EventWork7b(this);
+            GiftRecords = new WB7Records(this);
 
             HeldItems = Legal.HeldItems_GG;
 
@@ -63,6 +64,7 @@ namespace PKHeX.Core
         public readonly ConfigSave7b Config;
         public readonly EventWork7b EventWork;
         public readonly PokeListHeader Storage;
+        public readonly WB7Records GiftRecords;
 
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
