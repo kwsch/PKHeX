@@ -791,10 +791,12 @@ namespace PKHeX.WinForms
 
         private static string GetProgramTitle()
         {
+            #if DEBUG
+            var date = File.GetLastWriteTime(Assembly.GetEntryAssembly().Location);
+            string version = $"d-{date:yyyyMMdd}";
+            #else
             var ver = CurrentProgramVersion;
             string version = $"{2000+ver.Major:00}{ver.Minor:00}{ver.Build:00}";
-            #if DEBUG
-            version = "d-" + version;
             #endif
             return $"PKH{(HaX ? "a" : "e")}X ({version})";
         }
