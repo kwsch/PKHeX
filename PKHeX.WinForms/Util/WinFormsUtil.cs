@@ -294,11 +294,11 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
         /// <returns>Result of whether or not the file was saved.</returns>
-        public static bool SaveMGDialog(MysteryGift gift)
+        public static bool SaveMGDialog(MysteryGift gift, GameVersion origin)
         {
             SaveFileDialog output = new SaveFileDialog
             {
-                Filter = GetMysterGiftFilter(gift.Format),
+                Filter = GetMysterGiftFilter(gift.Format, origin),
                 FileName = Util.CleanFileName(gift.FileName)
             };
             if (output.ShowDialog() != DialogResult.OK)
@@ -322,7 +322,8 @@ namespace PKHeX.WinForms
         /// Gets the File Dialog filter for a Mystery Gift I/O operation.
         /// </summary>
         /// <param name="Format">Format specifier for the </param>
-        public static string GetMysterGiftFilter(int Format)
+        /// <param name="origin">Game the format originated from/to</param>
+        public static string GetMysterGiftFilter(int Format, GameVersion origin)
         {
             const string all = "|All Files|*.*";
             switch (Format)
@@ -330,7 +331,10 @@ namespace PKHeX.WinForms
                 case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all;
                 case 5: return "Gen5 Mystery Gift|*.pgf" + all;
                 case 6: return "Gen6 Mystery Gift|*.wc6;*.wc6full" + all;
-                case 7: return "Gen7 Mystery Gift|*.wc7;*.wc7full" + all;
+                case 7:
+                    return GameVersion.GG.Contains(origin)
+                        ? "Beluga Gift Record|*.wr7" + all
+                        : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all;
                 default: return string.Empty;
             }
         }

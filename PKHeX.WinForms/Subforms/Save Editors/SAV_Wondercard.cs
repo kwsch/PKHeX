@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
         // Mystery Gift IO (.file<->window)
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog import = new OpenFileDialog {Filter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation)};
+            OpenFileDialog import = new OpenFileDialog {Filter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation, SAV.Version) };
             if (import.ShowDialog() != DialogResult.OK) return;
 
             string path = import.FileName;
@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
 
         private void B_Output_Click(object sender, EventArgs e)
         {
-            WinFormsUtil.SaveMGDialog(mg);
+            WinFormsUtil.SaveMGDialog(mg, SAV.Version);
         }
 
         private static int GetLastUnfilledByType(MysteryGift Gift, MysteryGiftAlbum Album)

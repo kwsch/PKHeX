@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgExportWC3DataFail);
                 return;
             }
-            WinFormsUtil.SaveMGDialog(gift);
+            WinFormsUtil.SaveMGDialog(gift, SAV.Version);
         }
 
         private int GetSenderIndex(object sender)
