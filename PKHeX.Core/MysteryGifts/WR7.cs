@@ -4,6 +4,13 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Record of a received <see cref="WB7"/> file.
+    /// </summary>
+    /// <remarks>
+    /// A full <see cref="WB7"/> is not stored in the <see cref="SAV7b"/> structure, as it is immediately converted to <see cref="PKM"/> upon receiving from server.
+    /// The save file just stores a summary of the received data for the user to look back at.
+    /// </remarks>
     public class WR7 : MysteryGift
     {
         public const int Size = 0x140;
@@ -42,6 +49,8 @@ namespace PKHeX.Core
             set => Data[0x0D] = (byte)value;
         }
 
+        // unknown: region from 0x10 to 0xFF ?
+
         public override int Species
         {
             get => BitConverter.ToUInt16(Data, 0x10C);
@@ -50,7 +59,7 @@ namespace PKHeX.Core
 
         public override bool GiftUsed { get; set; }
 
-        public override int Level
+        public override int Level // are moves stored? mew has '1' but this could be move
         {
             get => BitConverter.ToUInt16(Data, 0x10E);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10E);
@@ -118,9 +127,11 @@ namespace PKHeX.Core
 
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
+            // this method shouldn't really be called, use the WB7 data not the WR7 data.
             if (!IsPokémon)
                 return null;
 
+            // we'll just generate something as close as we can, since we must return something!
             var pk = new PB7();
             SAV.ApplyToPKM(pk);
             if (!GameVersion.GG.Contains((GameVersion) SAV.Game))
@@ -128,8 +139,9 @@ namespace PKHeX.Core
 
             pk.Species = Species;
             pk.Met_Level = pk.CurrentLevel = Level;
+            pk.MetDate = Date;
 
-            return pk; // can't really do much more
+            return pk; // can't really do much more, just return the rough data
         }
     }
 }
