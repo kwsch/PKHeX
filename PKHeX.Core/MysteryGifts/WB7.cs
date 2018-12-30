@@ -116,14 +116,6 @@ namespace PKHeX.Core
 
         public bool MultiObtain { get => Data[CardStart + 0x53] == 1; set => Data[CardStart + 0x53] = (byte)(value ? 1 : 0); }
 
-        // BP Properties
-        public override bool IsBP { get => CardType == 3; set { if (value) CardType = 3; } }
-        public override int BP { get => ItemID; set => ItemID = value; }
-
-        // Bean (Mame) Properties
-        public override bool IsBean { get => CardType == 2; set { if (value) CardType = 2; } }
-        public override int Bean { get => ItemID; set => ItemID = value; }
-
         // Item Properties
         public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }
         public override int ItemID { get => BitConverter.ToUInt16(Data, CardStart + 0x68); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x68); }
@@ -320,7 +312,7 @@ namespace PKHeX.Core
             return 0xEE + (index * 0x1A);
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 return null;

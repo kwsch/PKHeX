@@ -25,13 +25,6 @@ namespace PKHeX.Core
         public int SID { get; set; }
         public GameVersion Version { get; set; } = GameVersion.Any;
         public int[] IVs { get; set; }
-        public int[] Contest { set => this.SetContestStats(value); }
-        public int CNT_Cool { get; set; }
-        public int CNT_Beauty { get; set; }
-        public int CNT_Cute { get; set; }
-        public int CNT_Smart { get; set; }
-        public int CNT_Tough { get; set; }
-        public int CNT_Sheen { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Never;
         public int Gender { get; set; } = -1;
@@ -41,6 +34,14 @@ namespace PKHeX.Core
         public bool EvolveOnTrade { get; set; }
         public int Ball { get; set; } = 4;
         public int CurrentLevel { get; set; } = -1;
+
+        public int[] Contest { set => this.SetContestStats(value); }
+        public int CNT_Cool { get; set; }
+        public int CNT_Beauty { get; set; }
+        public int CNT_Cute { get; set; }
+        public int CNT_Smart { get; set; }
+        public int CNT_Tough { get; set; }
+        public int CNT_Sheen { get; set; }
 
         public int TID7
         {
@@ -67,67 +68,51 @@ namespace PKHeX.Core
             0, 126, 254, 2001, 30002, 30001, 30001,
         };
 
-        public PKM ConvertToPKM(ITrainerInfo SAV)
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
+            var pk = PKMConverter.GetBlank(Generation, Version);
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
                 level = 25; // avoid some cases
-            var pk = PKMConverter.GetBlank(Generation, Version);
-
-            pk.EncryptionConstant = Util.Rand32();
-            pk.Species = Species;
-            pk.CurrentLevel = level;
-            int gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
-            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
 
             SAV.ApplyToPKM(pk);
-            pk.Nature = nature;
+
+            int species = Species;
+            if (EvolveOnTrade)
+                species++;
+
+            pk.EncryptionConstant = Util.Rand32();
+            pk.Species = species;
+            pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.AltForm = Form;
-
-            if (this is EncounterTradePID p)
-            {
-                pk.PID = p.PID;
-                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
-                pk.RefreshAbility(Ability >> 1);
-            }
-            else
-            {
-                int ability = Ability >> 1;
-                PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
-                pk.Gender = gender;
-                pk.RefreshAbility(ability);
-            }
             pk.Ball = Ball;
-            if (pk.Format != 2 || version == GameVersion.C)
-            {
-                pk.Met_Level = level;
-                pk.Met_Location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
-            }
-            var today = DateTime.Today;
-            pk.MetDate = today;
-            if (EggLocation != 0)
-            {
-                pk.Egg_Location = EggLocation;
-                pk.EggMetDate = today;
-            }
-
             pk.Language = lang;
             pk.TID = TID;
             pk.SID = SID;
             pk.OT_Name = pk.Format == 1 ? StringConverter.G1TradeOTStr : GetOT(lang) ?? SAV.OT;
             pk.OT_Gender = GetOT(lang) != null ? Math.Max(0, OTGender) : SAV.Gender;
             pk.SetNickname(GetNickname(lang));
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+
+            SetNatureGenderAbility(pk, criteria);
 
             if (IVs != null)
                 pk.SetRandomIVs(IVs, 0);
             else
                 pk.SetRandomIVs(flawless: 3);
 
-            if (pk.Format == 6)
-                pk.SetRandomMemory6();
+            if (pk.Format != 2 || version == GameVersion.C)
+            {
+                var location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
+                SetMetData(pk, level, location);
+            }
+            if (EggLocation != 0)
+                SetEggMetData(pk);
 
             if (pk is PK1 pk1 && this is EncounterTradeCatchRate c)
                 pk1.Catch_Rate = (int)c.Catch_Rate;
@@ -135,19 +120,12 @@ namespace PKHeX.Core
             if (pk is IContestStats s)
                 this.CopyContestStatsTo(s);
 
-            var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
-            if (pk.Format == 1 && moves.All(z => z == 0))
-                moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
-            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+            SetMoves(pk, version, level);
+
             if (Fateful)
                 pk.FatefulEncounter = true;
 
             UpdateEdgeCase(pk);
-
-            if (EvolveOnTrade)
-                ++pk.Species;
 
             if (pk.Format < 6)
                 return pk;
@@ -155,10 +133,56 @@ namespace PKHeX.Core
             SAV.ApplyHandlingTrainerInfo(pk, force: true);
             pk.SetRandomEC();
 
-            if (pk.Format == 7)
+            if (pk.Format == 6)
+                pk.SetRandomMemory6();
+            else if (pk.Format == 7)
                 SetSMOTMemory(pk);
 
             return pk;
+        }
+
+        private void SetNatureGenderAbility(PKM pk, EncounterCriteria criteria)
+        {
+            int gender = criteria.GetGender(Gender, pk.PersonalInfo);
+            int nature = (int)criteria.GetNature(Nature);
+            int ability = Ability >> 1;
+
+            if (this is EncounterTradePID p)
+            {
+                pk.PID = p.PID;
+                pk.Nature = nature;
+                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
+                pk.RefreshAbility(ability);
+            }
+            else
+            {
+                PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
+                pk.Nature = nature;
+                pk.Gender = gender;
+                pk.RefreshAbility(ability);
+            }
+        }
+
+        private void SetMoves(PKM pk, GameVersion version, int level)
+        {
+            var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
+            if (pk.Format == 1 && moves.All(z => z == 0))
+                moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+        }
+
+        private void SetEggMetData(PKM pk)
+        {
+            pk.Egg_Location = EggLocation;
+            pk.EggMetDate = DateTime.Today;
+        }
+
+        private static void SetMetData(PKM pk, int level, int location)
+        {
+            pk.Met_Level = level;
+            pk.Met_Location = location;
+            pk.MetDate = DateTime.Today;
         }
 
         private void UpdateEdgeCase(PKM pkm)

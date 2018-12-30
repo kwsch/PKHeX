@@ -17,7 +17,9 @@ namespace PKHeX.Core
 
         public GameVersion Version { get; set; }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV)
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             int gen = Version.GetGeneration();
             if (gen < 2)
@@ -26,12 +28,14 @@ namespace PKHeX.Core
                 Version = GameVersion.C;
             }
             var pk = PKMConverter.GetBlank(gen, Version);
+
             SAV.ApplyToPKM(pk);
 
             pk.Species = Species;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)Version;
+            pk.Ball = 4;
             int[] moves = GetCurrentEggMoves(pk);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
@@ -42,16 +46,48 @@ namespace PKHeX.Core
             if (pk.Format <= 2 && Version != GameVersion.C)
                 return pk;
 
-            pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
-            pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
+            SetMetData(pk);
 
             if (pk.Format < 3)
                 return pk;
 
-            pk.Ball = 4;
+            SetNatureGenderAbility(pk, criteria);
 
-            int gender = pk.PersonalInfo.RandomGender;
-            int nature = Util.Rand.Next(25);
+            if (pk.GenNumber >= 4)
+                pk.SetEggMetData(Version, (GameVersion)SAV.Game);
+
+            if (pk.Format < 6)
+                return pk;
+            if (pk.Gen6)
+                pk.SetHatchMemory6();
+
+            SetAltForm(pk, SAV);
+
+            pk.SetRandomEC();
+            pk.RelearnMoves = moves;
+
+            return pk;
+        }
+
+        private void SetAltForm(PKM pk, ITrainerInfo SAV)
+        {
+            switch (Species)
+            {
+                case 774: // Minior
+                    pk.AltForm = Util.Rand.Next(7, 14);
+                    break;
+                case 664: // Scatterbug
+                case 665:
+                case 666:
+                    pk.AltForm = Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
+                    break;
+            }
+        }
+
+        private static void SetNatureGenderAbility(PKM pk, EncounterCriteria criteria)
+        {
+            int gender = criteria.GetGender(-1, pk.PersonalInfo);
+            int nature = (int)criteria.GetNature(Nature.Random);
 
             if (pk.Format <= 5)
             {
@@ -68,34 +104,12 @@ namespace PKHeX.Core
                 pk.Gender = gender;
                 pk.RefreshAbility(Util.Rand.Next(2));
             }
+        }
 
-            bool traded = (int)Version == SAV.Game;
-            var today = pk.MetDate = DateTime.Today;
-            if (pk.GenNumber >= 4)
-            {
-                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
-                pk.EggMetDate = today;
-            }
-
-            if (pk.Format < 6)
-                return pk;
-            if (pk.Gen6)
-                pk.SetHatchMemory6();
-
-            switch (Species)
-            {
-                case 774: // Minior
-                    pk.AltForm = Util.Rand.Next(7, 14);
-                    break;
-                case 664: // Scatterbug
-                    pk.AltForm = Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
-                    break;
-            }
-
-            pk.SetRandomEC();
-            pk.RelearnMoves = moves;
-
-            return pk;
+        private static void SetMetData(PKM pk)
+        {
+            pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+            pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
         }
 
         private int[] GetCurrentEggMoves(PKM pk)
@@ -112,7 +126,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class EncounterEggSplit : EncounterEgg
+    public sealed class EncounterEggSplit : EncounterEgg
     {
         public int OtherSpecies;
     }

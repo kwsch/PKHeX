@@ -70,7 +70,7 @@ namespace PKHeX.Core
             set => _metLevel = value;
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             PK3 pk = new PK3
             {
@@ -151,22 +151,19 @@ namespace PKHeX.Core
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
             // Generate PIDIV
-            var seed = Util.Rand32();
-            switch (Method)
-            {
-                case PIDType.BACD_R:
-                    seed &= 0xFFFF;
-                    break;
-                case PIDType.BACD_R_S:
-                    seed &= 0xFF;
-                    break;
-            }
-            PIDGenerator.SetValuesFromSeed(pk, Method, seed);
+            SetPIDValues(pk);
+            pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
 
             if (Version == GameVersion.XD)
                 pk.FatefulEncounter = true; // pk3 is already converted from xk3
+            SetMoves(pk);
+            pk.RefreshChecksum();
+            return pk;
+        }
 
-            if (Moves == null || Moves.Length == 0) // not completely defined
+        private void SetMoves(PK3 pk)
+        {
+            if (Moves.Length == 0) // not completely defined
                 Moves = Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
             if (Moves.Length != 4)
             {
@@ -177,9 +174,26 @@ namespace PKHeX.Core
 
             pk.Moves = Moves;
             pk.SetMaximumPPCurrent(Moves);
-            pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
-            pk.RefreshChecksum();
-            return pk;
+        }
+
+        private void SetPIDValues(PK3 pk)
+        {
+            var seed = Util.Rand32();
+            SetPIDValues(pk, seed);
+        }
+
+        private void SetPIDValues(PK3 pk, uint seed)
+        {
+            switch (Method)
+            {
+                case PIDType.BACD_R:
+                    seed &= 0xFFFF;
+                    break;
+                case PIDType.BACD_R_S:
+                    seed &= 0xFF;
+                    break;
+            }
+            PIDGenerator.SetValuesFromSeed(pk, Method, seed);
         }
 
         private static LanguageID GetSafeLanguage(LanguageID hatchLang, LanguageID supplied)

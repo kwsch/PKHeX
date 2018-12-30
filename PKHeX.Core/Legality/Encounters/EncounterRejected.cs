@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Rejected Encounter Data containing a reason why the encounter was rejected (not compatible).
     /// </summary>
-    public class EncounterRejected : IEncounterable
+    public sealed class EncounterRejected : IEncounterable
     {
         public readonly IEncounterable Encounter;
         public readonly CheckResult Check;
@@ -23,6 +23,7 @@ namespace PKHeX.Core
             Check = check;
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new ArgumentException($"Cannot convert an {nameof(EncounterRejected)} to PKM.");
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria) => throw new ArgumentException($"Cannot convert an {nameof(EncounterRejected)} to PKM.");
     }
 }

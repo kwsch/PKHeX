@@ -68,7 +68,9 @@ namespace PKHeX.Core
         private const string _name = "Static Encounter";
         public string Name => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
 
-        public PKM ConvertToPKM(ITrainerInfo SAV)
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             SanityCheckVersion(ref version);
@@ -88,6 +90,9 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
+            pk.AltForm = Form;
+            pk.HeldItem = HeldItem;
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
@@ -99,11 +104,13 @@ namespace PKHeX.Core
                 if (pk.Format >= 4)
                     pk.MetDate = DateTime.Today;
             }
+
             if (EggEncounter)
             {
-                bool traded = (int)Version == SAV.Game;
                 pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
                 pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+
+                bool traded = (int)Version == SAV.Game;
                 if (pk.GenNumber >= 4)
                 {
                     pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
@@ -112,8 +119,6 @@ namespace PKHeX.Core
                 pk.Egg_Location = EggLocation;
                 pk.EggMetDate = today;
             }
-
-            pk.AltForm = Form;
 
             if (this is EncounterStaticPID p)
             {
@@ -142,18 +147,16 @@ namespace PKHeX.Core
                 SetIVs(pk);
             }
 
-            switch (pk.Format)
+            switch (pk)
             {
-                case 3:
-                    if (this is EncounterStaticShadow)
-                        ((PK3)pk).RibbonNational = true;
+                case PK3 pk3 when this is EncounterStaticShadow:
+                    pk3.RibbonNational = true;
                     break;
-                case 4:
-                    if (this is EncounterStaticTyped t)
-                        pk.EncounterType = t.TypeEncounter.GetIndex();
+                case PK4 pk4 when this is EncounterStaticTyped t:
+                    pk4.EncounterType = t.TypeEncounter.GetIndex();
                     break;
-                case 6:
-                    pk.SetRandomMemory6();
+                case PK6 pk6:
+                    pk6.SetRandomMemory6();
                     break;
             }
 
@@ -161,12 +164,10 @@ namespace PKHeX.Core
                 this.CopyContestStatsTo(s);
 
             var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
-            pk.HeldItem = HeldItem;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             if (pk.Format >= 6 && Relearn.Length > 0)
                 pk.RelearnMoves = Relearn;
-            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             if (Fateful)
                 pk.FatefulEncounter = true;
 
@@ -347,7 +348,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    if (IVs[i] != -1 && IVs[i] != pkm.IVs[i])
+                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
                         return false;
                 }
             }

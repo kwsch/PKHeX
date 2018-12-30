@@ -82,7 +82,8 @@ namespace PKHeX.Core
         public byte[] Data { get; set; }
         public abstract int Format { get; }
 
-        public abstract PKM ConvertToPKM(ITrainerInfo SAV);
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public abstract PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria);
 
         protected abstract bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs);
         protected abstract bool IsMatchDeferred(PKM pkm);

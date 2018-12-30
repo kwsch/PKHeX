@@ -2,23 +2,6 @@
 
 namespace PKHeX.Core
 {
-    public class EncounterSlotPermissions
-    {
-        public int StaticIndex { get; set; } = -1;
-        public int MagnetPullIndex { get; set; } = -1;
-        public int StaticCount { get; set; }
-        public int MagnetPullCount { get; set; }
-
-        public bool AllowDexNav { get; set; }
-        public bool Pressure { get; set; }
-        public bool DexNav { get; set; }
-        public bool WhiteFlute { get; set; }
-        public bool BlackFlute { get; set; }
-        public bool IsNormalLead => !(WhiteFlute || BlackFlute || DexNav);
-        public bool IsDexNav => AllowDexNav && DexNav;
-        public EncounterSlotPermissions Clone() => (EncounterSlotPermissions)MemberwiseClone();
-    }
-
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
@@ -65,80 +48,35 @@ namespace PKHeX.Core
             }
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV)
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation, Version);
-            int nature = Util.Rand.Next(25);
             SAV.ApplyToPKM(pk);
 
             pk.Species = Species;
-            int gender = pk.PersonalInfo.RandomGender;
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
-            pk.Ball = GetBall();
-            pk.AltForm = GetWildAltForm(Form, pk, SAV);
-
-            if (pk.Format > 2 || Version == GameVersion.C)
-            {
-                pk.Met_Location = Location;
-                pk.Met_Level = level;
-                if (Version == GameVersion.C && pk is PK2 pk2 && this is EncounterSlot1 slot)
-                    pk2.Met_TimeOfDay = slot.Time.RandomValidTime();
-
-                if (pk.Format >= 4)
-                    pk.MetDate = DateTime.Today;
-            }
+            pk.Ball = (int)Type.GetBall();
             pk.Language = lang;
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+            pk.AltForm = GetWildAltForm(pk, Form, SAV);
 
-            var ability = Util.Rand.Next(2);
-            var pidtype = GetPIDType();
-            if (pidtype == PIDType.PokeSpot)
-                PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
-            else
-                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
+            SetMetData(pk, level, Location);
+            SetNatureGenderAbility(pk, criteria);
 
-            if (Permissions.IsDexNav)
-            {
-                pk.RefreshAbility(2);
-                var eggMoves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
-                if (eggMoves.Length > 0)
-                    pk.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
-            }
-
-            switch (pk.Format)
-            {
-                case 1 when Species == 64 && Version == GameVersion.YW: // Kadabra
-                    ((PK1)pk).Catch_Rate = 96;
-                    break;
-                case 1 when Species == 148 && Version == GameVersion.YW: // Dragonair
-                    ((PK1)pk).Catch_Rate = 27;
-                    break;
-                case 3:
-                case 4:
-                    if (pk.Format == 4)
-                        pk.EncounterType = TypeEncounter.GetIndex();
-                    pk.Gender = gender;
-                    break;
-                case 5:
-                    if (Type == SlotType.HiddenGrotto)
-                        pk.RefreshAbility(2);
-                    break;
-                case 6:
-                    pk.SetRandomMemory6();
-                    break;
-            }
+            SetFormatSpecificData(pk);
 
             var moves = this is EncounterSlotMoves m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-            if (Version == GameVersion.XD)
-                pk.FatefulEncounter = true;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
-            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
+
             if (pk.Format < 6)
                 return pk;
 
@@ -148,7 +86,72 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private static int GetWildAltForm(int form, PKM pk, ITrainerInfo SAV)
+        private void SetFormatSpecificData(PKM pk)
+        {
+            if (pk is PK1 pk1)
+            {
+                if (Species == 64 && Version == GameVersion.YW) // Kadabra
+                    pk1.Catch_Rate = 96;
+                else if (Species == 148 && Version == GameVersion.YW) // Dragonair
+                    pk1.Catch_Rate = 27;
+                else
+                    pk1.Catch_Rate = PersonalTable.RB[Species].CatchRate; // RB
+            }
+            else if (pk is PK2 pk2)
+            {
+                if (Version == GameVersion.C && this is EncounterSlot1 slot)
+                    pk2.Met_TimeOfDay = slot.Time.RandomValidTime();
+            }
+            else if (pk is XK3 xk3)
+            {
+                xk3.FatefulEncounter = true; // PokeSpot
+            }
+            else if (pk is PK4 pk4)
+            {
+                pk4.EncounterType = TypeEncounter.GetIndex();
+            }
+            else if (pk is PK6 pk6)
+            {
+                if (Permissions.IsDexNav)
+                {
+                    var eggMoves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
+                    if (eggMoves.Length > 0)
+                        pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
+                }
+                pk.SetRandomMemory6();
+            }
+        }
+
+        private void SetNatureGenderAbility(PKM pk, EncounterCriteria criteria)
+        {
+            int gender = criteria.GetGender(-1, pk.PersonalInfo);
+            int nature = (int)criteria.GetNature(Nature.Random);
+
+            var ability = Util.Rand.Next(2);
+            if (Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
+                ability = 2;
+
+            var pidtype = GetPIDType();
+            if (pidtype == PIDType.PokeSpot)
+                PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
+            else
+                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
+            pk.Gender = gender;
+        }
+
+        private void SetMetData(PKM pk, int level, int location)
+        {
+            if (pk.Format <= 2 && Version != GameVersion.C)
+                return;
+
+            pk.Met_Location = location;
+            pk.Met_Level = level;
+
+            if (pk.Format >= 4)
+                pk.MetDate = DateTime.Today;
+        }
+
+        private static int GetWildAltForm(PKM pk, int form, ITrainerInfo SAV)
         {
             if (form < 30)
             {
@@ -170,15 +173,6 @@ namespace PKHeX.Core
             if (Version == GameVersion.XD)
                 return PIDType.PokeSpot;
             return PIDType.None; // depends on format, let the program auto-detect.
-        }
-
-        private int GetBall()
-        {
-            if (Type == SlotType.BugContest)
-                return 24; // Sport
-            if (Type.IsSafariType())
-                return 5; // Safari
-            return 4; // Poké Ball
         }
     }
 }
