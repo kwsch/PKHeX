@@ -509,17 +509,24 @@ namespace PKHeX.WinForms
         {
             var pb = new List<PictureBox>();
 
-            for (int i = 0; i < mga.Gifts.Length / 6; i++)
+            const int cellsPerRow = 6;
+            int rows = (int)Math.Ceiling(mga.Gifts.Length / (decimal)cellsPerRow);
+            int countRemaining = mga.Gifts.Length;
+
+            for (int i = 0; i < rows; i++)
             {
-                var flp = GetFlowLayoutPanel();
-                flp.Controls.Add(GetLabel($"{(i * 6) + 1}-{(i * 6) + 6}"));
-                for (int j = 0; j < 6; j++)
+                var row = GetFlowLayoutPanel();
+                int count = cellsPerRow >= countRemaining ? countRemaining : cellsPerRow;
+                countRemaining -= count;
+                int start = (i * cellsPerRow) + 1;
+                row.Controls.Add(GetLabel($"{start}-{start + count - 1}"));
+                for (int j = 0; j < count; j++)
                 {
                     var p = GetPictureBox();
-                    flp.Controls.Add(p);
+                    row.Controls.Add(p);
                     pb.Add(p);
                 }
-                FLP_Gifts.Controls.Add(flp);
+                FLP_Gifts.Controls.Add(row);
             }
             return pb;
         }
