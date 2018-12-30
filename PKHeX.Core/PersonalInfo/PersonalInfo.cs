@@ -297,13 +297,24 @@ namespace PKHeX.Core
         {
             get
             {
+                var fix = FixedGender;
+                return fix >= 0 ? fix : Util.Rand.Next(2);
+            }
+        }
+
+        public bool IsDualGender => FixedGender < 0;
+
+        public int FixedGender
+        {
+            get
+            {
                 if (Genderless)
                     return 2;
                 if (OnlyFemale)
                     return 1;
                 if (OnlyMale)
                     return 0;
-                return Util.Rand.Next(2);
+                return -1;
             }
         }
 

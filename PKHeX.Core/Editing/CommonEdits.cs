@@ -547,7 +547,7 @@ namespace PKHeX.Core
         /// <returns>Highest value the value can be.</returns>
         public static int GetMaximumIV(this PKM pk, int index, bool Allow30 = false)
         {
-            if (pk.IVs[index] == pk.MaxIV && Allow30)
+            if (pk.GetIV(index) == pk.MaxIV && Allow30)
                 return pk.MaxIV - 1;
             return pk.MaxIV;
         }
@@ -591,6 +591,20 @@ namespace PKHeX.Core
             pkm.MetDate = DateTime.Today;
             if (pkm.Gen6)
                 pkm.SetHatchMemory6();
+        }
+
+        /// <summary>
+        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
+        /// </summary>
+        /// <param name="pkm">PKM to apply hatch details to</param>
+        /// <param name="origin">Game the egg originated from</param>
+        /// <param name="dest">Game the egg is currently present on</param>
+        public static void SetEggMetData(this PKM pkm, GameVersion origin, GameVersion dest)
+        {
+            bool traded = origin == dest;
+            var today = pkm.MetDate = DateTime.Today;
+            pkm.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pkm, traded);
+            pkm.EggMetDate = today;
         }
 
         /// <summary>

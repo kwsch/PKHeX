@@ -132,5 +132,14 @@ namespace PKHeX.Core
         {
             return !(t.IsFishingRodType() || (t & SlotType.Rock_Smash) != 0);
         }
+
+        public static Ball GetBall(this SlotType t)
+        {
+            if (t == SlotType.BugContest)
+                return Ball.Sport;
+            if (t.IsSafariType())
+                return Ball.Safari;
+            return Ball.Poke;
+        }
     }
 }
