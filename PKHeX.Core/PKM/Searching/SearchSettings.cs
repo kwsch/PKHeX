@@ -135,6 +135,8 @@ namespace PKHeX.Core.Searching
             return res.Where(pk => pk.IsEgg);
         }
 
+        public GameVersion[] GetVersions(SaveFile SAV) => GetVersions(SAV, GetFallbackVersion(SAV));
+
         public GameVersion[] GetVersions(SaveFile SAV, GameVersion fallback)
         {
             if (Version > 0)
@@ -147,6 +149,14 @@ namespace PKHeX.Core.Searching
             }
 
             return GameUtil.GameVersions;
+        }
+
+        private static GameVersion GetFallbackVersion(SaveFile SAV)
+        {
+            var parent = GameUtil.GetMetLocationVersionGroup((GameVersion)SAV.Game);
+            if (parent == GameVersion.Invalid)
+                parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(SAV.Generation));
+            return parent;
         }
     }
 }
