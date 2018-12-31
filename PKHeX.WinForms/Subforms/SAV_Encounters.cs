@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static PKHeX.Core.MessageStrings;
@@ -22,7 +23,6 @@ namespace PKHeX.WinForms
 
             ToolStripMenuItem mnuView = new ToolStripMenuItem {Name = "mnuView", Text = "View"};
 
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             ContextMenuStrip mnu = new ContextMenuStrip();
             mnu.Items.AddRange(new ToolStripItem[] { mnuView });
 
@@ -70,6 +70,10 @@ namespace PKHeX.WinForms
             foreach (PictureBox p in PKXBOXES)
                 p.ContextMenuStrip = mnu;
 
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
+            TLP_Filters.Controls.Add(TypeFilters = GetTypeFilters(), 2, TLP_Filters.RowCount - 1);
+
             // Load Data
             L_Count.Text = "Ready...";
 
@@ -81,6 +85,34 @@ namespace PKHeX.WinForms
             CenterToParent();
         }
 
+        private static FlowLayoutPanel GetTypeFilters()
+        {
+            var flp = new FlowLayoutPanel { Dock = DockStyle.Fill };
+            var types = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+            var checks = types.Select(z => new CheckBox
+            {
+                Name = z.ToString(),
+                Text = z.ToString(),
+                AutoSize = true,
+                Checked = true,
+                Padding = Padding.Empty,
+                Margin = Padding.Empty,
+            }).ToArray();
+            foreach (var chk in checks)
+            {
+                flp.Controls.Add(chk);
+                flp.SetFlowBreak(chk, true);
+            }
+            flp.AutoSize = true;
+            return flp;
+        }
+
+        private EncounterOrder[] GetTypes()
+        {
+            return TypeFilters.Controls.OfType<CheckBox>().Where(z => z.Checked).Select(z => z.Name)
+                .Select(z => (EncounterOrder)Enum.Parse(typeof(EncounterOrder), z)).ToArray();
+        }
+
         private readonly PictureBox[] PKXBOXES;
         private List<IEncounterable> Results;
         private int slotSelected = -1; // = null;
@@ -88,7 +120,7 @@ namespace PKHeX.WinForms
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
-        private const int MAXFORMAT = PKX.Generation;
+        private readonly FlowLayoutPanel TypeFilters;
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -107,7 +139,10 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
+            var enc = Results[index];
+            var pk = enc.ConvertToPKM(SAV);
+            pk.RefreshChecksum();
+            PKME_Tabs.PopulateFields(pk, false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
@@ -117,6 +152,7 @@ namespace PKHeX.WinForms
         {
             // Set the Text
             CB_Species.InitializeBinding();
+            CB_GameOrigin.InitializeBinding();
 
             var Any = new ComboItem {Text = MsgAny, Value = -1};
 
@@ -134,6 +170,9 @@ namespace PKHeX.WinForms
                 }
             }
 
+            var DS_Version = new List<ComboItem>(GameInfo.VersionDataSource);
+            DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
+
             // Trigger a Reset
             ResetFilters(null, null);
         }
@@ -141,10 +180,12 @@ namespace PKHeX.WinForms
         private void ResetFilters(object sender, EventArgs e)
         {
             CB_Species.SelectedIndex = 0;
-
             CB_Move1.SelectedIndex = CB_Move2.SelectedIndex = CB_Move3.SelectedIndex = CB_Move4.SelectedIndex = 0;
+            CB_GameOrigin.SelectedIndex = 0;
 
             RTB_Instructions.Clear();
+            foreach (var chk in TypeFilters.Controls.OfType<CheckBox>())
+                chk.Checked = true;
 
             if (sender != null)
                 System.Media.SystemSounds.Asterisk.Play();
@@ -159,22 +200,25 @@ namespace PKHeX.WinForms
             var pk = SAV.BlankPKM;
 
             var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
-            var results = species.SelectMany(z => GetEncounters(z, moves, pk));
+            var versions = settings.GetVersions(SAV);
+            var results = species.SelectMany(z => GetEncounters(z, moves, pk, versions));
             if (settings.SearchEgg != null)
                 results = results.Where(z => z.EggEncounter == settings.SearchEgg);
 
             // return filtered results
-            return results;
+            var comparer = new ReferenceComparer<IEncounterable>();
+            return results.Distinct(comparer); // only distinct objects
         }
 
-        private IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk)
+        private class ReferenceComparer<T> : IEqualityComparer<T>
+        {
+            public bool Equals(T x, T y) => RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
+            public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
+        }
+
+        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, GameVersion[] vers)
         {
             pk.Species = species;
-
-            var parent = GameUtil.GetMetLocationVersionGroup(SAV.Version);
-            if (parent == GameVersion.Invalid)
-                parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(SAV.Generation));
-            var vers = GameUtil.GameVersions.Where(z => parent.Contains(z)).ToArray();
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
         }
 
@@ -188,6 +232,7 @@ namespace PKHeX.WinForms
                 Species = WinFormsUtil.GetIndex(CB_Species),
 
                 BatchInstructions = RTB_Instructions.Lines,
+                Version = WinFormsUtil.GetIndex(CB_GameOrigin),
             };
 
             settings.AddMove(WinFormsUtil.GetIndex(CB_Move1));
@@ -204,6 +249,7 @@ namespace PKHeX.WinForms
         private async void B_Search_Click(object sender, EventArgs e)
         {
             B_Search.Enabled = false;
+            EncounterMovesetGenerator.PriorityList = GetTypes();
             var search = SearchDatabase();
 
             var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
@@ -214,6 +260,7 @@ namespace PKHeX.WinForms
             SetResults(results); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
             B_Search.Enabled = true;
+            EncounterMovesetGenerator.ResetFilters();
         }
 
         private void UpdateScroll(object sender, ScrollEventArgs e)
