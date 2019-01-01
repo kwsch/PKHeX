@@ -97,7 +97,7 @@ RibbonCountG3Beauty	Belleza
 RibbonCountG3Cute	Dulzura
 RibbonCountG3Smart	Ingenio
 RibbonCountG3Tough	Dureza
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionAlola	Campeón de Alola
+RibbonBattleRoyale	Maestro Battle Royale
+RibbonBattleTreeGreat	As del Árbol
+RibbonBattleTreeMaster	Maestro del Árbol
