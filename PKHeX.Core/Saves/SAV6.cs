@@ -82,22 +82,24 @@ namespace PKHeX.Core
         {
             if (ORASDEMO)
             {
-                /* 00: */ Bag = 0x00000;
+                /* 00: */ Bag = 0x00000; // MyItem
                 /* 01: */ ItemInfo = 0x00C00; // Select Bound Items
-                /* 02: */ AdventureInfo = 0x00E00;
-                /* 03: */ Trainer1 = 0x01000;
-                /* 04: */ // = 0x01200; [00004] // ???
-                /* 05: */ PlayTime = 0x01400;
-                /* 06: */ // = 0x01600; [00024] // FFFFFFFF
-                /* 07: */ // = 0x01800; [02100] // Overworld Data
-                /* 08: */ Trainer2 = 0x03A00;
-                /* 09: */ TrainerCard = 0x03C00;
-                /* 10: */ Party = 0x03E00;
-                /* 11: */ EventConst = 0x04600; EventFlag = EventConst + 0x2FC;
-                /* 12: */ // = 0x04C00; [00004] // 87B1A23F const
-                /* 13: */ // = 0x04E00; [00048] // Repel Info, (Swarm?) and other overworld info
-                /* 14: */ SUBE = 0x05000;
-                /* 15: */ Record = 0x05400;
+                /* 02: */ AdventureInfo = 0x00E00; // GameTime
+                /* 03: */ Trainer1 = 0x01000; // Situation
+                /* 04: */ // = 0x01200; [00004] // RandomGroup (rand seeds)
+                /* 05: */ PlayTime = 0x01400; // PlayTime
+                /* 06: */ // = 0x01600; [00024] // temp variables (u32 id + 32 u8)
+                /* 07: */ // = 0x01800; [02100] // FieldMoveModelSave
+                /* 08: */ Trainer2 = 0x03A00; // Misc
+                /* 09: */ TrainerCard = 0x03C00; // MyStatus
+                /* 10: */ Party = 0x03E00; // PokePartySave
+                /* 11: */ EventConst = 0x04600; // EventWork
+                /* 12: */ // = 0x04C00; [00004] // Packed Menu Bits
+                /* 13: */ // = 0x04E00; [00048] // Repel Info, (Swarm?) and other overworld info (roamer)
+                /* 14: */ SUBE = 0x05000; // PokeDiarySave
+                /* 15: */ Record = 0x05400; // Record
+
+                EventFlag = EventConst + 0x2FC;
 
                 OFS_PouchHeldItem = Bag + 0;
                 OFS_PouchKeyItem = Bag + 0x640;
@@ -108,58 +110,58 @@ namespace PKHeX.Core
             else if (XY)
             {
                 /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
-                /* 01: 00400-00F88, 00B88 */ Bag = 0x00400;
-                /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000;
-                /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200;
-                /* 04: 01400-01550, 00150 */ Trainer1 = 0x1400;
-                /* 05: 01600-01604, 00004 */
-                /* 06: 01800-01808, 00008 */ PlayTime = 0x1800;
-                /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00;
-                /* 08: 01C00-01CBE, 000BE */
-                /* 09: 01E00-01E24, 00024 */
-                /* 10: 02000-04100, 02100 */
-                /* 11: 04200-04340, 00140 */ Trainer2 = 0x4200;
-                /* 12: 04400-04840, 00440 */ PCLayout = 0x4400;
-                /* 13: 04A00-04F74, 00574 */ BattleBox = 0x04A00;
+                /* 01: 00400-00F88, 00B88 */ Bag = 0x00400; // MyItem
+                /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000; // Select Bound Items
+                /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200; // GameTime
+                /* 04: 01400-01550, 00150 */ Trainer1 = 0x1400; // Situation
+                /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
+                /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+                /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
+                /* 08: 01C00-01CBE, 000BE */ // amie minigame records
+                /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
+                /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
+                /* 11: 04200-04340, 00140 */ Trainer2 = 0x4200; // Misc
+                /* 12: 04400-04840, 00440 */ PCLayout = 0x4400; // BOX
+                /* 13: 04A00-04F74, 00574 */ BattleBox = 0x04A00; // BattleBox
                 /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
                 /* 15: 0A000-0EE28, 04E28 */ // PSS2
                 /* 16: 0F000-13E28, 04E28 */ // PSS3
-                /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000;
-                /* 18: 14200-1481C, 0061C */ Party = 0x14200;
-                /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00;
-                /* 20: 15000-156A0, 006A0 */ PokeDex = 0x15000;
-                /* 21: 15800-15E44, 00644 */
-                /* 22: 16000-16104, 00104 */ Fused = 0x16000;
-                /* 23: 16200-16204, 00004 */
-                /* 24: 16400-16820, 00420 */
+                /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
+                /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
+                /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
+                /* 20: 15000-156A0, 006A0 */ PokeDex = 0x15000; // ZukanData
+                /* 21: 15800-15E44, 00644 */ // hologram clips
+                /* 22: 16000-16104, 00104 */ Fused = 0x16000; // UnionPokemon
+                /* 23: 16200-16204, 00004 */ // ConfigSave
+                /* 24: 16400-16820, 00420 */ // Amie decoration stuff
                 /* 25: 16A00-16A64, 00064 */ OPower = 0x16A00;
-                /* 26: 16C00-16FF0, 003F0 */
-                /* 27: 17000-1770C, 0070C */
-                /* 28: 17800-17980, 00180 */ GTS = 0x17800;
-                /* 29: 17A00-17A04, 00004 */
-                /* 30: 17C00-17C0C, 0000C */
-                /* 31: 17E00-17E48, 00048 */
-                /* 32: 18000-18054, 00054 */
-                /* 33: 18200-18844, 00644 */
-                /* 34: 18A00-18FC8, 005C8 */
-                /* 35: 19000-192F8, 002F8 */
-                /* 36: 19400-1AF40, 01B40 */ HoF = 0x19400;
-                /* 37: 1B000-1B1F4, 001F4 */ MaisonStats = 0x1B1C0;
-                /* 38: 1B200-1B3F0, 001F0 */ Daycare = 0x1B200;
-                /* 39: 1B400-1B616, 00216 */
+                /* 26: 16C00-16FF0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
+                /* 27: 17000-1770C, 0070C */ // Trainer PR Video
+                /* 28: 17800-17980, 00180 */ GTS = 0x17800; // GtsData
+                /* 29: 17A00-17A04, 00004 */ // Packed Menu Bits
+                /* 30: 17C00-17C0C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
+                /* 31: 17E00-17E48, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
+                /* 32: 18000-18054, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
+                /* 33: 18200-18844, 00644 */ // Streetpass history (4 byte intro, 20*4byte entries, 20*76 byte entries)
+                /* 34: 18A00-18FC8, 005C8 */ // LiveMatchData/BattleSpotData
+                /* 35: 19000-192F8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
+                /* 36: 19400-1AF40, 01B40 */ HoF = 0x19400; // Dendou
+                /* 37: 1B000-1B1F4, 001F4 */ MaisonStats = 0x1B1C0; // BattleInstSave
+                /* 38: 1B200-1B3F0, 001F0 */ Daycare = 0x1B200; // Sodateya
+                /* 39: 1B400-1B616, 00216 */ // BattleInstSave
                 /* 40: 1B800-1BB90, 00390 */ BerryField = 0x1B800;
-                /* 41: 1BC00-1D690, 01A90 */ WondercardFlags = 0x1BC00;
-                /* 42: 1D800-1DB08, 00308 */ SUBE = 0x1D890;
-                /* 43: 1DC00-1E218, 00618 */
-                /* 44: 1E400-1E65C, 0025C */ Record = 0x1E400;
-                /* 45: 1E800-1F034, 00834 */
+                /* 41: 1BC00-1D690, 01A90 */ WondercardFlags = 0x1BC00; // MysteryGiftSave
+                /* 42: 1D800-1DB08, 00308 */ SUBE = 0x1D890; // PokeDiarySave
+                /* 43: 1DC00-1E218, 00618 */ // Storyline Records
+                /* 44: 1E400-1E65C, 0025C */ Record = 0x1E400; // Record
+                /* 45: 1E800-1F034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
                 /* 46: 1F200-1F518, 00318 */ SuperTrain = 0x1F200;
-                /* 47: 1F600-1FDD0, 007D0 */
+                /* 47: 1F600-1FDD0, 007D0 */ // Unused (lmao)
                 /* 48: 1FE00-20A48, 00C48 */ LinkInfo = 0x1FE00;
-                /* 49: 20C00-20C78, 00078 */
-                /* 50: 20E00-21000, 00200 */
-                /* 51: 21000-21C84, 00C84 */
-                /* 52: 21E00-22428, 00628 */
+                /* 49: 20C00-20C78, 00078 */ // PSS usage info
+                /* 50: 20E00-21000, 00200 */ // GameSyncSave
+                /* 51: 21000-21C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
+                /* 52: 21E00-22428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
                 /* 53: 22600-570D0, 34AD0 */ Box = 0x22600;
                 /* 54: 57200-65258, 0E058 */ JPEG = 0x57200;
 
@@ -180,58 +182,58 @@ namespace PKHeX.Core
             else if (ORAS)
             {
                 /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
-                /* 01: 00400-00F90, 00B90 */ Bag = 0x00400;
-                /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000;
-                /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200;
+                /* 01: 00400-00F90, 00B90 */ Bag = 0x00400; // MyItem
+                /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000; // Select Bound Items
+                /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200; // GameTime
                 /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
-                /* 05: 01600-01604, 00004 */
-                /* 06: 01800-01808, 00008 */ PlayTime = 0x1800;
-                /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00;
-                /* 08: 01C00-01CBE, 000BE */
-                /* 09: 01E00-01E24, 00024 */
-                /* 10: 02000-04100, 02100 */
-                /* 11: 02000-04100, 02100 */ Trainer2 = 0x04200;
-                /* 12: 02000-04100, 02100 */ PCLayout = 0x04400;
-                /* 13: 02000-04100, 02100 */ BattleBox = 0x04A00;
+                /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
+                /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+                /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
+                /* 08: 01C00-01CBE, 000BE */ // amie minigame records
+                /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
+                /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
+                /* 11: 04200-04330, 00130  */ Trainer2 = 0x04200; // Misc
+                /* 12: 04400-04840, 00440  */ PCLayout = 0x04400; // BOX
+                /* 13: 04A00-04F74, 00574  */ BattleBox = 0x04A00; // BattleBox
                 /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
                 /* 15: 0A000-0EE28, 04E28 */ // PSS2
                 /* 16: 0F000-13E28, 04E28 */ // PSS3
-                /* 17: 02000-04100, 02100 */ TrainerCard = 0x14000;
-                /* 18: 14200-1481C, 0061C */ Party = 0x14200;
-                /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00;
-                /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000;
-                /* 21: 16200-16844, 00644 */
-                /* 22: 16A00-16B04, 00104 */ Fused = 0x16A00;
-                /* 23: 16C00-16C04, 00004 */
-                /* 24: 16E00-17220, 00420 */
+                /* 17: 02000-04100, 02100 */ TrainerCard = 0x14000; // MyStatus
+                /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
+                /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
+                /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000; // ZukanData
+                /* 21: 16200-16844, 00644 */ // hologram clips
+                /* 22: 16A00-16B04, 00104 */ Fused = 0x16A00; // UnionPokemon
+                /* 23: 16C00-16C04, 00004 */ // ConfigSave
+                /* 24: 16E00-17220, 00420 */ // Amie decoration stuff
                 /* 25: 17400-17464, 00064 */ OPower = 0x17400;
-                /* 26: 17600-179F0, 003F0 */
-                /* 27: 17A00-1810C, 0070C */
-                /* 28: 18200-18380, 00180 */ GTS = 0x18200;
-                /* 29: 18400-18404, 00004 */
-                /* 30: 18600-1860C, 0000C */
-                /* 31: 18800-18848, 00048 */
-                /* 32: 18A00-18A54, 00054 */
-                /* 33: 18C00-19244, 00644 */
-                /* 34: 19400-199C8, 005C8 */
-                /* 35: 19A00-19CF8, 002F8 */
-                /* 36: 19E00-1B940, 01B40 */ HoF = 0x19E00;
-                /* 37: 1BA00-1BBF4, 001F4 */ MaisonStats = 0x1BBC0;
-                /* 38: 1BC00-1BFE0, 003E0 */ Daycare = 0x1BC00;
-                /* 39: 1C000-1C216, 00216 */
+                /* 26: 17600-179F0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
+                /* 27: 17A00-1810C, 0070C */ // Trainer PR Video
+                /* 28: 18200-18380, 00180 */ GTS = 0x18200; // GtsData
+                /* 29: 18400-18404, 00004 */ // Packed Menu Bits
+                /* 30: 18600-1860C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
+                /* 31: 18800-18848, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
+                /* 32: 18A00-18A54, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
+                /* 33: 18C00-19244, 00644 */ // Streetpass history
+                /* 34: 19400-199C8, 005C8 */ // LiveMatchData/BattleSpotData
+                /* 35: 19A00-19CF8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
+                /* 36: 19E00-1B940, 01B40 */ HoF = 0x19E00; // Dendou
+                /* 37: 1BA00-1BBF4, 001F4 */ MaisonStats = 0x1BBC0; // BattleInstSave
+                /* 38: 1BC00-1BFE0, 003E0 */ Daycare = 0x1BC00; // Sodateya
+                /* 39: 1C000-1C216, 00216 */ // BattleInstSave
                 /* 40: 1C400-1CA40, 00640 */ BerryField = 0x1C400;
-                /* 41: 1CC00-1E690, 01A90 */ WondercardFlags = 0x1CC00;
-                /* 42: 1E800-1EC00, 00400 */
-                /* 43: 1EC00-1F218, 00618 */ SUBE = 0x1D890;
-                /* 44: 1F400-1F65C, 0025C */ Record = 0x1F400;
-                /* 45: 1F800-20034, 00834 */
+                /* 41: 1CC00-1E690, 01A90 */ WondercardFlags = 0x1CC00; // MysteryGiftSave
+                /* 42: 1E800-1EC00, 00400 */ // Storyline Records
+                /* 43: 1EC00-1F218, 00618 */ SUBE = 0x1D890; // PokeDiarySave
+                /* 44: 1F400-1F65C, 0025C */ Record = 0x1F400; // Record
+                /* 45: 1F800-20034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
                 /* 46: 20200-20518, 00318 */ SuperTrain = 0x20200;
-                /* 47: 20600-20DD0, 007D0 */
-                /* 48: 20E00-21A48, 00C48 */
-                /* 49: 21C00-21C78, 00078 */
-                /* 50: 21E00-22000, 00200 */
-                /* 51: 22000-22C84, 00C84 */
-                /* 52: 22E00-23428, 00628 */ LinkInfo = 0x20E00;
+                /* 47: 20600-20DD0, 007D0 */ // Unused (lmao)
+                /* 48: 20E00-21A48, 00C48 */ LinkInfo = 0x20E00;
+                /* 49: 21C00-21C78, 00078 */ // PSS usage info
+                /* 50: 21E00-22000, 00200 */ // GameSyncSave
+                /* 51: 22000-22C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
+                /* 52: 22E00-23428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
                 /* 53: 23600-23A00, 00400 */ Contest = 0x23600;
                 /* 54: 23A00-2B4D0, 07AD0 */ SecretBase = 0x23A00;
                 /* 55: 2B600-32EB0, 078B0 */ EonTicket = 0x319B8;
