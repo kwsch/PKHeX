@@ -316,14 +316,6 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G4RAW)
                 return GameVersion.Invalid;
 
-            // General Block Checksum
-            if (BitConverter.ToUInt16(data, 0xC0FE) == CRC16_CCITT(data, 0, 0xC0EC))
-                return GameVersion.DP;
-            if (BitConverter.ToUInt16(data, 0xCF2A) == CRC16_CCITT(data, 0, 0xCF18))
-                return GameVersion.Pt;
-            if (BitConverter.ToUInt16(data, 0xF626) == CRC16_CCITT(data, 0, 0xF618))
-                return GameVersion.HGSS;
-
             bool validSequence(byte[] pattern, int shift = 0)
             {
                 int ofs = BitConverter.ToUInt16(pattern, 0) - 0xC + shift;
@@ -335,7 +327,7 @@ namespace PKHeX.Core
                 return true;
             }
 
-            // General Block Checksum is invalid, check for block identifiers
+            // Check for block identifiers
             if (validSequence(BlockPattern_General_DP))
                 return GameVersion.DP;
             if (validSequence(BlockPattern_General_Pt))
