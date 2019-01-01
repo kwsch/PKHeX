@@ -184,11 +184,12 @@ namespace PKHeX.WinForms
             CB_GameOrigin.SelectedIndex = 0;
 
             RTB_Instructions.Clear();
+            if (sender == null)
+                return; // still starting up
             foreach (var chk in TypeFilters.Controls.OfType<CheckBox>())
                 chk.Checked = true;
 
-            if (sender != null)
-                System.Media.SystemSounds.Asterisk.Play();
+            System.Media.SystemSounds.Asterisk.Play();
         }
 
         // View Updates
