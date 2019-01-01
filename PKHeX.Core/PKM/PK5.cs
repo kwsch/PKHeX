@@ -8,7 +8,13 @@ namespace PKHeX.Core
     {
         private static readonly byte[] Unused =
         {
-            0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
+            0x87, // PokeStar Fame -- this is first to prevent 0x42 from being the first ExtraByte as this byte has GUI functionality
+            0x42, // Hidden Ability/NPokemon
+            0x43, 0x44, 0x45, 0x46, 0x47,
+            0x5E, // unused
+            0x63, // last 8 bits of a 32bit ribbonset
+            0x64, 0x65, 0x66, 0x67, // unused 32bit ribbonset?
+            0x86, // unused
         };
 
         public override byte[] ExtraBytes => Unused;
@@ -239,7 +245,9 @@ namespace PKHeX.Core
         public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
         public override int OT_Gender { get => Data[0x84] >> 7; set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); }
         public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
-        // 0x86-0x87 Unused
+        // 0x86 Unused
+        public byte PokeStarFame { get => Data[0x87]; set => Data[0x87] = value; }
+        public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = 255; }
         #endregion
 
         #region Battle Stats
