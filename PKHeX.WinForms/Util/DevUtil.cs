@@ -17,6 +17,8 @@ namespace PKHeX.WinForms
         private static readonly string[] Languages = {"ja", "fr", "it", "de", "es", "ko", "zh"};
         private const string DefaultLanguage = "en";
 
+        public static bool IsUpdatingTranslations { get; private set; }
+
         /// <summary>
         /// Call this to update all translatable resources (Program Messages, Legality Text, Program GUI)
         /// </summary>
@@ -24,9 +26,11 @@ namespace PKHeX.WinForms
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Update translation files with current values?"))
                 return;
+            IsUpdatingTranslations = true;
             DumpStringsLegality();
             DumpStringsMessage();
             UpdateTranslations();
+            IsUpdatingTranslations = false;
         }
 
         private static ToolStripMenuItem GetTranslationUpdater()

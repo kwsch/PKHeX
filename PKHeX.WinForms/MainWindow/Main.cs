@@ -31,9 +31,13 @@ namespace PKHeX.WinForms
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
             InitializeComponent();
+            FormLoadAddEvents();
+            #if DEBUG // translation updater -- all controls are added at this point -- call translate now
+            if (DevUtil.IsUpdatingTranslations)
+                WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
+            #endif
             FormInitializeSecond();
 
-            FormLoadAddEvents();
             FormLoadCustomBackupPaths();
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();

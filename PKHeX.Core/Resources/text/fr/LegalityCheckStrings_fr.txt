@@ -73,6 +73,7 @@ LEggPokerus = L'Œuf ne peut pas être atteint par le Pokérus.
 LEggPP = Impossible de modifier les PP d'un Œuf.
 LEggPPUp = Impossible d'appliquer des PP Plus à un Œuf.
 LEggShinyLeaf = Les Œufs ne peuvent pas avoir de feuille / couronne d'or.
+LEggShinyPokeStar = Eggs cannot be a Pokéstar Studios star.
 LEggSpecies = Cette espèce ne peut pas se reproduire.
 LEggUnhatched = Œuf non-éclos valide.
 LEncCondition = Rencontre de Pokémon sauvage valide à cet endroit.

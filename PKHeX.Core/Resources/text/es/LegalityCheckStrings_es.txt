@@ -73,6 +73,7 @@ LEggPokerus = Los Huevos no pueden estar infectados con Pokérus.
 LEggPP = Los Huevos no pueden tener los contadores de PP modificados.
 LEggPPUp = No se puede aplicar Más PP a un huevo.
 LEggShinyLeaf = Los Huevos no pueden tener Hoja/Corona Dorada.
+LEggShinyPokeStar = Eggs cannot be a Pokéstar Studios star.
 LEggSpecies = Esta Especie no puede tener Huevos.
 LEggUnhatched = Huevo eclosionado inválido.
 LEncCondition = Encuentro salvaje válido en la localización.

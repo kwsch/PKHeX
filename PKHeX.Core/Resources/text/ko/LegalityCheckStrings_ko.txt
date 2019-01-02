@@ -73,6 +73,7 @@ LEggPokerus = 알은 포켓러스에 감염될 수 없습니다.
 LEggPP = 알은 PP를 수정할 수 없습니다.
 LEggPPUp = 알에는 PP업을 적용할 수 없습니다.
 LEggShinyLeaf = 알은 빛나는나뭇잎/왕관을 가질 수 없습니다.
+LEggShinyPokeStar = Eggs cannot be a Pokéstar Studios star.
 LEggSpecies = 이 포켓몬 종류의 알은 얻을 수 없습니다.
 LEggUnhatched = 사용할 수 있는 부화 전 알입니다.
 LEncCondition = 장소에서 사용할 수 있는 야생 인카운터입니다.
