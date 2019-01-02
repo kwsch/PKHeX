@@ -248,7 +248,9 @@ namespace PKHeX.WinForms
                     Invoke((MethodInvoker)(() =>
                     {
                         L_UpdateAvailable.Visible = true;
-                        L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {latestVersion.ToString(3)}";
+                        var ver = latestVersion;
+                        var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+                        L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {date}";
                     }));
                 }
                 catch (Exception ex)
