@@ -198,7 +198,7 @@ namespace PKHeX.Core
                 /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
                 /* 15: 0A000-0EE28, 04E28 */ // PSS2
                 /* 16: 0F000-13E28, 04E28 */ // PSS3
-                /* 17: 02000-04100, 02100 */ TrainerCard = 0x14000; // MyStatus
+                /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
                 /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
                 /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
                 /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000; // ZukanData
@@ -287,6 +287,9 @@ namespace PKHeX.Core
         public int PokeDexLanguageFlags { get; private set; } = int.MinValue;
         public int Spinda { get; private set; } = int.MinValue;
         public int EncounterCount { get; private set; } = int.MinValue;
+
+        private const int LongStringLength = 0x22; // bytes, not characters
+        private const int ShortStringLength = 0x1A; // bytes, not characters
 
         public override GameVersion Version
         {
@@ -384,44 +387,24 @@ namespace PKHeX.Core
         public override string OT
         {
             get => GetString(TrainerCard + 0x48, 0x1A);
-            set => SetString(value, OTLength).CopyTo(Data, TrainerCard + 0x48);
+            set => SetData(SetString(value, OTLength), TrainerCard + 0x48);
         }
 
         public string OT_Nick
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x62, 0x1A));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x62);
+            get => GetString(TrainerCard + 0x62, ShortStringLength / 2);
+            set => SetData(SetString(value, ShortStringLength/2), TrainerCard + 0x62);
         }
 
-        public string Saying1
-        {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + (0x22 * 0), 0x22));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + (0x22 * 0));
-        }
+        private int GetSayingOffset(int say) => TrainerCard + 0x7C + (LongStringLength * say);
+        private string GetSaying(int say) => GetString(GetSayingOffset(say), LongStringLength);
+        private void SetSaying(int say, string value) => SetData(SetString(value, LongStringLength / 2), GetSayingOffset(say));
 
-        public string Saying2
-        {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + (0x22 * 1), 0x22));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + (0x22 * 1));
-        }
-
-        public string Saying3
-        {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + (0x22 * 2), 0x22));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + (0x22 * 2));
-        }
-
-        public string Saying4
-        {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + (0x22 * 3), 0x22));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + (0x22 * 3));
-        }
-
-        public string Saying5
-        {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + (0x22 * 4), 0x22));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + (0x22 * 4));
-        }
+        public string Saying1 { get => GetSaying(0); set => SetSaying(0, value); }
+        public string Saying2 { get => GetSaying(1); set => SetSaying(1, value); }
+        public string Saying3 { get => GetSaying(2); set => SetSaying(2, value); }
+        public string Saying4 { get => GetSaying(3); set => SetSaying(3, value); }
+        public string Saying5 { get => GetSaying(4); set => SetSaying(4, value); }
 
         public short EyeColor
         {
@@ -613,14 +596,14 @@ namespace PKHeX.Core
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs < 0)
                 return -1;
-            return ofs + 8 + (slot *(SIZE_STORED + 8));
+            return ofs + 8 + (slot * (SIZE_STORED + 8));
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
-                return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8)*slot) + 4);
+                return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
             return null;
         }
 
@@ -638,7 +621,7 @@ namespace PKHeX.Core
             if (ofs <= 0)
                 return null;
 
-            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize/2).Reverse().ToArray();
+            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", "");
         }
 
@@ -654,14 +637,14 @@ namespace PKHeX.Core
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
-                BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8)*slot) + 4);
+                BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
             if (ofs > -1)
-                Data[ofs + ((SIZE_STORED + 8)*slot)] = (byte) (occupied ? 1 : 0);
+                Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
         }
 
         public override void SetDaycareRNGSeed(int loc, string seed)
@@ -770,7 +753,7 @@ namespace PKHeX.Core
 
         public override int GetBoxOffset(int box)
         {
-            return Box + (SIZE_STORED *box*30);
+            return Box + (SIZE_STORED * box * 30);
         }
 
         protected override int GetBoxWallpaperOffset(int box)
@@ -781,17 +764,18 @@ namespace PKHeX.Core
             return ofs;
         }
 
+        private int GetBoxNameOffset(int box) => PCLayout + (LongStringLength * box);
+
         public override string GetBoxName(int box)
         {
             if (PCLayout < 0)
                 return "B" + (box + 1);
-            return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + (0x22 * box), 0x22));
+            return Util.TrimFromZero(Encoding.Unicode.GetString(Data, GetBoxNameOffset(box), LongStringLength));
         }
 
         public override void SetBoxName(int box, string value)
         {
-            Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + (0x22 * box));
-            Edited = true;
+            SetData(Encoding.Unicode.GetBytes(value.PadRight(LongStringLength / 2, '\0')), PCLayout + (LongStringLength * box));
         }
 
         public override PKM GetPKM(byte[] data)
@@ -845,7 +829,7 @@ namespace PKHeX.Core
             int origin = pkm.Version;
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
-            int shiftoff = brSize*(1 + gender + (2 * shiny)); // after the Owned region
+            int shiftoff = brSize * (1 + gender + (2 * shiny)); // after the Owned region
             int bd = bit >> 3; // div8
             int bm = bit & 7; // mod8
             byte mask = (byte)(1 << bm);
@@ -887,15 +871,15 @@ namespace PKHeX.Core
             bit = f + pkm.AltForm;
 
             // Set Form Seen Flag
-            Data[FormDex + (FormLen * shiny) + (bit / 8)] |= (byte)(1 << (bit%8));
+            Data[FormDex + (FormLen * shiny) + (bit / 8)] |= (byte)(1 << (bit % 8));
 
             // Set Displayed Flag if necessary, check all flags
             for (int i = 0; i < fc; i++)
             {
                 bit = f + i;
-                if ((Data[FormDex + (FormLen * 2) + (bit / 8)] & (byte) (1 << (bit%8))) != 0) // Nonshiny
+                if ((Data[FormDex + (FormLen * 2) + (bit / 8)] & (byte)(1 << (bit % 8))) != 0) // Nonshiny
                     return; // already set
-                if ((Data[FormDex + (FormLen * 3) + (bit / 8)] & (byte) (1 << (bit%8))) != 0) // Shiny
+                if ((Data[FormDex + (FormLen * 3) + (bit / 8)] & (byte)(1 << (bit % 8))) != 0) // Shiny
                     return; // already set
             }
             bit = f + pkm.AltForm;
@@ -993,23 +977,23 @@ namespace PKHeX.Core
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return null;
 
-                bool[] r = new bool[(WondercardData-WondercardFlags)*8];
+                bool[] r = new bool[(WondercardData - WondercardFlags) * 8];
                 for (int i = 0; i < r.Length; i++)
-                    r[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
+                    r[i] = (Data[WondercardFlags + (i >> 3)] >> (i & 7) & 0x1) == 1;
                 return r;
             }
             set
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return;
-                if ((WondercardData - WondercardFlags)*8 != value?.Length)
+                if ((WondercardData - WondercardFlags) * 8 != value?.Length)
                     return;
 
-                byte[] data = new byte[value.Length/8];
+                byte[] data = new byte[value.Length / 8];
                 for (int i = 0; i < value.Length; i++)
                 {
                     if (value[i])
-                        data[i>>3] |= (byte)(1 << (i&7));
+                        data[i >> 3] |= (byte)(1 << (i & 7));
                 }
 
                 data.CopyTo(Data, WondercardFlags);
@@ -1125,7 +1109,7 @@ namespace PKHeX.Core
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r = $"0x200 chunk @ 0x{i*0x200:X5} is FF'd."
+                r = $"0x200 chunk @ 0x{i * 0x200:X5} is FF'd."
                     + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
 
                 // Check to see if it is in the Pokedex
