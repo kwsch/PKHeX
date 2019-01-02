@@ -230,18 +230,18 @@ namespace PKHeX.Core
             // Ensure nature is set to required nature without affecting shininess
             pid += nature - (pid % 25);
 
+            if (gr >= 0xFE || gr == 0) // non-dual gender
+                return pid;
+
             // Ensure Gender is set to required gender without affecting other properties
             // If Gender is modified, modify the ability if appropriate
-            int currentGender = gender;
-            if (currentGender == 2)
-                return pid;
 
             // either m/f
             var pidGender = (pid & 0xFF) < gr ? 1 : 0;
-            if (currentGender == pidGender)
+            if (gender == pidGender)
                 return pid;
 
-            if (currentGender == 0) // Male
+            if (gender == 0) // Male
             {
                 pid += (uint)((((gr - (pid & 0xFF)) / 25) + 1) * 25);
                 if ((nature & 1) != (pid & 1))
