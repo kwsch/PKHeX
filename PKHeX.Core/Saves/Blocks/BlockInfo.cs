@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public int Offset;
         public int Length;
 
-        public string Summary => $"{ID:00}: {Offset:X5}-{Offset + Length:X5}, {Length:X5}";
+        public string Summary => $"{ID:00}: {Offset:X5}-{Offset + Length - 1:X5}, {Length:X5}";
 
         protected abstract bool ChecksumValid(byte[] data);
         protected abstract void SetChecksum(byte[] data);
