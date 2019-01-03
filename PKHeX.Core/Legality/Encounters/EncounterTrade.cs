@@ -348,7 +348,7 @@ namespace PKHeX.Core
 
             const int start = (int)LanguageID.English;
             const int end = (int)LanguageID.Italian;
-            var index = Array.FindIndex(TrainerNames, start, end - start, w => w == OT);
+            var index = Array.FindIndex(TrainerNames, start, end - start + 1, w => w == OT);
             return index >= 0;
         }
     }
