@@ -253,20 +253,22 @@ namespace PKHeX.WinForms
             showChangelog = false;
 
             var Settings = Properties.Settings.Default;
-            Settings.Upgrade();
 
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
                 bool parsed = Version.TryParse(Settings.Version, out Version lastrev);
                 showChangelog = parsed && lastrev < CurrentProgramVersion;
+                if (showChangelog) // user just updated from a prior version
+                {
+                    Settings.Upgrade(); // copy previous version's settings, if available.
+                    Settings.Version = CurrentProgramVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
+                }
             }
 
             // BAK Prompt
             if (!Settings.BAKPrompt)
                 BAKprompt = Settings.BAKPrompt = true;
-
-            Settings.Version = CurrentProgramVersion.ToString();
         }
 
         private void FormInitializeSecond()
