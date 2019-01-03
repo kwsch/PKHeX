@@ -854,8 +854,6 @@
             this.CB_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Ability.FormattingEnabled = true;
-            this.CB_Ability.Items.AddRange(new object[] {
-            "Item"});
             this.CB_Ability.Location = new System.Drawing.Point(0, 0);
             this.CB_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Ability.Name = "CB_Ability";
@@ -2202,7 +2200,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 539);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
