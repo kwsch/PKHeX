@@ -2734,11 +2734,11 @@
         private System.Windows.Forms.Button BTN_RerollPID;
         private System.Windows.Forms.FlowLayoutPanel FLP_Species;
         private System.Windows.Forms.Label Label_Species;
-        public System.Windows.Forms.ComboBox CB_Species;
+        private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.FlowLayoutPanel FLP_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_NicknameLeft;
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
-        public System.Windows.Forms.TextBox TB_Nickname;
+        private System.Windows.Forms.TextBox TB_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_EXPLevel;
         private System.Windows.Forms.Label Label_EXP;
         private System.Windows.Forms.FlowLayoutPanel FLP_EXPLevelRight;
@@ -2754,8 +2754,8 @@
         private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipForm;
         private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipFormLeft;
-        public System.Windows.Forms.Label Label_Friendship;
-        public System.Windows.Forms.Label Label_HatchCounter;
+        private System.Windows.Forms.Label Label_Friendship;
+        private System.Windows.Forms.Label Label_HatchCounter;
         private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipFormRight;
         private System.Windows.Forms.MaskedTextBox TB_Friendship;
         private System.Windows.Forms.Label Label_Form;
@@ -2772,7 +2772,7 @@
         private System.Windows.Forms.ComboBox CB_Language;
         private System.Windows.Forms.FlowLayoutPanel FLP_EggPKRS;
         private System.Windows.Forms.FlowLayoutPanel FLP_EggPKRSLeft;
-        public System.Windows.Forms.CheckBox CHK_IsEgg;
+        private System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.FlowLayoutPanel FLP_EggPKRSRight;
         private System.Windows.Forms.CheckBox CHK_Infected;
         private System.Windows.Forms.CheckBox CHK_Cured;
@@ -2800,7 +2800,7 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Purification;
         private System.Windows.Forms.Label L_HeartGauge;
         private System.Windows.Forms.NumericUpDown NUD_Purification;
-        public System.Windows.Forms.CheckBox CHK_Shadow;
+        private System.Windows.Forms.CheckBox CHK_Shadow;
         private System.Windows.Forms.TabPage Tab_Met;
         private System.Windows.Forms.CheckBox CHK_AsEgg;
         private System.Windows.Forms.GroupBox GB_EggConditions;
@@ -2814,12 +2814,12 @@
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.FlowLayoutPanel FLP_MetLocation;
         private System.Windows.Forms.Label Label_MetLocation;
-        public System.Windows.Forms.ComboBox CB_MetLocation;
+        private System.Windows.Forms.ComboBox CB_MetLocation;
         private System.Windows.Forms.FlowLayoutPanel FLP_Ball;
         private System.Windows.Forms.FlowLayoutPanel FLP_BallLeft;
         private System.Windows.Forms.Label Label_Ball;
         private System.Windows.Forms.PictureBox PB_Ball;
-        public System.Windows.Forms.ComboBox CB_Ball;
+        private System.Windows.Forms.ComboBox CB_Ball;
         private System.Windows.Forms.FlowLayoutPanel FLP_MetLevel;
         private System.Windows.Forms.Label Label_MetLevel;
         private System.Windows.Forms.MaskedTextBox TB_MetLevel;
@@ -2834,7 +2834,7 @@
         private System.Windows.Forms.ComboBox CB_EncounterType;
         private System.Windows.Forms.FlowLayoutPanel FLP_TimeOfDay;
         private System.Windows.Forms.Label L_MetTimeOfDay;
-        public System.Windows.Forms.ComboBox CB_MetTimeOfDay;
+        private System.Windows.Forms.ComboBox CB_MetTimeOfDay;
         private System.Windows.Forms.TabPage Tab_Stats;
         private System.Windows.Forms.TabPage Tab_Attacks;
         private System.Windows.Forms.PictureBox PB_WarnMove4;
@@ -2892,7 +2892,7 @@
         private System.Windows.Forms.GroupBox GB_ExtraBytes;
         private System.Windows.Forms.MaskedTextBox TB_ExtraByte;
         private System.Windows.Forms.ComboBox CB_ExtraBytes;
-        public System.Windows.Forms.GroupBox GB_OT;
+        private System.Windows.Forms.GroupBox GB_OT;
         private System.Windows.Forms.Label Label_OTGender;
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.Label Label_OT;

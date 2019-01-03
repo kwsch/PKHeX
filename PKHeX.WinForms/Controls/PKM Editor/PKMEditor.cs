@@ -46,7 +46,7 @@ namespace PKHeX.WinForms.Controls
             foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
-            Stats.SetMainEditor(this);
+            Stats.MainEditor = this;
             LoadShowdownSet = LoadShowdownSetDefault;
             TID_Trainer.UpdatedID += Update_ID;
             FieldsInitialized = true;
@@ -96,7 +96,8 @@ namespace PKHeX.WinForms.Controls
         }
 
         public bool Unicode { get; set; } = true;
-        public bool HaX { get; set; }
+        private bool _hax;
+        public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
         public byte[] LastData { private get; set; }
 
         public PKM Data { get => pkm; set => pkm = value; }

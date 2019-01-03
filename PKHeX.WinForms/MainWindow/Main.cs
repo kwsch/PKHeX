@@ -1139,7 +1139,7 @@ namespace PKHeX.WinForms
 
         private void DragoutEnter(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = WinFormsUtil.GetIndex(PKME_Tabs.CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
+            dragout.BackgroundImage = PKME_Tabs.pkm.Species > 0 ? Resources.slotSet : Resources.slotDel;
             Cursor = Cursors.Hand;
         }
 

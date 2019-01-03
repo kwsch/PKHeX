@@ -30,13 +30,8 @@ namespace PKHeX.WinForms.Controls
         public Color StatDecreased { get; set; } = Color.Blue;
         public Color StatHyperTrained { get; set; } = Color.LightGreen;
 
-        private IMainEditor MainEditor { get; set; }
-
-        public void SetMainEditor(IMainEditor editor)
-        {
-            MainEditor = editor;
-            CHK_HackedStats.Enabled = CHK_HackedStats.Visible = editor.HaX;
-        }
+        public IMainEditor MainEditor { private get; set; }
+        public bool HaX { set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
         public bool Valid
         {
