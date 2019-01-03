@@ -47,6 +47,7 @@ namespace PKHeX.Core
 
         // Bank Binaries
         public const int SIZE_G7BANK = 0xACA48;
+        public const int SIZE_G4BANK = 0x405C4;
 
         private static readonly HashSet<int> SIZES_2 = new HashSet<int>
         {
@@ -63,7 +64,7 @@ namespace PKHeX.Core
             // SIZES_2 covers gen2 sizes since there's so many
             SIZE_G1RAW, SIZE_G1BAT,
 
-            SIZE_G7BANK,
+            SIZE_G7BANK, SIZE_G4BANK,
         };
 
         private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
@@ -104,8 +105,12 @@ namespace PKHeX.Core
             if (GetIsG4BRSAV(data) != GameVersion.Invalid)
                 return GameVersion.BATREV;
 
-            if (GetIsBank7(data))
+            if (GetIsBank7(data)) // pokebank
                 return GameVersion.USUM;
+            if (GetIsBank4(data)) // pokestock
+                return GameVersion.HGSS;
+            if (GetIsBank3(data)) // pokestock
+                return GameVersion.RS;
 
             return GameVersion.Invalid;
         }
@@ -443,6 +448,8 @@ namespace PKHeX.Core
         }
 
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
+        private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
+        private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="path">File location from which to create a SaveFile.</param>
@@ -493,6 +500,8 @@ namespace PKHeX.Core
 
                 // Bulk Storage
                 case GameVersion.USUM:   return Bank7.GetBank7(data);
+                case GameVersion.HGSS:   return Bank4.GetBank4(data);
+                case GameVersion.RS:     return Bank3.GetBank3(data);
 
                 // No pattern matched
                 default: return null;
