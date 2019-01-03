@@ -868,8 +868,6 @@
             this.DEV_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.DEV_Ability.Enabled = false;
             this.DEV_Ability.FormattingEnabled = true;
-            this.DEV_Ability.Items.AddRange(new object[] {
-            "Item"});
             this.DEV_Ability.Location = new System.Drawing.Point(0, 21);
             this.DEV_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Ability.Name = "DEV_Ability";
@@ -2869,7 +2867,7 @@
         private System.Windows.Forms.Button BTN_Medals;
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.TextBox TB_EC;
-        public System.Windows.Forms.GroupBox GB_nOT;
+        private System.Windows.Forms.GroupBox GB_nOT;
         private System.Windows.Forms.Label Label_CTGender;
         private System.Windows.Forms.TextBox TB_OTt2;
         private System.Windows.Forms.Label Label_PrevOT;
