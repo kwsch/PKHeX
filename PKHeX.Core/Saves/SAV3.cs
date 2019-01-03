@@ -22,6 +22,7 @@ namespace PKHeX.Core
         private const int SIZE_BLOCK = 0x1000;
         private const int BLOCK_COUNT = 14;
         private const int SIZE_RESERVED = 0x10000; // unpacked box data will start after the save data
+        public const int SIZE_BLOCK_USED = 0xF80;
 
         private static readonly int[] chunkLength =
         {
