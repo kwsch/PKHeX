@@ -1128,11 +1128,12 @@ namespace PKHeX.WinForms
                 File.WriteAllBytes(newfile, dragdata);
                 PictureBox pb = (PictureBox)sender;
                 C_SAV.M.DragInfo.Source.PKM = pkx;
-                C_SAV.M.DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
+                if (pb.Image != null)
+                    C_SAV.M.DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
-            { WinFormsUtil.Error("Drag & Drop Error", x); }
+            { WinFormsUtil.Error("Drag && Drop Error", x); }
             C_SAV.M.SetCursor(DefaultCursor, sender);
             File.Delete(newfile);
         }
