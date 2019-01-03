@@ -80,16 +80,8 @@ namespace PKHeX.WinForms
                 new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
             };
             locs.AddRange(GetUserPaths());
-
             locs.AddRange(GetConsolePaths(drives));
             locs.AddRange(GetSwitchPaths(drives));
-            addIfExists(CyberGadgetUtil.GetCacheFolder(), "CGSE Cache");
-            addIfExists(CyberGadgetUtil.GetTempFolder(), "CGSE Temp");
-            void addIfExists(string path, string text)
-            {
-                if (Directory.Exists(path))
-                    locs.Add(new CustomFolderPath(path, text));
-            }
             return locs.GroupBy(z => z.Path).Select(z => z.First())
                 .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
         }

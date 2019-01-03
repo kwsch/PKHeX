@@ -137,21 +137,8 @@ namespace PKHeX.WinForms
         private static void FormLoadCustomBackupPaths()
         {
             SaveDetection.CustomBackupPaths.Clear();
-            try
-            {
-                // cybergadget paths
-                string pathCache = CyberGadgetUtil.GetCacheFolder();
-                if (Directory.Exists(pathCache))
-                    SaveDetection.CustomBackupPaths.Add(Path.Combine(pathCache));
-                string pathTemp = CyberGadgetUtil.GetTempFolder();
-                if (Directory.Exists(pathTemp))
-                    SaveDetection.CustomBackupPaths.Add(Path.Combine(pathTemp));
-
-                // custom user paths
-                if (File.Exists(SAVPaths))
-                    SaveDetection.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
-            }
-            catch { }
+            if (File.Exists(SAVPaths)) // custom user paths
+                SaveDetection.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
         }
 
         private void FormLoadAddEvents()

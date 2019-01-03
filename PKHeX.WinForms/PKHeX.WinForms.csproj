@@ -627,7 +627,6 @@
     </Compile>
     <Compile Include="Subforms\Misc\SortableBindingList.cs" />
     <Compile Include="Util\ConfigUtil.cs" />
-    <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\DevUtil.cs" />
     <Compile Include="Util\FontUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />
