@@ -227,25 +227,26 @@ namespace PKHeX.Core
             int count = data.Length/SIZE_G3RAWHALF;
             for (int s = 0; s < count; s++)
             {
-                int ofs = 0xE000*s;
-                int[] BlockOrder = new int[14];
-                for (int i = 0; i < 14; i++)
-                    BlockOrder[i] = BitConverter.ToInt16(data, (i * 0x1000) + 0xFF4 + ofs);
+                const int blockcount = 14;
+                const int blocksize = 0x1000;
+                int ofs = blockcount * blocksize * s;
+                int[] BlockOrder = new int[blockcount];
+                for (int i = 0; i < BlockOrder.Length; i++)
+                    BlockOrder[i] = BitConverter.ToUInt16(data, (i * blocksize) + 0xFF4 + ofs);
 
-                if (BlockOrder.Any(i => i > 0xD || i < 0))
+                if (Array.FindIndex(BlockOrder, i => i > 0xD) >= 0) // invalid block ID
                     continue;
 
-                // Detect RS/E/FRLG
-                // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
                 int Block0 = Array.IndexOf(BlockOrder, 0);
 
                 // Sometimes not all blocks are present (start of game), yielding multiple block0's.
                 // Real 0th block comes before block1.
                 if (BlockOrder[0] == 1 && Block0 != BlockOrder.Length - 1)
                     continue;
-                if (BlockOrder.Count(v => v == 0) == BlockOrder.Length)
+                if (Array.FindIndex(BlockOrder, v => v != 0) < 0) // all blocks are 0
                     continue;
-                return SAV3.GetVersion(data, (0x1000 * Block0) + ofs);
+                // Detect RS/E/FRLG
+                return SAV3.GetVersion(data, (blocksize * Block0) + ofs);
             }
             return GameVersion.Invalid;
         }
@@ -330,9 +331,9 @@ namespace PKHeX.Core
                     return false;
                 var sdk = BitConverter.ToUInt32(data, offset - 0x8);
 
-                const int SDK_INT = 0x20060623;
-                const int SDK_KO  = 0x20070903;
-                return sdk == SDK_INT || sdk == SDK_KO;
+                const int DATE_INT = 0x20060623;
+                const int DATE_KO  = 0x20070903;
+                return sdk == DATE_INT || sdk == DATE_KO;
             }
 
             // Check the other save -- first save is done to the latter half of the binary.
@@ -367,6 +368,7 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G5RAW)
                 return GameVersion.Invalid;
 
+            // check the checksum block validity; nobody would normally modify this region
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
             ushort actual1 = CRC16_CCITT(data, SIZE_G5BW - 0x100, 0x8C);
             if (chk1 == actual1)
@@ -383,7 +385,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG6SAV(byte[] data)
         {
-            if (!new []{SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO}.Contains(data.Length))
+            if (data.Length != SIZE_G6XY && data.Length != SIZE_G6ORAS && data.Length != SIZE_G6ORASDEMO)
                 return GameVersion.Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
@@ -1102,7 +1104,7 @@ namespace PKHeX.Core
                     output[index] = (byte)(val >> 8);
                     output[index + 1] = (byte)val;
                 }
-                keys = AdvanceGCKeys(keys);
+                AdvanceGCKeys(keys);
             }
             return output;
         }
@@ -1120,25 +1122,27 @@ namespace PKHeX.Core
                     output[index] = (byte)(val >> 8);
                     output[index + 1] = (byte)val;
                 }
-                keys = AdvanceGCKeys(keys);
+                AdvanceGCKeys(keys);
             }
             return output;
         }
 
-        public static ushort[] AdvanceGCKeys(ushort[] oldKeys)
+        public static void AdvanceGCKeys(ushort[] keys)
         {
-            oldKeys[0] += 0x43;
-            oldKeys[1] += 0x29;
-            oldKeys[2] += 0x17;
-            oldKeys[3] += 0x13;
+            keys[0] += 0x43;
+            keys[1] += 0x29;
+            keys[2] += 0x17;
+            keys[3] += 0x13;
 
-            return new[]
-            {
-                (ushort)((oldKeys[0] >> 00 & 0xf) | (oldKeys[1] << 4 & 0xf0) | (oldKeys[2] << 8 & 0xf00) | (oldKeys[3] << 12 & 0xf000)),
-                (ushort)((oldKeys[0] >> 04 & 0xf) | (oldKeys[1] << 0 & 0xf0) | (oldKeys[2] << 4 & 0xf00) | (oldKeys[3] << 08 & 0xf000)),
-                (ushort)((oldKeys[0] >> 08 & 0xf) | (oldKeys[1] >> 4 & 0xf0) | (oldKeys[2] >> 0 & 0xf00) | (oldKeys[3] << 04 & 0xf000)),
-                (ushort)((oldKeys[0] >> 12 & 0xf) | (oldKeys[1] >> 8 & 0xf0) | (oldKeys[2] >> 4 & 0xf00) | (oldKeys[3] << 00 & 0xf000)),
-            };
+            var _0 = (ushort)((keys[0] >> 00 & 0xf) | (keys[1] << 4 & 0xf0) | (keys[2] << 8 & 0xf00) | (keys[3] << 12 & 0xf000));
+            var _1 = (ushort)((keys[0] >> 04 & 0xf) | (keys[1] << 0 & 0xf0) | (keys[2] << 4 & 0xf00) | (keys[3] << 08 & 0xf000));
+            var _2 = (ushort)((keys[0] >> 08 & 0xf) | (keys[1] >> 4 & 0xf0) | (keys[2] >> 0 & 0xf00) | (keys[3] << 04 & 0xf000));
+            var _3 = (ushort)((keys[0] >> 12 & 0xf) | (keys[1] >> 8 & 0xf0) | (keys[2] >> 4 & 0xf00) | (keys[3] << 00 & 0xf000));
+
+            keys[0] = _0;
+            keys[1] = _1;
+            keys[2] = _2;
+            keys[3] = _3;
         }
 
         /// <summary>
