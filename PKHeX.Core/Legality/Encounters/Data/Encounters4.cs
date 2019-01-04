@@ -814,7 +814,8 @@ namespace PKHeX.Core
             //Event
             new EncounterStaticTyped { Species = 491, Level = 40, Location = 079, Version = GameVersion.DP, TypeEncounter = EncounterType.TallGrass }, //Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
             new EncounterStaticTyped { Species = 491, Level = 50, Location = 079, Version = GameVersion.Pt, TypeEncounter = EncounterType.TallGrass }, //Darkrai @ Newmoon Island
-            new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = true }, //Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
+            new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063, Version = GameVersion.Pt, Fateful = true }, //Shaymin @ Flower Paradise
+            new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063, Version = GameVersion.DP, Fateful = false }, //Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
             new EncounterStaticTyped { Species = 493, Form = 0, Level = 80, Location = 086, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Arceus @ Hall of Origin (Unreleased)
         };
 
