@@ -73,7 +73,7 @@ namespace PKHeX.Core
                         bool valid = false;
                         if (s.IVs == null) // not ereader
                         {
-                            valid = !LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
+                            valid = LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
                         }
                         else
                         {
