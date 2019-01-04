@@ -321,39 +321,31 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G4RAW)
                 return GameVersion.Invalid;
 
-            bool validSequence(byte[] pattern, int shift = 0)
+            // The block footers contain a u32 'size' followed by a u32 binary-coded-decimal timestamp(?)
+            // Korean savegames have a different timestamp from other localizations.
+            bool validSequence(int offset)
             {
-                int ofs = BitConverter.ToUInt16(pattern, 0) - 0xC + shift;
-                for (int i = 0; i < 10; i++)
-                {
-                    if (data[i + ofs] != pattern[i])
-                        return false;
-                }
-                return true;
+                var size = BitConverter.ToUInt32(data, offset - 0xC);
+                if (size != (offset & 0xFFFF))
+                    return false;
+                var sdk = BitConverter.ToUInt32(data, offset - 0x8);
+
+                const int SDK_INT = 0x20060623;
+                const int SDK_KO  = 0x20070903;
+                return sdk == SDK_INT || sdk == SDK_KO;
             }
 
-            // Check for block identifiers
-            if (validSequence(BlockPattern_General_DP))
+            // Check the other save -- first save is done to the latter half of the binary.
+            // The second save should be all that is needed to check.
+            if (validSequence(0x4C100))
                 return GameVersion.DP;
-            if (validSequence(BlockPattern_General_Pt))
+            if (validSequence(0x4CF2C))
                 return GameVersion.Pt;
-            if (validSequence(BlockPattern_General_HS))
-                return GameVersion.HGSS;
-
-            // Check the other save
-            if (validSequence(BlockPattern_General_DP, 0x40000))
-                return GameVersion.DP;
-            if (validSequence(BlockPattern_General_Pt, 0x40000))
-                return GameVersion.Pt;
-            if (validSequence(BlockPattern_General_HS, 0x40000))
+            if (validSequence(0x4F628))
                 return GameVersion.HGSS;
 
             return GameVersion.Invalid;
         }
-
-        private static readonly byte[] BlockPattern_General_DP = { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
-        private static readonly byte[] BlockPattern_General_Pt = { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
-        private static readonly byte[] BlockPattern_General_HS = { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
 
         /// <summary>Determines the type of 4th gen Battle Revolution</summary>
         /// <param name="data">Save data of which to determine the type</param>
