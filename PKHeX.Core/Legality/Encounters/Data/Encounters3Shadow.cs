@@ -49,9 +49,10 @@
         public static readonly TeamLock ETogepi = new TeamLock {
             Species = 175, // Togepi
             Locks = new[] {
-                new NPCLock(302, 23, 0, 025), // Sableye (M) (Careful)
+                new NPCLock(302, 23, 0, 127), // Sableye (M) (Careful)
                 new NPCLock(088, 08, 0, 127), // Grimer (M) (Impish)
                 new NPCLock(316, 24, 0, 127), // Gulpin (M) (Quirky)
+                new NPCLock(175, 22, 1, 031), // Togepi (F) (Sassy) -- itself!
         }};
 
         public static readonly TeamLock EMareep = new TeamLock {
@@ -60,6 +61,7 @@
                 new NPCLock(300, 04, 1, 191), // Skitty (F) (Naughty)
                 new NPCLock(211, 10, 1, 127), // Qwilfish (F) (Timid)
                 new NPCLock(355, 12, 1, 127), // Duskull (F) (Serious)
+                new NPCLock(179, 16, 1, 127), // Mareep (F) (Mild) -- itself!
         }};
 
         public static readonly TeamLock EScizor = new TeamLock {
@@ -68,6 +70,7 @@
                 new NPCLock(198, 13, 1, 191), // Murkrow (F) (Jolly)
                 new NPCLock(344, 02, 2, 256), // Claydol (-) (Brave)
                 new NPCLock(208, 03, 0, 127), // Steelix (M) (Adamant)
+                new NPCLock(212, 11, 0, 127), // Scizor (M) (Hasty) -- itself!
         }};
 
         #endregion

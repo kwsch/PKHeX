@@ -61,17 +61,38 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var z in GenerateRawEncounters3(pkm, info))
             {
-                if (pkm.Version == 15)
+                if (pkm.Version == (int)GameVersion.CXD) // C/XD
                 {
                     if (z is EncounterSlot w)
                     {
                         var seeds = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault();
                         info.PIDIV = seeds ?? info.PIDIV;
                     }
-                    else if (z is EncounterStaticShadow s && !LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm))
+                    else if (z is EncounterStaticShadow s)
                     {
-                        deferred.Add(s);
-                        continue;
+                        bool valid = false;
+                        if (s.IVs == null) // not ereader
+                        {
+                            valid = !LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
+                        }
+                        else
+                        {
+                            var possible = MethodFinder.GetColoEReaderMatches(pkm.EncryptionConstant);
+                            foreach (var poss in possible)
+                            {
+                                if (!LockFinder.IsAllShadowLockValid(s, poss, pkm))
+                                    continue;
+                                valid = true;
+                                info.PIDIV = poss;
+                                break;
+                            }
+                        }
+
+                        if (!valid)
+                        {
+                            deferred.Add(s);
+                            continue;
+                        }
                     }
                 }
                 if (info.PIDIV.Type.IsCompatible3(z, pkm))

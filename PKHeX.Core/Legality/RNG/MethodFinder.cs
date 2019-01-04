@@ -628,6 +628,22 @@ namespace PKHeX.Core
             return val;
         }
 
+        public static IEnumerable<PIDIV> GetColoEReaderMatches(uint PID)
+        {
+            var top = PID >> 16;
+            var bot = (ushort)PID;
+            var xdc = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
+            foreach (var seed in xdc)
+            {
+                var B = RNG.XDRNG.Prev(seed);
+                var A = RNG.XDRNG.Prev(B);
+
+                var C = RNG.XDRNG.Advance(A, 7);
+
+                yield return new PIDIV { OriginSeed = RNG.XDRNG.Prev(C), RNG = RNG.XDRNG, Type = PIDType.CXD };
+            }
+        }
+
         public static IEnumerable<PIDIV> GetPokeSpotSeeds(PKM pkm, int slot)
         {
             // Activate (rand % 3)
@@ -694,8 +710,6 @@ namespace PKHeX.Core
                         return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
                     return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
-                case EncounterStaticShadow d when d.EReader:
-                    return val == PIDType.None; // All IVs are 0
                 case EncounterStatic s:
                     switch (pkm.Version)
                     {
