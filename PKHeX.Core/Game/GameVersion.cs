@@ -324,7 +324,7 @@
         XY,
 
         /// <summary>
-        /// Pokémon Omega Ruby &amp; Alpha Sapphire Demo [<see cref="SAV7"/>] identifier.
+        /// Pokémon Omega Ruby &amp; Alpha Sapphire Demo [<see cref="SAV6"/>] identifier.
         /// </summary>
         /// <see cref="ORAS"/>
         ORASDEMO,
