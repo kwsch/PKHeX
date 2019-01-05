@@ -43,7 +43,7 @@ namespace PKHeX.WinForms.Controls
             }).ToArray();
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
-            foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
+            foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
             Stats.MainEditor = this;
@@ -497,7 +497,7 @@ namespace PKHeX.WinForms.Controls
 
             PB_MarkAlola.Image = changeOpacity(PB_MarkAlola, getOpacity(pkm.Gen7));
             PB_MarkVC.Image = changeOpacity(PB_MarkVC, getOpacity(pkm.VC));
-            PB_MarkHorohoro.Image = changeOpacity(PB_MarkHorohoro, getOpacity(pkm.Horohoro));
+            PB_MarkGO.Image = changeOpacity(PB_MarkGO, getOpacity(pkm.GO));
 
             for (int i = 0; i < pba.Length; i++)
             {
@@ -1683,7 +1683,7 @@ namespace PKHeX.WinForms.Controls
             GB_nOT.Visible = GB_RelearnMoves.Visible = gen >= 6;
 
             PB_MarkPentagon.Visible = gen >= 6;
-            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkHorohoro.Visible = gen >= 7;
+            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkGO.Visible = gen >= 7;
 
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
 

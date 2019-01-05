@@ -197,7 +197,7 @@
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
-            this.PB_MarkHorohoro = new System.Windows.Forms.PictureBox();
+            this.PB_MarkGO = new System.Windows.Forms.PictureBox();
             this.PB_MarkVC = new System.Windows.Forms.PictureBox();
             this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
@@ -284,7 +284,7 @@
             this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkGO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
@@ -2349,7 +2349,7 @@
             //
             // GB_Markings
             //
-            this.GB_Markings.Controls.Add(this.PB_MarkHorohoro);
+            this.GB_Markings.Controls.Add(this.PB_MarkGO);
             this.GB_Markings.Controls.Add(this.PB_MarkVC);
             this.GB_Markings.Controls.Add(this.PB_MarkAlola);
             this.GB_Markings.Controls.Add(this.PB_Mark6);
@@ -2370,14 +2370,14 @@
             //
             // PB_MarkHorohoro
             //
-            this.PB_MarkHorohoro.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.Image")));
-            this.PB_MarkHorohoro.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.InitialImage")));
-            this.PB_MarkHorohoro.Location = new System.Drawing.Point(110, 15);
-            this.PB_MarkHorohoro.Name = "PB_MarkHorohoro";
-            this.PB_MarkHorohoro.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkHorohoro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkHorohoro.TabIndex = 11;
-            this.PB_MarkHorohoro.TabStop = false;
+            this.PB_MarkGO.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.Image")));
+            this.PB_MarkGO.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.InitialImage")));
+            this.PB_MarkGO.Location = new System.Drawing.Point(110, 15);
+            this.PB_MarkGO.Name = "PB_MarkGO";
+            this.PB_MarkGO.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkGO.TabIndex = 11;
+            this.PB_MarkGO.TabStop = false;
             //
             // PB_MarkVC
             //
@@ -2694,7 +2694,7 @@
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkGO)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).EndInit();
@@ -2873,7 +2873,7 @@
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.Button BTN_RerollEC;
         private System.Windows.Forms.GroupBox GB_Markings;
-        private System.Windows.Forms.PictureBox PB_MarkHorohoro;
+        private System.Windows.Forms.PictureBox PB_MarkGO;
         private System.Windows.Forms.PictureBox PB_MarkVC;
         private System.Windows.Forms.PictureBox PB_MarkAlola;
         private System.Windows.Forms.PictureBox PB_Mark6;

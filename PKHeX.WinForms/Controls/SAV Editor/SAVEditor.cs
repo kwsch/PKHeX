@@ -910,7 +910,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewParty(SaveFile sav, int BoxTab)
         {
-            if (!sav.HasParty)
+            if (!sav.HasParty || !sav.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
                     tabBoxMulti.TabPages.Remove(Tab_PartyBattle);
@@ -930,7 +930,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
         {
-            if (!sav.HasDaycare)
+            if (!sav.HasDaycare || !sav.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_Other))
                     tabBoxMulti.TabPages.Remove(Tab_Other);

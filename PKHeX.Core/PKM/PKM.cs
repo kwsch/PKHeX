@@ -287,9 +287,6 @@ namespace PKHeX.Core
             SID = oid >> 16;
         }
 
-        public bool VC2 => Version >= 39 && Version <= 41;
-        public bool VC1 => Version >= 35 && Version <= 38;
-        public bool Horohoro => Version == 34;
         public bool E => Version == (int)GameVersion.E;
         public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
         public bool Pt => (int)GameVersion.Pt == Version;
@@ -300,7 +297,11 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         public bool USUM => Version == (int)GameVersion.US || Version == (int)GameVersion.UM;
+        public bool GO => Version == (int)GameVersion.GO;
+        public bool VC1 => Version >= (int)GameVersion.RD && Version <= (int)GameVersion.YW;
+        public bool VC2 => Version >= (int)GameVersion.GD && Version <= (int)GameVersion.C;
         public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE || Version == (int)GameVersion.GO;
+
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;

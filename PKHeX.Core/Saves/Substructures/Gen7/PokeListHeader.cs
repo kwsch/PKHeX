@@ -33,6 +33,11 @@ namespace PKHeX.Core
             SAV = sav;
             Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.PokeListHeader);
             PokeListInfo = LoadPointerData();
+            if (!sav.Exportable)
+            {
+                for (int i = 0; i < COUNT; i++)
+                    PokeListInfo[i] = SLOT_EMPTY;
+            }
             PartyCount = PokeListInfo.Take(6).Count(z => z < MAX_SLOTS);
         }
 

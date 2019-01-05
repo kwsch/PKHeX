@@ -1057,7 +1057,7 @@ namespace PKHeX.WinForms
         {
             pk = pk ?? PreparePKM(false); // don't perform control loss click
 
-            if (pb == dragout) dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
+            dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
 
             pb.Image = pk.Sprite(C_SAV.SAV, -1, -1, flagIllegal: false);
             if (pb.BackColor == Color.Red)
@@ -1068,7 +1068,7 @@ namespace PKHeX.WinForms
 
         private void PKME_Tabs_LegalityChanged(object sender, EventArgs e)
         {
-            if (sender == null || HaX)
+            if (HaX)
             {
                 PB_Legal.Visible = false;
                 return;

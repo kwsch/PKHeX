@@ -128,15 +128,18 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
         /// </summary>
+        /// <typeparam name="T">Type of control</typeparam>
         /// <param name="control"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<Control> GetAllControlsOfType(Control control, Type type)
+        /// <returns>All children and subchildren contained by <see cref="control"/>.</returns>
+        public static IEnumerable<Control> GetAllControlsOfType<T>(Control control) where T : Control
         {
-            var controls = control.Controls.Cast<Control>().ToList();
-            return controls.SelectMany(ctrl => GetAllControlsOfType(ctrl, type))
-                .Concat(controls)
-                .Where(c => c.GetType() == type);
+            foreach (var c in control.Controls.Cast<Control>())
+            {
+                if (c is T match)
+                    yield return match;
+                foreach (var sub in GetAllControlsOfType<T>(c))
+                    yield return sub;
+            }
         }
 
         /// <summary>
