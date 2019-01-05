@@ -19,29 +19,37 @@ namespace PKHeX.Core
                 return;
             }
             var EncounterMatch = data.EncounterMatch;
-            var evs = pkm.EVs;
             int sum = pkm.EVTotal;
             if (sum > 0 && pkm.IsEgg)
                 data.AddLine(GetInvalid(LEffortEgg));
-            if (pkm.Format >= 3 && sum > 510)
-                data.AddLine(GetInvalid(LEffortAbove510));
-            if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
-                data.AddLine(GetInvalid(LEffortAbove252));
-            if (pkm.Format == 4 && pkm.Gen4 && EncounterMatch.LevelMin == 100)
-            {
-                // Cannot EV train at level 100 -- Certain events are distributed at level 100.
-                if (evs.Any(ev => ev > 100)) // EVs can only be increased by vitamins to a max of 100.
-                    data.AddLine(GetInvalid(LEffortCap100));
-            }
-            else if (pkm.Format < 5)
-            {
-                // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
-                if (pkm.Format < 3) // can abuse daycare for EV training without EXP gain
-                    return;
 
-                const int maxEV = 100; // Vitamin Max
-                if (Experience.GetEXP(EncounterMatch.LevelMin, pkm.Species, pkm.AltForm) == pkm.EXP && evs.Any(ev => ev > maxEV))
-                    data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, maxEV)));
+            // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
+            int format = pkm.Format;
+            if (format < 3) // can abuse daycare for EV training without EXP gain
+                return;
+
+            if (sum > 510) // format >= 3
+                data.AddLine(GetInvalid(LEffortAbove510));
+            var evs = pkm.EVs;
+            if (format >= 6 && evs.Any(ev => ev > 252))
+                data.AddLine(GetInvalid(LEffortAbove252));
+
+            const int vitaMax = 100; // Vitamin Max
+            if (format < 5) // 3/4
+            {
+                if (EncounterMatch.LevelMin == 100) // only true for Gen4 and Format=4
+                {
+                    // Cannot EV train at level 100 -- Certain events are distributed at level 100.
+                    if (evs.Any(ev => ev > vitaMax)) // EVs can only be increased by vitamins to a max of 100.
+                        data.AddLine(GetInvalid(LEffortCap100));
+                }
+                else // check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
+                {
+                    var growth = PersonalTable.HGSS[EncounterMatch.Species].EXPGrowth;
+                    var baseEXP = Experience.GetEXP(EncounterMatch.LevelMin, growth);
+                    if (baseEXP == pkm.EXP && evs.Any(ev => ev > vitaMax))
+                        data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, vitaMax)));
+                }
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0

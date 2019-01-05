@@ -914,5 +914,27 @@ namespace PKHeX.Core
                 default: return gen >= 6 ? 12 : 10;
             }
         }
+
+        public static bool GetIsFixedIVSequenceValid(IReadOnlyList<int> IVs, PKM pkm, int max = 31)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if ((uint) IVs[i] > max) // random
+                    continue;
+                if (IVs[i] != pkm.GetIV(i))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool GetIsFixedIVSequenceValidNoRand(IReadOnlyList<int> IVs, PKM pkm)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (IVs[i] != pkm.GetIV(i))
+                    return false;
+            }
+            return true;
+        }
     }
 }

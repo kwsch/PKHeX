@@ -342,6 +342,23 @@ namespace PKHeX.Core
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
         public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
+        public int MaximumIV => Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(IV_HP, IV_ATK), IV_DEF), IV_SPA), IV_SPD), IV_SPE);
+
+        public int FlawlessIVCount
+        {
+            get
+            {
+                int max = MaxIV;
+                int ctr = 0;
+                if (IV_HP == max) ++ctr;
+                if (IV_ATK == max) ++ctr;
+                if (IV_DEF == max) ++ctr;
+                if (IV_SPA == max) ++ctr;
+                if (IV_SPD == max) ++ctr;
+                if (IV_SPE == max) ++ctr;
+                return ctr;
+            }
+        }
 
         public string FileName => $"{FileNameWithoutExtension}.{Extension}";
 
@@ -1001,6 +1018,44 @@ namespace PKHeX.Core
 
             Moves = moves;
             FixMoves();
+        }
+
+        /// <summary>
+        /// Gets one of the <see cref="EVs"/> based on its index within the array.
+        /// </summary>
+        /// <param name="index">Index to get</param>
+        public int GetEV(int index)
+        {
+            switch (index)
+            {
+                case 0: return EV_HP;
+                case 1: return EV_ATK;
+                case 2: return EV_DEF;
+                case 3: return EV_SPE;
+                case 4: return EV_SPA;
+                case 5: return EV_SPD;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
+        }
+
+        /// <summary>
+        /// Gets one of the <see cref="IVs"/> based on its index within the array.
+        /// </summary>
+        /// <param name="index">Index to get</param>
+        public int GetIV(int index)
+        {
+            switch (index)
+            {
+                case 0: return IV_HP;
+                case 1: return IV_ATK;
+                case 2: return IV_DEF;
+                case 3: return IV_SPE;
+                case 4: return IV_SPA;
+                case 5: return IV_SPD;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
         }
     }
 }

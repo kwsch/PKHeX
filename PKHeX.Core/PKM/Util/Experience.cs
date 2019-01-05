@@ -30,13 +30,25 @@
         /// <param name="species">National Dex number of the Pokémon.</param>
         /// <param name="forme">AltForm ID (starters in Let's Go)</param>
         /// <returns>Experience points needed to have specified level.</returns>
-        public static uint GetEXP(int level, int species, int forme = 0)
+        public static uint GetEXP(int level, int species, int forme)
+        {
+            var growth = PKX.Personal.GetFormeEntry(species, forme).EXPGrowth;
+            return GetEXP(level, growth);
+        }
+
+        /// <summary>
+        /// Gets the minimum Experience points for the specified level.
+        /// </summary>
+        /// <param name="level">Current level</param>
+        /// <param name="growth">Growth Rate type</param>
+        /// <returns>Experience points needed to have specified level.</returns>
+        public static uint GetEXP(int level, int growth)
         {
             if (level <= 1)
                 return 0;
             if (level > 100)
                 level = 100;
-            return ExpTable[level - 1, PKX.Personal.GetFormeEntry(species, forme).EXPGrowth];
+            return ExpTable[level - 1, growth];
         }
 
         /// <summary>

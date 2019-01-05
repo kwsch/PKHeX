@@ -470,46 +470,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets one of the <see cref="PKM.EVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <param name="index">Index to get</param>
-        public static int GetEV(this PKM pk, int index)
-        {
-            switch (index)
-            {
-                case 0: return pk.EV_HP ;
-                case 1: return pk.EV_ATK;
-                case 2: return pk.EV_DEF;
-                case 3: return pk.EV_SPE;
-                case 4: return pk.EV_SPA;
-                case 5: return pk.EV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        /// <summary>
-        /// Gets one of the <see cref="PKM.IVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <param name="index">Index to get</param>
-        public static int GetIV(this PKM pk, int index)
-        {
-            switch (index)
-            {
-                case 0: return pk.IV_HP ;
-                case 1: return pk.IV_ATK;
-                case 2: return pk.IV_DEF;
-                case 3: return pk.IV_SPE;
-                case 4: return pk.IV_SPA;
-                case 5: return pk.IV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        /// <summary>
         /// Updates the <see cref="PKM.IV_ATK"/> for a Generation 1/2 format <see cref="PKM"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>

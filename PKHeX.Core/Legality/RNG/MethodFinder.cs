@@ -24,10 +24,9 @@ namespace PKHeX.Core
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
 
-            var iIVs = pk.IVs;
             var IVs = new uint[6];
             for (int i = 0; i < 6; i++)
-                IVs[i] = (uint)iIVs[i];
+                IVs[i] = (uint)pk.GetIV(i);
 
             if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
                 return pidiv;
@@ -739,8 +738,9 @@ namespace PKHeX.Core
                 return true;
             if (PIDType.Method_1 != val)
                 return false;
-            var IVs = pkm.IVs;
-            return !(IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7);
+
+            // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
+            return !(pkm.IV_DEF != 0 || pkm.IV_SPE != 0 || pkm.IV_SPA != 0 || pkm.IV_SPD != 0 || pkm.IV_ATK > 7);
         }
 
         public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)

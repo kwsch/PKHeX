@@ -328,10 +328,12 @@ namespace PKHeX.Core
                 return false;
             if (TID != pkm.TID)
                 return false;
-            if (Gender >= 0 && Gender != pkm.Gender && pkm.Format <= 2)
-                return false;
-            if (IVs?.SequenceEqual(pkm.IVs) == false && pkm.Format <= 2)
-                return false;
+            if (pkm.Format <= 2)
+            {
+                if (Gender >= 0 && Gender != pkm.Gender)
+                    return false;
+                if (IVs != null && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm)) return false;
+            }
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                 return false;
 

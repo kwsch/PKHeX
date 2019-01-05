@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public abstract class _K4 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
@@ -23,16 +21,14 @@ namespace PKHeX.Core
         {
             get
             {
-                // Characteristic with PID%6
-                int pm6 = (int)(PID % 6); // PID MOD 6
-                int maxIV = IVs.Max();
+                int pm6 = (int)(EncryptionConstant % 6); // PID
+                int maxIV = MaximumIV;
                 int pm6stat = 0;
-
                 for (int i = 0; i < 6; i++)
                 {
                     pm6stat = (pm6 + i) % 6;
-                    if (IVs[pm6stat] == maxIV)
-                        break; // P%6 is this stat
+                    if (GetIV(pm6stat) == maxIV)
+                        break;
                 }
                 return (pm6stat * 5) + (maxIV % 5);
             }

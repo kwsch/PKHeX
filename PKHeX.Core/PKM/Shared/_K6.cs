@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -67,14 +66,13 @@ namespace PKHeX.Core
         {
             get
             {
-                // Characteristic with EC%6
-                int pm6 = (int)(EncryptionConstant % 6); // EC MOD 6
-                int maxIV = IVs.Max();
+                int pm6 = (int)(EncryptionConstant % 6);
+                int maxIV = MaximumIV;
                 int pm6stat = 0;
-
                 for (int i = 0; i < 6; i++)
                 {
-                    if (IVs[pm6stat = pm6++ % 6] == maxIV)
+                    pm6stat = (pm6 + i) % 6;
+                    if (GetIV(pm6stat) == maxIV)
                         break;
                 }
                 return (pm6stat * 5) + (maxIV % 5);
