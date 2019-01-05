@@ -560,15 +560,24 @@ namespace PKHeX.Core
         {
             switch (Game)
             {
+                case GameVersion.RD: case GameVersion.BU: case GameVersion.GN:case GameVersion.YW:
                 case GameVersion.RBY:
                     return new SAV1();
 
-                case GameVersion.GS: case GameVersion.C: case GameVersion.GSC:
+                case GameVersion.GD: case GameVersion.SV: case GameVersion.C:
+                case GameVersion.GS: case GameVersion.GSC:
                     return new SAV2();
 
                 case GameVersion.R: case GameVersion.S: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
                     return new SAV3(versionOverride: Game);
+                case GameVersion.FRLG:
+                    return new SAV3(versionOverride: GameVersion.FR);
+                case GameVersion.RS:
+                    return new SAV3(versionOverride: GameVersion.R);
+                case GameVersion.RSE:
+                    return new SAV3(versionOverride: GameVersion.E);
 
+                case GameVersion.CXD:
                 case GameVersion.COLO:
                     return new SAV3Colosseum();
                 case GameVersion.XD:
@@ -577,6 +586,7 @@ namespace PKHeX.Core
                     return new SAV3RSBox();
 
                 case GameVersion.D: case GameVersion.P: case GameVersion.DP:
+                case GameVersion.DPPt:
                     return new SAV4(new byte[SIZE_G4RAW], GameVersion.DP);
                 case GameVersion.Pt:
                     return new SAV4(new byte[SIZE_G4RAW], GameVersion.Pt);
@@ -599,6 +609,7 @@ namespace PKHeX.Core
                     return new SAV7(new byte[SIZE_G7SM]);
                 case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
                     return new SAV7(new byte[SIZE_G7USUM]);
+                case GameVersion.GO:
                 case GameVersion.GP: case GameVersion.GE: case GameVersion.GG:
                     return new SAV7b(new byte[SIZE_G7GG]);
 
