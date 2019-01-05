@@ -25,7 +25,8 @@ namespace PKHeX.WinForms
 
         public Main()
         {
-            new Task(() => new SplashScreen().ShowDialog()).Start();
+            Form splash = null; // popup a splash screen in another thread
+            new Task(() => (splash = new SplashScreen()).ShowDialog()).Start();
             new Task(() => Legal.RefreshMGDB(MGDatabasePath)).Start();
             string[] args = Environment.GetCommandLineArgs();
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
@@ -43,12 +44,11 @@ namespace PKHeX.WinForms
             FormLoadCheckForUpdates();
             FormLoadPlugins();
 
-            IsInitialized = true; // Splash Screen closes on its own.
-            PKME_Tabs_UpdatePreviewSprite(null, null);
             BringToFront();
             WindowState = FormWindowState.Minimized;
             Show();
             WindowState = FormWindowState.Normal;
+            splash.Invoke((MethodInvoker)(() => splash.Close())); // splash closes
             if (HaX)
             {
                 PKMConverter.AllowIncompatibleConversion = true;
@@ -84,7 +84,6 @@ namespace PKHeX.WinForms
 
         public static string[] GenderSymbols { get; private set; } = { "♂", "♀", "-" };
         public static bool HaX { get; private set; }
-        public static bool IsInitialized { get; private set; }
 
         private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
 
@@ -1056,8 +1055,6 @@ namespace PKHeX.WinForms
 
         private void GetPreview(PictureBox pb, PKM pk = null)
         {
-            if (!IsInitialized)
-                return;
             pk = pk ?? PreparePKM(false); // don't perform control loss click
 
             if (pb == dragout) dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
