@@ -15,4 +15,10 @@
         /// <summary> Type of PIDIV correlation </summary>
         public PIDType Type;
     }
+
+    public class PIDIVTSV : PIDIV
+    {
+        public int TSV1 { get; internal set; } = -1;
+        public int TSV2 { get; internal set; } = -1;
+    }
 }

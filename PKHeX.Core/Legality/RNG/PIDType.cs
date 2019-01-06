@@ -100,6 +100,13 @@
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         CXD,
 
+        // XDRNG Based
+        /// <summary>
+        /// Antishiny Rerolled <see cref="GameVersion.CXD"/> PIDIV
+        /// </summary>
+        /// <remarks><see cref="RNG.XDRNG"/></remarks>
+        CXDAnti,
+
         /// <summary>
         /// Standard <see cref="GameVersion.CXD"/> PIDIV which is immediately after the RNG calls that create the TID and SID.
         /// </summary>
