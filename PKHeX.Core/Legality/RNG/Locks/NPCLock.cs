@@ -5,14 +5,14 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class NPCLock
     {
-        public readonly int Species;
-        public readonly uint Nature;
-        public readonly uint Gender;
-        public readonly uint Ratio;
+        public readonly short Species;
+        public readonly byte Nature;
+        public readonly byte Gender;
+        public readonly byte Ratio;
         public readonly bool Shadow;
         public readonly bool Seen;
 
-        public NPCLock(int s, uint n, uint g, uint r)
+        public NPCLock(short s, byte n, byte g, byte r)
         {
             Species = s;
             Nature = n;
@@ -20,7 +20,7 @@ namespace PKHeX.Core
             Ratio = r;
         }
 
-        public NPCLock(int s, bool seen = false)
+        public NPCLock(short s, bool seen = false)
         {
             Species = s;
             Nature = 25;
