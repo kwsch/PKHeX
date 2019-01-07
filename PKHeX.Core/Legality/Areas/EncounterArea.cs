@@ -109,12 +109,12 @@ namespace PKHeX.Core
 
         private static EncounterSlot1[] GetSlots2_F(byte[] data, ref int ofs, SlotType t)
         {
-            // slot set ends in 0xFF 0x** 0x**
+            // slot set ends with final slot having 0xFF 0x** 0x**
             const int size = 3;
             int end = ofs; // scan for count
             while (data[end] != 0xFF)
                 end += size;
-            var count = (end - ofs) / size;
+            var count = ((end - ofs) / size) + 1;
             var slots = new EncounterSlot1[count];
             for (int i = 0; i < slots.Length; i++)
             {
@@ -132,7 +132,6 @@ namespace PKHeX.Core
                     Type = species == 0 ? SlotType.Special : t // day/night specific
                 };
             }
-            ofs+=3; // skip over final 0xFF
             return slots;
         }
 
