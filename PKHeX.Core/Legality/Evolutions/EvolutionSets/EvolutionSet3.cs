@@ -70,7 +70,7 @@ namespace PKHeX.Core
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
-                    set[j] = GetMethod(data, offset);
+                    set[j] = GetMethod(data, offset + (j * size));
                 evos[g4species] = new EvolutionSet3 { PossibleEvolutions = set };
             }
             return evos;
