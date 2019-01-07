@@ -107,29 +107,32 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static List<EncounterSlot1> GetSlots2_F(byte[] data, ref int ofs, SlotType t)
+        private static EncounterSlot1[] GetSlots2_F(byte[] data, ref int ofs, SlotType t)
         {
             // slot set ends in 0xFF 0x** 0x**
-            var slots = new List<EncounterSlot1>();
-            int ctr = 0;
-            int rate;
-            do
+            const int size = 3;
+            int end = ofs; // scan for count
+            while (data[end] != 0xFF)
+                end += size;
+            var count = (end - ofs) / size;
+            var slots = new EncounterSlot1[count];
+            for (int i = 0; i < slots.Length; i++)
             {
-                rate = data[ofs++];
+                int rate = data[ofs++];
                 int species = data[ofs++];
                 int level = data[ofs++];
 
-                slots.Add(new EncounterSlot1
+                slots[i] = new EncounterSlot1
                 {
                     Rate = rate,
                     Species = species,
                     LevelMin = level,
                     LevelMax = level,
-                    SlotNumber = ctr++,
+                    SlotNumber = i,
                     Type = species == 0 ? SlotType.Special : t // day/night specific
-                });
+                };
             }
-            while (rate != 0xFF);
+            ofs+=3; // skip over final 0xFF
             return slots;
         }
 
@@ -935,7 +938,7 @@ namespace PKHeX.Core
             for (int i = 0; i < convMapIDtoFishLocationID.Length; i++)
             {
                 var loc = convMapIDtoFishLocationID[i];
-                if (convMapIDtoFishLocationID[i] == -1) // no table for map
+                if (loc == -1) // no table for map
                     continue;
                 areas.Add(new EncounterArea { Location = i, Slots = f[loc].Slots });
             }
@@ -974,7 +977,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Hearth Gold and Soul Silver data.
+        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Heart Gold and Soul Silver data.
         /// </summary>
         /// <param name="entries">Raw data, one byte array per encounter area</param>
         /// <returns>Array of encounter areas.</returns>
@@ -984,7 +987,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Hearth Gold and Soul Silver Headbutt tree data.
+        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Heart Gold and Soul Silver Headbutt tree data.
         /// </summary>
         /// <param name="entries">Raw data, one byte array per encounter area</param>
         /// <returns>Array of encounter areas.</returns>
@@ -1001,27 +1004,28 @@ namespace PKHeX.Core
         /// <param name="location">Location index of the encounter area.</param>
         /// <param name="t">Encounter slot type of the encounter area.</param>
         /// <returns></returns>
-        public static EncounterArea[] GetSimpleEncounterArea(IEnumerable<int> species, int[] lvls, int location, SlotType t)
+        public static EncounterArea[] GetSimpleEncounterArea(int[] species, int[] lvls, int location, SlotType t)
         {
-            var l = new List<EncounterSlot>();
             // levels data not paired
-            if ((lvls.Length & 1) == 1)
-                return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
+            if ((lvls.Length & 1) != 0)
+                return new[] { new EncounterArea { Location = location, Slots = Array.Empty<EncounterSlot>() } };
 
+            var slots = new EncounterSlot[species.Length * (lvls.Length / 2)];
+            int ctr = 0;
             foreach (var s in species)
             {
                 for (int i = 0; i < lvls.Length;)
                 {
-                    l.Add(new EncounterSlot
+                    slots[ctr++] = new EncounterSlot
                     {
                         LevelMin = lvls[i++],
                         LevelMax = lvls[i++],
                         Species = s,
                         Type = t
-                    });
+                    };
                 }
             }
-            return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
+            return new[] { new EncounterArea { Location = location, Slots = slots } };
         }
 
         /// <summary>
