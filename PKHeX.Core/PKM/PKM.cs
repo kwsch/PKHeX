@@ -640,7 +640,7 @@ namespace PKHeX.Core
                 return gender == 0;
 
             int gen = GenNumber;
-            if (2 >= gen || gen >= 6)
+            if (gen <= 2 || gen >= 6)
                 return gender == (gender & 1);
 
             return gender == PKX.GetGenderFromPIDAndRatio(PID, gv);
@@ -669,28 +669,26 @@ namespace PKHeX.Core
         /// </summary>
         private void ReorderMoves()
         {
-            if (Move4 != 0 && Move3 == 0)
-            {
-                Move3 = Move4;
-                Move3_PP = Move4_PP;
-                Move3_PPUps = Move4_PPUps;
-                Move4 = 0;
-            }
-            if (Move3 != 0 && Move2 == 0)
-            {
-                Move2 = Move3;
-                Move2_PP = Move3_PP;
-                Move2_PPUps = Move3_PPUps;
-                Move3 = 0;
-                ReorderMoves();
-            }
-            if (Move2 != 0 && Move1 == 0)
+            if (Move1 == 0 && Move2 != 0)
             {
                 Move1 = Move2;
                 Move1_PP = Move2_PP;
                 Move1_PPUps = Move2_PPUps;
                 Move2 = 0;
-                ReorderMoves();
+            }
+            if (Move2 == 0 && Move3 != 0)
+            {
+                Move2 = Move3;
+                Move2_PP = Move3_PP;
+                Move2_PPUps = Move3_PPUps;
+                Move3 = 0;
+            }
+            if (Move3 == 0 && Move4 != 0)
+            {
+                Move3 = Move4;
+                Move3_PP = Move4_PP;
+                Move3_PPUps = Move4_PPUps;
+                Move4 = 0;
             }
         }
 

@@ -71,6 +71,7 @@ namespace PKHeX.Core
         public abstract int Generation { get; }
         public PersonalTable Personal { get; set; }
 
+        public bool GG => Data.Length == SaveUtil.SIZE_G7GG && GameVersion.GG.Contains(Version);
         public bool USUM => Data.Length == SaveUtil.SIZE_G7USUM;
         public bool SM => Data.Length == SaveUtil.SIZE_G7SM;
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;

@@ -504,10 +504,8 @@ namespace PKHeX.Core
 
         internal static bool IsTradeEvolved(IReadOnlyList<EvoCriteria>[] chain, int pkmFormat)
         {
-            return chain[pkmFormat].Any(IsTradeEvolved);
+            return chain[pkmFormat].Any(z => z.IsTradeRequired);
         }
-
-        internal static bool IsTradeEvolved(EvoCriteria z) => EvolutionMethod.TradeMethods.Contains(z.Method);
 
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
