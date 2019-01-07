@@ -7,6 +7,7 @@ namespace PKHeX.Core
     /// </summary>
     public class PersonalInfoSM : PersonalInfoXY
     {
+        protected PersonalInfoSM() { } // For GG
         public new const int SIZE = 0x54;
 
         public PersonalInfoSM(byte[] data)
