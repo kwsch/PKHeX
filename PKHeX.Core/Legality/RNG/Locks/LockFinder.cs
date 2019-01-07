@@ -25,24 +25,6 @@ namespace PKHeX.Core
             return false;
         }
 
-        public static bool IsFirstShadowLockValid(PIDIV pv, TeamLock[] teams)
-        {
-            if (teams.Length == 0)
-                return true;
-
-            var singleTeams = new TeamLock[teams.Length];
-            for (int i = 0; i < teams.Length; i++)
-            {
-                var t = teams[i];
-                var clone = t.Clone();
-                var first = t.Locks[t.Locks.Length - 1];
-                clone.Locks = new[] { first };
-                singleTeams[i] = clone;
-            }
-
-            return IsAllShadowLockValid(pv, singleTeams);
-        }
-
         // Colosseum/XD Starters
         public static bool IsXDStarterValid(uint seed, int TID, int SID)
         {
