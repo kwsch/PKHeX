@@ -611,11 +611,11 @@ namespace PKHeX.Core
             181, // Watmel Berry
             182, // Durin Berry
             183, // Belue Berry
-            208, // Enigma Berry
-            209, // Micle Berry
-            210, // Custap Berry
-            211, // Jaboca Berry
-            212, // Rowap Berry
+            //208, // Enigma Berry
+            //209, // Micle Berry
+            //210, // Custap Berry
+            //211, // Jaboca Berry
+            //212, // Rowap Berry
             215, // Macho Brace
             260, // Red Scarf
             261, // Blue Scarf
