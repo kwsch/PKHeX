@@ -101,7 +101,6 @@ namespace PKHeX.WinForms.Controls
             M = m;
             M.Boxes.Add(this);
             FlagIllegal = M.SE.FlagIllegal;
-            Reset();
         }
 
         public void SetSlotFiller(PKM p, int box = -1, int slot = -1, PictureBox pb = null)
@@ -212,7 +211,7 @@ namespace PKHeX.WinForms.Controls
             CB_BoxSelect.SelectedIndexChanged -= GetBox;
         }
 
-        private void Reset()
+        public void Reset()
         {
             ResetBoxNames();
             ResetSlots();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -29,8 +30,7 @@ namespace PKHeX.Core
         public int Ball { get; set; } = 4; // Only checked when is Gift
         public GameVersion Version { get; set; } = GameVersion.Any;
         public int[] IVs { get; set; }
-        public int FlawlessIVCount { get; internal set; }
-        public bool IV3 { set => FlawlessIVCount = value ? 3 : 0; }
+        public int FlawlessIVCount { get; set; }
 
         public int[] Contest { set => this.SetContestStats(value); }
         public int CNT_Cool { get; set; }
@@ -67,7 +67,9 @@ namespace PKHeX.Core
         private const string _name = "Static Encounter";
         public string Name => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
 
-        public PKM ConvertToPKM(ITrainerInfo SAV)
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             SanityCheckVersion(ref version);
@@ -87,6 +89,9 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
+            pk.AltForm = Form;
+            pk.HeldItem = HeldItem;
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             if (pk.Format > 2 || Version == GameVersion.C)
             {
@@ -98,11 +103,13 @@ namespace PKHeX.Core
                 if (pk.Format >= 4)
                     pk.MetDate = DateTime.Today;
             }
+
             if (EggEncounter)
             {
-                bool traded = (int)Version == SAV.Game;
                 pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
                 pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+
+                bool traded = (int)Version == SAV.Game;
                 if (pk.GenNumber >= 4)
                 {
                     pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
@@ -111,8 +118,6 @@ namespace PKHeX.Core
                 pk.Egg_Location = EggLocation;
                 pk.EggMetDate = today;
             }
-
-            pk.AltForm = Form;
 
             if (this is EncounterStaticPID p)
             {
@@ -141,18 +146,16 @@ namespace PKHeX.Core
                 SetIVs(pk);
             }
 
-            switch (pk.Format)
+            switch (pk)
             {
-                case 3:
-                    if (this is EncounterStaticShadow)
-                        ((PK3)pk).RibbonNational = true;
+                case PK3 pk3 when this is EncounterStaticShadow:
+                    pk3.RibbonNational = true;
                     break;
-                case 4:
-                    if (this is EncounterStaticTyped t)
-                        pk.EncounterType = t.TypeEncounter.GetIndex();
+                case PK4 pk4 when this is EncounterStaticTyped t:
+                    pk4.EncounterType = t.TypeEncounter.GetIndex();
                     break;
-                case 6:
-                    pk.SetRandomMemory6();
+                case PK6 pk6:
+                    pk6.SetRandomMemory6();
                     break;
             }
 
@@ -160,12 +163,10 @@ namespace PKHeX.Core
                 this.CopyContestStatsTo(s);
 
             var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
-            pk.HeldItem = HeldItem;
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
             if (pk.Format >= 6 && Relearn.Length > 0)
                 pk.RelearnMoves = Relearn;
-            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             if (Fateful)
                 pk.FatefulEncounter = true;
 
@@ -237,6 +238,132 @@ namespace PKHeX.Core
 
                 default: return PIDType.None;
             }
+        }
+
+        public bool IsMatch(PKM pkm, int lvl)
+        {
+            if (Nature != Nature.Random && pkm.Nature != (int)Nature)
+                return false;
+            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3 && !pkm.IsEgg)
+                return false;
+            if (this is EncounterStaticPID p && p.PID != pkm.PID)
+                return false;
+
+            if (pkm.Gen3 && EggLocation != 0) // Gen3 Egg
+            {
+                if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
+                    return false;
+            }
+            else if (pkm.VC || (pkm.GenNumber <= 2 && EggLocation != 0)) // Gen2 Egg
+            {
+                if (pkm.Format <= 2)
+                {
+                    if (pkm.IsEgg)
+                    {
+                        if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
+                            return false;
+                    }
+                    else
+                    {
+                        switch (pkm.Met_Level)
+                        {
+                            case 0 when pkm.Met_Location != 0:
+                                return false;
+                            case 1 when pkm.Met_Location == 0:
+                                return false;
+                            default:
+                                if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
+                                    return false;
+                                break;
+                        }
+                    }
+                    if (pkm.Met_Level == 1)
+                        lvl = 5; // met @ 1, hatch @ 5.
+                }
+            }
+            else if (EggLocation != pkm.Egg_Location)
+            {
+                if (pkm.IsEgg) // unhatched
+                {
+                    if (EggLocation != pkm.Met_Location)
+                        return false;
+                    if (pkm.Egg_Location != 0)
+                        return false;
+                }
+                else if (pkm.Gen4)
+                {
+                    if (pkm.Egg_Location != 2002) // Link Trade
+                    {
+                        // check Pt/HGSS data
+                        if (pkm.Format <= 4)
+                            return false; // must match
+                        if (EggLocation >= 3000 || EggLocation <= 2010) // non-Pt/HGSS egg gift
+                            return false;
+
+                        // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
+                        if (pkm.Egg_Location != 3002) // Faraway Place
+                            return false;
+                    }
+                }
+                else
+                {
+                    if (pkm.Egg_Location != 30002) // Link Trade
+                        return false;
+                }
+            }
+            else if (EggLocation != 0 && pkm.Gen4)
+            {
+                // Check the inverse scenario for 4->5 eggs
+                if (EggLocation < 3000 && EggLocation > 2010) // Pt/HGSS egg gift
+                {
+                    if (pkm.Format > 4)
+                        return false; // locations match when it shouldn't
+                }
+            }
+
+            if (pkm.HasOriginalMetLocation)
+            {
+                if (!EggEncounter && Location != 0 && Location != pkm.Met_Location)
+                    return false;
+                if (Level != lvl)
+                {
+                    if (!(pkm.Format == 3 && EggEncounter && lvl == 0))
+                        return false;
+                }
+            }
+            else if (Level > lvl)
+            {
+                return false;
+            }
+
+            if (Gender != -1 && Gender != pkm.Gender)
+                return false;
+            if (Form != pkm.AltForm && !SkipFormCheck && !Legal.IsFormChangeable(pkm, Species))
+                return false;
+            if (EggLocation == 60002 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+                return false;
+
+            if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
+                        return false;
+                }
+            }
+
+            if (pkm is IContestStats s && s.IsContestBelow(this))
+                return false;
+
+            // Defer to EC/PID check
+            // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
+            // continue;
+
+            // Defer ball check to later
+            // if (e.Gift && pkm.Ball != 4) // PokéBall
+            // continue;
+
+            return true;
         }
     }
 }

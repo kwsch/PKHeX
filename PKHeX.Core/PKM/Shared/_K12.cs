@@ -16,6 +16,8 @@ namespace PKHeX.Core
         public override int OTLength => Japanese ? 5 : 7;
         public override int NickLength => Japanese ? 5 : 10;
 
+        public override byte[] ExtraBytes => Array.Empty<byte>();
+
         public override string FileNameWithoutExtension
         {
             get
@@ -61,12 +63,12 @@ namespace PKHeX.Core
 
         public override bool IsNicknamed
         {
-            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname())));
+            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname(GuessedLanguage()))));
             set
             {
                 _isnicknamed = value;
                 if (_isnicknamed == false)
-                    SetNotNicknamed();
+                    SetNotNicknamed(GuessedLanguage());
             }
         }
 
@@ -94,7 +96,17 @@ namespace PKHeX.Core
                     return lang;
                 return 0;
             }
-            set { }
+            set
+            {
+                if (Japanese)
+                    return;
+                if (Korean)
+                    return;
+
+                if (IsNicknamed)
+                    return;
+                SetNotNicknamed(value);
+            }
         }
 
         public override string Nickname
@@ -207,11 +219,12 @@ namespace PKHeX.Core
         public override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
         public override int IV_SPD { get => IV_SPC; set { } }
 
-        public void SetNotNicknamed() => nick = GetNonNickname().ToArray();
+        public void SetNotNicknamed() => nick = GetNonNickname(GuessedLanguage()).ToArray();
+        public void SetNotNicknamed(int language) => nick = GetNonNickname(language).ToArray();
 
-        private IEnumerable<byte> GetNonNickname()
+        private IEnumerable<byte> GetNonNickname(int language)
         {
-            var name = PKX.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
+            var name = PKX.GetSpeciesNameGeneration(Species, language, Format);
             var bytes = SetString(name, StringLength);
             var data = bytes.Concat(Enumerable.Repeat((byte)0x50, nick.Length - bytes.Length));
             if (!Korean)

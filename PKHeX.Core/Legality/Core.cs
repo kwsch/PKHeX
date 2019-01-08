@@ -504,10 +504,8 @@ namespace PKHeX.Core
 
         internal static bool IsTradeEvolved(IReadOnlyList<EvoCriteria>[] chain, int pkmFormat)
         {
-            return chain[pkmFormat].Any(IsTradeEvolved);
+            return chain[pkmFormat].Any(z => z.IsTradeRequired);
         }
-
-        internal static bool IsTradeEvolved(EvoCriteria z) => EvolutionMethod.TradeMethods.Contains(z.Method);
 
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
@@ -913,6 +911,28 @@ namespace PKHeX.Core
                 case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
                 default: return gen >= 6 ? 12 : 10;
             }
+        }
+
+        public static bool GetIsFixedIVSequenceValid(IReadOnlyList<int> IVs, PKM pkm, int max = 31)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if ((uint) IVs[i] > max) // random
+                    continue;
+                if (IVs[i] != pkm.GetIV(i))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool GetIsFixedIVSequenceValidNoRand(IReadOnlyList<int> IVs, PKM pkm)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (IVs[i] != pkm.GetIV(i))
+                    return false;
+            }
+            return true;
         }
     }
 }

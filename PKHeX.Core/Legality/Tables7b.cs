@@ -151,9 +151,6 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Regular_GG_Key =
         {
-            101, // Helix Fossil
-            102, // Dome Fossil
-            103, // Old Amber
             113, // Tea
             115, // Autograph
             121, // Pokémon Box

@@ -47,6 +47,7 @@ namespace PKHeX.Core
 
         // Bank Binaries
         public const int SIZE_G7BANK = 0xACA48;
+        public const int SIZE_G4BANK = 0x405C4;
 
         private static readonly HashSet<int> SIZES_2 = new HashSet<int>
         {
@@ -63,7 +64,7 @@ namespace PKHeX.Core
             // SIZES_2 covers gen2 sizes since there's so many
             SIZE_G1RAW, SIZE_G1BAT,
 
-            SIZE_G7BANK,
+            SIZE_G7BANK, SIZE_G4BANK,
         };
 
         private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
@@ -104,8 +105,12 @@ namespace PKHeX.Core
             if (GetIsG4BRSAV(data) != GameVersion.Invalid)
                 return GameVersion.BATREV;
 
-            if (GetIsBank7(data))
+            if (GetIsBank7(data)) // pokebank
                 return GameVersion.USUM;
+            if (GetIsBank4(data)) // pokestock
+                return GameVersion.HGSS;
+            if (GetIsBank3(data)) // pokestock
+                return GameVersion.RS;
 
             return GameVersion.Invalid;
         }
@@ -222,25 +227,26 @@ namespace PKHeX.Core
             int count = data.Length/SIZE_G3RAWHALF;
             for (int s = 0; s < count; s++)
             {
-                int ofs = 0xE000*s;
-                int[] BlockOrder = new int[14];
-                for (int i = 0; i < 14; i++)
-                    BlockOrder[i] = BitConverter.ToInt16(data, (i * 0x1000) + 0xFF4 + ofs);
+                const int blockcount = 14;
+                const int blocksize = 0x1000;
+                int ofs = blockcount * blocksize * s;
+                int[] BlockOrder = new int[blockcount];
+                for (int i = 0; i < BlockOrder.Length; i++)
+                    BlockOrder[i] = BitConverter.ToUInt16(data, (i * blocksize) + 0xFF4 + ofs);
 
-                if (BlockOrder.Any(i => i > 0xD || i < 0))
+                if (Array.FindIndex(BlockOrder, i => i > 0xD) >= 0) // invalid block ID
                     continue;
 
-                // Detect RS/E/FRLG
-                // Section 0 stores Game Code @ 0x00AC; 0 for RS, 1 for FRLG, else for Emerald
                 int Block0 = Array.IndexOf(BlockOrder, 0);
 
                 // Sometimes not all blocks are present (start of game), yielding multiple block0's.
                 // Real 0th block comes before block1.
                 if (BlockOrder[0] == 1 && Block0 != BlockOrder.Length - 1)
                     continue;
-                if (BlockOrder.Count(v => v == 0) == BlockOrder.Length)
+                if (Array.FindIndex(BlockOrder, v => v != 0) < 0) // all blocks are 0
                     continue;
-                return SAV3.GetVersion(data, (0x1000 * Block0) + ofs);
+                // Detect RS/E/FRLG
+                return SAV3.GetVersion(data, (blocksize * Block0) + ofs);
             }
             return GameVersion.Invalid;
         }
@@ -316,47 +322,31 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G4RAW)
                 return GameVersion.Invalid;
 
-            // General Block Checksum
-            if (BitConverter.ToUInt16(data, 0xC0FE) == CRC16_CCITT(data, 0, 0xC0EC))
-                return GameVersion.DP;
-            if (BitConverter.ToUInt16(data, 0xCF2A) == CRC16_CCITT(data, 0, 0xCF18))
-                return GameVersion.Pt;
-            if (BitConverter.ToUInt16(data, 0xF626) == CRC16_CCITT(data, 0, 0xF618))
-                return GameVersion.HGSS;
-
-            bool validSequence(byte[] pattern, int shift = 0)
+            // The block footers contain a u32 'size' followed by a u32 binary-coded-decimal timestamp(?)
+            // Korean savegames have a different timestamp from other localizations.
+            bool validSequence(int offset)
             {
-                int ofs = BitConverter.ToUInt16(pattern, 0) - 0xC + shift;
-                for (int i = 0; i < 10; i++)
-                {
-                    if (data[i + ofs] != pattern[i])
-                        return false;
-                }
-                return true;
+                var size = BitConverter.ToUInt32(data, offset - 0xC);
+                if (size != (offset & 0xFFFF))
+                    return false;
+                var sdk = BitConverter.ToUInt32(data, offset - 0x8);
+
+                const int DATE_INT = 0x20060623;
+                const int DATE_KO  = 0x20070903;
+                return sdk == DATE_INT || sdk == DATE_KO;
             }
 
-            // General Block Checksum is invalid, check for block identifiers
-            if (validSequence(BlockPattern_General_DP))
+            // Check the other save -- first save is done to the latter half of the binary.
+            // The second save should be all that is needed to check.
+            if (validSequence(0x4C100))
                 return GameVersion.DP;
-            if (validSequence(BlockPattern_General_Pt))
+            if (validSequence(0x4CF2C))
                 return GameVersion.Pt;
-            if (validSequence(BlockPattern_General_HS))
-                return GameVersion.HGSS;
-
-            // Check the other save
-            if (validSequence(BlockPattern_General_DP, 0x40000))
-                return GameVersion.DP;
-            if (validSequence(BlockPattern_General_Pt, 0x40000))
-                return GameVersion.Pt;
-            if (validSequence(BlockPattern_General_HS, 0x40000))
+            if (validSequence(0x4F628))
                 return GameVersion.HGSS;
 
             return GameVersion.Invalid;
         }
-
-        private static readonly byte[] BlockPattern_General_DP = { 0x00, 0xC1, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
-        private static readonly byte[] BlockPattern_General_Pt = { 0x2C, 0xCF, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
-        private static readonly byte[] BlockPattern_General_HS = { 0x28, 0xF6, 0x00, 0x00, 0x23, 0x06, 0x06, 0x20, 0x00, 0x00 };
 
         /// <summary>Determines the type of 4th gen Battle Revolution</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -378,6 +368,7 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G5RAW)
                 return GameVersion.Invalid;
 
+            // check the checksum block validity; nobody would normally modify this region
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
             ushort actual1 = CRC16_CCITT(data, SIZE_G5BW - 0x100, 0x8C);
             if (chk1 == actual1)
@@ -394,7 +385,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG6SAV(byte[] data)
         {
-            if (!new []{SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO}.Contains(data.Length))
+            if (data.Length != SIZE_G6XY && data.Length != SIZE_G6ORAS && data.Length != SIZE_G6ORASDEMO)
                 return GameVersion.Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
@@ -451,6 +442,8 @@ namespace PKHeX.Core
         }
 
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
+        private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
+        private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="path">File location from which to create a SaveFile.</param>
@@ -501,6 +494,8 @@ namespace PKHeX.Core
 
                 // Bulk Storage
                 case GameVersion.USUM:   return Bank7.GetBank7(data);
+                case GameVersion.HGSS:   return Bank4.GetBank4(data);
+                case GameVersion.RS:     return Bank3.GetBank3(data);
 
                 // No pattern matched
                 default: return null;
@@ -565,15 +560,24 @@ namespace PKHeX.Core
         {
             switch (Game)
             {
+                case GameVersion.RD: case GameVersion.BU: case GameVersion.GN:case GameVersion.YW:
                 case GameVersion.RBY:
                     return new SAV1();
 
-                case GameVersion.GS: case GameVersion.C: case GameVersion.GSC:
+                case GameVersion.GD: case GameVersion.SV: case GameVersion.C:
+                case GameVersion.GS: case GameVersion.GSC:
                     return new SAV2();
 
                 case GameVersion.R: case GameVersion.S: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
                     return new SAV3(versionOverride: Game);
+                case GameVersion.FRLG:
+                    return new SAV3(versionOverride: GameVersion.FR);
+                case GameVersion.RS:
+                    return new SAV3(versionOverride: GameVersion.R);
+                case GameVersion.RSE:
+                    return new SAV3(versionOverride: GameVersion.E);
 
+                case GameVersion.CXD:
                 case GameVersion.COLO:
                     return new SAV3Colosseum();
                 case GameVersion.XD:
@@ -582,6 +586,7 @@ namespace PKHeX.Core
                     return new SAV3RSBox();
 
                 case GameVersion.D: case GameVersion.P: case GameVersion.DP:
+                case GameVersion.DPPt:
                     return new SAV4(new byte[SIZE_G4RAW], GameVersion.DP);
                 case GameVersion.Pt:
                     return new SAV4(new byte[SIZE_G4RAW], GameVersion.Pt);
@@ -604,6 +609,7 @@ namespace PKHeX.Core
                     return new SAV7(new byte[SIZE_G7SM]);
                 case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
                     return new SAV7(new byte[SIZE_G7USUM]);
+                case GameVersion.GO:
                 case GameVersion.GP: case GameVersion.GE: case GameVersion.GG:
                     return new SAV7b(new byte[SIZE_G7GG]);
 
@@ -664,7 +670,6 @@ namespace PKHeX.Core
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
         private static bool IsSizeValid(int size) => SIZES.Contains(size);
 
-        // SAV Manipulation
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
         /// <param name="start">Starting point for checksum</param>
@@ -1110,7 +1115,7 @@ namespace PKHeX.Core
                     output[index] = (byte)(val >> 8);
                     output[index + 1] = (byte)val;
                 }
-                keys = AdvanceGCKeys(keys);
+                AdvanceGCKeys(keys);
             }
             return output;
         }
@@ -1128,25 +1133,27 @@ namespace PKHeX.Core
                     output[index] = (byte)(val >> 8);
                     output[index + 1] = (byte)val;
                 }
-                keys = AdvanceGCKeys(keys);
+                AdvanceGCKeys(keys);
             }
             return output;
         }
 
-        public static ushort[] AdvanceGCKeys(ushort[] oldKeys)
+        public static void AdvanceGCKeys(ushort[] keys)
         {
-            oldKeys[0] += 0x43;
-            oldKeys[1] += 0x29;
-            oldKeys[2] += 0x17;
-            oldKeys[3] += 0x13;
+            keys[0] += 0x43;
+            keys[1] += 0x29;
+            keys[2] += 0x17;
+            keys[3] += 0x13;
 
-            return new[]
-            {
-                (ushort)((oldKeys[0] >> 00 & 0xf) | (oldKeys[1] << 4 & 0xf0) | (oldKeys[2] << 8 & 0xf00) | (oldKeys[3] << 12 & 0xf000)),
-                (ushort)((oldKeys[0] >> 04 & 0xf) | (oldKeys[1] << 0 & 0xf0) | (oldKeys[2] << 4 & 0xf00) | (oldKeys[3] << 08 & 0xf000)),
-                (ushort)((oldKeys[0] >> 08 & 0xf) | (oldKeys[1] >> 4 & 0xf0) | (oldKeys[2] >> 0 & 0xf00) | (oldKeys[3] << 04 & 0xf000)),
-                (ushort)((oldKeys[0] >> 12 & 0xf) | (oldKeys[1] >> 8 & 0xf0) | (oldKeys[2] >> 4 & 0xf00) | (oldKeys[3] << 00 & 0xf000)),
-            };
+            var _0 = (ushort)((keys[0] >> 00 & 0xf) | (keys[1] << 4 & 0xf0) | (keys[2] << 8 & 0xf00) | (keys[3] << 12 & 0xf000));
+            var _1 = (ushort)((keys[0] >> 04 & 0xf) | (keys[1] << 0 & 0xf0) | (keys[2] << 4 & 0xf00) | (keys[3] << 08 & 0xf000));
+            var _2 = (ushort)((keys[0] >> 08 & 0xf) | (keys[1] >> 4 & 0xf0) | (keys[2] >> 0 & 0xf00) | (keys[3] << 04 & 0xf000));
+            var _3 = (ushort)((keys[0] >> 12 & 0xf) | (keys[1] >> 8 & 0xf0) | (keys[2] >> 4 & 0xf00) | (keys[3] << 00 & 0xf000));
+
+            keys[0] = _0;
+            keys[1] = _1;
+            keys[2] = _2;
+            keys[3] = _3;
         }
 
         /// <summary>

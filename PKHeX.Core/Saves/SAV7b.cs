@@ -45,6 +45,9 @@ namespace PKHeX.Core
             Played = new PlayTime7b(this);
             Misc = new Misc7b(this);
             EventWork = new EventWork7b(this);
+            GiftRecords = new WB7Records(this);
+
+            WondercardData = GiftRecords.Offset;
 
             HeldItems = Legal.HeldItems_GG;
 
@@ -63,6 +66,7 @@ namespace PKHeX.Core
         public readonly ConfigSave7b Config;
         public readonly EventWork7b EventWork;
         public readonly PokeListHeader Storage;
+        public readonly WB7Records GiftRecords;
 
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
@@ -147,7 +151,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk.CurrentHandler;
             var Date = DateTime.Now;
-            pk.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year);
+            pk.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, false, Date.Year);
             if (CT != pk.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
@@ -247,5 +251,8 @@ namespace PKHeX.Core
         /// <param name="value">Event Flag status to set</param>
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
         public override void SetEventFlag(int flagNumber, bool value) => EventWork.SetFlag(flagNumber, value);
+
+        protected override bool[] MysteryGiftReceivedFlags { get => GiftRecords.Flags; set => GiftRecords.Flags = value; }
+        protected override MysteryGift[] MysteryGiftCards { get => GiftRecords.Records; set => GiftRecords.Records = (WR7[])value; }
     }
 }

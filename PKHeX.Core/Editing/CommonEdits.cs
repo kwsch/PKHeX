@@ -261,7 +261,7 @@ namespace PKHeX.Core
                 return m;
 
             var encounter = legal.GetSuggestedMetInfo();
-            if (encounter?.Relearn.Length > 0)
+            if (encounter.Relearn.Length > 0)
                 m = encounter.Relearn;
 
             return m;
@@ -470,46 +470,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets one of the <see cref="PKM.EVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <param name="index">Index to get</param>
-        public static int GetEV(this PKM pk, int index)
-        {
-            switch (index)
-            {
-                case 0: return pk.EV_HP ;
-                case 1: return pk.EV_ATK;
-                case 2: return pk.EV_DEF;
-                case 3: return pk.EV_SPE;
-                case 4: return pk.EV_SPA;
-                case 5: return pk.EV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        /// <summary>
-        /// Gets one of the <see cref="PKM.IVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <param name="index">Index to get</param>
-        public static int GetIV(this PKM pk, int index)
-        {
-            switch (index)
-            {
-                case 0: return pk.IV_HP ;
-                case 1: return pk.IV_ATK;
-                case 2: return pk.IV_DEF;
-                case 3: return pk.IV_SPE;
-                case 4: return pk.IV_SPA;
-                case 5: return pk.IV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        /// <summary>
         /// Updates the <see cref="PKM.IV_ATK"/> for a Generation 1/2 format <see cref="PKM"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
@@ -547,7 +507,7 @@ namespace PKHeX.Core
         /// <returns>Highest value the value can be.</returns>
         public static int GetMaximumIV(this PKM pk, int index, bool Allow30 = false)
         {
-            if (pk.IVs[index] == pk.MaxIV && Allow30)
+            if (pk.GetIV(index) == pk.MaxIV && Allow30)
                 return pk.MaxIV - 1;
             return pk.MaxIV;
         }
@@ -591,6 +551,20 @@ namespace PKHeX.Core
             pkm.MetDate = DateTime.Today;
             if (pkm.Gen6)
                 pkm.SetHatchMemory6();
+        }
+
+        /// <summary>
+        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
+        /// </summary>
+        /// <param name="pkm">PKM to apply hatch details to</param>
+        /// <param name="origin">Game the egg originated from</param>
+        /// <param name="dest">Game the egg is currently present on</param>
+        public static void SetEggMetData(this PKM pkm, GameVersion origin, GameVersion dest)
+        {
+            bool traded = origin == dest;
+            var today = pkm.MetDate = DateTime.Today;
+            pkm.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pkm, traded);
+            pkm.EggMetDate = today;
         }
 
         /// <summary>

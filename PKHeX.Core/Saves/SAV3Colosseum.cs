@@ -35,8 +35,8 @@ namespace PKHeX.Core
         private const int SLOT_START = 0x6000;
         private const int SLOT_COUNT = 3;
 
-        private readonly int SaveCount = -1;
-        private readonly int SaveIndex = -1;
+        private int SaveCount = -1;
+        private int SaveIndex = -1;
         private readonly StrategyMemo StrategyMemo;
         public int MaxShadowID => 0x80; // 128
         private readonly int Memo;
@@ -52,32 +52,11 @@ namespace PKHeX.Core
             BAK = (byte[])Data.Clone();
             Exportable = !IsRangeEmpty(0, Data.Length);
 
-            if (SaveUtil.GetIsG3COLOSAV(Data) != GameVersion.COLO)
-                return;
+            Personal = PersonalTable.RS;
+            HeldItems = Legal.HeldItems_COLO;
 
-            // Scan all 3 save slots for the highest counter
-            for (int i = 0; i < SLOT_COUNT; i++)
-            {
-                int slotOffset = SLOT_START + (i * SLOT_SIZE);
-                int SaveCounter = BigEndian.ToInt32(Data, slotOffset + 4);
-                if (SaveCounter <= SaveCount)
-                    continue;
-
-                SaveCount = SaveCounter;
-                SaveIndex = i;
-            }
-
-            // Decrypt most recent save slot
-            {
-                byte[] slot = new byte[SLOT_SIZE];
-                int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-                Array.Copy(Data, slotOffset, slot, 0, slot.Length);
-                byte[] digest = new byte[20];
-                Array.Copy(slot, SLOT_SIZE - 20, digest, 0, digest.Length);
-
-                // Decrypt Slot
-                Data = DecryptColosseum(slot, digest);
-            }
+            if (SaveUtil.GetIsG3COLOSAV(Data) == GameVersion.COLO)
+                InitializeData();
 
             Trainer1 = 0x00078;
             Party = 0x000A8;
@@ -100,9 +79,6 @@ namespace PKHeX.Core
             LegalBerries = Legal.Pouch_Berries_RS;
             LegalCologne = Legal.Pouch_Cologne_COLO;
 
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_COLO;
-
             if (!Exportable)
                 ClearBoxes();
 
@@ -112,6 +88,33 @@ namespace PKHeX.Core
             {
                 if (GetPartySlot(GetPartyOffset(i)).Species != 0)
                     PartyCount++;
+            }
+        }
+
+        private void InitializeData()
+        {
+            // Scan all 3 save slots for the highest counter
+            for (int i = 0; i < SLOT_COUNT; i++)
+            {
+                int slotOffset = SLOT_START + (i * SLOT_SIZE);
+                int SaveCounter = BigEndian.ToInt32(Data, slotOffset + 4);
+                if (SaveCounter <= SaveCount)
+                    continue;
+
+                SaveCount = SaveCounter;
+                SaveIndex = i;
+            }
+
+            // Decrypt most recent save slot
+            {
+                byte[] slot = new byte[SLOT_SIZE];
+                int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
+                Array.Copy(Data, slotOffset, slot, 0, slot.Length);
+                byte[] digest = new byte[20];
+                Array.Copy(slot, SLOT_SIZE - 20, digest, 0, digest.Length);
+
+                // Decrypt Slot
+                Data = DecryptColosseum(slot, digest);
             }
         }
 

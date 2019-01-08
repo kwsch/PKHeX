@@ -22,11 +22,25 @@ namespace PKHeX.WinForms
             foreach (var c in FLP_Settings.Controls.OfType<CheckBox>().OrderBy(z => z.Text).ToList())
                 FLP_Settings.Controls.SetChildIndex(c, ctr++);
 
+            if (obj is Settings s)
+            {
+                CB_Blank.InitializeBinding();
+                CB_Blank.DataSource = GameInfo.VersionDataSource;
+                CB_Blank.SelectedValue = (int) s.DefaultSaveVersion;
+                CB_Blank.SelectedValueChanged += (_, __) => s.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
+            }
+            else
+            {
+                FLP_Blank.Visible = false;
+            }
+
             this.CenterToForm(FindForm());
         }
+
         private void SettingsEditor_FormClosing(object sender, FormClosingEventArgs e) => SaveSettings();
 
         private readonly object SettingsObject;
+
         private void LoadSettings(IEnumerable<string> blacklist)
         {
             var type = SettingsObject.GetType();
@@ -44,6 +58,7 @@ namespace PKHeX.WinForms
                 }
             }
         }
+
         private void SaveSettings()
         {
             foreach (var s in FLP_Settings.Controls.OfType<Control>())
@@ -55,6 +70,7 @@ namespace PKHeX.WinForms
             Name = name, Checked = state, Text = name,
             AutoSize = true,
         };
+
         private static object GetValue(IDisposable control)
         {
             switch (control)

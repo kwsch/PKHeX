@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Invalid Encounter Data
     /// </summary>
-    public class EncounterInvalid : IEncounterable
+    public sealed class EncounterInvalid : IEncounterable
     {
         public int Species { get; }
         public int LevelMin { get; }
@@ -22,6 +22,7 @@ namespace PKHeX.Core
             EggEncounter = pkm.WasEgg;
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => throw new ArgumentException($"Cannot convert an {nameof(EncounterInvalid)} to PKM.");
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria) => throw new ArgumentException($"Cannot convert an {nameof(EncounterInvalid)} to PKM.");
     }
 }

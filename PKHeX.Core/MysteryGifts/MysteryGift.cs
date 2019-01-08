@@ -38,6 +38,8 @@ namespace PKHeX.Core
                 case WC6.SizeFull when ext == ".wc6full":
                 case WC6.Size when ext == ".wc6":
                     return new WC6(data);
+                case WR7.Size when ext == ".wr7":
+                    return new WR7(data);
 
                 case PGF.Size when ext == ".pgf":
                     return new PGF(data);
@@ -69,6 +71,7 @@ namespace PKHeX.Core
                     if (BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000)
                         return new WC7(data);
                     return new WC6(data);
+                case WR7.Size: return new WR7(data);
 
                 case PGF.Size: return new PGF(data);
                 case PGT.Size: return new PGT(data);
@@ -80,8 +83,22 @@ namespace PKHeX.Core
         public string Extension => GetType().Name.ToLower();
         public string FileName => $"{CardHeader}.{Extension}";
         public byte[] Data { get; set; }
-        public abstract PKM ConvertToPKM(ITrainerInfo SAV);
         public abstract int Format { get; }
+
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public abstract PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria);
+
+        protected abstract bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs);
+        protected abstract bool IsMatchDeferred(PKM pkm);
+
+        public EncounterMatchRating IsMatch(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            if (!IsMatchExact(pkm, vs))
+                return EncounterMatchRating.None;
+            if (IsMatchDeferred(pkm))
+                return EncounterMatchRating.Deferred;
+            return EncounterMatchRating.Match;
+        }
 
         /// <summary>
         /// Creates a deep copy of the <see cref="MysteryGift"/> object data.

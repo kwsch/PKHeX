@@ -31,6 +31,10 @@ namespace PKHeX.Core
                 return;
             }
 
+            // LGPE gold bottle cap applies to all IVs regardless
+            if (pkm.GG && t.IsHyperTrainedAll()) // already checked for 6IV, therefore we're flawed on at least one IV
+                return;
+
             for (int i = 0; i < 6; i++) // Check individual IVs
             {
                 if (pkm.GetIV(i) != max || !t.IsHyperTrained(i))

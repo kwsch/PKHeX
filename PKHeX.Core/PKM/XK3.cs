@@ -5,13 +5,15 @@ namespace PKHeX.Core
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon XD. </summary>
     public sealed class XK3 : _K3, IShadowPKM
     {
-        public static readonly byte[] ExtraBytes =
+        private static readonly byte[] Unused =
         {
             0x0A, 0x0B, 0x0C, 0x0D, 0x1E, 0x1F,
             0x2A, 0x2B,
             0x7A, 0x7B,
             0x7E, 0x7F
         };
+
+        public override byte[] ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_3XSTORED;
         public override int SIZE_STORED => PKX.SIZE_3XSTORED;

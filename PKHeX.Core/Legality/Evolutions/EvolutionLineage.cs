@@ -34,7 +34,7 @@ namespace PKHeX.Core
         {
             int lvl = maxLevel;
             var first = new EvoCriteria {Species = pkm.Species, Level = lvl, Form = pkm.AltForm};
-            var dl = new List<EvoCriteria> { first };
+            var dl = new List<EvoCriteria>(3) { first };
             for (int i = Chain.Count - 1; i >= 0; i--) // reverse evolution!
             {
                 bool oneValid = false;

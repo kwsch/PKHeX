@@ -1133,7 +1133,7 @@ namespace PKHeX.Core
         private static uint SetDexFormValues(int[] Forms, int BitsPerForm, int readCt)
         {
             int n1 = 0xFF >> (8 - BitsPerForm);
-            uint Value = 0xFFFFFFFF << (Forms.Length*BitsPerForm);
+            uint Value = 0xFFFFFFFF << (readCt * BitsPerForm);
             for (int i = 0; i < Forms.Length; i++)
             {
                 int val = Forms[i];

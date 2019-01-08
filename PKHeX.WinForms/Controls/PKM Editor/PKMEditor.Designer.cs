@@ -197,7 +197,7 @@
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
-            this.PB_MarkHorohoro = new System.Windows.Forms.PictureBox();
+            this.PB_MarkGO = new System.Windows.Forms.PictureBox();
             this.PB_MarkVC = new System.Windows.Forms.PictureBox();
             this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
@@ -284,7 +284,7 @@
             this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkGO)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
@@ -854,8 +854,6 @@
             this.CB_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Ability.FormattingEnabled = true;
-            this.CB_Ability.Items.AddRange(new object[] {
-            "Item"});
             this.CB_Ability.Location = new System.Drawing.Point(0, 0);
             this.CB_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Ability.Name = "CB_Ability";
@@ -870,8 +868,6 @@
             this.DEV_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.DEV_Ability.Enabled = false;
             this.DEV_Ability.FormattingEnabled = true;
-            this.DEV_Ability.Items.AddRange(new object[] {
-            "Item"});
             this.DEV_Ability.Location = new System.Drawing.Point(0, 21);
             this.DEV_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Ability.Name = "DEV_Ability";
@@ -2202,7 +2198,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 539);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2353,7 +2349,7 @@
             //
             // GB_Markings
             //
-            this.GB_Markings.Controls.Add(this.PB_MarkHorohoro);
+            this.GB_Markings.Controls.Add(this.PB_MarkGO);
             this.GB_Markings.Controls.Add(this.PB_MarkVC);
             this.GB_Markings.Controls.Add(this.PB_MarkAlola);
             this.GB_Markings.Controls.Add(this.PB_Mark6);
@@ -2374,14 +2370,14 @@
             //
             // PB_MarkHorohoro
             //
-            this.PB_MarkHorohoro.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.Image")));
-            this.PB_MarkHorohoro.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.InitialImage")));
-            this.PB_MarkHorohoro.Location = new System.Drawing.Point(110, 15);
-            this.PB_MarkHorohoro.Name = "PB_MarkHorohoro";
-            this.PB_MarkHorohoro.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkHorohoro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkHorohoro.TabIndex = 11;
-            this.PB_MarkHorohoro.TabStop = false;
+            this.PB_MarkGO.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.Image")));
+            this.PB_MarkGO.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.InitialImage")));
+            this.PB_MarkGO.Location = new System.Drawing.Point(110, 15);
+            this.PB_MarkGO.Name = "PB_MarkGO";
+            this.PB_MarkGO.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkGO.TabIndex = 11;
+            this.PB_MarkGO.TabStop = false;
             //
             // PB_MarkVC
             //
@@ -2698,7 +2694,7 @@
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkGO)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).EndInit();
@@ -2734,11 +2730,11 @@
         private System.Windows.Forms.Button BTN_RerollPID;
         private System.Windows.Forms.FlowLayoutPanel FLP_Species;
         private System.Windows.Forms.Label Label_Species;
-        public System.Windows.Forms.ComboBox CB_Species;
+        private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.FlowLayoutPanel FLP_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_NicknameLeft;
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
-        public System.Windows.Forms.TextBox TB_Nickname;
+        private System.Windows.Forms.TextBox TB_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_EXPLevel;
         private System.Windows.Forms.Label Label_EXP;
         private System.Windows.Forms.FlowLayoutPanel FLP_EXPLevelRight;
@@ -2754,8 +2750,8 @@
         private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipForm;
         private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipFormLeft;
-        public System.Windows.Forms.Label Label_Friendship;
-        public System.Windows.Forms.Label Label_HatchCounter;
+        private System.Windows.Forms.Label Label_Friendship;
+        private System.Windows.Forms.Label Label_HatchCounter;
         private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipFormRight;
         private System.Windows.Forms.MaskedTextBox TB_Friendship;
         private System.Windows.Forms.Label Label_Form;
@@ -2772,7 +2768,7 @@
         private System.Windows.Forms.ComboBox CB_Language;
         private System.Windows.Forms.FlowLayoutPanel FLP_EggPKRS;
         private System.Windows.Forms.FlowLayoutPanel FLP_EggPKRSLeft;
-        public System.Windows.Forms.CheckBox CHK_IsEgg;
+        private System.Windows.Forms.CheckBox CHK_IsEgg;
         private System.Windows.Forms.FlowLayoutPanel FLP_EggPKRSRight;
         private System.Windows.Forms.CheckBox CHK_Infected;
         private System.Windows.Forms.CheckBox CHK_Cured;
@@ -2800,7 +2796,7 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Purification;
         private System.Windows.Forms.Label L_HeartGauge;
         private System.Windows.Forms.NumericUpDown NUD_Purification;
-        public System.Windows.Forms.CheckBox CHK_Shadow;
+        private System.Windows.Forms.CheckBox CHK_Shadow;
         private System.Windows.Forms.TabPage Tab_Met;
         private System.Windows.Forms.CheckBox CHK_AsEgg;
         private System.Windows.Forms.GroupBox GB_EggConditions;
@@ -2814,12 +2810,12 @@
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.FlowLayoutPanel FLP_MetLocation;
         private System.Windows.Forms.Label Label_MetLocation;
-        public System.Windows.Forms.ComboBox CB_MetLocation;
+        private System.Windows.Forms.ComboBox CB_MetLocation;
         private System.Windows.Forms.FlowLayoutPanel FLP_Ball;
         private System.Windows.Forms.FlowLayoutPanel FLP_BallLeft;
         private System.Windows.Forms.Label Label_Ball;
         private System.Windows.Forms.PictureBox PB_Ball;
-        public System.Windows.Forms.ComboBox CB_Ball;
+        private System.Windows.Forms.ComboBox CB_Ball;
         private System.Windows.Forms.FlowLayoutPanel FLP_MetLevel;
         private System.Windows.Forms.Label Label_MetLevel;
         private System.Windows.Forms.MaskedTextBox TB_MetLevel;
@@ -2834,7 +2830,7 @@
         private System.Windows.Forms.ComboBox CB_EncounterType;
         private System.Windows.Forms.FlowLayoutPanel FLP_TimeOfDay;
         private System.Windows.Forms.Label L_MetTimeOfDay;
-        public System.Windows.Forms.ComboBox CB_MetTimeOfDay;
+        private System.Windows.Forms.ComboBox CB_MetTimeOfDay;
         private System.Windows.Forms.TabPage Tab_Stats;
         private System.Windows.Forms.TabPage Tab_Attacks;
         private System.Windows.Forms.PictureBox PB_WarnMove4;
@@ -2871,13 +2867,13 @@
         private System.Windows.Forms.Button BTN_Medals;
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.TextBox TB_EC;
-        public System.Windows.Forms.GroupBox GB_nOT;
+        private System.Windows.Forms.GroupBox GB_nOT;
         private System.Windows.Forms.Label Label_CTGender;
         private System.Windows.Forms.TextBox TB_OTt2;
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.Button BTN_RerollEC;
         private System.Windows.Forms.GroupBox GB_Markings;
-        private System.Windows.Forms.PictureBox PB_MarkHorohoro;
+        private System.Windows.Forms.PictureBox PB_MarkGO;
         private System.Windows.Forms.PictureBox PB_MarkVC;
         private System.Windows.Forms.PictureBox PB_MarkAlola;
         private System.Windows.Forms.PictureBox PB_Mark6;
@@ -2892,7 +2888,7 @@
         private System.Windows.Forms.GroupBox GB_ExtraBytes;
         private System.Windows.Forms.MaskedTextBox TB_ExtraByte;
         private System.Windows.Forms.ComboBox CB_ExtraBytes;
-        public System.Windows.Forms.GroupBox GB_OT;
+        private System.Windows.Forms.GroupBox GB_OT;
         private System.Windows.Forms.Label Label_OTGender;
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.Label Label_OT;

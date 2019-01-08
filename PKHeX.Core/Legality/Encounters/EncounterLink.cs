@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Pokémon Link Encounter Data
     /// </summary>
-    public class EncounterLink : IEncounterable, IRibbonSetEvent4, IMoveset, ILocation, IVersion
+    public sealed class EncounterLink : IEncounterable, IRibbonSetEvent4, IMoveset, ILocation, IVersion
     {
         public int Species { get; set; }
         public int Level { get; set; }
@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public int Location { get; set; } = 30011;
         public int Ability { get; set; } = 1;
         public int Ball { get; set; } = 4; // Pokéball
-        public int[] RelearnMoves { get; set; } = new int[4];
+        public int[] RelearnMoves { get; set; } = Array.Empty<int>();
         public bool OT { get; set; } = true; // Receiver is OT?
 
         public bool EggEncounter => false;
@@ -37,7 +37,9 @@ namespace PKHeX.Core
         public bool RibbonChampionWorld { get; set; }
         public bool RibbonSouvenir { get; set; }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV)
+        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+
+        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             const int gen = 6;
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
@@ -52,22 +54,22 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
                 Nickname = PKX.GetSpeciesNameGeneration(Species, lang, gen),
                 Ball = Ball,
-                Met_Level = Level,
-                Met_Location = Location,
-                MetDate = DateTime.Today
             };
 
             SAV.ApplyToPKM(pk);
+            SetMetData(pk);
+            SetNatureGender(pk, criteria);
+            pk.RefreshAbility(Ability >> 1);
+            pk.SetRandomIVs(flawless: 3);
+
             pk.Version = (int)version;
-            pk.Gender = pk.PersonalInfo.RandomGender;
             pk.Language = lang;
 
             pk.Moves = Moves;
             pk.SetMaximumPPCurrent(Moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
-            pk.SetRandomIVs(flawless: 3);
-            pk.RefreshAbility(Ability >> 1);
-            if (RelearnMoves != null)
+
+            if (RelearnMoves.Length > 0)
                 pk.RelearnMoves = RelearnMoves;
             if (RibbonClassic)
                 pk.RibbonClassic = true;
@@ -77,6 +79,19 @@ namespace PKHeX.Core
                 SAV.ApplyHandlingTrainerInfo(pk);
 
             return pk;
+        }
+
+        private static void SetNatureGender(PKM pk, EncounterCriteria criteria)
+        {
+            pk.Nature = (int)criteria.GetNature(Nature.Random);
+            pk.Gender = criteria.GetGender(-1, pk.PersonalInfo);
+        }
+
+        private void SetMetData(PKM pk)
+        {
+            pk.MetDate = DateTime.Today;
+            pk.Met_Level = Level;
+            pk.Met_Location = Location;
         }
     }
 }

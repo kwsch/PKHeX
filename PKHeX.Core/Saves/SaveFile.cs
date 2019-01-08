@@ -71,6 +71,7 @@ namespace PKHeX.Core
         public abstract int Generation { get; }
         public PersonalTable Personal { get; set; }
 
+        public bool GG => Data.Length == SaveUtil.SIZE_G7GG && GameVersion.GG.Contains(Version);
         public bool USUM => Data.Length == SaveUtil.SIZE_G7USUM;
         public bool SM => Data.Length == SaveUtil.SIZE_G7SM;
         public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
@@ -452,8 +453,9 @@ namespace PKHeX.Core
         public virtual StorageSlotFlag GetSlotFlags(int index) => StorageSlotFlag.None;
         public StorageSlotFlag GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
         public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
-        public bool IsSlotLocked(int slot) => IsSlotLocked(slot / BoxSlotCount, slot % BoxSlotCount);
+        public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotFlag.Locked);
         public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
+        public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
 
         public bool MoveBox(int box, int insertBeforeBox)
         {
@@ -829,6 +831,21 @@ namespace PKHeX.Core
         }
 
         public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
+
+        public bool IsStorageFull => NextOpenBoxSlot() == StorageFullValue;
+        private const int StorageFullValue = -1;
+
+        public int NextOpenBoxSlot(int lastKnownOccupied = -1)
+        {
+            int count = BoxSlotCount * BoxCount;
+            for (int i = lastKnownOccupied + 1; i < count; i++)
+            {
+                int offset = GetBoxSlotOffset(i);
+                if (!IsPKMPresent(offset))
+                    return i;
+            }
+            return StorageFullValue;
+        }
 
         public abstract string GetString(byte[] data, int offset, int length);
         public string GetString(int offset, int length) => GetString(Data, offset, length);

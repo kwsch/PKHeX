@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -56,7 +55,7 @@ namespace PKHeX.Core
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
             if (ivflag == 0) // Random IVs
             {
-                bool valid = GetIsFixedIVSequenceValid(IVs, data.pkm.IVs);
+                bool valid = Legal.GetIsFixedIVSequenceValid(IVs, data.pkm);
                 if (!valid)
                     data.AddLine(GetInvalid(LEncGiftIVMismatch));
             }
@@ -65,16 +64,6 @@ namespace PKHeX.Core
                 int IVCount = ivflag - 0xFB;  // IV2/IV3
                 VerifyIVsFlawless(data, IVCount);
             }
-        }
-
-        private static bool GetIsFixedIVSequenceValid(IReadOnlyList<int> IVs, IReadOnlyList<int> pkIVs)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
-                    return false;
-            }
-            return true;
         }
 
         private void VerifyIVsSlot(LegalityAnalysis data, EncounterSlot w)
@@ -111,7 +100,7 @@ namespace PKHeX.Core
 
         private void VerifyIVsFlawless(LegalityAnalysis data, int count)
         {
-            if (data.pkm.IVs.Count(iv => iv == 31) < count)
+            if (data.pkm.FlawlessIVCount < count)
                 data.AddLine(GetInvalid(string.Format(LIVF_COUNT0_31, count)));
         }
 

@@ -236,7 +236,7 @@ namespace PKHeX.Core
                 lvl = pkm.CurrentLevel;
             if (pkm.IsEgg && !skipChecks)
             {
-                return new List<EvoCriteria>
+                return new List<EvoCriteria>(1)
                 {
                     new EvoCriteria { Species = pkm.Species, Level = lvl, MinLevel = lvl },
                 };
@@ -244,7 +244,7 @@ namespace PKHeX.Core
 
             if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
             {
-                return new List<EvoCriteria>
+                return new List<EvoCriteria>(2)
                 {
                     new EvoCriteria { Species = 292, Level = lvl, MinLevel = 20 },
                     new EvoCriteria { Species = 290, Level = lvl, MinLevel = 1 }

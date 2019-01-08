@@ -73,6 +73,7 @@ LEggPokerus = Eggs cannot be infected with Pokérus.
 LEggPP = Eggs cannot have modified move PP counts.
 LEggPPUp = Cannot apply PP Ups to an Egg.
 LEggShinyLeaf = Eggs cannot have Shiny Leaf/Crown.
+LEggShinyPokeStar = Eggs cannot be a Pokéstar Studios star.
 LEggSpecies = Can't obtain Egg for this species.
 LEggUnhatched = Valid un-hatched Egg.
 LEncCondition = Valid Wild Encounter at location.

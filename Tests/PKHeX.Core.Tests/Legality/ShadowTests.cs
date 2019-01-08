@@ -98,23 +98,13 @@ namespace PKHeX.Tests.Legality
             [MemberData(nameof(Lock2))]
             [MemberData(nameof(Lock3))]
             [MemberData(nameof(Lock4))]
+            [MemberData(nameof(Lock5))]
             public static void Verify(TeamLock[] teams, uint pid, int[] ivs)
             {
                 var pk3 = new PK3 { PID = pid, IVs = ivs };
                 var info = MethodFinder.Analyze(pk3);
                 info.Type.Should().Be(PIDType.CXD, "because the PID should match the CXD spread");
                 bool match = GetCanOriginateFrom(teams, info);
-                match.Should().BeTrue($"because the lock conditions for {teams[0].Species} should have been verified");
-            }
-
-            [Theory]
-            [MemberData(nameof(Lock5))]
-            public static void VerifySingle(TeamLock[] teams, uint pid, int[] ivs)
-            {
-                var pk3 = new PK3 { PID = pid, IVs = ivs };
-                var info = MethodFinder.Analyze(pk3);
-                info.Type.Should().Be(PIDType.CXD, "because the PID should match the CXD spread");
-                bool match = LockFinder.IsFirstShadowLockValid(info, teams);
                 match.Should().BeTrue($"because the lock conditions for {teams[0].Species} should have been verified");
             }
         }

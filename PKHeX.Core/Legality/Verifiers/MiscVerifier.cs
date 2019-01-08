@@ -23,6 +23,9 @@ namespace PKHeX.Core
 
                 switch (pkm)
                 {
+                    case PK5 pk5 when pk5.PokeStarFame != 0 && pk5.IsEgg:
+                        data.AddLine(GetInvalid(LEggShinyPokeStar, CheckIdentifier.Egg));
+                        break;
                     case PK4 pk4 when pk4.ShinyLeaf != 0:
                         data.AddLine(GetInvalid(LEggShinyLeaf, CheckIdentifier.Egg));
                         break;

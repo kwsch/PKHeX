@@ -86,17 +86,18 @@ namespace PKHeX.Core
         /// <param name="result">Result message from the method.</param>
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <param name="all">Enumerate all files even in sub-folders.</param>
         /// <returns>True if any files are imported.</returns>
-        public static bool LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null, bool all = false)
+        public static bool LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null, bool all = false)
         {
             if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
             { result = MsgSaveBoxExportPathInvalid; return false; }
 
             var opt = all ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             var filepaths = Directory.EnumerateFiles(path, "*.*", opt);
-            return SAV.LoadBoxes(filepaths, out result, boxStart, boxClear, noSetb);
+            return SAV.LoadBoxes(filepaths, out result, boxStart, boxClear, overwrite, noSetb);
         }
 
         /// <summary>
@@ -107,12 +108,13 @@ namespace PKHeX.Core
         /// <param name="result">Result message from the method.</param>
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>True if any files are imported.</returns>
-        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<string> filepaths, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<string> filepaths, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null)
         {
             var pks = GetPossiblePKMsFromPaths(SAV, filepaths);
-            return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
+            return SAV.LoadBoxes(pks, out result, boxStart, boxClear, overwrite, noSetb);
         }
 
         /// <summary>
@@ -123,12 +125,13 @@ namespace PKHeX.Core
         /// <param name="result">Result message from the method.</param>
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>True if any files are imported.</returns>
-        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<MysteryGift> gifts, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<MysteryGift> gifts, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null)
         {
             var pks = gifts.Select(z => z.ConvertToPKM(SAV));
-            return SAV.LoadBoxes(pks, out result, boxStart, boxClear, noSetb);
+            return SAV.LoadBoxes(pks, out result, boxStart, boxClear, overwrite, noSetb);
         }
 
         /// <summary>
@@ -139,9 +142,10 @@ namespace PKHeX.Core
         /// <param name="result">Result message from the method.</param>
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
+        /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>True if any files are imported.</returns>
-        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<PKM> pks, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        public static bool LoadBoxes(this SaveFile SAV, IEnumerable<PKM> pks, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null)
         {
             if (!SAV.HasBox)
             { result = MsgSaveBoxFailNone; return false; }
@@ -150,7 +154,7 @@ namespace PKHeX.Core
             if (boxClear)
                 SAV.ClearBoxes(boxStart);
 
-            int ctr = SAV.ImportPKMs(compat, boxStart, noSetb);
+            int ctr = SAV.ImportPKMs(compat, overwrite, boxStart, noSetb);
             if (ctr <= 0)
             {
                 result = MsgSaveBoxImportNoFiles;

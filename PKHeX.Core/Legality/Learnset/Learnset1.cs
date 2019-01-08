@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace PKHeX.Core
 {
     /// <summary>
@@ -9,18 +7,18 @@ namespace PKHeX.Core
     {
         private Learnset1(byte[] data, ref int offset)
         {
-            var moves = new List<int>();
-            var levels = new List<int>();
-            while (data[offset] != 0)
+            int end = offset; // scan for count
+            while (data[end] != 0)
+                end += 2;
+            Count = (end - offset) / 2;
+            Moves = new int[Count];
+            Levels = new int[Count];
+            for (int i = 0; i < Moves.Length; i++)
             {
-                levels.Add(data[offset++]);
-                moves.Add(data[offset++]);
+                Levels[i] = data[offset++];
+                Moves[i] = data[offset++];
             }
             ++offset;
-
-            Moves = moves.ToArray();
-            Levels = levels.ToArray();
-            Count = Moves.Length;
         }
 
         public static Learnset[] GetArray(byte[] input, int maxSpecies)

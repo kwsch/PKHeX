@@ -14,17 +14,11 @@ namespace PKHeX.Core
         /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters"/> generator.
         /// </summary>
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        public static IEnumerable<EncounterOrder> PriorityList { get; set; } = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+        public static IReadOnlyCollection<EncounterOrder> PriorityList { get; set; }
 
-        public enum EncounterOrder
-        {
-            Egg,
-            Mystery,
-            Link,
-            Static,
-            Trade,
-            Slot,
-        }
+        static EncounterMovesetGenerator() => ResetFilters();
+
+        public static void ResetFilters() => PriorityList = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
 
         /// <summary>
         /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned.

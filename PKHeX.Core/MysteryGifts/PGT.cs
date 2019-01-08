@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -118,7 +119,7 @@ namespace PKHeX.Core
         public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
         public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 return null;
@@ -221,5 +222,8 @@ namespace PKHeX.Core
                 pk4.PID = RNG.ARNG.Next(pk4.PID);
             return seed;
         }
+
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
+        protected override bool IsMatchDeferred(PKM pkm) => false;
     }
 }

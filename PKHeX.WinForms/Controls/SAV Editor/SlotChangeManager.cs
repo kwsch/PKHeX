@@ -44,7 +44,6 @@ namespace PKHeX.WinForms.Controls
         {
             HoverWorker = new BitmapAnimator(Resources.slotHover);
             SE = se;
-            Reset();
         }
 
         public void Reset() { DragInfo = new SlotChangeInfo(SAV); ColorizedBox = ColorizedSlot = -1; }

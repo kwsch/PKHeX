@@ -13,6 +13,7 @@ namespace PKHeX.Core
         public abstract int SIZE_STORED { get; }
         public string Extension => GetType().Name.ToLower();
         public abstract PersonalInfo PersonalInfo { get; }
+        public abstract byte[] ExtraBytes { get; }
 
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage
@@ -286,9 +287,6 @@ namespace PKHeX.Core
             SID = oid >> 16;
         }
 
-        public bool VC2 => Version >= 39 && Version <= 41;
-        public bool VC1 => Version >= 35 && Version <= 38;
-        public bool Horohoro => Version == 34;
         public bool E => Version == (int)GameVersion.E;
         public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
         public bool Pt => (int)GameVersion.Pt == Version;
@@ -299,7 +297,11 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         public bool USUM => Version == (int)GameVersion.US || Version == (int)GameVersion.UM;
+        public bool GO => Version == (int)GameVersion.GO;
+        public bool VC1 => Version >= (int)GameVersion.RD && Version <= (int)GameVersion.YW;
+        public bool VC2 => Version >= (int)GameVersion.GD && Version <= (int)GameVersion.C;
         public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE || Version == (int)GameVersion.GO;
+
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
@@ -341,7 +343,23 @@ namespace PKHeX.Core
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
         public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
-        public string[] QRText => this.GetQRLines();
+        public int MaximumIV => Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(IV_HP, IV_ATK), IV_DEF), IV_SPA), IV_SPD), IV_SPE);
+
+        public int FlawlessIVCount
+        {
+            get
+            {
+                int max = MaxIV;
+                int ctr = 0;
+                if (IV_HP == max) ++ctr;
+                if (IV_ATK == max) ++ctr;
+                if (IV_DEF == max) ++ctr;
+                if (IV_SPA == max) ++ctr;
+                if (IV_SPD == max) ++ctr;
+                if (IV_SPE == max) ++ctr;
+                return ctr;
+            }
+        }
 
         public string FileName => $"{FileNameWithoutExtension}.{Extension}";
 
@@ -622,7 +640,7 @@ namespace PKHeX.Core
                 return gender == 0;
 
             int gen = GenNumber;
-            if (2 >= gen || gen >= 6)
+            if (gen <= 2 || gen >= 6)
                 return gender == (gender & 1);
 
             return gender == PKX.GetGenderFromPIDAndRatio(PID, gv);
@@ -651,28 +669,26 @@ namespace PKHeX.Core
         /// </summary>
         private void ReorderMoves()
         {
-            if (Move4 != 0 && Move3 == 0)
-            {
-                Move3 = Move4;
-                Move3_PP = Move4_PP;
-                Move3_PPUps = Move4_PPUps;
-                Move4 = 0;
-            }
-            if (Move3 != 0 && Move2 == 0)
-            {
-                Move2 = Move3;
-                Move2_PP = Move3_PP;
-                Move2_PPUps = Move3_PPUps;
-                Move3 = 0;
-                ReorderMoves();
-            }
-            if (Move2 != 0 && Move1 == 0)
+            if (Move1 == 0 && Move2 != 0)
             {
                 Move1 = Move2;
                 Move1_PP = Move2_PP;
                 Move1_PPUps = Move2_PPUps;
                 Move2 = 0;
-                ReorderMoves();
+            }
+            if (Move2 == 0 && Move3 != 0)
+            {
+                Move2 = Move3;
+                Move2_PP = Move3_PP;
+                Move2_PPUps = Move3_PPUps;
+                Move3 = 0;
+            }
+            if (Move3 == 0 && Move4 != 0)
+            {
+                Move3 = Move4;
+                Move3_PP = Move4_PP;
+                Move3_PPUps = Move4_PPUps;
+                Move4 = 0;
             }
         }
 
@@ -1001,6 +1017,44 @@ namespace PKHeX.Core
 
             Moves = moves;
             FixMoves();
+        }
+
+        /// <summary>
+        /// Gets one of the <see cref="EVs"/> based on its index within the array.
+        /// </summary>
+        /// <param name="index">Index to get</param>
+        public int GetEV(int index)
+        {
+            switch (index)
+            {
+                case 0: return EV_HP;
+                case 1: return EV_ATK;
+                case 2: return EV_DEF;
+                case 3: return EV_SPE;
+                case 4: return EV_SPA;
+                case 5: return EV_SPD;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
+        }
+
+        /// <summary>
+        /// Gets one of the <see cref="IVs"/> based on its index within the array.
+        /// </summary>
+        /// <param name="index">Index to get</param>
+        public int GetIV(int index)
+        {
+            switch (index)
+            {
+                case 0: return IV_HP;
+                case 1: return IV_ATK;
+                case 2: return IV_DEF;
+                case 3: return IV_SPE;
+                case 4: return IV_SPA;
+                case 5: return IV_SPD;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(index));
+            }
         }
     }
 }

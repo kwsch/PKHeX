@@ -30,23 +30,30 @@ namespace PKHeX.Core
         private static IEnumerable<string> GetHeader(PKM pkm, GameStrings s)
         {
             string filename = pkm.Nickname;
-            if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
-                filename += $" ({s.specieslist[pkm.Species]})";
+            if ((uint) pkm.Species < s.Species.Count)
+            {
+                var name = s.Species[pkm.Species];
+                if (pkm.Nickname != name)
+                    filename += $" ({name})";
+            }
             yield return filename;
 
-            if (pkm.Format >= 3)
-                yield return $"[{s.abilitylist[pkm.Ability]}]";
+            if (pkm.Format >= 3 && (uint)pkm.Ability < s.Ability.Count)
+                yield return $"[{s.Ability[pkm.Ability]}]";
 
-            yield return $"lv{pkm.Stat_Level}";
+            var level = pkm.Stat_Level;
+            if (level == 0)
+                level = pkm.CurrentLevel;
+            yield return $"lv{level}";
 
             if (pkm.HeldItem > 0)
             {
-                var str = s.GetItemStrings(pkm.Format);
-                if (pkm.HeldItem < str.Count)
-                    yield return $" @ {str[pkm.HeldItem]}";
+                var items = s.GetItemStrings(pkm.Format);
+                if ((uint)pkm.HeldItem < items.Count)
+                    yield return $" @ {items[pkm.HeldItem]}";
             }
 
-            if (pkm.Format >= 3)
+            if (pkm.Format >= 3 && (uint)pkm.Nature < s.Natures.Count)
                 yield return s.natures[pkm.Nature];
         }
     }

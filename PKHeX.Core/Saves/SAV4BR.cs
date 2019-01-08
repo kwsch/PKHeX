@@ -243,7 +243,7 @@ namespace PKHeX.Core
                         output[ofs + (i * 2)] = (byte)(val >> 8);
                         output[ofs + (i * 2) + 1] = (byte)val;
                     }
-                    keys = SaveUtil.AdvanceGCKeys(keys);
+                    SaveUtil.AdvanceGCKeys(keys);
                 }
             }
             return output;
@@ -268,7 +268,7 @@ namespace PKHeX.Core
                         output[ofs + (i * 2)] = (byte)(val >> 8);
                         output[ofs + (i * 2) + 1] = (byte)val;
                     }
-                    keys = SaveUtil.AdvanceGCKeys(keys);
+                    SaveUtil.AdvanceGCKeys(keys);
                 }
             }
             return output;

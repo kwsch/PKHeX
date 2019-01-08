@@ -49,9 +49,10 @@
         public static readonly TeamLock ETogepi = new TeamLock {
             Species = 175, // Togepi
             Locks = new[] {
-                new NPCLock(302, 23, 0, 025), // Sableye (M) (Careful)
+                new NPCLock(302, 23, 0, 127), // Sableye (M) (Careful)
                 new NPCLock(088, 08, 0, 127), // Grimer (M) (Impish)
                 new NPCLock(316, 24, 0, 127), // Gulpin (M) (Quirky)
+                new NPCLock(175, 22, 1, 031), // Togepi (F) (Sassy) -- itself!
         }};
 
         public static readonly TeamLock EMareep = new TeamLock {
@@ -60,14 +61,16 @@
                 new NPCLock(300, 04, 1, 191), // Skitty (F) (Naughty)
                 new NPCLock(211, 10, 1, 127), // Qwilfish (F) (Timid)
                 new NPCLock(355, 12, 1, 127), // Duskull (F) (Serious)
+                new NPCLock(179, 16, 1, 127), // Mareep (F) (Mild) -- itself!
         }};
 
         public static readonly TeamLock EScizor = new TeamLock {
             Species = 212, // Scizor
             Locks = new[] {
                 new NPCLock(198, 13, 1, 191), // Murkrow (F) (Jolly)
-                new NPCLock(344, 02, 2, 256), // Claydol (-) (Brave)
+                new NPCLock(344, 02, 2, 255), // Claydol (-) (Brave)
                 new NPCLock(208, 03, 0, 127), // Steelix (M) (Adamant)
+                new NPCLock(212, 11, 0, 127), // Scizor (M) (Hasty) -- itself!
         }};
 
         #endregion
@@ -108,7 +111,7 @@
             Locks = new[] {
                 new NPCLock(116, 24, 0, 063), // Horsea (M) (Quirky)
                 new NPCLock(118, 12, 1, 127), // Goldeen (F) (Serious)
-                new NPCLock(374, 00, 2, 256), // Beldum (-) (Hardy)
+                new NPCLock(374, 00, 2, 255), // Beldum (-) (Hardy)
         }};
 
         public static readonly TeamLock XGulpin = new TeamLock {
@@ -162,7 +165,7 @@
             Species = 322, // Numel
             Locks = new[] {
                 new NPCLock(280, 06, 0, 127), // Ralts (M) (Docile)
-                new NPCLock(100, 00, 2, 256), // Voltorb (-) (Hardy)
+                new NPCLock(100, 00, 2, 255), // Voltorb (-) (Hardy)
                 new NPCLock(371, 24, 1, 127), // Bagon (F) (Quirky)
         }};
 
@@ -368,7 +371,7 @@
         public static readonly TeamLock XMagneton = new TeamLock {
             Species = 082, // Magneton
             Locks = new[] {
-                new NPCLock(292, 18, 2, 256), // Shedinja (-) (Bashful)
+                new NPCLock(292, 18, 2, 255), // Shedinja (-) (Bashful)
                 new NPCLock(202, 00, 0, 127), // Wobbuffet (M) (Hardy)
                 new NPCLock(329, 12, 1, 127), // Vibrava (F) (Serious)
         }};
@@ -519,17 +522,17 @@
         public static readonly TeamLock XKangaskhan = new TeamLock {
             Species = 115, // Kangaskhan
             Locks = new[] {
-                new NPCLock(101, 00, 2, 256), // Electrode (-) (Hardy)
+                new NPCLock(101, 00, 2, 255), // Electrode (-) (Hardy)
                 new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
-                new NPCLock(344, 12, 2, 256), // Claydol (-) (Serious)
+                new NPCLock(344, 12, 2, 255), // Claydol (-) (Serious)
         }};
 
         public static readonly TeamLock XBanette = new TeamLock {
             Species = 354, // Banette
             Locks = new[] {
-                new NPCLock(101, 00, 2, 256), // Electrode (-) (Hardy)
+                new NPCLock(101, 00, 2, 255), // Electrode (-) (Hardy)
                 new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
-                new NPCLock(344, 12, 2, 256), // Claydol (-) (Serious)
+                new NPCLock(344, 12, 2, 255), // Claydol (-) (Serious)
                 new NPCLock(115), // Shadow Kangaskhan
         }};
 
@@ -537,9 +540,9 @@
             Species = 354, // Banette
             Comment = "Kangaskhan Seen",
             Locks = new[] {
-                new NPCLock(101, 00, 2, 256), // Electrode (-) (Hardy)
+                new NPCLock(101, 00, 2, 255), // Electrode (-) (Hardy)
                 new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
-                new NPCLock(344, 12, 2, 256), // Claydol (-) (Serious)
+                new NPCLock(344, 12, 2, 255), // Claydol (-) (Serious)
                 new NPCLock(115, true), // Shadow Kangaskhan (Seen)
         }};
 
@@ -610,7 +613,7 @@
             Locks = new[] {
                 new NPCLock(326, 18, 0, 127), // Grumpig (M) (Bashful)
                 new NPCLock(227, 12, 1, 127), // Skarmory (F) (Serious)
-                new NPCLock(375, 06, 2, 256), // Metang (-) (Docile)
+                new NPCLock(375, 06, 2, 255), // Metang (-) (Docile)
                 new NPCLock(297, 24, 1, 063), // Hariyama (F) (Quirky)
         }};
 
@@ -618,7 +621,7 @@
             Species = 108, // Lickitung
             Locks = new[] {
                 new NPCLock(171, 24, 0, 127), // Lanturn (M) (Quirky)
-                new NPCLock(082, 06, 2, 256), // Magneton (-) (Docile)
+                new NPCLock(082, 06, 2, 255), // Magneton (-) (Docile)
         }};
 
         public static readonly TeamLock XScyther = new TeamLock {
@@ -649,7 +652,7 @@
         public static readonly TeamLock XSolrock = new TeamLock {
             Species = 338, // Solrock
             Locks = new[] {
-                new NPCLock(375, 24, 2, 256), // Metang (-) (Quirky)
+                new NPCLock(375, 24, 2, 255), // Metang (-) (Quirky)
                 new NPCLock(195, 06, 0, 127), // Quagsire (M) (Docile)
                 new NPCLock(212, 00, 1, 127), // Scizor (F) (Hardy)
         }};
@@ -657,7 +660,7 @@
         public static readonly TeamLock XStarmie = new TeamLock {
             Species = 121, // Starmie
             Locks = new[] {
-                new NPCLock(375, 24, 2, 256), // Metang (-) (Quirky)
+                new NPCLock(375, 24, 2, 255), // Metang (-) (Quirky)
                 new NPCLock(195, 06, 0, 127), // Quagsire (M) (Docile)
                 new NPCLock(212, 00, 1, 127), // Scizor (F) (Hardy)
                 new NPCLock(338), // Shadow Solrock
@@ -668,7 +671,7 @@
             Species = 121, // Starmie
             Comment = "Solrock Seen",
             Locks = new[] {
-                new NPCLock(375, 24, 2, 256), // Metang (-) (Quirky)
+                new NPCLock(375, 24, 2, 255), // Metang (-) (Quirky)
                 new NPCLock(195, 06, 0, 127), // Quagsire (M) (Docile)
                 new NPCLock(212, 00, 1, 127), // Scizor (F) (Hardy)
                 new NPCLock(338, true), // Shadow Solrock (Seen)

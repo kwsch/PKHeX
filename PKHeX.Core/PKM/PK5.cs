@@ -6,10 +6,18 @@ namespace PKHeX.Core
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
     public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
-        public static readonly byte[] ExtraBytes =
+        private static readonly byte[] Unused =
         {
-            0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
+            0x87, // PokeStar Fame -- this is first to prevent 0x42 from being the first ExtraByte as this byte has GUI functionality
+            0x42, // Hidden Ability/NPokemon
+            0x43, 0x44, 0x45, 0x46, 0x47,
+            0x5E, // unused
+            0x63, // last 8 bits of a 32bit ribbonset
+            0x64, 0x65, 0x66, 0x67, // unused 32bit ribbonset?
+            0x86, // unused
         };
+
+        public override byte[] ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
@@ -237,7 +245,9 @@ namespace PKHeX.Core
         public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
         public override int OT_Gender { get => Data[0x84] >> 7; set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); }
         public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
-        // 0x86-0x87 Unused
+        // 0x86 Unused
+        public byte PokeStarFame { get => Data[0x87]; set => Data[0x87] = value; }
+        public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = (byte)(value ? 255 : 0); }
         #endregion
 
         #region Battle Stats
@@ -261,16 +271,14 @@ namespace PKHeX.Core
         {
             get
             {
-                // Characteristic with PID%6
-                int pm6 = (int)(PID % 6); // PID MOD 6
-                int maxIV = IVs.Max();
+                int pm6 = (int)(PID % 6); // PID
+                int maxIV = MaximumIV;
                 int pm6stat = 0;
-
                 for (int i = 0; i < 6; i++)
                 {
                     pm6stat = (pm6 + i) % 6;
-                    if (IVs[pm6stat] == maxIV)
-                        break; // P%6 is this stat
+                    if (GetIV(pm6stat) == maxIV)
+                        break;
                 }
                 return (pm6stat * 5) + (maxIV % 5);
             }
@@ -426,10 +434,8 @@ namespace PKHeX.Core
             }
 
             // Battle Ribbon Counter
-            // Winning Ribbon
-            if ((Data[0x3E] & 0x20) >> 5 == 1) battleribbons++;
-            // Victory Ribbon
-            if ((Data[0x3E] & 0x40) >> 6 == 1) battleribbons++;
+            if (RibbonWinning) battleribbons++;
+            if (RibbonVictory) battleribbons++;
             for (int i = 1; i < 7; i++)     // Sinnoh Battle Ribbons
                 if (((Data[0x24] >> i) & 1) == 1) battleribbons++;
 
@@ -438,57 +444,42 @@ namespace PKHeX.Core
             pk6.RibbonCountMemoryBattle = battleribbons;
 
             // Copy Ribbons to their new locations.
-            int bx30 = 0;
-            // bx30 |= 0;                             // Kalos Champ - New Kalos Ribbon
-            bx30 |= ((Data[0x3E] & 0x10) >> 4) << 1; // Hoenn Champion
-            bx30 |= ((Data[0x24] & 0x01) >> 0) << 2; // Sinnoh Champ
-            // bx30 |= 0;                             // Best Friend - New Kalos Ribbon
-            // bx30 |= 0;                             // Training    - New Kalos Ribbon
-            // bx30 |= 0;                             // Skillful    - New Kalos Ribbon
-            // bx30 |= 0;                             // Expert      - New Kalos Ribbon
-            bx30 |= ((Data[0x3F] & 0x01) >> 0) << 7; // Effort Ribbon
-            pk6.Data[0x30] = (byte)bx30;
+            pk6.RibbonChampionG3Hoenn = RibbonChampionG3Hoenn;
+            pk6.RibbonChampionSinnoh = RibbonChampionSinnoh;
+            pk6.RibbonEffort = RibbonEffort;
 
-            int bx31 = 0;
-            bx31 |= ((Data[0x24] & 0x80) >> 7) << 0;  // Alert
-            bx31 |= ((Data[0x25] & 0x01) >> 0) << 1;  // Shock
-            bx31 |= ((Data[0x25] & 0x02) >> 1) << 2;  // Downcast
-            bx31 |= ((Data[0x25] & 0x04) >> 2) << 3;  // Careless
-            bx31 |= ((Data[0x25] & 0x08) >> 3) << 4;  // Relax
-            bx31 |= ((Data[0x25] & 0x10) >> 4) << 5;  // Snooze
-            bx31 |= ((Data[0x25] & 0x20) >> 5) << 6;  // Smile
-            bx31 |= ((Data[0x25] & 0x40) >> 6) << 7;  // Gorgeous
-            pk6.Data[0x31] = (byte)bx31;
+            pk6.RibbonAlert = RibbonAlert;
+            pk6.RibbonShock = RibbonShock;
+            pk6.RibbonDowncast = RibbonDowncast;
+            pk6.RibbonCareless = RibbonCareless;
+            pk6.RibbonRelax = RibbonRelax;
+            pk6.RibbonSnooze = RibbonSnooze;
+            pk6.RibbonSmile = RibbonSmile;
+            pk6.RibbonGorgeous = RibbonGorgeous;
 
-            int bx32 = 0;
-            bx32 |= ((Data[0x25] & 0x80) >> 7) << 0;  // Royal
-            bx32 |= ((Data[0x26] & 0x01) >> 0) << 1;  // Gorgeous Royal
-            bx32 |= ((Data[0x3E] & 0x80) >> 7) << 2;  // Artist
-            bx32 |= ((Data[0x26] & 0x02) >> 1) << 3;  // Footprint
-            bx32 |= ((Data[0x26] & 0x04) >> 2) << 4;  // Record
-            bx32 |= ((Data[0x26] & 0x10) >> 4) << 5;  // Legend
-            bx32 |= ((Data[0x3F] & 0x10) >> 4) << 6;  // Country
-            bx32 |= ((Data[0x3F] & 0x20) >> 5) << 7;  // National
-            pk6.Data[0x32] = (byte)bx32;
+            pk6.RibbonRoyal = RibbonRoyal;
+            pk6.RibbonGorgeousRoyal = RibbonGorgeousRoyal;
+            pk6.RibbonArtist = RibbonArtist;
+            pk6.RibbonFootprint = RibbonFootprint;
+            pk6.RibbonRecord = RibbonRecord;
+            pk6.RibbonLegend = RibbonLegend;
+            pk6.RibbonCountry = RibbonCountry;
+            pk6.RibbonNational = RibbonNational;
 
-            int bx33 = 0;
-            bx33 |= ((Data[0x3F] & 0x40) >> 6) << 0;  // Earth
-            bx33 |= ((Data[0x3F] & 0x80) >> 7) << 1;  // World
-            bx33 |= ((Data[0x27] & 0x04) >> 2) << 2;  // Classic
-            bx33 |= ((Data[0x27] & 0x08) >> 3) << 3;  // Premier
-            bx33 |= ((Data[0x26] & 0x08) >> 3) << 4;  // Event
-            bx33 |= ((Data[0x26] & 0x40) >> 6) << 5;  // Birthday
-            bx33 |= ((Data[0x26] & 0x80) >> 7) << 6;  // Special
-            bx33 |= ((Data[0x27] & 0x01) >> 0) << 7;  // Souvenir
-            pk6.Data[0x33] = (byte)bx33;
+            pk6.RibbonEarth = RibbonEarth;
+            pk6.RibbonWorld = RibbonWorld;
+            pk6.RibbonClassic = RibbonClassic;
+            pk6.RibbonPremier = RibbonPremier;
+            pk6.RibbonEvent = RibbonEvent;
+            pk6.RibbonBirthday = RibbonBirthday;
+            pk6.RibbonSpecial = RibbonSpecial;
+            pk6.RibbonSouvenir = RibbonSouvenir;
 
-            int bx34 = 0;
-            bx34 |= ((Data[0x27] & 0x02) >> 1) << 0;  // Wishing Ribbon
-            bx34 |= ((Data[0x3F] & 0x02) >> 1) << 1;  // Battle Champion
-            bx34 |= ((Data[0x3F] & 0x04) >> 2) << 2;  // Regional Champion
-            bx34 |= ((Data[0x3F] & 0x08) >> 3) << 3;  // National Champion
-            bx34 |= ((Data[0x26] & 0x20) >> 5) << 4;  // World Champion
-            pk6.Data[0x34] = (byte)bx34;
+            pk6.RibbonWishing = RibbonWishing;
+            pk6.RibbonChampionBattle = RibbonChampionBattle;
+            pk6.RibbonChampionRegional = RibbonChampionRegional;
+            pk6.RibbonChampionNational = RibbonChampionNational;
+            pk6.RibbonChampionWorld = RibbonChampionWorld;
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.
             pk6.Country = PKMConverter.Country;

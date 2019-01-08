@@ -16,8 +16,6 @@ namespace PKHeX.WinForms.Controls
         public PKMEditor()
         {
             InitializeComponent();
-            Legality = new LegalityAnalysis(pkm = new PB7());
-            SetPKMFormatMode(pkm.Format);
 
             GB_OT.Click += ClickGT;
             GB_nOT.Click += ClickGT;
@@ -45,12 +43,25 @@ namespace PKHeX.WinForms.Controls
             }).ToArray();
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
-            foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
+            foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
-            Stats.SetMainEditor(this);
+            Stats.MainEditor = this;
             LoadShowdownSet = LoadShowdownSetDefault;
             TID_Trainer.UpdatedID += Update_ID;
+            FieldsInitialized = true;
+        }
+
+        public void InitializeBinding()
+        {
+            ComboBox[] cbs =
+            {
+                CB_Nature,
+                CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
+                CB_EncounterType, CB_GameOrigin, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language,
+            };
+            foreach (var cb in cbs.Concat(Moves.Concat(Relearn)))
+                cb.InitializeBinding();
         }
 
         private void UpdateStats()
@@ -71,9 +82,22 @@ namespace PKHeX.WinForms.Controls
         public PKM CurrentPKM { get => FieldsInitialized ? PreparePKM() : pkm; set => pkm = value; }
         public bool ModifyPKM { private get; set; } = true;
         private bool _hideSecret;
-        public bool HideSecretValues { private get => _hideSecret; set => ToggleSecrets(_hideSecret = value, RequestSaveFile.Generation); }
+
+        public bool HideSecretValues
+        {
+            private get => _hideSecret;
+            set
+            {
+                _hideSecret = value;
+                var sav = RequestSaveFile;
+                if (sav != null)
+                    ToggleSecrets(_hideSecret, sav.Generation);
+            }
+        }
+
         public bool Unicode { get; set; } = true;
-        public bool HaX { get; set; }
+        private bool _hax;
+        public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
         public byte[] LastData { private get; set; }
 
         public PKM Data { get => pkm; set => pkm = value; }
@@ -119,7 +143,7 @@ namespace PKHeX.WinForms.Controls
                 forceValidation = false;
             }
             PKM pk = GetPKMfromFields();
-            return pk?.Clone();
+            return pk?.Clone() ?? pkm;
         }
 
         public bool VerifiedPKM()
@@ -141,17 +165,11 @@ namespace PKHeX.WinForms.Controls
             return false;
         }
 
-        public void InitializeFields()
+        public void SetPKMFormatMode(int Format, PKM pk)
         {
-            // Now that the ComboBoxes are ready, load the data.
-            Stats.SetMainEditor(this);
-            FieldsInitialized = true;
-            PopulateFields(pkm);
-        }
+            // Load Extra Byte List
+            SetPKMFormatExtraBytes(pk);
 
-        public void SetPKMFormatMode(int Format)
-        {
-            byte[] extraBytes = Array.Empty<byte>();
             switch (Format)
             {
                 case 1:
@@ -165,47 +183,39 @@ namespace PKHeX.WinForms.Controls
                 case 3:
                     GetFieldsfromPKM = PopulateFieldsPK3;
                     GetPKMfromFields = PreparePK3;
-                    switch (pkm)
-                    {
-                        case CK3 _: extraBytes = CK3.ExtraBytes; break;
-                        case XK3 _: extraBytes = XK3.ExtraBytes; break;
-                        default: extraBytes = PK3.ExtraBytes; break;
-                    }
                     break;
                 case 4:
                     GetFieldsfromPKM = PopulateFieldsPK4;
                     GetPKMfromFields = PreparePK4;
-                    extraBytes = PK4.ExtraBytes;
                     break;
                 case 5:
                     GetFieldsfromPKM = PopulateFieldsPK5;
                     GetPKMfromFields = PreparePK5;
-                    extraBytes = PK5.ExtraBytes;
                     break;
                 case 6:
                     GetFieldsfromPKM = PopulateFieldsPK6;
                     GetPKMfromFields = PreparePK6;
-                    extraBytes = PK6.ExtraBytes;
                     break;
                 case 7:
-                    switch (pkm)
+                    switch (pk)
                     {
                         case PK7 _:
                             GetFieldsfromPKM = PopulateFieldsPK7;
                             GetPKMfromFields = PreparePK7;
-                            extraBytes = PK7.ExtraBytes;
                             break;
 
                         case PB7 _:
                             GetFieldsfromPKM = PopulateFieldsPB7;
                             GetPKMfromFields = PreparePB7;
-                            extraBytes = PB7.ExtraBytes;
                             break;
                     }
                     break;
             }
+        }
 
-            // Load Extra Byte List
+        private void SetPKMFormatExtraBytes(PKM pk)
+        {
+            byte[] extraBytes = pk.ExtraBytes;
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Length != 0;
             CB_ExtraBytes.Items.Clear();
             foreach (byte b in extraBytes)
@@ -384,8 +394,11 @@ namespace PKHeX.WinForms.Controls
 
             if (SAV.Game >= 0)
                 CB_GameOrigin.SelectedValue = SAV.Game;
-            if (SAV.Language >= 0)
-                CB_Language.SelectedValue = SAV.Language;
+
+            var lang = SAV.Language;
+            if (lang <= 0)
+                lang = (int)LanguageID.English;
+            CB_Language.SelectedValue = lang;
             if (SAV.ConsoleRegion != 0)
             {
                 CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
@@ -441,7 +454,6 @@ namespace PKHeX.WinForms.Controls
 
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            CB_Ability.InitializeBinding();
             CB_Ability.DataSource = GetAbilityList(pkm);
             CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
             FieldsLoaded = tmp;
@@ -485,7 +497,7 @@ namespace PKHeX.WinForms.Controls
 
             PB_MarkAlola.Image = changeOpacity(PB_MarkAlola, getOpacity(pkm.Gen7));
             PB_MarkVC.Image = changeOpacity(PB_MarkVC, getOpacity(pkm.VC));
-            PB_MarkHorohoro.Image = changeOpacity(PB_MarkHorohoro, getOpacity(pkm.Horohoro));
+            PB_MarkGO.Image = changeOpacity(PB_MarkGO, getOpacity(pkm.GO));
 
             for (int i = 0; i < pba.Length; i++)
             {
@@ -1173,9 +1185,6 @@ namespace PKHeX.WinForms.Controls
 
         private void ReloadMetLocations(GameVersion Version)
         {
-            CB_MetLocation.InitializeBinding();
-            CB_EggLocation.InitializeBinding();
-
             var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
             CB_MetLocation.DataSource = new BindingSource(met_list, null);
 
@@ -1656,6 +1665,8 @@ namespace PKHeX.WinForms.Controls
         {
             FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
             FLP_SizeCP.Visible = PB_Favorite.Visible = t is PB7;
+            BTN_Medals.Visible = BTN_History.Visible = t.Format >= 6 && !(t is PB7);
+            BTN_Ribbons.Visible = t.Format >= 3 && !(t is PB7);
             ToggleInterface(pkm.Format);
         }
 
@@ -1669,10 +1680,10 @@ namespace PKHeX.WinForms.Controls
         {
             ToggleSecrets(HideSecretValues, gen);
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6;
-            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = gen >= 6;
+            GB_nOT.Visible = GB_RelearnMoves.Visible = gen >= 6;
 
             PB_MarkPentagon.Visible = gen >= 6;
-            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkHorohoro.Visible = gen >= 7;
+            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkGO.Visible = gen >= 7;
 
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
 
@@ -1685,7 +1696,6 @@ namespace PKHeX.WinForms.Controls
             FLP_Ability.Visible = gen >= 3;
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
             GB_Markings.Visible = gen >= 3;
-            BTN_Ribbons.Visible = gen >= 3;
             CB_Form.Enabled = gen >= 3;
 
             FLP_FriendshipForm.Visible = gen >= 2;
@@ -1749,9 +1759,6 @@ namespace PKHeX.WinForms.Controls
             MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
             TB_Level.Visible = !HaX;
 
-            // Setup PKM Preparation/Extra Bytes
-            SetPKMFormatMode(pkm.Format);
-
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (pkm.Format == 2)
                 UpdateOriginGame(null, null);
@@ -1765,20 +1772,12 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Loading Setup
-        public void TemplateFields(PKM template)
+        public void TemplateFields(ITrainerInfo info)
         {
-            if (template != null)
-            {
-                PopulateFields(template);
-                LastData = null;
-                return;
-            }
+            FieldsLoaded = false;
             if (CB_GameOrigin.Items.Count > 0)
                 CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;
-            var info = new SimpleTrainerInfo{Language = Math.Max(0, WinFormsUtil.GetIndex(CB_Language))};
-            if (info.Language == 0)
-                info.Language = (int)LanguageID.English;
             SetDetailsOT(info);
 
             CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
@@ -1786,6 +1785,8 @@ namespace PKHeX.WinForms.Controls
             CB_Species.SelectedValue = RequestSaveFile?.MaxSpeciesID ?? pkm.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
             LastData = null;
+            FieldsLoaded = true;
+            UpdateSprite();
         }
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
@@ -1831,14 +1832,6 @@ namespace PKHeX.WinForms.Controls
 
         private void InitializeLanguage(SaveFile SAV)
         {
-            ComboBox[] cbs =
-            {
-                CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
-                CB_Nature, CB_EncounterType, CB_GameOrigin,
-            };
-            foreach (var cb in cbs)
-                cb.InitializeBinding();
-
             // Set the various ComboBox DataSources up with their allowed entries
             SetCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = Util.GetUnsortedCBList("regions3ds");
@@ -1870,7 +1863,6 @@ namespace PKHeX.WinForms.Controls
             MoveDataAllowed = GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
-                cb.InitializeBinding();
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
         }

@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
-    public sealed class PK7 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain, IGeoTrack
+    public sealed class PK7 : _K6, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain, IGeoTrack
     {
-        public static readonly byte[] ExtraBytes =
+        private static readonly byte[] Unused =
         {
             0x2A, // Old Marking Value (PelagoEventStatus)
             // 0x36, 0x37, // Unused Ribbons
             0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
 
-        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
-        public override int SIZE_STORED => PKX.SIZE_6STORED;
+        public override byte[] ExtraBytes => Unused;
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
@@ -33,11 +31,6 @@ namespace PKHeX.Core
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);
-
-        // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }
-        public override byte[] HT_Trash { get => GetData(0x78, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x78); } }
-        public override byte[] OT_Trash { get => GetData(0xB0, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0xB0); } }
 
         // Structure
         #region Block A
@@ -401,19 +394,6 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0xFC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFC); }
         #endregion
 
-        // Simple Generated Attributes
-        public override int CurrentFriendship
-        {
-            get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
-            set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
-        }
-
-        public int OppositeFriendship
-        {
-            get => CurrentHandler == 1 ? OT_Friendship : HT_Friendship;
-            set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }
-        }
-
         public override int SuperTrainingMedalCount(int maxCount = 30)
         {
             uint value = BitConverter.ToUInt32(Data, 0x2C);
@@ -429,29 +409,7 @@ namespace PKHeX.Core
             return TrainCount;
         }
 
-        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
-        public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
-        public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
-
-        // Complex Generated Attributes
-        public override int Characteristic
-        {
-            get
-            {
-                // Characteristic with EC%6
-                int pm6 = (int)(EncryptionConstant % 6); // EC MOD 6
-                int maxIV = IVs.Max();
-                int pm6stat = 0;
-
-                for (int i = 0; i < 6; i++)
-                {
-                    if (IVs[pm6stat = pm6++ % 6] == maxIV)
-                        break;
-                }
-                return (pm6stat * 5) + (maxIV % 5);
-            }
-        }
 
         public override int[] Markings
         {
@@ -471,39 +429,6 @@ namespace PKHeX.Core
                 for (int i = 0; i < value.Length; i++)
                     v |= (value[i] % 3) << (i*2);
                 MarkValue = v;
-            }
-        }
-
-        // Methods
-        protected override byte[] Encrypt()
-        {
-            RefreshChecksum();
-            return PKX.EncryptArray(Data);
-        }
-
-        // General User-error Fixes
-        public void FixRelearn()
-        {
-            while (true)
-            {
-                if (RelearnMove4 != 0 && RelearnMove3 == 0)
-                {
-                    RelearnMove3 = RelearnMove4;
-                    RelearnMove4 = 0;
-                }
-                if (RelearnMove3 != 0 && RelearnMove2 == 0)
-                {
-                    RelearnMove2 = RelearnMove3;
-                    RelearnMove3 = 0;
-                    continue;
-                }
-                if (RelearnMove2 != 0 && RelearnMove1 == 0)
-                {
-                    RelearnMove1 = RelearnMove2;
-                    RelearnMove2 = 0;
-                    continue;
-                }
-                break;
             }
         }
 
@@ -534,18 +459,7 @@ namespace PKHeX.Core
             }
         }
 
-        // Synthetic Trading Logic
-        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank, int Day = 1, int Month = 1, int Year = 2015)
-        {
-            // Eggs do not have any modifications done if they are traded
-            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-                SetLinkTradeEgg(Day, Month, Year);
-            // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank))
-                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
-        }
-
-        private bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        protected override bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             // Check to see if the OT matches the SAV's OT info.
             if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
@@ -558,7 +472,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        protected override void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
             if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
             {
@@ -580,22 +494,13 @@ namespace PKHeX.Core
             if (HT_Memory == 0)
                 TradeMemory(Bank);
         }
+
         // Misc Updates
-        public void TradeMemory(bool Bank)
+        public override void TradeMemory(bool Bank)
         {
-            if (!Bank)
-                return;
-
-            HT_Memory = 4; // Link trade to [VAR: General Location]
-            HT_TextVar = 0; // Somewhere (Bank)
-            HT_Intensity = 1;
-            HT_Feeling = Memories.GetRandomFeeling(HT_Memory, 10); // 0-9 Bank
+            if (Bank)
+                base.TradeMemory(true);
         }
-
-        // Legality Properties
-        public override bool WasLink => Met_Location == 30011;
-        public override bool WasEvent => (Met_Location > 40000 && Met_Location < 50000) || FatefulEncounter;
-        public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_7_USUM;
@@ -604,9 +509,5 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_7_USUM;
         public override int MaxBallID => Legal.MaxBallID_7;
         public override int MaxGameID => Legal.MaxGameID_7;
-        public override int MaxIV => 31;
-        public override int MaxEV => 252;
-        public override int OTLength => 12;
-        public override int NickLength => 12;
     }
 }

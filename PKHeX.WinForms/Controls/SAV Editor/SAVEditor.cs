@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
@@ -25,7 +24,7 @@ namespace PKHeX.WinForms.Controls
         public bool HaX;
         public bool ModifyPKM { private get; set; }
         private bool _hideSecret;
-        public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
+        public bool HideSecretDetails { private get => _hideSecret; set { if (SAV != null) ToggleSecrets(SAV, _hideSecret = value); } }
         public ToolStripMenuItem Menu_Redo;
         public ToolStripMenuItem Menu_Undo;
         private bool FieldsLoaded;
@@ -57,7 +56,8 @@ namespace PKHeX.WinForms.Controls
             set
             {
                 Box.FlagIllegal = value && !HaX;
-                ReloadSlots();
+                if (SAV != null)
+                    ReloadSlots();
             }
         }
 
@@ -69,7 +69,6 @@ namespace PKHeX.WinForms.Controls
 
         public SAVEditor()
         {
-            var z = Task.Run(() => SaveUtil.GetBlankSAV(GameVersion.GP, "PKHeX"));
             InitializeComponent();
 
             L_SlotOccupied = new[] { L_DC1, L_DC2 };
@@ -82,14 +81,13 @@ namespace PKHeX.WinForms.Controls
 
                 dcpkx1, dcpkx2
             };
-            SAV = z.Result;
+            Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
             Box.Setup(M = new SlotChangeManager(this));
             SL_Extra.M = M;
 
             M.OtherSlots.Add(this);
             SL_Extra.ViewIndex = -2;
             M.OtherSlots.Add(SL_Extra);
-            Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
             InitializeEvents();
         }
 
@@ -693,9 +691,9 @@ namespace PKHeX.WinForms.Controls
         }
 
         // File I/O
-        public bool GetBulkImportSettings(out bool clearAll, out bool? noSetb)
+        public bool GetBulkImportSettings(out bool clearAll, out bool overwrite, out bool? noSetb)
         {
-            clearAll = false; noSetb = false;
+            clearAll = false; noSetb = false; overwrite = false;
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgSaveBoxImportClear, MsgSaveBoxImportClearNo);
             if (dr == DialogResult.Cancel)
                 return false;
@@ -845,10 +843,10 @@ namespace PKHeX.WinForms.Controls
             if (!Directory.Exists(path))
                 return false;
 
-            if (!GetBulkImportSettings(out bool clearAll, out bool? noSetb))
+            if (!GetBulkImportSettings(out bool clearAll, out var overwrite, out var noSetb))
                 return false;
 
-            SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, noSetb);
+            SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, overwrite, noSetb);
             SetPKMBoxes();
             UpdateBoxViewers();
             return true;
@@ -912,7 +910,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewParty(SaveFile sav, int BoxTab)
         {
-            if (!sav.HasParty)
+            if (!sav.HasParty || !sav.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
                     tabBoxMulti.TabPages.Remove(Tab_PartyBattle);
@@ -932,7 +930,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
         {
-            if (!sav.HasDaycare)
+            if (!sav.HasDaycare || !sav.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_Other))
                     tabBoxMulti.TabPages.Remove(Tab_Other);
@@ -983,7 +981,6 @@ namespace PKHeX.WinForms.Controls
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && !(SAV is SAV4BR)) || SAV is SAV7b; // Box RS & Battle Revolution
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && !(SAV is SAV4BR)) || SAV is SAV7b; // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;

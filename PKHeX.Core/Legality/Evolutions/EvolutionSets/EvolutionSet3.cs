@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -38,33 +37,43 @@ namespace PKHeX.Core
                 case 14: /* Shedinja spawn in Nincada -> Ninjask evolution */
                     return new EvolutionMethod { Method = method + 1, Species = species, Level = arg, Argument = arg };
             }
-            return null;
+            throw new ArgumentException(nameof(method));
         }
 
-        public static List<EvolutionSet> GetArray(byte[] data)
+        private static readonly EvolutionSet Blank = new EvolutionSet3 { PossibleEvolutions = Array.Empty<EvolutionMethod>() };
+
+        public static IReadOnlyList<EvolutionSet> GetArray(byte[] data)
         {
-            EvolutionSet[] evos = new EvolutionSet[Legal.MaxSpeciesID_3 + 1];
-            evos[0] = new EvolutionSet3 { PossibleEvolutions = new EvolutionMethod[0] };
-            for (int i = 0; i <= Legal.MaxSpeciesIndex_3; i++)
+            var evos = new EvolutionSet[Legal.MaxSpeciesID_3 + 1];
+            evos[0] = Blank;
+            for (int i = 1; i <= Legal.MaxSpeciesIndex_3; i++)
             {
                 int g4species = SpeciesConverter.GetG4Species(i);
                 if (g4species == 0)
                     continue;
 
-                int offset = i * 40;
-                var m_list = new List<EvolutionMethod>();
-                for (int j = 0; j < 5; j++)
+                const int maxCount = 5;
+                const int size = 8;
+
+                int offset = i * (maxCount * size);
+                int count = 0;
+                for (; count < maxCount; count++)
                 {
-                    EvolutionMethod m = GetMethod(data,  offset);
-                    if (m != null)
-                        m_list.Add(m);
-                    else
+                    if (data[offset + (count * size)] == 0)
                         break;
-                    offset += 8;
                 }
-                evos[g4species] = new EvolutionSet3 { PossibleEvolutions = m_list.ToArray() };
+                if (count == 0)
+                {
+                    evos[g4species] = Blank;
+                    continue;
+                }
+
+                var set = new EvolutionMethod[count];
+                for (int j = 0; j < set.Length; j++)
+                    set[j] = GetMethod(data, offset + (j * size));
+                evos[g4species] = new EvolutionSet3 { PossibleEvolutions = set };
             }
-            return evos.ToList();
+            return evos;
         }
     }
 }

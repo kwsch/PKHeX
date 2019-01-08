@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -325,7 +326,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 return null;
@@ -486,6 +487,81 @@ namespace PKHeX.Core
         public bool IsAshGreninjaWC7(PKM pkm)
         {
             return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
+        }
+
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            if (pkm.Egg_Location == 0) // Not Egg
+            {
+                if (OTGender != 3)
+                {
+                    if (SID != pkm.SID) return false;
+                    if (TID != pkm.TID) return false;
+                    if (OTGender != pkm.OT_Gender) return false;
+                }
+                if (!string.IsNullOrEmpty(OT_Name) && OT_Name != pkm.OT_Name) return false;
+                if (OriginGame != 0 && OriginGame != pkm.Version) return false;
+                if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
+                if (Language != 0 && Language != pkm.Language) return false;
+            }
+
+            if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
+            {
+                if (Species == 744 && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
+                {
+                    // Rockruff gift edge case; has altform 1 then evolves to altform 2
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (IsEgg)
+            {
+                if (EggLocation != pkm.Egg_Location) // traded
+                {
+                    if (pkm.Egg_Location != 30002)
+                        return false;
+                }
+                else if (PIDType == 0 && pkm.IsShiny)
+                {
+                    return false; // can't be traded away for unshiny
+                }
+
+                if (pkm.IsEgg && !pkm.IsNative)
+                    return false;
+            }
+            else
+            {
+                if (!PIDType.IsValid(pkm)) return false;
+                if (EggLocation != pkm.Egg_Location) return false;
+                if (MetLocation != pkm.Met_Location) return false;
+            }
+
+            if (MetLevel != pkm.Met_Level) return false;
+            if (Ball != pkm.Ball) return false;
+            if (OTGender < 3 && OTGender != pkm.OT_Gender) return false;
+            if (Nature != -1 && Nature != pkm.Nature) return false;
+            if (Gender != 3 && Gender != pkm.Gender) return false;
+
+            if (pkm is IContestStats s && s.IsContestBelow(this))
+                return false;
+
+            if (CardID == 2046) // Greninja WC has variant PID and can arrive @ 36 or 37
+                return pkm.SM; // not USUM
+            if (PIDType == 0 && pkm.PID != PID)
+                return false;
+            return true;
+        }
+
+        protected override bool IsMatchDeferred(PKM pkm)
+        {
+            if (RestrictLanguage != 0 && RestrictLanguage != pkm.Language)
+                return true;
+            if (!CanBeReceivedByVersion(pkm.Version))
+                return true;
+            return Species != pkm.Species;
         }
     }
 }

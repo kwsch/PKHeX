@@ -52,6 +52,13 @@ namespace PKHeX.Core
             return data;
         }
 
+        public static string GetVersionName(GameVersion version)
+        {
+            var list = (List<ComboItem>) VersionDataSource;
+            var first = list.Find(z => z.Value == (int) version);
+            return first.Equals(default(ComboItem)) ? version.ToString() : first.Text;
+        }
+
         // DataSource providing
         public static IReadOnlyList<ComboItem> ItemDataSource => Strings.ItemDataSource;
         public static IReadOnlyList<ComboItem> SpeciesDataSource => Strings.SpeciesDataSource;
@@ -87,54 +94,74 @@ namespace PKHeX.Core
                 case 2: return Strings.metGSC_00000;
                 case 3:
                     return version == GameVersion.CXD ? Strings.metCXD_00000 : Strings.metRSEFRLG_00000;
-                case 4:
-                    switch (bankID)
-                    {
-                        case 0: return Strings.metHGSS_00000;
-                        case 2: return Strings.metHGSS_02000;
-                        case 3: return Strings.metHGSS_03000;
-                        default: return null;
-                    }
-                case 5:
-                    switch (bankID)
-                    {
-                        case 0: return Strings.metBW2_00000;
-                        case 3: return Strings.metBW2_30000;
-                        case 4: return Strings.metBW2_40000;
-                        case 6: return Strings.metBW2_60000;
-                        default: return null;
-                    }
-                case 6:
-                    switch (bankID)
-                    {
-                        case 0: return Strings.metXY_00000;
-                        case 3: return Strings.metXY_30000;
-                        case 4: return Strings.metXY_40000;
-                        case 6: return Strings.metXY_60000;
-                        default: return null;
-                    }
+                case 4: return GetLocationNames4(bankID);
+                case 5: return GetLocationNames5(bankID);
+                case 6: return GetLocationNames6(bankID);
                 case 7:
                     if (GameVersion.GG.Contains(version))
-                    {
-                        switch (bankID)
-                        {
-                            case 0: return Strings.metGG_00000;
-                            case 3: return Strings.metGG_30000;
-                            case 4: return Strings.metGG_40000;
-                            case 6: return Strings.metGG_60000;
-                            default: return null;
-                        }
-                    }
-                    switch (bankID)
-                    {
-                        case 0: return Strings.metSM_00000;
-                        case 3: return Strings.metSM_30000;
-                        case 4: return Strings.metSM_40000;
-                        case 6: return Strings.metSM_60000;
-                        default: return null;
-                    }
+                        return GetLocationNames7GG(bankID);
+                    return GetLocationNames7(bankID);
                 default:
                     return null;
+            }
+        }
+
+        private static IReadOnlyList<string> GetLocationNames4(int bankID)
+        {
+            switch (bankID)
+            {
+                case 0: return Strings.metHGSS_00000;
+                case 2: return Strings.metHGSS_02000;
+                case 3: return Strings.metHGSS_03000;
+                default: return null;
+            }
+        }
+
+        private static IReadOnlyList<string> GetLocationNames5(int bankID)
+        {
+            switch (bankID)
+            {
+                case 0: return Strings.metBW2_00000;
+                case 3: return Strings.metBW2_30000;
+                case 4: return Strings.metBW2_40000;
+                case 6: return Strings.metBW2_60000;
+                default: return null;
+            }
+        }
+
+        private static IReadOnlyList<string> GetLocationNames6(int bankID)
+        {
+            switch (bankID)
+            {
+                case 0: return Strings.metXY_00000;
+                case 3: return Strings.metXY_30000;
+                case 4: return Strings.metXY_40000;
+                case 6: return Strings.metXY_60000;
+                default: return null;
+            }
+        }
+
+        private static IReadOnlyList<string> GetLocationNames7(int bankID)
+        {
+            switch (bankID)
+            {
+                case 0: return Strings.metSM_00000;
+                case 3: return Strings.metSM_30000;
+                case 4: return Strings.metSM_40000;
+                case 6: return Strings.metSM_60000;
+                default: return null;
+            }
+        }
+
+        private static IReadOnlyList<string> GetLocationNames7GG(int bankID)
+        {
+            switch (bankID)
+            {
+                case 0: return Strings.metGG_00000;
+                case 3: return Strings.metGG_30000;
+                case 4: return Strings.metGG_40000;
+                case 6: return Strings.metGG_60000;
+                default: return null;
             }
         }
 

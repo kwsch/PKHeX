@@ -111,6 +111,7 @@ namespace PKHeX.Core
         public static string LEggPP { get; set; } = "Eggs cannot have modified move PP counts.";
         public static string LEggPPUp { get; set; } = "Cannot apply PP Ups to an Egg.";
         public static string LEggShinyLeaf { get; set; } = "Eggs cannot have Shiny Leaf/Crown.";
+        public static string LEggShinyPokeStar { get; set; } = "Eggs cannot be a Pokéstar Studios star.";
         public static string LEggSpecies { get; set; } = "Can't obtain Egg for this species.";
         public static string LEggUnhatched { get; set; } = "Valid un-hatched Egg.";
 

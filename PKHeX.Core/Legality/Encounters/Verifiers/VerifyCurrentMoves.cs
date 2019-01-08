@@ -856,12 +856,13 @@ namespace PKHeX.Core
 
         private static readonly int[] G2 = {2};
         private static readonly int[] G12 = {1, 2};
+        private static readonly int[] G21 = {2, 1};
 
         private static int[] GetGenMovesCheckOrderGB(PKM pkm, int originalGeneration)
         {
             if (originalGeneration == 2)
-                return pkm.Korean ? G2 : G12;
-            return new[] {1, 2}; // RBY
+                return pkm.Korean ? G2 : G21;
+            return G12; // RBY
         }
 
         private static int[] GetGenMovesOrder(int start, int end)

@@ -1,0 +1,10 @@
+0669	Guide Team Plasma Disparu (Centre Pokémon de la Ligue)
+0661	Reshiram/Zekrom Disparu (Château de N)
+0766	Reshiram/Zekrom Disparu (Tour Dragospire)
+0801	Kyurem Disparu
+0810	Pyrax Disparu
+0649	Cobaltium Disparu
+0650	Terrakium Disparu
+0651	Viridium Disparu
+0652	Obstacle Enlevé (Route Victoire)
+0653	Obstacle Enlevé (Forêt d'Empoigne)

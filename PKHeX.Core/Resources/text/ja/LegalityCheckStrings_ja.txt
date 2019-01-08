@@ -73,6 +73,7 @@ LEggPokerus = Eggs can not be infected with Pokérus.
 LEggPP = タマゴのPPは最大値に設定してください
 LEggPPUp = タマゴにポイントアップは使用できません
 LEggShinyLeaf = タマゴに「かがやくはっぱ」「おうかん」は設定できません
+LEggShinyPokeStar = Eggs cannot be a Pokéstar Studios star.
 LEggSpecies = Can't obtain Egg for this species.
 LEggUnhatched = Valid un-hatched Egg.
 LEncCondition = Valid Wild Encounter at location.

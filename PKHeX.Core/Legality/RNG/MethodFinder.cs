@@ -24,10 +24,9 @@ namespace PKHeX.Core
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
 
-            var iIVs = pk.IVs;
             var IVs = new uint[6];
             for (int i = 0; i < 6; i++)
-                IVs[i] = (uint)iIVs[i];
+                IVs[i] = (uint)pk.GetIV(i);
 
             if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
                 return pidiv;
@@ -207,13 +206,40 @@ namespace PKHeX.Core
                 var B = RNG.XDRNG.Prev(seed);
                 var A = RNG.XDRNG.Prev(B);
 
-                if (!GetIVs(A >> 16, B >> 16).SequenceEqual(IVs))
+                var hi = A >> 16;
+                var lo = B >> 16;
+                if (!IVsMatch(hi, lo, IVs))
                 {
-                    // check for antishiny (once), unroll 2x
-                    B = RNG.XDRNG.Prev(A);
-                    A = RNG.XDRNG.Prev(B);
-                    if (!GetIVs(A >> 16, B >> 16).SequenceEqual(IVs))
-                        continue;
+                    // check for antishiny
+                    // allow 2 different TSVs to proc antishiny for XD
+                    var tsv1 = (hi ^ lo) >> 3;
+                    var tsv2 = -1;
+                    while (true)
+                    {
+                        B = RNG.XDRNG.Prev(A);
+                        A = RNG.XDRNG.Prev(B);
+                        hi = A >> 16;
+                        lo = B >> 16;
+                        if (!IVsMatch(hi, lo, IVs))
+                        {
+                            var anti = (int)(hi ^ lo) >> 3;
+                            if (anti == tsv1)
+                                continue;
+                            if (anti == tsv2)
+                                continue;
+                            if (tsv2 >= 0) // already set
+                                break; // can't have this many shiny TSVs
+                            tsv2 = anti;
+                            continue;
+                        }
+                        pidiv = new PIDIVTSV
+                        {
+                            OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXDAnti,
+                            TSV1 = (int)tsv1, TSV2 = tsv2,
+                        };
+                        return true;
+                    }
+                    continue;
                 }
 
                 pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXD};
@@ -266,7 +292,7 @@ namespace PKHeX.Core
                 var B = RNG.LCRNG.Advance(seed, 2);
                 var C = RNG.LCRNG.Next(B);
                 var D = RNG.LCRNG.Next(C);
-                if (!GetIVs(C >> 16, D >> 16).SequenceEqual(IVs))
+                if (!IVsMatch(C >> 16, D >> 16, IVs))
                     continue;
 
                 pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.G4MGAntiShiny};
@@ -593,8 +619,33 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="r1">First rand frame</param>
         /// <param name="r2">Second rand frame</param>
+        /// <param name="IVs">IVs that should be the result</param>
+        /// <returns>IVs match random number IVs</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IVsMatch(uint r1, uint r2, IReadOnlyList<uint> IVs)
+        {
+            if (IVs[0] != (r1 & 31))
+                return false;
+            if (IVs[1] != (r1 >> 5 & 31))
+                return false;
+            if (IVs[2] != (r1 >> 10 & 31))
+                return false;
+            if (IVs[3] != (r2 & 31))
+                return false;
+            if (IVs[4] != (r2 >> 5 & 31))
+                return false;
+            if (IVs[5] != (r2 >> 10 & 31))
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Generates IVs from 2 RNG calls using 15 bits of each to generate 6 IVs (5bits each).
+        /// </summary>
+        /// <param name="r1">First rand frame</param>
+        /// <param name="r2">Second rand frame</param>
         /// <returns>Array of 6 IVs</returns>
-        private static uint[] GetIVs(uint r1, uint r2)
+        internal static uint[] GetIVs(uint r1, uint r2)
         {
             return new[]
             {
@@ -626,6 +677,22 @@ namespace PKHeX.Core
             for (int i = 0; i < 3; i++)
                 val |= IVs[i+start] << (5*i);
             return val;
+        }
+
+        public static IEnumerable<PIDIV> GetColoEReaderMatches(uint PID)
+        {
+            var top = PID >> 16;
+            var bot = (ushort)PID;
+            var xdc = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
+            foreach (var seed in xdc)
+            {
+                var B = RNG.XDRNG.Prev(seed);
+                var A = RNG.XDRNG.Prev(B);
+
+                var C = RNG.XDRNG.Advance(A, 7);
+
+                yield return new PIDIV { OriginSeed = RNG.XDRNG.Prev(C), RNG = RNG.XDRNG, Type = PIDType.CXD };
+            }
         }
 
         public static IEnumerable<PIDIV> GetPokeSpotSeeds(PKM pkm, int slot)
@@ -694,12 +761,10 @@ namespace PKHeX.Core
                         return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
                     return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
-                case EncounterStaticShadow d when d.EReader:
-                    return val == PIDType.None; // All IVs are 0
                 case EncounterStatic s:
                     switch (pkm.Version)
                     {
-                        case (int)GameVersion.CXD: return val == PIDType.CXD || val == PIDType.CXD_ColoStarter;
+                        case (int)GameVersion.CXD: return val == PIDType.CXD || val == PIDType.CXD_ColoStarter || val == PIDType.CXDAnti;
                         case (int)GameVersion.E: return val == PIDType.Method_1; // no roamer glitch
 
                         case (int)GameVersion.FR:
@@ -725,8 +790,9 @@ namespace PKHeX.Core
                 return true;
             if (PIDType.Method_1 != val)
                 return false;
-            var IVs = pkm.IVs;
-            return !(IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7);
+
+            // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
+            return !(pkm.IV_DEF != 0 || pkm.IV_SPE != 0 || pkm.IV_SPA != 0 || pkm.IV_SPD != 0 || pkm.IV_ATK > 7);
         }
 
         public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
@@ -750,7 +816,8 @@ namespace PKHeX.Core
                         return false;
                     // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
                     // TypeEncounter TallGrass discard any cave or city
-                    var IsDPPt = GameVersion.DP.Contains((GameVersion)pkm.Version) || (GameVersion)pkm.Version == GameVersion.Pt;
+                    var ver = (GameVersion)pkm.Version;
+                    var IsDPPt = ver == GameVersion.D || ver == GameVersion.P || ver == GameVersion.Pt;
                     return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Encounters4.SafariZoneLocation_4.Contains(sl.Location);
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);

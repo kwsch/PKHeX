@@ -1,7 +1,34 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-18/12/02 - New Update:
+19/01/02 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks finalevil151, @NinFanBoyFTW, Brittany, Taargüs Taargüs!
+ - Batch Editor:
+ - - Added: All PKM formats now have `Status_Condition` to modify the health status.
+ - - Added: `.Stats=$suggest` wildcard for recalculating stats (useful for lgpe).
+ - - Added: Added $suggest wildcard for `HeightAbsolute`, `.WeightAbsolute`, and `Stat_CP` (useful for lgpe).
+ - - Fixed: Gen1/2/7b format PKM now update their `Stat_Level` when their `CurrentLevel` is modified.
+ - - Changed: Setting Language for Gen1/2 format PKM will update their nicknames if they do not have one.
+ - Added: Party Slot index indication for lgpe.
+ - Added: Mystery Gift Record read/write for LGPE.
+ - Added: Randomizing IVs for LGPE now sets IVs according to the GO->LGPE conversion pattern.
+ - Added: Can now toggle the 'Favorite' marking for individual lgpe PKM.
+ - Added: Sorting by Version now sorts by Met Location afterward.
+ - Added: Locked storage slots are now repointed on bulk sort/move rather than disallowing any changes.
+ - Added: New setting to toggle automatic backups of savefiles, and automatic loading on startup.
+ - Added: PK5 PokeStar status legality checks and get/set properties. (data[0x87] >= 250)
+ - Fixed: PB7 (lgpe) format Hyper Training can now be edited.
+ - Fixed: PB7 (lgpe) format no longer shows Medals/Ribbons/Memories sub-editors.
+ - Fixed: LGPE saves no longer clamp fossils to count=1. Thanks @TheOGMew3!
+ - Fixed: B/W Volcarona Event Flag now points to the correct flag ID. Thanks @Kxcii!
+ - Changed: Encounter Database/Browser can now filter for certain encounter types, and different versions.
+ - Changed: Importing pkms from a folder/dump no longer overwrite slots that already have pkm data.
+ - Changed: SAV4 version detect speed improved by removing checksum checks in favor of block fingerprint detection.
+ - Changed: Updated French Translation. Thanks @Ntonio36!
+ - Changed: Updated Spanish Translation. Thanks @XxPhoenix1996xX!
+
+18/12/02 - New Update: (67028) [1555936]
  - Legality:
  - - Updated: Now recognizes Rare Spawn data & met locations.
  - - Updated: Now restricts recognition of Pokémon GO encounters to their allowed levels within the app.

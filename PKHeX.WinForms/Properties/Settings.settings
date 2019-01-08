@@ -50,5 +50,14 @@
     <Setting Name="HideSecretDetails" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DefaultSaveVersion" Type="PKHeX.Core.GameVersion" Scope="User">
+      <Value Profile="(Default)">GP</Value>
+    </Setting>
+    <Setting Name="DetectSaveOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="BAKEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

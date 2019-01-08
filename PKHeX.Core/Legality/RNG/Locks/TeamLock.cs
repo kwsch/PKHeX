@@ -8,10 +8,7 @@ namespace PKHeX.Core
 
         internal TeamLock Clone()
         {
-            var c = new TeamLock { Comment = Comment, Locks = (NPCLock[])Locks.Clone() };
-            for (int i = 0; i < Locks.Length; i++)
-                Locks[i] = Locks[i].Clone();
-            return c;
+            return new TeamLock { Comment = Comment, Locks = (NPCLock[])Locks.Clone() };
         }
     }
 }

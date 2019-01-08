@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -39,6 +40,13 @@ namespace PKHeX.Core
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
 
+        public bool RibbonEarth { get; set; }
+        public bool RibbonNational { get; set; }
+        public bool RibbonCountry { get; set; }
+        public bool RibbonChampionBattle { get; set; }
+        public bool RibbonChampionRegional { get; set; }
+        public bool RibbonChampionNational { get; set; }
+
         // Description
         public override string CardTitle { get; set; } = "Generation 3 Event";
         public override string CardHeader => CardTitle;
@@ -62,7 +70,7 @@ namespace PKHeX.Core
             set => _metLevel = value;
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV)
+        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             PK3 pk = new PK3
             {
@@ -94,7 +102,7 @@ namespace PKHeX.Core
             {
                 pk.Version = (int)GetRandomVersion(Version);
             }
-            int lang = GetSafeLanguage(SAV.Language, Language);
+            int lang = (int)GetSafeLanguage((LanguageID)SAV.Language, (LanguageID)Language);
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg) // ugly workaround for character table interactions
             {
@@ -143,22 +151,19 @@ namespace PKHeX.Core
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
             // Generate PIDIV
-            var seed = Util.Rand32();
-            switch (Method)
-            {
-                case PIDType.BACD_R:
-                    seed &= 0xFFFF;
-                    break;
-                case PIDType.BACD_R_S:
-                    seed &= 0xFF;
-                    break;
-            }
-            PIDGenerator.SetValuesFromSeed(pk, Method, seed);
+            SetPIDValues(pk);
+            pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
 
             if (Version == GameVersion.XD)
                 pk.FatefulEncounter = true; // pk3 is already converted from xk3
+            SetMoves(pk);
+            pk.RefreshChecksum();
+            return pk;
+        }
 
-            if (Moves == null || Moves.Length == 0) // not completely defined
+        private void SetMoves(PK3 pk)
+        {
+            if (Moves.Length == 0) // not completely defined
                 Moves = Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
             if (Moves.Length != 4)
             {
@@ -169,17 +174,34 @@ namespace PKHeX.Core
 
             pk.Moves = Moves;
             pk.SetMaximumPPCurrent(Moves);
-            pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
-            pk.RefreshChecksum();
-            return pk;
         }
 
-        private static int GetSafeLanguage(int hatchLang, int supplied)
+        private void SetPIDValues(PK3 pk)
         {
-            if (supplied >= 1)
+            var seed = Util.Rand32();
+            SetPIDValues(pk, seed);
+        }
+
+        private void SetPIDValues(PK3 pk, uint seed)
+        {
+            switch (Method)
+            {
+                case PIDType.BACD_R:
+                    seed &= 0xFFFF;
+                    break;
+                case PIDType.BACD_R_S:
+                    seed &= 0xFF;
+                    break;
+            }
+            PIDGenerator.SetValuesFromSeed(pk, Method, seed);
+        }
+
+        private static LanguageID GetSafeLanguage(LanguageID hatchLang, LanguageID supplied)
+        {
+            if (supplied >= LanguageID.Japanese)
                 return supplied;
-            if (hatchLang < 0 || hatchLang > 8) // ko
-                return 2;
+            if (hatchLang < LanguageID.Hacked || hatchLang > LanguageID.Korean) // ko
+                return LanguageID.English;
             return hatchLang;
         }
 
@@ -204,11 +226,71 @@ namespace PKHeX.Core
             }
         }
 
-        public bool RibbonEarth { get; set; }
-        public bool RibbonNational { get; set; }
-        public bool RibbonCountry { get; set; }
-        public bool RibbonChampionBattle { get; set; }
-        public bool RibbonChampionRegional { get; set; }
-        public bool RibbonChampionNational { get; set; }
+        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        {
+            // Gen3 Version MUST match.
+            if (Version != 0 && !(Version).Contains((GameVersion)pkm.Version))
+                return false;
+
+            bool hatchedEgg = IsEgg && !pkm.IsEgg;
+            if (!hatchedEgg)
+            {
+                if (SID != -1 && SID != pkm.SID) return false;
+                if (TID != -1 && TID != pkm.TID) return false;
+                if (OT_Gender < 3 && OT_Gender != pkm.OT_Gender) return false;
+                var wcOT = OT_Name;
+                if (wcOT != null)
+                {
+                    if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
+                    {
+                        if (!GetIsValidOTMattleHoOh(wcOT, pkm.OT_Name, pkm is CK3))
+                            return false;
+                    }
+                    else if (wcOT != pkm.OT_Name)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (Language != -1 && Language != pkm.Language) return false;
+            if (Ball != pkm.Ball) return false;
+            if (Fateful != pkm.FatefulEncounter)
+            {
+                // XD Gifts only at level 20 get flagged after transfer
+                if (Version == GameVersion.XD != pkm is XK3)
+                    return false;
+            }
+
+            if (pkm.IsNative)
+            {
+                if (hatchedEgg)
+                    return true; // defer egg specific checks to later.
+                if (Met_Level != pkm.Met_Level)
+                    return false;
+                if (Location != pkm.Met_Location)
+                    return false;
+            }
+            else
+            {
+                if (pkm.IsEgg)
+                    return false;
+                if (Level > pkm.Met_Level)
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
+        {
+            if (ck3 && ot.Length == 10)
+                return wc == ot;
+            return ot.Length == 7 && wc.StartsWith(ot);
+        }
+
+        protected override bool IsMatchDeferred(PKM pkm)
+        {
+            return Species != pkm.Species;
+        }
     }
 }

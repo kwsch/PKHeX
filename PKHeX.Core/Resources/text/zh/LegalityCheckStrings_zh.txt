@@ -73,6 +73,7 @@ LEggPokerus = 蛋不能感染宝可病毒。
 LEggPP = 蛋不能有PP数变动。
 LEggPPUp = 不能对蛋使用PP提升剂。
 LEggShinyLeaf = 蛋不能有闪光树叶/王冠。
+LEggShinyPokeStar = Eggs cannot be a Pokéstar Studios star.
 LEggSpecies = 不能获得该种宝可梦的蛋。
 LEggUnhatched = 合法孵化的蛋。
 LEncCondition = 合法野外遇见方式。

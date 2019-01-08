@@ -6,7 +6,7 @@
     /// <remarks>
     /// Generation 1 specific value used in detecting unmodified/untraded Generation 1 Trade Encounter data.
     /// </remarks>
-    public class EncounterTradeCatchRate : EncounterTrade
+    public sealed class EncounterTradeCatchRate : EncounterTrade
     {
         public uint Catch_Rate;
     }

@@ -6,5 +6,7 @@
         public bool RequiresLvlUp { get; set; }
         public int Form { get; set; } = -1;
         public int Method { get; set; } = -1;
+
+        public bool IsTradeRequired => ((EvolutionType) Method).IsTrade();
     }
 }
