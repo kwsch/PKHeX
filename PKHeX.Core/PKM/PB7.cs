@@ -335,12 +335,12 @@ namespace PKHeX.Core
 
         protected override void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
         {
-            CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
                 HT_Friendship = CurrentFriendship; // PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
             }
+            CurrentHandler = 1;
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
         }
