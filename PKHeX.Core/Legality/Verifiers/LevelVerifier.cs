@@ -87,6 +87,8 @@ namespace PKHeX.Core
 
         private void VerifyG1TradeEvo(LegalityAnalysis data)
         {
+            if (ParseSettings.ActiveTrainer.Generation >= 3)
+                return; // context check is only applicable to gen1/2; transferring to gen2 is a trade.
             var pkm = data.pkm;
             var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && !ParseSettings.IsFromActiveTrainer(pkm)) || GBRestrictions.IsTradedKadabraG1(pkm);
             if (!mustevolve)
