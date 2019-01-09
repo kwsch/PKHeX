@@ -481,12 +481,12 @@ namespace PKHeX.Core
                     this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
             }
 
-            CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
                 HT_Friendship = PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
             }
+            CurrentHandler = 1;
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
 

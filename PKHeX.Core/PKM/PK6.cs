@@ -420,12 +420,12 @@ namespace PKHeX.Core
             if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
                 this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
-            CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
                 HT_Friendship = PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
             }
+            CurrentHandler = 1;
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
 
