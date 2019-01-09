@@ -276,7 +276,8 @@ namespace PKHeX.Core
         public int SpecForm { get => Species + (AltForm << 11); set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
-        public virtual bool Locked { get => false; set { } }
+        public StorageSlotFlag StorageFlags { get; internal set; }
+        public bool Locked => StorageFlags.HasFlagFast(StorageSlotFlag.Locked);
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 

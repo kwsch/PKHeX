@@ -179,8 +179,9 @@ namespace PKHeX.Core
             int ofs = GetBoxOffset(box);
             for (int slot = 0; slot < BoxSlotCount; slot++, ofs += SIZE_STORED)
             {
-                if (!GetSlotFlags(box, slot).IsOverwriteProtected())
-                    SetStoredSlot(value[index + slot], ofs);
+                var pk = value[index + slot];
+                if (!pk.StorageFlags.IsOverwriteProtected())
+                    SetStoredSlot(pk, ofs);
             }
         }
 
@@ -202,7 +203,7 @@ namespace PKHeX.Core
                 data[i].Identifier = $"{boxName}:{slot + 1:00}";
                 data[i].Box = box + 1;
                 data[i].Slot = slot + 1;
-                data[i].Locked = GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
+                data[i].StorageFlags = GetSlotFlags(box, slot);
             }
         }
 
@@ -243,7 +244,8 @@ namespace PKHeX.Core
                 for (int i = 0; i < data.Length; i++)
                 {
                     data[i] = GetStoredSlot(BattleBox + (SIZE_STORED * i));
-                    data[i].Locked = BattleBoxLocked;
+                    if (BattleBoxLocked)
+                        data[i].StorageFlags |= StorageSlotFlag.Locked;
                     if (data[i].Species != 0)
                         continue;
                     Array.Resize(ref data, i);
@@ -699,6 +701,11 @@ namespace PKHeX.Core
             result.CopyTo(boxclone, skip, start);
 
             SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
+
+            // clear storage flags to ensure all data is written back
+            foreach (var pk in result)
+                pk.StorageFlags = StorageSlotFlag.None;
+
             BoxData = boxclone;
         }
 
