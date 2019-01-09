@@ -837,16 +837,26 @@ namespace PKHeX.Core
         public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<int, int, bool> skip, int start = 0)
         {
             int ctr = start;
+            if (ctr >= dest.Count)
+                return 0;
+
+            int skipped = 0;
             foreach (var z in list)
             {
+                // seek forward to next open slot
+                while (true)
+                {
+                    var exist = dest[ctr];
+                    if (exist == null || !skip(exist.Box, exist.Slot))
+                        break;
+                    skipped++;
+                    ctr++;
+                }
                 if (dest.Count <= ctr)
                     break;
-                var exist = dest[ctr];
-                if (exist != null && skip(exist.Box, exist.Slot))
-                    continue;
                 dest[ctr++] = z;
             }
-            return ctr - start;
+            return ctr - start - skipped;
         }
 
         /// <summary>
