@@ -42,14 +42,6 @@ namespace PKHeX.Core
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7b(value, maxLength, Language, chinese: chinese);
 
-        protected override ushort CalculateChecksum()
-        {
-            ushort chk = 0;
-            for (int i = 8; i < 0xE8; i += 2)
-                chk += BitConverter.ToUInt16(Data, i);
-            return chk;
-        }
-
         // Structure
         #region Block A
         public override uint EncryptionConstant
