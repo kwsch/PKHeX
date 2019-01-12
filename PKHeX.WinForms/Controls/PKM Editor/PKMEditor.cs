@@ -253,7 +253,7 @@ namespace PKHeX.WinForms.Controls
                 MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
-                if (pk.Stat_HPMax != 0) // stats present
+                if (pk.PartyStatsPresent) // stats present
                     Stats.LoadPartyStats(pk);
             }
             FieldsLoaded = true;

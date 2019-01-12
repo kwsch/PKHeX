@@ -782,10 +782,30 @@ namespace PKHeX.Core
             Stat_SPD = stats[5];
         }
 
+        /// <summary>
+        /// Indicates if Party Stats are present. False if not initialized (from stored format).
+        /// </summary>
+        public bool PartyStatsPresent => Stat_HPMax != 0;
+
+        /// <summary>
+        /// Clears any status condition and refreshes the stats.
+        /// </summary>
         public void Heal()
         {
             SetStats(GetStats(PersonalInfo));
             Status_Condition = 0;
+        }
+
+        /// <summary>
+        /// Enforces that Party Stat values are present.
+        /// </summary>
+        /// <returns>True if stats were refreshed, false if stats were already present.</returns>
+        public bool ForcePartyData()
+        {
+            if (PartyStatsPresent)
+                return false;
+            Heal();
+            return true;
         }
 
         /// <summary>
