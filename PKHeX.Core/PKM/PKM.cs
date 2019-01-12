@@ -110,6 +110,7 @@ namespace PKHeX.Core
         public abstract int IV_SPE { get; set; }
         public abstract int IV_SPA { get; set; }
         public abstract int IV_SPD { get; set; }
+        public abstract int Status_Condition { get; set; }
         public abstract int Stat_Level { get; set; }
         public abstract int Stat_HPMax { get; set; }
         public abstract int Stat_HPCurrent { get; set; }
@@ -779,6 +780,12 @@ namespace PKHeX.Core
             Stat_SPE = stats[3];
             Stat_SPA = stats[4];
             Stat_SPD = stats[5];
+        }
+
+        public void Heal()
+        {
+            SetStats(GetStats(PersonalInfo));
+            Status_Condition = 0;
         }
 
         /// <summary>

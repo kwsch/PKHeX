@@ -243,7 +243,7 @@ namespace PKHeX.Core
                 PKM[] data = new PKM[6];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] = GetStoredSlot(BattleBox + (SIZE_STORED * i));
+                    data[i] = GetStoredSlot(GetBattleBoxOffset(i));
                     if (BattleBoxLocked)
                         data[i].StorageFlags |= StorageSlotFlag.Locked;
                     if (data[i].Species != 0)
@@ -254,6 +254,8 @@ namespace PKHeX.Core
                 return data;
             }
         }
+
+        public int GetBattleBoxOffset(int index) => BattleBox + (SIZE_STORED * index);
 
         /// <summary> All Event Flag values for the savegame </summary>
         public bool[] EventFlags

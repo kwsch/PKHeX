@@ -65,6 +65,7 @@ namespace PKHeX.Core
         public override int Stat_Level { get => Data[0x60]; set => Data[0x60] = (byte)value; }
 
         // 0x64-0x77 are battle/status related
+        public override int Status_Condition { get; set; } // where are we
         // Not that the program cares
 
         // Moves

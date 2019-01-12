@@ -188,6 +188,9 @@ namespace PKHeX.Core
         // Purification information is stored in the save file and accessed based on the Shadow ID.
         public int Purification { get; set; }
 
+        // stored in the data, offset undocumented
+        public override int Status_Condition { get; set; }
+
         protected override byte[] Encrypt()
         {
             return (byte[])Data.Clone();
