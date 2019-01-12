@@ -94,8 +94,8 @@ namespace PKHeX.Core
             if (!mustevolve)
                 return;
             // Pokemon have been traded but it is not evolved, trade evos are sequential dex numbers
-            var unevolved = LegalityAnalysis.SpeciesStrings[pkm.Species];
             var evolved = LegalityAnalysis.SpeciesStrings[pkm.Species + 1];
+            var unevolved = LegalityAnalysis.SpeciesStrings[pkm.Species];
             data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
         }
     }
