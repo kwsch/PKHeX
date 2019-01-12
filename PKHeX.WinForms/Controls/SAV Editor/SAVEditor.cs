@@ -1118,7 +1118,12 @@ namespace PKHeX.WinForms.Controls
                 MsgSaveBoxImportModifyYes + Environment.NewLine +
                 MsgSaveBoxImportModifyNo + Environment.NewLine +
                 string.Format(MsgSaveBoxImportModifyCurrent, yn));
-            return noSet == DialogResult.Yes || noSet == DialogResult.No ? (bool?)false : null;
+            switch (noSet)
+            {
+                case DialogResult.Yes: return true;
+                case DialogResult.No: return false;
+                default: return null;
+            }
         }
 
         private static IList<PKM> GetLivingDex(SaveFile SAV)
