@@ -21,6 +21,8 @@ namespace PKHeX.WinForms
             SetupComboBoxes();
             PopFavorite();
             PopFavorite();
+            TB_FOT.Font = TB_FT1.Font = TB_FT2.Font = TB_FSay1.Font = TB_FSay2.Font = TB_FSay3.Font = TB_FSay4.Font = FontUtil.GetPKXFont(11);
+            CB_Ability.InitializeBinding();
 
             LB_Favorite.SelectedIndex = 0;
             // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted

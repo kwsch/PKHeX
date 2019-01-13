@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
             };
             LB_DataEntry.SelectedIndex = 0;
             NUP_PartyIndex_ValueChanged(null, null);
-            try { TB_Nickname.Font = FontUtil.GetPKXFont(11); }
+            try { TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont(11); }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
             editing = true;
         }
