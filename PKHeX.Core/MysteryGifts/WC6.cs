@@ -352,7 +352,7 @@ namespace PKHeX.Core
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
-                FatefulEncounter = true,
+                FatefulEncounter = MetLocation != 30011, // Link gifts do not set fateful encounter
 
                 EVs = EVs,
             };
@@ -457,10 +457,12 @@ namespace PKHeX.Core
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
-                if (CardID != pkm.SID) return false;
-                if (TID != pkm.TID) return false;
-                if (OT_Name != pkm.OT_Name) return false;
-                if (OTGender != pkm.OT_Gender) return false;
+                if (OTGender != 3)
+                {
+                    if (SID != pkm.SID) return false;
+                    if (TID != pkm.TID) return false;
+                    if (OTGender != pkm.OT_Gender) return false;
+                }
                 if (PIDType == Shiny.FixedValue && pkm.PID != PID) return false;
                 if (!PIDType.IsValid(pkm)) return false;
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;

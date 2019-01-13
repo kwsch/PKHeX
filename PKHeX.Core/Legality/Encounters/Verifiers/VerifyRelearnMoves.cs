@@ -20,8 +20,6 @@ namespace PKHeX.Core
 
             switch (info.EncounterMatch)
             {
-                case EncounterLink l when l.RelearnMoves.Length > 0:
-                    return VerifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
                 case MysteryGift g:
                     return VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
                 case EncounterStatic s when s.Relearn.Length > 0:

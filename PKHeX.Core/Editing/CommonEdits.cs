@@ -254,10 +254,11 @@ namespace PKHeX.Core
         public static int[] GetSuggestedRelearnMoves(this PKM pk, LegalityAnalysis legal)
         {
             int[] m = legal.GetSuggestedRelearn();
-            if (!m.All(z => z == 0))
+            if (m.Any(z => z != 0))
                 return m;
 
-            if (pk.WasEgg || pk.WasEvent || pk.WasEventEgg || pk.WasLink)
+            var enc = legal.EncounterMatch;
+            if (enc is MysteryGift || enc is EncounterEgg)
                 return m;
 
             var encounter = legal.GetSuggestedMetInfo();

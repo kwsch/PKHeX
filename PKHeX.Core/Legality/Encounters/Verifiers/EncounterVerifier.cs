@@ -29,7 +29,6 @@ namespace PKHeX.Core
             switch (info.EncounterMatch)
             {
                 case EncounterEgg _:    return VerifyEncounterEgg(pkm);
-                case EncounterLink l:   return VerifyEncounterLink(pkm, l);
                 case EncounterTrade t:  return VerifyEncounterTrade(pkm, t);
                 case EncounterSlot w:   return VerifyEncounterWild(pkm, w);
                 case EncounterStatic s: return VerifyEncounterStatic(pkm, s);
@@ -340,25 +339,6 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, string.Format(LEvoTradeReq, unevolved, evolved), CheckIdentifier.Encounter);
             }
             return new CheckResult(Severity.Valid, LEncTradeMatch, CheckIdentifier.Encounter);
-        }
-
-        private static CheckResult VerifyEncounterLink(PKM pkm, EncounterLink enc)
-        {
-            // Should NOT be Fateful, and should be in Database
-            if (enc == null)
-                return new CheckResult(Severity.Invalid, LLinkNone, CheckIdentifier.Encounter);
-
-            if (pkm.XY && !enc.CanBeReceivedBy(GameVersion.XY))
-                return new CheckResult(Severity.Invalid, LLinkXY, CheckIdentifier.Encounter);
-            if (pkm.AO && !enc.CanBeReceivedBy(GameVersion.ORAS))
-                return new CheckResult(Severity.Invalid, LLinkAO, CheckIdentifier.Encounter);
-
-            if (pkm.IsShiny)
-                return new CheckResult(Severity.Invalid, LLinkShiny, CheckIdentifier.Encounter);
-
-            return pkm.FatefulEncounter
-                ? new CheckResult(Severity.Invalid, LLinkFateful, CheckIdentifier.Encounter)
-                : new CheckResult(Severity.Valid, LLinkValid, CheckIdentifier.Encounter);
         }
 
         private static CheckResult VerifyEncounterEvent(PKM pkm, MysteryGift MatchedGift)

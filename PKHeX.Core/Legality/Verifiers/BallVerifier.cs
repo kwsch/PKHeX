@@ -30,8 +30,6 @@ namespace PKHeX.Core
             {
                 case MysteryGift g:
                     return VerifyBallMysteryGift(data, g);
-                case EncounterLink l:
-                    return VerifyBallEquals(data, l.Ball);
                 case EncounterTrade t:
                     return VerifyBallEquals(data, t.Ball);
                 case EncounterStatic s when s.Gift:

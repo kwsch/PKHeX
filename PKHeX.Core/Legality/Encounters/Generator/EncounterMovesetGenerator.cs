@@ -133,7 +133,6 @@ namespace PKHeX.Core
             {
                 case EncounterOrder.Egg: return GetEggs(pk, needs, version);
                 case EncounterOrder.Mystery: return GetGifts(pk, needs);
-                case EncounterOrder.Link: return GetLink(pk, needs);
                 case EncounterOrder.Static: return GetStatic(pk, needs);
                 case EncounterOrder.Trade: return GetTrades(pk, needs);
                 case EncounterOrder.Slot: return GetSlots(pk, needs);
@@ -184,28 +183,6 @@ namespace PKHeX.Core
             {
                 if (gift is WC3 wc3 && wc3.NotDistributed)
                     continue;
-                if (needs.Count == 0)
-                {
-                    yield return gift;
-                    continue;
-                }
-                var em = gift.Moves;
-                if (!needs.Except(em).Any())
-                    yield return gift;
-            }
-        }
-
-        /// <summary>
-        /// Gets possible encounters that allow all moves requested to be learned.
-        /// </summary>
-        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
-        /// <param name="needs">Moves which cannot be taught by the player.</param>
-        /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterLink> GetLink(PKM pk, IReadOnlyCollection<int> needs)
-        {
-            var gifts = EncounterLinkGenerator.GetPossible(pk);
-            foreach (var gift in gifts)
-            {
                 if (needs.Count == 0)
                 {
                     yield return gift;

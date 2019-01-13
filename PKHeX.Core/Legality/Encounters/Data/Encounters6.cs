@@ -401,23 +401,5 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 222, Level = 50, Ability = 4, Gender = 1, TID = 00325, Nature = Nature.Calm, IVs = new[] {31, -1, -1, -1, -1, 31}, }, // Corsola
         };
         #endregion
-        #region Pokémon Link Gifts
-
-        internal static readonly EncounterLink[] LinkGifts6 =
-        {
-            new EncounterLink { Species = 154, Level = 50, Ability = 4, Moves = new[] {076, 241, 235, 034} }, // Meganium
-            new EncounterLink { Species = 157, Level = 50, Ability = 4, Moves = new[] {315, 172, 488, 129} }, // Typhlosion
-            new EncounterLink { Species = 160, Level = 50, Ability = 4, Moves = new[] {008, 242, 127, 103} }, // Feraligatr with Ice Punch (not relearn)
-
-            new EncounterLink { Species = 251, Level = 10, Ability = 1, Moves = new[] {105, 215, 610, 219}, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, Version = GameVersion.XY }, // Celebi
-
-            new EncounterLink { Species = 377, Level = 50, Ability = 4, Moves = new[] {153, 008, 444, 359}, RelearnMoves = new[] {153, 008, 444, 359}, }, // Regirock
-            new EncounterLink { Species = 378, Level = 50, Ability = 4, Moves = new[] {085, 133, 058, 258}, RelearnMoves = new[] {085, 133, 058, 258}, }, // Regice
-            new EncounterLink { Species = 379, Level = 50, Ability = 4, Moves = new[] {442, 157, 356, 334}, RelearnMoves = new[] {442, 157, 356, 334}, }, // Registeel
-
-            new EncounterLink { Species = 208, Level = 40, Ability = 1, Moves = new[] {231, 242, 157, 103}, RibbonClassic = false, Version = GameVersion.ORAS, OT = false }, // Steelix
-            new EncounterLink { Species = 362, Level = 40, Ability = 1, Moves = new[] {423, 029, 182, 524}, RibbonClassic = false, Version = GameVersion.ORAS, OT = false }, // Glalie
-        };
-        #endregion
     }
 }
