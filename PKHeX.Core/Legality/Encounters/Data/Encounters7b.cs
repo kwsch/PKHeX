@@ -119,7 +119,7 @@ namespace PKHeX.Core
             public int[] Locations;
         }
 
-        private static readonly int[] Sky = {004, 005, 006, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
+        private static readonly int[] Sky = {003, 004, 005, 006, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
 
         private static readonly RareSpawn[] Rare =
         {
