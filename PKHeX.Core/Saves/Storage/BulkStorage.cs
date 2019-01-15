@@ -51,7 +51,7 @@ namespace PKHeX.Core
         public override int MaxGameID => blank.MaxGameID;
         public override int OTLength => blank.OTLength;
         public override int NickLength => blank.NickLength;
-        public bool BigEndian => blank is BK4 || blank is XK3 || blank is CK3;
+        public bool IsBigEndian => blank is BK4 || blank is XK3 || blank is CK3;
 
         private readonly Func<byte[], int, bool> GetIsPKMPresent;
         public override bool IsPKMPresent(int Offset) => GetIsPKMPresent(Data, Offset);
@@ -65,9 +65,9 @@ namespace PKHeX.Core
         public override int GetPartyOffset(int slot) => int.MinValue;
 
         public override string GetString(byte[] data, int offset, int length)
-            => StringConverter.GetString(data, Generation, blank.Japanese, BigEndian, length, offset);
+            => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, length, offset);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
-            => StringConverter.SetString(value, Generation, blank.Japanese, BigEndian, maxLength, padTo: PadToSize, padWith: PadWith);
+            => StringConverter.SetString(value, Generation, blank.Japanese, IsBigEndian, maxLength, padTo: PadToSize, padWith: PadWith);
     }
 }

@@ -411,7 +411,7 @@ namespace PKHeX.Core
         public virtual int SecondsToFame { get; set; }
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
-        public int SlotCount => BoxCount * BoxSlotCount;
+        public virtual int SlotCount => BoxCount * BoxSlotCount;
         public virtual int PartyCount { get; protected set; }
         public virtual int MultiplayerSpriteID { get => 0; set { } }
 
@@ -665,7 +665,7 @@ namespace PKHeX.Core
             PartyCount--;
         }
 
-        protected bool IsSlotSwapProtected(int box, int slot) => false;
+        protected virtual bool IsSlotSwapProtected(int box, int slot) => false;
 
         private bool IsRegionOverwriteProtected(int min, int max)
         {

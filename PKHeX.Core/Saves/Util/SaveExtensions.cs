@@ -103,7 +103,7 @@ namespace PKHeX.Core
         public static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, bool? noSetb = null)
         {
             int startCount = boxStart * SAV.BoxSlotCount;
-            int maxCount = SAV.BoxCount * SAV.BoxSlotCount;
+            int maxCount = SAV.SlotCount;
             int index = startCount;
 
             foreach (var pk in compat)
