@@ -459,8 +459,12 @@ namespace PKHeX.Core
             {
                 if (OTGender != 3)
                 {
-                    if (SID != pkm.SID) return false;
-                    if (TID != pkm.TID) return false;
+                    // Skip ID check if ORASDEMO Simulated wc6
+                    if (CardID != 0)
+                    {
+                        if (SID != pkm.SID) return false;
+                        if (TID != pkm.TID) return false;
+                    }
                     if (OTGender != pkm.OT_Gender) return false;
                 }
                 if (!string.IsNullOrEmpty(OT_Name) && OT_Name != pkm.OT_Name) return false;
