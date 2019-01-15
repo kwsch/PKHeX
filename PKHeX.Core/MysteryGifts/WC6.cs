@@ -463,6 +463,7 @@ namespace PKHeX.Core
                     if (TID != pkm.TID) return false;
                     if (OTGender != pkm.OT_Gender) return false;
                 }
+                if (!string.IsNullOrEmpty(OT_Name) && OT_Name != pkm.OT_Name) return false;
                 if (PIDType == Shiny.FixedValue && pkm.PID != PID) return false;
                 if (!PIDType.IsValid(pkm)) return false;
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;
