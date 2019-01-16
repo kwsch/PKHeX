@@ -1,7 +1,19 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/01/02 - New Update:
+19/01/14 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks ThePunish3D, @SteelPhase, @NinFanBoyFTW
+ - Added: New setting can now change which type of blank save file is loaded when the program starts.
+ - Added: PokeStock bank files can now be read & saved (like a save file).
+ - Added: Gen6 HoF & Secret Base editor now use the in-game font. Thanks @PMArkive!
+ - Fixed: Gen4 Pokédex Give All no longer causes an error. Thanks Nasz, Deadbolt!
+ - Fixed: LGPE Box Sorting now no longer behaves incorrectly. Thanks @Ninjistix!
+ - Fixed: LGPE pk7 setting to save file now no longer detects handling trainer incorrectly (resetting friendship).
+ - Fixed: XK3 pkm with two abilities no longer read incorrectly. Thanks TORNADO!
+ - Fixed: Loading boxes now detects overriden settings correctly. Thanks @bpxhmemcpy!
+
+19/01/02 - New Update: (27034) [1582970]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks finalevil151, @NinFanBoyFTW, Brittany, Taargüs Taargüs!
  - Batch Editor:

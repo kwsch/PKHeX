@@ -350,7 +350,7 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
-        public int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
+        public override int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0xF0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0xF2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); }
@@ -420,12 +420,12 @@ namespace PKHeX.Core
             if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
                 this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
-            CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
                 HT_Friendship = PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
             }
+            CurrentHandler = 1;
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
 

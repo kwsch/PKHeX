@@ -10,10 +10,11 @@ namespace PKHeX.WinForms
     {
         public GameVersion Result = GameVersion.Invalid;
 
-        public SAV_GameSelect(IEnumerable<ComboItem> items)
+        public SAV_GameSelect(IEnumerable<ComboItem> items, params string[] lines)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            L_Prompt.Text = string.Join(Environment.NewLine + Environment.NewLine, lines);
             CB_Game.InitializeBinding();
             CB_Game.DataSource = new BindingSource(items.ToList(), null);
             CB_Game.SelectedIndex = 0;

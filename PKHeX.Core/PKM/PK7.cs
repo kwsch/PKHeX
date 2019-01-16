@@ -380,7 +380,7 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
-        public int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
+        public override int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
         public byte DirtType { get => Data[0xED]; set => Data[0xED] = value; }
         public byte DirtLocation { get => Data[0xEE]; set => Data[0xEE] = value; }
@@ -481,12 +481,12 @@ namespace PKHeX.Core
                     this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
             }
 
-            CurrentHandler = 1;
             if (HT_Name != SAV_Trainer)
             {
                 HT_Friendship = PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
             }
+            CurrentHandler = 1;
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
 

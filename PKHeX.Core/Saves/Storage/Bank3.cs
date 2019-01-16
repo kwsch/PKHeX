@@ -24,7 +24,5 @@ namespace PKHeX.Core
         public override int GetBoxOffset(int box) => Box + (BoxDataSize * box);
         public override string GetBoxName(int box) => GetString(GetBoxNameOffset(box), BoxNameSize);
         private int GetBoxNameOffset(int box) => 0x25800 + (9 * box);
-
-        public static Bank3 GetBank3(byte[] data) => new Bank3(data);
     }
 }

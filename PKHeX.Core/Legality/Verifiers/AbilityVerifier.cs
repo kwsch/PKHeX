@@ -335,7 +335,6 @@ namespace PKHeX.Core
             {
                 case EncounterStatic s: return s.Ability;
                 case EncounterTrade t: return t.Ability;
-                case EncounterLink l: return l.Ability;
                 default: return -1;
             }
         }

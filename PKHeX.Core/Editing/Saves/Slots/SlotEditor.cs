@@ -2,65 +2,6 @@
 
 namespace PKHeX.Core
 {
-    /// <summary>
-    /// Pushes slot update notifications out to all subscribers.
-    /// </summary>
-    public sealed class SlotPublisher
-    {
-        /// <summary>
-        /// All <see cref="ISlotViewer"/> instances that provide a view on individual <see cref="StorageSlotOffset"/> content.
-        /// </summary>
-        public List<ISlotViewer> Subscribers { get; } = new List<ISlotViewer>();
-
-        private SlotChange Previous;
-        private SlotTouchType PreviousType = SlotTouchType.None;
-
-        /// <summary>
-        /// Notifies all <see cref="Subscribers"/> with the latest slot change details.
-        /// </summary>
-        /// <param name="slot">Last interacted slot</param>
-        /// <param name="type">Last interacted slot interaction type</param>
-        public void NotifySlotChanged(SlotChange slot, SlotTouchType type)
-        {
-            foreach (var sub in Subscribers)
-                ResetView(sub, slot, type);
-            Previous = slot;
-            PreviousType = type;
-        }
-
-        private void ResetView(ISlotViewer sub, SlotChange slot, SlotTouchType type)
-        {
-            if (Previous != null)
-                sub.NotifySlotOld(Previous);
-
-            int index = sub.ViewIndex;
-            if (index == slot.Box)
-                sub.NotifySlotChanged(slot, type);
-        }
-
-        public void ResetView(ISlotViewer sub) => ResetView(sub, Previous, PreviousType);
-    }
-
-    public interface ISlotViewer
-    {
-        /// <summary>
-        /// Current index the viewer is viewing.
-        /// </summary>
-        int ViewIndex { get; }
-
-        /// <summary>
-        /// Notification that the <see cref="previous"/> slot is no longer the last interacted slot.
-        /// </summary>
-        /// <param name="previous">Last interacted slot</param>
-        void NotifySlotOld(SlotChange previous);
-
-        /// <summary>
-        /// Notification that the <see cref="slot"/> has just been interacted with.
-        /// </summary>
-        /// <param name="slot">Last interacted slot</param>
-        /// <param name="type">Last interacted slot interaction type</param>
-        void NotifySlotChanged(SlotChange slot, SlotTouchType type);
-    }
 
     /// <summary>
     /// Facilitates interaction with a <see cref="SaveFile"/> or other data location's slot data.

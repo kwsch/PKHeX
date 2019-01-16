@@ -77,6 +77,11 @@ namespace PKHeX.Core
             { GameVersion.Gen6, Legal.LevelUpAO },
             { GameVersion.Gen7, Legal.LevelUpSM },
             { GameVersion.VCEvents, Legal.LevelUpY },
+
+            { GameVersion.Stadium, Legal.LevelUpY },
+            { GameVersion.EventsGBGen1, Legal.LevelUpY },
+            { GameVersion.Stadium2, Legal.LevelUpGS },
+            { GameVersion.EventsGBGen2, Legal.LevelUpGS },
         };
 
         private static readonly Dictionary<GameVersion, PersonalTable> Personal = new Dictionary<GameVersion, PersonalTable>
@@ -149,6 +154,11 @@ namespace PKHeX.Core
             { GameVersion.Gen6, PersonalTable.AO },
             { GameVersion.Gen7, PersonalTable.SM },
             { GameVersion.VCEvents, PersonalTable.Y },
+
+            { GameVersion.Stadium, PersonalTable.Y },
+            { GameVersion.EventsGBGen1, PersonalTable.Y },
+            { GameVersion.Stadium2, PersonalTable.GS },
+            { GameVersion.EventsGBGen2, PersonalTable.GS },
         };
     }
 }

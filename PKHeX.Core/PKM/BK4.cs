@@ -334,6 +334,7 @@ namespace PKHeX.Core
         #endregion
 
         // Not stored
+        public override int Status_Condition { get; set; }
         public override int Stat_Level { get => CurrentLevel; set {} }
         public override int Stat_HPCurrent { get; set; }
         public override int Stat_HPMax { get; set; }

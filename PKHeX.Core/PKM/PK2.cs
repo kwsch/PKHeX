@@ -72,7 +72,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Party Attributes
-        public int Status_Condition { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+        public override int Status_Condition { get => Data[0x20]; set => Data[0x20] = (byte)value; }
 
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x22); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); }
         public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x24); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); }

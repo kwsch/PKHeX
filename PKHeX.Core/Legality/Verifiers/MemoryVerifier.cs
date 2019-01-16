@@ -270,10 +270,10 @@ namespace PKHeX.Core
                             break;
                     }
                     return;
-                case WC6 g when !g.IsEgg:
+                case WC6 g when !g.IsEgg && g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
-                case WC7 g when !g.IsEgg:
+                case WC7 g when !g.IsEgg && g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
             }
@@ -387,15 +387,10 @@ namespace PKHeX.Core
         {
             if (generation < 6)
                 return false;
-            if (EncounterMatch is EncounterLink link && !link.OT)
-                return false;
 
             bool untraded = pkm.HT_Name.Length == 0 || (pkm is IGeoTrack g && g.Geo1_Country == 0);
-            if (!(EncounterMatch is MysteryGift gift))
-                return untraded;
-
-            untraded |= !pkm.WasEventEgg;
-            untraded &= gift.IsEgg;
+            if (EncounterMatch is WC6 gift)
+                return gift.OTGender == 3 && untraded;
             return untraded;
         }
 

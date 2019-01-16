@@ -199,6 +199,8 @@ namespace PKHeX.WinForms
                     {
                         var ver = Settings.Default.DefaultSaveVersion;
                         var sav = SaveUtil.GetBlankSAV(ver, "PKHeX");
+                        if (sav.Version == GameVersion.Invalid) // will fail to load
+                            sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), "PKHeX");
                         OpenSAV(sav, null);
                         C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
                     }
@@ -847,10 +849,9 @@ namespace PKHeX.WinForms
             {
                 if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
                 {
-                    WinFormsUtil.Alert(string.Format(MsgFileLoadVersionDetect, sav.Generation), MsgFileLoadVersionSelect);
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games);
+                    var dialog = new SAV_GameSelect(games, MsgFileLoadVersionDetect, MsgFileLoadVersionSelect);
                     dialog.ShowDialog();
 
                     sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
@@ -859,15 +860,14 @@ namespace PKHeX.WinForms
                     if (sav.Version == GameVersion.FRLG)
                         sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
                 }
-                else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
+                else if (sav.Version == GameVersion.FRLG && sav.Exportable) // IndeterminateSubVersion
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
                     string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
-                    WinFormsUtil.Alert(string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
                     var g = new[] { GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games);
+                    var dialog = new SAV_GameSelect(games, string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     var pt = SaveUtil.GetG3Personal(dialog.Result);

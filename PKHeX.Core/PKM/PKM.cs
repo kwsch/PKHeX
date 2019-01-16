@@ -110,6 +110,7 @@ namespace PKHeX.Core
         public abstract int IV_SPE { get; set; }
         public abstract int IV_SPA { get; set; }
         public abstract int IV_SPD { get; set; }
+        public abstract int Status_Condition { get; set; }
         public abstract int Stat_Level { get; set; }
         public abstract int Stat_HPMax { get; set; }
         public abstract int Stat_HPCurrent { get; set; }
@@ -276,7 +277,8 @@ namespace PKHeX.Core
         public int SpecForm { get => Species + (AltForm << 11); set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
-        public virtual bool Locked { get => false; set { } }
+        public StorageSlotFlag StorageFlags { get; internal set; }
+        public bool Locked => StorageFlags.HasFlagFast(StorageSlotFlag.Locked);
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 
@@ -778,6 +780,32 @@ namespace PKHeX.Core
             Stat_SPE = stats[3];
             Stat_SPA = stats[4];
             Stat_SPD = stats[5];
+        }
+
+        /// <summary>
+        /// Indicates if Party Stats are present. False if not initialized (from stored format).
+        /// </summary>
+        public bool PartyStatsPresent => Stat_HPMax != 0;
+
+        /// <summary>
+        /// Clears any status condition and refreshes the stats.
+        /// </summary>
+        public void Heal()
+        {
+            SetStats(GetStats(PersonalInfo));
+            Status_Condition = 0;
+        }
+
+        /// <summary>
+        /// Enforces that Party Stat values are present.
+        /// </summary>
+        /// <returns>True if stats were refreshed, false if stats were already present.</returns>
+        public bool ForcePartyData()
+        {
+            if (PartyStatsPresent)
+                return false;
+            Heal();
+            return true;
         }
 
         /// <summary>

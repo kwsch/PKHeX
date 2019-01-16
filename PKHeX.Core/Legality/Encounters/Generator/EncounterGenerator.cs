@@ -7,7 +7,6 @@ using static PKHeX.Core.MysteryGiftGenerator;
 using static PKHeX.Core.EncounterTradeGenerator;
 using static PKHeX.Core.EncounterSlotGenerator;
 using static PKHeX.Core.EncounterStaticGenerator;
-using static PKHeX.Core.EncounterLinkGenerator;
 using static PKHeX.Core.EncounterEggGenerator;
 
 namespace PKHeX.Core
@@ -305,14 +304,8 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
         {
             int ctr = 0;
-            if (pkm.WasLink)
-            {
-                foreach (var z in GetValidLinkGifts(pkm))
-                { yield return z; ++ctr; }
-                if (ctr != 0) yield break;
-            }
 
-            if (pkm.WasEvent || pkm.WasEventEgg)
+            if (pkm.WasEvent || pkm.WasEventEgg || pkm.WasLink)
             {
                 foreach (var z in GetValidGifts(pkm))
                 { yield return z; ++ctr; }

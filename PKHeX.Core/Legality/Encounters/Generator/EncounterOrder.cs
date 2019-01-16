@@ -4,7 +4,6 @@ namespace PKHeX.Core
     {
         Egg,
         Mystery,
-        Link,
         Static,
         Trade,
         Slot,

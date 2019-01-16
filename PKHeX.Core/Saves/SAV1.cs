@@ -380,26 +380,13 @@ namespace PKHeX.Core
                     new InventoryPouchGB(InventoryType.PCItems, legalItems, 99, Offsets.PCItems, 50)
                 };
                 foreach (var p in pouch)
-                {
                     p.GetPouch(Data);
-                }
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                {
-                    int ofs = 0;
-                    for (int i = 0; i < p.Count; i++)
-                    {
-                        while (p.Items[ofs].Count == 0)
-                            ofs++;
-                        p.Items[i] = p.Items[ofs++];
-                    }
-                    while (ofs < p.Items.Length)
-                        p.Items[ofs++] = new InventoryItem();
                     p.SetPouch(Data);
-                }
             }
         }
 

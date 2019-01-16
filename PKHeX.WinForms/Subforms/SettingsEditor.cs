@@ -24,8 +24,9 @@ namespace PKHeX.WinForms
 
             if (obj is Settings s)
             {
+                var noSelectVersions = new[] {GameVersion.GO};
                 CB_Blank.InitializeBinding();
-                CB_Blank.DataSource = GameInfo.VersionDataSource;
+                CB_Blank.DataSource = GameInfo.VersionDataSource.Where(z => !noSelectVersions.Contains((GameVersion)z.Value)).ToList();
                 CB_Blank.SelectedValue = (int) s.DefaultSaveVersion;
                 CB_Blank.SelectedValueChanged += (_, __) => s.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
             }

@@ -30,7 +30,7 @@ namespace PKHeX.Core
         public override int Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); }
         public int Stat_LevelBox { get => Data[3];set => Data[3] = (byte)value; }
-        public int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
+        public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
         public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
         public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
         public int Catch_Rate { get => Data[7]; set => Data[7] = (byte)value; }

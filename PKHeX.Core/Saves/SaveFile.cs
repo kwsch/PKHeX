@@ -179,8 +179,9 @@ namespace PKHeX.Core
             int ofs = GetBoxOffset(box);
             for (int slot = 0; slot < BoxSlotCount; slot++, ofs += SIZE_STORED)
             {
-                if (!GetSlotFlags(box, slot).IsOverwriteProtected())
-                    SetStoredSlot(value[index + slot], ofs);
+                var pk = value[index + slot];
+                if (!pk.StorageFlags.IsOverwriteProtected())
+                    SetStoredSlot(pk, ofs);
             }
         }
 
@@ -202,7 +203,7 @@ namespace PKHeX.Core
                 data[i].Identifier = $"{boxName}:{slot + 1:00}";
                 data[i].Box = box + 1;
                 data[i].Slot = slot + 1;
-                data[i].Locked = GetSlotFlags(box, slot).HasFlagFast(StorageSlotFlag.Locked);
+                data[i].StorageFlags = GetSlotFlags(box, slot);
             }
         }
 
@@ -242,8 +243,9 @@ namespace PKHeX.Core
                 PKM[] data = new PKM[6];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    data[i] = GetStoredSlot(BattleBox + (SIZE_STORED * i));
-                    data[i].Locked = BattleBoxLocked;
+                    data[i] = GetStoredSlot(GetBattleBoxOffset(i));
+                    if (BattleBoxLocked)
+                        data[i].StorageFlags |= StorageSlotFlag.Locked;
                     if (data[i].Species != 0)
                         continue;
                     Array.Resize(ref data, i);
@@ -252,6 +254,8 @@ namespace PKHeX.Core
                 return data;
             }
         }
+
+        public int GetBattleBoxOffset(int index) => BattleBox + (SIZE_STORED * index);
 
         /// <summary> All Event Flag values for the savegame </summary>
         public bool[] EventFlags
@@ -407,7 +411,7 @@ namespace PKHeX.Core
         public virtual int SecondsToFame { get; set; }
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
-        public int SlotCount => BoxCount * BoxSlotCount;
+        public virtual int SlotCount => BoxCount * BoxSlotCount;
         public virtual int PartyCount { get; protected set; }
         public virtual int MultiplayerSpriteID { get => 0; set { } }
 
@@ -661,7 +665,7 @@ namespace PKHeX.Core
             PartyCount--;
         }
 
-        protected bool IsSlotSwapProtected(int box, int slot) => false;
+        protected virtual bool IsSlotSwapProtected(int box, int slot) => false;
 
         private bool IsRegionOverwriteProtected(int min, int max)
         {
@@ -699,6 +703,11 @@ namespace PKHeX.Core
             result.CopyTo(boxclone, skip, start);
 
             SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
+
+            // clear storage flags to ensure all data is written back
+            foreach (var pk in result)
+                pk.StorageFlags = StorageSlotFlag.None;
+
             BoxData = boxclone;
         }
 

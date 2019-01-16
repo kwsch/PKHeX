@@ -167,10 +167,11 @@ namespace PKHeX.WinForms.Controls
 
             int slot = M?.ColorizedBox == box ? M.ColorizedSlot : -1;
 
+            int index = box * SAV.BoxSlotCount;
             for (int i = 0; i < BoxSlotCount; i++)
             {
                 var pb = SlotPictureBoxes[i];
-                if (i < SAV.BoxSlotCount)
+                if (i < SAV.BoxSlotCount && index + i < SAV.SlotCount)
                     GetSlotFiller(boxoffset + (SAV.SIZE_STORED * i), pb, box, i);
                 else
                     pb.Visible = false;

@@ -242,7 +242,7 @@ namespace PKHeX.Core
                 head.Add(new EncounterArea
                 {
                     Location = (data[ofs++] << 8) | data[ofs++],
-                    Slots = null, // later
+                    //Slots = null, // later
                 });
                 headID.Add(data[ofs++]);
             }
@@ -255,7 +255,7 @@ namespace PKHeX.Core
                 rock.Add(new EncounterArea
                 {
                     Location = (data[ofs++] << 8) | data[ofs++],
-                    Slots = null, // later
+                    //Slots = null, // later
                 });
                 rockID.Add(data[ofs++]);
             }

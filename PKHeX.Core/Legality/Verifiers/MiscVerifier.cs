@@ -209,7 +209,7 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(LPIDTypeMismatch, CheckIdentifier.PID));
             }
 
-            var result = pkm.FatefulEncounter
+            var result = pkm.FatefulEncounter != pkm.WasLink
                 ? GetValid(LFatefulMystery, CheckIdentifier.Fateful)
                 : GetInvalid(LFatefulMysteryMissing, CheckIdentifier.Fateful);
             data.AddLine(result);
