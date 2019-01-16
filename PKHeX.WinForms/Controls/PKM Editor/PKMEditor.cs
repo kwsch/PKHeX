@@ -232,7 +232,7 @@ namespace PKHeX.WinForms.Controls
             if (focus)
                 Tab_Main.Focus();
 
-            if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, CurrentPKM, out string c, out pk))
+            if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, pkm, out string c, out pk))
             { WinFormsUtil.Alert(c); return; }
 
             bool oldInit = FieldsInitialized;
@@ -252,7 +252,7 @@ namespace PKHeX.WinForms.Controls
             {
                 MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
-                MT_Form.Text = pk.AltForm.ToString();
+                MT_Form.Text = Math.Max(0, pk.AltForm).ToString();
                 if (pk.PartyStatsPresent) // stats present
                     Stats.LoadPartyStats(pk);
             }
@@ -986,7 +986,7 @@ namespace PKHeX.WinForms.Controls
             if (ChangingFields)
                 return;
             ChangingFields = true;
-            MT_Form.Text = CB_Form.SelectedIndex.ToString();
+            MT_Form.Text = Math.Max(0, CB_Form.SelectedIndex).ToString();
             ChangingFields = false;
 
             UpdateSprite();
