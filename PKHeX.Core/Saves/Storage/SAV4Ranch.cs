@@ -33,10 +33,18 @@ namespace PKHeX.Core
 
             OT = GetString(0x770, 0x12);
 
+            // 0x18 starts the header table
+            // Block 00, Offset = ???
+            // Block 01, Offset = Mii Data
+            // Block 02, Offset = Mii Link Data
+            // Block 03, Offset = Pokemon Data
+            // Block 04, Offset = ??
+
             // Unpack the binary a little:
-            // count, Mii data[count]
-            // count, Mii Link data[count]
-            // count, Pokemon (PK4 + metadata)[count]
+            // size, count, Mii data[count]
+            // size, count, Mii Link data[count]
+            // size, count, Pokemon (PK4 + metadata)[count]
+            // size, count, ???
 
             /* ====Metadata====
              * uint8_t poke_type;// 01 trainer, 04 hayley, 05 traded
