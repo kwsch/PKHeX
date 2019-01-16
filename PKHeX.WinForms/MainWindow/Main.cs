@@ -196,14 +196,7 @@ namespace PKHeX.WinForms
                         savLoaded = OpenSAV(sav, path);
                     }
                     if (!savLoaded)
-                    {
-                        var ver = Settings.Default.DefaultSaveVersion;
-                        var sav = SaveUtil.GetBlankSAV(ver, "PKHeX");
-                        if (sav.Version == GameVersion.Invalid) // will fail to load
-                            sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), "PKHeX");
-                        OpenSAV(sav, null);
-                        C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
-                    }
+                        LoadBlankSaveFile(Settings.Default.DefaultSaveVersion);
                 }
                 #if !DEBUG
                 catch (Exception ex)
@@ -220,6 +213,15 @@ namespace PKHeX.WinForms
                 if (pk != null)
                     OpenPKM(pk);
             }
+        }
+
+        private void LoadBlankSaveFile(GameVersion ver)
+        {
+            var sav = SaveUtil.GetBlankSAV(ver, "PKHeX");
+            if (sav.Version == GameVersion.Invalid) // will fail to load
+                sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), "PKHeX");
+            OpenSAV(sav, null);
+            C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
         }
 
         private void FormLoadCheckForUpdates()
@@ -391,12 +393,20 @@ namespace PKHeX.WinForms
 
         private void MainMenuSettings(object sender, EventArgs e)
         {
-            new SettingsEditor(Settings.Default, nameof(Settings.Default.BAKPrompt)).ShowDialog();
+            var settings = Settings.Default;
+            var ver = settings.DefaultSaveVersion; // check if it changes
+            new SettingsEditor(settings, nameof(settings.BAKPrompt)).ShowDialog();
 
             // Reload text (if OT details hidden)
             Text = GetProgramTitle(C_SAV.SAV);
             // Update final settings
             ReloadProgramSettings(Settings.Default);
+
+            if (ver != settings.DefaultSaveVersion) // changed by user
+            {
+                LoadBlankSaveFile(settings.DefaultSaveVersion);
+                return;
+            }
 
             PKME_Tabs_UpdatePreviewSprite(sender, e);
             if (C_SAV.SAV.HasBox)
