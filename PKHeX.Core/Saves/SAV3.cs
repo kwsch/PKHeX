@@ -93,12 +93,22 @@ namespace PKHeX.Core
                 BlockOfs[i] = index < 0 ? int.MinValue : (index * SIZE_BLOCK) + ABO;
             }
 
-            if (data == null)
-                Version = GameVersion.FRLG;
-            else if (versionOverride != GameVersion.Any)
+            if (versionOverride != GameVersion.Any)
                 Version = versionOverride;
+            else if (data == null)
+                Version = GameVersion.FRLG;
             else
                 Version = GetVersion(Data, BlockOfs[0]);
+
+            Personal = SaveUtil.GetG3Personal(Version);
+            if (data == null) // spoof block offsets
+            {
+                BlockOfs = Enumerable.Range(0, BLOCK_COUNT).ToArray();
+                if (Version == GameVersion.FR || Version == GameVersion.LG)
+                    Version = GameVersion.FRLG;
+                else if (Version == GameVersion.R || Version == GameVersion.LG)
+                    Version = GameVersion.RS;
+            }
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
@@ -116,7 +126,7 @@ namespace PKHeX.Core
             // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
             // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
             // OT name is stored at the top of the first block.
-            Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0;
+            Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0 && Exportable;
 
             PokeDex = BlockOfs[0] + 0x18;
             switch (Version)
@@ -161,7 +171,6 @@ namespace PKHeX.Core
                     Daycare = BlockOfs[4] + 0x100;
                     break;
             }
-            Personal = SaveUtil.GetG3Personal(Version);
             LoadEReaderBerryData();
             LegalItems = Legal.Pouch_Items_RS;
             LegalBalls = Legal.Pouch_Ball_RS;

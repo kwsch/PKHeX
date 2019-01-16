@@ -861,7 +861,7 @@ namespace PKHeX.WinForms
                     if (sav.Version == GameVersion.FRLG)
                         sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
                 }
-                else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
+                else if (sav.Version == GameVersion.FRLG && sav.Exportable) // IndeterminateSubVersion
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
