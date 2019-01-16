@@ -849,10 +849,9 @@ namespace PKHeX.WinForms
             {
                 if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
                 {
-                    WinFormsUtil.Alert(string.Format(MsgFileLoadVersionDetect, sav.Generation), MsgFileLoadVersionSelect);
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games);
+                    var dialog = new SAV_GameSelect(games, MsgFileLoadVersionDetect, MsgFileLoadVersionSelect);
                     dialog.ShowDialog();
 
                     sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
@@ -866,10 +865,9 @@ namespace PKHeX.WinForms
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
                     string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
-                    WinFormsUtil.Alert(string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
                     var g = new[] { GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games);
+                    var dialog = new SAV_GameSelect(games, string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     var pt = SaveUtil.GetG3Personal(dialog.Result);

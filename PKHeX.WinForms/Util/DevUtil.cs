@@ -93,6 +93,7 @@ namespace PKHeX.WinForms
             "SAV_HoneyTree.L_Tree0", // dynamic, don't bother
             "SAV_Misc3.BTN_Symbol", // symbols should stay as their current character
             "SettingsEditor.BAKPrompt", // internal setting
+            "SAV_GameSelect.L_Prompt", // prompt text (dynamic)
         };
 
         private static readonly string[] PurgeBanlist =
