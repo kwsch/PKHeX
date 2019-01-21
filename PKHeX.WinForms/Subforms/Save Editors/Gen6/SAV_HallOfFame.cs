@@ -57,7 +57,7 @@ namespace PKHeX.WinForms
 
         private bool editing;
 
-        private readonly string[] gendersymbols = Main.GenderSymbols;
+        private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
         private readonly byte[] data = new byte[0x1B40];
 
         private readonly Control[] editor_spec;
@@ -189,7 +189,7 @@ namespace PKHeX.WinForms
             string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
             string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
 
-            string genderstr = gendersymbols[gender];
+            string genderstr = gendersymbols[(int)gender];
             string shinystr = shiny == 1 ? "Yes" : "No";
 
             string[] movelist = GameInfo.Strings.movelist;

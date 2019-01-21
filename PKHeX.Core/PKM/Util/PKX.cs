@@ -239,11 +239,14 @@ namespace PKHeX.Core
         /// <returns>Gender integer</returns>
         public static int GetGenderFromString(string s)
         {
-            if (s == "♂" || s == "M")
-                return 0;
-            if (s == "♀" || s == "F")
-                return 1;
-            return 2;
+            if (s.Length != 1)
+                return 2;
+            switch (s[0])
+            {
+                case '♂': case 'M': return 0;
+                case '♀': case 'F': return 1;
+                default: return 2;
+            }
         }
 
         /// <summary>

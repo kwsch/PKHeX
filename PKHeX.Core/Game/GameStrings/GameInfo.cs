@@ -13,6 +13,9 @@ namespace PKHeX.Core
         public static string Language2Char(uint lang) => lang > lang_val.Length ? DefaultLanguage : lang_val[lang];
         private static readonly GameStrings[] Languages = new GameStrings[lang_val.Length];
 
+        public static readonly IReadOnlyList<string> GenderSymbolUnicode = new[] {"♂", "♀", "-"};
+        public static readonly IReadOnlyList<string> GenderSymbolASCII = new[] {"M", "F", "-"};
+
         // Lazy fetch implementation
         private static int DefaultLanguageIndex => Array.IndexOf(lang_val, DefaultLanguage);
 

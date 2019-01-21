@@ -364,23 +364,16 @@ namespace PKHeX.Core
         internal static int GetEggHatchLevel(PKM pkm) => GetEggHatchLevel(pkm.Format);
         internal static int GetEggHatchLevel(int gen) => gen <= 3 ? 5 : 1;
 
-        internal static ICollection<int> GetSplitBreedGeneration(PKM pkm)
-        {
-            return GetSplitBreedGeneration(pkm.GenNumber);
-        }
-
-        private static ICollection<int> GetSplitBreedGeneration(int generation)
+        internal static ICollection<int> GetSplitBreedGeneration(int generation)
         {
             switch (generation)
             {
-                case 1:
-                case 2: return Empty;
                 case 3: return SplitBreed_3;
                 case 4:
                 case 5:
                 case 6:
                 case 7: return SplitBreed;
-                default: return Empty;
+                default: return Array.Empty<int>();
             }
         }
 
@@ -408,7 +401,7 @@ namespace PKHeX.Core
             }
         }
 
-        internal static IEnumerable<int> GetFutureGenEvolutions(int generation)
+        internal static ICollection<int> GetFutureGenEvolutions(int generation)
         {
             switch (generation)
             {
@@ -417,7 +410,7 @@ namespace PKHeX.Core
                 case 3: return FutureEvolutionsGen3;
                 case 4: return FutureEvolutionsGen4;
                 case 5: return FutureEvolutionsGen5;
-                default: return Enumerable.Empty<int>();
+                default: return Array.Empty<int>();
             }
         }
 
@@ -481,10 +474,10 @@ namespace PKHeX.Core
 
         private static bool IsHeldItemAllowed(int item, int generation)
         {
-            if (item < 0)
-                return false;
             if (item == 0)
                 return true;
+            if (item < 0)
+                return false;
 
             var items = GetReleasedHeldItems(generation);
             return items.Length > item && items[item];
@@ -520,7 +513,8 @@ namespace PKHeX.Core
                 int last = poss.FindLastIndex(z => z.Species == minSpecies);
                 return curr.Count >= last;
             }
-            if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, poss, 1)))
+            int gen = pkm.GenNumber;
+            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(GetBaseSpecies(pkm, poss, 1)))
                 return curr.Count >= poss.Count - 1;
             return curr.Count >= poss.Count;
         }
@@ -658,16 +652,16 @@ namespace PKHeX.Core
             return GetBaseSpecies(pkm, evos, skipOption);
         }
 
-        internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<DexLevel> evos, int skipOption = 0)
+        internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<DexLevel> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
+
+        internal static int GetBaseSpecies(int species, IReadOnlyList<DexLevel> evos, int skipOption = 0)
         {
-            if (pkm.Species == 292) // Shedinja
+            if (species == 292) // Shedinja
                 return 290; // Nincada
-            switch (skipOption)
-            {
-                case -1: return pkm.Species;
-                case 1: return evos.Count <= 1 ? pkm.Species : evos[evos.Count - 2].Species;
-                default: return evos.Count <= 0 ? pkm.Species : evos[evos.Count - 1].Species;
-            }
+
+            // skip n from end, return species if invalid index
+            int index = evos.Count - 1 - skipOption;
+            return (uint)index >= evos.Count ? species : evos[index].Species;
         }
 
         private static int GetMaxLevelGeneration(PKM pkm)
@@ -736,16 +730,16 @@ namespace PKHeX.Core
                 return r;
             int species = pkm.Species;
 
-            // Special Type Tutors Availability
-            bool moveTutor = Tutor || MoveReminder; // Usually true, except when called for move suggestions (no tutored moves)
-
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
-                int formcount = pkm.PersonalInfo.FormeCount;
+                // These don't evolve, so don't bother iterating for all entries in the evolution chain (should always be count==1).
+                int formcount;
 
                 // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
-                if (species == 386 && pkm.Format == 3)
+                if (pkm.Format == 3 && species == 386)
                     formcount = 4;
+                else
+                    formcount = pkm.PersonalInfo.FormeCount;
 
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs[0].Level, i, Tutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
@@ -753,6 +747,9 @@ namespace PKHeX.Core
                     r.AddRange(pkm.RelearnMoves);
                 return r.Distinct();
             }
+
+            // Special Type Tutors Availability
+            bool moveTutor = Tutor || MoveReminder; // Usually true, except when called for move suggestions (no tutored moves)
 
             for (var i = 0; i < vs.Count; i++)
             {
@@ -783,12 +780,14 @@ namespace PKHeX.Core
             return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, Tutor, Version, LVL, moveTutor, Machine, MoveReminder, RemoveTransferHM, Generation);
         }
 
+        /// <summary>
+        /// Returns the minimum level the move can be learned at based on the species encounter level.
+        /// </summary>
         private static int GetEvoMoveMinLevel1(PKM pkm, int Generation, int minLvLG1, EvoCriteria evo)
         {
-            // Return moves from minLvLG1 if species if the species encounters
-            // For evolutions return moves using evolution min level as min level
             if (Generation != 1)
                 return 1;
+            // For evolutions, return the lower of the two; current level should legally be >=
             if (evo.MinLevel > 1)
                 return Math.Min(pkm.CurrentLevel, evo.MinLevel);
             return minLvLG1;
@@ -798,6 +797,7 @@ namespace PKHeX.Core
         {
             if (Generation != 2 || ParseSettings.AllowGen2MoveReminder(pkm))
                 return 1;
+            // For evolutions, return the lower of the two; current level should legally be >=
             if (evo.MinLevel > 1)
                 return Math.Min(pkm.CurrentLevel, evo.MinLevel);
             return minLvLG2;

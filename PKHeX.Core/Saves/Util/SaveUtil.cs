@@ -466,8 +466,7 @@ namespace PKHeX.Core
         public static SaveFile GetVariantSAV(byte[] data)
         {
             // Pre-check for header/footer signatures
-            byte[] header = Array.Empty<byte>(), footer = Array.Empty<byte>();
-            CheckHeaderFooter(ref data, ref header, ref footer);
+            CheckHeaderFooter(ref data, out var header, out var footer);
             var sav = GetVariantSAVInternal(data);
             if (sav == null)
                 return null;
@@ -511,9 +510,8 @@ namespace PKHeX.Core
         {
             // Pre-check for header/footer signatures
             SaveFile sav;
-            byte[] header = Array.Empty<byte>(), footer = Array.Empty<byte>();
             byte[] data = MC.SelectedSaveData;
-            CheckHeaderFooter(ref data, ref header, ref footer);
+            CheckHeaderFooter(ref data, out var header, out var footer);
 
             switch (MC.SelectedGameVersion)
             {
@@ -789,8 +787,15 @@ namespace PKHeX.Core
         /// <returns>Checksum</returns>
         public static ushort CRC32(byte[] data, uint initial = 0) => CRC32(data, 0, data.Length, initial);
 
-        private static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
+        /// <summary>
+        /// Checks the provided <see cref="input"/> and pulls out any <see cref="header"/> and/or <see cref="footer"/> arrays.
+        /// </summary>
+        /// <param name="input">Input byte array to strip</param>
+        /// <param name="header">Header data</param>
+        /// <param name="footer">Footer data</param>
+        private static void CheckHeaderFooter(ref byte[] input, out byte[] header, out byte[] footer)
         {
+            header = Array.Empty<byte>(); footer = Array.Empty<byte>();
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
                 if (input.Length == 0x800A4) // Action Replay

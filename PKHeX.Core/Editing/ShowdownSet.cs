@@ -433,7 +433,7 @@ namespace PKHeX.Core
             }
 
             // Nickname Detection
-            if (line.Contains("(") && line.Contains(")"))
+            if (line.Contains('(') && line.Contains(')'))
                 ParseSpeciesNickname(line);
             else
                 ParseSpeciesForm(line);
@@ -693,7 +693,7 @@ namespace PKHeX.Core
         /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data.
         /// </summary>
         /// <param name="data">Pokémon data to summarize.</param>
-        /// <returns>Consumable list of <see cref="ShowdownSet.Text"/> lines.</returns>
+        /// <returns>Consumable list of <see cref="Text"/> lines.</returns>
         public static IEnumerable<string> GetShowdownSets(IEnumerable<PKM> data) => data.Where(p => p.Species != 0).Select(GetShowdownText);
 
         /// <summary>
@@ -701,7 +701,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Pokémon data to summarize.</param>
         /// <param name="separator">Splitter between each set.</param>
-        /// <returns>Single string containing all <see cref="ShowdownSet.Text"/> lines.</returns>
+        /// <returns>Single string containing all <see cref="Text"/> lines.</returns>
         public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownSets(data));
     }
 }
