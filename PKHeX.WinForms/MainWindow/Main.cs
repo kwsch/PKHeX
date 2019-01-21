@@ -78,11 +78,11 @@ namespace PKHeX.WinForms
             private set
             {
                 _unicode = value;
-                GenderSymbols = value ? new[] {"♂", "♀", "-"} : new[] {"M", "F", "-"};
+                GenderSymbols = value ? GameInfo.GenderSymbolUnicode : GameInfo.GenderSymbolASCII;
             }
         }
 
-        public static string[] GenderSymbols { get; private set; } = { "♂", "♀", "-" };
+        public static IReadOnlyList<string> GenderSymbols { get; private set; } = GameInfo.GenderSymbolUnicode;
         public static bool HaX { get; private set; }
 
         private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));

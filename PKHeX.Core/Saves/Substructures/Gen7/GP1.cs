@@ -96,8 +96,8 @@ namespace PKHeX.Core
 
         public string Nickname => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x12D, 0x20)); // dunno length
 
-        public static readonly string[] Genders = {"M", "F", "-"};
-        public string GenderString => (uint) Gender >= Genders.Length ? string.Empty : Genders[Gender];
+        public static readonly IReadOnlyList<string> Genders = GameInfo.GenderSymbolASCII;
+        public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
         private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? PKX.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;

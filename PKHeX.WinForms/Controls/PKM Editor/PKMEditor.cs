@@ -111,7 +111,7 @@ namespace PKHeX.WinForms.Controls
         private Action GetFieldsfromPKM;
         private Func<PKM> GetPKMfromFields;
         private LegalityAnalysis Legality;
-        private string[] gendersymbols = { "♂", "♀", "-" };
+        private IReadOnlyList<string> gendersymbols = GameInfo.GenderSymbolUnicode;
         private readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
         private HashSet<int> AllowedMoves = new HashSet<int>();
 
@@ -321,7 +321,7 @@ namespace PKHeX.WinForms.Controls
             c.SelectedValue = index;
         }
 
-        public void UpdateUnicode(string[] symbols)
+        public void UpdateUnicode(IReadOnlyList<string> symbols)
         {
             gendersymbols = symbols;
             if (!Unicode)
