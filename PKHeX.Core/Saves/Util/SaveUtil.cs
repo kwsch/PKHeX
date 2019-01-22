@@ -563,9 +563,9 @@ namespace PKHeX.Core
         {
             switch (Game)
             {
-                case GameVersion.RD: case GameVersion.BU: case GameVersion.GN:case GameVersion.YW:
+                case GameVersion.RD: case GameVersion.BU: case GameVersion.GN: case GameVersion.YW:
                 case GameVersion.RBY:
-                    return new SAV1();
+                    return new SAV1(versionOverride: Game);
 
                 case GameVersion.GD: case GameVersion.SV: case GameVersion.C:
                 case GameVersion.GS: case GameVersion.GSC:

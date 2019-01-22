@@ -48,10 +48,14 @@
 
         internal static bool IsFromActiveTrainer(PKM pkm) => ActiveTrainer.IsFromTrainer(pkm);
 
+        /// <summary>
+        /// Initializes certain settings
+        /// </summary>
+        /// <param name="sav">Newly loaded save file</param>
+        /// <returns>Save file is Physical GB cartridge save file (not Virtual Console)</returns>
         public static bool InitFromSaveFileData(SaveFile sav)
         {
             ActiveTrainer = sav;
-            AllowGen1Tradeback = true;
             if (sav.Generation >= 3)
                 return AllowGBCartEra = false;
             string path = sav.FileName;

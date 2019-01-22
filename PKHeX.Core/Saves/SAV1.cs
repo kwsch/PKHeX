@@ -24,24 +24,26 @@ namespace PKHeX.Core
             BAK = (byte[])Data.Clone();
             Exportable = !IsRangeEmpty(0, Data.Length);
 
-            if (data == null)
-                Version = GameVersion.RBY;
-            else if (versionOverride != GameVersion.Any)
+            if (versionOverride != GameVersion.Any)
                 Version = versionOverride;
+            else if(data == null)
+                Version = GameVersion.RBY;
             else Version = SaveUtil.GetIsG1SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
             Japanese = SaveUtil.GetIsG1SAVJ(Data);
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-            if (Starter != 0)
+
+            // see if RBY can be differentiated
+            if (Starter != 0 && versionOverride != GameVersion.Any)
                 Version = Yellow ? GameVersion.YW : GameVersion.RB;
 
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
 
-            Personal = PersonalTable.Y;
+            Personal = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
 
             // Stash boxes after the save file's end.
             int stored = SIZE_STOREDBOX;

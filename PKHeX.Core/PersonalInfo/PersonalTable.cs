@@ -95,12 +95,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.RB"/>.
         /// </summary>
-        public static readonly PersonalTable RB = GetTable("rb", GameVersion.RBY);
+        public static readonly PersonalTable RB = GetTable("rb", GameVersion.RB);
 
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.YW"/>.
         /// </summary>
-        public static readonly PersonalTable Y = GetTable("y", GameVersion.RBY);
+        public static readonly PersonalTable Y = GetTable("y", GameVersion.YW);
 
         private static PersonalTable GetTable(string game, GameVersion format)
         {
@@ -122,7 +122,7 @@ namespace PKHeX.Core
         {
             switch (format)
             {
-                case GameVersion.RBY:
+                case GameVersion.RB: case GameVersion.YW: case GameVersion.RBY:
                     return z => new PersonalInfoG1(z);
                 case GameVersion.GS: case GameVersion.C:
                     return z => new PersonalInfoG2(z);
@@ -149,6 +149,8 @@ namespace PKHeX.Core
         {
             switch (format)
             {
+                case GameVersion.RB:
+                case GameVersion.YW:
                 case GameVersion.RBY: return PersonalInfoG1.SIZE;
                 case GameVersion.GS:
                 case GameVersion.C: return PersonalInfoG2.SIZE;
@@ -218,6 +220,7 @@ namespace PKHeX.Core
                 Table[i] = get(entries[i]);
 
             MaxSpeciesID = format.GetMaxSpeciesID();
+            Game = format;
         }
 
         private readonly PersonalInfo[] Table;
@@ -288,6 +291,11 @@ namespace PKHeX.Core
         /// Maximum Species ID for the Table.
         /// </summary>
         public readonly int MaxSpeciesID;
+
+        /// <summary>
+        /// Game(s) the <see cref="Table"/> originated from.
+        /// </summary>
+        public readonly GameVersion Game;
 
         /// <summary>
         /// Gets form names for every species.

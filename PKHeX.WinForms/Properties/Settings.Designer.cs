@@ -250,5 +250,17 @@ namespace PKHeX.WinForms.Properties {
                 this["BAKEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AllowGen1Tradeback {
+            get {
+                return ((bool)(this["AllowGen1Tradeback"]));
+            }
+            set {
+                this["AllowGen1Tradeback"] = value;
+            }
+        }
     }
 }

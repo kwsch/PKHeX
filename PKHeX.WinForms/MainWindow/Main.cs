@@ -424,6 +424,7 @@ namespace PKHeX.WinForms
             C_SAV.FlagIllegal = settings.FlagIllegal;
             C_SAV.M.GlowHover = settings.HoverSlotGlowEdges;
             SpriteBuilder.ShowEggSpriteAsItem = settings.ShowEggSpriteAsHeldItem;
+            ParseSettings.AllowGen1Tradeback = settings.AllowGen1Tradeback;
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.HideSecretDetails;
         }
 
@@ -843,17 +844,7 @@ namespace PKHeX.WinForms
 
         private static bool SanityCheckSAV(ref SaveFile sav)
         {
-            var gb = ParseSettings.InitFromSaveFileData(sav);
-            if (sav is SAV1 && gb) // tradeback toggle
-            {
-                var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    MsgLegalityAllowTradebacks,
-                    MsgLegalityAllowTradebacksYes + Environment.NewLine + MsgLegalityAllowTradebacksNo);
-                if (drTradeback == DialogResult.Cancel)
-                    return false; // abort loading
-                ParseSettings.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
-                return true;
-            }
+            var _ = ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
 
             if (sav is SAV3 s3)
             {

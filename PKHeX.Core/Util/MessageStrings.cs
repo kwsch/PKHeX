@@ -102,10 +102,6 @@ namespace PKHeX.Core
         public static string MsgSimulatorExportBattleBox { get; set; } = "Showdown Team (Battle Box) set to Clipboard.";
         public static string MsgSimulatorExportList { get; set; } = "Showdown Sets copied to Clipboard.";
 
-        public static string MsgLegalityAllowTradebacks { get; set; } = "Generation 1 Save File detected. Allow tradebacks from Generation 2 for legality purposes?";
-        public static string MsgLegalityAllowTradebacksYes { get; set; } = "Yes: Allow Generation 2 tradeback learnsets";
-        public static string MsgLegalityAllowTradebacksNo { get; set; } = "No: Don't allow Generation 2 tradeback learnsets";
-
         public static string MsgBackupCreateLocation { get; set; } = "PKHeX can perform automatic backups if you create a folder with the name '{0}' in the same folder as PKHeX's executable.";
         public static string MsgBackupCreateQuestion { get; set; } = "Would you like to create the backup folder now?";
         public static string MsgBackupDelete { get; set; } = "If you wish to no longer automatically back up save files, delete the '{0}' folder.";
