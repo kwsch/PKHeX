@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -452,8 +453,7 @@ namespace PKHeX.Core
                 var p = PersonalInfo;
                 int level = CurrentLevel;
                 int nature = Nature;
-                int friend = CurrentFriendship; // stats +10% depending on friendship!
-                int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
+                int scalar = CPScalar;
 
                 // Calculate stats for all, then sum together.
                 // HP is not overriden to 1 like a regular stat calc for Shedinja.
@@ -465,7 +465,23 @@ namespace PKHeX.Core
                     + (ushort)(GetStat(p.SPA, HT_SPA ? 31 : IV_SPA, level, nature, 2) * scalar / 100)
                     + (ushort)(GetStat(p.SPD, HT_SPD ? 31 : IV_SPD, level, nature, 3) * scalar / 100);
 
-                return (int)((statSum * 6f * level) / 100f);
+                float result = statSum * 6f;
+                result *= level;
+                result /= 100f;
+                return (int)result;
+            }
+        }
+
+        public int CPScalar
+        {
+            get
+            {
+                int friend = CurrentFriendship; // stats +10% depending on friendship!
+                float scalar = friend / 255f;
+                scalar /= 10f;
+                scalar++;
+                scalar *= 100f;
+                return (int) scalar;
             }
         }
 
@@ -477,9 +493,11 @@ namespace PKHeX.Core
                 if (sum == 0)
                     return 0;
                 var lvl = CurrentLevel;
-                // var scalar = ((lvl * 4.0f) / 100.0f) + 2.0f;
-                var scalar = ((lvl * 4.0m) / 100.0m) + 2.0m; // they don't use decimal but c# rounding mode
-                return (int)(sum * scalar);
+                float scalar = lvl * 4f;
+                scalar /= 100f;
+                scalar += 2f;
+                float result = sum * scalar;
+                return (int)result;
             }
         }
 
@@ -492,7 +510,6 @@ namespace PKHeX.Core
             ResetWeight();
         }
 
-        // ReSharper disable RedundantCast
         // Casts are as per the game code; they may seem redundant but every bit of precision matters?
         // This still doesn't precisely match :( -- just use a tolerance check when updating.
         // If anyone can figure out how to get all precision to match, feel free to update :)
@@ -531,46 +548,72 @@ namespace PKHeX.Core
             return 4; // 1/16 = XL
         }
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         private static float GetHeightRatio(int heightScalar)
         {
-            return (float)((float)((float)(byte)heightScalar / 255.0f) * 0.8f) + 0.6f;
+            // +/- 40%
+            float result = (byte) heightScalar / 255f;
+            result *= 0.8f;
+            result += 0.6f;
+            return result;
         }
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         private static float GetWeightRatio(int weightScalar)
         {
-            return (float)((float)((float)((float)((float)(byte)weightScalar / 255.0f) * 0.4f) + 0.8f));
+            // +/- 20%
+            float result = (byte) weightScalar / 255f;
+            result *= 0.4f;
+            result += 0.8f;
+            return result;
         }
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         public static float GetHeightAbsolute(PersonalInfo p, int heightScalar)
         {
             float HeightRatio = GetHeightRatio(heightScalar);
-            return HeightRatio * (float)p.Height;
+            return HeightRatio * p.Height;
         }
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         public static float GetWeightAbsolute(PersonalInfo p, int heightScalar, int weightScalar)
         {
             float HeightRatio = GetHeightRatio(heightScalar);
             float WeightRatio = GetWeightRatio(weightScalar);
 
-            return HeightRatio * (float)(WeightRatio * (float)p.Weight);
+            float weight = WeightRatio * p.Weight;
+            return HeightRatio * weight;
         }
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         public static byte GetHeightScalar(float height, int avgHeight)
         {
             // height is already *100
-            int v11 = (int)(float)((float)((float)(height + (float)((float)avgHeight * -0.6f)) / (float)((float)avgHeight * 0.8f)) * 255.0f);
-            int v12 = v11 & ~(v11 >> 31);
-            return (byte)Math.Min(255, v12);
+            float biasH = avgHeight * -0.6f;
+            float biasL = avgHeight * 0.8f;
+            float numerator = biasH + height;
+            float result = numerator / biasL;
+            result *= 255f;
+            int value = (int) result;
+            int unsigned = value & ~(value >> 31);
+            return (byte)Math.Min(255, unsigned);
         }
 
+        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         public static byte GetWeightScalar(float height, float weight, int avgHeight, int avgWeight)
         {
             // height is already *100
             // weight is already *10
-            float weightComponent = (height / avgHeight) * weight;
-            int v14 = (int)(float)((float)((float)(weightComponent + (float)((float)avgWeight * -0.8f)) / (float)((float)avgWeight * 0.4)) * 255.0f);
-            int v15 = v14 & ~(v14 >> 31);
-            return (byte)Math.Min(255, v15);
+            float heightRatio = height / avgHeight;
+            float weightComponent = heightRatio * weight;
+            float top = avgWeight * -0.8f;
+            top += weightComponent;
+            float bot = avgWeight * 0.4f;
+            float result = top / bot;
+            result *= 255f;
+            int value = (int)result;
+            int unsigned = value & ~(value >> 31);
+            return (byte)Math.Min(255, unsigned);
         }
     }
 }
