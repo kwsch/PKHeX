@@ -44,7 +44,6 @@ namespace PKHeX.Core
         #region Main Window
 
         public static string MsgFileLoad { get; set; } = "File Loaded:";
-        // ReSharper disable once UnusedMember.Global -- used only for release
         public static string MsgFileLoadFail { get; set; } = "Unable to load file.";
         public static string MsgFileLoadFailAuto { get; set; } = "An error occurred while attempting to auto-load your save file.";
         public static string MsgFileLoadFailAutoAdvise { get; set; } = "It is advised to manually remove bad filenames from the folder.";
@@ -101,10 +100,6 @@ namespace PKHeX.Core
         public static string MsgSimulatorExportParty { get; set; } = "Showdown Team (Party) set to Clipboard.";
         public static string MsgSimulatorExportBattleBox { get; set; } = "Showdown Team (Battle Box) set to Clipboard.";
         public static string MsgSimulatorExportList { get; set; } = "Showdown Sets copied to Clipboard.";
-
-        public static string MsgLegalityAllowTradebacks { get; set; } = "Generation 1 Save File detected. Allow tradebacks from Generation 2 for legality purposes?";
-        public static string MsgLegalityAllowTradebacksYes { get; set; } = "Yes: Allow Generation 2 tradeback learnsets";
-        public static string MsgLegalityAllowTradebacksNo { get; set; } = "No: Don't allow Generation 2 tradeback learnsets";
 
         public static string MsgBackupCreateLocation { get; set; } = "PKHeX can perform automatic backups if you create a folder with the name '{0}' in the same folder as PKHeX's executable.";
         public static string MsgBackupCreateQuestion { get; set; } = "Would you like to create the backup folder now?";

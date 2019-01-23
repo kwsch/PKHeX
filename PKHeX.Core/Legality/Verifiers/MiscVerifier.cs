@@ -280,9 +280,11 @@ namespace PKHeX.Core
 
         private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
         {
-            if (Math.Abs(pb7.HeightAbsolute - pb7.CalcHeightAbsolute) > 0.001)
+            // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+            if (!IsCloseEnough(pb7.HeightAbsolute, pb7.CalcHeightAbsolute))
                 data.AddLine(GetInvalid(LStatIncorrectHeight, CheckIdentifier.Encounter));
-            if (Math.Abs(pb7.WeightAbsolute - pb7.CalcWeightAbsolute) > 0.001)
+            // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+            if (!IsCloseEnough(pb7.WeightAbsolute, pb7.CalcWeightAbsolute))
                 data.AddLine(GetInvalid(LStatIncorrectWeight, CheckIdentifier.Encounter));
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarter(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, CheckIdentifier.Encounter));
@@ -293,6 +295,13 @@ namespace PKHeX.Core
                 var evolved = LegalityAnalysis.SpeciesStrings[pb7.Species + 1];
                 data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved), CheckIdentifier.Evolution));
             }
+        }
+
+        private static bool IsCloseEnough(float a, float b)
+        {
+            var ia = BitConverter.ToInt32(BitConverter.GetBytes(a), 0);
+            var ib = BitConverter.ToInt32(BitConverter.GetBytes(b), 0);
+            return Math.Abs(ia - ib) <= 2;
         }
 
         private static bool IsTradeEvoRequired7b(IEncounterable enc, PKM pb7)

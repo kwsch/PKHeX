@@ -908,5 +908,15 @@ namespace PKHeX.Core
                 return -1;
             }
         }
+
+        public bool HasReceivedWishmkrJirachi
+        {
+            get => GameVersion.RS.Contains(Version) && GetFlag(BlockOfs[4] + 0x2B1, 0);
+            set
+            {
+                if (GameVersion.RS.Contains(Version))
+                    SetFlag(BlockOfs[4] + 0x2B1, 0, value);
+            }
+        }
     }
 }
