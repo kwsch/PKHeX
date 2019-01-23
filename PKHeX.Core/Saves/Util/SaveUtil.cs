@@ -671,7 +671,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-        private static bool IsSizeValid(int size) => SIZES.Contains(size);
+        public static bool IsSizeValid(int size) => SIZES.Contains(size);
 
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>

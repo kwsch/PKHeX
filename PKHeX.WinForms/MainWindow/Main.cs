@@ -677,7 +677,7 @@ namespace PKHeX.WinForms
             var state = MC.GetMemoryCardState();
             switch (state)
             {
-                default: { WinFormsUtil.Error(MsgFileGameCubeBad, path); return false; }
+                default: { WinFormsUtil.Error(!SaveUtil.IsSizeValid(MC.Data.Length) ? MsgFileGameCubeBad : MsgFileLoadSaveLoadFail, path); return false; }
                 case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error(MsgFileGameCubeNoGames, path); return false; }
                 case GCMemoryCardState.DuplicateCOLO:
                 case GCMemoryCardState.DuplicateXD:

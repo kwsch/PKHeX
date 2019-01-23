@@ -44,7 +44,6 @@ namespace PKHeX.Core
         #region Main Window
 
         public static string MsgFileLoad { get; set; } = "File Loaded:";
-        // ReSharper disable once UnusedMember.Global -- used only for release
         public static string MsgFileLoadFail { get; set; } = "Unable to load file.";
         public static string MsgFileLoadFailAuto { get; set; } = "An error occurred while attempting to auto-load your save file.";
         public static string MsgFileLoadFailAutoAdvise { get; set; } = "It is advised to manually remove bad filenames from the folder.";
