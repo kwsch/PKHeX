@@ -57,7 +57,7 @@ namespace PKHeX.Core
              * uint32_t name4;
              */
 
-            const int miiCountOffset = 0x22AC;
+            var miiCountOffset = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? 0x268C : 0x22AC;
             var miiCount = BigEndian.ToInt32(Data, miiCountOffset);
             var miiLinkCountOffset = miiCountOffset + 4 + (SIZE_MII * miiCount) + 4;
             var miiLinkCount = BigEndian.ToInt32(Data, miiLinkCountOffset);

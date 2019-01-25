@@ -49,6 +49,7 @@ namespace PKHeX.Core
         public const int SIZE_G7BANK = 0xACA48;
         public const int SIZE_G4BANK = 0x405C4;
         public const int SIZE_G4RANCH = 0x54000;
+        public const int SIZE_G4RANCH_PLAT = 0x7C000;
 
         private static readonly HashSet<int> SIZES_2 = new HashSet<int>
         {
@@ -65,7 +66,7 @@ namespace PKHeX.Core
             // SIZES_2 covers gen2 sizes since there's so many
             SIZE_G1RAW, SIZE_G1BAT,
 
-            SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH,
+            SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
         };
 
         private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
@@ -447,7 +448,7 @@ namespace PKHeX.Core
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
         private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
         private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
-        private static bool GetIsRanch4(byte[] data) => data.Length == SIZE_G4RANCH && BigEndian.ToUInt32(data, 0x22AC) != 0;
+        private static bool GetIsRanch4(byte[] data) => (data.Length == SIZE_G4RANCH && BigEndian.ToUInt32(data, 0x22AC) != 0) || (data.Length == SIZE_G4RANCH_PLAT && BigEndian.ToUInt32(data, 0x268C) != 0);
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="path">File location from which to create a SaveFile.</param>
