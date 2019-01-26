@@ -6,9 +6,6 @@ namespace PKHeX.Core
 {
     public sealed class SAV4Ranch : BulkStorage
     {
-        private const int SIZE_MII = 0x28;
-        private const int SIZE_MIILINK = 0x2C;
-
         public override int SIZE_STORED => 0x88 + 0x1C;
         protected override int SIZE_PARTY => SIZE_STORED;
 
@@ -28,7 +25,7 @@ namespace PKHeX.Core
         public SAV4Ranch(byte[] data) : base(data, typeof(PK4), 0)
         {
             Personal = PersonalTable.Pt;
-            Version = GameVersion.DPPt;
+            Version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
             HeldItems = Legal.HeldItems_Pt;
 
             OT = GetString(0x770, 0x12);
@@ -57,18 +54,13 @@ namespace PKHeX.Core
              * uint32_t name4;
              */
 
-            var miiCountOffset = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? 0x268C : 0x22AC;
-            var miiCount = BigEndian.ToInt32(Data, miiCountOffset);
-            var miiLinkCountOffset = miiCountOffset + 4 + (SIZE_MII * miiCount) + 4;
-            var miiLinkCount = BigEndian.ToInt32(Data, miiLinkCountOffset);
-            var pkCountOffset = miiLinkCountOffset + 4 + (SIZE_MIILINK * miiLinkCount) + 4;
-
+            var pkCountOffset = BigEndian.ToInt32(Data, 0x34) + 4;
             SlotCount = BigEndian.ToInt32(Data, pkCountOffset);
             BoxCount = (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
 
             Box = pkCountOffset + 4;
 
-            FinalCountOffset = pkCountOffset + 4 + (SIZE_STORED * SlotCount);
+            FinalCountOffset = BigEndian.ToInt32(Data, 0x3C);
             FinalCount = BigEndian.ToInt32(Data, FinalCountOffset);
         }
 
