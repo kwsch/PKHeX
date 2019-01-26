@@ -427,7 +427,7 @@ namespace PKHeX.Core
             314, // Illumise
         };
 
-        internal static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
+        public static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
         {
             290, // Nincada
             292, // Shedinja (G)

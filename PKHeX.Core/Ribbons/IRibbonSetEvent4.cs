@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Ribbons introduced in Generation 4 for Special Events </summary>
-    internal interface IRibbonSetEvent4
+    public interface IRibbonSetEvent4
     {
         bool RibbonClassic { get; set; }
         bool RibbonWishing { get; set; }
