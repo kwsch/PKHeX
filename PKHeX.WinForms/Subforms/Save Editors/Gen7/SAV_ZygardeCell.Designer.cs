@@ -90,6 +90,7 @@
             this.dgv_val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dgv_val.HeaderText = "Value";
             this.dgv_val.Name = "dgv_val";
+            this.dgv_val.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // B_Cancel
             // 
