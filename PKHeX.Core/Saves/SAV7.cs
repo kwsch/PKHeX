@@ -218,12 +218,12 @@ namespace PKHeX.Core
         private int Bag { get; set; } = int.MinValue;
         private int AdventureInfo { get; set; } = int.MinValue;
         private int Trainer2 { get; set; } = int.MinValue;
-        private int Misc { get; set; } = int.MinValue;
+        public int Misc { get; private set; } = int.MinValue;
         private int LastViewedBox { get; set; } = int.MinValue;
         private int WondercardFlags { get; set; } = int.MinValue;
         private int PlayTime { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
-        public int JoinFestaData { get; set; } = int.MinValue;
+        public int JoinFestaData { get; private set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
         private int BattleTree { get; set; } = int.MinValue;
         private int BattleBoxFlags { get; set; } = int.MinValue;
@@ -1226,8 +1226,11 @@ namespace PKHeX.Core
                       + 0x80; // Misc Data (1024 bits)
 
             for (int i = 1; i <= 4; i++) // check all 4 seen flags (gender/shiny)
+            {
                 if ((Data[ofs + bd + (i * brSize)] & mask) != 0)
                     return true;
+            }
+
             return false;
         }
 
@@ -1532,105 +1535,6 @@ namespace PKHeX.Core
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
             return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
-        }
-
-        // Wormhole shininess & flags found by @PP-theSLAYER
-        // https://projectpokemon.org/home/forums/topic/39433-gen-7-save-research-thread/?page=3&tab=comments#comment-239090
-        public bool WormholeShininess // 0x4535 = Misc (0x4400 in USUM) + 0x0135
-        {
-            get => Data[Misc + 0x0135] == 1;
-            set => Data[Misc + 0x0135] = (byte)(value ? 1 : 0);
-        }
-
-        // TODO: Find out if legendaries are in slots too
-        public const int WormholeSlotMax = 4;
-        public int WormholeSlot
-        {
-            get
-            {
-                //if (!InWormhole())
-                //    return -1;
-                for (int i = 0; i <= WormholeSlotMax; i++)
-                {
-                    if (GetEventFlag(i + 11) == false)
-                        return i;
-                }
-                return -1;
-            }
-            set
-            {
-                if (value < 0 || value > WormholeSlotMax)
-                    return;
-                for (int i = 0; i <= WormholeSlotMax; i++)
-                {
-                    SetEventFlag(i + 11, value != i);
-                }
-
-                // TODO: Is there a better way to set individual consts while using the API?
-                var consts = EventConsts;
-                consts[851] = (ushort)(value + 38);
-                EventConsts = consts;
-            }
-        }
-
-        public readonly int[] StandardWormholes = new[] {
-            256, // Red
-            257, // Green
-            258, // Yellow
-            259, // Blue
-        };
-
-        public readonly int[] WormholeSlotsRed = new[]
-        {
-            334, // Altaria
-            469, // Yanmega
-            561, // Sigilyph
-            581, // Swanna
-            277, // Swellow
-        };
-
-        public readonly int[] WormholeSlotsGreen = new[]
-        {
-            542, // Drapion
-            531, // Audino
-            695, // Heliolisk
-            274, // Nuzleaf
-            326, // Grumpig
-        };
-
-        public readonly int[] WormholeSlotsYellow = new[]
-        {
-            460, // Abomasnow
-            308, // Medicham
-            450, // Hippowdon
-            558, // Crustle
-            219, // Magcargo
-        };
-
-        public readonly int[] WormholeSlotsBlue = new[]
-        {
-            689, // Barbaracle
-            271, // Lombre
-            618, // Stunfisk
-            419, // Floatzel
-            195, // Quagsire
-        };
-
-        public int WormholeSlotToPokemon(int mapid, int slot)
-        {
-            if (slot < 0 || slot > WormholeSlotMax)
-                return -1;
-            //if (!StandardWormholes.Contains(mapid))
-            //    return -1;
-
-            switch (mapid)
-            {
-                case 256: return WormholeSlotsRed[slot];
-                case 257: return WormholeSlotsGreen[slot];
-                case 258: return WormholeSlotsYellow[slot];
-                case 259: return WormholeSlotsBlue[slot];
-                default: return -1;
-            }
         }
     }
 }
