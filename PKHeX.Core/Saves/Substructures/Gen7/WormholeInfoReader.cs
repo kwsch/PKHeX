@@ -12,36 +12,30 @@ namespace PKHeX.Core
             get => SAV.Data[SAV.Misc + 0x0135] == 1;
             set => SAV.Data[SAV.Misc + 0x0135] = (byte)(value ? 1 : 0);
         }
+        
+        public const int WormholeSlotMax = 15;
 
-        // TODO: Find out if legendaries are in slots too
-        public const int WormholeSlotMax = 4;
-
+        // Slots currently use digits 1 through 15 inclusively.
+        // This follows the flag numbers used for slots.
         public int WormholeSlot
         {
             get
             {
-                //if (!InWormhole())
-                //    return -1;
-                for (int i = 0; i <= WormholeSlotMax; i++)
+                for (int i = 1; i <= WormholeSlotMax; i++)
                 {
-                    if (!SAV.GetEventFlag(i + 11))
+                    if (!SAV.GetEventFlag(i))
                         return i;
                 }
                 return -1;
             }
             set
             {
-                if (value < 0 || value > WormholeSlotMax)
+                if (value < 1 || value > WormholeSlotMax)
                     return;
-                for (int i = 0; i <= WormholeSlotMax; i++)
+                for (int i = 1; i <= WormholeSlotMax; i++)
                 {
-                    SAV.SetEventFlag(i + 11, value != i);
+                    SAV.SetEventFlag(i, value != i);
                 }
-
-                // TODO: Is there a better way to set individual consts while using the API?
-                var consts = SAV.EventConsts;
-                consts[851] = (ushort)(value + 38);
-                SAV.EventConsts = consts;
             }
         }
 
@@ -55,6 +49,17 @@ namespace PKHeX.Core
 
         public static readonly int[] WormholeSlotsRed =
         {
+            -1, // filler used for indexing with slot number
+            144, // Articuno
+            145, // Zapdos
+            146, // Moltres
+            250, // Ho-Oh
+            384, // Rayquaza
+            488, // Cresselia
+            641, // Tornadus
+            642, // Thundurus
+            645, // Landorus
+            717, // Yveltal
             334, // Altaria
             469, // Yanmega
             561, // Sigilyph
@@ -64,7 +69,18 @@ namespace PKHeX.Core
 
         public static readonly int[] WormholeSlotsGreen =
         {
-            542, // Drapion
+            -1, // filler used for indexing with slot number
+            150, // Mewtwo
+            243, // Raikou
+            244, // Entei
+            483, // Dialga
+            638, // Cobalion
+            639, // Terrakion
+            640, // Virizion
+            643, // Reshiram
+            644, // Zekrom
+            716, // Xerneas
+            452, // Drapion
             531, // Audino
             695, // Heliolisk
             274, // Nuzleaf
@@ -73,6 +89,17 @@ namespace PKHeX.Core
 
         public static readonly int[] WormholeSlotsYellow =
         {
+            -1, // filler used for indexing with slot number
+            377, // Regirock
+            378, // Regice
+            379, // Registeel
+            383, // Groudon
+            485, // Heatran
+            486, // Regigigas
+            484, // Palkia
+            487, // Giratina
+            -1, // unused
+            -1, // unused
             460, // Abomasnow
             308, // Medicham
             450, // Hippowdon
@@ -82,6 +109,17 @@ namespace PKHeX.Core
 
         public static readonly int[] WormholeSlotsBlue =
         {
+            -1, // filler used for indexing with slot number
+            245, // Suicune
+            249, // Lugia
+            380, // Latias
+            381, // Latios
+            382, // Kyogre
+            480, // Uxie
+            481, // Mesprit
+            482, // Azelf
+            646, // Kyurem
+            -1, // unused
             689, // Barbaracle
             271, // Lombre
             618, // Stunfisk
@@ -91,10 +129,8 @@ namespace PKHeX.Core
 
         public int WormholeSlotToPokemon(int mapid, int slot)
         {
-            if (slot < 0 || slot > WormholeSlotMax)
+            if (slot < 1 || slot > WormholeSlotMax)
                 return -1;
-            //if (!StandardWormholes.Contains(mapid))
-            //    return -1;
 
             switch (mapid)
             {
