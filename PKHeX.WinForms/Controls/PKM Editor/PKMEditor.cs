@@ -1774,7 +1774,6 @@ namespace PKHeX.WinForms.Controls
         // Loading Setup
         public void TemplateFields(ITrainerInfo info)
         {
-            FieldsLoaded = false;
             if (CB_GameOrigin.Items.Count > 0)
                 CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;
@@ -1785,7 +1784,6 @@ namespace PKHeX.WinForms.Controls
             CB_Species.SelectedValue = RequestSaveFile?.MaxSpeciesID ?? pkm.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
             LastData = null;
-            FieldsLoaded = true;
             UpdateSprite();
         }
 
