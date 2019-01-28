@@ -117,7 +117,7 @@ namespace PKHeX.WinForms
             {
                 ConfigUtil.CheckConfig();
                 FormLoadConfig(out BAKprompt, out showChangelog);
-                HaX |= Settings.Default.HaX;
+                HaX |= Settings.Default.ForceHaXOnLaunch;
             }
             catch (ConfigurationErrorsException e)
             {
@@ -396,7 +396,7 @@ namespace PKHeX.WinForms
         {
             var settings = Settings.Default;
             var ver = settings.DefaultSaveVersion; // check if it changes
-            new SettingsEditor(settings, nameof(settings.BAKPrompt), nameof(settings.HaX)).ShowDialog();
+            new SettingsEditor(settings, nameof(settings.BAKPrompt), nameof(settings.ForceHaXOnLaunch)).ShowDialog();
 
             // Reload text (if OT details hidden)
             Text = GetProgramTitle(C_SAV.SAV);

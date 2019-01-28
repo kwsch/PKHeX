@@ -62,7 +62,7 @@
     <Setting Name="AllowGen1Tradeback" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="HaX" Type="System.Boolean" Scope="User">
+    <Setting Name="ForceHaXOnLaunch" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

@@ -266,12 +266,12 @@ namespace PKHeX.WinForms.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool HaX {
+        public bool ForceHaXOnLaunch {
             get {
-                return ((bool)(this["HaX"]));
+                return ((bool)(this["ForceHaXOnLaunch"]));
             }
             set {
-                this["HaX"] = value;
+                this["ForceHaXOnLaunch"] = value;
             }
         }
     }
