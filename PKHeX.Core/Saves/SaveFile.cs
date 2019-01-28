@@ -174,7 +174,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void SetBoxData(IList<PKM> value, int box, int index = 0)
+        public void SetBoxData(IList<PKM> value, int box, int index = 0)
         {
             int ofs = GetBoxOffset(box);
             for (int slot = 0; slot < BoxSlotCount; slot++, ofs += SIZE_STORED)
