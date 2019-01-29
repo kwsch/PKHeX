@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Ribbons that originated in Generation 3 and were only present within that Generation. </summary>
-    internal interface IRibbonSetOnly3
+    public interface IRibbonSetOnly3
     {
         int RibbonCountG3Cool { get; set; }
         int RibbonCountG3Beauty { get; set; }

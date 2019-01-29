@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Ribbons introduced in Generation 3 for Special Events </summary>
-    internal interface IRibbonSetEvent3
+    public interface IRibbonSetEvent3
     {
         bool RibbonEarth { get; set; }
         bool RibbonNational { get; set; }

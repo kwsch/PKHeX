@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define VERIFY_GEN
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -39,7 +40,7 @@ namespace PKHeX.Core
                 foreach (var enc in encs)
                 {
                     var result = enc.ConvertToPKM(info);
-#if DEBUG
+#if VERIFY_GEN
                     var la = new LegalityAnalysis(result);
                     if (!la.Valid)
                         throw new Exception("Legality analysis of generated Pokémon is invalid");

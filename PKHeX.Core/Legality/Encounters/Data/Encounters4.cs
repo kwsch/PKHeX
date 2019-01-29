@@ -150,6 +150,8 @@ namespace PKHeX.Core
             const int RuinsOfAlph = 209;
             MarkHGSSEncounterTypeSlots_MultipleTypes(HG_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
             MarkHGSSEncounterTypeSlots_MultipleTypes(SS_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
+            MarkSpecific(HG_Slots, RuinsOfAlph, SlotType.Rock_Smash, EncounterType.DialgaPalkia);
+            MarkSpecific(SS_Slots, RuinsOfAlph, SlotType.Rock_Smash, EncounterType.DialgaPalkia);
             const int MtSilver = 219;
             MarkHGSSEncounterTypeSlots_MultipleTypes(HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
             MarkHGSSEncounterTypeSlots_MultipleTypes(SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
@@ -301,6 +303,13 @@ namespace PKHeX.Core
                     Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
                 }
             }
+        }
+
+        private static void MarkSpecific(EncounterArea[] Areas, int Location, SlotType t, EncounterType val)
+        {
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
+            foreach (var s in Area.Slots.Where(s => s.Type == t))
+                s.TypeEncounter = val;
         }
 
         private static void MarkDPPtEncounterTypeSlots(EncounterArea[] Areas)

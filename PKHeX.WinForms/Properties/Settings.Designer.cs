@@ -262,5 +262,17 @@ namespace PKHeX.WinForms.Properties {
                 this["AllowGen1Tradeback"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ForceHaXOnLaunch {
+            get {
+                return ((bool)(this["ForceHaXOnLaunch"]));
+            }
+            set {
+                this["ForceHaXOnLaunch"] = value;
+            }
+        }
     }
 }

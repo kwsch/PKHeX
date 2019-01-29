@@ -218,12 +218,12 @@ namespace PKHeX.Core
         private int Bag { get; set; } = int.MinValue;
         private int AdventureInfo { get; set; } = int.MinValue;
         private int Trainer2 { get; set; } = int.MinValue;
-        private int Misc { get; set; } = int.MinValue;
+        public int Misc { get; private set; } = int.MinValue;
         private int LastViewedBox { get; set; } = int.MinValue;
         private int WondercardFlags { get; set; } = int.MinValue;
         private int PlayTime { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
-        public int JoinFestaData { get; set; } = int.MinValue;
+        public int JoinFestaData { get; private set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
         private int BattleTree { get; set; } = int.MinValue;
         private int BattleBoxFlags { get; set; } = int.MinValue;
@@ -1226,8 +1226,11 @@ namespace PKHeX.Core
                       + 0x80; // Misc Data (1024 bits)
 
             for (int i = 1; i <= 4; i++) // check all 4 seen flags (gender/shiny)
+            {
                 if ((Data[ofs + bd + (i * brSize)] & mask) != 0)
                     return true;
+            }
+
             return false;
         }
 

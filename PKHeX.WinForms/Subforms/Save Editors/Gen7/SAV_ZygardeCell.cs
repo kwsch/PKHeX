@@ -31,6 +31,7 @@ namespace PKHeX.WinForms
             var combo = dgv.Columns[2] as DataGridViewComboBoxColumn;
             foreach (string t in states)
                 combo.Items.Add(t); // add only the Names
+            dgv.Columns[0].ValueType = typeof(int);
 
             // Populate Grid
             dgv.Rows.Add(CellCount);
@@ -40,7 +41,7 @@ namespace PKHeX.WinForms
                 if (cells[i] > 2)
                     throw new ArgumentException();
 
-                dgv.Rows[i].Cells[0].Value = (i+1).ToString();
+                dgv.Rows[i].Cells[0].Value = (i+1);
                 dgv.Rows[i].Cells[1].Value = locations[i];
                 dgv.Rows[i].Cells[2].Value = states[cells[i]];
             }

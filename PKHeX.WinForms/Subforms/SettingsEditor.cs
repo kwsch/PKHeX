@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -42,10 +43,12 @@ namespace PKHeX.WinForms
 
         private readonly object SettingsObject;
 
-        private void LoadSettings(IEnumerable<string> blacklist)
+        private void LoadSettings(IReadOnlyList<string> blacklist)
         {
             var type = SettingsObject.GetType();
-            var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type).Except(blacklist);
+            var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type);
+            if (ModifierKeys != Keys.Control)
+                props = props.Except(blacklist);
             foreach (var p in props)
             {
                 var state = ReflectUtil.GetValue(Settings.Default, p);
@@ -55,6 +58,8 @@ namespace PKHeX.WinForms
                         var chk = GetCheckBox(p, b);
                         FLP_Settings.Controls.Add(chk);
                         FLP_Settings.SetFlowBreak(chk, true);
+                        if (blacklist.Contains(p))
+                            chk.ForeColor = Color.Red;
                         continue;
                 }
             }

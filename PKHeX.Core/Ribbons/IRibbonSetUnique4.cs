@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Ribbons introduced in Generation 4 and were transferred to future Generations (4 and 5 only). </summary>
-    internal interface IRibbonSetUnique4
+    public interface IRibbonSetUnique4
     {
         bool RibbonAbility { get; set; }
         bool RibbonAbilityGreat { get; set; }

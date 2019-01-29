@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Common Ribbons introduced in Generation 4 </summary>
-    internal interface IRibbonSetCommon4
+    public interface IRibbonSetCommon4
     {
         bool RibbonChampionSinnoh { get; set; }
         bool RibbonAlert { get; set; }
