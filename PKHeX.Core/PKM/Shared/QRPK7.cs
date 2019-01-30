@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public struct QRPK7
+    public class QRPK7
     {
         private readonly byte[] Data;
 
@@ -15,8 +15,14 @@ namespace PKHeX.Core
         public int Move2_PPUps => Data[9];
         public int Move3_PPUps => Data[0xA];
         public int Move4_PPUps => Data[0xB];
-        public uint IV32 => BitConverter.ToUInt32(Data, 0xC);
-        public uint Unk_10 => BitConverter.ToUInt32(Data, 0x10);
+        public uint IV32 { get => BitConverter.ToUInt32(Data, 0xC); set => BitConverter.GetBytes(value).CopyTo(Data, 0xC); }
+        public int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
+        public int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
+        public int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }
+        public int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
+        public int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
+        public int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
+        public uint PID => BitConverter.ToUInt32(Data, 0x10);
         public ushort Species => BitConverter.ToUInt16(Data, 0x14);
         public ushort HeldItem => BitConverter.ToUInt16(Data, 0x16);
         public ushort Move1 => BitConverter.ToUInt16(Data, 0x18);
@@ -26,7 +32,9 @@ namespace PKHeX.Core
         public int Unk_20 => Data[0x20];
         public int AbilityIndex => Data[0x21];
         public int Nature => Data[0x22];
-        public int EncounterFlags => Data[0x23]; // Data[0x1D] in PK7
+        public bool FatefulEncounter => (Data[0x23] & 1) == 1;
+        public int Gender => (Data[0x23] >> 1) & 3;
+        public int AltForm => Data[0x23] >> 3;
         public int EV_HP => Data[0x24];
         public int EV_ATK => Data[0x25];
         public int EV_DEF => Data[0x26];
@@ -34,7 +42,7 @@ namespace PKHeX.Core
         public int EV_SPA => Data[0x28];
         public int EV_SPD => Data[0x29];
         public int Unk_2A => Data[0x2A];
-        public int Familiarity => Data[0x2B];
+        public int Friendship => Data[0x2B];
         public int Ball => Data[0x2C];
         public int Level => Data[0x2D];
         public int CassetteVersion => Data[0x2E];
@@ -46,8 +54,72 @@ namespace PKHeX.Core
             {
                 throw new ArgumentException("Invalid QRPK7 Data!");
             }
-
             Data = (byte[]) d.Clone();
+        }
+
+        /// <summary>
+        /// Converts the <see cref="Data"/> to a rough PKM.
+        /// </summary>
+        /// <returns></returns>
+        public PKM ConvertToPKM()
+        {
+            var pk = new PK7
+            {
+                EncryptionConstant = EncryptionConstant,
+                PID = PID,
+                Language = Language,
+                Species = Species,
+                Gender = Gender,
+                Nature = Nature,
+                FatefulEncounter = FatefulEncounter,
+                AltForm = AltForm,
+                HyperTrainFlags = HT_Flags,
+                IV_HP = IV_HP,
+                IV_ATK = IV_ATK,
+                IV_DEF = IV_DEF,
+                IV_SPA = IV_SPA,
+                IV_SPD = IV_SPD,
+                IV_SPE = IV_SPE,
+                EV_HP = EV_HP,
+                EV_ATK = EV_ATK,
+                EV_DEF = EV_DEF,
+                EV_SPA = EV_SPA,
+                EV_SPD = EV_SPD,
+                EV_SPE = EV_SPE,
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+                HeldItem = HeldItem,
+                HT_Friendship = Friendship,
+                OT_Friendship = Friendship,
+                Ball = Ball,
+                Version = CassetteVersion,
+
+                OT_Name = "PKHeX",
+                HT_Name = "PKHeX",
+                CurrentLevel = Level,
+                Met_Level = Level,
+                MetDate = DateTime.Now,
+                Country = PKMConverter.Country,
+                Region = PKMConverter.Region,
+                ConsoleRegion = PKMConverter.ConsoleRegion,
+            };
+
+            pk.RefreshAbility(AbilityIndex >> 1);
+            pk.Move1_PP = pk.GetMovePP(pk.Move1, pk.Move1_PPUps);
+            pk.Move2_PP = pk.GetMovePP(pk.Move2, pk.Move2_PPUps);
+            pk.Move3_PP = pk.GetMovePP(pk.Move3, pk.Move3_PPUps);
+            pk.Move4_PP = pk.GetMovePP(pk.Move4, pk.Move4_PPUps);
+
+            pk.SetStats(pk.GetStats(pk.PersonalInfo));
+
+            pk.RefreshChecksum();
+            return pk;
         }
     }
 }
