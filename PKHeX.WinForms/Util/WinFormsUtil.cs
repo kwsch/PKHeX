@@ -296,6 +296,7 @@ namespace PKHeX.WinForms
         /// Opens a dialog to save a <see cref="MysteryGift"/> file.
         /// </summary>
         /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
+        /// <param name="origin">Game the gift originates from</param>
         /// <returns>Result of whether or not the file was saved.</returns>
         public static bool SaveMGDialog(MysteryGift gift, GameVersion origin)
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core

@@ -1081,7 +1081,7 @@ namespace PKHeX.WinForms.Controls
             }
             catch
             {
-                WinFormsUtil.Error(MessageStrings.MsgClipboardFailWrite);
+                WinFormsUtil.Error(MsgClipboardFailWrite);
             }
         }
 
