@@ -1073,7 +1073,7 @@ namespace PKHeX.Core
             get
             {
                 if (SUBE < 0 || ORASDEMO)
-                    return null; // no gym data
+                    return Array.Empty<ushort[]>(); // no gym data
 
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms

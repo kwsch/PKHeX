@@ -1411,7 +1411,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
-                    return null;
+                    return Array.Empty<bool>();
 
                 bool[] r = new bool[(WondercardData-WondercardFlags)*8];
                 for (int i = 0; i < r.Length; i++)
@@ -1442,7 +1442,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0)
-                    return null;
+                    return Array.Empty<MysteryGift>();
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetWC7(i);
@@ -1466,9 +1466,9 @@ namespace PKHeX.Core
         private WC7 GetWC7(int index)
         {
             if (WondercardData < 0)
-                return null;
+                throw new ArgumentException(nameof(WondercardData));
             if (index < 0 || index > GiftCountMax)
-                return null;
+                throw new ArgumentException(nameof(index));
 
             return new WC7(GetData(WondercardData + (index * WC7.Size), WC7.Size));
         }

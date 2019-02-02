@@ -34,9 +34,6 @@ namespace PKHeX.Core
 
         protected byte[] GetData(int Offset, int Length)
         {
-            if (Offset + Length > Data.Length)
-                return null;
-
             byte[] data = new byte[Length];
             Array.Copy(Data, Offset, data, 0, Length);
             return data;

@@ -259,7 +259,7 @@ namespace PKHeX.Core
                 case 6: return GetMovesLevelUp6(species, form, lvl, version);
                 case 7: return GetMovesLevelUp7(species, form, lvl, MoveReminder, version);
             }
-            return null;
+            return Array.Empty<int>();
         }
 
         private static bool LearnMovesNew2Disallowed(this PKM pkm) => pkm.Format == 1 || (pkm.Format >= 7 && pkm.VC);

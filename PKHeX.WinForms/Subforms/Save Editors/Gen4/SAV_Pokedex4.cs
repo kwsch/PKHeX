@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
             LB_NForm.Items.Clear();
 
             var forms = SAV.GetForms(species);
-            if (forms == null)
+            if (forms.Length == 0)
                 return;
 
             string[] formNames = GetFormNames4Dex(species);

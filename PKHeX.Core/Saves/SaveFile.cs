@@ -105,7 +105,7 @@ namespace PKHeX.Core
         public bool HasSecretBase => SecretBase > -1;
         public bool HasPSS => PSS > -1;
         public bool HasOPower => OPower > -1;
-        public bool HasJPEG => JPEGData != null;
+        public bool HasJPEG => JPEGData.Length > 0;
         public bool HasBox => Box > -1;
         public virtual bool HasParty => Party > -1;
         public bool HasBattleBox => BattleBox > -1;
@@ -116,7 +116,7 @@ namespace PKHeX.Core
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
         public virtual bool HasNamableBoxes => HasBoxWallpapers;
         public bool HasPokeBlock => ORAS && !ORASDEMO;
-        public virtual bool HasEvents => EventFlags != null;
+        public virtual bool HasEvents => EventFlags.Length != 0;
         public bool HasLink => (ORAS && !ORASDEMO) || XY;
 
         // Counts
@@ -263,7 +263,7 @@ namespace PKHeX.Core
             get
             {
                 if (EventFlagMax < 0)
-                    return null;
+                    return Array.Empty<bool>();
 
                 bool[] Flags = new bool[EventFlagMax];
                 for (int i = 0; i < Flags.Length; i++)
@@ -287,7 +287,7 @@ namespace PKHeX.Core
             get
             {
                 if (EventConstMax < 0)
-                    return null;
+                    return Array.Empty<ushort>();
 
                 ushort[] Constants = new ushort[EventConstMax];
                 for (int i = 0; i < Constants.Length; i++)
@@ -371,8 +371,8 @@ namespace PKHeX.Core
         protected int OFS_PouchZCrystals { get; set; } = int.MinValue;
 
         // Mystery Gift
-        protected virtual bool[] MysteryGiftReceivedFlags { get => null; set { } }
-        protected virtual MysteryGift[] MysteryGiftCards { get => null; set { } }
+        protected virtual bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
+        protected virtual MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
 
         public virtual MysteryGiftAlbum GiftAlbum
         {
@@ -389,8 +389,8 @@ namespace PKHeX.Core
         }
 
         public virtual bool BattleBoxLocked { get => false; set { } }
-        public virtual string JPEGTitle => null;
-        public virtual byte[] JPEGData => null;
+        public virtual string JPEGTitle => string.Empty;
+        public virtual byte[] JPEGData => Array.Empty<byte>();
         public virtual int Country { get => -1; set { } }
         public virtual int ConsoleRegion { get => -1; set { } }
         public virtual int SubRegion { get => -1; set { } }
@@ -450,7 +450,7 @@ namespace PKHeX.Core
         // Storage
         public virtual int BoxSlotCount => 30;
         public virtual int BoxesUnlocked { get => -1; set { } }
-        public virtual byte[] BoxFlags { get => null; set { } }
+        public virtual byte[] BoxFlags { get => Array.Empty<byte>(); set { } }
         public virtual int CurrentBox { get; set; }
         protected int[] TeamSlots = Array.Empty<int>();
         protected virtual IList<int>[] SlotPointers => new[] {TeamSlots};

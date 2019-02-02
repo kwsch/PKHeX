@@ -673,11 +673,15 @@ namespace PKHeX.WinForms.Controls
         private void B_JPEG_Click(object sender, EventArgs e)
         {
             byte[] jpeg = SAV.JPEGData;
-            if (SAV.JPEGData == null)
-            { WinFormsUtil.Alert(MsgSaveJPEGExportFail); return; }
+            if (SAV.JPEGData.Length == 0)
+            {
+                WinFormsUtil.Alert(MsgSaveJPEGExportFail);
+                return;
+            }
             string filename = SAV.JPEGTitle + "'s picture";
-            SaveFileDialog sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
-            if (sfd.ShowDialog() != DialogResult.OK) return;
+            var sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
             File.WriteAllBytes(sfd.FileName, jpeg);
         }
 

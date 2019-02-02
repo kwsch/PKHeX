@@ -306,7 +306,7 @@ namespace PKHeX.Core
         private byte[] ReadSaveGameData()
         {
             if (EntrySelected == -1)
-                return null; // No entry selected
+                return Array.Empty<byte>(); // No entry selected
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
             int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);

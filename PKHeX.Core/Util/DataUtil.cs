@@ -103,18 +103,14 @@ namespace PKHeX.Core
 
         public static string[] GetNulledStringArray(string[] SimpleStringList)
         {
-            try
+            int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
+            string[] newlist = new string[len];
+            for (int i = 1; i < SimpleStringList.Length; i++)
             {
-                int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
-                string[] newlist = new string[len];
-                for (int i = 1; i < SimpleStringList.Length; i++)
-                {
-                    var split = SimpleStringList[i].Split(',');
-                    newlist[ToInt32(split[0])] = split[1];
-                }
-                return newlist;
+                var split = SimpleStringList[i].Split(',');
+                newlist[ToInt32(split[0])] = split[1];
             }
-            catch { return null; }
+            return newlist;
         }
 
         public static byte[] GetBinaryResource(string name)

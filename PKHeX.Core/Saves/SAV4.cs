@@ -83,7 +83,7 @@ namespace PKHeX.Core
                     return new[] {new[] {0x0000, 0xF618, 0xF626}, new[] {0xF700, 0x21A00, 0x21A0E}};
 
                 default:
-                    return null;
+                    throw new ArgumentException(nameof(g));
             }
         }
 
@@ -691,7 +691,7 @@ namespace PKHeX.Core
         private int[] MatchMysteryGifts(MysteryGift[] value)
         {
             if (value == null)
-                return null;
+                return Array.Empty<int>();
 
             int[] cardMatch = new int[8];
             for (int i = 0; i < 8; i++)
@@ -773,7 +773,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
-                    return null;
+                    return Array.Empty<bool>();
 
                 bool[] r = new bool[GiftFlagMax];
                 for (int i = 0; i < r.Length; i++)
@@ -806,7 +806,7 @@ namespace PKHeX.Core
             get
             {
                 if (Version != GameVersion.DP)
-                    return null;
+                    return Array.Empty<bool>();
 
                 int ofs = WondercardFlags + 0x100; // skip over flags
                 bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
@@ -848,7 +848,7 @@ namespace PKHeX.Core
                     return;
 
                 var Matches = MatchMysteryGifts(value); // automatically applied
-                if (Matches == null)
+                if (Matches.Length == 0)
                     return;
 
                 for (int i = 0; i < 8; i++) // 8 PGT
@@ -928,7 +928,7 @@ namespace PKHeX.Core
 
             int FormOffset1 = PokeDex + 4 + (brSize * 4) + 4;
             var forms = GetForms(pkm.Species);
-            if (forms != null)
+            if (forms.Length > 0)
             {
                 if (pkm.Species == 201) // Unown
                 {
@@ -1028,7 +1028,7 @@ namespace PKHeX.Core
                     return GetData(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
             }
             if (DP)
-                return null;
+                return Array.Empty<int>();
 
             int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
@@ -1040,13 +1040,11 @@ namespace PKHeX.Core
                     return GetDexFormValues(Data[FormOffset2 + 4], 1, 2);
                 case 487: // Giratina
                     return GetDexFormValues(Data[FormOffset2 + 5], 1, 2);
-                case 172:
-                    if (!HGSS)
-                        return null;
+                case 172 when HGSS: // Pichu
                     return GetDexFormValues(Data[FormOffset2 + 6], 2, 3);
             }
 
-            return null;
+            return Array.Empty<int>();
         }
 
         public void SetForms(int spec, int[] forms)
@@ -1102,9 +1100,7 @@ namespace PKHeX.Core
                 case 487: // Giratina
                     Data[FormOffset2 + 5] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 172: // Pichu
-                    if (!HGSS)
-                        return;
+                case 172 when HGSS: // Pichu
                     Data[FormOffset2 + 6] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
             }
