@@ -189,7 +189,7 @@ namespace PKHeX.WinForms
             }
 
             // Trigger a Reset
-            ResetFilters(null, null);
+            ResetFilters(null, EventArgs.Empty);
             B_Search.Enabled = true;
         }
 

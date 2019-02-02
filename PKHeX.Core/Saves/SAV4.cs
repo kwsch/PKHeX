@@ -666,7 +666,10 @@ namespace PKHeX.Core
             BitConverter.GetBytes(EXP).CopyTo(Data, ofs);
         }
 
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { } // todo
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+        {
+            // todo
+        }
 
         // Mystery Gift
         private bool MysteryGiftActive { get => (Data[GBO + 72] & 1) == 1; set => Data[GBO + 72] = (byte)((Data[GBO + 72] & 0xFE) | (value ? 1 : 0)); }

@@ -89,7 +89,7 @@ namespace PKHeX.WinForms
             HandleSpecialFlags();
 
             // Copy back Constants
-            ChangeConstantIndex(null, null); // Trigger Saving
+            ChangeConstantIndex(null, EventArgs.Empty); // Trigger Saving
             SAV.EventConsts = Constants;
             SAV.Data.CopyTo(Origin.Data, 0);
             Origin.Edited = true;

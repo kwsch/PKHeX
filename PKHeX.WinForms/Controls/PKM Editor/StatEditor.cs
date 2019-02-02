@@ -210,7 +210,7 @@ namespace PKHeX.WinForms.Controls
             bool zero = ModifierKeys.HasFlag(Keys.Control);
             var evs = zero ? new int[6] : PKX.GetRandomEVs(pkm.Format);
             LoadEVs(evs);
-            UpdateEVs(null, null);
+            UpdateEVs(null, EventArgs.Empty);
         }
 
         private void UpdateHackedStats(object sender, EventArgs e)

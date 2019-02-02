@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
                 Label_MetDate,
             };
             LB_DataEntry.SelectedIndex = 0;
-            NUP_PartyIndex_ValueChanged(null, null);
+            NUP_PartyIndex_ValueChanged(null, EventArgs.Empty);
             try { TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont(11); }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
             editing = true;
@@ -316,7 +316,7 @@ namespace PKHeX.WinForms
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
             bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
-            DisplayEntry(null, null); // refresh text view
+            DisplayEntry(null, EventArgs.Empty); // refresh text view
         }
 
         private void Validate_TextBoxes()
@@ -345,7 +345,7 @@ namespace PKHeX.WinForms
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void SetForms()
@@ -361,7 +361,7 @@ namespace PKHeX.WinForms
         private void UpdateSpecies(object sender, EventArgs e)
         {
             SetForms();
-            UpdateNickname(null, null);
+            UpdateNickname(null, EventArgs.Empty);
         }
 
         private void UpdateShiny(object sender, EventArgs e)
@@ -370,7 +370,7 @@ namespace PKHeX.WinForms
                 return; //Don't do writing until loaded
             bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void UpdateGender(object sender, EventArgs e)
@@ -402,7 +402,7 @@ namespace PKHeX.WinForms
             if (species == 668)
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void SetGenderLabel(int gender)
@@ -414,7 +414,7 @@ namespace PKHeX.WinForms
             else
                 Label_Gender.Text = gendersymbols[2];    // Genderless
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void B_CopyText_Click(object sender, EventArgs e)

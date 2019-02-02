@@ -975,7 +975,7 @@ namespace QRCoder
         private void CreateAlphanumEncDict()
         {
             alphanumEncDict = new Dictionary<char, int>();
-            var resList = alphanumEncTable.ToList().Select((x, i) => new { Chr = x, Index = i }).ToList();
+            var resList = alphanumEncTable.Select((x, i) => new { Chr = x, Index = i });
             foreach (var res in resList)
             {
                 alphanumEncDict.Add(res.Chr, res.Index);

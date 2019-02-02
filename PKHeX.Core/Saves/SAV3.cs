@@ -167,7 +167,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     SeenFlagOffsets = new[] { PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98 };
                     EventFlag = BlockOfs[1] + 0xEE0;
-                    EventConst = BlockOfs[2] + 0x80; // EventFlag + (EventFlagMax / 8);
+                    EventConst = BlockOfs[2] + 0x80;
                     Daycare = BlockOfs[4] + 0x100;
                     break;
             }
@@ -564,7 +564,7 @@ namespace PKHeX.Core
         public override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Data, GetDaycareEXPOffset(slot));
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, GetDaycareEXPOffset(slot));
         public override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(GetDaycareSlotOffset(loc, slot));
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
         public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + (slot * DaycareSlotSize);
 
         private int EggEventFlag => GameVersion.FRLG.Contains(Version) ? 0x266 : 0x86;
@@ -891,7 +891,7 @@ namespace PKHeX.Core
             {
                 var ofs = PokeBlockOffset;
                 if (ofs < 0)
-                    throw new Exception($"Game does not support {nameof(PokeBlocks)}.");
+                    throw new ArgumentException($"Game does not support {nameof(PokeBlocks)}.");
                 return new PokeBlock3Case(Data, ofs);
             }
             set => SetData(value.Write(), PokeBlockOffset);

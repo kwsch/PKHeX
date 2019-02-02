@@ -243,10 +243,10 @@ namespace PKHeX.WinForms.Controls
             try { GetFieldsfromPKM(); }
             finally { FieldsInitialized = oldInit; }
 
-            Stats.UpdateIVs(null, null);
-            UpdatePKRSInfected(null, null);
-            UpdatePKRSCured(null, null);
-            UpdateNatureModification(null, null);
+            Stats.UpdateIVs(null, EventArgs.Empty);
+            UpdatePKRSInfected(null, EventArgs.Empty);
+            UpdatePKRSCured(null, EventArgs.Empty);
+            UpdateNatureModification(null, EventArgs.Empty);
 
             if (HaX) // Load original values from pk not pkm
             {
@@ -274,7 +274,7 @@ namespace PKHeX.WinForms.Controls
             {
                 PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
                     PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = false;
-                LegalityChanged?.Invoke(Legality.Valid, null);
+                LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
                 return;
             }
 
@@ -295,7 +295,7 @@ namespace PKHeX.WinForms.Controls
             FieldsLoaded = false;
             ReloadMoves(Legality.AllSuggestedMovesAndRelearn);
             FieldsLoaded |= tmp;
-            LegalityChanged?.Invoke(Legality.Valid, null);
+            LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
         }
 
         private IReadOnlyList<ComboItem> MoveDataAllowed = new List<ComboItem>();
@@ -346,7 +346,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateSprite()
         {
             if (FieldsLoaded && FieldsInitialized && !forceValidation)
-                UpdatePreviewSprite?.Invoke(this, null);
+                UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
         }
 
         // General Use Functions //
@@ -383,7 +383,7 @@ namespace PKHeX.WinForms.Controls
 
         private void SetDetailsOT(ITrainerInfo SAV)
         {
-            if (!(SAV.OT?.Length > 0))
+            if (string.IsNullOrWhiteSpace(SAV.OT))
                 return;
 
             // Get Save Information
@@ -410,12 +410,12 @@ namespace PKHeX.WinForms.Controls
                  if (SAV is SAV1 s1 && pkm is PK1 p1) p1.OT_Trash = s1.OT_Trash;
             else if (SAV is SAV2 s2 && pkm is PK2 p2) p2.OT_Trash = s2.OT_Trash;
 
-            UpdateNickname(null, null);
+            UpdateNickname(null, EventArgs.Empty);
         }
 
         private void SetDetailsHT(ITrainerInfo SAV)
         {
-            if (!(SAV.OT?.Length > 0))
+            if (string.IsNullOrWhiteSpace(SAV.OT))
                 return;
 
             if (TB_OTt2.Text.Length > 0)
@@ -571,7 +571,7 @@ namespace PKHeX.WinForms.Controls
             if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
 
-            UpdatePreviewSprite(Label_Gender, null);
+            UpdatePreviewSprite(Label_Gender, EventArgs.Empty);
         }
 
         private void ClickPPUps(object sender, EventArgs e)
@@ -965,7 +965,7 @@ namespace PKHeX.WinForms.Controls
                     while (pkm.AltForm != desiredForm)
                     {
                         FieldsLoaded = false;
-                        Stats.UpdateRandomIVs(null, null);
+                        Stats.UpdateRandomIVs(null, EventArgs.Empty);
                         FieldsLoaded = true;
                     }
                 }
@@ -1131,7 +1131,7 @@ namespace PKHeX.WinForms.Controls
             SpeciesIDTip.SetToolTip(CB_Species, pkm.Species.ToString("000"));
             SetAbilityList();
             SetForms();
-            UpdateForm(null, null);
+            UpdateForm(null, EventArgs.Empty);
 
             if (!FieldsLoaded)
                 return;
@@ -1386,7 +1386,7 @@ namespace PKHeX.WinForms.Controls
             else // Not Egg
             {
                 if (!CHK_Nicknamed.Checked)
-                    UpdateNickname(null, null);
+                    UpdateNickname(null, EventArgs.Empty);
 
                 TB_Friendship.Text = pkm.PersonalInfo.BaseFriendship.ToString();
 
@@ -1401,7 +1401,7 @@ namespace PKHeX.WinForms.Controls
                     CHK_Nicknamed.Checked = false;
             }
 
-            UpdateNickname(null, null);
+            UpdateNickname(null, EventArgs.Empty);
             UpdateSprite();
         }
 
@@ -1459,11 +1459,11 @@ namespace PKHeX.WinForms.Controls
             {
                 pkm.SetShiny();
                 Stats.LoadIVs(pkm.IVs);
-                Stats.UpdateIVs(null, null);
+                Stats.UpdateIVs(null, EventArgs.Empty);
             }
 
             UpdateIsShiny();
-            UpdatePreviewSprite?.Invoke(this, null);
+            UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
             UpdateLegality();
         }
 
@@ -1523,7 +1523,7 @@ namespace PKHeX.WinForms.Controls
             FieldsLoaded = false;
             NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
             ((IShadowPKM)pkm).Purification = (int)NUD_Purification.Value;
-            UpdatePreviewSprite?.Invoke(this, null);
+            UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
             FieldsLoaded = true;
         }
 
@@ -1761,7 +1761,7 @@ namespace PKHeX.WinForms.Controls
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (pkm.Format == 2)
-                UpdateOriginGame(null, null);
+                UpdateOriginGame(null, EventArgs.Empty);
             return TranslationRequired;
         }
 

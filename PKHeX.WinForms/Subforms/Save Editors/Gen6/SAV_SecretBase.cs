@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
             LB_Favorite.SelectedIndex = 0;
             // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted
             MT_Flags.Text = BitConverter.ToUInt32(SAV.Data, SAV.SecretBase + 0x62C).ToString(); // read counter
-            B_SAV2FAV(null, null);
+            B_SAV2FAV(null, EventArgs.Empty);
         }
 
         private bool editing;
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
             }
 
             NUD_FObject.Value = 1; // Trigger Update
-            ChangeObjectIndex(null, null);
+            ChangeObjectIndex(null, EventArgs.Empty);
 
             GB_PKM.Enabled = index > 0;
 
@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
             }
 
             NUD_FPKM.Value = 1;
-            ChangeFavPKM(null, null); // Trigger Update
+            ChangeFavPKM(null, EventArgs.Empty); // Trigger Update
 
             loading = false;
         }

@@ -174,7 +174,7 @@ namespace PKHeX.WinForms
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
 
             // Trigger a Reset
-            ResetFilters(null, null);
+            ResetFilters(null, EventArgs.Empty);
         }
 
         private void ResetFilters(object sender, EventArgs e)
@@ -325,6 +325,7 @@ namespace PKHeX.WinForms
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
+            // todo
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();

@@ -278,7 +278,7 @@ namespace PKHeX.WinForms
             }
 
             // Trigger a Reset
-            ResetFilters(null, null);
+            ResetFilters(null, EventArgs.Empty);
         }
 
         private void ResetFilters(object sender, EventArgs e)

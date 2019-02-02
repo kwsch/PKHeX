@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
                 NUD_BagHits.Value = pk6.TrainingBagHits;
 
                 if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
-                    CHK_Secret_CheckedChanged(null, null);
+                    CHK_Secret_CheckedChanged(null, EventArgs.Empty);
             }
             else
             {

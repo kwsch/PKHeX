@@ -330,7 +330,7 @@ namespace PKHeX.Core
         {
             if (HT_Name != SAV_Trainer)
             {
-                HT_Friendship = CurrentFriendship; // PersonalInfo.BaseFriendship;
+                HT_Friendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
                 HT_Affection = 0;
             }
             CurrentHandler = 1;
@@ -489,7 +489,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var sum = this.AwakeningSum(); // aHP + aATK + aDEF + aSPA + aSPD + aSPE;
+                var sum = this.AwakeningSum();
                 if (sum == 0)
                     return 0;
                 var lvl = CurrentLevel;

@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
             Lines = lines;
 
             if (pkm?.Format == 7 && pkm is PK7)
-                UpdateBoxSlotCopies(null, null);
+                UpdateBoxSlotCopies(null, EventArgs.Empty);
             else
                 RefreshImage();
         }

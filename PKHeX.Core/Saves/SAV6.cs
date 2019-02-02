@@ -975,7 +975,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
-                    return null;
+                    return Array.Empty<bool>();
 
                 bool[] r = new bool[(WondercardData - WondercardFlags) * 8];
                 for (int i = 0; i < r.Length; i++)
@@ -986,7 +986,7 @@ namespace PKHeX.Core
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return;
-                if ((WondercardData - WondercardFlags) * 8 != value?.Length)
+                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
                     return;
 
                 byte[] data = new byte[value.Length / 8];
@@ -1006,7 +1006,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0)
-                    return null;
+                    return Array.Empty<MysteryGift>();
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetWC6(i);
@@ -1032,7 +1032,7 @@ namespace PKHeX.Core
             get
             {
                 if (LinkInfo < 0)
-                    return null;
+                    return Array.Empty<byte>();
                 return GetData(LinkInfo, 0xC48);
             }
             set

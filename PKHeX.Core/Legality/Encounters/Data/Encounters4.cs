@@ -308,8 +308,10 @@ namespace PKHeX.Core
         private static void MarkSpecific(EncounterArea[] Areas, int Location, SlotType t, EncounterType val)
         {
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            foreach (var s in Area.Slots.Where(s => s.Type == t))
-                s.TypeEncounter = val;
+            {
+                foreach (var s in Area.Slots.Where(s => s.Type == t))
+                    s.TypeEncounter = val;
+            }
         }
 
         private static void MarkDPPtEncounterTypeSlots(EncounterArea[] Areas)
@@ -318,9 +320,16 @@ namespace PKHeX.Core
             {
                 if (DPPt_MixInteriorExteriorLocations.Contains(Area.Location))
                     continue;
-                var GrassType = (Area.Location == 70) ? EncounterType.Building_EnigmaStone :// Old Chateau
-                    DPPt_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin :
-                        EncounterType.TallGrass;
+                var GrassType = GetGrassType(Area.Location);
+
+                EncounterType GetGrassType(int location)
+                {
+                    if (location == 70) // Old Chateau
+                        return EncounterType.Building_EnigmaStone;
+                    if (DPPt_CaveLocations.Contains(Area.Location))
+                        return EncounterType.Cave_HallOfOrigin;
+                    return EncounterType.TallGrass;
+                }
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
                     if (Slot.TypeEncounter == EncounterType.None) // not defined yet

@@ -668,7 +668,7 @@ namespace PKHeX.WinForms
                 s.Move = slot.Moves?[Util.Rand.Next(slot.Moves.Length)] ?? 0;
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender : slot.Gender;
             }
-            ChangeArea(null, null); // refresh
+            ChangeArea(null, EventArgs.Empty); // refresh
             NUD_Unlocked.Value = 8;
             CHK_Area9.Checked = true;
             System.Media.SystemSounds.Asterisk.Play();

@@ -83,7 +83,7 @@ namespace PKHeX.WinForms
                 dgData.Columns[i].Width = w;
             }
             dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            Data_Sorted(null, null); // trigger row resizing
+            Data_Sorted(null, EventArgs.Empty); // trigger row resizing
 
             ResumeLayout();
         }

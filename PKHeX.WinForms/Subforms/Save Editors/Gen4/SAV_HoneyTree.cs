@@ -71,7 +71,7 @@ namespace PKHeX.WinForms
             NUD_Group.Value = Math.Min(NUD_Group.Maximum, Tree.Group);
             NUD_Slot.Value = Math.Min(NUD_Slot.Maximum, Tree.Slot);
 
-            ChangeGroupSlot(null, null);
+            ChangeGroupSlot(null, EventArgs.Empty);
             loading = false;
         }
 

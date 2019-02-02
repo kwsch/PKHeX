@@ -357,7 +357,7 @@ namespace PKHeX.Core
                 case 6: return WildPokeballs6;
                 case 7: return pkm.GG ? WildPokeballs7b : WildPokeballs7;
 
-                default: return null;
+                default: return Array.Empty<int>();
             }
         }
 

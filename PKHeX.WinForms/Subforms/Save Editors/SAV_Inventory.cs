@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             Pouches = SAV.Inventory;
             InitBags();
             GetBags();
-            SwitchBag(null, null); // bag 0
+            SwitchBag(null, EventArgs.Empty); // bag 0
         }
 
         private readonly InventoryPouch[] Pouches;

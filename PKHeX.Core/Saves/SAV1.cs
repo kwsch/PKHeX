@@ -410,9 +410,15 @@ namespace PKHeX.Core
                 return null;
         }
 
-        public override void SetDaycareEXP(int loc, int slot, uint EXP) { } // todo
+        public override void SetDaycareEXP(int loc, int slot, uint EXP)
+        {
+            // todo
+        }
 
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { } // todo
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+        {
+            // todo
+        }
 
         // Storage
         public override int PartyCount

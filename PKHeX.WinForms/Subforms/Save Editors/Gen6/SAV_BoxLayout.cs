@@ -191,7 +191,7 @@ namespace PKHeX.WinForms
             }
             else
             {
-                ChangeBox(null, null);
+                ChangeBox(null, EventArgs.Empty);
             }
 
             editing = renamingBox = false;
