@@ -123,7 +123,10 @@ namespace PKHeX.Core
                 }
                 return ctr;
             }
-            protected set { }
+            protected set
+            {
+                // Ignore, value is calculated
+            }
         }
 
         // Checksums
@@ -208,7 +211,10 @@ namespace PKHeX.Core
             return data;
         }
 
-        protected override void SetDex(PKM pkm) { }
+        protected override void SetDex(PKM pkm)
+        {
+            // There's nothing in the dex
+        }
 
         protected override void SetPKM(PKM pkm)
         {

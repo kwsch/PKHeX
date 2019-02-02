@@ -1214,7 +1214,7 @@ namespace PKHeX.Core
 
                 DecryptFromXorpad(input, xorpad);
                 var main = GetMainFromSaveContainer(input);
-                if (main == null)
+                if (main.Length == 0)
                     continue;
 
                 // Save file is now decrypted!
@@ -1289,7 +1289,7 @@ namespace PKHeX.Core
                 Buffer.BlockCopy(input, mainOffset, data, 0, size);
                 return data;
             }
-            return null;
+            return Array.Empty<byte>();
         }
 
         /// <summary>

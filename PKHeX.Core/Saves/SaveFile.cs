@@ -717,17 +717,13 @@ namespace PKHeX.Core
                 BoxEnd = BoxCount - 1;
 
             var blank = BlankPKM.EncryptedBoxData;
-            if (this is SAV3RSBox)
-                Array.Resize(ref blank, blank.Length + 4); // 00000 TID/SID at end
-
             for (int i = BoxStart; i <= BoxEnd; i++)
             {
-                int offset = GetBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
                 {
                     if (IsSlotOverwriteProtected(i, p))
                         continue;
-                    var ofs = offset + (SIZE_STORED * p);
+                    var ofs = GetBoxSlotOffset(i, p);
                     if (deleteCriteria != null)
                     {
                         var pk = GetStoredSlot(ofs);

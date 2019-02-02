@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -155,7 +156,7 @@ namespace PKHeX.WinForms
                     gamePrefix = "c";
                     break;
                 default:
-                    return null;
+                    throw new ArgumentException(nameof(GameVersion));
             }
             return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
@@ -184,7 +185,11 @@ namespace PKHeX.WinForms
                     num.Add(n);
                     desc.Add(split[1]);
                 }
-                catch { }
+                catch
+                {
+                    // Ignore bad user values
+                    Debug.WriteLine(string.Concat(split));
+                }
             }
             if (num.Count == 0)
             {
@@ -250,7 +255,11 @@ namespace PKHeX.WinForms
                     desc.Add(split[1]);
                     enums.Add(split.Length == 3 ? split[2] : string.Empty);
                 }
-                catch { }
+                catch
+                {
+                    // Ignore bad user values
+                    Debug.WriteLine(string.Concat(split));
+                }
             }
             if (num.Count == 0)
             {

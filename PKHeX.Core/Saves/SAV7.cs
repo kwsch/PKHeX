@@ -258,7 +258,7 @@ namespace PKHeX.Core
             set
             {
                 if (value?.Length != ResortCount)
-                    throw new ArgumentException();
+                    throw new ArgumentException(nameof(ResortCount));
 
                 for (int i = 0; i < value.Length; i++)
                     SetStoredSlot(value[i], GetResortSlotOffset(i));
@@ -666,8 +666,8 @@ namespace PKHeX.Core
 
         public sealed class FashionItem
         {
-            public bool IsOwned;
-            public bool IsNew;
+            public bool IsOwned { get; set; }
+            public bool IsNew { get; set; }
         }
 
         public FashionItem[] Wardrobe
@@ -815,8 +815,8 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x10);
             set
             {
-                if (value > 9999999) // 9mil;
-                    value = 9999999;
+                if (value > 9_999_999)
+                    value = 9_999_999;
                 BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x10);
 
                 if (value > PokeFinderThumbsTotalValue)
@@ -877,7 +877,7 @@ namespace PKHeX.Core
         public int GetTreeStreak(int battletype, bool super, bool max)
         {
             if (battletype > 3)
-                throw new ArgumentException();
+                throw new ArgumentException(nameof(battletype));
 
             int offset = 8*battletype;
             if (super)
@@ -891,7 +891,7 @@ namespace PKHeX.Core
         public void SetTreeStreak(int value, int battletype, bool super, bool max)
         {
             if (battletype > 3)
-                throw new ArgumentException();
+                throw new ArgumentException(nameof(battletype));
 
             if (value > ushort.MaxValue)
                 value = ushort.MaxValue;
@@ -1109,6 +1109,13 @@ namespace PKHeX.Core
                     formEnd = 3;
                     return true;
 
+
+                case 421: // Cherrim
+                case 555: // Darmanitan
+                case 648: // Meloetta
+                case 746: // Wishiwashi
+                case 778: // Mimikyu
+                    // Alolans
                 case 020: // Raticate
                 case 105: // Marowak
                     formStart = 0;
@@ -1125,15 +1132,6 @@ namespace PKHeX.Core
                 case 743: // Ribombee
                 case 744: // Rockruff
                     break;
-
-                case 421: // Cherrim
-                case 555: // Darmanitan
-                case 648: // Meloetta
-                case 746: // Wishiwashi
-                case 778: // Mimikyu
-                    formStart = 0;
-                    formEnd = 1;
-                    return true;
 
                 case 774 when formIn <= 6: // Minior
                     break; // don't give meteor forms except the first
@@ -1424,7 +1422,7 @@ namespace PKHeX.Core
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return;
-                if ((WondercardData - WondercardFlags)*8 != value?.Length)
+                if (value == null || (WondercardData - WondercardFlags)*8 != value.Length)
                     return;
 
                 byte[] data = new byte[value.Length/8];

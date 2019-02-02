@@ -54,7 +54,7 @@ namespace PKHeX.Core
         #region IList Implementation
 
         public virtual int Count => Offsets.Count(SAV.IsPKMPresent);
-        public bool Contains(PKM item) => IndexOf(item) > 0;
+        public bool Contains(PKM item) => IndexOf(item) >= 0;
         public IEnumerator<PKM> GetEnumerator() => Stream.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Stream.GetEnumerator();
 
@@ -122,7 +122,7 @@ namespace PKHeX.Core
         {
             var index = FirstEmptyIndex();
             if (index < 0)
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentException(nameof(item));
             this[index] = item;
         }
 

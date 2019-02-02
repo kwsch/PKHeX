@@ -263,7 +263,7 @@ namespace PKHeX.WinForms
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
 
             string[] hptypes = new string[GameInfo.Strings.types.Length - 2]; Array.Copy(GameInfo.Strings.types, 1, hptypes, 0, hptypes.Length);
-            var DS_Type = Util.GetCBList(hptypes, null);
+            var DS_Type = Util.GetCBList(hptypes);
             DS_Type.Insert(0, Any); CB_HPType.DataSource = DS_Type;
 
             // Set the Move ComboBoxes too..

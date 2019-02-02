@@ -14,7 +14,7 @@ namespace PKHeX.Core
         /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
         /// </summary>
         /// <remarks>Ordered roughly by most recent games first.</remarks>
-        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
+        public static readonly IReadOnlyList<GameVersion> GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
 
         /// <summary>
         /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.

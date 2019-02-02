@@ -55,8 +55,8 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="info">Trainer information of the receiver.</param>
-        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <param name="generation">Specific generation to iterate versions for.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int generation, int[] moves = null)
         {
             var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
@@ -67,8 +67,8 @@ namespace PKHeX.Core
         /// Gets possible encounters that allow all moves requested to be learned.
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
-        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <param name="generation">Specific generation to iterate versions for.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, int generation, int[] moves = null)
         {
@@ -86,19 +86,24 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves = null, params GameVersion[] versions)
         {
             var m = moves ?? pk.Moves;
-            var vers = versions?.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
+            if (versions.Length > 0)
+                return GenerateEncounters(pk, moves, (IReadOnlyList<GameVersion>)versions);
+
+            var vers = GameUtil.GetVersionsWithinRange(pk, pk.Format);
             return vers.SelectMany(ver => GenerateVersionEncounters(pk, m, ver));
         }
 
         /// <summary>
-        /// Gets possible encounters that allow all moves requested to be learned, restricted to the maximum for the current format.
+        /// Gets possible encounters that allow all moves requested to be learned.
         /// </summary>
-        /// <param name="pk">Complete Pokémon data which contains the requested species, gender, and form.</param>
-        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn. If left blank, the current moves will be used.</param>
+        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
+        /// <param name="vers">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves = null)
+        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves, IReadOnlyList<GameVersion> vers)
         {
-            return GenerateEncounters(pk, moves ?? pk.Moves, null);
+            var m = moves ?? pk.Moves;
+            return vers.SelectMany(ver => GenerateVersionEncounters(pk, m, ver));
         }
 
         /// <summary>

@@ -12,11 +12,11 @@ namespace PKHeX.Core
         {
             s = strings;
             memories = new Lazy<List<ComboItem>>(GetMemories);
-            none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {""}, null));
-            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.Take(Legal.MaxSpeciesID_6 + 1).ToArray(), null));
+            none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {""}));
+            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.Take(Legal.MaxSpeciesID_6 + 1).ToArray()));
             item = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.itemlist, Memories.MemoryItems));
-            genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc, null));
-            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist.Take(622).ToArray(), null)); // Hyperspace Fury
+            genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
+            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist.Take(622).ToArray())); // Hyperspace Fury
             specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
         }
 
@@ -43,7 +43,7 @@ namespace PKHeX.Core
                 allowed[i] = i + 1;
             }
             Array.Resize(ref allowed, allowed.Length - 1);
-            var memory_list1 = Util.GetCBList(new[] { mems[0] }, null);
+            var memory_list1 = Util.GetCBList(new[] { mems[0] });
             return Util.GetOffsetCBList(memory_list1, mems, 0, allowed);
         }
 

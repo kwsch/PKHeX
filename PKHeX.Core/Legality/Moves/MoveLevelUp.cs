@@ -9,33 +9,22 @@ namespace PKHeX.Core
     internal static class MoveLevelUp
     {
         private static readonly LearnLookup
-            LearnSM, LearnUSUM, LearnGG,
-            LearnXY, LearnAO,
-            LearnBW, LearnB2W2,
-            LearnDP, LearnPt, LearnHGSS,
-            LearnRSE, LearnFRLG,
-            LearnGS, LearnC,
-            LearnRB, LearnY;
-
-        static MoveLevelUp()
-        {
-            LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM);
-            LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM);
-            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, GG);
-            LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY);
-            LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS);
-            LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW);
-            LearnB2W2 = new LearnLookup(PersonalTable.B2W2, LevelUpB2W2, B2W2);
-            LearnDP = new LearnLookup(PersonalTable.DP, LevelUpDP, DP);
-            LearnPt = new LearnLookup(PersonalTable.Pt, LevelUpPt, Pt);
-            LearnHGSS = new LearnLookup(PersonalTable.HGSS, LevelUpHGSS, HGSS);
-            LearnRSE = new LearnLookup(PersonalTable.RS, LevelUpRS, RSE);
-            LearnFRLG = new LearnLookup(PersonalTable.LG, LevelUpLG, FRLG);
-            LearnGS = new LearnLookup(PersonalTable.GS, LevelUpGS, GS);
-            LearnC = new LearnLookup(PersonalTable.C, LevelUpC, C);
-            LearnRB = new LearnLookup(PersonalTable.RB, LevelUpRB, RB);
+            LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM),
+            LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM),
+            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, GG),
+            LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY),
+            LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS),
+            LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW),
+            LearnB2W2 = new LearnLookup(PersonalTable.B2W2, LevelUpB2W2, B2W2),
+            LearnDP = new LearnLookup(PersonalTable.DP, LevelUpDP, DP),
+            LearnPt = new LearnLookup(PersonalTable.Pt, LevelUpPt, Pt),
+            LearnHGSS = new LearnLookup(PersonalTable.HGSS, LevelUpHGSS, HGSS),
+            LearnRSE = new LearnLookup(PersonalTable.RS, LevelUpRS, RSE),
+            LearnFRLG = new LearnLookup(PersonalTable.LG, LevelUpLG, FRLG),
+            LearnGS = new LearnLookup(PersonalTable.GS, LevelUpGS, GS),
+            LearnC = new LearnLookup(PersonalTable.C, LevelUpC, C),
+            LearnRB = new LearnLookup(PersonalTable.RB, LevelUpRB, RB),
             LearnY = new LearnLookup(PersonalTable.Y, LevelUpY, YW);
-        }
 
         public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int form, int lvl, int generation, int move, int minlvlG1, int minlvlG2, GameVersion version = Any)
         {
@@ -147,7 +136,7 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        private static LearnVersion GetIsLevelUp5(int species, int form, int move, int lvl, GameVersion ver = Any)
+        private static LearnVersion GetIsLevelUp5(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
             switch (ver)
             {

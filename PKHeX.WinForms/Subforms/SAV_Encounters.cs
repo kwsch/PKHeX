@@ -217,7 +217,7 @@ namespace PKHeX.WinForms
             public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
         }
 
-        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, GameVersion[] vers)
+        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
         {
             pk.Species = species;
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);

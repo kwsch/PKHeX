@@ -89,11 +89,11 @@ namespace PKHeX.Core
                 rawlist[i] = rawlist[i].TrimEnd('\r');
 
             lock (getStringListLoadLock) // Make sure only one thread can write to the cache
-            {     
+            {
                 if (!stringListCache.ContainsKey(f)) // Check cache again in case of race condition
                 {
                     stringListCache.Add(f, rawlist);
-                }                
+                }
             }
 
             return (string[])rawlist.Clone();
@@ -264,7 +264,7 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
         {
-            if (allowed?[0] == null)
+            if (allowed.Length == 0)
                 allowed = new[] { Enumerable.Range(0, inStrings.Count).ToArray() };
 
             return allowed.SelectMany(list => list

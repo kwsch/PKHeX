@@ -304,16 +304,16 @@ namespace PKHeX.Core
         /// <returns>Converted string.</returns>
         public static string GetBEString4(byte[] strdata, int offset, int count)
         {
-            string s = "";
+            var sb = new StringBuilder();
             for (int i = 0; i < count; i += 2)
             {
                 ushort val = BigEndian.ToUInt16(strdata, offset + i);
                 if (val == 0xFFFF) break;
                 ushort chr = ConvertValue2CharG4(val);
                 if (chr == 0xFFFF) break;
-                s += (char)chr;
+                sb.Append((char)chr);
             }
-            return SanitizeString(s);
+            return SanitizeString(sb.ToString());
         }
 
         /// <summary>

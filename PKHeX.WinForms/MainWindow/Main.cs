@@ -845,7 +845,7 @@ namespace PKHeX.WinForms
 
         private static bool SanityCheckSAV(ref SaveFile sav)
         {
-            var _ = ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
+            ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
 
             if (sav is SAV3 s3)
             {
@@ -960,7 +960,7 @@ namespace PKHeX.WinForms
         private void ImportQRToTabs(string url)
         {
             byte[] input = QR.GetQRData(url);
-            if (input == null)
+            if (input.Length == 0)
                 return;
 
             var sav = C_SAV.SAV;

@@ -21,7 +21,7 @@ namespace PKHeX.WinForms.Controls
         public readonly ContextMenuSAV menu = new ContextMenuSAV();
         public readonly BoxMenuStrip SortMenu;
 
-        public bool HaX;
+        public bool  HaX;
         public bool ModifyPKM { private get; set; }
         private bool _hideSecret;
         public bool HideSecretDetails { private get => _hideSecret; set { if (SAV != null) ToggleSecrets(SAV, _hideSecret = value); } }
@@ -478,7 +478,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             string filterText = Util.GetOnlyHex(tb.Text);
-            if (filterText.Length != tb.Text.Length || string.IsNullOrWhiteSpace(filterText))
+            if (string.IsNullOrWhiteSpace(filterText) || filterText.Length != tb.Text.Length)
             {
                 WinFormsUtil.Alert(MsgProgramErrorExpectedHex, tb.Text);
                 tb.Undo();
@@ -1026,10 +1026,6 @@ namespace PKHeX.WinForms.Controls
             switch (sav.Generation)
             {
                 case 6:
-                    TB_GameSync.Enabled = sav.GameSyncID != null;
-                    TB_GameSync.MaxLength = sav.GameSyncIDSize;
-                    TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
-                    break;
                 case 7:
                     TB_GameSync.Enabled = sav.GameSyncID != null;
                     TB_GameSync.MaxLength = sav.GameSyncIDSize;
@@ -1077,9 +1073,12 @@ namespace PKHeX.WinForms.Controls
                 var str = ShowdownSet.GetShowdownSets(pkms, Environment.NewLine + Environment.NewLine);
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
+                WinFormsUtil.Alert(success);
             }
-            catch { }
-            WinFormsUtil.Alert(success);
+            catch
+            {
+                WinFormsUtil.Error(MessageStrings.MsgClipboardFailWrite);
+            }
         }
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)

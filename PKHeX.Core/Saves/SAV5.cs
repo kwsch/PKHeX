@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -127,7 +128,7 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
-        public readonly BlockInfoNDS[] Blocks;
+        public readonly IReadOnlyList<BlockInfoNDS> Blocks;
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);

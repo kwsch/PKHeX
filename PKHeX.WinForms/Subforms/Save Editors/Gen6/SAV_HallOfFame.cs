@@ -339,12 +339,8 @@ namespace PKHeX.WinForms
                 }
                 else
                 {
-                    try
-                    {
-                        // get language
-                        TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
-                    }
-                    catch { }
+                    // get language
+                    TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
                 }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
