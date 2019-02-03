@@ -219,8 +219,8 @@ namespace PKHeX
                 case 093:
                 case 094: return level < 29 && !moves.Contains(095); // Haunter/Gengar without Hypnosis
                 case 110: return level < 39 && !moves.Contains(108); // Weezing without Smoke Screen
+                default: return false;
             }
-            return false;
         }
 
         private static int GetRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
@@ -262,6 +262,7 @@ namespace PKHeX
                 case 130 when pk.CurrentLevel < 32: // Gyarados
                     usedslots--;
                     break;
+                default: return usedslots;
             }
             return usedslots;
         }
@@ -290,7 +291,7 @@ namespace PKHeX
             }
 
             // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
-            return mandatory.Count + moves.Count(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m));
+            return mandatory.Count + moves.Where(m => m != 0).Count(m => !mandatory.Contains(m) && learn[1].Contains(m));
         }
 
         private static List<int> GetRequiredMoveCountLevel(PKM pk)

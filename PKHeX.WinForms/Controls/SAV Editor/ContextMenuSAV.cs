@@ -10,10 +10,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class ContextMenuSAV : UserControl
     {
-        public ContextMenuSAV()
-        {
-            InitializeComponent();
-        }
+        public ContextMenuSAV() => InitializeComponent();
 
         public event LegalityRequest RequestEditorLegality;
         public delegate void LegalityRequest(object sender, EventArgs e, PKM pkm);

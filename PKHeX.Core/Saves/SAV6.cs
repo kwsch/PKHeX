@@ -1104,24 +1104,27 @@ namespace PKHeX.Core
         // Writeback Validity
         public override string MiscSaveChecks()
         {
-            string r = "";
+            var r = new StringBuilder();
+
+            // FFFF checks
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r = $"0x200 chunk @ 0x{i * 0x200:X5} is FF'd."
-                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
+                r.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
+                r.AppendLine("Cyber will screw up (as of August 31st 2014).");
+                r.AppendLine();
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
                 {
-                    r += "Problem lies in the Pokedex. ";
+                    r.Append("Problem lies in the Pokedex. ");
                     if (i * 0x200 == PokeDex + 0x400)
-                        r += "Remove a language flag for a species < 585, ie Petilil";
+                        r.Append("Remove a language flag for a species < 585, ie Petilil");
                 }
                 break;
             }
-            return r;
+            return r.ToString();
         }
 
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
