@@ -712,8 +712,8 @@ namespace PKHeX.Core
             }
         }
 
-        public override string JPEGTitle => JPEG < 0 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
-        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : GetData(JPEG + 0x54, 0xE004);
+        public override string JPEGTitle => JPEG < 0 ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
+        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
 
         // Inventory
         public override InventoryPouch[] Inventory
