@@ -66,9 +66,9 @@ namespace PKHeX.Core
                     sigBuffer.CopyTo(output, output.Length - 0x60);
                     memekey.AesDecrypt(output).CopyTo(output, 0);
                     // Check for 8-byte equality.
-                    var hash1 = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
-                    var hash2 = BitConverter.ToUInt64(output, output.Length - 0x8);
-                    if (hash1 == hash2) // compute == exist
+                    var computed = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
+                    var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
+                    if (computed == existing)
                         return true;
                 }
             }
@@ -142,7 +142,7 @@ namespace PKHeX.Core
         public static byte[] Resign7(byte[] sav7)
         {
             if (sav7 == null || (sav7.Length != SaveUtil.SIZE_G7SM && sav7.Length != SaveUtil.SIZE_G7USUM))
-                return null;
+                throw new ArgumentException("Should not be using this for unsupported saves.");
 
             // Save Chunks are 0x200 bytes each; Memecrypto signature is 0x100 bytes into the 2nd to last chunk.
             var isUSUM = sav7.Length == SaveUtil.SIZE_G7USUM;

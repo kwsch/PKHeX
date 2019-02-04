@@ -15,7 +15,7 @@ namespace PKHeX.Core
         private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
         private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
-        private static object getStringListLoadLock = new object();
+        private static readonly object getStringListLoadLock = new object();
 
         #region String Lists
 
@@ -91,9 +91,7 @@ namespace PKHeX.Core
             lock (getStringListLoadLock) // Make sure only one thread can write to the cache
             {
                 if (!stringListCache.ContainsKey(f)) // Check cache again in case of race condition
-                {
                     stringListCache.Add(f, rawlist);
-                }
             }
 
             return (string[])rawlist.Clone();
@@ -146,7 +144,6 @@ namespace PKHeX.Core
         /// Gets the names of the properties defined in the given input
         /// </summary>
         /// <param name="input">Enumerable of translation definitions in the form "Property = Value".</param>
-        /// <returns></returns>
         private static string[] GetProperties(IEnumerable<string> input)
         {
             return input.Select(l => l.Substring(0, l.IndexOf(TranslationSplitter, StringComparison.Ordinal))).ToArray();

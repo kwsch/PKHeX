@@ -118,6 +118,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Adds the item to the first empty index.
         /// </summary>
+        /// <param name="item">Item to add.</param>
         public void Add(PKM item)
         {
             var index = FirstEmptyIndex();

@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public string GetGroupName(int group)
         {
-            if (group < 0 || group > 10)
+            if ((uint)group > 10)
                 throw new ArgumentException($"{nameof(group)} must be 1-10.");
             int offset = 0x8 + (GroupNameSpacing * group) + 2; // skip over " "
             return GetString(offset, GroupNameSize / 2);

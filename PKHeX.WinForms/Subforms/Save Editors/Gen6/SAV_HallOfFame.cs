@@ -192,16 +192,16 @@ namespace PKHeX.WinForms
             string genderstr = gendersymbols[(int)gender];
             string shinystr = shiny == 1 ? "Yes" : "No";
 
-            string[] movelist = GameInfo.Strings.movelist;
+            var str = GameInfo.Strings;
             s.Add($"Name: {nickname}");
-            s.Add($" ({GameInfo.Strings.specieslist[species]} - {genderstr})");
+            s.Add($" ({str.Species[species]} - {genderstr})");
             s.Add($"Level: {level}");
             s.Add($"Shiny: {shinystr}");
-            s.Add($"Held Item: {GameInfo.Strings.itemlist[helditem]}");
-            s.Add($"Move 1: {movelist[move1]}");
-            s.Add($"Move 2: {movelist[move2]}");
-            s.Add($"Move 3: {movelist[move3]}");
-            s.Add($"Move 4: {movelist[move4]}");
+            s.Add($"Held Item: {str.Item[helditem]}");
+            s.Add($"Move 1: {str.Move[move1]}");
+            s.Add($"Move 2: {str.Move[move2]}");
+            s.Add($"Move 3: {str.Move[move3]}");
+            s.Add($"Move 4: {str.Move[move4]}");
             s.Add($"OT: {OTname} ({TID}/{SID})");
             s.Add(string.Empty);
         }

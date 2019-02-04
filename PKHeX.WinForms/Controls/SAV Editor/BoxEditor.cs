@@ -181,14 +181,14 @@ namespace PKHeX.WinForms.Controls
 
         public bool SaveBoxBinary()
         {
-            DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
                 MsgSaveBoxExportYes + Environment.NewLine +
                 string.Format(MsgSaveBoxExportNo, CurrentBoxName, CurrentBox + 1) + Environment.NewLine +
                 MsgSaveBoxExportCancel);
 
             if (dr == DialogResult.Yes)
             {
-                SaveFileDialog sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
+                var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
                 File.WriteAllBytes(sfd.FileName, SAV.PCBinary);
@@ -196,7 +196,7 @@ namespace PKHeX.WinForms.Controls
             }
             if (dr == DialogResult.No)
             {
-                SaveFileDialog sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
+                var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
                 File.WriteAllBytes(sfd.FileName, SAV.GetBoxBinary(CurrentBox));

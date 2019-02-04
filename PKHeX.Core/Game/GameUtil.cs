@@ -22,6 +22,11 @@ namespace PKHeX.Core
         /// <param name="game">Game to check</param>
         public static bool IsValidSavedVersion(this GameVersion game) => 0 < game && game <= RB;
 
+        /// <summary>
+        /// Most recent game ID utilized by official games.
+        /// </summary>
+        public const GameVersion HighestGameID = RB - 1;
+
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>

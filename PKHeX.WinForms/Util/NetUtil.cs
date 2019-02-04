@@ -16,8 +16,8 @@ namespace PKHeX.WinForms
             try
             {
                 var stream = GetStreamFromURL(webURL);
-                var reader = new StreamReader(stream);
-                return reader.ReadToEnd();
+                using (var reader = new StreamReader(stream))
+                    return reader.ReadToEnd();
             }
             catch (Exception e)
             {
