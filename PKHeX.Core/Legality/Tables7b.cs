@@ -341,8 +341,6 @@ namespace PKHeX.Core
             143, // Snorlax
             150, // Mewtwo
             151, // Mew
-            808, // Meltan
-            809, // Melmetal
         };
 
         internal static readonly HashSet<int> GoTransferSpeciesShinyBanAlola = new HashSet<int>
