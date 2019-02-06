@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/01/14 - New Update:
+19/02/07 - New Update:
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks ThePunish3D, @crzyc, @Subject21J & @ReignOfComputer
+ - - Fixed: Pokémon Link encounters are now detected correctly.
+ - Added: Changing the blank save file setting will now instantly load that blank save file.
+ - Added: Ranch save file storage can now be viewed and edited (including platinum patched).
+ - Changed: Gen1 tradeback prompt is now a setting.
+ - Changed: Gen3 version select now displays the prompt message (merged two windows together). Thanks BlackShark!
+ - Fixed: Gen3 PC item max count fixed. Thanks @ShadowMario3!
+ - Fixed: Certain blank save file types now load correctly.
+ - Fixed: Ability loading for a blank save file no longer behaves incorrectly. Thanks @Kxcii!
+ - Fixed: Relearn move suggestions no longer throw an error under certain scenarios. Ty @DaWoblefet!
+
+19/01/14 - New Update: (40285) [1623255]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks ThePunish3D, @SteelPhase, @NinFanBoyFTW
  - Added: New setting can now change which type of blank save file is loaded when the program starts.
