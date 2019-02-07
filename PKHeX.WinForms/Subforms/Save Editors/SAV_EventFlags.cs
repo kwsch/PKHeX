@@ -475,7 +475,7 @@ namespace PKHeX.WinForms
 
             var tbIsSet = new List<int>();
             var tbUnSet = new List<int>();
-            var r = new List<string>();
+            var result = new List<string>();
             bool[] oldBits = s1.EventFlags;
             bool[] newBits = s2.EventFlags;
             var oldConst = s1.EventConsts;
@@ -492,17 +492,17 @@ namespace PKHeX.WinForms
             for (int i = 0; i < newConst.Length; i++)
             {
                 if (oldConst[i] != newConst[i])
-                    r.Add($"{i}: {oldConst[i]}->{newConst[i]}");
+                    result.Add($"{i}: {oldConst[i]}->{newConst[i]}");
             }
 
-            if (r.Count == 0)
+            if (result.Count == 0)
             {
                 WinFormsUtil.Alert("No Event Constant diff found.");
                 return;
             }
 
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
-                Clipboard.SetText(string.Join(Environment.NewLine, r));
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
         }
 
         private static void Main_DragEnter(object sender, DragEventArgs e)

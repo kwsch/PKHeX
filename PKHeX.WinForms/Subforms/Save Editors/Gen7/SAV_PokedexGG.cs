@@ -425,14 +425,14 @@ namespace PKHeX.WinForms
         {
             if (!GB_SizeRecords.Enabled)
                 return;
-            for (var r = 0; r < RecordUsed.Length; r++)
+            for (var i = 0; i < RecordUsed.Length; i++)
             {
-                var ck = RecordUsed[r];
+                var ck = RecordUsed[i];
                 if (ck.Checked)
                     continue;
                 ck.Checked = true;
-                RecordHeight[r].Value = r % 2 == 0 ? 0 : 255;
-                RecordWeight[r].Value = r % 2 == 0 ? 0 : 255;
+                RecordHeight[i].Value = i % 2 == 0 ? 0 : 255;
+                RecordWeight[i].Value = i % 2 == 0 ? 0 : 255;
             }
         }
 

@@ -742,8 +742,8 @@ namespace PKHeX.WinForms.Controls
             if (!silent)
             {
                 var movestrings = m.Select(v => v >= GameInfo.Strings.Move.Count ? MsgProgramError : GameInfo.Strings.Move[v]);
-                string r = string.Join(Environment.NewLine, movestrings);
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, r))
+                var msg = string.Join(Environment.NewLine, movestrings);
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, msg))
                     return false;
             }
 
@@ -758,23 +758,21 @@ namespace PKHeX.WinForms.Controls
         {
             if (pkm.Format < 6)
                 return false;
-            int[] m = pkm.GetSuggestedRelearnMoves(Legality);
 
+            var m = pkm.GetSuggestedRelearnMoves(Legality);
             if (pkm.RelearnMoves.SequenceEqual(m))
                 return false;
 
             if (!silent)
             {
                 var movestrings = m.Select(v => v >= GameInfo.Strings.Move.Count ? MsgProgramError : GameInfo.Strings.Move[v]);
-                string r = string.Join(Environment.NewLine, movestrings);
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, r))
+                var msg = string.Join(Environment.NewLine, movestrings);
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, msg))
                     return false;
             }
 
-            CB_RelearnMove1.SelectedValue = m[0];
-            CB_RelearnMove2.SelectedValue = m[1];
-            CB_RelearnMove3.SelectedValue = m[2];
-            CB_RelearnMove4.SelectedValue = m[3];
+            pkm.RelearnMoves = m;
+            LoadRelearnMoves(pkm);
             return true;
         }
 
@@ -801,12 +799,12 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                List<string> suggestion = GetSuggestionMessage(pkm, level, location, minlvl);
-                if (suggestion.Count == 1) // no suggestion
+                var suggestions = GetSuggestionMessage(pkm, level, location, minlvl);
+                if (suggestions.Count <= 1) // no suggestion
                     return false;
 
-                string suggest = string.Join(Environment.NewLine, suggestion);
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggest) != DialogResult.Yes)
+                var msg = string.Join(Environment.NewLine, suggestions);
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, msg) != DialogResult.Yes)
                     return false;
             }
 

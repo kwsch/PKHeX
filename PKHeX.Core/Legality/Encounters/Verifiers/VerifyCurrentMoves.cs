@@ -234,7 +234,7 @@ namespace PKHeX.Core
         private static CheckMoveResult[] ParseMoves(PKM pkm, MoveParseSource source, LegalInfo info)
         {
             CheckMoveResult[] res = new CheckMoveResult[4];
-            bool AllParsed() => res.All(r => r != null);
+            bool AllParsed() => res.All(z => z != null);
             var required = pkm.Format != 1 ? 1 : GBRestrictions.GetRequiredMoveCount(pkm, source.CurrentMoves, info, source.Base);
 
             // Check empty moves and relearn moves before generation specific moves

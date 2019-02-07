@@ -562,8 +562,8 @@ namespace PKHeX.WinForms
             CB_Stats2.Items.AddRange(BFT[BFF[facility][1]]);
 
             StatRBA[0].Checked = true;
-            foreach (RadioButton r in StatRBA)
-                r.Visible = r.Enabled = facility == 1;
+            foreach (RadioButton rb in StatRBA)
+                rb.Visible = rb.Enabled = facility == 1;
 
             for (int i = 0; i < StatLabelA.Length; i++)
                 StatLabelA[i].Visible = StatLabelA[i].Enabled = StatNUDA[i].Visible = StatNUDA[i].Enabled = Array.IndexOf(BFV[BFF[facility][0]], i) >= 0;

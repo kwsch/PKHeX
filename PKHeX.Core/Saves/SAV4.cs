@@ -778,10 +778,10 @@ namespace PKHeX.Core
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return Array.Empty<bool>();
 
-                bool[] r = new bool[GiftFlagMax];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (Data[WondercardFlags + (i >> 3)] >> (i & 7) & 0x1) == 1;
-                return r;
+                bool[] result = new bool[GiftFlagMax];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = (Data[WondercardFlags + (i >> 3)] >> (i & 7) & 0x1) == 1;
+                return result;
             }
             set
             {

@@ -210,8 +210,8 @@ namespace PKHeX.WinForms
         public TranslationContext(IEnumerable<string> content, char separator = Separator)
         {
             var entries = content.Select(z => z.Split(separator)).Where(z => z.Length == 2);
-            foreach (var r in entries.Where(z => !Translation.ContainsKey(z[0])))
-                Translation.Add(r[0], r[1]);
+            foreach (var kvp in entries.Where(z => !Translation.ContainsKey(z[0])))
+                Translation.Add(kvp[0], kvp[1]);
         }
 
         public string GetTranslatedText(string val, string fallback)

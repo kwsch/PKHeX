@@ -269,8 +269,8 @@ namespace PKHeX.WinForms
             if (facility < 0 || facility >= BFN.Length) return;
             editingcont = true;
             CB_Stats2.Items.Clear();
-            foreach (RadioButton r in StatRBA)
-                r.Checked = false;
+            foreach (RadioButton rb in StatRBA)
+                rb.Checked = false;
 
             if (BFT[BFF[facility][1]] == null)
             {

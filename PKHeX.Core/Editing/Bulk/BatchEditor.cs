@@ -31,12 +31,12 @@ namespace PKHeX.Core
                 return false;
             }
 
-            var r = BatchEditing.TryModifyPKM(pkm, filters, modifications);
-            if (r != ModifyResult.Invalid)
+            var result = BatchEditing.TryModifyPKM(pkm, filters, modifications);
+            if (result != ModifyResult.Invalid)
                 Iterated++;
-            if (r == ModifyResult.Error)
+            if (result == ModifyResult.Error)
                 Errored++;
-            if (r != ModifyResult.Modified)
+            if (result != ModifyResult.Modified)
                 return false;
 
             pkm.RefreshChecksum();

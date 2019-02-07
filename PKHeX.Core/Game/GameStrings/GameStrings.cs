@@ -136,7 +136,7 @@ namespace PKHeX.Core
             var metSanitize = (string[])cxd.Clone();
             for (int i = 0; i < metSanitize.Length; i++)
             {
-                if (cxd.Count(r => r == metSanitize[i]) > 1)
+                if (cxd.Count(z => z == metSanitize[i]) > 1)
                     metSanitize[i] += $" [{i:000}]";
             }
 

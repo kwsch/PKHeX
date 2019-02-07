@@ -660,8 +660,8 @@ namespace PKHeX.WinForms
             var source = (SAV.B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
             foreach (var s in AllSlots)
             {
-                int r = Util.Rand.Next(source.Count);
-                var slot = source[r];
+                int index = Util.Rand.Next(source.Count);
+                var slot = source[index];
                 source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;

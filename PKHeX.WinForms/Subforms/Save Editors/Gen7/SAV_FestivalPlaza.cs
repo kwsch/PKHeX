@@ -81,9 +81,9 @@ namespace PKHeX.WinForms
 
             string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
             CLB_Reward.Items.Clear();
-            CLB_Reward.Items.Add(res2.Last(), (CheckState)r[SAV.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
+            CLB_Reward.Items.Add(res2.Last(), (CheckState)RewardState[SAV.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
             for (int i = 0; i < res2.Length - 1; i++)
-                CLB_Reward.Items.Add(res2[i], (CheckState)r[SAV.GetFestPrizeReceived(i)]);
+                CLB_Reward.Items.Add(res2[i], (CheckState)RewardState[SAV.GetFestPrizeReceived(i)]);
 
             for (int i = 0; i < 7; i++)
                 f[i] = new FestaFacility(SAV, i);
@@ -164,7 +164,7 @@ namespace PKHeX.WinForms
         }
 
         private bool editing;
-        private readonly byte[] r = { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
+        private readonly byte[] RewardState = { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
         private readonly int typeMAX;
         private readonly FestaFacility[] f = new FestaFacility[7];
         private readonly string[] RES_Color = { "Red", "Blue", "Gold", "Black", "Purple", "Yellow", "Brown", "Green", "Orange", "NavyBlue", "Pink", "White" };
@@ -264,9 +264,9 @@ namespace PKHeX.WinForms
             SAV.FestaCoins = (uint)NUD_FC_Current.Value;
             SAV.FestaDate = new DateTime(CAL_FestaStartDate.Value.Year, CAL_FestaStartDate.Value.Month, CAL_FestaStartDate.Value.Day, CAL_FestaStartTime.Value.Hour, CAL_FestaStartTime.Value.Minute, CAL_FestaStartTime.Value.Second);
 
-            SAV.SetFestaPrizeReceived(10, r[(int)CLB_Reward.GetItemCheckState(0)]);
+            SAV.SetFestaPrizeReceived(10, RewardState[(int)CLB_Reward.GetItemCheckState(0)]);
             for (int i = 1; i < CLB_Reward.Items.Count; i++)
-                SAV.SetFestaPrizeReceived(i - 1, r[(int)CLB_Reward.GetItemCheckState(i)]);
+                SAV.SetFestaPrizeReceived(i - 1, RewardState[(int)CLB_Reward.GetItemCheckState(i)]);
 
             SaveFacility();
             foreach (FestaFacility facility in f)

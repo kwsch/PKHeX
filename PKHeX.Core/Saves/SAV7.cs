@@ -1413,10 +1413,10 @@ namespace PKHeX.Core
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return Array.Empty<bool>();
 
-                bool[] r = new bool[(WondercardData-WondercardFlags)*8];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
-                return r;
+                bool[] result = new bool[(WondercardData-WondercardFlags)*8];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
+                return result;
             }
             set
             {
@@ -1488,27 +1488,27 @@ namespace PKHeX.Core
         // Writeback Validity
         public override string MiscSaveChecks()
         {
-            var r = new StringBuilder();
+            var sb = new StringBuilder();
 
             // FFFF checks
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
-                r.AppendLine("Cyber will screw up (as of August 31st 2014).");
-                r.AppendLine();
+                sb.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
+                sb.AppendLine("Cyber will screw up (as of August 31st 2014).");
+                sb.AppendLine();
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
                 {
-                    r.Append("Problem lies in the Pokedex. ");
+                    sb.Append("Problem lies in the Pokedex. ");
                     if (i * 0x200 == PokeDex + 0x400)
-                        r.Append("Remove a language flag for a species < 585, ie Petilil");
+                        sb.Append("Remove a language flag for a species < 585, ie Petilil");
                 }
                 break;
             }
-            return r.ToString();
+            return sb.ToString();
         }
 
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));

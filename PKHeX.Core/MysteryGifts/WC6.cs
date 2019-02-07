@@ -400,7 +400,7 @@ namespace PKHeX.Core
             {
                 int IVCount = ivflag - 0xFB;
                 do { finalIVs[Util.Rand.Next(6)] = 31; }
-                while (finalIVs.Count(r => r == 31) < IVCount);
+                while (finalIVs.Count(iv => iv == 31) < IVCount);
                 for (int i = 0; i < 6; i++)
                     finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
             }

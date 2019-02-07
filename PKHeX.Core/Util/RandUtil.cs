@@ -22,9 +22,9 @@ namespace PKHeX.Core
             int n = items.Count;
             for (int i = 0; i < n; i++)
             {
-                int r = i + Rand.Next(n-i);
-                T t = items[r];
-                items[r] = items[i];
+                int index = i + Rand.Next(n-i);
+                T t = items[index];
+                items[index] = items[i];
                 items[i] = t;
             }
         }
