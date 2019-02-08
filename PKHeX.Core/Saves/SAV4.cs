@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class SAV4 : SaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
-        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
+        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)

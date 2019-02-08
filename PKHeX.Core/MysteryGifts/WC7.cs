@@ -365,7 +365,7 @@ namespace PKHeX.Core
 
                 OT_Name = OT_Name.Length > 0 ? OT_Name : SAV.OT,
                 OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
-                HT_Name = OT_Name.Length > 0 ? SAV.OT : "",
+                HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 

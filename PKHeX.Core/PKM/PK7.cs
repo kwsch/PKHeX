@@ -441,7 +441,7 @@ namespace PKHeX.Core
                 this.ClearGeoLocationData();
 
                 // Clear Handler
-                HT_Name = "".PadRight(11, '\0');
+                HT_Name = string.Empty.PadRight(11, '\0');
                 return;
             }
 

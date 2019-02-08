@@ -12,7 +12,7 @@ namespace PKHeX.Core
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
-        public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
+        public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -153,7 +153,7 @@ namespace PKHeX.Core
             if (Version != GameVersion.B2W2)
                 return null;
             var data = Data.Skip(Daycare + 0x1CC).Take(DaycareSeedSize/2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", "");
+            return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)
@@ -232,7 +232,7 @@ namespace PKHeX.Core
         public override string GetBoxName(int box)
         {
             if (box >= BoxCount)
-                return "";
+                return string.Empty;
             return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
         }
 

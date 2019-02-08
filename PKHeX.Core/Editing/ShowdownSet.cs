@@ -17,6 +17,7 @@ namespace PKHeX.Core
         private static readonly string[] StatSplitters = { " / ", " " };
         private static readonly string[] LineSplit = {": "};
         private static readonly string[] ItemSplit = {" @ "};
+        private static readonly char[] ParenJunk = { '[', ']', '(', ')' };
         private static readonly int[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
         private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
         private const string Language = "en";
@@ -142,7 +143,7 @@ namespace PKHeX.Core
 
         private void LoadLines(IEnumerable<string> lines)
         {
-            lines = lines.Select(z => z.Replace("'", "’").Replace("–", "-").Trim()); // Sanitize apostrophes & dashes
+            lines = lines.Select(z => z.Replace('\'', '’').Replace('–', '-').Trim()); // Sanitize apostrophes & dashes
             lines = lines.Where(z => z.Length > 2);
 
             ParseLines(lines);
@@ -484,7 +485,7 @@ namespace PKHeX.Core
             {
                 n1 = line.Substring(0, index).Trim();
                 n2 = line.Substring(index).Trim();
-                n2 = ReplaceAll(n2, string.Empty, "[", "]", "(", ")"); // Trim out excess data
+                n2 = RemoveAll(n2, ParenJunk); // Trim out excess data
             }
             else // nickname first (manually created set, incorrect)
             {
@@ -515,7 +516,7 @@ namespace PKHeX.Core
 
             // Defined Hidden Power
             string type = moveString.Remove(0, 13);
-            type = ReplaceAll(type, string.Empty, "[", "]", "(", ")"); // Trim out excess data
+            type = RemoveAll(type, ParenJunk); // Trim out excess data
             int hpVal = Array.IndexOf(Strings.types, type) - 1; // Get HP Type
 
             HiddenPowerType = hpVal;
@@ -605,13 +606,13 @@ namespace PKHeX.Core
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
                         return Legal.Totem_Alolan.Contains(spec) && spec != 778 ? "Alola-Totem" : "Totem";
-                    return form.Replace(" ", "-");
+                    return form.Replace(' ', '-');
             }
         }
 
         private static string ConvertFormFromShowdown(string form, int spec, int ability)
         {
-            form = form?.Replace(" ", "-"); // inconsistencies are great
+            form = form?.Replace(' ', '-'); // inconsistencies are great
             switch (spec)
             {
                 case 550 when form == "Blue-Striped": // Basculin
@@ -651,6 +652,8 @@ namespace PKHeX.Core
             }
         }
 
+        private static string RemoveAll(string original, char[] remove) => string.Concat(original.Where(z => !remove.Contains(z)));
+
         private static string[] SplitLineStats(string line)
         {
             // Because people think they can type sets out...
@@ -658,11 +661,6 @@ namespace PKHeX.Core
                 .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
                 .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
                 .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(StatSplitters, StringSplitOptions.None);
-        }
-
-        private static string ReplaceAll(string original, string to, params string[] toBeReplaced)
-        {
-            return toBeReplaced.Aggregate(original, (current, v) => current.Replace(v, to));
         }
 
         /// <summary>

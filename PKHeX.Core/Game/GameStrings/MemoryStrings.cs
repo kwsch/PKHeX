@@ -12,7 +12,7 @@ namespace PKHeX.Core
         {
             s = strings;
             memories = new Lazy<List<ComboItem>>(GetMemories);
-            none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {""}));
+            none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
             species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.Take(Legal.MaxSpeciesID_6 + 1).ToArray()));
             item = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.itemlist, Memories.MemoryItems));
             genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));

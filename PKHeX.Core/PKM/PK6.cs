@@ -390,7 +390,7 @@ namespace PKHeX.Core
                 /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
-                HT_Name = "".PadRight(11, '\0');
+                HT_Name = string.Empty.PadRight(11, '\0');
                 return;
             }
 

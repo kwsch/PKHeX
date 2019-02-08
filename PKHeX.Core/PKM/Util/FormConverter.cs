@@ -84,7 +84,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static readonly string[] EMPTY = {""};
+        private static readonly string[] EMPTY = { string.Empty };
         private const string Starter = nameof(Starter);
 
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)

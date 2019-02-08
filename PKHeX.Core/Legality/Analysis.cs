@@ -332,7 +332,7 @@ namespace PKHeX.Core
                 return L_AnalysisUnavailable;
 
             const string separator = "===";
-            string[] br = {separator, ""};
+            string[] br = {separator, string.Empty};
             var lines = new List<string> {br[1]};
             lines.AddRange(br);
             int rl = lines.Count;

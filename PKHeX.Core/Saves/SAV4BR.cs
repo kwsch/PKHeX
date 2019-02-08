@@ -12,7 +12,7 @@ namespace PKHeX.Core
     {
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => "PbrSaveData|*";
-        public override string Extension => "";
+        public override string Extension => string.Empty;
 
         private const int SAVE_COUNT = 4;
 

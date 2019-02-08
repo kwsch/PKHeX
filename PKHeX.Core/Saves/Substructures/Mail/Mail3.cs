@@ -54,7 +54,7 @@ namespace PKHeX.Core
                     SetMessage(y, x, 0xFFFF);
             }
 
-            AuthorName = "";
+            AuthorName = string.Empty;
             AuthorTID = 0;
             AuthorTID = 0;
             AppearPKM = 1;

@@ -33,7 +33,7 @@ namespace PKHeX.Core
             AuthorSID = 0;
             AuthorGender = 0;
             MailType = 0xFF;
-            AuthorName = "";
+            AuthorName = string.Empty;
             for (int i = 0; i < 3; i++)
                 SetMisc(i, 0);
             MessageEnding = 0xFFFF;

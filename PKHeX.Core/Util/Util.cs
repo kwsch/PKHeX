@@ -7,13 +7,13 @@ namespace PKHeX.Core
     {
         public static int ToInt32(string value)
         {
-            string val = value?.Replace(" ", "").Replace("_", "").Trim();
+            string val = value?.Replace(" ", string.Empty).Replace("_", string.Empty).Trim();
             return string.IsNullOrWhiteSpace(val) ? 0 : int.Parse(val);
         }
 
         public static uint ToUInt32(string value)
         {
-            string val = value?.Replace(" ", "").Replace("_", "").Trim();
+            string val = value?.Replace(" ", string.Empty).Replace("_", string.Empty).Trim();
             return string.IsNullOrWhiteSpace(val) ? 0 : uint.Parse(val);
         }
 

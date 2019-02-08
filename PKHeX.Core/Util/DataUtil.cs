@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<string> DumpStrings(Type t)
         {
-            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "");
+            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, string.Empty);
             return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p)}");
         }
 

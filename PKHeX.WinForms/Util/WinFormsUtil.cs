@@ -208,13 +208,14 @@ namespace PKHeX.WinForms
         public static bool SavePKMDialog(PKM pk)
         {
             string pkx = pk.Extension;
-            bool allowEncrypted = pk.Format > 3 || pk is PK3;
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : "") +
+            bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
+            var genericFilter = $"Decrypted PKM File|*.{pkx}" +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : string.Empty) +
                          "|Binary File|*.bin" +
-                         "|All Files|*.*",
+                         "|All Files|*.*";
+            var sfd = new SaveFileDialog
+            {
+                Filter = genericFilter,
                 DefaultExt = pkx,
                 FileName = Util.CleanFileName(pk.FileName)
             };

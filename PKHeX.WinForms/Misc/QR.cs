@@ -133,8 +133,8 @@ namespace PKHeX.WinForms
                 return raw.Where((_, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
             }
             // All except G7
-            pkstr = pkstr.Substring(pkstr.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
-            pkstr = pkstr.Replace("\\", ""); // Rectify response
+            pkstr = pkstr.Substring(pkstr.IndexOf('#') + 1); // Trim URL
+            pkstr = pkstr.Replace("\\", string.Empty); // Rectify response
 
             return Convert.FromBase64String(pkstr);
         }

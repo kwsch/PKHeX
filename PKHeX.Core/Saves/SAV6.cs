@@ -12,7 +12,7 @@ namespace PKHeX.Core
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
-        public override string Extension => "";
+        public override string Extension => string.Empty;
 
         public SAV6(byte[] data = null)
         {
@@ -344,7 +344,7 @@ namespace PKHeX.Core
             get
             {
                 var data = Data.Skip(TrainerCard + 8).Take(GameSyncIDSize / 2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", "");
+                return BitConverter.ToString(data).Replace("-", string.Empty);
             }
             set
             {
@@ -622,7 +622,7 @@ namespace PKHeX.Core
                 return null;
 
             var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", "");
+            return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
         public override bool? IsDaycareHasEgg(int loc)
