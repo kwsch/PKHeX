@@ -771,8 +771,10 @@ namespace PKHeX.WinForms.Controls
                     return false;
             }
 
-            pkm.RelearnMoves = m;
-            LoadRelearnMoves(pkm);
+            CB_RelearnMove1.SelectedValue = m[0];
+            CB_RelearnMove2.SelectedValue = m[1];
+            CB_RelearnMove3.SelectedValue = m[2];
+            CB_RelearnMove4.SelectedValue = m[3];
             return true;
         }
 
