@@ -278,6 +278,7 @@ namespace PKHeX.WinForms
         private void FormInitializeSecond()
         {
             var settings = Settings.Default;
+            C_SAV.M.Draw = PKME_Tabs.Draw = new DrawConfig();
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;

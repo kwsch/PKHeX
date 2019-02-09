@@ -147,6 +147,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PKM Editor\DrawConfig.cs" />
     <Compile Include="Controls\PKM Editor\IMainEditor.cs" />
     <Compile Include="Controls\PKM Editor\CatchRate.cs">
       <SubType>UserControl</SubType>

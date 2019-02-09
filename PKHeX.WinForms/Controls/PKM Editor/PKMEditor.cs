@@ -26,10 +26,6 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
 
-            DrawForeColor = ForeColor;
-            if (TextBrush == null) TextBrush = new SolidBrush(CB_Move1.ForeColor);
-            if (BackBrush == null) BackBrush = new SolidBrush(CB_Move1.BackColor);
-
             // Commonly reused Control arrays
             Moves = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
             Relearn = new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 };
@@ -95,6 +91,7 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
+        public DrawConfig Draw { private get; set; }
         public bool Unicode { get; set; } = true;
         private bool _hax;
         public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
@@ -151,7 +148,7 @@ namespace PKHeX.WinForms.Controls
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
 
-            var cb = Array.Find(ValidationRequired, c => c.BackColor == InvalidSelection && c.Items.Count != 0);
+            var cb = Array.Find(ValidationRequired, c => c.BackColor == Draw.InvalidSelection && c.Items.Count != 0);
             if (cb != null)
                 tabMain.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
             else if (!Stats.Valid)
@@ -326,22 +323,30 @@ namespace PKHeX.WinForms.Controls
             gendersymbols = symbols;
             if (!Unicode)
             {
-                BTN_Shinytize.Text = ShinytizeDefault;
+                BTN_Shinytize.Text = Draw.ShinyDefault;
                 TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = GB_OT.Font;
             }
             else
             {
-                BTN_Shinytize.Text = ShinytizeUnicode;
+                BTN_Shinytize.Text = Draw.ShinyUnicode;
                 TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont(11);
             }
+
             // Switch active gender labels to new if they are active.
-            if (PKX.GetGenderFromString(Label_Gender.Text) < 2)
-                Label_Gender.Text = gendersymbols[PKX.GetGenderFromString(Label_Gender.Text)];
-            if (PKX.GetGenderFromString(Label_OTGender.Text) < 2)
-                Label_OTGender.Text = gendersymbols[PKX.GetGenderFromString(Label_OTGender.Text)];
-            if (PKX.GetGenderFromString(Label_CTGender.Text) < 2)
-                Label_CTGender.Text = gendersymbols[PKX.GetGenderFromString(Label_CTGender.Text)];
+            ReloadGender(Label_Gender, gendersymbols);
+            ReloadGender(Label_OTGender, gendersymbols);
+            ReloadGender(Label_CTGender, gendersymbols);
         }
+
+        private static string ReloadGender(string text, IReadOnlyList<string> genders)
+        {
+            var index = PKX.GetGenderFromString(text);
+            if (index >= 2)
+                return text;
+            return genders[index];
+        }
+
+        private static void ReloadGender(Label l, IReadOnlyList<string> genders) => l.Text = ReloadGender(l.Text, genders);
 
         private void UpdateSprite()
         {
@@ -350,36 +355,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         // General Use Functions //
-        private Color InvalidSelection { get; set; } = Color.DarkSalmon;
-        private Color MarkBlue { get; set; } = Color.FromArgb(000, 191, 255);
-        private Color MarkPink { get; set; } = Color.FromArgb(255, 117, 179);
-        private Color MarkDefault { get; set; } = Color.Black;
-        private Brush LegalMove { get; set; } = Brushes.PaleGreen;
-        private Brush TextBrush { get; set; }
-        private Brush BackBrush { get; set; }
-        private string ShinytizeDefault { get; set; } = "*";
-        private string ShinytizeUnicode { get; set; } = "☆";
-        private Color DrawForeColor { get; set; }
 
-        private Color GetGenderColor(int gender)
-        {
-            switch (gender)
-            {
-                case 0: return Color.Blue;
-                case 1: return Color.Red;
-                default: return DrawForeColor;
-            }
-        }
-
-        private bool GetMarkingColor(int markval, out Color c)
-        {
-            switch (markval)
-            {
-                case 1: c = MarkBlue; return true;
-                case 2: c = MarkPink; return true;
-                default: c = MarkDefault; return false; // recolor not required
-            }
-        }
 
         private void SetDetailsOT(ITrainerInfo SAV)
         {
@@ -389,7 +365,7 @@ namespace PKHeX.WinForms.Controls
             // Get Save Information
             TB_OT.Text = SAV.OT;
             Label_OTGender.Text = gendersymbols[SAV.Gender & 1];
-            Label_OTGender.ForeColor = GetGenderColor(SAV.Gender & 1);
+            Label_OTGender.ForeColor = Draw.GetGenderColor(SAV.Gender & 1);
             TID_Trainer.LoadInfo(SAV);
 
             if (SAV.Game >= 0)
@@ -501,7 +477,7 @@ namespace PKHeX.WinForms.Controls
 
             for (int i = 0; i < pba.Length; i++)
             {
-                if (GetMarkingColor(markings[i], out Color c))
+                if (Draw.GetMarkingColor(markings[i], out Color c))
                     pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, c);
             }
         }
@@ -510,7 +486,7 @@ namespace PKHeX.WinForms.Controls
         {
             int Gender = pkm.GetSaneGender();
             Label_Gender.Text = gendersymbols[Gender];
-            Label_Gender.ForeColor = GetGenderColor(Gender);
+            Label_Gender.ForeColor = Draw.GetGenderColor(Gender);
         }
 
         private void SetCountrySubRegion(ComboBox CB, string type)
@@ -566,7 +542,7 @@ namespace PKHeX.WinForms.Controls
             }
             pkm.Gender = newGender;
             Label_Gender.Text = gendersymbols[pkm.Gender];
-            Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
+            Label_Gender.ForeColor = Draw.GetGenderColor(pkm.Gender);
 
             if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
@@ -607,7 +583,7 @@ namespace PKHeX.WinForms.Controls
             {
                 int gender = PKX.GetGenderFromString(lbl.Text) ^ 1;
                 lbl.Text = gendersymbols[gender];
-                lbl.ForeColor = GetGenderColor(gender);
+                lbl.ForeColor = Draw.GetGenderColor(gender);
             }
         }
 
@@ -830,7 +806,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
             Label_Gender.Text = gendersymbols[pkm.Gender];
-            Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
+            Label_Gender.ForeColor = Draw.GetGenderColor(pkm.Gender);
             if (pkm.Species == 201 && !skipForm) // Unown
                 CB_Form.SelectedIndex = pkm.AltForm;
 
@@ -1495,7 +1471,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.PID = Util.GetHexValue(TB_PID.Text);
                 CB_Nature.SelectedValue = pkm.Nature;
                 Label_Gender.Text = gendersymbols[pkm.Gender];
-                Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
+                Label_Gender.ForeColor = Draw.GetGenderColor(pkm.Gender);
                 FieldsLoaded = true;
             }
         }
@@ -1537,7 +1513,7 @@ namespace PKHeX.WinForms.Controls
             if (cb.Text.Length == 0 && cb.Items.Count > 0)
                 cb.SelectedIndex = 0;
             else if (cb.SelectedValue == null)
-                cb.BackColor = InvalidSelection;
+                cb.BackColor = Draw.InvalidSelection;
             else
                 cb.ResetBackColor();
         }
@@ -1601,11 +1577,10 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             var i = (ComboItem)((ComboBox)sender).Items[e.Index];
-            bool valid = AllowedMoves.Contains(i.Value) && !HaX;
-
-            bool current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
-            Brush tBrush = current ? SystemBrushes.HighlightText : TextBrush;
-            Brush brush = current ? SystemBrushes.Highlight : valid ? LegalMove : BackBrush;
+            var valid = AllowedMoves.Contains(i.Value) && !HaX;
+            var current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+            var tBrush = Draw.Brushes.GetText(current);
+            var brush = Draw.Brushes.GetBackground(valid, current);
 
             e.Graphics.FillRectangle(brush, e.Bounds);
             e.Graphics.DrawString(i.Text, e.Font, tBrush, e.Bounds, StringFormat.GenericDefault);
