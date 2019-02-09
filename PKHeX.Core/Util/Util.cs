@@ -1,29 +1,88 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace PKHeX.Core
 {
     public static partial class Util
     {
+        /// <summary>
+        /// Parses the string into an <see cref="int"/>, skipping all characters except for valid digits.
+        /// </summary>
+        /// <param name="value">String to parse</param>
+        /// <returns>Parsed value</returns>
         public static int ToInt32(string value)
         {
-            string val = value?.Replace(" ", string.Empty).Replace("_", string.Empty).Trim();
-            return string.IsNullOrWhiteSpace(val) ? 0 : int.Parse(val);
+            int result = 0;
+            if (string.IsNullOrEmpty(value))
+                return result;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                var c = value[i];
+                if (IsNum(c))
+                {
+                    result *= 10;
+                    result += c;
+                    result -= '0';
+                }
+                else if (c == '-')
+                {
+                    result = -result;
+                }
+            }
+            return result;
         }
 
+        /// <summary>
+        /// Parses the string into a <see cref="uint"/>, skipping all characters except for valid digits.
+        /// </summary>
+        /// <param name="value">String to parse</param>
+        /// <returns>Parsed value</returns>
         public static uint ToUInt32(string value)
         {
-            string val = value?.Replace(" ", string.Empty).Replace("_", string.Empty).Trim();
-            return string.IsNullOrWhiteSpace(val) ? 0 : uint.Parse(val);
+            uint result = 0;
+            if (string.IsNullOrEmpty(value))
+                return result;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                var c = value[i];
+                if (IsNum(c))
+                {
+                    result *= 10;
+                    result += c;
+                    result -= '0';
+                }
+            }
+            return result;
         }
 
-        public static uint GetHexValue(string s)
+        /// <summary>
+        /// Parses the hex string into a <see cref="uint"/>, skipping all characters except for valid digits.
+        /// </summary>
+        /// <param name="value">Hex String to parse</param>
+        /// <returns>Parsed value</returns>
+        public static uint GetHexValue(string value)
         {
-            string str = GetOnlyHex(s);
-            return string.IsNullOrWhiteSpace(str) ? 0 : Convert.ToUInt32(str, 16);
+            uint result = 0;
+            if (string.IsNullOrEmpty(value))
+                return result;
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                var c = value[i];
+                if (IsHex(c))
+                {
+                    result <<= 4;
+                    result += c;
+                    result -= '0';
+                }
+            }
+            return result;
         }
 
-        private static bool IsHex(char c) => (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+        private static bool IsNum(char c) => c >= '0' && c <= '9';
+        private static bool IsHex(char c) => IsNum(c) || IsHexChar(c);
+        private static bool IsHexChar(char c) => (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
         private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
 
         /// <summary>
