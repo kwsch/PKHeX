@@ -247,7 +247,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
+                MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = Math.Max(0, pk.AltForm).ToString();
                 if (pk.PartyStatsPresent) // stats present
