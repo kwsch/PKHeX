@@ -58,7 +58,7 @@
         BACD_U_A,
 
         /// <summary>
-        /// Event Reversed Order PID restricted to 16bit Origin Seed, shiny
+        /// Event Reversed Order PID restricted to 8bit Origin Seed, shiny
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         BACD_R_S,

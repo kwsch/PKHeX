@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Object that can be fed to a <see cref="IEncounterable"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
@@ -65,7 +67,7 @@
 
         public Nature GetNature(Nature encValue)
         {
-            if (encValue != Nature.Random)
+            if ((uint)encValue < 25)
                 return encValue;
             if (Nature != Nature.Random)
                 return Nature;
@@ -74,13 +76,26 @@
 
         public int GetGender(int gender, PersonalInfo pkPersonalInfo)
         {
-            if (gender >= 0)
+            if ((uint)gender < 3)
                 return gender;
             if (!pkPersonalInfo.IsDualGender)
                 return pkPersonalInfo.FixedGender;
             if (Gender >= 0)
                 return Gender;
             return pkPersonalInfo.RandomGender;
+        }
+
+        public int GetAbility(int abilityType, PersonalInfo pkPersonalInfo)
+        {
+            if (abilityType < 3)
+                return abilityType;
+
+            var abils = pkPersonalInfo.Abilities;
+            if (abilityType == 4 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+                return 2;
+            if (abils[1] == Ability)
+                return 1;
+            return 0;
         }
     }
 }

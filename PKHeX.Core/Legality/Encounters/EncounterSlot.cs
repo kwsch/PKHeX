@@ -69,13 +69,10 @@ namespace PKHeX.Core
             pk.AltForm = GetWildAltForm(pk, Form, SAV);
 
             SetMetData(pk, level, Location);
-            SetNatureGenderAbility(pk, criteria);
+            SetPINGA(pk, criteria);
+            SetEncounterMoves(pk, version, level);
 
             SetFormatSpecificData(pk);
-
-            var moves = this is EncounterSlotMoves m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
 
             if (pk.Format < 6)
                 return pk;
@@ -84,6 +81,13 @@ namespace PKHeX.Core
             pk.SetRandomEC();
 
             return pk;
+        }
+
+        private void SetEncounterMoves(PKM pk, GameVersion version, int level)
+        {
+            var moves = this is EncounterSlotMoves m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
         }
 
         private void SetFormatSpecificData(PKM pk)
@@ -122,7 +126,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void SetNatureGenderAbility(PKM pk, EncounterCriteria criteria)
+        private void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(-1, pk.PersonalInfo);
             int nature = (int)criteria.GetNature(Nature.Random);

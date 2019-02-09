@@ -73,13 +73,13 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             var pk = PKMConverter.GetBlank(Generation, Version);
+            SAV.ApplyToPKM(pk);
+
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
                 level = 25; // avoid some cases
-
-            SAV.ApplyToPKM(pk);
 
             int species = Species;
             if (EvolveOnTrade)
@@ -87,40 +87,36 @@ namespace PKHeX.Core
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = species;
-            pk.CurrentLevel = level;
-            pk.Version = (int)version;
             pk.AltForm = Form;
-            pk.Ball = Ball;
             pk.Language = lang;
-            pk.TID = TID;
-            pk.SID = SID;
             pk.OT_Name = pk.Format == 1 ? StringConverter.G1TradeOTStr : GetOT(lang) ?? SAV.OT;
             pk.OT_Gender = GetOT(lang) != null ? Math.Max(0, OTGender) : SAV.Gender;
             pk.SetNickname(GetNickname(lang));
+
+            pk.CurrentLevel = level;
+            pk.Version = (int)version;
+            pk.TID = TID;
+            pk.SID = SID;
+            pk.Ball = Ball;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
-            SetNatureGenderAbility(pk, criteria);
+            SetPINGA(pk, criteria);
+            SetMoves(pk, version, level);
 
-            if (IVs != null)
-                pk.SetRandomIVs(IVs, 0);
-            else
-                pk.SetRandomIVs(flawless: 3);
-
+            var time = DateTime.Now;
             if (pk.Format != 2 || version == GameVersion.C)
             {
                 var location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
-                SetMetData(pk, level, location);
+                SetMetData(pk, level, location, time);
             }
             if (EggLocation != 0)
-                SetEggMetData(pk);
+                SetEggMetData(pk, time);
 
             if (pk is PK1 pk1 && this is EncounterTradeCatchRate c)
                 pk1.Catch_Rate = (int)c.Catch_Rate;
 
             if (pk is IContestStats s)
                 this.CopyContestStatsTo(s);
-
-            SetMoves(pk, version, level);
 
             if (Fateful)
                 pk.FatefulEncounter = true;
@@ -141,26 +137,26 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private void SetNatureGenderAbility(PKM pk, EncounterCriteria criteria)
+        protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(Gender, pk.PersonalInfo);
             int nature = (int)criteria.GetNature(Nature);
             int ability = Ability >> 1;
 
-            if (this is EncounterTradePID p)
-            {
-                pk.PID = p.PID;
-                pk.Nature = nature;
-                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
-                pk.RefreshAbility(ability);
-            }
+            PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
+            pk.Nature = nature;
+            pk.Gender = gender;
+            pk.RefreshAbility(ability);
+
+            SetIVs(pk);
+        }
+
+        protected void SetIVs(PKM pk)
+        {
+            if (IVs != null)
+                pk.SetRandomIVs(IVs, 0);
             else
-            {
-                PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
-                pk.Nature = nature;
-                pk.Gender = gender;
-                pk.RefreshAbility(ability);
-            }
+                pk.SetRandomIVs(flawless: 3);
         }
 
         private void SetMoves(PKM pk, GameVersion version, int level)
@@ -172,17 +168,17 @@ namespace PKHeX.Core
             pk.SetMaximumPPCurrent(moves);
         }
 
-        private void SetEggMetData(PKM pk)
+        private void SetEggMetData(PKM pk, DateTime time)
         {
             pk.Egg_Location = EggLocation;
-            pk.EggMetDate = DateTime.Today;
+            pk.EggMetDate = time;
         }
 
-        private static void SetMetData(PKM pk, int level, int location)
+        private static void SetMetData(PKM pk, int level, int location, DateTime time)
         {
             pk.Met_Level = level;
             pk.Met_Location = location;
-            pk.MetDate = DateTime.Today;
+            pk.MetDate = time;
         }
 
         private void UpdateEdgeCase(PKM pkm)

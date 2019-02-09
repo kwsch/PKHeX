@@ -319,8 +319,9 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
-            var pi = PersonalTable.USUM.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
             var OT = GetOT(SAV.Language);
+
             var pk = new PB7
             {
                 Species = Species,
@@ -328,8 +329,6 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = metLevel,
-                Nature = Nature != -1 ? Nature : Util.Rand.Next(25),
-                Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
                 Version = OriginGame != 0 ? OriginGame : SAV.Game,
@@ -338,9 +337,14 @@ namespace PKHeX.Core
                 Country = SAV.Country,
                 Region = SAV.SubRegion,
                 ConsoleRegion = SAV.ConsoleRegion,
-                Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
-                RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
-                RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                RelearnMove1 = RelearnMove1,
+                RelearnMove2 = RelearnMove2,
+                RelearnMove3 = RelearnMove3,
+                RelearnMove4 = RelearnMove4,
                 Met_Location = MetLocation,
                 Egg_Location = EggLocation,
                 AV_HP = AV_HP,
@@ -361,6 +365,7 @@ namespace PKHeX.Core
                 OT_Friendship = pi.BaseFriendship,
                 FatefulEncounter = true,
             };
+            pk.SetMaximumPPCurrent();
 
             if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
@@ -369,8 +374,6 @@ namespace PKHeX.Core
                 while (!CanBeReceivedByVersion(pk.Version));
             }
 
-            pk.SetMaximumPPCurrent();
-
             if (OTGender == 3)
             {
                 pk.TID = SAV.TID;
@@ -378,43 +381,60 @@ namespace PKHeX.Core
             }
 
             pk.MetDate = Date ?? DateTime.Now;
-
             pk.IsNicknamed = GetIsNicknamed(pk.Language);
             pk.Nickname = pk.IsNicknamed ? GetNickname(pk.Language) : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
-            int[] finalIVs = new int[6];
-            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
-            if (ivflag == 0) // Random IVs
-            {
-                for (int i = 0; i < 6; i++)
-                    finalIVs[i] = IVs[i] > 31 ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
-            }
-            else // 1/2/3 perfect IVs
-            {
-                int IVCount = ivflag - 0xFB;
-                do { finalIVs[Util.Rand.Next(6)] = 31; }
-                while (finalIVs.Count(iv => iv == 31) < IVCount);
-                for (int i = 0; i < 6; i++)
-                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
-            }
-            pk.IVs = finalIVs;
+            SetPINGA(pk, criteria);
 
-            int av = 0;
+            if (IsEgg)
+                SetEggMetData(pk);
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+            pk.HeightScalar = Util.Rand.Next(0x100);
+            pk.WeightScalar = Util.Rand.Next(0x100);
+            pk.ResetCalculatedValues(); // cp & dimensions
+
+            pk.RefreshChecksum();
+            return pk;
+        }
+
+        private void SetEggMetData(PKM pk)
+        {
+            pk.IsEgg = true;
+            pk.EggMetDate = Date;
+            pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.IsNicknamed = true;
+        }
+
+        private void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
+            pk.Nature = (int)criteria.GetNature((Nature)Nature);
+            pk.Gender = criteria.GetGender(Gender, pi);
+            var av = GetAbilityIndex(criteria, pi);
+            pk.RefreshAbility(av);
+            SetPID(pk);
+            SetIVs(pk);
+        }
+
+        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi)
+        {
             switch (AbilityType)
             {
                 case 00: // 0 - 0
                 case 01: // 1 - 1
                 case 02: // 2 - H
-                    av = AbilityType;
-                    break;
+                    return AbilityType;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = Util.Rand.Next(AbilityType - 1);
-                    break;
+                    return criteria.GetAbility(AbilityType, pi); // 3 or 2
+                default:
+                    throw new ArgumentException(nameof(AbilityType));
             }
-            pk.Ability = pi.Abilities[av];
-            pk.AbilityNumber = 1 << av;
+        }
 
+        private void SetPID(PKM pk)
+        {
             switch (PIDType)
             {
                 case Shiny.FixedValue: // Specified
@@ -432,22 +452,26 @@ namespace PKHeX.Core
                     if (pk.IsShiny) pk.PID ^= 0x10000000;
                     break;
             }
+        }
 
-            if (IsEgg)
+        private void SetIVs(PKM pk)
+        {
+            int[] finalIVs = new int[6];
+            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            if (ivflag == 0) // Random IVs
             {
-                pk.IsEgg = true;
-                pk.EggMetDate = Date;
-                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
-                pk.IsNicknamed = true;
+                for (int i = 0; i < 6; i++)
+                    finalIVs[i] = IVs[i] > 31 ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
             }
-            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-
-            pk.HeightScalar = Util.Rand.Next(0x100);
-            pk.WeightScalar = Util.Rand.Next(0x100);
-            pk.ResetCalculatedValues(); // cp & dimensions
-
-            pk.RefreshChecksum();
-            return pk;
+            else // 1/2/3 perfect IVs
+            {
+                int IVCount = ivflag - 0xFB;
+                do { finalIVs[Util.Rand.Next(6)] = 31; }
+                while (finalIVs.Count(iv => iv == 31) < IVCount);
+                for (int i = 0; i < 6; i++)
+                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
+            }
+            pk.IVs = finalIVs;
         }
 
         protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)

@@ -124,7 +124,8 @@ namespace PKHeX.Core
             if (!IsPokémon)
                 return null;
 
-            PK4 pk4 = new PK4((byte[])PK.Data.Clone()) {Sanity = 0};
+            // template is already filled out, only minor mutations required
+            PK4 pk4 = new PK4((byte[])PK.Data.Clone()) { Sanity = 0 };
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = SAV.OT;
@@ -134,31 +135,67 @@ namespace PKHeX.Core
                 pk4.Language = SAV.Language;
             }
 
-            uint seed = Util.Rand32();
             if (IsManaphyEgg)
+                SetDefaultManaphyEggDetails(pk4);
+
+            SetPINGA(pk4, criteria);
+            SetMetData(pk4, SAV);
+
+            var pi = pk4.PersonalInfo;
+            pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+            pk4.RefreshChecksum();
+            return pk4;
+        }
+
+        private void SetMetData(PK4 pk4, ITrainerInfo trainer)
+        {
+            if (!EggEncounter)
             {
-                // Since none of this data is populated, fill in default info.
-                pk4.Species = 490;
-                pk4.Gender = 2;
-                // Level 1 Moves
-                pk4.Move1 = 294;
-                pk4.Move2 = 145;
-                pk4.Move3 = 346;
-                pk4.Ability = pk4.PersonalInfo.Abilities[0];
-                pk4.FatefulEncounter = true;
-                pk4.Ball = 4;
-                pk4.Version = 10; // Diamond
-                pk4.Language = (int)LanguageID.English; // English
-                pk4.Nickname = "MANAPHY";
-                pk4.Egg_Location = 1; // Ranger (will be +3000 later)
-                pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);
-                pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, 0);
-                pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, 0);
-                seed = GeneratePID(seed, pk4);
+                pk4.Met_Location = pk4.Egg_Location + 3000;
+                pk4.Egg_Location = 0;
+                pk4.MetDate = DateTime.Now;
+                pk4.IsEgg = false;
             }
+            else
+            {
+                pk4.Egg_Location += 3000;
+                if (trainer.Generation == 4)
+                    SetUnhatchedEggDetails(pk4);
+                else
+                    SetHatchedEggDetails(pk4);
+            }
+        }
+
+        private static void SetDefaultManaphyEggDetails(PK4 pk4)
+        {
+            // Since none of this data is populated, fill in default info.
+            pk4.Species = 490;
+            pk4.Gender = 2;
+            // Level 1 Moves
+            pk4.Move1 = 294;
+            pk4.Move2 = 145;
+            pk4.Move3 = 346;
+            pk4.Ability = pk4.PersonalInfo.Abilities[0];
+            pk4.FatefulEncounter = true;
+            pk4.Ball = 4;
+            pk4.Version = 10; // Diamond
+            pk4.Language = (int)LanguageID.English; // English
+            pk4.Nickname = "MANAPHY";
+            pk4.Egg_Location = 1; // Ranger (will be +3000 later)
+            pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);
+            pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, 0);
+            pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, 0);
+        }
+
+        private void SetPINGA(PK4 pk4, EncounterCriteria criteria)
+        {
+            // Ability is forced already, can't force anything
+            // todo: loop force the Nature/Gender
 
             // Generate IV
-            if (pk4.PID == 1) // Create Nonshiny
+            uint seed = Util.Rand32();
+            if (pk4.PID == 1 || IsManaphyEgg) // Create Nonshiny
                 seed = GeneratePID(seed, pk4);
 
             if (!IsManaphyEgg)
@@ -171,41 +208,21 @@ namespace PKHeX.Core
                 uint iv2 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
                 pk4.IV32 = iv1 | iv2 << 15;
             }
+        }
 
-            // Generate Met Info
-            if (!IsEgg && !IsManaphyEgg)
-            {
-                pk4.Met_Location = pk4.Egg_Location + 3000;
-                pk4.Egg_Location = 0;
-                pk4.MetDate = DateTime.Now;
-                pk4.IsEgg = false;
-            }
-            else
-            {
-                pk4.Egg_Location += 3000;
-                if (SAV.Generation == 4)
-                {
-                    pk4.IsEgg = true;
-                    pk4.IsNicknamed = false;
-                    pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
-                    pk4.MetDate = DateTime.Now;
-                }
-                else
-                {
-                    pk4.IsEgg = false;
-                    // Met Location is modified when transferred to pk5; don't worry about it.
-                    pk4.EggMetDate = DateTime.Now;
-                }
-                while (pk4.IsShiny)
-                    pk4.PID = RNG.ARNG.Next(pk4.PID);
-            }
-            var pi = pk4.PersonalInfo;
-            pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-            if (pk4.Species == 201) // Never will be true; Unown was never distributed.
-                pk4.AltForm = PKX.GetUnownForm(pk4.PID);
+        private static void SetHatchedEggDetails(PK4 pk4)
+        {
+            pk4.IsEgg = false;
+            // Met Location is modified when transferred to pk5; don't worry about it.
+            pk4.EggMetDate = DateTime.Now;
+        }
 
-            pk4.RefreshChecksum();
-            return pk4;
+        private void SetUnhatchedEggDetails(PK4 pk4)
+        {
+            pk4.IsEgg = true;
+            pk4.IsNicknamed = false;
+            pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
+            pk4.MetDate = DateTime.Now;
         }
 
         private static uint GeneratePID(uint seed, PK4 pk4)

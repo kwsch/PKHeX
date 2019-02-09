@@ -22,28 +22,27 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             int gen = Version.GetGeneration();
+            var version = Version;
             if (gen < 2)
             {
                 gen = 2;
-                Version = GameVersion.C;
+                version = GameVersion.C;
             }
-            var pk = PKMConverter.GetBlank(gen, Version);
+            var pk = PKMConverter.GetBlank(gen, version);
 
             SAV.ApplyToPKM(pk);
 
             pk.Species = Species;
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
-            pk.Version = (int)Version;
+            pk.Version = (int)version;
             pk.Ball = 4;
-            int[] moves = GetCurrentEggMoves(pk);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
-            pk.SetRandomIVs(flawless: 3);
+            int[] moves = SetEncounterMoves(pk, version);
+            SetPINGA(pk, criteria);
 
-            if (pk.Format <= 2 && Version != GameVersion.C)
+            if (pk.Format <= 2 && version != GameVersion.C)
                 return pk;
 
             SetMetData(pk);
@@ -51,14 +50,13 @@ namespace PKHeX.Core
             if (pk.Format < 3)
                 return pk;
 
-            SetNatureGenderAbility(pk, criteria);
 
             if (pk.GenNumber >= 4)
-                pk.SetEggMetData(Version, (GameVersion)SAV.Game);
+                pk.SetEggMetData(version, (GameVersion)SAV.Game);
 
             if (pk.Format < 6)
                 return pk;
-            if (pk.Gen6)
+            if (pk.Format == 6)
                 pk.SetHatchMemory6();
 
             SetAltForm(pk, SAV);
@@ -84,8 +82,12 @@ namespace PKHeX.Core
             }
         }
 
-        private static void SetNatureGenderAbility(PKM pk, EncounterCriteria criteria)
+        private static void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
+            pk.SetRandomIVs(flawless: 3);
+            if (pk.Format <= 2)
+                return;
+
             int gender = criteria.GetGender(-1, pk.PersonalInfo);
             int nature = (int)criteria.GetNature(Nature.Random);
 
@@ -112,16 +114,24 @@ namespace PKHeX.Core
             pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
         }
 
-        private int[] GetCurrentEggMoves(PKM pk)
+        private int[] SetEncounterMoves(PKM pk, GameVersion version)
         {
-            var moves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
+            int[] moves = GetCurrentEggMoves(pk, version);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
+            return moves;
+        }
+
+        private int[] GetCurrentEggMoves(PKM pk, GameVersion version)
+        {
+            var moves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, version);
             if (moves.Length == 0)
-                return MoveLevelUp.GetEncounterMoves(pk, Level, Version);
+                return MoveLevelUp.GetEncounterMoves(pk, Level, version);
             if (moves.Length >= 4 || pk.Format < 6)
                 return moves;
 
             // Sprinkle in some default level up moves
-            var lvl = Legal.GetBaseEggMoves(pk, Species, Version, Level);
+            var lvl = Legal.GetBaseEggMoves(pk, Species, version, Level);
             return lvl.Concat(moves).ToArray();
         }
     }

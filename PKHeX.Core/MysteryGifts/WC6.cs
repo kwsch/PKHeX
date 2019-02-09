@@ -298,8 +298,6 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = currentLevel,
-                Nature = Nature != -1 ? Nature : Util.Rand.Next(25),
-                Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
                 Version = OriginGame != 0 ? OriginGame : SAV.Game,
@@ -389,39 +387,53 @@ namespace PKHeX.Core
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
-            int[] finalIVs = new int[6];
-            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
-            if (ivflag == 0) // Random IVs
-            {
-                for (int i = 0; i < 6; i++)
-                    finalIVs[i] = IVs[i] > pk.MaxIV ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
-            }
-            else // 1/2/3 perfect IVs
-            {
-                int IVCount = ivflag - 0xFB;
-                do { finalIVs[Util.Rand.Next(6)] = 31; }
-                while (finalIVs.Count(iv => iv == 31) < IVCount);
-                for (int i = 0; i < 6; i++)
-                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
-            }
-            pk.IVs = finalIVs;
+            SetPINGA(pk, criteria);
 
-            int av = 0;
+            if (IsEgg)
+                SetEggMetData(pk);
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+            pk.RefreshChecksum();
+            return pk;
+        }
+
+        private void SetEggMetData(PKM pk)
+        {
+            pk.IsEgg = true;
+            pk.EggMetDate = Date;
+            pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.IsNicknamed = true;
+        }
+
+        private void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            var pi = PersonalTable.AO.GetFormeEntry(Species, Form);
+            pk.Nature = (int)criteria.GetNature((Nature)Nature);
+            pk.Gender = criteria.GetGender(Gender, pi);
+            var av = GetAbilityIndex(criteria, pi);
+            pk.RefreshAbility(av);
+            SetPID(pk);
+            SetIVs(pk);
+        }
+
+        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi)
+        {
             switch (AbilityType)
             {
                 case 00: // 0 - 0
                 case 01: // 1 - 1
                 case 02: // 2 - H
-                    av = AbilityType;
-                    break;
+                    return AbilityType;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = Util.Rand.Next(AbilityType - 1);
-                    break;
+                    return criteria.GetAbility(AbilityType, pi); // 3 or 2
+                default:
+                    throw new ArgumentException(nameof(AbilityType));
             }
-            pk.Ability = pi.Abilities[av];
-            pk.AbilityNumber = 1 << av;
+        }
 
+        private void SetPID(PKM pk)
+        {
             switch (PIDType)
             {
                 case Shiny.FixedValue: // Specified
@@ -439,18 +451,26 @@ namespace PKHeX.Core
                     if (pk.IsShiny) pk.PID ^= 0x10000000;
                     break;
             }
+        }
 
-            if (IsEgg)
+        private void SetIVs(PKM pk)
+        {
+            int[] finalIVs = new int[6];
+            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            if (ivflag == 0) // Random IVs
             {
-                pk.IsEgg = true;
-                pk.EggMetDate = Date;
-                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
-                pk.IsNicknamed = true;
+                for (int i = 0; i < 6; i++)
+                    finalIVs[i] = IVs[i] > 31 ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
             }
-            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-
-            pk.RefreshChecksum();
-            return pk;
+            else // 1/2/3 perfect IVs
+            {
+                int IVCount = ivflag - 0xFB;
+                do { finalIVs[Util.Rand.Next(6)] = 31; }
+                while (finalIVs.Count(iv => iv == 31) < IVCount);
+                for (int i = 0; i < 6; i++)
+                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
+            }
+            pk.IVs = finalIVs;
         }
 
         protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)

@@ -50,7 +50,7 @@ namespace PKHeX.Core
                         break;
                     if (s.Gift || s.Roaming || s.Ability != 4)
                         break;
-                    if (s is EncounterStaticPID p && p.NSparkle)
+                    if (s is EncounterStaticN p && p.NSparkle)
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;
