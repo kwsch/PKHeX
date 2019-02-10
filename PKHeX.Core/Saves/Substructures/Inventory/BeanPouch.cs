@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Reads the bean pouch data from a <see cref="SAV7"/>.
+    /// </summary>
     public class BeanPouch
     {
         public const int Count = 15;

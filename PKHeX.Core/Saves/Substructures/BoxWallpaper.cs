@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Retrieves Box Storage wallpaper metadata.
+    /// </summary>
     public static class BoxWallpaper
     {
         public static string GetWallpaperResourceName(GameVersion version, int index)

@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for rearranging pointers for Box Storage utility
+    /// </summary>
     public static class SlotPointerUtil
     {
         private static bool WithinRange(int slot, int min, int max) => min <= slot && slot < max;

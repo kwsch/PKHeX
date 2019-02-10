@@ -1,7 +1,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// PokeStock .stk
+    /// Generation 4 <see cref="SaveFile"/> object that reads Generation 4 PokeStock .stk dumps.
     /// </summary>
     public sealed class Bank4 : BulkStorage
     {

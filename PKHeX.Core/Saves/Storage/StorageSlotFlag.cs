@@ -2,6 +2,10 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Flags describing special attributes for a <see cref="PKM"/> based on its origin from the parent <see cref="SaveFile"/>.
+    /// </summary>
+    /// <remarks>If <see cref="None"/>, then it's a nonspecial slot.</remarks>
     [Flags]
     public enum StorageSlotFlag
     {
@@ -31,6 +35,11 @@ namespace PKHeX.Core
     {
         public static bool HasFlagFast(this StorageSlotFlag value, StorageSlotFlag flag) => (value & flag) != 0;
 
+        /// <summary>
+        /// Checks to see if the <see cref="StorageSlotFlag"/> prevents the corresponding slot from being overwritten.
+        /// </summary>
+        /// <param name="value">Flag value</param>
+        /// <returns>True if write protected</returns>
         public static bool IsOverwriteProtected(this StorageSlotFlag value)
         {
             if (value.HasFlagFast(StorageSlotFlag.Locked))
@@ -42,6 +51,11 @@ namespace PKHeX.Core
             return value.IsBattleTeam() >= 0;
         }
 
+        /// <summary>
+        /// Gets the Battle Team ID the <see cref="value"/> belongs to
+        /// </summary>
+        /// <param name="value">Flag value</param>
+        /// <returns>Battle Team ID if valid, -1 otherwise.</returns>
         public static int IsBattleTeam(this StorageSlotFlag value)
         {
             if (value.HasFlagFast(StorageSlotFlag.BattleTeam1))
@@ -60,6 +74,11 @@ namespace PKHeX.Core
             return -1;
         }
 
+        /// <summary>
+        /// Gets the Party Slot Index the <see cref="value"/> belongs to
+        /// </summary>
+        /// <param name="value">Flag value</param>
+        /// <returns>[0,5] if valid, -1 otherwise.</returns>
         public static int IsParty(this StorageSlotFlag value)
         {
             if (value.HasFlagFast(StorageSlotFlag.Party1))

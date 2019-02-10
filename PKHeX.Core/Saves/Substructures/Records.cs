@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="SaveFile"/> lifetime stat tracking
+    /// </summary>
     public static class Records
     {
         private const int LargeRecordCount = 100;

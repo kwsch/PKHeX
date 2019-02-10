@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
+    /// </summary>
     public sealed class SAV7b : SaveFile, ISecureValueStorage
     {
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
