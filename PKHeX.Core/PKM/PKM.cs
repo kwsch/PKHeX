@@ -279,6 +279,18 @@ namespace PKHeX.Core
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 
+        public int DisplayTID
+        {
+            get => GenNumber >= 7 ? TrainerID7 : TID;
+            set => _ = GenNumber >= 7 ? (TrainerID7 = value) : (TID = value);
+        }
+
+        public int DisplaySID
+        {
+            get => GenNumber >= 7 ? TrainerSID7 : SID;
+            set => _ = GenNumber >= 7 ? (TrainerSID7 = value) : (SID = value);
+        }
+
         private void SetID7(int sid7, int tid7)
         {
             var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
