@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return gen <= 7;
+            return gen <= 7 && f[1] != 'b'; // ignore PB7
         }).ToArray();
 
         public SAV7(byte[] data = null)

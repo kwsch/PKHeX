@@ -777,11 +777,13 @@ namespace PKHeX.Core
 
             if (maxGeneration >= 3)
             {
-                result.Add("ck3");
-                result.Add("xk3");
+                result.Add("ck3"); // colosseum
+                result.Add("xk3"); // xd
             }
             if (maxGeneration >= 4)
-                result.Add("bk4");
+                result.Add("bk4"); // battle revolution
+            if (maxGeneration >= 7)
+                result.Add("pb7"); // let's go
 
             return result.ToArray();
         }
