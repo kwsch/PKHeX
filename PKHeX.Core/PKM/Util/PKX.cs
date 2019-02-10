@@ -796,9 +796,9 @@ namespace PKHeX.Core
         /// <returns>Format hint that the file is.</returns>
         public static int GetPKMFormatFromExtension(string ext, int prefer)
         {
-            return ext?.Length > 1
-                ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer)
-                : prefer;
+            if (string.IsNullOrEmpty(ext))
+                return prefer;
+            return GetPKMFormatFromExtension(ext[ext.Length - 1], prefer);
         }
 
         /// <summary>
