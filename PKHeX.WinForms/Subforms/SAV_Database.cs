@@ -199,7 +199,7 @@ namespace PKHeX.WinForms
         private void ClickSet(object sender, EventArgs e)
         {
             // Don't care what slot was clicked, just add it to the database
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
                 return;
 
             PKM pk = PKME_Tabs.PreparePKM();

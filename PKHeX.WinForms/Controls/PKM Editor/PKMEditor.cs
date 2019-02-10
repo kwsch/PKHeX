@@ -39,13 +39,13 @@ namespace PKHeX.WinForms.Controls
             }).ToArray();
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
+
             foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
             Stats.MainEditor = this;
             LoadShowdownSet = LoadShowdownSetDefault;
             TID_Trainer.UpdatedID += Update_ID;
-            FieldsInitialized = true;
         }
 
         public void InitializeBinding()
@@ -75,7 +75,7 @@ namespace PKHeX.WinForms.Controls
             pk.Stat_Level = CurrentLevel;
         }
 
-        public PKM CurrentPKM { get => FieldsInitialized ? PreparePKM() : pkm; set => pkm = value; }
+        public PKM CurrentPKM { get => PreparePKM(); set => pkm = value; }
         public bool ModifyPKM { private get; set; } = true;
         private bool _hideSecret;
 
@@ -99,7 +99,6 @@ namespace PKHeX.WinForms.Controls
 
         public PKM Data { get => pkm; set => pkm = value; }
         public PKM pkm { get; private set; }
-        public bool FieldsInitialized { get; private set; }
         public bool FieldsLoaded { get; private set; }
         public bool ChangingFields { get; set; }
         public int CurrentLevel => Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
@@ -122,7 +121,7 @@ namespace PKHeX.WinForms.Controls
         private readonly PictureBox[] movePB, relearnPB;
         private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip(), SpeciesIDTip = new ToolTip();
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
-        public bool PKMIsUnsaved => FieldsInitialized && FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
+        public bool PKMIsUnsaved => FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
         private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
@@ -143,23 +142,26 @@ namespace PKHeX.WinForms.Controls
             return pk?.Clone() ?? pkm;
         }
 
-        public bool VerifiedPKM()
+        public bool EditsComplete
         {
-            if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
-                return true; // Override
+            get
+            {
+                if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
+                    return true; // Override
 
-            var cb = Array.Find(ValidationRequired, c => c.BackColor == Draw.InvalidSelection && c.Items.Count != 0);
-            if (cb != null)
-                tabMain.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
-            else if (!Stats.Valid)
-                tabMain.SelectedTab = Tab_Stats;
-            else if (WinFormsUtil.GetIndex(CB_Species) == 0)
-                tabMain.SelectedTab = Tab_Main;
-            else
-                return true;
+                var cb = Array.Find(ValidationRequired, c => c.BackColor == Draw.InvalidSelection && c.Items.Count != 0);
+                if (cb != null)
+                    tabMain.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
+                else if (!Stats.Valid)
+                    tabMain.SelectedTab = Tab_Stats;
+                else if (WinFormsUtil.GetIndex(CB_Species) == 0)
+                    tabMain.SelectedTab = Tab_Main;
+                else
+                    return true;
 
-            System.Media.SystemSounds.Exclamation.Play();
-            return false;
+                System.Media.SystemSounds.Exclamation.Play();
+                return false;
+            }
         }
 
         public void SetPKMFormatMode(int Format, PKM pk)
@@ -232,13 +234,12 @@ namespace PKHeX.WinForms.Controls
             if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, pkm, out string c, out pk))
             { WinFormsUtil.Alert(c); return; }
 
-            bool oldInit = FieldsInitialized;
-            FieldsInitialized = FieldsLoaded = false;
+            FieldsLoaded = false;
 
             pkm = pk.Clone();
 
             try { GetFieldsfromPKM(); }
-            finally { FieldsInitialized = oldInit; }
+            finally { }
 
             Stats.UpdateIVs(null, EventArgs.Empty);
             UpdatePKRSInfected(null, EventArgs.Empty);
@@ -288,10 +289,9 @@ namespace PKHeX.WinForms.Controls
             if (skipMoveRepop)
                 return;
             // Resort moves
-            bool tmp = FieldsLoaded;
             FieldsLoaded = false;
             ReloadMoves(Legality.AllSuggestedMovesAndRelearn);
-            FieldsLoaded |= tmp;
+            FieldsLoaded = true;
             LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
         }
 
@@ -350,7 +350,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateSprite()
         {
-            if (FieldsLoaded && FieldsInitialized && !forceValidation)
+            if (FieldsLoaded && !forceValidation)
                 UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
         }
 
@@ -498,7 +498,7 @@ namespace PKHeX.WinForms.Controls
 
             CB.DataSource = Util.GetCBList(type, cl);
 
-            if (index > 0 && index < CB.Items.Count && FieldsInitialized)
+            if (index > 0 && index < CB.Items.Count)
                 CB.SelectedIndex = index;
         }
 
@@ -553,10 +553,11 @@ namespace PKHeX.WinForms.Controls
         private void ClickPPUps(object sender, EventArgs e)
         {
             bool min = ModifierKeys.HasFlag(Keys.Control);
-            CB_PPu1.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move1) > 0 ? 3 : 0;
-            CB_PPu2.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move2) > 0 ? 3 : 0;
-            CB_PPu3.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move3) > 0 ? 3 : 0;
-            CB_PPu4.SelectedIndex = !min && WinFormsUtil.GetIndex(CB_Move4) > 0 ? 3 : 0;
+            int getValue(ComboBox cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
+            CB_PPu1.SelectedIndex = getValue(CB_Move1, min);
+            CB_PPu2.SelectedIndex = getValue(CB_Move2, min);
+            CB_PPu3.SelectedIndex = getValue(CB_Move3, min);
+            CB_PPu4.SelectedIndex = getValue(CB_Move4, min);
         }
 
         private void ClickMarking(object sender, EventArgs e)
@@ -821,7 +822,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateEXPLevel(object sender, EventArgs e)
         {
-            if (ChangingFields || !FieldsInitialized)
+            if (ChangingFields)
                 return;
             ChangingFields = true;
             if (sender == TB_EXP)
@@ -1039,8 +1040,6 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSCured(object sender, EventArgs e)
         {
-            if (!FieldsInitialized)
-                return;
             // Cured PokeRus is toggled
             if (CHK_Cured.Checked)
             {
@@ -1076,8 +1075,6 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSInfected(object sender, EventArgs e)
         {
-            if (!FieldsInitialized)
-                return;
             if (CHK_Cured.Checked && !CHK_Infected.Checked)
             { CHK_Cured.Checked = false; return; }
             if (CHK_Cured.Checked)
@@ -1250,7 +1247,7 @@ namespace PKHeX.WinForms.Controls
 
             int lang = WinFormsUtil.GetIndex(CB_Language);
 
-            if (!FieldsInitialized || CHK_Nicknamed.Checked)
+            if (CHK_Nicknamed.Checked)
                 return;
 
             // Fetch Current Species and set it as Nickname Text
@@ -1505,8 +1502,6 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateComboBox(object sender)
         {
-            if (!FieldsInitialized)
-                return;
             if (!(sender is ComboBox cb))
                 return;
 
@@ -1529,7 +1524,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateComboBox2(object sender, EventArgs e)
         {
-            if (!FieldsInitialized || !FieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             ValidateComboBox(sender, null);
@@ -1558,7 +1553,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateMove(object sender, EventArgs e)
         {
-            if (!FieldsInitialized || !FieldsLoaded)
+            if (!FieldsLoaded)
                 return;
 
             ValidateComboBox(sender);
@@ -1698,13 +1693,11 @@ namespace PKHeX.WinForms.Controls
 
         private bool FinalizeInterface(SaveFile sav)
         {
-            bool init = FieldsInitialized;
-            FieldsInitialized = FieldsLoaded = false;
+            FieldsLoaded = false;
 
             bool TranslationRequired = false;
             PopulateFilteredDataSources(sav);
             PopulateFields(pkm);
-            FieldsInitialized |= init;
 
             // SAV Specific Limits
             TB_OT.MaxLength = pkm.OTLength;
@@ -1789,12 +1782,9 @@ namespace PKHeX.WinForms.Controls
             // Force an update to the met locations
             origintrack = GameVersion.Invalid;
 
-            bool alreadyInit = FieldsInitialized;
-            FieldsInitialized = false;
             InitializeLanguage(sav);
             CenterSubEditors();
             PopulateFields(pk); // put data back in form
-            FieldsInitialized |= alreadyInit;
         }
 
         public void FlickerInterface()

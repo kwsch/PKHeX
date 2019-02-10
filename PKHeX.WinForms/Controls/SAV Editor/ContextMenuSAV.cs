@@ -52,7 +52,7 @@ namespace PKHeX.WinForms.Controls
             if (m.SE.SAV.IsSlotLocked(info.Box, info.Slot))
             { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
-            if (!editor.VerifiedPKM())
+            if (!editor.EditsComplete)
                 return;
 
             PKM pk = editor.PreparePKM();

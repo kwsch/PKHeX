@@ -58,8 +58,6 @@ namespace PKHeX.WinForms.Controls
             set => MainEditor.ChangingFields = value;
         }
 
-        private bool FieldsInitialized => MainEditor.FieldsInitialized;
-
         private void ClickIV(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox t))
@@ -243,7 +241,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateHPType(object sender, EventArgs e)
         {
-            if (ChangingFields || !FieldsInitialized)
+            if (ChangingFields)
                 return;
 
             // Change IVs to match the new Hidden Power

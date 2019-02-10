@@ -325,7 +325,8 @@ namespace PKHeX.WinForms
 
         private void MainMenuSave(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM()) return;
+            if (!PKME_Tabs.EditsComplete)
+                return;
             PKM pk = PreparePKM();
             WinFormsUtil.SavePKMDialog(pk);
         }
@@ -511,7 +512,7 @@ namespace PKHeX.WinForms
 
         private void ClickShowdownExportPKM(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
             {
                 WinFormsUtil.Alert(MsgSimulatorExportBadFields);
                 return;
@@ -913,9 +914,11 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
             if (C_SAV.SAV != null)
             {
-                PKM pk = C_SAV.SAV.GetPKM(PKME_Tabs.CurrentPKM.Data);
-                PKME_Tabs.ChangeLanguage(C_SAV.SAV, pk);
-                Text = GetProgramTitle(C_SAV.SAV);
+                var pk = PKME_Tabs.CurrentPKM.Clone();
+                var sav = C_SAV.SAV;
+
+                PKME_Tabs.ChangeLanguage(sav, pk);
+                Text = GetProgramTitle(sav);
             }
         }
 
@@ -981,7 +984,7 @@ namespace PKHeX.WinForms
 
         private void ExportQRFromTabs()
         {
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
                 return;
             PKM pkx = PreparePKM();
 
@@ -1019,7 +1022,7 @@ namespace PKHeX.WinForms
 
         private void ClickLegality(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
             { SystemSounds.Asterisk.Play(); return; }
 
             var pk = PreparePKM();
@@ -1051,7 +1054,8 @@ namespace PKHeX.WinForms
 
         private void ClickClone(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM()) return; // don't copy garbage to the box
+            if (!PKME_Tabs.EditsComplete)
+                return; // don't copy garbage to the box
             PKM pk = PKME_Tabs.PreparePKM();
             C_SAV.SetClonesToBox(pk);
         }
@@ -1112,7 +1116,7 @@ namespace PKHeX.WinForms
                 ClickQR(sender, e);
             if (e.Button == MouseButtons.Right)
                 return;
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
                 return;
 
             // Create Temp File to Drag
