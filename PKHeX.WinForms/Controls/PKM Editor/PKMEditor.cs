@@ -1574,12 +1574,16 @@ namespace PKHeX.WinForms.Controls
             var i = (ComboItem)((ComboBox)sender).Items[e.Index];
             var valid = AllowedMoves.Contains(i.Value) && !HaX;
             var current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
-            var tBrush = Draw.Brushes.GetText(current);
-            var brush = Draw.Brushes.GetBackground(valid, current);
 
-            e.Graphics.FillRectangle(brush, e.Bounds);
-            e.Graphics.DrawString(i.Text, e.Font, tBrush, e.Bounds, StringFormat.GenericDefault);
+            var rec = new Rectangle(e.Bounds.X - 1, e.Bounds.Y, e.Bounds.Width + 1, e.Bounds.Height + 0); // 1px left
+            var brush = Draw.Brushes.GetBackground(valid, current);
+            e.Graphics.FillRectangle(brush, rec);
+
+            const TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis | TextFormatFlags.ExpandTabs | TextFormatFlags.SingleLine;
+            TextRenderer.DrawText(e.Graphics, i.Text, e.Font, rec, Draw.GetText(current), flags);
         }
+
+        private void MeasureDropDownHeight(object sender, MeasureItemEventArgs e) => e.ItemHeight = CB_RelearnMove1.ItemHeight;
 
         private readonly IList<bool> IsMoveBoxOrdered = new bool[4];
 
