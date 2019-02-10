@@ -814,7 +814,11 @@ namespace PKHeX.WinForms.Controls
 
             Directory.CreateDirectory(path);
 
-            SAV.DumpBoxes(path, out result, separate);
+            var count = SAV.DumpBoxes(path, separate);
+            if (count < 0)
+                result = MsgSaveBoxExportInvalid;
+            else
+                result = string.Format(MsgSaveBoxExportPathCount, count) + Environment.NewLine + path;
             return true;
         }
 
@@ -828,7 +832,11 @@ namespace PKHeX.WinForms.Controls
 
             Directory.CreateDirectory(path);
 
-            SAV.DumpBox(path, out result, Box.CurrentBox);
+            var count = SAV.DumpBox(path, Box.CurrentBox);
+            if (count < 0)
+                result = MsgSaveBoxExportInvalid;
+            else
+                result = string.Format(MsgSaveBoxExportPathCount, count) + Environment.NewLine + path;
             return true;
         }
 
