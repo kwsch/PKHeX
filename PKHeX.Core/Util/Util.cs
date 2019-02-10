@@ -70,19 +70,29 @@ namespace PKHeX.Core
             for (int i = 0; i < value.Length; i++)
             {
                 var c = value[i];
-                if (IsHex(c))
+                if (IsNum(c))
                 {
                     result <<= 4;
-                    result += c;
-                    result -= '0';
+                    result += (uint)(c - '0');
+                }
+                else if (IsHexUpper(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - 'A' + 10);
+                }
+                else if (IsHexLower(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - 'a' + 10);
                 }
             }
             return result;
         }
 
         private static bool IsNum(char c) => c >= '0' && c <= '9';
-        private static bool IsHex(char c) => IsNum(c) || IsHexChar(c);
-        private static bool IsHexChar(char c) => (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+        private static bool IsHexUpper(char c) => c >= 'A' && c <= 'F';
+        private static bool IsHexLower(char c) => c >= 'a' && c <= 'f';
+        private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
         private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
 
         /// <summary>
