@@ -75,7 +75,7 @@ namespace PKHeX.Core
         public int Nature { get; set; }
 
         /// <summary>
-        /// <see cref="PKM.AltForm"/> name of the Set entity.
+        /// <see cref="PKM.AltForm"/> name of the Set entity, stored in PKHeX style (instead of Showdown's)
         /// </summary>
         public string Form { get; private set; }
 
@@ -363,6 +363,8 @@ namespace PKHeX.Core
             if (pkm.Species <= 0)
                 return;
 
+            Format = pkm.Format;
+
             Nickname = pkm.Nickname;
             Species = pkm.Species;
             HeldItem = pkm.HeldItem;
@@ -376,10 +378,14 @@ namespace PKHeX.Core
             Level = Experience.GetLevel(pkm.EXP, pkm.Species, pkm.AltForm);
             Shiny = pkm.IsShiny;
 
-            FormIndex = pkm.AltForm;
-            string[] Forms = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms, pkm.Format);
-            Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty;
-            Format = pkm.Format;
+            SetFormString(pkm.AltForm);
+        }
+
+        public void SetFormString(int index)
+        {
+            FormIndex = index;
+            string[] Forms = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
+            Form = FormIndex > 0 && FormIndex < Forms.Length ? Forms[FormIndex] : string.Empty;
         }
 
         private void ParseFirstLine(string first)

@@ -322,7 +322,7 @@ namespace PKHeX.Core
         public bool Gen3 => (Version >= 1 && Version <= 5) || Version == 15;
         public bool Gen2 => Version == (int)GameVersion.GSC;
         public bool Gen1 => Version == (int)GameVersion.RBY;
-        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1 || VC);
+        public bool GenU => GenNumber <= 0;
 
         public int GenNumber
         {
