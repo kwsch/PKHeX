@@ -298,17 +298,15 @@ namespace PKHeX.WinForms
                 }
                 var cb = new ComboBox
                 {
-                    ValueMember = "Value",
-                    DisplayMember = "Text",
                     Margin = Padding.Empty,
                     Width = 150,
                     Name = constCBTag + num[i].ToString("0000"),
                     DropDownStyle = ComboBoxStyle.DropDownList,
-                    BindingContext = BindingContext,
-                    DataSource = map,
-                    SelectedIndex = 0,
                     DropDownWidth = Width + 100
                 };
+                cb.InitializeBinding();
+                cb.DataSource = map;
+                cb.SelectedIndex = 0;
                 cb.SelectedValueChanged += ToggleConst;
                 mtb.TextChanged += ToggleConst;
                 TLP_Const.Controls.Add(lbl, 0, i);
@@ -331,12 +329,8 @@ namespace PKHeX.WinForms
 
         private static int GetControlNum(Control c)
         {
-            try
-            {
-                string source = c.Name.Split('_')[1];
-                return Convert.ToInt32(source);
-            }
-            catch { return 0; }
+            string source = c.Name.Split('_')[1];
+            return int.TryParse(source, out var val) ? val : 0;
         }
 
         private void ChangeCustomBool(object sender, EventArgs e)
