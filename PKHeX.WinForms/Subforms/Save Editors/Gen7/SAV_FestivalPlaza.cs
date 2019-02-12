@@ -434,7 +434,7 @@ namespace PKHeX.WinForms
                 editing = true;
                 ((TextBox)sender).Text = t;
                 editing = false;
-                System.Media.SystemSounds.Beep.Play();
+                System.Media.SystemSounds.Asterisk.Play();
             }
             if (sender == TB_UsedFlags)
             {

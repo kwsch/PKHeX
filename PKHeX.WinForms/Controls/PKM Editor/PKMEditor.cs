@@ -505,8 +505,8 @@ namespace PKHeX.WinForms.Controls
         // Prompted Updates of PKM //
         private void ClickFriendship(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control) // prompt to reset
-                TB_Friendship.Text = pkm.CurrentFriendship.ToString();
+            if (ModifierKeys == Keys.Control) // clear
+                TB_Friendship.Text = "0";
             else
                 TB_Friendship.Text = TB_Friendship.Text == "255" ? pkm.PersonalInfo.BaseFriendship.ToString() : "255";
         }
@@ -643,6 +643,7 @@ namespace PKHeX.WinForms.Controls
             }
             frm.Controls.Add(flp);
             frm.ShowDialog();
+            frm.Dispose();
         }
 
         private void ClickShinyLeaf(object sender, EventArgs e) => ShinyLeaf.CheckAll(ModifierKeys != Keys.Control);

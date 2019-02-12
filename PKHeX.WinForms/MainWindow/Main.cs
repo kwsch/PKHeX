@@ -669,8 +669,7 @@ namespace PKHeX.WinForms
             if (MC.HasXD) games.Add(new ComboItem { Text = MsgGameXD, Value = (int)GameVersion.XD });
             if (MC.HasRSBOX) games.Add(new ComboItem { Text = MsgGameRSBOX, Value = (int)GameVersion.RSBOX });
 
-            WinFormsUtil.Alert(MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
-            var dialog = new SAV_GameSelect(games);
+            var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
             dialog.ShowDialog();
             return dialog.Result;
         }
@@ -754,7 +753,7 @@ namespace PKHeX.WinForms
             Menu_ShowdownExportParty.Visible = sav.HasParty;
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
-            SystemSounds.Beep.Play();
+            SystemSounds.Asterisk.Play();
             return true;
         }
 
@@ -855,7 +854,8 @@ namespace PKHeX.WinForms
                 {
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games, MsgFileLoadVersionDetect, MsgFileLoadVersionSelect);
+                    var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
+                    var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
@@ -868,10 +868,11 @@ namespace PKHeX.WinForms
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
-                    string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
+                    string dual = "{1}/{2} " + MsgFileLoadVersionDetect;
                     var g = new[] { GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games, string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
+                    var msg = string.Format(dual, "3", fr, lg);
+                    var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     var pt = SaveUtil.GetG3Personal(dialog.Result);
