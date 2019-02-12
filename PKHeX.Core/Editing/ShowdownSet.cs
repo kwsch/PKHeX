@@ -9,7 +9,6 @@ namespace PKHeX.Core
     /// </summary>
     public class ShowdownSet
     {
-        // String to Values
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
@@ -18,8 +17,8 @@ namespace PKHeX.Core
         private static readonly string[] LineSplit = {": "};
         private static readonly string[] ItemSplit = {" @ "};
         private static readonly char[] ParenJunk = { '[', ']', '(', ')' };
-        private static readonly int[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
-        private static int MAX_SPECIES => PKX.Personal.MaxSpeciesID;
+        private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
+        private const int MAX_SPECIES = (int)Core.Species.MAX_COUNT - 1;
         private const string Language = "en";
         private const int DefaultLanguageID = (int)Core.LanguageID.English;
         private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(Language);
@@ -32,17 +31,17 @@ namespace PKHeX.Core
         /// <summary>
         /// <see cref="PKM.Format"/> of the Set entity it is specific to.
         /// </summary>
-        public int Format { get; } = PKMConverter.Format;
+        public int Format { get; private set; } = PKMConverter.Format;
 
         /// <summary>
         /// <see cref="PKM.Nickname"/> of the Set entity.
         /// </summary>
-        public string Nickname { get; set; }
+        public string Nickname { get; set; } = string.Empty;
 
         /// <summary>
         /// <see cref="PKM.Gender"/> name of the Set entity.
         /// </summary>
-        public string Gender { get; private set; }
+        public string Gender { get; private set; } = string.Empty;
 
         /// <summary>
         /// <see cref="PKM.HeldItem"/> of the Set entity.
@@ -72,12 +71,12 @@ namespace PKHeX.Core
         /// <summary>
         /// <see cref="PKM.Nature"/> of the Set entity.
         /// </summary>
-        public int Nature { get; set; }
+        public int Nature { get; set; } = -1;
 
         /// <summary>
         /// <see cref="PKM.AltForm"/> name of the Set entity, stored in PKHeX style (instead of Showdown's)
         /// </summary>
-        public string Form { get; private set; }
+        public string Form { get; private set; } = string.Empty;
 
         /// <summary>
         /// <see cref="PKM.AltForm"/> of the Set entity.
@@ -118,26 +117,26 @@ namespace PKHeX.Core
         private int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
 
         /// <summary>
-        /// Loads a new <see cref="ShowdownSet"/> from the input string. If no string is provided, a blank set is returned.
+        /// Loads a new blank <see cref="ShowdownSet"/>.
+        /// </summary>
+        public ShowdownSet() { }
+
+        /// <summary>
+        /// Loads a new <see cref="ShowdownSet"/> from the input string.
         /// </summary>
         /// <param name="input">Single-line string which will be split before loading.</param>
-        public ShowdownSet(string input = null)
+        public ShowdownSet(string input)
         {
-            if (input == null)
-                return;
-
-            string[] lines = input.Split(Splitters, StringSplitOptions.None);
+            var lines = input.Split(Splitters, StringSplitOptions.None);
             LoadLines(lines);
         }
 
         /// <summary>
-        /// Loads a new <see cref="ShowdownSet"/> from the input string. If no string is provided, a blank set is returned.
+        /// Loads a new <see cref="ShowdownSet"/> from the input string.
         /// </summary>
         /// <param name="lines">Enumerable list of lines.</param>
         public ShowdownSet(IEnumerable<string> lines)
         {
-            if (lines == null)
-                return;
             LoadLines(lines);
         }
 
@@ -151,76 +150,89 @@ namespace PKHeX.Core
             // Showdown Quirks
             Form = ConvertFormFromShowdown(Form, Species, Ability);
             // Set Form
+            if (Form.Length == 0)
+            {
+                FormIndex = 0;
+                return;
+            }
             string[] formStrings = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms);
-            FormIndex = string.IsNullOrWhiteSpace(Form) ? 0 : Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
+            FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
         }
 
         private void ParseLines(IEnumerable<string> lines)
         {
-            int movectr = 0;
-            var e = lines.GetEnumerator();
-            if (!e.MoveNext())
-                return;
-
-            ParseFirstLine(e.Current);
-            while (e.MoveNext())
+            using (var e = lines.GetEnumerator())
             {
-                var line = e.Current;
-                if (line.StartsWith("-"))
+                if (!e.MoveNext())
+                    return;
+
+                ParseFirstLine(e.Current);
+                int movectr = 0;
+                while (e.MoveNext())
                 {
-                    string moveString = ParseLineMove(line);
-                    int move = Array.IndexOf(Strings.movelist, moveString);
-                    if (move < 0)
-                        InvalidLines.Add($"Unknown Move: {moveString}");
-                    else
-                        Moves[movectr++] = move;
+                    var line = e.Current;
+                    if (line.Length == 0)
+                        continue;
 
-                    if (movectr == 4)
-                        return; // End of moves, end of set data
-                    continue;
+                    if (line[0] == '-')
+                    {
+                        string moveString = ParseLineMove(line);
+                        int move = Array.IndexOf(Strings.movelist, moveString);
+                        if (move < 0)
+                            InvalidLines.Add($"Unknown Move: {moveString}");
+                        else
+                            Moves[movectr++] = move;
+
+                        if (movectr == 4)
+                            return; // End of moves, end of set data
+                        continue;
+                    }
+
+                    var split = line.Split(LineSplit, StringSplitOptions.None);
+                    var valid = split.Length == 1
+                        ? ParseSingle(line) // Nature
+                        : ParseEntry(split[0].Trim(), split[1].Trim());
+                    if (!valid)
+                        InvalidLines.Add(line);
                 }
-
-                string[] brokenline = line.Split(LineSplit, StringSplitOptions.None);
-                var piece1 = brokenline[0].Trim();
-                var piece2 = brokenline.Length == 1 ? string.Empty : brokenline[1].Trim();
-                if (!ParseEntry(piece1, piece2))
-                    InvalidLines.Add(line);
             }
-            e.Dispose();
         }
 
-        private bool ParseEntry(string first, string second)
+        private bool ParseSingle(string identifier)
         {
-            switch (first)
+            if (identifier.EndsWith("Nature")) // XXX Nature
             {
-                case "Trait": case "Ability": return (Ability = Array.IndexOf(Strings.abilitylist, second)) >= 0;
-                case "Shiny": return Shiny = second.Trim() == "Yes";
-                case "Nature": return (Nature = Array.IndexOf(Strings.natures, second)) >= 0;
-                case "EV": case "EVs": ParseLineEVs(second); return true;
-                case "IV": case "IVs": ParseLineIVs(second); return true;
+                var naturestr = identifier.Split(' ')[0].Trim();
+                return (Nature = Array.IndexOf(Strings.natures, naturestr)) >= 0;
+            }
+            return false;
+        }
+
+        private bool ParseEntry(string identifier, string value)
+        {
+            switch (identifier)
+            {
+                case "Trait": case "Ability": return (Ability = Array.IndexOf(Strings.abilitylist, value)) >= 0;
+                case "Shiny": return Shiny = value.Trim() == "Yes";
+                case "Nature": return (Nature = Array.IndexOf(Strings.natures, value)) >= 0;
+                case "EV": case "EVs": ParseLineEVs(value); return true;
+                case "IV": case "IVs": ParseLineIVs(value); return true;
                 case "Level":
                 {
-                    if (!int.TryParse(second.Trim(), out int val))
+                    if (!int.TryParse(value.Trim(), out int val))
                         return false;
                     Level = val;
                     return true;
                 }
                 case "Happiness": case "Friendship":
                 {
-                    if (!int.TryParse(second.Trim(), out int val))
+                    if (!int.TryParse(value.Trim(), out int val))
                         return false;
                     Friendship = val;
                     return true;
                 }
                 default:
-                {
-                    if (first.EndsWith("Nature")) // XXX Nature
-                    {
-                        string naturestr = first.Split(' ')[0].Trim();
-                        return (Nature = Array.IndexOf(Strings.natures, naturestr)) >= 0;
-                    }
                     return false;
-                }
             }
         }
 
@@ -255,19 +267,27 @@ namespace PKHeX.Core
             if (strings != null)
                 Strings = strings;
 
+            var result = GetSetLines();
+            return string.Join(Environment.NewLine, result);
+        }
+
+        public List<string> GetSetLines()
+        {
             var result = new List<string>();
 
             // First Line: Name, Nickname, Gender, Item
-            string form = ConvertFormToShowdown(Form, Species);
+            var form = ConvertFormToShowdown(Form, Species);
             result.Add(GetStringFirstLine(form));
 
             // IVs
-            if (GetStringStats(out IEnumerable<string> ivstr, IVsSpeedLast, 31))
-                result.Add($"IVs: {string.Join(" / ", ivstr)}");
+            var ivs = GetStringStats(IVsSpeedLast, Format < 3 ? 15 : 31);
+            if (ivs.Count > 0)
+                result.Add($"IVs: {string.Join(" / ", ivs)}");
 
             // EVs
-            if (GetStringStats(out IEnumerable<string> evstr, EVsSpeedLast, 0))
-                result.Add($"EVs: {string.Join(" / ", evstr)}");
+            var evs = GetStringStats(EVsSpeedLast, 0);
+            if (evs.Count > 0)
+                result.Add($"EVs: {string.Join(" / ", evs)}");
 
             // Secondary Stats
             if ((uint)Ability < Strings.Ability.Count)
@@ -282,18 +302,17 @@ namespace PKHeX.Core
 
             // Moves
             result.AddRange(GetStringMoves());
-
-            return string.Join(Environment.NewLine, result);
+            return result;
         }
 
         private string GetStringFirstLine(string form)
         {
             string specForm = Strings.Species[Species];
-            if (!string.IsNullOrWhiteSpace(form))
+            if (form.Length != 0)
                 specForm += $"-{form.Replace("Mega ", "Mega-")}";
 
             string result = GetSpeciesNickname(specForm);
-            if (!string.IsNullOrEmpty(Gender))
+            if (Gender.Length != 0)
                 result += $" ({Gender})";
             if (HeldItem > 0)
             {
@@ -306,7 +325,7 @@ namespace PKHeX.Core
 
         private string GetSpeciesNickname(string specForm)
         {
-            if (Nickname == null)
+            if (Nickname.Length == 0)
                 return specForm;
             var name = PKX.GetSpeciesNameGeneration(Species, LanguageID, Format);
             if (name == Nickname)
@@ -314,16 +333,16 @@ namespace PKHeX.Core
             return $"{Nickname} ({specForm})";
         }
 
-        private static bool GetStringStats(out IEnumerable<string> result, int[] stats, int ignore)
+        private static IList<string> GetStringStats(int[] stats, int ignore)
         {
-            var list = new List<string>();
+            var result = new List<string>();
             for (int i = 0; i < stats.Length; i++)
             {
-                if (stats[i] == ignore) continue; // ignore unused EVs
-                list.Add($"{stats[i]} {StatNames[i]}");
+                if (stats[i] == ignore)
+                    continue; // ignore unused stats
+                result.Add($"{stats[i]} {StatNames[i]}");
             }
-            result = list;
-            return list.Count > 0;
+            return result;
         }
 
         private IEnumerable<string> GetStringMoves()
@@ -384,8 +403,13 @@ namespace PKHeX.Core
         public void SetFormString(int index)
         {
             FormIndex = index;
-            string[] Forms = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
-            Form = FormIndex > 0 && FormIndex < Forms.Length ? Forms[FormIndex] : string.Empty;
+            if (index <= 0)
+            {
+                Form = string.Empty;
+                return;
+            }
+            var Forms = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
+            Form = FormIndex >= Forms.Length ? string.Empty : Forms[index];
         }
 
         private void ParseFirstLine(string first)
@@ -393,7 +417,7 @@ namespace PKHeX.Core
             if (first.Contains(" @ "))
             {
                 string[] pieces = first.Split(ItemSplit, StringSplitOptions.None);
-                string itemstr = pieces.Last().Trim();
+                string itemstr = pieces[pieces.Length - 1].Trim();
 
                 ParseItemStr(itemstr);
                 ParseFirstLineNoItem(pieces[0]);
@@ -421,6 +445,7 @@ namespace PKHeX.Core
                 if (item < 0)
                     return false;
                 HeldItem = item;
+                Format = format;
                 return true;
             }
         }
@@ -513,15 +538,16 @@ namespace PKHeX.Core
 
         private string ParseLineMove(string line)
         {
-            string moveString = line.Substring(line[1] == ' ' ? 2 : 1);
-            if (!moveString.Contains(Strings.Move[237])) // Hidden Power
-                return moveString;
+            const int hiddenPower = 237;
+            string moveString = line.Substring(line[1] == ' ' ? 2 : 1).Trim();
+            if (!moveString.StartsWith(Strings.Move[hiddenPower])) // Hidden Power
+                return moveString; // regular move
 
             if (moveString.Length <= 13)
-                return Strings.Move[237];
+                return Strings.Move[hiddenPower];
 
             // Defined Hidden Power
-            string type = moveString.Remove(0, 13);
+            string type = moveString.Substring(13);
             type = RemoveAll(type, ParenJunk); // Trim out excess data
             int hpVal = Array.IndexOf(Strings.types, type) - 1; // Get HP Type
 
@@ -539,48 +565,46 @@ namespace PKHeX.Core
             {
                 InvalidLines.Add($"Invalid Hidden Power Type: {type}");
             }
-            return Strings.Move[237];
+            return Strings.Move[hiddenPower];
         }
 
         private void ParseLineEVs(string line)
         {
-            var evlist = SplitLineStats(line);
-            if (evlist.Length == 1)
+            var list = SplitLineStats(line);
+            if ((list.Length & 1) == 1)
                 InvalidLines.Add("Unknown EV input.");
-            for (int i = 0; i < evlist.Length / 2; i++)
+            for (int i = 0; i < list.Length / 2; i++)
             {
                 int pos = i * 2;
-                bool valid = ushort.TryParse(evlist[pos + 0], out ushort EV);
-                int index = Array.IndexOf(StatNames, evlist[pos + 1]);
-                if (valid && index > -1)
+                int index = Array.IndexOf(StatNames, list[pos + 1]);
+                if (index >= 0 && ushort.TryParse(list[pos + 0], out var EV))
                     EVs[index] = EV;
                 else
-                    InvalidLines.Add($"Unknown EV Type input: {evlist[pos]}");
+                    InvalidLines.Add($"Unknown EV stat: {list[pos]}");
             }
             EVs = EVsSpeedFirst;
         }
 
         private void ParseLineIVs(string line)
         {
-            string[] ivlist = SplitLineStats(line);
-            if (ivlist.Length == 1)
+            var list = SplitLineStats(line);
+            if ((list.Length & 1) == 1)
                 InvalidLines.Add("Unknown IV input.");
-            for (int i = 0; i < ivlist.Length / 2; i++)
+            for (int i = 0; i < list.Length / 2; i++)
             {
-                var pos = i * 2;
-                bool valid = byte.TryParse(ivlist[pos + 0], out byte IV);
-                int index = Array.IndexOf(StatNames, ivlist[pos + 1]);
-                if (valid && index > -1)
+                int pos = i * 2;
+                int index = Array.IndexOf(StatNames, list[pos + 1]);
+                if (index >= 0 && byte.TryParse(list[pos + 0], out var IV))
                     IVs[index] = IV;
                 else
-                    InvalidLines.Add($"Unknown IV Type input: {ivlist[pos]}");
+                    InvalidLines.Add($"Unknown IV stat: {list[pos]}");
             }
             IVs = IVsSpeedFirst;
         }
 
         private static string ConvertFormToShowdown(string form, int spec)
         {
-            if (string.IsNullOrWhiteSpace(form))
+            if (form.Length == 0)
             {
                 if (spec == 774) // Minior
                     form = "Meteor";
@@ -618,7 +642,9 @@ namespace PKHeX.Core
 
         private static string ConvertFormFromShowdown(string form, int spec, int ability)
         {
-            form = form?.Replace(' ', '-'); // inconsistencies are great
+            if (form.Length == 0)
+                form = form.Replace(' ', '-'); // inconsistencies are great
+
             switch (spec)
             {
                 case 550 when form == "Blue-Striped": // Basculin
@@ -629,10 +655,8 @@ namespace PKHeX.Core
                     return "Poké Ball";
 
                 // Zygarde
-                case 718 when string.IsNullOrWhiteSpace(form) && ability == 211:
-                    return "50%-C";
-                case 718 when string.IsNullOrWhiteSpace(form):
-                    return "50%";
+                case 718 when form.Length == 0:
+                    return ability == 211 ? "50%-C" : "50%";
                 case 718 when form == "Complete":
                     return form;
                 case 718 when ability == 211:
@@ -642,7 +666,7 @@ namespace PKHeX.Core
                     return "Dusk";
 
                 // Minior
-                case 774 when !string.IsNullOrWhiteSpace(form) && form != "Meteor":
+                case 774 when form.Length != 0 && form != "Meteor":
                     return $"C-{form}";
 
                 // Necrozma
@@ -652,7 +676,7 @@ namespace PKHeX.Core
                     return "Dawn";
 
                 default:
-                    if (Legal.Totem_USUM.Contains(spec) && form?.EndsWith("Totem") == true)
+                    if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
                         return "Large";
                     return form;
             }
@@ -676,6 +700,8 @@ namespace PKHeX.Core
         /// <returns><see cref="ShowdownSet"/> objects until <see cref="lines"/> is consumed.</returns>
         public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines)
         {
+            // exported sets always have >4 moves; new List will always require 1 resizing, allocate 2x to save 1 reallocation.
+            // intro, nature, ability, (ivs, evs, shiny, level) 4*moves
             var setLines = new List<string>(8);
             foreach (var line in lines)
             {

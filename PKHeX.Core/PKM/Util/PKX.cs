@@ -644,8 +644,8 @@ namespace PKHeX.Core
         /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
         public static int GetGenderFromPID(int species, uint PID)
         {
-            int genderratio = Personal[species].Gender;
-            return GetGenderFromPIDAndRatio(PID, genderratio);
+            int gt = Personal[species].Gender;
+            return GetGenderFromPIDAndRatio(PID, gt);
         }
 
         public static int GetGenderFromPIDAndRatio(uint PID, int gr)
