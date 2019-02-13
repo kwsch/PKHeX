@@ -660,15 +660,15 @@ namespace PKHeX.WinForms
             var source = (SAV.B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
             foreach (var s in AllSlots)
             {
-                int r = Util.Rand.Next(source.Count);
-                var slot = source[r];
+                int index = Util.Rand.Next(source.Count);
+                var slot = source[index];
                 source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;
                 s.Move = slot.Moves?[Util.Rand.Next(slot.Moves.Length)] ?? 0;
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender : slot.Gender;
             }
-            ChangeArea(null, null); // refresh
+            ChangeArea(null, EventArgs.Empty); // refresh
             NUD_Unlocked.Value = 8;
             CHK_Area9.Checked = true;
             System.Media.SystemSounds.Asterisk.Play();

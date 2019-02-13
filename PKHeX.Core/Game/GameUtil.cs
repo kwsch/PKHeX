@@ -14,13 +14,18 @@ namespace PKHeX.Core
         /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
         /// </summary>
         /// <remarks>Ordered roughly by most recent games first.</remarks>
-        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
+        public static readonly IReadOnlyList<GameVersion> GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
 
         /// <summary>
         /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
         /// </summary>
         /// <param name="game">Game to check</param>
         public static bool IsValidSavedVersion(this GameVersion game) => 0 < game && game <= RB;
+
+        /// <summary>
+        /// Most recent game ID utilized by official games.
+        /// </summary>
+        public const GameVersion HighestGameID = RB - 1;
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>

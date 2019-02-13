@@ -327,7 +327,7 @@ namespace PKHeX.WinForms
         private void ImportQRToView(string url)
         {
             byte[] data = QR.GetQRData(url);
-            if (data == null)
+            if (data.Length == 0)
                 return;
 
             string[] types = mga.Gifts.Select(g => g.Type).Distinct().ToArray();

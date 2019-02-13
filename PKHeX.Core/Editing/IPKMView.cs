@@ -16,11 +16,6 @@
         bool Unicode { get; }
 
         /// <summary>
-        /// Indicates if the Viewer's controls have been fully initialized after a reload.
-        /// </summary>
-        bool FieldsInitialized { get; }
-
-        /// <summary>
         /// Indicates if the Viewer is providing extra flexibility or not.
         /// </summary>
         bool HaX { get; }

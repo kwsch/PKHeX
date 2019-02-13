@@ -135,9 +135,9 @@ namespace PKHeX.Core.Searching
             return res.Where(pk => pk.IsEgg);
         }
 
-        public GameVersion[] GetVersions(SaveFile SAV) => GetVersions(SAV, GetFallbackVersion(SAV));
+        public IReadOnlyList<GameVersion> GetVersions(SaveFile SAV) => GetVersions(SAV, GetFallbackVersion(SAV));
 
-        public GameVersion[] GetVersions(SaveFile SAV, GameVersion fallback)
+        public IReadOnlyList<GameVersion> GetVersions(SaveFile SAV, GameVersion fallback)
         {
             if (Version > 0)
                 return new[] {(GameVersion) Version};

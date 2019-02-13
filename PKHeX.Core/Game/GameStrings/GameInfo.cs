@@ -105,7 +105,7 @@ namespace PKHeX.Core
                         return GetLocationNames7GG(bankID);
                     return GetLocationNames7(bankID);
                 default:
-                    return null;
+                    return Array.Empty<string>();
             }
         }
 
@@ -116,7 +116,7 @@ namespace PKHeX.Core
                 case 0: return Strings.metHGSS_00000;
                 case 2: return Strings.metHGSS_02000;
                 case 3: return Strings.metHGSS_03000;
-                default: return null;
+                default: return Array.Empty<string>();
             }
         }
 
@@ -128,7 +128,7 @@ namespace PKHeX.Core
                 case 3: return Strings.metBW2_30000;
                 case 4: return Strings.metBW2_40000;
                 case 6: return Strings.metBW2_60000;
-                default: return null;
+                default: return Array.Empty<string>();
             }
         }
 
@@ -140,7 +140,7 @@ namespace PKHeX.Core
                 case 3: return Strings.metXY_30000;
                 case 4: return Strings.metXY_40000;
                 case 6: return Strings.metXY_60000;
-                default: return null;
+                default: return Array.Empty<string>();
             }
         }
 
@@ -152,7 +152,7 @@ namespace PKHeX.Core
                 case 3: return Strings.metSM_30000;
                 case 4: return Strings.metSM_40000;
                 case 6: return Strings.metSM_60000;
-                default: return null;
+                default: return Array.Empty<string>();
             }
         }
 
@@ -164,7 +164,7 @@ namespace PKHeX.Core
                 case 3: return Strings.metGG_30000;
                 case 4: return Strings.metGG_40000;
                 case 6: return Strings.metGG_60000;
-                default: return null;
+                default: return Array.Empty<string>();
             }
         }
 
@@ -214,7 +214,7 @@ namespace PKHeX.Core
             }
 
             var bank = GetLocationNames(gen, bankID, version);
-            if (bank == null || bank.Count <= locval)
+            if (bank.Count <= locval)
                 return string.Empty;
             return bank[locval];
         }

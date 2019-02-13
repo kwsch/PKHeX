@@ -49,7 +49,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            string nickname = pkm.Nickname.Replace("'", "’");
+            string nickname = pkm.Nickname.Replace('\'', '’');
             if (VerifyUnNicknamedEncounter(data, pkm, nickname))
                 return;
 

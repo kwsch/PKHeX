@@ -90,75 +90,70 @@ namespace PKHeX.Core
                 RibbonChampionNational = RibbonChampionNational,
 
                 FatefulEncounter = Fateful,
+                Version = GetVersion(SAV),
             };
-            var pi = pk.PersonalInfo;
+            SetMoves(pk);
 
-            if (Version == 0)
-            {
-                bool gen3 = SAV.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)SAV.Game);
-                pk.Version = gen3 ? SAV.Game : (int)GameVersion.R;
-            }
-            else
-            {
-                pk.Version = (int)GetRandomVersion(Version);
-            }
-            int lang = (int)GetSafeLanguage((LanguageID)SAV.Language, (LanguageID)Language);
+
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
-            if (hatchedEgg) // ugly workaround for character table interactions
+            if (hatchedEgg)
             {
-                pk.Language = (int)LanguageID.English;
-                pk.OT_Name = "PKHeX";
-                pk.OT_Gender = SAV.Gender;
-                pk.TID = SAV.TID;
-                pk.SID = SAV.SID;
-                pk.OT_Friendship = pi.BaseFriendship;
-                pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
-                pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
-                pk.Met_Level = 0; // hatched
+                SetForceHatchDetails(pk, SAV);
             }
             else
             {
-                if (IsEgg)
-                {
-                    pk.IsEgg = true;
-                    pk.IsNicknamed = true;
-                    pk.Language = (int)LanguageID.Japanese; // JPN
-                    if (SID >= 0)
-                        pk.SID = SID;
-                    if (TID >= 0)
-                        pk.SID = TID;
-                }
-                else
-                {
-                    pk.Language = lang;
-                }
-
-                pk.OT_Name = OT_Name ?? SAV.OT;
-                if (string.IsNullOrWhiteSpace(pk.OT_Name))
-                {
-                    // Try again (only happens for eggs)
-                    pk.IsEgg = false;
-                    pk.Language = (int)LanguageID.English;
-                    pk.OT_Name = SAV.OT;
-                    pk.Language = (int)LanguageID.Japanese; // as egg is Japanese until hatched
-                    pk.IsEgg = true;
-                }
                 pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : SAV.Gender;
                 pk.TID = TID;
                 pk.SID = SID;
-                pk.OT_Friendship = IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+                pk.Language = (int)GetSafeLanguage((LanguageID)SAV.Language, (LanguageID)Language);
+                pk.OT_Name = OT_Name ?? SAV.OT;
+                if (IsEgg)
+                    pk.IsEgg = true; // lang should be set to japanese by IsEgg setter
             }
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
+            var pi = pk.PersonalInfo;
+            pk.OT_Friendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
             // Generate PIDIV
-            SetPIDValues(pk);
+            SetPINGA(pk, criteria);
             pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
 
             if (Version == GameVersion.XD)
                 pk.FatefulEncounter = true; // pk3 is already converted from xk3
-            SetMoves(pk);
+
             pk.RefreshChecksum();
             return pk;
+        }
+
+        private static void SetForceHatchDetails(PK3 pk, ITrainerInfo SAV)
+        {
+            // ugly workaround for character table interactions
+            pk.Language = (int)LanguageID.English;
+            pk.OT_Name = "PKHeX";
+            pk.OT_Gender = SAV.Gender;
+            pk.TID = SAV.TID;
+            pk.SID = SAV.SID;
+            pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
+            pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
+            pk.Met_Level = 0; // hatched
+        }
+
+        private int GetVersion(ITrainerInfo SAV)
+        {
+            int version;
+            if (Version == 0)
+            {
+                bool gen3 = SAV.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)SAV.Game);
+                version = gen3 ? SAV.Game : (int)GameVersion.R;
+            }
+            else
+            {
+                version = (int)GetRandomVersion(Version);
+            }
+
+            return version;
         }
 
         private void SetMoves(PK3 pk)
@@ -176,24 +171,24 @@ namespace PKHeX.Core
             pk.SetMaximumPPCurrent(Moves);
         }
 
-        private void SetPIDValues(PK3 pk)
+        private void SetPINGA(PK3 pk, EncounterCriteria criteria)
         {
             var seed = Util.Rand32();
-            SetPIDValues(pk, seed);
+            seed = GetSaneSeed(seed);
+            PIDGenerator.SetValuesFromSeed(pk, Method, seed);
         }
 
-        private void SetPIDValues(PK3 pk, uint seed)
+        private uint GetSaneSeed(uint seed)
         {
             switch (Method)
             {
                 case PIDType.BACD_R:
-                    seed &= 0xFFFF;
-                    break;
+                    return seed & 0x0000FFFF;
                 case PIDType.BACD_R_S:
-                    seed &= 0xFF;
-                    break;
+                    return seed & 0x000000FF;
+                default:
+                    return seed; // unmodified
             }
-            PIDGenerator.SetValuesFromSeed(pk, Method, seed);
         }
 
         private static LanguageID GetSafeLanguage(LanguageID hatchLang, LanguageID supplied)

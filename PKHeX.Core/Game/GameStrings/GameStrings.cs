@@ -136,7 +136,7 @@ namespace PKHeX.Core
             var metSanitize = (string[])cxd.Clone();
             for (int i = 0; i < metSanitize.Length; i++)
             {
-                if (cxd.Count(r => r == metSanitize[i]) > 1)
+                if (cxd.Count(z => z == metSanitize[i]) > 1)
                     metSanitize[i] += $" [{i:000}]";
             }
 
@@ -332,13 +332,13 @@ namespace PKHeX.Core
             int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
             int[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
             BallDataSource = Util.GetVariedCBListBall(itemlist, ball_nums, ball_vals);
-            SpeciesDataSource = Util.GetCBList(specieslist, null);
-            NatureDataSource = Util.GetCBList(natures, null);
-            AbilityDataSource = Util.GetCBList(abilitylist, null);
+            SpeciesDataSource = Util.GetCBList(specieslist);
+            NatureDataSource = Util.GetCBList(natures);
+            AbilityDataSource = Util.GetCBList(abilitylist);
             VersionDataSource = GetVersionList();
             EncounterTypeDataSource = Util.GetCBList(encountertypelist, new[] {0}, Legal.Gen4EncounterTypes);
 
-            HaXMoveDataSource = Util.GetCBList(movelist, null);
+            HaXMoveDataSource = Util.GetCBList(movelist);
             MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
             InitializeMetSources();
             Memories = new MemoryStrings(this);

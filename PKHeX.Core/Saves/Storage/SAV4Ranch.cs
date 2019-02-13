@@ -4,6 +4,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 <see cref="SaveFile"/> object for My Pokémon Ranch saves.
+    /// </summary>
     public sealed class SAV4Ranch : BulkStorage
     {
         public override int SIZE_STORED => 0x88 + 0x1C;

@@ -78,6 +78,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<Ball> GetBallListFromColor(PKM pkm)
         {
+            // fetch with latest-gen personal info; gen1/2 don't store color
             var pi = PKX.Personal.GetFormeEntry(pkm.Species, pkm.AltForm);
             var color = (PersonalColor)pi.Color;
             var balls = BallColors[color];

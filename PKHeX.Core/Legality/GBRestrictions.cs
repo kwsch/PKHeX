@@ -59,19 +59,19 @@ namespace PKHeX
 
         private static int[] GetMinLevelLearnMoveG1(int species, List<int> moves)
         {
-            var r = new int[moves.Count];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = MoveLevelUp.GetIsLevelUp1(species, moves[i], 100, 0, 0).Level;
-            return r;
+            var result = new int[moves.Count];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = MoveLevelUp.GetIsLevelUp1(species, moves[i], 100, 0, 0).Level;
+            return result;
         }
 
         private static int[] GetMaxLevelLearnMoveG1(int species, List<int> moves)
         {
-            var r = new int[moves.Count];
+            var result = new int[moves.Count];
 
             int index = PersonalTable.RB.GetFormeIndex(species, 0);
             if (index == 0)
-                return r;
+                return result;
 
             var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
             var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
@@ -79,10 +79,10 @@ namespace PKHeX
             for (int m = 0; m < moves.Count; m++)
             {
                 bool start = pi_rb.Contains(moves[m]) && pi_y.Contains(moves[m]);
-                r[m] = start ? 1 : Math.Max(GetHighest(LevelUpRB), GetHighest(LevelUpY));
+                result[m] = start ? 1 : Math.Max(GetHighest(LevelUpRB), GetHighest(LevelUpY));
                 int GetHighest(IReadOnlyList<Learnset> learn) => learn[index].GetLevelLearnMove(moves[m]);
             }
-            return r;
+            return result;
         }
 
         private static List<int>[] GetExclusiveMovesG1(int species1, int species2, IEnumerable<int> tmhm, IEnumerable<int> moves)
@@ -219,8 +219,8 @@ namespace PKHeX
                 case 093:
                 case 094: return level < 29 && !moves.Contains(095); // Haunter/Gengar without Hypnosis
                 case 110: return level < 39 && !moves.Contains(108); // Weezing without Smoke Screen
+                default: return false;
             }
-            return false;
         }
 
         private static int GetRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
@@ -262,6 +262,7 @@ namespace PKHeX
                 case 130 when pk.CurrentLevel < 32: // Gyarados
                     usedslots--;
                     break;
+                default: return usedslots;
             }
             return usedslots;
         }
@@ -290,7 +291,7 @@ namespace PKHeX
             }
 
             // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
-            return mandatory.Count + moves.Count(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m));
+            return mandatory.Count + moves.Where(m => m != 0).Count(m => !mandatory.Contains(m) && learn[1].Contains(m));
         }
 
         private static List<int> GetRequiredMoveCountLevel(PKM pk)

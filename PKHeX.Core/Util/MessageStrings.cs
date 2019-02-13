@@ -48,7 +48,6 @@ namespace PKHeX.Core
         public static string MsgFileLoadFailAuto { get; set; } = "An error occurred while attempting to auto-load your save file.";
         public static string MsgFileLoadFailAutoAdvise { get; set; } = "It is advised to manually remove bad filenames from the folder.";
         public static string MsgFileLoadFailAutoCause { get; set; } = "This is likely caused by Homebrew creating invalid filenames.";
-        public static string MsgFileLoadVersionSelect { get; set; } = "Select version.";
         public static string MsgFileLoadVersionDetect { get; set; } = "Generation {0} Save File detected.";
         public static string MsgFileLoadEncrypted { get; set; } = "PKHeX only edits decrypted save files.";
         public static string MsgFileLoadEncryptedFail { get; set; } = "This save file is not decrypted.";
@@ -57,7 +56,6 @@ namespace PKHeX.Core
         public static string MsgFileLoadIncompatible { get; set; } = "Binary is not compatible with save file.";
 
         public static string MsgFileLoadSaveFail { get; set; } = "The data file is not a valid save file.";
-        public static string MsgFileLoadSaveDetected { get; set; } = "Save File Detected.";
         public static string MsgFileLoadSaveLoadFail { get; set; } = "Invalid save file loaded. Aborting.";
         public static string MsgFileLoadSaveDetectReload { get; set; } = "Open save file from the following location?";
         public static string MsgFileLoadSaveSelectVersion { get; set; } = "Select the version.";

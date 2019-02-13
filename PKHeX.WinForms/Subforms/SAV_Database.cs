@@ -199,7 +199,7 @@ namespace PKHeX.WinForms
         private void ClickSet(object sender, EventArgs e)
         {
             // Don't care what slot was clicked, just add it to the database
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
                 return;
 
             PKM pk = PKME_Tabs.PreparePKM();
@@ -263,7 +263,7 @@ namespace PKHeX.WinForms
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
 
             string[] hptypes = new string[GameInfo.Strings.types.Length - 2]; Array.Copy(GameInfo.Strings.types, 1, hptypes, 0, hptypes.Length);
-            var DS_Type = Util.GetCBList(hptypes, null);
+            var DS_Type = Util.GetCBList(hptypes);
             DS_Type.Insert(0, Any); CB_HPType.DataSource = DS_Type;
 
             // Set the Move ComboBoxes too..
@@ -278,7 +278,7 @@ namespace PKHeX.WinForms
             }
 
             // Trigger a Reset
-            ResetFilters(null, null);
+            ResetFilters(null, EventArgs.Empty);
         }
 
         private void ResetFilters(object sender, EventArgs e)

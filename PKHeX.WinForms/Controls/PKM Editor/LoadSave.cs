@@ -40,7 +40,7 @@ namespace PKHeX.WinForms.Controls
             GB_OT.BackgroundImage = null;
             TB_OT.Text = pk.OT_Name;
             Label_OTGender.Text = gendersymbols[pk.OT_Gender];
-            Label_OTGender.ForeColor = GetGenderColor(pk.OT_Gender);
+            Label_OTGender.ForeColor = Draw.GetGenderColor(pk.OT_Gender);
         }
 
         private void SaveOT(PKM pk)
@@ -189,7 +189,7 @@ namespace PKHeX.WinForms.Controls
         {
             TB_PID.Text = $"{pk.PID:X8}";
             Label_Gender.Text = gendersymbols[pk.Gender];
-            Label_Gender.ForeColor = GetGenderColor(pk.Gender);
+            Label_Gender.ForeColor = Draw.GetGenderColor(pk.Gender);
             CB_Nature.SelectedValue = pk.Nature;
             CB_Language.SelectedValue = pk.Language;
             CB_GameOrigin.SelectedValue = pk.Version;
@@ -310,7 +310,7 @@ namespace PKHeX.WinForms.Controls
             int gender = pk.HT_Gender & 1;
             // Set CT Gender to None if no CT, else set to gender symbol.
             Label_CTGender.Text = string.IsNullOrEmpty(pk.HT_Name) ? string.Empty : gendersymbols[gender];
-            Label_CTGender.ForeColor = GetGenderColor(gender);
+            Label_CTGender.ForeColor = Draw.GetGenderColor(gender);
 
             // Indicate who is currently in posession of the PKM
             if (pk.CurrentHandler == 0) // OT

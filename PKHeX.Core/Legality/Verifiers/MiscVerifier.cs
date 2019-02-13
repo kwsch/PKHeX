@@ -301,7 +301,7 @@ namespace PKHeX.Core
         {
             var ia = BitConverter.ToInt32(BitConverter.GetBytes(a), 0);
             var ib = BitConverter.ToInt32(BitConverter.GetBytes(b), 0);
-            return Math.Abs(ia - ib) <= 2;
+            return Math.Abs(ia - ib) <= 7;
         }
 
         private static bool IsTradeEvoRequired7b(IEncounterable enc, PKM pb7)

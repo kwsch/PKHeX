@@ -17,15 +17,14 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="SAV"><see cref="SaveFile"/> that is being dumped from.</param>
         /// <param name="path">Folder to store <see cref="PKM"/> files.</param>
-        /// <param name="result">Result message from the method.</param>
         /// <param name="boxFolders">Option to save in child folders with the Box Name as the folder name.</param>
-        /// <returns></returns>
-        public static bool DumpBoxes(this SaveFile SAV, string path, out string result, bool boxFolders = false)
+        /// <returns>-1 if aborted, otherwise the amount of files dumped.</returns>
+        public static int DumpBoxes(this SaveFile SAV, string path, bool boxFolders = false)
         {
-            var boxdata = SAV.BoxData;
-            if (boxdata == null)
-            { result = MsgSaveBoxExportInvalid; return false; }
+            if (!SAV.HasBox)
+                return -1;
 
+            var boxdata = SAV.BoxData;
             int ctr = 0;
             foreach (PKM pk in boxdata)
             {
@@ -43,9 +42,7 @@ namespace PKHeX.Core
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
                     File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
             }
-
-            result = string.Format(MsgSaveBoxExportPathCount, ctr) + Environment.NewLine + path;
-            return true;
+            return ctr;
         }
 
         /// <summary>
@@ -53,15 +50,14 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="SAV"><see cref="SaveFile"/> that is being dumped from.</param>
         /// <param name="path">Folder to store <see cref="PKM"/> files.</param>
-        /// <param name="result">Result message from the method.</param>
         /// <param name="currentBox">Box contents to be dumped.</param>
-        /// <returns></returns>
-        public static bool DumpBox(this SaveFile SAV, string path, out string result, int currentBox)
+        /// <returns>-1 if aborted, otherwise the amount of files dumped.</returns>
+        public static int DumpBox(this SaveFile SAV, string path, int currentBox)
         {
-            var boxdata = SAV.BoxData;
-            if (boxdata == null)
-            { result = MsgSaveBoxExportInvalid; return false; }
+            if (!SAV.HasBox)
+                return -1;
 
+            var boxdata = SAV.BoxData;
             int ctr = 0;
             foreach (PKM pk in boxdata)
             {
@@ -73,9 +69,7 @@ namespace PKHeX.Core
                 if (!File.Exists(Path.Combine(path, fileName)))
                     File.WriteAllBytes(Path.Combine(path, fileName), pk.DecryptedBoxData);
             }
-
-            result = string.Format(MsgSaveBoxExportPathCount, ctr) + Environment.NewLine + path;
-            return true;
+            return ctr;
         }
 
         /// <summary>

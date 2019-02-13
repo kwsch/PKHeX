@@ -274,5 +274,17 @@ namespace PKHeX.WinForms.Properties {
                 this["ForceHaXOnLaunch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IgnoreLegalPopup {
+            get {
+                return ((bool)(this["IgnoreLegalPopup"]));
+            }
+            set {
+                this["IgnoreLegalPopup"] = value;
+            }
+        }
     }
 }

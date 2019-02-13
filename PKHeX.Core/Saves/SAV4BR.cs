@@ -12,7 +12,7 @@ namespace PKHeX.Core
     {
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => "PbrSaveData|*";
-        public override string Extension => "";
+        public override string Extension => string.Empty;
 
         private const int SAVE_COUNT = 4;
 
@@ -123,7 +123,10 @@ namespace PKHeX.Core
                 }
                 return ctr;
             }
-            protected set { }
+            protected set
+            {
+                // Ignore, value is calculated
+            }
         }
 
         // Checksums
@@ -208,7 +211,10 @@ namespace PKHeX.Core
             return data;
         }
 
-        protected override void SetDex(PKM pkm) { }
+        protected override void SetDex(PKM pkm)
+        {
+            // There's nothing in the dex
+        }
 
         protected override void SetPKM(PKM pkm)
         {

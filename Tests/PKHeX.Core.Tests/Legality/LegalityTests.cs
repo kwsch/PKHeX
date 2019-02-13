@@ -52,7 +52,7 @@ namespace PKHeX.Tests.Legality
                 if (format > 10)
                     format = 6;
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                pkm.Should().NotBe($"the PKM '{new FileInfo(file).Name}' should have been loaded");
+                pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
 
                 ParseSettings.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
                 ParseSettings.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");

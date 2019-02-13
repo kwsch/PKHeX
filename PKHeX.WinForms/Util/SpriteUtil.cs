@@ -21,7 +21,8 @@ namespace PKHeX.WinForms
 
         public static Image GetRibbonSprite(string name)
         {
-            return Resources.ResourceManager.GetObject(name.Replace("CountG3", "G3").ToLower()) as Image;
+            var sprite = name.Replace("CountG3", "G3").ToLower();
+            return Resources.ResourceManager.GetObject(sprite) as Image;
         }
 
         public static Image GetRibbonSprite(string name, int max, int value)
@@ -33,17 +34,22 @@ namespace PKHeX.WinForms
         private static string GetRibbonSpriteName(string name, int max, int value)
         {
             if (max != 4) // Memory
-                return name.ToLower() + (max == value ? "2" : "");
+            {
+                var sprite = name.ToLower();
+                if (max == value)
+                    return sprite + "2";
+                return sprite;
+            }
 
             // Count ribbons
-            string n = name.Replace("Count", "");
+            string n = name.Replace("Count", string.Empty).ToLower();
             switch (value)
             {
-                case 2: return (n + "Super").ToLower();
-                case 3: return (n + "Hyper").ToLower();
-                case 4: return (n + "Master").ToLower();
+                case 2: return n + "super";
+                case 3: return n + "hyper";
+                case 4: return n + "master";
                 default:
-                    return n.ToLower();
+                    return n;
             }
         }
 
@@ -105,7 +111,7 @@ namespace PKHeX.WinForms
 
         private static Image GetWallpaper(SaveFile SAV, int box)
         {
-            string s = BoxWallpaper.GetWallpaperResourceName(SAV, box);
+            string s = BoxWallpaper.GetWallpaperResourceName(SAV.Version, SAV.GetBoxWallpaper(box));
             return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
         }
 
@@ -115,7 +121,7 @@ namespace PKHeX.WinForms
                 return null;
 
             bool inBox = slot >= 0 && slot < 30;
-            var sprite = pkm.Species != 0 ? pkm.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(SAV, box)) : null;
+            var sprite = pkm.Species == 0 ? null : pkm.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(SAV.Version, SAV.GetBoxWallpaper(box)));
 
             if (flagIllegal)
             {

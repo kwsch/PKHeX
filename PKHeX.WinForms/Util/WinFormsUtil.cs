@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
         /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
         internal static DialogResult Error(params string[] lines)
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            System.Media.SystemSounds.Hand.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -208,13 +208,14 @@ namespace PKHeX.WinForms
         public static bool SavePKMDialog(PKM pk)
         {
             string pkx = pk.Extension;
-            bool allowEncrypted = pk.Format > 3 || pk is PK3;
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : "") +
+            bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
+            var genericFilter = $"Decrypted PKM File|*.{pkx}" +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : string.Empty) +
                          "|Binary File|*.bin" +
-                         "|All Files|*.*",
+                         "|All Files|*.*";
+            var sfd = new SaveFileDialog
+            {
+                Filter = genericFilter,
                 DefaultExt = pkx,
                 FileName = Util.CleanFileName(pk.FileName)
             };
@@ -296,6 +297,7 @@ namespace PKHeX.WinForms
         /// Opens a dialog to save a <see cref="MysteryGift"/> file.
         /// </summary>
         /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
+        /// <param name="origin">Game the gift originates from</param>
         /// <returns>Result of whether or not the file was saved.</returns>
         public static bool SaveMGDialog(MysteryGift gift, GameVersion origin)
         {

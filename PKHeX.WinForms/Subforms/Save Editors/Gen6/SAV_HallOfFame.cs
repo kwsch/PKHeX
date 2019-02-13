@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
                 Label_MetDate,
             };
             LB_DataEntry.SelectedIndex = 0;
-            NUP_PartyIndex_ValueChanged(null, null);
+            NUP_PartyIndex_ValueChanged(null, EventArgs.Empty);
             try { TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont(11); }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
             editing = true;
@@ -192,16 +192,16 @@ namespace PKHeX.WinForms
             string genderstr = gendersymbols[(int)gender];
             string shinystr = shiny == 1 ? "Yes" : "No";
 
-            string[] movelist = GameInfo.Strings.movelist;
+            var str = GameInfo.Strings;
             s.Add($"Name: {nickname}");
-            s.Add($" ({GameInfo.Strings.specieslist[species]} - {genderstr})");
+            s.Add($" ({str.Species[species]} - {genderstr})");
             s.Add($"Level: {level}");
             s.Add($"Shiny: {shinystr}");
-            s.Add($"Held Item: {GameInfo.Strings.itemlist[helditem]}");
-            s.Add($"Move 1: {movelist[move1]}");
-            s.Add($"Move 2: {movelist[move2]}");
-            s.Add($"Move 3: {movelist[move3]}");
-            s.Add($"Move 4: {movelist[move4]}");
+            s.Add($"Held Item: {str.Item[helditem]}");
+            s.Add($"Move 1: {str.Move[move1]}");
+            s.Add($"Move 2: {str.Move[move2]}");
+            s.Add($"Move 3: {str.Move[move3]}");
+            s.Add($"Move 4: {str.Move[move4]}");
             s.Add($"OT: {OTname} ({TID}/{SID})");
             s.Add(string.Empty);
         }
@@ -316,7 +316,7 @@ namespace PKHeX.WinForms
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
             bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
-            DisplayEntry(null, null); // refresh text view
+            DisplayEntry(null, EventArgs.Empty); // refresh text view
         }
 
         private void Validate_TextBoxes()
@@ -339,17 +339,13 @@ namespace PKHeX.WinForms
                 }
                 else
                 {
-                    try
-                    {
-                        // get language
-                        TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
-                    }
-                    catch { }
+                    // get language
+                    TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
                 }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void SetForms()
@@ -365,7 +361,7 @@ namespace PKHeX.WinForms
         private void UpdateSpecies(object sender, EventArgs e)
         {
             SetForms();
-            UpdateNickname(null, null);
+            UpdateNickname(null, EventArgs.Empty);
         }
 
         private void UpdateShiny(object sender, EventArgs e)
@@ -374,7 +370,7 @@ namespace PKHeX.WinForms
                 return; //Don't do writing until loaded
             bpkx.Image = SpriteUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromString(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void UpdateGender(object sender, EventArgs e)
@@ -406,7 +402,7 @@ namespace PKHeX.WinForms
             if (species == 668)
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void SetGenderLabel(int gender)
@@ -418,7 +414,7 @@ namespace PKHeX.WinForms
             else
                 Label_Gender.Text = gendersymbols[2];    // Genderless
 
-            Write_Entry(null, null);
+            Write_Entry(null, EventArgs.Empty);
         }
 
         private void B_CopyText_Click(object sender, EventArgs e)

@@ -15,20 +15,23 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="nick"><see cref="PKM.Nickname"/> to set. If no nickname is provided, the <see cref="PKM.Nickname"/> is set to the default value for its current language and format.</param>
-        public static void SetNickname(this PKM pk, string nick = null)
+        public static void SetNickname(this PKM pk, string nick)
         {
-            if (nick != null)
+            if (string.IsNullOrWhiteSpace(nick))
             {
-                pk.IsNicknamed = true;
-                pk.Nickname = nick;
+                pk.ClearNickname();
+                return;
             }
-            else
-            {
-                pk.IsNicknamed = false;
-                pk.Nickname = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
-                if (pk is _K12 pk12)
-                    pk12.SetNotNicknamed();
-            }
+            pk.IsNicknamed = true;
+            pk.Nickname = nick;
+        }
+
+        public static void ClearNickname(this PKM pk)
+        {
+            pk.IsNicknamed = false;
+            pk.Nickname = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+            if (pk is _K12 pk12)
+                pk12.SetNotNicknamed();
         }
 
         /// <summary>
@@ -340,47 +343,8 @@ namespace PKHeX.Core
         /// <param name="format">Format required for importing</param>
         public static void ApplyHeldItem(this PKM pk, int item, int format)
         {
-            if (item <= 0)
-            {
-                pk.HeldItem = 0;
-                return;
-            }
-
-            if (format <= 3 && pk.Format != format)
-            {
-                if (pk.Format > 3) // try remapping
-                {
-                    item = format == 2 ? ItemConverter.GetG4Item((byte) item) : ItemConverter.GetG4Item((ushort) item);
-                    pk.ApplyHeldItem(item, pk.Format);
-                    return;
-                }
-
-                if (pk.Format > format) // can't set past gen items
-                {
-                    pk.HeldItem = 0;
-                    return;
-                }
-
-                // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
-                item = ItemConverter.GetG4Item((ushort) item);
-                item = ItemConverter.GetG2Item((ushort) item);
-                if (item == 0 || item < 0)
-                {
-                    pk.HeldItem = 0;
-                    return;
-                }
-            }
-
-            switch (pk.Format)
-            {
-                case 3: pk.HeldItem = ItemConverter.GetG3Item((ushort)item); break;
-                case 2: pk.HeldItem = (byte)item; break;
-                case 1: pk.HeldItem = 0; break;
-                default: pk.HeldItem = item; break;
-            }
-
-            if (pk.HeldItem > pk.MaxItemID)
-                pk.HeldItem = 0;
+            item = ItemConverter.GetFormatHeldItemID(item, format, pk.Format);
+            pk.HeldItem = ((uint)item > pk.MaxItemID) ? 0 : item;
         }
 
         /// <summary>
@@ -542,7 +506,7 @@ namespace PKHeX.Core
             if (!pkm.IsEgg && !reHatch)
                 return;
             pkm.IsEgg = false;
-            pkm.SetNickname();
+            pkm.ClearNickname();
             pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
             if (pkm.IsTradedEgg)
                 pkm.Egg_Location = pkm.Met_Location;
@@ -688,7 +652,7 @@ namespace PKHeX.Core
             if (la.Parsed && la.EncounterOriginal is EncounterTrade t && t.HasNickname)
                 pk.SetNickname(t.GetNickname(pk.Language));
             else
-                pk.SetNickname();
+                pk.ClearNickname();
         }
 
         private static readonly string[] PotentialUnicode = { "★☆☆☆", "★★☆☆", "★★★☆", "★★★★" };

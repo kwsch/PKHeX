@@ -7,7 +7,7 @@ namespace PKHeX.Core
         private readonly List<StorageSlotOffset> Slots = new List<StorageSlotOffset>();
 
         public SlotDaycare(SaveFile sav, bool locked)
-            : base(sav, (int) 2, locked)
+            : base(sav, 2, locked)
         {
             ReloadDaycareSlots();
         }

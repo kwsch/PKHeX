@@ -23,6 +23,9 @@ namespace PKHeX.Core
             return gpkm;
         }
 
+        /// <summary>
+        /// First 0x20 bytes of an empty <see cref="GP1"/>, all other bytes are 0.
+        /// </summary>
         private static readonly byte[] Blank20 =
         {
             0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
@@ -107,8 +110,8 @@ namespace PKHeX.Core
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : "";
-                string star = IsShiny ? " ★" : "";
+                string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
+                string star = IsShiny ? " ★" : string.Empty;
                 return $"{Species:000}{form}{star} - {NickStr} -  lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP})";
             }
         }
@@ -117,14 +120,15 @@ namespace PKHeX.Core
         public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
         public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {StatMove}, {GeoTime}.";
 
-        public PB7 ConvertToPB7(ITrainerInfo sav)
+        public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
+
+        public PB7 ConvertToPB7(ITrainerInfo sav, EncounterCriteria criteria)
         {
             var pk = new PB7
             {
                 Version = (int) GameVersion.GO,
                 Species = Species,
                 AltForm = AltForm,
-                Gender = Gender,
                 Met_Location = 50, // Go complex
                 Met_Year = Year - 2000,
                 Met_Month = Month,
@@ -136,7 +140,6 @@ namespace PKHeX.Core
                 OT_Name = sav.OT,
                 Ball = 4,
                 Language = sav.Language,
-                Nature = Util.Rand.Next(25),
                 PID = Util.Rand32(),
             };
 
@@ -156,7 +159,12 @@ namespace PKHeX.Core
             pk.IV_HP = (IV1 * 2) + 1;
             pk.IV_SPE = Util.Rand.Next(32);
 
-            pk.RefreshAbility(Util.Rand.Next(2));
+            var pi = pk.PersonalInfo;
+            int av = 3;
+            pk.Gender = criteria.GetGender(Gender, pi);
+            pk.Nature = (int)criteria.GetNature(Nature.Random);
+            pk.RefreshAbility(criteria.GetAbility(av, pi));
+
             if (IsShiny)
                 pk.SetShiny();
 

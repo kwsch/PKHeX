@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -11,7 +12,7 @@ namespace PKHeX.Core
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
-        public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : "") + "SAV File|*.sav|All Files|*.*";
+        public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
@@ -127,7 +128,7 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
-        public readonly BlockInfoNDS[] Blocks;
+        public readonly IReadOnlyList<BlockInfoNDS> Blocks;
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
@@ -152,7 +153,7 @@ namespace PKHeX.Core
             if (Version != GameVersion.B2W2)
                 return null;
             var data = Data.Skip(Daycare + 0x1CC).Take(DaycareSeedSize/2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", "");
+            return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)
@@ -231,7 +232,7 @@ namespace PKHeX.Core
         public override string GetBoxName(int box)
         {
             if (box >= BoxCount)
-                return "";
+                return string.Empty;
             return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
         }
 
@@ -327,7 +328,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool[] MysteryGiftReceivedFlags { get => null; set { } }
+        protected override bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
         protected override MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
 
         // Trainer Info

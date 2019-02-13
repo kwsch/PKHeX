@@ -278,6 +278,7 @@ namespace PKHeX.WinForms
         private void FormInitializeSecond()
         {
             var settings = Settings.Default;
+            C_SAV.M.Draw = PKME_Tabs.Draw = new DrawConfig();
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
@@ -324,7 +325,8 @@ namespace PKHeX.WinForms
 
         private void MainMenuSave(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM()) return;
+            if (!PKME_Tabs.EditsComplete)
+                return;
             PKM pk = PreparePKM();
             WinFormsUtil.SavePKMDialog(pk);
         }
@@ -510,7 +512,7 @@ namespace PKHeX.WinForms
 
         private void ClickShowdownExportPKM(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
             {
                 WinFormsUtil.Alert(MsgSimulatorExportBadFields);
                 return;
@@ -667,8 +669,7 @@ namespace PKHeX.WinForms
             if (MC.HasXD) games.Add(new ComboItem { Text = MsgGameXD, Value = (int)GameVersion.XD });
             if (MC.HasRSBOX) games.Add(new ComboItem { Text = MsgGameRSBOX, Value = (int)GameVersion.RSBOX });
 
-            WinFormsUtil.Alert(MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
-            var dialog = new SAV_GameSelect(games);
+            var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
             dialog.ShowDialog();
             return dialog.Result;
         }
@@ -752,7 +753,7 @@ namespace PKHeX.WinForms
             Menu_ShowdownExportParty.Visible = sav.HasParty;
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
-            SystemSounds.Beep.Play();
+            SystemSounds.Asterisk.Play();
             return true;
         }
 
@@ -845,7 +846,7 @@ namespace PKHeX.WinForms
 
         private static bool SanityCheckSAV(ref SaveFile sav)
         {
-            var _ = ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
+            ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
 
             if (sav is SAV3 s3)
             {
@@ -853,7 +854,8 @@ namespace PKHeX.WinForms
                 {
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games, MsgFileLoadVersionDetect, MsgFileLoadVersionSelect);
+                    var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
+                    var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
@@ -866,10 +868,11 @@ namespace PKHeX.WinForms
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
-                    string dual = "{0}/{1} " + MsgFileLoadSaveDetected;
+                    string dual = "{1}/{2} " + MsgFileLoadVersionDetect;
                     var g = new[] { GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
-                    var dialog = new SAV_GameSelect(games, string.Format(dual, fr, lg), MsgFileLoadSaveSelectVersion);
+                    var msg = string.Format(dual, "3", fr, lg);
+                    var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     var pt = SaveUtil.GetG3Personal(dialog.Result);
@@ -912,9 +915,11 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
             if (C_SAV.SAV != null)
             {
-                PKM pk = C_SAV.SAV.GetPKM(PKME_Tabs.CurrentPKM.Data);
-                PKME_Tabs.ChangeLanguage(C_SAV.SAV, pk);
-                Text = GetProgramTitle(C_SAV.SAV);
+                var pk = PKME_Tabs.CurrentPKM.Clone();
+                var sav = C_SAV.SAV;
+
+                PKME_Tabs.ChangeLanguage(sav, pk);
+                Text = GetProgramTitle(sav);
             }
         }
 
@@ -960,7 +965,7 @@ namespace PKHeX.WinForms
         private void ImportQRToTabs(string url)
         {
             byte[] input = QR.GetQRData(url);
-            if (input == null)
+            if (input.Length == 0)
                 return;
 
             var sav = C_SAV.SAV;
@@ -980,7 +985,7 @@ namespace PKHeX.WinForms
 
         private void ExportQRFromTabs()
         {
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
                 return;
             PKM pkx = PreparePKM();
 
@@ -1018,13 +1023,13 @@ namespace PKHeX.WinForms
 
         private void ClickLegality(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM())
-            { SystemSounds.Asterisk.Play(); return; }
+            if (!PKME_Tabs.EditsComplete)
+            { SystemSounds.Hand.Play(); return; }
 
             var pk = PreparePKM();
 
             if (pk.Species == 0 || !pk.ChecksumValid)
-            { SystemSounds.Asterisk.Play(); return; }
+            { SystemSounds.Hand.Play(); return; }
 
             ShowLegality(sender, e, pk);
         }
@@ -1042,6 +1047,10 @@ namespace PKHeX.WinForms
                 if (dr == DialogResult.Yes)
                     Clipboard.SetText(report);
             }
+            else if (Settings.Default.IgnoreLegalPopup && la.Valid)
+            {
+                SystemSounds.Asterisk.Play();
+            }
             else
             {
                 WinFormsUtil.Alert(report);
@@ -1050,7 +1059,8 @@ namespace PKHeX.WinForms
 
         private void ClickClone(object sender, EventArgs e)
         {
-            if (!PKME_Tabs.VerifiedPKM()) return; // don't copy garbage to the box
+            if (!PKME_Tabs.EditsComplete)
+                return; // don't copy garbage to the box
             PKM pk = PKME_Tabs.PreparePKM();
             C_SAV.SetClonesToBox(pk);
         }
@@ -1111,7 +1121,7 @@ namespace PKHeX.WinForms
                 ClickQR(sender, e);
             if (e.Button == MouseButtons.Right)
                 return;
-            if (!PKME_Tabs.VerifiedPKM())
+            if (!PKME_Tabs.EditsComplete)
                 return;
 
             // Create Temp File to Drag

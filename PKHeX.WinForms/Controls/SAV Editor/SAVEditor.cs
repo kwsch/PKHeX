@@ -21,7 +21,7 @@ namespace PKHeX.WinForms.Controls
         public readonly ContextMenuSAV menu = new ContextMenuSAV();
         public readonly BoxMenuStrip SortMenu;
 
-        public bool HaX;
+        public bool  HaX;
         public bool ModifyPKM { private get; set; }
         private bool _hideSecret;
         public bool HideSecretDetails { private get => _hideSecret; set { if (SAV != null) ToggleSecrets(SAV, _hideSecret = value); } }
@@ -478,7 +478,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             string filterText = Util.GetOnlyHex(tb.Text);
-            if (filterText.Length != tb.Text.Length || string.IsNullOrWhiteSpace(filterText))
+            if (string.IsNullOrWhiteSpace(filterText) || filterText.Length != tb.Text.Length)
             {
                 WinFormsUtil.Alert(MsgProgramErrorExpectedHex, tb.Text);
                 tb.Undo();
@@ -673,11 +673,15 @@ namespace PKHeX.WinForms.Controls
         private void B_JPEG_Click(object sender, EventArgs e)
         {
             byte[] jpeg = SAV.JPEGData;
-            if (SAV.JPEGData == null)
-            { WinFormsUtil.Alert(MsgSaveJPEGExportFail); return; }
+            if (SAV.JPEGData.Length == 0)
+            {
+                WinFormsUtil.Alert(MsgSaveJPEGExportFail);
+                return;
+            }
             string filename = SAV.JPEGTitle + "'s picture";
-            SaveFileDialog sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
-            if (sfd.ShowDialog() != DialogResult.OK) return;
+            var sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
             File.WriteAllBytes(sfd.FileName, jpeg);
         }
 
@@ -810,7 +814,11 @@ namespace PKHeX.WinForms.Controls
 
             Directory.CreateDirectory(path);
 
-            SAV.DumpBoxes(path, out result, separate);
+            var count = SAV.DumpBoxes(path, separate);
+            if (count < 0)
+                result = MsgSaveBoxExportInvalid;
+            else
+                result = string.Format(MsgSaveBoxExportPathCount, count) + Environment.NewLine + path;
             return true;
         }
 
@@ -824,7 +832,11 @@ namespace PKHeX.WinForms.Controls
 
             Directory.CreateDirectory(path);
 
-            SAV.DumpBox(path, out result, Box.CurrentBox);
+            var count = SAV.DumpBox(path, Box.CurrentBox);
+            if (count < 0)
+                result = MsgSaveBoxExportInvalid;
+            else
+                result = string.Format(MsgSaveBoxExportPathCount, count) + Environment.NewLine + path;
             return true;
         }
 
@@ -1026,10 +1038,6 @@ namespace PKHeX.WinForms.Controls
             switch (sav.Generation)
             {
                 case 6:
-                    TB_GameSync.Enabled = sav.GameSyncID != null;
-                    TB_GameSync.MaxLength = sav.GameSyncIDSize;
-                    TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
-                    break;
                 case 7:
                     TB_GameSync.Enabled = sav.GameSyncID != null;
                     TB_GameSync.MaxLength = sav.GameSyncIDSize;
@@ -1077,9 +1085,12 @@ namespace PKHeX.WinForms.Controls
                 var str = ShowdownSet.GetShowdownSets(pkms, Environment.NewLine + Environment.NewLine);
                 if (string.IsNullOrWhiteSpace(str)) return;
                 Clipboard.SetText(str);
+                WinFormsUtil.Alert(success);
             }
-            catch { }
-            WinFormsUtil.Alert(success);
+            catch
+            {
+                WinFormsUtil.Error(MsgClipboardFailWrite);
+            }
         }
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)

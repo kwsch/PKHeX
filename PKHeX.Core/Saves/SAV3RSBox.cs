@@ -182,7 +182,7 @@ namespace PKHeX.Core
             return PKX.DecryptArray3(data);
         }
 
-        protected override void SetDex(PKM pkm) { }
+        protected override void SetDex(PKM pkm) { /* No Pokedex for this game, do nothing */ }
 
         public override void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
         {

@@ -5,12 +5,15 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
+    /// </summary>
     public sealed class SAV7b : SaveFile, ISecureValueStorage
     {
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "savedata|*.bin";
         public override string Extension => string.Empty;
-        public override string[] PKMExtensions => PKM.Extensions.Where(f => f[0] == 'B' && 7 == f[f.Length - 1] - 0x30).ToArray();
+        public override string[] PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();

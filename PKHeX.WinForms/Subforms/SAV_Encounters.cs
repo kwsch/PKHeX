@@ -174,7 +174,7 @@ namespace PKHeX.WinForms
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
 
             // Trigger a Reset
-            ResetFilters(null, null);
+            ResetFilters(null, EventArgs.Empty);
         }
 
         private void ResetFilters(object sender, EventArgs e)
@@ -217,7 +217,7 @@ namespace PKHeX.WinForms
             public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
         }
 
-        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, GameVersion[] vers)
+        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
         {
             pk.Species = species;
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
@@ -325,6 +325,7 @@ namespace PKHeX.WinForms
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
+            // todo
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();

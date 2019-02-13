@@ -300,13 +300,13 @@ namespace PKHeX.Core
             string Makercode = EncodingType.GetString(Data, offset + 0x04, 2);
             string FileName = EncodingType.GetString(Data, offset + 0x08, DENTRY_STRLEN);
 
-            return $"{Makercode}-{GameCode}-{FileName.Replace("\0", "")}.gci";
+            return $"{Makercode}-{GameCode}-{Util.TrimFromZero(FileName)}.gci";
         }
 
         private byte[] ReadSaveGameData()
         {
             if (EntrySelected == -1)
-                return null; // No entry selected
+                return Array.Empty<byte>(); // No entry selected
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
             int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);

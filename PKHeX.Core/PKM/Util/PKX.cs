@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -643,8 +644,8 @@ namespace PKHeX.Core
         /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
         public static int GetGenderFromPID(int species, uint PID)
         {
-            int genderratio = Personal[species].Gender;
-            return GetGenderFromPIDAndRatio(PID, genderratio);
+            int gt = Personal[species].Gender;
+            return GetGenderFromPIDAndRatio(PID, gt);
         }
 
         public static int GetGenderFromPIDAndRatio(uint PID, int gr)
@@ -665,8 +666,7 @@ namespace PKHeX.Core
         /// <returns>Decrypted data.</returns>
         public static byte[] DecryptArray3(byte[] ekm)
         {
-            if (ekm.Length != SIZE_3PARTY && ekm.Length != SIZE_3STORED)
-                return null;
+            Debug.Assert(ekm.Length == SIZE_3PARTY || ekm.Length == SIZE_3STORED);
 
             uint PID = BitConverter.ToUInt32(ekm, 0);
             uint OID = BitConverter.ToUInt32(ekm, 4);
@@ -708,8 +708,7 @@ namespace PKHeX.Core
         /// <returns>Encrypted data.</returns>
         public static byte[] EncryptArray3(byte[] pkm)
         {
-            if (pkm.Length != SIZE_3PARTY && pkm.Length != SIZE_3STORED)
-                return null;
+            Debug.Assert(pkm.Length == SIZE_3PARTY || pkm.Length == SIZE_3STORED);
 
             uint PID = BitConverter.ToUInt32(pkm, 0);
             uint OID = BitConverter.ToUInt32(pkm, 4);
@@ -778,11 +777,13 @@ namespace PKHeX.Core
 
             if (maxGeneration >= 3)
             {
-                result.Add("ck3");
-                result.Add("xk3");
+                result.Add("ck3"); // colosseum
+                result.Add("xk3"); // xd
             }
             if (maxGeneration >= 4)
-                result.Add("bk4");
+                result.Add("bk4"); // battle revolution
+            if (maxGeneration >= 7)
+                result.Add("pb7"); // let's go
 
             return result.ToArray();
         }
@@ -795,9 +796,9 @@ namespace PKHeX.Core
         /// <returns>Format hint that the file is.</returns>
         public static int GetPKMFormatFromExtension(string ext, int prefer)
         {
-            return ext?.Length > 1
-                ? GetPKMFormatFromExtension(ext[ext.Length - 1], prefer)
-                : prefer;
+            if (string.IsNullOrEmpty(ext))
+                return prefer;
+            return GetPKMFormatFromExtension(ext[ext.Length - 1], prefer);
         }
 
         /// <summary>

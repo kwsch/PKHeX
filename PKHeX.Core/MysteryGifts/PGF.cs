@@ -167,13 +167,14 @@ namespace PKHeX.Core
             if (!IsPokémon)
                 return null;
 
-            DateTime dt = DateTime.Now;
+            var dt = DateTime.Now;
             if (Day == 0)
             {
                 Day = (byte)dt.Day;
                 Month = (byte)dt.Month;
                 Year = (byte)dt.Year;
             }
+
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
             var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
             PK5 pk = new PK5
@@ -201,7 +202,7 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                EXP = Experience.GetEXP(Level, Species, 0),
+                EXP = Experience.GetEXP(currentLevel, Species, 0),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -230,12 +231,13 @@ namespace PKHeX.Core
                 pk.Moves = MoveLevelUp.GetEncounterMoves(Species, Form, Level, (GameVersion)pk.Version);
 
             pk.SetMaximumPPCurrent();
+
             if (IsEgg) // User's
             {
                 pk.TID = SAV.TID;
                 pk.SID = SAV.SID;
                 pk.OT_Name = SAV.OT;
-                pk.OT_Gender = 1; // Red PKHeX OT
+                pk.OT_Gender = SAV.Gender;
             }
             else // Hardcoded
             {
@@ -244,74 +246,92 @@ namespace PKHeX.Core
                 pk.OT_Name = OT_Name;
                 pk.OT_Gender = (OTGender == 3 ? SAV.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
             }
+
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
-            // More 'complex' logic to determine final values
+            SetPINGA(pk, criteria);
 
-            // Dumb way to generate random IVs.
-            int[] finalIVs = new int[6];
-            for (int i = 0; i < IVs.Length; i++)
-                finalIVs[i] = IVs[i] == 0xFF ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
-            pk.IVs = finalIVs;
+            if (IsEgg)
+                SetEggMetDetails(pk);
 
-            int av = 0;
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+            pk.RefreshChecksum();
+            return pk;
+        }
+
+        private void SetEggMetDetails(PK5 pk)
+        {
+            pk.IsEgg = true;
+            pk.EggMetDate = Date;
+            pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.IsNicknamed = true;
+        }
+
+        private void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
+            pk.Nature = (int)criteria.GetNature((Nature)Nature);
+            pk.Gender = criteria.GetGender(Gender, pi);
+            var av = GetAbilityIndex(criteria, pi);
+            SetPID(pk, av);
+            pk.RefreshAbility(av);
+            SetIVs(pk);
+        }
+
+        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi)
+        {
             switch (AbilityType)
             {
                 case 00: // 0 - 0
                 case 01: // 1 - 1
                 case 02: // 2 - H
-                    av = AbilityType;
-                    break;
+                    return AbilityType;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = Util.Rand.Next(AbilityType - 1);
-                    break;
+                    return criteria.GetAbility(AbilityType, pi); // 3 or 2
+                default:
+                    throw new ArgumentException(nameof(AbilityType));
             }
-            pk.HiddenAbility = av == 2;
-            pk.Ability = pi.Abilities[av];
+        }
 
+        private void SetPID(PKM pk, int av)
+        {
             if (PID != 0)
             {
                 pk.PID = PID;
+                return;
             }
+
+            pk.PID = Util.Rand32();
+            // Force Gender
+            do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)Util.Rand.Next(0x100); }
+            while (!pk.IsGenderValid());
+
+            if (PIDType == 2) // Always
+            {
+                uint gb = pk.PID & 0xFF;
+                pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID, pk.SID);
+            }
+            else if (PIDType != 1) // Force Not Shiny
+            {
+                if (pk.IsShiny)
+                    pk.PID ^= 0x10000000;
+            }
+
+            if (av == 1)
+                pk.PID |= 0x10000;
             else
-            {
-                pk.PID = Util.Rand32();
+                pk.PID &= 0xFFFEFFFF;
+        }
 
-                // Force Gender
-                do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)Util.Rand.Next(0x100); }
-                while (!pk.IsGenderValid());
-
-                // Force Ability
-                if (av == 1)
-                    pk.PID |= 0x10000;
-                else
-                    pk.PID &= 0xFFFEFFFF;
-
-                if (PIDType == 2) // Force Shiny
-                {
-                    uint gb = pk.PID & 0xFF;
-                    pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID, pk.SID);
-                }
-                else if (PIDType != 1) // Force Not Shiny
-                {
-                    if (pk.IsShiny)
-                        pk.PID ^= 0x10000000;
-                }
-            }
-
-            if (IsEgg)
-            {
-                pk.IsEgg = true;
-                pk.EggMetDate = Date;
-                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
-                pk.IsNicknamed = true;
-            }
-            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-
-            pk.RefreshChecksum();
-            return pk;
+        private void SetIVs(PKM pk)
+        {
+            int[] finalIVs = new int[6];
+            for (int i = 0; i < IVs.Length; i++)
+                finalIVs[i] = IVs[i] == 0xFF ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
+            pk.IVs = finalIVs;
         }
 
         protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)

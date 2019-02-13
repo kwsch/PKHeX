@@ -13,25 +13,25 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             pkm = pk;
-            cba = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
-            mta = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
+            PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
+            PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             TextArgs = new TextMarkup(arguments);
-            foreach (ComboBox comboBox in cba)
+            foreach (ComboBox comboBox in PrevCountries)
             {
                 comboBox.InitializeBinding();
                 Main.SetCountrySubRegion(comboBox, "countries");
             }
-            foreach (var r in mta)
-                r.InitializeBinding();
+            foreach (var region in PrevRegions)
+                region.InitializeBinding();
             GetLangStrings();
             LoadFields();
         }
 
         private bool init;
-        private readonly ComboBox[] cba;
-        private readonly ComboBox[] mta;
+        private readonly ComboBox[] PrevCountries;
+        private readonly ComboBox[] PrevRegions;
         private readonly PKM pkm;
 
         // Load/Save Actions
@@ -267,18 +267,18 @@ namespace PKHeX.WinForms
 
         private void ChangeCountryIndex(object sender, EventArgs e)
         {
-            int index = Array.IndexOf(cba, sender);
+            int index = Array.IndexOf(PrevCountries, sender);
             int val;
             if (sender is ComboBox c && (val = WinFormsUtil.GetIndex(c)) > 0)
             {
-                Main.SetCountrySubRegion(mta[index], $"sr_{val:000}");
-                mta[index].Enabled = true;
+                Main.SetCountrySubRegion(PrevRegions[index], $"sr_{val:000}");
+                PrevRegions[index].Enabled = true;
             }
             else
             {
-                mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
-                mta[index].Enabled = false;
-                mta[index].SelectedValue = 0;
+                PrevRegions[index].DataSource = new[] { new { Text = "", Value = 0 } };
+                PrevRegions[index].Enabled = false;
+                PrevRegions[index].SelectedValue = 0;
             }
         }
 
@@ -301,17 +301,17 @@ namespace PKHeX.WinForms
         {
             Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4, };
             int index = Array.IndexOf(senderarr, sender);
-            cba[index].SelectedValue = 0;
+            PrevCountries[index].SelectedValue = 0;
 
-            mta[index].InitializeBinding();
-            mta[index].DataSource = new[] { new { Text = "", Value = 0 } };
-            mta[index].SelectedValue = 0;
+            PrevRegions[index].InitializeBinding();
+            PrevRegions[index].DataSource = new[] { new { Text = "", Value = 0 } };
+            PrevRegions[index].SelectedValue = 0;
         }
 
         private void B_ClearAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 5; i++)
-                cba[i].SelectedValue = 0;
+                PrevCountries[i].SelectedValue = 0;
         }
 
         private class TextMarkup

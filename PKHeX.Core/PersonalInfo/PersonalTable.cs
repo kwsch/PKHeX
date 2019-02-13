@@ -109,13 +109,13 @@ namespace PKHeX.Core
 
         private static byte[][] SplitBytes(byte[] data, int size)
         {
-            byte[][] r = new byte[data.Length / size][];
+            byte[][] result = new byte[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
             {
-                r[i / size] = new byte[size];
-                Array.Copy(data, i, r[i / size], 0, size);
+                result[i / size] = new byte[size];
+                Array.Copy(data, i, result[i / size], 0, size);
             }
-            return r;
+            return result;
         }
 
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)

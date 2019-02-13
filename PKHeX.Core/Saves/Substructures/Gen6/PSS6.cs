@@ -36,7 +36,7 @@ namespace PKHeX.Core
                     break; // No data present here
 
                 if (i > 0)
-                    result.Add("");
+                    result.Add(string.Empty);
 
                 r_offset += 0xC8; // Advance to next entry
             }

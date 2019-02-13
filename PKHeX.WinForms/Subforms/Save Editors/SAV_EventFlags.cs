@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -88,7 +89,7 @@ namespace PKHeX.WinForms
             HandleSpecialFlags();
 
             // Copy back Constants
-            ChangeConstantIndex(null, null); // Trigger Saving
+            ChangeConstantIndex(null, EventArgs.Empty); // Trigger Saving
             SAV.EventConsts = Constants;
             SAV.Data.CopyTo(Origin.Data, 0);
             Origin.Edited = true;
@@ -155,7 +156,7 @@ namespace PKHeX.WinForms
                     gamePrefix = "c";
                     break;
                 default:
-                    return null;
+                    throw new ArgumentException(nameof(GameVersion));
             }
             return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
@@ -184,7 +185,11 @@ namespace PKHeX.WinForms
                     num.Add(n);
                     desc.Add(split[1]);
                 }
-                catch { }
+                catch
+                {
+                    // Ignore bad user values
+                    Debug.WriteLine(string.Concat(split));
+                }
             }
             if (num.Count == 0)
             {
@@ -250,7 +255,11 @@ namespace PKHeX.WinForms
                     desc.Add(split[1]);
                     enums.Add(split.Length == 3 ? split[2] : string.Empty);
                 }
-                catch { }
+                catch
+                {
+                    // Ignore bad user values
+                    Debug.WriteLine(string.Concat(split));
+                }
             }
             if (num.Count == 0)
             {
@@ -289,17 +298,15 @@ namespace PKHeX.WinForms
                 }
                 var cb = new ComboBox
                 {
-                    ValueMember = "Value",
-                    DisplayMember = "Text",
                     Margin = Padding.Empty,
                     Width = 150,
                     Name = constCBTag + num[i].ToString("0000"),
                     DropDownStyle = ComboBoxStyle.DropDownList,
-                    BindingContext = BindingContext,
-                    DataSource = map,
-                    SelectedIndex = 0,
                     DropDownWidth = Width + 100
                 };
+                cb.InitializeBinding();
+                cb.DataSource = map;
+                cb.SelectedIndex = 0;
                 cb.SelectedValueChanged += ToggleConst;
                 mtb.TextChanged += ToggleConst;
                 TLP_Const.Controls.Add(lbl, 0, i);
@@ -322,12 +329,8 @@ namespace PKHeX.WinForms
 
         private static int GetControlNum(Control c)
         {
-            try
-            {
-                string source = c.Name.Split('_')[1];
-                return Convert.ToInt32(source);
-            }
-            catch { return 0; }
+            string source = c.Name.Split('_')[1];
+            return int.TryParse(source, out var val) ? val : 0;
         }
 
         private void ChangeCustomBool(object sender, EventArgs e)
@@ -466,7 +469,7 @@ namespace PKHeX.WinForms
 
             var tbIsSet = new List<int>();
             var tbUnSet = new List<int>();
-            var r = new List<string>();
+            var result = new List<string>();
             bool[] oldBits = s1.EventFlags;
             bool[] newBits = s2.EventFlags;
             var oldConst = s1.EventConsts;
@@ -483,17 +486,17 @@ namespace PKHeX.WinForms
             for (int i = 0; i < newConst.Length; i++)
             {
                 if (oldConst[i] != newConst[i])
-                    r.Add($"{i}: {oldConst[i]}->{newConst[i]}");
+                    result.Add($"{i}: {oldConst[i]}->{newConst[i]}");
             }
 
-            if (r.Count == 0)
+            if (result.Count == 0)
             {
                 WinFormsUtil.Alert("No Event Constant diff found.");
                 return;
             }
 
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
-                Clipboard.SetText(string.Join(Environment.NewLine, r));
+                Clipboard.SetText(string.Join(Environment.NewLine, result));
         }
 
         private static void Main_DragEnter(object sender, DragEventArgs e)

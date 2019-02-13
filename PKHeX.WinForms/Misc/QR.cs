@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
             Lines = lines;
 
             if (pkm?.Format == 7 && pkm is PK7)
-                UpdateBoxSlotCopies(null, null);
+                UpdateBoxSlotCopies(null, EventArgs.Empty);
             else
                 RefreshImage();
         }
@@ -95,21 +95,21 @@ namespace PKHeX.WinForms
         internal static byte[] GetQRData(string address)
         {
             // Fetch data from QR code...
-            try { if (address.Length < 4 || !address.StartsWith("http")) { WinFormsUtil.Alert(MsgQRUrlFailPath, address); return null; } }
-            catch { WinFormsUtil.Alert(MsgQRUrlFailPath, address); return null; }
+            try { if (address.Length < 4 || !address.StartsWith("http")) { WinFormsUtil.Alert(MsgQRUrlFailPath, address); return Array.Empty<byte>(); } }
+            catch { WinFormsUtil.Alert(MsgQRUrlFailPath, address); return Array.Empty<byte>(); }
             string webURL = DecodeAPI + HttpUtility.UrlEncode(address);
             string data;
             try
             {
                 data = NetUtil.GetStringFromURL(webURL);
-                if (data.Contains("could not find")) { WinFormsUtil.Alert(MsgQRUrlFailImage); return null; }
-                if (data.Contains("filetype not supported")) { WinFormsUtil.Alert(MsgQRUrlFailType, address); return null; }
+                if (data.Contains("could not find")) { WinFormsUtil.Alert(MsgQRUrlFailImage); return Array.Empty<byte>(); }
+                if (data.Contains("filetype not supported")) { WinFormsUtil.Alert(MsgQRUrlFailType, address); return Array.Empty<byte>(); }
             }
-            catch { WinFormsUtil.Alert(MsgQRUrlFailConnection); return null; }
+            catch { WinFormsUtil.Alert(MsgQRUrlFailConnection); return Array.Empty<byte>(); }
 
             // Quickly convert the json response to a data string
             try { return DecodeQRJson(data); }
-            catch (Exception e) { WinFormsUtil.Alert(MsgQRUrlFailConvert, e.Message); return null; }
+            catch (Exception e) { WinFormsUtil.Alert(MsgQRUrlFailConvert, e.Message); return Array.Empty<byte>(); }
         }
 
         private static byte[] DecodeQRJson(string data)
@@ -133,8 +133,8 @@ namespace PKHeX.WinForms
                 return raw.Where((_, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
             }
             // All except G7
-            pkstr = pkstr.Substring(pkstr.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
-            pkstr = pkstr.Replace("\\", ""); // Rectify response
+            pkstr = pkstr.Substring(pkstr.IndexOf('#') + 1); // Trim URL
+            pkstr = pkstr.Replace("\\", string.Empty); // Rectify response
 
             return Convert.FromBase64String(pkstr);
         }

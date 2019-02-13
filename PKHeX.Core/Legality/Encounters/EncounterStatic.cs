@@ -71,80 +71,34 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
-            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
-            SanityCheckVersion(ref version);
-
-            int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
-            int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation, Version);
-            int nature = Nature == Nature.Random ? Util.Rand.Next(25) : (int)Nature;
-            var today = DateTime.Today;
             SAV.ApplyToPKM(pk);
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
-            int gender = Gender < 0 ? pk.PersonalInfo.RandomGender : Gender;
+            pk.AltForm = Form;
+
+            int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            int level = LevelMin;
+            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
+            SanityCheckVersion(ref version);
+
             pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
+            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
+
             pk.CurrentLevel = level;
             pk.Version = (int)version;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = Ball;
-            pk.AltForm = Form;
             pk.HeldItem = HeldItem;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
-            if (pk.Format > 2 || Version == GameVersion.C)
-            {
-                pk.Met_Location = Location;
-                pk.Met_Level = level;
-                if (Version == GameVersion.C && pk is PK2 pk2)
-                    pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
-
-                if (pk.Format >= 4)
-                    pk.MetDate = DateTime.Today;
-            }
-
+            var today = DateTime.Today;
+            SetMetData(pk, level, today);
             if (EggEncounter)
-            {
-                pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
-                pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+                SetEggMetData(pk, SAV, today);
 
-                bool traded = (int)Version == SAV.Game;
-                if (pk.GenNumber >= 4)
-                {
-                    pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
-                    pk.EggMetDate = today;
-                }
-                pk.Egg_Location = EggLocation;
-                pk.EggMetDate = today;
-            }
-
-            if (this is EncounterStaticPID p)
-            {
-                pk.PID = p.PID;
-                pk.Gender = PKX.GetGenderFromPID(Species, p.PID);
-                if (pk is PK5 pk5)
-                {
-                    pk5.IVs = new[] {30, 30, 30, 30, 30, 30};
-                    pk5.NPokémon = p.NSparkle;
-                    pk5.OT_Name = Legal.GetG5OT_NSparkle(lang);
-                    pk5.TID = 00002;
-                    pk5.SID = 00000;
-                }
-                else
-                {
-                    SetIVs(pk);
-                }
-                if (Generation >= 5)
-                    pk.Nature = nature;
-                pk.RefreshAbility(Ability >> 1);
-            }
-            else
-            {
-                var pidtype = GetPIDType();
-                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, Ability >> 1, gender, pidtype);
-                SetIVs(pk);
-            }
+            SetPINGA(pk, criteria);
+            SetEncounterMoves(pk, version, level);
 
             switch (pk)
             {
@@ -159,26 +113,71 @@ namespace PKHeX.Core
                     break;
             }
 
+            if (RibbonWishing && pk is IRibbonSetEvent4 e4)
+                e4.RibbonWishing = true;
+            if (this is EncounterStaticN n)
+                n.SetNPokemonData((PK5)pk, lang);
             if (pk is IContestStats s)
                 this.CopyContestStatsTo(s);
-
-            var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
-            if (pk.Format >= 6 && Relearn.Length > 0)
-                pk.RelearnMoves = Relearn;
             if (Fateful)
                 pk.FatefulEncounter = true;
 
             if (pk.Format < 6)
                 return pk;
-            if (RibbonWishing && pk is IRibbonSetEvent4 e4)
-                e4.RibbonWishing = true;
 
+            if (Relearn.Length > 0)
+                pk.RelearnMoves = Relearn;
             SAV.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
 
             return pk;
+        }
+
+        protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            int gender = criteria.GetGender(Gender, pk.PersonalInfo);
+            int nature = (int)criteria.GetNature(Nature);
+            int ability = Ability;
+
+            var pidtype = GetPIDType();
+            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability >> 1, gender, pidtype);
+            SetIVs(pk);
+        }
+
+        private void SetEggMetData(PKM pk, ITrainerInfo tr, DateTime today)
+        {
+            pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
+            pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
+
+            if (pk.GenNumber >= 4)
+            {
+                bool traded = (int)Version == tr.Game;
+                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+                pk.EggMetDate = today;
+            }
+            pk.Egg_Location = EggLocation;
+            pk.EggMetDate = today;
+        }
+
+        private void SetMetData(PKM pk, int level, DateTime today)
+        {
+            if (pk.Format > 2 || Version == GameVersion.C)
+            {
+                pk.Met_Location = Location;
+                pk.Met_Level = level;
+                if (Version == GameVersion.C && pk is PK2 pk2)
+                    pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+
+                if (pk.Format >= 4)
+                    pk.MetDate = today;
+            }
+        }
+
+        private void SetEncounterMoves(PKM pk, GameVersion version, int level)
+        {
+            var moves = Moves?.Length > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            pk.Moves = moves;
+            pk.SetMaximumPPCurrent(moves);
         }
 
         private void SanityCheckVersion(ref GameVersion version)
@@ -194,7 +193,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void SetIVs(PKM pk)
+        protected void SetIVs(PKM pk)
         {
             if (IVs != null)
                 pk.SetRandomIVs(IVs, FlawlessIVCount);

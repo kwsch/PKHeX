@@ -62,7 +62,7 @@ namespace PKHeX.Core
 
         private static readonly string[] T1 = { null, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", null, "Tatiana", "미니꼬", "小幂妮", "小幂妮", };
         private static readonly string[] T2 = { null, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", null, "Gelasio", "보아이스", "露冰冰", "露冰冰", };
-        private static readonly string[] T3 = { null, "レディダグ", "Diggette", "Taupilady", "LadyGlett", "Digga", null, "Glenda", "레이디그다", "蒂淑", "蒂淑", };
+        private static readonly string[] T3 = { null, "レディダグ", "Diggette", "Taupilady", "Lady Glett", "Digga", null, "Glenda", "레이디그다", "蒂淑", "蒂淑", };
         private static readonly string[] T4 = { null, "ワルモン", "Darko", "AlolaZeDark", "Mattetro", "Bösbert", null, "Sinesio", "나뻐기", "达怀丹", "达怀丹", };
         private static readonly string[] T5 = { null, "エリッチ", "Psytrice", "TopDeTonCœur", "Chulia", "Assana", null, "Menchu", "엘리츄", "晶莹丘", "晶莹丘", };
         private static readonly string[] T6 = { null, "ジェンガラ", "Genmar", "OSS-Dandy7", "Mr. Owak", "Knoggelius", null, "Mario", "젠구리", "申史加拉", "申史加拉", };

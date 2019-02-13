@@ -131,6 +131,9 @@ namespace PKHeX.Core
             050, 020, 020, 020, 020, 010, 010, 050, 020, 005,
         };
 
+        /// <summary>
+        /// 24bits of flags allowing certain feelings for a given memory index.
+        /// </summary>
         private static readonly uint[] MemoryFeelings =
         {
             0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,

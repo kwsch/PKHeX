@@ -58,8 +58,6 @@ namespace PKHeX.WinForms.Controls
             set => MainEditor.ChangingFields = value;
         }
 
-        private bool FieldsInitialized => MainEditor.FieldsInitialized;
-
         private void ClickIV(object sender, EventArgs e)
         {
             if (!(sender is MaskedTextBox t))
@@ -210,7 +208,7 @@ namespace PKHeX.WinForms.Controls
             bool zero = ModifierKeys.HasFlag(Keys.Control);
             var evs = zero ? new int[6] : PKX.GetRandomEVs(pkm.Format);
             LoadEVs(evs);
-            UpdateEVs(null, null);
+            UpdateEVs(null, EventArgs.Empty);
         }
 
         private void UpdateHackedStats(object sender, EventArgs e)
@@ -243,7 +241,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateHPType(object sender, EventArgs e)
         {
-            if (ChangingFields || !FieldsInitialized)
+            if (ChangingFields)
                 return;
 
             // Change IVs to match the new Hidden Power
@@ -517,7 +515,7 @@ namespace PKHeX.WinForms.Controls
         public void InitializeDataSources()
         {
             CB_HPType.InitializeBinding();
-            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray(), null);
+            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray());
         }
     }
 }

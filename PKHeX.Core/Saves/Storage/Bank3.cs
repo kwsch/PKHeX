@@ -1,7 +1,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// PokeStock .gst
+    /// Generation 3 <see cref="SaveFile"/> object that reads exported data for Generation 3 PokeStock .gst dumps.
     /// </summary>
     public sealed class Bank3 : BulkStorage
     {

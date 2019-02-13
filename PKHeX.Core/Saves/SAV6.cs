@@ -12,7 +12,7 @@ namespace PKHeX.Core
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
-        public override string Extension => "";
+        public override string Extension => string.Empty;
 
         public SAV6(byte[] data = null)
         {
@@ -344,7 +344,7 @@ namespace PKHeX.Core
             get
             {
                 var data = Data.Skip(TrainerCard + 8).Take(GameSyncIDSize / 2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", "");
+                return BitConverter.ToString(data).Replace("-", string.Empty);
             }
             set
             {
@@ -622,7 +622,7 @@ namespace PKHeX.Core
                 return null;
 
             var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", "");
+            return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
         public override bool? IsDaycareHasEgg(int loc)
@@ -712,8 +712,8 @@ namespace PKHeX.Core
             }
         }
 
-        public override string JPEGTitle => JPEG < 0 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
-        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : GetData(JPEG + 0x54, 0xE004);
+        public override string JPEGTitle => JPEG < 0 ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
+        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
 
         // Inventory
         public override InventoryPouch[] Inventory
@@ -975,18 +975,18 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
-                    return null;
+                    return Array.Empty<bool>();
 
-                bool[] r = new bool[(WondercardData - WondercardFlags) * 8];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (Data[WondercardFlags + (i >> 3)] >> (i & 7) & 0x1) == 1;
-                return r;
+                bool[] result = new bool[(WondercardData - WondercardFlags) * 8];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = (Data[WondercardFlags + (i >> 3)] >> (i & 7) & 0x1) == 1;
+                return result;
             }
             set
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return;
-                if ((WondercardData - WondercardFlags) * 8 != value?.Length)
+                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
                     return;
 
                 byte[] data = new byte[value.Length / 8];
@@ -1006,7 +1006,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0)
-                    return null;
+                    return Array.Empty<MysteryGift>();
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetWC6(i);
@@ -1032,7 +1032,7 @@ namespace PKHeX.Core
             get
             {
                 if (LinkInfo < 0)
-                    return null;
+                    return Array.Empty<byte>();
                 return GetData(LinkInfo, 0xC48);
             }
             set
@@ -1073,7 +1073,7 @@ namespace PKHeX.Core
             get
             {
                 if (SUBE < 0 || ORASDEMO)
-                    return null; // no gym data
+                    return Array.Empty<ushort[]>(); // no gym data
 
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
@@ -1104,24 +1104,27 @@ namespace PKHeX.Core
         // Writeback Validity
         public override string MiscSaveChecks()
         {
-            string r = "";
+            var sb = new StringBuilder();
+
+            // FFFF checks
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r = $"0x200 chunk @ 0x{i * 0x200:X5} is FF'd."
-                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
+                sb.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
+                sb.AppendLine("Cyber will screw up (as of August 31st 2014).");
+                sb.AppendLine();
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
                 {
-                    r += "Problem lies in the Pokedex. ";
+                    sb.Append("Problem lies in the Pokedex. ");
                     if (i * 0x200 == PokeDex + 0x400)
-                        r += "Remove a language flag for a species < 585, ie Petilil";
+                        sb.Append("Remove a language flag for a species < 585, ie Petilil");
                 }
                 break;
             }
-            return r;
+            return sb.ToString();
         }
 
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));

@@ -975,7 +975,7 @@ namespace QRCoder
         private void CreateAlphanumEncDict()
         {
             alphanumEncDict = new Dictionary<char, int>();
-            var resList = alphanumEncTable.ToList().Select((x, i) => new { Chr = x, Index = i }).ToList();
+            var resList = alphanumEncTable.Select((x, i) => new { Chr = x, Index = i });
             foreach (var res in resList)
             {
                 alphanumEncDict.Add(res.Chr, res.Index);
@@ -1005,7 +1005,7 @@ namespace QRCoder
                     }
                 }
 
-                alignmentPatternTable.Add(new AlignmentPattern()
+                alignmentPatternTable.Add(new AlignmentPattern
                 {
                     Version = (i + 7) / 7,
                     PatternPositions = points
@@ -1080,7 +1080,7 @@ namespace QRCoder
                     {
                         new VersionInfoDetails(
                              ECCLevel.L,
-                             new Dictionary<EncodingMode,int>(){
+                             new Dictionary<EncodingMode,int>{
                                  { EncodingMode.Numeric, capacityBaseValues[i] },
                                  { EncodingMode.Alphanumeric, capacityBaseValues[i+1] },
                                  { EncodingMode.Byte, capacityBaseValues[i+2] },
@@ -1089,7 +1089,7 @@ namespace QRCoder
                         ),
                         new VersionInfoDetails(
                              ECCLevel.M,
-                             new Dictionary<EncodingMode,int>(){
+                             new Dictionary<EncodingMode,int>{
                                  { EncodingMode.Numeric, capacityBaseValues[i+4] },
                                  { EncodingMode.Alphanumeric, capacityBaseValues[i+5] },
                                  { EncodingMode.Byte, capacityBaseValues[i+6] },
@@ -1098,7 +1098,7 @@ namespace QRCoder
                         ),
                         new VersionInfoDetails(
                              ECCLevel.Q,
-                             new Dictionary<EncodingMode,int>(){
+                             new Dictionary<EncodingMode,int>{
                                  { EncodingMode.Numeric, capacityBaseValues[i+8] },
                                  { EncodingMode.Alphanumeric, capacityBaseValues[i+9] },
                                  { EncodingMode.Byte, capacityBaseValues[i+10] },
@@ -1107,7 +1107,7 @@ namespace QRCoder
                         ),
                         new VersionInfoDetails(
                              ECCLevel.H,
-                             new Dictionary<EncodingMode,int>(){
+                             new Dictionary<EncodingMode,int>{
                                  { EncodingMode.Numeric, capacityBaseValues[i+12] },
                                  { EncodingMode.Alphanumeric, capacityBaseValues[i+13] },
                                  { EncodingMode.Byte, capacityBaseValues[i+14] },

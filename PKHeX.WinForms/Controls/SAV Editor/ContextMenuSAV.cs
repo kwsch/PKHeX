@@ -10,10 +10,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class ContextMenuSAV : UserControl
     {
-        public ContextMenuSAV()
-        {
-            InitializeComponent();
-        }
+        public ContextMenuSAV() => InitializeComponent();
 
         public event LegalityRequest RequestEditorLegality;
         public delegate void LegalityRequest(object sender, EventArgs e, PKM pkm);
@@ -55,7 +52,7 @@ namespace PKHeX.WinForms.Controls
             if (m.SE.SAV.IsSlotLocked(info.Box, info.Slot))
             { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
-            if (!editor.VerifiedPKM())
+            if (!editor.EditsComplete)
                 return;
 
             PKM pk = editor.PreparePKM();

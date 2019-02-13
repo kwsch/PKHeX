@@ -13,12 +13,12 @@ namespace PKHeX.Core
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
-        public override string Extension => "";
+        public override string Extension => string.Empty;
 
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return gen <= 7;
+            return gen <= 7 && f[1] != 'b'; // ignore PB7
         }).ToArray();
 
         public SAV7(byte[] data = null)
@@ -258,7 +258,7 @@ namespace PKHeX.Core
             set
             {
                 if (value?.Length != ResortCount)
-                    throw new ArgumentException();
+                    throw new ArgumentException(nameof(ResortCount));
 
                 for (int i = 0; i < value.Length; i++)
                     SetStoredSlot(value[i], GetResortSlotOffset(i));
@@ -312,7 +312,7 @@ namespace PKHeX.Core
             get
             {
                 var data = Data.Skip(TrainerCard + 0x10).Take(GameSyncIDSize/2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", "");
+                return BitConverter.ToString(data).Replace("-", string.Empty);
             }
             set
             {
@@ -336,7 +336,7 @@ namespace PKHeX.Core
             get
             {
                 var data = Data.Skip(TrainerCard + 0x18).Take(NexUniqueIDSize/2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", "");
+                return BitConverter.ToString(data).Replace("-", string.Empty);
             }
             set
             {
@@ -666,8 +666,8 @@ namespace PKHeX.Core
 
         public sealed class FashionItem
         {
-            public bool IsOwned;
-            public bool IsNew;
+            public bool IsOwned { get; set; }
+            public bool IsNew { get; set; }
         }
 
         public FashionItem[] Wardrobe
@@ -815,8 +815,8 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x10);
             set
             {
-                if (value > 9999999) // 9mil;
-                    value = 9999999;
+                if (value > 9_999_999)
+                    value = 9_999_999;
                 BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x10);
 
                 if (value > PokeFinderThumbsTotalValue)
@@ -877,7 +877,7 @@ namespace PKHeX.Core
         public int GetTreeStreak(int battletype, bool super, bool max)
         {
             if (battletype > 3)
-                throw new ArgumentException();
+                throw new ArgumentException(nameof(battletype));
 
             int offset = 8*battletype;
             if (super)
@@ -891,7 +891,7 @@ namespace PKHeX.Core
         public void SetTreeStreak(int value, int battletype, bool super, bool max)
         {
             if (battletype > 3)
-                throw new ArgumentException();
+                throw new ArgumentException(nameof(battletype));
 
             if (value > ushort.MaxValue)
                 value = ushort.MaxValue;
@@ -1109,6 +1109,13 @@ namespace PKHeX.Core
                     formEnd = 3;
                     return true;
 
+
+                case 421: // Cherrim
+                case 555: // Darmanitan
+                case 648: // Meloetta
+                case 746: // Wishiwashi
+                case 778: // Mimikyu
+                    // Alolans
                 case 020: // Raticate
                 case 105: // Marowak
                     formStart = 0;
@@ -1125,15 +1132,6 @@ namespace PKHeX.Core
                 case 743: // Ribombee
                 case 744: // Rockruff
                     break;
-
-                case 421: // Cherrim
-                case 555: // Darmanitan
-                case 648: // Meloetta
-                case 746: // Wishiwashi
-                case 778: // Mimikyu
-                    formStart = 0;
-                    formEnd = 1;
-                    return true;
 
                 case 774 when formIn <= 6: // Minior
                     break; // don't give meteor forms except the first
@@ -1356,7 +1354,7 @@ namespace PKHeX.Core
                 return null;
 
             var data = Data.Skip(Daycare + 0x1DC).Take(DaycareSeedSize / 2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", "");
+            return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
         public override bool? IsDaycareHasEgg(int loc)
@@ -1413,18 +1411,18 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
-                    return null;
+                    return Array.Empty<bool>();
 
-                bool[] r = new bool[(WondercardData-WondercardFlags)*8];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
-                return r;
+                bool[] result = new bool[(WondercardData-WondercardFlags)*8];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
+                return result;
             }
             set
             {
                 if (WondercardData < 0 || WondercardFlags < 0)
                     return;
-                if ((WondercardData - WondercardFlags)*8 != value?.Length)
+                if (value == null || (WondercardData - WondercardFlags)*8 != value.Length)
                     return;
 
                 byte[] data = new byte[value.Length/8];
@@ -1444,7 +1442,7 @@ namespace PKHeX.Core
             get
             {
                 if (WondercardData < 0)
-                    return null;
+                    return Array.Empty<MysteryGift>();
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetWC7(i);
@@ -1468,9 +1466,9 @@ namespace PKHeX.Core
         private WC7 GetWC7(int index)
         {
             if (WondercardData < 0)
-                return null;
+                throw new ArgumentException(nameof(WondercardData));
             if (index < 0 || index > GiftCountMax)
-                return null;
+                throw new ArgumentException(nameof(index));
 
             return new WC7(GetData(WondercardData + (index * WC7.Size), WC7.Size));
         }
@@ -1490,27 +1488,27 @@ namespace PKHeX.Core
         // Writeback Validity
         public override string MiscSaveChecks()
         {
-            var r = new StringBuilder();
+            var sb = new StringBuilder();
 
             // FFFF checks
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
                     continue;
-                r.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
-                r.AppendLine("Cyber will screw up (as of August 31st 2014).");
-                r.AppendLine();
+                sb.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
+                sb.AppendLine("Cyber will screw up (as of August 31st 2014).");
+                sb.AppendLine();
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
                 {
-                    r.Append("Problem lies in the Pokedex. ");
+                    sb.Append("Problem lies in the Pokedex. ");
                     if (i * 0x200 == PokeDex + 0x400)
-                        r.Append("Remove a language flag for a species < 585, ie Petilil");
+                        sb.Append("Remove a language flag for a species < 585, ie Petilil");
                 }
                 break;
             }
-            return r.ToString();
+            return sb.ToString();
         }
 
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));

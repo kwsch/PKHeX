@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 7 <see cref="SaveFile"/> object that reads from Pokémon Bank savedata (stored on AWS).
+    /// </summary>
     public sealed class Bank7 : BulkStorage
     {
         public Bank7(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox)
@@ -22,7 +25,7 @@ namespace PKHeX.Core
 
         public string GetGroupName(int group)
         {
-            if (group < 0 || group > 10)
+            if ((uint)group > 10)
                 throw new ArgumentException($"{nameof(group)} must be 1-10.");
             int offset = 0x8 + (GroupNameSpacing * group) + 2; // skip over " "
             return GetString(offset, GroupNameSize / 2);

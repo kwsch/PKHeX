@@ -34,9 +34,6 @@ namespace PKHeX.Core
 
         protected byte[] GetData(int Offset, int Length)
         {
-            if (Offset + Length > Data.Length)
-                return null;
-
             byte[] data = new byte[Length];
             Array.Copy(Data, Offset, data, 0, Length);
             return data;
@@ -282,6 +279,18 @@ namespace PKHeX.Core
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 
+        public int DisplayTID
+        {
+            get => GenNumber >= 7 ? TrainerID7 : TID;
+            set => _ = GenNumber >= 7 ? (TrainerID7 = value) : (TID = value);
+        }
+
+        public int DisplaySID
+        {
+            get => GenNumber >= 7 ? TrainerSID7 : SID;
+            set => _ = GenNumber >= 7 ? (TrainerSID7 = value) : (SID = value);
+        }
+
         private void SetID7(int sid7, int tid7)
         {
             var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
@@ -313,7 +322,7 @@ namespace PKHeX.Core
         public bool Gen3 => (Version >= 1 && Version <= 5) || Version == 15;
         public bool Gen2 => Version == (int)GameVersion.GSC;
         public bool Gen1 => Version == (int)GameVersion.RBY;
-        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1 || VC);
+        public bool GenU => GenNumber <= 0;
 
         public int GenNumber
         {
@@ -369,8 +378,8 @@ namespace PKHeX.Core
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : "";
-                string star = IsShiny ? " ★" : "";
+                string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
+                string star = IsShiny ? " ★" : string.Empty;
                 return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}";
             }
         }

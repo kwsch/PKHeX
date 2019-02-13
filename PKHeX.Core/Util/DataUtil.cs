@@ -15,7 +15,7 @@ namespace PKHeX.Core
         private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
         private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
-        private static object getStringListLoadLock = new object();
+        private static readonly object getStringListLoadLock = new object();
 
         #region String Lists
 
@@ -89,11 +89,9 @@ namespace PKHeX.Core
                 rawlist[i] = rawlist[i].TrimEnd('\r');
 
             lock (getStringListLoadLock) // Make sure only one thread can write to the cache
-            {     
+            {
                 if (!stringListCache.ContainsKey(f)) // Check cache again in case of race condition
-                {
                     stringListCache.Add(f, rawlist);
-                }                
             }
 
             return (string[])rawlist.Clone();
@@ -103,18 +101,14 @@ namespace PKHeX.Core
 
         public static string[] GetNulledStringArray(string[] SimpleStringList)
         {
-            try
+            int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
+            string[] newlist = new string[len];
+            for (int i = 1; i < SimpleStringList.Length; i++)
             {
-                int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
-                string[] newlist = new string[len];
-                for (int i = 1; i < SimpleStringList.Length; i++)
-                {
-                    var split = SimpleStringList[i].Split(',');
-                    newlist[ToInt32(split[0])] = split[1];
-                }
-                return newlist;
+                var split = SimpleStringList[i].Split(',');
+                newlist[ToInt32(split[0])] = split[1];
             }
-            catch { return null; }
+            return newlist;
         }
 
         public static byte[] GetBinaryResource(string name)
@@ -150,7 +144,6 @@ namespace PKHeX.Core
         /// Gets the names of the properties defined in the given input
         /// </summary>
         /// <param name="input">Enumerable of translation definitions in the form "Property = Value".</param>
-        /// <returns></returns>
         private static string[] GetProperties(IEnumerable<string> input)
         {
             return input.Select(l => l.Substring(0, l.IndexOf(TranslationSplitter, StringComparison.Ordinal))).ToArray();
@@ -158,7 +151,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<string> DumpStrings(Type t)
         {
-            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "");
+            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, string.Empty);
             return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p)}");
         }
 
@@ -264,7 +257,7 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
         {
-            if (allowed?[0] == null)
+            if (allowed.Length == 0)
                 allowed = new[] { Enumerable.Range(0, inStrings.Count).ToArray() };
 
             return allowed.SelectMany(list => list

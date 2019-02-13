@@ -17,7 +17,7 @@ namespace PKHeX.Core
             PropertyValue = index > -1 ? index.ToString() : PropertyValue;
         }
 
-        public static readonly char[] Prefixes = { Apply, Require, Exclude };
+        public static readonly IReadOnlyList<char> Prefixes = new[] { Apply, Require, Exclude };
         private const char Exclude = '!';
         private const char Require = '=';
         private const char Apply = '.';

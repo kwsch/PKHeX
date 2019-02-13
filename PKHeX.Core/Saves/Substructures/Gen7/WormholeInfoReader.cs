@@ -12,7 +12,7 @@ namespace PKHeX.Core
             get => SAV.Data[SAV.Misc + 0x0135] == 1;
             set => SAV.Data[SAV.Misc + 0x0135] = (byte)(value ? 1 : 0);
         }
-        
+
         public const int WormholeSlotMax = 15;
 
         // Slots currently use digits 1 through 15 inclusively.
@@ -127,7 +127,7 @@ namespace PKHeX.Core
             195, // Quagsire
         };
 
-        public int WormholeSlotToPokemon(int mapid, int slot)
+        public static int WormholeSlotToPokemon(int mapid, int slot)
         {
             if (slot < 1 || slot > WormholeSlotMax)
                 return -1;

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -15,24 +15,38 @@ namespace PKHeX.Core
     // u16 crc16
     // sizeof(QR7) == 0x1A2
 
+    /// <summary>
+    /// Generation 7 QR format (readable by the in-game QR Scanner feature)
+    /// </summary>
     public static class QR7
     {
-        private static bool HasGenderDifferences(int species)
+        private static readonly HashSet<int> GenderDifferences = new HashSet<int>
         {
-            var gendered = new[]
-            {
-                3, 12, 19, 20, 25, 26, 41, 42, 44, 45, 64, 65, 84, 85, 97, 111, 112, 118, 119, 123, 129, 130, 154, 165, 166,
-                178, 185, 186, 190, 194, 195, 198, 202, 203, 207, 208, 212, 214, 215, 217, 221, 224, 229, 232, 255, 256,
-                257, 267, 269, 272, 274, 275, 307, 308, 315, 316, 317, 322, 323, 332, 350, 369, 396, 397, 398, 399, 400,
-                401, 402, 403, 404, 405, 407, 415, 417, 418, 419, 424, 443, 444, 445, 449, 450, 453, 454, 456, 457, 459,
-                460, 461, 464, 465, 473, 521, 592, 593, 668, 678
-            };
-            return gendered.Contains(species);
-        }
+            003, 012, 019, 020, 025, 026, 041, 042, 044, 045,
+            064, 065, 084, 085, 097, 111, 112, 118, 119, 123,
+            129, 130, 154, 165, 166, 178, 185, 186, 190, 194,
+            195, 198, 202, 203, 207, 208, 212, 214, 215, 217,
+            221, 224, 229, 232, 255, 256, 257, 267, 269, 272,
+            274, 275, 307, 308, 315, 316, 317, 322, 323, 332,
+            350, 369, 396, 397, 398, 399, 400, 401, 402, 403,
+            404, 405, 407, 415, 417, 418, 419, 424, 443, 444,
+            445, 449, 450, 453, 454, 456, 457, 459, 460, 461,
+            464, 465, 473, 521, 592, 593, 668, 678
+        };
+
+        private static readonly byte[] BaseQR =
+        {
+            0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD2, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0x00,  0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        };
 
         private static byte[] GetRawQR(int species, int formnum, bool shiny, int gender)
         {
-            var basedata = "FFFFFFFFFFFF00000000000000000000000000000000000000000000000000000000000000000000D20200000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000".ToByteArray();
+            var basedata = (byte[])BaseQR.Clone();
             BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
             basedata[0x2A] = (byte)formnum;
             basedata[0x2C] = (byte)(shiny ? 1 : 0);
@@ -53,7 +67,7 @@ namespace PKHeX.Core
                     basedata[0x2B] = 2;
                     break;
                 default:
-                    basedata[0x2D] = (byte)(HasGenderDifferences(species) ? 0 : 1);
+                    basedata[0x2D] = (byte)(GenderDifferences.Contains(species) ? 0 : 1);
                     basedata[0x2B] = (byte)gender;
                     break;
             }

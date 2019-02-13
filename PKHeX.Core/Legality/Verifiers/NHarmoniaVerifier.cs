@@ -14,7 +14,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             var EncounterMatch = data.EncounterMatch;
 
-            bool checksRequired = EncounterMatch is EncounterStaticPID s && s.NSparkle;
+            bool checksRequired = EncounterMatch is EncounterStaticN s && s.NSparkle;
             if (pkm is PK5 pk5)
             {
                 bool has = pk5.NPokémon;

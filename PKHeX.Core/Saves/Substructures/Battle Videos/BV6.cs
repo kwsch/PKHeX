@@ -73,7 +73,7 @@ namespace PKHeX.Core
 
                 for (int i = 0; i < 4; i++)
                 {
-                    string tr = value[i] == NPC ? "" : value[i];
+                    string tr = value[i] == NPC ? string.Empty : value[i];
                     Encoding.Unicode.GetBytes(tr.PadRight(0x1A/2)).CopyTo(Data, 0xEC + (0x1A * i));
                 }
             }

@@ -8,6 +8,7 @@ namespace PKHeX.WinForms.Controls
     {
         private PB7 pkm;
         private bool Loading;
+
         public SizeCP()
         {
             InitializeComponent();

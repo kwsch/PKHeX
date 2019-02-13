@@ -242,10 +242,10 @@ namespace PKHeX.Core
         {
             if (length < 0)
                 length = data.Length;
-            bool[] r = new bool[length << 3];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = (data[start + (i >> 3)] >> (i & 7) & 0x1) == 1;
-            return r;
+            bool[] result = new bool[length << 3];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = (data[start + (i >> 3)] >> (i & 7) & 0x1) == 1;
+            return result;
         }
 
         protected static byte[] SetBits(bool[] bits)

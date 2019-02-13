@@ -26,9 +26,9 @@ namespace PKHeX.WinForms.Controls
         public int ColorizedBox { get; private set; } = -1;
         public int ColorizedSlot { get; private set; } = -1;
 
+        public DrawConfig Draw { private get; set; }
+
         public bool GlowHover { get; set; } = true;
-        public Color GlowInitial { get; set; } = Color.White;
-        public Color GlowFinal { get; set; } = Color.LightSkyBlue;
         public readonly BitmapAnimator HoverWorker;
 
         private SaveFile SAV => SE.SAV;
@@ -78,11 +78,11 @@ namespace PKHeX.WinForms.Controls
             {
                 HoverWorker.Stop();
 
-                var bgr = new[] { GlowInitial.B, GlowInitial.G, GlowInitial.R };
+                var bgr = new[] { Draw.GlowInitial.B, Draw.GlowInitial.G, Draw.GlowInitial.R };
                 SpriteUtil.GetSpriteGlow(pk, bgr, out var glowdata, out var GlowBase);
                 hover = ImageUtil.LayerImage(GlowBase, Resources.slotHover, 0, 0);
-                HoverWorker.GlowToColor = GlowFinal;
-                HoverWorker.GlowFromColor = GlowInitial;
+                HoverWorker.GlowToColor = Draw.GlowFinal;
+                HoverWorker.GlowFromColor = Draw.GlowInitial;
                 HoverWorker.Start(pb, GlowBase, glowdata, OriginalBackground);
             }
             else

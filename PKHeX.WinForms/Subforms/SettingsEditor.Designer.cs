@@ -44,7 +44,7 @@
             this.FLP_Settings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Settings.Location = new System.Drawing.Point(0, 0);
             this.FLP_Settings.Name = "FLP_Settings";
-            this.FLP_Settings.Size = new System.Drawing.Size(334, 411);
+            this.FLP_Settings.Size = new System.Drawing.Size(334, 431);
             this.FLP_Settings.TabIndex = 0;
             // 
             // FLP_Blank
@@ -80,7 +80,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(334, 411);
+            this.ClientSize = new System.Drawing.Size(334, 431);
             this.Controls.Add(this.FLP_Settings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

@@ -168,5 +168,40 @@ namespace PKHeX.Core
         }
 
         public static bool IsItemTransferrable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
+
+        /// <summary>
+        /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.
+        /// </summary>
+        /// <param name="item">Held Item to apply</param>
+        /// <param name="srcFormat">Format from importing</param>
+        /// <param name="destFormat">Format required for holder</param>
+        public static int GetFormatHeldItemID(int item, int srcFormat, int destFormat)
+        {
+            if (item <= 0)
+                return 0;
+
+            if (destFormat != srcFormat && srcFormat <= 3) // past gen items
+            {
+                if (destFormat > 3) // try remapping
+                    return item = srcFormat == 2 ? GetG4Item((byte)item) : GetG4Item((ushort)item);
+
+                if (destFormat > srcFormat) // can't set past gen items
+                    return 0;
+
+                // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
+                item = GetG4Item((ushort)item);
+                item = GetG2Item((ushort)item);
+                if (item <= 0)
+                    return 0;
+            }
+
+            switch (destFormat)
+            {
+                case 3: return GetG3Item((ushort)item);
+                case 2: return (byte)item;
+                case 1: return 0;
+                default: return item;
+            }
+        }
     }
 }

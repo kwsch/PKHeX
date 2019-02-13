@@ -330,7 +330,6 @@ namespace PKHeX.Core
             if (ctr != 0) yield break;
             foreach (var z in GetValidEncounterTrades(pkm))
             { yield return z; ++ctr; }
-            // if (ctr != 0) yield break;
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)

@@ -374,8 +374,8 @@ namespace PKHeX.Core
         public override int GetDaycareSlotOffset(int loc, int slot) { return Daycare + 8; }
         public override uint? GetDaycareEXP(int loc, int slot) { return null; }
         public override bool? IsDaycareOccupied(int loc, int slot) { return null; }
-        public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetBEString3(data, offset, length);
 
