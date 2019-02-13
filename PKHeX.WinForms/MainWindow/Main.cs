@@ -1024,12 +1024,12 @@ namespace PKHeX.WinForms
         private void ClickLegality(object sender, EventArgs e)
         {
             if (!PKME_Tabs.EditsComplete)
-            { SystemSounds.Asterisk.Play(); return; }
+            { SystemSounds.Hand.Play(); return; }
 
             var pk = PreparePKM();
 
             if (pk.Species == 0 || !pk.ChecksumValid)
-            { SystemSounds.Asterisk.Play(); return; }
+            { SystemSounds.Hand.Play(); return; }
 
             ShowLegality(sender, e, pk);
         }
@@ -1046,6 +1046,10 @@ namespace PKHeX.WinForms
                 var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
                 if (dr == DialogResult.Yes)
                     Clipboard.SetText(report);
+            }
+            else if (Settings.Default.IgnoreLegalPopup && la.Valid)
+            {
+                SystemSounds.Asterisk.Play();
             }
             else
             {
