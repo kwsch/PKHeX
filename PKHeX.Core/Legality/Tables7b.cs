@@ -266,8 +266,6 @@ namespace PKHeX.Core
             032, // Nidoran-M
             033, // Nidorino
             034, // Nidoking
-            035, // Clefairy
-            036, // Clefable
             037, // Vulpix
             038, // Ninetales
             039, // Jigglypuff
@@ -285,8 +283,6 @@ namespace PKHeX.Core
             051, // Dugtrio
             052, // Meowth
             053, // Persian
-            054, // Psyduck
-            055, // Golduck
             056, // Mankey
             057, // Primeape
             060, // Poliwag
@@ -333,7 +329,6 @@ namespace PKHeX.Core
             121, // Starmie
             122, // Mr. Mime
             123, // Scyther
-            124, // Jynx
             128, // Tauros
             131, // Lapras
             132, // Ditto
