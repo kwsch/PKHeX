@@ -62,12 +62,17 @@ namespace PKHeX.Core
 
         private static byte[] Invert(byte[] data)
         {
-            byte[] result = new byte[data.Length];
-            int o = 0;
-            int i = data.Length;
-            while (o != data.Length)
-                result[--i] = data[o++];
-            return result;
+            int i = 0;
+            int j = 0 + data.Length - 1;
+            while (i < j)
+            {
+                var temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+                i++;
+                j--;
+            }
+            return data;
         }
 
         /// <summary>
