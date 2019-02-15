@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -54,7 +55,7 @@ namespace PKHeX.Core
                 return false;
             if (!Legal.Totem_USUM.Contains(species))
                 return false;
-            if (species == 778) // Mimikyu
+            if (species == (int)Mimikyu)
                 return form == 2 || form == 3;
             if (Legal.Totem_Alolan.Contains(species))
                 return form == 2;
@@ -63,21 +64,21 @@ namespace PKHeX.Core
 
         public static int GetTotemBaseForm(int species, int form)
         {
-            if (species == 778) // Mimikyu
-                return form -2;
+            if (species == (int)Mimikyu)
+                return form - 2;
             return form - 1;
         }
 
         public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
         {
-            switch (species)
+            switch ((Species)species)
             {
-                case 201: // Unown
+                case Unown:
                     return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
-                case 414: // Wormadam base form is kept
+                case Mothim: // Burmy base form is kept
                     return form < 3;
-                case 664:
-                case 665: // Vivillon Pre-evolutions
+                case Scatterbug:
+                case Spewpa: // Vivillon Pre-evolutions
                     return form < 18;
                 default:
                     return false;
@@ -89,10 +90,10 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch (species)
+            switch ((Species)species)
             {
-                case 6:
-                case 150:
+                case Charizard:
+                case Mewtwo:
                     return new[]
                     {
                         types[000], // Normal
@@ -100,14 +101,14 @@ namespace PKHeX.Core
                         forms[806], // Mega Y
                     };
 
-                case 133 when IsGG():
+                case Eevee when IsGG():
                     return new[]
                     {
                         types[000], // Normal
                         Starter,
                     };
 
-                case 025:
+                case Pikachu:
                     return GetFormsPikachu(generation, types, forms);
 
                 default:
@@ -117,26 +118,26 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 172:
+                case Pichu:
                     return GetFormsPichu(generation, types, forms);
-                case 201:
+                case Unown:
                     return GetFormsUnown(generation);
             }
         }
 
         private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 351: // Casftorm
+                case Castform: // Casftorm
                     return new[]
                     {
                         types[000], // Normal
@@ -144,14 +145,14 @@ namespace PKHeX.Core
                         forms[890], // Rainy
                         forms[891], // Snowy
                     };
-                case 382: // Kyogre
-                case 383: // Groudon
+                case Kyogre: // Kyogre
+                case Groudon: // Groudon
                     return new[]
                     {
                         types[000], // Normal
                         forms[899], // Primal
                     };
-                case 386: // Deoxys
+                case Deoxys: // Deoxys
                     return new[]
                     {
                         types[000], // Normal
@@ -164,14 +165,14 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen4(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 412:
-                case 413:
-                case 414:
+                case Burmy:
+                case Wormadam:
+                case Mothim:
                     return new[]
                     {
                         forms[412], // Plant
@@ -179,22 +180,22 @@ namespace PKHeX.Core
                         forms[906], // Trash
                     };
 
-                case 421:
+                case Cherrim:
                     return new[]
                     {
                         forms[421], // Overcast
                         forms[909], // Sunshine
                     };
 
-                case 422:
-                case 423:
+                case Shellos:
+                case Gastrodon:
                     return new[]
                     {
                         forms[422], // West
                         forms[911], // East
                     };
 
-                case 479:
+                case Rotom:
                     return new[]
                     {
                         types[000], // Normal
@@ -205,49 +206,49 @@ namespace PKHeX.Core
                         forms[921], // Mow
                     };
 
-                case 487:
+                case Giratina:
                     return new[]
                     {
                         forms[487], // Altered
                         forms[922], // Origin
                     };
 
-                case 492:
+                case Shaymin:
                     return new[]
                     {
                         forms[492], // Land
                         forms[923], // Sky
                     };
 
-                case 493: // Arceus
-                case 773: // Silvally
+                case Arceus:
+                case Silvally:
                     return GetFormsArceus(generation, types);
             }
         }
 
         private static string[] GetFormsGen5(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 550:
+                case Basculin:
                     return new[]
                     {
                         forms[550], // Red
                         forms[942], // Blue
                     };
 
-                case 555:
+                case Darmanitan:
                     return new[]
                     {
                         forms[555], // Standard
                         forms[943], // Zen
                     };
 
-                case 585:
-                case 586:
+                case Deerling:
+                case Sawsbuck:
                     return new[]
                     {
                         forms[585], // Spring
@@ -256,16 +257,16 @@ namespace PKHeX.Core
                         forms[949], // Winter
                     };
 
-                case 641:
-                case 642:
-                case 645:
+                case Tornadus:
+                case Thundurus:
+                case Landorus:
                     return new[]
                     {
                         forms[641], // Incarnate
                         forms[952], // Therian
                     };
 
-                case 646:
+                case Kyurem:
                     return new[]
                     {
                         types[000], // Normal
@@ -273,21 +274,21 @@ namespace PKHeX.Core
                         forms[954], // Black
                     };
 
-                case 647:
+                case Keldeo:
                     return new[]
                     {
                         forms[647], // Ordinary
                         forms[955], // Resolute
                     };
 
-                case 648:
+                case Meloetta:
                     return new[]
                     {
                         forms[648], // Aria
                         forms[956], // Pirouette
                     };
 
-                case 649:
+                case Genesect:
                     return new[]
                     {
                         types[000], // Normal
@@ -301,12 +302,12 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen6(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
         {
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 658:
+                case Greninja:
                     return new[]
                     {
                         types[000], // Normal
@@ -314,9 +315,9 @@ namespace PKHeX.Core
                         forms[1012], // "Bonded" - Active
                     };
 
-                case 664:
-                case 665:
-                case 666:
+                case Scatterbug:
+                case Spewpa:
+                case Vivillon:
                     return new[]
                     {
                         forms[666], // Icy Snow
@@ -341,8 +342,8 @@ namespace PKHeX.Core
                         forms[981], // Poké Ball
                     };
 
-                case 669:
-                case 671:
+                case Flabébé:
+                case Florges:
                     return new[]
                     {
                         forms[669], // Red
@@ -352,7 +353,7 @@ namespace PKHeX.Core
                         forms[989], // White
                     };
 
-                case 670:
+                case Floette:
                     return new[]
                     {
                         forms[669], // Red
@@ -363,7 +364,7 @@ namespace PKHeX.Core
                         forms[990], // Eternal
                     };
 
-                case 676:
+                case Furfrou:
                     return new[]
                     {
                         forms[676], // Natural
@@ -378,22 +379,22 @@ namespace PKHeX.Core
                         forms[1003], // Pharaoh
                     };
 
-                case 678:
+                case Meowstic:
                     return new[]
                     {
                         genders[000], // Male
                         genders[001], // Female
                     };
 
-                case 681:
+                case Aegislash:
                     return new[]
                     {
                         forms[681], // Shield
                         forms[1005], // Blade
                     };
 
-                case 710:
-                case 711:
+                case Pumpkaboo:
+                case Gourgeist:
                     return new[]
                     {
                         forms[710], // Average
@@ -402,21 +403,21 @@ namespace PKHeX.Core
                         forms[1008], // Super
                     };
 
-                case 716:
+                case Xerneas:
                     return new[]
                     {
                         forms[716], // Neutral
                         forms[1012], // Active
                     };
 
-                case 720:
+                case Hoopa:
                     return new[]
                     {
                         forms[720], // Confined
                         forms[1018], // Unbound
                     };
 
-                case 718: // Zygarde
+                case Zygarde:
                     return new[]
                     {
                         forms[718], // 50% (Aura Break)
@@ -430,12 +431,12 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen7(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 741: // Oricorio
+                case Oricorio:
                     return new[]
                     {
                         forms[741], // "RED" - Baile
@@ -444,13 +445,13 @@ namespace PKHeX.Core
                         forms[1023], // "BLU" - Sensu
                     };
 
-                case 744: // Rockruff
+                case Rockruff:
                     return new[]
                     {
                         types[0], // Normal
                         forms[1064], // Dusk
                     };
-                case 745: // Lycanroc
+                case Lycanroc:
                     return new[]
                     {
                         forms[745], // Midday
@@ -458,17 +459,17 @@ namespace PKHeX.Core
                         forms[1064], // Dusk
                     };
 
-                case 746: // Wishiwashi
+                case Wishiwashi:
                     return new[]
                     {
                         forms[746],
                         forms[1025], // School
                     };
 
-                case 773: // Silvally
+                case Silvally:
                     return GetFormsArceus(7, types);
 
-                case 774: // Minior
+                case Minior:
                     return new[]
                     {
                         forms[774], // "R-Meteor", // Meteor Red
@@ -487,7 +488,7 @@ namespace PKHeX.Core
                         forms[1057], // "V-Core", // Core Violet
                     };
 
-                case 800:
+                case Necrozma:
                     return new[]
                     {
                         types[000], // Normal
@@ -496,7 +497,7 @@ namespace PKHeX.Core
                         forms[1067], // Ultra Necrozma
                     };
 
-                case 801: // Magearna
+                case Magearna:
                     return new[]
                     {
                         types[000],
@@ -510,27 +511,27 @@ namespace PKHeX.Core
             if (generation < 7)
                 return EMPTY;
 
-            switch (species)
+            switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case 19: // Rattata
-                case 26: // Raichu
-                case 27: // Sandshrew
-                case 28: // Sandslash
-                case 37: // Vulpix
-                case 38: // Ninetails
-                case 50: // Diglett
-                case 51: // Dugtrio
-                case 52: // Meowth
-                case 53: // Persian
-                case 74: // Geodude
-                case 75: // Graveler
-                case 76: // Golem
-                case 88: // Grimer
-                case 89: // Muk
-                case 103: // Exeggutor
+                case Rattata:
+                case Raichu:
+                case Sandshrew:
+                case Sandslash:
+                case Vulpix:
+                case Ninetales:
+                case Diglett:
+                case Dugtrio:
+                case Meowth:
+                case Persian:
+                case Geodude:
+                case Graveler:
+                case Golem:
+                case Grimer:
+                case Muk:
+                case Exeggutor:
                     return new[]
                     {
                         types[000],
@@ -665,7 +666,7 @@ namespace PKHeX.Core
 
         private static string[] GetFormsTotem  (int species,    IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            if (species == 778) // Mimikyu
+            if ((Species)species == Mimikyu) // Mimikyu
             {
                 return new[]
                 {
