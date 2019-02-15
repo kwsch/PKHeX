@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -23,6 +24,15 @@ namespace PKHeX.WinForms
                 if (i % width == width - 1)
                     flp.SetFlowBreak(pb, true);
             }
+        }
+
+        public void LoadBalls(PKM pkm)
+        {
+            var legal = BallRandomizer.GetLegalBalls(pkm).ToArray();
+            var poss = ((Ball[])Enum.GetValues(typeof(Ball))).Skip(1)
+                .TakeWhile(z => (int)z <= pkm.MaxBallID).ToArray();
+            var names = GameInfo.BallDataSource;
+            LoadBalls(poss, legal, names);
         }
 
         private PictureBox GetBallView(Ball b, ICollection<Ball> legal, IReadOnlyList<ComboItem> names)

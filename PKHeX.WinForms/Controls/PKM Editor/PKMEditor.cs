@@ -602,14 +602,9 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            var legal = BallRandomizer.GetLegalBalls(pkm).ToArray();
-            var poss = ((Ball[]) Enum.GetValues(typeof(Ball))).Skip(1)
-                .TakeWhile(z => (int) z <= pkm.MaxBallID).ToArray();
-            var names = GameInfo.BallDataSource;
-
             using (var frm = new BallBrowser())
             {
-                frm.LoadBalls(poss, legal, names);
+                frm.LoadBalls(pkm);
                 frm.ShowDialog();
                 if (frm.BallChoice >= 0)
                     CB_Ball.SelectedValue = frm.BallChoice;
