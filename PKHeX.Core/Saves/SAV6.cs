@@ -1154,9 +1154,9 @@ namespace PKHeX.Core
             const int size = 0x15;
             for (int i = 1; i < 101; i++)
             {
-                int o = start + (i * size);
-                if (Data[o] != 0) // no friend data == 0x00
-                    Data[0] = 0x3D;
+                int ofs = start + (i * size);
+                if (Data[ofs] != 0) // no friend data == 0x00
+                    Data[ofs] = 0x3D;
             }
             Edited = true;
         }
