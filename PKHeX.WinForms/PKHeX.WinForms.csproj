@@ -267,6 +267,7 @@
       <DependentUpon>PKMEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow\PluginLoader.cs" />
+    <Compile Include="MainWindow\ProgramLanguage.cs" />
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -49,8 +49,7 @@ namespace PKHeX.Tests.Legality
 
                 var data = File.ReadAllBytes(file);
                 var format = PKX.GetPKMFormatFromExtension(file[file.Length - 1], -1);
-                if (format > 10)
-                    format = 6;
+                format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
                 pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
 

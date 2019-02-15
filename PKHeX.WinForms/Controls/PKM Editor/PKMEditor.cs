@@ -1205,8 +1205,6 @@ namespace PKHeX.WinForms.Controls
                     case Keys.Control: RequestShowdownImport?.Invoke(sender, e); return;
                     case Keys.Alt: RequestShowdownExport?.Invoke(sender, e); return;
                     default:
-                        if (pkm is PK1 pk1)
-                            pk1.Catch_Rate = pk1.PersonalInfo.CatchRate;
                         return;
                 }
             }
@@ -1466,11 +1464,8 @@ namespace PKHeX.WinForms.Controls
             FieldsLoaded = true;
         }
 
-        private void ValidateComboBox(object sender)
+        private void ValidateComboBox(ComboBox cb)
         {
-            if (!(sender is ComboBox cb))
-                return;
-
             if (cb.Text.Length == 0 && cb.Items.Count > 0)
                 cb.SelectedIndex = 0;
             else if (cb.SelectedValue == null)
@@ -1481,10 +1476,10 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateComboBox(object sender, CancelEventArgs e)
         {
-            if (!(sender is ComboBox))
+            if (!(sender is ComboBox cb))
                 return;
 
-            ValidateComboBox(sender);
+            ValidateComboBox(cb);
             UpdateSprite();
         }
 
@@ -1522,7 +1517,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            ValidateComboBox(sender);
+            ValidateComboBox((ComboBox)sender);
             if (Moves.Contains(sender)) // Move
                 UpdatePP(sender, e);
 
@@ -1565,10 +1560,10 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateLocation(object sender, EventArgs e)
         {
-            ValidateComboBox(sender);
             if (!FieldsLoaded)
                 return;
 
+            ValidateComboBox((ComboBox)sender);
             pkm.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
             pkm.Egg_Location = WinFormsUtil.GetIndex(CB_EggLocation);
             UpdateLegality();
@@ -1596,7 +1591,7 @@ namespace PKHeX.WinForms.Controls
         /// <param name="pk">Pokémon data to edit</param>
         public bool ToggleInterface(SaveFile sav, PKM pk)
         {
-            pkm = GetCompatiblePKM(sav, pk);
+            pkm = sav.GetCompatiblePKM(pk);
             ToggleInterface(pkm);
             return FinalizeInterface(sav);
         }
@@ -1819,13 +1814,6 @@ namespace PKHeX.WinForms.Controls
         {
             var abils = pkm.PersonalInfo.Abilities;
             return GameInfo.GetAbilityList(abils, pkm.Format);
-        }
-
-        private static PKM GetCompatiblePKM(SaveFile sav, PKM current)
-        {
-            if (current.Format < 3 || current.GetType() != sav.PKMType)
-                return sav.BlankPKM;
-            return current;
         }
     }
 }

@@ -708,22 +708,6 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static PKM LoadTemplate(SaveFile sav)
-        {
-            var blank = sav.BlankPKM;
-            if (!Directory.Exists(TemplatePath))
-                return blank;
-
-            var di = new DirectoryInfo(TemplatePath);
-            string path = Path.Combine(TemplatePath, $"{di.Name}.{blank.Extension}");
-
-            if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
-                return blank;
-
-            var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path) ?? blank; // no sneaky plz; reuse string
-        }
-
         private bool OpenSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
@@ -762,7 +746,7 @@ namespace PKHeX.WinForms
             bool WindowToggleRequired = C_SAV.SAV?.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
             C_SAV.SAV = sav;
 
-            var pk = LoadTemplate(sav);
+            var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
             bool init = PKME_Tabs.pkm == null;
             PKME_Tabs.CurrentPKM = pk;
@@ -1135,8 +1119,9 @@ namespace PKHeX.WinForms
             try
             {
                 File.WriteAllBytes(newfile, dragdata);
-                PictureBox pb = (PictureBox)sender;
                 C_SAV.M.DragInfo.Source.PKM = pkx;
+
+                var pb = (PictureBox)sender;
                 if (pb.Image != null)
                     C_SAV.M.DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);

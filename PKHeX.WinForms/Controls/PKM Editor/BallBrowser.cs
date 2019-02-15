@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
 
         private PictureBox GetBallView(Ball b, ICollection<Ball> legal, IReadOnlyList<ComboItem> names)
         {
-            var img = SpriteUtil.GetBallSprite((int) b);
+            var img = SpriteUtil.GetBallSprite((int)b);
             var pb = new PictureBox
             {
                 Size = img.Size,
@@ -45,7 +45,7 @@ namespace PKHeX.WinForms
                 BackgroundImage = legal.Contains(b) ? Resources.slotSet : Resources.slotDel,
                 BackgroundImageLayout = ImageLayout.Tile
             };
-            pb.MouseEnter += (_, __) => Text = names.First(z => z.Value == (int) b).Text;
+            pb.MouseEnter += (_, __) => Text = names.First(z => z.Value == (int)b).Text;
             pb.Click += (_, __) => SelectBall(b);
             return pb;
         }

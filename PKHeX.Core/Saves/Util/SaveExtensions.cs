@@ -29,7 +29,7 @@ namespace PKHeX.Core
         {
             if (!sav.Exportable) // Blank save file
             {
-                sav.FileFolder = sav.FilePath = null;
+                sav.FileFolder = sav.FilePath = string.Empty;
                 sav.FileName = "Blank Save File";
                 return;
             }
@@ -153,6 +153,49 @@ namespace PKHeX.Core
 
                 yield return pk;
             }
+        }
+
+        /// <summary>
+        /// Gets a compatible <see cref="PKM"/> for editing with a new <see cref="SaveFile"/>.
+        /// </summary>
+        /// <param name="sav">SaveFile to receive the compatible <see cref="pk"/></param>
+        /// <param name="pk">Current Pokémon being edited</param>
+        /// <returns>Current Pokémon, assuming conversion is possible. If conversion is not possible, a blank <see cref="PKM"/> will be obtained from the <see cref="sav"/>.</returns>
+        public static PKM GetCompatiblePKM(this SaveFile sav, PKM pk = null)
+        {
+            if (pk == null)
+                return sav.BlankPKM;
+            if (pk.Format < 3 && sav.Generation < 7)
+            {
+                // gen1-2 compatibility check
+                if (pk.Japanese != sav.Japanese)
+                    return sav.BlankPKM;
+                if (sav is SAV2 s2 && s2.Korean != pk.Korean)
+                    return sav.BlankPKM;
+            }
+            return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
+        }
+
+        /// <summary>
+        /// Gets a blank file for the save file. If the template path exists, a template load will be attempted.
+        /// </summary>
+        /// <param name="sav">Save File to fetch a template for</param>
+        /// <param name="templatePath">Path to look for a template in</param>
+        /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
+        public static PKM LoadTemplate(this SaveFile sav, string templatePath = null)
+        {
+            var blank = sav.BlankPKM;
+            if (!Directory.Exists(templatePath))
+                return blank;
+
+            var di = new DirectoryInfo(templatePath);
+            string path = Path.Combine(templatePath, $"{di.Name}.{blank.Extension}");
+
+            if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
+                return blank;
+
+            var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
+            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path) ?? blank; // no sneaky plz; reuse string
         }
     }
 }
