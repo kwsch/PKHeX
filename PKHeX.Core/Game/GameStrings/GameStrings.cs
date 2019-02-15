@@ -365,13 +365,13 @@ namespace PKHeX.Core
             // Gen 2
             {
                 var met_list = Util.GetCBList(metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
-                met_list = Util.GetOffsetCBList(met_list, metGSC_00000, 00000, new[] { 0x7E, 0x7F });
+                Util.AddCBWithOffset(met_list, metGSC_00000, 00000, new[] { 0x7E, 0x7F });
                 MetGen2 = met_list;
             }
             // Gen 3
             {
                 var met_list = Util.GetCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                met_list = Util.GetOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
+                Util.AddCBWithOffset(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
                 MetGen3 = met_list;
 
                 MetGen3CXD = Util.GetCBList(metCXD_00000, Enumerable.Range(0, metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
@@ -379,56 +379,56 @@ namespace PKHeX.Core
             // Gen 4
             {
                 var met_list = Util.GetCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, new[] { 2000 });
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, new[] { 2002 });
+                Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, new[] { 3001 });
+                Util.AddCBWithOffset(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
+                Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
                 MetGen4 = met_list;
             }
             // Gen 5
             {
                 var met_list = Util.GetCBList(metBW2_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metBW2_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metBW2_30000, 30001, new[] { 30003 });
-                met_list = Util.GetOffsetCBList(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
-                met_list = Util.GetOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
-                met_list = Util.GetOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
-                met_list = Util.GetOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
+                Util.AddCBWithOffset(met_list, metBW2_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metBW2_30000, 30001, new[] { 30003 });
+                Util.AddCBWithOffset(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
+                Util.AddCBWithOffset(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
+                Util.AddCBWithOffset(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
+                Util.AddCBWithOffset(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
                 MetGen5 = met_list;
             }
             // Gen 6
             {
                 var met_list = Util.GetCBList(metXY_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metXY_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metXY_30000, 30001, new[] { 30002 });
-                met_list = Util.GetOffsetCBList(met_list, metXY_00000, 00000, Legal.Met_XY_0);
-                met_list = Util.GetOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
-                met_list = Util.GetOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
-                met_list = Util.GetOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
+                Util.AddCBWithOffset(met_list, metXY_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metXY_30000, 30001, new[] { 30002 });
+                Util.AddCBWithOffset(met_list, metXY_00000, 00000, Legal.Met_XY_0);
+                Util.AddCBWithOffset(met_list, metXY_30000, 30001, Legal.Met_XY_3);
+                Util.AddCBWithOffset(met_list, metXY_40000, 40001, Legal.Met_XY_4);
+                Util.AddCBWithOffset(met_list, metXY_60000, 60001, Legal.Met_XY_6);
                 MetGen6 = met_list;
             }
             // Gen 7
             {
                 var met_list = Util.GetCBList(metSM_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metSM_30000, 30001, new[] { 30002 });
-                met_list = Util.GetOffsetCBList(met_list, metSM_00000, 00000, Legal.Met_SM_0);
-                met_list = Util.GetOffsetCBList(met_list, metSM_30000, 30001, Legal.Met_SM_3);
-                met_list = Util.GetOffsetCBList(met_list, metSM_40000, 40001, Legal.Met_SM_4);
-                met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, Legal.Met_SM_6);
+                Util.AddCBWithOffset(met_list, metSM_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metSM_30000, 30001, new[] { 30002 });
+                Util.AddCBWithOffset(met_list, metSM_00000, 00000, Legal.Met_SM_0);
+                Util.AddCBWithOffset(met_list, metSM_30000, 30001, Legal.Met_SM_3);
+                Util.AddCBWithOffset(met_list, metSM_40000, 40001, Legal.Met_SM_4);
+                Util.AddCBWithOffset(met_list, metSM_60000, 60001, Legal.Met_SM_6);
                 MetGen7 = met_list;
             }
             // Gen 7 GG
             {
                 var met_list = Util.GetCBList(metGG_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metGG_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metGG_30000, 30001, new[] { 30002 });
-                met_list = Util.GetOffsetCBList(met_list, metGG_00000, 00000, Legal.Met_GG_0);
-                met_list = Util.GetOffsetCBList(met_list, metGG_30000, 30001, Legal.Met_GG_3);
-                met_list = Util.GetOffsetCBList(met_list, metGG_40000, 40001, Legal.Met_GG_4);
-                met_list = Util.GetOffsetCBList(met_list, metGG_60000, 60001, Legal.Met_GG_6);
+                Util.AddCBWithOffset(met_list, metGG_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metGG_30000, 30001, new[] { 30002 });
+                Util.AddCBWithOffset(met_list, metGG_00000, 00000, Legal.Met_GG_0);
+                Util.AddCBWithOffset(met_list, metGG_30000, 30001, Legal.Met_GG_3);
+                Util.AddCBWithOffset(met_list, metGG_40000, 40001, Legal.Met_GG_4);
+                Util.AddCBWithOffset(met_list, metGG_60000, 60001, Legal.Met_GG_6);
                 MetGen7GG = met_list;
             }
         }

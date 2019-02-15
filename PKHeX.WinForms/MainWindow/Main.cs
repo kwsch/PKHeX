@@ -876,7 +876,7 @@ namespace PKHeX.WinForms
             string cl = GameInfo.CurrentLanguage;
             cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
-            CB.DataSource = Util.GetCBList(type, cl);
+            CB.DataSource = Util.GetCountryRegionList(type, cl);
 
             if (index > 0 && index < CB.Items.Count)
                 CB.SelectedIndex = index;
@@ -971,21 +971,21 @@ namespace PKHeX.WinForms
         {
             if (!PKME_Tabs.EditsComplete)
                 return;
-            PKM pkx = PreparePKM();
+            PKM pk = PreparePKM();
 
             Image qr;
-            switch (pkx.Format)
+            switch (pk.Format)
             {
-                case 7 when pkx is PK7 pk7:
+                case 7 when pk is PK7 pk7:
                     qr = QR.GenerateQRCode7(pk7);
                     break;
                 default:
-                    if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
+                    if (pk.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
                     {
                         WinFormsUtil.Alert(MsgQRDeprecated, MsgQRAlternative);
                         QR6Notified = true;
                     }
-                    qr = QR.GetQRImage(pkx.EncryptedBoxData, QR.GetQRServer(pkx.Format));
+                    qr = QR.GetQRImage(pk.EncryptedBoxData, QR.GetQRServer(pk.Format));
                     break;
             }
 
@@ -993,16 +993,16 @@ namespace PKHeX.WinForms
                 return;
 
             var sprite = dragout.Image;
-            var la = new LegalityAnalysis(pkx, C_SAV.SAV.Personal);
-            if (la.Parsed && pkx.Species != 0)
+            var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
+            if (la.Parsed && pk.Species != 0)
             {
                 var img = la.Valid ? Resources.valid : Resources.warn;
                 sprite = ImageUtil.LayerImage(sprite, img, 24, 0);
             }
 
-            string[] r = pkx.GetQRLines();
+            string[] r = pk.GetQRLines();
             string refer = GetProgramTitle();
-            new QR(qr, sprite, pkx, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})").ShowDialog();
+            new QR(qr, sprite, pk, r[0], r[1], r[2], $"{refer} ({pk.GetType().Name})").ShowDialog();
         }
 
         private void ClickLegality(object sender, EventArgs e)
@@ -1109,17 +1109,17 @@ namespace PKHeX.WinForms
                 return;
 
             // Create Temp File to Drag
-            PKM pkx = PreparePKM();
+            PKM pk = PreparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string fn = pkx.FileNameWithoutExtension;
-            string filename = fn + (encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}");
-            byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
+            string fn = pk.FileNameWithoutExtension;
+            string filename = fn + (encrypt ? $".ek{pk.Format}" : $".{pk.Extension}");
+            byte[] dragdata = encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
             try
             {
                 File.WriteAllBytes(newfile, dragdata);
-                C_SAV.M.DragInfo.Source.PKM = pkx;
+                C_SAV.M.DragInfo.Source.PKM = pk;
 
                 var pb = (PictureBox)sender;
                 if (pb.Image != null)

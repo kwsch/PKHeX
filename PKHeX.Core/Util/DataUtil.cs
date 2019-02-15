@@ -83,7 +83,8 @@ namespace PKHeX.Core
                 return (string[])stringListCache[f].Clone();
 
             var txt = GetStringResource(f); // Fetch File, \n to list.
-            if (txt == null) return Array.Empty<string>();
+            if (txt == null)
+                return Array.Empty<string>();
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].TrimEnd('\r');
@@ -198,9 +199,10 @@ namespace PKHeX.Core
                 {
                     ReflectUtil.SetValue(t, prop, value);
                 }
-                catch
+                catch (Exception e)
                 {
                     Debug.WriteLine($"Property not present: {prop} || Value written: {value}");
+                    Debug.WriteLine(e.Message);
                 }
             }
         }
@@ -230,7 +232,7 @@ namespace PKHeX.Core
         #endregion
 
         #region DataSource Providing
-        public static List<ComboItem> GetCBList(string textfile, string lang)
+        public static List<ComboItem> GetCountryRegionList(string textfile, string lang)
         {
             // Set up
             string[] inputCSV = GetStringList(textfile);
@@ -266,14 +268,13 @@ namespace PKHeX.Core
                 .ToList();
         }
 
-        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
+        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
         {
             var list = allowed
                 .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
                 .OrderBy(z => z.Text);
 
             cbList.AddRange(list);
-            return cbList;
         }
 
         public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)

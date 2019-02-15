@@ -496,7 +496,7 @@ namespace PKHeX.WinForms.Controls
             string cl = GameInfo.CurrentLanguage;
             cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
-            CB.DataSource = Util.GetCBList(type, cl);
+            CB.DataSource = Util.GetCountryRegionList(type, cl);
 
             if (index > 0 && index < CB.Items.Count)
                 CB.SelectedIndex = index;
