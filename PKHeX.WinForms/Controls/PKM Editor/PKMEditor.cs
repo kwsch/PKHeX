@@ -239,7 +239,7 @@ namespace PKHeX.WinForms.Controls
             pkm = pk.Clone();
 
             try { GetFieldsfromPKM(); }
-            finally { }
+            catch { }
 
             Stats.UpdateIVs(null, EventArgs.Empty);
             UpdatePKRSInfected(null, EventArgs.Empty);
@@ -607,43 +607,13 @@ namespace PKHeX.WinForms.Controls
                 .TakeWhile(z => (int) z <= pkm.MaxBallID).ToArray();
             var names = GameInfo.BallDataSource;
 
-            var frm = new Form
+            using (var frm = new BallBrowser())
             {
-                FormBorderStyle = FormBorderStyle.FixedToolWindow,
-                StartPosition = FormStartPosition.CenterParent,
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                MaximizeBox = false,
-                MinimizeBox = false,
-            };
-            var flp = new FlowLayoutPanel {AutoSize = true, Dock = DockStyle.Fill};
-
-            for (int i = 0; i < poss.Length; i++)
-            {
-                var b = poss[i];
-                var img = SpriteUtil.GetBallSprite((int) b);
-                bool valid = legal.Contains(b);
-                var pb = new PictureBox
-                {
-                    Size = img.Size,
-                    Image = img,
-                    BackgroundImage = valid ? Resources.slotSet : Resources.slotDel,
-                    BackgroundImageLayout = ImageLayout.Tile
-                };
-                pb.MouseEnter += (_, __) => frm.Text = names.First(z => z.Value == (int)b).Text;
-                pb.Click += (_, __) =>
-                {
-                    CB_Ball.SelectedValue = (int)b;
-                    frm.Close();
-                };
-                flp.Controls.Add(pb);
-                const int width = 5;
-                if (i % width == width - 1)
-                    flp.SetFlowBreak(pb, true);
+                frm.LoadBalls(poss, legal, names);
+                frm.ShowDialog();
+                if (frm.BallChoice >= 0)
+                    CB_Ball.SelectedValue = frm.BallChoice;
             }
-            frm.Controls.Add(flp);
-            frm.ShowDialog();
-            frm.Dispose();
         }
 
         private void ClickShinyLeaf(object sender, EventArgs e) => ShinyLeaf.CheckAll(ModifierKeys != Keys.Control);

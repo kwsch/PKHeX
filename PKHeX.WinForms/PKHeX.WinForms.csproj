@@ -147,6 +147,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PKM Editor\BallBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\BallBrowser.Designer.cs">
+      <DependentUpon>BallBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PKM Editor\DrawConfig.cs" />
     <Compile Include="Controls\PKM Editor\IMainEditor.cs" />
     <Compile Include="Controls\PKM Editor\CatchRate.cs">
@@ -640,6 +646,9 @@
     <Compile Include="Util\SpriteBuilder.cs" />
     <Compile Include="Util\WinFormsTranslator.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\PKM Editor\BallBrowser.resx">
+      <DependentUpon>BallBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PKM Editor\CatchRate.resx">
       <DependentUpon>CatchRate.cs</DependentUpon>
     </EmbeddedResource>
