@@ -87,53 +87,53 @@ namespace PKHeX.WinForms
             return Resources.unknown;
         }
 
-        private static Image GetSprite(PKM pkm, bool isBoxBGRed = false)
+        private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
         {
-            var img = GetSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
-            if (pkm is IShadowPKM s && s.Purification > 0)
+            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
+            if (pk is IShadowPKM s && s.Purification > 0)
             {
-                if (pkm.Species == 249) // Lugia
-                    img = Spriter.GetSprite(Resources._249x, 249, pkm.HeldItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
-                GetSpriteGlow(pkm, new byte[] { 75, 0, 130 }, out var pixels, out var baseSprite, true);
+                if (pk.Species == 249) // Lugia
+                    img = Spriter.GetSprite(Resources._249x, 249, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
+                GetSpriteGlow(pk, new byte[] { 75, 0, 130 }, out var pixels, out var baseSprite, true);
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
                 img = ImageUtil.LayerImage(glowImg, img, 0, 0);
             }
             return img;
         }
 
-        private static Image GetSprite(SaveFile SAV)
+        private static Image GetSprite(SaveFile sav)
         {
             string file = "tr_00";
-            if (SAV.Generation == 6 && (SAV.ORAS || SAV.ORASDEMO))
-                file = $"tr_{SAV.MultiplayerSpriteID:00}";
+            if (sav.Generation == 6 && (sav.ORAS || sav.ORASDEMO))
+                file = $"tr_{sav.MultiplayerSpriteID:00}";
             return Resources.ResourceManager.GetObject(file) as Image;
         }
 
-        private static Image GetWallpaper(SaveFile SAV, int box)
+        private static Image GetWallpaper(SaveFile sav, int box)
         {
-            string s = BoxWallpaper.GetWallpaperResourceName(SAV.Version, SAV.GetBoxWallpaper(box));
+            string s = BoxWallpaper.GetWallpaperResourceName(sav.Version, sav.GetBoxWallpaper(box));
             return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
         }
 
-        private static Image GetSprite(PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
+        private static Image GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
         {
-            if (!pkm.Valid)
+            if (!pk.Valid)
                 return null;
 
             bool inBox = slot >= 0 && slot < 30;
-            var sprite = pkm.Species == 0 ? null : pkm.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(SAV.Version, SAV.GetBoxWallpaper(box)));
+            var sprite = pk.Species == 0 ? null : pk.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box)));
 
             if (flagIllegal)
             {
                 if (box >= 0)
-                    pkm.Box = box;
-                var la = new LegalityAnalysis(pkm, SAV.Personal);
-                if (!la.Valid && pkm.Species != 0)
+                    pk.Box = box;
+                var la = new LegalityAnalysis(pk, sav.Personal);
+                if (!la.Valid && pk.Species != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14);
             }
             if (inBox) // in box
             {
-                var flags = SAV.GetSlotFlags(box, slot);
+                var flags = sav.GetSlotFlags(box, slot);
                 if (flags.HasFlagFast(StorageSlotFlag.Locked))
                     sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0);
                 int team = flags.IsBattleTeam();
@@ -180,12 +180,12 @@ namespace PKHeX.WinForms
         }
 
         // Extension Methods
-        public static Image WallpaperImage(this SaveFile SAV, int box) => GetWallpaper(SAV, box);
+        public static Image WallpaperImage(this SaveFile sav, int box) => GetWallpaper(sav, box);
         public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
-        public static Image Sprite(this SaveFile SAV) => GetSprite(SAV);
-        public static Image Sprite(this PKM pkm, bool isBoxBGRed = false) => GetSprite(pkm, isBoxBGRed);
+        public static Image Sprite(this SaveFile sav) => GetSprite(sav);
+        public static Image Sprite(this PKM pk, bool isBoxBGRed = false) => GetSprite(pk, isBoxBGRed);
 
-        public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
-            => GetSprite(pkm, SAV, box, slot, flagIllegal);
+        public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
+            => GetSprite(pk, sav, box, slot, flagIllegal);
     }
 }

@@ -355,47 +355,45 @@ namespace PKHeX.WinForms.Controls
         }
 
         // General Use Functions //
-
-
-        private void SetDetailsOT(ITrainerInfo SAV)
+        private void SetDetailsOT(ITrainerInfo tr)
         {
-            if (string.IsNullOrWhiteSpace(SAV.OT))
+            if (string.IsNullOrWhiteSpace(tr.OT))
                 return;
 
             // Get Save Information
-            TB_OT.Text = SAV.OT;
-            Label_OTGender.Text = gendersymbols[SAV.Gender & 1];
-            Label_OTGender.ForeColor = Draw.GetGenderColor(SAV.Gender & 1);
-            TID_Trainer.LoadInfo(SAV);
+            TB_OT.Text = tr.OT;
+            Label_OTGender.Text = gendersymbols[tr.Gender & 1];
+            Label_OTGender.ForeColor = Draw.GetGenderColor(tr.Gender & 1);
+            TID_Trainer.LoadInfo(tr);
 
-            if (SAV.Game >= 0)
-                CB_GameOrigin.SelectedValue = SAV.Game;
+            if (tr.Game >= 0)
+                CB_GameOrigin.SelectedValue = tr.Game;
 
-            var lang = SAV.Language;
+            var lang = tr.Language;
             if (lang <= 0)
                 lang = (int)LanguageID.English;
             CB_Language.SelectedValue = lang;
-            if (SAV.ConsoleRegion != 0)
+            if (tr.ConsoleRegion != 0)
             {
-                CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
-                CB_Country.SelectedValue = SAV.Country;
-                CB_SubRegion.SelectedValue = SAV.SubRegion;
+                CB_3DSReg.SelectedValue = tr.ConsoleRegion;
+                CB_Country.SelectedValue = tr.Country;
+                CB_SubRegion.SelectedValue = tr.SubRegion;
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)
-                 if (SAV is SAV1 s1 && pkm is PK1 p1) p1.OT_Trash = s1.OT_Trash;
-            else if (SAV is SAV2 s2 && pkm is PK2 p2) p2.OT_Trash = s2.OT_Trash;
+                 if (tr is SAV1 s1 && pkm is PK1 p1) p1.OT_Trash = s1.OT_Trash;
+            else if (tr is SAV2 s2 && pkm is PK2 p2) p2.OT_Trash = s2.OT_Trash;
 
             UpdateNickname(null, EventArgs.Empty);
         }
 
-        private void SetDetailsHT(ITrainerInfo SAV)
+        private void SetDetailsHT(ITrainerInfo tr)
         {
-            if (string.IsNullOrWhiteSpace(SAV.OT))
+            if (string.IsNullOrWhiteSpace(tr.OT))
                 return;
 
             if (TB_OTt2.Text.Length > 0)
-                Label_CTGender.Text = gendersymbols[SAV.Gender & 1];
+                Label_CTGender.Text = gendersymbols[tr.Gender & 1];
         }
 
         private void SetForms()
@@ -1238,14 +1236,14 @@ namespace PKHeX.WinForms.Controls
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var SAV = RequestSaveFile;
-            if (SAV == null) // form did not provide the needed info
+            var sav = RequestSaveFile;
+            if (sav == null) // form did not provide the needed info
                 return;
 
             if (tb == TB_Nickname)
             {
                 pkm.Nickname = tb.Text;
-                var d = new TrashEditor(tb, pkm.Nickname_Trash, SAV);
+                var d = new TrashEditor(tb, pkm.Nickname_Trash, sav);
                 d.ShowDialog();
                 tb.Text = d.FinalString;
                 pkm.Nickname_Trash = d.FinalBytes;
@@ -1253,7 +1251,7 @@ namespace PKHeX.WinForms.Controls
             else if (tb == TB_OT)
             {
                 pkm.OT_Name = tb.Text;
-                var d = new TrashEditor(tb, pkm.OT_Trash, SAV);
+                var d = new TrashEditor(tb, pkm.OT_Trash, sav);
                 d.ShowDialog();
                 tb.Text = d.FinalString;
                 pkm.OT_Trash = d.FinalBytes;
@@ -1261,7 +1259,7 @@ namespace PKHeX.WinForms.Controls
             else if (tb == TB_OTt2)
             {
                 pkm.HT_Name = tb.Text;
-                var d = new TrashEditor(tb, pkm.HT_Trash, SAV);
+                var d = new TrashEditor(tb, pkm.HT_Trash, sav);
                 d.ShowDialog();
                 tb.Text = d.FinalString;
                 pkm.HT_Trash = d.FinalBytes;
@@ -1304,9 +1302,9 @@ namespace PKHeX.WinForms.Controls
 
                 // if egg wasn't originally obtained by OT => Link Trade, else => None
                 bool isTraded = false;
-                var SAV = SaveFileRequested?.Invoke(this, e);
-                if (SAV != null)
-                    isTraded = SAV.OT != TB_OT.Text || SAV.TID != pkm.TID || SAV.SID != pkm.SID;
+                var sav = SaveFileRequested?.Invoke(this, e);
+                if (sav != null)
+                    isTraded = sav.OT != TB_OT.Text || sav.TID != pkm.TID || sav.SID != pkm.SID;
                 CB_MetLocation.SelectedIndex = isTraded ? 2 : 0;
 
                 if (!CHK_Nicknamed.Checked)
@@ -1664,7 +1662,7 @@ namespace PKHeX.WinForms.Controls
             PopulateFilteredDataSources(sav);
             PopulateFields(pkm);
 
-            // SAV Specific Limits
+            // Save File Specific Limits
             TB_OT.MaxLength = pkm.OTLength;
             TB_OTt2.MaxLength = pkm.OTLength;
             TB_Nickname.MaxLength = pkm.NickLength;
@@ -1758,7 +1756,7 @@ namespace PKHeX.WinForms.Controls
             tabMain.SelectedTab = Tab_Main; // first tab
         }
 
-        private void InitializeLanguage(SaveFile SAV)
+        private void InitializeLanguage(SaveFile sav)
         {
             // Set the various ComboBox DataSources up with their allowed entries
             SetCountrySubRegion(CB_Country, "countries");
@@ -1770,25 +1768,25 @@ namespace PKHeX.WinForms.Controls
             // Sub editors
             Stats.InitializeDataSources();
 
-            PopulateFilteredDataSources(SAV);
+            PopulateFilteredDataSources(sav);
         }
 
-        private void PopulateFilteredDataSources(SaveFile SAV)
+        private void PopulateFilteredDataSources(SaveFile sav)
         {
-            GameInfo.Strings.SetItemDataSource(SAV.Version, SAV.Generation, SAV.MaxItemID, SAV.HeldItems, HaX);
-            if (SAV.Generation > 1)
-                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
+            GameInfo.Strings.SetItemDataSource(sav.Version, sav.Generation, sav.MaxItemID, sav.HeldItems, HaX);
+            if (sav.Generation > 1)
+                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= sav.MaxItemID).ToList(), null);
 
-            CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+            CB_Language.DataSource = GameInfo.LanguageDataSource(sav.Generation);
 
-            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
-            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
-            var gamelist = GameUtil.GetVersionsWithinRange(SAV, SAV.Generation).ToList();
+            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID).ToList(), null);
+            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList(), null);
+            var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            MoveDataAllowed = GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            MoveDataAllowed = GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= sav.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (var cb in Moves.Concat(Relearn))
             {
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
