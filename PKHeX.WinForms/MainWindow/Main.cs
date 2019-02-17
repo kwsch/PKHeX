@@ -275,10 +275,12 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
         }
 
+        public static DrawConfig Draw;
+
         private void FormInitializeSecond()
         {
             var settings = Settings.Default;
-            C_SAV.M.Draw = PKME_Tabs.Draw = new DrawConfig();
+            Draw = C_SAV.M.Draw = PKME_Tabs.Draw = DrawConfig.GetConfig(settings.Draw);
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
@@ -418,6 +420,7 @@ namespace PKHeX.WinForms
 
         private void ReloadProgramSettings(Settings settings)
         {
+            Draw.LoadBrushes();
             PKME_Tabs.Unicode = Unicode = settings.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
             PKX.AllowShinySprite = settings.ShinySprites;
@@ -1168,9 +1171,23 @@ namespace PKHeX.WinForms
                 }
             }
 
-            try { Settings.Default.Save(); }
-            catch (Exception x) { File.WriteAllLines("config error.txt", new[] { x.ToString() }); }
+            SaveSettings();
         }
+
+        private static void SaveSettings()
+        {
+            try
+            {
+                var settings = Settings.Default;
+                settings.Draw = Draw.ToString();
+                Settings.Default.Save();
+            }
+            catch (Exception x)
+            {
+                File.WriteAllLines("config error.txt", new[] {x.ToString()});
+            }
+        }
+
         #endregion
 
         #region //// SAVE FILE FUNCTIONS ////
