@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using PKHeX.Core;
+using Exception = System.Exception;
 
 namespace PKHeX.WinForms
 {
@@ -161,15 +163,23 @@ namespace PKHeX.WinForms
                 var name = split[0];
                 var value = split[1];
 
-                var pi = t.GetProperty(name);
-                if (pi.PropertyType == typeof(Color))
+                try
                 {
-                    var color = Color.FromArgb(int.Parse(value));
-                    pi.SetValue(config, color);
+                    var pi = t.GetProperty(name);
+                    if (pi.PropertyType == typeof(Color))
+                    {
+                        var color = Color.FromArgb(int.Parse(value));
+                        pi.SetValue(config, color);
+                    }
+                    else
+                    {
+                        pi.SetValue(config, split[1]);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    pi.SetValue(config, split[1]);
+                    Debug.WriteLine($"Failed to write {name} to {value}!");
+                    Debug.WriteLine(e.Message);
                 }
             }
 
