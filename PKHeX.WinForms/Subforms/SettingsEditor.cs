@@ -88,5 +88,11 @@ namespace PKHeX.WinForms
                 default: return null;
             }
         }
+
+        private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
+                Close();
+        }
     }
 }

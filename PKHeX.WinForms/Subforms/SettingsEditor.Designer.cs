@@ -109,7 +109,7 @@
             this.Tab_Color.Location = new System.Drawing.Point(4, 22);
             this.Tab_Color.Name = "Tab_Color";
             this.Tab_Color.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Color.Size = new System.Drawing.Size(355, 204);
+            this.Tab_Color.Size = new System.Drawing.Size(326, 258);
             this.Tab_Color.TabIndex = 1;
             this.Tab_Color.Text = "Colors";
             this.Tab_Color.UseVisualStyleBackColor = true;
@@ -119,7 +119,7 @@
             this.PG_Color.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PG_Color.Location = new System.Drawing.Point(3, 3);
             this.PG_Color.Name = "PG_Color";
-            this.PG_Color.Size = new System.Drawing.Size(349, 198);
+            this.PG_Color.Size = new System.Drawing.Size(320, 252);
             this.PG_Color.TabIndex = 0;
             // 
             // SettingsEditor
@@ -131,12 +131,14 @@
             this.Controls.Add(this.FLP_Blank);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsEditor_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SettingsEditor_KeyDown);
             this.FLP_Blank.ResumeLayout(false);
             this.FLP_Blank.PerformLayout();
             this.tabControl1.ResumeLayout(false);

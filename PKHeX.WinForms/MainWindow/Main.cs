@@ -835,7 +835,7 @@ namespace PKHeX.WinForms
         {
             ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
 
-            if (sav is SAV3 s3)
+            if (sav.Exportable && sav is SAV3 s3)
             {
                 if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
                 {
@@ -851,7 +851,7 @@ namespace PKHeX.WinForms
                     if (sav.Version == GameVersion.FRLG)
                         sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
                 }
-                else if (sav.Version == GameVersion.FRLG && sav.Exportable) // IndeterminateSubVersion
+                else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
