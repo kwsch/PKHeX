@@ -153,8 +153,7 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
-            var sav = new SAV3XD(data) {Header = (byte[]) Header.Clone()};
-            return sav;
+            return new SAV3XD(data) {Header = (byte[]) Header.Clone()};
         }
 
         public override int SIZE_STORED => PKX.SIZE_3XSTORED;
@@ -255,42 +254,27 @@ namespace PKHeX.Core
         public uint Coupons { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E8); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E8); }
 
         // Storage
-        public override int GetPartyOffset(int slot)
-        {
-            return Party + (SIZE_STORED * slot);
-        }
-
-        public override int GetBoxOffset(int box)
-        {
-            return Box + (((30 * SIZE_STORED) + 0x14)*box) + 0x14;
-        }
-
-        public override string GetBoxName(int box)
-        {
-            return GetString(Box + (((30 * SIZE_STORED) + 0x14)*box), 16);
-        }
+        public override int GetPartyOffset(int slot) => Party + (SIZE_STORED * slot);
+        private int GetBoxInfoOffset(int box) => Box + (((30 * SIZE_STORED) + 0x14) * box);
+        public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
+        public override string GetBoxName(int box) => GetString(GetBoxInfoOffset(box), 16);
 
         public override void SetBoxName(int box, string value)
         {
             if (value.Length > 8)
                 value = value.Substring(0, 8); // Hard cap
-            SetString(value, 8).CopyTo(Data, Box + (0x24A4 * box));
+            SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
         }
 
         public override PKM GetPKM(byte[] data)
         {
-            return new XK3(data.Take(SIZE_STORED).ToArray());
+            if (data.Length != SIZE_STORED)
+                Array.Resize(ref data, SIZE_STORED);
+            return new XK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
-        {
-            return data;
-        }
-
-        public override PKM GetPartySlot(int offset)
-        {
-            return GetStoredSlot(offset);
-        }
+        public override byte[] DecryptPKM(byte[] data) => data;
+        public override PKM GetPartySlot(int offset) => GetStoredSlot(offset);
 
         public override PKM GetStoredSlot(int offset)
         {

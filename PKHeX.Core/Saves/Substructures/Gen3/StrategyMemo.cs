@@ -21,10 +21,17 @@ namespace PKHeX.Core
             _unk = input.Skip(offset + 2).Take(2).ToArray();
             for (int i = 0; i < count; i++)
             {
-                byte[] data = new byte[SIZE_ENTRY];
-                Array.Copy(input, 4 + offset + (SIZE_ENTRY * i), data, 0, SIZE_ENTRY);
-                Entries.Add(new StrategyMemoEntry(XD, data));
+                var entry = Read(input, offset, i);
+                Entries.Add(entry);
             }
+        }
+
+        private StrategyMemoEntry Read(byte[] input, int offset, int index)
+        {
+            byte[] data = new byte[SIZE_ENTRY];
+            var ofs = 4 + offset + (SIZE_ENTRY * index);
+            Array.Copy(input, ofs, data, 0, SIZE_ENTRY);
+            return new StrategyMemoEntry(XD, data);
         }
 
         public byte[] FinalData => BigEndian.GetBytes((short)Entries.Count).Concat(_unk) // count followed by populated entries
@@ -38,7 +45,7 @@ namespace PKHeX.Core
         public void SetEntry(StrategyMemoEntry entry)
         {
             int index = Entries.FindIndex(ent => ent.Species == entry.Species);
-            if (index > 0)
+            if (index >= 0)
                 Entries[index] = entry;
             else
                 Entries.Add(entry);
