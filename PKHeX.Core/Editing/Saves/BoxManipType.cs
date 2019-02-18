@@ -30,6 +30,7 @@ namespace PKHeX.Core
         SortBST,
         SortCP,
         SortLegal,
+        SortEncounterType,
 
         ModifyHatchEggs,
         ModifyMaxFriendship,

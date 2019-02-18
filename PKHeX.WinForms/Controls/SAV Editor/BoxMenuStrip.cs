@@ -70,6 +70,7 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.SortBST] = Resources.vallohi,
             [BoxManipType.SortCP] = Resources.vallohi,
             [BoxManipType.SortLegal] = Resources.export,
+            [BoxManipType.SortEncounterType] = Resources.about,
 
             [BoxManipType.ModifyHatchEggs] = Resources.about,
             [BoxManipType.ModifyMaxFriendship] = Resources.heart,

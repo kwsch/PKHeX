@@ -61,6 +61,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
             new BoxManipSort(BoxManipType.SortCP, list => list.OrderByCustom(pk => (pk as PB7)?.Stat_CP), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
+            new BoxManipSort(BoxManipType.SortEncounterType, list => list.OrderByCustom(pk => new LegalityAnalysis(pk).Info?.EncounterMatch.GetEncounterTypeName())),
         };
     }
 }
