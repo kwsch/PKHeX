@@ -80,7 +80,7 @@
                 return pkPersonalInfo.FixedGender;
             if (Gender >= 0)
                 return Gender;
-            return pkPersonalInfo.RandomGender;
+            return pkPersonalInfo.RandomGender();
         }
 
         public int GetAbility(int abilityType, PersonalInfo pkPersonalInfo)

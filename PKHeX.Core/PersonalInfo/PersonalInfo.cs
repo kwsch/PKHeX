@@ -293,13 +293,10 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a random valid gender for the entry.
         /// </summary>
-        public int RandomGender
+        public int RandomGender()
         {
-            get
-            {
-                var fix = FixedGender;
-                return fix >= 0 ? fix : Util.Rand.Next(2);
-            }
+            var fix = FixedGender;
+            return fix >= 0 ? fix : Util.Rand.Next(2);
         }
 
         public bool IsDualGender => FixedGender < 0;
