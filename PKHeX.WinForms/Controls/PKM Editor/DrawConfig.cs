@@ -37,11 +37,11 @@ namespace PKHeX.WinForms
         [Category(PKM), Description("Pink colored marking.")]
         public Color MarkPink { get; set; } = Color.FromArgb(255, 117, 179);
 
-        [Category(PKM), Description("Blue colored marking.")]
-        public Color Male { get; set; } = Color.Red;
+        [Category(PKM), Description("Male gender color.")]
+        public Color Male { get; set; } = Color.Blue;
 
-        [Category(PKM), Description("Pink colored marking.")]
-        public Color Female { get; set; } = Color.Blue;
+        [Category(PKM), Description("Female gender color.")]
+        public Color Female { get; set; } = Color.Red;
 
         [Category(PKM), Description("Shiny star when using unicode characters.")]
         public string ShinyUnicode { get; set; } = "☆";
@@ -156,34 +156,37 @@ namespace PKHeX.WinForms
                 return config;
 
             var lines = data.Split('\n');
-            var t = typeof(DrawConfig);
             foreach (var l in lines)
-            {
-                var split = l.Split('\t');
-                var name = split[0];
-                var value = split[1];
-
-                try
-                {
-                    var pi = t.GetProperty(name);
-                    if (pi.PropertyType == typeof(Color))
-                    {
-                        var color = Color.FromArgb(int.Parse(value));
-                        pi.SetValue(config, color);
-                    }
-                    else
-                    {
-                        pi.SetValue(config, split[1]);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"Failed to write {name} to {value}!");
-                    Debug.WriteLine(e.Message);
-                }
-            }
+                config.ApplyLine(l);
 
             return config;
+        }
+
+        private void ApplyLine(string l)
+        {
+            var t = typeof(DrawConfig);
+            var split = l.Split('\t');
+            var name = split[0];
+            var value = split[1];
+
+            try
+            {
+                var pi = t.GetProperty(name);
+                if (pi.PropertyType == typeof(Color))
+                {
+                    var color = Color.FromArgb(int.Parse(value));
+                    pi.SetValue(this, color);
+                }
+                else
+                {
+                    pi.SetValue(this, value);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Failed to write {name} to {value}!");
+                Debug.WriteLine(e.Message);
+            }
         }
     }
 }
