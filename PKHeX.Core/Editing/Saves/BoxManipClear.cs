@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using PKHeX.Core.Searching;
 
 namespace PKHeX.Core
 {
-    public sealed class BoxManipClear : IBoxManip
+    public class BoxManipClear : IBoxManip
     {
-        public BoxManipType Type { get; }
+        public BoxManipType Type { get; protected set; }
         public Func<SaveFile, bool> Usable { get; set; }
 
         public string GetPrompt(bool all) => all ? MessageStrings.MsgSaveBoxClearAll : MessageStrings.MsgSaveBoxClearCurrent;
         public string GetFail(bool all) => all ? MessageStrings.MsgSaveBoxClearAllFailBattle : MessageStrings.MsgSaveBoxClearCurrentFailBattle;
         public string GetSuccess(bool all) => all ? MessageStrings.MsgSaveBoxClearAllSuccess : MessageStrings.MsgSaveBoxClearCurrentSuccess;
 
-        private readonly Func<PKM, bool> CriteriaSimple;
-        private readonly Func<PKM, SaveFile, bool> CriteriaSAV;
+        protected Func<PKM, bool> CriteriaSimple { private get; set; }
+        protected Func<PKM, SaveFile, bool> CriteriaSAV { private get; set; }
 
-        public bool Execute(SaveFile SAV, BoxManipParam param)
+        public virtual bool Execute(SaveFile SAV, BoxManipParam param)
         {
             bool Method(PKM p) => param.Reverse ^ (CriteriaSAV?.Invoke(p, SAV) ?? CriteriaSimple?.Invoke(p) ?? true);
             SAV.ClearBoxes(param.Start, param.Stop, Method);
             return true;
         }
+
+        protected BoxManipClear() { }
 
         private BoxManipClear(BoxManipType type, Func<PKM, bool> criteria, Func<SaveFile, bool> usable = null)
         {
@@ -47,15 +48,32 @@ namespace PKHeX.Core
             new BoxManipClear(BoxManipType.DeleteUntrained, pk => pk.EVTotal == 0),
             new BoxManipClear(BoxManipType.DeleteItemless, pk => pk.HeldItem == 0),
             new BoxManipClear(BoxManipType.DeleteIllegal, pk => !new LegalityAnalysis(pk).Valid),
-            new BoxManipClear(BoxManipType.DeleteClones, (pk, sav) => IsClone(pk, sav, CloneDetectionMethod.HashDetails)),
+            new BoxManipClearDuplicate<string>(BoxManipType.DeleteClones, pk => SearchUtil.GetCloneDetectMethod(CloneDetectionMethod.HashDetails)(pk)),
         };
+    }
 
-        private static bool IsClone(PKM pk, SaveFile sav, CloneDetectionMethod type)
+    public sealed class BoxManipClearDuplicate<T> : BoxManipClear
+    {
+        private readonly HashSet<T> HashSet = new HashSet<T>();
+
+        public override bool Execute(SaveFile SAV, BoxManipParam param)
         {
-            var method = SearchUtil.GetCloneDetectMethod(type);
-            var ident = method(pk);
-            var count = sav.BoxData.Count(p => method(p) == ident);
-            return count > 1;
+            HashSet.Clear();
+            return base.Execute(SAV, param);
+        }
+
+        public BoxManipClearDuplicate(BoxManipType type, Func<PKM, T> criteria, Func<SaveFile, bool> usable = null)
+        {
+            Type = type;
+            Usable = usable;
+            CriteriaSimple = pk =>
+            {
+                var result = criteria(pk);
+                if (HashSet.Contains(result))
+                    return true;
+                HashSet.Add(result);
+                return false;
+            };
         }
     }
 }
