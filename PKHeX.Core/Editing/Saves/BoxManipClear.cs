@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using PKHeX.Core.Searching;
 
 namespace PKHeX.Core
 {
@@ -45,6 +47,15 @@ namespace PKHeX.Core
             new BoxManipClear(BoxManipType.DeleteUntrained, pk => pk.EVTotal == 0),
             new BoxManipClear(BoxManipType.DeleteItemless, pk => pk.HeldItem == 0),
             new BoxManipClear(BoxManipType.DeleteIllegal, pk => !new LegalityAnalysis(pk).Valid),
+            new BoxManipClear(BoxManipType.DeleteClones, (pk, sav) => IsClone(pk, sav, CloneDetectionMethod.HashDetails)),
         };
+
+        private static bool IsClone(PKM pk, SaveFile sav, CloneDetectionMethod type)
+        {
+            var method = SearchUtil.GetCloneDetectMethod(type);
+            var ident = method(pk);
+            var count = sav.BoxData.Count(p => method(p) == ident);
+            return count > 1;
+        }
     }
 }

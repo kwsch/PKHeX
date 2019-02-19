@@ -9,6 +9,7 @@ namespace PKHeX.Core
         DeleteUntrained,
         DeleteItemless,
         DeleteIllegal,
+        DeleteClones,
 
         SortSpecies,
         SortSpeciesReverse,
