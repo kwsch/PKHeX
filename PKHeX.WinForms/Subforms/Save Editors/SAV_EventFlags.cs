@@ -302,6 +302,7 @@ namespace PKHeX.WinForms
                     Width = 150,
                     Name = constCBTag + num[i].ToString("0000"),
                     DropDownStyle = ComboBoxStyle.DropDownList,
+                    BindingContext = BindingContext,
                     DropDownWidth = Width + 100
                 };
                 cb.InitializeBinding();
