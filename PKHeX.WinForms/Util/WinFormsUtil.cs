@@ -282,11 +282,11 @@ namespace PKHeX.WinForms
         private static void ExportSAV(SaveFile sav, string path)
         {
             var ext = Path.GetExtension(path)?.ToLower();
-            bool dsv = ext == ".dsv";
-            bool gci = ext == ".gci";
+            var flags = sav.GetSuggestedFlags(ext);
+
             try
             {
-                File.WriteAllBytes(path, sav.Write(dsv, gci));
+                File.WriteAllBytes(path, sav.Write(flags));
                 sav.Edited = false;
                 Alert(MsgSaveExportSuccessPath, path);
             }

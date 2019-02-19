@@ -6,23 +6,14 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object for Pokémon Ruby Sapphire Box saves.
     /// </summary>
-    public sealed class SAV3RSBox : SaveFile
+    public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     {
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
-
-        public override string Filter
-        {
-            get
-            {
-                if (IsMemoryCardSave)
-                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
-                return "GameCube Save File|*.gci|All Files|*.*";
-            }
-        }
-
-        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
+        public override string Filter => this.GCFilter();
+        public override string Extension => this.GCExtension();
+        public bool IsMemoryCardSave => MC != null;
         private readonly SAV3GCMemoryCard MC;
-        private bool IsMemoryCardSave => MC != null;
+
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
         public SAV3RSBox(byte[] data = null)
@@ -69,7 +60,7 @@ namespace PKHeX.Core
         private const int BLOCK_SIZE = 0x2000;
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
 
-        public override byte[] Write(bool DSV, bool GCI)
+        protected override byte[] GetFinalData()
         {
             // Copy Box data back
             const int copySize = BLOCK_SIZE - 0x10;
@@ -81,20 +72,15 @@ namespace PKHeX.Core
             byte[] newFile = GetData(0, Data.Length - SIZE_RESERVED);
 
             // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave || GCI)
-                return Header.Concat(newFile).ToArray();
+            if (!IsMemoryCardSave)
+                return newFile;
 
-            MC.SelectedSaveData = newFile.ToArray();
+            MC.SelectedSaveData = newFile;
             return MC.Data;
         }
 
         // Configuration
-        public override SaveFile Clone()
-        {
-            byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
-            var sav = new SAV3RSBox(data) {Header = (byte[]) Header.Clone()};
-            return sav;
-        }
+        public override SaveFile Clone() => new SAV3RSBox(Write()) {Header = (byte[]) Header.Clone()};
 
         public override int SIZE_STORED => PKX.SIZE_3STORED + 4;
         protected override int SIZE_PARTY => PKX.SIZE_3PARTY; // unused

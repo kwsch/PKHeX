@@ -44,6 +44,22 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets suggested export options for the savefile.
+        /// </summary>
+        /// <param name="sav"></param>
+        /// <param name="ext"></param>
+        /// <returns></returns>
+        public static ExportFlags GetSuggestedFlags(this SaveFile sav, string ext)
+        {
+            var flags = ExportFlags.None;
+            if (ext == ".dsv")
+                flags |= ExportFlags.IncludeFooter;
+            if (ext == ".gci" || (sav is IGCSaveFile gc && !gc.IsMemoryCardSave))
+                flags |= ExportFlags.IncludeHeader;
+            return flags;
+        }
+
+        /// <summary>
         /// Checks a <see cref="PKM"/> file for compatibility to the <see cref="SaveFile"/>.
         /// </summary>
         /// <param name="SAV"><see cref="SaveFile"/> that is being checked.</param>

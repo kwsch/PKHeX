@@ -33,7 +33,7 @@ namespace PKHeX.Tests.Saves
         {
             var save = GetSave();
             var originalChecksumInfo = save.ChecksumInfo;
-            var newSave = new SAV7(save.Write(false, false));
+            var newSave = new SAV7(save.Write());
 
             save.ChecksumInfo.Should().BeEquivalentTo(originalChecksumInfo, "because the checksum should have been modified");
             save.ChecksumsValid.Should().BeTrue("because the checksum should be valid after write");

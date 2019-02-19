@@ -797,6 +797,8 @@ namespace PKHeX.Core
         private static void CheckHeaderFooter(ref byte[] input, out byte[] header, out byte[] footer)
         {
             header = Array.Empty<byte>(); footer = Array.Empty<byte>();
+            if ((input.Length & 0xFF) == 0) // catch most non-header/footers
+                return;
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
                 if (input.Length == 0x800A4) // Action Replay

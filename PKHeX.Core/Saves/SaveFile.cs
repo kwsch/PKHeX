@@ -48,18 +48,19 @@ namespace PKHeX.Core
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
-        public virtual byte[] Write(bool DSV, bool GCI)
+        public byte[] Write(ExportFlags flags = ExportFlags.None)
         {
-            return Write(DSV);
+            byte[] data = GetFinalData();
+            if (Footer.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeFooter))
+                return data.Concat(Footer).ToArray();
+            if (Header.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeHeader))
+                return data.Concat(Data).ToArray();
+            return data;
         }
 
-        protected virtual byte[] Write(bool DSV)
+        protected virtual byte[] GetFinalData()
         {
             SetChecksums();
-            if (Footer.Length > 0 && DSV)
-                return Data.Concat(Footer).ToArray();
-            if (Header.Length > 0)
-                return Header.Concat(Data).ToArray();
             return Data;
         }
 

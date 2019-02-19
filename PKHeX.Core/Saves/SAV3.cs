@@ -227,7 +227,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override byte[] Write(bool DSV)
+        protected override byte[] GetFinalData()
         {
             // Copy Box data back
             for (int i = 5; i < BLOCK_COUNT; i++)
@@ -249,7 +249,7 @@ namespace PKHeX.Core
         public int GetBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
-        public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
+        public override SaveFile Clone() => new SAV3(Write(), Version) {Japanese = Japanese};
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         protected override int SIZE_PARTY => PKX.SIZE_3PARTY;

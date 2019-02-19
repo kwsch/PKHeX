@@ -61,14 +61,14 @@ namespace PKHeX.Core
 
         private readonly uint SaveCount;
 
-        protected override byte[] Write(bool DSV)
+        protected override byte[] GetFinalData()
         {
             SetChecksums();
             return EncryptPBRSaveData(Data);
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV4BR(Write(DSV: false)); }
+        public override SaveFile Clone() => new SAV4BR(Write());
 
         public readonly List<int> SaveSlots = new List<int>(SAVE_COUNT);
         public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);

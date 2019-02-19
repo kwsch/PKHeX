@@ -7,21 +7,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object for Pokémon Colosseum saves.
     /// </summary>
-    public sealed class SAV3Colosseum : SaveFile, IDisposable
+    public sealed class SAV3Colosseum : SaveFile, IDisposable, IGCSaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
-
-        public override string Filter
-        {
-            get
-            {
-                const string regular = "GameCube Save File|*.gci|All Files|*.*";
-                const string memcard = "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|";
-                return IsMemoryCardSave ? memcard + regular : regular;
-            }
-        }
-
-        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
+        public override string Filter => this.GCFilter();
+        public override string Extension => this.GCExtension();
+        public bool IsMemoryCardSave => MC != null;
+        private readonly SAV3GCMemoryCard MC;
 
         // 3 Save files are stored
         // 0x0000-0x6000 contains memory card data
@@ -42,8 +34,6 @@ namespace PKHeX.Core
         private readonly int Memo;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne;
         private readonly int OFS_PouchCologne;
-        private readonly SAV3GCMemoryCard MC;
-        private bool IsMemoryCardSave => MC != null;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
         public SAV3Colosseum(byte[] data = null)
@@ -118,7 +108,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override byte[] Write(bool DSV, bool GCI)
+        protected override byte[] GetFinalData()
         {
             StrategyMemo.FinalData.CopyTo(Data, Memo);
             SetChecksums();
@@ -132,19 +122,15 @@ namespace PKHeX.Core
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave || GCI)
-                return Header.Concat(newFile).ToArray();
+            if (!IsMemoryCardSave)
+                return newFile;
 
-            MC.SelectedSaveData = newFile.ToArray();
+            MC.SelectedSaveData = newFile;
             return MC.Data;
         }
 
         // Configuration
-        public override SaveFile Clone()
-        {
-            byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
-            return new SAV3Colosseum(data) { Header = (byte[])Header.Clone() };
-        }
+        public override SaveFile Clone() => new SAV3Colosseum(Write()) {Header = (byte[]) Header.Clone()};
 
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         protected override int SIZE_PARTY => PKX.SIZE_3CSTORED; // unused

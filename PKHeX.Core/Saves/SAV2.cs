@@ -154,7 +154,7 @@ namespace PKHeX.Core
             return 0x6000 + ((i - splitAtIndex) * (SIZE_STOREDBOX + 2));
         }
 
-        protected override byte[] Write(bool DSV)
+        protected override byte[] GetFinalData()
         {
             int splitAtIndex = (Japanese ? 6 : 7);
             for (int i = 0; i < BoxCount; i++)
@@ -234,7 +234,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV2(Write(DSV: false)); }
+        public override SaveFile Clone() => new SAV2(Write());
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
         protected override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;

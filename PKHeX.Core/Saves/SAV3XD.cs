@@ -6,21 +6,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
     /// </summary>
-    public sealed class SAV3XD : SaveFile
+    public sealed class SAV3XD : SaveFile, IGCSaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) #{SaveCount:0000}";
-
-        public override string Filter
-        {
-            get
-            {
-                if (IsMemoryCardSave)
-                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
-                return "GameCube Save File|*.gci|All Files|*.*";
-            }
-        }
-
-        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
+        public override string Filter => this.GCFilter();
+        public override string Extension => this.GCExtension();
+        public bool IsMemoryCardSave => MC != null;
+        private readonly SAV3GCMemoryCard MC;
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -35,8 +27,6 @@ namespace PKHeX.Core
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
-        private readonly SAV3GCMemoryCard MC;
-        private bool IsMemoryCardSave => MC != null;
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
         public SAV3XD(byte[] data = null)
@@ -124,7 +114,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override byte[] Write(bool DSV, bool GCI)
+        protected override byte[] GetFinalData()
         {
             // Set Memo Back
             StrategyMemo.FinalData.CopyTo(Data, Memo);
@@ -142,19 +132,15 @@ namespace PKHeX.Core
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave || GCI)
-                return Header.Concat(newFile).ToArray();
+            if (!IsMemoryCardSave)
+                return newFile;
 
-            MC.SelectedSaveData = newFile.ToArray();
+            MC.SelectedSaveData = newFile;
             return MC.Data;
         }
 
         // Configuration
-        public override SaveFile Clone()
-        {
-            byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
-            return new SAV3XD(data) {Header = (byte[]) Header.Clone()};
-        }
+        public override SaveFile Clone() => new SAV3XD(Write()) {Header = (byte[]) Header.Clone()};
 
         public override int SIZE_STORED => PKX.SIZE_3XSTORED;
         protected override int SIZE_PARTY => PKX.SIZE_3XSTORED; // unused
