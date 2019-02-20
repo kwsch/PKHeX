@@ -275,10 +275,12 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
         }
 
+        public static DrawConfig Draw;
+
         private void FormInitializeSecond()
         {
             var settings = Settings.Default;
-            C_SAV.M.Draw = PKME_Tabs.Draw = new DrawConfig();
+            Draw = C_SAV.M.Draw = PKME_Tabs.Draw = DrawConfig.GetConfig(settings.Draw);
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
@@ -418,6 +420,7 @@ namespace PKHeX.WinForms
 
         private void ReloadProgramSettings(Settings settings)
         {
+            Draw.LoadBrushes();
             PKME_Tabs.Unicode = Unicode = settings.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
             PKX.AllowShinySprite = settings.ShinySprites;
@@ -708,22 +711,6 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static PKM LoadTemplate(SaveFile sav)
-        {
-            var blank = sav.BlankPKM;
-            if (!Directory.Exists(TemplatePath))
-                return blank;
-
-            var di = new DirectoryInfo(TemplatePath);
-            string path = Path.Combine(TemplatePath, $"{di.Name}.{blank.Extension}");
-
-            if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
-                return blank;
-
-            var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path) ?? blank; // no sneaky plz; reuse string
-        }
-
         private bool OpenSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
@@ -762,7 +749,7 @@ namespace PKHeX.WinForms
             bool WindowToggleRequired = C_SAV.SAV?.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
             C_SAV.SAV = sav;
 
-            var pk = LoadTemplate(sav);
+            var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
             bool init = PKME_Tabs.pkm == null;
             PKME_Tabs.CurrentPKM = pk;
@@ -848,7 +835,7 @@ namespace PKHeX.WinForms
         {
             ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
 
-            if (sav is SAV3 s3)
+            if (sav.Exportable && sav is SAV3 s3)
             {
                 if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
                 {
@@ -864,7 +851,7 @@ namespace PKHeX.WinForms
                     if (sav.Version == GameVersion.FRLG)
                         sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
                 }
-                else if (sav.Version == GameVersion.FRLG && sav.Exportable) // IndeterminateSubVersion
+                else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
@@ -892,7 +879,7 @@ namespace PKHeX.WinForms
             string cl = GameInfo.CurrentLanguage;
             cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
 
-            CB.DataSource = Util.GetCBList(type, cl);
+            CB.DataSource = Util.GetCountryRegionList(type, cl);
 
             if (index > 0 && index < CB.Items.Count)
                 CB.SelectedIndex = index;
@@ -987,21 +974,21 @@ namespace PKHeX.WinForms
         {
             if (!PKME_Tabs.EditsComplete)
                 return;
-            PKM pkx = PreparePKM();
+            PKM pk = PreparePKM();
 
             Image qr;
-            switch (pkx.Format)
+            switch (pk.Format)
             {
-                case 7 when pkx is PK7 pk7:
+                case 7 when pk is PK7 pk7:
                     qr = QR.GenerateQRCode7(pk7);
                     break;
                 default:
-                    if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
+                    if (pk.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
                     {
                         WinFormsUtil.Alert(MsgQRDeprecated, MsgQRAlternative);
                         QR6Notified = true;
                     }
-                    qr = QR.GetQRImage(pkx.EncryptedBoxData, QR.GetQRServer(pkx.Format));
+                    qr = QR.GetQRImage(pk.EncryptedBoxData, QR.GetQRServer(pk.Format));
                     break;
             }
 
@@ -1009,16 +996,16 @@ namespace PKHeX.WinForms
                 return;
 
             var sprite = dragout.Image;
-            var la = new LegalityAnalysis(pkx, C_SAV.SAV.Personal);
-            if (la.Parsed && pkx.Species != 0)
+            var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
+            if (la.Parsed && pk.Species != 0)
             {
                 var img = la.Valid ? Resources.valid : Resources.warn;
                 sprite = ImageUtil.LayerImage(sprite, img, 24, 0);
             }
 
-            string[] r = pkx.GetQRLines();
+            string[] r = pk.GetQRLines();
             string refer = GetProgramTitle();
-            new QR(qr, sprite, pkx, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})").ShowDialog();
+            new QR(qr, sprite, pk, r[0], r[1], r[2], $"{refer} ({pk.GetType().Name})").ShowDialog();
         }
 
         private void ClickLegality(object sender, EventArgs e)
@@ -1125,18 +1112,19 @@ namespace PKHeX.WinForms
                 return;
 
             // Create Temp File to Drag
-            PKM pkx = PreparePKM();
+            PKM pk = PreparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string fn = pkx.FileNameWithoutExtension;
-            string filename = fn + (encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}");
-            byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
+            string fn = pk.FileNameWithoutExtension;
+            string filename = fn + (encrypt ? $".ek{pk.Format}" : $".{pk.Extension}");
+            byte[] dragdata = encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
             try
             {
                 File.WriteAllBytes(newfile, dragdata);
-                PictureBox pb = (PictureBox)sender;
-                C_SAV.M.DragInfo.Source.PKM = pkx;
+                C_SAV.M.DragInfo.Source.PKM = pk;
+
+                var pb = (PictureBox)sender;
                 if (pb.Image != null)
                     C_SAV.M.DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
@@ -1183,9 +1171,23 @@ namespace PKHeX.WinForms
                 }
             }
 
-            try { Settings.Default.Save(); }
-            catch (Exception x) { File.WriteAllLines("config error.txt", new[] { x.ToString() }); }
+            SaveSettings();
         }
+
+        private static void SaveSettings()
+        {
+            try
+            {
+                var settings = Settings.Default;
+                settings.Draw = Draw.ToString();
+                Settings.Default.Save();
+            }
+            catch (Exception x)
+            {
+                File.WriteAllLines("config error.txt", new[] {x.ToString()});
+            }
+        }
+
         #endregion
 
         #region //// SAVE FILE FUNCTIONS ////

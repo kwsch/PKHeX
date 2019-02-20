@@ -327,10 +327,12 @@ namespace PKHeX.Core
 
         public MemoryStrings Memories { get; private set; }
 
+        // ignores Poke/Great/Ultra
+        private static readonly int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
+        private static readonly int[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
+
         private void InitializeDataSources()
         {
-            int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
-            int[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
             BallDataSource = Util.GetVariedCBListBall(itemlist, ball_nums, ball_vals);
             SpeciesDataSource = Util.GetCBList(specieslist);
             NatureDataSource = Util.GetCBList(natures);
@@ -363,13 +365,13 @@ namespace PKHeX.Core
             // Gen 2
             {
                 var met_list = Util.GetCBList(metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
-                met_list = Util.GetOffsetCBList(met_list, metGSC_00000, 00000, new[] { 0x7E, 0x7F });
+                Util.AddCBWithOffset(met_list, metGSC_00000, 00000, new[] { 0x7E, 0x7F });
                 MetGen2 = met_list;
             }
             // Gen 3
             {
                 var met_list = Util.GetCBList(metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                met_list = Util.GetOffsetCBList(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
+                Util.AddCBWithOffset(met_list, metRSEFRLG_00000, 00000, new[] { 253, 254, 255 });
                 MetGen3 = met_list;
 
                 MetGen3CXD = Util.GetCBList(metCXD_00000, Enumerable.Range(0, metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
@@ -377,56 +379,56 @@ namespace PKHeX.Core
             // Gen 4
             {
                 var met_list = Util.GetCBList(metHGSS_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2000 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_02000, 2000, new[] { 2002 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_03000, 3000, new[] { 3001 });
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                met_list = Util.GetOffsetCBList(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, new[] { 2000 });
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, new[] { 2002 });
+                Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, new[] { 3001 });
+                Util.AddCBWithOffset(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
+                Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
                 MetGen4 = met_list;
             }
             // Gen 5
             {
                 var met_list = Util.GetCBList(metBW2_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metBW2_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metBW2_30000, 30001, new[] { 30003 });
-                met_list = Util.GetOffsetCBList(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
-                met_list = Util.GetOffsetCBList(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
-                met_list = Util.GetOffsetCBList(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
-                met_list = Util.GetOffsetCBList(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
+                Util.AddCBWithOffset(met_list, metBW2_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metBW2_30000, 30001, new[] { 30003 });
+                Util.AddCBWithOffset(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
+                Util.AddCBWithOffset(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
+                Util.AddCBWithOffset(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
+                Util.AddCBWithOffset(met_list, metBW2_60000, 60001, Legal.Met_BW2_6);
                 MetGen5 = met_list;
             }
             // Gen 6
             {
                 var met_list = Util.GetCBList(metXY_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metXY_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metXY_30000, 30001, new[] { 30002 });
-                met_list = Util.GetOffsetCBList(met_list, metXY_00000, 00000, Legal.Met_XY_0);
-                met_list = Util.GetOffsetCBList(met_list, metXY_30000, 30001, Legal.Met_XY_3);
-                met_list = Util.GetOffsetCBList(met_list, metXY_40000, 40001, Legal.Met_XY_4);
-                met_list = Util.GetOffsetCBList(met_list, metXY_60000, 60001, Legal.Met_XY_6);
+                Util.AddCBWithOffset(met_list, metXY_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metXY_30000, 30001, new[] { 30002 });
+                Util.AddCBWithOffset(met_list, metXY_00000, 00000, Legal.Met_XY_0);
+                Util.AddCBWithOffset(met_list, metXY_30000, 30001, Legal.Met_XY_3);
+                Util.AddCBWithOffset(met_list, metXY_40000, 40001, Legal.Met_XY_4);
+                Util.AddCBWithOffset(met_list, metXY_60000, 60001, Legal.Met_XY_6);
                 MetGen6 = met_list;
             }
             // Gen 7
             {
                 var met_list = Util.GetCBList(metSM_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metSM_30000, 30001, new[] { 30002 });
-                met_list = Util.GetOffsetCBList(met_list, metSM_00000, 00000, Legal.Met_SM_0);
-                met_list = Util.GetOffsetCBList(met_list, metSM_30000, 30001, Legal.Met_SM_3);
-                met_list = Util.GetOffsetCBList(met_list, metSM_40000, 40001, Legal.Met_SM_4);
-                met_list = Util.GetOffsetCBList(met_list, metSM_60000, 60001, Legal.Met_SM_6);
+                Util.AddCBWithOffset(met_list, metSM_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metSM_30000, 30001, new[] { 30002 });
+                Util.AddCBWithOffset(met_list, metSM_00000, 00000, Legal.Met_SM_0);
+                Util.AddCBWithOffset(met_list, metSM_30000, 30001, Legal.Met_SM_3);
+                Util.AddCBWithOffset(met_list, metSM_40000, 40001, Legal.Met_SM_4);
+                Util.AddCBWithOffset(met_list, metSM_60000, 60001, Legal.Met_SM_6);
                 MetGen7 = met_list;
             }
             // Gen 7 GG
             {
                 var met_list = Util.GetCBList(metGG_00000, new[] { 0 });
-                met_list = Util.GetOffsetCBList(met_list, metGG_60000, 60001, new[] { 60002 });
-                met_list = Util.GetOffsetCBList(met_list, metGG_30000, 30001, new[] { 30002 });
-                met_list = Util.GetOffsetCBList(met_list, metGG_00000, 00000, Legal.Met_GG_0);
-                met_list = Util.GetOffsetCBList(met_list, metGG_30000, 30001, Legal.Met_GG_3);
-                met_list = Util.GetOffsetCBList(met_list, metGG_40000, 40001, Legal.Met_GG_4);
-                met_list = Util.GetOffsetCBList(met_list, metGG_60000, 60001, Legal.Met_GG_6);
+                Util.AddCBWithOffset(met_list, metGG_60000, 60001, new[] { 60002 });
+                Util.AddCBWithOffset(met_list, metGG_30000, 30001, new[] { 30002 });
+                Util.AddCBWithOffset(met_list, metGG_00000, 00000, Legal.Met_GG_0);
+                Util.AddCBWithOffset(met_list, metGG_30000, 30001, Legal.Met_GG_3);
+                Util.AddCBWithOffset(met_list, metGG_40000, 40001, Legal.Met_GG_4);
+                Util.AddCBWithOffset(met_list, metGG_60000, 60001, Legal.Met_GG_6);
                 MetGen7GG = met_list;
             }
         }
@@ -437,50 +439,57 @@ namespace PKHeX.Core
             ItemDataSource = Util.GetCBList(items, (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int)i)).ToArray());
         }
 
-        public IReadOnlyList<ComboItem> GetLocationList(GameVersion Version, int SaveFormat, bool egg)
+        /// <summary>
+        /// Fetches a Met Location list for a <see cref="version"/> that has been transferred away from and overwritten.
+        /// </summary>
+        /// <param name="version">Origin version</param>
+        /// <param name="currentGen">Current savefile generation</param>
+        /// <param name="egg">True if an egg location list, false if a regular met location list</param>
+        /// <returns>Met location list</returns>
+        public IReadOnlyList<ComboItem> GetLocationList(GameVersion version, int currentGen, bool egg = false)
         {
-            if (SaveFormat == 2)
+            if (currentGen == 2)
                 return MetGen2;
 
-            if (egg && Version < GameVersion.W && SaveFormat >= 5)
+            if (egg && version < GameVersion.W && currentGen >= 5)
                 return MetGen4;
 
-            switch (Version)
+            switch (version)
             {
                 case GameVersion.CXD:
-                    if (SaveFormat == 3)
+                    if (currentGen == 3)
                         return MetGen3CXD;
                     break;
 
                 case GameVersion.R:
                 case GameVersion.S:
-                    if (SaveFormat == 3)
+                    if (currentGen == 3)
                         return MetGen3.OrderByDescending(loc => loc.Value <= 87).ToList(); // Ferry
                     break;
                 case GameVersion.E:
-                    if (SaveFormat == 3)
+                    if (currentGen == 3)
                         return MetGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)).ToList(); // Trainer Hill
                     break;
                 case GameVersion.FR:
                 case GameVersion.LG:
-                    if (SaveFormat == 3)
+                    if (currentGen == 3)
                         return MetGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197).ToList(); // Celadon Dept.
                     break;
 
                 case GameVersion.D:
                 case GameVersion.P:
-                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
+                    if (currentGen == 4 || (currentGen >= 5 && egg))
                         return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)).ToList(); // Battle Park
                     break;
 
                 case GameVersion.Pt:
-                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
+                    if (currentGen == 4 || (currentGen >= 5 && egg))
                         return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)).ToList(); // Rock Peak Ruins
                     break;
 
                 case GameVersion.HG:
                 case GameVersion.SS:
-                    if (SaveFormat == 4 || (SaveFormat >= 5 && egg))
+                    if (currentGen == 4 || (currentGen >= 5 && egg))
                         return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)).ToList(); // Celadon Dept.
                     break;
 
@@ -523,22 +532,32 @@ namespace PKHeX.Core
                     return MetGen7GG.Take(3).Concat(MetGen7GG.Skip(3).OrderByDescending(loc => loc.Value <= 54)).ToList(); // Pokémon League
             }
 
-            // Currently on a future game, return corresponding list for generation
-            if (Version <= GameVersion.CXD && SaveFormat == 4)
+            return GetLocationListModified(version, currentGen);
+        }
+
+        /// <summary>
+        /// Fetches a Met Location list for a <see cref="version"/> that has been transferred away from and overwritten.
+        /// </summary>
+        /// <param name="version">Origin version</param>
+        /// <param name="currentGen">Current savefile generation</param>
+        /// <returns>Met location list</returns>
+        private IReadOnlyList<ComboItem> GetLocationListModified(GameVersion version, int currentGen)
+        {
+            if (version <= GameVersion.CXD && currentGen == 4)
             {
                 return MetGen4.Where(loc => loc.Value == Legal.Transfer3) // Pal Park to front
-                   .Concat(MetGen4.Take(4))
-                   .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Legal.Transfer3)).ToList();
+                    .Concat(MetGen4.Take(4))
+                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Legal.Transfer3)).ToList();
             }
 
-            if (Version < GameVersion.X && SaveFormat >= 5) // PokéTransfer to front
+            if (version < GameVersion.X && currentGen >= 5) // PokéTransfer to front
             {
                 return MetGen5.Where(loc => loc.Value == Legal.Transfer4)
-                   .Concat(MetGen5.Take(3))
-                   .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Legal.Transfer4)).ToList();
+                    .Concat(MetGen5.Take(3))
+                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Legal.Transfer4)).ToList();
             }
 
-            return MetGen6;
+            return Array.Empty<ComboItem>();
         }
 
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)

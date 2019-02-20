@@ -44,7 +44,8 @@ namespace PKHeX.Core
             }
             Array.Resize(ref allowed, allowed.Length - 1);
             var memory_list1 = Util.GetCBList(new[] { mems[0] });
-            return Util.GetOffsetCBList(memory_list1, mems, 0, allowed);
+            Util.AddCBWithOffset(memory_list1, mems, 0, allowed);
+            return memory_list1;
         }
 
         public string[] GetMemoryQualities()

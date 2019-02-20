@@ -10,7 +10,7 @@ namespace PKHeX.WinForms
     {
         public static IEnumerable<T> LoadPlugins<T>(string pluginPath)
         {
-            IEnumerable<string> dllFileNames = !Directory.Exists(pluginPath)
+            var dllFileNames = !Directory.Exists(pluginPath)
                 ? Enumerable.Empty<string>()
                 : Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
             var assemblies = GetAssemblies(dllFileNames);

@@ -17,6 +17,8 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV3)(Origin = sav).Clone();
 
+            LoadRecords();
+
             if (SAV.FRLG || SAV.E)
                 ReadJoyful();
             else
@@ -441,5 +443,38 @@ namespace PKHeX.WinForms
         }
         #endregion
 
+        private void LoadRecords()
+        {
+            var records = new Record3(SAV);
+            var items = Record3.GetItems(SAV);
+            CB_Record.InitializeBinding();
+            CB_Record.DataSource = items;
+            NUD_RecordValue.Minimum = int.MinValue;
+            NUD_RecordValue.Maximum = int.MaxValue;
+
+            CB_Record.SelectedIndexChanged += (s, e) =>
+            {
+                if (CB_Record.SelectedValue == null)
+                    return;
+
+                var index = WinFormsUtil.GetIndex(CB_Record);
+                LoadRecordID(index);
+            };
+            CB_Record.SelectedIndex = 0;
+            LoadRecordID(0);
+            NUD_RecordValue.ValueChanged += (s, e) =>
+            {
+                if (CB_Record.SelectedValue == null)
+                    return;
+
+                var index = WinFormsUtil.GetIndex(CB_Record);
+                records.SetRecord(index, (uint)NUD_RecordValue.Value);
+            };
+
+            void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);
+
+            NUD_BPEarned.Value = SAV.BPEarned;
+            NUD_BPEarned.ValueChanged += (s, e) => SAV.BPEarned = (uint)NUD_BPEarned.Value;
+        }
     }
 }

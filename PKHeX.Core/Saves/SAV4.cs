@@ -44,7 +44,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV4((byte[])Data.Clone(), Version); }
+        public override SaveFile Clone() => new SAV4((byte[])Data.Clone(), Version) {Footer = (byte[])Footer.Clone()};
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         protected override int SIZE_PARTY => PKX.SIZE_4PARTY;

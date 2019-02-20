@@ -17,6 +17,11 @@ namespace PKHeX.Core
         private readonly bool Error;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
+        /// <summary>
+        /// Parse result list allowing view of the legality parse.
+        /// </summary>
+        public IReadOnlyList<CheckResult> Results => Parse;
+
         private IEncounterable EncounterOriginalGB;
 
         /// <summary>

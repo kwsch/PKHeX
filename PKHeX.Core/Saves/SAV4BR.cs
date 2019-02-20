@@ -61,14 +61,14 @@ namespace PKHeX.Core
 
         private readonly uint SaveCount;
 
-        protected override byte[] Write(bool DSV)
+        protected override byte[] GetFinalData()
         {
             SetChecksums();
             return EncryptPBRSaveData(Data);
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV4BR(Write(DSV: false)); }
+        public override SaveFile Clone() => new SAV4BR(Write());
 
         public readonly List<int> SaveSlots = new List<int>(SAVE_COUNT);
         public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);
@@ -158,15 +158,8 @@ namespace PKHeX.Core
         }
 
         // Storage
-        public override int GetPartyOffset(int slot)
-        {
-            return Party + (SIZE_PARTY * slot);
-        }
-
-        public override int GetBoxOffset(int box)
-        {
-            return Box + (SIZE_STORED * box * 30);
-        }
+        public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
+        public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
 
         // Save file does not have Box Name / Wallpaper info
         private int BoxName = -1;
@@ -201,20 +194,14 @@ namespace PKHeX.Core
 
         public override PKM GetPKM(byte[] data)
         {
-            byte[] pkm = data.Take(SIZE_STORED).ToArray();
-            PKM bk = new BK4(pkm);
-            return bk;
+            if (data.Length != SIZE_STORED)
+                Array.Resize(ref data, SIZE_STORED);
+            return new BK4(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
-        {
-            return data;
-        }
+        public override byte[] DecryptPKM(byte[] data) => data;
 
-        protected override void SetDex(PKM pkm)
-        {
-            // There's nothing in the dex
-        }
+        protected override void SetDex(PKM pkm) { /* There's no PokéDex */ }
 
         protected override void SetPKM(PKM pkm)
         {

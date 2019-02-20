@@ -9,12 +9,15 @@ CTRL-B: Export BAK
 CTRL-Q: Quit
 
 CTRL-D: Open PKM Database
-CTRL-F: Open Folder
+CTRL-F: Open Folder List
 CTRL-G: Open Mystery Gift Database
+CTRL-N: Open Encounter Database
+CTRL-M: Open Batch Editor
 CTRL-R: Open Box Report
 CTRL-P: Open About PKHeX
 CTRL-T: Import Showdown Set
 CTRL-SHIFT-T: Export Showdown Set
+CTRL-SHIFT-S: Open Settings
 
 Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.

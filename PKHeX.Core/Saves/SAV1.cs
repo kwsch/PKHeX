@@ -115,7 +115,7 @@ namespace PKHeX.Core
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
 
-        protected override byte[] Write(bool DSV)
+        protected override byte[] GetFinalData()
         {
             var capacity = Japanese ? PokeListType.StoredJP : PokeListType.Stored;
             for (int i = 0; i < BoxCount; i++)
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV1(Write(DSV: false)); }
+        public override SaveFile Clone() => new SAV1(Write());
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
         protected override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
@@ -204,7 +204,7 @@ namespace PKHeX.Core
         public override bool HasParty => true;
         private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
 
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
 
         // Checksums
         protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.ChecksumOfs);

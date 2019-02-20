@@ -165,13 +165,13 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Opens a dialog to open a <see cref="SaveFile"/>, <see cref="PKM"/> file, or any other supported file.
         /// </summary>
-        /// <param name="Extensions">Misc extensions of <see cref="PKM"/> files supported by the SAV.</param>
+        /// <param name="extensions">Misc extensions of <see cref="PKM"/> files supported by the Save File.</param>
         /// <param name="path">Output result path</param>
         /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
-        public static bool OpenSAVPKMDialog(IEnumerable<string> Extensions, out string path)
+        public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string path)
         {
-            string supported = string.Join(";", Extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
-            OpenFileDialog ofd = new OpenFileDialog
+            string supported = string.Join(";", extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
+            var ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
                          $"|Supported Files (*.*)|main;*.bin;{supported};*.bak" + ExtraSaveExtensions +
@@ -248,41 +248,47 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Opens a dialog to save a <see cref="SaveFile"/> file.
         /// </summary>
-        /// <param name="SAV"><see cref="SaveFile"/> to be saved.</param>
+        /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
         /// <param name="CurrentBox">Box the player will be greeted with when accessing the PC ingame.</param>
         /// <returns>Result of whether or not the file was saved.</returns>
-        public static bool SaveSAVDialog(SaveFile SAV, int CurrentBox = 0)
+        public static bool SaveSAVDialog(SaveFile sav, int CurrentBox = 0)
         {
             // Chunk Error Checking
-            string err = SAV.MiscSaveChecks();
+            string err = sav.MiscSaveChecks();
             if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, MsgSaveExportContinue) != DialogResult.Yes)
                 return false;
 
             SaveFileDialog main = new SaveFileDialog
             {
-                Filter = SAV.Filter,
-                FileName = SAV.FileName,
+                Filter = sav.Filter,
+                FileName = sav.FileName,
                 FilterIndex = 1000, // default to last, All Files
                 RestoreDirectory = true
             };
-            if (Directory.Exists(SAV.FileFolder))
-                main.InitialDirectory = SAV.FileFolder;
+            if (Directory.Exists(sav.FileFolder))
+                main.InitialDirectory = sav.FileFolder;
 
             // Export
             if (main.ShowDialog() != DialogResult.OK)
                 return false;
 
-            if (SAV.HasBox)
-                SAV.CurrentBox = CurrentBox;
+            if (sav.HasBox)
+                sav.CurrentBox = CurrentBox;
 
-            var ext = Path.GetExtension(main.FileName)?.ToLower();
-            bool dsv = ext == ".dsv";
-            bool gci = ext == ".gci";
+            ExportSAV(sav, main.FileName);
+            return true;
+        }
+
+        private static void ExportSAV(SaveFile sav, string path)
+        {
+            var ext = Path.GetExtension(path)?.ToLower();
+            var flags = sav.GetSuggestedFlags(ext);
+
             try
             {
-                File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
-                SAV.Edited = false;
-                Alert(MsgSaveExportSuccessPath, main.FileName);
+                File.WriteAllBytes(path, sav.Write(flags));
+                sav.Edited = false;
+                Alert(MsgSaveExportSuccessPath, path);
             }
             catch (Exception x)
             {
@@ -290,7 +296,6 @@ namespace PKHeX.WinForms
                     Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
                 else throw;
             }
-            return true;
         }
 
         /// <summary>
@@ -310,14 +315,7 @@ namespace PKHeX.WinForms
                 return false;
 
             string path = output.FileName;
-
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                string bakpath = $"{path}.bak";
-                if (!File.Exists(bakpath))
-                    File.Move(path, bakpath);
-            }
+            SaveBackup(path);
 
             File.WriteAllBytes(path, gift.Data);
             return true;

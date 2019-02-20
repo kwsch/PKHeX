@@ -183,7 +183,7 @@ namespace PKHeX.Core
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != -1 ? Nature : Util.Rand.Next(25),
-                Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
+                Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender()),
                 AltForm = Form,
                 Version = OriginGame == 0 ? SAV.Game : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,

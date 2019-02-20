@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public enum RegionID
+    public enum RegionID : byte
     {
         None = 0,
         Japan = 1,

@@ -45,10 +45,11 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.DeleteAll] = Resources.nocheck,
             [BoxManipType.DeleteEggs] = Resources.about,
             [BoxManipType.DeletePastGen] = Resources.bak,
-            [BoxManipType.DeleteForeign] = Resources.users,
+            [BoxManipType.DeleteForeign] = Resources.language,
             [BoxManipType.DeleteUntrained] = Resources.gift,
             [BoxManipType.DeleteItemless] = Resources.main,
             [BoxManipType.DeleteIllegal] = Resources.export,
+            [BoxManipType.DeleteClones] = Resources.users,
 
             [BoxManipType.SortSpecies] = Resources.numlohi,
             [BoxManipType.SortSpeciesReverse] = Resources.numhilo,
@@ -70,6 +71,7 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.SortBST] = Resources.vallohi,
             [BoxManipType.SortCP] = Resources.vallohi,
             [BoxManipType.SortLegal] = Resources.export,
+            [BoxManipType.SortEncounterType] = Resources.about,
 
             [BoxManipType.ModifyHatchEggs] = Resources.about,
             [BoxManipType.ModifyMaxFriendship] = Resources.heart,

@@ -48,13 +48,13 @@ namespace PKHeX.Tests
 
             private static void CheckStringGetSet(string check, string instr, string outstr, byte[] indata, byte[] outdata)
             {
+                Assert.Equal(instr, outstr);
+
                 outdata = outdata.Take(indata.Length).ToArray();
 
                 Assert.True(indata.SequenceEqual(outdata),
                     $"{check} did not set properly."
                     + Environment.NewLine + string.Join(", ", outdata.Select(z => $"{z:X2}")));
-
-                Assert.Equal(instr, outstr);
             }
         }
 

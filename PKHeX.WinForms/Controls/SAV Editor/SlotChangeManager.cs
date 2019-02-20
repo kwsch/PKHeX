@@ -276,11 +276,11 @@ namespace PKHeX.WinForms.Controls
             Array.Resize(ref dragdata, SAV.SIZE_STORED);
 
             // Make File
-            PKM pkx = SAV.GetPKM(dragdata);
-            string newfile = FileUtil.GetPKMTempFileName(pkx, encrypt);
+            PKM pk = SAV.GetPKM(dragdata);
+            string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
-                TryMakeDragDropPKM(pb, encrypt, pkx, newfile, out external);
+                TryMakeDragDropPKM(pb, encrypt, pk, newfile, out external);
             }
             catch (Exception x)
             {
@@ -291,9 +291,9 @@ namespace PKHeX.WinForms.Controls
             return newfile;
         }
 
-        private bool TryMakeDragDropPKM(PictureBox pb, bool encrypt, PKM pkx, string newfile, out bool external)
+        private bool TryMakeDragDropPKM(PictureBox pb, bool encrypt, PKM pk, string newfile, out bool external)
         {
-            File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
+            File.WriteAllBytes(newfile, encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData);
             var img = (Bitmap)pb.Image;
             SetCursor(new Cursor(img.GetHicon()), pb);
             HoverCancel();

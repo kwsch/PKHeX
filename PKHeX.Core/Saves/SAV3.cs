@@ -227,7 +227,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override byte[] Write(bool DSV)
+        protected override byte[] GetFinalData()
         {
             // Copy Box data back
             for (int i = 5; i < BLOCK_COUNT; i++)
@@ -249,7 +249,7 @@ namespace PKHeX.Core
         public int GetBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
-        public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
+        public override SaveFile Clone() => new SAV3(Write(), Version) {Japanese = Japanese};
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         protected override int SIZE_PARTY => PKX.SIZE_3PARTY;
@@ -275,7 +275,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
 
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGBA(Data, offset);
 
         // Checksums
         protected override void SetChecksums()
@@ -325,7 +325,7 @@ namespace PKHeX.Core
         // Trainer Info
         public override GameVersion Version { get; protected set; }
 
-        private uint SecurityKey
+        public uint SecurityKey
         {
             get
             {
@@ -508,6 +508,17 @@ namespace PKHeX.Core
                 if (value > 9999)
                     value = 9999;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xEB8);
+            }
+        }
+
+        public uint BPEarned
+        {
+            get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xEBA);
+            set
+            {
+                if (value > 65535)
+                    value = 65535;
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xEBA);
             }
         }
 

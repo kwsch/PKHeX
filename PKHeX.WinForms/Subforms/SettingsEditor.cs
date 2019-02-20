@@ -19,8 +19,9 @@ namespace PKHeX.WinForms
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             // reorder checkboxes
-            int ctr = 0;
-            foreach (var c in FLP_Settings.Controls.OfType<CheckBox>().OrderBy(z => z.Text).ToList())
+            var checkboxes = FLP_Settings.Controls.OfType<CheckBox>().OrderBy(z => z.Text).ToList();
+            var ctr = 0;
+            foreach (var c in checkboxes)
                 FLP_Settings.Controls.SetChildIndex(c, ctr++);
 
             if (obj is Settings s)
@@ -36,6 +37,7 @@ namespace PKHeX.WinForms
                 FLP_Blank.Visible = false;
             }
 
+            PG_Color.SelectedObject = Main.Draw;
             this.CenterToForm(FindForm());
         }
 
@@ -85,6 +87,12 @@ namespace PKHeX.WinForms
                     return cb.Checked;
                 default: return null;
             }
+        }
+
+        private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
+                Close();
         }
     }
 }

@@ -183,7 +183,7 @@ namespace PKHeX.Core
             if (destFormat != srcFormat && srcFormat <= 3) // past gen items
             {
                 if (destFormat > 3) // try remapping
-                    return item = srcFormat == 2 ? GetG4Item((byte)item) : GetG4Item((ushort)item);
+                    return srcFormat == 2 ? GetG4Item((byte)item) : GetG4Item((ushort)item);
 
                 if (destFormat > srcFormat) // can't set past gen items
                     return 0;

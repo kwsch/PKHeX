@@ -286,5 +286,17 @@ namespace PKHeX.WinForms.Properties {
                 this["IgnoreLegalPopup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Draw {
+            get {
+                return ((string)(this["Draw"]));
+            }
+            set {
+                this["Draw"] = value;
+            }
+        }
     }
 }

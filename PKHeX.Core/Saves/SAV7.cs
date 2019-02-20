@@ -51,7 +51,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV7((byte[])Data.Clone()); }
+        public override SaveFile Clone() => new SAV7((byte[])Data.Clone());
 
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
@@ -358,7 +358,8 @@ namespace PKHeX.Core
             get => Data.Skip(TrainerCard + 0x28).Take(4).Concat(Data.Skip(TrainerCard + 0x18).Take(8)).ToArray();
             set
             {
-                if ((value?.Length ?? 0) != 12) return;
+                if (value?.Length != 12)
+                    return;
                 Array.Copy(value, 0, Data, TrainerCard + 0x28, 4);
                 Array.Copy(value, 4, Data, TrainerCard + 0x18, 8);
             }

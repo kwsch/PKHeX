@@ -6,21 +6,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
     /// </summary>
-    public sealed class SAV3XD : SaveFile
+    public sealed class SAV3XD : SaveFile, IGCSaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) #{SaveCount:0000}";
-
-        public override string Filter
-        {
-            get
-            {
-                if (IsMemoryCardSave)
-                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
-                return "GameCube Save File|*.gci|All Files|*.*";
-            }
-        }
-
-        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
+        public override string Filter => this.GCFilter();
+        public override string Extension => this.GCExtension();
+        public bool IsMemoryCardSave => MC != null;
+        private readonly SAV3GCMemoryCard MC;
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -35,8 +27,6 @@ namespace PKHeX.Core
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
-        private readonly SAV3GCMemoryCard MC;
-        private bool IsMemoryCardSave => MC != null;
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
         public SAV3XD(byte[] data = null)
@@ -124,7 +114,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override byte[] Write(bool DSV, bool GCI)
+        protected override byte[] GetFinalData()
         {
             // Set Memo Back
             StrategyMemo.FinalData.CopyTo(Data, Memo);
@@ -142,20 +132,15 @@ namespace PKHeX.Core
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
 
             // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave || GCI)
-                return Header.Concat(newFile).ToArray();
+            if (!IsMemoryCardSave)
+                return newFile;
 
-            MC.SelectedSaveData = newFile.ToArray();
+            MC.SelectedSaveData = newFile;
             return MC.Data;
         }
 
         // Configuration
-        public override SaveFile Clone()
-        {
-            byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
-            var sav = new SAV3XD(data) {Header = (byte[]) Header.Clone()};
-            return sav;
-        }
+        public override SaveFile Clone() => new SAV3XD(Write()) {Header = (byte[]) Header.Clone()};
 
         public override int SIZE_STORED => PKX.SIZE_3XSTORED;
         protected override int SIZE_PARTY => PKX.SIZE_3XSTORED; // unused
@@ -178,7 +163,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 8;
 
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGC(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGC(Data, offset);
 
         // Checksums
         protected override void SetChecksums()
@@ -255,42 +240,27 @@ namespace PKHeX.Core
         public uint Coupons { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E8); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E8); }
 
         // Storage
-        public override int GetPartyOffset(int slot)
-        {
-            return Party + (SIZE_STORED * slot);
-        }
-
-        public override int GetBoxOffset(int box)
-        {
-            return Box + (((30 * SIZE_STORED) + 0x14)*box) + 0x14;
-        }
-
-        public override string GetBoxName(int box)
-        {
-            return GetString(Box + (((30 * SIZE_STORED) + 0x14)*box), 16);
-        }
+        public override int GetPartyOffset(int slot) => Party + (SIZE_STORED * slot);
+        private int GetBoxInfoOffset(int box) => Box + (((30 * SIZE_STORED) + 0x14) * box);
+        public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
+        public override string GetBoxName(int box) => GetString(GetBoxInfoOffset(box), 16);
 
         public override void SetBoxName(int box, string value)
         {
             if (value.Length > 8)
                 value = value.Substring(0, 8); // Hard cap
-            SetString(value, 8).CopyTo(Data, Box + (0x24A4 * box));
+            SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
         }
 
         public override PKM GetPKM(byte[] data)
         {
-            return new XK3(data.Take(SIZE_STORED).ToArray());
+            if (data.Length != SIZE_STORED)
+                Array.Resize(ref data, SIZE_STORED);
+            return new XK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
-        {
-            return data;
-        }
-
-        public override PKM GetPartySlot(int offset)
-        {
-            return GetStoredSlot(offset);
-        }
+        public override byte[] DecryptPKM(byte[] data) => data;
+        public override PKM GetPartySlot(int offset) => GetStoredSlot(offset);
 
         public override PKM GetStoredSlot(int offset)
         {

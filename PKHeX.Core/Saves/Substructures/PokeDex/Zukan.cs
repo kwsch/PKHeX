@@ -68,7 +68,7 @@ namespace PKHeX.Core
                 if (GetFlag(OFS_SEEN + (i * BitSeenSize), species - 1))
                     return;
             }
-            var gender = SAV.Personal[species].RandomGender & 1;
+            var gender = SAV.Personal[species].RandomGender() & 1;
             SetAllDexSeenFlags(species - 1, 0, gender, false);
         }
 
