@@ -204,7 +204,7 @@ namespace PKHeX.Core
         public override bool HasParty => true;
         private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
 
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
 
         // Checksums
         protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.ChecksumOfs);

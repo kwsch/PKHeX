@@ -275,7 +275,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
 
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGBA(Data, offset);
 
         // Checksums
         protected override void SetChecksums()

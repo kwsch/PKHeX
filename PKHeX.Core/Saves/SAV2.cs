@@ -254,7 +254,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
 
         // not correct, but whole contains. Data[EventFlag+0x22F]=Data[0x1A2F] means repel count.
         protected override int EventFlagMax => Version == GameVersion.C ? 0x230 << 3 : base.EventFlagMax;

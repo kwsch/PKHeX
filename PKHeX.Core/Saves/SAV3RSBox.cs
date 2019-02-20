@@ -104,7 +104,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGBA(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGBA(Data, offset);
 
         // Checksums
         protected override void SetChecksums() => Blocks.SetChecksums(Data);

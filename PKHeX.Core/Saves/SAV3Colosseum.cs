@@ -152,7 +152,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
 
         public override int BoxCount => 3;
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGC(Data, Offset);
+        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGC(Data, offset);
 
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();

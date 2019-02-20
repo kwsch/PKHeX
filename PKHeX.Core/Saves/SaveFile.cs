@@ -836,7 +836,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        public virtual bool IsPKMPresent(int Offset) => PKX.IsPKMPresent(Data, Offset);
+        public virtual bool IsPKMPresent(int offset) => PKX.IsPKMPresent(Data, offset);
 
         public bool IsStorageFull => NextOpenBoxSlot() == StorageFullValue;
         private const int StorageFullValue = -1;
