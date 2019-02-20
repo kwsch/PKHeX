@@ -62,6 +62,10 @@ namespace PKHeX.Core
         {
             // Misc Fixes to Data pertaining to legality constraints
             Array.Resize(ref EggMovesUSUM[198].Moves, 15); // Remove Punishment from USUM Murkrow (no species can pass it #1829)
+            // Prevent Silvally from being tutored Fire/Water Pledge (logic can only tutor one, and Grass is first)
+            var pi = PersonalTable.USUM[773];
+            pi.TypeTutors[1] = false; // fire
+            pi.TypeTutors[2] = false; // water
         }
 
         public static void RefreshMGDB(string localDbPath) => EncounterEvent.RefreshMGDB(localDbPath);
