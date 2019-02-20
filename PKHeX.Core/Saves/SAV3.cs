@@ -325,7 +325,7 @@ namespace PKHeX.Core
         // Trainer Info
         public override GameVersion Version { get; protected set; }
 
-        private uint SecurityKey
+        public uint SecurityKey
         {
             get
             {
