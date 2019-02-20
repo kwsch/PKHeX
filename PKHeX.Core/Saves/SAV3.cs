@@ -511,6 +511,17 @@ namespace PKHeX.Core
             }
         }
 
+        public uint BPEarned
+        {
+            get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xEBA);
+            set
+            {
+                if (value > 65535)
+                    value = 65535;
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xEBA);
+            }
+        }
+
         public uint BerryPowder
         {
             get

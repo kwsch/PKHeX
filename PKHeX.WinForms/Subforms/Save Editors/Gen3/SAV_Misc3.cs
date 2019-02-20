@@ -472,6 +472,9 @@ namespace PKHeX.WinForms
             };
 
             void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);
+
+            NUD_BPEarned.Value = SAV.BPEarned;
+            NUD_BPEarned.ValueChanged += (s, e) => SAV.BPEarned = (uint)NUD_BPEarned.Value;
         }
     }
 }
