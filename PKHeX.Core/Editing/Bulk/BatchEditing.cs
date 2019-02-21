@@ -351,7 +351,7 @@ namespace PKHeX.Core
                     return ModifyResult.Modified;
 
                 case nameof(PKM.Stats):
-                    PKM.SetStats(PKM.GetStats(PKM.PersonalInfo));
+                    PKM.Heal();
                     return ModifyResult.Modified;
                 case nameof(IHyperTrain.HyperTrainFlags):
                     PKM.SetSuggestedHyperTrainingData();

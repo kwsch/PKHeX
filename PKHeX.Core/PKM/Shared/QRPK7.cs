@@ -111,12 +111,7 @@ namespace PKHeX.Core
             };
 
             pk.RefreshAbility(AbilityIndex >> 1);
-            pk.Move1_PP = pk.GetMovePP(pk.Move1, pk.Move1_PPUps);
-            pk.Move2_PP = pk.GetMovePP(pk.Move2, pk.Move2_PPUps);
-            pk.Move3_PP = pk.GetMovePP(pk.Move3, pk.Move3_PPUps);
-            pk.Move4_PP = pk.GetMovePP(pk.Move4, pk.Move4_PPUps);
-
-            pk.SetStats(pk.GetStats(pk.PersonalInfo));
+            pk.Heal();
 
             pk.RefreshChecksum();
             return pk;

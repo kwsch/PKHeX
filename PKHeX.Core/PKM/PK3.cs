@@ -261,10 +261,7 @@ namespace PKHeX.Core
             };
 
             // Fix PP
-            pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, pk4.Move1_PPUps);
-            pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, pk4.Move2_PPUps);
-            pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, pk4.Move3_PPUps);
-            pk4.Move4_PP = pk4.GetMovePP(pk4.Move4, pk4.Move4_PPUps);
+            pk4.HealPP();
 
             pk4.FatefulEncounter = FatefulEncounter; // obedience flag
 

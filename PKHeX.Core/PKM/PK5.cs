@@ -369,10 +369,7 @@ namespace PKHeX.Core
             pk6.Move4_PPUps = Move4_PPUps;
 
             // Fix PP
-            pk6.Move1_PP = pk6.GetMovePP(pk6.Move1, pk6.Move1_PPUps);
-            pk6.Move2_PP = pk6.GetMovePP(pk6.Move2, pk6.Move2_PPUps);
-            pk6.Move3_PP = pk6.GetMovePP(pk6.Move3, pk6.Move3_PPUps);
-            pk6.Move4_PP = pk6.GetMovePP(pk6.Move4, pk6.Move4_PPUps);
+            pk6.HealPP();
 
             pk6.IV_HP = IV_HP;
             pk6.IV_ATK = IV_ATK;
