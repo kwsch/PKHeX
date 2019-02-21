@@ -15,11 +15,10 @@ namespace PKHeX.Core
         private readonly Func<IEnumerable<PKM>, IEnumerable<PKM>> SorterSimple;
         private readonly Func<IEnumerable<PKM>, SaveFile, IEnumerable<PKM>> SorterComplex;
 
-        public bool Execute(SaveFile SAV, BoxManipParam param)
+        public int Execute(SaveFile SAV, BoxManipParam param)
         {
             IEnumerable<PKM> Method(IEnumerable<PKM> p) => SorterSimple != null ? SorterSimple(p) : SorterComplex(p, SAV);
-            SAV.SortBoxes(param.Start, param.Stop, Method, param.Reverse);
-            return true;
+            return SAV.SortBoxes(param.Start, param.Stop, Method, param.Reverse);
         }
 
         private BoxManipSort(BoxManipType type, Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter, Func<SaveFile, bool> usable = null)

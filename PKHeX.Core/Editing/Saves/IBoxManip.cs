@@ -11,6 +11,6 @@ namespace PKHeX.Core
         string GetFail(bool all);
         string GetSuccess(bool all);
 
-        bool Execute(SaveFile SAV, BoxManipParam param);
+        int Execute(SaveFile SAV, BoxManipParam param);
     }
 }

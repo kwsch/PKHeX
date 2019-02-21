@@ -409,12 +409,12 @@ namespace PKHeX.WinForms.Controls
             SortMenu.Show(pt);
         }
 
-        public void FinishBoxManipulation(string message, bool all)
+        public void FinishBoxManipulation(string message, bool all, int count)
         {
             SetPKMBoxes();
             UpdateBoxViewers(all);
             if (message != null)
-                WinFormsUtil.Alert(message);
+                WinFormsUtil.Alert(message + $" ({count})");
             else
                 SystemSounds.Asterisk.Play();
         }

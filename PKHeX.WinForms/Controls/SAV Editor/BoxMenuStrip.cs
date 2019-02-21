@@ -131,7 +131,7 @@ namespace PKHeX.WinForms.Controls
             Editor = editor;
         }
 
-        protected override void FinishBoxManipulation(string message, bool all) => Editor.FinishBoxManipulation(message, all);
+        protected override void FinishBoxManipulation(string message, bool all, int count) => Editor.FinishBoxManipulation(message, all, count);
 
         protected override bool CanManipulateRegion(int start, int end, string prompt, string fail)
         {

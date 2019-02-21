@@ -684,7 +684,7 @@ namespace PKHeX.Core
                 .Any(slot => WithinRange(slot, BoxStart*BoxSlotCount, (BoxEnd + 1)*BoxSlotCount));
         }
 
-        public void SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
+        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
         {
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
@@ -701,7 +701,7 @@ namespace PKHeX.Core
             var result = Sorted.ToArray();
             var boxclone = new PKM[BD.Count];
             BD.CopyTo(boxclone, 0);
-            result.CopyTo(boxclone, skip, start);
+            int count = result.CopyTo(boxclone, skip, start);
 
             SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
 
@@ -710,14 +710,16 @@ namespace PKHeX.Core
                 pk.StorageFlags = StorageSlotFlag.None;
 
             BoxData = boxclone;
+            return count;
         }
 
-        public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
+        public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
         {
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
 
             var blank = BlankPKM.EncryptedBoxData;
+            int deleted = 0;
             for (int i = BoxStart; i <= BoxEnd; i++)
             {
                 for (int p = 0; p < BoxSlotCount; p++)
@@ -725,6 +727,8 @@ namespace PKHeX.Core
                     if (IsSlotOverwriteProtected(i, p))
                         continue;
                     var ofs = GetBoxSlotOffset(i, p);
+                    if (!IsPKMPresent(ofs))
+                        continue;
                     if (deleteCriteria != null)
                     {
                         var pk = GetStoredSlot(ofs);
@@ -733,27 +737,34 @@ namespace PKHeX.Core
                     }
 
                     SetData(blank, ofs);
+                    ++deleted;
                 }
             }
+            return deleted;
         }
 
-        public void ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
+        public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
             var BD = BoxData;
+            int modified = 0;
             for (int b = BoxStart; b <= BoxEnd; b++)
             {
                 for (int s = 0; s < BoxSlotCount; s++)
                 {
+                    var index = (b * BoxSlotCount) + s;
+                    if (BD[index].Species == 0)
+                        continue;
                     if (IsSlotOverwriteProtected(b, s))
                         continue;
-                    var index = (b * BoxSlotCount) + s;
                     action(BD[index]);
+                    ++modified;
                 }
             }
 
             BoxData = BD;
+            return modified;
         }
 
         public byte[] PCBinary => BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray();
