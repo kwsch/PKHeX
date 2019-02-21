@@ -803,6 +803,18 @@ namespace PKHeX.Core
         {
             SetStats(GetStats(PersonalInfo));
             Status_Condition = 0;
+            HealPP();
+        }
+
+        /// <summary>
+        /// Restores PP to maximum based on the current PP Ups for each move.
+        /// </summary>
+        public void HealPP()
+        {
+            Move1_PP = GetMovePP(Move1, Move1_PPUps);
+            Move2_PP = GetMovePP(Move2, Move2_PPUps);
+            Move3_PP = GetMovePP(Move3, Move3_PPUps);
+            Move4_PP = GetMovePP(Move4, Move4_PPUps);
         }
 
         /// <summary>
