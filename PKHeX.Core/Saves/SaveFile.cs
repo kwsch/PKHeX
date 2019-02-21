@@ -684,6 +684,14 @@ namespace PKHeX.Core
                 .Any(slot => WithinRange(slot, BoxStart*BoxSlotCount, (BoxEnd + 1)*BoxSlotCount));
         }
 
+        /// <summary>
+        /// Sorts all <see cref="PKM"/> present within the range specified by <see cref="BoxStart"/> and <see cref="BoxEnd"/> with the provied <see cref="sortMethod"/>.
+        /// </summary>
+        /// <param name="BoxStart">Starting box; if not provided, will iterate from the first box.</param>
+        /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
+        /// <param name="sortMethod">Sorting logic required to order a <see cref="PKM"/> with respect to its peers; if not provided, will use a default sorting method.</param>
+        /// <param name="reverse">Reverse the sorting order</param>
+        /// <returns>Count of repositioned <see cref="PKM"/> slots.</returns>
         public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
         {
             var BD = BoxData;
@@ -713,6 +721,13 @@ namespace PKHeX.Core
             return count;
         }
 
+        /// <summary>
+        /// Removes all <see cref="PKM"/> present within the range specified by <see cref="BoxStart"/> and <see cref="BoxEnd"/> if the provied <see cref="deleteCriteria"/> is satisfied.
+        /// </summary>
+        /// <param name="BoxStart">Starting box; if not provided, will iterate from the first box.</param>
+        /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
+        /// <param name="deleteCriteria">Criteria required to be satisfied for a <see cref="PKM"/> to be deleted; if not provided, will clear if possible.</param>
+        /// <returns>Count of deleted <see cref="PKM"/> slots.</returns>
         public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
         {
             if (BoxEnd < 0)
@@ -743,27 +758,35 @@ namespace PKHeX.Core
             return deleted;
         }
 
+        /// <summary>
+        /// Modifies all <see cref="PKM"/> present within the range specified by <see cref="BoxStart"/> and <see cref="BoxEnd"/> with the modification routine provided by <see cref="action"/>.
+        /// </summary>
+        /// <param name="action">Modification to perform on a <see cref="PKM"/></param>
+        /// <param name="BoxStart">Starting box; if not provided, will iterate from the first box.</param>
+        /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
+        /// <returns>Count of modified <see cref="PKM"/> slots.</returns>
         public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
+            if (action == null)
+                throw new ArgumentException(nameof(action));
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
-            var BD = BoxData;
             int modified = 0;
             for (int b = BoxStart; b <= BoxEnd; b++)
             {
                 for (int s = 0; s < BoxSlotCount; s++)
                 {
-                    var index = (b * BoxSlotCount) + s;
-                    if (BD[index].Species == 0)
-                        continue;
                     if (IsSlotOverwriteProtected(b, s))
                         continue;
-                    action(BD[index]);
+                    var ofs = GetBoxSlotOffset(b, s);
+                    if (!IsPKMPresent(ofs))
+                        continue;
+                    var pk = GetStoredSlot(ofs);
+                    action(pk);
                     ++modified;
+                    SetStoredSlot(pk, ofs, false, false);
                 }
             }
-
-            BoxData = BD;
             return modified;
         }
 
