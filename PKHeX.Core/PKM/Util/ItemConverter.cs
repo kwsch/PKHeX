@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Logic for converting Item IDs between the generation specific value sets.
     /// </summary>
-    internal static class ItemConverter
+    public static class ItemConverter
     {
         /// <summary>Unused item ID, placeholder for item/sprite finding</summary>
         private const ushort NaN = 128;
@@ -16,28 +17,28 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="item">Generation 3 Item ID.</param>
         /// <returns>True if transferrable, False if not transferrable.</returns>
-        public static bool IsItemTransferrable34(ushort item) => item != NaN && item > 0;
+        internal static bool IsItemTransferrable34(ushort item) => item != NaN && item > 0;
 
         /// <summary>
         /// Converts a Generation 3 Item ID to Generation 4+ Item ID.
         /// </summary>
         /// <param name="g3val">Generation 3 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
-        public static ushort GetG4Item(ushort g3val) => g3val > arr3.Length ? NaN : arr3[g3val];
+        internal static ushort GetG4Item(ushort g3val) => g3val > arr3.Length ? NaN : arr3[g3val];
 
         /// <summary>
         /// Converts a Generation 2 Item ID to Generation 4+ Item ID.
         /// </summary>
         /// <param name="g2val">Generation 2 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
-        public static ushort GetG4Item(byte g2val) => g2val > arr2.Length ? NaN : arr2[g2val];
+        internal static ushort GetG4Item(byte g2val) => g2val > arr2.Length ? NaN : arr2[g2val];
 
         /// <summary>
         /// Converts a Generation 4+ Item ID to Generation 3 Item ID.
         /// </summary>
         /// <param name="g4val">Generation 4+ Item ID.</param>
         /// <returns>Generation 3 Item ID.</returns>
-        public static ushort GetG3Item(ushort g4val)
+        private static ushort GetG3Item(ushort g4val)
         {
             if (g4val == NaN)
                 return 0;
@@ -50,7 +51,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="g4val">Generation 4+ Item ID.</param>
         /// <returns>Generation 2 Item ID.</returns>
-        public static byte GetG2Item(ushort g4val)
+        private static byte GetG2Item(ushort g4val)
         {
             if (g4val == NaN)
                 return 0;
@@ -160,14 +161,14 @@ namespace PKHeX.Core
             }
         }
 
-        public static int GetG2ItemTransfer(int g1val)
+        internal static int GetG2ItemTransfer(int g1val)
         {
             if (!IsItemTransferrable12((ushort) g1val))
                 return GetTeruSamaItem(g1val);
             return g1val;
         }
 
-        public static bool IsItemTransferrable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
+        private static bool IsItemTransferrable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
 
         /// <summary>
         /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.
@@ -175,7 +176,7 @@ namespace PKHeX.Core
         /// <param name="item">Held Item to apply</param>
         /// <param name="srcFormat">Format from importing</param>
         /// <param name="destFormat">Format required for holder</param>
-        public static int GetFormatHeldItemID(int item, int srcFormat, int destFormat)
+        internal static int GetFormatHeldItemID(int item, int srcFormat, int destFormat)
         {
             if (item <= 0)
                 return 0;
@@ -201,6 +202,23 @@ namespace PKHeX.Core
                 case 2: return (byte)item;
                 case 1: return 0;
                 default: return item;
+            }
+        }
+
+        private static readonly int[] HMs = { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 };
+
+        public static bool IsItemHM(ushort item, int gen)
+        {
+            switch (gen)
+            {
+                case 1:
+                    return 196 >= item && item <= 200; // HMs
+                case 2:
+                    return item >= 243; // HMs
+                case 3:
+                    return Legal.Pouch_HM_RS.Contains(item);
+                default:
+                    return HMs.Contains(item);
             }
         }
     }

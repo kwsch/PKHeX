@@ -34,7 +34,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly InventoryPouch[] Pouches;
-        private const string TabPrefix = "TAB_";
         private const string DGVPrefix = "DGV_";
         private readonly bool HasFreeSpace;
         private readonly bool HasNew;
@@ -72,7 +71,7 @@ namespace PKHeX.WinForms
         private DataGridView GetDGV(InventoryPouch pouch)
         {
             // Add DataGrid
-            DataGridView dgv = new DataGridView
+            var dgv = new DataGridView
             {
                 Dock = DockStyle.Fill,
                 Text = pouch.Type.ToString(),
@@ -95,7 +94,7 @@ namespace PKHeX.WinForms
             };
 
             int c = 0;
-            DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn
+            var dgvItemVal = new DataGridViewComboBoxColumn
             {
                 HeaderText = "Item",
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
@@ -103,14 +102,14 @@ namespace PKHeX.WinForms
                 Width = 135,
                 FlatStyle = FlatStyle.Flat
             };
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
+            var dgvIndex = new DataGridViewTextBoxColumn();
             {
                 dgvIndex.HeaderText = "Count";
                 dgvIndex.DisplayIndex = c++;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 if (!Main.HaX)
-                ((DataGridViewTextBoxColumn) dgvIndex).MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
+                dgvIndex.MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
             }
 
             dgv.Columns.Add(dgvItemVal);
@@ -118,7 +117,7 @@ namespace PKHeX.WinForms
 
             if (HasFreeSpace)
             {
-                DataGridViewCheckBoxColumn dgvFree = new DataGridViewCheckBoxColumn
+                var dgvFree = new DataGridViewCheckBoxColumn
                 {
                     HeaderText = "Free",
                     DisplayIndex = c++,
@@ -129,7 +128,7 @@ namespace PKHeX.WinForms
             }
             if (HasNew)
             {
-                DataGridViewCheckBoxColumn dgvNew = new DataGridViewCheckBoxColumn
+                var dgvNew = new DataGridViewCheckBoxColumn
                 {
                     HeaderText = "NEW",
                     DisplayIndex = c++,
@@ -142,7 +141,7 @@ namespace PKHeX.WinForms
             var itemcount = pouch.Items.Length;
             string[] itemarr = Main.HaX ? (string[])itemlist.Clone() : GetItems(pouch.LegalItems);
 
-            var combo = dgv.Columns[0] as DataGridViewComboBoxColumn;
+            var combo = (DataGridViewComboBoxColumn) dgv.Columns[0];
             foreach (string t in itemarr)
                 combo.Items.Add(t); // add only the Item Names
 
@@ -152,11 +151,14 @@ namespace PKHeX.WinForms
             return dgv;
         }
 
+        private DataGridView GetGrid(InventoryType type) => (DataGridView)Controls.Find(DGVPrefix + type, true)[0];
+        private DataGridView GetGrid(int pouch) => GetGrid(Pouches[pouch].Type);
+
         private void GetBags()
         {
             foreach (InventoryPouch pouch in Pouches)
             {
-                DataGridView dgv = Controls.Find(DGVPrefix + pouch.Type, true).FirstOrDefault() as DataGridView;
+                var dgv = GetGrid(pouch.Type);
 
                 // Sanity Screen
                 var invalid = pouch.Items.Where(item => item.Index != 0 && !pouch.LegalItems.Contains((ushort)item.Index)).ToArray();
@@ -175,10 +177,10 @@ namespace PKHeX.WinForms
 
         private void SetBags()
         {
-            foreach (InventoryPouch t in Pouches)
+            foreach (var pouch in Pouches)
             {
-                DataGridView dgv = Controls.Find(DGVPrefix + t.Type, true).FirstOrDefault() as DataGridView;
-                SetBag(dgv, t);
+                var dgv = GetGrid(pouch.Type);
+                SetBag(dgv, pouch);
             }
         }
 
@@ -292,12 +294,14 @@ namespace PKHeX.WinForms
 
         // User Cheats
         private int CurrentPouch => tabControl1.SelectedIndex;
+        private void B_GiveAll_Click(object sender, EventArgs e) => ShowContextMenuBelow(giveMenu, (Control)sender);
+        private void B_Sort_Click(object sender, EventArgs e) => ShowContextMenuBelow(sortMenu, (Control)sender);
 
-        private void B_GiveAll_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            giveMenu.Show(btn.PointToScreen(new Point(0, btn.Height)));
-        }
+        private void SortByName(object sender, EventArgs e) => Sort(p => p.SortByName(itemlist, reverse: sender == mnuSortNameReverse));
+        private void SortByCount(object sender, EventArgs e) => Sort(p => p.SortByCount(reverse: sender == mnuSortCountReverse));
+        private void SortByIndex(object sender, EventArgs e) => Sort(p => p.SortByIndex(reverse: sender == mnuSortIndexReverse));
+
+        private static void ShowContextMenuBelow(ToolStripDropDown c, Control n) => c.Show(n.PointToScreen(new Point(0, n.Height)));
 
         private void GiveAllItems(object sender, EventArgs e)
         {
@@ -319,7 +323,7 @@ namespace PKHeX.WinForms
                 Array.Resize(ref legalitems, p.Items.Length);
             }
 
-            DataGridView dgv = Controls.Find(DGVPrefix + p.Type, true).FirstOrDefault() as DataGridView;
+            var dgv = GetGrid(pouch);
             SetBag(dgv, p);
 
             int Count = (int)NUD_Count.Value;
@@ -330,7 +334,7 @@ namespace PKHeX.WinForms
                 int c = Count;
 
                 // Override for HMs
-                if (IsItemCount1(item, SAV))
+                if (ItemConverter.IsItemHM(item, SAV.Generation))
                     c = 1;
 
                 int l = 0;
@@ -347,21 +351,6 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private static bool IsItemCount1(ushort item, SaveFile sav)
-        {
-            switch (sav.Generation)
-            {
-                case 1:
-                    return 196 >= item && item <= 200; // HMs
-                case 2:
-                    return item >= 244;
-                case 3:
-                    return Legal.Pouch_HM_RS.Contains(item);
-                default:
-                    return new[] {420, 421, 422, 423, 423, 424, 425, 426, 427, 737}.Contains(item);
-            }
-        }
-
         private void RemoveAllItems(object sender, EventArgs e)
         {
             // Get Current Pouch
@@ -369,7 +358,7 @@ namespace PKHeX.WinForms
             if (pouch < 0)
                 return;
 
-            DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+            var dgv = GetGrid(pouch);
 
             for (int i = 0; i < dgv.RowCount; i++)
             {
@@ -391,61 +380,29 @@ namespace PKHeX.WinForms
             if (pouch < 0)
                 return;
 
-            DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+            var dgv = GetGrid(pouch);
 
             for (int i = 0; i < dgv.RowCount; i++)
             {
                 string item = dgv.Rows[i].Cells[0].Value.ToString();
                 int itemindex = Array.IndexOf(itemlist, item);
                 if (itemindex > 0)
-                    dgv.Rows[i].Cells[1].Value = IsItemCount1((ushort)itemindex, SAV) ? 1 : NUD_Count.Value;
+                    dgv.Rows[i].Cells[1].Value = ItemConverter.IsItemHM((ushort)itemindex, SAV.Generation) ? 1 : NUD_Count.Value;
             }
             WinFormsUtil.Alert(MsgItemPouchCountUpdated);
         }
 
-        private void B_Sort_Click(object sender, EventArgs e)
+        private void Sort(Action<InventoryPouch> func)
         {
-            Button btn = (Button)sender;
-            sortMenu.Show(btn.PointToScreen(new Point(0, btn.Height)));
-        }
+            if (func == null)
+                throw new ArgumentNullException(nameof(func));
 
-        private void SortByName(object sender, EventArgs e)
-        {
             int pouch = CurrentPouch;
-            var dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+            var dgv = GetGrid(pouch);
             var p = Pouches[pouch];
-            SetBag(dgv, p);
-            if (sender == mnuSortName)
-                p.SortByName(itemlist, reverse:false);
-            if (sender == mnuSortNameReverse)
-                p.SortByName(itemlist, reverse:true);
-            GetBag(dgv, p);
-        }
-
-        private void SortByCount(object sender, EventArgs e)
-        {
-            int pouch = CurrentPouch;
-            var dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
-            var p = Pouches[pouch];
-            SetBag(dgv, p);
-            if (sender == mnuSortCount)
-                p.SortByCount(reverse:false);
-            if (sender == mnuSortCountReverse)
-                p.SortByCount(reverse:true);
-            GetBag(dgv, p);
-        }
-
-        private void SortByIndex(object sender, EventArgs e)
-        {
-            int pouch = CurrentPouch;
-            var dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
-            var p = Pouches[pouch];
-            SetBag(dgv, p);
-            if (sender == mnuSortIndex)
-                p.SortByIndex(reverse: false);
-            if (sender == mnuSortIndexReverse)
-                p.SortByIndex(reverse: true);
-            GetBag(dgv, p);
+            SetBag(dgv, p); // save current
+            func(p); // update
+            GetBag(dgv, p); // load current
         }
     }
 }
