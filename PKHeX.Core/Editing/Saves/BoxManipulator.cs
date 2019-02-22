@@ -67,6 +67,7 @@
         /// </summary>
         /// <param name="message">Optional message to show if applicable.</param>
         /// <param name="all">Indicates if all boxes were manipulated, or just one box.</param>
+        /// <param name="count">Count of manipulated slots</param>
         protected abstract void FinishBoxManipulation(string message, bool all, int count);
     }
 }

@@ -76,14 +76,7 @@ namespace PKHeX.WinForms
 
         private void GetComboBoxes()
         {
-            var dsregion_list = new[] {
-                    new { Text = "NA/SA", Value = 1 },
-                    new { Text = "EUR", Value = 2 },
-                    new { Text = "JPN", Value = 0 },
-                    new { Text = "CN", Value = 4 },
-                    new { Text = "KOR", Value = 5 },
-                    new { Text = "TW", Value = 6 }
-                };
+            var dsregion_list = Util.GetUnsortedCBList("regions3ds");
 
             CB_3DSReg.InitializeBinding();
             CB_3DSReg.DataSource = dsregion_list;
@@ -94,91 +87,18 @@ namespace PKHeX.WinForms
             CB_Region.InitializeBinding();
             Main.SetCountrySubRegion(CB_Country, "countries");
 
-            var oras_sprite_list = new[] {
-              //new { Text = "Calem",                       Value = 00 },
-              //new { Text = "Serena",                      Value = 01 },
-                new { Text = "Sycamore",                    Value = 02 },
-                new { Text = "Diantha",                     Value = 03 },
-                new { Text = "Wikstrom",                    Value = 04 },
-                new { Text = "Malva",                       Value = 05 },
-                new { Text = "Drasna",                      Value = 06 },
-                new { Text = "Siebold",                     Value = 07 },
-                new { Text = "Viola",                       Value = 08 },
-                new { Text = "Grant",                       Value = 09 },
-                new { Text = "Korrina",                     Value = 10 },
-                new { Text = "Ramos",                       Value = 11 },
-                new { Text = "Clemont",                     Value = 12 },
-                new { Text = "Valerie",                     Value = 13 },
-                new { Text = "Olympia",                     Value = 14 },
-                new { Text = "Wulfric",                     Value = 15 },
-                new { Text = "Youngster (XY)",              Value = 16 },
-              //new { Text = "(None)",                      Value = 17 },
-                new { Text = "Lass (XY)",                   Value = 18 },
-                new { Text = "Lady (XY)",                   Value = 19 },
-                new { Text = "Schoolgirl (XY)",             Value = 20 },
-                new { Text = "Battle Girl (XY)",            Value = 21 },
-                new { Text = "Schoolboy (XY)",              Value = 22 },
-                new { Text = "Rich Boy (XY)",               Value = 23 },
-                new { Text = "Female Ace Trainer (XY)",     Value = 24 },
-              //new { Text = "(None)",                      Value = 25 },
-                new { Text = "Female Ranger (XY)",          Value = 26 },
-                new { Text = "Male Ace Trainer (XY)",       Value = 27 },
-                new { Text = "Male Ranger (XY)",            Value = 28 },
-                new { Text = "Madame",                      Value = 29 },
-                new { Text = "Monsieur",                    Value = 30 },
-                new { Text = "Black Belt (XY)",             Value = 31 },
-                new { Text = "Male Punk (XY)",              Value = 32 },
-                new { Text = "Fairy Tale Girl (XY)",        Value = 33 },
-                new { Text = "Shauna",                      Value = 34 },
-                new { Text = "Tierno",                      Value = 35 },
-                new { Text = "Trevor",                      Value = 36 },
-                new { Text = "Brendan",                     Value = 37 },
-                new { Text = "May",                         Value = 38 },
-              //new { Text = "(None)",                      Value = 39 },
-                new { Text = "Hiker",                       Value = 40 },
-                new { Text = "Aroma Lady",                  Value = 41 },
-                new { Text = "Male Schoolkid",              Value = 42 },
-                new { Text = "Female Schoolkid",            Value = 43 },
-                new { Text = "Black Belt (ORAS)",           Value = 44 },
-                new { Text = "Battle Girl (ORAS)",          Value = 45 },
-                new { Text = "Pokemaniac (ORAS)",           Value = 46 },
-                new { Text = "Fairy Tale Girl (ORAS)",      Value = 47 },
-                new { Text = "Victor Winstrate",            Value = 48 },
-                new { Text = "Victoria Winstrate",          Value = 49 },
-                new { Text = "Male Ranger (ORAS)",          Value = 50 },
-                new { Text = "Female Ranger (ORAS)",        Value = 51 },
-                new { Text = "Male Swimmer (ORAS)",         Value = 52 },
-                new { Text = "Hex Maniac",                  Value = 53 },
-                new { Text = "Male Ace Trainer (ORAS)",     Value = 54 },
-                new { Text = "Female Ace Trainer (ORAS)",   Value = 55 },
-                new { Text = "Street Thug",                 Value = 56 },
-                new { Text = "Delinquent",                  Value = 57 },
-                new { Text = "Male Expert",                 Value = 58 },
-                new { Text = "Female Expert",               Value = 59 },
-                new { Text = "Lady (ORAS)",                 Value = 60 },
-                new { Text = "Rich Boy (ORAS)",             Value = 61 },
-                new { Text = "Ninja Boy",                   Value = 62 },
-                new { Text = "Beauty (ORAS)",               Value = 63 },
-                new { Text = "Guitarist",                   Value = 64 },
-                new { Text = "Lass (ORAS)",                 Value = 65 },
-                new { Text = "Male Breeder (ORAS)",         Value = 66 },
-                new { Text = "Female Breeder (ORAS)",       Value = 67 },
-                new { Text = "Camper",                      Value = 68 },
-                new { Text = "Picnicker",                   Value = 69 },
-                new { Text = "Wally",                       Value = 70 },
-                new { Text = "Steven",                      Value = 71 },
-                new { Text = "Maxie",                       Value = 72 },
-                new { Text = "Archie",                      Value = 73 },
-                new { Text = "Pokémon Center",              Value = 0x80 },
-                new { Text = "Gift",                        Value = 0x81 },
-            };
+            var names = Enum.GetNames(typeof(TrainerSprite6));
+            var values = (int[])Enum.GetValues(typeof(TrainerSprite6));
+            var data = names.Zip(values, (a, b) => new ComboItem {Text = a, Value = b})
+                .Where(z => z.Value >= 2) // ignore Calem & Serena (no sprite)
+                .ToList();
 
             CB_MultiplayerSprite.InitializeBinding();
-            CB_MultiplayerSprite.DataSource = oras_sprite_list;
+            CB_MultiplayerSprite.DataSource = data;
 
-            L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
+            L_Vivillon.Text = GameInfo.Strings.specieslist[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
+            CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
         }
 
         private void GetBadges()
@@ -296,10 +216,12 @@ namespace PKHeX.WinForms
             {
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
-            CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
-            CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
+
+            var epoch = new DateTime(2000, 1, 1);
+            CAL_AdventureStartDate.Value = epoch.AddSeconds(SAV.SecondsToStart);
+            CAL_AdventureStartTime.Value = epoch.AddSeconds(SAV.SecondsToStart % 86400);
+            CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
+            CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
         }
 
         private void Save()
@@ -478,9 +400,10 @@ namespace PKHeX.WinForms
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    var epoch = new DateTime(2000, 1, 1);
+                    int seconds = (int)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
                     seconds -= seconds % 86400;
-                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    seconds += (int)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
                     return ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;

@@ -282,13 +282,13 @@ namespace PKHeX.Core
         public int DisplayTID
         {
             get => GenNumber >= 7 ? TrainerID7 : TID;
-            set => _ = GenNumber >= 7 ? (TrainerID7 = value) : (TID = value);
+            set { if (GenNumber >= 7) TrainerID7 = value; else TID = value; }
         }
 
         public int DisplaySID
         {
             get => GenNumber >= 7 ? TrainerSID7 : SID;
-            set => _ = GenNumber >= 7 ? (TrainerSID7 = value) : (SID = value);
+            set { if (GenNumber >= 7) TrainerSID7 = value; else SID = value; }
         }
 
         private void SetID7(int sid7, int tid7)

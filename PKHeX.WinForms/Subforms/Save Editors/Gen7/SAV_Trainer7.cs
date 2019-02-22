@@ -46,21 +46,15 @@ namespace PKHeX.WinForms
         private readonly bool Loading;
         private bool MapUpdated;
 
-        private static readonly string[] TrainerStampTitle = { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
-        private static readonly string[] BattleStyles = { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
+        private static readonly string[] AllStyles = Enum.GetNames(typeof(BattleStyle7));
+        private readonly List<string> BattleStyles = new List<string>(AllStyles);
+
         private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
         private int SkipFlag => SAV.USUM ? 4160 : 3200; // FlagMax - 768
 
         private void GetComboBoxes()
         {
-            var dsregion_list = new[] {
-                    new { Text = "NA/SA", Value = 1 },
-                    new { Text = "EUR", Value = 2 },
-                    new { Text = "JPN", Value = 0 },
-                    new { Text = "CN", Value = 4 },
-                    new { Text = "KOR", Value = 5 },
-                    new { Text = "TW", Value = 6 }
-                };
+            var dsregion_list = Util.GetUnsortedCBList("regions3ds");
 
             var alolatime_list = new[] { new { Text = "Sun Time", Value = 24*60*60 } };
             Array.Resize(ref alolatime_list, 24);
@@ -80,41 +74,34 @@ namespace PKHeX.WinForms
             Main.SetCountrySubRegion(CB_Country, "countries");
 
             CB_SkinColor.Items.Clear();
-            string[] skinColors = { "Pale", "Default", "Tan", "Dark" };
-            foreach (string c in skinColors)
-            {
-                CB_SkinColor.Items.Add($"{Main.GenderSymbols[0]} - {c}"); // M
-                CB_SkinColor.Items.Add($"{Main.GenderSymbols[1]} - {c}"); // F
-            }
+            CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(SkinColor7)));
 
-            L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
+            L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
 
-            var styles = new List<string>(BattleStyles);
-            if (SAV.USUM)
-                styles.Add("Nihilist");
-            foreach (string t in styles)
+            if (!SAV.USUM)
+                BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
+            foreach (string t in BattleStyles)
             {
                 CB_BallThrowType.Items.Add(t);
                 LB_BallThrowTypeUnlocked.Items.Add(t);
                 LB_BallThrowTypeLearned.Items.Add(t);
             }
 
-            foreach (string t in TrainerStampTitle)
+            var stamps = Enum.GetNames(typeof(Stamp7)).Select(z => z.Replace("_", " "));
+            foreach (string t in stamps)
                 LB_Stamps.Items.Add(t);
         }
 
         private void GetTextBoxes()
         {
             // Get Data
-            string OT_NAME = SAV.OT;
-
-            CB_Game.SelectedIndex = SAV.Game - 30;
+            CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SN;
             CB_Gender.SelectedIndex = SAV.Gender;
 
             // Display Data
-            TB_OTName.Text = OT_NAME;
+            TB_OTName.Text = SAV.OT;
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
 
@@ -158,10 +145,11 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
-            CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
+            var epoch = new DateTime(2000, 1, 1);
+            CAL_AdventureStartDate.Value = epoch.AddSeconds(SAV.SecondsToStart);
+            CAL_AdventureStartTime.Value = epoch.AddSeconds(SAV.SecondsToStart % 86400);
+            CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
+            CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
 
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
@@ -223,11 +211,11 @@ namespace PKHeX.WinForms
             const int learnedStart = 3479;
             LB_BallThrowTypeUnlocked.SetSelected(0, true);
             LB_BallThrowTypeUnlocked.SetSelected(1, true);
-            for (int i = 2; i < BattleStyles.Length; i++)
+            for (int i = 2; i < BattleStyles.Count; i++)
                 LB_BallThrowTypeUnlocked.SetSelected(i, SAV.GetEventFlag(unlockStart + i));
 
             LB_BallThrowTypeLearned.SetSelected(0, true);
-            for (int i = 1; i < BattleStyles.Length; i++)
+            for (int i = 1; i < BattleStyles.Count; i++)
                 LB_BallThrowTypeLearned.SetSelected(i, SAV.GetEventFlag(learnedStart + i));
 
             CB_BallThrowTypeListMode.SelectedIndex = 0;
@@ -235,7 +223,7 @@ namespace PKHeX.WinForms
 
         private void LoadMapFlyToData()
         {
-            IReadOnlyList<ComboItem> metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
+            var metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
             int[] FlyDestNameIndex = {
                 -1,24,34,8,20,38,12,46,40,30,//Melemele
                 70,68,78,86,74,104,82,58,90,72,76,92,62,//Akala
@@ -257,7 +245,7 @@ namespace PKHeX.WinForms
                 75,332,334,
                 331,333,335,336,
             };
-            string[] FlyDestAltName = { "My House", "Photo Club(Hau'oli)", "Photo Club(Konikoni)", };
+            string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)", };
             CLB_FlyDest.Items.Clear();
             for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV.USUM ? 0 : 6); i < m; i++)
             {
@@ -284,7 +272,7 @@ namespace PKHeX.WinForms
                 181,
                 409,297,32,296,
             };
-            string[] MapUnmaskAltName = { "Melemele Sea(East)", "Melemele Sea(West)", };
+            string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)", };
             CLB_MapUnmask.Items.Clear();
             for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV.USUM ? 0 : 4); i < m; i++)
             {
@@ -357,14 +345,15 @@ namespace PKHeX.WinForms
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
-            int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            var epoch = new DateTime(2000, 1, 1);
+            int seconds = (int)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
             seconds -= seconds%86400;
-            seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            seconds += (int)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
             SAV.SecondsToStart = seconds;
 
-            int fame = (int)(CAL_HoFDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            int fame = (int)(CAL_HoFDate.Value - epoch).TotalSeconds;
             fame -= fame % 86400;
-            fame += (int)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            fame += (int)(CAL_HoFTime.Value - epoch).TotalSeconds;
             SAV.SecondsToFame = fame;
 
             if (SAV.LastSavedDate.HasValue)
@@ -426,9 +415,9 @@ namespace PKHeX.WinForms
 
             const int unlockStart = 292;
             const int learnedStart = 3479;
-            for (int i = 2; i < BattleStyles.Length; i++)
+            for (int i = 2; i < BattleStyles.Count; i++)
                 SAV.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
-            for (int i = 1; i < BattleStyles.Length; i++)
+            for (int i = 1; i < BattleStyles.Count; i++)
                 SAV.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
         }
 
