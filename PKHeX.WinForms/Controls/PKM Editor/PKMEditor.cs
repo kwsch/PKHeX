@@ -756,7 +756,7 @@ namespace PKHeX.WinForms.Controls
                 TB_MetLevel.Text = level.ToString();
                 CB_MetLocation.SelectedValue = location;
 
-                if (pkm.GenNumber == 6 && pkm.WasEgg && ModifyPKM)
+                if (pkm.Gen6 && pkm.WasEgg && ModifyPKM)
                     pkm.SetHatchMemory6();
             }
 
@@ -851,7 +851,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.SetAbilityIndex(CB_Ability.SelectedIndex);
 
             TB_PID.Text = pkm.PID.ToString("X8");
-            if (pkm.Format >= 6 && 3 <= pkm.GenNumber && pkm.GenNumber <= 5)
+            if (pkm.Format >= 6 && (pkm.Gen3 || pkm.Gen4 || pkm.Gen5))
                 TB_EC.Text = TB_PID.Text;
             Update_ID(TB_EC, e);
         }

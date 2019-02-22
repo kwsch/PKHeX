@@ -267,10 +267,11 @@ namespace PKHeX.Core
             if (pkm.Format <= 2)
                 return 2;
 
-            if (!pkm.HasOriginalMetLocation && generation != pkm.GenNumber)
+            var origin = pkm.GenNumber;
+            if (!pkm.HasOriginalMetLocation && generation != origin)
                 return pkm.Met_Level;
 
-            if (pkm.GenNumber <= 3)
+            if (origin <= 3)
                 return 2;
 
             return 1;

@@ -889,7 +889,7 @@ namespace PKHeX.Core
         {
             while (!IsShiny)
                 PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
@@ -913,7 +913,7 @@ namespace PKHeX.Core
         public void SetPIDGender(int gender)
         {
             do PID = PKX.GetRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
@@ -927,7 +927,7 @@ namespace PKHeX.Core
         public void SetPIDNature(int nature)
         {
             do PID = PKX.GetRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
@@ -942,7 +942,7 @@ namespace PKHeX.Core
         public void SetPIDUnown3(int form)
         {
             do PID = Util.Rand32(); while (PKX.GetUnownForm(PID) != form);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
