@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Utility logic for detecting a <see cref="SaveFile"/> from various locations on the host machine.
+    /// </summary>
     public static class SaveDetection
     {
         /// <summary>
