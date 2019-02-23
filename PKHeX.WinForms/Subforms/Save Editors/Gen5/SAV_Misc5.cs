@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
             {
                 if (FlyDestC[i] < 32)
-                    CLB_FlyDest.SetItemChecked(i, (valFly & (uint)1 << FlyDestC[i]) != 0);
+                    CLB_FlyDest.SetItemChecked(i, (valFly & 1u << FlyDestC[i]) != 0);
                 else
                     CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0);
             }

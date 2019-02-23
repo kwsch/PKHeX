@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
             uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
             CLB_FlyDest.Items.Clear();
             for (int i = 0; i < FlyDestD.Length; i++)
-                CLB_FlyDest.Items.Add(metLocationList.First(v => v.Value == FlyDestD[i]).Text, FlyDestC[i] < 32 ? (valFly & (uint)1 << FlyDestC[i]) != 0 : (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0);
+                CLB_FlyDest.Items.Add(metLocationList.First(v => v.Value == FlyDestD[i]).Text, FlyDestC[i] < 32 ? (valFly & 1u << FlyDestC[i]) != 0 : (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0);
             uint valBP = BitConverter.ToUInt16(SAV.Data, ofsBP);
             NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
@@ -172,7 +172,7 @@ namespace PKHeX.WinForms
 
             if (ofsPoketch > 0) SavePoketch();
             if (ofsUGFlagCount > 0)
-                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Data, ofsUGFlagCount) & ~(uint)0xFFFFF) | (uint)NUD_UGFlags.Value).CopyTo(SAV.Data, ofsUGFlagCount);
+                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Data, ofsUGFlagCount) & ~0xFFFFFu) | (uint)NUD_UGFlags.Value).CopyTo(SAV.Data, ofsUGFlagCount);
             if (ofsMap > 0)
             {
                 int valMap = CB_UpgradeMap.SelectedIndex;

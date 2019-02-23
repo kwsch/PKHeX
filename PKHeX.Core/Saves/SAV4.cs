@@ -1259,7 +1259,7 @@ namespace PKHeX.Core
 
         // Pokewalker
         private int OFS_WALKER = int.MinValue;
-        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes((uint)0x07FF_FFFF), OFS_WALKER);
+        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
 
         public bool[] PokewalkerCoursesUnlocked
         {
@@ -1276,7 +1276,7 @@ namespace PKHeX.Core
                 uint val = 0;
                 bool[] courses = new bool[32];
                 for (int i = 0; i < courses.Length; i++)
-                    val |= value[i] ? (uint)1 << i : 0;
+                    val |= value[i] ? 1u << i : 0;
                 SetData(BitConverter.GetBytes(val), OFS_WALKER);
             }
         }
