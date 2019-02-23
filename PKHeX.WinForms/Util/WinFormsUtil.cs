@@ -185,7 +185,7 @@ namespace PKHeX.WinForms
 
             // Detect main
             string msg = null;
-            var sav = null;
+            SaveFile sav = null;
             if (DetectSaveFileOnFileOpen)
                 sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
