@@ -285,6 +285,7 @@ namespace PKHeX.WinForms
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
             PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
+            WinFormsUtil.DetectSaveFileOnFileOpen = settings.DetectSaveOnStartup;
 
             #if DEBUG
             DevUtil.AddControl(Menu_Tools);

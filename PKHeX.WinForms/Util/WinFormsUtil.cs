@@ -162,6 +162,8 @@ namespace PKHeX.WinForms
 
         private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
 
+        public static bool DetectSaveFileOnFileOpen { private get; set; } = true;
+
         /// <summary>
         /// Opens a dialog to open a <see cref="SaveFile"/>, <see cref="PKM"/> file, or any other supported file.
         /// </summary>
@@ -183,7 +185,9 @@ namespace PKHeX.WinForms
 
             // Detect main
             string msg = null;
-            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
+            var sav = null;
+            if (DetectSaveFileOnFileOpen)
+                sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 Error(msg);
 
