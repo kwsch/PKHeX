@@ -361,7 +361,8 @@ namespace PKHeX.WinForms
                 return;
 
             int box = BoxView.Box.CurrentBox;
-            if (!SAV.LoadBoxes(Results, out var result, box, clearAll, overwrite, noSetb))
+            int ctr = SAV.LoadBoxes(Results, out var result, box, clearAll, overwrite, noSetb);
+            if (ctr <= 0)
                 return;
 
             BoxView.SetPKMBoxes();
