@@ -178,7 +178,7 @@ namespace PKHeX.WinForms
                 if (PKX.IsPKM(fi.Length))
                     pkmArg = arg;
                 else
-                    OpenQuick(arg, force: true);
+                    OpenFromPath(arg);
             }
             if (C_SAV.SAV == null) // No SAV loaded from exe args
             {
@@ -233,16 +233,8 @@ namespace PKHeX.WinForms
                 try
                 {
                     var latestVersion = NetUtil.GetLatestPKHeXVersion();
-                    if (latestVersion == null || latestVersion <= CurrentProgramVersion)
-                        return;
-
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        L_UpdateAvailable.Visible = true;
-                        var ver = latestVersion;
-                        var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
-                        L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {date}";
-                    }));
+                    if (latestVersion > CurrentProgramVersion)
+                        Invoke((MethodInvoker)(() => NotifyNewVersionAvailable(latestVersion)));
                 }
                 catch (Exception ex)
                 {
@@ -251,7 +243,14 @@ namespace PKHeX.WinForms
             });
         }
 
-        private void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
+        private void NotifyNewVersionAvailable(Version ver)
+        {
+            L_UpdateAvailable.Visible = true;
+            var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+            L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {date}";
+        }
+
+        private static void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
         {
             BAKprompt = false;
             showChangelog = false;
@@ -319,6 +318,7 @@ namespace PKHeX.WinForms
             }
             Process.GetCurrentProcess().Kill();
         }
+
         // Main Menu Strip UI Functions
         private void MainMenuOpen(object sender, EventArgs e)
         {
@@ -347,13 +347,24 @@ namespace PKHeX.WinForms
 
         private void MainMenuAbout(object sender, EventArgs e) => new About().ShowDialog();
 
+        private bool OpenWindowExists<T>() where T : Form
+        {
+            var form = WinFormsUtil.FirstFormOfType<T>();
+            if (form == null)
+                return false;
+
+            form.CenterToForm(this);
+            form.BringToFront();
+            return true;
+        }
+
         // Sub Menu Options
         private void MainMenuBoxReport(object sender, EventArgs e)
         {
-            if (this.FirstFormOfType<ReportGrid>() is ReportGrid z)
-            { z.CenterToForm(this); z.BringToFront(); return; }
+            if (OpenWindowExists<ReportGrid>())
+                return;
 
-            ReportGrid report = new ReportGrid();
+            var report = new ReportGrid();
             report.Show();
             report.PopulateData(C_SAV.SAV.BoxData);
         }
@@ -362,39 +373,31 @@ namespace PKHeX.WinForms
         {
             if (ModifierKeys == Keys.Shift)
             {
-                if (this.FirstFormOfType<KChart>() is KChart c)
-                { c.CenterToForm(this); c.BringToFront(); }
-                else
-                {
+                if (!OpenWindowExists<KChart>())
                     new KChart(C_SAV.SAV).Show();
-                }
-
                 return;
             }
 
-            if (this.FirstFormOfType<SAV_Database>() is SAV_Database z)
-            { z.CenterToForm(this); z.BringToFront(); return; }
-
-            if (Directory.Exists(DatabasePath))
-                new SAV_Database(PKME_Tabs, C_SAV).Show();
-            else
+            if (!Directory.Exists(DatabasePath))
+            {
                 WinFormsUtil.Alert(MsgDatabase, string.Format(MsgDatabaseAdvice, DatabasePath));
+                return;
+            }
+
+            if (!OpenWindowExists<SAV_Database>())
+                new SAV_Database(PKME_Tabs, C_SAV).Show();
         }
 
         private void Menu_EncDatabase_Click(object sender, EventArgs e)
         {
-            if (this.FirstFormOfType<SAV_Encounters>() is SAV_Encounters z)
-            { z.CenterToForm(this); z.BringToFront(); return; }
-
-            new SAV_Encounters(PKME_Tabs).Show();
+            if (!OpenWindowExists<SAV_Encounters>())
+                new SAV_Encounters(PKME_Tabs).Show();
         }
 
         private void MainMenuMysteryDB(object sender, EventArgs e)
         {
-            if (this.FirstFormOfType<SAV_MysteryGiftDB>() is SAV_MysteryGiftDB z)
-            { z.CenterToForm(this); z.BringToFront(); return; }
-
-            new SAV_MysteryGiftDB(PKME_Tabs, C_SAV).Show();
+            if (!OpenWindowExists<SAV_MysteryGiftDB>())
+                new SAV_MysteryGiftDB(PKME_Tabs, C_SAV).Show();
         }
 
         private void MainMenuSettings(object sender, EventArgs e)
@@ -477,16 +480,8 @@ namespace PKHeX.WinForms
 
         private void MainMenuFolder(object sender, EventArgs e)
         {
-            var ofType = Application.OpenForms.OfType<SAV_FolderList>().FirstOrDefault();
-            if (ofType != null)
-            {
-                ofType.CenterToForm(this);
-                ofType.BringToFront();
-            }
-            else
-            {
+            if (!OpenWindowExists<SAV_FolderList>())
                 new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.FilePath), s.FilePath)).Show();
-            }
         }
 
         // Misc Options
@@ -537,13 +532,18 @@ namespace PKHeX.WinForms
         private void ClickShowdownExportCurrentBox(object sender, EventArgs e) => C_SAV.ClickShowdownExportCurrentBox(sender, e);
 
         // Main Menu Subfunctions
-        private void OpenQuick(string path, bool force = false)
+        private void OpenQuick(string path)
         {
-            if (!(CanFocus || force))
+            if (!CanFocus)
             {
                 SystemSounds.Asterisk.Play();
                 return;
             }
+            OpenFromPath(path);
+        }
+
+        private void OpenFromPath(string path)
+        {
             if (Plugins.Any(p => p.TryLoadFile(path)))
                 return; // handled by plugin
 
@@ -555,7 +555,6 @@ namespace PKHeX.WinForms
             if (!fi.Exists)
                 return;
 
-            string ext = Path.GetExtension(path);
             if (FileUtil.IsFileTooBig(fi.Length))
             {
                 WinFormsUtil.Error(MsgFileSizeLarge + Environment.NewLine + string.Format(MsgFileSize, fi.Length), path);
@@ -569,6 +568,7 @@ namespace PKHeX.WinForms
             byte[] input; try { input = File.ReadAllBytes(path); }
             catch (Exception e) { WinFormsUtil.Error(MsgFileInUse + path, e); return; }
 
+            string ext = fi.Extension;
             #if DEBUG
                 OpenFile(input, path, ext);
             #else
@@ -1113,16 +1113,14 @@ namespace PKHeX.WinForms
                 return;
 
             // Create Temp File to Drag
-            PKM pk = PreparePKM();
-            bool encrypt = ModifierKeys == Keys.Control;
-            string fn = pk.FileNameWithoutExtension;
-            string filename = fn + (encrypt ? $".ek{pk.Format}" : $".{pk.Extension}");
-            byte[] dragdata = encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData;
+            var pk = PreparePKM();
+            var encrypt = ModifierKeys == Keys.Control;
+            var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
+            var data = encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData;
             // Make file
-            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
             try
             {
-                File.WriteAllBytes(newfile, dragdata);
+                File.WriteAllBytes(newfile, data);
                 C_SAV.M.DragInfo.Source.PKM = pk;
 
                 var pb = (PictureBox)sender;
@@ -1181,7 +1179,7 @@ namespace PKHeX.WinForms
             {
                 var settings = Settings.Default;
                 settings.Draw = Draw.ToString();
-                Settings.Default.Save();
+                settings.Save();
             }
             catch (Exception x)
             {

@@ -24,22 +24,27 @@ namespace PKHeX.Core
                 return -1;
 
             var boxdata = SAV.BoxData;
-            int ctr = 0;
-            foreach (PKM pk in boxdata)
+            var ctr = 0;
+            foreach (var pk in boxdata)
             {
                 if (pk.Species == 0 || !pk.Valid)
                     continue;
 
-                ctr++;
-                string fileName = Util.CleanFileName(pk.FileName);
-                string boxfolder = string.Empty;
+                var boxfolder = path;
                 if (boxFolders)
                 {
-                    boxfolder = SAV.GetBoxName(pk.Box - 1);
-                    Directory.CreateDirectory(Path.Combine(path, boxfolder));
+                    var boxName = Util.CleanFileName(SAV.GetBoxName(pk.Box - 1));
+                    boxfolder = Path.Combine(path, boxName);
+                    Directory.CreateDirectory(boxfolder);
                 }
-                if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
-                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
+
+                var fileName = Util.CleanFileName(pk.FileName);
+                var fn = Path.Combine(boxfolder, fileName);
+                if (File.Exists(fn))
+                    continue;
+
+                File.WriteAllBytes(fn, pk.DecryptedBoxData);
+                ctr++;
             }
             return ctr;
         }
@@ -57,16 +62,18 @@ namespace PKHeX.Core
                 return -1;
 
             var boxdata = SAV.BoxData;
-            int ctr = 0;
-            foreach (PKM pk in boxdata)
+            var ctr = 0;
+            foreach (var pk in boxdata)
             {
                 if (pk.Species == 0 || !pk.Valid || pk.Box - 1 != currentBox)
                     continue;
 
+                var fileName = Path.Combine(path, Util.CleanFileName(pk.FileName));
+                if (File.Exists(fileName))
+                    continue;
+
+                File.WriteAllBytes(fileName, pk.DecryptedBoxData);
                 ctr++;
-                string fileName = Util.CleanFileName(pk.FileName);
-                if (!File.Exists(Path.Combine(path, fileName)))
-                    File.WriteAllBytes(Path.Combine(path, fileName), pk.DecryptedBoxData);
             }
             return ctr;
         }
