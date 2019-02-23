@@ -14,9 +14,15 @@ namespace PKHeX.Core
         {
             if (Index == 0)
                 return true;
-            if (Index <= MaxItemID)
-                return HaX || LegalItems.Contains((ushort)Index);
-            return false;
+            if ((uint) Index > MaxItemID)
+                return false;
+            return HaX || LegalItems.Contains((ushort)Index);
+        }
+
+        public void Clear()
+        {
+            Index = Count = 0;
+            New = FreeSpace = false;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for converting Item IDs between the generation specific value sets.
     /// </summary>
-    public static class ItemConverter
+    internal static class ItemConverter
     {
         /// <summary>Unused item ID, placeholder for item/sprite finding</summary>
         private const ushort NaN = 128;
@@ -207,7 +207,7 @@ namespace PKHeX.Core
 
         private static readonly int[] HMs = { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 };
 
-        public static bool IsItemHM(ushort item, int gen)
+        internal static bool IsItemHM(ushort item, int gen)
         {
             switch (gen)
             {

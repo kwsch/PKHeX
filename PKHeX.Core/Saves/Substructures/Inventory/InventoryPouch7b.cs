@@ -78,23 +78,22 @@ namespace PKHeX.Core
         /// </remarks>
         internal void SanitizeCounts()
         {
-            switch (Type)
-            {
-                case InventoryType.BattleItems: // mixed regular battle items & mega stones
-                    foreach (var item in Items)
-                    {
-                        if (item.Index > 100) // arbitrary divider between regular & mega stones
-                            item.Count = Math.Min(1, item.Count);
-                    }
-                    break;
+            foreach (var item in Items)
+                item.Count = GetSuggestedCount(Type, item.Index, item.Count);
+        }
 
-                case InventoryType.Items: // mixed regular items & key items
-                    foreach (var item in Items)
-                    {
-                        if (Legal.Pouch_Regular_GG_Key.Contains((ushort)item.Index))
-                            item.Count = Math.Min(1, item.Count);
-                    }
-                    break;
+        public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
+        {
+            switch (t)
+            {
+                // mixed regular battle items & mega stones
+                case InventoryType.BattleItems when item > 100:
+                // mixed regular items & key items
+                case InventoryType.Items when Legal.Pouch_Regular_GG_Key.Contains((ushort)item):
+                    return Math.Min(1, requestVal);
+
+                default:
+                    return requestVal;
             }
         }
     }
