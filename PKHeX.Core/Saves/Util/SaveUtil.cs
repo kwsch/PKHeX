@@ -69,8 +69,6 @@ namespace PKHeX.Core
             SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
         };
 
-        private static readonly int[] mainSizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM, SIZE_G7USUM };
-
         private static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
         internal static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
         internal static readonly string[] HEADER_XD =     { "GXXJ","GXXE","GXXP" }; // NTSC-J, NTSC-U, PAL
@@ -1194,104 +1192,6 @@ namespace PKHeX.Core
             var SID = (ushort)(val >> 16);
 
             return new Tuple<ushort, ushort>(TID, SID);
-        }
-
-        /// <summary>
-        /// Creates a <see cref="SaveFile"/> via decryption using a stored xorpad.
-        /// </summary>
-        /// <param name="input">Encrypted byte array of savedata to decrypt.</param>
-        /// <param name="xorpadPaths">Possible paths to check for xorpad compatibility.</param>
-        /// <returns>Returns a <see cref="SaveFile"/> if decryption was successful, else null.</returns>
-        public static SaveFile GetSAVfromXORpads(byte[] input, IEnumerable<string> xorpadPaths)
-        {
-            byte[] savID = new byte[0x10];
-            Array.Copy(input, 0x10, savID, 0, 0x10);
-
-            var pads = GetXorpadsFromFiles(xorpadPaths);
-            foreach (var xorpad in pads)
-            {
-                // Check if encrypted 00's match save
-                if (!xorpad.Skip(0x10).Take(0x10).SequenceEqual(savID))
-                    continue;
-
-                DecryptFromXorpad(input, xorpad);
-                var main = GetMainFromSaveContainer(input);
-                if (main.Length == 0)
-                    continue;
-
-                // Save file is now decrypted!
-                var SAV = GetVariantSAV(main);
-                if (SAV == null)
-                    continue;
-
-                return SAV;
-            }
-            return null; // no xorpad compatible
-        }
-
-        /// <summary>
-        /// Filters the specified files and returns a list of valid enumerable xorpads (keystreams).
-        /// </summary>
-        /// <param name="files">Files that may (or may not) be xorpads.</param>
-        /// <returns>Valid xorpads to enumerate.</returns>
-        public static IEnumerable<byte[]> GetXorpadsFromFiles(IEnumerable<string> files)
-        {
-            foreach (var file in files)
-            {
-                // Check if xorpad
-                FileInfo fi = new FileInfo(file);
-
-                string filename = fi.Name.ToLower();
-                if (!filename.Contains("xorpad") && !filename.Contains("key"))
-                    continue;
-
-                var length = fi.Length;
-                if (length != 0x10009C && length != 0x100000)
-                    continue;
-
-                // Fix xorpad alignment
-                byte[] xorpad = File.ReadAllBytes(file);
-                if (xorpad.Length == 0x10009C) // Trim off Powersaves' header
-                {
-                    Array.Copy(xorpad, 0x9C, xorpad, 0, 0x100000);
-                    Array.Resize(ref xorpad, 0x100000);
-                }
-                yield return xorpad;
-            }
-        }
-
-        /// <summary>
-        /// Decrypts an input array with a xorpad.
-        /// </summary>
-        /// <param name="input">Input byte array which will be decrypted in place.</param>
-        /// <param name="xorpad">Keystream data</param>
-        public static void DecryptFromXorpad(IList<byte> input, IReadOnlyList<byte> xorpad)
-        {
-            for (int z = 0; z < input.Count; z++)
-                input[z] ^= xorpad[z];
-        }
-
-        /// <summary>
-        /// Gets the "main" save file from an input data array.
-        /// </summary>
-        /// <param name="input">Input data array</param>
-        /// <param name="shift">Offset shift to rip from</param>
-        /// <returns>Output data array containing raw save data</returns>
-        public static byte[] GetMainFromSaveContainer(byte[] input, int shift = 0)
-        {
-            // Check the validity of the decrypted content by finding the checksum block
-            int mainOffset = 0x5400 + shift;
-            foreach (int size in mainSizes.OrderByDescending(z => z))
-            {
-                int chkBlockOffset = mainOffset + size - 0x1F0;
-                if (BitConverter.ToUInt32(input, chkBlockOffset) != BEEF)
-                    continue;
-
-                byte[] data = new byte[size];
-                Buffer.BlockCopy(input, mainOffset, data, 0, size);
-                return data;
-            }
-            return Array.Empty<byte>();
         }
 
         /// <summary>
