@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -21,10 +22,18 @@ namespace PKHeX.Core
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
-        public virtual byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
-        public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
-        public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
-        public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
+        public virtual byte[] EncryptedPartyData => Truncate(Encrypt(), SIZE_PARTY);
+        public virtual byte[] EncryptedBoxData => Truncate(Encrypt(), SIZE_STORED);
+        public virtual byte[] DecryptedPartyData => Truncate(Write(), SIZE_PARTY);
+        public virtual byte[] DecryptedBoxData => Truncate(Write(), SIZE_STORED);
+
+        private static byte[] Truncate(byte[] data, int newSize)
+        {
+            if (data.Length != newSize)
+                Array.Resize(ref data, newSize);
+            return data;
+        }
+
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
         // Trash Bytes
@@ -834,7 +843,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ValidArray">Items that the <see cref="PKM"/> can hold.</param>
         /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-        public virtual bool CanHoldItem(ushort[] ValidArray) => ValidArray.Contains((ushort)HeldItem);
+        public virtual bool CanHoldItem(IList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
 
         /// <summary>
         /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.

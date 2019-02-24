@@ -296,7 +296,7 @@ namespace PKHeX.Core
             pk4.OT_Name = OT_Name;
 
             // Set Final Data
-            pk4.Met_Level = Experience.GetLevel(pk4.EXP, pk4.Species, 0);
+            pk4.Met_Level = pk4.CurrentLevel;
             pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
             pk4.IsNicknamed = IsNicknamed;
 

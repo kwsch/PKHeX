@@ -395,8 +395,7 @@ namespace PKHeX.Core
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (!Gen6)
-                /* OT_Affection = */
-                OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0; // Don't clear OT affection; OR/AS Contest Glitch
 
             this.SanitizeGeoLocationData();
         }
