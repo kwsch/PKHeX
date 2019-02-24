@@ -42,7 +42,7 @@ namespace PKHeX.Core
         private static EncounterArea[] GetTables2(GameVersion Version)
         {
             // Fishing
-            var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
+            var f = EncounterArea.GetArray2Fishing(Util.GetBinaryResource("encounter_gsc_f.pkl"));
 
             var Slots = Array.Empty<EncounterArea>();
             if (Version.Contains(GameVersion.GS))
@@ -56,11 +56,11 @@ namespace PKHeX.Core
         private static EncounterArea[] GetSlots_GS(EncounterArea[] f)
         {
             // Grass/Water
-            var g = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_gold.pkl"));
-            var s = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_silver.pkl"));
+            var g = EncounterArea.GetArray2GrassWater(Util.GetBinaryResource("encounter_gold.pkl"));
+            var s = EncounterArea.GetArray2GrassWater(Util.GetBinaryResource("encounter_silver.pkl"));
             // Headbutt/Rock Smash
-            var h_g = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_gold_h.pkl"));
-            var h_s = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_silver_h.pkl"));
+            var h_g = EncounterArea.GetArray2Headbutt(Util.GetBinaryResource("encounter_gold_h.pkl"));
+            var h_s = EncounterArea.GetArray2Headbutt(Util.GetBinaryResource("encounter_silver_h.pkl"));
             var safari_gs = EncounterSafari_GSC;
             var bcc_gs = EncounterBCC_GSC;
 
@@ -78,9 +78,9 @@ namespace PKHeX.Core
         private static EncounterArea[] GetSlots_C(EncounterArea[] f)
         {
             // Grass/Water
-            var c = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_crystal.pkl"));
+            var c = EncounterArea.GetArray2GrassWater(Util.GetBinaryResource("encounter_crystal.pkl"));
             // Headbutt/Rock Smash
-            var h_c = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_crystal_h.pkl"));
+            var h_c = EncounterArea.GetArray2Headbutt(Util.GetBinaryResource("encounter_crystal_h.pkl"));
             var safari_c = EncounterSafari_GSC;
             var bcc_c = EncounterBCC_GSC;
 

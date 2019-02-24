@@ -77,13 +77,13 @@ namespace PKHeX.Core
                     }
                     if (mostEvolved.RequiresLvlUp)
                     {
-                        // This is a gen 3 pokemon in a gen 4 phase evolution that requires level up and then transfered to gen 5+
-                        // We can deduce that it existed in gen 4 until met level,
-                        // but if current level is met level we can also deduce it existed in gen 3 until maximum met level -1
+                        // This is a Gen3 pokemon in a Gen4 phase evolution that requires level up and then transferred to Gen5+
+                        // We can deduce that it existed in Gen4 until met level,
+                        // but if current level is met level we can also deduce it existed in Gen3 until maximum met level -1
                         if (g == 3 && pkm.Format > 4 && lvl == maxLevel)
                             lvl--;
 
-                        // The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level below gen 2 level
+                        // The same condition for Gen2 evolution of Gen1 pokemon, level of the pokemon in Gen1 games would be CurrentLevel -1 one level below Gen2 level
                         else if (g == 1 && pkm.Format == 2 && lvl == maxLevel)
                             lvl--;
                     }
@@ -115,7 +115,7 @@ namespace PKHeX.Core
 
                     // Remove previous evolutions below transfer level
                     // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
-                    // chain level for charmander is 35, is below met level.
+                    // chain level for Charmander is 35, is below met level.
                     int minlvl = GetMinLevelGeneration(pkm, g);
                     GensEvoChains[g].RemoveAll(e => e.Level < minlvl);
                 }
@@ -145,7 +145,7 @@ namespace PKHeX.Core
         private static void TrimVC1Transfer(PKM pkm, IList<List<EvoCriteria>> GensEvoChains)
         {
             if (GensEvoChains[7].All(z => z.Species > MaxSpeciesID_1))
-                GensEvoChains[pkm.Format] = NONE; // need a Gen1 present; invalidate the chain.
+                GensEvoChains[pkm.Format] = NONE; // needed a Gen1 species present; invalidate the chain.
         }
 
         internal static int GetEvoChainSpeciesIndex(IReadOnlyList<EvoCriteria> chain, int species)
@@ -189,13 +189,14 @@ namespace PKHeX.Core
                 CheckLastEncounterRemoval(Encounter, vs);
             }
 
-            // maxspec is used to remove future gen evolutions, to gather evolution chain of a pokemon in previous generations
+            // maxspec is used to remove future geneneration evolutions, to gather evolution chain of a pokemon in previous generations
             int skip = Math.Max(0, GetEvoChainSpeciesIndex(vs, maxspec));
             for (int i = 0; i < skip; i++)
                 vs.RemoveAt(0);
 
-            // Maxlevel is also used for previous generations, it removes evolutions imposible before the transfer level
-            // For example a fire red charizard whose current level in XY is 50 but met level is 20, it couldnt be a Charizard in gen 3 and 4 games
+            // Gen3->4 and Gen4->5 transfer sets the Met Level property to the Pokémon's current level.
+            // Removes evolutions impossible before the transfer level.
+            // For example a FireRed Charizard with a current level (in XY) is 50 but Met Level is 20; it couldn't be a Charizard in Gen3 and Gen4 games
             vs.RemoveAll(e => e.MinLevel > maxlevel);
 
             // Reduce the evolution chain levels to max level to limit any later analysis/results.
@@ -218,13 +219,13 @@ namespace PKHeX.Core
 
             if (first.MinLevel == 2)
             {
-                // Example: Raichu in Gen 2 or later
+                // Example: Raichu in Gen2 or later
                 // Because Pichu requires a level up, the minimum level of the resulting Raichu must be be >2
                 // But after removing Pichu (because the origin species is Pikachu), the Raichu minimum level should be 1.
                 first.MinLevel = 1;
                 first.RequiresLvlUp = false;
             }
-            else // ingame trade / stone can evolve immediately
+            else // in-game trade or evolution stone can evolve immediately
             {
                 first.MinLevel = last.MinLevel;
             }

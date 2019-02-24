@@ -13,6 +13,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets all balls that are legal for the input <see cref="PKM"/>.
         /// </summary>
+        /// <remarks>
+        /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
+        /// </remarks>
         /// <param name="pkm">Pokémon to retrieve a list of valid balls for.</param>
         /// <returns>Enumerable list of <see cref="Ball"/> values that the <see cref="PKM"/> is legal with.</returns>
         public static IEnumerable<Ball> GetLegalBalls(PKM pkm)
@@ -29,6 +32,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies a random legal ball value if any exist.
         /// </summary>
+        /// <remarks>
+        /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
+        /// </remarks>
         /// <param name="pkm">Pokémon to modify.</param>
         public static int ApplyBallLegalRandom(PKM pkm)
         {
@@ -40,6 +46,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies a legal ball value if any exist, ordered by color.
         /// </summary>
+        /// <remarks>
+        /// Requires checking the <see cref="LegalityAnalysis"/> for every <see cref="Ball"/> that is tried.
+        /// </remarks>
         /// <param name="pkm">Pokémon to modify.</param>
         public static int ApplyBallLegalByColor(PKM pkm)
         {
@@ -78,7 +87,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<Ball> GetBallListFromColor(PKM pkm)
         {
-            // fetch with latest-gen personal info; gen1/2 don't store color
+            // Fetch with latest-gen personal info; Gen1/2 don't store color
             var pi = PKX.Personal.GetFormeEntry(pkm.Species, pkm.AltForm);
             var color = (PersonalColor)pi.Color;
             var balls = BallColors[color];

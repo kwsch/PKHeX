@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -198,27 +197,31 @@ namespace PKHeX.Core
 
             switch (destFormat)
             {
-                case 3: return GetG3Item((ushort)item);
-                case 2: return (byte)item;
                 case 1: return 0;
+                case 2: return (byte)item;
+                case 3: return GetG3Item((ushort)item);
                 default: return item;
             }
         }
 
-        private static readonly int[] HMs = { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 };
-
-        internal static bool IsItemHM(ushort item, int gen)
+        /// <summary>
+        /// Checks if an item ID is an HM
+        /// </summary>
+        /// <param name="item">Item ID</param>
+        /// <param name="generation">Generation the <see cref="item"/> exists in</param>
+        /// <returns>True if is an HM</returns>
+        internal static bool IsItemHM(ushort item, int generation)
         {
-            switch (gen)
+            switch (generation)
             {
                 case 1:
                     return 196 >= item && item <= 200; // HMs
                 case 2:
                     return item >= 243; // HMs
                 case 3:
-                    return Legal.Pouch_HM_RS.Contains(item);
-                default:
-                    return HMs.Contains(item);
+                    return 339 <= item && item <= 346;
+                default: // 4+
+                    return (420 <= item && item <= 427) || item == 737;
             }
         }
     }

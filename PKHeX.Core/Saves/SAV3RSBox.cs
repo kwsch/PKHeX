@@ -25,7 +25,7 @@ namespace PKHeX.Core
             if (SaveUtil.GetIsG3BOXSAV(Data) != GameVersion.RSBOX)
                 return;
 
-            Blocks = new BlockInfo[2*BLOCK_COUNT];
+            Blocks = new BlockInfoRSBOX[2*BLOCK_COUNT];
             for (int i = 0; i < Blocks.Length; i++)
             {
                 int offset = BLOCK_SIZE + (i * BLOCK_SIZE);
@@ -33,7 +33,7 @@ namespace PKHeX.Core
             }
 
             // Detect active save
-            int[] SaveCounts = Blocks.OfType<BlockInfoRSBOX>().Select(block => (int)block.SaveCount).ToArray();
+            int[] SaveCounts = Blocks.Select(block => (int)block.SaveCount).ToArray();
             SaveCount = SaveCounts.Max();
             int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
             Blocks = Blocks.Skip(ActiveSAV*BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();
@@ -54,7 +54,7 @@ namespace PKHeX.Core
                 ClearBoxes();
         }
 
-        private readonly BlockInfo[] Blocks;
+        private readonly BlockInfoRSBOX[] Blocks;
         private readonly int SaveCount;
         private const int BLOCK_COUNT = 23;
         private const int BLOCK_SIZE = 0x2000;

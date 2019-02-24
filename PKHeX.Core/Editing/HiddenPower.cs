@@ -3,8 +3,17 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for calculating a Hidden Power Type based on IVs and generation-format.
+    /// </summary>
     public static class HiddenPower
     {
+        /// <summary>
+        /// Gets the current Hidden Power Type of the input <see cref="IVs"/> for the requested format generation.
+        /// </summary>
+        /// <param name="IVs">Current IVs</param>
+        /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
+        /// <param name="format">Generation format</param>
         public static int GetType(IReadOnlyList<int> IVs, int format)
         {
             if (format <= 2)
@@ -12,6 +21,11 @@ namespace PKHeX.Core
             return GetType(IVs);
         }
 
+        /// <summary>
+        /// Gets the current Hidden Power Type of the input <see cref="IVs"/> for Generations 3+
+        /// </summary>
+        /// <param name="IVs">Current IVs</param>
+        /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
         public static int GetType(IReadOnlyList<int> IVs)
         {
             int hp = 0;
@@ -22,6 +36,11 @@ namespace PKHeX.Core
             return hp;
         }
 
+        /// <summary>
+        /// Gets the current Hidden Power Type of the input <see cref="IVs"/> for Generations 1 &amp; 2
+        /// </summary>
+        /// <param name="IVs">Current IVs</param>
+        /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
         public static int GetTypeGB(IReadOnlyList<int> IVs)
         {
             var IV_ATK = IVs[1];
@@ -29,6 +48,13 @@ namespace PKHeX.Core
             return ((IV_ATK & 3) << 2) | (IV_DEF & 3);
         }
 
+        /// <summary>
+        /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hpVal"/>.
+        /// </summary>
+        /// <param name="hpVal">Hidden Power Type</param>
+        /// <param name="IVs">Current IVs (6 total)</param>
+        /// <param name="format">Generation format</param>
+        /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
         public static bool SetIVsForType(int hpVal, int[] IVs, int format)
         {
             if (format <= 2)
@@ -40,6 +66,12 @@ namespace PKHeX.Core
             return SetIVsForType(hpVal, IVs);
         }
 
+        /// <summary>
+        /// Sets the <see cref="IVs"/> to the requested <see cref="hpVal"/> for Generation 3+ game formats.
+        /// </summary>
+        /// <param name="hpVal">Hidden Power Type</param>
+        /// <param name="IVs">Current IVs (6 total)</param>
+        /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
         public static bool SetIVsForType(int hpVal, int[] IVs)
         {
             if (IVs.All(z => z == 31))

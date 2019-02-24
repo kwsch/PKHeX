@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Levelup Learn Movepool Information
+    /// Level Up Learn Movepool Information
     /// </summary>
     public abstract class Learnset
     {
@@ -162,7 +162,7 @@ namespace PKHeX.Core
 
         /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
         /// <param name="move">Move ID</param>
-        /// <returns>Level the move is learned at. If the result is below 0, it cannot be learned by levelup.</returns>
+        /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
         public int GetLevelLearnMove(int move)
         {
             return (Learn ?? (Learn = GetDictionary())).TryGetValue(move, out var level) ? level : -1;
@@ -171,7 +171,7 @@ namespace PKHeX.Core
         /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
         /// <param name="move">Move ID</param>
         /// <param name="min">Minimum level to start looking at.</param>
-        /// <returns>Level the move is learned at. If the result is below 0, it cannot be learned by levelup.</returns>
+        /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
         public int GetLevelLearnMove(int move, int min)
         {
             for (int i = 0; i < Moves.Length; i++)
