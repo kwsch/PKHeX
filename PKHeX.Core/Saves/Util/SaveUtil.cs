@@ -803,8 +803,8 @@ namespace PKHeX.Core
             {
                 if (input.Length == 0x800A4) // Action Replay
                 {
-                    header = input.Take(0xA4).ToArray();
-                    input = input.Skip(header.Length).ToArray();
+                    header = GetSubsection(input, 0, 0xA4);
+                    input = GetSubsection(input, 0xA4);
                     return;
                 }
                 int start = input.Length - FOOTER_DSV.Length;
