@@ -16,7 +16,9 @@ namespace PKHeX.Core
                 sav.SetStoredSlot(pkm, slot.Offset);
         }
 
-        public static PKM[] GetExtraPKM(this SaveFile sav, List<StorageSlotOffset> slots = null)
+        public static PKM[] GetExtraPKM(this SaveFile sav) => sav.GetExtraPKM(sav.GetExtraSlots());
+
+        public static PKM[] GetExtraPKM(this SaveFile sav, IList<StorageSlotOffset> slots)
         {
             slots = slots ?? sav.GetExtraSlots();
             var arr = new PKM[slots.Count];
