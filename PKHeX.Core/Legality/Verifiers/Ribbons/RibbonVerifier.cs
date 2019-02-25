@@ -49,9 +49,9 @@ namespace PKHeX.Core
 
             var result = new List<string>();
             if (missingRibbons.Count > 0)
-                result.Add(string.Format(LRibbonFInvalid_0, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", string.Empty)))));
+                result.Add(string.Format(LRibbonFMissing_0, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", string.Empty)))));
             if (invalidRibbons.Count > 0)
-                result.Add(string.Format(LRibbonFMissing_0, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", string.Empty)))));
+                result.Add(string.Format(LRibbonFInvalid_0, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", string.Empty)))));
             return result;
         }
 
