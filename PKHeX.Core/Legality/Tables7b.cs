@@ -254,11 +254,6 @@ namespace PKHeX.Core
             013, // Weedle
             014, // Kakuna
             015, // Beedrill
-            016, // Pidgey
-            017, // Pidgeotto
-            018, // Pidgeot
-            019, // Rattata
-            020, // Raticate
             021, // Spearow
             022, // Fearow
             023, // Ekans
