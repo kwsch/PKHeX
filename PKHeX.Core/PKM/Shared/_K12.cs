@@ -264,7 +264,12 @@ namespace PKHeX.Core
             return (ushort)((((2 * (BV + IV)) + EV) * LV / 100) + 5);
         }
 
-        public override int GetMovePP(int move, int ppup) => GetBasePP(move) + ppup * Math.Min(7, GetBasePP(move) / 5)
+        public override int GetMovePP(int move, int ppup)
+        {
+            var pp = base.GetMovePP(move, 0);
+            return pp + (ppup * Math.Min(7, pp / 5));
+        }
+
         /// <summary>
         /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.
         /// </summary>
