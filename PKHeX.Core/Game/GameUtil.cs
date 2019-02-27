@@ -84,6 +84,10 @@ namespace PKHeX.Core
                 case GP: case GE:
                     return GG;
 
+                // Gen8
+                case SW: case SH:
+                    return SWSH;
+
                 default:
                     return Invalid;
             }
@@ -229,6 +233,10 @@ namespace PKHeX.Core
                     return g2 == GP || g2 == GE || g2 == GO;
                 case Gen7:
                     return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
+
+                case Gen8:
+                case SWSH:
+                    return g2 == SW || g2 == SH;
 
                 default: return false;
             }

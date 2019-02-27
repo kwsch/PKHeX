@@ -192,6 +192,16 @@
         /// Pokémon Let's Go Eevee (NX)
         /// </summary>
         GE = 43,
+
+        /// <summary>
+        /// Pokémon Sword (NX)
+        /// </summary>
+        SW = 44,
+
+        /// <summary>
+        /// Pokémon Shield (NX)
+        /// </summary>
+        SH = 45,
         #endregion
 
         // The following values are not actually stored values in pkm data,
@@ -332,9 +342,9 @@
         /// <summary>
         /// Pokémon Omega Ruby &amp; Alpha Sapphire version group.
         /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="OR"/>
         /// <see cref="AS"/>
-        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         ORAS,
 
         /// <summary>
@@ -360,6 +370,14 @@
         /// <see cref="GP"/>
         /// <see cref="GE"/>
         GG,
+
+        /// <summary>
+        /// Pokémon Sword &amp; Shield
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="SW"/>
+        /// <see cref="SH"/>
+        SWSH,
 
         /// <summary>
         /// Generation 1 Games
@@ -406,7 +424,14 @@
         /// </summary>
         /// <see cref="SM"/>
         /// <see cref="USUM"/>
+        /// <see cref="GG"/>
         Gen7,
+
+        /// <summary>
+        /// Generation 8 Games
+        /// </summary>
+        /// <see cref="SWSH"/>
+        Gen8,
 
         /// <summary>
         /// Generation 1/2 Game Boy Cartridge Era Only
