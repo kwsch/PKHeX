@@ -215,7 +215,7 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 1:
-                    return 196 >= item && item <= 200; // HMs
+                    return 196 <= item && item <= 200; // HMs
                 case 2:
                     return item >= 243; // HMs
                 case 3:
