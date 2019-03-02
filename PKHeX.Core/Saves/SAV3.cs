@@ -287,6 +287,19 @@ namespace PKHeX.Core
                 ushort chk = SaveUtil.CRC32(Data, ofs, len);
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
+
+            if (BAK.Length <= SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
+                return;
+
+            // Hall of Fame Checksums
+            {
+                ushort chk = SaveUtil.CRC32(Data, 0x1C000, SIZE_BLOCK_USED);
+                BitConverter.GetBytes(chk).CopyTo(Data, 0x1CFF4);
+            }
+            {
+                ushort chk = SaveUtil.CRC32(Data, 0x1D000, SIZE_BLOCK_USED);
+                BitConverter.GetBytes(chk).CopyTo(Data, 0x1DFF4);
+            }
         }
 
         public override bool ChecksumsValid
@@ -295,14 +308,37 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < BLOCK_COUNT; i++)
                 {
-                    int ofs = ABO + (i * SIZE_BLOCK);
-                    int len = chunkLength[BlockOrder[i]];
-                    ushort chk = SaveUtil.CRC32(Data, ofs, len);
-                    if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
+                    if (!IsChunkValid(i))
                         return false;
                 }
+
+                if (BAK.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+                    return true;
+
+                if (!IsChunkValidHoF(0x1C000))
+                    return false;
+                if (!IsChunkValidHoF(0x1D000))
+                    return false;
                 return true;
             }
+        }
+
+        private bool IsChunkValidHoF(int ofs)
+        {
+            ushort chk = SaveUtil.CRC32(Data, ofs, SIZE_BLOCK_USED);
+            if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF4))
+                return false;
+            return true;
+        }
+
+        private bool IsChunkValid(int i)
+        {
+            int ofs = ABO + (i * SIZE_BLOCK);
+            int len = chunkLength[BlockOrder[i]];
+            ushort chk = SaveUtil.CRC32(Data, ofs, len);
+            if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
+                return false;
+            return true;
         }
 
         public override string ChecksumInfo
@@ -312,11 +348,16 @@ namespace PKHeX.Core
                 var list = new List<string>();
                 for (int i = 0; i < BLOCK_COUNT; i++)
                 {
-                    int ofs = ABO + (i * SIZE_BLOCK);
-                    int len = chunkLength[BlockOrder[i]];
-                    ushort chk = SaveUtil.CRC32(Data, ofs, len);
-                    if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
+                    if (!IsChunkValid(i))
                         list.Add($"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid.");
+                }
+
+                if (BAK.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+                {
+                    if (!IsChunkValidHoF(0x1C000))
+                        list.Add("HoF Block 1 invalid.");
+                    if (!IsChunkValidHoF(0x1D000))
+                        list.Add("HoF Block 2 invalid.");
                 }
                 return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
