@@ -747,8 +747,8 @@ namespace PKHeX.Core
         public int ResumeHour { get => Data[AdventureInfo + 0xB]; set => Data[AdventureInfo + 0xB] = (byte)value; }
         public int ResumeMinute { get => Data[AdventureInfo + 0xC]; set => Data[AdventureInfo + 0xC] = (byte)value; }
         public int ResumeSeconds { get => Data[AdventureInfo + 0xD]; set => Data[AdventureInfo + 0xD] = (byte)value; }
-        public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); }
-        public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); }
+        public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); }
+        public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); }
 
         public ulong AlolaTime { get => BitConverter.ToUInt64(Data, AdventureInfo + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x48); }
 

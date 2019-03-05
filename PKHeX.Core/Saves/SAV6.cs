@@ -579,8 +579,8 @@ namespace PKHeX.Core
         public int ResumeHour { get => Data[AdventureInfo + 0xB]; set => Data[AdventureInfo + 0xB] = (byte)value; }
         public int ResumeMinute { get => Data[AdventureInfo + 0xC]; set => Data[AdventureInfo + 0xC] = (byte)value; }
         public int ResumeSeconds { get => Data[AdventureInfo + 0xD]; set => Data[AdventureInfo + 0xD] = (byte)value; }
-        public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); }
-        public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); }
+        public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x18); }
+        public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x20); }
 
         public ushort GetMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + (2 * index)); }
         public void SetMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + (2 * index)); }

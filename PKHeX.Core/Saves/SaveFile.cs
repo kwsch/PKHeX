@@ -408,8 +408,8 @@ namespace PKHeX.Core
         public virtual int PlayedHours { get; set; }
         public virtual int PlayedMinutes { get; set; }
         public virtual int PlayedSeconds { get; set; }
-        public virtual int SecondsToStart { get; set; }
-        public virtual int SecondsToFame { get; set; }
+        public virtual uint SecondsToStart { get; set; }
+        public virtual uint SecondsToFame { get; set; }
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int SlotCount => BoxCount * BoxSlotCount;

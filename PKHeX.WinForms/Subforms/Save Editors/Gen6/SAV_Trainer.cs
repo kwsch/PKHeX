@@ -295,14 +295,14 @@ namespace PKHeX.WinForms
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
 
-            int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            uint seconds = (uint)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             seconds -= seconds%86400;
-            seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            seconds += (uint)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             SAV.SecondsToStart = seconds;
 
-            int fame = (int)(CAL_HoFDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            uint fame = (uint)(CAL_HoFDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             fame -= fame % 86400;
-            fame += (int)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            fame += (uint)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             SAV.SecondsToFame = fame;
 
             if (SAV.LastSavedDate.HasValue)
