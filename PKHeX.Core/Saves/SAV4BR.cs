@@ -42,7 +42,7 @@ namespace PKHeX.Core
                 if (!IsOTNamePresent(i))
                     continue;
                 SaveSlots.Add(i);
-                SaveNames.Add(GetOTName(i).Trim());
+                SaveNames.Add(GetOTName(i));
             }
 
             CurrentSlot = SaveSlots[0];
@@ -152,10 +152,23 @@ namespace PKHeX.Core
         // Trainer Info
         public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
 
-        private string GetOTName(int i)
+        private string GetOTName(int slot)
         {
-            return Encoding.BigEndianUnicode.GetString(Data, 0x390 + (0x6FF00 * i), 0x10);
+            var ofs = 0x390 + (0x6FF00 * slot);
+            var str = Encoding.BigEndianUnicode.GetString(Data, ofs, 0x10);
+            return Util.TrimFromZero(str);
         }
+
+        private void SetOTName(int slot, string name)
+        {
+            if (name.Length > 7)
+                name = name.Substring(0, 7);
+            var bytes = Encoding.BigEndianUnicode.GetBytes(name.PadRight(8, '\0'));
+            var ofs = 0x390 + (0x6FF00 * slot);
+            SetData(bytes, ofs);
+        }
+
+        public string CurrentOT { get => GetOTName(_currentSlot); set => SetOTName(_currentSlot, value); }
 
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
@@ -273,17 +286,17 @@ namespace PKHeX.Core
             for (int i = 0; i < storedChecksums.Length; i++)
             {
                 storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
-                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + (i * 4));
+                BitConverter.GetBytes(0u).CopyTo(input, checksum_offset + (i * 4));
             }
 
             uint[] checksums = new uint[16];
 
             for (int i = 0; i < len; i += 2)
             {
-                ushort val = BigEndian.ToUInt16(input, offset + i);
+                uint val = BigEndian.ToUInt16(input, offset + i);
                 for (int j = 0; j < 16; j++)
                 {
-                    checksums[j] += (uint)((val >> j) & 1);
+                    checksums[j] += ((val >> j) & 1);
                 }
             }
 
@@ -301,16 +314,16 @@ namespace PKHeX.Core
             for (int i = 0; i < storedChecksums.Length; i++)
             {
                 storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
-                BitConverter.GetBytes((uint)0).CopyTo(input, checksum_offset + (i * 4));
+                BitConverter.GetBytes(0u).CopyTo(input, checksum_offset + (i * 4));
             }
 
             uint[] checksums = new uint[16];
 
             for (int i = 0; i < len; i += 2)
             {
-                ushort val = BigEndian.ToUInt16(input, offset + i);
+                uint val = BigEndian.ToUInt16(input, offset + i);
                 for (int j = 0; j < 16; j++)
-                    checksums[j] += (uint)((val >> j) & 1);
+                    checksums[j] += ((val >> j) & 1);
             }
 
             for (int i = 0; i < checksums.Length; i++)

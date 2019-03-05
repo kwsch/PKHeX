@@ -5,7 +5,7 @@ using System.Text;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Go Park Entity transferred to <see cref="GameVersion.GG"/>.
+    /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
     public class GP1
     {

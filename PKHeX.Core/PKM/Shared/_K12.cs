@@ -260,11 +260,15 @@ namespace PKHeX.Core
 
         protected static ushort GetStat(int BV, int IV, int EV, int LV)
         {
-            EV = (ushort)Math.Sqrt(EV) >> 2;
+            EV = (ushort)Math.Min(255, Math.Sqrt(EV) + 1) >> 2;
             return (ushort)((((2 * (BV + IV)) + EV) * LV / 100) + 5);
         }
 
-        public override int GetMovePP(int move, int ppup) => Math.Min(61, base.GetMovePP(move, ppup));
+        public override int GetMovePP(int move, int ppup)
+        {
+            var pp = base.GetMovePP(move, 0);
+            return pp + (ppup * Math.Min(7, pp / 5));
+        }
 
         /// <summary>
         /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.

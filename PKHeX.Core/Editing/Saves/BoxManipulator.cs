@@ -31,10 +31,10 @@
                 return false;
 
             var result = manip.Execute(SAV, param);
-            if (!result)
+            if (result <= 0)
                 return false;
             var success = manip.GetSuccess(allBoxes);
-            FinishBoxManipulation(success, allBoxes);
+            FinishBoxManipulation(success, allBoxes, result);
             return true;
         }
 
@@ -67,6 +67,7 @@
         /// </summary>
         /// <param name="message">Optional message to show if applicable.</param>
         /// <param name="all">Indicates if all boxes were manipulated, or just one box.</param>
-        protected abstract void FinishBoxManipulation(string message, bool all);
+        /// <param name="count">Count of manipulated slots</param>
+        protected abstract void FinishBoxManipulation(string message, bool all, int count);
     }
 }

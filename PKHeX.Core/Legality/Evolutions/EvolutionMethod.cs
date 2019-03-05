@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public int Level;
 
         // Not stored in binary data
-        public bool RequiresLevelUp; // tracks if this method requires levelup
+        public bool RequiresLevelUp; // tracks if this method requires a Level Up
         internal IReadOnlyCollection<GameVersion> Banlist = Array.Empty<GameVersion>();
 
         internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
@@ -38,7 +38,9 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (!skipChecks && Banlist.Count > 0 && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded) // sm lacks usum kantonian evos
+            // Check for unavailable evolution methods for an un-traded specimen.
+            // Example: Sun/Moon lack Ultra's Kantonian evolution methods.
+            if (!skipChecks && Banlist.Count > 0 && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded)
                 return false;
 
             switch ((EvolutionType)Method)
@@ -56,7 +58,7 @@ namespace PKHeX.Core
                 case TradeSpecies:
                     return !pkm.IsUntraded || skipChecks;
 
-                // Special Levelup Cases -- return false if invalid
+                // Special Level Up Cases -- return false if invalid
                 case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
                     return skipChecks;
                 case LevelUpMale when pkm.Gender != 0:
@@ -71,7 +73,7 @@ namespace PKHeX.Core
                 case LevelUpVersionNight when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks:
                     return skipChecks; // Version checks come in pairs, check for any pair match
 
-                // Level Up (any); above levelup cases will reach here if they weren't invalid
+                // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
                 default:
                     if (Level == 0 && lvl < 2)
                         return false;
@@ -92,8 +94,8 @@ namespace PKHeX.Core
             int origin = pkm.GenNumber;
             switch (origin)
             {
-                case 1: // No metdata in RBY
-                case 2: // No metdata in GS, Crystal metdata can be reset
+                case 1: // No met data in RBY
+                case 2: // No met data in GS, Crystal met data can be reset
                     return true;
                 case 3:
                 case 4:

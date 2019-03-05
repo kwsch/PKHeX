@@ -3,6 +3,9 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for various <see cref="PKM.AltForm"/> related requests.
+    /// </summary>
     public static class FormConverter
     {
         /// <summary>

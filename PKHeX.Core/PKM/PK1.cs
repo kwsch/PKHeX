@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -98,7 +99,7 @@ namespace PKHeX.Core
         public override int Version { get => (int)GameVersion.RBY; set { } }
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
-        public override bool CanHoldItem(ushort[] ValidArray) => false;
+        public override bool CanHoldItem(IList<ushort> ValidArray) => false;
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;

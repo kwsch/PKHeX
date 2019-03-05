@@ -133,14 +133,14 @@ namespace PKHeX.Core
         public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
         public uint IV32 { get => BigEndian.ToUInt32(Data, 0x38); set => BigEndian.GetBytes(value).CopyTo(Data, 0x38); }
-        public override int IV_SPD { get => (int)(IV32 >> 02) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 02)) | (uint)((value > 31 ? 31 : value) << 02)); }
-        public override int IV_SPA { get => (int)(IV32 >> 07) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 07)) | (uint)((value > 31 ? 31 : value) << 07)); }
-        public override int IV_SPE { get => (int)(IV32 >> 12) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 12)) | (uint)((value > 31 ? 31 : value) << 12)); }
-        public override int IV_DEF { get => (int)(IV32 >> 17) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 17)) | (uint)((value > 31 ? 31 : value) << 17)); }
-        public override int IV_ATK { get => (int)(IV32 >> 22) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 22)) | (uint)((value > 31 ? 31 : value) << 22)); }
-        public override int IV_HP { get => (int)(IV32 >> 27) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 27)) | (uint)((value > 31 ? 31 : value) << 27)); }
-        public override bool IsNicknamed { get => ((IV32 >> 0) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x00000001) | (uint)(value ? 0x00000001 : 0)); }
-        public override bool IsEgg { get => ((IV32 >> 1) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x00000002) | (uint)(value ? 0x00000002 : 0)); }
+        public override int IV_SPD { get => (int)(IV32 >> 02) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 02)) | ((value > 31 ? 31u : (uint)value) << 02)); }
+        public override int IV_SPA { get => (int)(IV32 >> 07) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 07)) | ((value > 31 ? 31u : (uint)value) << 07)); }
+        public override int IV_SPE { get => (int)(IV32 >> 12) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 12)) | ((value > 31 ? 31u : (uint)value) << 12)); }
+        public override int IV_DEF { get => (int)(IV32 >> 17) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 17)) | ((value > 31 ? 31u : (uint)value) << 17)); }
+        public override int IV_ATK { get => (int)(IV32 >> 22) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 22)) | ((value > 31 ? 31u : (uint)value) << 22)); }
+        public override int IV_HP { get => (int)(IV32 >> 27) & 0x1F;  set => IV32 = ((IV32 & ~(0x1Fu << 27)) | ((value > 31 ? 31u : (uint)value) << 27)); }
+        public override bool IsNicknamed { get => ((IV32 >> 0) & 1) == 1; set => IV32 = ((IV32 & ~0x00000001u) | (value ? 0x00000001u : 0u)); }
+        public override bool IsEgg { get => ((IV32 >> 1) & 1) == 1; set => IV32 = ((IV32 & ~0x00000002u) | (value ? 0x00000002u : 0u)); }
 
         private byte RIB7 { get => Data[0x3C]; set => Data[0x3C] = value; } // Hoenn 2b
         private byte RIB6 { get => Data[0x3D]; set => Data[0x3D] = value; } // Hoenn 2a

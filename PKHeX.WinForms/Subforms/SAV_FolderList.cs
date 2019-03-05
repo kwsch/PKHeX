@@ -356,7 +356,7 @@ namespace PKHeX.WinForms
             dgData.Invalidate();
         }
 
-        private static void LoadEntryInitial(DataGridView dgData, SaveList<SavePreview> list, SavePreview sav)
+        private static void LoadEntryInitial(DataGridView dgData, ICollection<SavePreview> list, SavePreview sav)
         {
             list.Add(sav);
             dgData.DataSource = list;

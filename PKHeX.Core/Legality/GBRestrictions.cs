@@ -7,6 +7,9 @@ using static PKHeX.Core.Legal;
 
 namespace PKHeX
 {
+    /// <summary>
+    /// Miscellaneous GB Era restriction logic for legality checking
+    /// </summary>
     internal static class GBRestrictions
     {
         internal static readonly int[] G1CaterpieMoves = { 33, 81 };

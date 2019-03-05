@@ -153,14 +153,13 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> HM_HGSS = new HashSet<int>
         {
-            015, 019, 057, 070, 250, 249, 127, 431 // Whirlpool(HGSS) 
+            015, 019, 057, 070, 250, 249, 127, 431 // Whirlpool(HGSS)
         };
 
         internal static readonly HashSet<int> HM_DPPt = new HashSet<int>
         {
             015, 019, 057, 070, 432, 249, 127, 431 // Defog(DPPt)
         };
-
 
         internal static readonly HashSet<int> HM_4_RemovePokeTransfer = new HashSet<int>
         {
@@ -211,7 +210,6 @@ namespace PKHeX.Core
         };
 
         internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
-        internal static readonly HashSet<int> CrownBeasts = new HashSet<int> { 251, 243, 244, 245 };
 
         internal static readonly int[] Tutors_4 =
         {
@@ -282,5 +280,42 @@ namespace PKHeX.Core
         {
             2000, 2002, 2009, 2010, 2011, 2013, 2014
         };
+
+        internal static int GetTransfer45MetLocation(PKM pk5)
+        {
+            if (pk5.Gen4 && pk5.FatefulEncounter)
+            {
+                var spec = pk5.Species;
+                if (spec == 251) // Celebi
+                    return Transfer4_CelebiUnused;
+                if (243 <= spec && spec <= 245) // Beast
+                    return Transfer4_CrownUnused;
+            }
+            return Transfer4; // Pokétransfer (not Crown);
+        }
+
+        internal static int[] RemoveMovesHM45(int[] moves)
+        {
+            var banned = GetFavorableHMBanlist(moves);
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (banned.Contains(moves[i]))
+                    moves[i] = 0;
+            }
+
+            return moves;
+        }
+
+        /// <summary>
+        /// Transfer via advantageous game
+        /// </summary>
+        /// <param name="moves">Current moves</param>
+        /// <returns>Preferred move ban list</returns>
+        private static HashSet<int> GetFavorableHMBanlist(int[] moves)
+        {
+            // if has defog, return ban list with whirlpool
+            return moves.Contains(432) ? HM_HGSS : HM_DPPt;
+        }
     }
 }

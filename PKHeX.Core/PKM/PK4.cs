@@ -114,14 +114,14 @@ namespace PKHeX.Core
         public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
         public uint IV32 { get => BitConverter.ToUInt32(Data, 0x38); set => BitConverter.GetBytes(value).CopyTo(Data, 0x38); }
-        public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
-        public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
-        public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }
-        public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
-        public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
-        public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
-        public override bool IsEgg { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); }
-        public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0); }
+        public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
+        public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
+        public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
+        public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 15)) | ((value > 31 ? 31u : (uint)value) << 15); }
+        public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 20)) | ((value > 31 ? 31u : (uint)value) << 20); }
+        public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 25)) | ((value > 31 ? 31u : (uint)value) << 25); }
+        public override bool IsEgg { get => ((IV32 >> 30) & 1) == 1; set => IV32 = (IV32 & ~0x40000000u) | (value ? 0x40000000u : 0u); }
+        public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFFu) | (value ? 0x80000000u : 0u); }
 
         private byte RIB4 { get => Data[0x3C]; set => Data[0x3C] = value; } // Hoenn 1a
         private byte RIB5 { get => Data[0x3D]; set => Data[0x3D] = value; } // Hoenn 1b
@@ -381,16 +381,13 @@ namespace PKHeX.Core
                 pk5.AltForm = 0;
                 pk5.HeldItem = 0;
             }
-            else
+            else if(!Legal.HeldItems_BW.Contains((ushort)HeldItem))
             {
-                pk5.HeldItem = Legal.HeldItems_BW.Contains((ushort) HeldItem) ? HeldItem : 0;
+                pk5.HeldItem = 0; // if valid, it's already copied
             }
 
             // Fix PP
-            pk5.Move1_PP = pk5.GetMovePP(pk5.Move1, pk5.Move1_PPUps);
-            pk5.Move2_PP = pk5.GetMovePP(pk5.Move2, pk5.Move2_PPUps);
-            pk5.Move3_PP = pk5.GetMovePP(pk5.Move3, pk5.Move3_PPUps);
-            pk5.Move4_PP = pk5.GetMovePP(pk5.Move4, pk5.Move4_PPUps);
+            pk5.HealPP();
 
             // Disassociate Nature and PID, pk4 getter does PID%25
             pk5.Nature = Nature;
@@ -399,9 +396,7 @@ namespace PKHeX.Core
             BitConverter.GetBytes((uint)0).CopyTo(pk5.Data, 0x44);
 
             // Met / Crown Data Detection
-            pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Legal.CrownBeasts.Contains(pk5.Species)
-                ? (pk5.Species == 251 ? Legal.Transfer4_CelebiUnused : Legal.Transfer4_CrownUnused) // Celebi : Beast
-                : Legal.Transfer4; // Pokétransfer (not Crown)
+            pk5.Met_Location = Legal.GetTransfer45MetLocation(pk5);
 
             // Egg Location is not modified; when clearing Pt/HGSS egg data, the location will revert to Faraway Place
             // pk5.Egg_Location = Egg_Location;
@@ -410,26 +405,15 @@ namespace PKHeX.Core
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
             pk5.Ball = Ball;
 
-            // Transfer Nickname and OT Name
+            // Transfer Nickname and OT Name, update encoding
             pk5.Nickname = Nickname;
             pk5.OT_Name = OT_Name;
 
             // Fix Level
-            pk5.Met_Level = Experience.GetLevel(pk5.EXP, pk5.Species, 0);
+            pk5.Met_Level = pk5.CurrentLevel;
 
             // Remove HM moves; Defog should be kept if both are learned.
-            int[] banned = Moves.Contains(250) && Moves.Contains(432) // Whirlpool & Defog
-                ? new[] {15, 19, 57, 70, 250, 249, 127, 431} // No Whirlpool
-                : new[] {15, 19, 57, 70,      249, 127, 431};// Transfer via advantageous game
-
-            int[] newMoves = pk5.Moves;
-            for (int i = 0; i < 4; i++)
-            {
-                if (banned.Contains(newMoves[i]))
-                    newMoves[i] = 0;
-            }
-
-            pk5.Moves = newMoves;
+            pk5.Moves = Legal.RemoveMovesHM45(pk5.Moves);
             pk5.FixMoves();
 
             pk5.RefreshChecksum();

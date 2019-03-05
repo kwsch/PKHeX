@@ -8,6 +8,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class CommonEdits
     {
+        /// <summary>
+        /// Setting which enables/disables automatic manipulation of <see cref="PKM.Markings"/> when importing from a <see cref="ShowdownSet"/>.
+        /// </summary>
         public static bool ShowdownSetIVMarkings { get; set; } = true;
 
         /// <summary>
@@ -26,6 +29,10 @@ namespace PKHeX.Core
             pk.Nickname = nick;
         }
 
+        /// <summary>
+        /// Clears the <see cref="PKM.Nickname"/> to the default value.
+        /// </summary>
+        /// <param name="pk"></param>
         public static void ClearNickname(this PKM pk)
         {
             pk.IsNicknamed = false;
@@ -369,10 +376,17 @@ namespace PKHeX.Core
 
             if (IVs == null)
                 IVs = pk.IVs;
+
+            if (MarkingMethod == null) // shouldn't ever happen
+                throw new ArgumentNullException(nameof(MarkingMethod));
+
             var markings = IVs.Select(MarkingMethod(pk)).ToArray();
             pk.Markings = PKX.ReorderSpeedLast(markings);
         }
 
+        /// <summary>
+        /// Default <see cref="MarkingMethod"/> when applying <see cref="SetMarkings"/>.
+        /// </summary>
         public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
 
         private static Func<int, int, int> FlagHighLow(PKM pk)

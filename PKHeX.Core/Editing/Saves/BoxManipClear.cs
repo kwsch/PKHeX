@@ -16,11 +16,10 @@ namespace PKHeX.Core
         protected Func<PKM, bool> CriteriaSimple { private get; set; }
         protected Func<PKM, SaveFile, bool> CriteriaSAV { private get; set; }
 
-        public virtual bool Execute(SaveFile SAV, BoxManipParam param)
+        public virtual int Execute(SaveFile SAV, BoxManipParam param)
         {
             bool Method(PKM p) => param.Reverse ^ (CriteriaSAV?.Invoke(p, SAV) ?? CriteriaSimple?.Invoke(p) ?? true);
-            SAV.ClearBoxes(param.Start, param.Stop, Method);
-            return true;
+            return SAV.ClearBoxes(param.Start, param.Stop, Method);
         }
 
         protected BoxManipClear() { }
@@ -56,7 +55,7 @@ namespace PKHeX.Core
     {
         private readonly HashSet<T> HashSet = new HashSet<T>();
 
-        public override bool Execute(SaveFile SAV, BoxManipParam param)
+        public override int Execute(SaveFile SAV, BoxManipParam param)
         {
             HashSet.Clear();
             return base.Execute(SAV, param);

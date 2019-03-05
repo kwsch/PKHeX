@@ -120,19 +120,19 @@ namespace PKHeX.Core
         public override int OT_Gender { get => (Origins >> 15) & 1; set => Origins = (ushort)((Origins & ~(1 << 15)) | ((value & 1) << 15)); }
 
         public uint IV32 { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
-        public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
-        public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
-        public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }
-        public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
-        public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
-        public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
+        public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
+        public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
+        public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
+        public override int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 15)) | ((value > 31 ? 31u : (uint)value) << 15); }
+        public override int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 20)) | ((value > 31 ? 31u : (uint)value) << 20); }
+        public override int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 25)) | ((value > 31 ? 31u : (uint)value) << 25); }
 
         public override bool IsEgg
         {
             get => ((IV32 >> 30) & 1) == 1;
             set
             {
-                IV32 = (uint) ((IV32 & ~0x40000000) | (uint) (value ? 0x40000000 : 0));
+                IV32 = (IV32 & ~0x40000000u) | (value ? 0x40000000u : 0);
                 FlagIsEgg = value;
                 if (value)
                 {
@@ -142,30 +142,30 @@ namespace PKHeX.Core
             }
         }
 
-        public override bool AbilityBit { get => IV32 >> 31 == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (uint)(value ? 1 << 31 : 0); }
+        public override bool AbilityBit { get => IV32 >> 31 == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (value ? 1u << 31 : 0u); }
 
         private uint RIB0 { get => BitConverter.ToUInt32(Data, 0x4C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x4C); }
-        public override int RibbonCountG3Cool        { get => (int)(RIB0 >> 00) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7) << 00); }
-        public override int RibbonCountG3Beauty      { get => (int)(RIB0 >> 03) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 03)) | (uint)(value & 7) << 03); }
-        public override int RibbonCountG3Cute        { get => (int)(RIB0 >> 06) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 06)) | (uint)(value & 7) << 06); }
-        public override int RibbonCountG3Smart       { get => (int)(RIB0 >> 09) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 09)) | (uint)(value & 7) << 09); }
-        public override int RibbonCountG3Tough       { get => (int)(RIB0 >> 12) & 7; set => RIB0 = (uint)((RIB0 & ~(7 << 12)) | (uint)(value & 7) << 12); }
-        public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (uint)((RIB0 & ~(1 << 15)) | (uint)(value ? 1 << 15 : 0)); }
-        public override bool RibbonWinning           { get => (RIB0 & (1 << 16)) == 1 << 16; set => RIB0 = (uint)((RIB0 & ~(1 << 16)) | (uint)(value ? 1 << 16 : 0)); }
-        public override bool RibbonVictory           { get => (RIB0 & (1 << 17)) == 1 << 17; set => RIB0 = (uint)((RIB0 & ~(1 << 17)) | (uint)(value ? 1 << 17 : 0)); }
-        public override bool RibbonArtist            { get => (RIB0 & (1 << 18)) == 1 << 18; set => RIB0 = (uint)((RIB0 & ~(1 << 18)) | (uint)(value ? 1 << 18 : 0)); }
-        public override bool RibbonEffort            { get => (RIB0 & (1 << 19)) == 1 << 19; set => RIB0 = (uint)((RIB0 & ~(1 << 19)) | (uint)(value ? 1 << 19 : 0)); }
-        public override bool RibbonChampionBattle    { get => (RIB0 & (1 << 20)) == 1 << 20; set => RIB0 = (uint)((RIB0 & ~(1 << 20)) | (uint)(value ? 1 << 20 : 0)); }
-        public override bool RibbonChampionRegional  { get => (RIB0 & (1 << 21)) == 1 << 21; set => RIB0 = (uint)((RIB0 & ~(1 << 21)) | (uint)(value ? 1 << 21 : 0)); }
-        public override bool RibbonChampionNational  { get => (RIB0 & (1 << 22)) == 1 << 22; set => RIB0 = (uint)((RIB0 & ~(1 << 22)) | (uint)(value ? 1 << 22 : 0)); }
-        public override bool RibbonCountry           { get => (RIB0 & (1 << 23)) == 1 << 23; set => RIB0 = (uint)((RIB0 & ~(1 << 23)) | (uint)(value ? 1 << 23 : 0)); }
-        public override bool RibbonNational          { get => (RIB0 & (1 << 24)) == 1 << 24; set => RIB0 = (uint)((RIB0 & ~(1 << 24)) | (uint)(value ? 1 << 24 : 0)); }
-        public override bool RibbonEarth             { get => (RIB0 & (1 << 25)) == 1 << 25; set => RIB0 = (uint)((RIB0 & ~(1 << 25)) | (uint)(value ? 1 << 25 : 0)); }
-        public override bool RibbonWorld             { get => (RIB0 & (1 << 26)) == 1 << 26; set => RIB0 = (uint)((RIB0 & ~(1 << 26)) | (uint)(value ? 1 << 26 : 0)); }
-        public override bool Unused1 { get => (RIB0 & (1 << 27)) == 1 << 27; set => RIB0 = (uint)((RIB0 & ~(1 << 27)) | (uint)(value ? 1 << 27 : 0)); }
-        public override bool Unused2 { get => (RIB0 & (1 << 28)) == 1 << 28; set => RIB0 = (uint)((RIB0 & ~(1 << 28)) | (uint)(value ? 1 << 28 : 0)); }
-        public override bool Unused3 { get => (RIB0 & (1 << 29)) == 1 << 29; set => RIB0 = (uint)((RIB0 & ~(1 << 29)) | (uint)(value ? 1 << 29 : 0)); }
-        public override bool Unused4 { get => (RIB0 & (1 << 30)) == 1 << 30; set => RIB0 = (uint)((RIB0 & ~(1 << 30)) | (uint)(value ? 1 << 30 : 0)); }
+        public override int RibbonCountG3Cool        { get => (int)(RIB0 >> 00) & 7; set => RIB0 = ((RIB0 & ~(7u << 00)) | (uint)(value & 7) << 00); }
+        public override int RibbonCountG3Beauty      { get => (int)(RIB0 >> 03) & 7; set => RIB0 = ((RIB0 & ~(7u << 03)) | (uint)(value & 7) << 03); }
+        public override int RibbonCountG3Cute        { get => (int)(RIB0 >> 06) & 7; set => RIB0 = ((RIB0 & ~(7u << 06)) | (uint)(value & 7) << 06); }
+        public override int RibbonCountG3Smart       { get => (int)(RIB0 >> 09) & 7; set => RIB0 = ((RIB0 & ~(7u << 09)) | (uint)(value & 7) << 09); }
+        public override int RibbonCountG3Tough       { get => (int)(RIB0 >> 12) & 7; set => RIB0 = ((RIB0 & ~(7u << 12)) | (uint)(value & 7) << 12); }
+        public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = ((RIB0 & ~(1u << 15)) | (value ? 1u << 15 : 0u)); }
+        public override bool RibbonWinning           { get => (RIB0 & (1 << 16)) == 1 << 16; set => RIB0 = ((RIB0 & ~(1u << 16)) | (value ? 1u << 16 : 0u)); }
+        public override bool RibbonVictory           { get => (RIB0 & (1 << 17)) == 1 << 17; set => RIB0 = ((RIB0 & ~(1u << 17)) | (value ? 1u << 17 : 0u)); }
+        public override bool RibbonArtist            { get => (RIB0 & (1 << 18)) == 1 << 18; set => RIB0 = ((RIB0 & ~(1u << 18)) | (value ? 1u << 18 : 0u)); }
+        public override bool RibbonEffort            { get => (RIB0 & (1 << 19)) == 1 << 19; set => RIB0 = ((RIB0 & ~(1u << 19)) | (value ? 1u << 19 : 0u)); }
+        public override bool RibbonChampionBattle    { get => (RIB0 & (1 << 20)) == 1 << 20; set => RIB0 = ((RIB0 & ~(1u << 20)) | (value ? 1u << 20 : 0u)); }
+        public override bool RibbonChampionRegional  { get => (RIB0 & (1 << 21)) == 1 << 21; set => RIB0 = ((RIB0 & ~(1u << 21)) | (value ? 1u << 21 : 0u)); }
+        public override bool RibbonChampionNational  { get => (RIB0 & (1 << 22)) == 1 << 22; set => RIB0 = ((RIB0 & ~(1u << 22)) | (value ? 1u << 22 : 0u)); }
+        public override bool RibbonCountry           { get => (RIB0 & (1 << 23)) == 1 << 23; set => RIB0 = ((RIB0 & ~(1u << 23)) | (value ? 1u << 23 : 0u)); }
+        public override bool RibbonNational          { get => (RIB0 & (1 << 24)) == 1 << 24; set => RIB0 = ((RIB0 & ~(1u << 24)) | (value ? 1u << 24 : 0u)); }
+        public override bool RibbonEarth             { get => (RIB0 & (1 << 25)) == 1 << 25; set => RIB0 = ((RIB0 & ~(1u << 25)) | (value ? 1u << 25 : 0u)); }
+        public override bool RibbonWorld             { get => (RIB0 & (1 << 26)) == 1 << 26; set => RIB0 = ((RIB0 & ~(1u << 26)) | (value ? 1u << 26 : 0u)); }
+        public override bool Unused1 { get => (RIB0 & (1 << 27)) == 1 << 27; set => RIB0 = ((RIB0 & ~(1u << 27)) | (value ? 1u << 27 : 0u)); }
+        public override bool Unused2 { get => (RIB0 & (1 << 28)) == 1 << 28; set => RIB0 = ((RIB0 & ~(1u << 28)) | (value ? 1u << 28 : 0u)); }
+        public override bool Unused3 { get => (RIB0 & (1 << 29)) == 1 << 29; set => RIB0 = ((RIB0 & ~(1u << 29)) | (value ? 1u << 29 : 0u)); }
+        public override bool Unused4 { get => (RIB0 & (1 << 30)) == 1 << 30; set => RIB0 = ((RIB0 & ~(1u << 30)) | (value ? 1u << 30 : 0u)); }
         public override bool FatefulEncounter { get => RIB0 >> 31 == 1; set => RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); }
         #endregion
 
@@ -261,10 +261,7 @@ namespace PKHeX.Core
             };
 
             // Fix PP
-            pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, pk4.Move1_PPUps);
-            pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, pk4.Move2_PPUps);
-            pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, pk4.Move3_PPUps);
-            pk4.Move4_PP = pk4.GetMovePP(pk4.Move4, pk4.Move4_PPUps);
+            pk4.HealPP();
 
             pk4.FatefulEncounter = FatefulEncounter; // obedience flag
 
@@ -299,7 +296,7 @@ namespace PKHeX.Core
             pk4.OT_Name = OT_Name;
 
             // Set Final Data
-            pk4.Met_Level = Experience.GetLevel(pk4.EXP, pk4.Species, 0);
+            pk4.Met_Level = pk4.CurrentLevel;
             pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
             pk4.IsNicknamed = IsNicknamed;
 

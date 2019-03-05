@@ -1,7 +1,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Levelup Learn Movepool Information
+    /// Level Up Learn Movepool Information (Generation 1/2)
     /// </summary>
     public sealed class Learnset1 : Learnset
     {

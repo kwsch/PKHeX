@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -21,10 +22,18 @@ namespace PKHeX.Core
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
-        public virtual byte[] EncryptedPartyData => Encrypt().Take(SIZE_PARTY).ToArray();
-        public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
-        public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
-        public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
+        public virtual byte[] EncryptedPartyData => Truncate(Encrypt(), SIZE_PARTY);
+        public virtual byte[] EncryptedBoxData => Truncate(Encrypt(), SIZE_STORED);
+        public virtual byte[] DecryptedPartyData => Truncate(Write(), SIZE_PARTY);
+        public virtual byte[] DecryptedBoxData => Truncate(Write(), SIZE_STORED);
+
+        private static byte[] Truncate(byte[] data, int newSize)
+        {
+            if (data.Length != newSize)
+                Array.Resize(ref data, newSize);
+            return data;
+        }
+
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
         // Trash Bytes
@@ -282,13 +291,13 @@ namespace PKHeX.Core
         public int DisplayTID
         {
             get => GenNumber >= 7 ? TrainerID7 : TID;
-            set => _ = GenNumber >= 7 ? (TrainerID7 = value) : (TID = value);
+            set { if (GenNumber >= 7) TrainerID7 = value; else TID = value; }
         }
 
         public int DisplaySID
         {
             get => GenNumber >= 7 ? TrainerSID7 : SID;
-            set => _ = GenNumber >= 7 ? (TrainerSID7 = value) : (SID = value);
+            set { if (GenNumber >= 7) TrainerSID7 = value; else SID = value; }
         }
 
         private void SetID7(int sid7, int tid7)
@@ -803,6 +812,18 @@ namespace PKHeX.Core
         {
             SetStats(GetStats(PersonalInfo));
             Status_Condition = 0;
+            HealPP();
+        }
+
+        /// <summary>
+        /// Restores PP to maximum based on the current PP Ups for each move.
+        /// </summary>
+        public void HealPP()
+        {
+            Move1_PP = GetMovePP(Move1, Move1_PPUps);
+            Move2_PP = GetMovePP(Move2, Move2_PPUps);
+            Move3_PP = GetMovePP(Move3, Move3_PPUps);
+            Move4_PP = GetMovePP(Move4, Move4_PPUps);
         }
 
         /// <summary>
@@ -822,7 +843,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ValidArray">Items that the <see cref="PKM"/> can hold.</param>
         /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-        public virtual bool CanHoldItem(ushort[] ValidArray) => ValidArray.Contains((ushort)HeldItem);
+        public virtual bool CanHoldItem(IList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
 
         /// <summary>
         /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.
@@ -877,7 +898,7 @@ namespace PKHeX.Core
         {
             while (!IsShiny)
                 PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
@@ -901,7 +922,7 @@ namespace PKHeX.Core
         public void SetPIDGender(int gender)
         {
             do PID = PKX.GetRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
@@ -915,7 +936,7 @@ namespace PKHeX.Core
         public void SetPIDNature(int nature)
         {
             do PID = PKX.GetRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
@@ -930,7 +951,7 @@ namespace PKHeX.Core
         public void SetPIDUnown3(int form)
         {
             do PID = Util.Rand32(); while (PKX.GetUnownForm(PID) != form);
-            if (Format >= 6 && 3 <= GenNumber && GenNumber <= 5)
+            if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 

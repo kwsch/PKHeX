@@ -15,11 +15,10 @@ namespace PKHeX.Core
         private readonly Action<PKM> Action;
         private readonly Action<PKM, SaveFile> ActionComplex;
 
-        public bool Execute(SaveFile SAV, BoxManipParam param)
+        public int Execute(SaveFile SAV, BoxManipParam param)
         {
             var method = Action ?? (px => ActionComplex(px, SAV));
-            SAV.ModifyBoxes(method, param.Start, param.Stop);
-            return true;
+            return SAV.ModifyBoxes(method, param.Start, param.Stop);
         }
 
         private BoxManipModify(BoxManipType type, Action<PKM> action, Func<SaveFile, bool> usable = null)

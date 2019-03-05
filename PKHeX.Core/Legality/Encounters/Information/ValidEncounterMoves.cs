@@ -32,16 +32,14 @@ namespace PKHeX.Core
 
     public class LevelUpRestriction
     {
-        public readonly int EncounterSpecies;
         public readonly IReadOnlyList<EvoCriteria>[] EvolutionChains;
         public readonly int MinimumLevelGen1;
         public readonly int MinimumLevelGen2;
 
         public LevelUpRestriction(PKM pkm, LegalInfo info)
         {
-            MinimumLevelGen1 = pkm.GenNumber <= 2 ? info.EncounterMatch.LevelMin + 1 : 0;
+            MinimumLevelGen1 = info.Generation <= 2 ? info.EncounterMatch.LevelMin + 1 : 0;
             MinimumLevelGen2 = ParseSettings.AllowGen2MoveReminder(pkm) ? 1 : info.EncounterMatch.LevelMin + 1;
-            EncounterSpecies = info.EncounterMatch.Species;
             EvolutionChains = info.EvoChainsAllGens;
         }
     }

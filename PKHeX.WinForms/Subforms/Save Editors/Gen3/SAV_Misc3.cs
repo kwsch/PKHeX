@@ -459,6 +459,7 @@ namespace PKHeX.WinForms
 
                 var index = WinFormsUtil.GetIndex(CB_Record);
                 LoadRecordID(index);
+                NUD_FameH.Visible = NUD_FameS.Visible = NUD_FameM.Visible = index == 1;
             };
             CB_Record.SelectedIndex = 0;
             LoadRecordID(0);
@@ -468,13 +469,37 @@ namespace PKHeX.WinForms
                     return;
 
                 var index = WinFormsUtil.GetIndex(CB_Record);
-                records.SetRecord(index, (uint)NUD_RecordValue.Value);
+                var val = (uint) NUD_RecordValue.Value;
+                records.SetRecord(index, val);
+                if (index == 1)
+                    LoadFame(val);
             };
+            NUD_FameH.ValueChanged += (s, e) => ChangeFame();
+            NUD_FameM.ValueChanged += (s, e) => ChangeFame();
+            NUD_FameS.ValueChanged += (s, e) => ChangeFame();
 
+            void ChangeFame() => records.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
             void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);
+            void LoadFame(uint val) => SetFameTime(val);
 
             NUD_BPEarned.Value = SAV.BPEarned;
             NUD_BPEarned.ValueChanged += (s, e) => SAV.BPEarned = (uint)NUD_BPEarned.Value;
+        }
+
+        public uint GetFameTime()
+        {
+            var hrs = Math.Min(9999, (uint)NUD_FameH.Value);
+            var min = Math.Min(59, (uint)NUD_FameM.Value);
+            var sec = Math.Min(59, (uint)NUD_FameS.Value);
+
+            return (hrs << 16) | (min << 8) | sec;
+        }
+
+        public void SetFameTime(uint time)
+        {
+            NUD_FameH.Value = Math.Min(NUD_FameH.Maximum, time >> 16);
+            NUD_FameM.Value = Math.Min(NUD_FameH.Maximum, (byte)(time >> 8));
+            NUD_FameS.Value = Math.Min(NUD_FameH.Maximum, (byte)time);
         }
     }
 }

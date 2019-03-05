@@ -1756,7 +1756,7 @@
             this.LB_Stamps.Location = new System.Drawing.Point(217, 194);
             this.LB_Stamps.Name = "LB_Stamps";
             this.LB_Stamps.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.LB_Stamps.Size = new System.Drawing.Size(159, 43);
+            this.LB_Stamps.Size = new System.Drawing.Size(159, 95);
             this.LB_Stamps.TabIndex = 71;
             // 
             // L_DaysFromRefreshed

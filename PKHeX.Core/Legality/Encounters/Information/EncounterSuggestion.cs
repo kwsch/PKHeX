@@ -170,11 +170,7 @@ namespace PKHeX.Core
                 return -1;
 
             if (pkm.Format >= 5) // Transporter
-            {
-                return pkm.Gen4 && pkm.FatefulEncounter && Legal.CrownBeasts.Contains(pkm.Species)
-                    ? (pkm.Species == 251 ? Legal.Transfer4_CelebiUnused : Legal.Transfer4_CrownUnused) // Celebi : Beast
-                    : Legal.Transfer4; // Pokétransfer (not Crown)
-            }
+                return Legal.GetTransfer45MetLocation(pkm);
             return -1;
         }
     }

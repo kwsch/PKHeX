@@ -67,25 +67,25 @@ namespace PKHeX.Core
             return Areas;
         }
 
-        private static IEnumerable<EncounterSlot1> GetSlots1_GW(byte[] data, ref int ofs, SlotType t)
+        private static IEnumerable<EncounterSlot1> GetSlots1GrassWater(byte[] data, ref int ofs, SlotType t)
         {
             int rate = data[ofs++];
-            return rate == 0 ? Enumerable.Empty<EncounterSlot1>() : ReadSlots(data, ref ofs, 10, t, rate);
+            return rate == 0 ? Enumerable.Empty<EncounterSlot1>() : ReadSlots1(data, ref ofs, 10, t, rate);
         }
 
-        private static EncounterSlot1[] GetSlots1_F(byte[] data, ref int ofs)
+        private static EncounterSlot1[] GetSlots1Fishing(byte[] data, ref int ofs)
         {
             int count = data[ofs++];
-            return ReadSlots(data, ref ofs, count, SlotType.Super_Rod, -1);
+            return ReadSlots1(data, ref ofs, count, SlotType.Super_Rod, -1);
         }
 
-        private static EncounterSlot1[] GetSlots2_GW(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
+        private static EncounterSlot1[] GetSlots2GrassWater(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
         {
             byte[] rates = new byte[slotSets];
             for (int i = 0; i < rates.Length; i++)
                 rates[i] = data[ofs++];
 
-            var slots = ReadSlots(data, ref ofs, slotSets * slotCount, t, rates[0]);
+            var slots = ReadSlots1(data, ref ofs, slotSets * slotCount, t, rates[0]);
             if (slotSets <= 1)
                 return slots;
 
@@ -107,7 +107,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot1[] GetSlots2_F(byte[] data, ref int ofs, SlotType t)
+        private static EncounterSlot1[] GetSlots2Fishing(byte[] data, ref int ofs, SlotType t)
         {
             // slot set ends with final slot having 0xFF 0x** 0x**
             const int size = 3;
@@ -135,7 +135,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot1[] GetSlots2_H(byte[] data, ref int ofs, SlotType t)
+        private static EncounterSlot1[] GetSlots2Headbutt(byte[] data, ref int ofs, SlotType t)
         {
             // slot set ends in 0xFF
             var slots = new List<EncounterSlot1>();
@@ -173,7 +173,7 @@ namespace PKHeX.Core
             while (data[ofs] != 0xFF) // end
             {
                 var location = data[ofs++] << 8 | data[ofs++];
-                var slots = GetSlots2_GW(data, ref ofs, t, slotSets, slotCount);
+                var slots = GetSlots2GrassWater(data, ref ofs, t, slotSets, slotCount);
                 var area = new EncounterArea
                 {
                     Location = location,
@@ -187,16 +187,16 @@ namespace PKHeX.Core
             return areas;
         }
 
-        private static List<EncounterArea> GetAreas2_F(byte[] data, ref int ofs)
+        private static List<EncounterArea> GetAreas2Fishing(byte[] data, ref int ofs)
         {
             var areas = new List<EncounterArea>();
             var types = new[] {SlotType.Old_Rod, SlotType.Good_Rod, SlotType.Super_Rod};
             while (ofs != 0x18C)
             {
                 areas.Add(new EncounterArea {
-                    Slots = GetSlots2_F(data, ref ofs, types[0])
-                    .Concat(GetSlots2_F(data, ref ofs, types[1]))
-                    .Concat(GetSlots2_F(data, ref ofs, types[2])).ToArray() });
+                    Slots = GetSlots2Fishing(data, ref ofs, types[0])
+                    .Concat(GetSlots2Fishing(data, ref ofs, types[1]))
+                    .Concat(GetSlots2Fishing(data, ref ofs, types[2])).ToArray() });
             }
 
             // Read TimeFishGroups
@@ -232,7 +232,7 @@ namespace PKHeX.Core
             return areas;
         }
 
-        private static IEnumerable<EncounterArea> GetAreas2_H(byte[] data, ref int ofs)
+        private static IEnumerable<EncounterArea> GetAreas2Headbutt(byte[] data, ref int ofs)
         {
             // Read Location Table
             var head = new List<EncounterArea>();
@@ -273,12 +273,12 @@ namespace PKHeX.Core
             for (int i = 0; i < head.Count; i++)
             {
                 int o = ptr[headID[i]] - baseOffset;
-                head[i].Slots = GetSlots2_H(data, ref o, SlotType.Headbutt);
+                head[i].Slots = GetSlots2Headbutt(data, ref o, SlotType.Headbutt);
             }
             for (int i = 0; i < rock.Count; i++)
             {
                 int o = ptr[rockID[i]] - baseOffset;
-                rock[i].Slots = GetSlots2_H(data, ref o, SlotType.Rock_Smash);
+                rock[i].Slots = GetSlots2Headbutt(data, ref o, SlotType.Rock_Smash);
             }
 
             return head.Concat(rock);
@@ -312,7 +312,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static IEnumerable<EncounterSlot> GetSlots3_F(byte[] data, ref int ofs, int numslots)
+        private static IEnumerable<EncounterSlot> GetSlots3Fishing(byte[] data, ref int ofs, int numslots)
         {
             var slots = new List<EncounterSlot>();
             int Ratio = data[ofs];
@@ -353,7 +353,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot[] GetSlots4_DPPt_G(byte[] data, int ofs, int numslots, SlotType t)
+        private static EncounterSlot[] GetSlots4GrassDPPt(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new EncounterSlot[numslots];
 
@@ -374,7 +374,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot[] GetSlots4_HGSS_G(byte[] data, int ofs, int numslots, SlotType t)
+        private static EncounterSlot[] GetSlots4GrassHGSS(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new EncounterSlot[numslots * 3];
             // First 36 slots are morning, day and night grass slots
@@ -402,10 +402,20 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static List<EncounterSlot> GetSlots4_G_Replace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
+        /// <summary>
+        /// Reads the GBA Pak Special slots, cloning <see cref="EncounterSlot"/> data from the area's base encounter slots.
+        /// </summary>
+        /// <remarks>
+        /// These special slots only contain the info of species id; the level is copied from the corresponding <see cref="slotnums"/> index.
+        /// </remarks>
+        /// <param name="data">Encounter binary data</param>
+        /// <param name="ofs">Offset to read from</param>
+        /// <param name="slotSize">DP/Pt slotSize = 4 bytes/entry, HG/SS slotSize = 2 bytes/entry</param>
+        /// <param name="ReplacedSlots">Slots from regular encounter table that end up replaced by in-game conditions</param>
+        /// <param name="slotnums">Slot indexes to replace with read species IDs</param>
+        /// <param name="t">Slot type of the special encounter</param>
+        private static List<EncounterSlot> GetSlots4GrassSlotReplace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
-            //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
-            //for dppt slotSize = 4, for hgss slotSize = 2
             var slots = new List<EncounterSlot>();
 
             int numslots = slotnums.Length;
@@ -428,7 +438,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static IEnumerable<EncounterSlot> GetSlots4DPPt_WFR(byte[] data, int ofs, int numslots, SlotType t)
+        private static IEnumerable<EncounterSlot> GetSlots4WaterFishingDPPt(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new List<EncounterSlot>();
             for (int i = 0; i < numslots; i++)
@@ -437,8 +447,8 @@ namespace PKHeX.Core
                 int Species = BitConverter.ToInt32(data, ofs + 4 + (i * 8));
                 if (Species <= 0)
                     continue;
-                // fishing and surf slots with species = 0 are not added
-                // DPPt does not have fishing or surf swarms
+                // Fishing and Surf slots without a species ID are not added
+                // DPPt does not have fishing or surf swarms, and does not have any Rock Smash encounters.
                 slots.Add(new EncounterSlot
                 {
                     LevelMax = data[ofs + 0 + (i * 8)],
@@ -452,7 +462,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static IEnumerable<EncounterSlot> GetSlots4HGSS_WFR(byte[] data, int ofs, int numslots, SlotType t)
+        private static IEnumerable<EncounterSlot> GetSlots4WaterFishingHGSS(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new List<EncounterSlot>();
             for (int i = 0; i < numslots; i++)
@@ -461,8 +471,8 @@ namespace PKHeX.Core
                 int Species = BitConverter.ToInt16(data, ofs + 2 + (i * 4));
                 if (t == SlotType.Rock_Smash && Species <= 0)
                     continue;
-                // fishing and surf slots with species = 0 are added too, it is needed for the swarm encounters,
-                // it will be deleted after add swarm slots
+                // Fishing and surf Slots without a species ID are added too; these are needed for the swarm encounters.
+                // These empty slots will will be deleted after we add swarm slots.
 
                 slots.Add(new EncounterSlot
                 {
@@ -493,7 +503,7 @@ namespace PKHeX.Core
             if (HaveRockSmashSlots)
                 slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Rock_Smash));
             if (HaveFishingSlots)
-                slots.AddRange(GetSlots3_F(data, ref offset, 10));
+                slots.AddRange(GetSlots3Fishing(data, ref offset, 10));
 
             EncounterArea Area3 = new EncounterArea
             {
@@ -514,24 +524,24 @@ namespace PKHeX.Core
             var GrassRatio = BitConverter.ToInt32(data, 0x02);
             if (GrassRatio > 0)
             {
-                EncounterSlot[] GrassSlots = GetSlots4_DPPt_G(data, 0x06, 12, SlotType.Grass);
+                EncounterSlot[] GrassSlots = GetSlots4GrassDPPt(data, 0x06, 12, SlotType.Grass);
                 //Swarming slots replace slots 0 and 1
-                var swarm = GetSlots4_G_Replace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm);
+                var swarm = GetSlots4GrassSlotReplace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm);
                 //Morning and Night slots replace slots 2 and 3
-                var morning = GetSlots4_G_Replace(data, 0x6E, 4, GrassSlots, Legal.Slot4_Time); // Morning
-                var night = GetSlots4_G_Replace(data, 0x76, 4, GrassSlots, Legal.Slot4_Time); // Night
+                var morning = GetSlots4GrassSlotReplace(data, 0x6E, 4, GrassSlots, Legal.Slot4_Time); // Morning
+                var night = GetSlots4GrassSlotReplace(data, 0x76, 4, GrassSlots, Legal.Slot4_Time); // Night
                 //Pokéradar slots replace slots 4,5,10 and 11
                 //Pokéradar is marked with different slot type because it have different PID-IV generationn
-                var radar = GetSlots4_G_Replace(data, 0x7E, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar);
+                var radar = GetSlots4GrassSlotReplace(data, 0x7E, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar);
 
                 //24 bytes padding
 
                 //Dual Slots replace slots 8 and 9
-                var ruby = GetSlots4_G_Replace(data, 0xA6, 4, GrassSlots, Legal.Slot4_Dual); // Ruby
-                var sapphire = GetSlots4_G_Replace(data, 0xAE, 4, GrassSlots, Legal.Slot4_Dual); // Sapphire
-                var emerald = GetSlots4_G_Replace(data, 0xB6, 4, GrassSlots, Legal.Slot4_Dual); // Emerald
-                var firered = GetSlots4_G_Replace(data, 0xBE, 4, GrassSlots, Legal.Slot4_Dual); // FireRed
-                var leafgreen = GetSlots4_G_Replace(data, 0xC6, 4, GrassSlots, Legal.Slot4_Dual); // LeafGreen
+                var ruby = GetSlots4GrassSlotReplace(data, 0xA6, 4, GrassSlots, Legal.Slot4_Dual); // Ruby
+                var sapphire = GetSlots4GrassSlotReplace(data, 0xAE, 4, GrassSlots, Legal.Slot4_Dual); // Sapphire
+                var emerald = GetSlots4GrassSlotReplace(data, 0xB6, 4, GrassSlots, Legal.Slot4_Dual); // Emerald
+                var firered = GetSlots4GrassSlotReplace(data, 0xBE, 4, GrassSlots, Legal.Slot4_Dual); // FireRed
+                var leafgreen = GetSlots4GrassSlotReplace(data, 0xC6, 4, GrassSlots, Legal.Slot4_Dual); // LeafGreen
 
                 Slots.AddRange(GrassSlots);
                 Slots.AddRange(swarm);
@@ -590,21 +600,21 @@ namespace PKHeX.Core
 
             var SurfRatio = BitConverter.ToInt32(data, 0xCE);
             if (SurfRatio > 0)
-                Slots.AddRange(GetSlots4DPPt_WFR(data, 0xD2, 5, SlotType.Surf));
+                Slots.AddRange(GetSlots4WaterFishingDPPt(data, 0xD2, 5, SlotType.Surf));
 
             //44 bytes padding
 
             var OldRodRatio = BitConverter.ToInt32(data, 0x126);
             if (OldRodRatio > 0)
-                Slots.AddRange(GetSlots4DPPt_WFR(data, 0x12A, 5, SlotType.Old_Rod));
+                Slots.AddRange(GetSlots4WaterFishingDPPt(data, 0x12A, 5, SlotType.Old_Rod));
 
             var GoodRodRatio = BitConverter.ToInt32(data, 0x152);
             if (GoodRodRatio > 0)
-                Slots.AddRange(GetSlots4DPPt_WFR(data, 0x156, 5, SlotType.Good_Rod));
+                Slots.AddRange(GetSlots4WaterFishingDPPt(data, 0x156, 5, SlotType.Good_Rod));
 
             var SuperRodRatio = BitConverter.ToInt32(data, 0x17E);
             if (SuperRodRatio > 0)
-                Slots.AddRange(GetSlots4DPPt_WFR(data, 0x182, 5, SlotType.Super_Rod));
+                Slots.AddRange(GetSlots4WaterFishingDPPt(data, 0x182, 5, SlotType.Super_Rod));
 
             EncounterArea Area4 = new EncounterArea
             {
@@ -646,12 +656,12 @@ namespace PKHeX.Core
             {
                 // First 36 slots are morning, day and night grass slots
                 // The order is 12 level values, 12 morning species, 12 day species and 12 night species
-                var GrassSlots = GetSlots4_HGSS_G(data, 0x0A, 12, SlotType.Grass);
+                var GrassSlots = GetSlots4GrassHGSS(data, 0x0A, 12, SlotType.Grass);
                 //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after swarms are added
 
                 // Hoenn Sound and Sinnoh Sound replace slots 4 and 5
-                var hoenn = GetSlots4_G_Replace(data, 0x5E, 2, GrassSlots, Legal.Slot4_Sound); // Hoenn
-                var sinnoh = GetSlots4_G_Replace(data, 0x62, 2, GrassSlots, Legal.Slot4_Sound); // Sinnoh
+                var hoenn = GetSlots4GrassSlotReplace(data, 0x5E, 2, GrassSlots, Legal.Slot4_Sound); // Hoenn
+                var sinnoh = GetSlots4GrassSlotReplace(data, 0x62, 2, GrassSlots, Legal.Slot4_Sound); // Sinnoh
 
                 Slots.AddRange(GrassSlots);
                 Slots.AddRange(hoenn);
@@ -668,7 +678,10 @@ namespace PKHeX.Core
                     // non radio
                     var regular = time.Where(z => !Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList(); // every other slot is in the product
                     var radio = new List<List<EncounterSlot>> {time.Where(z => Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList()};
-                    if (hoenn.Count > 0) radio.Add(hoenn); if (sinnoh.Count > 0) radio.Add(sinnoh);
+                    if (hoenn.Count > 0)
+                        radio.Add(hoenn);
+                    if (sinnoh.Count > 0)
+                        radio.Add(sinnoh);
 
                     var extra = new List<EncounterSlot>();
                     foreach (var t in radio)
@@ -678,19 +691,19 @@ namespace PKHeX.Core
             }
 
             if (SurfRatio > 0)
-                Slots.AddRange(GetSlots4HGSS_WFR(data, 0x66, 5, SlotType.Surf));
+                Slots.AddRange(GetSlots4WaterFishingHGSS(data, 0x66, 5, SlotType.Surf));
 
             if (RockSmashRatio > 0)
-                Slots.AddRange(GetSlots4HGSS_WFR(data, 0x7A, 2, SlotType.Rock_Smash));
+                Slots.AddRange(GetSlots4WaterFishingHGSS(data, 0x7A, 2, SlotType.Rock_Smash));
 
             if (OldRodRatio > 0)
-                Slots.AddRange(GetSlots4HGSS_WFR(data, 0x82, 5, SlotType.Old_Rod));
+                Slots.AddRange(GetSlots4WaterFishingHGSS(data, 0x82, 5, SlotType.Old_Rod));
 
             if (GoodRodRatio > 0)
-                Slots.AddRange(GetSlots4HGSS_WFR(data, 0x96, 5, SlotType.Good_Rod));
+                Slots.AddRange(GetSlots4WaterFishingHGSS(data, 0x96, 5, SlotType.Good_Rod));
 
             if (SuperRodRatio > 0)
-                Slots.AddRange(GetSlots4HGSS_WFR(data, 0xAA, 5, SlotType.Super_Rod));
+                Slots.AddRange(GetSlots4WaterFishingHGSS(data, 0xAA, 5, SlotType.Super_Rod));
 
             // Last 6 bytes only have species ID info
             if (data[0xC2] == 120) // Location = 182, 127, 130, 132, 167, 188, 210
@@ -712,7 +725,7 @@ namespace PKHeX.Core
            new EncounterSlot { Species = 120, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod },
         };
 
-        private static EncounterArea GetArea4HGSS_Headbutt(byte[] data)
+        private static EncounterArea GetArea4HeadbuttHGSS(byte[] data)
         {
             if (data.Length < 78)
                 return new EncounterArea(); // bad data
@@ -756,7 +769,7 @@ namespace PKHeX.Core
         /// <param name="t">Type of encounter slot.</param>
         /// <param name="rate">Slot type encounter rate.</param>
         /// <returns>Array of encounter slots.</returns>
-        private static EncounterSlot1[] ReadSlots(byte[] data, ref int ofs, int count, SlotType t, int rate)
+        private static EncounterSlot1[] ReadSlots1(byte[] data, ref int ofs, int count, SlotType t, int rate)
         {
             EncounterSlot1[] slots = new EncounterSlot1[count];
             for (int i = 0; i < count; i++)
@@ -777,7 +790,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot1[] ReadSlots_FY(byte[] data, ref int ofs, int count, SlotType t, int rate)
+        private static EncounterSlot1[] ReadSlots1FishingYellow(byte[] data, ref int ofs, int count, SlotType t, int rate)
         {
             // Convert byte to actual number
             int[] Levelbytelist = { 0xFF, 0x15, 0x67, 0x1D, 0x3B, 0x5C, 0x72, 0x16, 0x71, 0x18, 0x00, 0x6D, 0x80, };
@@ -808,7 +821,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray1_GW(byte[] data)
+        public static EncounterArea[] GetArray1GrassWater(byte[] data)
         {
             // RBY Format
             var ptr = new int[255];
@@ -826,8 +839,8 @@ namespace PKHeX.Core
             EncounterArea[] areas = new EncounterArea[count];
             for (int i = 0; i < areas.Length; i++)
             {
-                var grass = GetSlots1_GW(data, ref ptr[i], SlotType.Grass);
-                var water = GetSlots1_GW(data, ref ptr[i], SlotType.Surf);
+                var grass = GetSlots1GrassWater(data, ref ptr[i], SlotType.Grass);
+                var water = GetSlots1GrassWater(data, ref ptr[i], SlotType.Surf);
                 areas[i] = new EncounterArea
                 {
                     Location = i,
@@ -842,7 +855,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray1_FY(byte[] data)
+        public static EncounterArea[] GetArray1FishingYellow(byte[] data)
         {
             const int size = 9;
             int count = data.Length/size;
@@ -853,7 +866,7 @@ namespace PKHeX.Core
                 areas[i] = new EncounterArea
                 {
                     Location = data[(i * size) + 0],
-                    Slots = ReadSlots_FY(data, ref ofs, 4, SlotType.Super_Rod, -1)
+                    Slots = ReadSlots1FishingYellow(data, ref ofs, 4, SlotType.Super_Rod, -1)
                 };
             }
             return areas;
@@ -864,7 +877,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray1_F(byte[] data)
+        public static EncounterArea[] GetArray1Fishing(byte[] data)
         {
             var ptr = new int[255];
             var map = new int[255];
@@ -886,7 +899,7 @@ namespace PKHeX.Core
                 areas[i] = new EncounterArea
                 {
                     Location = map[i],
-                    Slots = GetSlots1_F(data, ref ptr[i])
+                    Slots = GetSlots1Fishing(data, ref ptr[i])
                 };
             }
             return areas;
@@ -897,7 +910,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray2_GW(byte[] data)
+        public static EncounterArea[] GetArray2GrassWater(byte[] data)
         {
             int ofs = 0;
             var areas = new List<EncounterArea>();
@@ -915,10 +928,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray2_F(byte[] data)
+        public static EncounterArea[] GetArray2Fishing(byte[] data)
         {
             int ofs = 0;
-            var f = GetAreas2_F(data, ref ofs);
+            var f = GetAreas2Fishing(data, ref ofs);
 
             // Fishing Tables are not associated to a single map; a map picks a table to use.
             // For all maps that use a table, create a new EncounterArea with reference to the table's slots.
@@ -948,10 +961,10 @@ namespace PKHeX.Core
             return areas.ToArray();
         }
 
-        public static EncounterArea[] GetArray2_H(byte[] data)
+        public static EncounterArea[] GetArray2Headbutt(byte[] data)
         {
             int ofs = 0;
-            return GetAreas2_H(data, ref ofs).ToArray();
+            return GetAreas2Headbutt(data, ref ofs).ToArray();
         }
 
         /// <summary>
@@ -992,7 +1005,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4HGSS_Headbutt(byte[][] entries)
         {
-            return entries.Select(GetArea4HGSS_Headbutt).Where(Area => Area.Slots.Length != 0).ToArray();
+            return entries.Select(GetArea4HeadbuttHGSS).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>

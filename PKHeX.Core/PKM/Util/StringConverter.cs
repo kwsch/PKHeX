@@ -17,8 +17,8 @@ namespace PKHeX.Core
         /// <param name="generation">Generation string format</param>
         /// <param name="jp">Encoding is Japanese</param>
         /// <param name="bigendian">Encoding is BigEndian</param>
-        /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
+        /// <param name="offset">Offset to read from</param>
         /// <returns>Decoded string.</returns>
         public static string GetString(byte[] data, int generation, bool jp, bool bigendian, int count, int offset = 0)
         {
@@ -263,8 +263,8 @@ namespace PKHeX.Core
         /// Converts a string to a Generation 3 encoded value array.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="jp">String destination is Japanese font.</param>
         /// <param name="maxLength">Maximum length of string</param>
+        /// <param name="jp">String destination is Japanese font.</param>
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns></returns>

@@ -931,13 +931,18 @@ namespace PKHeX.Core
             return species != 0;
         }
 
+        /// <summary>
+        /// Gets a function that can check a byte array (at an offset) to see if a <see cref="PKM"/> is possibly present.
+        /// </summary>
+        /// <param name="blank"></param>
+        /// <returns></returns>
         public static Func<byte[], int, bool> GetFuncIsPKMPresent(PKM blank)
         {
             if (blank.Format >= 4)
                 return IsPKMPresent;
             if (blank.Format <= 2)
                 return IsPKMPresentGB;
-            if (blank is PK3)
+            if (blank.Data.Length <= SIZE_3PARTY)
                 return IsPKMPresentGBA;
             return IsPKMPresentGC;
         }

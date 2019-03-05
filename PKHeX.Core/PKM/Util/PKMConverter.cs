@@ -162,7 +162,7 @@ namespace PKHeX.Core
                 if (pk.CurrentLevel < 100) // can't be hyper trained
                     return false;
 
-                if (pk.GenNumber != 4) // can't have encounter type
+                if (!pk.Gen4) // can't have encounter type
                     return true;
                 if (et > 24) // invalid encountertype
                     return true;
