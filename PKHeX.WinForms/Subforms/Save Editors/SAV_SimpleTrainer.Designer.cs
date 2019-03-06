@@ -163,7 +163,7 @@
             // 
             this.CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.CAL_AdventureStartDate.Location = new System.Drawing.Point(90, 51);
-            this.CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
             this.CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
             this.CAL_AdventureStartDate.Size = new System.Drawing.Size(99, 20);
@@ -248,7 +248,7 @@
             this.CAL_AdventureStartTime.CustomFormat = "hh:mm tt";
             this.CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_AdventureStartTime.Location = new System.Drawing.Point(116, 70);
-            this.CAL_AdventureStartTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_AdventureStartTime.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
             this.CAL_AdventureStartTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_AdventureStartTime.Name = "CAL_AdventureStartTime";
             this.CAL_AdventureStartTime.ShowUpDown = true;
@@ -261,7 +261,7 @@
             this.CAL_HoFTime.CustomFormat = "hh:mm tt";
             this.CAL_HoFTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_HoFTime.Location = new System.Drawing.Point(116, 126);
-            this.CAL_HoFTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_HoFTime.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
             this.CAL_HoFTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_HoFTime.Name = "CAL_HoFTime";
             this.CAL_HoFTime.ShowUpDown = true;
