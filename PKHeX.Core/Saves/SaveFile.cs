@@ -283,11 +283,11 @@ namespace PKHeX.Core
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public ushort[] EventConsts
+        public virtual ushort[] EventConsts
         {
             get
             {
-                if (EventConstMax < 0)
+                if (EventConstMax <= 0)
                     return Array.Empty<ushort>();
 
                 ushort[] Constants = new ushort[EventConstMax];
@@ -297,7 +297,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (EventConstMax < 0)
+                if (EventConstMax <= 0)
                     return;
                 if (value.Length != EventConstMax)
                     return;

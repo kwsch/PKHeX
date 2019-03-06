@@ -14,6 +14,7 @@
             else
                 LoadOffsetsInternational(sav.Version);
             Daycare = PokedexSeen + 0x1F + 28 + 1; // right after first unown seen
+            EventConst = EventFlag - 0x100;
         }
 
         public int Options { get; }
@@ -34,7 +35,8 @@
         public int Gender { get; private set; } = -1;
         public int AccumulatedChecksumEnd { get; private set; } = -1;
         public int OverallChecksumPosition { get; private set; } = -1;
-        public int EventFlag { get; private set; } = int.MinValue;
+        public int EventFlag { get; private set; }= -1;
+        public int EventConst { get; }
         public int Daycare { get; }
 
         public int PouchTMHM { get; private set; } = -1;
@@ -70,6 +72,8 @@
                     PouchKey  = 0x2449;
                     PouchBall = 0x2464;
                     PouchPC   = 0x247E;
+
+                    EventFlag = CurrentBoxIndex - 0x105;
                     break;
                 case GameVersion.C:
                     TimePlayed = 0x2052;
@@ -126,6 +130,8 @@
                     PouchKey  = 0x242A;
                     PouchBall = 0x2445;
                     PouchPC   = 0x245F;
+
+                    EventFlag = CurrentBoxIndex - 0x105;
                     break;
                 case GameVersion.C:
                     Money = 0x23BE;
@@ -179,6 +185,8 @@
             PouchKey = 0x2441;
             PouchBall = 0x245C;
             PouchPC = 0x2476;
+
+            EventFlag = CurrentBoxIndex - 0x105;
         }
     }
 }

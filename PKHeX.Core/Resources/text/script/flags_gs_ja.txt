@@ -1,0 +1,6 @@
+﻿0042	Captured Sudowoodo
+0079	Received Eevee
+0791	Captured Ho-oh
+0792	Captured Lugia
+1872	Captured Snorlax
+1873	Captured Red Gyarados

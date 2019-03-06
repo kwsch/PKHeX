@@ -1,11 +1,6 @@
-0042	Captured Sudowoodo
-0079	Received Eevee
 0190	Kurt can check GS Ball
 0191	Kurt ready to return GS Ball (combine with above Flag)
 0192	GS Ball can be inserted into Ilex Forest Shrine
-0791	Captured Ho-oh
-0792	Captured Lugia
 0830	Received Odd Egg
 0832	Received GS Ball
-1872	Captured Snorlax
 1873	Captured Red Gyarados
