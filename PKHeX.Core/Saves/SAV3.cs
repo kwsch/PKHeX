@@ -288,7 +288,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
 
-            if (BAK.Length <= SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
+            if (BAK.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
                 return;
 
             // Hall of Fame Checksums
