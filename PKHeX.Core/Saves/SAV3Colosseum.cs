@@ -110,6 +110,18 @@ namespace PKHeX.Core
 
         protected override byte[] GetFinalData()
         {
+            var newFile = GetInnerData();
+
+            // Return the gci if Memory Card is not being exported
+            if (!IsMemoryCardSave)
+                return newFile;
+
+            MC.SelectedSaveData = newFile;
+            return MC.Data;
+        }
+
+        private byte[] GetInnerData()
+        {
             StrategyMemo.FinalData.CopyTo(Data, Memo);
             SetChecksums();
 
@@ -120,17 +132,17 @@ namespace PKHeX.Core
             // Put save slot back in original save data
             byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
-
-            // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave)
-                return newFile;
-
-            MC.SelectedSaveData = newFile;
-            return MC.Data;
+            return newFile;
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV3Colosseum(Write()) {Header = (byte[]) Header.Clone()};
+        public override SaveFile Clone()
+        {
+            var data = GetInnerData();
+            var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC) : new SAV3Colosseum(data);
+            sav.Header = (byte[])Header.Clone();
+            return sav;
+        }
 
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         protected override int SIZE_PARTY => PKX.SIZE_3CSTORED; // unused
