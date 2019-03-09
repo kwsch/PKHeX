@@ -205,13 +205,12 @@ namespace PKHeX.Core
         USED_DAYCARE = 47,
         RODE_CABLE_CAR = 48,
         ENTERED_HOT_SPRINGS = 49,
-        STAT_50 = 50,
-        STAT_51 = 51,
+        UNION_WITH_FRIENDS = 50,
+        BERRY_CRUSH_WITH_FRIENDS = 51,
 
         // NUM_USED_GAME_STATS = 52,
         // NUM_GAME_STATS = 64
     }
-
 
     /// <summary>
     /// Record IDs for <see cref="GameVersion.FR"/> and <see cref="GameVersion.LG"/>
@@ -271,6 +270,8 @@ namespace PKHeX.Core
         USED_DAYCARE = 47,
         RODE_CABLE_CAR = 48,
         ENTERED_HOT_SPRINGS = 49,
+        UNION_WITH_FRIENDS = 50,
+        BERRY_CRUSH_WITH_FRIENDS = 51,
 
         // NUM_GAME_STATS = 64,
     }
