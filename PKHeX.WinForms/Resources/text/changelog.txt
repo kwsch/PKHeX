@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/02/07 - New Update:
+19/03/11 - New Update:
+ - Legality:
+ - - Changed: Updated GO shiny banlist.
+ - - Fixed: Silvally pledge moves are now restricted correctly.
+ - - Fixed: Ribbon Missing/Invalid was incorrectly swapped, now indicates correct legality message.
+ - Added: New setting can skip the "Legal!" popup if the tab pkm is legal. Sound effect still plays.
+ - Added: Program Color settings can now be manipulated via settings.
+ - Added: Box Sort by IEncounterable type.
+ - Added: Box Delete of extra clones.
+ - Added: Gen3 Records Editing (via Misc Edits)
+ - Added: Gen2 Event Flags for GS are now editable. Added flag IDs for GS & Crystal (including decorations).
+ - Added: Gen3 Hall of Fame block checksums are now fixed when exporting the save file.
+ - Changed: Changing the Blank Save File setting will now instantly load a new blank save file.
+ - Changed: Shortcut list updated with current shortcuts.
+ - Removed: Powersave backup loading logic (with xorpads) removed.
+ - Fixed: *.pb7 now appears as a file-open filter.
+ - Fixed: Gen6 XY Safari 3rd Slot Unlock now functions correctly.
+ - Fixed: Trash Byte editor Clear/Apply now functions as intended.
+ - Fixed: Gen1/2 pp/stat calculations now behave correctly. Thanks @SadysticMystic!
+
+19/02/07 - New Update: (51622) [1674877]
  - Legality:
  - - Changed: Another round of legality check updates. Thanks ThePunish3D, @crzyc, @Subject21J & @ReignOfComputer
  - - Fixed: Pokémon Link encounters are now detected correctly.
