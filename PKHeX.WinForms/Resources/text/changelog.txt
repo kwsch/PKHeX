@@ -19,7 +19,7 @@ http://projectpokemon.org/pkhex/
  - Fixed: *.pb7 now appears as a file-open filter.
  - Fixed: Gen6 XY Safari 3rd Slot Unlock now functions correctly.
  - Fixed: Trash Byte editor Clear/Apply now functions as intended.
- - Fixed: Gen1/2 pp/stat calculations now behave correctly. Thanks @SadysticMystic!
+ - Fixed: Gen1/2 pp/stat calculations now behave correctly. Thanks @SadisticMystic!
 
 19/02/07 - New Update: (51622) [1674877]
  - Legality:
