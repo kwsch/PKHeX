@@ -697,6 +697,9 @@
     <None Remove="Resources\text\script\flags_c_en.txt" />
     <None Remove="Resources\text\script\flags_c_ja.txt" />
     <None Remove="Resources\text\script\flags_c_zh.txt" />
+    <None Remove="Resources\text\script\flags_gs_en.txt" />
+    <None Remove="Resources\text\script\flags_gs_ja.txt" />
+    <None Remove="Resources\text\script\flags_gs_zh.txt" />
     <None Remove="Resources\text\zh\lang_zh.txt" />
     <None Remove="Resources\text\zh\LegalityCheckStrings_zh.txt" />
     <None Remove="Resources\text\zh\MessageStrings_zh.txt" />
@@ -1432,6 +1435,9 @@
     <EmbeddedResource Include="Resources\text\script\flags_c_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_c_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_c_zh.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_gs_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_gs_ja.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_gs_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\lang_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\LegalityCheckStrings_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\MessageStrings_zh.txt" />

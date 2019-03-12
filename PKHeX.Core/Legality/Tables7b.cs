@@ -278,17 +278,12 @@ namespace PKHeX.Core
             051, // Dugtrio
             052, // Meowth
             053, // Persian
-            056, // Mankey
-            057, // Primeape
             060, // Poliwag
             061, // Poliwhirl
             062, // Poliwrath
             063, // Abra
             064, // Kadabra
             065, // Alakazam
-            066, // Machop
-            067, // Machoke
-            068, // Machamp
             069, // Bellsprout
             070, // Weepinbell
             071, // Victreebel

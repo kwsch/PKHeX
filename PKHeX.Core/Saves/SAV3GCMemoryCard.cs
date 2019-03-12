@@ -72,7 +72,7 @@ namespace PKHeX.Core
         private const int Directory = BLOCK_SIZE * Directory_Block;
         private const int DirectoryBAK = BLOCK_SIZE * DirectoryBackup_Block;
         private const int BlockAlloc = BLOCK_SIZE * BlockAlloc_Block;
-        private const int BlockAllocBAK = BLOCK_SIZE * BlockAlloc_Block;
+        private const int BlockAllocBAK = BLOCK_SIZE * BlockAllocBackup_Block;
 
         public SAV3GCMemoryCard(byte[] data) => Data = data;
 

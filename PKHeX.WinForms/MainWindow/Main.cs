@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
-        private void FormLoadInitialSettings(string[] args, out bool showChangelog, out bool BAKprompt)
+        private static void FormLoadInitialSettings(string[] args, out bool showChangelog, out bool BAKprompt)
         {
             showChangelog = false;
             BAKprompt = false;
@@ -265,9 +265,9 @@ namespace PKHeX.WinForms
                 if (showChangelog) // user just updated from a prior version
                 {
                     Settings.Upgrade(); // copy previous version's settings, if available.
-                    Settings.Version = CurrentProgramVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
                 }
             }
+            Settings.Version = CurrentProgramVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
 
             // BAK Prompt
             if (!Settings.BAKPrompt)

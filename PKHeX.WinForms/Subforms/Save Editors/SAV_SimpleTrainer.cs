@@ -260,11 +260,11 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private static int GetSeconds(DateTimePicker date, DateTimePicker time)
+        private static uint GetSeconds(DateTimePicker date, DateTimePicker time)
         {
-            int val = (int)(date.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            uint val = (uint)(date.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             val -= val % 86400;
-            val += (int)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            val += (uint)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             return val;
         }
 

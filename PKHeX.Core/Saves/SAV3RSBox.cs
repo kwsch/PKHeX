@@ -62,14 +62,7 @@ namespace PKHeX.Core
 
         protected override byte[] GetFinalData()
         {
-            // Copy Box data back
-            const int copySize = BLOCK_SIZE - 0x10;
-            foreach (var b in Blocks)
-                Array.Copy(Data, (int)(Box + (b.ID * copySize)), Data, b.Offset + 0xC, copySize);
-
-            SetChecksums();
-
-            byte[] newFile = GetData(0, Data.Length - SIZE_RESERVED);
+            var newFile = GetInnerData();
 
             // Return the gci if Memory Card is not being exported
             if (!IsMemoryCardSave)
@@ -79,8 +72,26 @@ namespace PKHeX.Core
             return MC.Data;
         }
 
+        private byte[] GetInnerData()
+        {
+            // Copy Box data back
+            const int copySize = BLOCK_SIZE - 0x10;
+            foreach (var b in Blocks)
+                Array.Copy(Data, (int) (Box + (b.ID * copySize)), Data, b.Offset + 0xC, copySize);
+
+            SetChecksums();
+
+            return GetData(0, Data.Length - SIZE_RESERVED);
+        }
+
         // Configuration
-        public override SaveFile Clone() => new SAV3RSBox(Write()) {Header = (byte[]) Header.Clone()};
+        public override SaveFile Clone()
+        {
+            var data = GetInnerData();
+            var sav = IsMemoryCardSave ? new SAV3RSBox(data, MC) : new SAV3RSBox(data);
+            sav.Header = (byte[])Header.Clone();
+            return sav;
+        }
 
         public override int SIZE_STORED => PKX.SIZE_3STORED + 4;
         protected override int SIZE_PARTY => PKX.SIZE_3PARTY; // unused

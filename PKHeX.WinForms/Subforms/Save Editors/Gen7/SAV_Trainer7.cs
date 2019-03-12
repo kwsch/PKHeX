@@ -346,14 +346,14 @@ namespace PKHeX.WinForms
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
             var epoch = new DateTime(2000, 1, 1);
-            int seconds = (int)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
+            uint seconds = (uint)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
             seconds -= seconds%86400;
-            seconds += (int)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
+            seconds += (uint)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
             SAV.SecondsToStart = seconds;
 
-            int fame = (int)(CAL_HoFDate.Value - epoch).TotalSeconds;
+            uint fame = (uint)(CAL_HoFDate.Value - epoch).TotalSeconds;
             fame -= fame % 86400;
-            fame += (int)(CAL_HoFTime.Value - epoch).TotalSeconds;
+            fame += (uint)(CAL_HoFTime.Value - epoch).TotalSeconds;
             SAV.SecondsToFame = fame;
 
             if (SAV.LastSavedDate.HasValue)

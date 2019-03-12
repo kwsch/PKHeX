@@ -106,59 +106,31 @@ namespace PKHeX.WinForms
 
         private string[] GetStringList(string type)
         {
-            switch (SAV.Version)
+            gamePrefix = GetResourceSuffix(SAV.Version);
+            return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
+        }
+
+        private static string GetResourceSuffix(GameVersion ver)
+        {
+            switch (ver)
             {
-                case GameVersion.X:
-                case GameVersion.Y:
-                    gamePrefix = "xy";
-                    break;
-                case GameVersion.OR:
-                case GameVersion.AS:
-                    gamePrefix = "oras";
-                    break;
-                case GameVersion.SN:
-                case GameVersion.MN:
-                    gamePrefix = "sm";
-                    break;
-                case GameVersion.US:
-                case GameVersion.UM:
-                    gamePrefix = "usum";
-                    break;
-                case GameVersion.DP:
-                    gamePrefix = "dp";
-                    break;
-                case GameVersion.Pt:
-                    gamePrefix = "pt";
-                    break;
-                case GameVersion.HGSS:
-                    gamePrefix = "hgss";
-                    break;
-                case GameVersion.BW:
-                    gamePrefix = "bw";
-                    break;
-                case GameVersion.B2W2:
-                    gamePrefix = "b2w2";
-                    break;
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.RS:
-                    gamePrefix = "rs";
-                    break;
-                case GameVersion.E:
-                    gamePrefix = "e";
-                    break;
-                case GameVersion.FR:
-                case GameVersion.LG:
-                case GameVersion.FRLG:
-                    gamePrefix = "frlg";
-                    break;
-                case GameVersion.C:
-                    gamePrefix = "c";
-                    break;
+                case GameVersion.X: case GameVersion.Y: return "xy";
+                case GameVersion.OR: case GameVersion.AS: return "oras";
+                case GameVersion.SN: case GameVersion.MN: return "sm";
+                case GameVersion.US: case GameVersion.UM: return "usum";
+                case GameVersion.DP: return "dp";
+                case GameVersion.Pt: return "pt";
+                case GameVersion.HGSS: return "hgss";
+                case GameVersion.BW: return "bw";
+                case GameVersion.B2W2: return "b2w2";
+                case GameVersion.R: case GameVersion.S: case GameVersion.RS: return "rs";
+                case GameVersion.E: return "e";
+                case GameVersion.FR: case GameVersion.LG: case GameVersion.FRLG: return "frlg";
+                case GameVersion.C: return "c";
+                case GameVersion.GD: case GameVersion.SV: case GameVersion.GS: return "gs";
                 default:
                     throw new ArgumentException(nameof(GameVersion));
             }
-            return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
 
         private void AddFlagList(string[] list)

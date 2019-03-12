@@ -125,6 +125,7 @@ namespace PKHeX.Core
             // Enable Pokedex editing
             PokeDex = 0;
             EventFlag = Offsets.EventFlag;
+            EventConst = Offsets.EventConst;
 
             if (!Exportable)
                 ClearBoxes();
@@ -256,9 +257,8 @@ namespace PKHeX.Core
 
         public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
 
-        // not correct, but whole contains. Data[EventFlag+0x22F]=Data[0x1A2F] means repel count.
-        protected override int EventFlagMax => Version == GameVersion.C ? 0x230 << 3 : base.EventFlagMax;
-        protected override int EventConstMax => Version == GameVersion.C ? 0 : base.EventConstMax;
+        protected override int EventConstMax => 0x100;
+        protected override int EventFlagMax => 2000;
 
         public override int BoxCount => Japanese ? 9 : 14;
         public override int MaxEV => 65535;
@@ -624,6 +624,32 @@ namespace PKHeX.Core
             int bit = species - 1;
             int ofs = bit >> 3;
             return GetFlag(Offsets.PokedexCaught + ofs, bit & 7);
+        }
+
+        /// <summary>All Event Constant values for the save file</summary>
+        /// <remarks>These are all bytes</remarks>
+        public override ushort[] EventConsts
+        {
+            get
+            {
+                if (EventConstMax <= 0)
+                    return Array.Empty<ushort>();
+
+                ushort[] Constants = new ushort[EventConstMax];
+                for (int i = 0; i < Constants.Length; i++)
+                    Constants[i] = Data[EventConst + i];
+                return Constants;
+            }
+            set
+            {
+                if (EventConstMax <= 0)
+                    return;
+                if (value.Length != EventConstMax)
+                    return;
+
+                for (int i = 0; i < value.Length; i++)
+                    Data[EventConst + i] = Math.Min(byte.MaxValue, (byte)value[i]);
+            }
         }
 
         // Misc

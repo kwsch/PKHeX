@@ -283,11 +283,11 @@ namespace PKHeX.Core
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public ushort[] EventConsts
+        public virtual ushort[] EventConsts
         {
             get
             {
-                if (EventConstMax < 0)
+                if (EventConstMax <= 0)
                     return Array.Empty<ushort>();
 
                 ushort[] Constants = new ushort[EventConstMax];
@@ -297,7 +297,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (EventConstMax < 0)
+                if (EventConstMax <= 0)
                     return;
                 if (value.Length != EventConstMax)
                     return;
@@ -408,8 +408,8 @@ namespace PKHeX.Core
         public virtual int PlayedHours { get; set; }
         public virtual int PlayedMinutes { get; set; }
         public virtual int PlayedSeconds { get; set; }
-        public virtual int SecondsToStart { get; set; }
-        public virtual int SecondsToFame { get; set; }
+        public virtual uint SecondsToStart { get; set; }
+        public virtual uint SecondsToFame { get; set; }
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int SlotCount => BoxCount * BoxSlotCount;

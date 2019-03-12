@@ -15,7 +15,6 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = sav;
-            BytesPerChar = sav.Generation > 3 || sav.GameCube ? 2 : 1;
 
             FinalString = TB_NN.Text;
             Raw = FinalBytes = raw;
@@ -43,8 +42,6 @@ namespace PKHeX.WinForms
             editing = false;
             CenterToParent();
         }
-
-        private readonly int BytesPerChar;
 
         private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
         private readonly Font pkxFont = FontUtil.GetPKXFont(12F);
@@ -164,7 +161,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Trash byte layer is too long to apply.");
                 return;
             }
-            for (int i = current.Length + BytesPerChar; i < data.Length; i++)
+            for (int i = current.Length; i < data.Length; i++)
                 Bytes[i].Value = data[i];
         }
 
