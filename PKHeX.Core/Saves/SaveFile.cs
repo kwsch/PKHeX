@@ -54,7 +54,7 @@ namespace PKHeX.Core
             if (Footer.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeFooter))
                 return data.Concat(Footer).ToArray();
             if (Header.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeHeader))
-                return data.Concat(Data).ToArray();
+                return Header.Concat(data).ToArray();
             return data;
         }
 
