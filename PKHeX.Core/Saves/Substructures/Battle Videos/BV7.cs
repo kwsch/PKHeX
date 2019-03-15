@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text;
 
 namespace PKHeX.Core
 {
@@ -48,6 +50,67 @@ namespace PKHeX.Core
                         int offset = offsets[t] + (PKX.SIZE_6PARTY * p);
                         Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
                     }
+                }
+            }
+        }
+
+        private const string NPC = "NPC";
+
+        public string[] PlayerNames
+        {
+            get
+            {
+                string[] trainers = new string[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x12C + (0x1A * i), 0x1A));
+                    if (string.IsNullOrWhiteSpace(trainers[i]))
+                        trainers[i] = NPC;
+                }
+                return trainers;
+            }
+            set
+            {
+                if (value?.Length != 4)
+                    return;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    string tr = value[i] == NPC ? string.Empty : value[i];
+                    Encoding.Unicode.GetBytes(tr.PadRight(0x1A / 2)).CopyTo(Data, 0xEC + (0x1A * i));
+                }
+            }
+        }
+
+        private int MatchYear { get => BitConverter.ToUInt16(Data, 0x2BB0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2BB0); }
+        private int MatchDay { get => Data[0x2BB3]; set => Data[0x2BB3] = (byte)value; }
+        private int MatchMonth { get => Data[0x2BB2]; set => Data[0x2BB2] = (byte)value; }
+        private int MatchHour { get => Data[0x2BB4]; set => Data[0x2BB4] = (byte)value; }
+        private int MatchMinute { get => Data[0x2BB5]; set => Data[0x2BB5] = (byte)value; }
+        private int MatchSecond { get => Data[0x2BB6]; set => Data[0x2BB6] = (byte)value; }
+
+        public DateTime? MatchStamp
+        {
+            get
+            {
+                if (!Util.IsDateValid(MatchYear, MatchMonth, MatchDay))
+                    return null;
+                return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    MatchYear = value.Value.Year;
+                    MatchDay = value.Value.Day;
+                    MatchMonth = value.Value.Month;
+                    MatchHour = value.Value.Hour;
+                    MatchMinute = value.Value.Minute;
+                    MatchSecond = value.Value.Second;
+                }
+                else
+                {
+                    MatchYear = MatchDay = MatchMonth = MatchHour = MatchMinute = MatchSecond = 0;
                 }
             }
         }
