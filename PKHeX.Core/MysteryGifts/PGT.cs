@@ -204,8 +204,8 @@ namespace PKHeX.Core
             // Generate IVs
             if (pk4.IV32 == 0)
             {
-                uint iv1 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
-                uint iv2 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
+                uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
+                uint iv2 = ((_ = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
                 pk4.IV32 = iv1 | iv2 << 15;
             }
         }
@@ -229,9 +229,9 @@ namespace PKHeX.Core
         {
             do
             {
-                uint pid1 = PKX.LCRNG(ref seed) >> 16;
-                uint pid2 = PKX.LCRNG(ref seed) >> 16;
-                pk4.PID = pid1 | (pid2 << 16);
+                uint pid1 = (seed = RNG.LCRNG.Next(seed)) >> 16; // low
+                uint pid2 = (seed = RNG.LCRNG.Next(seed)) & 0xFFFF0000; // hi
+                pk4.PID = pid2 | pid1;
                 // sanity check gender for non-genderless PID cases
             } while (!pk4.IsGenderValid());
 

@@ -289,8 +289,7 @@ namespace PKHeX.Core
                 uint seed = BitConverter.ToUInt32(Data, wcSeed);
                 MysteryGiftAlbum Info = new MysteryGiftAlbum { Seed = seed };
                 byte[] wcData = GetData(WondercardData, 0xA90); // Encrypted, Decrypt
-                for (int i = 0; i < wcData.Length; i += 2)
-                    BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ PKX.LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
+                PKX.CryptArray(wcData, seed);
 
                 Info.Flags = new bool[GiftFlagMax];
                 Info.Gifts = new MysteryGift[GiftCountMax];
@@ -318,9 +317,7 @@ namespace PKHeX.Core
                     value.Gifts[i].Data.CopyTo(wcData, 0x100 + (i *PGF.Size));
 
                 // Decrypted, Encrypt
-                uint seed = value.Seed;
-                for (int i = 0; i < wcData.Length; i += 2)
-                    BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ PKX.LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
+                PKX.CryptArray(wcData, value.Seed);
 
                 // Write Back
                 wcData.CopyTo(Data, WondercardData);

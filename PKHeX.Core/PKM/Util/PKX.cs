@@ -60,9 +60,6 @@ namespace PKHeX.Core
         /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
         public static bool IsPKM(long len) => Sizes.Contains((int)len);
 
-        public static uint LCRNG(uint seed) => RNG.LCRNG.Next(seed);
-        public static uint LCRNG(ref uint seed) => seed = RNG.LCRNG.Next(seed);
-
         /// <summary>
         /// Species name lists indexed by the <see cref="PKM.Language"/> value.
         /// </summary>
@@ -438,6 +435,9 @@ namespace PKHeX.Core
             }
             while (i < end);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CryptArray(byte[] data, uint seed) => CryptArray(data, seed, 0, data.Length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Crypt(byte[] data, ref uint seed, int i)
