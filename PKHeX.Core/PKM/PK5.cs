@@ -495,65 +495,17 @@ namespace PKHeX.Core
             // When transferred, friendship gets reset.
             pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 
-            // Antishiny Mechanism
-            ushort LID = (ushort)(PID & 0xFFFF);
-            ushort HID = (ushort)(PID >> 0x10);
-
-            int XOR = TID ^ SID ^ LID ^ HID;
-            if (XOR >= 8 && XOR < 16) // If we get an illegal collision...
+            // Gen6 changed the shiny correlation to have 2x the rate.
+            // If the current PID would be shiny with those increased odds, fix it.
+            if ((PSV ^ TSV) == 1)
                 pk6.PID ^= 0x80000000;
 
             // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
             pk6.FixMoves();
 
             // Fix Name Strings
-            pk6.Nickname = pk6.Nickname
-                .Replace('\u2467', '\u00d7') // ×
-                .Replace('\u2468', '\u00f7') // ÷
-                .Replace('\u246c', '\u2026') // …
-
-                .Replace('\u246d', '\uE08E') // ♂
-                .Replace('\u246e', '\uE08F') // ♀
-                .Replace('\u246f', '\uE090') // ♠
-                .Replace('\u2470', '\uE091') // ♣
-                .Replace('\u2471', '\uE092') // ♥
-                .Replace('\u2472', '\uE093') // ♦
-                .Replace('\u2473', '\uE094') // ★
-                .Replace('\u2474', '\uE095') // ◎
-
-                .Replace('\u2475', '\uE096') // ○
-                .Replace('\u2476', '\uE097') // □
-                .Replace('\u2477', '\uE098') // △
-                .Replace('\u2478', '\uE099') // ◇
-                .Replace('\u2479', '\uE09A') // ♪
-                .Replace('\u247a', '\uE09B') // ☀
-                .Replace('\u247b', '\uE09C') // ☁
-                .Replace('\u247d', '\uE09D') // ☂
-                ;
-
-            pk6.OT_Name = pk6.OT_Name
-                .Replace('\u2467', '\u00d7') // ×
-                .Replace('\u2468', '\u00f7') // ÷
-                .Replace('\u246c', '\u2026') // …
-
-                .Replace('\u246d', '\uE08E') // ♂
-                .Replace('\u246e', '\uE08F') // ♀
-                .Replace('\u246f', '\uE090') // ♠
-                .Replace('\u2470', '\uE091') // ♣
-                .Replace('\u2471', '\uE092') // ♥
-                .Replace('\u2472', '\uE093') // ♦
-                .Replace('\u2473', '\uE094') // ★
-                .Replace('\u2474', '\uE095') // ◎
-
-                .Replace('\u2475', '\uE096') // ○
-                .Replace('\u2476', '\uE097') // □
-                .Replace('\u2477', '\uE098') // △
-                .Replace('\u2478', '\uE099') // ◇
-                .Replace('\u2479', '\uE09A') // ♪
-                .Replace('\u247a', '\uE09B') // ☀
-                .Replace('\u247b', '\uE09C') // ☁
-                .Replace('\u247d', '\uE09D') // ☂
-                ;
+            pk6.Nickname = StringConverter.TransferGlyphs56(pk6.Nickname);
+            pk6.OT_Name = StringConverter.TransferGlyphs56(pk6.OT_Name);
 
             // Fix Checksum
             pk6.RefreshChecksum();

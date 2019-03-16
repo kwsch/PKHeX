@@ -2126,5 +2126,32 @@ namespace PKHeX.Core
         {
             return str.Any(c => 0x4E00 <= c && c <= 0x9FFF);
         }
+
+        public static string TransferGlyphs56(string str)
+        {
+            return str
+                    .Replace('\u2467', '\u00d7') // ×
+                    .Replace('\u2468', '\u00f7') // ÷
+                    .Replace('\u246c', '\u2026') // …
+
+                    .Replace('\u246d', '\uE08E') // ♂
+                    .Replace('\u246e', '\uE08F') // ♀
+                    .Replace('\u246f', '\uE090') // ♠
+                    .Replace('\u2470', '\uE091') // ♣
+                    .Replace('\u2471', '\uE092') // ♥
+                    .Replace('\u2472', '\uE093') // ♦
+                    .Replace('\u2473', '\uE094') // ★
+                    .Replace('\u2474', '\uE095') // ◎
+
+                    .Replace('\u2475', '\uE096') // ○
+                    .Replace('\u2476', '\uE097') // □
+                    .Replace('\u2477', '\uE098') // △
+                    .Replace('\u2478', '\uE099') // ◇
+                    .Replace('\u2479', '\uE09A') // ♪
+                    .Replace('\u247a', '\uE09B') // ☀
+                    .Replace('\u247b', '\uE09C') // ☁
+                    .Replace('\u247d', '\uE09D') // ☂
+                ;
+        }
     }
 }
