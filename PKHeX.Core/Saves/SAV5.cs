@@ -495,7 +495,7 @@ namespace PKHeX.Core
 
             // Formes
             int fc = Personal[pkm.Species].FormeCount;
-            int f = B2W2 ? SaveUtil.GetDexFormIndexB2W2(pkm.Species, fc) : SaveUtil.GetDexFormIndexBW(pkm.Species, fc);
+            int f = B2W2 ? DexFormUtil.GetDexFormIndexB2W2(pkm.Species, fc) : DexFormUtil.GetDexFormIndexBW(pkm.Species, fc);
             if (f < 0) return;
 
             int FormLen = B2W2 ? 0xB : 0x9;
@@ -583,7 +583,7 @@ namespace PKHeX.Core
                 byte[] bgdata = value;
                 SetData(bgdata, CGearDataOffset);
 
-                ushort chk = SaveUtil.CRC16_CCITT(bgdata);
+                ushort chk = Checksums.CRC16_CCITT(bgdata);
                 var chkbytes = BitConverter.GetBytes(chk);
                 int footer = CGearDataOffset + bgdata.Length;
 
@@ -591,7 +591,7 @@ namespace PKHeX.Core
                 chkbytes.CopyTo(Data, footer + 2); // checksum
                 chkbytes.CopyTo(Data, footer + 0x100); // second checksum
                 dlcfooter.CopyTo(Data, footer + 0x102);
-                ushort skinchkval = SaveUtil.CRC16_CCITT(Data, footer + 0x100, 4);
+                ushort skinchkval = Checksums.CRC16_CCITT(Data, footer + 0x100, 4);
                 BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
 
                 // Indicate in the save file that data is present

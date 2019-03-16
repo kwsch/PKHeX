@@ -27,11 +27,11 @@ namespace PKHeX.Core
         public const int SIZE_G4BR = 0x380000;
         public const int SIZE_G4RAW = 0x80000;
         public const int SIZE_G3BOX = 0x76000;
-        public const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
         public const int SIZE_G3COLO = 0x60000;
-        public const int SIZE_G3COLOGCI = 0x60040; // +64 if has GCI data
         public const int SIZE_G3XD = 0x56000;
-        public const int SIZE_G3XDGCI = 0x56040; // +64 if has GCI data
+        public const int SIZE_G3BOXGCI = SIZE_G3BOX + 0x40; // GCI data
+        public const int SIZE_G3COLOGCI = SIZE_G3COLO + 0x40; // GCI data
+        public const int SIZE_G3XDGCI = SIZE_G3XD + 0x40; // GCI data
         public const int SIZE_G3RAW = 0x20000;
         public const int SIZE_G3RAWHALF = 0x10000;
         public const int SIZE_G2RAW_U = 0x8000;
@@ -372,11 +372,11 @@ namespace PKHeX.Core
 
             // check the checksum block validity; nobody would normally modify this region
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
-            ushort actual1 = CRC16_CCITT(data, SIZE_G5BW - 0x100, 0x8C);
+            ushort actual1 = Checksums.CRC16_CCITT(data, SIZE_G5BW - 0x100, 0x8C);
             if (chk1 == actual1)
                 return GameVersion.BW;
             ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
-            ushort actual2 = CRC16_CCITT(data, SIZE_G5B2W2 - 0x100, 0x94);
+            ushort actual2 = Checksums.CRC16_CCITT(data, SIZE_G5B2W2 - 0x100, 0x94);
             if (chk2 == actual2)
                 return GameVersion.B2W2;
             return GameVersion.Invalid;
@@ -393,16 +393,11 @@ namespace PKHeX.Core
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
                 return GameVersion.Invalid;
 
-            switch (data.Length)
-            {
-                case SIZE_G6XY:
-                    return GameVersion.XY;
-                case SIZE_G6ORASDEMO:
-                    return GameVersion.ORASDEMO;
-                case SIZE_G6ORAS:
-                    return GameVersion.ORAS;
-            }
-            return GameVersion.Invalid;
+            if (data.Length == SIZE_G6XY)
+                return GameVersion.XY;
+            if (data.Length == SIZE_G6ORAS)
+                return GameVersion.ORAS;
+            return GameVersion.ORASDEMO; // least likely
         }
 
         /// <summary>Determines the type of 7th gen save</summary>
@@ -416,14 +411,7 @@ namespace PKHeX.Core
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
                 return GameVersion.Invalid;
 
-            switch (data.Length)
-            {
-                case SIZE_G7SM:
-                    return GameVersion.SM;
-                case SIZE_G7USUM:
-                    return GameVersion.USUM;
-            }
-            return GameVersion.Invalid;
+            return data.Length == SIZE_G7SM ? GameVersion.SM : GameVersion.USUM;
         }
 
         /// <summary>Determines if the input data belongs to a <see cref="SAV7b"/> save</summary>
@@ -672,120 +660,6 @@ namespace PKHeX.Core
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
         public static bool IsSizeValid(int size) => SIZES.Contains(size);
 
-        /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="start">Starting point for checksum</param>
-        /// <param name="length"></param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16_CCITT(byte[] data, int start, int length)
-        {
-            byte top = 0xFF;
-            byte bot = 0xFF;
-            int end = start + length;
-            for (int i = start; i < end; i++)
-            {
-                var x = data[i] ^ top;
-                x ^= (x >> 4);
-                top = (byte) (bot ^ (x >> 3) ^ (x << 4));
-                bot = (byte) (x ^ (x << 5));
-            }
-            return (ushort)(top << 8 | bot);
-        }
-
-        /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16_CCITT(byte[] data) => CRC16_CCITT(data, 0, data.Length);
-
-        private static readonly ushort[] crc16 =
-        {
-            0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
-            0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
-            0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40,
-            0x0A00, 0xCAC1, 0xCB81, 0x0B40, 0xC901, 0x09C0, 0x0880, 0xC841,
-            0xD801, 0x18C0, 0x1980, 0xD941, 0x1B00, 0xDBC1, 0xDA81, 0x1A40,
-            0x1E00, 0xDEC1, 0xDF81, 0x1F40, 0xDD01, 0x1DC0, 0x1C80, 0xDC41,
-            0x1400, 0xD4C1, 0xD581, 0x1540, 0xD701, 0x17C0, 0x1680, 0xD641,
-            0xD201, 0x12C0, 0x1380, 0xD341, 0x1100, 0xD1C1, 0xD081, 0x1040,
-            0xF001, 0x30C0, 0x3180, 0xF141, 0x3300, 0xF3C1, 0xF281, 0x3240,
-            0x3600, 0xF6C1, 0xF781, 0x3740, 0xF501, 0x35C0, 0x3480, 0xF441,
-            0x3C00, 0xFCC1, 0xFD81, 0x3D40, 0xFF01, 0x3FC0, 0x3E80, 0xFE41,
-            0xFA01, 0x3AC0, 0x3B80, 0xFB41, 0x3900, 0xF9C1, 0xF881, 0x3840,
-            0x2800, 0xE8C1, 0xE981, 0x2940, 0xEB01, 0x2BC0, 0x2A80, 0xEA41,
-            0xEE01, 0x2EC0, 0x2F80, 0xEF41, 0x2D00, 0xEDC1, 0xEC81, 0x2C40,
-            0xE401, 0x24C0, 0x2580, 0xE541, 0x2700, 0xE7C1, 0xE681, 0x2640,
-            0x2200, 0xE2C1, 0xE381, 0x2340, 0xE101, 0x21C0, 0x2080, 0xE041,
-            0xA001, 0x60C0, 0x6180, 0xA141, 0x6300, 0xA3C1, 0xA281, 0x6240,
-            0x6600, 0xA6C1, 0xA781, 0x6740, 0xA501, 0x65C0, 0x6480, 0xA441,
-            0x6C00, 0xACC1, 0xAD81, 0x6D40, 0xAF01, 0x6FC0, 0x6E80, 0xAE41,
-            0xAA01, 0x6AC0, 0x6B80, 0xAB41, 0x6900, 0xA9C1, 0xA881, 0x6840,
-            0x7800, 0xB8C1, 0xB981, 0x7940, 0xBB01, 0x7BC0, 0x7A80, 0xBA41,
-            0xBE01, 0x7EC0, 0x7F80, 0xBF41, 0x7D00, 0xBDC1, 0xBC81, 0x7C40,
-            0xB401, 0x74C0, 0x7580, 0xB541, 0x7700, 0xB7C1, 0xB681, 0x7640,
-            0x7200, 0xB2C1, 0xB381, 0x7340, 0xB101, 0x71C0, 0x7080, 0xB041,
-            0x5000, 0x90C1, 0x9181, 0x5140, 0x9301, 0x53C0, 0x5280, 0x9241,
-            0x9601, 0x56C0, 0x5780, 0x9741, 0x5500, 0x95C1, 0x9481, 0x5440,
-            0x9C01, 0x5CC0, 0x5D80, 0x9D41, 0x5F00, 0x9FC1, 0x9E81, 0x5E40,
-            0x5A00, 0x9AC1, 0x9B81, 0x5B40, 0x9901, 0x59C0, 0x5880, 0x9841,
-            0x8801, 0x48C0, 0x4980, 0x8941, 0x4B00, 0x8BC1, 0x8A81, 0x4A40,
-            0x4E00, 0x8EC1, 0x8F81, 0x4F40, 0x8D01, 0x4DC0, 0x4C80, 0x8C41,
-            0x4400, 0x84C1, 0x8581, 0x4540, 0x8701, 0x47C0, 0x4680, 0x8641,
-            0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040
-        };
-
-        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
-        /// <param name="initial">Initial value for checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length, ushort initial)
-        {
-            ushort chk = initial;
-            for (var i = start; i < start + length; i++)
-                chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
-            return chk;
-        }
-
-        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length) => (ushort)~CRC16(data, start, length, unchecked((ushort)~0));
-
-        /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16NoInvert(byte[] data, int start, int length) => CRC16(data, start, length, 0);
-
-        public static byte[] Resign7(byte[] sav7)
-        {
-            return MemeCrypto.Resign7(sav7);
-        }
-
-        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
-        /// <param name="initial">Initial value for checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC32(byte[] data, int start, int length, uint initial = 0)
-        {
-            uint val = initial;
-            for (int i = start; i < start + length; i += 4)
-                val += BitConverter.ToUInt32(data, i);
-            return (ushort)(val + (val >> 16));
-        }
-
-        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="initial">Initial value for checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC32(byte[] data, uint initial = 0) => CRC32(data, 0, data.Length, initial);
-
         /// <summary>
         /// Checks the provided <see cref="input"/> and pulls out any <see cref="header"/> and/or <see cref="footer"/> arrays.
         /// </summary>
@@ -848,253 +722,16 @@ namespace PKHeX.Core
             bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
         }
 
-        private static readonly ushort[] formtable_SM = // u16 species, u16 formcount
-        {
-            0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
-            0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0007,
-            0x001A, 0x0002, 0x001B, 0x0002, 0x001C, 0x0002, 0x0025, 0x0002,
-            0x0026, 0x0002, 0x0032, 0x0002, 0x0033, 0x0002, 0x0034, 0x0002,
-            0x0035, 0x0002, 0x0041, 0x0002, 0x004A, 0x0002, 0x004B, 0x0002,
-            0x004C, 0x0002, 0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002,
-            0x005E, 0x0002, 0x0067, 0x0002, 0x0069, 0x0002, 0x0073, 0x0002,
-            0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
-            0x00B5, 0x0002, 0x00C9, 0x001C, 0x00D0, 0x0002, 0x00D4, 0x0002,
-            0x00D6, 0x0002, 0x00E5, 0x0002, 0x00F8, 0x0002, 0x00FE, 0x0002,
-            0x0101, 0x0002, 0x0104, 0x0002, 0x011A, 0x0002, 0x012E, 0x0002,
-            0x012F, 0x0002, 0x0132, 0x0002, 0x0134, 0x0002, 0x0136, 0x0002,
-            0x013F, 0x0002, 0x0143, 0x0002, 0x014E, 0x0002, 0x015F, 0x0004,
-            0x0162, 0x0002, 0x0167, 0x0002, 0x016A, 0x0002, 0x0175, 0x0002,
-            0x0178, 0x0002, 0x017C, 0x0002, 0x017D, 0x0002, 0x017E, 0x0002,
-            0x017F, 0x0002, 0x0180, 0x0002, 0x0182, 0x0004, 0x019C, 0x0003,
-            0x019D, 0x0003, 0x01A5, 0x0002, 0x01A6, 0x0002, 0x01A7, 0x0002,
-            0x01AC, 0x0002, 0x01BD, 0x0002, 0x01C0, 0x0002, 0x01CC, 0x0002,
-            0x01DB, 0x0002, 0x01DF, 0x0006, 0x01E7, 0x0002, 0x01EC, 0x0002,
-            0x01ED, 0x0012, 0x0213, 0x0002, 0x0226, 0x0002, 0x022B, 0x0002,
-            0x0249, 0x0004, 0x024A, 0x0004, 0x0281, 0x0002, 0x0282, 0x0002,
-            0x0285, 0x0002, 0x0286, 0x0003, 0x0287, 0x0002, 0x0288, 0x0002,
-            0x0289, 0x0005, 0x0292, 0x0003, 0x029A, 0x0014, 0x029D, 0x0005,
-            0x029E, 0x0006, 0x029F, 0x0005, 0x02A4, 0x000A, 0x02A6, 0x0002,
-            0x02A9, 0x0002, 0x02C6, 0x0004, 0x02C7, 0x0004, 0x02CC, 0x0002,
-            0x02CE, 0x0005, 0x02CF, 0x0002, 0x02D0, 0x0002, 0x02DF, 0x0002,
-            0x02E2, 0x0002, 0x02E5, 0x0004, 0x02E9, 0x0002, 0x02EA, 0x0002,
-            0x02F2, 0x0002, 0x02F6, 0x0002, 0x0305, 0x0012, 0x0306, 0x000E,
-            0x030A, 0x0004, 0x0310, 0x0002, 0x0321, 0x0002,
-        };
-
-        private static readonly ushort[] formtable_USUM = // u16 species, u16 formcount
-        {
-            0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
-            0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0008,
-            0x001A, 0x0002, 0x001B, 0x0002, 0x001C, 0x0002, 0x0025, 0x0002,
-            0x0026, 0x0002, 0x0032, 0x0002, 0x0033, 0x0002, 0x0034, 0x0002,
-            0x0035, 0x0002, 0x0041, 0x0002, 0x004A, 0x0002, 0x004B, 0x0002,
-            0x004C, 0x0002, 0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002,
-            0x005E, 0x0002, 0x0067, 0x0002, 0x0069, 0x0003, 0x0073, 0x0002,
-            0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
-            0x00B5, 0x0002, 0x00C9, 0x001C, 0x00D0, 0x0002, 0x00D4, 0x0002,
-            0x00D6, 0x0002, 0x00E5, 0x0002, 0x00F8, 0x0002, 0x00FE, 0x0002,
-            0x0101, 0x0002, 0x0104, 0x0002, 0x011A, 0x0002, 0x012E, 0x0002,
-            0x012F, 0x0002, 0x0132, 0x0002, 0x0134, 0x0002, 0x0136, 0x0002,
-            0x013F, 0x0002, 0x0143, 0x0002, 0x014E, 0x0002, 0x015F, 0x0004,
-            0x0162, 0x0002, 0x0167, 0x0002, 0x016A, 0x0002, 0x0175, 0x0002,
-            0x0178, 0x0002, 0x017C, 0x0002, 0x017D, 0x0002, 0x017E, 0x0002,
-            0x017F, 0x0002, 0x0180, 0x0002, 0x0182, 0x0004, 0x019C, 0x0003,
-            0x019D, 0x0003, 0x019E, 0x0003, 0x01A5, 0x0002, 0x01A6, 0x0002,
-            0x01A7, 0x0002, 0x01AC, 0x0002, 0x01BD, 0x0002, 0x01C0, 0x0002,
-            0x01CC, 0x0002, 0x01DB, 0x0002, 0x01DF, 0x0006, 0x01E7, 0x0002,
-            0x01EC, 0x0002, 0x01ED, 0x0012, 0x0213, 0x0002, 0x0226, 0x0002,
-            0x022B, 0x0002, 0x0249, 0x0004, 0x024A, 0x0004, 0x0281, 0x0002,
-            0x0282, 0x0002, 0x0285, 0x0002, 0x0286, 0x0003, 0x0287, 0x0002,
-            0x0288, 0x0002, 0x0289, 0x0005, 0x0292, 0x0003, 0x0298, 0x0014,
-            0x0299, 0x0014, 0x029A, 0x0014, 0x029D, 0x0005, 0x029E, 0x0006,
-            0x029F, 0x0005, 0x02A4, 0x000A, 0x02A6, 0x0002, 0x02A9, 0x0002,
-            0x02C6, 0x0004, 0x02C7, 0x0004, 0x02CC, 0x0002, 0x02CE, 0x0005,
-            0x02CF, 0x0002, 0x02D0, 0x0002, 0x02DF, 0x0002, 0x02E2, 0x0002,
-            0x02E5, 0x0004, 0x02E7, 0x0002, 0x02E8, 0x0002, 0x02E9, 0x0003,
-            0x02EA, 0x0002, 0x02F0, 0x0002, 0x02F2, 0x0002, 0x02F6, 0x0002,
-            0x0305, 0x0012, 0x0306, 0x000E, 0x0309, 0x0002, 0x030A, 0x0004,
-            0x0310, 0x0002, 0x0320, 0x0004, 0x0321, 0x0002
-        };
-
-        private static readonly ushort[] formtable_GG = // u16 species, u16 formcount
-        {
-            0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
-            0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0009,
-            0x001A, 0x0002, 0x001B, 0x0002, 0x001C, 0x0002, 0x0025, 0x0002,
-            0x0026, 0x0002, 0x0032, 0x0002, 0x0033, 0x0002, 0x0034, 0x0002,
-            0x0035, 0x0002, 0x0041, 0x0002, 0x004A, 0x0002, 0x004B, 0x0002,
-            0x004C, 0x0002, 0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002,
-            0x005E, 0x0002, 0x0067, 0x0002, 0x0069, 0x0003, 0x0073, 0x0002,
-            0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
-        };
-
-        private static int GetDexFormBitIndex(int species, int formct, int start, IReadOnlyList<ushort> formtable)
-        {
-            int formindex = start;
-            int f = 0;
-            for (int i = 0; i < formtable.Count; i += 2)
-            {
-                int s = formtable[i];
-                f = formtable[i + 1];
-                if (s == species)
-                    break;
-
-                formindex += f - 1;
-            }
-            if (f > formct)
-                return -1;
-            return formindex;
-        }
-
-        private static int GetDexFormCount(int species, IReadOnlyList<ushort> formtable)
-        {
-            for (int i = 0; i < formtable.Count; i += 2)
-            {
-                if (formtable[i] == species)
-                    return formtable[i + 1];
-            }
-            return 0;
-        }
-
-        public static int GetDexFormIndexBW(int species, int formct)
-        {
-            if (formct < 1 || species < 0)
-                return -1; // invalid
-            switch (species)
-            {
-                case 201: return 000; // 28 Unown
-                case 386: return 028; // 4 Deoxys
-                case 492: return 032; // 2 Shaymin
-                case 487: return 034; // 2 Giratina
-                case 479: return 036; // 6 Rotom
-                case 422: return 042; // 2 Shellos
-                case 423: return 044; // 2 Gastrodon
-                case 412: return 046; // 3 Burmy
-                case 413: return 049; // 3 Wormadam
-                case 351: return 052; // 4 Castform
-                case 421: return 056; // 2 Cherrim
-                case 585: return 058; // 4 Deerling
-                case 586: return 062; // 4 Sawsbuck
-                case 648: return 066; // 2 Meloetta
-                case 555: return 068; // 2 Darmanitan
-                case 550: return 070; // 2 Basculin
-                default: return -1;
-            }
-        }
-
-        public static int GetDexFormIndexB2W2(int species, int formct)
-        {
-            if (formct < 1 || species < 0)
-                return -1; // invalid
-            switch (species)
-            {
-                case 646: return 072; // 3 Kyurem
-                case 647: return 075; // 2 Keldeo
-                case 642: return 077; // 2 Thundurus
-                case 641: return 079; // 2 Tornadus
-                case 645: return 081; // 2 Landorus
-                default: return GetDexFormIndexBW(species, formct);
-            }
-        }
-
-        public static int GetDexFormIndexXY(int species, int formct)
-        {
-            if (formct < 1 || species < 0)
-                return -1; // invalid
-            switch (species)
-            {
-                case 666: return 083; // 20 Vivillion
-                case 669: return 103; // 5 Flabébé
-                case 670: return 108; // 6 Floette
-                case 671: return 114; // 5 Florges
-                case 710: return 119; // 4 Pumpkaboo
-                case 711: return 123; // 4 Gourgeist
-                case 681: return 127; // 2 Aegislash
-                case 716: return 129; // 2 Xerneas
-                case 003: return 131; // 2 Venusaur
-                case 006: return 133; // 3 Charizard
-                case 009: return 136; // 2 Blastoise
-                case 065: return 138; // 2 Alakazam
-                case 094: return 140; // 2 Gengar
-                case 115: return 142; // 2 Kangaskhan
-                case 127: return 144; // 2 Pinsir
-                case 130: return 146; // 2 Gyarados
-                case 142: return 148; // 2 Aerodactyl
-                case 150: return 150; // 3 Mewtwo
-                case 181: return 153; // 2 Ampharos
-                case 212: return 155; // 2 Scizor
-                case 214: return 157; // 2 Heracros
-                case 229: return 159; // 2 Houndoom
-                case 248: return 161; // 2 Tyranitar
-                case 257: return 163; // 2 Blaziken
-                case 282: return 165; // 2 Gardevoir
-                case 303: return 167; // 2 Mawile
-                case 306: return 169; // 2 Aggron
-                case 308: return 171; // 2 Medicham
-                case 310: return 173; // 2 Manetric
-                case 354: return 175; // 2 Banette
-                case 359: return 177; // 2 Absol
-                case 380: return 179; // 2 Latias
-                case 381: return 181; // 2 Latios
-                case 445: return 183; // 2 Garchomp
-                case 448: return 185; // 2 Lucario
-                case 460: return 187; // 2 Abomasnow
-                default: return GetDexFormIndexB2W2(species, formct);
-            }
-        }
-
-        public static int GetDexFormIndexORAS(int species, int formct)
-        {
-            if (formct < 1 || species < 0)
-                return -1; // invalid
-            switch (species)
-            {
-                case 025: return 189; // 7 Pikachu
-                case 720: return 196; // 2 Hoopa
-                case 015: return 198; // 2 Beedrill
-                case 018: return 200; // 2 Pidgeot
-                case 080: return 202; // 2 Slowbro
-                case 208: return 204; // 2 Steelix
-                case 254: return 206; // 2 Sceptile
-                case 260: return 208; // 2 Swampert
-                case 302: return 210; // 2 Sableye
-                case 319: return 212; // 2 Sharpedo
-                case 323: return 214; // 2 Camerupt
-                case 334: return 216; // 2 Altaria
-                case 362: return 218; // 2 Glalie
-                case 373: return 220; // 2 Salamence
-                case 376: return 222; // 2 Metagross
-                case 384: return 224; // 2 Rayquaza
-                case 428: return 226; // 2 Lopunny
-                case 475: return 228; // 2 Gallade
-                case 531: return 230; // 2 Audino
-                case 719: return 232; // 2 Diancie
-                case 382: return 234; // 2 Kyogre
-                case 383: return 236; // 2 Groudon
-                case 493: return 238; // 18 Arceus
-                case 649: return 256; // 5 Genesect
-                case 676: return 261; // 10 Furfrou
-                default: return GetDexFormIndexXY(species, formct);
-            }
-        }
-
-        public static int GetDexFormIndexSM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_SM);
-        public static int GetDexFormIndexUSUM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_USUM);
-        public static int GetDexFormIndexGG(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_GG);
-        public static int GetDexFormCountSM(int species) => GetDexFormCount(species, formtable_SM);
-        public static int GetDexFormCountUSUM(int species) => GetDexFormCount(species, formtable_USUM);
-        public static int GetDexFormCountGG(int species) => GetDexFormCount(species, formtable_GG);
-
         public static int GetCXDVersionID(int gen3version)
         {
-            switch ((GameVersion)gen3version)
+            switch (gen3version)
             {
-                case GameVersion.FR: return 1;
-                case GameVersion.LG: return 2;
-                case GameVersion.S: return 8;
-                case GameVersion.R: return 9;
-                case GameVersion.E: return 10;
-                case GameVersion.CXD: return 11;
+                case (int)GameVersion.FR: return 1;
+                case (int)GameVersion.LG: return 2;
+                case (int)GameVersion.S: return 8;
+                case (int)GameVersion.R: return 9;
+                case (int)GameVersion.E: return 10;
+                case (int)GameVersion.CXD: return 11;
                 default: return 0;
             }
         }

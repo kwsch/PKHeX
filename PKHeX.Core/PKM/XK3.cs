@@ -38,7 +38,7 @@ namespace PKHeX.Core
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override ushort Checksum { get => Checksums.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
         public override bool ChecksumValid => Valid;
 
         public override int Species { get => SpeciesConverter.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x00); }

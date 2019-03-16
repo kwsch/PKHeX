@@ -24,7 +24,7 @@ namespace PKHeX.Core
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}";
+                return $"{Species:000}{form}{star} - {Nickname} - {Checksums.CRC16_CCITT(Encrypt()):X4}";
             }
         }
 

@@ -28,7 +28,7 @@ namespace PKHeX.Core
             Exportable = !IsRangeEmpty(0, Data.Length);
 
             // Load Info
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, SaveUtil.CRC16);
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
             if (Exportable)
                 CanReadChecksums();
             GetSAVOffsets();
@@ -105,7 +105,7 @@ namespace PKHeX.Core
                 return;
             Blocks.SetChecksums(Data);
             SaveBattleTeams();
-            Data = SaveUtil.Resign7(Data);
+            Data = MemeCrypto.Resign7(Data);
             IsMemeCryptoApplied = true;
         }
 
@@ -1057,8 +1057,8 @@ namespace PKHeX.Core
                     if (fc > 1) // actually has forms
                     {
                         int f = USUM
-                            ? SaveUtil.GetDexFormIndexUSUM(pkm.Species, fc, MaxSpeciesID - 1)
-                            : SaveUtil.GetDexFormIndexSM(pkm.Species, fc, MaxSpeciesID - 1);
+                            ? DexFormUtil.GetDexFormIndexUSUM(pkm.Species, fc, MaxSpeciesID - 1)
+                            : DexFormUtil.GetDexFormIndexSM(pkm.Species, fc, MaxSpeciesID - 1);
                         if (f >= 0) // bit index valid
                             bitIndex = f + form;
                     }
@@ -1140,7 +1140,7 @@ namespace PKHeX.Core
                 case 718 when formIn > 1:
                     break;
                 default:
-                    int count = USUM ? SaveUtil.GetDexFormCountUSUM(species) : SaveUtil.GetDexFormCountSM(species);
+                    int count = USUM ? DexFormUtil.GetDexFormCountUSUM(species) : DexFormUtil.GetDexFormCountSM(species);
                     formStart = formEnd = 0;
                     return count < formIn;
             }

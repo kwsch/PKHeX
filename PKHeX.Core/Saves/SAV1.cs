@@ -256,7 +256,7 @@ namespace PKHeX.Core
             set => Data[Offsets.PikaFriendship] = value;
         }
 
-        public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {SaveUtil.CRC16_CCITT(Data):X4}";
+        public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
 
         public override int PlayedHours
         {

@@ -12,7 +12,7 @@ namespace PKHeX.Core
             HeldItems = Legal.HeldItems_HGSS;
         }
 
-        public override string PlayTimeString => SaveUtil.CRC16(Data, 0, Data.Length).ToString("X4");
+        public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
         protected override string BAKText => PlayTimeString;
         public override string Extension => ".stk";
         public override string Filter { get; } = "PokeStock G4 Storage|*.stk*";

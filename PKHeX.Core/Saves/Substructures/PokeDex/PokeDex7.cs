@@ -91,8 +91,8 @@ namespace PKHeX.WinForms
         public int GetDexFormIndex(int spec, int fc, int f)
         {
             var index = Parent.USUM
-                ? SaveUtil.GetDexFormIndexUSUM(spec, fc, f)
-                : SaveUtil.GetDexFormIndexSM(spec, fc, f);
+                ? DexFormUtil.GetDexFormIndexUSUM(spec, fc, f)
+                : DexFormUtil.GetDexFormIndexSM(spec, fc, f);
             if (index < 0)
                 return index;
             return index + Parent.MaxSpeciesID - 1;
@@ -101,8 +101,8 @@ namespace PKHeX.WinForms
         public int GetDexFormStart(int spec, int fc)
         {
             return Parent.USUM
-                ? SaveUtil.GetDexFormIndexUSUM(spec, fc, Parent.MaxSpeciesID - 1)
-                : SaveUtil.GetDexFormIndexSM(spec, fc, Parent.MaxSpeciesID - 1);
+                ? DexFormUtil.GetDexFormIndexUSUM(spec, fc, Parent.MaxSpeciesID - 1)
+                : DexFormUtil.GetDexFormIndexSM(spec, fc, Parent.MaxSpeciesID - 1);
         }
 
         public IEnumerable<string> GetEntryNames(IReadOnlyList<string> Species)
