@@ -500,12 +500,12 @@ namespace PKHeX.Core
             get => 15 * HPVal / 63;
             set
             {
-                IV_HP = (IV_HP & ~1) + PKX.hpivs[value, 0];
-                IV_ATK = (IV_ATK & ~1) + PKX.hpivs[value, 1];
-                IV_DEF = (IV_DEF & ~1) + PKX.hpivs[value, 2];
-                IV_SPE = (IV_SPE & ~1) + PKX.hpivs[value, 3];
-                IV_SPA = (IV_SPA & ~1) + PKX.hpivs[value, 4];
-                IV_SPD = (IV_SPD & ~1) + PKX.hpivs[value, 5];
+                IV_HP =  (IV_HP  & ~1) + HiddenPower.DefaultLowBits[value, 0];
+                IV_ATK = (IV_ATK & ~1) + HiddenPower.DefaultLowBits[value, 1];
+                IV_DEF = (IV_DEF & ~1) + HiddenPower.DefaultLowBits[value, 2];
+                IV_SPE = (IV_SPE & ~1) + HiddenPower.DefaultLowBits[value, 3];
+                IV_SPA = (IV_SPA & ~1) + HiddenPower.DefaultLowBits[value, 4];
+                IV_SPD = (IV_SPD & ~1) + HiddenPower.DefaultLowBits[value, 5];
             }
         }
 

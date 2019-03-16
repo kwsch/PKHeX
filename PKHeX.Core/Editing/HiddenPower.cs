@@ -76,7 +76,7 @@ namespace PKHeX.Core
         {
             if (IVs.All(z => z == 31))
             {
-                PKX.SetHPIVs(hpVal, IVs); // Get IVs
+                SetIVs(hpVal, IVs); // Get IVs
                 return true;
             }
 
@@ -131,5 +131,51 @@ namespace PKHeX.Core
             return GetPermutations(list, length - 1)
                 .SelectMany(list.Except, (t1, t2) => t1.Concat(new[] { t2 }));
         }
+
+        /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
+        /// <param name="type">Hidden Power Type</param>
+        /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
+        /// <param name="format">Generation specific format</param>
+        /// <returns>Hidden Power Type</returns>
+        public static int[] SetIVs(int type, int[] ivs, int format = PKX.Generation)
+        {
+            if (format <= 2)
+            {
+                ivs[1] = (ivs[1] & ~3) | (type >> 2);
+                ivs[2] = (ivs[2] & ~3) | (type & 3);
+                return ivs;
+            }
+            for (int i = 0; i < 6; i++)
+                ivs[i] = (ivs[i] & 0x1E) + DefaultLowBits[type, i];
+            return ivs;
+        }
+
+        /// <summary>
+        /// Hidden Power IV values (even or odd) to achieve a specified Hidden Power Type
+        /// </summary>
+        /// <remarks>
+        /// There are other IV combinations to achieve the same Hidden Power Type.
+        /// These are just precomputed for fast modification.
+        /// Individual Values (H/A/B/S/C/D)
+        /// </remarks>
+        public static readonly int[,] DefaultLowBits =
+        {
+            { 1, 1, 0, 0, 0, 0 }, // Fighting
+            { 0, 0, 0, 1, 0, 0 }, // Flying
+            { 1, 1, 0, 1, 0, 0 }, // Poison
+            { 1, 1, 1, 1, 0, 0 }, // Ground
+            { 1, 1, 0, 0, 1, 0 }, // Rock
+            { 1, 0, 0, 1, 1, 0 }, // Bug
+            { 1, 0, 1, 1, 1, 0 }, // Ghost
+            { 1, 1, 1, 1, 1, 0 }, // Steel
+            { 1, 0, 1, 0, 0, 1 }, // Fire
+            { 1, 0, 0, 1, 0, 1 }, // Water
+            { 1, 0, 1, 1, 0, 1 }, // Grass
+            { 1, 1, 1, 1, 0, 1 }, // Electric
+            { 1, 0, 1, 0, 1, 1 }, // Psychic
+            { 1, 0, 0, 1, 1, 1 }, // Ice
+            { 1, 0, 1, 1, 1, 1 }, // Dragon
+            { 1, 1, 1, 1, 1, 1 }, // Dark
+        };
     }
 }

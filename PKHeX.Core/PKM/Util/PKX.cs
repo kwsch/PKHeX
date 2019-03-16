@@ -578,51 +578,6 @@ namespace PKHeX.Core
             return FormConverter.GetFormList(species, types, forms, genders, generation);
         }
 
-        /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
-        /// <param name="type">Hidden Power Type</param>
-        /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
-        /// <param name="format">Generation specific format</param>
-        /// <returns>Hidden Power Type</returns>
-        public static int[] SetHPIVs(int type, int[] ivs, int format = Generation)
-        {
-            if (format <= 2)
-            {
-                ivs[1] = (ivs[1] & ~3) | (type >> 2);
-                ivs[2] = (ivs[2] & ~3) | (type & 3);
-                return ivs;
-            }
-            for (int i = 0; i < 6; i++)
-                ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
-            return ivs;
-        }
-
-        /// <summary>
-        /// Hidden Power IV values (even or odd) to achieve a specified Hidden Power Type
-        /// </summary>
-        /// <remarks>
-        /// There are other IV combinations to achieve the same Hidden Power Type.
-        /// These are just precomputed for fast modification.
-        /// Individual Values (H/A/B/S/C/D)
-        /// </remarks>
-        public static readonly int[,] hpivs = {
-            { 1, 1, 0, 0, 0, 0 }, // Fighting
-            { 0, 0, 0, 1, 0, 0 }, // Flying
-            { 1, 1, 0, 1, 0, 0 }, // Poison
-            { 1, 1, 1, 1, 0, 0 }, // Ground
-            { 1, 1, 0, 0, 1, 0 }, // Rock
-            { 1, 0, 0, 1, 1, 0 }, // Bug
-            { 1, 0, 1, 1, 1, 0 }, // Ghost
-            { 1, 1, 1, 1, 1, 0 }, // Steel
-            { 1, 0, 1, 0, 0, 1 }, // Fire
-            { 1, 0, 0, 1, 0, 1 }, // Water
-            { 1, 0, 1, 1, 0, 1 }, // Grass
-            { 1, 1, 1, 1, 0, 1 }, // Electric
-            { 1, 0, 1, 0, 1, 1 }, // Psychic
-            { 1, 0, 0, 1, 1, 1 }, // Ice
-            { 1, 0, 1, 1, 1, 1 }, // Dragon
-            { 1, 1, 1, 1, 1, 1 }, // Dark
-        };
-
         /// <summary>
         /// Gets the Unown Forme ID from PID.
         /// </summary>
