@@ -48,7 +48,7 @@ namespace PKHeX.Core
         public override int Species { get => SpeciesConverter.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x00); }
         // 02-04 unused
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x04); set => BigEndian.GetBytes(value).CopyTo(Data, 0x04); }
-        public override int Version { get => SaveUtil.GetG3VersionID(Data[0x08]); set => Data[0x08] = (byte)SaveUtil.GetCXDVersionID(value); }
+        public override int Version { get => GetGBAVersionID(Data[0x08]); set => Data[0x08] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
         public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = PKX.GetGCLangIDfromMain((byte)value); }

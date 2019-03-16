@@ -722,34 +722,6 @@ namespace PKHeX.Core
             bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
         }
 
-        public static int GetCXDVersionID(int gen3version)
-        {
-            switch (gen3version)
-            {
-                case (int)GameVersion.FR: return 1;
-                case (int)GameVersion.LG: return 2;
-                case (int)GameVersion.S: return 8;
-                case (int)GameVersion.R: return 9;
-                case (int)GameVersion.E: return 10;
-                case (int)GameVersion.CXD: return 11;
-                default: return 0;
-            }
-        }
-
-        public static int GetG3VersionID(int CXDversion)
-        {
-            switch (CXDversion)
-            {
-                case 1: return (int)GameVersion.FR;
-                case 2: return (int)GameVersion.LG;
-                case 8: return (int)GameVersion.S;
-                case 9: return (int)GameVersion.R;
-                case 10: return (int)GameVersion.E;
-                case 11: return (int)GameVersion.CXD;
-                default: return (int)GameVersion.Invalid;
-            }
-        }
-
         public static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
         {
             byte[] output = (byte[])input.Clone();

@@ -77,7 +77,7 @@ namespace PKHeX.Core
         public override bool FatefulEncounter { get => Data[0x30] == 1; set => Data[0x30] = (byte)(value ? 1 : 0); }
         // 0x31-0x32 Unknown
         public new int EncounterType { get => Data[0x33]; set => Data[0x33] = (byte)value; }
-        public override int Version { get => SaveUtil.GetG3VersionID(Data[0x34]); set => Data[0x34] = (byte)SaveUtil.GetCXDVersionID(value); }
+        public override int Version { get => GetGBAVersionID(Data[0x34]); set => Data[0x34] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = PKX.GetGCLangIDfromMain((byte)value); }
