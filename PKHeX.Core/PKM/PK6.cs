@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
         public PK6(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)

@@ -18,10 +18,8 @@ namespace PKHeX.Core
 
         public readonly byte[] Data;
 
-        public PL6(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PL6() => Data = new byte[Size];
+        public PL6(byte[] data) => Data = data;
 
         /// <summary>
         /// Pokémon Link Flag

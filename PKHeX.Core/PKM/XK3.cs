@@ -20,9 +20,9 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public XK3(byte[] decryptedData = null, string ident = null)
+        public XK3(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             Identifier = ident;
         }
 

@@ -22,9 +22,9 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public BK4(byte[] decryptedData = null, string ident = null)
+        public BK4(byte[] decryptedData, string ident = null)
         {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
+            Data = decryptedData;
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
             Data = PKX.ShuffleArray(Data, sv, PKX.SIZE_4BLOCK);
             Identifier = ident;
