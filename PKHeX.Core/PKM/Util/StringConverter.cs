@@ -2129,29 +2129,32 @@ namespace PKHeX.Core
 
         public static string TransferGlyphs56(string str)
         {
-            return str
-                    .Replace('\u2467', '\u00d7') // ×
-                    .Replace('\u2468', '\u00f7') // ÷
-                    .Replace('\u246c', '\u2026') // …
-
-                    .Replace('\u246d', '\uE08E') // ♂
-                    .Replace('\u246e', '\uE08F') // ♀
-                    .Replace('\u246f', '\uE090') // ♠
-                    .Replace('\u2470', '\uE091') // ♣
-                    .Replace('\u2471', '\uE092') // ♥
-                    .Replace('\u2472', '\uE093') // ♦
-                    .Replace('\u2473', '\uE094') // ★
-                    .Replace('\u2474', '\uE095') // ◎
-
-                    .Replace('\u2475', '\uE096') // ○
-                    .Replace('\u2476', '\uE097') // □
-                    .Replace('\u2477', '\uE098') // △
-                    .Replace('\u2478', '\uE099') // ◇
-                    .Replace('\u2479', '\uE09A') // ♪
-                    .Replace('\u247a', '\uE09B') // ☀
-                    .Replace('\u247b', '\uE09C') // ☁
-                    .Replace('\u247d', '\uE09D') // ☂
-                ;
+            char translate(char c) => Glyph56.TryGetValue(c, out var result) ? result : c;
+            return string.Concat(str.Select(translate));
         }
+
+        private static readonly Dictionary<char, char> Glyph56 = new Dictionary<char, char>
+        {
+            {'\u2467', '\u00d7'}, // ×
+            {'\u2468', '\u00f7'}, // ÷
+
+            {'\u246c', '\u2026'}, // …
+            {'\u246d', '\uE08E'}, // ♂
+            {'\u246e', '\uE08F'}, // ♀
+            {'\u246f', '\uE090'}, // ♠
+            {'\u2470', '\uE091'}, // ♣
+            {'\u2471', '\uE092'}, // ♥
+            {'\u2472', '\uE093'}, // ♦
+            {'\u2473', '\uE094'}, // ★
+            {'\u2474', '\uE095'}, // ◎
+            {'\u2475', '\uE096'}, // ○
+            {'\u2476', '\uE097'}, // □
+            {'\u2477', '\uE098'}, // △
+            {'\u2478', '\uE099'}, // ◇
+            {'\u2479', '\uE09A'}, // ♪
+            {'\u247a', '\uE09B'}, // ☀
+            {'\u247b', '\uE09C'}, // ☁
+            {'\u247d', '\uE09D'}, // ☂
+        };
     }
 }
