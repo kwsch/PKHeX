@@ -445,7 +445,7 @@ namespace PKHeX.Core
         public static PKM GetBlank(Type t)
         {
             var constructors = t.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
-            var argCount = constructors.First().GetParameters().Length;
+            var argCount = constructors.Min(z => z.GetParameters().Length);
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
         }
 

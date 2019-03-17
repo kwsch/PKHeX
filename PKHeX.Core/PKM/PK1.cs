@@ -16,8 +16,8 @@ namespace PKHeX.Core
 
         public override int Format => 1;
 
-        public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
         public PK1(bool jp = false) : base(new byte[PKX.SIZE_1PARTY], jp) { }
+        public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
 
         public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)
         {
