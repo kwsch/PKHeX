@@ -15,10 +15,12 @@ namespace PKHeX.Core
 
         public override int Format => 2;
 
-        public PK2(byte[] decryptedData = null, string ident = null, bool jp = false) : base(decryptedData, ident, jp) { }
+        public PK2(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
+        public PK2(bool jp = false) : base(new byte[PKX.SIZE_2PARTY], jp) { }
 
-        public override PKM Clone() => new PK2((byte[])Data.Clone(), Identifier, Japanese)
+        public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
         {
+            Identifier = Identifier,
             otname = (byte[])otname.Clone(),
             nick = (byte[])nick.Clone(),
             IsEgg = IsEgg,
@@ -96,7 +98,7 @@ namespace PKHeX.Core
 
         public PK1 ConvertToPK1()
         {
-            PK1 pk1 = new PK1(null, Identifier, Japanese) {TradebackStatus = TradebackType.WasTradeback};
+            PK1 pk1 = new PK1(Japanese) {TradebackStatus = TradebackType.WasTradeback};
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
 

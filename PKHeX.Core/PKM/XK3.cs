@@ -20,14 +20,9 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public XK3(byte[] decryptedData, string ident = null)
-        {
-            Data = decryptedData;
-            Identifier = ident;
-        }
-
+        public XK3(byte[] decryptedData) => Data = decryptedData;
         public XK3() => Data = new byte[SIZE_PARTY];
-        public override PKM Clone() => new XK3((byte[])Data.Clone(), Identifier) {Purification = Purification};
+        public override PKM Clone() => new XK3((byte[])Data.Clone()){Identifier = Identifier, Purification = Purification};
 
         private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);

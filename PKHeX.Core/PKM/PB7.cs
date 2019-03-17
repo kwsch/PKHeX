@@ -29,16 +29,15 @@ namespace PKHeX.Core
 
         public PB7() => Data = new byte[SIZE];
 
-        public PB7(byte[] decryptedData, string ident = null)
+        public PB7(byte[] decryptedData)
         {
             Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, 7);
-            Identifier = ident;
             if (Data.Length != SIZE)
                 Array.Resize(ref Data, SIZE);
         }
 
-        public override PKM Clone() => new PB7((byte[])Data.Clone(), Identifier);
+        public override PKM Clone() => new PB7((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7b(value, maxLength, Language, chinese: chinese);

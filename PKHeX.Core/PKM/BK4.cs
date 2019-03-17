@@ -22,12 +22,11 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public BK4(byte[] decryptedData, string ident = null)
+        public BK4(byte[] decryptedData)
         {
             Data = decryptedData;
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
             Data = PKX.ShuffleArray(Data, sv, PKX.SIZE_4BLOCK);
-            Identifier = ident;
             if (Sanity != 0 && Species <= MaxSpeciesID && !ChecksumValid) // We can only hope
                 RefreshChecksum();
             if (Valid && Sanity == 0)
@@ -42,7 +41,7 @@ namespace PKHeX.Core
             SetStats(GetStats(PersonalInfo));
         }
 
-        public override PKM Clone() => new BK4((byte[])Encrypt().Clone(), Identifier);
+        public override PKM Clone() => new BK4((byte[])Encrypt().Clone()){Identifier = Identifier};
 
         public string GetString(int Offset, int Count) => StringConverter.GetBEString4(Data, Offset, Count);
         public byte[] SetString(string value, int maxLength) => StringConverter.SetBEString4(value, maxLength);

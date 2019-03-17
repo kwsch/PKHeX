@@ -34,7 +34,7 @@ namespace PKHeX.Core
                     for (int p = 0; p < 6; p++)
                     {
                         int offset = offsets[t] + (PKX.SIZE_6PARTY * p);
-                        Teams[t][p] = new PK7(Data.Skip(offset).Take(PKX.SIZE_6STORED).ToArray(), $"Team {t}, Slot {p}");
+                        Teams[t][p] = new PK7(Data.Skip(offset).Take(PKX.SIZE_6STORED).ToArray()) {Identifier = $"Team {t}, Slot {p}"};
                     }
                 }
                 return Teams;

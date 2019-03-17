@@ -20,16 +20,15 @@ namespace PKHeX.Core
 
         public PK4() => Data = new byte[PKX.SIZE_4PARTY];
 
-        public PK4(byte[] decryptedData, string ident = null)
+        public PK4(byte[] decryptedData)
         {
             Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
-            Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public override PKM Clone() => new PK4((byte[])Data.Clone(), Identifier);
+        public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString4(value, maxLength);

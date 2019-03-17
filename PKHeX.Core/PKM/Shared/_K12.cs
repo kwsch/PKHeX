@@ -31,11 +31,10 @@ namespace PKHeX.Core
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public override bool Japanese => otname.Length == STRLEN_J;
 
-        protected _K12(byte[] decryptedData, string ident = null, bool jp = false)
+        protected _K12(byte[] decryptedData, bool jp = false)
         {
             int partySize = SIZE_PARTY;
-            Data = decryptedData ?? new byte[partySize];
-            Identifier = ident;
+            Data = decryptedData;
             if (Data.Length != partySize)
                 Array.Resize(ref Data, partySize);
             int strLen = jp ? STRLEN_J : STRLEN_U;

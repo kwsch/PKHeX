@@ -16,10 +16,12 @@ namespace PKHeX.Core
 
         public override int Format => 1;
 
-        public PK1(byte[] decryptedData = null, string ident = null, bool jp = false) : base(decryptedData, ident, jp) { }
+        public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
+        public PK1(bool jp = false) : base(new byte[PKX.SIZE_1PARTY], jp) { }
 
-        public override PKM Clone() => new PK1((byte[])Data.Clone(), Identifier, Japanese)
+        public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)
         {
+            Identifier = Identifier,
             otname = (byte[])otname.Clone(),
             nick = (byte[])nick.Clone(),
         };
@@ -109,7 +111,7 @@ namespace PKHeX.Core
 
         public PK2 ConvertToPK2()
         {
-            PK2 pk2 = new PK2(null, Identifier, Japanese) {Species = Species};
+            PK2 pk2 = new PK2(null, Japanese) {Species = Species};
             Array.Copy(Data, 0x7, pk2.Data, 0x1, 0x1A);
             otname.CopyTo(pk2.otname, 0);
             nick.CopyTo(pk2.nick, 0);

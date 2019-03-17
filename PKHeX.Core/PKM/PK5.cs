@@ -26,16 +26,15 @@ namespace PKHeX.Core
 
         public PK5() => Data = new byte[PKX.SIZE_5PARTY];
 
-        public PK5(byte[] decryptedData, string ident = null)
+        public PK5(byte[] decryptedData)
         {
             Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
-            Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public override PKM Clone() => new PK5((byte[])Data.Clone(), Identifier);
+        public override PKM Clone() => new PK5((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);

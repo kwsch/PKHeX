@@ -180,7 +180,7 @@ namespace PKHeX.Core
         private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
         private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);
 
-        public override PKM BlankPKM => new PK1(null, null, Japanese);
+        public override PKM BlankPKM => new PK1(Japanese);
         public override Type PKMType => typeof(PK1);
 
         public override int MaxMoveID => Legal.MaxMoveID_1;
