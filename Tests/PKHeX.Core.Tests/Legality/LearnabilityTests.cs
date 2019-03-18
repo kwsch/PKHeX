@@ -22,6 +22,7 @@ namespace PKHeX.Tests.Legality
         [InlineData(nameof(Species.Bulbasaur), "Fly")]
         [InlineData(nameof(Species.Charizard), "Bubble")]
         [InlineData(nameof(Species.Mew), "Struggle")]
+        [InlineData(nameof(Species.Smeargle), "Chatter")]
         public static void VerifyCannotLearn(string species, params string[] moves)
         {
             var encs = EncounterLearn.GetLearn(species, moves);
@@ -30,6 +31,9 @@ namespace PKHeX.Tests.Legality
 
         [Theory]
         [InlineData(nameof(Species.Chansey), "Wish")]
+        [InlineData("Ho-Oh", "Celebrate")]
+        [InlineData(nameof(Species.Pikachu), "Happy Hour")]
+        [InlineData(nameof(Species.Rayquaza), "V-Create")]
         public static void VerifyCanLearnSpecial(string species, params string[] moves)
         {
             var encs = EncounterLearn.GetLearn(species, moves);

@@ -31,18 +31,32 @@ namespace PKHeX.Core
 
         public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, string lang = DefaultLang)
         {
-            if (!Enum.TryParse<Species>(species, out var spec))
-                return Enumerable.Empty<IEncounterable>();
             var str = GameInfo.GetStrings(lang);
             if (str == null)
                 return Enumerable.Empty<IEncounterable>();
-            var movestr = str.movelist;
-            var moveIDs = moves.Select(z => Array.IndexOf(movestr, z)).Where(z => z > 0).ToArray();
+
+            var spec = FindIndexIgnoreCase(str.specieslist, species);
+            if (spec <= 0)
+                return Enumerable.Empty<IEncounterable>();
+
+            var moveIDs = moves.Select(z => FindIndexIgnoreCase(str.movelist, z)).Where(z => z > 0).ToArray();
+
+            return GetLearn(spec, moveIDs);
+        }
+
+        public static IEnumerable<IEncounterable> GetLearn(int spec, int[] moveIDs)
+        {
+            var blank = PKMConverter.GetBlank(PKX.Generation);
+            blank.Species = spec;
 
             var vers = GameUtil.GameVersions;
-            var blank = PKMConverter.GetBlank(PKX.Generation);
-            blank.Species = (int)spec;
             return EncounterMovesetGenerator.GenerateEncounters(blank, moveIDs, vers);
+        }
+
+        private static int FindIndexIgnoreCase(string[] arr, string val)
+        {
+            bool Match(string item, string find) => item.Length == find.Length && item.IndexOf(find, StringComparison.OrdinalIgnoreCase) >= 0;
+            return Array.FindIndex(arr, i => Match(i, val));
         }
 
         public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters)
