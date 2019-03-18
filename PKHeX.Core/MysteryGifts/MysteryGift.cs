@@ -118,7 +118,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.
         /// </summary>
-        public string Name => $"Event Gift ({Type})";
+        public string Name => $"Event Gift";
+
+        /// <summary>
+        /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.
+        /// </summary>
+        public string LongName => $"{Name} ({Type})";
 
         // Properties
         public virtual int Species { get => -1; set { } }

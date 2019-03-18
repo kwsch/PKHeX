@@ -13,6 +13,7 @@ namespace PKHeX.Core
 
         public int Species => Encounter.Species;
         public string Name => Encounter.Name;
+        public string LongName => Encounter.LongName;
         public bool EggEncounter => Encounter.EggEncounter;
         public int LevelMin => Encounter.LevelMin;
         public int LevelMax => Encounter.LevelMax;

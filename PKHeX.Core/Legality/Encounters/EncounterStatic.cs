@@ -65,7 +65,8 @@ namespace PKHeX.Core
         }
 
         private const string _name = "Static Encounter";
-        public string Name => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
+        public string Name => _name;
+        public string LongName => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
 
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
 

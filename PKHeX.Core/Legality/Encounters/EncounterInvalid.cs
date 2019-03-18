@@ -13,6 +13,7 @@ namespace PKHeX.Core
         public bool EggEncounter { get; }
 
         public string Name => "Invalid";
+        public string LongName => "Invalid";
 
         public EncounterInvalid(PKM pkm)
         {

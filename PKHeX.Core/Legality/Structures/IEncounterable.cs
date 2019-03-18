@@ -7,6 +7,7 @@
     {
         int Species { get; }
         string Name { get; }
+        string LongName { get; }
         bool EggEncounter { get; }
         int LevelMin { get; }
         int LevelMax { get; }
@@ -33,6 +34,6 @@
             return pkm.CurrentLevel == pkm.Met_Level;
         }
 
-        internal static string GetEncounterTypeName(this IEncounterable Encounter) => Encounter?.Name ?? "Unknown";
+        internal static string GetEncounterTypeName(this IEncounterable Encounter) => Encounter?.LongName ?? "Unknown";
     }
 }

@@ -54,6 +54,7 @@ namespace PKHeX.Core
 
         private const string _name = "In-game Trade";
         public string Name => _name;
+        public string LongName => _name;
         public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 
