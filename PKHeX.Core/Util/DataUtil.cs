@@ -248,18 +248,29 @@ namespace PKHeX.Core
                 .ToList();
         }
 
-        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
         {
-            if (allowed.Length == 0)
-                allowed = new[] { Enumerable.Range(0, inStrings.Count).ToArray() };
-
-            return allowed.SelectMany(list => list
-                .Select(z => new ComboItem { Text = inStrings[z], Value = z })
-                .OrderBy(z => z.Text))
-                .ToList();
+            var list = new List<ComboItem>(inStrings.Count);
+            var items = inStrings.Select((t, i) => new ComboItem {Text = t, Value = i}).OrderBy(z => z.Text);
+            list.AddRange(items);
+            return list;
         }
 
-        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
+        {
+            var count = allowed.Sum(z => z.Length);
+            var list = new List<ComboItem>(count);
+            foreach (var arr in allowed)
+            {
+                var subset = arr
+                    .Select(z => new ComboItem {Text = inStrings[z], Value = z})
+                    .OrderBy(z => z.Text);
+                list.AddRange(subset);
+            }
+            return list;
+        }
+
+        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, int[] allowed)
         {
             var list = allowed
                 .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
