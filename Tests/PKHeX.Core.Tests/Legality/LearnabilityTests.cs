@@ -39,5 +39,13 @@ namespace PKHeX.Tests.Legality
             var encs = EncounterLearn.GetLearn(species, moves);
             encs.Any().Should().BeTrue($"{species} should be able to learn all moves: {string.Join(", ", moves)}");
         }
+
+        [Theory]
+        [InlineData("flaBeBe", "pEtaL Dance")]
+        public static void VerifyCanLearnParse(string species, params string[] moves)
+        {
+            var encs = EncounterLearn.GetLearn(species, moves);
+            encs.Any().Should().BeTrue($"{species} should be able to learn all moves: {string.Join(", ", moves)}");
+        }
     }
 }

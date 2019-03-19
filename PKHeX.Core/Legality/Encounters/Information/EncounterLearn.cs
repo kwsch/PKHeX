@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -55,7 +56,15 @@ namespace PKHeX.Core
 
         private static int FindIndexIgnoreCase(string[] arr, string val)
         {
-            bool Match(string item, string find) => item.Length == find.Length && item.IndexOf(find, StringComparison.OrdinalIgnoreCase) >= 0;
+            bool Match(string item, string find)
+            {
+                if (item.Length != find.Length)
+                    return false;
+                const CompareOptions options = CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase;
+                var compare = CultureInfo.CurrentCulture.CompareInfo.Compare(item, find, options);
+                return compare == 0;
+            }
+
             return Array.FindIndex(arr, i => Match(i, val));
         }
 
