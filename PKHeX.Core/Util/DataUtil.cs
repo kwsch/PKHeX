@@ -79,8 +79,11 @@ namespace PKHeX.Core
 
         public static string[] GetStringList(string f)
         {
-            if (stringListCache.ContainsKey(f))
-                return (string[])stringListCache[f].Clone();
+            lock (getStringListLoadLock) // Make sure only one thread can read the cache
+            {
+                if (stringListCache.TryGetValue(f, out var result))
+                    return (string[])result.Clone();
+            }
 
             var txt = GetStringResource(f); // Fetch File, \n to list.
             if (txt == null)
@@ -99,18 +102,6 @@ namespace PKHeX.Core
         }
 
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
-
-        public static string[] GetNulledStringArray(string[] SimpleStringList)
-        {
-            int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
-            string[] newlist = new string[len];
-            for (int i = 1; i < SimpleStringList.Length; i++)
-            {
-                var split = SimpleStringList[i].Split(',');
-                newlist[ToInt32(split[0])] = split[1];
-            }
-            return newlist;
-        }
 
         public static byte[] GetBinaryResource(string name)
         {

@@ -54,20 +54,12 @@ namespace PKHeX.WinForms
 
         private void GetComboBoxes()
         {
-            var dsregion_list = Util.GetUnsortedCBList("regions3ds");
-
-            var alolatime_list = new[] { new { Text = "Sun Time", Value = 24*60*60 } };
-            Array.Resize(ref alolatime_list, 24);
-            for (int i = 1; i < 24; i++)
-                alolatime_list[i] = new {Text = $"+{i:00} Hours", Value = i*60*60};
-            alolatime_list[12] = new {Text = "Moon Time", Value = 12 * 60 * 60};
-
             CB_3DSReg.InitializeBinding();
-            CB_3DSReg.DataSource = dsregion_list;
+            CB_3DSReg.DataSource = GameInfo.Regions;
             CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
             CB_AlolaTime.InitializeBinding();
-            CB_AlolaTime.DataSource = alolatime_list;
+            CB_AlolaTime.DataSource = GetAlolaTimeList();
 
             CB_Country.InitializeBinding();
             CB_Region.InitializeBinding();
@@ -92,6 +84,16 @@ namespace PKHeX.WinForms
             var stamps = Enum.GetNames(typeof(Stamp7)).Select(z => z.Replace("_", " "));
             foreach (string t in stamps)
                 LB_Stamps.Items.Add(t);
+        }
+
+        private static ComboItem[] GetAlolaTimeList()
+        {
+            var alolatime_list = new ComboItem[24];
+            for (int i = 1; i < alolatime_list.Length; i++)
+                alolatime_list[i] = new ComboItem {Text = $"+{i:00} Hours", Value = i * 60 * 60};
+            alolatime_list[0] = new ComboItem {Text = "Sun Time", Value = 24 * 60 * 60};
+            alolatime_list[12] = new ComboItem {Text = "Moon Time", Value = 12 * 60 * 60};
+            return alolatime_list;
         }
 
         private void GetTextBoxes()

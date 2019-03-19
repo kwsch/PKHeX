@@ -76,10 +76,8 @@ namespace PKHeX.WinForms
 
         private void GetComboBoxes()
         {
-            var dsregion_list = Util.GetUnsortedCBList("regions3ds");
-
             CB_3DSReg.InitializeBinding();
-            CB_3DSReg.DataSource = dsregion_list;
+            CB_3DSReg.DataSource = GameInfo.Regions;
             CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
 

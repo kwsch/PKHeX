@@ -1760,7 +1760,7 @@ namespace PKHeX.WinForms.Controls
         {
             // Set the various ComboBox DataSources up with their allowed entries
             SetCountrySubRegion(CB_Country, "countries");
-            CB_3DSReg.DataSource = Util.GetUnsortedCBList("regions3ds");
+            CB_3DSReg.DataSource = GameInfo.Regions;
 
             CB_EncounterType.DataSource = new BindingSource(GameInfo.EncounterTypeDataSource, null);
             CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
