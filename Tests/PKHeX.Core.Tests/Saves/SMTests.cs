@@ -5,31 +5,23 @@ using Xunit;
 
 namespace PKHeX.Tests.Saves
 {
-    public class SMTests
+    public static class SMTests
     {
-        private SAV7 GetSave()
+        private static SAV7 GetSave()
         {
-            var folder = GetRepoPath();
+            var folder = TestUtil.GetRepoPath();
             var path = Path.Combine(folder, "TestData", "SM Project 802.main");
             return new SAV7(File.ReadAllBytes(path));
         }
 
-        private string GetRepoPath()
-        {
-            var folder = Directory.GetCurrentDirectory();
-            while (!folder.EndsWith(nameof(Tests)))
-                folder = Directory.GetParent(folder).FullName;
-            return folder;
-        }
-
         [Fact]
-        public void ChecksumsValid()
+        public static void ChecksumsValid()
         {
             GetSave().ChecksumsValid.Should().BeTrue();
         }
 
         [Fact]
-        public void ChecksumsUpdate()
+        public static void ChecksumsUpdate()
         {
             var save = GetSave();
             var originalChecksumInfo = save.ChecksumInfo;
