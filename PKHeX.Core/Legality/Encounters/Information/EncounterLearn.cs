@@ -71,19 +71,42 @@ namespace PKHeX.Core
         public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters)
         {
             var types = encounters.GroupBy(z => z.Name);
-            foreach (var type in types)
-            {
-                var name = type.Key;
-                var versions = type.OfType<IVersion>().Select(z => z.Version).Distinct();
-                var locgroups = type.OfType<ILocation>().Select(z =>
-                    z.GetEncounterLocation(
-                        z is IGeneration g ? g.Generation : -1,
-                        z is IVersion v ? (int) v.Version : -1));
-                yield return $"{name}: {string.Join(", ", versions)}";
+            return types.SelectMany(g => EnhancedSummary.SummarizeGroup(g.Key, g));
+        }
 
-                var locations = locgroups.Distinct().OrderBy(z => z).Where(z => !string.IsNullOrWhiteSpace(z)).ToArray();
-                if (locations.Length > 0)
-                    yield return $"Locations: " + string.Join(", ", locations);
+        private struct EnhancedSummary
+        {
+            private readonly GameVersion Version;
+            private readonly string LocationName;
+
+            private EnhancedSummary(IEncounterable z)
+            {
+                Version = z is IVersion v ? v.Version : GameVersion.Any;
+                LocationName = GetLocationName(z);
+            }
+
+            private static string GetLocationName(IEncounterable z)
+            {
+                var gen = z is IGeneration g ? g.Generation : -1;
+                var version = z is IVersion v ? (int) v.Version : -1;
+                if (gen < 0 && version > 0)
+                    gen = ((GameVersion)version).GetGeneration();
+
+                if (!(z is ILocation l))
+                    return $"[Gen{gen}]\t";
+                var loc = l.GetEncounterLocation(gen, version);
+
+                if (string.IsNullOrWhiteSpace(loc))
+                    return $"[Gen{gen}]\t";
+                return $"[Gen{gen}]\t{loc}: ";
+            }
+
+            public static IEnumerable<string> SummarizeGroup(string header, IEnumerable<IEncounterable> items)
+            {
+                yield return $"=={header}==";
+                var objs = items.Select(z => new EnhancedSummary(z)).GroupBy(z => z.LocationName);
+                foreach (var g in objs)
+                    yield return $"\t{g.Key}{string.Join(", ", g.Select(z => z.Version).Distinct())}";
             }
         }
     }
