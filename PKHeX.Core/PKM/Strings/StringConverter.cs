@@ -72,7 +72,7 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString5(byte[] data, int offset, int count)
         {
-            return SanitizeString(TrimFromFFFF(Encoding.Unicode.GetString(data, offset, count)));
+            return SanitizeString(Util.TrimFromFFFF(Encoding.Unicode.GetString(data, offset, count)));
         }
 
         /// <summary>Gets the bytes for a Generation 5 string.</summary>
@@ -291,17 +291,6 @@ namespace PKHeX.Core
         }
 
         private static readonly char[] FullToHalf = {'\u2640', '\u2642'}; // ♀♂
-
-        /// <summary>
-        /// Trims a string at the first instance of a 0xFFFF terminator.
-        /// </summary>
-        /// <param name="input">String to trim.</param>
-        /// <returns>Trimmed string.</returns>
-        public static string TrimFromFFFF(string input)
-        {
-            int index = input.IndexOf((char)0xFFFF);
-            return index < 0 ? input : input.Substring(0, index);
-        }
 
         public static bool HasEastAsianScriptCharacters(IEnumerable<char> str) => str.Any(c => 0x4E00 <= c && c <= 0x9FFF);
     }

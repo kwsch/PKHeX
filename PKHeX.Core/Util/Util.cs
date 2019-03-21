@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -106,5 +107,26 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="str">Input string to modify</param>
         public static string ToTitleCase(string str) => string.IsNullOrWhiteSpace(str) ? string.Empty : string.Join(" ", str.Split(' ').Select(TitleCase));
+
+        /// <summary>
+        /// Trims a string at the first instance of a 0xFFFF terminator.
+        /// </summary>
+        /// <param name="input">String to trim.</param>
+        /// <returns>Trimmed string.</returns>
+        public static string TrimFromFFFF(string input) => TrimFromFirst(input, (char)0xFFFF);
+
+        /// <summary>
+        /// Trims a string at the first instance of a 0x0000 terminator.
+        /// </summary>
+        /// <param name="input">String to trim.</param>
+        /// <returns>Trimmed string.</returns>
+        public static string TrimFromZero(string input) => TrimFromFirst(input, '\0');
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static string TrimFromFirst(string input, char c)
+        {
+            int index = input.IndexOf(c);
+            return index < 0 ? input : input.Substring(0, index);
+        }
     }
 }

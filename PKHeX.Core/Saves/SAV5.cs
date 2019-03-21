@@ -233,7 +233,7 @@ namespace PKHeX.Core
         {
             if (box >= BoxCount)
                 return string.Empty;
-            return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
+            return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
         }
 
         public override void SetBoxName(int box, string value)
