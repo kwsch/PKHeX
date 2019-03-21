@@ -351,8 +351,18 @@ namespace PKHeX.Core
         }
 
         public int DebutGeneration => Legal.GetDebutGeneration(Species);
-        public bool PKRS_Infected => PKRS_Strain > 0;
-        public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
+        public bool PKRS_Infected { get => PKRS_Strain > 0; set => PKRS_Strain = value ? Math.Max(PKRS_Strain, 1) : 0; }
+
+        public bool PKRS_Cured
+        {
+            get => PKRS_Days == 0 && PKRS_Strain > 0;
+            set
+            {
+                PKRS_Days = value ? 0 : 1;
+                PKRS_Infected = true;
+            }
+        }
+
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel { get => Experience.GetLevel(EXP, Species, AltForm); set => EXP = Experience.GetEXP(Stat_Level = value, Species, AltForm); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
