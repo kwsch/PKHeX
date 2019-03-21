@@ -43,8 +43,8 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new BK4((byte[])Encrypt().Clone()){Identifier = Identifier};
 
-        public string GetString(int Offset, int Count) => StringConverter.GetBEString4(Data, Offset, Count);
-        public byte[] SetString(string value, int maxLength) => StringConverter.SetBEString4(value, maxLength);
+        public string GetString(int Offset, int Count) => StringConverter4.GetBEString4(Data, Offset, Count);
+        public byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);
 
         // Structure
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }

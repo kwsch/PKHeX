@@ -118,17 +118,17 @@ namespace PKHeX.Core
 
         private void VerifyG1OTWithinBounds(LegalityAnalysis data, string str)
         {
-            if (StringConverter.GetIsG1English(str))
+            if (StringConverter12.GetIsG1English(str))
             {
                 if (str.Length > 7 && !(data.EncounterOriginal is EncounterTrade)) // OT already verified; GER shuckle has 8 chars
                     data.AddLine(GetInvalid(LOTLong));
             }
-            else if (StringConverter.GetIsG1Japanese(str))
+            else if (StringConverter12.GetIsG1Japanese(str))
             {
                 if (str.Length > 5)
                     data.AddLine(GetInvalid(LOTLong));
             }
-            else if (data.pkm.Korean && StringConverter.GetIsG2Korean(str))
+            else if (data.pkm.Korean && StringConverter2KOR.GetIsG2Korean(str))
             {
                 if (str.Length > 5)
                     data.AddLine(GetInvalid(LOTLong));

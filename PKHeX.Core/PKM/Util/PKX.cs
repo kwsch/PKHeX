@@ -113,13 +113,13 @@ namespace PKHeX.Core
 
             string nick = GetSpeciesName(species, lang);
             if (generation == 2 && lang == (int)LanguageID.Korean)
-                return StringConverter.LocalizeKOR2(nick);
+                return StringConverter2KOR.LocalizeKOR2(nick);
 
             if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
             {
                 nick = nick.ToUpper();
                 if (lang == (int)LanguageID.French)
-                    nick = StringConverter.StripDiacriticsFR4(nick); // strips accents on E and I
+                    nick = StringConverter4.StripDiacriticsFR4(nick); // strips accents on E and I
             }
             if (generation < 3)
                 nick = nick.Replace(" ", string.Empty);

@@ -1294,13 +1294,13 @@ namespace PKHeX.Core
         public int GetApricornCount(int i) => !HGSS ? -1 : Data[0xE558 + GBO + i];
         public void SetApricornCount(int i, int count) => Data[0xE558 + GBO + i] = (byte)count;
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString4(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetString4(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString4(value, maxLength, PadToSize, PadWith);
+            return StringConverter4.SetString4(value, maxLength, PadToSize, PadWith);
         }
 
         // Seals

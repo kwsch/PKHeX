@@ -152,7 +152,7 @@ namespace PKHeX.Core
                 Move4_PP = Move4_PP,
                 Met_Location = Legal.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
-                OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
+                OT_Name = StringConverter12.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
 
                 Country = PKMConverter.Country,
@@ -166,7 +166,7 @@ namespace PKHeX.Core
             };
             pk7.Language = GuessedLanguage(PKMConverter.Language);
             pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == StringConverter.G1TradeOTCode) // Ingame Trade
+            if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
                 pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
@@ -193,7 +193,7 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = StringConverter.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = StringConverter12.GetG1ConvertedString(nick, Japanese);
             }
 
             pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm

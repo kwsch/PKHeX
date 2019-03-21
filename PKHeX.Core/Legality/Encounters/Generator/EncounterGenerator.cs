@@ -491,7 +491,7 @@ namespace PKHeX.Core
         {
             string ot = pkm.OT_Name;
             if (pkm.Format <= 2)
-                return ot == StringConverter.G1TradeOTStr;
+                return ot == StringConverter12.G1TradeOTStr;
             // Converted string 1/2->7 to language specific value
             var tr = t.GetOT(pkm.Language);
             return ot == tr;

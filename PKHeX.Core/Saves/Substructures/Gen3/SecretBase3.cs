@@ -25,8 +25,8 @@ namespace PKHeX.Core
 
         public string OT_Name
         {
-            get => StringConverter.GetString3(Data, Offset + 2, 7, Japanese);
-            set => StringConverter.SetString3(value, 7, Japanese, 7).CopyTo(Data, Offset + 2);
+            get => StringConverter3.GetString3(Data, Offset + 2, 7, Japanese);
+            set => StringConverter3.SetString3(value, 7, Japanese, 7).CopyTo(Data, Offset + 2);
         }
 
         public uint OT_ID

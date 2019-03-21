@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
         public override string AuthorName
         {
-            get => StringConverter.GetString3(Data, 0x12, 7, false);
+            get => StringConverter3.GetString3(Data, 0x12, 7, false);
             set
             {
                 if (value.Length == 0)
@@ -76,7 +76,7 @@ namespace PKHeX.Core
                 else
                 {
                     Data[0x18] = Data[0x19] = 0xFF;
-                    StringConverter.SetString3(value, 7, false, 6).CopyTo(Data, 0x12);
+                    StringConverter3.SetString3(value, 7, false, 6).CopyTo(Data, 0x12);
                 }
             }
         }

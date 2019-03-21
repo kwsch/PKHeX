@@ -332,13 +332,13 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetBEString4(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetBEString4(value, maxLength, PadToSize, PadWith);
+            return StringConverter4.SetBEString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

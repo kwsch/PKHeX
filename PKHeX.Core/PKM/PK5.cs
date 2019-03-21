@@ -503,8 +503,8 @@ namespace PKHeX.Core
             pk6.FixMoves();
 
             // Fix Name Strings
-            pk6.Nickname = StringConverter.TransferGlyphs56(pk6.Nickname);
-            pk6.OT_Name = StringConverter.TransferGlyphs56(pk6.OT_Name);
+            pk6.Nickname = StringConverter345.TransferGlyphs56(pk6.Nickname);
+            pk6.OT_Name = StringConverter345.TransferGlyphs56(pk6.OT_Name);
 
             // Fix Checksum
             pk6.RefreshChecksum();

@@ -699,7 +699,7 @@ namespace PKHeX.Core
         public override string GetBoxName(int box)
         {
             int offset = GetBoxOffset(BoxCount);
-            return StringConverter.GetString3(Data, offset + (box * 9), 9, Japanese);
+            return StringConverter3.GetString3(Data, offset + (box * 9), 9, Japanese);
         }
 
         public override void SetBoxName(int box, string value)
@@ -837,13 +837,13 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString3(data, offset, length, Japanese);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString3(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter3.SetString3(value, maxLength, Japanese, PadToSize, PadWith);
         }
 
         #region eBerry
@@ -861,7 +861,7 @@ namespace PKHeX.Core
             {
                 if (!GameVersion.RS.Contains(Version) || !IsEBerryChecksumValid)
                     return string.Empty;
-                return StringConverter.GetString3(Data, BlockOfs[4] + OFFSET_EBERRY, 7, Japanese).Trim();
+                return StringConverter3.GetString3(Data, BlockOfs[4] + OFFSET_EBERRY, 7, Japanese).Trim();
             }
         }
 

@@ -672,15 +672,15 @@ namespace PKHeX.Core
         public override string GetString(byte[] data, int offset, int length)
         {
             if (Korean)
-                return StringConverter.GetString2KOR(data, offset, length);
-            return StringConverter.GetString1(data, offset, length, Japanese);
+                return StringConverter2KOR.GetString2KOR(data, offset, length);
+            return StringConverter12.GetString1(data, offset, length, Japanese);
         }
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (Korean)
-                return StringConverter.SetString2KOR(value, maxLength);
-            return StringConverter.SetString1(value, maxLength, Japanese);
+                return StringConverter2KOR.SetString2KOR(value, maxLength);
+            return StringConverter12.SetString1(value, maxLength, Japanese);
         }
     }
 }
