@@ -534,7 +534,7 @@ namespace PKHeX.WinForms
             }
 
             if (HallStatUpdated)
-                BitConverter.GetBytes(SaveUtil.CRC16_CCITT(SAV.Data, ofsHallStat, 0xBAE)).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
+                BitConverter.GetBytes(Checksums.CRC16_CCITT(SAV.Data, ofsHallStat, 0xBAE)).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
         }
 
         private void SetPrints()

@@ -30,7 +30,7 @@ namespace PKHeX.Core
             SAV = sav;
             PokeDex = dex;
             PokeDexLanguageFlags = langflag;
-            DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) SaveUtil.GetDexFormIndexSM : SaveUtil.GetDexFormIndexSM;
+            DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) DexFormUtil.GetDexFormIndexSM : DexFormUtil.GetDexFormIndexSM;
             LoadDexList();
             Debug.Assert(BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
@@ -115,7 +115,7 @@ namespace PKHeX.Core
                 case 718 when formIn > 1:
                     break;
                 default:
-                    int count = SAV.USUM ? SaveUtil.GetDexFormCountUSUM(species) : SaveUtil.GetDexFormCountSM(species);
+                    int count = SAV.USUM ? DexFormUtil.GetDexFormCountUSUM(species) : DexFormUtil.GetDexFormCountSM(species);
                     formStart = formEnd = 0;
                     return count < formIn;
             }

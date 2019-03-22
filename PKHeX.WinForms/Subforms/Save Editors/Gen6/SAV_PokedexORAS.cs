@@ -133,7 +133,7 @@ namespace PKHeX.WinForms
             CLB_FormDisplayed.Items.Clear();
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.GetDexFormIndexORAS(species, fc);
+            int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
             string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
@@ -178,7 +178,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes((ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text))).CopyTo(SAV.Data, SAV.EncounterCount + ((species - 1) * 2));
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.GetDexFormIndexORAS(species, fc);
+            int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
 

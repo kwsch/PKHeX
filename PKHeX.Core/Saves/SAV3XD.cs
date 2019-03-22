@@ -359,13 +359,13 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetBEString3(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetBEString3(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetBEString3(value, maxLength, PadToSize, PadWith);
+            return StringConverter3.SetBEString3(value, maxLength, PadToSize, PadWith);
         }
 }
 }

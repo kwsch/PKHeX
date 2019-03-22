@@ -351,8 +351,18 @@ namespace PKHeX.Core
         }
 
         public int DebutGeneration => Legal.GetDebutGeneration(Species);
-        public bool PKRS_Infected => PKRS_Strain > 0;
-        public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
+        public bool PKRS_Infected { get => PKRS_Strain > 0; set => PKRS_Strain = value ? Math.Max(PKRS_Strain, 1) : 0; }
+
+        public bool PKRS_Cured
+        {
+            get => PKRS_Days == 0 && PKRS_Strain > 0;
+            set
+            {
+                PKRS_Days = value ? 0 : 1;
+                PKRS_Infected = true;
+            }
+        }
+
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel { get => Experience.GetLevel(EXP, Species, AltForm); set => EXP = Experience.GetEXP(Stat_Level = value, Species, AltForm); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
@@ -500,12 +510,12 @@ namespace PKHeX.Core
             get => 15 * HPVal / 63;
             set
             {
-                IV_HP = (IV_HP & ~1) + PKX.hpivs[value, 0];
-                IV_ATK = (IV_ATK & ~1) + PKX.hpivs[value, 1];
-                IV_DEF = (IV_DEF & ~1) + PKX.hpivs[value, 2];
-                IV_SPE = (IV_SPE & ~1) + PKX.hpivs[value, 3];
-                IV_SPA = (IV_SPA & ~1) + PKX.hpivs[value, 4];
-                IV_SPD = (IV_SPD & ~1) + PKX.hpivs[value, 5];
+                IV_HP =  (IV_HP  & ~1) + HiddenPower.DefaultLowBits[value, 0];
+                IV_ATK = (IV_ATK & ~1) + HiddenPower.DefaultLowBits[value, 1];
+                IV_DEF = (IV_DEF & ~1) + HiddenPower.DefaultLowBits[value, 2];
+                IV_SPE = (IV_SPE & ~1) + HiddenPower.DefaultLowBits[value, 3];
+                IV_SPA = (IV_SPA & ~1) + HiddenPower.DefaultLowBits[value, 4];
+                IV_SPD = (IV_SPD & ~1) + HiddenPower.DefaultLowBits[value, 5];
             }
         }
 

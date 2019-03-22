@@ -4,7 +4,7 @@ using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests
+namespace PKHeX.Tests.PKM
 {
     public static class PKMTests
     {

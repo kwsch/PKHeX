@@ -246,7 +246,7 @@ namespace PKHeX.WinForms.Controls
 
             // Change IVs to match the new Hidden Power
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
-            int[] newIVs = PKX.SetHPIVs(hpower, pkm.IVs, pkm.Format);
+            int[] newIVs = HiddenPower.SetIVs(hpower, pkm.IVs, pkm.Format);
             LoadIVs(newIVs);
         }
 

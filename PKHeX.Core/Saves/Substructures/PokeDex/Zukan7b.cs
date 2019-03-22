@@ -24,7 +24,7 @@ namespace PKHeX.Core
             SAV = sav;
             PokeDex = dex;
             PokeDexLanguageFlags = langflag;
-            DexFormIndexFetcher = SaveUtil.GetDexFormIndexGG;
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexGG;
             LoadDexList();
         }
 
@@ -211,7 +211,7 @@ namespace PKHeX.Core
                     return true;
 
                 default:
-                    int count = SaveUtil.GetDexFormCountGG(species);
+                    int count = DexFormUtil.GetDexFormCountGG(species);
                     formStart = formEnd = 0;
                     return count < formIn;
             }

@@ -233,7 +233,7 @@ namespace PKHeX.Core
         {
             if (box >= BoxCount)
                 return string.Empty;
-            return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
+            return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
         }
 
         public override void SetBoxName(int box, string value)
@@ -289,8 +289,7 @@ namespace PKHeX.Core
                 uint seed = BitConverter.ToUInt32(Data, wcSeed);
                 MysteryGiftAlbum Info = new MysteryGiftAlbum { Seed = seed };
                 byte[] wcData = GetData(WondercardData, 0xA90); // Encrypted, Decrypt
-                for (int i = 0; i < wcData.Length; i += 2)
-                    BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ PKX.LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
+                PKX.CryptArray(wcData, seed);
 
                 Info.Flags = new bool[GiftFlagMax];
                 Info.Gifts = new MysteryGift[GiftCountMax];
@@ -318,9 +317,7 @@ namespace PKHeX.Core
                     value.Gifts[i].Data.CopyTo(wcData, 0x100 + (i *PGF.Size));
 
                 // Decrypted, Encrypt
-                uint seed = value.Seed;
-                for (int i = 0; i < wcData.Length; i += 2)
-                    BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(wcData, i) ^ PKX.LCRNG(ref seed) >> 16)).CopyTo(wcData, i);
+                PKX.CryptArray(wcData, value.Seed);
 
                 // Write Back
                 wcData.CopyTo(Data, WondercardData);
@@ -495,7 +492,7 @@ namespace PKHeX.Core
 
             // Formes
             int fc = Personal[pkm.Species].FormeCount;
-            int f = B2W2 ? SaveUtil.GetDexFormIndexB2W2(pkm.Species, fc) : SaveUtil.GetDexFormIndexBW(pkm.Species, fc);
+            int f = B2W2 ? DexFormUtil.GetDexFormIndexB2W2(pkm.Species, fc) : DexFormUtil.GetDexFormIndexBW(pkm.Species, fc);
             if (f < 0) return;
 
             int FormLen = B2W2 ? 0xB : 0x9;
@@ -583,7 +580,7 @@ namespace PKHeX.Core
                 byte[] bgdata = value;
                 SetData(bgdata, CGearDataOffset);
 
-                ushort chk = SaveUtil.CRC16_CCITT(bgdata);
+                ushort chk = Checksums.CRC16_CCITT(bgdata);
                 var chkbytes = BitConverter.GetBytes(chk);
                 int footer = CGearDataOffset + bgdata.Length;
 
@@ -591,7 +588,7 @@ namespace PKHeX.Core
                 chkbytes.CopyTo(Data, footer + 2); // checksum
                 chkbytes.CopyTo(Data, footer + 0x100); // second checksum
                 dlcfooter.CopyTo(Data, footer + 0x102);
-                ushort skinchkval = SaveUtil.CRC16_CCITT(Data, footer + 0x100, 4);
+                ushort skinchkval = Checksums.CRC16_CCITT(Data, footer + 0x100, 4);
                 BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
 
                 // Indicate in the save file that data is present

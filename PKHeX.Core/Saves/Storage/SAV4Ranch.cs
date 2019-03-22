@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public override int BoxCount { get; }
         public override int SlotCount { get; }
 
-        public override string PlayTimeString => SaveUtil.CRC16(Data, 0, Data.Length).ToString("X4");
+        public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
         protected override string BAKText => $"{OT} {PlayTimeString}";
         public override string Extension => ".bin";
         public override string Filter { get; } = "Ranch G4 Storage|*.bin*";

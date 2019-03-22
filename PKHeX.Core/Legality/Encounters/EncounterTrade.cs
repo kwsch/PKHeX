@@ -54,6 +54,7 @@ namespace PKHeX.Core
 
         private const string _name = "In-game Trade";
         public string Name => _name;
+        public string LongName => _name;
         public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 
@@ -89,7 +90,7 @@ namespace PKHeX.Core
             pk.Species = species;
             pk.AltForm = Form;
             pk.Language = lang;
-            pk.OT_Name = pk.Format == 1 ? StringConverter.G1TradeOTStr : GetOT(lang) ?? SAV.OT;
+            pk.OT_Name = pk.Format == 1 ? StringConverter12.G1TradeOTStr : GetOT(lang) ?? SAV.OT;
             pk.OT_Gender = GetOT(lang) != null ? Math.Max(0, OTGender) : SAV.Gender;
             pk.SetNickname(GetNickname(lang));
 

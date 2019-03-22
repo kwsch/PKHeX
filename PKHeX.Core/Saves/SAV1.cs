@@ -180,7 +180,7 @@ namespace PKHeX.Core
         private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
         private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);
 
-        public override PKM BlankPKM => new PK1(null, null, Japanese);
+        public override PKM BlankPKM => new PK1(Japanese);
         public override Type PKMType => typeof(PK1);
 
         public override int MaxMoveID => Legal.MaxMoveID_1;
@@ -256,7 +256,7 @@ namespace PKHeX.Core
             set => Data[Offsets.PikaFriendship] = value;
         }
 
-        public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {SaveUtil.CRC16_CCITT(Data):X4}";
+        public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
 
         public override int PlayedHours
         {
@@ -544,13 +544,13 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString1(data, offset, length, Japanese);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter12.GetString1(data, offset, length, Japanese);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString1(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, PadWith);
         }
     }
 }

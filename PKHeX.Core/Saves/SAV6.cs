@@ -21,7 +21,7 @@ namespace PKHeX.Core
             Exportable = !IsRangeEmpty(0, Data.Length);
 
             // Load Info
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, SaveUtil.CRC16_CCITT);
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
             GetSAVOffsets();
 
             HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
@@ -863,7 +863,7 @@ namespace PKHeX.Core
 
             // Set Form flags
             int fc = Personal[pkm.Species].FormeCount;
-            int f = ORAS ? SaveUtil.GetDexFormIndexORAS(pkm.Species, fc) : SaveUtil.GetDexFormIndexXY(pkm.Species, fc);
+            int f = ORAS ? DexFormUtil.GetDexFormIndexORAS(pkm.Species, fc) : DexFormUtil.GetDexFormIndexXY(pkm.Species, fc);
             if (f < 0) return;
 
             int FormLen = ORAS ? 0x26 : 0x18;

@@ -10,6 +10,7 @@ namespace PKHeX.Core
     {
         public int Species { get; set; }
         public string Name => "Egg";
+        public string LongName => "Egg";
         public bool EggEncounter => true;
         public int LevelMin => Level;
         public int LevelMax => Level;

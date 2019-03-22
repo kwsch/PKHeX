@@ -19,7 +19,7 @@ namespace PKHeX.Core
         {
             var chk = Pull(0, 4) >> 4; // first four chars are checksum bits
             var result = Pull(4, input.Length); // next 12 chars are the 70 value bits
-            var actual = SaveUtil.CRC16_CCITT(BitConverter.GetBytes(result));
+            var actual = Checksums.CRC16_CCITT(BitConverter.GetBytes(result));
             valid = chk == actual;
             return result;
 
@@ -41,7 +41,7 @@ namespace PKHeX.Core
 
         public static string U64ToStr(ulong input, bool insertDash)
         {
-            uint chk = SaveUtil.CRC16_CCITT(BitConverter.GetBytes(input));
+            uint chk = Checksums.CRC16_CCITT(BitConverter.GetBytes(input));
             var buff = new char[16];
             int ctr = 15;
             Push(input, 12); // store value bits

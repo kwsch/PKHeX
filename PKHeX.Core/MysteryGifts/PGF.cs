@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16));
+            get => Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16));
             set => Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E);
         }
 
@@ -78,7 +78,7 @@ namespace PKHeX.Core
         public int IV_SPD { get => Data[0x48]; set => Data[0x48] = (byte)value; }
         // Unused 0x49
         public override string OT_Name {
-            get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
+            get => Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
             set => Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); }
 
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
@@ -87,7 +87,7 @@ namespace PKHeX.Core
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
         {
-            get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x60, 0x4A));
+            get => Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x60, 0x4A));
             set => Encoding.Unicode.GetBytes((value + '\uFFFF').PadRight(0x4A / 2, '\0')).CopyTo(Data, 0x60);
         }
 

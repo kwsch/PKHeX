@@ -36,7 +36,9 @@ namespace PKHeX.Core
         private string[] Get(string ident) => GameInfo.GetStrings(ident, lang);
         private const string NPC = "NPC";
         private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
+        public static readonly IReadOnlyList<ComboItem> Regions = Util.GetUnsortedCBList("regions3ds");
         private static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetUnsortedCBList("languages");
+        private static readonly string[] LanguageNames = LanguageList.GetArray();
 
         public GameStrings(string l)
         {
@@ -84,7 +86,7 @@ namespace PKHeX.Core
             wallpapernames = Get("wallpaper");
             encountertypelist = Get("encountertype");
             gamelist = Get("games");
-            gamelanguages = Util.GetNulledStringArray(Util.GetStringList("languages"));
+            gamelanguages = LanguageNames;
 
             balllist = new string[Legal.Items_Ball.Length];
             for (int i = 0; i < balllist.Length; i++)

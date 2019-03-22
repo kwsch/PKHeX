@@ -635,8 +635,8 @@ namespace PKHeX.Core
 
         internal static bool GetCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            if (pkm.Species == 235 && !InvalidSketch.Contains(move))
-                return true;
+            if (pkm.Species == 235)
+                return !InvalidSketch.Contains(move);
             return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 

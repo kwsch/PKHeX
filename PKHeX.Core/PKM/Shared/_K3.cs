@@ -86,6 +86,9 @@
             return value ^ x;
         }
 
+        protected static byte GetGBAVersionID(byte gc) => (byte)((GCVersion)gc).GetG3VersionID();
+        protected static byte GetGCVersionID(int gba) => (byte)((GameVersion)gba).GetCXDVersionID();
+
         /// <summary>
         /// Interconversion for Generation 3 <see cref="PKM"/> formats.
         /// </summary>

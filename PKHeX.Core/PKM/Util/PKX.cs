@@ -60,9 +60,6 @@ namespace PKHeX.Core
         /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
         public static bool IsPKM(long len) => Sizes.Contains((int)len);
 
-        public static uint LCRNG(uint seed) => RNG.LCRNG.Next(seed);
-        public static uint LCRNG(ref uint seed) => seed = RNG.LCRNG.Next(seed);
-
         /// <summary>
         /// Species name lists indexed by the <see cref="PKM.Language"/> value.
         /// </summary>
@@ -116,13 +113,13 @@ namespace PKHeX.Core
 
             string nick = GetSpeciesName(species, lang);
             if (generation == 2 && lang == (int)LanguageID.Korean)
-                return StringConverter.LocalizeKOR2(nick);
+                return StringConverter2KOR.LocalizeKOR2(nick);
 
             if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
             {
                 nick = nick.ToUpper();
                 if (lang == (int)LanguageID.French)
-                    nick = StringConverter.StripDiacriticsFR4(nick); // strips accents on E and I
+                    nick = StringConverter4.StripDiacriticsFR4(nick); // strips accents on E and I
             }
             if (generation < 3)
                 nick = nick.Replace(" ", string.Empty);
@@ -440,6 +437,9 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CryptArray(byte[] data, uint seed) => CryptArray(data, seed, 0, data.Length);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Crypt(byte[] data, ref uint seed, int i)
         {
             seed = (0x41C64E6D * seed) + 0x00006073;
@@ -577,51 +577,6 @@ namespace PKHeX.Core
         {
             return FormConverter.GetFormList(species, types, forms, genders, generation);
         }
-
-        /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
-        /// <param name="type">Hidden Power Type</param>
-        /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
-        /// <param name="format">Generation specific format</param>
-        /// <returns>Hidden Power Type</returns>
-        public static int[] SetHPIVs(int type, int[] ivs, int format = Generation)
-        {
-            if (format <= 2)
-            {
-                ivs[1] = (ivs[1] & ~3) | (type >> 2);
-                ivs[2] = (ivs[2] & ~3) | (type & 3);
-                return ivs;
-            }
-            for (int i = 0; i < 6; i++)
-                ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
-            return ivs;
-        }
-
-        /// <summary>
-        /// Hidden Power IV values (even or odd) to achieve a specified Hidden Power Type
-        /// </summary>
-        /// <remarks>
-        /// There are other IV combinations to achieve the same Hidden Power Type.
-        /// These are just precomputed for fast modification.
-        /// Individual Values (H/A/B/S/C/D)
-        /// </remarks>
-        public static readonly int[,] hpivs = {
-            { 1, 1, 0, 0, 0, 0 }, // Fighting
-            { 0, 0, 0, 1, 0, 0 }, // Flying
-            { 1, 1, 0, 1, 0, 0 }, // Poison
-            { 1, 1, 1, 1, 0, 0 }, // Ground
-            { 1, 1, 0, 0, 1, 0 }, // Rock
-            { 1, 0, 0, 1, 1, 0 }, // Bug
-            { 1, 0, 1, 1, 1, 0 }, // Ghost
-            { 1, 1, 1, 1, 1, 0 }, // Steel
-            { 1, 0, 1, 0, 0, 1 }, // Fire
-            { 1, 0, 0, 1, 0, 1 }, // Water
-            { 1, 0, 1, 1, 0, 1 }, // Grass
-            { 1, 1, 1, 1, 0, 1 }, // Electric
-            { 1, 0, 1, 0, 1, 1 }, // Psychic
-            { 1, 0, 0, 1, 1, 1 }, // Ice
-            { 1, 0, 1, 1, 1, 1 }, // Dragon
-            { 1, 1, 1, 1, 1, 1 }, // Dark
-        };
 
         /// <summary>
         /// Gets the Unown Forme ID from PID.

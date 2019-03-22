@@ -15,10 +15,12 @@ namespace PKHeX.Core
 
         public override int Format => 2;
 
-        public PK2(byte[] decryptedData = null, string ident = null, bool jp = false) : base(decryptedData, ident, jp) { }
+        public PK2(bool jp = false) : base(new byte[PKX.SIZE_2PARTY], jp) { }
+        public PK2(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
 
-        public override PKM Clone() => new PK2((byte[])Data.Clone(), Identifier, Japanese)
+        public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
         {
+            Identifier = Identifier,
             otname = (byte[])otname.Clone(),
             nick = (byte[])nick.Clone(),
             IsEgg = IsEgg,
@@ -96,7 +98,7 @@ namespace PKHeX.Core
 
         public PK1 ConvertToPK1()
         {
-            PK1 pk1 = new PK1(null, Identifier) {TradebackStatus = TradebackType.WasTradeback};
+            PK1 pk1 = new PK1(Japanese) {TradebackStatus = TradebackType.WasTradeback};
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
 
@@ -163,7 +165,7 @@ namespace PKHeX.Core
             };
             pk7.Language = GuessedLanguage(PKMConverter.Language);
             pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == StringConverter.G1TradeOTCode) // Ingame Trade
+            if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
                 pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
@@ -192,10 +194,10 @@ namespace PKHeX.Core
             {
                 pk7.IsNicknamed = true;
                 pk7.Nickname = Korean ? Nickname
-                    : StringConverter.GetG1ConvertedString(nick, Japanese);
+                    : StringConverter12.GetG1ConvertedString(nick, Japanese);
             }
             pk7.OT_Name = Korean ? OT_Name
-                : StringConverter.GetG1ConvertedString(otname, Japanese);
+                : StringConverter12.GetG1ConvertedString(otname, Japanese);
             pk7.OT_Gender = OT_Gender; // Crystal
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm

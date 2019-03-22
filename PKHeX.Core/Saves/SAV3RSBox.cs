@@ -198,13 +198,13 @@ namespace PKHeX.Core
             Edited = true;
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString3(data, offset, length, Japanese);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString3(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter3.SetString3(value, maxLength, Japanese, PadToSize, PadWith);
         }
     }
 }

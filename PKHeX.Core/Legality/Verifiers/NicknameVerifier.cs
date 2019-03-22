@@ -181,17 +181,17 @@ namespace PKHeX.Core
         private void VerifyG1NicknameWithinBounds(LegalityAnalysis data, string str)
         {
             var pkm = data.pkm;
-            if (StringConverter.GetIsG1English(str))
+            if (StringConverter12.GetIsG1English(str))
             {
                 if (str.Length > 10)
                     data.AddLine(GetInvalid(LNickLengthLong));
             }
-            else if (StringConverter.GetIsG1Japanese(str))
+            else if (StringConverter12.GetIsG1Japanese(str))
             {
                 if (str.Length > 5)
                     data.AddLine(GetInvalid(LNickLengthLong));
             }
-            else if (pkm.Korean && StringConverter.GetIsG2Korean(str))
+            else if (pkm.Korean && StringConverter2KOR.GetIsG2Korean(str))
             {
                 if (str.Length > 5)
                     data.AddLine(GetInvalid(LNickLengthLong));

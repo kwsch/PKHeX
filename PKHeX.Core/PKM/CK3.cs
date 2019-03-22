@@ -21,17 +21,12 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public CK3(byte[] decryptedData = null, string ident = null)
-        {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
-            Identifier = ident;
-        }
-
+        public CK3(byte[] decryptedData) => Data = decryptedData;
         public CK3() => Data = new byte[SIZE_PARTY];
-        public override PKM Clone() => new CK3((byte[])Data.Clone(), Identifier);
+        public override PKM Clone() => new CK3((byte[])Data.Clone()) {Identifier = Identifier};
 
-        private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);
+        private string GetString(int Offset, int Count) => StringConverter3.GetBEString3(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
@@ -41,14 +36,14 @@ namespace PKHeX.Core
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override ushort Checksum { get => Checksums.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
         public override bool ChecksumValid => true;
         public override bool Valid => true;
 
         public override int Species { get => SpeciesConverter.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x00); }
         // 02-04 unused
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x04); set => BigEndian.GetBytes(value).CopyTo(Data, 0x04); }
-        public override int Version { get => SaveUtil.GetG3VersionID(Data[0x08]); set => Data[0x08] = (byte)SaveUtil.GetCXDVersionID(value); }
+        public override int Version { get => GetGBAVersionID(Data[0x08]); set => Data[0x08] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
         public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = PKX.GetGCLangIDfromMain((byte)value); }

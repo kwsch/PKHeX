@@ -24,18 +24,17 @@ namespace PKHeX.Core
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}";
+                return $"{Species:000}{form}{star} - {Nickname} - {Checksums.CRC16_CCITT(Encrypt()):X4}";
             }
         }
 
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public override bool Japanese => otname.Length == STRLEN_J;
 
-        protected _K12(byte[] decryptedData, string ident = null, bool jp = false)
+        protected _K12(byte[] decryptedData, bool jp = false)
         {
             int partySize = SIZE_PARTY;
-            Data = decryptedData ?? new byte[partySize];
-            Identifier = ident;
+            Data = decryptedData;
             if (Data.Length != partySize)
                 Array.Resize(ref Data, partySize);
             int strLen = jp ? STRLEN_J : STRLEN_U;
@@ -89,7 +88,7 @@ namespace PKHeX.Core
                     return (int)LanguageID.Japanese;
                 if (Korean)
                     return (int)LanguageID.Korean;
-                if (StringConverter.IsG12German(otname))
+                if (StringConverter12.IsG12German(otname))
                     return (int)LanguageID.German; // german
                 int lang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
                 if (lang > 0)
@@ -114,8 +113,8 @@ namespace PKHeX.Core
             get
             {
                 if (Korean)
-                    return StringConverter.GetString2KOR(nick, 0, nick.Length);
-                return StringConverter.GetString1(nick, 0, nick.Length, Japanese);
+                    return StringConverter2KOR.GetString2KOR(nick, 0, nick.Length);
+                return StringConverter12.GetString1(nick, 0, nick.Length, Japanese);
             }
             set
             {
@@ -131,8 +130,8 @@ namespace PKHeX.Core
             get
             {
                 if (Korean)
-                    return StringConverter.GetString2KOR(otname, 0, otname.Length);
-                return StringConverter.GetString1(otname, 0, otname.Length, Japanese);
+                    return StringConverter2KOR.GetString2KOR(otname, 0, otname.Length);
+                return StringConverter12.GetString1(otname, 0, otname.Length, Japanese);
             }
             set => GetStringSpecial(value, StringLength).CopyTo(otname, 0);
         }
@@ -284,21 +283,21 @@ namespace PKHeX.Core
         protected string GetString(int Offset, int Count)
         {
             if (Korean)
-                return StringConverter.GetString2KOR(Data, Offset, Count);
-            return StringConverter.GetString1(Data, Offset, Count, Japanese);
+                return StringConverter2KOR.GetString2KOR(Data, Offset, Count);
+            return StringConverter12.GetString1(Data, Offset, Count, Japanese);
         }
 
         private byte[] SetString(string value, int maxLength)
         {
             if (Korean)
-                return StringConverter.SetString2KOR(value, maxLength - 1);
-            return StringConverter.SetString1(value, maxLength - 1, Japanese);
+                return StringConverter2KOR.SetString2KOR(value, maxLength - 1);
+            return StringConverter12.SetString1(value, maxLength - 1, Japanese);
         }
 
         private byte[] GetStringSpecial(string value, int length)
         {
             byte[] strdata = SetString(value, length);
-            if (!nick.Any(b => b == 0) || nick[length - 1] != 0x50 || Array.FindIndex(nick, b => b == 0) != strdata.Length - 1)
+            if (nick.All(b => b != 0) || nick[length - 1] != 0x50 || Array.FindIndex(nick, b => b == 0) != strdata.Length - 1)
                 return strdata;
 
             int firstInd = Array.FindIndex(nick, b => b == 0);

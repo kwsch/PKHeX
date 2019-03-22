@@ -18,16 +18,15 @@ namespace PKHeX.Core
 
         public PK7() => Data = new byte[PKX.SIZE_6PARTY];
 
-        public PK7(byte[] decryptedData, string ident = null)
+        public PK7(byte[] decryptedData)
         {
             Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
-            Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public override PKM Clone() => new PK7((byte[])Data.Clone(), Identifier);
+        public override PKM Clone() => new PK7((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);

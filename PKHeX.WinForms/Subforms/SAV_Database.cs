@@ -344,13 +344,15 @@ namespace PKHeX.WinForms
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
             Parallel.ForEach(files, file =>
             {
-                FileInfo fi = new FileInfo(file);
+                var fi = new FileInfo(file);
                 if (!extensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length)) return;
                 var data = File.ReadAllBytes(file);
                 var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
-                var pk = PKMConverter.GetPKMfromBytes(data, file, prefer);
-                if (pk?.Species > 0)
-                    dbTemp.Add(pk);
+                var pk = PKMConverter.GetPKMfromBytes(data, prefer);
+                if (!(pk?.Species > 0))
+                    return;
+                pk.Identifier = file;
+                dbTemp.Add(pk);
             });
 
 #if LOADALL

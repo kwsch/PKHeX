@@ -15,7 +15,7 @@ namespace PKHeX.Core
             SAV = sav;
             PokeDex = dex;
             PokeDexLanguageFlags = langflag;
-            var wrap = SAV.ORAS ? SaveUtil.GetDexFormIndexORAS : (Func<int,int,int>)SaveUtil.GetDexFormIndexXY;
+            var wrap = SAV.ORAS ? DexFormUtil.GetDexFormIndexORAS : (Func<int,int,int>)DexFormUtil.GetDexFormIndexXY;
             DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
         }
 

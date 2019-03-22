@@ -340,19 +340,20 @@ namespace PKHeX.Core
                 else if (gen == info.Generation && learnInfo.Source.SpecialSource.Contains(move))
                     res[m] = new CheckMoveResult(Special, gen, Valid, LMoveSourceSpecial, Move);
 
-                if (res[m] == null || gen >= 3)
+                if (gen >= 3 || res[m] == null || !res[m].Valid)
                     continue;
 
-                if (res[m].Valid && gen == 2 && learnInfo.Source.NonTradeBackLevelUpMoves.Contains(m))
+                // Gen1/Gen2 only below
+                if (gen == 2 && learnInfo.Source.NonTradeBackLevelUpMoves.Contains(m))
                     learnInfo.Gen2PreevoMoves.Add(m);
-                if (res[m].Valid && gen == 1)
+                else if (gen == 1)
                 {
                     learnInfo.Gen1Moves.Add(m);
                     if (learnInfo.Gen2PreevoMoves.Count != 0)
                         learnInfo.MixedGen12NonTradeback = true;
                 }
 
-                if (res[m].Valid && gen <= 2 && pkm.TradebackStatus == TradebackType.Any && info.Generation != gen)
+                if (pkm.TradebackStatus == TradebackType.Any && info.Generation != gen)
                     pkm.TradebackStatus = TradebackType.WasTradeback;
             }
         }
@@ -486,9 +487,9 @@ namespace PKHeX.Core
                         res[m] = new CheckMoveResult(res[m], Invalid, LMoveEventEggLevelUp, Move);
                 }
             }
-            // If there is no incompatibility with event egg check that there is no inherited move in gift eggs and event eggs
             else if (RegularEggMovesLearned.Count != 0 && (pkm.WasGiftEgg || pkm.WasEventEgg))
             {
+                // Event eggs cannot inherit moves from parents; they are not bred.
                 foreach (int m in RegularEggMovesLearned)
                 {
                     if (learnInfo.EggMovesLearned.Contains(m))
@@ -513,8 +514,8 @@ namespace PKHeX.Core
 
         private static IList<int> GetIncompatibleRBYMoves(PKM pkm, int[] moves)
         {
-            // Check moves that are learned at the same level in red/blue and yellow, these are illegal because there is no move reminder
-            // There are only two incompatibilites; there is no illegal combination in generation 2+.
+            // Check moves that are learned at the same level in Red/Blue and Yellow, these are illegal because there is no Move Reminder in Gen1.
+            // There are only two incompatibilities for Gen1; there are no illegal combination in Gen2.
 
             switch (pkm.Species)
             {
@@ -536,9 +537,9 @@ namespace PKHeX.Core
                 // Flareon in Red Blue learns Leer at level 42 and level 47 in Yellow
                 case 136 when pkm.CurrentLevel < 47 && moves.Contains(43) && moves.Contains(123):
                     return new[] {43, 123};
-            }
 
-            return Array.Empty<int>();
+                default: return Array.Empty<int>();
+            }
         }
 
         private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> tmhm)

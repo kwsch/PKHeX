@@ -73,6 +73,7 @@ namespace PKHeX.Core
         public static IReadOnlyList<ComboItem> HaXMoveDataSource => Strings.HaXMoveDataSource;
         public static IReadOnlyList<ComboItem> MoveDataSource => Strings.MoveDataSource;
         public static IReadOnlyList<ComboItem> EncounterTypeDataSource => Strings.EncounterTypeDataSource;
+        public static IReadOnlyList<ComboItem> Regions => GameStrings.Regions;
 
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameStrings.LanguageDataSource(gen);
 

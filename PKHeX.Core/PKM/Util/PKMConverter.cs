@@ -80,40 +80,36 @@ namespace PKHeX.Core
         /// <param name="ident">Optional identifier for the Pokemon.  Usually the full path of the source file.</param>
         /// <param name="prefer">Optional identifier for the preferred generation.  Usually the generation of the destination save file.</param>
         /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
-        public static PKM GetPKMfromBytes(byte[] data, string ident = null, int prefer = 7)
+        public static PKM GetPKMfromBytes(byte[] data, int prefer = 7)
         {
             int format = GetPKMDataFormat(data);
             switch (format)
             {
                 case 1:
                     var PL1 = new PokeList1(data);
-                    if (ident != null)
-                        PL1[0].Identifier = ident;
                     return PL1[0];
                 case 2:
                     var PL2 = new PokeList2(data);
-                    if (ident != null)
-                        PL2[0].Identifier = ident;
                     return PL2[0];
                 case 3:
                     switch (data.Length) {
-                        case PKX.SIZE_3CSTORED: return new CK3(data, ident);
-                        case PKX.SIZE_3XSTORED: return new XK3(data, ident);
-                        default: return new PK3(data, ident);
+                        case PKX.SIZE_3CSTORED: return new CK3(data);
+                        case PKX.SIZE_3XSTORED: return new XK3(data);
+                        default: return new PK3(data);
                     }
                 case 4:
-                    var pk = new PK4(data, ident);
+                    var pk = new PK4(data);
                     if (!pk.Valid || pk.Sanity != 0)
                     {
-                        var bk = new BK4(data, ident);
+                        var bk = new BK4(data);
                         if (bk.Valid)
                             return bk;
                     }
                     return pk;
                 case 5:
-                    return new PK5(data, ident);
+                    return new PK5(data);
                 case 6:
-                    var pkx = new PK6(data, ident);
+                    var pkx = new PK6(data);
                     return CheckPKMFormat7(pkx, prefer);
                 default:
                     return null;
@@ -130,7 +126,7 @@ namespace PKHeX.Core
         {
             if (GameVersion.GG.Contains(pk.Version))
                 return new PB7(pk.Data);
-            return IsPK6FormatReallyPK7(pk, prefer) ? new PK7(pk.Data, pk.Identifier) : (PKM)pk;
+            return IsPK6FormatReallyPK7(pk, prefer) ? new PK7(pk.Data) : (PKM)pk;
         }
 
         /// <summary>
@@ -449,7 +445,7 @@ namespace PKHeX.Core
         public static PKM GetBlank(Type t)
         {
             var constructors = t.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
-            var argCount = constructors.First().GetParameters().Length;
+            var argCount = constructors.Min(z => z.GetParameters().Length);
             return (PKM)Activator.CreateInstance(t, new object[argCount]);
         }
 

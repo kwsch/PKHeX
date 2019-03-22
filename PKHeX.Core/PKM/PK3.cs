@@ -19,19 +19,18 @@ namespace PKHeX.Core
 
         public PK3() => Data = new byte[PKX.SIZE_3PARTY];
 
-        public PK3(byte[] decryptedData, string ident = null)
+        public PK3(byte[] decryptedData)
         {
             Data = decryptedData;
             PKMConverter.CheckEncrypted(ref Data, Format);
-            Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public override PKM Clone() => new PK3((byte[])Data.Clone(), Identifier);
+        public override PKM Clone() => new PK3((byte[])Data.Clone()){Identifier = Identifier};
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese);
+        private string GetString(int Offset, int Count) => StringConverter3.GetString3(Data, Offset, Count, Japanese);
+        private byte[] SetString(string value, int maxLength) => StringConverter3.SetString3(value, maxLength, Japanese);
 
         private const string EggNameJapanese = "タマゴ";
 
@@ -288,7 +287,7 @@ namespace PKHeX.Core
             pk4.RibbonG3ToughMaster   |= RibbonCountG3Tough > 3;
 
             // Yay for reusing string buffers!
-            var trash = StringConverter.G4TransferTrashBytes;
+            var trash = StringConverter345.G4TransferTrashBytes;
             if (pk4.Language < trash.Length)
                 trash[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
             pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, pk4.Format) : Nickname;

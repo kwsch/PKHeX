@@ -79,8 +79,11 @@ namespace PKHeX.Core
 
         public static string[] GetStringList(string f)
         {
-            if (stringListCache.ContainsKey(f))
-                return (string[])stringListCache[f].Clone();
+            lock (getStringListLoadLock) // Make sure only one thread can read the cache
+            {
+                if (stringListCache.TryGetValue(f, out var result))
+                    return (string[])result.Clone();
+            }
 
             var txt = GetStringResource(f); // Fetch File, \n to list.
             if (txt == null)
@@ -99,18 +102,6 @@ namespace PKHeX.Core
         }
 
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
-
-        public static string[] GetNulledStringArray(string[] SimpleStringList)
-        {
-            int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
-            string[] newlist = new string[len];
-            for (int i = 1; i < SimpleStringList.Length; i++)
-            {
-                var split = SimpleStringList[i].Split(',');
-                newlist[ToInt32(split[0])] = split[1];
-            }
-            return newlist;
-        }
 
         public static byte[] GetBinaryResource(string name)
         {
@@ -257,18 +248,29 @@ namespace PKHeX.Core
                 .ToList();
         }
 
-        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
         {
-            if (allowed.Length == 0)
-                allowed = new[] { Enumerable.Range(0, inStrings.Count).ToArray() };
-
-            return allowed.SelectMany(list => list
-                .Select(z => new ComboItem { Text = inStrings[z], Value = z })
-                .OrderBy(z => z.Text))
-                .ToList();
+            var list = new List<ComboItem>(inStrings.Count);
+            var items = inStrings.Select((t, i) => new ComboItem {Text = t, Value = i}).OrderBy(z => z.Text);
+            list.AddRange(items);
+            return list;
         }
 
-        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, IEnumerable<int> allowed)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
+        {
+            var count = allowed.Sum(z => z.Length);
+            var list = new List<ComboItem>(count);
+            foreach (var arr in allowed)
+            {
+                var subset = arr
+                    .Select(z => new ComboItem {Text = inStrings[z], Value = z})
+                    .OrderBy(z => z.Text);
+                list.AddRange(subset);
+            }
+            return list;
+        }
+
+        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, int[] allowed)
         {
             var list = allowed
                 .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})

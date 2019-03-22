@@ -13,26 +13,26 @@ namespace PKHeX.Core
             Data = sav.GetData(DataOffset, 0x2F);
         }
 
-        public override string GetMessage(bool isLastLine) => US ? StringConverter.GetString1(Data, isLastLine ? 0x11 : 0, 0x10, false) : string.Empty;
+        public override string GetMessage(bool isLastLine) => US ? StringConverter12.GetString1(Data, isLastLine ? 0x11 : 0, 0x10, false) : string.Empty;
 
         public override void SetMessage(string line1, string line2)
         {
             if (US)
             {
-                StringConverter.SetString1(line2, 0x10, false, 0x10, 0x50).CopyTo(Data, 0x11);
-                StringConverter.SetString1(line1, 0x10, false, 0x10, (ushort)(Data.Skip(0x11).Take(0x10).All(v => v == 0x50) ? 0x50 : 0x7F)).CopyTo(Data, 0);
+                StringConverter12.SetString1(line2, 0x10, false, 0x10, 0x50).CopyTo(Data, 0x11);
+                StringConverter12.SetString1(line1, 0x10, false, 0x10, (ushort)(Data.Skip(0x11).Take(0x10).All(v => v == 0x50) ? 0x50 : 0x7F)).CopyTo(Data, 0);
                 Data[0x10] = 0x4E;
             }
         }
 
         public override string AuthorName
         {
-            get => US ? StringConverter.GetString1(Data, 0x21, 7, false) : string.Empty;
+            get => US ? StringConverter12.GetString1(Data, 0x21, 7, false) : string.Empty;
             set
             {
                 if (US)
                 {
-                    StringConverter.SetString1(value, 7, false, 8, 0x50).CopyTo(Data, 0x21);
+                    StringConverter12.SetString1(value, 7, false, 8, 0x50).CopyTo(Data, 0x21);
                     Data[0x29] = Data[0x2A] = 0;
                 }
             }

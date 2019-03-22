@@ -15,6 +15,7 @@ namespace PKHeX.Core
     {
         public const int Size = 0x140;
 
+        public WR7() => Data = new byte[Size];
         public WR7(byte[] data) => Data = data;
 
         public uint Epoch

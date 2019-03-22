@@ -33,7 +33,7 @@ namespace PKHeX.Core
             // Load Info
             const int len = 0xB8800; // 1mb always allocated
             BlockInfoOffset = len - 0x1F0;
-            Blocks = !Exportable ? BlockInfoGG : BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, SaveUtil.CRC16NoInvert, len);
+            Blocks = !Exportable ? BlockInfoGG : BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, Checksums.CRC16NoInvert, len);
             Personal = PersonalTable.GG;
 
             Box = GetBlockOffset(BelugaBlockIndex.PokeListPokemon);

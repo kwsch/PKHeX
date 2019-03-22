@@ -25,10 +25,7 @@ namespace PKHeX.Tests.Legality
         [Fact]
         public void TestFilesPassOrFailLegalityChecks()
         {
-            var folder = Directory.GetCurrentDirectory();
-            while (!folder.EndsWith(nameof(Tests)))
-                folder = Directory.GetParent(folder).FullName;
-
+            var folder = TestUtil.GetRepoPath();
             folder = Path.Combine(folder, "Legality");
             ParseSettings.AllowGBCartEra = true;
             VerifyAll(folder, "Legal", true);
@@ -41,6 +38,7 @@ namespace PKHeX.Tests.Legality
             var path = Path.Combine(folder, name);
             Directory.Exists(path).Should().BeTrue($"the specified test directory at '{path}' should exist");
             var files = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
+            var ctr = 0;
             foreach (var file in files)
             {
                 var fi = new FileInfo(file);
@@ -57,7 +55,10 @@ namespace PKHeX.Tests.Legality
                 ParseSettings.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");
                 var legality = new LegalityAnalysis(pkm);
                 legality.Valid.Should().Be(isValid, $"because the file '{fi.Directory.Name}\\{fi.Name}' should be {(isValid ? "Valid" : "Invalid")}");
+                ctr++;
             }
+
+            ctr.Should().BeGreaterThan(0);
         }
     }
 }

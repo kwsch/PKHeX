@@ -20,17 +20,12 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public XK3(byte[] decryptedData = null, string ident = null)
-        {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
-            Identifier = ident;
-        }
-
+        public XK3(byte[] decryptedData) => Data = decryptedData;
         public XK3() => Data = new byte[SIZE_PARTY];
-        public override PKM Clone() => new XK3((byte[])Data.Clone(), Identifier) {Purification = Purification};
+        public override PKM Clone() => new XK3((byte[])Data.Clone()){Identifier = Identifier, Purification = Purification};
 
-        private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);
+        private string GetString(int Offset, int Count) => StringConverter3.GetBEString3(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x4E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x4E); } }
@@ -38,7 +33,7 @@ namespace PKHeX.Core
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override ushort Checksum { get => Checksums.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
         public override bool ChecksumValid => Valid;
 
         public override int Species { get => SpeciesConverter.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x00); }
@@ -77,7 +72,7 @@ namespace PKHeX.Core
         public override bool FatefulEncounter { get => Data[0x30] == 1; set => Data[0x30] = (byte)(value ? 1 : 0); }
         // 0x31-0x32 Unknown
         public new int EncounterType { get => Data[0x33]; set => Data[0x33] = (byte)value; }
-        public override int Version { get => SaveUtil.GetG3VersionID(Data[0x34]); set => Data[0x34] = (byte)SaveUtil.GetCXDVersionID(value); }
+        public override int Version { get => GetGBAVersionID(Data[0x34]); set => Data[0x34] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = PKX.GetGCLangIDfromMain((byte)value); }

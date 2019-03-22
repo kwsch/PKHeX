@@ -88,7 +88,7 @@ namespace PKHeX.Core
         public int Species { get => SpecLevel & 0x1FF; set => SpecLevel = (SpecLevel & 0xFE00) | value; }
         public int Level { get => SpecLevel >> 9; set => SpecLevel = (SpecLevel & 0x1FF) | (value << 9); }
 
-        private string GetString(byte[] data, int offset, int length) => StringConverter.GetString3(data, offset, length, Japanese);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese, 10);
+        private string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);
+        private byte[] SetString(string value, int maxLength) => StringConverter3.SetString3(value, maxLength, Japanese, 10);
     }
 }

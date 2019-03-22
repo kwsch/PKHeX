@@ -134,7 +134,7 @@ namespace PKHeX.WinForms
             CLB_FormDisplayed.Items.Clear();
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.GetDexFormIndexXY(species, fc);
+            int f = DexFormUtil.GetDexFormIndexXY(species, fc);
             if (f < 0)
                 return;
             string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
@@ -179,7 +179,7 @@ namespace PKHeX.WinForms
             langbools[6, species - 1] = CHK_L7.Checked;
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.GetDexFormIndexORAS(species, fc);
+            int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;
 

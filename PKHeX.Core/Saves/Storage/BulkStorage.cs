@@ -25,7 +25,7 @@ namespace PKHeX.Core
 
         protected readonly int SlotsPerBox;
 
-        protected override string BAKText => $"{SaveUtil.CRC16(Data, Box, Data.Length - Box):X4}";
+        protected override string BAKText => $"{Checksums.CRC16(Data, Box, Data.Length - Box):X4}";
         public override SaveFile Clone() => new BulkStorage((byte[])Data.Clone(), PKMType, Box, SlotsPerBox);
         public override string Filter { get; } = "All Files|*.*";
         public override string Extension { get; } = ".bin";
