@@ -36,8 +36,10 @@ namespace PKHeX.Core
                 case 13: /* Nincada -> Ninjask evolution */
                 case 14: /* Shedinja spawn in Nincada -> Ninjask evolution */
                     return new EvolutionMethod { Method = method + 1, Species = species, Level = arg, Argument = arg };
+
+                default:
+                    throw new ArgumentException(nameof(method));
             }
-            throw new ArgumentException(nameof(method));
         }
 
         private static readonly EvolutionSet Blank = new EvolutionSet3 { PossibleEvolutions = Array.Empty<EvolutionMethod>() };

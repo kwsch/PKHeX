@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EvolutionSet6 : EvolutionSet
     {
-        private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
+        internal static readonly HashSet<int> EvosWithArg = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
         private const int SIZE = 6;
 
         public EvolutionSet6(byte[] data)
@@ -27,7 +27,7 @@ namespace PKHeX.Core
                 };
 
                 // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
-                if (argEvos.Contains(evo.Method))
+                if (EvosWithArg.Contains(evo.Method))
                     evo.Level = 0;
 
                 PossibleEvolutions[i/SIZE] = evo;
