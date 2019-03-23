@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 1 Evolution Branch Entries
     /// </summary>
-    public sealed class EvolutionSet1 : EvolutionSet
+    public static class EvolutionSet1
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
@@ -21,11 +21,9 @@ namespace PKHeX.Core
             return obj;
         }
 
-        private static readonly EvolutionSet1 Blank = new EvolutionSet1 {PossibleEvolutions = Array.Empty<EvolutionMethod>()};
-
-        public static IReadOnlyList<EvolutionSet> GetArray(byte[] data, int maxSpecies)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data, int maxSpecies)
         {
-            var evos = new EvolutionSet[maxSpecies + 1];
+            var evos = new EvolutionMethod[maxSpecies + 1][];
             int ofs = 0;
             const int bpe = 3;
             for (int i = 0; i < evos.Length; i++)
@@ -34,7 +32,7 @@ namespace PKHeX.Core
                 ofs++;
                 if (count == 0)
                 {
-                    evos[i] = Blank;
+                    evos[i] = Array.Empty<EvolutionMethod>();
                     continue;
                 }
                 var m = new EvolutionMethod[count];
@@ -43,7 +41,7 @@ namespace PKHeX.Core
                     m[j] = GetMethod(data, ofs);
                     ofs += bpe;
                 }
-                evos[i] = new EvolutionSet1 {PossibleEvolutions = m};
+                evos[i] = m;
             }
             return evos;
         }

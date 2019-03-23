@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 5 Evolution Branch Entries
     /// </summary>
-    public sealed class EvolutionSet5 : EvolutionSet
+    public static class EvolutionSet5
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
@@ -31,15 +30,13 @@ namespace PKHeX.Core
             return evo;
         }
 
-        private static readonly EvolutionSet Blank = new EvolutionSet5 { PossibleEvolutions = Array.Empty<EvolutionMethod>() };
-
-        public static IReadOnlyList<EvolutionSet> GetArray(byte[] data)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)
         {
             const int bpe = 6; // bytes per evolution entry
             const int entries = 7; // amount of entries per species
             const int size = entries * bpe; // bytes per species entry
 
-            var evos = new EvolutionSet[data.Length / size];
+            var evos = new EvolutionMethod[data.Length / size][];
             for (int i = 0; i < evos.Length; i++)
             {
                 int offset = i * size;
@@ -53,14 +50,14 @@ namespace PKHeX.Core
                 }
                 if (count == 0)
                 {
-                    evos[i] = Blank;
+                    evos[i] = Array.Empty<EvolutionMethod>();
                     continue;
                 }
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
                     set[j] = GetMethod(data, offset + (j * bpe));
-                evos[i] = new EvolutionSet5 { PossibleEvolutions = set};
+                evos[i] = set;
             }
             return evos;
         }

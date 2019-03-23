@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Informatics pertaining to a <see cref="PKM"/>'s evolution lineage.
+    /// Information pertaining to a <see cref="PKM"/>'s evolution lineage.
     /// </summary>
     public sealed class EvolutionLineage
     {
@@ -23,11 +23,6 @@ namespace PKHeX.Core
                 Chain[matchChain].StageEntryMethods.Add(entry);
             else
                 Chain.Insert(0, new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> {entry}});
-        }
-
-        public void Insert(EvolutionStage evo)
-        {
-            Chain.Insert(0, evo);
         }
 
         public List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)

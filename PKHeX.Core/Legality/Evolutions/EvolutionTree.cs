@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -71,7 +70,7 @@ namespace PKHeX.Core
             }
         }
 
-        private readonly IReadOnlyList<EvolutionSet> Entries;
+        private readonly IReadOnlyList<EvolutionMethod[]> Entries;
         private readonly EvolutionLineage[] Lineage;
         private readonly GameVersion Game;
         private readonly PersonalTable Personal;
@@ -86,7 +85,7 @@ namespace PKHeX.Core
             Lineage = CreateTree();
         }
 
-        private IReadOnlyList<EvolutionSet> GetEntries(IReadOnlyList<byte[]> data)
+        private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data)
         {
             switch (Game)
             {
@@ -95,8 +94,8 @@ namespace PKHeX.Core
                 case GameVersion.Gen3: return EvolutionSet3.GetArray(data[0]);
                 case GameVersion.Gen4: return EvolutionSet4.GetArray(data[0]);
                 case GameVersion.Gen5: return EvolutionSet5.GetArray(data[0]);
-                case GameVersion.Gen6: return new List<EvolutionSet>(data.Select(d => new EvolutionSet6(d)));
-                case GameVersion.Gen7: return new List<EvolutionSet>(data.Select(d => new EvolutionSet7(d)));
+                case GameVersion.Gen6: return EvolutionSet6.GetArray(data);
+                case GameVersion.Gen7: return EvolutionSet7.GetArray(data);
                 default: throw new Exception();
             }
         }
@@ -118,7 +117,7 @@ namespace PKHeX.Core
         private void CreateBranch(IReadOnlyList<EvolutionLineage> lineage, int i)
         {
             // Iterate over all possible evolutions
-            foreach (var evo in Entries[i].PossibleEvolutions)
+            foreach (var evo in Entries[i])
                 CreateLeaf(lineage, i, evo);
         }
 
@@ -134,14 +133,14 @@ namespace PKHeX.Core
             // If current entries has a pre-evolution, propagate to evolution as well
             var current = lineage[i].Chain;
             if (current.Count > 0)
-                lineage[index].Insert(current[0]);
+                lineage[index].Chain.Insert(0, current[0]);
 
             if (index >= i)
                 return;
 
             // If destination species evolves into something (ie a 'baby' Pokemon like Cleffa)
             // Add it to the corresponding parent chains
-            foreach (var method in Entries[index].PossibleEvolutions)
+            foreach (var method in Entries[index])
             {
                 int newIndex = GetIndex(method);
                 if (newIndex < 0)
@@ -257,7 +256,7 @@ namespace PKHeX.Core
         {
             int index = Personal.GetFormeIndex(species, form);
             var node = Entries[index];
-            foreach (var z in node.PossibleEvolutions)
+            foreach (var z in node)
             {
                 var s = z.Species;
                 if (s == 0)
