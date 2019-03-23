@@ -7,9 +7,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class Records
     {
-        private const int LargeRecordCount = 100;
-        private const int SmallRecordCount = 100;
-        private const int Count = LargeRecordCount + SmallRecordCount;
+        private const byte LargeRecordCount = 100;
+        private const byte SmallRecordCount = 100;
+        private const byte Count = LargeRecordCount + SmallRecordCount;
 
         /// <summary>
         /// Gets the maximum value for the specified record using the provided maximum list.
@@ -17,9 +17,9 @@ namespace PKHeX.Core
         /// <param name="recordID">Record ID to retrieve the maximum for</param>
         /// <param name="maxes">Maximum enum values for each record</param>
         /// <returns>Maximum the record can be</returns>
-        public static int GetMax(int recordID, IReadOnlyList<int> maxes)
+        public static int GetMax(int recordID, IReadOnlyList<byte> maxes)
         {
-            if (recordID >= Count)
+            if ((byte)recordID >= Count)
                 return 0;
             return MaxByType[maxes[recordID]];
         }
@@ -33,15 +33,15 @@ namespace PKHeX.Core
             return -1;
         }
 
-        private static readonly int[] MaxByType = {999999999, 9999999, 999999, 99999, 65535, 9999, 999, 7};
+        private static readonly int[] MaxByType = {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
 
-        public static int[] DailyPairs_6 = {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
-        public static int[] DailyPairs_7 = {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};
+        public static byte[] DailyPairs_6 = {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
+        public static byte[] DailyPairs_7 = {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};
 
         /// <summary>
         /// Festa pairs; if updating the lower index record, update the Festa Mission record if currently active?
         /// </summary>
-        public static int[] FestaPairs_7 =
+        public static byte[] FestaPairs_7 =
         {
             175, 6,
             176, 33,
@@ -54,7 +54,7 @@ namespace PKHeX.Core
             185, 9,
         };
 
-        public static readonly IReadOnlyList<int> MaxType_XY = new[]
+        public static readonly IReadOnlyList<byte> MaxType_XY = new byte[]
         {
             0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -79,7 +79,7 @@ namespace PKHeX.Core
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         };
 
-        public static readonly IReadOnlyList<int> MaxType_AO = new[]
+        public static readonly IReadOnlyList<byte> MaxType_AO = new byte[]
         {
             0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -104,7 +104,7 @@ namespace PKHeX.Core
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         };
 
-        public static readonly IReadOnlyList<int> MaxType_SM = new[]
+        public static readonly IReadOnlyList<byte> MaxType_SM = new byte[]
         {
             0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -129,7 +129,7 @@ namespace PKHeX.Core
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         };
 
-        public static readonly IReadOnlyList<int> MaxType_USUM = new[]
+        public static readonly IReadOnlyList<byte> MaxType_USUM = new byte[]
         {
             0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
