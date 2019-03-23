@@ -90,8 +90,8 @@ namespace PKHeX.Core
         {
             switch (Game)
             {
-                case GameVersion.Gen1: return EvolutionSet1.GetArray(data[0], MaxSpeciesTree);
-                case GameVersion.Gen2: return EvolutionSet2.GetArray(data[0], MaxSpeciesTree);
+                case GameVersion.Gen1:
+                case GameVersion.Gen2: return EvolutionSet1.GetArray(data[0], MaxSpeciesTree);
                 case GameVersion.Gen3: return EvolutionSet3.GetArray(data[0]);
                 case GameVersion.Gen4: return EvolutionSet4.GetArray(data[0]);
                 case GameVersion.Gen5: return EvolutionSet5.GetArray(data[0]);
