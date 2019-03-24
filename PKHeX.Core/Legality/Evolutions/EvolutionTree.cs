@@ -180,15 +180,15 @@ namespace PKHeX.Core
 
             // Ban Raichu Evolution on SM
             Lineage[Personal.GetFormeIndex(26, 0)]
-                .Chain[1].StageEntryMethods[0]
+                .Chain[1][0]
                 .Banlist = EvolutionMethod.BanSM;
             // Ban Exeggutor Evolution on SM
             Lineage[Personal.GetFormeIndex(103, 0)]
-                .Chain[0].StageEntryMethods[0]
+                .Chain[0][0]
                 .Banlist = EvolutionMethod.BanSM;
             // Ban Marowak Evolution on SM
             Lineage[Personal.GetFormeIndex(105, 0)]
-                .Chain[0].StageEntryMethods[0]
+                .Chain[0][0]
                 .Banlist = EvolutionMethod.BanSM;
         }
 
@@ -245,9 +245,9 @@ namespace PKHeX.Core
         {
             int index = Personal.GetFormeIndex(species, form);
             var node = Lineage[index];
-            foreach (var z in node.Chain)
+            foreach (var methods in node.Chain)
             {
-                foreach (var prevo in z.StageEntryMethods)
+                foreach (var prevo in methods)
                     yield return prevo.Species;
             }
         }
