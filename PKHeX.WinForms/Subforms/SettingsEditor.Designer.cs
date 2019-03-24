@@ -37,6 +37,7 @@
             this.FLP_Settings = new System.Windows.Forms.FlowLayoutPanel();
             this.Tab_Color = new System.Windows.Forms.TabPage();
             this.PG_Color = new System.Windows.Forms.PropertyGrid();
+            this.B_Reset = new System.Windows.Forms.Button();
             this.FLP_Blank.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.Tab_Bool.SuspendLayout();
@@ -122,11 +123,22 @@
             this.PG_Color.Size = new System.Drawing.Size(320, 252);
             this.PG_Color.TabIndex = 0;
             // 
+            // B_Reset
+            // 
+            this.B_Reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Reset.Location = new System.Drawing.Point(256, 2);
+            this.B_Reset.Name = "B_Reset";
+            this.B_Reset.Size = new System.Drawing.Size(75, 23);
+            this.B_Reset.TabIndex = 4;
+            this.B_Reset.Text = "Reset All";
+            this.B_Reset.UseVisualStyleBackColor = true;
+            // 
             // SettingsEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(334, 311);
+            this.Controls.Add(this.B_Reset);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.FLP_Blank);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -158,5 +170,6 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Settings;
         private System.Windows.Forms.TabPage Tab_Color;
         private System.Windows.Forms.PropertyGrid PG_Color;
+        private System.Windows.Forms.Button B_Reset;
     }
 }

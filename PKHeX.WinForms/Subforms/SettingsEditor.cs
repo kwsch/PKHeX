@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -31,10 +33,12 @@ namespace PKHeX.WinForms
                 CB_Blank.DataSource = GameInfo.VersionDataSource.Where(z => !noSelectVersions.Contains((GameVersion)z.Value)).ToList();
                 CB_Blank.SelectedValue = (int) s.DefaultSaveVersion;
                 CB_Blank.SelectedValueChanged += (_, __) => s.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
+                B_Reset.Click += (x, e) => DeleteSettings();
             }
             else
             {
                 FLP_Blank.Visible = false;
+                B_Reset.Visible = false;
             }
 
             PG_Color.SelectedObject = Main.Draw;
@@ -93,6 +97,24 @@ namespace PKHeX.WinForms
         {
             if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
                 Close();
+        }
+
+        private static void DeleteSettings()
+        {
+            try
+            {
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Resetting settings requires the program to exit.", MessageStrings.MsgContinue);
+                if (dr != DialogResult.Yes)
+                    return;
+                var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                if (File.Exists(path))
+                    File.Delete(path);
+                Environment.Exit(0);
+            }
+            catch (Exception ex)
+            {
+                WinFormsUtil.Error("Failed to delete settings.", ex.Message);
+            }
         }
     }
 }
