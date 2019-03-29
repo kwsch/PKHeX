@@ -2,6 +2,7 @@
 {
     public enum Stamp7
     {
+        Official_Pokemon_Trainer,
         Melemele_Trial_Completion,
         Akala_Trial_Completion,
         Ula_ula_Trial_Completion,
