@@ -77,7 +77,6 @@ namespace PKHeX.Core
         /// Creates an instance of <see cref="PKM"/> from the given data.
         /// </summary>
         /// <param name="data">Raw data of the Pokemon file.</param>
-        /// <param name="ident">Optional identifier for the Pokemon.  Usually the full path of the source file.</param>
         /// <param name="prefer">Optional identifier for the preferred generation.  Usually the generation of the destination save file.</param>
         /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
         public static PKM GetPKMfromBytes(byte[] data, int prefer = 7)
@@ -160,7 +159,7 @@ namespace PKHeX.Core
 
                 if (!pk.Gen4) // can't have encounter type
                     return true;
-                if (et > 24) // invalid encountertype
+                if (et > 24) // invalid gen4 EncounterType
                     return true;
             }
 
@@ -231,7 +230,7 @@ namespace PKHeX.Core
 
         private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, out string comment)
         {
-            if (IsNotTransferrable(pk, out comment))
+            if (IsNotTransferable(pk, out comment))
                 return null;
 
             Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
@@ -304,12 +303,12 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks to see if a PKM is transferrable relative to in-game restrictions and <see cref="PKM.AltForm"/>.
+        /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.AltForm"/>.
         /// </summary>
         /// <param name="pk">PKM to convert</param>
-        /// <param name="comment">Comment indicating why the <see cref="PKM"/> is not transferrable.</param>
-        /// <returns>Indication if Not Transferrable</returns>
-        private static bool IsNotTransferrable(PKM pk, out string comment)
+        /// <param name="comment">Comment indicating why the <see cref="PKM"/> is not transferable.</param>
+        /// <returns>Indication if Not Transferable</returns>
+        private static bool IsNotTransferable(PKM pk, out string comment)
         {
             switch (pk.Species)
             {
