@@ -557,10 +557,6 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> Ban_NoHidden7 = new HashSet<int>
         {
-            // Summon only other Pokemon
-            765, // Oranguru
-            766, // Passimian
-
             // SOS slots have 0 call rate
             767, // Wimpod
             768, // Golisopod
