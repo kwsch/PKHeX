@@ -51,6 +51,7 @@
             ChecksumOfs = 0x3594,
         };
 
+        public int OT { get; } = 0x2598;
         public int DexCaught { get; private set; }
         public int DexSeen { get; private set; }
         public int Items { get; private set; }
