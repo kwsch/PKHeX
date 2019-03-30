@@ -515,7 +515,7 @@ namespace PKHeX.Core
             return GetFlag(Offsets.DexCaught + ofs, bit & 7);
         }
 
-        public override void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time

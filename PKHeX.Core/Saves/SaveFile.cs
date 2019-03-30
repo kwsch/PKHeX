@@ -10,8 +10,8 @@ namespace PKHeX.Core
     /// </summary>
     public abstract class SaveFile : ITrainerInfo, IGameValueLimit
     {
-        public static bool SetUpdateDex { protected get; set; } = true;
-        public static bool SetUpdatePKM { protected get; set; } = true;
+        public static PKMImportSetting SetUpdateDex { protected get; set; } = PKMImportSetting.Update;
+        public static PKMImportSetting SetUpdatePKM { protected get; set; } = PKMImportSetting.Update;
 
         // General Object Properties
         public byte[] Data;
@@ -586,9 +586,14 @@ namespace PKHeX.Core
             return GetBoxSlotOffset(box, slot);
         }
 
-        public void SetBoxSlotAtIndex(PKM pkm, int box, int slot, bool? trade, bool? dex = null) => SetStoredSlot(pkm, GetBoxSlotOffset(box, slot), trade, dex);
-        public void SetBoxSlotAtIndex(PKM pkm, int index, bool? trade, bool? dex = null) => SetStoredSlot(pkm, GetBoxSlotOffset(index), trade, dex);
-        public void SetPartySlotAtIndex(PKM pkm, int index, bool? trade = null, bool? dex = null) => SetPartySlot(pkm, GetPartyOffset(index), trade, dex);
+        public void SetBoxSlotAtIndex(PKM pkm, int box, int slot, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+            => SetStoredSlot(pkm, GetBoxSlotOffset(box, slot), trade, dex);
+
+        public void SetBoxSlotAtIndex(PKM pkm, int index, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+            => SetStoredSlot(pkm, GetBoxSlotOffset(index), trade, dex);
+
+        public void SetPartySlotAtIndex(PKM pkm, int index, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+            => SetPartySlot(pkm, GetPartyOffset(index), trade, dex);
 
         public virtual PKM GetPartySlot(int offset) => GetPKM(DecryptPKM(GetData(offset, SIZE_PARTY)));
 
@@ -597,15 +602,12 @@ namespace PKHeX.Core
             return GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
         }
 
-        public void SetPartySlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        public void SetPartySlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
-            if (trade ?? SetUpdatePKM)
-                SetPKM(pkm);
-            if (dex ?? SetUpdateDex)
-                SetDex(pkm);
+            UpdatePKM(pkm, trade, dex);
             SetPartyValues(pkm, isParty: true);
 
             int i = GetPartyIndex(offset);
@@ -627,6 +629,28 @@ namespace PKHeX.Core
             Edited = true;
         }
 
+        protected void UpdatePKM(PKM pkm, PKMImportSetting trade, PKMImportSetting dex)
+        {
+            if (GetTradeUpdateSetting(trade))
+                SetPKM(pkm);
+            if (GetDexUpdateSetting(dex))
+                SetDex(pkm);
+        }
+
+        private static bool GetTradeUpdateSetting(PKMImportSetting trade = PKMImportSetting.UseDefault)
+        {
+            if (trade == PKMImportSetting.UseDefault)
+                trade = SetUpdatePKM;
+            return trade == PKMImportSetting.Update;
+        }
+
+        private static bool GetDexUpdateSetting(PKMImportSetting trade = PKMImportSetting.UseDefault)
+        {
+            if (trade == PKMImportSetting.UseDefault)
+                trade = SetUpdateDex;
+            return trade == PKMImportSetting.Update;
+        }
+
         private int GetPartyIndex(int offset)
         {
             for (int i = 0; i < 6; i++)
@@ -637,15 +661,12 @@ namespace PKHeX.Core
             return -1;
         }
 
-        public virtual void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        public virtual void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
-            if (trade ?? SetUpdatePKM)
-                SetPKM(pkm);
-            if (dex ?? SetUpdateDex)
-                SetDex(pkm);
+            UpdatePKM(pkm, trade, dex);
             SetPartyValues(pkm, isParty: false);
             SetData(pkm.EncryptedBoxData, offset);
             Edited = true;
@@ -662,7 +683,7 @@ namespace PKHeX.Core
                 int slotFrom = GetPartyOffset(i);
                 SetData(GetData(slotFrom, SIZE_PARTY), slotTo);
             }
-            SetStoredSlot(BlankPKM, GetPartyOffset(5), false, false);
+            SetStoredSlot(BlankPKM, GetPartyOffset(5), PKMImportSetting.Skip, PKMImportSetting.Skip);
             PartyCount--;
         }
 
@@ -784,7 +805,7 @@ namespace PKHeX.Core
                     var pk = GetStoredSlot(ofs);
                     action(pk);
                     ++modified;
-                    SetStoredSlot(pk, ofs, false, false);
+                    SetStoredSlot(pk, ofs, PKMImportSetting.Skip, PKMImportSetting.Skip);
                 }
             }
             return modified;

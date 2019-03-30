@@ -428,8 +428,9 @@ namespace PKHeX.WinForms
             PKME_Tabs.Unicode = Unicode = settings.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
             PKX.AllowShinySprite = settings.ShinySprites;
-            SaveFile.SetUpdateDex = settings.SetUpdateDex;
-            SaveFile.SetUpdatePKM = C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;
+            SaveFile.SetUpdateDex = settings.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
+            SaveFile.SetUpdatePKM = settings.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
+            C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;
             CommonEdits.ShowdownSetIVMarkings = settings.ApplyMarkings;
             C_SAV.FlagIllegal = settings.FlagIllegal;
             C_SAV.M.GlowHover = settings.HoverSlotGlowEdges;

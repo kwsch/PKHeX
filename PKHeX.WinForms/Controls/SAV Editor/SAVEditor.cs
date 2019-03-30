@@ -695,9 +695,9 @@ namespace PKHeX.WinForms.Controls
         }
 
         // File I/O
-        public bool GetBulkImportSettings(out bool clearAll, out bool overwrite, out bool? noSetb)
+        public bool GetBulkImportSettings(out bool clearAll, out bool overwrite, out PKMImportSetting noSetb)
         {
-            clearAll = false; noSetb = false; overwrite = false;
+            clearAll = false; noSetb = PKMImportSetting.UseDefault; overwrite = false;
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, MsgSaveBoxImportClear, MsgSaveBoxImportClearNo);
             if (dr == DialogResult.Cancel)
                 return false;
@@ -709,7 +709,7 @@ namespace PKHeX.WinForms.Controls
 
         private static bool IsFolderPath(out string path)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            var fbd = new FolderBrowserDialog();
             var result = fbd.ShowDialog() == DialogResult.OK;
             path = fbd.SelectedPath;
             return result;
@@ -785,7 +785,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            bool? noSetb = GetPKMSetOverride(ModifyPKM);
+            var noSetb = GetPKMSetOverride(ModifyPKM);
             PKM[] data = b.BattlePKMs;
             int offset = SAV.GetBoxOffset(Box.CurrentBox);
             int slotSkipped = 0;
@@ -1121,7 +1121,7 @@ namespace PKHeX.WinForms.Controls
             ReloadSlots();
         }
 
-        private static bool? GetPKMSetOverride(bool currentSetting)
+        private static PKMImportSetting GetPKMSetOverride(bool currentSetting)
         {
             var yn = currentSetting ? MsgYes : MsgNo;
             DialogResult noSet = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -1131,9 +1131,9 @@ namespace PKHeX.WinForms.Controls
                 string.Format(MsgSaveBoxImportModifyCurrent, yn));
             switch (noSet)
             {
-                case DialogResult.Yes: return true;
-                case DialogResult.No: return false;
-                default: return null;
+                case DialogResult.Yes: return PKMImportSetting.Update;
+                case DialogResult.No: return PKMImportSetting.Skip;
+                default: return PKMImportSetting.UseDefault;
             }
         }
 
