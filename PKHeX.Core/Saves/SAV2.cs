@@ -435,15 +435,9 @@ namespace PKHeX.Core
                     new InventoryPouchGB(InventoryType.Balls, LegalBalls, 99, Offsets.PouchBall, 12),
                     new InventoryPouchGB(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Offsets.PouchPC, 50)
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         private readonly byte[] DaycareFlags = new byte[2];

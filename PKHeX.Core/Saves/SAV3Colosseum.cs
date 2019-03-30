@@ -392,15 +392,9 @@ namespace PKHeX.Core
                     new InventoryPouch3GC(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
                     new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         // Daycare Structure:

@@ -12,7 +12,7 @@ namespace PKHeX.Core
 
         public override void GetPouch(byte[] Data)
         {
-            InventoryItem[] items = new InventoryItem[PouchDataSize];
+            var items = new InventoryItem[PouchDataSize];
             if (Type == InventoryType.TMHMs)
             {
                 int slot = 0;
@@ -85,7 +85,7 @@ namespace PKHeX.Core
                 case InventoryType.TMHMs:
                     foreach (InventoryItem t in Items)
                     {
-                        if (!LegalItems.Any(it => it == t.Index))
+                        if (LegalItems.All(z => z != t.Index))
                             continue;
                         int index = Offset + Array.FindIndex(LegalItems, it => t.Index == it);
                         Data[index] = (byte)t.Count;

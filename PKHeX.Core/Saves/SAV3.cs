@@ -600,15 +600,10 @@ namespace PKHeX.Core
                 {
                     if (p.Type != InventoryType.PCItems)
                         ((InventoryPouch3)p).SecurityKey = SecurityKey;
-                    p.GetPouch(Data);
                 }
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         private int DaycareSlotSize => RS ? SIZE_STORED : SIZE_STORED + 0x3C; // 0x38 mail + 4 exp

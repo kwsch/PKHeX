@@ -7,12 +7,11 @@ namespace PKHeX.Core
         public InventoryPouch4(InventoryType type, ushort[] legal, int maxcount, int offset)
             : base(type, legal, maxcount, offset)
         {
-
         }
 
         public override void GetPouch(byte[] Data)
         {
-            InventoryItem[] items = new InventoryItem[PouchDataSize];
+            var items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
             {
                 items[i] = new InventoryItem

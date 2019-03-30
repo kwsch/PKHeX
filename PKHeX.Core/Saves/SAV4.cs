@@ -333,15 +333,9 @@ namespace PKHeX.Core
                     new InventoryPouch4(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
                     new InventoryPouch4(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         // Storage

@@ -837,15 +837,9 @@ namespace PKHeX.Core
             get
             {
                 var bag = GetPouches();
-                foreach (var p in bag)
-                    p.GetPouch(Data);
-                return bag;
+                return bag.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         private InventoryPouch[] GetPouches()

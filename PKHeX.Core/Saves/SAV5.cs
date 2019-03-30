@@ -201,15 +201,9 @@ namespace PKHeX.Core
                     new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
                     new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         // Storage

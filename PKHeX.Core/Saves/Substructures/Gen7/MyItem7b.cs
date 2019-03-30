@@ -26,17 +26,13 @@ namespace PKHeX.Core
                     new InventoryPouch7b(InventoryType.ZCrystals, Legal.Pouch_PowerUp_GG, 999, PowerUp, PouchSize7b.PowerUp),
                     new InventoryPouch7b(InventoryType.Candy, Legal.Pouch_Candy_GG, 999, Candy, PouchSize7b.Candy),
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
             set
             {
                 foreach (var p in value)
-                {
                     ((InventoryPouch7b)p).SanitizeCounts();
-                    p.SetPouch(Data);
-                }
+                value.SaveAll(Data);
             }
         }
     }

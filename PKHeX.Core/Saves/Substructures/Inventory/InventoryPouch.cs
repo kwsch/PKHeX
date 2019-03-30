@@ -221,4 +221,20 @@ namespace PKHeX.Core
             return Math.Min(MaxCount, requestVal);
         }
     }
+
+    public static class InventoryPouchExtensions
+    {
+        public static InventoryPouch[] LoadAll(this InventoryPouch[] value, byte[] Data)
+        {
+            foreach (var p in value)
+                p.GetPouch(Data);
+            return value;
+        }
+
+        public static void SaveAll(this InventoryPouch[] value, byte[] Data)
+        {
+            foreach (var p in value)
+                p.SetPouch(Data);
+        }
+    }
 }
