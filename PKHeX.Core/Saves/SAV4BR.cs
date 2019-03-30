@@ -205,14 +205,14 @@ namespace PKHeX.Core
             SetData(data, ofs);
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length != SIZE_STORED)
                 Array.Resize(ref data, SIZE_STORED);
             return new BK4(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data) => data;
+        protected override byte[] DecryptPKM(byte[] data) => data;
 
         protected override void SetDex(PKM pkm) { /* There's no PokéDex */ }
 

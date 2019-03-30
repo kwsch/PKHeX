@@ -967,7 +967,7 @@ namespace PKHeX.Core
             Edited = true;
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK7(data);
         }
@@ -1233,7 +1233,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray(data);
         }

@@ -302,14 +302,14 @@ namespace PKHeX.Core
             SetString(value, 8).CopyTo(Data, Box + (0x24A4 * box));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length != SIZE_STORED)
                 Array.Resize(ref data, SIZE_STORED);
             return new CK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }

@@ -708,12 +708,12 @@ namespace PKHeX.Core
             SetString(value, 8).CopyTo(Data, offset + (box * 9));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray3(data);
         }

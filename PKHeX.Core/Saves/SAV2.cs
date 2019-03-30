@@ -487,14 +487,14 @@ namespace PKHeX.Core
             SetData(data, Offsets.BoxNames + (box * len));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length == SIZE_STORED)
                 return new PokeList2(data, PokeListType.Single, Japanese)[0];
             return new PK2(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }

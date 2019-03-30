@@ -38,9 +38,9 @@ namespace PKHeX.Core
 
         // General PKM Properties
         public abstract Type PKMType { get; }
-        public abstract PKM GetPKM(byte[] data);
+        protected abstract PKM GetPKM(byte[] data);
+        protected abstract byte[] DecryptPKM(byte[] data);
         public abstract PKM BlankPKM { get; }
-        public abstract byte[] DecryptPKM(byte[] data);
         public abstract int SIZE_STORED { get; }
         protected abstract int SIZE_PARTY { get; }
         public abstract int MaxEV { get; }
@@ -596,11 +596,7 @@ namespace PKHeX.Core
             => SetPartySlot(pkm, GetPartyOffset(index), trade, dex);
 
         public virtual PKM GetPartySlot(int offset) => GetPKM(DecryptPKM(GetData(offset, SIZE_PARTY)));
-
-        public virtual PKM GetStoredSlot(int offset)
-        {
-            return GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
-        }
+        public virtual PKM GetStoredSlot(int offset) => GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
 
         public void SetPartySlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {

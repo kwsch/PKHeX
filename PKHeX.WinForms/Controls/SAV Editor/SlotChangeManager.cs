@@ -247,7 +247,7 @@ namespace PKHeX.WinForms.Controls
 
             // Prepare Data
             DragInfo.Source = GetViewParent(pb).GetSlotData(pb);
-            DragInfo.Source.OriginalData = SAV.GetData(DragInfo.Source.Offset, SAV.SIZE_STORED);
+            DragInfo.Source.PKM = SAV.GetStoredSlot(DragInfo.Source.Offset);
 
             // Make a new file name based off the PID
             string newfile = CreateDragDropPKM(pb, encrypt, out bool external);
@@ -272,11 +272,8 @@ namespace PKHeX.WinForms.Controls
 
         private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
         {
-            byte[] dragdata = SAV.DecryptPKM(DragInfo.Source.OriginalData);
-            Array.Resize(ref dragdata, SAV.SIZE_STORED);
-
             // Make File
-            PKM pk = SAV.GetPKM(dragdata);
+            PKM pk = DragInfo.Source.PKM;
             string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {

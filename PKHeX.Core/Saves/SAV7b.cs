@@ -170,8 +170,8 @@ namespace PKHeX.Core
         public override bool GetCaught(int species) => Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
-        public override PKM GetPKM(byte[] data) => new PB7(data);
-        public override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
+        protected override PKM GetPKM(byte[] data) => new PB7(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
         public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_STORED);
         protected override IList<int>[] SlotPointers => new[] { Storage.PokeListInfo };
 

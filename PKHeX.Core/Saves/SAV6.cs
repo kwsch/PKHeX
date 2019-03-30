@@ -778,7 +778,7 @@ namespace PKHeX.Core
             SetData(Encoding.Unicode.GetBytes(value.PadRight(LongStringLength / 2, '\0')), PCLayout + (LongStringLength * box));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK6(data);
         }
@@ -939,7 +939,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray(data);
         }

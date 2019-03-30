@@ -165,14 +165,14 @@ namespace PKHeX.Core
             SetData(data, offset);
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length != PKX.SIZE_3STORED)
                 Array.Resize(ref data, PKX.SIZE_3STORED);
             return new PK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             if (data.Length != PKX.SIZE_3STORED)
                 Array.Resize(ref data, PKX.SIZE_3STORED);

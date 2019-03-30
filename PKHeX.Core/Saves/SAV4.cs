@@ -627,12 +627,12 @@ namespace PKHeX.Core
             SetData(SetString(value, 13), offset + (box * 0x28));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK4(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray45(data);
         }

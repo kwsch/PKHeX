@@ -453,14 +453,14 @@ namespace PKHeX.Core
             // Don't allow for custom box names
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length == SIZE_STORED)
                 return new PokeList1(data, PokeListType.Single, Japanese)[0];
             return new PK1(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }

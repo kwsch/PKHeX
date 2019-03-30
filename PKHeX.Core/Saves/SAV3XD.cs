@@ -264,20 +264,20 @@ namespace PKHeX.Core
             SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length != SIZE_STORED)
                 Array.Resize(ref data, SIZE_STORED);
             return new XK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data) => data;
+        protected override byte[] DecryptPKM(byte[] data) => data;
         public override PKM GetPartySlot(int offset) => GetStoredSlot(offset);
 
         public override PKM GetStoredSlot(int offset)
         {
             // Get Shadow Data
-            var pk = (XK3)GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
+            var pk = (XK3)base.GetStoredSlot(offset);
             if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
                 pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
             return pk;
