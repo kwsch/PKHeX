@@ -636,7 +636,11 @@ namespace PKHeX.WinForms.Controls
             switch (SAV.Generation)
             {
                 case 2:
-                    WinFormsUtil.Alert(string.Format(MsgSaveGen2RTCResetPassword, ((SAV2) SAV).ResetKey)); break;
+                    var sav2 = ((SAV2) SAV);
+                    var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgSaveGen2RTCResetPassword, sav2.ResetKey), MsgSaveGen2RTCResetBitflag);
+                    if (dr == DialogResult.Yes)
+                        sav2.ResetRTC();
+                    break;
                 case 3:
                     new SAV_RTC3(SAV).ShowDialog(); break;
             }

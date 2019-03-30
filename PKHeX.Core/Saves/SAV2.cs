@@ -663,6 +663,11 @@ namespace PKHeX.Core
             return (ushort)(val + tr);
         }
 
+        /// <summary>
+        /// Sets the "Time Not Set" flag to the RTC Flag list.
+        /// </summary>
+        public void ResetRTC() => Data[Offsets.RTCFlags] |= 0x80;
+
         public void UnlockAllDecorations()
         {
             for (int i = 676; i <= 721; i++)
