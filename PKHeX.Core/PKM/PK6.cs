@@ -399,36 +399,36 @@ namespace PKHeX.Core
             this.SanitizeGeoLocationData();
         }
 
-        protected override bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        protected override bool TradeOT(ITrainerInfo tr)
         {
             // Check to see if the OT matches the SAV's OT info.
-            if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+            if (!(tr.OT == OT_Name && tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender))
                 return false;
 
             CurrentHandler = 0;
-            if (!IsUntraded && (SAV_COUNTRY != Geo1_Country || SAV_REGION != Geo1_Region))
-                this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+            if (!IsUntraded && (tr.Country != Geo1_Country || tr.SubRegion != Geo1_Region))
+                this.TradeGeoLocation(tr.Country, tr.SubRegion);
 
             return true;
         }
 
-        protected override void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        protected override void TradeHT(ITrainerInfo tr)
         {
-            if (SAV_Trainer != HT_Name || SAV_GENDER != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-                this.TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
+            if (tr.OT != HT_Name || tr.Gender != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
+                this.TradeGeoLocation(tr.Country, tr.SubRegion);
 
-            if (HT_Name != SAV_Trainer)
+            if (tr.OT != HT_Name)
             {
                 HT_Friendship = PersonalInfo.BaseFriendship;
                 HT_Affection = 0;
+                HT_Name = tr.OT;
             }
             CurrentHandler = 1;
-            HT_Name = SAV_Trainer;
-            HT_Gender = SAV_GENDER;
+            HT_Gender = tr.Gender;
 
             // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
             if (HT_Memory == 0)
-                TradeMemory(Bank);
+                TradeMemory(false);
         }
 
         // Maximums

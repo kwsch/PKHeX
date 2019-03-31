@@ -113,18 +113,24 @@ namespace PKHeX.Core
         }
 
         // Synthetic Trading Logic
-        public void Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank, int Day = 1, int Month = 1, int Year = 2015)
+        public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
         {
-            // Eggs do not have any modifications done if they are traded
-            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-                SetLinkTradeEgg(Day, Month, Year);
+            if (IsEgg)
+            {
+                // Eggs do not have any modifications done if they are traded
+                // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
+                if ((tr.OT != OT_Name) || (tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender))
+                    SetLinkTradeEgg(Day, Month, Year);
+                return;
+            }
+
             // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
-            else if (!TradeOT(SAV_Trainer, SAV_TID, SAV_SID, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank))
-                TradeHT(SAV_Trainer, SAV_COUNTRY, SAV_REGION, SAV_GENDER, Bank);
+            if (!TradeOT(tr))
+                TradeHT(tr);
         }
 
-        protected abstract bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank);
-        protected abstract void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank);
+        protected abstract bool TradeOT(ITrainerInfo tr);
+        protected abstract void TradeHT(ITrainerInfo tr);
 
         // Misc Updates
         public virtual void TradeMemory(bool Bank)

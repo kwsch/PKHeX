@@ -313,26 +313,26 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool TradeOT(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        protected override bool TradeOT(ITrainerInfo tr)
         {
             // Check to see if the OT matches the SAV's OT info.
-            if (!(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+            if (!(tr.OT == OT_Name && tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender))
                 return false;
 
             CurrentHandler = 0;
             return true;
         }
 
-        protected override void TradeHT(string SAV_Trainer, int SAV_COUNTRY, int SAV_REGION, int SAV_GENDER, bool Bank)
+        protected override void TradeHT(ITrainerInfo tr)
         {
-            if (HT_Name != SAV_Trainer)
+            if (HT_Name != tr.OT)
             {
                 HT_Friendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
                 HT_Affection = 0;
+                HT_Name = tr.OT;
             }
             CurrentHandler = 1;
-            HT_Name = SAV_Trainer;
-            HT_Gender = SAV_GENDER;
+            HT_Gender = tr.Gender;
         }
 
         public void FixMemories()
