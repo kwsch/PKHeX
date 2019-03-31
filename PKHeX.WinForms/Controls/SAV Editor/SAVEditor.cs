@@ -637,7 +637,10 @@ namespace PKHeX.WinForms.Controls
             {
                 case 2:
                     var sav2 = ((SAV2) SAV);
-                    var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgSaveGen2RTCResetPassword, sav2.ResetKey), MsgSaveGen2RTCResetBitflag);
+                    var msg = MsgSaveGen2RTCResetBitflag;
+                    if (!sav2.Japanese) // show Reset Key for non-Japanese saves
+                        msg = string.Format(MsgSaveGen2RTCResetPassword, sav2.ResetKey) + Environment.NewLine + Environment.NewLine + msg;
+                    var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, msg);
                     if (dr == DialogResult.Yes)
                         sav2.ResetRTC();
                     break;
