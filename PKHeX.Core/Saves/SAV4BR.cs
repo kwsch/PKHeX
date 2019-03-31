@@ -233,24 +233,11 @@ namespace PKHeX.Core
         public static byte[] DecryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
-            ushort[] keys = new ushort[4];
-            for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
+            for (int i = 0; i < SaveUtil.SIZE_G4BR; i += 0x1C0000)
             {
-                Array.Copy(input, base_ofs, output, base_ofs, 8);
-                for (int i = 0; i < keys.Length; i++)
-                    keys[i] = BigEndian.ToUInt16(input, base_ofs + (i * 2));
-
-                for (int ofs = base_ofs + 8; ofs < base_ofs + 0x1C0000; ofs += 8)
-                {
-                    for (int i = 0; i < keys.Length; i++)
-                    {
-                        ushort val = BigEndian.ToUInt16(input, ofs + (i * 2));
-                        val -= keys[i];
-                        output[ofs + (i * 2)] = (byte)(val >> 8);
-                        output[ofs + (i * 2) + 1] = (byte)val;
-                    }
-                    SaveUtil.AdvanceGCKeys(keys);
-                }
+                var keys = GetKeys(input, i);
+                Array.Copy(input, i, output, i, 8);
+                GCSaveUtil.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
@@ -258,26 +245,21 @@ namespace PKHeX.Core
         private static byte[] EncryptPBRSaveData(byte[] input)
         {
             byte[] output = new byte[input.Length];
-            ushort[] keys = new ushort[4];
-            for (int base_ofs = 0; base_ofs < SaveUtil.SIZE_G4BR; base_ofs += 0x1C0000)
+            for (int i = 0; i < SaveUtil.SIZE_G4BR; i += 0x1C0000)
             {
-                Array.Copy(input, base_ofs, output, base_ofs, 8);
-                for (int i = 0; i < keys.Length; i++)
-                    keys[i] = BigEndian.ToUInt16(input, base_ofs + (i * 2));
-
-                for (int ofs = base_ofs + 8; ofs < base_ofs + 0x1C0000; ofs += 8)
-                {
-                    for (int i = 0; i < keys.Length; i++)
-                    {
-                        ushort val = BigEndian.ToUInt16(input, ofs + (i * 2));
-                        val += keys[i];
-                        output[ofs + (i * 2)] = (byte)(val >> 8);
-                        output[ofs + (i * 2) + 1] = (byte)val;
-                    }
-                    SaveUtil.AdvanceGCKeys(keys);
-                }
+                var keys = GetKeys(input, i);
+                Array.Copy(input, i, output, i, 8);
+                GCSaveUtil.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
+        }
+
+        private static ushort[] GetKeys(byte[] input, int ofs)
+        {
+            ushort[] keys = new ushort[4];
+            for (int i = 0; i < keys.Length; i++)
+                keys[i] = BigEndian.ToUInt16(input, ofs + (i * 2));
+            return keys;
         }
 
         public static bool VerifyChecksum(byte[] input, int offset, int len, int checksum_offset)
