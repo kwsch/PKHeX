@@ -6,6 +6,10 @@
     <Company>Project Pokémon</Company>
     <Copyright>Kaphotics</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseUrl>https://github.com/kwsch/PKHeX/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageIconUrl>https://github.com/kwsch/PKHeX/blob/master/PKHeX.WinForms/icon.ico</PackageIconUrl>
+    <PackageProjectUrl />
+    <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
