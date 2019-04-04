@@ -1,4 +1,4 @@
-﻿MsgProgramRestart = 请重启程序。
+MsgProgramRestart = 请重启程序。
 MsgProgramIllegalModeBehave = 请自重。
 MsgProgramIllegalModeActive = 不合法模式启动。
 MsgProgramUpdateAvailable = 有新版本!

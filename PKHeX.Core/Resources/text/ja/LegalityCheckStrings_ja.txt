@@ -350,6 +350,7 @@ LTransferMetLocation = Invalid Transfer Met Location.
 LTransferMove = Incompatible transfer move.
 LTransferMoveG4HM = Defog and whirpool. One of the two moves should have been removed before transfered to Generation 5.
 LTransferMoveHM = Generation {0} HM. Should have been removed before transfered to Generation {1}.
+LTransferNature = Invalid Nature for transfer Experience.
 LTransferOriginFInvalid0_1 = {0} origin cannot exist in the currently loaded ({1}) savegame.
 LTransferPIDECBitFlip = PID should be equal to EC [with top bit flipped]!
 LTransferPIDECEquals = PID should be equal to EC!

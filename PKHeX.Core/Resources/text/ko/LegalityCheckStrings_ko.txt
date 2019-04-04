@@ -350,6 +350,7 @@ LTransferMetLocation = 옮겨진 만난 장소가 잘못되었습니다.
 LTransferMove = 호환되지 않는 전송 공격.
 LTransferMoveG4HM = 안개제거와 바다회오리가 함께 존재합니다. 둘 중 하나는 5세대로 옮기기 전에 제거해야 합니다.
 LTransferMoveHM = {0}세대 비전머신입니다. {1}세대로 옮기기 전에 제거해야 합니다.
+LTransferNature = Invalid Nature for transfer Experience.
 LTransferOriginFInvalid0_1 = 현재 로드한 세이브파일 ({1}) 에서는 {0} 버전에서 만난 포켓몬이 존재할 수 없습니다.
 LTransferPIDECBitFlip = PID는 Top bit가 뒤집힌 암호화 상수와 동일해야 합니다!
 LTransferPIDECEquals = PID는 암호화 상수와 동일해야 합니다!

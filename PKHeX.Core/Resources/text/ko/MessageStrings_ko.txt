@@ -1,4 +1,4 @@
-﻿MsgProgramRestart = Please restart the program.
+MsgProgramRestart = Please restart the program.
 MsgProgramIllegalModeBehave = Please behave.
 MsgProgramIllegalModeActive = Illegal mode activated.
 MsgProgramUpdateAvailable = New Update Available!
