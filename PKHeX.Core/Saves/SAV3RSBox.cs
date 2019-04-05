@@ -165,14 +165,14 @@ namespace PKHeX.Core
             SetData(data, offset);
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length != PKX.SIZE_3STORED)
                 Array.Resize(ref data, PKX.SIZE_3STORED);
             return new PK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             if (data.Length != PKX.SIZE_3STORED)
                 Array.Resize(ref data, PKX.SIZE_3STORED);
@@ -181,21 +181,11 @@ namespace PKHeX.Core
 
         protected override void SetDex(PKM pkm) { /* No Pokedex for this game, do nothing */ }
 
-        public override void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
-            if (pkm == null) return;
-            if (pkm.GetType() != PKMType)
-                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a Gen{Generation} Save File.");
-            if (trade ?? SetUpdatePKM)
-                SetPKM(pkm);
-            if (dex ?? SetUpdateDex)
-                SetDex(pkm);
-            byte[] data = pkm.EncryptedBoxData;
-            SetData(data, offset);
-
-            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + data.Length + 0);
-            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + data.Length + 2);
-            Edited = true;
+            base.SetStoredSlot(pkm, offset, trade, dex);
+            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + PKX.SIZE_3STORED + 0);
+            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + PKX.SIZE_3STORED + 2);
         }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);

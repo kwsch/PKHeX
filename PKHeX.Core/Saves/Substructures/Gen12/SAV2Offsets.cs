@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     internal class SAV2Offsets
     {
@@ -16,6 +18,8 @@
             Daycare = PokedexSeen + 0x1F + 28 + 1; // right after first unown seen
             EventConst = EventFlag - 0x100;
         }
+
+        public int RTCFlags { get; private set; } = -1;
 
         public int Options { get; }
         public int Trainer1 { get; }
@@ -35,7 +39,7 @@
         public int Gender { get; private set; } = -1;
         public int AccumulatedChecksumEnd { get; private set; } = -1;
         public int OverallChecksumPosition { get; private set; } = -1;
-        public int EventFlag { get; private set; }= -1;
+        public int EventFlag { get; private set; } = -1;
         public int EventConst { get; }
         public int Daycare { get; }
 
@@ -47,6 +51,8 @@
 
         private void LoadOffsetsInternational(GameVersion Version)
         {
+            RTCFlags = 0x0C60;
+
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
             switch (Version)
@@ -99,6 +105,9 @@
 
                     EventFlag = 0x2600;
                     break;
+
+                default:
+                    throw new ArgumentException(nameof(Version));
             }
         }
 
@@ -113,6 +122,8 @@
             switch (Version)
             {
                 case GameVersion.GS:
+                    RTCFlags = 0x1000;
+
                     Money = 0x23BC;
                     JohtoBadges = 0x23C5;
                     CurrentBoxIndex = 0x2705;
@@ -134,6 +145,8 @@
                     EventFlag = CurrentBoxIndex - 0x105;
                     break;
                 case GameVersion.C:
+                    RTCFlags = 0x0C80;
+
                     Money = 0x23BE;
                     JohtoBadges = 0x23C7;
                     CurrentBoxIndex = 0x26E2;
@@ -154,6 +167,9 @@
 
                     EventFlag = 0x1800;
                     break;
+
+                default:
+                    throw new ArgumentException(nameof(Version));
             }
         }
 
@@ -161,6 +177,8 @@
 
         private void LoadOffsetsKorean()
         {
+            RTCFlags = 0x1060;
+
             // No Crystal Version
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;

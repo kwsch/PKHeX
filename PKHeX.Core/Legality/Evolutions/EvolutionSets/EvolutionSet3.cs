@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 Evolution Branch Entries
     /// </summary>
-    public sealed class EvolutionSet3 : EvolutionSet
+    public static class EvolutionSet3
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
@@ -36,16 +36,16 @@ namespace PKHeX.Core
                 case 13: /* Nincada -> Ninjask evolution */
                 case 14: /* Shedinja spawn in Nincada -> Ninjask evolution */
                     return new EvolutionMethod { Method = method + 1, Species = species, Level = arg, Argument = arg };
+
+                default:
+                    throw new ArgumentException(nameof(method));
             }
-            throw new ArgumentException(nameof(method));
         }
 
-        private static readonly EvolutionSet Blank = new EvolutionSet3 { PossibleEvolutions = Array.Empty<EvolutionMethod>() };
-
-        public static IReadOnlyList<EvolutionSet> GetArray(byte[] data)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)
         {
-            var evos = new EvolutionSet[Legal.MaxSpeciesID_3 + 1];
-            evos[0] = Blank;
+            var evos = new EvolutionMethod[Legal.MaxSpeciesID_3 + 1][];
+            evos[0] = Array.Empty<EvolutionMethod>();
             for (int i = 1; i <= Legal.MaxSpeciesIndex_3; i++)
             {
                 int g4species = SpeciesConverter.GetG4Species(i);
@@ -64,14 +64,14 @@ namespace PKHeX.Core
                 }
                 if (count == 0)
                 {
-                    evos[g4species] = Blank;
+                    evos[g4species] = Array.Empty<EvolutionMethod>();
                     continue;
                 }
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
                     set[j] = GetMethod(data, offset + (j * size));
-                evos[g4species] = new EvolutionSet3 { PossibleEvolutions = set };
+                evos[g4species] = set;
             }
             return evos;
         }

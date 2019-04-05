@@ -278,9 +278,9 @@ namespace PKHeX.WinForms
 
         private void LoadBattleAgency()
         {
-            p[0] = SAV.GetPKM(SAV.DecryptPKM(SAV.GetData(0x6C200, 0xE8)));
-            p[1] = SAV.GetPKM(SAV.DecryptPKM(SAV.GetData(0x6C2E8, 0x104)));
-            p[2] = SAV.GetPKM(SAV.DecryptPKM(SAV.GetData(0x6C420, 0x104)));
+            p[0] = SAV.GetStoredSlot(0x6C200);
+            p[1] = SAV.GetPartySlot(0x6C2E8);
+            p[2] = SAV.GetPartySlot(0x6C420);
             LoadPictureBox();
             B_ImportParty.Visible = SAV.HasParty;
             CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);

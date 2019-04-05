@@ -61,7 +61,7 @@ namespace PKHeX.Core
                     keys[i] = BigEndian.ToUInt16(slot, 8 + (i * 2));
 
                 // Decrypt Slot
-                Data = SaveUtil.DecryptGC(slot, 0x00010, 0x27FD8, keys);
+                Data = GCSaveUtil.Decrypt(slot, 0x00010, 0x27FD8, keys);
             }
 
             // Get Offset Info
@@ -137,7 +137,7 @@ namespace PKHeX.Core
             ushort[] keys = new ushort[4];
             for (int i = 0; i < keys.Length; i++)
                 keys[i] = BigEndian.ToUInt16(Data, 8 + (i * 2));
-            byte[] newSAV = SaveUtil.EncryptGC(Data, 0x10, 0x27FD8, keys);
+            byte[] newSAV = GCSaveUtil.Encrypt(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
             byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
@@ -264,20 +264,20 @@ namespace PKHeX.Core
             SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length != SIZE_STORED)
                 Array.Resize(ref data, SIZE_STORED);
             return new XK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data) => data;
+        protected override byte[] DecryptPKM(byte[] data) => data;
         public override PKM GetPartySlot(int offset) => GetStoredSlot(offset);
 
         public override PKM GetStoredSlot(int offset)
         {
             // Get Shadow Data
-            var pk = (XK3)GetPKM(DecryptPKM(GetData(offset, SIZE_STORED)));
+            var pk = (XK3)base.GetStoredSlot(offset);
             if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
                 pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
             return pk;
@@ -337,15 +337,9 @@ namespace PKHeX.Core
                     new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
                     new InventoryPouch3GC(InventoryType.BattleItems, LegalDisc, 999, OFS_PouchDisc, 60)
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch( Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         // Daycare Structure:

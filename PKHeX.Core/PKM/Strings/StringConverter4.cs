@@ -528,13 +528,13 @@ namespace PKHeX.Core
         };
 
         private static readonly Dictionary<ushort, int> G4ValueId = G4Values
-            .Select((value, index) => new { value, index })
-            .ToDictionary(pair => pair.value, pair => pair.index);
+            .Select((value, index) => new KeyValuePair<ushort, int>(value, index))
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
 
         private static readonly Dictionary<ushort, int> G4CharId = G4Chars
-            .Select((value, index) => new { value, index })
-            .GroupBy(z => z.value).Select(z => z.First()) // 65370 & 9327-9341 are in there twice?
-            .ToDictionary(pair => pair.value, pair => pair.index);
+            .Select((value, index) => new KeyValuePair<ushort, int>(value, index))
+            .GroupBy(z => z.Key).Select(z => z.First()) // 65370 & 9327-9341 are in there twice?
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
 
         #endregion
     }

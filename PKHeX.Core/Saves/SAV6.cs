@@ -732,15 +732,9 @@ namespace PKHeX.Core
                     new InventoryPouch4(InventoryType.Medicine, legalMedicine, 999, OFS_PouchMedicine),
                     new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berry_XY, 999, OFS_PouchBerry),
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         // Storage
@@ -778,7 +772,7 @@ namespace PKHeX.Core
             SetData(Encoding.Unicode.GetBytes(value.PadRight(LongStringLength / 2, '\0')), PCLayout + (LongStringLength * box));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK6(data);
         }
@@ -789,7 +783,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk6.CurrentHandler;
             DateTime Date = DateTime.Now;
-            pk6.Trade(OT, TID, SID, Country, SubRegion, Gender, false, Date.Day, Date.Month, Date.Year);
+            pk6.Trade(this, Date.Day, Date.Month, Date.Year);
             if (CT != pk6.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
@@ -939,7 +933,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray(data);
         }

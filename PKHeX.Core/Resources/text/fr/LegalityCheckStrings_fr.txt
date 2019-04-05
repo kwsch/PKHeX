@@ -350,6 +350,7 @@ LTransferMetLocation = Pokémon transféré, endroit de rencontre invalide.
 LTransferMove = Attaque de transfert incompatible.
 LTransferMoveG4HM = Anti-Brume ou Siphon doivent être oubliées avant tout transfert vers la Génération 5.
 LTransferMoveHM = CS de Génération {0}. Elle doit être oubliée avant de transférer le Pokémon vers la génération {1}.
+LTransferNature = Invalid Nature for transfer Experience.
 LTransferOriginFInvalid0_1 = L'origine de {0} ne peut pas exister dans cette sauvegarde ({1}).
 LTransferPIDECBitFlip = PID should be equal to EC [with top bit flipped]!
 LTransferPIDECEquals = PID should be equal to EC!

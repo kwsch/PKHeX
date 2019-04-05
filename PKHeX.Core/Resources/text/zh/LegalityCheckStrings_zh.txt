@@ -350,6 +350,7 @@ LTransferMetLocation = 传送相遇地点不合法。
 LTransferMove = 不兼容的虚拟传送招式。
 LTransferMoveG4HM = 清除浓雾与潮旋。两者在传到5代以前必须被移除。
 LTransferMoveHM = 第{0}世代秘传学习器（HM招式）。应在传至第{1}世代前被移除。
+LTransferNature = Invalid Nature for transfer Experience.
 LTransferOriginFInvalid0_1 = {0}来源的宝可梦不能存在于({1})的游戏记录。
 LTransferPIDECBitFlip = PID应与加密常数相等[第一位反转]!
 LTransferPIDECEquals = PID应与加密常数相等!

@@ -90,7 +90,7 @@ namespace PKHeX.Core
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <param name="all">Enumerate all files even in sub-folders.</param>
         /// <returns>Count of files imported.</returns>
-        public static int LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null, bool all = false)
+        public static int LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault, bool all = false)
         {
             if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
             { result = MsgSaveBoxExportPathInvalid; return -1; }
@@ -111,7 +111,7 @@ namespace PKHeX.Core
         /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>Count of files imported.</returns>
-        public static int LoadBoxes(this SaveFile SAV, IEnumerable<string> filepaths, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null)
+        public static int LoadBoxes(this SaveFile SAV, IEnumerable<string> filepaths, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
             var pks = GetPossiblePKMsFromPaths(SAV, filepaths);
             return SAV.LoadBoxes(pks, out result, boxStart, boxClear, overwrite, noSetb);
@@ -128,7 +128,7 @@ namespace PKHeX.Core
         /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>Count of files imported.</returns>
-        public static int LoadBoxes(this SaveFile SAV, IEnumerable<IEncounterable> encounters, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null)
+        public static int LoadBoxes(this SaveFile SAV, IEnumerable<IEncounterable> encounters, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
             var pks = encounters.Select(z => z.ConvertToPKM(SAV));
             return SAV.LoadBoxes(pks, out result, boxStart, boxClear, overwrite, noSetb);
@@ -145,7 +145,7 @@ namespace PKHeX.Core
         /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>True if any files are imported.</returns>
-        public static int LoadBoxes(this SaveFile SAV, IEnumerable<PKM> pks, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, bool? noSetb = null)
+        public static int LoadBoxes(this SaveFile SAV, IEnumerable<PKM> pks, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
             if (!SAV.HasBox)
             { result = MsgSaveBoxFailNone; return -1; }

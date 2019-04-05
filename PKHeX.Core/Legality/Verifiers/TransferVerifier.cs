@@ -16,6 +16,50 @@ namespace PKHeX.Core
             throw new NotImplementedException();
         }
 
+        public void VerifyTransferLegalityG12(LegalityAnalysis data)
+        {
+            VerifyTransferVCNatureEXP(data);
+        }
+
+        private void VerifyTransferVCNatureEXP(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            var met = pkm.Met_Level;
+
+            if (met == 100) // check for precise match, can't receive EXP after transfer.
+            {
+                var nature = Experience.GetNatureVC(pkm.EXP);
+                if (nature != pkm.Nature)
+                    data.AddLine(GetInvalid(LTransferNature));
+                return;
+            }
+            if (met <= 2) // Not enough EXP to have every nature -- check for exclusions!
+            {
+                var pi = pkm.PersonalInfo;
+                var growth = pi.EXPGrowth;
+                var nature = pkm.Nature;
+                bool valid = VerifyVCNature(growth, nature);
+                if (!valid)
+                    data.AddLine(GetInvalid(LTransferNature));
+            }
+        }
+
+        private static bool VerifyVCNature(int growth, int nature)
+        {
+            // exp % 25 with a limited amount of EXP does not allow for every nature
+            switch (growth)
+            {
+                case 0: // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+                    return nature < (int)Nature.Brave || nature > (int)Nature.Relaxed;
+                case 4: // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+                    return nature < (int)Nature.Gentle && nature > (int)Nature.Bold;
+                case 5: // Slow -- Can't be Impish or Lax
+                    return nature != (int)Nature.Impish && nature != (int)Nature.Lax;
+                default:
+                    return true;
+            }
+        }
+
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
         {
             var pkm = data.pkm;

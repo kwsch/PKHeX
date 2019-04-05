@@ -12,11 +12,11 @@
         public SlotChange Source { get; set; }
         public SlotChange Destination { get; set; }
 
-        private readonly byte[] BlankData;
+        private readonly PKM Blank;
 
         public SlotChangeInfo(SaveFile sav)
         {
-            BlankData = sav.BlankPKM.EncryptedPartyData;
+            Blank = sav.BlankPKM;
             Reset();
         }
 
@@ -25,7 +25,7 @@
         public void Reset()
         {
             LeftMouseIsDown = RightMouseIsDown = DragDropInProgress = false;
-            Source = new SlotChange { OriginalData = BlankData };
+            Source = new SlotChange { PKM = Blank };
             Destination = new SlotChange();
             Cursor = CurrentPath = null;
         }

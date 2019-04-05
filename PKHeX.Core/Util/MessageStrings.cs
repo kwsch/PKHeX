@@ -183,6 +183,7 @@ namespace PKHeX.Core
         public static string MsgSaveGen6FriendSafari { get; set; } = "No editing support for Friend Safari :(";
         public static string MsgSaveGen6FriendSafariCheatDesc { get; set; } = "Unlock all 3 slots for each friend?";
         public static string MsgSaveGen2RTCResetPassword { get; set; } = "RTC Reset Password: {0:00000}";
+        public static string MsgSaveGen2RTCResetBitflag { get; set; } = "Would you like to reset the RTC?";
         public static string MsgSaveJPEGExportFail { get; set; } = "No picture data found in the save file!";
 
         public static string MsgSaveChecksumFailEdited { get; set; } = "Save has been edited. Cannot integrity check.";

@@ -24,7 +24,7 @@ namespace PKHeX.Core
         private const int SIZE_RESERVED = 0x10000; // unpacked box data will start after the save data
         public const int SIZE_BLOCK_USED = 0xF80;
 
-        private static readonly int[] chunkLength =
+        private static readonly ushort[] chunkLength =
         {
             0xf2c, // 0 | Small Block (Trainer Info)
             0xf80, // 1 | Large Block Part 1
@@ -600,15 +600,10 @@ namespace PKHeX.Core
                 {
                     if (p.Type != InventoryType.PCItems)
                         ((InventoryPouch3)p).SecurityKey = SecurityKey;
-                    p.GetPouch(Data);
                 }
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         private int DaycareSlotSize => RS ? SIZE_STORED : SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
@@ -708,12 +703,12 @@ namespace PKHeX.Core
             SetString(value, 8).CopyTo(Data, offset + (box * 9));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK3(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray3(data);
         }

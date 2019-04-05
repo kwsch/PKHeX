@@ -4,30 +4,25 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Informatics pertaining to a <see cref="PKM"/>'s evolution lineage.
+    /// Information pertaining to a <see cref="PKM"/>'s evolution lineage.
     /// </summary>
     public sealed class EvolutionLineage
     {
-        public readonly List<EvolutionStage> Chain = new List<EvolutionStage>();
+        public readonly List<List<EvolutionMethod>> Chain = new List<List<EvolutionMethod>>();
 
         public void Insert(EvolutionMethod entry)
         {
             int matchChain = -1;
             for (int i = 0; i < Chain.Count; i++)
             {
-                if (Chain[i].StageEntryMethods.Any(e => e.Species == entry.Species))
+                if (Chain[i].Any(e => e.Species == entry.Species))
                     matchChain = i;
             }
 
             if (matchChain != -1)
-                Chain[matchChain].StageEntryMethods.Add(entry);
+                Chain[matchChain].Add(entry);
             else
-                Chain.Insert(0, new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> {entry}});
-        }
-
-        public void Insert(EvolutionStage evo)
-        {
-            Chain.Insert(0, evo);
+                Chain.Insert(0, new List<EvolutionMethod> {entry});
         }
 
         public List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
@@ -38,7 +33,7 @@ namespace PKHeX.Core
             for (int i = Chain.Count - 1; i >= 0; i--) // reverse evolution!
             {
                 bool oneValid = false;
-                foreach (var evo in Chain[i].StageEntryMethods)
+                foreach (var evo in Chain[i])
                 {
                     if (!evo.Valid(pkm, lvl, skipChecks))
                         continue;

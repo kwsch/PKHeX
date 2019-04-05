@@ -154,7 +154,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk.CurrentHandler;
             var Date = DateTime.Now;
-            pk.Trade(OT, TID, SID, 0, 0, Gender, false, Date.Day, Date.Month, Date.Year);
+            pk.Trade(this, Date.Day, Date.Month, Date.Year);
             if (CT != pk.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
@@ -170,8 +170,8 @@ namespace PKHeX.Core
         public override bool GetCaught(int species) => Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
-        public override PKM GetPKM(byte[] data) => new PB7(data);
-        public override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
+        protected override PKM GetPKM(byte[] data) => new PB7(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
         public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_STORED);
         protected override IList<int>[] SlotPointers => new[] { Storage.PokeListInfo };
 

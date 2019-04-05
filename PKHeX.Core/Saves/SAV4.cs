@@ -333,15 +333,9 @@ namespace PKHeX.Core
                     new InventoryPouch4(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
                     new InventoryPouch4(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         // Storage
@@ -627,12 +621,12 @@ namespace PKHeX.Core
             SetData(SetString(value, 13), offset + (box * 0x28));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK4(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray45(data);
         }

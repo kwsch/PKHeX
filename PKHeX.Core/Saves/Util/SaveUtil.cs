@@ -74,8 +74,8 @@ namespace PKHeX.Core
         internal static readonly string[] HEADER_XD =     { "GXXJ","GXXE","GXXP" }; // NTSC-J, NTSC-U, PAL
         internal static readonly string[] HEADER_RSBOX =  { "GPXJ","GPXE","GPXP" }; // NTSC-J, NTSC-U, PAL
 
-        /// <summary>Determines the generation of the given save data.</summary>
-        /// <param name="data">Save data of which to determine the generation</param>
+        /// <summary>Determines the type of the provided save data.</summary>
+        /// <param name="data">Save data of which to determine the origins of</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetSAVGeneration(byte[] data)
         {
@@ -118,7 +118,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Determines if a Gen2 Pokémon List is Invalid
+        /// Determines if a Gen1/2 Pokémon List is Invalid
         /// </summary>
         /// <param name="data">Save data</param>
         /// <param name="offset">Offset the list starts at</param>
@@ -130,7 +130,7 @@ namespace PKHeX.Core
             return num_entries <= listCount && data[offset + 1 + num_entries] == 0xFF;
         }
 
-        /// <summary>Determines the type of 1st gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen1 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG1SAV(byte[] data)
@@ -146,23 +146,23 @@ namespace PKHeX.Core
             return GameVersion.RBY;
         }
 
-        /// <summary>Determines if 1st gen save is non-japanese</summary>
+        /// <summary>Checks to see if the data belongs to an International Gen1 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
-        /// <returns>True if a valid non-japanese save, False otherwise.</returns>
+        /// <returns>True if a valid International save, False otherwise.</returns>
         private static bool GetIsG1SAVU(byte[] data)
         {
             return IsG12ListValid(data, 0x2F2C, 20) && IsG12ListValid(data, 0x30C0, 20);
         }
 
-        /// <summary>Determines if 1st gen save is japanese</summary>
+        /// <summary>Checks to see if the data belongs to a Japanese Gen1 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
-        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        /// <returns>True if a valid Japanese save, False otherwise.</returns>
         internal static bool GetIsG1SAVJ(byte[] data)
         {
             return IsG12ListValid(data, 0x2ED5, 30) && IsG12ListValid(data, 0x302D, 30);
         }
 
-        /// <summary>Determines the type of 2nd gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen2 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG2SAV(byte[] data)
@@ -170,7 +170,7 @@ namespace PKHeX.Core
             if (!SIZES_2.Contains(data.Length))
                 return GameVersion.Invalid;
 
-            // Check if it's not an american save or a japanese save
+            // Check if it's not an International, Japanese, or Korean save file
             GameVersion result;
             if ((result = GetIsG2SAVU(data)) != GameVersion.Invalid)
                 return result;
@@ -181,9 +181,9 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines if 2nd gen save is non-japanese</summary>
+        /// <summary>Checks to see if the data belongs to an International (not Japanese or Korean) Gen2 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
-        /// <returns>True if a valid international save, False otherwise.</returns>
+        /// <returns>True if a valid International save, False otherwise.</returns>
         private static GameVersion GetIsG2SAVU(byte[] data)
         {
             if (IsG12ListValid(data, 0x288A, 20) && IsG12ListValid(data, 0x2D6C, 20))
@@ -193,7 +193,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines if 2nd gen save is japanese</summary>
+        /// <summary>Checks to see if the data belongs to a Japanese Gen2 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid Japanese save, False otherwise.</returns>
         internal static GameVersion GetIsG2SAVJ(byte[] data)
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines if 2nd gen save is Korean</summary>
+        /// <summary>Checks to see if the data belongs to a Korean Gen2 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid Korean save, False otherwise.</returns>
         internal static GameVersion GetIsG2SAVK(byte[] data)
@@ -217,7 +217,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines the type of 3rd gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen3 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3SAV(byte[] data)
@@ -253,7 +253,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines the type of 3rd gen Box RS</summary>
+        /// <summary>Checks to see if the data belongs to a Gen3 Box RS save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3BOXSAV(byte[] data)
@@ -278,7 +278,7 @@ namespace PKHeX.Core
             return CHK_A == chkA && CHK_B == chkB ? GameVersion.RSBOX : GameVersion.Invalid;
         }
 
-        /// <summary>Determines the type of 3rd gen Colosseum</summary>
+        /// <summary>Checks to see if the data belongs to a Colosseum save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3COLOSAV(byte[] data)
@@ -297,7 +297,7 @@ namespace PKHeX.Core
             return GameVersion.COLO;
         }
 
-        /// <summary>Determines the type of 3rd gen XD</summary>
+        /// <summary>Checks to see if the data belongs to a Gen3 XD save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3XDSAV(byte[] data)
@@ -316,7 +316,7 @@ namespace PKHeX.Core
             return GameVersion.XD;
         }
 
-        /// <summary>Determines the type of 4th gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen4 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG4SAV(byte[] data)
@@ -350,7 +350,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines the type of 4th gen Battle Revolution</summary>
+        /// <summary>Checks to see if the data belongs to a Gen4 Battle Revolution save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG4BRSAV(byte[] data)
@@ -362,7 +362,7 @@ namespace PKHeX.Core
             return SAV4BR.IsChecksumsValid(sav) ? GameVersion.BATREV : GameVersion.Invalid;
         }
 
-        /// <summary>Determines the type of 5th gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen5 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG5SAV(byte[] data)
@@ -382,7 +382,7 @@ namespace PKHeX.Core
             return GameVersion.Invalid;
         }
 
-        /// <summary>Determines the type of 6th gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen6 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG6SAV(byte[] data)
@@ -400,7 +400,7 @@ namespace PKHeX.Core
             return GameVersion.ORASDEMO; // least likely
         }
 
-        /// <summary>Determines the type of 7th gen save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen7 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG7SAV(byte[] data)
@@ -720,87 +720,6 @@ namespace PKHeX.Core
                 return result;
             }
             bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
-        }
-
-        public static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
-        {
-            byte[] output = (byte[])input.Clone();
-            for (int ofs = start; ofs < end; ofs += 8)
-            {
-                for (int i = 0; i < keys.Length; i++)
-                {
-                    var index = ofs + (i * 2);
-                    ushort val = BigEndian.ToUInt16(input, index);
-                    val -= keys[i];
-                    output[index] = (byte)(val >> 8);
-                    output[index + 1] = (byte)val;
-                }
-                AdvanceGCKeys(keys);
-            }
-            return output;
-        }
-
-        public static byte[] EncryptGC(byte[] input, int start, int end, ushort[] keys)
-        {
-            byte[] output = (byte[])input.Clone();
-            for (int ofs = start; ofs < end; ofs += 8)
-            {
-                for (int i = 0; i < keys.Length; i++)
-                {
-                    var index = ofs + (i * 2);
-                    ushort val = BigEndian.ToUInt16(input, index);
-                    val += keys[i];
-                    output[index] = (byte)(val >> 8);
-                    output[index + 1] = (byte)val;
-                }
-                AdvanceGCKeys(keys);
-            }
-            return output;
-        }
-
-        public static void AdvanceGCKeys(ushort[] keys)
-        {
-            keys[0] += 0x43;
-            keys[1] += 0x29;
-            keys[2] += 0x17;
-            keys[3] += 0x13;
-
-            var _0 = (ushort)((keys[0] >> 00 & 0xf) | (keys[1] << 4 & 0xf0) | (keys[2] << 8 & 0xf00) | (keys[3] << 12 & 0xf000));
-            var _1 = (ushort)((keys[0] >> 04 & 0xf) | (keys[1] << 0 & 0xf0) | (keys[2] << 4 & 0xf00) | (keys[3] << 08 & 0xf000));
-            var _2 = (ushort)((keys[0] >> 08 & 0xf) | (keys[1] >> 4 & 0xf0) | (keys[2] >> 0 & 0xf00) | (keys[3] << 04 & 0xf000));
-            var _3 = (ushort)((keys[0] >> 12 & 0xf) | (keys[1] >> 8 & 0xf0) | (keys[2] >> 4 & 0xf00) | (keys[3] << 00 & 0xf000));
-
-            keys[0] = _0;
-            keys[1] = _1;
-            keys[2] = _2;
-            keys[3] = _3;
-        }
-
-        /// <summary>
-        /// Creates a 16bit TID/SID tuple for a given G7TID.
-        /// </summary>
-        /// <param name="G7TID">Desired G7TID</param>
-        /// <param name="minimizeSID">Optional param to yield minimum SID.</param>
-        /// <returns>16bit TID/SID tuple</returns>
-        public static Tuple<ushort, ushort> GetTIDSID(uint G7TID, bool minimizeSID = false)
-        {
-            // 32 bit number = 4294 967295
-            // lowest 6 digits G7TID
-
-            // Bare minimum 32bit value to get ID, yields min SID
-            uint val = G7TID;
-            if (!minimizeSID) // randomize SID
-            {
-                uint s7 = 4294;
-                if (val > 967295)
-                    s7--;
-                s7 = (uint)Util.Rand.Next((int)s7);
-                val += s7 * 1000000;
-            }
-            var TID = (ushort)(val & 0xFFFF);
-            var SID = (ushort)(val >> 16);
-
-            return new Tuple<ushort, ushort>(TID, SID);
         }
 
         /// <summary>

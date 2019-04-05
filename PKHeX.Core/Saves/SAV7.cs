@@ -837,15 +837,9 @@ namespace PKHeX.Core
             get
             {
                 var bag = GetPouches();
-                foreach (var p in bag)
-                    p.GetPouch(Data);
-                return bag;
+                return bag.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         private InventoryPouch[] GetPouches()
@@ -967,7 +961,7 @@ namespace PKHeX.Core
             Edited = true;
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             return new PK7(data);
         }
@@ -978,7 +972,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk7.CurrentHandler;
             DateTime Date = DateTime.Now;
-            pk7.Trade(OT, TID, SID, Country, SubRegion, Gender, false, Date.Day, Date.Month, Date.Year);
+            pk7.Trade(this, Date.Day, Date.Month, Date.Year);
             if (CT != pk7.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
@@ -1233,7 +1227,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return PKX.DecryptArray(data);
         }

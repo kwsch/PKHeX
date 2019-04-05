@@ -318,7 +318,6 @@ namespace PKHeX.Core
             120, // Staryu
             121, // Starmie
             122, // Mr. Mime
-            123, // Scyther
             128, // Tauros
             131, // Lapras
             132, // Ditto

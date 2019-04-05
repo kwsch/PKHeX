@@ -376,29 +376,13 @@ namespace PKHeX.Core
         public int Sound
         {
             get => (Options & 0x30) >> 4;
-            set
-            {
-                var new_sound = value;
-                if (new_sound > 0)
-                    new_sound = 2; // Stereo
-                if (new_sound < 0)
-                    new_sound = 0; // Mono
-                Options = (byte)((Options & 0xCF) | (new_sound << 4));
-            }
+            set => Options = (byte)((Options & 0xCF) | ((value != 0 ? 2 : 0) << 4)); // Stereo 2, Mono 0
         }
 
         public int TextSpeed
         {
             get => Options & 0x7;
-            set
-            {
-                var new_speed = value;
-                if (new_speed > 7)
-                    new_speed = 7;
-                if (new_speed < 0)
-                    new_speed = 0;
-                Options = (byte)((Options & 0xF8) | new_speed);
-            }
+            set => Options = (byte)((Options & 0xF8) | (value & 7));
         }
 
         public override uint Money
@@ -435,15 +419,9 @@ namespace PKHeX.Core
                     new InventoryPouchGB(InventoryType.Balls, LegalBalls, 99, Offsets.PouchBall, 12),
                     new InventoryPouchGB(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Offsets.PouchPC, 50)
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         private readonly byte[] DaycareFlags = new byte[2];
@@ -487,14 +465,14 @@ namespace PKHeX.Core
             SetData(data, Offsets.BoxNames + (box * len));
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length == SIZE_STORED)
                 return new PokeList2(data, PokeListType.Single, Japanese)[0];
             return new PK2(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }
@@ -519,22 +497,6 @@ namespace PKHeX.Core
             if (Version == GameVersion.Invalid)
                 return false;
             return true;
-        }
-
-        public override void SetSeen(int species, bool seen)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            SetFlag(Offsets.PokedexSeen + ofs, bit & 7, seen);
-        }
-
-        public override void SetCaught(int species, bool caught)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            SetFlag(Offsets.PokedexCaught + ofs, bit & 7, caught);
-            if (caught && species == 201)
-                SetUnownFormFlags();
         }
 
         private void SetUnownFormFlags()
@@ -612,18 +574,29 @@ namespace PKHeX.Core
             set => Data[Offsets.PokedexSeen + 0x1F + 28] = (byte)value;
         }
 
-        public override bool GetSeen(int species)
+        public override bool GetSeen(int species) => GetDexFlag(Offsets.PokedexSeen, species);
+        public override bool GetCaught(int species) => GetDexFlag(Offsets.PokedexCaught, species);
+        public override void SetSeen(int species, bool seen) => SetDexFlag(Offsets.PokedexSeen, species, seen);
+
+        public override void SetCaught(int species, bool caught)
         {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            return GetFlag(Offsets.PokedexSeen + ofs, bit & 7);
+            SetDexFlag(Offsets.PokedexCaught, species, caught);
+            if (caught && species == 201)
+                SetUnownFormFlags();
         }
 
-        public override bool GetCaught(int species)
+        private bool GetDexFlag(int region, int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            return GetFlag(Offsets.PokedexCaught + ofs, bit & 7);
+            return GetFlag(region + ofs, bit & 7);
+        }
+
+        private void SetDexFlag(int region, int species, bool value)
+        {
+            int bit = species - 1;
+            int ofs = bit >> 3;
+            SetFlag(region + ofs, bit & 7, value);
         }
 
         /// <summary>All Event Constant values for the save file</summary>
@@ -632,9 +605,6 @@ namespace PKHeX.Core
         {
             get
             {
-                if (EventConstMax <= 0)
-                    return Array.Empty<ushort>();
-
                 ushort[] Constants = new ushort[EventConstMax];
                 for (int i = 0; i < Constants.Length; i++)
                     Constants[i] = Data[EventConst + i];
@@ -642,8 +612,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (EventConstMax <= 0)
-                    return;
                 if (value.Length != EventConstMax)
                     return;
 
@@ -662,6 +630,11 @@ namespace PKHeX.Core
             var tr = ot.Sum(z => z);
             return (ushort)(val + tr);
         }
+
+        /// <summary>
+        /// Sets the "Time Not Set" flag to the RTC Flag list.
+        /// </summary>
+        public void ResetRTC() => Data[Offsets.RTCFlags] |= 0x80;
 
         public void UnlockAllDecorations()
         {

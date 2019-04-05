@@ -305,7 +305,7 @@ namespace PKHeX.Core
             if (HeldItem > 0)
             {
                 ushort item = ItemConverter.GetG4Item((ushort)HeldItem);
-                if (ItemConverter.IsItemTransferrable34(item))
+                if (ItemConverter.IsItemTransferable34(item))
                     pk4.HeldItem = item;
             }
 

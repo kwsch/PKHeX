@@ -15,8 +15,8 @@ namespace PKHeX.Core
         /// Checks if the item can be kept during 3->4 conversion.
         /// </summary>
         /// <param name="item">Generation 3 Item ID.</param>
-        /// <returns>True if transferrable, False if not transferrable.</returns>
-        internal static bool IsItemTransferrable34(ushort item) => item != NaN && item > 0;
+        /// <returns>True if transferable, False if not transferable.</returns>
+        internal static bool IsItemTransferable34(ushort item) => item != NaN && item > 0;
 
         /// <summary>
         /// Converts a Generation 3 Item ID to Generation 4+ Item ID.
@@ -162,12 +162,12 @@ namespace PKHeX.Core
 
         internal static int GetG2ItemTransfer(int g1val)
         {
-            if (!IsItemTransferrable12((ushort) g1val))
+            if (!IsItemTransferable12((ushort) g1val))
                 return GetTeruSamaItem(g1val);
             return g1val;
         }
 
-        private static bool IsItemTransferrable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
+        private static bool IsItemTransferable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
 
         /// <summary>
         /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.

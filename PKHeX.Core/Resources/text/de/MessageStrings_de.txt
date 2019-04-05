@@ -140,6 +140,7 @@ MsgSaveGen6Passerby = Export Passerby Info to Clipboard?
 MsgSaveGen6FriendSafari = No editing support for Friend Safari :(
 MsgSaveGen6FriendSafariCheatDesc = Unlock all 3 slots for each friend?
 MsgSaveGen2RTCResetPassword = RTC Reset Password: {0:00000}
+MsgSaveGen2RTCResetBitflag = Would you like to reset the RTC?
 MsgSaveJPEGExportFail = No picture data found in the save file!
 MsgSaveChecksumFailEdited = Save has been edited. Cannot integrity check.
 MsgSaveChecksumValid = Checksums are valid.

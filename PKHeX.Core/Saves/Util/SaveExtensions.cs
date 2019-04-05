@@ -116,7 +116,7 @@ namespace PKHeX.Core
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>Count of injected <see cref="PKM"/>.</returns>
-        public static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, bool? noSetb = null)
+        public static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
             int startCount = boxStart * SAV.BoxSlotCount;
             int maxCount = SAV.SlotCount;

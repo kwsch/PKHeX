@@ -110,7 +110,7 @@ namespace PKHeX.Core
         private readonly SAV1Offsets Offsets;
 
         // Event Flags
-        protected override int EventFlagMax => EventFlag > 0 ? 0xA00 : int.MinValue; // 320 * 8
+        protected override int EventFlagMax => 0xA00; // 320 * 8
         protected override int EventConstMax => 0;
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
@@ -207,16 +207,14 @@ namespace PKHeX.Core
         public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
 
         // Checksums
-        protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.ChecksumOfs);
-        public override bool ChecksumsValid => Data[Offsets.ChecksumOfs] == GetRBYChecksum(Offsets.ChecksumOfs);
+        protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.OT, Offsets.ChecksumOfs);
+        public override bool ChecksumsValid => Data[Offsets.ChecksumOfs] == GetRBYChecksum(Offsets.OT, Offsets.ChecksumOfs);
         public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
 
-        private const int CHECKSUM_START = 0x2598;
-
-        private byte GetRBYChecksum(int end)
+        private byte GetRBYChecksum(int start, int end)
         {
             byte chksum = 0;
-            for (int i = CHECKSUM_START; i < end; i++)
+            for (int i = start; i < end; i++)
                 chksum += Data[i];
             chksum ^= 0xFF;
             return chksum;
@@ -227,11 +225,11 @@ namespace PKHeX.Core
 
         public override string OT
         {
-            get => GetString(0x2598, OTLength);
-            set => SetString(value, OTLength).CopyTo(Data, 0x2598);
+            get => GetString(Offsets.OT, OTLength);
+            set => SetString(value, OTLength).CopyTo(Data, Offsets.OT);
         }
 
-        public byte[] OT_Trash { get => GetData(0x2598, StringLength); set { if (value?.Length == StringLength) SetData(value, 0x2598); } }
+        public byte[] OT_Trash { get => GetData(Offsets.OT, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.OT); } }
 
         public override int Gender
         {
@@ -324,29 +322,13 @@ namespace PKHeX.Core
         public int Sound
         {
             get => (Options & 0x30) >> 4;
-            set
-            {
-                var new_sound = value;
-                if (new_sound > 3)
-                    new_sound = 3;
-                if (new_sound < 0)
-                    new_sound = 0;
-                Options = (byte)((Options & 0xCF) | (new_sound << 4));
-            }
+            set => Options = (byte)((Options & 0xCF) | ((value & 3) << 4));
         }
 
         public int TextSpeed
         {
             get => Options & 0x7;
-            set
-            {
-                var new_speed = value;
-                if (new_speed > 7)
-                    new_speed = 7;
-                if (new_speed < 0)
-                    new_speed = 0;
-                Options = (byte)((Options & 0xF8) | new_speed);
-            }
+            set => Options = (byte)((Options & 0xF8) | (value & 7));
         }
 
         public override uint Money
@@ -381,15 +363,9 @@ namespace PKHeX.Core
                     new InventoryPouchGB(InventoryType.Items, legalItems, 99, Offsets.Items, 20),
                     new InventoryPouchGB(InventoryType.PCItems, legalItems, 99, Offsets.PCItems, 50)
                 };
-                foreach (var p in pouch)
-                    p.GetPouch(Data);
-                return pouch;
+                return pouch.LoadAll(Data);
             }
-            set
-            {
-                foreach (var p in value)
-                    p.SetPouch(Data);
-            }
+            set => value.SaveAll(Data);
         }
 
         public override int GetDaycareSlotOffset(int loc, int slot)
@@ -453,14 +429,14 @@ namespace PKHeX.Core
             // Don't allow for custom box names
         }
 
-        public override PKM GetPKM(byte[] data)
+        protected override PKM GetPKM(byte[] data)
         {
             if (data.Length == SIZE_STORED)
                 return new PokeList1(data, PokeListType.Single, Japanese)[0];
             return new PK1(data);
         }
 
-        public override byte[] DecryptPKM(byte[] data)
+        protected override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }
@@ -487,35 +463,26 @@ namespace PKHeX.Core
             return true;
         }
 
-        public override void SetSeen(int species, bool seen)
+        public override bool GetSeen(int species) => GetDexFlag(Offsets.DexSeen, species);
+        public override bool GetCaught(int species) => GetDexFlag(Offsets.DexCaught, species);
+        public override void SetSeen(int species, bool seen) => SetDexFlag(Offsets.DexSeen, species, seen);
+        public override void SetCaught(int species, bool caught) => SetDexFlag(Offsets.DexCaught, species, caught);
+
+        private bool GetDexFlag(int region, int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            SetFlag(Offsets.DexSeen + ofs, bit & 7, seen);
+            return GetFlag(region + ofs, bit & 7);
         }
 
-        public override void SetCaught(int species, bool caught)
+        private void SetDexFlag(int region, int species, bool value)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            SetFlag(Offsets.DexCaught + ofs, bit & 7, caught);
+            SetFlag(region + ofs, bit & 7, value);
         }
 
-        public override bool GetSeen(int species)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            return GetFlag(Offsets.DexSeen + ofs, bit & 7);
-        }
-
-        public override bool GetCaught(int species)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            return GetFlag(Offsets.DexCaught + ofs, bit & 7);
-        }
-
-        public override void SetStoredSlot(PKM pkm, int offset, bool? trade = null, bool? dex = null)
+        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time

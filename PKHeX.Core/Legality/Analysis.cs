@@ -251,6 +251,8 @@ namespace PKHeX.Core
 
             foreach (var z in Transfer.VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
                 AddLine(z);
+
+            Transfer.VerifyTransferLegalityG12(this);
         }
 
         private void UpdateInfo()
