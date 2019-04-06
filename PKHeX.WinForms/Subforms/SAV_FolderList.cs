@@ -228,7 +228,7 @@ namespace PKHeX.WinForms
             public GameVersion Game => Save.Version;
 
             public string Played => Save.PlayTimeString.PadLeft(9, '0');
-            public string FileTime => new FileInfo(Save.FilePath).LastWriteTime.ToString("yyyy.MM.dd:hh:mm:ss");
+            public string FileTime => File.GetLastWriteTimeUtc(Save.FilePath).ToString("yyyy.MM.dd:hh:mm:ss");
 
             public string TID => Save.Generation >= 7 ? Save.TrainerID7.ToString("000000") : Save.TID.ToString("00000");
             public string SID => Save.Generation >= 7 ? Save.TrainerSID7.ToString("0000") : Save.SID.ToString("00000");

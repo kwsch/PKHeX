@@ -88,7 +88,7 @@ namespace PKHeX.Core
             }
 
             // return newest save file path that is valid
-            var byMostRecent = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime);
+            var byMostRecent = possiblePaths.OrderByDescending(File.GetLastWriteTimeUtc);
             var saves = byMostRecent.Select(SaveUtil.GetVariantSAV);
             return saves.FirstOrDefault(z => z?.ChecksumsValid == true);
         }
@@ -116,7 +116,7 @@ namespace PKHeX.Core
             if (!result)
                 return Enumerable.Empty<SaveFile>();
 
-            var byMostRecent = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime);
+            var byMostRecent = possiblePaths.OrderByDescending(File.GetLastWriteTimeUtc);
             return byMostRecent.Select(SaveUtil.GetVariantSAV);
         }
 
