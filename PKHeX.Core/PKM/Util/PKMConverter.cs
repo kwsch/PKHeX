@@ -69,8 +69,10 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
+
+                default:
+                    return -1;
             }
-            return -1;
         }
 
         /// <summary>
@@ -233,21 +235,23 @@ namespace PKHeX.Core
             if (IsNotTransferable(pk, out comment))
                 return null;
 
-            Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
+            string toName = PKMType.Name;
+            string fromName = fromType.Name;
+            Debug.WriteLine($"Trying to convert {fromName} to {toName}.");
 
-            int fromFormat = int.Parse(fromType.Name.Last().ToString());
-            int toFormat = int.Parse(PKMType.Name.Last().ToString());
+            int fromFormat = fromName.Last() - '0';
+            int toFormat = toName.Last() - '0';
             if (fromFormat > toFormat && fromFormat != 2)
             {
-                comment = string.Format(MsgPKMConvertFailFormat, fromType.Name, PKMType.Name);
+                comment = string.Format(MsgPKMConvertFailFormat, toName, fromName);
                 return null;
             }
 
             var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
 
             comment = pkm == null
-                ? string.Format(MsgPKMConvertFailFormat, fromType.Name, PKMType.Name)
-                : string.Format(MsgPKMConvertSuccess, fromType.Name, PKMType.Name);
+                ? string.Format(MsgPKMConvertFailFormat, toName, fromName)
+                : string.Format(MsgPKMConvertSuccess, toName, fromName);
             return pkm;
         }
 
