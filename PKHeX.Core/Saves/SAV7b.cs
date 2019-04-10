@@ -232,7 +232,7 @@ namespace PKHeX.Core
         public override int SID { get => Status.SID; set => Status.SID = value; }
         public override int Game { get => Status.Game; set => Status.Game = value; }
         public override int Gender { get => Status.Gender; set => Status.Gender = value; }
-        public override int Language { get => Status.Language; set => Status.Language = value; }
+        public override int Language { get => Status.Language; set => Config.Language = Status.Language = value; } // stored in multiple places
         public override string OT { get => Status.OT; set => Status.OT = value; }
         public override uint Money { get => Misc.Money; set => Misc.Money = value; }
 
