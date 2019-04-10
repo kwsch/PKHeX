@@ -647,13 +647,13 @@ namespace PKHeX.WinForms
 
             var deleted = 0;
             var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
-                .OrderByDescending(file => new FileInfo(file.Identifier).LastWriteTime);
+                .OrderByDescending(file => File.GetLastWriteTimeUtc(file.Identifier));
 
             var clones = SearchUtil.GetExtraClones(db);
             foreach (var pk in clones)
             {
                 try { File.Delete(pk.Identifier); ++deleted; }
-                catch { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + pk.Identifier); }
+                catch (Exception ex) { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + ex.Message + Environment.NewLine + pk.Identifier); }
             }
 
             if (deleted == 0)
