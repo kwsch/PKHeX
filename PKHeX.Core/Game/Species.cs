@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// Species IDs
+    /// Species IDs for the corresponding English species name.
     /// </summary>
     public enum Species : ushort
     {

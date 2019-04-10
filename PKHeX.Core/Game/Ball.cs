@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Ball IDs for the corresponding English ball name.
+    /// </summary>
     public enum Ball
     {
         None = 0,
@@ -39,6 +42,11 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
+        /// <summary>
+        /// Checks if the <see cref="ball"/> is an Apricorn Ball (HG/SS)
+        /// </summary>
+        /// <param name="ball">Ball ID</param>
+        /// <returns>True if Apricorn, false if not.</returns>
         public static bool IsApricornBall(this Ball ball) => Ball.Fast <= ball && ball <= Ball.Moon;
     }
 }
