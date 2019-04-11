@@ -190,7 +190,7 @@ namespace PKHeX.Core
 
         #region Moves
 
-        internal static readonly int[] MovePP_GG =
+        internal static readonly byte[] MovePP_GG =
         {
             // Absorb: 25 -> 15 (damage buffed from 20->40)
             // Mega Drain: 15 -> 10 (damage buffed from 40->75)

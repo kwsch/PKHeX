@@ -166,7 +166,7 @@ namespace PKHeX.Core
             015, 019, 057, 070, 249, 127, 431 // Defog(DPPt) & Whirlpool(HGSS) excluded
         };
 
-        internal static readonly int[] MovePP_DP =
+        internal static readonly byte[] MovePP_DP =
         {
             00,
             35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 30, 30, 35, 35, 20, 15, 20, 20, 15, 20, 30, 05, 25, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 20, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,

@@ -319,22 +319,14 @@ namespace PKHeX.Core
             return IsEvolutionValid(pkm);
         }
 
-        public static IReadOnlyList<int> GetPPTable(PKM pkm, int format)
+        public static IReadOnlyList<byte> GetPPTable(PKM pkm, int format)
         {
-            switch (format)
-            {
-                case 1: return MovePP_RBY;
-                case 2: return MovePP_GSC;
-                case 3: return MovePP_RS;
-                case 4: return MovePP_DP;
-                case 5: return MovePP_BW;
-                case 6: return MovePP_XY;
-                case 7: return pkm.GG ? MovePP_GG : MovePP_SM;
-                default: return Array.Empty<int>();
-            }
+            if (format != 7)
+                return GetPPTable(format);
+            return pkm.GG ? MovePP_GG : MovePP_SM;
         }
 
-        public static IReadOnlyList<int> GetPPTable(int format)
+        public static IReadOnlyList<byte> GetPPTable(int format)
         {
             switch (format)
             {
@@ -345,7 +337,7 @@ namespace PKHeX.Core
                 case 5: return MovePP_BW;
                 case 6: return MovePP_XY;
                 case 7: return MovePP_SM;
-                default: return Array.Empty<int>();
+                default: return Array.Empty<byte>();
             }
         }
 
