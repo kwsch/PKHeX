@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public int Gender
         {
             get => Data[Offset + 5];
-            set => Data[Offset + 5] = (byte)value;
+            set => Data[Offset + 5] = OverworldGender = (byte)value;
         }
 
         public int Language
@@ -50,6 +50,18 @@ namespace PKHeX.Core
         {
             get => SAV.GetString(Offset + 0x38, 0x1A);
             set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x38);
+        }
+
+        public byte StarterGender
+        {
+            get => Data[Offset + 0x0B9];
+            set => Data[Offset + 0x0B9] = value;
+        }
+
+        public byte OverworldGender // Model
+        {
+            get => Data[Offset + 0x108];
+            set => Data[Offset + 0x108] = value;
         }
     }
 }
