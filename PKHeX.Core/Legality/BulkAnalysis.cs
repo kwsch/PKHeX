@@ -107,7 +107,7 @@ namespace PKHeX.Core
             {
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
-                Debug.Assert(cp.Format < 6);
+                Debug.Assert(cp.Format >= 6);
                 var id = cp.EncryptionConstant;
 
                 if (!dict.TryGetValue(id, out var pa))
@@ -146,7 +146,7 @@ namespace PKHeX.Core
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
                 var id = cp.TID + (cp.SID << 16);
-                Debug.Assert(cp.TID < ushort.MaxValue);
+                Debug.Assert(cp.TID <= ushort.MaxValue);
 
                 if (!dict.TryGetValue(id, out var pa))
                 {
@@ -172,6 +172,11 @@ namespace PKHeX.Core
 
         private void VerifyECShare(LegalityAnalysis pa, LegalityAnalysis ca)
         {
+            var i1 = SearchUtil.HashByDetails(pa.pkm);
+            var i2 = SearchUtil.HashByDetails(ca.pkm);
+            if (i1 == i2) // is clone; already caught by another method
+                return;
+
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;
             if (ca.Info.Generation != gen)
@@ -202,6 +207,11 @@ namespace PKHeX.Core
 
         private void VerifyPIDShare(LegalityAnalysis pa, LegalityAnalysis ca)
         {
+            var i1 = SearchUtil.HashByDetails(pa.pkm);
+            var i2 = SearchUtil.HashByDetails(ca.pkm);
+            if (i1 == i2) // is clone; already caught by another method
+                return;
+
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;
             if (ca.Info.Generation != gen)
@@ -232,6 +242,16 @@ namespace PKHeX.Core
 
         private bool VerifyIDReuse(PKM pp, LegalityAnalysis pa, PKM cp, LegalityAnalysis ca)
         {
+            var i1 = SearchUtil.HashByDetails(pa.pkm);
+            var i2 = SearchUtil.HashByDetails(ca.pkm);
+            if (i1 == i2) // is clone; already caught by another method
+                return true;
+
+            if (pa.EncounterMatch is MysteryGift g1 && !g1.EggEncounter)
+                return false;
+            if (ca.EncounterMatch is MysteryGift g2 && !g2.EggEncounter)
+                return false;
+
             const CheckIdentifier ident = CheckIdentifier.Trainer;
 
             // 32bit ID-SID should only occur for one generation
