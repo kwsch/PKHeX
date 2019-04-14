@@ -16,11 +16,14 @@ namespace PKHeX.Core
         public readonly List<CheckResult> Parse = new List<CheckResult>();
         public readonly bool Valid;
 
+        private readonly bool[] CloneFlags;
+
         public BulkAnalysis(SaveFile sav)
         {
             Trainer = sav;
             AllData = sav.GetAllPKM();
             AllAnalysis = GetIndividualAnalysis(AllData);
+            CloneFlags = new bool[AllData.Count];
 
             Valid = ScanAll();
         }
@@ -30,6 +33,7 @@ namespace PKHeX.Core
             Trainer = tr;
             AllData = pkms is IReadOnlyList<PKM> pk ? pk : pkms.ToList();
             AllAnalysis = GetIndividualAnalysis(AllData);
+            CloneFlags = new bool[AllData.Count];
 
             Valid = ScanAll();
         }
@@ -51,7 +55,7 @@ namespace PKHeX.Core
 
         private void AddLine(PKM first, PKM second, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
         {
-            string GetSummary(PKM pk) => $"[{pk.Box}, {pk.Slot}] {pk.FileName}";
+            string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
 
             var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}";
             var chk = new CheckResult(s, c, i);
@@ -74,8 +78,8 @@ namespace PKHeX.Core
                     continue;
                 }
 
+                CloneFlags[i] = true;
                 AddLine(pa.pkm, cp, "Clone detected.", Encounter);
-                return;
             }
         }
 
@@ -105,6 +109,8 @@ namespace PKHeX.Core
             var dict = new Dictionary<uint, LegalityAnalysis>();
             for (int i = 0; i < AllData.Count; i++)
             {
+                if (CloneFlags[i])
+                    continue; // already flagged
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
                 Debug.Assert(cp.Format >= 6);
@@ -124,6 +130,8 @@ namespace PKHeX.Core
             var dict = new Dictionary<uint, LegalityAnalysis>();
             for (int i = 0; i < AllData.Count; i++)
             {
+                if (CloneFlags[i])
+                    continue; // already flagged
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
                 bool g345 = 3 <= ca.Info.Generation && ca.Info.Generation <= 5;
@@ -143,6 +151,8 @@ namespace PKHeX.Core
             var dict = new Dictionary<int, LegalityAnalysis>();
             for (int i = 0; i < AllData.Count; i++)
             {
+                if (CloneFlags[i])
+                    continue; // already flagged
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
                 var id = cp.TID + (cp.SID << 16);
@@ -172,23 +182,18 @@ namespace PKHeX.Core
 
         private void VerifyECShare(LegalityAnalysis pa, LegalityAnalysis ca)
         {
-            var i1 = SearchUtil.HashByDetails(pa.pkm);
-            var i2 = SearchUtil.HashByDetails(ca.pkm);
-            if (i1 == i2) // is clone; already caught by another method
-                return;
-
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;
-            if (ca.Info.Generation != gen)
-            {
-                AddLine(pa.pkm, ca.pkm, "EC sharing across generations detected.", ident);
-                return;
-            }
-
             bool gbaNDS = 3 <= gen && gen <= 5;
+
             if (!gbaNDS)
             {
-                AddLine(pa.pkm, ca.pkm, "PID sharing for 3DS-onward origin detected.", ident);
+                if (ca.Info.Generation != gen)
+                {
+                    AddLine(pa.pkm, ca.pkm, "EC sharing across generations detected.", ident);
+                    return;
+                }
+                AddLine(pa.pkm, ca.pkm, "EC sharing for 3DS-onward origin detected.", ident);
                 return;
             }
 
@@ -207,11 +212,6 @@ namespace PKHeX.Core
 
         private void VerifyPIDShare(LegalityAnalysis pa, LegalityAnalysis ca)
         {
-            var i1 = SearchUtil.HashByDetails(pa.pkm);
-            var i2 = SearchUtil.HashByDetails(ca.pkm);
-            if (i1 == i2) // is clone; already caught by another method
-                return;
-
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;
             if (ca.Info.Generation != gen)
@@ -242,11 +242,6 @@ namespace PKHeX.Core
 
         private bool VerifyIDReuse(PKM pp, LegalityAnalysis pa, PKM cp, LegalityAnalysis ca)
         {
-            var i1 = SearchUtil.HashByDetails(pa.pkm);
-            var i2 = SearchUtil.HashByDetails(ca.pkm);
-            if (i1 == i2) // is clone; already caught by another method
-                return true;
-
             if (pa.EncounterMatch is MysteryGift g1 && !g1.EggEncounter)
                 return false;
             if (ca.EncounterMatch is MysteryGift g2 && !g2.EggEncounter)
