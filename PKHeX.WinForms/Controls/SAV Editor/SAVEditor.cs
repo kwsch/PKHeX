@@ -685,7 +685,7 @@ namespace PKHeX.WinForms.Controls
                 WinFormsUtil.Alert(MsgSaveJPEGExportFail);
                 return;
             }
-            string filename = SAV.JPEGTitle + "'s picture";
+            string filename = $"{SAV.JPEGTitle}'s picture";
             var sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
@@ -694,9 +694,32 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickVerifyCHK(object sender, EventArgs e)
         {
-            if (SAV.Edited) { WinFormsUtil.Alert(MsgSaveChecksumFailEdited); return; }
+            if (ModifierKeys == Keys.Control)
+            {
+                var bulk = new BulkAnalysis(SAV);
+                if (bulk.Parse.Count == 0)
+                {
+                    WinFormsUtil.Alert("Clean!");
+                    return;
+                }
+                var lines = bulk.Parse.Select(z => $"{z.Judgement}: {z.Comment}");
+                var msg = string.Join(Environment.NewLine, lines);
+                Clipboard.SetText(msg);
+                SystemSounds.Asterisk.Play();
+                return;
+            }
 
-            if (SAV.ChecksumsValid) { WinFormsUtil.Alert(MsgSaveChecksumValid); return; }
+            if (SAV.Edited)
+            {
+                WinFormsUtil.Alert(MsgSaveChecksumFailEdited);
+                return;
+            }
+            if (SAV.ChecksumsValid)
+            {
+                WinFormsUtil.Alert(MsgSaveChecksumValid);
+                return;
+            }
+
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveChecksumFailExport))
                 Clipboard.SetText(SAV.ChecksumInfo);
         }
