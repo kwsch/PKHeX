@@ -759,7 +759,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Roughly detects the PKM format from the file's extension.
         /// </summary>
-        /// <param name="last">Last character of the file's extensio.n</param>
+        /// <param name="last">Last character of the file's extension.</param>
         /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
         /// <returns>Format hint that the file is.</returns>
         public static int GetPKMFormatFromExtension(char last, int prefer)
