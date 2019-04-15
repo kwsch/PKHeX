@@ -87,7 +87,7 @@
             this.CHK_2 = new System.Windows.Forms.CheckBox();
             this.CHK_1 = new System.Windows.Forms.CheckBox();
             this.GB_Options = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LBL_SoundType = new System.Windows.Forms.Label();
             this.CB_SoundType = new System.Windows.Forms.ComboBox();
             this.LBL_TextSpeed = new System.Windows.Forms.Label();
             this.CB_TextSpeed = new System.Windows.Forms.ComboBox();
@@ -739,7 +739,7 @@
             // 
             // GB_Options
             // 
-            this.GB_Options.Controls.Add(this.label1);
+            this.GB_Options.Controls.Add(this.LBL_SoundType);
             this.GB_Options.Controls.Add(this.CB_SoundType);
             this.GB_Options.Controls.Add(this.LBL_TextSpeed);
             this.GB_Options.Controls.Add(this.CB_TextSpeed);
@@ -754,14 +754,14 @@
             this.GB_Options.Text = "Options";
             this.GB_Options.Visible = false;
             // 
-            // label1
+            // LBL_SoundType
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 25;
-            this.label1.Text = "Sound Type:";
+            this.LBL_SoundType.AutoSize = true;
+            this.LBL_SoundType.Location = new System.Drawing.Point(3, 71);
+            this.LBL_SoundType.Name = "LBL_SoundType";
+            this.LBL_SoundType.Size = new System.Drawing.Size(68, 13);
+            this.LBL_SoundType.TabIndex = 25;
+            this.LBL_SoundType.Text = "Sound Type:";
             // 
             // CB_SoundType
             // 
@@ -910,7 +910,7 @@
         private System.Windows.Forms.Label L_Coins;
         private System.Windows.Forms.MaskedTextBox MT_Coins;
         private System.Windows.Forms.GroupBox GB_Options;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LBL_SoundType;
         private System.Windows.Forms.ComboBox CB_SoundType;
         private System.Windows.Forms.Label LBL_TextSpeed;
         private System.Windows.Forms.ComboBox CB_TextSpeed;
