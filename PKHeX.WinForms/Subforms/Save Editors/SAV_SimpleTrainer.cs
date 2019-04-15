@@ -54,7 +54,7 @@ namespace PKHeX.WinForms
                 GB_Map.Visible = false;
                 GB_Options.Visible = true;
                 CB_BattleStyle.Items.AddRange(new[] { "Switch", "Set" });
-                CB_SoundType.Items.AddRange(new[] { "Mono", "Stereo", "Earphone2", "Earphone3" });
+                CB_SoundType.Items.AddRange(new[] { "Mono", "Stereo", "Left", "Right" });
                 CB_TextSpeed.Items.AddRange(new[] { "0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7" });
 
                 CHK_BattleEffects.Checked = sav1.BattleEffects;
