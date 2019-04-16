@@ -243,15 +243,15 @@ namespace PKHeX.Core
             int toFormat = toName.Last() - '0';
             if (fromFormat > toFormat && fromFormat != 2)
             {
-                comment = string.Format(MsgPKMConvertFailFormat, toName, fromName);
+                comment = string.Format(MsgPKMConvertFailFormat, fromName, toName);
                 return null;
             }
 
             var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
 
             comment = pkm == null
-                ? string.Format(MsgPKMConvertFailFormat, toName, fromName)
-                : string.Format(MsgPKMConvertSuccess, toName, fromName);
+                ? string.Format(MsgPKMConvertFailFormat, fromName, toName)
+                : string.Format(MsgPKMConvertSuccess, fromName, toName);
             return pkm;
         }
 
