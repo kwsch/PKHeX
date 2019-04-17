@@ -97,9 +97,11 @@ namespace PKHeX.Core
         private static CheckMoveResult[] ParseMovesWasEggPreRelearn(PKM pkm, int[] Moves, LegalInfo info, EncounterEgg e)
         {
             var EventEggMoves = GetSpecialMoves(info.EncounterMatch);
+            bool notEvent = EventEggMoves.Length == 0;
             // Level up moves could not be inherited if Ditto is parent,
-            // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
-            var AllowLevelUp = (pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255) || Legal.MixedGenderBreeding.Contains(e.Species);
+            // that means genderless species and male only species (except Nidoran-M and Volbeat; they breed with Nidoran-F and Illumise) could not have level up moves as an egg
+            var pi = pkm.PersonalInfo;
+            var AllowLevelUp = notEvent && !pi.Genderless && !(pi.OnlyMale && Legal.MixedGenderBreeding.Contains(e.Species));
             int BaseLevel = AllowLevelUp ? 100 : e.LevelMin;
             var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, BaseLevel);
 
@@ -113,7 +115,7 @@ namespace PKHeX.Core
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
             bool volt = (info.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
-            var Special = volt && EventEggMoves.Length == 0 ? new[] { 344 } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
+            var Special = volt && notEvent ? new[] { 344 } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
 
             var source = new MoveParseSource
             {
