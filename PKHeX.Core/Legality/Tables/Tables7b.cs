@@ -263,8 +263,6 @@ namespace PKHeX.Core
             034, // Nidoking
             037, // Vulpix
             038, // Ninetales
-            039, // Jigglypuff
-            040, // Wigglytuff
             041, // Zubat
             042, // Golbat
             043, // Oddish
