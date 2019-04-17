@@ -239,19 +239,11 @@ namespace PKHeX.Core
             string fromName = fromType.Name;
             Debug.WriteLine($"Trying to convert {fromName} to {toName}.");
 
-            int fromFormat = fromName.Last() - '0';
             int toFormat = toName.Last() - '0';
-            if (fromFormat > toFormat && fromFormat != 2)
-            {
-                comment = string.Format(MsgPKMConvertFailFormat, fromName, toName);
-                return null;
-            }
-
             var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
-
-            comment = pkm == null
-                ? string.Format(MsgPKMConvertFailFormat, fromName, toName)
-                : string.Format(MsgPKMConvertSuccess, fromName, toName);
+            var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
+            var formatted = string.Format(msg, fromName, toName);
+            comment = comment == null ? formatted : string.Concat(formatted, Environment.NewLine, comment);
             return pkm;
         }
 
