@@ -5,8 +5,6 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        internal const int MaxSpeciesIndex_5_BW = 667;
-        internal const int MaxSpeciesIndex_5_B2W2 = 708;
         internal const int MaxSpeciesID_5 = 649;
         internal const int MaxMoveID_5 = 559;
         internal const int MaxItemID_5_BW = 632;
@@ -14,8 +12,6 @@ namespace PKHeX.Core
         internal const int MaxAbilityID_5 = 164;
         internal const int MaxBallID_5 = 0x19;
         internal const int MaxGameID_5 = 23; // B2
-
-        internal static readonly int[] Met_BW2c = { 0, 60002, 30003 };
 
         internal static readonly int[] Met_BW2_0 =
         {
