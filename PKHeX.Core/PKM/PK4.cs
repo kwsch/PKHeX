@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public PK4(byte[] decryptedData)
         {
             Data = decryptedData;
-            PKMConverter.CheckEncrypted(ref Data, Format);
+            PKX.CheckEncrypted(ref Data, Format);
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }

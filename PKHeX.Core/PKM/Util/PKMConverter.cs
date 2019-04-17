@@ -357,45 +357,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks if a PKM is encrypted; if encrypted, decrypts the PKM.
-        /// </summary>
-        /// <remarks>The input PKM object is decrypted; no new object is returned.</remarks>
-        /// <param name="pkm">PKM to check encryption for (and decrypt if appropriate).</param>
-        /// <param name="format">Format specific check selection</param>
-        public static void CheckEncrypted(ref byte[] pkm, int format)
-        {
-            switch (format)
-            {
-                case 1:
-                case 2: // no encryption
-                    return;
-                case 3:
-                    if (pkm.Length == PKX.SIZE_3CSTORED || pkm.Length == PKX.SIZE_3XSTORED)
-                        return; // no encryption for C/XD
-                    ushort chk = 0;
-                    for (int i = 0x20; i < PKX.SIZE_3STORED; i += 2)
-                        chk += BitConverter.ToUInt16(pkm, i);
-                    if (chk != BitConverter.ToUInt16(pkm, 0x1C))
-                        pkm = PKX.DecryptArray3(pkm);
-                    return;
-                case 4:
-                case 5:
-                    if (BitConverter.ToUInt16(pkm, 4) != 0) // BK4
-                        return;
-                    if (BitConverter.ToUInt32(pkm, 0x64) != 0)
-                        pkm = PKX.DecryptArray45(pkm);
-                    return;
-                case 6:
-                case 7:
-                    if (BitConverter.ToUInt16(pkm, 0xC8) != 0 && BitConverter.ToUInt16(pkm, 0x58) != 0)
-                        pkm = PKX.DecryptArray(pkm);
-                    return;
-                default:
-                    return; // bad!
-            }
-        }
-
-        /// <summary>
         /// Checks if the input <see cref="PKM"/> is compatible with the target <see cref="PKM"/>.
         /// </summary>
         /// <param name="pk">Input to check -> update/sanitize</param>
