@@ -254,14 +254,14 @@ namespace PKHeX.Core
             return Array.Empty<int>();
         }
 
-        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria>[] evoChains, GameVersion Version)
+        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int species, IReadOnlyList<EvoCriteria>[] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could learn after evolving
             var moves = new List<int>();
             for (int i = 1; i < evoChains.Length; i++)
             {
                 if (evoChains[i].Count != 0)
-                    moves.AddRange(GetValidPostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
+                    moves.AddRange(GetValidPostEvolutionMoves(pkm, species, evoChains[i], i, Version));
             }
 
             if (pkm.GenNumber >= 6)
@@ -269,10 +269,10 @@ namespace PKHeX.Core
             return moves.Distinct().ToList();
         }
 
-        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria> evoChain, int Generation, GameVersion Version)
+        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int species, IReadOnlyList<EvoCriteria> evoChain, int Generation, GameVersion Version)
         {
             var evomoves = new List<int>();
-            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, Species);
+            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, species);
             for (int i = 0; i <= index; i++)
             {
                 var evo = evoChain[i];
@@ -519,18 +519,19 @@ namespace PKHeX.Core
         {
             // Exclude species that do not evolve leveling with a move
             // Exclude gen 1-3 formats
-            // Exclude Mr Mime and Snorlax for gen 1-3 games
-            if (!SpeciesEvolutionWithMove.Contains(pkm.Species) || pkm.Format <= 3 || (BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3))
+            // Exclude Mr. Mime and Snorlax for gen 1-3 games
+            var gen = info.Generation;
+            if (!SpeciesEvolutionWithMove.Contains(pkm.Species) || pkm.Format <= 3 || (BabyEvolutionWithMove.Contains(pkm.Species) && gen <= 3))
                 return true;
 
             var index = Array.FindIndex(SpeciesEvolutionWithMove, p => p == pkm.Species);
             var levels = MinLevelEvolutionWithMove[index];
             var moves = MoveEvolutionWithMove[index];
-            var allowegg = EggMoveEvolutionWithMove[index][pkm.GenNumber];
+            var allowegg = EggMoveEvolutionWithMove[index][gen];
 
             // Get the minimum level in any generation when the pokemon could learn the evolve move
             var LearnLevel = 101;
-            for (int g = pkm.GenNumber; g <= pkm.Format; g++)
+            for (int g = gen; g <= pkm.Format; g++)
             {
                 if (pkm.InhabitedGeneration(g) && levels[g] > 0)
                     LearnLevel = Math.Min(LearnLevel, levels[g]);
@@ -545,7 +546,7 @@ namespace PKHeX.Core
             if (info.EncounterMatch.EggEncounter && !pkm.WasGiftEgg && !pkm.WasEventEgg && allowegg)
             {
                 if (IsMoveInherited(pkm, info, moves))
-                    LearnLevel = Math.Min(LearnLevel, pkm.GenNumber < 4 ? 6 : 2);
+                    LearnLevel = Math.Min(LearnLevel, gen <= 3 ? 6 : 2);
             }
 
             // If has original met location the minimum evolution level is one level after met level
