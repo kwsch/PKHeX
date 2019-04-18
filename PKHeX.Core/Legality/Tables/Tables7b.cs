@@ -317,7 +317,6 @@ namespace PKHeX.Core
             121, // Starmie
             122, // Mr. Mime
             128, // Tauros
-            131, // Lapras
             132, // Ditto
             137, // Porygon
             143, // Snorlax
