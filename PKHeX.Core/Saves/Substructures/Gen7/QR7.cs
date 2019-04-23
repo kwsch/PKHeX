@@ -40,7 +40,7 @@ namespace PKHeX.Core
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD2, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0x00,  0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         };
 
@@ -48,29 +48,22 @@ namespace PKHeX.Core
         {
             var basedata = (byte[])BaseQR.Clone();
             BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
+
+            var pi = PersonalTable.USUM.GetFormeEntry(species, formnum);
+            bool biGender = false;
+            if (pi.OnlyMale)
+                gender = 0;
+            else if (pi.OnlyFemale)
+                gender = 1;
+            else if (pi.Genderless)
+                gender = 2;
+            else
+                biGender = !GenderDifferences.Contains(species);
+
             basedata[0x2A] = (byte)formnum;
+            basedata[0x2B] = (byte)gender;
             basedata[0x2C] = (byte)(shiny ? 1 : 0);
-            var forme_index = PersonalTable.USUM[species].FormeIndex(species, formnum);
-            var raw_gender = PersonalTable.USUM[forme_index].Gender;
-            switch (raw_gender)
-            {
-                case 0:
-                    basedata[0x2D] = 0;
-                    basedata[0x2B] = 0;
-                    break;
-                case 0xFE:
-                    basedata[0x2D] = 0;
-                    basedata[0x2B] = 1;
-                    break;
-                case 0xFF:
-                    basedata[0x2D] = 0;
-                    basedata[0x2B] = 2;
-                    break;
-                default:
-                    basedata[0x2D] = (byte)(GenderDifferences.Contains(species) ? 0 : 1);
-                    basedata[0x2B] = (byte)gender;
-                    break;
-            }
+            basedata[0x2D] = (byte)(biGender ? 1 : 0);
             return basedata;
         }
 

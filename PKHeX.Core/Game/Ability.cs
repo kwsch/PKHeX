@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// Ability ID
+    /// Ability IDs for the corresponding English ability name.
     /// </summary>
     public enum Ability
     {

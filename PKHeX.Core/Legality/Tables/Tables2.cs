@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] HeldItems_GSC = new ushort[1].Concat(Pouch_Items_GSC).Concat(Pouch_Ball_GSC).Concat(Pouch_TMHM_GSC).ToArray();
 
-        internal static readonly int[] MovePP_GSC =
+        internal static readonly byte[] MovePP_GSC =
         {
             00,
             35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 30, 30, 35, 35, 20, 15, 20, 20, 10, 20, 30, 05, 25, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 20, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,

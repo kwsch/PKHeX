@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// 3DS Console Region Identifiers
+    /// </summary>
     public enum RegionID : byte
     {
         None = 0,

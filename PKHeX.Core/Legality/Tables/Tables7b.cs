@@ -190,7 +190,7 @@ namespace PKHeX.Core
 
         #region Moves
 
-        internal static readonly int[] MovePP_GG =
+        internal static readonly byte[] MovePP_GG =
         {
             // Absorb: 25 -> 15 (damage buffed from 20->40)
             // Mega Drain: 15 -> 10 (damage buffed from 40->75)
@@ -263,8 +263,6 @@ namespace PKHeX.Core
             034, // Nidoking
             037, // Vulpix
             038, // Ninetales
-            039, // Jigglypuff
-            040, // Wigglytuff
             041, // Zubat
             042, // Golbat
             043, // Oddish
@@ -319,7 +317,6 @@ namespace PKHeX.Core
             121, // Starmie
             122, // Mr. Mime
             128, // Tauros
-            131, // Lapras
             132, // Ditto
             137, // Porygon
             143, // Snorlax

@@ -78,8 +78,7 @@ namespace PKHeX.WinForms.Controls
             {
                 HoverWorker.Stop();
 
-                var bgr = new[] { Draw.GlowInitial.B, Draw.GlowInitial.G, Draw.GlowInitial.R };
-                SpriteUtil.GetSpriteGlow(pk, bgr, out var glowdata, out var GlowBase);
+                SpriteUtil.GetSpriteGlow(pk, Draw.GlowInitial.B, Draw.GlowInitial.G, Draw.GlowInitial.R, out var glowdata, out var GlowBase);
                 hover = ImageUtil.LayerImage(GlowBase, Resources.slotHover, 0, 0);
                 HoverWorker.GlowToColor = Draw.GlowFinal;
                 HoverWorker.GlowFromColor = Draw.GlowInitial;

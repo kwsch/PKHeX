@@ -69,8 +69,10 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
+
+                default:
+                    return -1;
             }
-            return -1;
         }
 
         /// <summary>
@@ -233,21 +235,15 @@ namespace PKHeX.Core
             if (IsNotTransferable(pk, out comment))
                 return null;
 
-            Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
+            string toName = PKMType.Name;
+            string fromName = fromType.Name;
+            Debug.WriteLine($"Trying to convert {fromName} to {toName}.");
 
-            int fromFormat = int.Parse(fromType.Name.Last().ToString());
-            int toFormat = int.Parse(PKMType.Name.Last().ToString());
-            if (fromFormat > toFormat && fromFormat != 2)
-            {
-                comment = string.Format(MsgPKMConvertFailFormat, fromType.Name, PKMType.Name);
-                return null;
-            }
-
+            int toFormat = toName.Last() - '0';
             var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
-
-            comment = pkm == null
-                ? string.Format(MsgPKMConvertFailFormat, fromType.Name, PKMType.Name)
-                : string.Format(MsgPKMConvertSuccess, fromType.Name, PKMType.Name);
+            var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
+            var formatted = string.Format(msg, fromName, toName);
+            comment = comment == null ? formatted : string.Concat(formatted, Environment.NewLine, comment);
             return pkm;
         }
 
@@ -358,45 +354,6 @@ namespace PKHeX.Core
                 pk.IVs = pk.IVs.Select(iv => Math.Min(limit.MaxIV, iv)).ToArray();
 
             return true;
-        }
-
-        /// <summary>
-        /// Checks if a PKM is encrypted; if encrypted, decrypts the PKM.
-        /// </summary>
-        /// <remarks>The input PKM object is decrypted; no new object is returned.</remarks>
-        /// <param name="pkm">PKM to check encryption for (and decrypt if appropriate).</param>
-        /// <param name="format">Format specific check selection</param>
-        public static void CheckEncrypted(ref byte[] pkm, int format)
-        {
-            switch (format)
-            {
-                case 1:
-                case 2: // no encryption
-                    return;
-                case 3:
-                    if (pkm.Length == PKX.SIZE_3CSTORED || pkm.Length == PKX.SIZE_3XSTORED)
-                        return; // no encryption for C/XD
-                    ushort chk = 0;
-                    for (int i = 0x20; i < PKX.SIZE_3STORED; i += 2)
-                        chk += BitConverter.ToUInt16(pkm, i);
-                    if (chk != BitConverter.ToUInt16(pkm, 0x1C))
-                        pkm = PKX.DecryptArray3(pkm);
-                    return;
-                case 4:
-                case 5:
-                    if (BitConverter.ToUInt16(pkm, 4) != 0) // BK4
-                        return;
-                    if (BitConverter.ToUInt32(pkm, 0x64) != 0)
-                        pkm = PKX.DecryptArray45(pkm);
-                    return;
-                case 6:
-                case 7:
-                    if (BitConverter.ToUInt16(pkm, 0xC8) != 0 && BitConverter.ToUInt16(pkm, 0x58) != 0)
-                        pkm = PKX.DecryptArray(pkm);
-                    return;
-                default:
-                    return; // bad!
-            }
         }
 
         /// <summary>

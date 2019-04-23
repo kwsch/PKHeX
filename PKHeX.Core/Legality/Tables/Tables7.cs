@@ -19,8 +19,6 @@ namespace PKHeX.Core
 
         #region Met Locations
 
-        internal static readonly int[] Met_SMc = { 0, 60002, 30002, };
-
         internal static readonly int[] Met_SM_0 =
         {
             002, 004, // Invalid
@@ -535,7 +533,7 @@ namespace PKHeX.Core
             // No HMs
         };
 
-        internal static readonly int[] MovePP_SM =
+        internal static readonly byte[] MovePP_SM =
         {
             00,
             35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,

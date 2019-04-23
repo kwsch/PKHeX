@@ -8,6 +8,15 @@ namespace PKHeX.WinForms
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
 
+        private const int ItemShiftX = 22;
+        private const int ItemShiftY = 15;
+        private const int ItemMaxSize = 15;
+        private const int EggItemShiftX = 9;
+        private const int EggItemShiftY = 2;
+        private const double UnknownFormTransparency = 0.5;
+        private const double ShinyTransparency = 0.7;
+        private const double EggUnderLayerTransparency = 0.33;
+
         public void Initialize(SaveFile sav)
         {
             if (sav.Generation != 3)
@@ -66,8 +75,7 @@ namespace PKHeX.WinForms
         private static Image GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
         {
             var baseform = FormConverter.GetTotemBaseForm(species, form);
-            var file = PKX.GetResourceStringSprite(species, baseform, gender, generation, shiny);
-            var baseImage = (Image)Resources.ResourceManager.GetObject(file);
+            var baseImage = GetBaseImageDefault(species, baseform, gender, shiny, generation);
             return ImageUtil.ToGrayscale(baseImage);
         }
 
@@ -79,20 +87,18 @@ namespace PKHeX.WinForms
 
         private static Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
         {
-            Image baseImage;
             if (shiny) // try again without shiny
             {
-                var file = PKX.GetResourceStringSprite(species, form, gender, generation);
-                baseImage = (Image)Resources.ResourceManager.GetObject(file);
-                if (baseImage != null)
-                    return baseImage;
+                var img = GetBaseImageDefault(species, form, gender, false, generation);
+                if (img != null)
+                    return img;
             }
 
             // try again without form
-            baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
+            var baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
             if (baseImage == null) // failed again
                 return Resources.unknown;
-            return ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5);
+            return ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, UnknownFormTransparency);
         }
 
         private static Image LayerOverImageItem(Image baseImage, int item, int generation)
@@ -101,11 +107,11 @@ namespace PKHeX.WinForms
             if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                 itemimg = Resources.item_tm;
 
-            // Redraw
-            int x = 22 + ((15 - itemimg.Width) / 2);
+            // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
+            int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
             if (x + itemimg.Width > baseImage.Width)
                 x = baseImage.Width - itemimg.Width;
-            int y = 15 + (15 - itemimg.Height);
+            int y = ItemShiftY + (ItemMaxSize - itemimg.Height);
             return ImageUtil.LayerImage(baseImage, itemimg, x, y);
         }
 
@@ -113,7 +119,7 @@ namespace PKHeX.WinForms
         {
             // Add shiny star to top left of image.
             var rare = isBoxBGRed ? Resources.rare_icon_alt : Resources.rare_icon;
-            return ImageUtil.LayerImage(baseImage, rare, 0, 0, 0.7);
+            return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
         }
 
         private static Image LayerOverImageEgg(Image baseImage, int species, bool hasItem)
@@ -124,10 +130,6 @@ namespace PKHeX.WinForms
         }
 
         private static Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
-
-        private const double EggUnderLayerTransparency = 0.33;
-        private const int EggOverLayerAsItemShiftX = 9;
-        private const int EggOverLayerAsItemShiftY = 2;
 
         private static Image LayerOverImageEggTransparentSpecies(Image baseImage, int species)
         {
@@ -141,7 +143,7 @@ namespace PKHeX.WinForms
         private static Image LayerOverImageEggAsItem(Image baseImage, int species)
         {
             var egg = GetEggSprite(species);
-            return ImageUtil.LayerImage(baseImage, egg, EggOverLayerAsItemShiftX, EggOverLayerAsItemShiftY); // similar to held item, since they can't have any
+            return ImageUtil.LayerImage(baseImage, egg, EggItemShiftX, EggItemShiftY); // similar to held item, since they can't have any
         }
     }
 }

@@ -16,8 +16,6 @@ namespace PKHeX.Core
         internal const int MaxGameID_6 = 27; // OR
 
         #region Met Locations
-        internal static readonly int[] Met_XYc = {0, 60002, 30002,};
-
         public static readonly int[] Met_XY_0 =
         {
    /* XY */ 2, 6, 8, 10, 12, 14, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32,
@@ -421,7 +419,7 @@ namespace PKHeX.Core
         };
         #endregion
 
-        internal static readonly int[] MovePP_XY =
+        internal static readonly byte[] MovePP_XY =
         {
             00,
             35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 20, 30, 35, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 10, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,

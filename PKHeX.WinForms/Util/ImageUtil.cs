@@ -164,13 +164,19 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static void GlowEdges(byte[] data, byte[] colors, int width, int reach = 3, double amount = 0.0777)
+        public static void GlowEdges(byte[] data, byte blue, byte green, byte red, int width, int reach = 3, double amount = 0.0777)
         {
-            // dual pass (pollute, de-transparent)
+            PollutePixels(data, width, reach, amount);
+            CleanPollutedPixels(data, blue, green, red);
+        }
+
+        private static void PollutePixels(byte[] data, int width, int reach, double amount)
+        {
             int stride = width * 4;
             int height = data.Length / stride;
             for (int i = 0; i < data.Length; i += 4)
             {
+                // only pollute outwards if the current pixel isn't transparent
                 if (data[i + 3] == 0)
                     continue;
 
@@ -189,23 +195,32 @@ namespace PKHeX.WinForms
                 {
                     for (int j = top; j <= bottom; j++)
                     {
+                        // update one of the color bits
+                        // it is expected that a transparent pixel RGBA value is 0.
                         var c = 4 * (i + (j * width));
                         data[c + 0] += (byte)(amount * (0xFF - data[c + 0]));
                     }
                 }
             }
+        }
+
+        private static void CleanPollutedPixels(byte[] data, byte blue, byte green, byte red)
+        {
             for (int i = 0; i < data.Length; i += 4)
             {
+                // only clean if the current pixel isn't transparent
                 if (data[i + 3] != 0)
                     continue;
-                var flair = data[i + 0];
-                if (flair == 0)
+
+                // grab the transparency from the donor byte
+                var transparency = data[i + 0];
+                if (transparency == 0)
                     continue;
 
-                data[i + 3] = flair;
-                data[i + 0] = colors[0];
-                data[i + 1] = colors[1];
-                data[i + 2] = colors[2];
+                data[i + 0] = blue;
+                data[i + 1] = green;
+                data[i + 2] = red;
+                data[i + 3] = transparency;
             }
         }
 

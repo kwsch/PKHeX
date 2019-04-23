@@ -15,6 +15,21 @@ namespace PKHeX.Core
             else
                 sav.SetStoredSlot(pkm, slot.Offset);
         }
+        public static IReadOnlyList<PKM> GetAllPKM(this SaveFile sav)
+        {
+            var pkms = new List<PKM>();
+            if (sav.HasBox)
+                pkms.AddRange(sav.BoxData);
+            if (sav.HasParty)
+                pkms.AddRange(sav.PartyData);
+            if (sav.HasBattleBox)
+                pkms.AddRange(sav.BattleBoxData);
+
+            var extra = sav.GetExtraPKM();
+            pkms.AddRange(extra);
+            pkms.RemoveAll(z => z.Species == 0);
+            return pkms;
+        }
 
         public static PKM[] GetExtraPKM(this SaveFile sav) => sav.GetExtraPKM(sav.GetExtraSlots());
 

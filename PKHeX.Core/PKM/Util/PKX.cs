@@ -455,9 +455,23 @@ namespace PKHeX.Core
         public static ushort GetCHK(byte[] data)
         {
             ushort chk = 0;
-            for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
+            for (int i = 8; i < SIZE_6STORED; i += 2)
                 chk += BitConverter.ToUInt16(data, i);
 
+            return chk;
+        }
+
+        /// <summary>
+        /// Gets the checksum of a Generation 3 byte array.
+        /// </summary>
+        /// <param name="data">Decrypted <see cref="PKM"/> data.</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ushort GetCHK3(byte[] data)
+        {
+            ushort chk = 0;
+            for (int i = 0x20; i < SIZE_3STORED; i += 2)
+                chk += BitConverter.ToUInt16(data, i);
             return chk;
         }
 
@@ -677,6 +691,43 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Checks if a PKM is encrypted; if encrypted, decrypts the PKM.
+        /// </summary>
+        /// <remarks>The input PKM object is decrypted; no new object is returned.</remarks>
+        /// <param name="pkm">PKM to check encryption for (and decrypt if appropriate).</param>
+        /// <param name="format">Format specific check selection</param>
+        public static void CheckEncrypted(ref byte[] pkm, int format)
+        {
+            switch (format)
+            {
+                case 1:
+                case 2: // no encryption
+                    return;
+                case 3:
+                    if (pkm.Length > SIZE_3PARTY) // C/XD
+                        return; // no encryption
+                    ushort chk = GetCHK3(pkm);
+                    if (chk != BitConverter.ToUInt16(pkm, 0x1C))
+                        pkm = DecryptArray3(pkm);
+                    return;
+                case 4:
+                case 5:
+                    if (BitConverter.ToUInt16(pkm, 4) != 0) // BK4
+                        return;
+                    if (BitConverter.ToUInt32(pkm, 0x64) != 0)
+                        pkm = DecryptArray45(pkm);
+                    return;
+                case 6:
+                case 7:
+                    if (BitConverter.ToUInt16(pkm, 0xC8) != 0 && BitConverter.ToUInt16(pkm, 0x58) != 0)
+                        pkm = DecryptArray(pkm);
+                    return;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(format));
+            }
+        }
+
+        /// <summary>
         /// Gets the Main Series language ID from a GameCube (C/XD) language ID.
         /// </summary>
         /// <param name="value">GameCube (C/XD) language ID.</param>
@@ -759,7 +810,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Roughly detects the PKM format from the file's extension.
         /// </summary>
-        /// <param name="last">Last character of the file's extensio.n</param>
+        /// <param name="last">Last character of the file's extension.</param>
         /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
         /// <returns>Format hint that the file is.</returns>
         public static int GetPKMFormatFromExtension(char last, int prefer)

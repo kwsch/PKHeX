@@ -902,8 +902,8 @@ namespace PKHeX.Core
                 {
                     case 255: // Genderless
                     case 0: // Male Only
-                        Data[ofs + (brSize * 2)] &= mask;
-                        Data[ofs + (brSize * 3)] &= mask;
+                        Data[ofs + (brSize * 2)] &= (byte)~mask; // unset
+                        Data[ofs + (brSize * 3)] &= (byte)~mask; // unset
                         break;
                     case 254: // Female Only
                         Data[ofs + (brSize * 2)] |= mask;
