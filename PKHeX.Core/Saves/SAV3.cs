@@ -239,7 +239,9 @@ namespace PKHeX.Core
             }
 
             SetChecksums();
-            return Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            var result = new byte[Data.Length - SIZE_RESERVED];
+            Buffer.BlockCopy(Data, 0, result, 0, result.Length);
+            return result;
         }
 
         private readonly int ActiveSAV;
@@ -283,7 +285,10 @@ namespace PKHeX.Core
             for (int i = 0; i < BLOCK_COUNT; i++)
             {
                 int ofs = ABO + (i * SIZE_BLOCK);
-                int len = chunkLength[BlockOrder[i]];
+                var index = BlockOrder[i];
+                if (index == -1)
+                    continue;
+                int len = chunkLength[index];
                 ushort chk = Checksums.CRC32(Data, ofs, len);
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
