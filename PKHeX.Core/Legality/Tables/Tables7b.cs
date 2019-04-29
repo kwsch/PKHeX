@@ -272,8 +272,6 @@ namespace PKHeX.Core
             047, // Parasect
             048, // Venonat
             049, // Venomoth
-            050, // Diglett
-            051, // Dugtrio
             052, // Meowth
             053, // Persian
             060, // Poliwag
@@ -328,7 +326,6 @@ namespace PKHeX.Core
         {
             019, // Rattata
             020, // Raticate
-            026, // Raichu
             027, // Sandshrew
             028, // Sandslash
             037, // Vulpix
