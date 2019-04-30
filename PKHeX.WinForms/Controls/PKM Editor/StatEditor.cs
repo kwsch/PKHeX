@@ -258,8 +258,17 @@ namespace PKHeX.WinForms.Controls
             int index = Array.IndexOf(L_Stats, sender as Label);
             if (ModifierKeys.HasFlag(Keys.Alt)) // EV
             {
-                var value = e.Button != MouseButtons.Left ? 0 : pkm.GetMaximumEV(index);
-                MT_EVs[index].Text = value.ToString();
+                bool min = e.Button != MouseButtons.Left;
+                if (pkm is PB7)
+                {
+                    var value = min ? 0 : 200;
+                    MT_AVs[index].Text = value.ToString();
+                }
+                else
+                {
+                    var value = min ? 0 : pkm.GetMaximumEV(index);
+                    MT_EVs[index].Text = value.ToString();
+                }
             }
             else if (ModifierKeys.HasFlag(Keys.Control)) // IV
             {
