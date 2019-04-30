@@ -461,6 +461,7 @@ namespace PKHeX.Core
         public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotFlag.Locked);
         public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
         public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
+        public bool IsSlotOverwriteProtected(PKM pkm) => GetSlotFlags(pkm.Box, pkm.Slot).IsOverwriteProtected();
 
         public bool MoveBox(int box, int insertBeforeBox)
         {
@@ -622,7 +623,6 @@ namespace PKHeX.Core
             }
 
             SetData(pkm.EncryptedPartyData, offset);
-            Edited = true;
         }
 
         protected void UpdatePKM(PKM pkm, PKMImportSetting trade, PKMImportSetting dex)
@@ -665,7 +665,6 @@ namespace PKHeX.Core
             UpdatePKM(pkm, trade, dex);
             SetPartyValues(pkm, isParty: false);
             SetData(pkm.EncryptedBoxData, offset);
-            Edited = true;
         }
 
         public void DeletePartySlot(int slot)
@@ -717,8 +716,8 @@ namespace PKHeX.Core
             if (BoxEnd >= BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
-            Func<int, int, bool> skip = IsSlotSwapProtected;
-            Section = Section.Where(z => !skip(z.Box, z.Slot));
+            Func<PKM, bool> skip = IsSlotOverwriteProtected;
+            Section = Section.Where(z => !skip(z));
             var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
             if (reverse)
                 Sorted = Sorted.ReverseSort();

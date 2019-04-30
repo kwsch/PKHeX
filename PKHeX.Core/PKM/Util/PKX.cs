@@ -844,29 +844,34 @@ namespace PKHeX.Core
         /// <param name="skip">Criteria for skipping a slot</param>
         /// <param name="start">Starting point to copy to</param>
         /// <returns>Count of <see cref="PKM"/> copied.</returns>
-        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<int, int, bool> skip, int start = 0)
+        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<PKM, bool> skip, int start = 0)
         {
             int ctr = start;
-            if (ctr >= dest.Count)
-                return 0;
-
             int skipped = 0;
             foreach (var z in list)
             {
                 // seek forward to next open slot
-                while (true)
-                {
-                    var exist = dest[ctr];
-                    if (exist == null || !skip(exist.Box, exist.Slot))
-                        break;
-                    skipped++;
-                    ctr++;
-                }
-                if (dest.Count <= ctr)
+                int next = FindNextSlot(dest, skip, ctr);
+                if (next == -1)
                     break;
+                skipped += next - ctr;
+                ctr = next;
                 dest[ctr++] = z;
             }
             return ctr - start - skipped;
+        }
+
+        private static int FindNextSlot(IList<PKM> dest, Func<PKM, bool> skip, int ctr)
+        {
+            while (true)
+            {
+                if (ctr >= dest.Count)
+                    return -1;
+                var exist = dest[ctr];
+                if (exist == null || !skip(exist))
+                    return ctr;
+                ctr++;
+            }
         }
 
         /// <summary>
