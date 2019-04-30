@@ -990,8 +990,7 @@ namespace PKHeX.Core
                         data[i >> 3] |= (byte)(1 << (i & 7));
                 }
 
-                data.CopyTo(Data, WondercardFlags);
-                Edited = true;
+                SetData(data, WondercardFlags);
             }
         }
 
@@ -1056,9 +1055,7 @@ namespace PKHeX.Core
             if (index < 0 || index > GiftCountMax)
                 return;
 
-            wc6.Data.CopyTo(Data, WondercardData + (index * WC6.Size));
-
-            Edited = true;
+            SetData(wc6.Data, WondercardData + (index * WC6.Size));
         }
 
         // Gym History

@@ -957,8 +957,8 @@ namespace PKHeX.Core
 
         public override void SetBoxName(int box, string value)
         {
-            Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0')).CopyTo(Data, PCLayout + (0x22 * box));
-            Edited = true;
+            var data = Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0'));
+            SetData(data, PCLayout + (0x22 * box));
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -1427,8 +1427,7 @@ namespace PKHeX.Core
                         data[i>>3] |= (byte)(1 << (i&7));
                 }
 
-                data.CopyTo(Data, WondercardFlags);
-                Edited = true;
+                SetData(data, WondercardFlags);
             }
         }
 
@@ -1475,9 +1474,7 @@ namespace PKHeX.Core
             if (index < 0 || index > GiftCountMax)
                 return;
 
-            wc7.Data.CopyTo(Data, WondercardData + (index * WC7.Size));
-
-            Edited = true;
+            SetData(wc7.Data, WondercardData + (index * WC7.Size));
         }
 
         // Writeback Validity

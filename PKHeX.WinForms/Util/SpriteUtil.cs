@@ -113,7 +113,7 @@ namespace PKHeX.WinForms
         private static Image GetWallpaper(SaveFile sav, int box)
         {
             string s = BoxWallpaper.GetWallpaperResourceName(sav.Version, sav.GetBoxWallpaper(box));
-            return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
+            return (Bitmap)Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy;
         }
 
         private static Image GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
@@ -159,7 +159,7 @@ namespace PKHeX.WinForms
         private const int SlotTeamShiftX = SpriteWidth - 19;
         private const int FlagIllegalShiftY = SpriteHeight - 16;
 
-        private static readonly Image[] PartyMarks =
+        private static readonly Bitmap[] PartyMarks =
         {
             Resources.party1, Resources.party2, Resources.party3, Resources.party4, Resources.party5, Resources.party6,
         };

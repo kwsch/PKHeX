@@ -791,8 +791,7 @@ namespace PKHeX.Core
                         data[i >> 3] |= (byte)(1 << (i & 7));
                 }
 
-                data.CopyTo(Data, WondercardFlags);
-                Edited = true;
+                SetData(data, WondercardFlags);
             }
         }
 
@@ -1302,6 +1301,13 @@ namespace PKHeX.Core
         public byte[] SealCase { get => GetData(Seal, (int) Seal4.MAX); set => SetData(value, Seal); }
         public byte GetSealCount(Seal4 id) => Data[Seal + (int)id];
         public byte SetSealCount(Seal4 id, byte count) => Data[Seal + (int)id] = Math.Min(SealMaxCount, count);
-        public void SetAllSeals(byte count, bool unreleased = false) => Enumerable.Repeat(Math.Min(SealMaxCount, count), (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL)).CopyTo(Data, Seal);
+
+        public void SetAllSeals(byte count, bool unreleased = false)
+        {
+            var sealIndexCount = (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL);
+            var val = Math.Min(count, SealMaxCount);
+            for (int i = 0; i < sealIndexCount; i++)
+                Data[Seal + i] = val;
+        }
     }
 }

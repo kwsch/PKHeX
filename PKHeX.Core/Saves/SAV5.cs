@@ -227,7 +227,7 @@ namespace PKHeX.Core
         {
             if (box >= BoxCount)
                 return string.Empty;
-            return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + (0x28 * box) + 4, 0x28));
+            return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, GetBoxNameOffset(box), 0x28));
         }
 
         public override void SetBoxName(int box, string value)
@@ -235,9 +235,11 @@ namespace PKHeX.Core
             if (value.Length > 38)
                 return;
             value += '\uFFFF';
-            Encoding.Unicode.GetBytes(value.PadRight(0x14, '\0')).CopyTo(Data, PCLayout + (0x28 * box) + 4);
-            Edited = true;
+            var data = Encoding.Unicode.GetBytes(value.PadRight(0x14, '\0'));
+            SetData(data, GetBoxNameOffset(box));
         }
+
+        private int GetBoxNameOffset(int box) => PCLayout + (0x28 * box) + 4;
 
         protected override int GetBoxWallpaperOffset(int box)
         {
