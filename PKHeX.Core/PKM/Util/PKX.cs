@@ -820,22 +820,6 @@ namespace PKHeX.Core
             return last == 'x' ? 6 : prefer;
         }
 
-        // Extensions
-        /// <summary>
-        /// Gets the Location Name for the <see cref="PKM"/>
-        /// </summary>
-        /// <param name="pk">PKM to fetch data for</param>
-        /// <param name="eggmet">Location requested is the egg obtained location, not met location.</param>
-        /// <returns>Location string</returns>
-        public static string GetLocationString(this PKM pk, bool eggmet)
-        {
-            if (pk.Format < 2)
-                return string.Empty;
-
-            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
-        }
-
         /// <summary>
         /// Copies a <see cref="PKM"/> list to the destination list, with an option to copy to a starting point.
         /// </summary>
@@ -887,7 +871,7 @@ namespace PKHeX.Core
             int ctr = start;
             foreach (var z in list)
             {
-                if (dest.Count <= ctr)
+                if (ctr >= dest.Count)
                     break;
                 dest[ctr++] = z;
             }

@@ -683,5 +683,21 @@ namespace PKHeX.Core
             var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
             return arr[pk.PotentialRating];
         }
+
+        // Extensions
+        /// <summary>
+        /// Gets the Location Name for the <see cref="PKM"/>
+        /// </summary>
+        /// <param name="pk">PKM to fetch data for</param>
+        /// <param name="eggmet">Location requested is the egg obtained location, not met location.</param>
+        /// <returns>Location string</returns>
+        public static string GetLocationString(this PKM pk, bool eggmet)
+        {
+            if (pk.Format < 2)
+                return string.Empty;
+
+            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
+        }
     }
 }
