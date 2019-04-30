@@ -210,7 +210,7 @@ namespace PKHeX.Core
                     gen = format;
 
                 locval %= size;
-                if (bankID >= 3)
+                if (bankID >= 3) // 30000 and onwards don't use 0th index, shift down 1
                     locval--;
             }
 
