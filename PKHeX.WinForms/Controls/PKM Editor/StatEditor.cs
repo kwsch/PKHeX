@@ -523,8 +523,10 @@ namespace PKHeX.WinForms.Controls
 
         public void InitializeDataSources()
         {
+            ChangingFields = true;
             CB_HPType.InitializeBinding();
             CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray());
+            ChangingFields = false;
         }
     }
 }
