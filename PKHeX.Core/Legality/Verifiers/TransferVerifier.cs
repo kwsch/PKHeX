@@ -31,17 +31,36 @@ namespace PKHeX.Core
                 var nature = Experience.GetNatureVC(pkm.EXP);
                 if (nature != pkm.Nature)
                     data.AddLine(GetInvalid(LTransferNature));
-                return;
             }
-            if (met <= 2) // Not enough EXP to have every nature -- check for exclusions!
+            else
             {
                 var pi = pkm.PersonalInfo;
                 var growth = pi.EXPGrowth;
                 var nature = pkm.Nature;
-                bool valid = VerifyVCNature(growth, nature);
-                if (!valid)
+                if (met <= 2) // Not enough EXP to have every nature -- check for exclusions!
+                {
+                    bool valid = VerifyVCNature(growth, nature);
+                    if (!valid)
+                        data.AddLine(GetInvalid(LTransferNature));
+                }
+                var currentEXP = pkm.EXP;
+                var thresholdEXP = Experience.GetEXP(met, growth);
+                var delta = currentEXP - thresholdEXP;
+                if (delta < 25 && !VerifyVCNature(currentEXP, thresholdEXP, nature)) // check for precise match with current level thresholds
                     data.AddLine(GetInvalid(LTransferNature));
             }
+        }
+
+        private static bool VerifyVCNature(uint currentEXP, uint thresholdEXP, int nature)
+        {
+            // exp % 25 with a limited amount of EXP does not allow for every nature
+            do
+            {
+                var vcnature = Experience.GetNatureVC(currentEXP);
+                if (vcnature == nature)
+                    return true;
+            } while (currentEXP-- != thresholdEXP);
+            return false;
         }
 
         private static bool VerifyVCNature(int growth, int nature)
