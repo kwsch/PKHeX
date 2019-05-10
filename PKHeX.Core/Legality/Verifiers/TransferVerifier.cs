@@ -82,10 +82,16 @@ namespace PKHeX.Core
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.Format == 4 && pkm.Met_Location != Legal.Transfer3) // Pal Park
-                data.AddLine(GetInvalid(LEggLocationPalPark));
-            if (pkm.Format != 4 && pkm.Met_Location != Legal.Transfer4)
-                data.AddLine(GetInvalid(LTransferEggLocationTransporter));
+            if (pkm.Format == 4) // Pal Park (3->4)
+            {
+                if (pkm.Met_Location != Legal.Transfer3)
+                    data.AddLine(GetInvalid(LEggLocationPalPark));
+            }
+            else // Transporter (4->5)
+            {
+                if (pkm.Met_Location != Legal.Transfer4)
+                    data.AddLine(GetInvalid(LTransferEggLocationTransporter));
+            }
         }
 
         public void VerifyTransferLegalityG4(LegalityAnalysis data)
@@ -95,7 +101,7 @@ namespace PKHeX.Core
             if (loc == Legal.Transfer4)
                 return;
 
-            // Crown met location must be present
+            // Crown met location must be present if transferred via lock capsule
             switch (pkm.Species)
             {
                 case 251: // Celebi
