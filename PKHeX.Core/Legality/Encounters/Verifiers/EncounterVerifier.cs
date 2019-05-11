@@ -128,10 +128,10 @@ namespace PKHeX.Core
                 case 1:
                 case 2: return new CheckResult(CheckIdentifier.Encounter); // no met location info
                 case 3: return pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm);
-                case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 02002) : VerifyEncounterEgg4(pkm);
-                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30003) : VerifyEncounterEgg5(pkm);
-                case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg6(pkm);
-                case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg7(pkm);
+                case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm);
+                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm);
+                case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm);
+                case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm);
 
                 default: // none of the above
                     return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
@@ -173,9 +173,9 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
             if (pkm.Egg_Location != 0)
                 return new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
-            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+            if (pkm.Format == 4 && pkm.Met_Location != Locations.Transfer3)
                 return new CheckResult(Severity.Invalid, LEggLocationPalPark, CheckIdentifier.Encounter);
-            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+            if (pkm.Format != 4 && pkm.Met_Location != Locations.Transfer4)
                 return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
 
             return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
@@ -187,11 +187,11 @@ namespace PKHeX.Core
                 return VerifyEncounterEggLevelLoc(pkm, 0, Legal.Met_HGSS_Hatch);
             if (pkm.IsEgg)
                 return new CheckResult(Severity.Invalid, LTransferEgg, CheckIdentifier.Encounter);
+
             // transferred
             if (pkm.Met_Level < 1)
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
-
-            if (pkm.Met_Location != 30001)
+            if (pkm.Met_Location != Locations.Transfer4)
                 return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
             return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
         }
@@ -313,7 +313,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:
-                    if (s.EggLocation == 60002 && pkm.RelearnMoves.Any(m => m != 0))
+                    if (s.EggLocation == Locations.Daycare5 && pkm.RelearnMoves.Any(m => m != 0)) // eevee gift egg
                         return new CheckResult(Severity.Invalid, LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
                     break;
             }

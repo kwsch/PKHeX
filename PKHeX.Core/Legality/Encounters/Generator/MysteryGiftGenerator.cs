@@ -89,18 +89,16 @@ namespace PKHeX.Core
         private static bool IsRangerManaphy(PKM pkm)
         {
             var egg = pkm.Egg_Location;
-            const int ranger = 3001;
-            const int linkegg = 2002;
             if (!pkm.IsEgg) // Link Trade Egg or Ranger
-                return egg == linkegg || egg == ranger;
-            if (egg != ranger)
+                return egg == Locations.LinkTrade4 || egg == Locations.Ranger4;
+            if (egg != Locations.Ranger4)
                 return false;
 
             if (pkm.Language == (int)LanguageID.Korean) // never korean
                 return false;
 
             var met = pkm.Met_Location;
-            return met == linkegg || met == 0;
+            return met == Locations.LinkTrade4 || met == 0;
         }
     }
 }

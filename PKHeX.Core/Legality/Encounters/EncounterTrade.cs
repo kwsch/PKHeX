@@ -66,7 +66,13 @@ namespace PKHeX.Core
 
         public static readonly int[] DefaultMetLocation =
         {
-            0, 126, 254, 2001, 30002, 30001, 30001,
+            0,
+            Locations.LinkTrade2NPC,
+            Locations.LinkTrade3NPC,
+            Locations.LinkTrade4NPC,
+            Locations.LinkTrade5NPC,
+            Locations.LinkTrade6NPC,
+            Locations.LinkTrade6NPC, // 7 is same as 6
         };
 
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);

@@ -381,9 +381,9 @@ namespace PKHeX.Core
             // Gen 4
             {
                 var met_list = Util.GetCBList(metHGSS_00000, 0);
-                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, 2000);
-                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, 2002);
-                Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, 3001);
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, Locations.Daycare4);
+                Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, Locations.LinkTrade4);
+                Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, Locations.Ranger4);
                 Util.AddCBWithOffset(met_list, metHGSS_00000, 0000, Legal.Met_HGSS_0);
                 Util.AddCBWithOffset(met_list, metHGSS_02000, 2000, Legal.Met_HGSS_2);
                 Util.AddCBWithOffset(met_list, metHGSS_03000, 3000, Legal.Met_HGSS_3);
@@ -392,8 +392,8 @@ namespace PKHeX.Core
             // Gen 5
             {
                 var met_list = Util.GetCBList(metBW2_00000, 0);
-                Util.AddCBWithOffset(met_list, metBW2_60000, 60002, 60002);
-                Util.AddCBWithOffset(met_list, metBW2_30000, 30002, 30003);
+                Util.AddCBWithOffset(met_list, metBW2_60000, 60001, Locations.Daycare5);
+                Util.AddCBWithOffset(met_list, metBW2_30000, 30001, Locations.LinkTrade5);
                 Util.AddCBWithOffset(met_list, metBW2_00000, 00000, Legal.Met_BW2_0);
                 Util.AddCBWithOffset(met_list, metBW2_30000, 30001, Legal.Met_BW2_3);
                 Util.AddCBWithOffset(met_list, metBW2_40000, 40001, Legal.Met_BW2_4);
@@ -403,8 +403,8 @@ namespace PKHeX.Core
             // Gen 6
             {
                 var met_list = Util.GetCBList(metXY_00000, 0);
-                Util.AddCBWithOffset(met_list, metXY_60000, 60001, 60002);
-                Util.AddCBWithOffset(met_list, metXY_30000, 30001, 30002);
+                Util.AddCBWithOffset(met_list, metXY_60000, 60001, Locations.Daycare5);
+                Util.AddCBWithOffset(met_list, metXY_30000, 30001, Locations.LinkTrade6);
                 Util.AddCBWithOffset(met_list, metXY_00000, 00000, Legal.Met_XY_0);
                 Util.AddCBWithOffset(met_list, metXY_30000, 30001, Legal.Met_XY_3);
                 Util.AddCBWithOffset(met_list, metXY_40000, 40001, Legal.Met_XY_4);
@@ -414,8 +414,8 @@ namespace PKHeX.Core
             // Gen 7
             {
                 var met_list = Util.GetCBList(metSM_00000, 0);
-                Util.AddCBWithOffset(met_list, metSM_60000, 60001, 60002);
-                Util.AddCBWithOffset(met_list, metSM_30000, 30001, 30002);
+                Util.AddCBWithOffset(met_list, metSM_60000, 60001, Locations.Daycare5);
+                Util.AddCBWithOffset(met_list, metSM_30000, 30001, Locations.LinkTrade6);
                 Util.AddCBWithOffset(met_list, metSM_00000, 00000, Legal.Met_SM_0);
                 Util.AddCBWithOffset(met_list, metSM_30000, 30001, Legal.Met_SM_3);
                 Util.AddCBWithOffset(met_list, metSM_40000, 40001, Legal.Met_SM_4);
@@ -426,7 +426,7 @@ namespace PKHeX.Core
             {
                 var met_list = Util.GetCBList(metGG_00000, 0);
                 Util.AddCBWithOffset(met_list, metGG_60000, 60001, 60002);
-                Util.AddCBWithOffset(met_list, metGG_30000, 30001, 30002);
+                Util.AddCBWithOffset(met_list, metGG_30000, 30001, Locations.LinkTrade6);
                 Util.AddCBWithOffset(met_list, metGG_00000, 00000, Legal.Met_GG_0);
                 Util.AddCBWithOffset(met_list, metGG_30000, 30001, Legal.Met_GG_3);
                 Util.AddCBWithOffset(met_list, metGG_40000, 40001, Legal.Met_GG_4);
@@ -547,16 +547,16 @@ namespace PKHeX.Core
         {
             if (version <= GameVersion.CXD && currentGen == 4)
             {
-                return MetGen4.Where(loc => loc.Value == Legal.Transfer3) // Pal Park to front
+                return MetGen4.Where(loc => loc.Value == Locations.Transfer3) // Pal Park to front
                     .Concat(MetGen4.Take(4))
-                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Legal.Transfer3)).ToList();
+                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Locations.Transfer3)).ToList();
             }
 
             if (version < GameVersion.X && currentGen >= 5) // PokéTransfer to front
             {
-                return MetGen5.Where(loc => loc.Value == Legal.Transfer4)
+                return MetGen5.Where(loc => loc.Value == Locations.Transfer4)
                     .Concat(MetGen5.Take(3))
-                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Legal.Transfer4)).ToList();
+                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Locations.Transfer4)).ToList();
             }
 
             return Array.Empty<ComboItem>();

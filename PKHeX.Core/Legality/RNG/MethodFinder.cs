@@ -800,7 +800,7 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic s:
-                    if (s == Encounters4.SpikyEaredPichu || (s.Location == 233 && s.Gift)) // Pokewalker
+                    if (s == Encounters4.SpikyEaredPichu || (s.Location == Locations.PokeWalker4 && s.Gift)) // Pokewalker
                         return val == PIDType.Pokewalker;
                     if (s.Shiny == Shiny.Always)
                         return val == PIDType.ChainShiny;

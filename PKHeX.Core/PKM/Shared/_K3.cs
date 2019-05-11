@@ -22,7 +22,6 @@
         public override int TSV => (TID ^ SID) >> 3;
         public override bool Japanese => Language == (int)LanguageID.Japanese;
         public override bool WasEvent => Met_Location == 255; // Fateful
-        public override bool WasIngameTrade => Met_Location == 254; // Trade
         public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
         public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
@@ -178,8 +177,7 @@
                 Unused4 = Unused4,
             };
 
-            var ck3 = pk as CK3;
-            if (ck3 != null)
+            if (pk is CK3 ck3)
                 ck3.Purification = -100; // purified
             return pk;
         }

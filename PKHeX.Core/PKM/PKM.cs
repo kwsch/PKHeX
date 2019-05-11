@@ -530,12 +530,13 @@ namespace PKHeX.Core
         {
             get
             {
+                int loc = Egg_Location;
                 switch (GenNumber)
                 {
-                    case 4: return Legal.EggLocations4.Contains(Egg_Location) || (Species == 490 && Egg_Location == 3001) || (Egg_Location == 3002 && PtHGSS); // faraway
-                    case 5: return Legal.EggLocations5.Contains(Egg_Location);
-                    case 6: return Legal.EggLocations6.Contains(Egg_Location);
-                    case 7: return Legal.EggLocations7.Contains(Egg_Location);
+                    case 4: return Legal.EggLocations4.Contains(loc) || (Species == (int)Core.Species.Manaphy && loc == Locations.Ranger4) || (loc == Locations.Faraway4 && PtHGSS); // faraway
+                    case 5: return Legal.EggLocations5.Contains(loc);
+                    case 6: return Legal.EggLocations6.Contains(loc);
+                    case 7: return Legal.EggLocations7.Contains(loc);
                 }
                 // Gen 1/2 and pal park Gen 3
                 return _WasEgg;
@@ -550,10 +551,10 @@ namespace PKHeX.Core
                 int loc = Egg_Location;
                 switch (GenNumber)
                 {
-                    case 4: return loc == 02000 || loc == 02002 || (loc == 03002 && PtHGSS); // faraway
-                    case 5: return loc == 60002 || loc == 30003;
+                    case 4: return loc == Locations.Daycare4 || loc == Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS); // faraway
+                    case 5: return loc == Locations.Daycare5 || loc == Locations.LinkTrade5;
                     case 6:
-                    case 7: return loc == 60002 || loc == 30002;
+                    case 7: return loc == Locations.Daycare5 || loc == Locations.LinkTrade6;
                     default: return _WasEgg; // Gen 1/2 and pal park Gen 3
                 }
             }
@@ -564,35 +565,40 @@ namespace PKHeX.Core
         {
             get
             {
-                if (!WasEgg) return false;
+                if (!WasEgg)
+                    return false;
+                int loc = Egg_Location;
                 switch (GenNumber)
                 {
-                    case 4: return Legal.GiftEggLocation4.Contains(Egg_Location) || (Egg_Location == 3002 && HGSS); // faraway
-                    case 5: return Egg_Location == 60003;
+                    case 4: return Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS); // faraway
+                    case 5: return loc == 60003;
                     case 6:
-                    case 7: return Egg_Location == 60004;
+                    case 7: return loc == 60004;
                 }
                 return false;
             }
         }
 
-        public virtual bool WasEvent => (Met_Location > 40000 && Met_Location < 50000) || FatefulEncounter;
-        public virtual bool WasEventEgg => Gen4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
+        public virtual bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
 
-        public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
-        public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
-
-        private int GetTradedEggLocation()
+        public virtual bool WasEventEgg
         {
-            switch (GenNumber)
+            get
             {
-                case 4: return 2002;
-                case 5: return 30003;
-                default: return 30002;
+                if (Gen4)
+                    return WasEgg && Species == (int) Core.Species.Manaphy;
+                // Gen5+
+                if (Met_Level != 1)
+                    return false;
+                int loc = Egg_Location;
+                return Locations.IsEventLocation5(loc) || (FatefulEncounter && loc != 0);
             }
         }
 
-        public virtual bool WasIngameTrade => Met_Location == 30001 || (Gen4 && Egg_Location == 2001);
+        public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
+        public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
+        private int GetTradedEggLocation() => Locations.TradedEggLocation(GenNumber);
+
         public virtual bool IsUntraded => false;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
@@ -868,7 +874,7 @@ namespace PKHeX.Core
         /// <param name="month">Month the <see cref="PKM"/> was traded.</param>
         /// <param name="y">Day the <see cref="PKM"/> was traded.</param>
         /// <param name="location">Link Trade location value.</param>
-        protected void SetLinkTradeEgg(int day, int month, int y, int location = 30002)
+        protected void SetLinkTradeEgg(int day, int month, int y, int location)
         {
             Met_Day = day;
             Met_Month = month;

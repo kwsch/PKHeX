@@ -84,12 +84,12 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.Format == 4) // Pal Park (3->4)
             {
-                if (pkm.Met_Location != Legal.Transfer3)
+                if (pkm.Met_Location != Locations.Transfer3)
                     data.AddLine(GetInvalid(LEggLocationPalPark));
             }
             else // Transporter (4->5)
             {
-                if (pkm.Met_Location != Legal.Transfer4)
+                if (pkm.Met_Location != Locations.Transfer4)
                     data.AddLine(GetInvalid(LTransferEggLocationTransporter));
             }
         }
@@ -98,20 +98,20 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int loc = pkm.Met_Location;
-            if (loc == Legal.Transfer4)
+            if (loc == Locations.Transfer4)
                 return;
 
             // Crown met location must be present if transferred via lock capsule
             switch (pkm.Species)
             {
                 case 251: // Celebi
-                    if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
+                    if (loc != Locations.Transfer4_CelebiUnused && loc != Locations.Transfer4_CelebiUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 case 243: // Raikou
                 case 244: // Entei
                 case 245: // Suicune
-                    if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
+                    if (loc != Locations.Transfer4_CrownUnused && loc != Locations.Transfer4_CrownUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 default:

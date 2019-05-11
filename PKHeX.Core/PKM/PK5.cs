@@ -307,7 +307,7 @@ namespace PKHeX.Core
         {
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
             {
-                SetLinkTradeEgg(Day, Month, Year, 30003);
+                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade5);
                 return true;
             }
             return false;

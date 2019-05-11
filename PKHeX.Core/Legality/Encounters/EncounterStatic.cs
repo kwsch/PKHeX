@@ -244,17 +244,19 @@ namespace PKHeX.Core
         {
             if (Nature != Nature.Random && pkm.Nature != (int)Nature)
                 return false;
-            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3 && !pkm.IsEgg)
+
+            int gen = pkm.GenNumber;
+            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && gen > 3 && !pkm.IsEgg)
                 return false;
             if (this is EncounterStaticPID p && p.PID != pkm.PID)
                 return false;
 
-            if (pkm.Gen3 && EggLocation != 0) // Gen3 Egg
+            if (gen == 3 && EggLocation != 0) // Gen3 Egg
             {
                 if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
                     return false;
             }
-            else if (pkm.VC || (pkm.GenNumber <= 2 && EggLocation != 0)) // Gen2 Egg
+            else if (gen <= 2 && EggLocation != 0) // Gen2 Egg
             {
                 if (pkm.Format <= 2)
                 {
@@ -277,8 +279,8 @@ namespace PKHeX.Core
                                 break;
                         }
                     }
-                    if (pkm.Met_Level == 1)
-                        lvl = 5; // met @ 1, hatch @ 5.
+                    if (pkm.Met_Level == 1) // Gen2 Eggs are met at 1, and hatch at level 5.
+                        lvl = 5;
                 }
             }
             else if (EggLocation != pkm.Egg_Location)
@@ -290,16 +292,15 @@ namespace PKHeX.Core
                     if (pkm.Egg_Location != 0)
                         return false;
                 }
-                else if (pkm.Gen4)
+                else if (gen == 4)
                 {
-                    if (pkm.Egg_Location != 2002) // Link Trade
+                    if (pkm.Egg_Location != Locations.LinkTrade4) // Link Trade
                     {
                         // check Pt/HGSS data
                         if (pkm.Format <= 4)
                             return false; // must match
-                        if (EggLocation >= 3000 || EggLocation <= 2010) // non-Pt/HGSS egg gift
+                        if (!Locations.IsPtHGSSLocationEgg(EggLocation)) // non-Pt/HGSS egg gift
                             return false;
-
                         // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
                         if (pkm.Egg_Location != 3002) // Faraway Place
                             return false;
@@ -307,14 +308,14 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    if (pkm.Egg_Location != 30002) // Link Trade
+                    if (pkm.Egg_Location != Locations.LinkTrade6) // Link Trade
                         return false;
                 }
             }
-            else if (EggLocation != 0 && pkm.Gen4)
+            else if (EggLocation != 0 && gen == 4)
             {
                 // Check the inverse scenario for 4->5 eggs
-                if (EggLocation < 3000 && EggLocation > 2010) // Pt/HGSS egg gift
+                if (Locations.IsPtHGSSLocationEgg(EggLocation)) // egg gift
                 {
                     if (pkm.Format > 4)
                         return false; // locations match when it shouldn't
@@ -340,7 +341,7 @@ namespace PKHeX.Core
                 return false;
             if (Form != pkm.AltForm && !SkipFormCheck && !Legal.IsFormChangeable(pkm, Species))
                 return false;
-            if (EggLocation == 60002 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+            if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
             if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist

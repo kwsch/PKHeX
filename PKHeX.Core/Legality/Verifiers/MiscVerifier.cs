@@ -205,7 +205,7 @@ namespace PKHeX.Core
             {
                 var Info = data.Info;
                 Info.PIDIV = MethodFinder.Analyze(pkm);
-                if (Info.PIDIV.Type != PIDType.G5MGShiny && pkm.Egg_Location != 30003)
+                if (Info.PIDIV.Type != PIDType.G5MGShiny && pkm.Egg_Location != Locations.LinkTrade5)
                     data.AddLine(GetInvalid(LPIDTypeMismatch, CheckIdentifier.PID));
             }
 

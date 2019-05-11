@@ -234,7 +234,7 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
-                else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
+                else if ((value < 2000 && value > 111) || Locations.IsPtHGSSLocationEgg(value))
                 {
                     // Met location not in DP, set to Faraway Place
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);
@@ -265,7 +265,7 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
-                else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
                 {
                     // Met location not in DP, set to Faraway Place
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
@@ -340,7 +340,7 @@ namespace PKHeX.Core
             // Eggs do not have any modifications done if they are traded
             if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
             {
-                SetLinkTradeEgg(Day, Month, Year, 2002);
+                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade4);
                 return true;
             }
             return false;

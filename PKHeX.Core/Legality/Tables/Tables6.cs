@@ -226,7 +226,7 @@ namespace PKHeX.Core
 
         #endregion
 
-        internal static readonly int[] EggLocations6 = {60002, 30002};
+        internal static readonly int[] EggLocations6 = {Locations.Daycare5, Locations.LinkTrade6};
 
         internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
         {

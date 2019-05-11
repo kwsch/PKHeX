@@ -500,7 +500,7 @@ namespace PKHeX.Core
             {
                 if (EggLocation != pkm.Egg_Location) // traded
                 {
-                    if (pkm.Egg_Location != 30002)
+                    if (pkm.Egg_Location != Locations.LinkTrade6)
                         return false;
                 }
                 else if (PIDType == 0 && pkm.IsShiny)
