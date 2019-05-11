@@ -66,11 +66,8 @@ namespace PKHeX.Core
                     if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
                         data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                     break;
-                case WC7 seventhGenerationMysteryGift:
-                    if (seventhGenerationMysteryGift.IsAshGreninjaWC7(pkm) && pkm.IsShiny)
-                    {
-                        data.AddLine(GetInvalid(LEncGiftShinyAshGreninja, CheckIdentifier.Shiny));
-                    }
+                case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm) && pkm.IsShiny:
+                        data.AddLine(GetInvalid(LEncGiftShinyMismatch, CheckIdentifier.Shiny));
                     break;
             }
         }
