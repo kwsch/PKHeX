@@ -329,7 +329,7 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounterTrade(PKM pkm, EncounterTrade trade)
         {
-            if (trade.Species == pkm.Species && trade.EvolveOnTrade)
+            if (trade.EvolveOnTrade && trade.Species == pkm.Species)
             {
                 // Pokemon that evolve on trade can not be in the phase evolution after the trade
                 // If the trade holds an everstone EvolveOnTrade will be false for the encounter

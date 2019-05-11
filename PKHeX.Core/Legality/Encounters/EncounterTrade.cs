@@ -232,11 +232,8 @@ namespace PKHeX.Core
         {
             if (IVs != null)
             {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
-                        return false;
-                }
+                if (!Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                    return false;
             }
 
             if (this is EncounterTradePID p)

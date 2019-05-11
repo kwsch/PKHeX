@@ -150,7 +150,7 @@ namespace PKHeX.Core
             pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
             pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
 
-            if (pk.GenNumber >= 4)
+            if (Generation >= 4)
             {
                 bool traded = (int)Version == tr.Game;
                 pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
@@ -245,18 +245,17 @@ namespace PKHeX.Core
             if (Nature != Nature.Random && pkm.Nature != (int)Nature)
                 return false;
 
-            int gen = pkm.GenNumber;
-            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && gen > 3 && !pkm.IsEgg)
+            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && Generation > 3 && !pkm.IsEgg)
                 return false;
             if (this is EncounterStaticPID p && p.PID != pkm.PID)
                 return false;
 
-            if (gen == 3 && EggLocation != 0) // Gen3 Egg
+            if (Generation == 3 && EggLocation != 0) // Gen3 Egg
             {
                 if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
                     return false;
             }
-            else if (gen <= 2 && EggLocation != 0) // Gen2 Egg
+            else if (Generation <= 2 && EggLocation != 0) // Gen2 Egg
             {
                 if (pkm.Format <= 2)
                 {
@@ -292,7 +291,7 @@ namespace PKHeX.Core
                     if (pkm.Egg_Location != 0)
                         return false;
                 }
-                else if (gen == 4)
+                else if (Generation == 4)
                 {
                     if (pkm.Egg_Location != Locations.LinkTrade4) // Link Trade
                     {
@@ -312,7 +311,7 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-            else if (EggLocation != 0 && gen == 4)
+            else if (EggLocation != 0 && Generation == 4)
             {
                 // Check the inverse scenario for 4->5 eggs
                 if (Locations.IsPtHGSSLocationEgg(EggLocation)) // egg gift
@@ -346,11 +345,8 @@ namespace PKHeX.Core
 
             if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
             {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
-                        return false;
-                }
+                if (!Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                    return false;
             }
 
             if (pkm is IContestStats s && s.IsContestBelow(this))

@@ -177,5 +177,8 @@ namespace PKHeX.Core
         public virtual bool EggEncounter => IsEgg;
         public int Generation { get => Format; set {} }
         public abstract int EggLocation { get; set; }
+
+        public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
+        public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);
     }
 }

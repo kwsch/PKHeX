@@ -361,6 +361,24 @@ namespace PKHeX
         }
 
         /// <summary>
+        /// Checks if the <see cref="pkm"/> can inhabit <see cref="GameVersion.Gen1"></see>
+        /// </summary>
+        /// <param name="pkm">Data to check</param>
+        /// <returns>true if can inhabit, false if not.</returns>
+        private static bool CanInhabitGen1(this PKM pkm)
+        {
+            // Korean Gen2 games can't tradeback because there are no Gen1 Korean games released
+            if (pkm.Korean || pkm.IsEgg)
+                return false;
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+                return false;
+            int species = pkm.Species;
+            if (species <= MaxSpeciesID_1)
+                return true;
+            return FutureEvolutionsGen1.Contains(species);
+        }
+
+        /// <summary>
         /// Gets the Tradeback status depending on various values.
         /// </summary>
         /// <param name="pkm">Pokémon to guess the tradeback status from.</param>

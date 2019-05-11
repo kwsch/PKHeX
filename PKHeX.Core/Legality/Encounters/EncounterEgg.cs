@@ -51,7 +51,6 @@ namespace PKHeX.Core
             if (pk.Format < 3)
                 return pk;
 
-
             if (pk.GenNumber >= 4)
                 pk.SetEggMetData(version, (GameVersion)SAV.Game);
 

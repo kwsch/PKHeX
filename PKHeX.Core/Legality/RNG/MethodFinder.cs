@@ -212,7 +212,7 @@ namespace PKHeX.Core
                 {
                     // check for antishiny
                     // allow 2 different TSVs to proc antishiny for XD
-                    var tsv1 = (hi ^ lo) >> 3;
+                    var tsv1 = (int)((hi ^ lo) >> 3);
                     var tsv2 = -1;
                     while (true)
                     {
@@ -235,7 +235,7 @@ namespace PKHeX.Core
                         pidiv = new PIDIVTSV
                         {
                             OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXDAnti,
-                            TSV1 = (int)tsv1, TSV2 = tsv2,
+                            TSV1 = tsv1, TSV2 = tsv2,
                         };
                         return true;
                     }
@@ -341,7 +341,7 @@ namespace PKHeX.Core
                     return true;
                 case 1: // female
                     if (pid >= 25)
-                        break; // nope
+                        break; // nope, this isn't a valid nature
                     if (254 <= getRatio()) // no modification for PID
                         break;
 
@@ -562,6 +562,7 @@ namespace PKHeX.Core
 
         private static PIDIV AnalyzeGB(PKM _)
         {
+            // not implemented; correlation between IVs and RNG hasn't been converted to code.
             return null;
         }
 

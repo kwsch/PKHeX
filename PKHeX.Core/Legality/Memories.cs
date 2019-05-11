@@ -195,25 +195,42 @@ namespace PKHeX.Core
                 return -1;
             return MemoryMinIntensity[memory];
         }
+    }
 
-        public static void GetMemoryVariables(PKM pkm, out int m, out int t, out int i, out int f, out string resultPrefix, int handler = -1)
+    public readonly struct MemoryVariableSet
+    {
+        public readonly string Handler;
+
+        public readonly int MemoryID;
+        public readonly int Variable;
+        public readonly int Intensity;
+        public readonly int Feeling;
+
+        private MemoryVariableSet(string handler, int m, int v, int i, int f)
         {
-            if (handler < 0)
-                handler = pkm.CurrentHandler;
+            Handler = handler;
+            MemoryID = m;
+            Variable = v;
+            Intensity = i;
+            Feeling = f;
+        }
+
+        public static MemoryVariableSet Read(PKM pkm) => Read(pkm, pkm.CurrentHandler);
+
+        public static MemoryVariableSet Read(PKM pkm, int handler)
+        {
             switch (handler)
             {
-                case 0:
-                    m = pkm.OT_Memory; t = pkm.OT_TextVar; i = pkm.OT_Intensity; f = pkm.OT_Feeling;
-                    resultPrefix = LegalityCheckStrings.L_XOT;
-                    break;
-                case 1:
-                    m = pkm.HT_Memory; t = pkm.HT_TextVar; i = pkm.HT_Intensity; f = pkm.HT_Feeling;
-                    resultPrefix = LegalityCheckStrings.L_XHT;
-                    break;
+                case 0: // OT
+                    return new MemoryVariableSet(LegalityCheckStrings.L_XOT,
+                        pkm.OT_Memory, pkm.OT_TextVar,
+                        pkm.OT_Intensity, pkm.OT_Feeling);
+                case 1: // HT
+                    return new MemoryVariableSet(LegalityCheckStrings.L_XOT,
+                        pkm.HT_Memory, pkm.HT_TextVar,
+                        pkm.HT_Intensity, pkm.HT_Feeling);
                 default:
-                    m = t = i = f = 0;
-                    resultPrefix = string.Empty;
-                    break;
+                    return new MemoryVariableSet(LegalityCheckStrings.L_XOT, 0, 0, 0, 0);
             }
         }
     }
