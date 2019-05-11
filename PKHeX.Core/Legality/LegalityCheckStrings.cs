@@ -132,6 +132,7 @@ namespace PKHeX.Core
         public static string LEncGiftNotFound { get; set; } = "Unable to match to a Mystery Gift in the database.";
         public static string LEncGiftPIDMismatch { get; set; } = "Mystery Gift fixed PID mismatch.";
         public static string LEncGiftShinyMismatch { get; set; } = "Mystery Gift shiny mismatch.";
+        public static string LEncGiftShinyAshGreninja { get; set; } = "Ash-Greninja cannot be shiny";
         public static string LEncGiftVersionNotDistributed { get; set; } = "Mystery Gift cannot be received by this version.";
 
         public static string LEncInvalid { get; set; } = "Unable to match an encounter from origin game.";
