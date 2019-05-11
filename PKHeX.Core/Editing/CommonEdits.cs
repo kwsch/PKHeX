@@ -100,11 +100,19 @@ namespace PKHeX.Core
         public static void SetRandomEC(this PKM pk)
         {
             int gen = pk.GenNumber;
-            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pk.Species);
-            if (gen < 6 && gen > 2)
+            if (2 < gen && gen < 6)
+            {
                 pk.EncryptionConstant = pk.PID;
-            else
-                pk.EncryptionConstant = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex / 2);
+                return;
+            }
+
+            int wIndex = WurmpleUtil.GetWurmpleEvoGroup(pk.Species);
+            if (wIndex != -1)
+            {
+                pk.EncryptionConstant = WurmpleUtil.GetWurmpleEC(wIndex);
+                return;
+            }
+            pk.EncryptionConstant = Util.Rand32();
         }
 
         /// <summary>

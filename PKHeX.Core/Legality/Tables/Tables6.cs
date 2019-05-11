@@ -411,12 +411,6 @@ namespace PKHeX.Core
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
-
-        public static readonly int[] WurmpleEvolutions =
-        {
-            266, 267, // Silcoon Beautifly
-            268, 269, // Cascoon Dustox
-        };
         #endregion
 
         internal static readonly byte[] MovePP_XY =

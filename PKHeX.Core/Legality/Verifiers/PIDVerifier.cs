@@ -1,5 +1,4 @@
-﻿using System;
-using static PKHeX.Core.LegalityCheckStrings;
+﻿using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -84,15 +83,16 @@ namespace PKHeX.Core
         private void VerifyECPIDWurmple(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            uint evoVal = PKX.GetWurmpleEvoVal(pkm.EncryptionConstant);
 
             if (pkm.Species == 265)
             {
+                // Indicate what it will evolve into
+                uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pkm.EncryptionConstant);
                 var spec = evoVal == 0 ? LegalityAnalysis.SpeciesStrings[267] : LegalityAnalysis.SpeciesStrings[269];
                 var msg = string.Format(L_XWurmpleEvo_0, spec);
                 data.AddLine(GetValid(msg, CheckIdentifier.EC));
             }
-            else if (evoVal != Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species) / 2)
+            else if (!WurmpleUtil.IsWurmpleEvoValid(pkm))
             {
                 data.AddLine(GetInvalid(LPIDEncryptWurmple, CheckIdentifier.EC));
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
@@ -132,7 +131,7 @@ namespace PKHeX.Core
                 || slot.IsDeferredSport(IsSportBall);
         }
 
-        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !IsWurmpleEvoValid(pkm);
+        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !WurmpleUtil.IsWurmpleEvoValid(pkm);
         private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Type & SlotType.Safari) != 0);
         private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != ((slot.Type & SlotType.BugContest) != 0);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
@@ -420,13 +419,6 @@ namespace PKHeX.Core
             var slots = GetEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation || (pkm.Format == 2 && gameSource != GameVersion.C);
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
-        }
-
-        private static bool IsWurmpleEvoValid(PKM pkm)
-        {
-            uint evoVal = PKX.GetWurmpleEvoVal(pkm.EncryptionConstant);
-            int wIndex = Array.IndexOf(WurmpleEvolutions, pkm.Species) / 2;
-            return evoVal == wIndex;
         }
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
