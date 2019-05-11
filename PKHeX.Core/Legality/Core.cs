@@ -99,9 +99,14 @@ namespace PKHeX.Core
             return GetValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
 
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, GameVersion version = GameVersion.Any)
+        {
+            return GetValidRelearn(pkm, species, GetCanInheritMoves(species), version);
+        }
+
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
-            List<int> r = new List<int> { 0 };
+            var r = new List<int> { 0 };
             if (pkm.GenNumber < 6)
                 return r;
 
@@ -707,7 +712,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
-            List<int> r = new List<int> { 0 };
+            var r = new List<int> { 0 };
             if (Relearn && pkm.Format >= 6)
                 r.AddRange(pkm.RelearnMoves);
 
@@ -722,7 +727,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<EvoCriteria> vs, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
-            List<int> r = new List<int> { 0 };
+            var r = new List<int> { 0 };
             if (vs.Count == 0)
                 return r;
             int species = pkm.Species;
@@ -802,7 +807,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<int> GetMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int generation)
         {
-            List<int> r = new List<int>();
+            var r = new List<int>();
             if (LVL)
                 r.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, species, minlvlG1, minlvlG2, lvl, form, Version, MoveReminder, generation));
             if (Machine)

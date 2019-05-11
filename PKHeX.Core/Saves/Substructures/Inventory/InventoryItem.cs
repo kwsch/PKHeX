@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public InventoryItem Clone() => (InventoryItem) MemberwiseClone();
 
         // Check Pouch Compatibility
-        public bool Valid(ushort[] LegalItems, bool HaX, int MaxItemID)
+        public bool Valid(IList<ushort> LegalItems, bool HaX, int MaxItemID)
         {
             if (Index == 0)
                 return true;

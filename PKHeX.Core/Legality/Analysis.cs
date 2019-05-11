@@ -81,9 +81,7 @@ namespace PKHeX.Core
                     return _allSuggestedRelearnMoves;
                 if (Error || Info == null)
                     return new int[4];
-                var gender = pkm.PersonalInfo.Gender;
-                var inheritLvlMoves = (gender > 0 && gender < 255) || Legal.MixedGenderBreeding.Contains(Info.EncounterMatch.Species);
-                return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, inheritLvlMoves).ToArray();
+                return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, (GameVersion)pkm.Version).ToArray();
             }
         }
 
@@ -130,7 +128,7 @@ namespace PKHeX.Core
                     && Info.Moves.All(m => m.Valid)
                     && Info.Relearn.All(m => m.Valid);
 
-                if (pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
+                if (!Valid && pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
                     AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
             }
 #if SUPPRESS
@@ -299,6 +297,8 @@ namespace PKHeX.Core
 
         private string GetLegalityReport()
         {
+            if (Valid)
+                return L_ALegal;
             if (!Parsed || Info == null)
                 return L_AnalysisUnavailable;
 
@@ -308,7 +308,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 if (!vMoves[i].Valid)
-                    lines.Add(string.Format(L_F0_M_1_2, vMoves[i].Rating, i + 1, vMoves[i].Comment));
+                    lines.Add(vMoves[i].Format(L_F0_M_1_2, i + 1));
             }
 
             if (pkm.Format >= 6)
@@ -316,19 +316,13 @@ namespace PKHeX.Core
                 for (int i = 0; i < 4; i++)
                 {
                     if (!vRelearn[i].Valid)
-                        lines.Add(string.Format(L_F0_RM_1_2, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                        lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
                 }
             }
 
-            if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
-                return L_ALegal;
-
             // Build result string...
-            var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
-            lines.AddRange(outputLines.Select(chk => string.Format(L_F0_1, chk.Rating, chk.Comment)));
-
-            if (lines.Count == 0)
-                return L_AError;
+            var outputLines = Parse.Where(chk => !chk.Valid);
+            lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
 
             return string.Join(Environment.NewLine, lines);
         }
@@ -351,7 +345,7 @@ namespace PKHeX.Core
                 var move = vMoves[i];
                 if (!move.Valid)
                     continue;
-                var msg = string.Format(L_F0_M_1_2, move.Rating, i + 1, move.Comment);
+                var msg = move.Format(L_F0_M_1_2, i + 1);
                 if (pkm.Format != move.Generation)
                     msg += $" [Gen{move.Generation}]";
                 lines.Add(msg);
@@ -362,7 +356,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < 4; i++)
                 {
                     if (vRelearn[i].Valid)
-                    lines.Add(string.Format(L_F0_RM_1_2, vRelearn[i].Rating, i + 1, vRelearn[i].Comment));
+                    lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
                 }
             }
 
@@ -370,7 +364,7 @@ namespace PKHeX.Core
                 lines.Add(br[1]);
 
             var outputLines = Parse.Where(chk => chk?.Valid == true && chk.Comment != L_AValid).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            lines.AddRange(outputLines.Select(chk => string.Format(L_F0_1, chk.Rating, chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
 
             lines.AddRange(br);
             lines.Add(string.Format(L_FEncounterType_0, EncounterName));

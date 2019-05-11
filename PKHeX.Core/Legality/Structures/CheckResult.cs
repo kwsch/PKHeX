@@ -25,5 +25,8 @@
             Comment = c;
             Identifier = i;
         }
+
+        public string Format(string format) => string.Format(format, Rating, Comment);
+        public string Format(string format, int index) => string.Format(format, Rating, index, Comment);
     }
 }

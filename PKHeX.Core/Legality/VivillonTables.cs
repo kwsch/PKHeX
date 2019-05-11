@@ -6,17 +6,17 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        private struct CountryTable
+        private class CountryTable
         {
-            public byte countryID;
-            public byte mainform;
-            public FormSubregionTable[] otherforms;
+            public byte CountryID;
+            public byte BaseForm;
+            public FormSubregionTable[] SubRegionForms;
         }
 
-        private struct FormSubregionTable
+        private class FormSubregionTable
         {
-            public byte form;
-            public int[] region;
+            public byte Form;
+            public int[] Regions;
         }
 
         private static readonly int[][] VivillonCountryTable =
@@ -45,204 +45,204 @@ namespace PKHeX.Core
         private static readonly CountryTable[] RegionFormTable =
         {
             new CountryTable{
-                countryID = 001, // Japan
-                mainform = 05, // Elegant
-                otherforms = new[]
+                CountryID = 001, // Japan
+                BaseForm = 05, // Elegant
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 02, region = new[] {03,04} },
-                    new FormSubregionTable { form = 13, region = new[] {48} },
+                    new FormSubregionTable { Form = 02, Regions = new[] {03,04} },
+                    new FormSubregionTable { Form = 13, Regions = new[] {48} },
                 }
             },
             new CountryTable{
-                countryID = 049, // USA
-                mainform = 07, // Modern
-                otherforms = new[]
+                CountryID = 049, // USA
+                BaseForm = 07, // Modern
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 01, region = new[] {03,09,21,23,24,32,33,36,40,41,48,50} },
-                    new FormSubregionTable { form = 09, region = new[] {53} },
-                    new FormSubregionTable { form = 10, region = new[] {06,07,08,15,28,34,35,39,46,49} },
+                    new FormSubregionTable { Form = 01, Regions = new[] {03,09,21,23,24,32,33,36,40,41,48,50} },
+                    new FormSubregionTable { Form = 09, Regions = new[] {53} },
+                    new FormSubregionTable { Form = 10, Regions = new[] {06,07,08,15,28,34,35,39,46,49} },
                 }
             },
             new CountryTable{
-                countryID = 018, // Canada
-                mainform = 01, // Polar
-                otherforms = new[]
+                CountryID = 018, // Canada
+                BaseForm = 01, // Polar
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 00, region = new[] {12,13,14} },
-                    new FormSubregionTable { form = 07, region = new[] {05} },
-                    new FormSubregionTable { form = 10, region = new[] {04} },
+                    new FormSubregionTable { Form = 00, Regions = new[] {12,13,14} },
+                    new FormSubregionTable { Form = 07, Regions = new[] {05} },
+                    new FormSubregionTable { Form = 10, Regions = new[] {04} },
                 }
             },
             new CountryTable{
-                countryID = 016, // Brazil
-                mainform = 14, // Savanna
-                otherforms = new[]
+                CountryID = 016, // Brazil
+                BaseForm = 14, // Savanna
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 17, region = new[] {03,06} },
+                    new FormSubregionTable { Form = 17, Regions = new[] {03,06} },
                 }
             },
             new CountryTable{
-                countryID = 010, // Argentina
-                mainform = 14, // Savanna
-                otherforms = new[]
+                CountryID = 010, // Argentina
+                BaseForm = 14, // Savanna
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 01, region = new[] {21,24} },
-                    new FormSubregionTable { form = 03, region = new[] {16} },
+                    new FormSubregionTable { Form = 01, Regions = new[] {21,24} },
+                    new FormSubregionTable { Form = 03, Regions = new[] {16} },
                 }
             },
             new CountryTable{
-                countryID = 020, // Chile
-                mainform = 08, // Marine
-                otherforms = new[]
+                CountryID = 020, // Chile
+                BaseForm = 08, // Marine
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 01, region = new[] {12} },
+                    new FormSubregionTable { Form = 01, Regions = new[] {12} },
                 }
             },
             new CountryTable{
-                countryID = 036, // Mexico
-                mainform = 15, // Sun
-                otherforms = new[]
+                CountryID = 036, // Mexico
+                BaseForm = 15, // Sun
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 09, region = new[] {32} },
-                    new FormSubregionTable { form = 10, region = new[] {04,08,09,12,15,19,20,23,26,27,29} },
+                    new FormSubregionTable { Form = 09, Regions = new[] {32} },
+                    new FormSubregionTable { Form = 10, Regions = new[] {04,08,09,12,15,19,20,23,26,27,29} },
                 }
             },
             new CountryTable{
-                countryID = 052, // Venezuela
-                mainform = 09, // Archipelago
-                otherforms = new[]
+                CountryID = 052, // Venezuela
+                BaseForm = 09, // Archipelago
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 17, region = new[] {17} },
+                    new FormSubregionTable { Form = 17, Regions = new[] {17} },
                 }
             },
             new CountryTable{
-                countryID = 065, // Australia
-                mainform = 09, // River
-                otherforms = new[]
+                CountryID = 065, // Australia
+                BaseForm = 09, // River
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 04, region = new[] {07} },
-                    new FormSubregionTable { form = 15, region = new[] {04} },
+                    new FormSubregionTable { Form = 04, Regions = new[] {07} },
+                    new FormSubregionTable { Form = 15, Regions = new[] {04} },
                 }
             },
             new CountryTable{
-                countryID = 066, // Austria
-                mainform = 08, // Marine
-                otherforms = new[]
+                CountryID = 066, // Austria
+                BaseForm = 08, // Marine
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 06, region = new[] {10} },
+                    new FormSubregionTable { Form = 06, Regions = new[] {10} },
                 }
             },
             new CountryTable{
-                countryID = 073, // Czecg Republic
-                mainform = 08, // Marine
-                otherforms = new[]
+                CountryID = 073, // Czecg Republic
+                BaseForm = 08, // Marine
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 03, region = new[] {03} },
+                    new FormSubregionTable { Form = 03, Regions = new[] {03} },
                 }
             },
             new CountryTable{
-                countryID = 076, // Finland
-                mainform = 00, // Icy Snow
-                otherforms = new[]
+                CountryID = 076, // Finland
+                BaseForm = 00, // Icy Snow
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 01, region = new[] {27} },
+                    new FormSubregionTable { Form = 01, Regions = new[] {27} },
                 }
             },
             new CountryTable{
-                countryID = 077, // France
-                mainform = 06, // Meadow
-                otherforms = new[]
+                CountryID = 077, // France
+                BaseForm = 06, // Meadow
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 03, region = new[] {18} },
-                    new FormSubregionTable { form = 08, region = new[] {04,06,08,19} },
-                    new FormSubregionTable { form = 16, region = new[] {27} },
+                    new FormSubregionTable { Form = 03, Regions = new[] {18} },
+                    new FormSubregionTable { Form = 08, Regions = new[] {04,06,08,19} },
+                    new FormSubregionTable { Form = 16, Regions = new[] {27} },
                 }
             },
             new CountryTable{
-                countryID = 078, // Germany
-                mainform = 03, // Continental
-                otherforms = new[]
+                CountryID = 078, // Germany
+                BaseForm = 03, // Continental
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 06, region = new[] {04,13} },
-                    new FormSubregionTable { form = 08, region = new[] {05} },
+                    new FormSubregionTable { Form = 06, Regions = new[] {04,13} },
+                    new FormSubregionTable { Form = 08, Regions = new[] {05} },
                 }
             },
             new CountryTable{
-                countryID = 078, // Italy
-                mainform = 08, // Marine
-                otherforms = new[]
+                CountryID = 078, // Italy
+                BaseForm = 08, // Marine
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 06, region = new[] {04,06} },
+                    new FormSubregionTable { Form = 06, Regions = new[] {04,06} },
                 }
             },
             new CountryTable{
-                countryID = 085, // Lesotho
-                mainform = 09, // Archipelago ??
-                otherforms = new[]
+                CountryID = 085, // Lesotho
+                BaseForm = 09, // Archipelago ??
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 12, region = new[] {04} },
+                    new FormSubregionTable { Form = 12, Regions = new[] {04} },
                 }
             },
             new CountryTable{
-                countryID = 096, // Norway
-                mainform = 03, // Continental ??
-                otherforms = new[]
+                CountryID = 096, // Norway
+                BaseForm = 03, // Continental ??
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 00, region = new[] {11} },
-                    new FormSubregionTable { form = 01, region = new[] {12,15,16,17,20,22} },
-                    new FormSubregionTable { form = 02, region = new[] {13,14} },
+                    new FormSubregionTable { Form = 00, Regions = new[] {11} },
+                    new FormSubregionTable { Form = 01, Regions = new[] {12,15,16,17,20,22} },
+                    new FormSubregionTable { Form = 02, Regions = new[] {13,14} },
                 }
             },
             new CountryTable{
-                countryID = 097, // Poland
-                mainform = 03, // Continental
-                otherforms = new[]
+                CountryID = 097, // Poland
+                BaseForm = 03, // Continental
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 04, region = new[] {11} },
+                    new FormSubregionTable { Form = 04, Regions = new[] {11} },
                 }
             },
             new CountryTable{
-                countryID = 100, // Russia
-                mainform = 01, // Polar
-                otherforms = new[]
+                CountryID = 100, // Russia
+                BaseForm = 01, // Polar
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 00, region = new[] {14,22,34,38,40,52,66,88} },
-                    new FormSubregionTable { form = 03, region = new[] {29,46,51,69} },
-                    new FormSubregionTable { form = 10, region = new[] {20,24,25,28,33,71,73} },
+                    new FormSubregionTable { Form = 00, Regions = new[] {14,22,34,38,40,52,66,88} },
+                    new FormSubregionTable { Form = 03, Regions = new[] {29,46,51,69} },
+                    new FormSubregionTable { Form = 10, Regions = new[] {20,24,25,28,33,71,73} },
                 }
             },
             new CountryTable{
-                countryID = 104, //South Africa
-                mainform = 12, // River ??
-                otherforms = new[]
+                CountryID = 104, //South Africa
+                BaseForm = 12, // River ??
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 03, region = new[] {03,05} },
+                    new FormSubregionTable { Form = 03, Regions = new[] {03,05} },
                 }
             },
             new CountryTable{
-                countryID = 105, // Spain
-                mainform = 08, // Marine
-                otherforms = new[]
+                CountryID = 105, // Spain
+                BaseForm = 08, // Marine
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 06, region = new[] {11} },
-                    new FormSubregionTable { form = 12, region = new[] {07} },
+                    new FormSubregionTable { Form = 06, Regions = new[] {11} },
+                    new FormSubregionTable { Form = 12, Regions = new[] {07} },
                 }
             },
             new CountryTable{
-                countryID = 107, // Sweden
-                mainform = 03, // Continental
-                otherforms = new[]
+                CountryID = 107, // Sweden
+                BaseForm = 03, // Continental
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 00, region = new[] {11,21} },
-                    new FormSubregionTable { form = 01, region = new[] {09,13} },
+                    new FormSubregionTable { Form = 00, Regions = new[] {11,21} },
+                    new FormSubregionTable { Form = 01, Regions = new[] {09,13} },
                 }
             },
             new CountryTable{
-                countryID = 169, // India
-                mainform = 13, // Monsoon ??
-                otherforms = new[]
+                CountryID = 169, // India
+                BaseForm = 13, // Monsoon ??
+                SubRegionForms = new[]
                 {
-                    new FormSubregionTable { form = 17, region = new[] {12} },
+                    new FormSubregionTable { Form = 17, Regions = new[] {12} },
                 }
             },
         };
@@ -259,14 +259,14 @@ namespace PKHeX.Core
             if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
 
-            var ct = Array.Find(RegionFormTable, t => t.countryID == country);
-            if (ct.otherforms == null) // empty struct = no forms referenced
+            var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
+            if (ct.SubRegionForms == null) // empty struct = no forms referenced
                 return true; // No subregion table
 
-            if (ct.mainform == form)
-                return !ct.otherforms.Any(e => e.region.Contains(region)); //true if Mainform not in other specific region
+            if (ct.BaseForm == form)
+                return !ct.SubRegionForms.Any(e => e.Regions.Contains(region)); //true if Mainform not in other specific region
 
-            return ct.otherforms.Any(e => e.form == form && e.region.Contains(region));
+            return ct.SubRegionForms.Any(e => e.Form == form && e.Regions.Contains(region));
         }
 
         /// <summary>
@@ -276,17 +276,17 @@ namespace PKHeX.Core
         /// <param name="region">Console Region ID</param>
         public static int GetVivillonPattern(int country, int region)
         {
-            var ct = Array.Find(RegionFormTable, t => t.countryID == country);
-            if (ct.otherforms == null) // empty struct = no forms referenced
-                return ct.mainform; // No subregion table
+            var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
+            if (ct.SubRegionForms == null) // empty struct = no forms referenced
+                return ct.BaseForm; // No subregion table
 
-            foreach (var sub in ct.otherforms)
+            foreach (var sub in ct.SubRegionForms)
             {
-                if (sub.region.Contains(region))
-                    return sub.form;
+                if (sub.Regions.Contains(region))
+                    return sub.Form;
             }
 
-            return ct.mainform;
+            return ct.BaseForm;
         }
 
         /// <summary>

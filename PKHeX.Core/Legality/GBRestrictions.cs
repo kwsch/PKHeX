@@ -12,11 +12,11 @@ namespace PKHeX
     /// </summary>
     internal static class GBRestrictions
     {
-        internal static readonly int[] G1CaterpieMoves = { 33, 81 };
-        internal static readonly int[] G1WeedleMoves = { 40, 81 };
-        internal static readonly int[] G1MetapodMoves = G1CaterpieMoves.Concat(new[] { 106 }).ToArray();
-        internal static readonly int[] G1KakunaMoves = G1WeedleMoves.Concat(new[] { 106 }).ToArray();
-        internal static readonly int[] G1Exeggcute_IncompatibleMoves = { 78, 77, 79 };
+        private static readonly int[] G1CaterpieMoves = { 33, 81 };
+        private static readonly int[] G1WeedleMoves = { 40, 81 };
+        private static readonly int[] G1MetapodMoves = { 33, 81, 106 };
+        private static readonly int[] G1KakunaMoves = { 40, 81, 106 };
+        private static readonly int[] G1Exeggcute_IncompatibleMoves = { 78, 77, 79 };
 
         internal static readonly int[] Stadium_CatchRate =
         {
@@ -24,7 +24,7 @@ namespace PKHeX
             168, // Gorgeous Box
         };
 
-        internal static readonly HashSet<int> Stadium_GiftSpecies = new HashSet<int>
+        private static readonly HashSet<int> Stadium_GiftSpecies = new HashSet<int>
         {
             001, // Bulbasaur
             004, // Charmander
@@ -37,12 +37,14 @@ namespace PKHeX
             140, // Kabuto
         };
 
-        internal static readonly HashSet<int> SpecialMinMoveSlots = new HashSet<int>
+        private static readonly HashSet<int> SpecialMinMoveSlots = new HashSet<int>
         {
             25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
         };
 
-        internal static readonly HashSet<int> Types_Gen1 = new HashSet<int>
+        internal static bool TypeIDExists(int type) => Types_Gen1.Contains(type);
+
+        private static readonly HashSet<int> Types_Gen1 = new HashSet<int>
         {
             0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
         };
