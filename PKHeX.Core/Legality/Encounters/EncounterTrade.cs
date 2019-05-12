@@ -232,7 +232,7 @@ namespace PKHeX.Core
         {
             if (IVs != null)
             {
-                if (!Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                if (!Legal.GetIsFixedIVSequenceValid(IVs, pkm))
                     return false;
             }
 
