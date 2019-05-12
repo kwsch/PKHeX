@@ -20,7 +20,7 @@ namespace PKHeX.Core
         public override int SIZE_STORED => SIZE_PARTY;
         protected override int SIZE_PARTY => 260;
 
-        public override SaveFile Clone() => new SAV7b(Data);
+        public override SaveFile Clone() => new SAV7b((byte[])Data.Clone());
 
         public SAV7b() : this(new byte[SaveUtil.SIZE_G7GG]) { }
 
