@@ -584,8 +584,9 @@ namespace PKHeX.WinForms
             if (obj != null && LoadFile(obj, path))
                 return;
 
-            string[] savTypes = { "", ".sav", ".dsv", ".dat", ".gci", ".bin" };
-            WinFormsUtil.Error(savTypes.Contains(Path.GetExtension(path)) ? MsgFileUnsupported : MsgPKMUnsupported,
+            bool isSAV = WinFormsUtil.IsFileExtensionSAV(path);
+            var msg = isSAV ? MsgFileUnsupported : MsgPKMUnsupported;
+            WinFormsUtil.Error(msg,
                 $"{MsgFileLoad}{Environment.NewLine}{path}",
                 $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
         }

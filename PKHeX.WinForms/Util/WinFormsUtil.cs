@@ -159,6 +159,8 @@ namespace PKHeX.WinForms
             "SaveRAM", // BizHawk
         };
 
+        public static bool IsFileExtensionSAV(string file) => CustomSaveExtensions.Contains(Path.GetExtension(file));
+
         private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
 
         public static bool DetectSaveFileOnFileOpen { private get; set; } = true;
