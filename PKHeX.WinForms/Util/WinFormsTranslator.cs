@@ -101,8 +101,7 @@ namespace PKHeX.WinForms
         {
             foreach (Control child in control.Controls)
             {
-                var childOfT = child as T;
-                if (childOfT != null)
+                if (child is T childOfT)
                     yield return childOfT;
 
                 if (!child.HasChildren) continue;

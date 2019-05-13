@@ -28,8 +28,7 @@ namespace PKHeX.WinForms
         {
             while (true)
             {
-                var t = aParent as T;
-                if (t != null)
+                if (aParent is T t)
                     return t;
 
                 if (aParent.Parent != null)
