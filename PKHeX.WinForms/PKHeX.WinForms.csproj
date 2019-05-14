@@ -301,6 +301,12 @@
     </Compile>
     <Compile Include="Subforms\Misc\PKMPreview.cs" />
     <Compile Include="Subforms\Misc\PropertyComparer.cs" />
+    <Compile Include="Subforms\Save Editors\Gen4\PoffinCase4Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\PoffinCase4Editor.Designer.cs">
+      <DependentUpon>PoffinCase4Editor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Apricorn.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -709,6 +715,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen4\PoffinCase4Editor.resx">
+      <DependentUpon>PoffinCase4Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Apricorn.resx">
       <DependentUpon>SAV_Apricorn.cs</DependentUpon>
