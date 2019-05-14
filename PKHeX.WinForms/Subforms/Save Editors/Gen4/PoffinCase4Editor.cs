@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             Updating = false;
         }
 
-        private string GetPoffinText(int i) => $"{i + 1:000} - {Case.Poffins[i].Type.ToString().Replace('_', '/')}";
+        private string GetPoffinText(int i) => $"{i + 1:000} - {Case.Poffins[i].Type.ToString().Replace('_', '-')}";
 
         public void Save()
         {
