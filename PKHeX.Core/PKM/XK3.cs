@@ -69,14 +69,23 @@ namespace PKHeX.Core
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x28); set => BigEndian.GetBytes(value).CopyTo(Data, 0x28); }
         // 0x2A-0x2B Unknown
         // 0x2C-0x2F Battle Related
-       //  public bool Obedient { get => Data[0x30] == 1; set => Data[0x30] = (byte)(value ? 1 : 0); }
+        public bool Obedient { get => Data[0x30] == 1; set => Data[0x30] = (byte)(value ? 1 : 0); }
         // 0x31-0x32 Unknown
         public int EncounterInfo { get => Data[0x33]; set => Data[0x33] = (byte)value; }
 
         public override bool FatefulEncounter
         {
-            get => (EncounterInfo & 1) == 1;
-            set => EncounterInfo = (byte)((EncounterInfo & ~(1 << 0)) | (value ? 1 << 0 : 0));
+            get => EncounterInfo != 0 || Obedient;
+            set
+            {
+                if (EncounterInfo != 0)
+                {
+                    if (!value)
+                        EncounterInfo = 0;
+                    return;
+                }
+                EncounterInfo = (byte) ((EncounterInfo & ~(1 << 0)) | (value ? 1 << 0 : 0));
+            }
         }
 
         public override int Version { get => GetGBAVersionID(Data[0x34]); set => Data[0x34] = GetGCVersionID(value); }

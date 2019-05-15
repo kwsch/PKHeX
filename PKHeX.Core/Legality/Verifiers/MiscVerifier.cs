@@ -244,15 +244,6 @@ namespace PKHeX.Core
         private static void VerifyFatefulIngameActive(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.Version == 15 && pkm is XK3 xk3 && data.Info.WasXD)
-            {
-                // can't have fateful until traded away, which clears ShadowID
-                if (xk3.FatefulEncounter && xk3.ShadowID != 0 && data.EncounterMatch is EncounterStaticShadow)
-                    data.AddLine(GetInvalid(LFatefulInvalid, Fateful));
-
-                return; // fateful is set when transferred away
-            }
-
             var result = pkm.FatefulEncounter
                 ? GetValid(LFateful, Fateful)
                 : GetInvalid(LFatefulMissing, Fateful);
