@@ -345,7 +345,7 @@ namespace PKHeX.Core
 
             if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
             {
-                if (!Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
                     return false;
             }
 
