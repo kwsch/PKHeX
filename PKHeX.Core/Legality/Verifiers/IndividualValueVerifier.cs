@@ -54,7 +54,7 @@ namespace PKHeX.Core
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
             if (ivflag == 0) // Random IVs
             {
-                bool valid = Legal.GetIsFixedIVSequenceValid(IVs, data.pkm);
+                bool valid = Legal.GetIsFixedIVSequenceValidSkipRand(IVs, data.pkm);
                 if (!valid)
                     data.AddLine(GetInvalid(LEncGiftIVMismatch));
             }

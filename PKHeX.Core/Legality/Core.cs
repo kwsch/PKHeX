@@ -902,7 +902,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool GetIsFixedIVSequenceValid(IReadOnlyList<int> IVs, PKM pkm, int max = 31)
+        public static bool GetIsFixedIVSequenceValidSkipRand(IReadOnlyList<int> IVs, PKM pkm, int max = 31)
         {
             for (int i = 0; i < 6; i++)
             {
