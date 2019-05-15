@@ -165,7 +165,7 @@ namespace PKHeX.Core
         public static string MsgSaveBoxImportModifyCurrent { get; set; } = "Cancel - Use current settings ({0})";
         public static string MsgSaveBoxImportModifyNo { get; set; } = "No - Don't modify .pk*";
         public static string MsgSaveBoxImportNoFiles { get; set; } = "No files loaded.";
-        public static string MsgSaveBoxImportSuccess { get; set; } = "Loaded  {0} files to boxes.";
+        public static string MsgSaveBoxImportSuccess { get; set; } = "Loaded {0} files to boxes.";
         public static string MsgSaveBoxImportClear { get; set; } = "Clear subsequent boxes when importing data?";
         public static string MsgSaveBoxImportClearNo { get; set; } = "If you only want to overwrite for new data, press no.";
         public static string MsgSaveBoxImportPCBinary { get; set; } = "PC Binary loaded.";
