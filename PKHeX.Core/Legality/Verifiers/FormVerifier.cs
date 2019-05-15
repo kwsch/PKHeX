@@ -178,11 +178,11 @@ namespace PKHeX.Core
         private static int GetArceusFormFromHeldItem(int item, int format)
         {
             if (777 <= item && item <= 793)
-                return Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
+                return Array.IndexOf(Legal.Arceus_ZCrystal, (ushort)item) + 1;
 
             int form = 0;
             if ((298 <= item && item <= 313) || item == 644)
-                form = Array.IndexOf(Legal.Arceus_Plate, item) + 1;
+                form = Array.IndexOf(Legal.Arceus_Plate, (ushort)item) + 1;
             if (format == 4 && form >= 9)
                 return form + 1; // ??? type Form shifts everything by 1
             return form;
