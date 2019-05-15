@@ -21,7 +21,7 @@ namespace PKHeX.Core
             if (SAV.HGSS)
                 throw new ArgumentException(nameof(SAV));
 
-            Offset = SAV.DP ? 0x5050 : 0x52E0;
+            Offset = SAV.DP ? 0x5050 : 0x52E8;
             Poffins = ReadPoffins(SAV, Offset);
         }
 
