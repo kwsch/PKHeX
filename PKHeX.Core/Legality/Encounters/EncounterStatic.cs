@@ -337,7 +337,17 @@ namespace PKHeX.Core
             }
 
             if (Gender != -1 && Gender != pkm.Gender)
-                return false;
+            {
+                if (Species == (int)Core.Species.Azurill && Generation == 4 && Location == 233 && pkm.Gender == 0)
+                {
+                    if (PKX.GetGenderFromPIDAndRatio(pkm.PID, 0xBF) != 1)
+                        return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
             if (Form != pkm.AltForm && !SkipFormCheck && !Legal.IsFormChangeable(pkm, Species))
                 return false;
             if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case

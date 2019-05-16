@@ -460,12 +460,33 @@ namespace PKHeX.Core
             if (nature == 24) // impossible nature
                 return GetNonMatch(out pidiv);
 
-            uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, pk.Gender, pk.PersonalInfo.Gender);
+            var gender = pk.Gender;
+            uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, gender, pk.PersonalInfo.Gender);
 
             if (pid != oldpid)
-                return GetNonMatch(out pidiv);
+            {
+                if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, oldpid)))
+                    return GetNonMatch(out pidiv);
+            }
             pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.Pokewalker};
             return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint oldpid)
+        {
+            // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a F->M bend?
+            int spec = pk.Species;
+            if (spec != (int)Species.Marill && spec != (int)Species.Azumarill)
+                return false;
+
+            const int AzurillGenderRatio = 0xBF;
+            var gender = PKX.GetGenderFromPIDAndRatio(pk.PID, AzurillGenderRatio);
+            if (gender != 1)
+                return false;
+
+            var pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, 1, AzurillGenderRatio);
+            return pid == oldpid;
         }
 
         private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
