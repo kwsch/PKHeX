@@ -109,27 +109,27 @@ namespace PKHeX.Core
 
         private static readonly BlockInfo[] BlockInfoGG =
         {
-            new BlockInfo3DS {Length = 3472, Offset = 0},
-            new BlockInfo3DS {Length = 512, Offset = 3584},
-            new BlockInfo3DS {Length = 360, Offset = 4096},
-            new BlockInfo3DS {Length = 6144, Offset = 4608},
-            new BlockInfo3DS {Length = 8424, Offset = 10752},
-            new BlockInfo3DS {Length = 2352, Offset = 19456},
-            new BlockInfo3DS {Length = 4, Offset = 22016},
-            new BlockInfo3DS {Length = 304, Offset = 22528},
-            new BlockInfo3DS {Length = 18, Offset = 23040},
-            new BlockInfo3DS {Length = 260000, Offset = 23552},
-            new BlockInfo3DS {Length = 8, Offset = 283648},
-            new BlockInfo3DS {Length = 3728, Offset = 284160},
-            new BlockInfo3DS {Length = 4260, Offset = 288256},
-            new BlockInfo3DS {Length = 240, Offset = 292864},
-            new BlockInfo3DS {Length = 24592, Offset = 293376},
-            new BlockInfo3DS {Length = 512, Offset = 318464},
-            new BlockInfo3DS {Length = 152, Offset = 318976},
-            new BlockInfo3DS {Length = 104, Offset = 319488},
-            new BlockInfo3DS {Length = 432000, Offset = 320000},
-            new BlockInfo3DS {Length = 176, Offset = 752128},
-            new BlockInfo3DS {Length = 2368, Offset = 752640},
+            new BlockInfo3DS {Offset = 0x00000, Length = 0x00D90},
+            new BlockInfo3DS {Offset = 0x00E00, Length = 0x00200},
+            new BlockInfo3DS {Offset = 0x01000, Length = 0x00168},
+            new BlockInfo3DS {Offset = 0x01200, Length = 0x01800},
+            new BlockInfo3DS {Offset = 0x02A00, Length = 0x020E8},
+            new BlockInfo3DS {Offset = 0x04C00, Length = 0x00930},
+            new BlockInfo3DS {Offset = 0x05600, Length = 0x00004},
+            new BlockInfo3DS {Offset = 0x05800, Length = 0x00130},
+            new BlockInfo3DS {Offset = 0x05A00, Length = 0x00012},
+            new BlockInfo3DS {Offset = 0x05C00, Length = 0x3F7A0},
+            new BlockInfo3DS {Offset = 0x45400, Length = 0x00008},
+            new BlockInfo3DS {Offset = 0x45600, Length = 0x00E90},
+            new BlockInfo3DS {Offset = 0x46600, Length = 0x010A4},
+            new BlockInfo3DS {Offset = 0x47800, Length = 0x000F0},
+            new BlockInfo3DS {Offset = 0x47A00, Length = 0x06010},
+            new BlockInfo3DS {Offset = 0x4DC00, Length = 0x00200},
+            new BlockInfo3DS {Offset = 0x4DE00, Length = 0x00098},
+            new BlockInfo3DS {Offset = 0x4E000, Length = 0x00068},
+            new BlockInfo3DS {Offset = 0x4E200, Length = 0x69780},
+            new BlockInfo3DS {Offset = 0xB7A00, Length = 0x000B0},
+            new BlockInfo3DS {Offset = 0xB7C00, Length = 0x00940},
         };
 
         private bool CanReadChecksums()
@@ -257,5 +257,8 @@ namespace PKHeX.Core
 
         protected override bool[] MysteryGiftReceivedFlags { get => GiftRecords.Flags; set => GiftRecords.Flags = value; }
         protected override MysteryGift[] MysteryGiftCards { get => GiftRecords.Records; set => GiftRecords.Records = (WR7[])value; }
+
+        public override int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
+        public override string GameSyncID { get => Status.GameSyncID; set => Status.GameSyncID = value; }
     }
 }

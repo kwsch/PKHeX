@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -38,6 +39,30 @@ namespace PKHeX.Core
         {
             get => Data[Offset + 5];
             set => Data[Offset + 5] = OverworldGender = (byte)value;
+        }
+
+        public const int GameSyncIDSize = 16; // 8 bytes
+
+        public string GameSyncID
+        {
+            get
+            {
+                var data = Data.Skip(Offset + 0x10).Take(GameSyncIDSize / 2).Reverse().ToArray();
+                return BitConverter.ToString(data).Replace("-", string.Empty);
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                if (value.Length > 16)
+                    return;
+
+                Enumerable.Range(0, value.Length)
+                    .Where(x => x % 2 == 0)
+                    .Reverse()
+                    .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
+                    .ToArray().CopyTo(Data, Offset + 0x10);
+            }
         }
 
         public int Language
