@@ -589,12 +589,12 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenFriendSafari_Click(object sender, EventArgs e)
         {
-            if (!SAV.XY)
+            if (!(SAV is SAV6XY xy))
                 return;
 
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6FriendSafari, MsgSaveGen6FriendSafariCheatDesc);
             if (dr == DialogResult.Yes)
-                ((SAV6)SAV).UnlockAllFriendSafariSlots();
+                xy.UnlockAllFriendSafariSlots();
         }
 
         private static Form GetPokeDexEditor(SaveFile sav)
@@ -1006,7 +1006,7 @@ namespace PKHeX.WinForms.Controls
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = sav.HasBattleBox;
                 GB_Daycare.Visible = sav.HasDaycare;
                 B_OpenSecretBase.Enabled = sav.HasSecretBase;
-                B_OpenPokepuffs.Enabled = sav is IPokePuff p && p.HasPuffData;
+                B_OpenPokepuffs.Enabled = sav is IPokePuff;
                 B_OUTPasserby.Enabled = sav.HasPSS;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;

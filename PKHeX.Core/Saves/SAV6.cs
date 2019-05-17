@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -7,31 +8,33 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV6 : SaveFile, ITrainerStatRecord, IPokePuff, ISecureValueStorage
+    public abstract class SAV6 : SaveFile, ITrainerStatRecord, ISecureValueStorage
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
-        public SAV6(byte[] data = null)
+        protected SAV6(byte[] data)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G6ORAS];
+            Data = data;
             BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Exportable = true;
 
-            // Load Info
             Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
-            GetSAVOffsets();
+        }
 
-            HeldItems = ORAS ? Legal.HeldItem_AO : Legal.HeldItem_XY;
-            Personal = ORAS ? PersonalTable.AO : PersonalTable.XY;
-            if (!Exportable)
-                ClearBoxes();
+        protected SAV6(int size)
+        {
+            Data = new byte[size];
+            BAK = Data;
+            Exportable = false;
+
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
+            ClearBoxes();
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV6((byte[])Data.Clone());
 
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
@@ -44,14 +47,11 @@ namespace PKHeX.Core
         protected override int GiftCountMax => 24;
         protected override int GiftFlagMax => 0x100 * 8;
         protected override int EventFlagMax => 8 * 0x180;
-        protected override int EventConstMax => (EventFlag - EventConst) / 2;
+        protected override int EventConstMax => (EventFlag - EventConst) / sizeof(ushort);
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override int MaxMoveID => XY ? Legal.MaxMoveID_6_XY : Legal.MaxMoveID_6_AO;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_6;
-        public override int MaxItemID => XY ? Legal.MaxItemID_6_XY : Legal.MaxItemID_6_AO;
-        public override int MaxAbilityID => XY ? Legal.MaxAbilityID_6_XY : Legal.MaxAbilityID_6_AO;
         public override int MaxBallID => Legal.MaxBallID_6;
         public override int MaxGameID => Legal.MaxGameID_6; // OR
 
@@ -78,218 +78,33 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
         }
 
-        private void GetSAVOffsets()
-        {
-            if (ORASDEMO)
-            {
-                /* 00: */ Bag = 0x00000; // MyItem
-                /* 01: */ ItemInfo = 0x00C00; // Select Bound Items
-                /* 02: */ AdventureInfo = 0x00E00; // GameTime
-                /* 03: */ Trainer1 = 0x01000; // Situation
-                /* 04: */ // = 0x01200; [00004] // RandomGroup (rand seeds)
-                /* 05: */ PlayTime = 0x01400; // PlayTime
-                /* 06: */ // = 0x01600; [00024] // temp variables (u32 id + 32 u8)
-                /* 07: */ // = 0x01800; [02100] // FieldMoveModelSave
-                /* 08: */ Trainer2 = 0x03A00; // Misc
-                /* 09: */ TrainerCard = 0x03C00; // MyStatus
-                /* 10: */ Party = 0x03E00; // PokePartySave
-                /* 11: */ EventConst = 0x04600; // EventWork
-                /* 12: */ // = 0x04C00; [00004] // Packed Menu Bits
-                /* 13: */ // = 0x04E00; [00048] // Repel Info, (Swarm?) and other overworld info (roamer)
-                /* 14: */ SUBE = 0x05000; // PokeDiarySave
-                /* 15: */ Record = 0x05400; // Record
-
-                EventFlag = EventConst + 0x2FC;
-
-                OFS_PouchHeldItem = Bag + 0;
-                OFS_PouchKeyItem = Bag + 0x640;
-                OFS_PouchTMHM = Bag + 0x7C0;
-                OFS_PouchMedicine = Bag + 0x970;
-                OFS_PouchBerry = Bag + 0xA70;
-            }
-            else if (XY)
-            {
-                /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
-                /* 01: 00400-00F88, 00B88 */ Bag = 0x00400; // MyItem
-                /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000; // Select Bound Items
-                /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200; // GameTime
-                /* 04: 01400-01550, 00150 */ Trainer1 = 0x1400; // Situation
-                /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
-                /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
-                /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
-                /* 08: 01C00-01CBE, 000BE */ // amie minigame records
-                /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
-                /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
-                /* 11: 04200-04340, 00140 */ Trainer2 = 0x4200; // Misc
-                /* 12: 04400-04840, 00440 */ PCLayout = 0x4400; // BOX
-                /* 13: 04A00-04F74, 00574 */ BattleBox = 0x04A00; // BattleBox
-                /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
-                /* 15: 0A000-0EE28, 04E28 */ // PSS2
-                /* 16: 0F000-13E28, 04E28 */ // PSS3
-                /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
-                /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
-                /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
-                /* 20: 15000-156A0, 006A0 */ PokeDex = 0x15000; // ZukanData
-                /* 21: 15800-15E44, 00644 */ // hologram clips
-                /* 22: 16000-16104, 00104 */ Fused = 0x16000; // UnionPokemon
-                /* 23: 16200-16204, 00004 */ // ConfigSave
-                /* 24: 16400-16820, 00420 */ // Amie decoration stuff
-                /* 25: 16A00-16A64, 00064 */ OPower = 0x16A00;
-                /* 26: 16C00-16FF0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
-                /* 27: 17000-1770C, 0070C */ // Trainer PR Video
-                /* 28: 17800-17980, 00180 */ GTS = 0x17800; // GtsData
-                /* 29: 17A00-17A04, 00004 */ // Packed Menu Bits
-                /* 30: 17C00-17C0C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
-                /* 31: 17E00-17E48, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
-                /* 32: 18000-18054, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
-                /* 33: 18200-18844, 00644 */ // Streetpass history (4 byte intro, 20*4byte entries, 20*76 byte entries)
-                /* 34: 18A00-18FC8, 005C8 */ // LiveMatchData/BattleSpotData
-                /* 35: 19000-192F8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
-                /* 36: 19400-1AF40, 01B40 */ HoF = 0x19400; // Dendou
-                /* 37: 1B000-1B1F4, 001F4 */ MaisonStats = 0x1B1C0; // BattleInstSave
-                /* 38: 1B200-1B3F0, 001F0 */ Daycare = 0x1B200; // Sodateya
-                /* 39: 1B400-1B616, 00216 */ // BattleInstSave
-                /* 40: 1B800-1BB90, 00390 */ BerryField = 0x1B800;
-                /* 41: 1BC00-1D690, 01A90 */ WondercardFlags = 0x1BC00; // MysteryGiftSave
-                /* 42: 1D800-1DB08, 00308 */ SUBE = 0x1D890; // PokeDiarySave
-                /* 43: 1DC00-1E218, 00618 */ // Storyline Records
-                /* 44: 1E400-1E65C, 0025C */ Record = 0x1E400; // Record
-                /* 45: 1E800-1F034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
-                /* 46: 1F200-1F518, 00318 */ SuperTrain = 0x1F200;
-                /* 47: 1F600-1FDD0, 007D0 */ // Unused (lmao)
-                /* 48: 1FE00-20A48, 00C48 */ LinkInfo = 0x1FE00;
-                /* 49: 20C00-20C78, 00078 */ // PSS usage info
-                /* 50: 20E00-21000, 00200 */ // GameSyncSave
-                /* 51: 21000-21C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
-                /* 52: 21E00-22428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
-                /* 53: 22600-570D0, 34AD0 */ Box = 0x22600;
-                /* 54: 57200-65258, 0E058 */ JPEG = 0x57200;
-
-                PCBackgrounds = PCLayout + 0x41E;
-                PCFlags = PCLayout + 0x43D;
-                LastViewedBox = PCLayout + 0x43F;
-                EventFlag = EventConst + 0x2FC;
-                PokeDexLanguageFlags = PokeDex + 0x3C8;
-                Spinda = PokeDex + 0x648;
-                WondercardData = WondercardFlags + 0x100;
-
-                OFS_PouchHeldItem = Bag + 0;
-                OFS_PouchKeyItem = Bag + 0x640;
-                OFS_PouchTMHM = Bag + 0x7C0;
-                OFS_PouchMedicine = Bag + 0x968;
-                OFS_PouchBerry = Bag + 0xA68;
-            }
-            else if (ORAS)
-            {
-                /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
-                /* 01: 00400-00F90, 00B90 */ Bag = 0x00400; // MyItem
-                /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000; // Select Bound Items
-                /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200; // GameTime
-                /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
-                /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
-                /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
-                /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
-                /* 08: 01C00-01CBE, 000BE */ // amie minigame records
-                /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
-                /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
-                /* 11: 04200-04330, 00130  */ Trainer2 = 0x04200; // Misc
-                /* 12: 04400-04840, 00440  */ PCLayout = 0x04400; // BOX
-                /* 13: 04A00-04F74, 00574  */ BattleBox = 0x04A00; // BattleBox
-                /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
-                /* 15: 0A000-0EE28, 04E28 */ // PSS2
-                /* 16: 0F000-13E28, 04E28 */ // PSS3
-                /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
-                /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
-                /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
-                /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000; // ZukanData
-                /* 21: 16200-16844, 00644 */ // hologram clips
-                /* 22: 16A00-16B04, 00104 */ Fused = 0x16A00; // UnionPokemon
-                /* 23: 16C00-16C04, 00004 */ // ConfigSave
-                /* 24: 16E00-17220, 00420 */ // Amie decoration stuff
-                /* 25: 17400-17464, 00064 */ OPower = 0x17400;
-                /* 26: 17600-179F0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
-                /* 27: 17A00-1810C, 0070C */ // Trainer PR Video
-                /* 28: 18200-18380, 00180 */ GTS = 0x18200; // GtsData
-                /* 29: 18400-18404, 00004 */ // Packed Menu Bits
-                /* 30: 18600-1860C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
-                /* 31: 18800-18848, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
-                /* 32: 18A00-18A54, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
-                /* 33: 18C00-19244, 00644 */ // Streetpass history
-                /* 34: 19400-199C8, 005C8 */ // LiveMatchData/BattleSpotData
-                /* 35: 19A00-19CF8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
-                /* 36: 19E00-1B940, 01B40 */ HoF = 0x19E00; // Dendou
-                /* 37: 1BA00-1BBF4, 001F4 */ MaisonStats = 0x1BBC0; // BattleInstSave
-                /* 38: 1BC00-1BFE0, 003E0 */ Daycare = 0x1BC00; // Sodateya
-                /* 39: 1C000-1C216, 00216 */ // BattleInstSave
-                /* 40: 1C400-1CA40, 00640 */ BerryField = 0x1C400;
-                /* 41: 1CC00-1E690, 01A90 */ WondercardFlags = 0x1CC00; // MysteryGiftSave
-                /* 42: 1E800-1EC00, 00400 */ // Storyline Records
-                /* 43: 1EC00-1F218, 00618 */ SUBE = 0x1D890; // PokeDiarySave
-                /* 44: 1F400-1F65C, 0025C */ Record = 0x1F400; // Record
-                /* 45: 1F800-20034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
-                /* 46: 20200-20518, 00318 */ SuperTrain = 0x20200;
-                /* 47: 20600-20DD0, 007D0 */ // Unused (lmao)
-                /* 48: 20E00-21A48, 00C48 */ LinkInfo = 0x20E00;
-                /* 49: 21C00-21C78, 00078 */ // PSS usage info
-                /* 50: 21E00-22000, 00200 */ // GameSyncSave
-                /* 51: 22000-22C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
-                /* 52: 22E00-23428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
-                /* 53: 23600-23A00, 00400 */ Contest = 0x23600;
-                /* 54: 23A00-2B4D0, 07AD0 */ SecretBase = 0x23A00;
-                /* 55: 2B600-32EB0, 078B0 */ EonTicket = 0x319B8;
-                /* 56: 33000-67AD0, 34AD0 */ Box = 0x33000;
-                /* 57: 67C00-75C58, 0E058 */ JPEG = 0x67C00;
-
-                PCBackgrounds = PCLayout + 0x41E;
-                PCFlags = PCLayout + 0x43D;
-                LastViewedBox = PCLayout + 0x43F;
-                EventFlag = EventConst + 0x2FC;
-                PokeDexLanguageFlags = PokeDex + 0x400;
-                Spinda = PokeDex + 0x680;
-                EncounterCount = PokeDex + 0x686;
-                WondercardData = WondercardFlags + 0x100;
-                Daycare2 = Daycare + 0x1F0;
-
-                OFS_PouchHeldItem = Bag + 0;
-                OFS_PouchKeyItem = Bag + 0x640;
-                OFS_PouchTMHM = Bag + 0x7C0;
-                OFS_PouchMedicine = Bag + 0x970;
-                OFS_PouchBerry = Bag + 0xA70;
-            }
-            else // Empty input
-            {
-                Party = 0x0;
-                Box = Party + (SIZE_PARTY * 6) + 0x1000;
-            }
-        }
-
         // Private Only
-        private int Bag { get; set; } = int.MinValue;
-        private int AdventureInfo { get; set; } = int.MinValue;
-        private int Trainer2 { get; set; } = int.MinValue;
-        private int LastViewedBox { get; set; } = int.MinValue;
-        private int WondercardFlags { get; set; } = int.MinValue;
-        private int PlayTime { get; set; } = int.MinValue;
-        private int JPEG { get; set; } = int.MinValue;
-        private int ItemInfo { get; set; } = int.MinValue;
-        private int Daycare2 { get; set; } = int.MinValue;
-        private int LinkInfo { get; set; } = int.MinValue;
+        protected int Bag { get; set; } = int.MinValue;
+        protected int AdventureInfo { get; set; } = int.MinValue;
+        protected int Trainer2 { get; set; } = int.MinValue;
+        protected int LastViewedBox { get; set; } = int.MinValue;
+        protected int WondercardFlags { get; set; } = int.MinValue;
+        protected int PlayTime { get; set; } = int.MinValue;
+        protected int ItemInfo { get; set; } = int.MinValue;
+        protected int Daycare2 { get; set; } = int.MinValue;
+        protected int LinkInfo { get; set; } = int.MinValue;
+        protected int JPEG { get; set; } = int.MinValue;
 
         // Accessible as SAV6
-        public int TrainerCard { get; private set; } = 0x14000;
-        public int PCFlags { get; private set; } = int.MinValue;
-        public int Record { get; private set; } = int.MinValue;
-        public int MaisonStats { get; private set; } = int.MinValue;
-        public int EonTicket { get; private set; } = int.MinValue;
-        public int PCBackgrounds { get; private set; } = int.MinValue;
-        public int Contest { get; private set; } = int.MinValue;
-        public int Accessories { get; private set; } = int.MinValue;
-        public int PokeDexLanguageFlags { get; private set; } = int.MinValue;
-        public int Spinda { get; private set; } = int.MinValue;
-        public int EncounterCount { get; private set; } = int.MinValue;
+        public int TrainerCard { get; protected set; } = 0x14000;
+        public int PCFlags { get; protected set; } = int.MinValue;
+        public int Record { get; protected set; } = int.MinValue;
+        public int MaisonStats { get; protected set; } = int.MinValue;
+        public int EonTicket { get; protected set; } = int.MinValue;
+        public int PCBackgrounds { get; protected set; } = int.MinValue;
+        public int Contest { get; protected set; } = int.MinValue;
+        public int Accessories { get; protected set; } = int.MinValue;
+        public int PokeDexLanguageFlags { get; protected set; } = int.MinValue;
+        public int Spinda { get; protected set; } = int.MinValue;
+        public int EncounterCount { get; protected set; } = int.MinValue;
 
-        private const int LongStringLength = 0x22; // bytes, not characters
-        private const int ShortStringLength = 0x1A; // bytes, not characters
+        protected const int LongStringLength = 0x22; // bytes, not characters
+        protected const int ShortStringLength = 0x1A; // bytes, not characters
 
         public override GameVersion Version
         {
@@ -390,12 +205,6 @@ namespace PKHeX.Core
             set => SetData(SetString(value, OTLength), TrainerCard + 0x48);
         }
 
-        public string OT_Nick
-        {
-            get => GetString(TrainerCard + 0x62, ShortStringLength / 2);
-            set => SetData(SetString(value, ShortStringLength/2), TrainerCard + 0x62);
-        }
-
         private int GetSayingOffset(int say) => TrainerCard + 0x7C + (LongStringLength * say);
         private string GetSaying(int say) => GetString(GetSayingOffset(say), LongStringLength);
         private void SetSaying(int say, string value) => SetData(SetString(value, LongStringLength / 2), GetSayingOffset(say));
@@ -405,12 +214,6 @@ namespace PKHeX.Core
         public string Saying3 { get => GetSaying(2); set => SetSaying(2, value); }
         public string Saying4 { get => GetSaying(3); set => SetSaying(3, value); }
         public string Saying5 { get => GetSaying(4); set => SetSaying(4, value); }
-
-        public short EyeColor
-        {
-            get => BitConverter.ToInt16(Data, TrainerCard + 0x148);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0x148);
-        }
 
         public bool IsMegaEvolutionUnlocked
         {
@@ -584,95 +387,10 @@ namespace PKHeX.Core
 
         public ushort GetMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + (2 * index)); }
         public void SetMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + (2 * index)); }
-        public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
-        public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }
 
         // Daycare
         public override int DaycareSeedSize => 16;
         public override bool HasTwoDaycares => ORAS;
-
-        public override int GetDaycareSlotOffset(int loc, int slot)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs < 0)
-                return -1;
-            return ofs + 8 + (slot * (SIZE_STORED + 8));
-        }
-
-        public override uint? GetDaycareEXP(int loc, int slot)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
-            return null;
-        }
-
-        public override bool? IsDaycareOccupied(int loc, int slot)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
-            return null;
-        }
-
-        public override string GetDaycareRNGSeed(int loc)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs <= 0)
-                return null;
-
-            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", string.Empty);
-        }
-
-        public override bool? IsDaycareHasEgg(int loc)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return Data[ofs + 0x1E0] == 1;
-            return null;
-        }
-
-        public override void SetDaycareEXP(int loc, int slot, uint EXP)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
-        }
-
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
-        }
-
-        public override void SetDaycareRNGSeed(int loc, string seed)
-        {
-            if (loc != 0)
-                return;
-            if (Daycare < 0)
-                return;
-            if (seed == null)
-                return;
-            if (seed.Length > DaycareSeedSize)
-                return;
-
-            Enumerable.Range(0, seed.Length)
-                 .Where(x => x % 2 == 0)
-                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
-                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1E8);
-        }
-
-        public override void SetDaycareHasEgg(int loc, bool hasEgg)
-        {
-            int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
-        }
-
-        public byte[] Puffs { get => GetData(Puff, 100); set => SetData(value, Puff); }
-        public int PuffCount { get => BitConverter.ToInt32(Data, Puff + 100); set => BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); }
 
         public int[] SelectItems
         {
@@ -711,9 +429,6 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, ItemInfo + 20 + (2 * i));
             }
         }
-
-        public override string JPEGTitle => JPEG < 0 ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
-        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
 
         // Inventory
         public override InventoryPouch[] Inventory
@@ -851,10 +566,6 @@ namespace PKHeX.Core
             if (lang < 0) lang = 1;
             Data[PokeDexLanguageFlags + (((bit * 7) + lang) / 8)] |= (byte)(1 << (((bit * 7) + lang) % 8));
 
-            // Set DexNav count (only if not encountered previously)
-            if (ORAS && GetEncounterCount(pkm.Species - 1) == 0)
-                SetEncounterCount(pkm.Species - 1, 1);
-
             // Set Form flags
             int fc = Personal[pkm.Species].FormeCount;
             int f = ORAS ? DexFormUtil.GetDexFormIndexORAS(pkm.Species, fc) : DexFormUtil.GetDexFormIndexXY(pkm.Species, fc);
@@ -968,18 +679,10 @@ namespace PKHeX.Core
         {
             get
             {
-                if (WondercardData < 0 || WondercardFlags < 0)
-                    return Array.Empty<bool>();
-
-                bool[] result = new bool[(WondercardData - WondercardFlags) * 8];
-                for (int i = 0; i < result.Length; i++)
-                    result[i] = (Data[WondercardFlags + (i >> 3)] >> (i & 7) & 0x1) == 1;
-                return result;
+                return GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
             }
             set
             {
-                if (WondercardData < 0 || WondercardFlags < 0)
-                    return;
                 if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
                     return;
 
@@ -994,102 +697,28 @@ namespace PKHeX.Core
             }
         }
 
-        protected override MysteryGift[] MysteryGiftCards
+        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
         {
-            get
-            {
-                if (WondercardData < 0)
-                    return Array.Empty<MysteryGift>();
-                MysteryGift[] cards = new MysteryGift[GiftCountMax];
-                for (int i = 0; i < cards.Length; i++)
-                    cards[i] = GetWC6(i);
+            bool[] result = new bool[count];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
+            return result;
+        }
 
-                return cards;
-            }
-            set
+        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
+        {
+            for (int i = 0; i < value.Length; i++)
             {
-                if (value == null)
-                    return;
-                if (value.Length > GiftCountMax)
-                    Array.Resize(ref value, GiftCountMax);
-
-                for (int i = 0; i < value.Length; i++)
-                    SetWC6(value[i], i);
-                for (int i = value.Length; i < GiftCountMax; i++)
-                    SetWC6(new WC6(), i);
+                if (value[i])
+                    data[offset + (i >> 3)] |= (byte)(1 << (i & 7));
             }
         }
 
-        public byte[] LinkBlock
+        public static byte[] SetBitFlagArray(bool[] value)
         {
-            get
-            {
-                if (LinkInfo < 0)
-                    return Array.Empty<byte>();
-                return GetData(LinkInfo, 0xC48);
-            }
-            set
-            {
-                if (LinkInfo < 0)
-                    return;
-                if (value.Length != 0xC48)
-                    return;
-                value.CopyTo(Data, LinkInfo);
-            }
-        }
-
-        private MysteryGift GetWC6(int index)
-        {
-            if (WondercardData < 0)
-                return null;
-            if (index < 0 || index > GiftCountMax)
-                return null;
-
-            return new WC6(GetData(WondercardData + (index * WC6.Size), WC6.Size));
-        }
-
-        private void SetWC6(MysteryGift wc6, int index)
-        {
-            if (WondercardData < 0)
-                return;
-            if (index < 0 || index > GiftCountMax)
-                return;
-
-            SetData(wc6.Data, WondercardData + (index * WC6.Size));
-        }
-
-        // Gym History
-        public ushort[][] GymTeams
-        {
-            get
-            {
-                if (SUBE < 0 || ORASDEMO)
-                    return Array.Empty<ushort[]>(); // no gym data
-
-                const int teamsize = 2 * 6; // 2byte/species, 6species/team
-                const int size = teamsize * 8; // 8 gyms
-                int ofs = SUBE - size - 4;
-
-                var data = GetData(ofs, size);
-                ushort[][] teams = new ushort[8][];
-                for (int i = 0; i < teams.Length; i++)
-                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
-                return teams;
-            }
-            set
-            {
-                if (SUBE < 0 || ORASDEMO)
-                    return; // no gym data
-
-                const int teamsize = 2 * 6; // 2byte/species, 6species/team
-                const int size = teamsize * 8; // 8 gyms
-                int ofs = SUBE - size - 4;
-
-                byte[] data = new byte[size];
-                for (int i = 0; i < value.Length; i++)
-                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
-                SetData(data, ofs);
-            }
+            byte[] data = new byte[value.Length / 8];
+            SetBitFlagArray(data, 0, value);
+            return data;
         }
 
         // Writeback Validity
@@ -1135,6 +764,208 @@ namespace PKHeX.Core
             set => SetData(value.Write(), 0);
         }
 
+        public int RecordCount => 200;
+
+        public int GetRecord(int recordID)
+        {
+            int ofs = Records.GetOffset(Record, recordID);
+            if (recordID < 100)
+                return BitConverter.ToInt32(Data, ofs);
+            if (recordID < 200)
+                return BitConverter.ToInt16(Data, ofs);
+            return 0;
+        }
+
+        protected abstract IReadOnlyList<byte> RecordMax { get; }
+
+        public void SetRecord(int recordID, int value)
+        {
+            int ofs = Records.GetOffset(Record, recordID);
+            var maxes = XY ? Records.MaxType_XY : Records.MaxType_AO;
+            int max = Records.GetMax(recordID, maxes);
+            if (value > max)
+                return; // out of range, don't set value
+            if (recordID < 100)
+                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+            if (recordID < 200)
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
+        }
+
+        public int GetRecordMax(int recordID) => Records.GetMax(recordID, XY ? Records.MaxType_XY : Records.MaxType_AO);
+        public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
+        public void AddRecord(int recordID) => SetRecord(recordID, GetRecord(recordID) + 1);
+    }
+
+    /// <summary>
+    /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.XY"/>.
+    /// </summary>
+    public sealed class SAV6XY : SAV6, IPokePuff, ILink
+    {
+        public SAV6XY(byte[] data) : base(data) => Initialize();
+        public SAV6XY() : base(SaveUtil.SIZE_G6XY) => Initialize();
+        public override SaveFile Clone() => new SAV6XY((byte[])Data.Clone());
+
+        private void Initialize()
+        {
+            /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
+            /* 01: 00400-00F88, 00B88 */ Bag = 0x00400; // MyItem
+            /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000; // Select Bound Items
+            /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200; // GameTime
+            /* 04: 01400-01550, 00150 */ Trainer1 = 0x1400; // Situation
+            /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
+            /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+            /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
+            /* 08: 01C00-01CBE, 000BE */ // amie minigame records
+            /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
+            /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
+            /* 11: 04200-04340, 00140 */ Trainer2 = 0x4200; // Misc
+            /* 12: 04400-04840, 00440 */ PCLayout = 0x4400; // BOX
+            /* 13: 04A00-04F74, 00574 */ BattleBox = 0x04A00; // BattleBox
+            /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
+            /* 15: 0A000-0EE28, 04E28 */ // PSS2
+            /* 16: 0F000-13E28, 04E28 */ // PSS3
+            /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
+            /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
+            /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
+            /* 20: 15000-156A0, 006A0 */ PokeDex = 0x15000; // ZukanData
+            /* 21: 15800-15E44, 00644 */ // hologram clips
+            /* 22: 16000-16104, 00104 */ Fused = 0x16000; // UnionPokemon
+            /* 23: 16200-16204, 00004 */ // ConfigSave
+            /* 24: 16400-16820, 00420 */ // Amie decoration stuff
+            /* 25: 16A00-16A64, 00064 */ OPower = 0x16A00;
+            /* 26: 16C00-16FF0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
+            /* 27: 17000-1770C, 0070C */ // Trainer PR Video
+            /* 28: 17800-17980, 00180 */ GTS = 0x17800; // GtsData
+            /* 29: 17A00-17A04, 00004 */ // Packed Menu Bits
+            /* 30: 17C00-17C0C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
+            /* 31: 17E00-17E48, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
+            /* 32: 18000-18054, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
+            /* 33: 18200-18844, 00644 */ // Streetpass history (4 byte intro, 20*4byte entries, 20*76 byte entries)
+            /* 34: 18A00-18FC8, 005C8 */ // LiveMatchData/BattleSpotData
+            /* 35: 19000-192F8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
+            /* 36: 19400-1AF40, 01B40 */ HoF = 0x19400; // Dendou
+            /* 37: 1B000-1B1F4, 001F4 */ MaisonStats = 0x1B1C0; // BattleInstSave
+            /* 38: 1B200-1B3F0, 001F0 */ Daycare = 0x1B200; // Sodateya
+            /* 39: 1B400-1B616, 00216 */ // BattleInstSave
+            /* 40: 1B800-1BB90, 00390 */ BerryField = 0x1B800;
+            /* 41: 1BC00-1D690, 01A90 */ WondercardFlags = 0x1BC00; // MysteryGiftSave
+            /* 42: 1D800-1DB08, 00308 */ SUBE = 0x1D890; // PokeDiarySave
+            /* 43: 1DC00-1E218, 00618 */ // Storyline Records
+            /* 44: 1E400-1E65C, 0025C */ Record = 0x1E400; // Record
+            /* 45: 1E800-1F034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
+            /* 46: 1F200-1F518, 00318 */ SuperTrain = 0x1F200;
+            /* 47: 1F600-1FDD0, 007D0 */ // Unused (lmao)
+            /* 48: 1FE00-20A48, 00C48 */ LinkInfo = 0x1FE00;
+            /* 49: 20C00-20C78, 00078 */ // PSS usage info
+            /* 50: 20E00-21000, 00200 */ // GameSyncSave
+            /* 51: 21000-21C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
+            /* 52: 21E00-22428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
+            /* 53: 22600-570D0, 34AD0 */ Box = 0x22600;
+            /* 54: 57200-65258, 0E058 */ JPEG = 0x57200;
+
+            PCBackgrounds = PCLayout + 0x41E;
+            PCFlags = PCLayout + 0x43D;
+            LastViewedBox = PCLayout + 0x43F;
+            EventFlag = EventConst + 0x2FC;
+            PokeDexLanguageFlags = PokeDex + 0x3C8;
+            Spinda = PokeDex + 0x648;
+            WondercardData = WondercardFlags + 0x100;
+
+            OFS_PouchHeldItem = Bag + 0;
+            OFS_PouchKeyItem = Bag + 0x640;
+            OFS_PouchTMHM = Bag + 0x7C0;
+            OFS_PouchMedicine = Bag + 0x968;
+            OFS_PouchBerry = Bag + 0xA68;
+
+            HeldItems = Legal.HeldItem_XY;
+            Personal = PersonalTable.XY;
+        }
+
+        public override int MaxMoveID => Legal.MaxMoveID_6_XY;
+        public override int MaxItemID => Legal.MaxItemID_6_XY;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
+        protected override IReadOnlyList<byte> RecordMax => Records.MaxType_XY;
+
+        public string OT_Nick
+        {
+            get => GetString(TrainerCard + 0x62, ShortStringLength / 2);
+            set => SetData(SetString(value, ShortStringLength / 2), TrainerCard + 0x62);
+        }
+
+        public short EyeColor
+        {
+            get => BitConverter.ToInt16(Data, TrainerCard + 0x148);
+            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0x148);
+        }
+
+        // Daycare
+        public override int DaycareSeedSize => 16;
+        public override bool HasTwoDaycares => false;
+        public override bool? IsDaycareOccupied(int loc, int slot) => Data[Daycare + 0 + ((SIZE_STORED + 8) * slot)] == 1;
+        public override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Data, Daycare + 4 + ((SIZE_STORED + 8) * slot));
+
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + 8 + (slot * (SIZE_STORED + 8));
+        public override bool? IsDaycareHasEgg(int loc) => Data[Daycare + 0x1E0] == 1;
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => Data[Daycare + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Data[Daycare + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + 4 + ((SIZE_STORED + 8) * slot));
+
+        public override void SetDaycareRNGSeed(int loc, string seed)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+            if (seed == null)
+                return;
+            if (seed.Length > DaycareSeedSize)
+                return;
+
+            Util.GetBytesFromHexString(seed).CopyTo(Data, Daycare + 0x1E8);
+        }
+
+        public byte[] Puffs { get => GetData(Puff, 100); set => SetData(value, Puff); }
+        public int PuffCount { get => BitConverter.ToInt32(Data, Puff + 100); set => BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); }
+
+        public override string JPEGTitle => HasJPPEGData ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
+        public override byte[] JPEGData => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
+
+        private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
+
+        // Gym History
+        public ushort[][] GymTeams
+        {
+            get
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return Array.Empty<ushort[]>(); // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                var data = GetData(ofs, size);
+                ushort[][] teams = new ushort[8][];
+                for (int i = 0; i < teams.Length; i++)
+                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
+                return teams;
+            }
+            set
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                byte[] data = new byte[size];
+                for (int i = 0; i < value.Length; i++)
+                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
+                SetData(data, ofs);
+            }
+        }
+
         public void UnlockAllFriendSafariSlots()
         {
             if (!XY)
@@ -1157,45 +988,434 @@ namespace PKHeX.Core
             if (!XY)
                 return;
 
-            new byte[]
+            SetData(AllAccessories, Accessories);
+        }
+
+        private static readonly byte[] AllAccessories =
+        {
+            0xFE,0xFF,0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+            0xFF,0xEF,0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,
+            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFF,
+            0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xEF,
+            0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,0x00,0x00,
+            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
+            0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+
+        // Mystery Gift
+        protected override bool[] MysteryGiftReceivedFlags
+        {
+            get => GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
+            set
             {
-                0xFE,0xFF,0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
-                0xFF,0xEF,0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0xFF,
-                0xFF,0x7E,0xFF,0xFD,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xEF,
-                0xFF,0xFF,0xFF,0xF9,0xFF,0xFB,0xFF,0xF7,0xFF,0xFF,0x0F,0x00,0x00,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,
-                0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-            }.CopyTo(Data, Accessories);
+                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
+                    return;
+                SetBitFlagArray(Data, WondercardFlags, value);
+                Edited = true;
+            }
         }
 
-        public int RecordCount => 200;
-
-        public int GetRecord(int recordID)
+        protected override MysteryGift[] MysteryGiftCards
         {
-            int ofs = Records.GetOffset(Record, recordID);
-            if (recordID < 100)
-                return BitConverter.ToInt32(Data, ofs);
-            if (recordID < 200)
-                return BitConverter.ToInt16(Data, ofs);
-            return 0;
+            get
+            {
+                var cards = new MysteryGift[GiftCountMax];
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = GetWC6(i);
+                return cards;
+            }
+            set
+            {
+                int count = Math.Min(GiftCountMax, value.Length);
+                for (int i = 0; i < count; i++)
+                    SetWC6(value[i], i);
+                for (int i = value.Length; i < GiftCountMax; i++)
+                    SetWC6(new WC6(), i);
+            }
         }
 
-        public void SetRecord(int recordID, int value)
+        private MysteryGift GetWC6(int index)
         {
-            int ofs = Records.GetOffset(Record, recordID);
-            var maxes = XY ? Records.MaxType_XY : Records.MaxType_AO;
-            int max = Records.GetMax(recordID, maxes);
-            if (value > max)
-                return; // out of range, don't set value
-            if (recordID < 100)
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
-            if (recordID < 200)
-                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
+            if (index < 0 || index > GiftCountMax)
+                return null;
+
+            return new WC6(GetData(WondercardData + (index * WC6.Size), WC6.Size));
         }
 
-        public int GetRecordMax(int recordID) => Records.GetMax(recordID, XY ? Records.MaxType_XY : Records.MaxType_AO);
-        public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
-        public void AddRecord(int recordID) => SetRecord(recordID, GetRecord(recordID) + 1);
+        private void SetWC6(MysteryGift wc6, int index)
+        {
+            if (index < 0 || index > GiftCountMax)
+                return;
+
+            SetData(wc6.Data, WondercardData + (index * WC6.Size));
+        }
+
+        public byte[] LinkBlock
+        {
+            get => GetData(LinkInfo, 0xC48);
+            set
+            {
+                if (value.Length != 0xC48)
+                    throw new ArgumentException(nameof(value));
+                value.CopyTo(Data, LinkInfo);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Generation 6 <see cref="SaveFile"/> object.
+    /// </summary>
+    public sealed class SAV6AO : SAV6, IPokePuff, ILink
+    {
+        public SAV6AO(byte[] data) : base(data) => Initialize();
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS) => Initialize();
+        public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
+
+        private void Initialize()
+        {
+            /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
+            /* 01: 00400-00F90, 00B90 */ Bag = 0x00400; // MyItem
+            /* 02: 01000-0102C, 0002C */ ItemInfo = 0x1000; // Select Bound Items
+            /* 03: 01200-01238, 00038 */ AdventureInfo = 0x01200; // GameTime
+            /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
+            /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
+            /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+            /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
+            /* 08: 01C00-01CBE, 000BE */ // amie minigame records
+            /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
+            /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
+            /* 11: 04200-04330, 00130  */ Trainer2 = 0x04200; // Misc
+            /* 12: 04400-04840, 00440  */ PCLayout = 0x04400; // BOX
+            /* 13: 04A00-04F74, 00574  */ BattleBox = 0x04A00; // BattleBox
+            /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
+            /* 15: 0A000-0EE28, 04E28 */ // PSS2
+            /* 16: 0F000-13E28, 04E28 */ // PSS3
+            /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
+            /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
+            /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
+            /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000; // ZukanData
+            /* 21: 16200-16844, 00644 */ // hologram clips
+            /* 22: 16A00-16B04, 00104 */ Fused = 0x16A00; // UnionPokemon
+            /* 23: 16C00-16C04, 00004 */ // ConfigSave
+            /* 24: 16E00-17220, 00420 */ // Amie decoration stuff
+            /* 25: 17400-17464, 00064 */ OPower = 0x17400;
+            /* 26: 17600-179F0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
+            /* 27: 17A00-1810C, 0070C */ // Trainer PR Video
+            /* 28: 18200-18380, 00180 */ GTS = 0x18200; // GtsData
+            /* 29: 18400-18404, 00004 */ // Packed Menu Bits
+            /* 30: 18600-1860C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
+            /* 31: 18800-18848, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
+            /* 32: 18A00-18A54, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
+            /* 33: 18C00-19244, 00644 */ // Streetpass history
+            /* 34: 19400-199C8, 005C8 */ // LiveMatchData/BattleSpotData
+            /* 35: 19A00-19CF8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
+            /* 36: 19E00-1B940, 01B40 */ HoF = 0x19E00; // Dendou
+            /* 37: 1BA00-1BBF4, 001F4 */ MaisonStats = 0x1BBC0; // BattleInstSave
+            /* 38: 1BC00-1BFE0, 003E0 */ Daycare = 0x1BC00; // Sodateya
+            /* 39: 1C000-1C216, 00216 */ // BattleInstSave
+            /* 40: 1C400-1CA40, 00640 */ BerryField = 0x1C400;
+            /* 41: 1CC00-1E690, 01A90 */ WondercardFlags = 0x1CC00; // MysteryGiftSave
+            /* 42: 1E800-1EC00, 00400 */ // Storyline Records
+            /* 43: 1EC00-1F218, 00618 */ SUBE = 0x1D890; // PokeDiarySave
+            /* 44: 1F400-1F65C, 0025C */ Record = 0x1F400; // Record
+            /* 45: 1F800-20034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
+            /* 46: 20200-20518, 00318 */ SuperTrain = 0x20200;
+            /* 47: 20600-20DD0, 007D0 */ // Unused (lmao)
+            /* 48: 20E00-21A48, 00C48 */ LinkInfo = 0x20E00;
+            /* 49: 21C00-21C78, 00078 */ // PSS usage info
+            /* 50: 21E00-22000, 00200 */ // GameSyncSave
+            /* 51: 22000-22C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
+            /* 52: 22E00-23428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
+            /* 53: 23600-23A00, 00400 */ Contest = 0x23600;
+            /* 54: 23A00-2B4D0, 07AD0 */ SecretBase = 0x23A00;
+            /* 55: 2B600-32EB0, 078B0 */ EonTicket = 0x319B8;
+            /* 56: 33000-67AD0, 34AD0 */ Box = 0x33000;
+            /* 57: 67C00-75C58, 0E058 */ JPEG = 0x67C00;
+
+            PCBackgrounds = PCLayout + 0x41E;
+            PCFlags = PCLayout + 0x43D;
+            LastViewedBox = PCLayout + 0x43F;
+            EventFlag = EventConst + 0x2FC;
+            PokeDexLanguageFlags = PokeDex + 0x400;
+            Spinda = PokeDex + 0x680;
+            EncounterCount = PokeDex + 0x686;
+            WondercardData = WondercardFlags + 0x100;
+            Daycare2 = Daycare + 0x1F0;
+
+            OFS_PouchHeldItem = Bag + 0;
+            OFS_PouchKeyItem = Bag + 0x640;
+            OFS_PouchTMHM = Bag + 0x7C0;
+            OFS_PouchMedicine = Bag + 0x970;
+            OFS_PouchBerry = Bag + 0xA70;
+
+            HeldItems = Legal.HeldItem_XY;
+            Personal = PersonalTable.XY;
+        }
+
+        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+        public override int MaxItemID => Legal.MaxItemID_6_AO;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+        protected override IReadOnlyList<byte> RecordMax => Records.MaxType_AO;
+
+        public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
+        public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }
+
+        protected override void SetDex(PKM pkm)
+        {
+            int index = pkm.Species - 1;
+            if ((uint)index >= (uint)MaxSpeciesID)
+                return;
+
+            // Set DexNav count (only if not encountered previously)
+            if (GetEncounterCount(index) == 0)
+                SetEncounterCount(index, 1);
+        }
+
+        // Daycare
+        public override int DaycareSeedSize => 16;
+        public override bool HasTwoDaycares => true;
+
+        public override int GetDaycareSlotOffset(int loc, int slot)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs < 0)
+                return -1;
+            return ofs + 8 + (slot * (SIZE_STORED + 8));
+        }
+
+        public override uint? GetDaycareEXP(int loc, int slot)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            return null;
+        }
+
+        public override bool? IsDaycareOccupied(int loc, int slot)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
+            return null;
+        }
+
+        public override string GetDaycareRNGSeed(int loc)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs <= 0)
+                return null;
+
+            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", string.Empty);
+        }
+
+        public override bool? IsDaycareHasEgg(int loc)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                return Data[ofs + 0x1E0] == 1;
+            return null;
+        }
+
+        public override void SetDaycareEXP(int loc, int slot, uint EXP)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+        }
+
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
+        }
+
+        public override void SetDaycareRNGSeed(int loc, string seed)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+            if (seed == null)
+                return;
+            if (seed.Length > DaycareSeedSize)
+                return;
+
+            Util.GetBytesFromHexString(seed).CopyTo(Data, Daycare + 0x1E8);
+        }
+
+        public override void SetDaycareHasEgg(int loc, bool hasEgg)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+        }
+
+        public override string JPEGTitle => HasJPPEGData ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
+        public override byte[] JPEGData => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
+
+        private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
+
+        public byte[] Puffs { get => GetData(Puff, 100); set => SetData(value, Puff); }
+        public int PuffCount { get => BitConverter.ToInt32(Data, Puff + 100); set => BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); }
+
+        // Inventory
+        public override InventoryPouch[] Inventory
+        {
+            get
+            {
+                ushort[] legalItems = ORAS ? Legal.Pouch_Items_AO : Legal.Pouch_Items_XY;
+                ushort[] legalKey = ORAS ? Legal.Pouch_Key_AO : Legal.Pouch_Key_XY;
+                ushort[] legalTMHM = ORAS ? Legal.Pouch_TMHM_AO : Legal.Pouch_TMHM_XY;
+                ushort[] legalMedicine = ORAS ? Legal.Pouch_Medicine_AO : Legal.Pouch_Medicine_XY;
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch4(InventoryType.Items, legalItems, 999, OFS_PouchHeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, legalKey, 1, OFS_PouchKeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, legalTMHM, 1, OFS_PouchTMHM),
+                    new InventoryPouch4(InventoryType.Medicine, legalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berry_XY, 999, OFS_PouchBerry),
+                };
+                return pouch.LoadAll(Data);
+            }
+            set => value.SaveAll(Data);
+        }
+
+        protected override bool[] MysteryGiftReceivedFlags
+        {
+            get => GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
+            set
+            {
+                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
+                    return;
+                SetBitFlagArray(Data, WondercardFlags, value);
+                Edited = true;
+            }
+        }
+
+        protected override MysteryGift[] MysteryGiftCards
+        {
+            get
+            {
+                var cards = new MysteryGift[GiftCountMax];
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = GetWC6(i);
+                return cards;
+            }
+            set
+            {
+                int count = Math.Min(GiftCountMax, value.Length);
+                for (int i = 0; i < count; i++)
+                    SetWC6(value[i], i);
+                for (int i = value.Length; i < GiftCountMax; i++)
+                    SetWC6(new WC6(), i);
+            }
+        }
+
+        private MysteryGift GetWC6(int index)
+        {
+            if (index < 0 || index > GiftCountMax)
+                return null;
+
+            return new WC6(GetData(WondercardData + (index * WC6.Size), WC6.Size));
+        }
+
+        private void SetWC6(MysteryGift wc6, int index)
+        {
+            if (index < 0 || index > GiftCountMax)
+                return;
+
+            SetData(wc6.Data, WondercardData + (index * WC6.Size));
+        }
+
+        // Gym History
+        public ushort[][] GymTeams
+        {
+            get
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return Array.Empty<ushort[]>(); // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                var data = GetData(ofs, size);
+                ushort[][] teams = new ushort[8][];
+                for (int i = 0; i < teams.Length; i++)
+                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
+                return teams;
+            }
+            set
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                byte[] data = new byte[size];
+                for (int i = 0; i < value.Length; i++)
+                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
+                SetData(data, ofs);
+            }
+        }
+
+        public byte[] LinkBlock
+        {
+            get => GetData(LinkInfo, 0xC48);
+            set
+            {
+                if (value.Length != 0xC48)
+                    throw new ArgumentException(nameof(value));
+                SetData(value, LinkInfo);
+            }
+        }
+    }
+
+    public sealed class SAV6AODemo : SAV6
+    {
+        public SAV6AODemo(byte[] data) : base(data) => Initialize();
+        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO) => Initialize();
+        public override SaveFile Clone() => new SAV6AODemo((byte[])Data.Clone());
+
+        private void Initialize()
+        {
+            /* 00: */ Bag              = 0x00000; // MyItem
+            /* 01: */ ItemInfo         = 0x00C00; // Select Bound Items
+            /* 02: */ AdventureInfo    = 0x00E00; // GameTime
+            /* 03: */ Trainer1         = 0x01000; // Situation
+            /* 04: */ //               = 0x01200; // [00004] RandomGroup (rand seeds)
+            /* 05: */ PlayTime         = 0x01400; // PlayTime
+            /* 06: */ //               = 0x01600; // [00024] temp variables (u32 id + 32 u8)
+            /* 07: */ //               = 0x01800; // [02100] FieldMoveModelSave
+            /* 08: */ Trainer2         = 0x03A00; // Misc
+            /* 09: */ TrainerCard      = 0x03C00; // MyStatus
+            /* 10: */ Party            = 0x03E00; // PokePartySave
+            /* 11: */ EventConst       = 0x04600; // EventWork
+            /* 12: */ //               = 0x04C00; // [00004] Packed Menu Bits
+            /* 13: */ //               = 0x04E00; // [00048] Repel Info, (Swarm?) and other overworld info (roamer)
+            /* 14: */ SUBE             = 0x05000; // PokeDiarySave
+            /* 15: */ Record           = 0x05400; // Record
+
+            EventFlag = EventConst + 0x2FC;
+
+            OFS_PouchHeldItem = Bag + 0;
+            OFS_PouchKeyItem = Bag + 0x640;
+            OFS_PouchTMHM = Bag + 0x7C0;
+            OFS_PouchMedicine = Bag + 0x970;
+            OFS_PouchBerry = Bag + 0xA70;
+
+            HeldItems = Legal.HeldItem_XY;
+            Personal = PersonalTable.XY;
+        }
+
+        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+        public override int MaxItemID => Legal.MaxItemID_6_AO;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+        protected override IReadOnlyList<byte> RecordMax => Records.MaxType_AO;
     }
 }
+

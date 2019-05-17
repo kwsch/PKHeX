@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)sav;
+            SAV = (IPokePuff)sav;
 
             var puffs = SAV.Puffs;
             Setup(puffs.Length);

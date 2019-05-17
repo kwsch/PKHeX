@@ -77,22 +77,23 @@ namespace PKHeX.Core
         /// <summary>Determines the type of the provided save data.</summary>
         /// <param name="data">Save data of which to determine the origins of</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetSAVGeneration(byte[] data)
+        private static GameVersion GetSAVType(byte[] data)
         {
-            if (GetIsG1SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen1;
-            if (GetIsG2SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen2;
-            if (GetIsG3SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen3;
-            if (GetIsG4SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen4;
-            if (GetIsG5SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen5;
-            if (GetIsG6SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen6;
-            if (GetIsG7SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen7;
+            GameVersion ver;
+            if ((ver = GetIsG1SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG2SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG3SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG4SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG5SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG6SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG7SAV(data)) != GameVersion.Invalid)
+                return ver;
 
             if (GetIsBelugaSAV(data) != GameVersion.Invalid)
                 return GameVersion.GG;
@@ -464,7 +465,7 @@ namespace PKHeX.Core
 
         private static SaveFile GetVariantSAVInternal(byte[] data)
         {
-            switch (GetSAVGeneration(data))
+            switch (GetSAVType(data))
             {
                 // Main Games
                 case GameVersion.Gen1: return new SAV1(data);
@@ -472,8 +473,11 @@ namespace PKHeX.Core
                 case GameVersion.Gen3: return new SAV3(data);
                 case GameVersion.Gen4: return new SAV4(data);
                 case GameVersion.Gen5: return new SAV5(data);
-                case GameVersion.Gen6: return new SAV6(data);
                 case GameVersion.Gen7: return new SAV7(data);
+
+                case GameVersion.XY: return new SAV6XY(data);
+                case GameVersion.ORAS: return new SAV6AO(data);
+                case GameVersion.ORASDEMO: return new SAV6AODemo(data);
 
                 // Side Games
                 case GameVersion.COLO:   return new SAV3Colosseum(data);
@@ -589,11 +593,11 @@ namespace PKHeX.Core
                     return new SAV5(new byte[SIZE_G5RAW], GameVersion.B2W2);
 
                 case GameVersion.X: case GameVersion.Y: case GameVersion.XY:
-                    return new SAV6(new byte[SIZE_G6XY]);
+                    return new SAV6XY();
                 case GameVersion.ORASDEMO:
-                    return new SAV6(new byte[SIZE_G6ORASDEMO]);
+                    return new SAV6AODemo();
                 case GameVersion.OR: case GameVersion.AS: case GameVersion.ORAS:
-                    return new SAV6(new byte[SIZE_G6ORAS]);
+                    return new SAV6AO();
 
                 case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
                     return new SAV7(new byte[SIZE_G7SM]);

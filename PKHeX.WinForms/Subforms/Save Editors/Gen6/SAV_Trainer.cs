@@ -196,12 +196,12 @@ namespace PKHeX.WinForms
             CB_MultiplayerSprite.SelectedValue = SAV.MultiplayerSpriteID;
             PB_Sprite.Image = SAV.Sprite();
 
-            if (SAV.XY)
+            if (SAV is SAV6XY xy)
             {
                 // Load Clothing Data
                 propertyGrid1.SelectedObject = TrainerFashion6.GetFashion(SAV.Data, SAV.TrainerCard + 0x30, SAV.Gender);
 
-                TB_TRNick.Text = SAV.OT_Nick;
+                TB_TRNick.Text = xy.OT_Nick;
             }
 
             CB_Vivillon.SelectedIndex = SAV.Vivillon;
@@ -281,13 +281,13 @@ namespace PKHeX.WinForms
             SAV.MultiplayerSpriteID = Convert.ToByte(CB_MultiplayerSprite.SelectedValue);
 
             // Appearance
-            if (SAV.XY)
+            if (SAV is SAV6XY xy)
             {
                 // Save Clothing Data
                 var obj = (TrainerFashion6)propertyGrid1.SelectedObject;
                 obj.Write(SAV.Data, SAV.TrainerCard + 0x30);
 
-                SAV.OT_Nick = TB_TRNick.Text;
+                xy.OT_Nick = TB_TRNick.Text;
             }
 
             // Vivillon
@@ -364,7 +364,8 @@ namespace PKHeX.WinForms
 
         private void GiveAllAccessories(object sender, EventArgs e)
         {
-            SAV.UnlockAllAccessories();
+            if (SAV is SAV6XY xy)
+                xy.UnlockAllAccessories();
         }
 
         private void UpdateCountry(object sender, EventArgs e)

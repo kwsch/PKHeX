@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
@@ -88,6 +89,14 @@ namespace PKHeX.Core
                 }
             }
             return result;
+        }
+
+        public static byte[] GetBytesFromHexString(string seed)
+        {
+            return Enumerable.Range(0, seed.Length)
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
+                .Reverse().ToArray();
         }
 
         private static bool IsNum(char c) => c >= '0' && c <= '9';
