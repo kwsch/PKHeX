@@ -260,8 +260,8 @@ namespace PKHeX.Core
                 return false; // Country mismatch
 
             var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
-            if (ct.SubRegionForms == null) // empty struct = no forms referenced
-                return true; // No subregion table
+            if (ct == default(CountryTable)) // empty = one form for country
+                return true; // No subregion table, already checked if Country can have this form
 
             if (ct.BaseForm == form)
                 return !ct.SubRegionForms.Any(e => e.Regions.Contains(region)); //true if Mainform not in other specific region
@@ -277,8 +277,8 @@ namespace PKHeX.Core
         public static int GetVivillonPattern(int country, int region)
         {
             var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
-            if (ct.SubRegionForms == null) // empty struct = no forms referenced
-                return ct.BaseForm; // No subregion table
+            if (ct == default(CountryTable)) // empty = no forms referenced
+                return GetVivillonPattern(country);
 
             foreach (var sub in ct.SubRegionForms)
             {
@@ -287,6 +287,12 @@ namespace PKHeX.Core
             }
 
             return ct.BaseForm;
+        }
+
+        private static int GetVivillonPattern(int country)
+        {
+            var form = Array.FindIndex(VivillonCountryTable, z => z.Contains(country));
+            return Math.Max(0, form);
         }
 
         /// <summary>
