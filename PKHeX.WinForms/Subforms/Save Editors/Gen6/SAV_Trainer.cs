@@ -63,8 +63,9 @@ namespace PKHeX.WinForms
             GetBadges();
             editing = false;
 
-            CHK_MegaUnlocked.Checked = SAV.IsMegaEvolutionUnlocked;
-            CHK_MegaRayquazaUnlocked.Checked = SAV.IsMegaRayquazaUnlocked;
+            var status = SAV.Status;
+            CHK_MegaUnlocked.Checked = status.IsMegaEvolutionUnlocked;
+            CHK_MegaRayquazaUnlocked.Checked = status.IsMegaRayquazaUnlocked;
         }
 
         private readonly bool editing = true;
@@ -146,11 +147,12 @@ namespace PKHeX.WinForms
             MT_SID.Text = SAV.SID.ToString("00000");
             MT_Money.Text = SAV.Money.ToString();
 
-            TB_Saying1.Text = SAV.Saying1;
-            TB_Saying2.Text = SAV.Saying2;
-            TB_Saying3.Text = SAV.Saying3;
-            TB_Saying4.Text = SAV.Saying4;
-            TB_Saying5.Text = SAV.Saying5;
+            var status = SAV.Status;
+            TB_Saying1.Text = status.Saying1;
+            TB_Saying2.Text = status.Saying2;
+            TB_Saying3.Text = status.Saying3;
+            TB_Saying4.Text = status.Saying4;
+            TB_Saying5.Text = status.Saying5;
 
             CB_Country.SelectedValue = SAV.Country;
             CB_Region.SelectedValue = SAV.SubRegion;
@@ -198,17 +200,16 @@ namespace PKHeX.WinForms
 
             if (SAV is SAV6XY xy)
             {
-                // Load Clothing Data
-                propertyGrid1.SelectedObject = TrainerFashion6.GetFashion(SAV.Data, SAV.TrainerCard + 0x30, SAV.Gender);
-
-                TB_TRNick.Text = xy.OT_Nick;
+                var xystat = ((MyStatus6XY) xy.Status);
+                PG_CurrentAppearance.SelectedObject = xystat.Fashion;
+                TB_TRNick.Text = xystat.OT_Nick;
             }
 
             CB_Vivillon.SelectedIndex = SAV.Vivillon;
-            if (SAV.LastSavedDate.HasValue)
+            if (SAV.Played.LastSavedDate.HasValue)
             {
-                CAL_LastSavedDate.Value = SAV.LastSavedDate.Value;
-                CAL_LastSavedTime.Value = SAV.LastSavedDate.Value;
+                CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
+                CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
             }
             else
             {
@@ -237,11 +238,12 @@ namespace PKHeX.WinForms
 
             SAV.OT = TB_OTName.Text;
 
-            SAV.Saying1 = TB_Saying1.Text;
-            SAV.Saying2 = TB_Saying2.Text;
-            SAV.Saying3 = TB_Saying3.Text;
-            SAV.Saying4 = TB_Saying4.Text;
-            SAV.Saying5 = TB_Saying5.Text;
+            var status = SAV.Status;
+            status.Saying1 = TB_Saying1.Text;
+            status.Saying2 = TB_Saying2.Text;
+            status.Saying3 = TB_Saying3.Text;
+            status.Saying4 = TB_Saying4.Text;
+            status.Saying5 = TB_Saying5.Text;
 
             // Copy Maison Data in
             if (SAV.MaisonStats > -1)
@@ -283,11 +285,9 @@ namespace PKHeX.WinForms
             // Appearance
             if (SAV is SAV6XY xy)
             {
-                // Save Clothing Data
-                var obj = (TrainerFashion6)propertyGrid1.SelectedObject;
-                obj.Write(SAV.Data, SAV.TrainerCard + 0x30);
-
-                xy.OT_Nick = TB_TRNick.Text;
+                var xystat = (MyStatus6XY)xy.Status;
+                xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject;
+                xystat.OT_Nick = TB_TRNick.Text;
             }
 
             // Vivillon
@@ -303,11 +303,11 @@ namespace PKHeX.WinForms
             fame += (uint)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             SAV.SecondsToFame = fame;
 
-            if (SAV.LastSavedDate.HasValue)
-                SAV.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+            if (SAV.Played.LastSavedDate.HasValue)
+                SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
-            SAV.IsMegaEvolutionUnlocked = CHK_MegaUnlocked.Checked;
-            SAV.IsMegaRayquazaUnlocked = CHK_MegaRayquazaUnlocked.Checked;
+            status.IsMegaEvolutionUnlocked = CHK_MegaUnlocked.Checked;
+            status.IsMegaRayquazaUnlocked = CHK_MegaRayquazaUnlocked.Checked;
         }
 
         private void ClickOT(object sender, MouseEventArgs e)

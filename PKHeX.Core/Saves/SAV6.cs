@@ -11,7 +11,7 @@ namespace PKHeX.Core
     public abstract class SAV6 : SaveFile, ITrainerStatRecord, ISecureValueStorage
     {
         // Save Data Attributes
-        protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
+        protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
@@ -55,6 +55,10 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_6;
         public override int MaxGameID => Legal.MaxGameID_6; // OR
 
+        public GameTime6 GameTime { get; protected set; }
+        public PlayTime6 Played { get; protected set; }
+        public MyStatus6 Status { get; protected set; }
+
         // Feature Overrides
         public int Puff { get; set; } = -1;
         public bool HasPuffData => Puff >= 0;
@@ -91,7 +95,6 @@ namespace PKHeX.Core
         protected int JPEG { get; set; } = int.MinValue;
 
         // Accessible as SAV6
-        public int TrainerCard { get; protected set; } = 0x14000;
         public int PCFlags { get; protected set; } = int.MinValue;
         public int Record { get; protected set; } = int.MinValue;
         public int MaisonStats { get; protected set; } = int.MinValue;
@@ -103,8 +106,8 @@ namespace PKHeX.Core
         public int Spinda { get; protected set; } = int.MinValue;
         public int EncounterCount { get; protected set; } = int.MinValue;
 
-        protected const int LongStringLength = 0x22; // bytes, not characters
-        protected const int ShortStringLength = 0x1A; // bytes, not characters
+        protected internal const int LongStringLength = 0x22; // bytes, not characters
+        protected internal const int ShortStringLength = 0x1A; // bytes, not characters
 
         public override GameVersion Version
         {
@@ -122,110 +125,12 @@ namespace PKHeX.Core
         }
 
         // Player Information
-        public override int TID
-        {
-            get => BitConverter.ToUInt16(Data, TrainerCard + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 0);
-        }
-
-        public override int SID
-        {
-            get => BitConverter.ToUInt16(Data, TrainerCard + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 2);
-        }
-
-        public override int Game
-        {
-            get => Data[TrainerCard + 4];
-            set => Data[TrainerCard + 4] = (byte)value;
-        }
-
-        public override int Gender
-        {
-            get => Data[TrainerCard + 5];
-            set => Data[TrainerCard + 5] = (byte)value;
-        }
-
-        public override int MultiplayerSpriteID
-        {
-            get => Data[TrainerCard + 7];
-            set => Data[TrainerCard + 7] = (byte)value;
-        }
-
-        public override int GameSyncIDSize => 16; // 64 bits
-
-        public override string GameSyncID
-        {
-            get
-            {
-                var data = Data.Skip(TrainerCard + 8).Take(GameSyncIDSize / 2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", string.Empty);
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                if (value.Length > GameSyncIDSize)
-                    return;
-                Enumerable.Range(0, value.Length)
-                     .Where(x => x % 2 == 0)
-                     .Reverse()
-                     .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
-                     .ToArray().CopyTo(Data, TrainerCard + 8);
-            }
-        }
-
-        public override int SubRegion
-        {
-            get => Data[TrainerCard + 0x26];
-            set => Data[TrainerCard + 0x26] = (byte)value;
-        }
-
-        public override int Country
-        {
-            get => Data[TrainerCard + 0x27];
-            set => Data[TrainerCard + 0x27] = (byte)value;
-        }
-
-        public override int ConsoleRegion
-        {
-            get => Data[TrainerCard + 0x2C];
-            set => Data[TrainerCard + 0x2C] = (byte)value;
-        }
-
-        public override int Language
-        {
-            get => Data[TrainerCard + 0x2D];
-            set => Data[TrainerCard + 0x2D] = (byte)value;
-        }
-
-        public override string OT
-        {
-            get => GetString(TrainerCard + 0x48, 0x1A);
-            set => SetData(SetString(value, OTLength), TrainerCard + 0x48);
-        }
-
-        private int GetSayingOffset(int say) => TrainerCard + 0x7C + (LongStringLength * say);
-        private string GetSaying(int say) => GetString(GetSayingOffset(say), LongStringLength);
-        private void SetSaying(int say, string value) => SetData(SetString(value, LongStringLength / 2), GetSayingOffset(say));
-
-        public string Saying1 { get => GetSaying(0); set => SetSaying(0, value); }
-        public string Saying2 { get => GetSaying(1); set => SetSaying(1, value); }
-        public string Saying3 { get => GetSaying(2); set => SetSaying(2, value); }
-        public string Saying4 { get => GetSaying(3); set => SetSaying(3, value); }
-        public string Saying5 { get => GetSaying(4); set => SetSaying(4, value); }
-
-        public bool IsMegaEvolutionUnlocked
-        {
-            get => (Data[TrainerCard + 0x14A] & 0x01) != 0;
-            set => Data[TrainerCard + 0x14A] = (byte)((Data[TrainerCard + 0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
-        }
-
-        public bool IsMegaRayquazaUnlocked
-        {
-            get => (Data[TrainerCard + 0x14A] & 0x02) != 0;
-            set => Data[TrainerCard + 0x14A] = (byte)((Data[TrainerCard + 0x14A] & ~2) | (value ? 2 : 0)); // in battle
-        }
+        public override int TID { get => Status.TID; set => Status.TID = value; }
+        public override int SID { get => Status.SID; set => Status.SID = value; }
+        public override int Game { get => Status.Game; set => Status.Game = value; }
+        public override int Gender { get => Status.Gender; set => Status.Gender = value; }
+        public override int Language { get => Status.Language; set => Status.Language = value; }
+        public override string OT { get => Status.OT; set => Status.OT = value; }
 
         public int M
         {
@@ -321,60 +226,9 @@ namespace PKHeX.Core
             }
         }
 
-        public override int PlayedHours
-        {
-            get => BitConverter.ToUInt16(Data, PlayTime);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime);
-        }
-
-        public override int PlayedMinutes
-        {
-            get => Data[PlayTime + 2];
-            set => Data[PlayTime + 2] = (byte)value;
-        }
-
-        public override int PlayedSeconds
-        {
-            get => Data[PlayTime + 3];
-            set => Data[PlayTime + 3] = (byte)value;
-        }
-
-        private uint LastSaved { get => BitConverter.ToUInt32(Data, PlayTime + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); }
-        private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
-        private int LastSavedMonth { get => (int)(LastSaved >> 12 & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | ((uint)value & 0xF) << 12; }
-        private int LastSavedDay { get => (int)(LastSaved >> 16 & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | ((uint)value & 0x1F) << 16; }
-        private int LastSavedHour { get => (int)(LastSaved >> 21 & 0x1F); set => LastSaved = (LastSaved & 0xFC1FFFFF) | ((uint)value & 0x1F) << 21; }
-        private int LastSavedMinute { get => (int)(LastSaved >> 26 & 0x3F); set => LastSaved = (LastSaved & 0x03FFFFFF) | ((uint)value & 0x3F) << 26; }
-        private string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
-
-        public DateTime? LastSavedDate
-        {
-            get => !Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay)
-                    ? (DateTime?)null
-                    : new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
-            set
-            {
-                // Only update the properties if a value is provided.
-                if (value.HasValue)
-                {
-                    var dt = value.Value;
-                    LastSavedYear = dt.Year;
-                    LastSavedMonth = dt.Month;
-                    LastSavedDay = dt.Day;
-                    LastSavedHour = dt.Hour;
-                    LastSavedMinute = dt.Minute;
-                }
-                else // Clear the date.
-                {
-                    // If code tries to access MetDate again, null will be returned.
-                    LastSavedYear = 0;
-                    LastSavedMonth = 0;
-                    LastSavedDay = 0;
-                    LastSavedHour = 0;
-                    LastSavedMinute = 0;
-                }
-            }
-        }
+        public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
+        public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
+        public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
         public int ResumeYear { get => BitConverter.ToInt32(Data, AdventureInfo + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x4); }
         public int ResumeMonth { get => Data[AdventureInfo + 0x8]; set => Data[AdventureInfo + 0x8] = (byte)value; }
@@ -679,7 +533,7 @@ namespace PKHeX.Core
         {
             get
             {
-                return GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
+                return Util.GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
             }
             set
             {
@@ -695,56 +549,6 @@ namespace PKHeX.Core
 
                 SetData(data, WondercardFlags);
             }
-        }
-
-        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
-        {
-            bool[] result = new bool[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
-            return result;
-        }
-
-        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
-        {
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i])
-                    data[offset + (i >> 3)] |= (byte)(1 << (i & 7));
-            }
-        }
-
-        public static byte[] SetBitFlagArray(bool[] value)
-        {
-            byte[] data = new byte[value.Length / 8];
-            SetBitFlagArray(data, 0, value);
-            return data;
-        }
-
-        // Writeback Validity
-        public override string MiscSaveChecks()
-        {
-            var sb = new StringBuilder();
-
-            // FFFF checks
-            for (int i = 0; i < Data.Length / 0x200; i++)
-            {
-                if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
-                    continue;
-                sb.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
-                sb.AppendLine("Cyber will screw up (as of August 31st 2014).");
-                sb.AppendLine();
-
-                // Check to see if it is in the Pokedex
-                if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
-                {
-                    sb.Append("Problem lies in the Pokedex. ");
-                    if (i * 0x200 == PokeDex + 0x400)
-                        sb.Append("Remove a language flag for a species < 585, ie Petilil");
-                }
-                break;
-            }
-            return sb.ToString();
         }
 
         public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
@@ -824,7 +628,7 @@ namespace PKHeX.Core
             /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
             /* 15: 0A000-0EE28, 04E28 */ // PSS2
             /* 16: 0F000-13E28, 04E28 */ // PSS3
-            /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
+            /* 17: 14000-14170, 00170 */ // MyStatus
             /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
             /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
             /* 20: 15000-156A0, 006A0 */ PokeDex = 0x15000; // ZukanData
@@ -863,6 +667,9 @@ namespace PKHeX.Core
             /* 53: 22600-570D0, 34AD0 */ Box = 0x22600;
             /* 54: 57200-65258, 0E058 */ JPEG = 0x57200;
 
+            GameTime = new GameTime6(this, 0x01200);
+            Played = new PlayTime6(this, 0x01800);
+            Status = new MyStatus6XY(this, 0x14000);
             PCBackgrounds = PCLayout + 0x41E;
             PCFlags = PCLayout + 0x43D;
             LastViewedBox = PCLayout + 0x43F;
@@ -885,18 +692,6 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_6_XY;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
         protected override IReadOnlyList<byte> RecordMax => Records.MaxType_XY;
-
-        public string OT_Nick
-        {
-            get => GetString(TrainerCard + 0x62, ShortStringLength / 2);
-            set => SetData(SetString(value, ShortStringLength / 2), TrainerCard + 0x62);
-        }
-
-        public short EyeColor
-        {
-            get => BitConverter.ToInt16(Data, TrainerCard + 0x148);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0x148);
-        }
 
         // Daycare
         public override int DaycareSeedSize => 16;
@@ -1005,12 +800,12 @@ namespace PKHeX.Core
         // Mystery Gift
         protected override bool[] MysteryGiftReceivedFlags
         {
-            get => GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
+            get => Util.GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
             set
             {
                 if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
                     return;
-                SetBitFlagArray(Data, WondercardFlags, value);
+                Util.SetBitFlagArray(Data, WondercardFlags, value);
                 Edited = true;
             }
         }
@@ -1090,7 +885,7 @@ namespace PKHeX.Core
             /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
             /* 15: 0A000-0EE28, 04E28 */ // PSS2
             /* 16: 0F000-13E28, 04E28 */ // PSS3
-            /* 17: 14000-14170, 00170 */ TrainerCard = 0x14000; // MyStatus
+            /* 17: 14000-14170, 00170 */ // MyStatus
             /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
             /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
             /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000; // ZukanData
@@ -1132,6 +927,9 @@ namespace PKHeX.Core
             /* 56: 33000-67AD0, 34AD0 */ Box = 0x33000;
             /* 57: 67C00-75C58, 0E058 */ JPEG = 0x67C00;
 
+            GameTime = new GameTime6(this, 0x01200);
+            Played = new PlayTime6(this, 0x01800);
+            Status = new MyStatus6(this, 0x14000);
             PCBackgrounds = PCLayout + 0x41E;
             PCFlags = PCLayout + 0x43D;
             LastViewedBox = PCLayout + 0x43F;
@@ -1284,12 +1082,12 @@ namespace PKHeX.Core
 
         protected override bool[] MysteryGiftReceivedFlags
         {
-            get => GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
+            get => Util.GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
             set
             {
                 if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
                     return;
-                SetBitFlagArray(Data, WondercardFlags, value);
+                Util.SetBitFlagArray(Data, WondercardFlags, value);
                 Edited = true;
             }
         }
@@ -1392,7 +1190,7 @@ namespace PKHeX.Core
             /* 06: */ //               = 0x01600; // [00024] temp variables (u32 id + 32 u8)
             /* 07: */ //               = 0x01800; // [02100] FieldMoveModelSave
             /* 08: */ Trainer2         = 0x03A00; // Misc
-            /* 09: */ TrainerCard      = 0x03C00; // MyStatus
+            /* 09: */ //               = 0x03C00; // MyStatus
             /* 10: */ Party            = 0x03E00; // PokePartySave
             /* 11: */ EventConst       = 0x04600; // EventWork
             /* 12: */ //               = 0x04C00; // [00004] Packed Menu Bits
@@ -1400,6 +1198,9 @@ namespace PKHeX.Core
             /* 14: */ SUBE             = 0x05000; // PokeDiarySave
             /* 15: */ Record           = 0x05400; // Record
 
+            GameTime = new GameTime6(this, 0x00E00);
+            Played = new PlayTime6(this, 0x01400);
+            Status = new MyStatus6(this, 0x03C00);
             EventFlag = EventConst + 0x2FC;
 
             OFS_PouchHeldItem = Bag + 0;
@@ -1417,5 +1218,211 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
         protected override IReadOnlyList<byte> RecordMax => Records.MaxType_AO;
     }
-}
 
+    public class MyStatus6 : SaveBlock
+    {
+        public MyStatus6(SaveFile sav, int offset) : base(sav) => Offset = offset;
+
+        public int TID
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
+        }
+
+        public int SID
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 2);
+        }
+
+        public int Game
+        {
+            get => Data[Offset + 4];
+            set => Data[Offset + 4] = (byte)value;
+        }
+
+        public int Gender
+        {
+            get => Data[Offset + 5];
+            set => Data[Offset + 5] = (byte)value;
+        }
+
+        public int MultiplayerSpriteID
+        {
+            get => Data[Offset + 7];
+            set => Data[Offset + 7] = (byte)value;
+        }
+
+        public int GameSyncIDSize => 16; // 64 bits
+
+        public string GameSyncID
+        {
+            get
+            {
+                var data = Data.Skip(Offset + 8).Take(GameSyncIDSize / 2).Reverse().ToArray();
+                return BitConverter.ToString(data).Replace("-", string.Empty);
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                if (value.Length > GameSyncIDSize)
+                    return;
+                Enumerable.Range(0, value.Length)
+                     .Where(x => x % 2 == 0)
+                     .Reverse()
+                     .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
+                     .ToArray().CopyTo(Data, Offset + 8);
+            }
+        }
+
+        public int SubRegion
+        {
+            get => Data[Offset + 0x26];
+            set => Data[Offset + 0x26] = (byte)value;
+        }
+
+        public int Country
+        {
+            get => Data[Offset + 0x27];
+            set => Data[Offset + 0x27] = (byte)value;
+        }
+
+        public int ConsoleRegion
+        {
+            get => Data[Offset + 0x2C];
+            set => Data[Offset + 0x2C] = (byte)value;
+        }
+
+        public int Language
+        {
+            get => Data[Offset + 0x2D];
+            set => Data[Offset + 0x2D] = (byte)value;
+        }
+
+        public string OT
+        {
+            get => SAV.GetString(Offset + 0x48, 0x1A);
+            set => SAV.SetData(SAV.SetString(value, SAV.OTLength), Offset + 0x48);
+        }
+
+        private int GetSayingOffset(int say) => Offset + 0x7C + (SAV6.LongStringLength * say);
+        private string GetSaying(int say) => SAV.GetString(GetSayingOffset(say), SAV6.LongStringLength);
+        private void SetSaying(int say, string value) => SAV.SetData(SAV.SetString(value, SAV6.LongStringLength / 2), GetSayingOffset(say));
+
+        public string Saying1 { get => GetSaying(0); set => SetSaying(0, value); }
+        public string Saying2 { get => GetSaying(1); set => SetSaying(1, value); }
+        public string Saying3 { get => GetSaying(2); set => SetSaying(2, value); }
+        public string Saying4 { get => GetSaying(3); set => SetSaying(3, value); }
+        public string Saying5 { get => GetSaying(4); set => SetSaying(4, value); }
+
+        public bool IsMegaEvolutionUnlocked
+        {
+            get => (Data[Offset + 0x14A] & 0x01) != 0;
+            set => Data[Offset + 0x14A] = (byte)((Data[Offset + 0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
+        }
+
+        public bool IsMegaRayquazaUnlocked
+        {
+            get => (Data[Offset + 0x14A] & 0x02) != 0;
+            set => Data[Offset + 0x14A] = (byte)((Data[Offset + 0x14A] & ~2) | (value ? 2 : 0)); // in battle
+        }
+    }
+
+    public sealed class MyStatus6XY : MyStatus6
+    {
+        public MyStatus6XY(SaveFile sav, int offset) : base(sav, offset) { }
+
+        public TrainerFashion6 Fashion
+        {
+            get => TrainerFashion6.GetFashion(SAV.Data, Offset + 0x30, SAV.Gender);
+            set => value.Write(Data, Offset + 0x30);
+        }
+
+        public string OT_Nick
+        {
+            get => SAV.GetString(Offset + 0x62, SAV6.ShortStringLength / 2);
+            set => SAV.SetData(SAV.SetString(value, SAV6.ShortStringLength / 2), Offset + 0x62);
+        }
+
+        public short EyeColor
+        {
+            get => BitConverter.ToInt16(Data, Offset + 0x148);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x148);
+        }
+    }
+
+    public sealed class PlayTime6 : SaveBlock
+    {
+        public PlayTime6(SaveFile sav, int offset) : base(sav) => Offset = offset;
+
+        public int PlayedHours
+        {
+            get => BitConverter.ToUInt16(Data, Offset);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset);
+        }
+
+        public int PlayedMinutes
+        {
+            get => Data[Offset + 2];
+            set => Data[Offset + 2] = (byte)value;
+        }
+
+        public int PlayedSeconds
+        {
+            get => Data[Offset + 3];
+            set => Data[Offset + 3] = (byte)value;
+        }
+
+        private uint LastSaved { get => BitConverter.ToUInt32(Data, Offset + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4); }
+        private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
+        private int LastSavedMonth { get => (int)(LastSaved >> 12 & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | ((uint)value & 0xF) << 12; }
+        private int LastSavedDay { get => (int)(LastSaved >> 16 & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | ((uint)value & 0x1F) << 16; }
+        private int LastSavedHour { get => (int)(LastSaved >> 21 & 0x1F); set => LastSaved = (LastSaved & 0xFC1FFFFF) | ((uint)value & 0x1F) << 21; }
+        private int LastSavedMinute { get => (int)(LastSaved >> 26 & 0x3F); set => LastSaved = (LastSaved & 0x03FFFFFF) | ((uint)value & 0x3F) << 26; }
+        public string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
+
+        public DateTime? LastSavedDate
+        {
+            get => !Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay)
+                ? (DateTime?)null
+                : new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
+            set
+            {
+                // Only update the properties if a value is provided.
+                if (value.HasValue)
+                {
+                    var dt = value.Value;
+                    LastSavedYear = dt.Year;
+                    LastSavedMonth = dt.Month;
+                    LastSavedDay = dt.Day;
+                    LastSavedHour = dt.Hour;
+                    LastSavedMinute = dt.Minute;
+                }
+                else // Clear the date.
+                {
+                    // If code tries to access MetDate again, null will be returned.
+                    LastSavedYear = 0;
+                    LastSavedMonth = 0;
+                    LastSavedDay = 0;
+                    LastSavedHour = 0;
+                    LastSavedMinute = 0;
+                }
+            }
+        }
+    }
+
+    public sealed class GameTime6 : SaveBlock
+    {
+        public GameTime6(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public int ResumeYear { get => BitConverter.ToInt32(Data, Offset + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4); }
+        public int ResumeMonth { get => Data[Offset + 0x8]; set => Data[Offset + 0x8] = (byte)value; }
+        public int ResumeDay { get => Data[Offset + 0x9]; set => Data[Offset + 0x9] = (byte)value; }
+        public int ResumeHour { get => Data[Offset + 0xB]; set => Data[Offset + 0xB] = (byte)value; }
+        public int ResumeMinute { get => Data[Offset + 0xC]; set => Data[Offset + 0xC] = (byte)value; }
+        public int ResumeSeconds { get => Data[Offset + 0xD]; set => Data[Offset + 0xD] = (byte)value; }
+        public uint SecondsToStart { get => BitConverter.ToUInt32(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18); }
+        public uint SecondsToFame { get => BitConverter.ToUInt32(Data, Offset + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20); }
+    }
+
+}

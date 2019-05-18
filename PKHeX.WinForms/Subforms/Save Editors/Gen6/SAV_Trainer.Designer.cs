@@ -159,7 +159,7 @@ namespace PKHeX.WinForms
             this.CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
             this.Tab_Maison = new System.Windows.Forms.TabPage();
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.PG_CurrentAppearance = new System.Windows.Forms.PropertyGrid();
             this.L_TRNick = new System.Windows.Forms.Label();
             this.TB_TRNick = new System.Windows.Forms.TextBox();
             this.CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
@@ -1620,7 +1620,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Appearance
             // 
-            this.Tab_Appearance.Controls.Add(this.propertyGrid1);
+            this.Tab_Appearance.Controls.Add(this.PG_CurrentAppearance);
             this.Tab_Appearance.Controls.Add(this.L_TRNick);
             this.Tab_Appearance.Controls.Add(this.TB_TRNick);
             this.Tab_Appearance.Controls.Add(this.B_GiveAccessories);
@@ -1633,15 +1633,15 @@ namespace PKHeX.WinForms
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.PG_CurrentAppearance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.propertyGrid1.HelpVisible = false;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.propertyGrid1.Size = new System.Drawing.Size(281, 247);
-            this.propertyGrid1.TabIndex = 75;
-            this.propertyGrid1.ToolbarVisible = false;
+            this.PG_CurrentAppearance.HelpVisible = false;
+            this.PG_CurrentAppearance.Location = new System.Drawing.Point(3, 3);
+            this.PG_CurrentAppearance.Name = "PG_CurrentAppearance";
+            this.PG_CurrentAppearance.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            this.PG_CurrentAppearance.Size = new System.Drawing.Size(281, 247);
+            this.PG_CurrentAppearance.TabIndex = 75;
+            this.PG_CurrentAppearance.ToolbarVisible = false;
             // 
             // L_TRNick
             // 
@@ -1860,7 +1860,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TextBox TB_TRNick;
         private System.Windows.Forms.CheckBox CHK_MegaUnlocked;
         private Subforms.Save_Editors.TrainerStat TrainerStats;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.PropertyGrid PG_CurrentAppearance;
         private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
     }
 }

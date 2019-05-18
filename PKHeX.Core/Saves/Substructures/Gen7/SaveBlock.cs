@@ -7,6 +7,7 @@ namespace PKHeX.Core
     {
         public int Offset { get; protected set; }
         protected readonly byte[] Data;
-        protected SaveBlock(SaveFile SAV) => Data = SAV.Data;
+        protected readonly SaveFile SAV;
+        protected SaveBlock(SaveFile sav) => Data = (SAV = sav).Data;
     }
 }

@@ -16,8 +16,6 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class PokeListHeader : SaveBlock
     {
-        private readonly SaveFile SAV;
-
         /// <summary>
         /// Raw representation of data, casted to ushort[].
         /// </summary>
@@ -30,7 +28,6 @@ namespace PKHeX.Core
 
         public PokeListHeader(SaveFile sav) : base(sav)
         {
-            SAV = sav;
             Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.PokeListHeader);
             PokeListInfo = LoadPointerData();
             if (!sav.Exportable)
