@@ -582,9 +582,8 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation != 6)
-                return;
-            new SAV_OPower((SAV6)SAV).ShowDialog();
+            if (SAV is IOPower op)
+                new SAV_OPower(op).ShowDialog();
         }
 
         private void B_OpenFriendSafari_Click(object sender, EventArgs e)
@@ -1012,7 +1011,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenWondercards.Enabled = sav.HasWondercards;
                 B_OpenSuperTraining.Enabled = sav.HasSuperTrain;
                 B_OpenHallofFame.Enabled = sav.HasHoF;
-                B_OpenOPowers.Enabled = sav.HasOPower;
+                B_OpenOPowers.Enabled = sav is IOPower;
                 B_OpenPokedex.Enabled = sav.HasPokeDex;
                 B_OpenBerryField.Enabled = sav.HasBerryField && sav.XY;
                 B_OpenFriendSafari.Enabled = sav.XY;

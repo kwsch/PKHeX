@@ -166,9 +166,10 @@ namespace PKHeX.WinForms
                     MaisonRecords[i].Text = SAV.GetMaisonStat(i).ToString();
             }
 
-            NUD_M.Value = SAV.M;
+            var sit = SAV.Situation;
+            NUD_M.Value = sit.M;
             // Sanity Check Map Coordinates
-            if (!GB_Map.Enabled || SAV.X%0.5 != 0 || SAV.Z%0.5 != 0 || SAV.Y%0.5 != 0)
+            if (!GB_Map.Enabled || sit.X%0.5 != 0 || sit.Z%0.5 != 0 || sit.Y%0.5 != 0)
             {
                 GB_Map.Enabled = false;
             }
@@ -176,9 +177,9 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    NUD_X.Value = (decimal)SAV.X;
-                    NUD_Z.Value = (decimal)SAV.Z;
-                    NUD_Y.Value = (decimal)SAV.Y;
+                    NUD_X.Value = (decimal)sit.X;
+                    NUD_Z.Value = (decimal)sit.Z;
+                    NUD_Y.Value = (decimal)sit.Y;
                 }
                 catch { GB_Map.Enabled = false; }
             }
@@ -187,7 +188,7 @@ namespace PKHeX.WinForms
             TB_BP.Text = SAV.BP.ToString();
             TB_PM.Text = SAV.GetRecord(63).ToString();
 
-            TB_Style.Text = SAV.Style.ToString();
+            TB_Style.Text = sit.Style.ToString();
 
             // Load Play Time
             MT_Hours.Text = SAV.PlayedHours.ToString();
@@ -253,12 +254,13 @@ namespace PKHeX.WinForms
             }
 
             // Copy Position
+            var sit = SAV.Situation;
             if (GB_Map.Enabled && MapUpdated)
             {
-                SAV.M = (int)NUD_M.Value;
-                SAV.X = (float)NUD_X.Value;
-                SAV.Z = (float)NUD_Z.Value;
-                SAV.Y = (float)NUD_Y.Value;
+                sit.M = (int)NUD_M.Value;
+                sit.X = (float)NUD_X.Value;
+                sit.Z = (float)NUD_Z.Value;
+                sit.Y = (float)NUD_Y.Value;
             }
 
             SAV.BP = ushort.Parse(TB_BP.Text);
@@ -266,7 +268,7 @@ namespace PKHeX.WinForms
             SAV.SetRecord(63, Util.ToInt32(TB_PM.Text));
             // Set Max Obtained Pokémiles
             SAV.SetRecord(64, Util.ToInt32(TB_PM.Text));
-            SAV.Style = byte.Parse(TB_Style.Text);
+            sit.Style = byte.Parse(TB_Style.Text);
 
             // Copy Badges
             int badgeval = 0;

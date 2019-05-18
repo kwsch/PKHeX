@@ -113,14 +113,14 @@ namespace PKHeX.Core
 
             if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!SAV.ORAS)
+                if (!(SAV is SAV6AO ao))
                 {
                     message = MsgMysteryGiftSlotSpecialReject;
                     return false;
                 }
 
                 // Set the special recieved data
-                BitConverter.GetBytes(WC6.EonTicketConst).CopyTo(SAV.Data, ((SAV6)SAV).EonTicket);
+                BitConverter.GetBytes(WC6.EonTicketConst).CopyTo(SAV.Data, ao.EonTicket);
             }
 
             message = null;

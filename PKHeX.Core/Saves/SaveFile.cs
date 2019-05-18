@@ -105,7 +105,6 @@ namespace PKHeX.Core
         public bool HasHoF => HoF > -1;
         public bool HasSecretBase => SecretBase > -1;
         public bool HasPSS => PSS > -1;
-        public bool HasOPower => OPower > -1;
         public bool HasJPEG => JPEGData.Length > 0;
         public bool HasBox => Box > -1;
         public virtual bool HasParty => Party > -1;
@@ -150,7 +149,6 @@ namespace PKHeX.Core
         public int SecretBase { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
         public int BerryField { get; protected set; } = int.MinValue;
-        public int OPower { get; protected set; } = int.MinValue;
         public int HoF { get; protected set; } = int.MinValue;
 
         // SAV Properties

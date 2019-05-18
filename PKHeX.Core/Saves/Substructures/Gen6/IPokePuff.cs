@@ -2,8 +2,11 @@ namespace PKHeX.Core
 {
     public interface IPokePuff
     {
-        byte[] Puffs { get; set; }
-        int PuffCount { get; set; }
+        Puff6 PuffBlock { get; }
+    }
+    public interface IOPower
+    {
+        OPower6 OPowerBlock { get; }
     }
 
     public interface ILink

@@ -1,0 +1,327 @@
+﻿using System;
+using System.Linq;
+using System.Text;
+
+namespace PKHeX.Core
+{
+    /// <summary>
+    /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.ORAS"/>.
+    /// </summary>
+    /// <inheritdoc cref="SAV6" />
+    public sealed class SAV6AO : SAV6, IPokePuff, IOPower, ILink
+    {
+        public SAV6AO(byte[] data) : base(data) => Initialize();
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS) => Initialize();
+        public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
+
+        private void Initialize()
+        {
+            /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
+            /* 01: 00400-00F90, 00B90 */ Bag = 0x00400; // MyItem
+            /* 02: 01000-0102C, 0002C */ // ItemInfo = 0x1000; // Select Bound Items
+            /* 03: 01200-01238, 00038 */ // GameTime = 0x01200;
+            /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
+            /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
+            /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+            /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
+            /* 08: 01C00-01CBE, 000BE */ // amie minigame records
+            /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
+            /* 10: 02000-04100, 02100 */ // FieldMoveModelSave
+            /* 11: 04200-04330, 00130  */ Trainer2 = 0x04200; // Misc
+            /* 12: 04400-04840, 00440  */ PCLayout = 0x04400; // BOX
+            /* 13: 04A00-04F74, 00574  */ BattleBox = 0x04A00; // BattleBox
+            /* 14: 05000-09E28, 04E28 */ PSS = 0x05000;
+            /* 15: 0A000-0EE28, 04E28 */ // PSS2
+            /* 16: 0F000-13E28, 04E28 */ // PSS3
+            /* 17: 14000-14170, 00170 */ // MyStatus
+            /* 18: 14200-1481C, 0061C */ Party = 0x14200; // PokePartySave
+            /* 19: 14A00-14F04, 00504 */ EventConst = 0x14A00; // EventWork
+            /* 20: 15000-161CC, 011CC */ PokeDex = 0x15000; // ZukanData
+            /* 21: 16200-16844, 00644 */ // hologram clips
+            /* 22: 16A00-16B04, 00104 */ Fused = 0x16A00; // UnionPokemon
+            /* 23: 16C00-16C04, 00004 */ // ConfigSave
+            /* 24: 16E00-17220, 00420 */ // Amie decoration stuff
+            /* 25: 17400-17464, 00064 */ // OPower = 0x17400;
+            /* 26: 17600-179F0, 003F0 */ // Strength Rock position (xyz float: 84 entries, 12bytes/entry)
+            /* 27: 17A00-1810C, 0070C */ // Trainer PR Video
+            /* 28: 18200-18380, 00180 */ GTS = 0x18200; // GtsData
+            /* 29: 18400-18404, 00004 */ // Packed Menu Bits
+            /* 30: 18600-1860C, 0000C */ // PSS Profile Q&A (6*questions, 6*answer)
+            /* 31: 18800-18848, 00048 */ // Repel Info, (Swarm?) and other overworld info (roamer)
+            /* 32: 18A00-18A54, 00054 */ // BOSS data fetch history (serial/mystery gift), 4byte intro & 20*4byte entries
+            /* 33: 18C00-19244, 00644 */ // Streetpass history
+            /* 34: 19400-199C8, 005C8 */ // LiveMatchData/BattleSpotData
+            /* 35: 19A00-19CF8, 002F8 */ // MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
+            /* 36: 19E00-1B940, 01B40 */ HoF = 0x19E00; // Dendou
+            /* 37: 1BA00-1BBF4, 001F4 */ MaisonStats = 0x1BBC0; // BattleInstSave
+            /* 38: 1BC00-1BFE0, 003E0 */ Daycare = 0x1BC00; // Sodateya
+            /* 39: 1C000-1C216, 00216 */ // BattleInstSave
+            /* 40: 1C400-1CA40, 00640 */ BerryField = 0x1C400;
+            /* 41: 1CC00-1E690, 01A90 */ WondercardFlags = 0x1CC00; // MysteryGiftSave
+            /* 42: 1E800-1EC00, 00400 */ // Storyline Records
+            /* 43: 1EC00-1F218, 00618 */ SUBE = 0x1D890; // PokeDiarySave
+            /* 44: 1F400-1F65C, 0025C */ // Record = 0x1F400;
+            /* 45: 1F800-20034, 00834 */ // Friend Safari (0x15 per entry, 100 entries)
+            /* 46: 20200-20518, 00318 */ SuperTrain = 0x20200;
+            /* 47: 20600-20DD0, 007D0 */ // Unused (lmao)
+            /* 48: 20E00-21A48, 00C48 */ LinkInfo = 0x20E00;
+            /* 49: 21C00-21C78, 00078 */ // PSS usage info
+            /* 50: 21E00-22000, 00200 */ // GameSyncSave
+            /* 51: 22000-22C84, 00C84 */ // PSS Icon (bool32 data present, 40x40 u16 pic, unused)
+            /* 52: 22E00-23428, 00628 */ // ValidationSave (updatabale Public Key for legal check api calls)
+            /* 53: 23600-23A00, 00400 */ Contest = 0x23600;
+            /* 54: 23A00-2B4D0, 07AD0 */ SecretBase = 0x23A00;
+            /* 55: 2B600-32EB0, 078B0 */ EonTicket = 0x319B8;
+            /* 56: 33000-67AD0, 34AD0 */ Box = 0x33000;
+            /* 57: 67C00-75C58, 0E058 */ JPEG = 0x67C00;
+
+            Items = new MyItem6XY(this, 0x00400);
+            PuffBlock = new Puff6(this, 0x0000);
+            GameTime = new GameTime6(this, 0x01200);
+            Situation = new Situation6(this, 0x01400);
+            Played = new PlayTime6(this, 0x01800);
+            Status = new MyStatus6(this, 0x14000);
+            Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x400);
+            OPowerBlock = new OPower6(this, 0x17400);
+            Records = new Record6(this, 0x1F400, Core.Records.MaxType_AO);
+
+            PCBackgrounds = PCLayout + 0x41E;
+            PCFlags = PCLayout + 0x43D;
+            LastViewedBox = PCLayout + 0x43F;
+            EventFlag = EventConst + 0x2FC;
+            PokeDexLanguageFlags = PokeDex + 0x400;
+            Spinda = PokeDex + 0x680;
+            EncounterCount = PokeDex + 0x686;
+            WondercardData = WondercardFlags + 0x100;
+            Daycare2 = Daycare + 0x1F0;
+
+            OFS_PouchHeldItem = Bag + 0;
+            OFS_PouchKeyItem = Bag + 0x640;
+            OFS_PouchTMHM = Bag + 0x7C0;
+            OFS_PouchMedicine = Bag + 0x970;
+            OFS_PouchBerry = Bag + 0xA70;
+
+            HeldItems = Legal.HeldItem_XY;
+            Personal = PersonalTable.XY;
+        }
+
+        public int EonTicket { get; private set; } = int.MinValue;
+
+        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+        public override int MaxItemID => Legal.MaxItemID_6_AO;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+        public Zukan6 Zukan { get; private set; }
+        public Puff6 PuffBlock { get; private set; }
+        public OPower6 OPowerBlock { get; private set; }
+        public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
+        public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }
+
+        public override GameVersion Version
+        {
+            get
+            {
+                switch (Game)
+                {
+                    case (int)GameVersion.AS: return GameVersion.AS;
+                    case (int)GameVersion.OR: return GameVersion.OR;
+                }
+                return GameVersion.Invalid;
+            }
+        }
+
+        public override bool GetCaught(int species) => Zukan.GetCaught(species);
+        public override bool GetSeen(int species) => Zukan.GetSeen(species);
+        public override void SetSeen(int species, bool seen) => Zukan.SetSeen(species, seen);
+        public override void SetCaught(int species, bool caught) => Zukan.SetCaught(species, caught);
+
+        protected override void SetDex(PKM pkm)
+        {
+            Zukan.SetDex(pkm);
+            int index = pkm.Species - 1;
+            if ((uint)index >= (uint)MaxSpeciesID)
+                return;
+
+            // Set DexNav count (only if not encountered previously)
+            if (GetEncounterCount(index) == 0)
+                SetEncounterCount(index, 1);
+        }
+
+        // Daycare
+        public override int DaycareSeedSize => 16;
+        public override bool HasTwoDaycares => true;
+
+        public override int GetDaycareSlotOffset(int loc, int slot)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs < 0)
+                return -1;
+            return ofs + 8 + (slot * (SIZE_STORED + 8));
+        }
+
+        public override uint? GetDaycareEXP(int loc, int slot)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            return null;
+        }
+
+        public override bool? IsDaycareOccupied(int loc, int slot)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
+            return null;
+        }
+
+        public override string GetDaycareRNGSeed(int loc)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs <= 0)
+                return null;
+
+            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", string.Empty);
+        }
+
+        public override bool? IsDaycareHasEgg(int loc)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                return Data[ofs + 0x1E0] == 1;
+            return null;
+        }
+
+        public override void SetDaycareEXP(int loc, int slot, uint EXP)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+        }
+
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
+        }
+
+        public override void SetDaycareRNGSeed(int loc, string seed)
+        {
+            if (loc != 0)
+                return;
+            if (Daycare < 0)
+                return;
+            if (seed == null)
+                return;
+            if (seed.Length > DaycareSeedSize)
+                return;
+
+            Util.GetBytesFromHexString(seed).CopyTo(Data, Daycare + 0x1E8);
+        }
+
+        public override void SetDaycareHasEgg(int loc, bool hasEgg)
+        {
+            int ofs = loc == 0 ? Daycare : Daycare2;
+            if (ofs > -1)
+                Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+        }
+
+        public override string JPEGTitle => HasJPPEGData ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
+        public override byte[] JPEGData => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
+
+        private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
+
+        protected override bool[] MysteryGiftReceivedFlags
+        {
+            get => Util.GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
+            set
+            {
+                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
+                    return;
+                Util.SetBitFlagArray(Data, WondercardFlags, value);
+                Edited = true;
+            }
+        }
+
+        protected override MysteryGift[] MysteryGiftCards
+        {
+            get
+            {
+                var cards = new MysteryGift[GiftCountMax];
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = GetWC6(i);
+                return cards;
+            }
+            set
+            {
+                int count = Math.Min(GiftCountMax, value.Length);
+                for (int i = 0; i < count; i++)
+                    SetWC6(value[i], i);
+                for (int i = value.Length; i < GiftCountMax; i++)
+                    SetWC6(new WC6(), i);
+            }
+        }
+
+        private MysteryGift GetWC6(int index)
+        {
+            if (index < 0 || index > GiftCountMax)
+                return null;
+
+            return new WC6(GetData(WondercardData + (index * WC6.Size), WC6.Size));
+        }
+
+        private void SetWC6(MysteryGift wc6, int index)
+        {
+            if (index < 0 || index > GiftCountMax)
+                return;
+
+            SetData(wc6.Data, WondercardData + (index * WC6.Size));
+        }
+
+        // Gym History
+        public ushort[][] GymTeams
+        {
+            get
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return Array.Empty<ushort[]>(); // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                var data = GetData(ofs, size);
+                ushort[][] teams = new ushort[8][];
+                for (int i = 0; i < teams.Length; i++)
+                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
+                return teams;
+            }
+            set
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                byte[] data = new byte[size];
+                for (int i = 0; i < value.Length; i++)
+                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
+                SetData(data, ofs);
+            }
+        }
+
+        public byte[] LinkBlock
+        {
+            get => GetData(LinkInfo, 0xC48);
+            set
+            {
+                if (value.Length != 0xC48)
+                    throw new ArgumentException(nameof(value));
+                SetData(value, LinkInfo);
+            }
+        }
+    }
+}
