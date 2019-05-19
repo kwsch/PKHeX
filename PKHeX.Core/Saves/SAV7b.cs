@@ -22,18 +22,25 @@ namespace PKHeX.Core
 
         public override SaveFile Clone() => new SAV7b((byte[])Data.Clone());
 
-        public SAV7b() : this(new byte[SaveUtil.SIZE_G7GG]) { }
-
-        public SAV7b(byte[] data)
+        public SAV7b() : base(SaveUtil.SIZE_G7GG)
         {
-            Data = data;
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Initialize();
+            ClearBoxes();
+        }
 
-            // Load Info
+        public SAV7b(byte[] data) : base(data)
+        {
+            Initialize();
+            CanReadChecksums();
+        }
+
+        private void Initialize()
+        {
             const int len = 0xB8800; // 1mb always allocated
             BlockInfoOffset = len - 0x1F0;
-            Blocks = !Exportable ? BlockInfoGG : BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, Checksums.CRC16NoInvert, len);
+            Blocks = !Exportable
+                ? BlockInfoGG
+                : BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, Checksums.CRC16NoInvert, len);
             Personal = PersonalTable.GG;
 
             Box = GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
@@ -53,23 +60,18 @@ namespace PKHeX.Core
             WondercardData = GiftRecords.Offset;
 
             HeldItems = Legal.HeldItems_GG;
-
-            if (Exportable)
-                CanReadChecksums();
-            else
-                ClearBoxes();
         }
 
         // Save Block accessors
-        public readonly MyItem Items;
-        public readonly Misc7b Misc;
-        public readonly Zukan7b Zukan;
-        public readonly MyStatus7b Status;
-        public readonly PlayTime7b Played;
-        public readonly ConfigSave7b Config;
-        public readonly EventWork7b EventWork;
-        public readonly PokeListHeader Storage;
-        public readonly WB7Records GiftRecords;
+        public MyItem Items { get; private set; }
+        public Misc7b Misc { get; private set; }
+        public Zukan7b Zukan { get; private set; }
+        public MyStatus7b Status { get; private set; }
+        public PlayTime7b Played { get; private set; }
+        public ConfigSave7b Config { get; private set; }
+        public EventWork7b EventWork { get; private set; }
+        public PokeListHeader Storage { get; private set; }
+        public WB7Records GiftRecords { get; private set; }
 
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
@@ -99,8 +101,8 @@ namespace PKHeX.Core
         public override int BoxCount => 40; // 1000/25
 
         // Blocks & Offsets
-        private readonly int BlockInfoOffset;
-        public readonly BlockInfo[] Blocks;
+        private int BlockInfoOffset;
+        public BlockInfo[] Blocks;
         public override bool ChecksumsValid => CanReadChecksums() && Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => CanReadChecksums() ? Blocks.GetChecksumInfo(Data) : string.Empty;
 

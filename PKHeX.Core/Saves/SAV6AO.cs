@@ -13,11 +13,14 @@ namespace PKHeX.Core
         public SAV6AO(byte[] data) : base(data) => Initialize();
         public SAV6AO() : base(SaveUtil.SIZE_G6ORAS) => Initialize();
         public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
+        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+        public override int MaxItemID => Legal.MaxItemID_6_AO;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
 
         private void Initialize()
         {
-            /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
-            /* 01: 00400-00F90, 00B90 */ Bag = 0x00400; // MyItem
+            /* 00: 00000-002C8, 002C8 */ // Puff = 0x00000;
+            /* 01: 00400-00F90, 00B90 */ // MyItem = 0x00400; // Bag
             /* 02: 01000-0102C, 0002C */ // ItemInfo = 0x1000; // Select Bound Items
             /* 03: 01200-01238, 00038 */ // GameTime = 0x01200;
             /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
@@ -80,14 +83,13 @@ namespace PKHeX.Core
             GameTime = new GameTime6(this, 0x01200);
             Situation = new Situation6(this, 0x01400);
             Played = new PlayTime6(this, 0x01800);
+            BoxLayout = new BoxLayout6(this, 0x04400);
             Status = new MyStatus6(this, 0x14000);
             Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x400);
             OPowerBlock = new OPower6(this, 0x17400);
+            MysteryBlock = new MysteryBlock6(this, 0x1CC00);
             Records = new Record6(this, 0x1F400, Core.Records.MaxType_AO);
 
-            PCBackgrounds = PCLayout + 0x41E;
-            PCFlags = PCLayout + 0x43D;
-            LastViewedBox = PCLayout + 0x43F;
             EventFlag = EventConst + 0x2FC;
             PokeDexLanguageFlags = PokeDex + 0x400;
             Spinda = PokeDex + 0x680;
@@ -95,24 +97,19 @@ namespace PKHeX.Core
             WondercardData = WondercardFlags + 0x100;
             Daycare2 = Daycare + 0x1F0;
 
-            OFS_PouchHeldItem = Bag + 0;
-            OFS_PouchKeyItem = Bag + 0x640;
-            OFS_PouchTMHM = Bag + 0x7C0;
-            OFS_PouchMedicine = Bag + 0x970;
-            OFS_PouchBerry = Bag + 0xA70;
-
             HeldItems = Legal.HeldItem_XY;
             Personal = PersonalTable.XY;
         }
 
         public int EonTicket { get; private set; } = int.MinValue;
+        public int Contest { get; private set; } = int.MinValue;
 
-        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
-        public override int MaxItemID => Legal.MaxItemID_6_AO;
-        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
         public Zukan6 Zukan { get; private set; }
         public Puff6 PuffBlock { get; private set; }
         public OPower6 OPowerBlock { get; private set; }
+        public BoxLayout6 BoxLayout { get; private set; }
+        public MysteryBlock6 MysteryBlock { get; private set; }
+
         public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
         public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }
 
@@ -232,52 +229,8 @@ namespace PKHeX.Core
 
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
-        protected override bool[] MysteryGiftReceivedFlags
-        {
-            get => Util.GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
-            set
-            {
-                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
-                    return;
-                Util.SetBitFlagArray(Data, WondercardFlags, value);
-                Edited = true;
-            }
-        }
-
-        protected override MysteryGift[] MysteryGiftCards
-        {
-            get
-            {
-                var cards = new MysteryGift[GiftCountMax];
-                for (int i = 0; i < cards.Length; i++)
-                    cards[i] = GetWC6(i);
-                return cards;
-            }
-            set
-            {
-                int count = Math.Min(GiftCountMax, value.Length);
-                for (int i = 0; i < count; i++)
-                    SetWC6(value[i], i);
-                for (int i = value.Length; i < GiftCountMax; i++)
-                    SetWC6(new WC6(), i);
-            }
-        }
-
-        private MysteryGift GetWC6(int index)
-        {
-            if (index < 0 || index > GiftCountMax)
-                return null;
-
-            return new WC6(GetData(WondercardData + (index * WC6.Size), WC6.Size));
-        }
-
-        private void SetWC6(MysteryGift wc6, int index)
-        {
-            if (index < 0 || index > GiftCountMax)
-                return;
-
-            SetData(wc6.Data, WondercardData + (index * WC6.Size));
-        }
+        protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
+        protected override MysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
 
         // Gym History
         public ushort[][] GymTeams
@@ -322,6 +275,73 @@ namespace PKHeX.Core
                     throw new ArgumentException(nameof(value));
                 SetData(value, LinkInfo);
             }
+        }
+
+        public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
+        protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
+        public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
+        public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
+    }
+
+    public class MysteryBlock6 : SaveBlock
+    {
+        private const int FlagStart = 0;
+        private const int MaxReceivedFlag = 2048;
+        private const int MaxCardsPresent = 24;
+        // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
+        private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
+
+        public MysteryBlock6(SAV6 sav, int offset) : base(sav) => Offset = offset;
+
+        public bool[] MysteryGiftReceivedFlags
+        {
+            get => Util.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
+            set
+            {
+                if (value?.Length != MaxReceivedFlag)
+                    return;
+                Util.SetBitFlagArray(Data, Offset + FlagStart, value);
+                SAV.Edited = true;
+            }
+        }
+
+        public MysteryGift[] MysteryGiftCards
+        {
+            get
+            {
+                var cards = new MysteryGift[MaxCardsPresent];
+                for (int i = 0; i < cards.Length; i++)
+                    cards[i] = GetGift(i);
+                return cards;
+            }
+            set
+            {
+                int count = Math.Min(MaxCardsPresent, value.Length);
+                for (int i = 0; i < count; i++)
+                    SetGift(value[i], i);
+                for (int i = value.Length; i < MaxCardsPresent; i++)
+                    SetGift(new WC6(), i);
+            }
+        }
+
+        public MysteryGift GetGift(int index)
+        {
+            if ((uint)index > MaxCardsPresent)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            var offset = GetGiftOffset(index);
+            var data = SAV.GetData(offset, WC6.Size);
+            return new WC6(data);
+        }
+
+        private int GetGiftOffset(int index) => Offset + CardStart + (index * WC6.Size);
+
+        public void SetGift(MysteryGift wc6, int index)
+        {
+            if ((uint)index > MaxCardsPresent)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            SAV.SetData(wc6.Data, GetGiftOffset(index));
         }
     }
 }

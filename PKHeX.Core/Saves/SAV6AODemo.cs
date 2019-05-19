@@ -9,15 +9,18 @@
         public SAV6AODemo(byte[] data) : base(data) => Initialize();
         public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO) => Initialize();
         public override SaveFile Clone() => new SAV6AODemo((byte[])Data.Clone());
+        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+        public override int MaxItemID => Legal.MaxItemID_6_AO;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
 
         private void Initialize()
         {
-            /* 00: */ Bag              = 0x00000; // MyItem
+            /* 00: */ // MyItem        = 0x00000; // MyItem // Bag
             /* 01: */ // ItemInfo      = 0x00C00; // ItemInfo6
             /* 02: */ // GameTime      = 0x00E00; // GameTime
             /* 03: */ // Trainer1      = 0x01000; // Situation
             /* 04: */ //               = 0x01200; // [00004] RandomGroup (rand seeds)
-            /* 05: */ PlayTime         = 0x01400; // PlayTime
+            /* 05: */ // PlayTime      = 0x01400; // PlayTime
             /* 06: */ //               = 0x01600; // [00024] temp variables (u32 id + 32 u8)
             /* 07: */ //               = 0x01800; // [02100] FieldMoveModelSave
             /* 08: */ Trainer2         = 0x03A00; // Misc
@@ -41,10 +44,6 @@
             HeldItems = Legal.HeldItem_AO;
             Personal = PersonalTable.AO;
         }
-
-        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
-        public override int MaxItemID => Legal.MaxItemID_6_AO;
-        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
 
         public override GameVersion Version
         {

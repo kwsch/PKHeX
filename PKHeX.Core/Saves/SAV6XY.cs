@@ -12,11 +12,14 @@ namespace PKHeX.Core
         public SAV6XY(byte[] data) : base(data) => Initialize();
         public SAV6XY() : base(SaveUtil.SIZE_G6XY) => Initialize();
         public override SaveFile Clone() => new SAV6XY((byte[])Data.Clone());
+        public override int MaxMoveID => Legal.MaxMoveID_6_XY;
+        public override int MaxItemID => Legal.MaxItemID_6_XY;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
 
         private void Initialize()
         {
-            /* 00: 00000-002C8, 002C8 */ Puff = 0x00000;
-            /* 01: 00400-00F88, 00B88 */ Bag = 0x00400; // MyItem
+            /* 00: 00000-002C8, 002C8 */ // Puff = 0x00000;
+            /* 01: 00400-00F88, 00B88 */ // MyItem = 0x00400; // Bag
             /* 02: 01000-0102C, 0002C */ // ItemInfo = 0x1000; // Select Bound Items
             /* 03: 01200-01238, 00038 */ // GameTime = 0x01200;
             /* 04: 01400-01550, 00150 */ Trainer1 = 0x1400; // Situation
@@ -76,14 +79,13 @@ namespace PKHeX.Core
             GameTime = new GameTime6(this, 0x01200);
             Situation = new Situation6(this, 0x01400);
             Played = new PlayTime6(this, 0x01800);
+            BoxLayout = new BoxLayout6(this, 0x4400);
             Status = new MyStatus6XY(this, 0x14000);
             Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x3C8);
             OPowerBlock = new OPower6(this, 0x16A00);
+            MysteryBlock = new MysteryBlock6(this, 0x1BC00);
             Records = new Record6(this, 0x1E400, Core.Records.MaxType_XY);
 
-            PCBackgrounds = PCLayout + 0x41E;
-            PCFlags = PCLayout + 0x43D;
-            LastViewedBox = PCLayout + 0x43F;
             EventFlag = EventConst + 0x2FC;
             PokeDexLanguageFlags = PokeDex + 0x3C8;
             Spinda = PokeDex + 0x648;
@@ -93,12 +95,11 @@ namespace PKHeX.Core
             Personal = PersonalTable.XY;
         }
 
-        public override int MaxMoveID => Legal.MaxMoveID_6_XY;
-        public override int MaxItemID => Legal.MaxItemID_6_XY;
-        public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
         public Zukan6 Zukan { get; private set; }
         public Puff6 PuffBlock { get; private set; }
         public OPower6 OPowerBlock { get; private set; }
+        public BoxLayout6 BoxLayout { get; private set; }
+        public MysteryBlock6 MysteryBlock { get; private set; }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
 
@@ -127,9 +128,6 @@ namespace PKHeX.Core
 
             Util.GetBytesFromHexString(seed).CopyTo(Data, Daycare + 0x1E8);
         }
-
-        public byte[] Puffs { get => GetData(Puff, 100); set => SetData(value, Puff); }
-        public int PuffCount { get => BitConverter.ToInt32(Data, Puff + 100); set => BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); }
 
         public override string JPEGTitle => HasJPPEGData ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
         public override byte[] JPEGData => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
@@ -219,53 +217,8 @@ namespace PKHeX.Core
             }
         }
 
-        // Mystery Gift
-        protected override bool[] MysteryGiftReceivedFlags
-        {
-            get => Util.GitBitFlagArray(Data, WondercardFlags, (WondercardData - WondercardFlags) * 8);
-            set
-            {
-                if (value == null || (WondercardData - WondercardFlags) * 8 != value.Length)
-                    return;
-                Util.SetBitFlagArray(Data, WondercardFlags, value);
-                Edited = true;
-            }
-        }
-
-        protected override MysteryGift[] MysteryGiftCards
-        {
-            get
-            {
-                var cards = new MysteryGift[GiftCountMax];
-                for (int i = 0; i < cards.Length; i++)
-                    cards[i] = GetWC6(i);
-                return cards;
-            }
-            set
-            {
-                int count = Math.Min(GiftCountMax, value.Length);
-                for (int i = 0; i < count; i++)
-                    SetWC6(value[i], i);
-                for (int i = value.Length; i < GiftCountMax; i++)
-                    SetWC6(new WC6(), i);
-            }
-        }
-
-        private MysteryGift GetWC6(int index)
-        {
-            if (index < 0 || index > GiftCountMax)
-                return null;
-
-            return new WC6(GetData(WondercardData + (index * WC6.Size), WC6.Size));
-        }
-
-        private void SetWC6(MysteryGift wc6, int index)
-        {
-            if (index < 0 || index > GiftCountMax)
-                return;
-
-            SetData(wc6.Data, WondercardData + (index * WC6.Size));
-        }
+        protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
+        protected override MysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
 
         public byte[] LinkBlock
         {
@@ -282,5 +235,10 @@ namespace PKHeX.Core
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
         public override void SetSeen(int species, bool seen) => Zukan.SetSeen(species, seen);
         public override void SetCaught(int species, bool caught) => Zukan.SetCaught(species, caught);
+
+        public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
+        protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
+        public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
+        public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
     }
 }

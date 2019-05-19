@@ -21,22 +21,26 @@ namespace PKHeX.Core
             return gen <= 7 && f[1] != 'b'; // ignore PB7
         }).ToArray();
 
-        public SAV7(byte[] data = null)
+        public SAV7(byte[] data) : base(data)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G7SM];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
+            CanReadChecksums();
+            Initialize();
+        }
 
-            // Load Info
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
-            if (Exportable)
-                CanReadChecksums();
+        public SAV7(int size) : base(size)
+        {
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
+            Initialize();
+            ClearBoxes();
+        }
+
+        private void Initialize()
+        {
             GetSAVOffsets();
 
             HeldItems = USUM ? Legal.HeldItems_USUM : Legal.HeldItems_SM;
             Personal = USUM ? PersonalTable.USUM : PersonalTable.SM;
-            if (!Exportable)
-                ClearBoxes();
 
             var demo = !USUM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
             if (demo || !Exportable)

@@ -7,18 +7,14 @@ namespace PKHeX.Core
     /// </summary>
     public class BulkStorage : SaveFile
     {
-        protected BulkStorage(byte[] data, Type t, int start, int slotsPerBox = 30)
+        protected BulkStorage(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data)
         {
             Box = start;
-            Data = data;
             SlotsPerBox = slotsPerBox;
 
             blank = PKMConverter.GetBlank(t);
             var slots = (Data.Length - Box) / blank.SIZE_STORED;
             BoxCount = slots / SlotsPerBox;
-
-            Exportable = !IsRangeEmpty(0, Data.Length);
-            BAK = (byte[])Data.Clone();
 
             GetIsPKMPresent = PKX.GetFuncIsPKMPresent(blank);
         }

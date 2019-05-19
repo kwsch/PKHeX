@@ -13,21 +13,13 @@ namespace PKHeX.Core
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
-        protected SAV6(byte[] data)
+        protected SAV6(byte[] data) : base(data)
         {
-            Data = data;
-            BAK = (byte[])Data.Clone();
-            Exportable = true;
-
             Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
         }
 
-        protected SAV6(int size)
+        protected SAV6(int size) : base(size)
         {
-            Data = new byte[size];
-            BAK = Data;
-            Exportable = false;
-
             Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
             ClearBoxes();
         }
@@ -54,6 +46,7 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_6; // OR
 
         protected override PKM GetPKM(byte[] data) => new PK6(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
 
         public MyItem Items { get; protected set; }
         public ItemInfo6 ItemInfo { get; protected set; }
@@ -63,9 +56,6 @@ namespace PKHeX.Core
         public MyStatus6 Status { get; protected set; }
         public Record6 Records { get; set; }
 
-        // Feature Overrides
-        public int Puff { get; set; } = -1;
-        public bool HasPuffData => Puff >= 0;
 
         // Blocks & Offsets
         private readonly int BlockInfoOffset;
@@ -73,6 +63,7 @@ namespace PKHeX.Core
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
+        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
 
         public ulong TimeStampCurrent
         {
@@ -87,9 +78,7 @@ namespace PKHeX.Core
         }
 
         // Private Only
-        protected int Bag { get; set; } = int.MinValue;
         protected int Trainer2 { get; set; } = int.MinValue;
-        protected int LastViewedBox { get; set; } = int.MinValue;
         protected int WondercardFlags { get; set; } = int.MinValue;
         protected int PlayTime { get; set; } = int.MinValue;
         protected int Daycare2 { get; set; } = int.MinValue;
@@ -97,10 +86,7 @@ namespace PKHeX.Core
         protected int JPEG { get; set; } = int.MinValue;
 
         // Accessible as SAV6
-        public int PCFlags { get; protected set; } = int.MinValue;
         public int MaisonStats { get; protected set; } = int.MinValue;
-        public int PCBackgrounds { get; protected set; } = int.MinValue;
-        public int Contest { get; protected set; } = int.MinValue;
         public int Accessories { get; protected set; } = int.MinValue;
         public int PokeDexLanguageFlags { get; protected set; } = int.MinValue;
         public int Spinda { get; protected set; } = int.MinValue;
@@ -177,19 +163,10 @@ namespace PKHeX.Core
         public override bool HasTwoDaycares => ORAS;
 
         // Storage
-        public override int CurrentBox { get => Data[LastViewedBox]; set => Data[LastViewedBox] = (byte)value; }
 
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
-
-        protected override int GetBoxWallpaperOffset(int box)
-        {
-            int ofs = PCBackgrounds > 0 && PCBackgrounds < Data.Length ? PCBackgrounds : -1;
-            if (ofs > -1)
-                return ofs + box;
-            return ofs;
-        }
 
         private int GetBoxNameOffset(int box) => PCLayout + (LongStringLength * box);
 
@@ -197,7 +174,7 @@ namespace PKHeX.Core
         {
             if (PCLayout < 0)
                 return $"B{box + 1}";
-            return GetString(Data, GetBoxNameOffset(box), LongStringLength);
+            return GetString(Data, GetBoxNameOffset(box), LongStringLength / 2);
         }
 
         public override void SetBoxName(int box, string value)
@@ -252,11 +229,6 @@ namespace PKHeX.Core
             }
         }
 
-        protected override byte[] DecryptPKM(byte[] data)
-        {
-            return PKX.DecryptArray(data);
-        }
-
         public override int PartyCount
         {
             get => Data[Party + (6 * SIZE_PARTY)];
@@ -268,21 +240,6 @@ namespace PKHeX.Core
             get => Data[BattleBox + (6 * SIZE_STORED)] != 0;
             set => Data[BattleBox + (6 * SIZE_STORED)] = (byte)(value ? 1 : 0);
         }
-
-        public override int BoxesUnlocked { get => Data[PCFlags + 1] - 1; set => Data[PCFlags + 1] = (byte)(value + 1); }
-
-        public override byte[] BoxFlags
-        {
-            get => new[] { Data[PCFlags] }; // 7 bits for wallpaper unlocks, top bit to unlock final box (delta episode)
-            set
-            {
-                if (value.Length != 1)
-                    return;
-                Data[PCFlags] = value[0];
-            }
-        }
-
-        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString6(data, offset, length);
 

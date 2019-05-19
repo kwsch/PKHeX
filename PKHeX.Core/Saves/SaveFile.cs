@@ -47,6 +47,20 @@ namespace PKHeX.Core
         public virtual int MaxIV => 31;
         public ushort[] HeldItems { get; protected set; }
 
+        protected SaveFile(byte[] data)
+        {
+            Data = data;
+            BAK = (byte[])Data.Clone();
+            Exportable = true;
+        }
+
+        protected SaveFile(int size)
+        {
+            Data = new byte[size];
+            BAK = Data;
+            Exportable = false;
+        }
+
         // General SAV Properties
         public byte[] Write(ExportFlags flags = ExportFlags.None)
         {

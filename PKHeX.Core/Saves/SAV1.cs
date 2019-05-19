@@ -18,23 +18,30 @@ namespace PKHeX.Core
             return 1 <= gen && gen <= 2;
         }).ToArray();
 
-        public SAV1(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+        public SAV1(GameVersion versionOverride = GameVersion.RBY, bool japanese = false) : base(SaveUtil.SIZE_G1RAW)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G1RAW];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Version = versionOverride;
+            Japanese = japanese;
+            Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
-            if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else if(data == null)
-                Version = GameVersion.RBY;
-            else Version = SaveUtil.GetIsG1SAV(Data);
+            Initialize(versionOverride);
+            ClearBoxes();
+        }
+
+        public SAV1(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        {
+            Version = SetOperatingVersion(data, versionOverride);
             if (Version == GameVersion.Invalid)
                 return;
 
             Japanese = SaveUtil.GetIsG1SAVJ(Data);
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
+            Initialize(versionOverride);
+        }
+
+        private void Initialize(GameVersion versionOverride)
+        {
             // see if RBY can be differentiated
             if (Starter != 0 && versionOverride != GameVersion.Any)
                 Version = Yellow ? GameVersion.YW : GameVersion.RB;
@@ -102,9 +109,13 @@ namespace PKHeX.Core
 
             // Enable Pokedex editing
             PokeDex = 0;
+        }
 
-            if (!Exportable)
-                ClearBoxes();
+        private GameVersion SetOperatingVersion(byte[] data, GameVersion versionOverride)
+        {
+            if (versionOverride != GameVersion.Any)
+                return versionOverride;
+            return SaveUtil.GetIsG1SAV(Data);
         }
 
         private readonly SAV1Offsets Offsets;

@@ -15,21 +15,26 @@ namespace PKHeX.Core
         public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
-        public SAV5(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+        public SAV5(GameVersion versionOverride = GameVersion.B2W2) : base(SaveUtil.SIZE_G5RAW)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G5RAW];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Version = versionOverride;
+            Initialize();
+            ClearBoxes();
+        }
 
+        public SAV5(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        {
             // Get Version
-            if (data == null)
-                Version = GameVersion.B2W2;
-            else if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else Version = SaveUtil.GetIsG5SAV(Data);
+            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG5SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
+            Initialize();
+            ClearBoxes();
+        }
+
+        private void Initialize()
+        {
             // First blocks are always the same position/size
             PCLayout = 0x0;
             Box = 0x400;
@@ -96,11 +101,9 @@ namespace PKHeX.Core
                     Personal = PersonalTable.B2W2;
                     break;
             }
+
             HeldItems = Legal.HeldItems_BW;
             Blocks = Version == GameVersion.BW ? BlockInfoNDS.BlocksBW : BlockInfoNDS.BlocksB2W2;
-
-            if (!Exportable)
-                ClearBoxes();
         }
 
         // Configuration
@@ -128,17 +131,20 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
-        public readonly IReadOnlyList<BlockInfoNDS> Blocks;
+        public IReadOnlyList<BlockInfoNDS> Blocks;
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
         private const int wcSeed = 0x1D290;
 
-        public readonly int CGearInfoOffset, CGearDataOffset;
-        private readonly int EntreeForestOffset;
-        private readonly int Trainer2, AdventureInfo, BattleSubway;
-        public readonly int PokeDexLanguageFlags;
+        public int CGearInfoOffset;
+        public int CGearDataOffset;
+        private int EntreeForestOffset;
+        private int Trainer2;
+        private int AdventureInfo;
+        private int BattleSubway;
+        public int PokeDexLanguageFlags;
 
         // Daycare
         public override int DaycareSeedSize => 16;
@@ -187,7 +193,11 @@ namespace PKHeX.Core
         }
 
         // Inventory
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalTMHMs, LegalMedicine, LegalBerries;
+        private ushort[] LegalItems;
+        private ushort[] LegalKeyItems;
+        private ushort[] LegalTMHMs;
+        private ushort[] LegalMedicine;
+        private ushort[] LegalBerries;
 
         public override InventoryPouch[] Inventory
         {
