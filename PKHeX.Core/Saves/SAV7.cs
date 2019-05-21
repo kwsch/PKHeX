@@ -23,14 +23,14 @@ namespace PKHeX.Core
 
         public SAV7(byte[] data) : base(data)
         {
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
             CanReadChecksums();
             Initialize();
         }
 
         public SAV7(int size) : base(size)
         {
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
+            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
             Initialize();
             ClearBoxes();
         }

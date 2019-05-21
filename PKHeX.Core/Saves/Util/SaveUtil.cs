@@ -481,8 +481,8 @@ namespace PKHeX.Core
                 case GameVersion.Pt:
                 case GameVersion.HGSS: return new SAV4(data);
 
-                case GameVersion.BW:
-                case GameVersion.B2W2: return new SAV5(data);
+                case GameVersion.BW: return new SAV5BW(data);
+                case GameVersion.B2W2: return new SAV5B2W2(data);
 
                 case GameVersion.XY: return new SAV6XY(data);
                 case GameVersion.ORAS: return new SAV6AO(data);
@@ -601,9 +601,9 @@ namespace PKHeX.Core
                     return new SAV4(GameVersion.HGSS);
 
                 case GameVersion.B: case GameVersion.W: case GameVersion.BW:
-                    return new SAV5(GameVersion.BW);
+                    return new SAV5BW();
                 case GameVersion.B2: case GameVersion.W2: case GameVersion.B2W2:
-                    return new SAV5(GameVersion.B2W2);
+                    return new SAV5B2W2();
 
                 case GameVersion.X: case GameVersion.Y: case GameVersion.XY:
                     return new SAV6XY();

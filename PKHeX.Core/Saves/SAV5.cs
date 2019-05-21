@@ -1,36 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 5 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV5 : SaveFile
+    public abstract class SAV5 : SaveFile
     {
-        // Save Data Attributes
+        protected override PKM GetPKM(byte[] data) => new PK5(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);
+
         protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
         public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
-        public SAV5(GameVersion versionOverride = GameVersion.B2W2) : base(SaveUtil.SIZE_G5RAW)
+        public override int SIZE_STORED => PKX.SIZE_5STORED;
+        protected override int SIZE_PARTY => PKX.SIZE_5PARTY;
+        public override PKM BlankPKM => new PK5();
+        public override Type PKMType => typeof(PK5);
+
+        public override int BoxCount => 24;
+        public override int MaxEV => 255;
+        public override int Generation => 5;
+        public override int OTLength => 7;
+        public override int NickLength => 10;
+        protected override int GiftCountMax => 12;
+
+        public override int MaxMoveID => Legal.MaxMoveID_5;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
+        public override int MaxAbilityID => Legal.MaxAbilityID_5;
+        public override int MaxBallID => Legal.MaxBallID_5;
+        public override int MaxGameID => Legal.MaxGameID_5; // B2
+
+        protected SAV5(int size) : base(size)
         {
-            Version = versionOverride;
             Initialize();
             ClearBoxes();
         }
 
-        public SAV5(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        protected SAV5(byte[] data) : base(data)
         {
             // Get Version
-            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG5SAV(Data);
+            Version = SaveUtil.GetIsG5SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
             Initialize();
             ClearBoxes();
+        }
+
+        public override GameVersion Version
+        {
+            get => (GameVersion)Game;
+            protected set => Game = (int)value;
         }
 
         private void Initialize()
@@ -43,92 +67,8 @@ namespace PKHeX.Core
             WondercardData = 0x1C800;
             AdventureInfo = 0x1D900;
 
-            // Different Offsets for later blocks
-            switch (Version)
-            {
-                case GameVersion.BW:
-                    BattleBox = 0x20A00;
-                    Trainer2 = 0x21200;
-                    EventConst = 0x20100;
-                    EventFlag = EventConst + 0x27C;
-                    Daycare = 0x20E00;
-                    PokeDex = 0x21600;
-                    PokeDexLanguageFlags = PokeDex + 0x320;
-                    BattleSubway = 0x21D00;
-                    CGearInfoOffset = 0x1C000;
-                    CGearDataOffset = 0x52000;
-                    EntreeForestOffset = 0x22C00;
-
-                    // Inventory offsets are the same for each game.
-                    OFS_PouchHeldItem = 0x18400; // 0x188D7
-                    OFS_PouchKeyItem = 0x188D8; // 0x18A23
-                    OFS_PouchTMHM = 0x18A24; // 0x18BD7
-                    OFS_PouchMedicine = 0x18BD8; // 0x18C97
-                    OFS_PouchBerry = 0x18C98; // 0x18DBF
-                    LegalItems = Legal.Pouch_Items_BW;
-                    LegalKeyItems = Legal.Pouch_Key_BW;
-                    LegalTMHMs = Legal.Pouch_TMHM_BW;
-                    LegalMedicine = Legal.Pouch_Medicine_BW;
-                    LegalBerries = Legal.Pouch_Berries_BW;
-
-                    Personal = PersonalTable.BW;
-                    break;
-                case GameVersion.B2W2: // B2W2
-                    BattleBox = 0x20900;
-                    Trainer2 = 0x21100;
-                    EventConst = 0x1FF00;
-                    EventFlag = EventConst + 0x35E;
-                    Daycare = 0x20D00;
-                    PokeDex = 0x21400;
-                    PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
-                    BattleSubway = 0x21B00;
-                    CGearInfoOffset = 0x1C000;
-                    CGearDataOffset = 0x52800;
-                    EntreeForestOffset = 0x22A00;
-
-                    // Inventory offsets are the same for each game.
-                    OFS_PouchHeldItem = 0x18400; // 0x188D7
-                    OFS_PouchKeyItem = 0x188D8; // 0x18A23
-                    OFS_PouchTMHM = 0x18A24; // 0x18BD7
-                    OFS_PouchMedicine = 0x18BD8; // 0x18C97
-                    OFS_PouchBerry = 0x18C98; // 0x18DBF
-                    LegalItems = Legal.Pouch_Items_BW;
-                    LegalKeyItems = Legal.Pouch_Key_B2W2;
-                    LegalTMHMs = Legal.Pouch_TMHM_BW;
-                    LegalMedicine = Legal.Pouch_Medicine_BW;
-                    LegalBerries = Legal.Pouch_Berries_BW;
-
-                    Personal = PersonalTable.B2W2;
-                    break;
-            }
-
             HeldItems = Legal.HeldItems_BW;
-            Blocks = Version == GameVersion.BW ? BlockInfoNDS.BlocksBW : BlockInfoNDS.BlocksB2W2;
         }
-
-        // Configuration
-        public override SaveFile Clone() => new SAV5((byte[])Data.Clone(), Version) {Footer = (byte[])Footer.Clone()};
-
-        public override int SIZE_STORED => PKX.SIZE_5STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_5PARTY;
-        public override PKM BlankPKM => new PK5();
-        public override Type PKMType => typeof(PK5);
-
-        public override int BoxCount => 24;
-        public override int MaxEV => 255;
-        public override int Generation => 5;
-        public override int OTLength => 7;
-        public override int NickLength => 10;
-        protected override int EventConstMax => (Version == GameVersion.BW ? 0x27C : 0x35E) >> 1;
-        protected override int EventFlagMax => (Version == GameVersion.BW ? 0x16C : 0x17F) << 3;
-        protected override int GiftCountMax => 12;
-
-        public override int MaxMoveID => Legal.MaxMoveID_5;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
-        public override int MaxItemID => Version == GameVersion.BW ? Legal.MaxItemID_5_BW : Legal.MaxItemID_5_B2W2;
-        public override int MaxAbilityID => Legal.MaxAbilityID_5;
-        public override int MaxBallID => Legal.MaxBallID_5;
-        public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
         public IReadOnlyList<BlockInfoNDS> Blocks;
@@ -138,21 +78,17 @@ namespace PKHeX.Core
 
         private const int wcSeed = 0x1D290;
 
-        public int CGearInfoOffset;
-        public int CGearDataOffset;
-        private int EntreeForestOffset;
-        private int Trainer2;
+        protected int CGearInfoOffset;
+        protected int CGearDataOffset;
+        protected int EntreeForestOffset;
+        protected int Trainer2;
         private int AdventureInfo;
-        private int BattleSubway;
+        protected int BattleSubway;
         public int PokeDexLanguageFlags;
 
         // Daycare
         public override int DaycareSeedSize => 16;
-
-        public override int GetDaycareSlotOffset(int loc, int slot)
-        {
-            return Daycare + 4 + (0xE4 * slot);
-        }
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + 4 + (0xE4 * slot);
 
         public override string GetDaycareRNGSeed(int loc)
         {
@@ -174,47 +110,25 @@ namespace PKHeX.Core
 
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
-            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + 4 + 0xDC + (slot * 0xE4));
+            SetData(BitConverter.GetBytes(EXP), Daycare + 4 + 0xDC + (slot * 0xE4));
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
-            BitConverter.GetBytes((uint)(occupied ? 1 : 0)).CopyTo(Data, Daycare + 0x1CC);
+            SetData(BitConverter.GetBytes((uint)(occupied ? 1 : 0)), Daycare + 0x1CC);
         }
 
         public override void SetDaycareRNGSeed(int loc, string seed)
         {
             if (Version != GameVersion.B2W2)
                 return;
-            Enumerable.Range(0, seed.Length)
-                 .Where(x => x % 2 == 0)
-                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
-                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1CC);
+            var data = Util.GetBytesFromHexString(seed);
+            SetData(data, Daycare + 0x1CC);
         }
 
         // Inventory
-        private ushort[] LegalItems;
-        private ushort[] LegalKeyItems;
-        private ushort[] LegalTMHMs;
-        private ushort[] LegalMedicine;
-        private ushort[] LegalBerries;
-
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                InventoryPouch[] pouch =
-                {
-                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, OFS_PouchTMHM),
-                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
-                };
-                return pouch.LoadAll(Data);
-            }
-            set => value.SaveAll(Data);
-        }
+        protected MyItem Items { get; set; }
+        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Storage
         public override int PartyCount
@@ -223,37 +137,24 @@ namespace PKHeX.Core
             protected set => Data[Party + 4] = (byte)value;
         }
 
-        public override int GetBoxOffset(int box)
-        {
-            return Box + (SIZE_STORED * box * 30) + (box * 0x10);
-        }
-
-        public override int GetPartyOffset(int slot)
-        {
-            return Party + 8 + (SIZE_PARTY * slot);
-        }
+        public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30) + (box * 0x10);
+        public override int GetPartyOffset(int slot) => Party + 8 + (SIZE_PARTY * slot);
+        private int GetBoxNameOffset(int box) => PCLayout + (0x28 * box) + 4;
+        protected override int GetBoxWallpaperOffset(int box) => PCLayout + 0x3C4 + box;
 
         public override string GetBoxName(int box)
         {
             if (box >= BoxCount)
                 return string.Empty;
-            return Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, GetBoxNameOffset(box), 0x28));
+            return GetString(GetBoxNameOffset(box), 0x14);
         }
 
         public override void SetBoxName(int box, string value)
         {
-            if (value.Length > 38)
+            if (value.Length > 0x26/2)
                 return;
-            value += '\uFFFF';
-            var data = Encoding.Unicode.GetBytes(value.PadRight(0x14, '\0'));
+            var data = SetString(value + '\uFFFF', 0x14, 0x14, 0);
             SetData(data, GetBoxNameOffset(box));
-        }
-
-        private int GetBoxNameOffset(int box) => PCLayout + (0x28 * box) + 4;
-
-        protected override int GetBoxWallpaperOffset(int box)
-        {
-            return PCLayout + 0x3C4 + box;
         }
 
         public override int CurrentBox
@@ -264,18 +165,8 @@ namespace PKHeX.Core
 
         public override bool BattleBoxLocked
         {
-            get => BattleBox >= 0 && Data[BattleBox + 0x358] != 0; // wifi/live
-            set { }
-        }
-
-        protected override PKM GetPKM(byte[] data)
-        {
-            return new PK5(data);
-        }
-
-        protected override byte[] DecryptPKM(byte[] data)
-        {
-            return PKX.DecryptArray45(data);
+            get => Data[BattleBox + 0x358] != 0; // wifi/live
+            set => Data[BattleBox + 0x358] = (byte)(value ? 1 : 0);
         }
 
         protected override void SetPKM(PKM pkm)
@@ -432,26 +323,6 @@ namespace PKHeX.Core
         {
             get => BitConverter.ToUInt16(Data, BattleSubway);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleSubway);
-        }
-
-        public ushort GetPWTRecord(int id) => GetPWTRecord((PWTRecordID) id);
-
-        public ushort GetPWTRecord(PWTRecordID id)
-        {
-            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
-                throw new ArgumentException(nameof(id));
-            int ofs = 0x2375C + ((int)id * 2);
-            return BitConverter.ToUInt16(Data, ofs);
-        }
-
-        public void SetPWTRecord(int id, ushort value) => SetPWTRecord((PWTRecordID) id, value);
-
-        public void SetPWTRecord(PWTRecordID id, ushort value)
-        {
-            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
-                throw new ArgumentException(nameof(id));
-            int ofs = 0x2375C + ((int)id * 2);
-            SetData(BitConverter.GetBytes(value), ofs);
         }
 
         protected override void SetDex(PKM pkm)
@@ -611,6 +482,159 @@ namespace PKHeX.Core
         {
             get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
             set => SetData(value.Write(), EntreeForestOffset);
+        }
+    }
+
+    public class SAV5BW : SAV5
+    {
+        public SAV5BW() : base(SaveUtil.SIZE_G5RAW) => Initialize();
+        public SAV5BW(byte[] data) : base(data) => Initialize();
+        public override SaveFile Clone() => new SAV5BW((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
+        protected override int EventConstMax => 0x13E;
+        protected override int EventFlagMax => 0xB60;
+        public override int MaxItemID => Legal.MaxItemID_5_BW;
+
+        private void Initialize()
+        {
+            Blocks = BlockInfoNDS.BlocksBW;
+            Personal = PersonalTable.BW;
+
+            Items = new MyItem5B2W2(this, 0x18400);
+
+            BattleBox = 0x20A00;
+            Trainer2 = 0x21200;
+            EventConst = 0x20100;
+            EventFlag = EventConst + 0x27C;
+            Daycare = 0x20E00;
+            PokeDex = 0x21600;
+            PokeDexLanguageFlags = PokeDex + 0x320;
+            BattleSubway = 0x21D00;
+            CGearInfoOffset = 0x1C000;
+            CGearDataOffset = 0x52000;
+            EntreeForestOffset = 0x22C00;
+
+            // Inventory offsets are the same for each game.
+
+        }
+    }
+
+    public class SAV5B2W2 : SAV5
+    {
+        public SAV5B2W2() : base(SaveUtil.SIZE_G5RAW) => Initialize();
+        public SAV5B2W2(byte[] data) : base(data) => Initialize();
+        public override SaveFile Clone() => new SAV5B2W2((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
+        protected override int EventConstMax => 0x1AF; // this doesn't seem right?
+        protected override int EventFlagMax => 0xBF8;
+        public override int MaxItemID => Legal.MaxItemID_5_B2W2;
+
+        private void Initialize()
+        {
+            Blocks = BlockInfoNDS.BlocksB2W2;
+            Personal = PersonalTable.B2W2;
+
+            Items = new MyItem5B2W2(this, 0x18400);
+            BattleBox = 0x20900;
+            Trainer2 = 0x21100;
+            EventConst = 0x1FF00;
+            EventFlag = EventConst + 0x35E;
+            Daycare = 0x20D00;
+            PokeDex = 0x21400;
+            PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
+            BattleSubway = 0x21B00;
+            CGearInfoOffset = 0x1C000;
+            CGearDataOffset = 0x52800;
+            EntreeForestOffset = 0x22A00;
+        }
+
+
+        public ushort GetPWTRecord(int id) => GetPWTRecord((PWTRecordID)id);
+
+        public ushort GetPWTRecord(PWTRecordID id)
+        {
+            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+                throw new ArgumentException(nameof(id));
+            int ofs = 0x2375C + ((int)id * 2);
+            return BitConverter.ToUInt16(Data, ofs);
+        }
+
+        public void SetPWTRecord(int id, ushort value) => SetPWTRecord((PWTRecordID)id, value);
+
+        public void SetPWTRecord(PWTRecordID id, ushort value)
+        {
+            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+                throw new ArgumentException(nameof(id));
+            int ofs = 0x2375C + ((int)id * 2);
+            SetData(BitConverter.GetBytes(value), ofs);
+        }
+    }
+
+    public sealed class MyItem5BW : MyItem
+    {
+        // offsets/pouch sizes are the same for both BW and B2W2, but Key Item permissions are different
+        private const int HeldItem = 0x000; // 0
+        private const int KeyItem  = 0x4D8; // 1
+        private const int TMHM     = 0x624; // 2
+        private const int Medicine = 0x7D8; // 3
+        private const int Berry    = 0x898; // 4
+
+        private static readonly ushort[] LegalItems = Legal.Pouch_Items_BW;
+        private static readonly ushort[] LegalKeyItems = Legal.Pouch_Key_BW;
+        private static readonly ushort[] LegalTMHMs = Legal.Pouch_TMHM_BW;
+        private static readonly ushort[] LegalMedicine = Legal.Pouch_Medicine_BW;
+        private static readonly ushort[] LegalBerries = Legal.Pouch_Berries_BW;
+
+        public MyItem5BW(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
+
+        public override InventoryPouch[] Inventory
+        {
+            get
+            {
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, Offset + HeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
+                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
+                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry),
+                };
+                return pouch.LoadAll(Data);
+            }
+            set => value.SaveAll(Data);
+        }
+    }
+
+    public sealed class MyItem5B2W2 : MyItem
+    {
+        // offsets/pouch sizes are the same for both BW and B2W2, but Key Item permissions are different
+        private const int HeldItem = 0x000; // 0
+        private const int KeyItem  = 0x4D8; // 1
+        private const int TMHM     = 0x624; // 2
+        private const int Medicine = 0x7D8; // 3
+        private const int Berry    = 0x898; // 4
+
+        private static readonly ushort[] LegalItems = Legal.Pouch_Items_BW;
+        private static readonly ushort[] LegalKeyItems = Legal.Pouch_Key_B2W2;
+        private static readonly ushort[] LegalTMHMs = Legal.Pouch_TMHM_BW;
+        private static readonly ushort[] LegalMedicine = Legal.Pouch_Medicine_BW;
+        private static readonly ushort[] LegalBerries = Legal.Pouch_Berries_BW;
+
+        public MyItem5B2W2(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
+
+        public override InventoryPouch[] Inventory
+        {
+            get
+            {
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, Offset + HeldItem),
+                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
+                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
+                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
+                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry)
+                };
+                return pouch.LoadAll(Data);
+            }
+            set => value.SaveAll(Data);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         public SAV1(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
         {
-            Version = SetOperatingVersion(data, versionOverride);
+            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -109,13 +109,6 @@ namespace PKHeX.Core
 
             // Enable Pokedex editing
             PokeDex = 0;
-        }
-
-        private GameVersion SetOperatingVersion(byte[] data, GameVersion versionOverride)
-        {
-            if (versionOverride != GameVersion.Any)
-                return versionOverride;
-            return SaveUtil.GetIsG1SAV(Data);
         }
 
         private readonly SAV1Offsets Offsets;
