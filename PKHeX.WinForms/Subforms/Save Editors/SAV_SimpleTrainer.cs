@@ -137,10 +137,11 @@ namespace PKHeX.WinForms
                 L_Coins.Text = "BP"; // no translation boo
                 MT_Coins.Text = s.BP.ToString();
 
-                NUD_M.Value = s.M;
-                NUD_X.Value = s.X;
-                NUD_Z.Value = s.Z;
-                NUD_Y.Value = s.Y;
+                var pd = s.PlayerData;
+                NUD_M.Value = pd.M;
+                NUD_X.Value = pd.X;
+                NUD_Z.Value = pd.Z;
+                NUD_Y.Value = pd.Y;
 
                 badgeval = s.Badges;
             }
@@ -242,10 +243,11 @@ namespace PKHeX.WinForms
             {
                 if (MapUpdated)
                 {
-                    s.M = (int)NUD_M.Value;
-                    s.X = (int)NUD_X.Value;
-                    s.Z = (int)NUD_Z.Value;
-                    s.Y = (int)NUD_Y.Value;
+                    var pd = s.PlayerData;
+                    pd.M = (int)NUD_M.Value;
+                    pd.X = (int)NUD_X.Value;
+                    pd.Z = (int)NUD_Z.Value;
+                    pd.Y = (int)NUD_Y.Value;
                 }
                 s.Badges = badgeval & 0xFF;
                 s.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);

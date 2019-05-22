@@ -99,6 +99,12 @@ namespace PKHeX.Core
                 .Reverse().ToArray();
         }
 
+        public static string GetHexStringFromBytes(byte[] data, int offset, int length)
+        {
+            data = data.Skip(offset).Take(length).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", string.Empty);
+        }
+
         private static bool IsNum(char c) => c >= '0' && c <= '9';
         private static bool IsHexUpper(char c) => c >= 'A' && c <= 'F';
         private static bool IsHexLower(char c) => c >= 'a' && c <= 'f';

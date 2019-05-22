@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -68,6 +67,8 @@ namespace PKHeX.Core
             AdventureInfo = 0x1D900;
 
             HeldItems = Legal.HeldItems_BW;
+            MysteryBlock = new MysteryBlock5(this, WondercardData);
+            PlayerData = new PlayerData5(this, Trainer1);
         }
 
         // Blocks & Offsets
@@ -76,7 +77,11 @@ namespace PKHeX.Core
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
-        private const int wcSeed = 0x1D290;
+        protected MyItem Items { get; set; }
+        public Zukan Zukan { get; protected set; }
+        private MysteryBlock5 MysteryBlock { get; set; }
+        protected Daycare5 DaycareBlock { get; set; }
+        public PlayerData5 PlayerData { get; private set; }
 
         protected int CGearInfoOffset;
         protected int CGearDataOffset;
@@ -87,48 +92,14 @@ namespace PKHeX.Core
         public int PokeDexLanguageFlags;
 
         // Daycare
-        public override int DaycareSeedSize => 16;
-        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + 4 + (0xE4 * slot);
-
-        public override string GetDaycareRNGSeed(int loc)
-        {
-            if (Version != GameVersion.B2W2)
-                return null;
-            var data = Data.Skip(Daycare + 0x1CC).Take(DaycareSeedSize/2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", string.Empty);
-        }
-
-        public override uint? GetDaycareEXP(int loc, int slot)
-        {
-            return BitConverter.ToUInt32(Data, Daycare + 4 + 0xDC + (slot * 0xE4));
-        }
-
-        public override bool? IsDaycareOccupied(int loc, int slot)
-        {
-            return BitConverter.ToUInt32(Data, Daycare + (0xE4 * slot)) == 1;
-        }
-
-        public override void SetDaycareEXP(int loc, int slot, uint EXP)
-        {
-            SetData(BitConverter.GetBytes(EXP), Daycare + 4 + 0xDC + (slot * 0xE4));
-        }
-
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
-            SetData(BitConverter.GetBytes((uint)(occupied ? 1 : 0)), Daycare + 0x1CC);
-        }
-
-        public override void SetDaycareRNGSeed(int loc, string seed)
-        {
-            if (Version != GameVersion.B2W2)
-                return;
-            var data = Util.GetBytesFromHexString(seed);
-            SetData(data, Daycare + 0x1CC);
-        }
-
-        // Inventory
-        protected MyItem Items { get; set; }
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
+        public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.IsOccupied(slot);
+        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetOffset(slot);
+        public override uint? GetDaycareEXP(int loc, int slot) => DaycareBlock.GetEXP(slot);
+        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.GetSeed()?.ToString("X16");
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) => DaycareBlock.SetEXP(slot, EXP);
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => DaycareBlock.SetOccupied(slot, occupied);
+        public override void SetDaycareRNGSeed(int loc, string seed) => DaycareBlock.SetSeed(seed);
 
         // Storage
         public override int PartyCount
@@ -157,11 +128,7 @@ namespace PKHeX.Core
             SetData(data, GetBoxNameOffset(box));
         }
 
-        public override int CurrentBox
-        {
-            get => Data[PCLayout];
-            set => Data[PCLayout] = (byte)value;
-        }
+        public override int CurrentBox { get => Data[PCLayout]; set => Data[PCLayout] = (byte)value; }
 
         public override bool BattleBoxLocked
         {
@@ -178,71 +145,16 @@ namespace PKHeX.Core
                 pkm.RefreshChecksum();
         }
 
-        // Mystery Gift
-        public override MysteryGiftAlbum GiftAlbum
-        {
-            get
-            {
-                uint seed = BitConverter.ToUInt32(Data, wcSeed);
-                MysteryGiftAlbum Info = new MysteryGiftAlbum { Seed = seed };
-                byte[] wcData = GetData(WondercardData, 0xA90); // Encrypted, Decrypt
-                PKX.CryptArray(wcData, seed);
-
-                Info.Flags = new bool[GiftFlagMax];
-                Info.Gifts = new MysteryGift[GiftCountMax];
-                // 0x100 Bytes for Used Flags
-                for (int i = 0; i < GiftFlagMax; i++)
-                    Info.Flags[i] = (wcData[i/8] >> i%8 & 0x1) == 1;
-                // 12 PGFs
-                for (int i = 0; i < Info.Gifts.Length; i++)
-                    Info.Gifts[i] = new PGF(wcData.Skip(0x100 + (i *PGF.Size)).Take(PGF.Size).ToArray());
-
-                return Info;
-            }
-            set
-            {
-                byte[] wcData = new byte[0xA90];
-
-                // Toss back into byte[]
-                for (int i = 0; i < value.Flags.Length; i++)
-                {
-                    if (value.Flags[i])
-                        wcData[i/8] |= (byte)(1 << (i & 7));
-                }
-
-                for (int i = 0; i < value.Gifts.Length; i++)
-                    value.Gifts[i].Data.CopyTo(wcData, 0x100 + (i *PGF.Size));
-
-                // Decrypted, Encrypt
-                PKX.CryptArray(wcData, value.Seed);
-
-                // Write Back
-                wcData.CopyTo(Data, WondercardData);
-                BitConverter.GetBytes(value.Seed).CopyTo(Data, wcSeed);
-            }
-        }
-
-        protected override bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
-        protected override MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
-
-        // Trainer Info
-        public override string OT
-        {
-            get => GetString(Trainer1 + 0x4, 16);
-            set => SetString(value, OTLength).CopyTo(Data, Trainer1 + 0x4);
-        }
-
-        public override int TID
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x14 + 0);
-        }
-
-        public override int SID
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x14 + 2);
-        }
+        // Player Data
+        public override string OT { get => PlayerData.OT; set => PlayerData.OT = value; }
+        public override int TID { get => PlayerData.TID; set => PlayerData.TID = value; }
+        public override int SID { get => PlayerData.SID; set => PlayerData.SID = value; }
+        public override int Language { get => PlayerData.Language; set => PlayerData.Language = value; }
+        public override int Game { get => PlayerData.Game; set => PlayerData.Game = value; }
+        public override int Gender { get => PlayerData.Gender; set => PlayerData.Gender = value; }
+        public override int PlayedHours { get => PlayerData.PlayedHours; set => PlayerData.PlayedHours = value; }
+        public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
+        public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
 
         public override uint Money
         {
@@ -250,70 +162,10 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Trainer2);
         }
 
-        public override int Gender
-        {
-            get => Data[Trainer1 + 0x21];
-            set => Data[Trainer1 + 0x21] = (byte)value;
-        }
-
-        public override int Language
-        {
-            get => Data[Trainer1 + 0x1E];
-            set => Data[Trainer1 + 0x1E] = (byte)value;
-        }
-
-        public override int Game
-        {
-            get => Data[Trainer1 + 0x1F];
-            set => Data[Trainer1 + 0x1F] = (byte)value;
-        }
-
         public int Badges
         {
             get => Data[Trainer2 + 0x4];
             set => Data[Trainer2 + 0x4] = (byte)value;
-        }
-
-        public int M
-        {
-            get => BitConverter.ToInt32(Data, Trainer1 + 0x180);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x180);
-        }
-
-        public int X
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x186);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x186);
-        }
-
-        public int Z
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x18A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x18A);
-        }
-
-        public int Y
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x18E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x18E);
-        }
-
-        public override int PlayedHours
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x24);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x24);
-        }
-
-        public override int PlayedMinutes
-        {
-            get => Data[Trainer1 + 0x24 + 2];
-            set => Data[Trainer1 + 0x24 + 2] = (byte)value;
-        }
-
-        public override int PlayedSeconds
-        {
-            get => Data[Trainer1 + 0x24 + 3];
-            set => Data[Trainer1 + 0x24 + 3] = (byte)value;
         }
 
         public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
@@ -325,101 +177,12 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleSubway);
         }
 
-        protected override void SetDex(PKM pkm)
-        {
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > MaxSpeciesID)
-                return;
-            if (Version == GameVersion.Invalid)
-                return;
-            if (PokeDex < 0)
-                return;
+        public override MysteryGiftAlbum GiftAlbum { get => MysteryBlock.GiftAlbum; set => MysteryBlock.GiftAlbum = value; }
+        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
-            const int brSize = 0x54;
-            int bit = pkm.Species - 1;
-            int gender = pkm.Gender % 2; // genderless -> male
-            int shiny = pkm.IsShiny ? 1 : 0;
-            int shift = (shiny * 2) + gender + 1;
-            int shiftoff = (shiny * brSize * 2) + (gender * brSize) + brSize;
-            int ofs = PokeDex + 0x8 + (bit >> 3);
-
-            // Set the Species Owned Flag
-            Data[ofs + (brSize * 0)] |= (byte)(1 << (bit % 8));
-
-            // Set the [Species/Gender/Shiny] Seen Flag
-            Data[PokeDex + 0x8 + shiftoff + (bit / 8)] |= (byte)(1 << (bit&7));
-
-            // Set the Display flag if none are set
-            bool Displayed = false;
-            Displayed |= (Data[ofs + (brSize * 5)] & (byte)(1 << (bit&7))) != 0;
-            Displayed |= (Data[ofs + (brSize * 6)] & (byte)(1 << (bit&7))) != 0;
-            Displayed |= (Data[ofs + (brSize * 7)] & (byte)(1 << (bit&7))) != 0;
-            Displayed |= (Data[ofs + (brSize * 8)] & (byte)(1 << (bit&7))) != 0;
-            if (!Displayed) // offset is already biased by brSize, reuse shiftoff but for the display flags.
-                Data[ofs + (brSize *(shift + 4))] |= (byte)(1 << (bit&7));
-
-            // Set the Language
-            if (bit < 493) // shifted by 1, Gen5 species do not have international language bits
-            {
-                int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
-                if (lang < 0) lang = 1;
-                Data[PokeDexLanguageFlags + (((bit * 7) + lang)>>3)] |= (byte)(1 << (((bit * 7) + lang) & 7));
-            }
-
-            // Formes
-            int fc = Personal[pkm.Species].FormeCount;
-            int f = B2W2 ? DexFormUtil.GetDexFormIndexB2W2(pkm.Species, fc) : DexFormUtil.GetDexFormIndexBW(pkm.Species, fc);
-            if (f < 0) return;
-
-            int FormLen = B2W2 ? 0xB : 0x9;
-            int FormDex = PokeDex + 0x8 + (brSize * 9);
-            bit = f + pkm.AltForm;
-
-            // Set Form Seen Flag
-            Data[FormDex + (FormLen * shiny) + (bit>>3)] |= (byte)(1 << (bit&7));
-
-            // Set Displayed Flag if necessary, check all flags
-            for (int i = 0; i < fc; i++)
-            {
-                bit = f + i;
-                if ((Data[FormDex + (FormLen * 2) + (bit>>3)] & (byte)(1 << (bit&7))) != 0) // Nonshiny
-                    return; // already set
-                if ((Data[FormDex + (FormLen * 3) + (bit>>3)] & (byte)(1 << (bit&7))) != 0) // Shiny
-                    return; // already set
-            }
-            bit = f + pkm.AltForm;
-            Data[FormDex + (FormLen * (2 + shiny)) + (bit>>3)] |= (byte)(1 << (bit&7));
-        }
-
-        public override bool GetCaught(int species)
-        {
-            int bit = species - 1;
-            int bd = bit >> 3; // div8
-            int bm = bit & 7; // mod8
-            int ofs = PokeDex // Raw Offset
-                      + 0x08; // Magic + Flags
-            return (1 << bm & Data[ofs + bd]) != 0;
-        }
-
-        public override bool GetSeen(int species)
-        {
-            const int brSize = 0x54;
-
-            int bit = species - 1;
-            int bd = bit >> 3; // div8
-            int bm = bit & 7; // mod8
-            int ofs = PokeDex // Raw Offset
-                      + 0x08; // Magic + Flags
-
-            for (int i = 1; i <= 4; i++)
-            {
-                if ((1 << bm & Data[ofs + bd + (i * brSize)]) != 0)
-                    return true;
-            }
-
-            return false;
-        }
+        protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
+        public override bool GetCaught(int species) => Zukan.GetCaught(species);
+        public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString5(data, offset, length);
 
@@ -482,159 +245,6 @@ namespace PKHeX.Core
         {
             get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
             set => SetData(value.Write(), EntreeForestOffset);
-        }
-    }
-
-    public class SAV5BW : SAV5
-    {
-        public SAV5BW() : base(SaveUtil.SIZE_G5RAW) => Initialize();
-        public SAV5BW(byte[] data) : base(data) => Initialize();
-        public override SaveFile Clone() => new SAV5BW((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
-        protected override int EventConstMax => 0x13E;
-        protected override int EventFlagMax => 0xB60;
-        public override int MaxItemID => Legal.MaxItemID_5_BW;
-
-        private void Initialize()
-        {
-            Blocks = BlockInfoNDS.BlocksBW;
-            Personal = PersonalTable.BW;
-
-            Items = new MyItem5B2W2(this, 0x18400);
-
-            BattleBox = 0x20A00;
-            Trainer2 = 0x21200;
-            EventConst = 0x20100;
-            EventFlag = EventConst + 0x27C;
-            Daycare = 0x20E00;
-            PokeDex = 0x21600;
-            PokeDexLanguageFlags = PokeDex + 0x320;
-            BattleSubway = 0x21D00;
-            CGearInfoOffset = 0x1C000;
-            CGearDataOffset = 0x52000;
-            EntreeForestOffset = 0x22C00;
-
-            // Inventory offsets are the same for each game.
-
-        }
-    }
-
-    public class SAV5B2W2 : SAV5
-    {
-        public SAV5B2W2() : base(SaveUtil.SIZE_G5RAW) => Initialize();
-        public SAV5B2W2(byte[] data) : base(data) => Initialize();
-        public override SaveFile Clone() => new SAV5B2W2((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
-        protected override int EventConstMax => 0x1AF; // this doesn't seem right?
-        protected override int EventFlagMax => 0xBF8;
-        public override int MaxItemID => Legal.MaxItemID_5_B2W2;
-
-        private void Initialize()
-        {
-            Blocks = BlockInfoNDS.BlocksB2W2;
-            Personal = PersonalTable.B2W2;
-
-            Items = new MyItem5B2W2(this, 0x18400);
-            BattleBox = 0x20900;
-            Trainer2 = 0x21100;
-            EventConst = 0x1FF00;
-            EventFlag = EventConst + 0x35E;
-            Daycare = 0x20D00;
-            PokeDex = 0x21400;
-            PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
-            BattleSubway = 0x21B00;
-            CGearInfoOffset = 0x1C000;
-            CGearDataOffset = 0x52800;
-            EntreeForestOffset = 0x22A00;
-        }
-
-
-        public ushort GetPWTRecord(int id) => GetPWTRecord((PWTRecordID)id);
-
-        public ushort GetPWTRecord(PWTRecordID id)
-        {
-            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
-                throw new ArgumentException(nameof(id));
-            int ofs = 0x2375C + ((int)id * 2);
-            return BitConverter.ToUInt16(Data, ofs);
-        }
-
-        public void SetPWTRecord(int id, ushort value) => SetPWTRecord((PWTRecordID)id, value);
-
-        public void SetPWTRecord(PWTRecordID id, ushort value)
-        {
-            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
-                throw new ArgumentException(nameof(id));
-            int ofs = 0x2375C + ((int)id * 2);
-            SetData(BitConverter.GetBytes(value), ofs);
-        }
-    }
-
-    public sealed class MyItem5BW : MyItem
-    {
-        // offsets/pouch sizes are the same for both BW and B2W2, but Key Item permissions are different
-        private const int HeldItem = 0x000; // 0
-        private const int KeyItem  = 0x4D8; // 1
-        private const int TMHM     = 0x624; // 2
-        private const int Medicine = 0x7D8; // 3
-        private const int Berry    = 0x898; // 4
-
-        private static readonly ushort[] LegalItems = Legal.Pouch_Items_BW;
-        private static readonly ushort[] LegalKeyItems = Legal.Pouch_Key_BW;
-        private static readonly ushort[] LegalTMHMs = Legal.Pouch_TMHM_BW;
-        private static readonly ushort[] LegalMedicine = Legal.Pouch_Medicine_BW;
-        private static readonly ushort[] LegalBerries = Legal.Pouch_Berries_BW;
-
-        public MyItem5BW(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
-
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                InventoryPouch[] pouch =
-                {
-                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, Offset + HeldItem),
-                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
-                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
-                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
-                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry),
-                };
-                return pouch.LoadAll(Data);
-            }
-            set => value.SaveAll(Data);
-        }
-    }
-
-    public sealed class MyItem5B2W2 : MyItem
-    {
-        // offsets/pouch sizes are the same for both BW and B2W2, but Key Item permissions are different
-        private const int HeldItem = 0x000; // 0
-        private const int KeyItem  = 0x4D8; // 1
-        private const int TMHM     = 0x624; // 2
-        private const int Medicine = 0x7D8; // 3
-        private const int Berry    = 0x898; // 4
-
-        private static readonly ushort[] LegalItems = Legal.Pouch_Items_BW;
-        private static readonly ushort[] LegalKeyItems = Legal.Pouch_Key_B2W2;
-        private static readonly ushort[] LegalTMHMs = Legal.Pouch_TMHM_BW;
-        private static readonly ushort[] LegalMedicine = Legal.Pouch_Medicine_BW;
-        private static readonly ushort[] LegalBerries = Legal.Pouch_Berries_BW;
-
-        public MyItem5B2W2(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
-
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                InventoryPouch[] pouch =
-                {
-                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, Offset + HeldItem),
-                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
-                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
-                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
-                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry)
-                };
-                return pouch.LoadAll(Data);
-            }
-            set => value.SaveAll(Data);
         }
     }
 }
