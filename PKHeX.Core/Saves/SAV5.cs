@@ -41,13 +41,7 @@ namespace PKHeX.Core
 
         protected SAV5(byte[] data) : base(data)
         {
-            // Get Version
-            Version = SaveUtil.GetIsG5SAV(Data);
-            if (Version == GameVersion.Invalid)
-                return;
-
             Initialize();
-            ClearBoxes();
         }
 
         public override GameVersion Version
