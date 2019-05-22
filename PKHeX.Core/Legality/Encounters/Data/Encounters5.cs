@@ -920,6 +920,13 @@ namespace PKHeX.Core
             new EncounterSlot{Species = 197, LevelMin = 10, LevelMax = 60, },
             new EncounterSlot{Species = 470, LevelMin = 10, LevelMax = 60, },
             new EncounterSlot{Species = 471, LevelMin = 10, LevelMax = 60, },
+            // Funfest Week 3
+            new EncounterSlot{Species = 60, LevelMin = 10, LevelMax = 60, }, // Poliwag
+            new EncounterSlot{Species = 113, LevelMin = 10, LevelMax = 60, }, // Chansey
+            new EncounterSlot{Species = 176, LevelMin = 10, LevelMax = 60, }, // Togetic
+            new EncounterSlot{Species = 82, LevelMin = 10, LevelMax = 60, }, // Magneton
+            new EncounterSlot{Species = 148, LevelMin = 10, LevelMax = 60, }, // Dragonair
+            new EncounterSlot{Species = 372, LevelMin = 10, LevelMax = 60, }, // Shelgon                      
         };
 
         private static readonly EncounterArea[] SlotsB2_HiddenGrotto =

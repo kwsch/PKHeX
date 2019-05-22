@@ -112,11 +112,11 @@ namespace PKHeX.Core
             new WC3 { Species = 385, Level = 5, Version = GameVersion.RS, Method = PIDType.Channel, TID = 40122, OT_Gender = 3,SID = -1, OT_Name = "CHANNEL", CardTitle = "Channel Jirachi", Met_Level = 0 },
 
             // Aura Mew
-            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.French,  Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.German,  Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true, Shiny = Shiny.Never }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.French,  Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true, Shiny = Shiny.Never }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true, Shiny = Shiny.Never }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.German,  Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true, Shiny = Shiny.Never }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = GameVersion.R, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true, Shiny = Shiny.Never }, // Mew
 
             // English Events
             new WC3 { Species = 006, Level = 70, Version = GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = Shiny.Never }, // Charizard
