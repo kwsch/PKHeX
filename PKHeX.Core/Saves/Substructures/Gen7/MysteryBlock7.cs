@@ -2,16 +2,17 @@
 
 namespace PKHeX.Core
 {
-    public class MysteryBlock6 : SaveBlock
+    public sealed class MysteryBlock7 : SaveBlock
     {
         private const int FlagStart = 0;
         private const int MaxReceivedFlag = 2048;
-        private const int MaxCardsPresent = 24;
+        private const int MaxCardsPresent = 48;
         // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
         private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-        public MysteryBlock6(SAV6 sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
+        // Mystery Gift
         public bool[] MysteryGiftReceivedFlags
         {
             get => Util.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
@@ -39,30 +40,30 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++)
                     SetGift(value[i], i);
                 for (int i = value.Length; i < MaxCardsPresent; i++)
-                    SetGift(new WC6(), i);
+                    SetGift(new WC7(), i);
             }
         }
 
-        public MysteryGift GetGift(int index)
+        private MysteryGift GetGift(int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             var offset = GetGiftOffset(index);
             var data = SAV.GetData(offset, WC6.Size);
-            return new WC6(data);
+            return new WC7(data);
         }
 
-        private int GetGiftOffset(int index) => Offset + CardStart + (index * WC6.Size);
+        private int GetGiftOffset(int index) => Offset + CardStart + (index * WC7.Size);
 
-        public void SetGift(MysteryGift wc6, int index)
+        private void SetGift(MysteryGift wc7, int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            if (wc6.Data.Length != WC6.Size)
-                throw new InvalidCastException(nameof(wc6));
+            if (wc7.Data.Length != WC7.Size)
+                throw new InvalidCastException(nameof(wc7));
 
-            SAV.SetData(wc6.Data, GetGiftOffset(index));
+            SAV.SetData(wc7.Data, GetGiftOffset(index));
         }
     }
 }

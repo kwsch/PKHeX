@@ -11,7 +11,7 @@ namespace PKHeX.Tests.Saves
         {
             var folder = TestUtil.GetRepoPath();
             var path = Path.Combine(folder, "TestData", "SM Project 802.main");
-            return new SAV7(File.ReadAllBytes(path));
+            return new SAV7SM(File.ReadAllBytes(path));
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace PKHeX.Tests.Saves
         {
             var save = GetSave();
             var originalChecksumInfo = save.ChecksumInfo;
-            var newSave = new SAV7(save.Write());
+            var newSave = new SAV7SM(save.Write());
 
             save.ChecksumInfo.Should().BeEquivalentTo(originalChecksumInfo, "because the checksum should have been modified");
             save.ChecksumsValid.Should().BeTrue("because the checksum should be valid after write");

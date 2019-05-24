@@ -8,10 +8,10 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV7 : SaveFile, ITrainerStatRecord, ISecureValueStorage
+    public abstract class SAV7 : SaveFile, ITrainerStatRecord, ISecureValueStorage
     {
         // Save Data Attributes
-        protected override string BAKText => $"{OT} ({Version}) - {LastSavedTime}";
+        protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
@@ -21,14 +21,14 @@ namespace PKHeX.Core
             return gen <= 7 && f[1] != 'b'; // ignore PB7
         }).ToArray();
 
-        public SAV7(byte[] data) : base(data)
+        protected SAV7(byte[] data) : base(data)
         {
             Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
             CanReadChecksums();
             Initialize();
         }
 
-        public SAV7(int size) : base(size)
+        protected SAV7(int size) : base(size)
         {
             Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
             Initialize();
@@ -55,8 +55,6 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV7((byte[])Data.Clone());
-
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK7();
@@ -67,19 +65,14 @@ namespace PKHeX.Core
         public override int Generation => 7;
         protected override int GiftCountMax => 48;
         protected override int GiftFlagMax => 0x100 * 8;
-        protected override int EventFlagMax => USUM ? 4928 : 3968;
         protected override int EventConstMax => 1000;
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override int MaxMoveID => SM ? Legal.MaxMoveID_7 : Legal.MaxMoveID_7_USUM;
-        public override int MaxSpeciesID => SM ? Legal.MaxSpeciesID_7 : Legal.MaxSpeciesID_7_USUM;
-        public override int MaxItemID => SM ? Legal.MaxItemID_7 : Legal.MaxItemID_7_USUM;
-        public override int MaxAbilityID => SM ? Legal.MaxAbilityID_7 : Legal.MaxAbilityID_7_USUM;
         public override int MaxBallID => Legal.MaxBallID_7; // 26
         public override int MaxGameID => Legal.MaxGameID_7;
-
-        public int QRSaveData;
+        protected override PKM GetPKM(byte[] data) => new PK7(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
 
         // Feature Overrides
 
@@ -127,21 +120,6 @@ namespace PKHeX.Core
 
         private void GetSAVOffsets()
         {
-            if (!Exportable) // Empty input
-            {
-                // Set bare minimum values for empty sav compatibility (based on S/M offsets)
-                Trainer1 = 0x00E00;
-                TrainerCard = 0x01200;
-                Party = 0x01400;
-                Box = 0x04E00;
-                PCLayout = 0x04800;
-                BattleBoxFlags = PCLayout + 0x4C4;
-                PCBackgrounds = PCLayout + 0x5C0;
-                LastViewedBox = PCLayout + 0x5E3;
-                PCFlags = PCLayout + 0x5E0;
-                return;
-            }
-
             /* 00 */ Bag            = Blocks[00].Offset; // 0x00000  // [DE0]    MyItem
             /* 01 */ Trainer1       = Blocks[01].Offset; // 0x00E00  // [07C]    Situation
             /* 02 */            //  = Blocks[02].Offset; // 0x01000  // [014]    RandomGroup
@@ -179,16 +157,13 @@ namespace PKHeX.Core
             /* 34 */            //  = Blocks[34].Offset; // 0x6B600  // [120]    WeatherSave
             /* 35 */ QRSaveData     = Blocks[35].Offset; // 0x6B800  // [1C8]    QRReaderSaveData
             /* 36 */            //  = Blocks[36].Offset; // 0x6BA00  // [200]    TurtleSalmonSave
+            
+            // USUM only
+            /* 37 */            //  = Blocks[37].Offset;   BattleFesSave
+            /* 38 */            //  = Blocks[38].Offset;   FinderStudioSave
 
             EventFlag = EventConst + (EventConstMax * 2); // After Event Const (u16)*n
             HoF = EventFlag + (EventFlagMax / 8); // After Event Flags (1b)*(1u8/8b)*n
-
-            OFS_PouchHeldItem =     Bag + 0; // 430 (Case 0)
-            OFS_PouchKeyItem =      Bag + 0x6B8; // 184 (Case 4)
-            OFS_PouchTMHM =         Bag + 0x998; // 108 (Case 2)
-            OFS_PouchMedicine =     Bag + 0xB48; // 64 (Case 1)
-            OFS_PouchBerry =        Bag + 0xC48; // 72 (Case 3)
-            OFS_PouchZCrystals =    Bag + 0xD68; // 30 (Case 5)
 
             PokeDexLanguageFlags =  PokeDex + 0x550;
             WondercardData = WondercardFlags + 0x100;
@@ -202,24 +177,19 @@ namespace PKHeX.Core
 
             TeamCount = 6;
             TeamSlots = new int[6*TeamCount];
-            if (USUM)
-            {
-                // slight differences
-                /* 37 */            //  = Blocks[37].Offset;   BattleFesSave
-                /* 38 */            //  = Blocks[38].Offset;   FinderStudioSave
 
-                OFS_PouchHeldItem =     Bag + 0; // 427 (Case 0)
-                OFS_PouchKeyItem = OFS_PouchHeldItem + (4 * 427); // 198 (Case 4)
-                OFS_PouchTMHM = OFS_PouchKeyItem + (4 * 198); // 108 (Case 2)
-                OFS_PouchMedicine = OFS_PouchTMHM + (4 * 108); // 60 (Case 1)
-                OFS_PouchBerry = OFS_PouchMedicine + (4 * 60); // 67 (Case 3)
-                OFS_PouchZCrystals = OFS_PouchBerry + (4 * 67); // 35 (Case 5)
-                OFS_BattleItems = OFS_PouchZCrystals + (4 * 35); // 11 (Case 6)
-            }
+            Played = new PlayTime6(this, PlayTime);
+            MysteryBlock = new MysteryBlock7(this, WondercardFlags);
+            PokeFinder = new PokeFinder7(this, PokeFinderSave);
+            Festa = new JoinFesta7(this, JoinFestaData);
+            DaycareBlock = new Daycare7(this, Daycare);
+            Records = new Record6(this, Record, SM ? Core.Records.MaxType_SM : Core.Records.MaxType_USUM);
+            MyStatus = new MyStatus7(this, TrainerCard);
+            OverworldBlock = new FieldMoveModelSave7(this, Overworld);
         }
 
         // Private Only
-        private int Bag { get; set; } = int.MinValue;
+        protected int Bag { get; set; } = int.MinValue;
         private int AdventureInfo { get; set; } = int.MinValue;
         private int Trainer2 { get; set; } = int.MinValue;
         public int Misc { get; private set; } = int.MinValue;
@@ -233,6 +203,18 @@ namespace PKHeX.Core
         private int BattleBoxFlags { get; set; } = int.MinValue;
         private int TeamCount { get; set; } = int.MinValue;
         private int ConfigSave { get; set; } = int.MinValue;
+        public int QRSaveData { get; set; } = int.MinValue;
+
+        protected MyItem Items { private get; set; }
+        protected MysteryBlock7 MysteryBlock { private get; set; }
+        public PokeFinder7 PokeFinder { get; private set; }
+        public JoinFesta7 Festa { get; private set; }
+        private Daycare7 DaycareBlock { get; set; }
+        private Record6 Records { get; set; }
+        public PlayTime6 Played { get; set; }
+        public MyStatus7 MyStatus { get; private set; }
+        public FieldMoveModelSave7 OverworldBlock { get; private set; }
+        public Situation7 Situation { get; private set; }
 
         // Accessible as SAV7
         private int TrainerCard { get; set; } = 0x14000;
@@ -284,260 +266,30 @@ namespace PKHeX.Core
             }
         }
 
+        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
+
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
+        }
+
         // Player Information
-        public override int TID
-        {
-            get => BitConverter.ToUInt16(Data, TrainerCard + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 0);
-        }
-
-        public override int SID
-        {
-            get => BitConverter.ToUInt16(Data, TrainerCard + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, TrainerCard + 2);
-        }
-
-        public override int Game
-        {
-            get => Data[TrainerCard + 4];
-            set => Data[TrainerCard + 4] = (byte)value;
-        }
-
-        public override int Gender
-        {
-            get => Data[TrainerCard + 5];
-            set => Data[TrainerCard + 5] = (byte)value;
-        }
-
-        public override int GameSyncIDSize => 16; // 64 bits
-
-        public override string GameSyncID
-        {
-            get
-            {
-                var data = Data.Skip(TrainerCard + 0x10).Take(GameSyncIDSize/2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", string.Empty);
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                if (value.Length > GameSyncIDSize)
-                    return;
-
-                Enumerable.Range(0, value.Length)
-                     .Where(x => x % 2 == 0)
-                     .Reverse()
-                     .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
-                     .ToArray().CopyTo(Data, TrainerCard + 0x10);
-            }
-        }
-
-        private const int NexUniqueIDSize = 32; // 128 bits
-
-        public string NexUniqueID
-        {
-            get
-            {
-                var data = Data.Skip(TrainerCard + 0x18).Take(NexUniqueIDSize/2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", string.Empty);
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                if (value.Length > NexUniqueIDSize)
-                    return;
-
-                Enumerable.Range(0, value.Length)
-                     .Where(x => x % 2 == 0)
-                     .Reverse()
-                     .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
-                     .ToArray().CopyTo(Data, TrainerCard + 0x18);
-            }
-        }
-
-        public byte[] FestaID // 12byte
-        {
-            get => Data.Skip(TrainerCard + 0x28).Take(4).Concat(Data.Skip(TrainerCard + 0x18).Take(8)).ToArray();
-            set
-            {
-                if (value?.Length != 12)
-                    return;
-                Array.Copy(value, 0, Data, TrainerCard + 0x28, 4);
-                Array.Copy(value, 4, Data, TrainerCard + 0x18, 8);
-            }
-        }
-
-        public override int SubRegion
-        {
-            get => Data[TrainerCard + 0x2E];
-            set => Data[TrainerCard + 0x2E] = (byte)value;
-        }
-
-        public override int Country
-        {
-            get => Data[TrainerCard + 0x2F];
-            set => Data[TrainerCard + 0x2F] = (byte)value;
-        }
-
-        public override int ConsoleRegion
-        {
-            get => Data[TrainerCard + 0x34];
-            set => Data[TrainerCard + 0x34] = (byte)value;
-        }
-
-        public override int Language
-        {
-            get => Data[TrainerCard + 0x35];
-            set => Data[TrainerCard + 0x35] = (byte)value;
-        }
-
-        public override string OT
-        {
-            get => GetString(TrainerCard + 0x38, 0x1A);
-            set => SetString(value, OTLength).CopyTo(Data, TrainerCard + 0x38);
-        }
-
-        public int DressUpSkinColor
-        {
-            get => (Data[TrainerCard + 0x54] >> 2) & 7;
-            set => Data[TrainerCard + 0x54] = (byte)((Data[TrainerCard + 0x54] & ~(7 << 2)) | (value << 2));
-        }
-
-        public override int MultiplayerSpriteID
-        {
-            get => Data[TrainerCard + 0x58];
-            set => Data[TrainerCard + 0x58] = (byte)value;
-        }
-
-        public int BallThrowType
-        {
-            get => Data[TrainerCard + 0x7A];
-            set => Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value);
-        }
-
-        public int M // "StartLocation"
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x00);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x00);
-        }
-
-        public float X
-        {
-            get => BitConverter.ToSingle(Data, Trainer1 + 0x08);
-            set
-            {
-                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x08);
-                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x08);
-            }
-        }
-
-        public float Z
-        {
-            get => BitConverter.ToSingle(Data, Trainer1 + 0x10);
-            set
-            {
-                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x10);
-                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x10);
-            }
-        }
-
-        public float Y
-        {
-            get => (int)BitConverter.ToSingle(Data, Trainer1 + 0x18);
-            set
-            {
-                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x18);
-                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x18);
-            }
-        }
-
-        public float R
-        {
-            get => (int)BitConverter.ToSingle(Data, Trainer1 + 0x20);
-            set
-            {
-                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20);
-                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x20);
-            }
-        }
-
-        public int SpecialLocation
-        {
-            get => Data[Trainer1 + 0x24];
-            set => Data[Trainer1 + 0x24] = (byte)value;
-        }
-
-        public int WarpContinueRequest
-        {
-            get => Data[Trainer1 + 0x6E];
-            set => Data[Trainer1 + 0x6E] = (byte)value;
-        }
-
-        public int StepCountEgg
-        {
-            get => BitConverter.ToInt32(Data, Trainer1 + 0x70);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x70);
-        }
-
-        public int LastZoneID
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x74);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x74);
-        }
-
-        public int StepCountFriendship
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x76);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x76);
-        }
-
-        public int StepCountAffection // Kawaigari
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x78);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x78);
-        }
-
-        public int ConfigValue
-        {
-            get => BitConverter.ToInt32(Data, ConfigSave);
-            set => BitConverter.GetBytes(value).CopyTo(Data, ConfigSave);
-        }
-
-        public int TalkingSpeed
-        {
-            get => ConfigValue & 3;
-            set => ConfigValue = (ConfigValue & ~3) | (value & 3);
-        }
-
-        public int BattleAnimation
-        {
-            // Effects OFF = 1, Effects ON = 0
-            get => (ConfigValue >> 2) & 1;
-            set => ConfigValue = (ConfigValue & ~(1<<2)) | (value << 2);
-        }
-
-        public int BattleStyle
-        {
-            // SET = 1, SWITCH = 0
-            get => (ConfigValue >> 3) & 1;
-            set => ConfigValue = (ConfigValue & ~(1 << 3)) | (value << 3);
-        }
-
-        public int ButtonMode
-        {
-            get => (ConfigValue >> 13) & 3;
-            set => ConfigValue = (ConfigValue & ~(1 << 13)) | (value << 13);
-        }
-
-        public int BoxStatus
-        {
-            // MANUAL = 1, AUTOMATIC = 0
-            get => (ConfigValue >> 15) & 1;
-            set => ConfigValue = (ConfigValue & ~(1 << 15)) | (value << 15);
-        }
-
+        public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
+        public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
+        public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
+        public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
+        public override int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
+        public override string GameSyncID { get => MyStatus.GameSyncID; set => MyStatus.GameSyncID = value; }
+        public override int SubRegion { get => MyStatus.SubRegion; set => MyStatus.SubRegion = value; }
+        public override int Country { get => MyStatus.Country; set => MyStatus.Country = value; }
+        public override int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
+        public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
+        public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
+        public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
+        
         public override uint Money
         {
             get => BitConverter.ToUInt32(Data, Misc + 0x4);
@@ -587,86 +339,10 @@ namespace PKHeX.Core
             set => Data[Misc + 0x123] = (byte)value;
         }
 
-        public uint UsedFestaCoins
+        public int UsedFestaCoins
         {
-            get => BitConverter.ToUInt32(Data, Record + (38 << 2)); //Record[038]
-            set
-            {
-                if (value > 9999999) value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, Record + (38 << 2));
-            }
-        }
-
-        public uint FestaCoins
-        {
-            get => BitConverter.ToUInt32(Data, JoinFestaData + 0x508);
-            set
-            {
-                if (value > 9999999) value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x508);
-
-                TotalFestaCoins = UsedFestaCoins + value;
-            }
-        }
-
-        private uint TotalFestaCoins
-        {
-            get => BitConverter.ToUInt32(Data, JoinFestaData + 0x50C);
-            set
-            {
-                if (value > 9999999) value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x50C);
-            }
-        }
-
-        public string FestivalPlazaName
-        {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, JoinFestaData + 0x510, 0x2A));
-            set
-            {
-                const int max = 20;
-                if (value.Length > max) value = value.Substring(0, max);
-                Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, JoinFestaData + 0x510);
-            }
-        }
-
-        public ushort FestaRank { get => BitConverter.ToUInt16(Data, JoinFestaData + 0x53A); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x53A); }
-        public ushort GetFestaMessage(int index) => BitConverter.ToUInt16(Data, JoinFestaData + (index * 2));
-        public void SetFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + (index * 2));
-        public bool GetFestaPhraseUnlocked(int index) => Data[JoinFestaData + 0x2A50 + index] != 0; //index: 0 to 105:commonPhrases, 106:Lv100!
-
-        public void SetFestaPhraseUnlocked(int index, bool value)
-        {
-            if (GetFestaPhraseUnlocked(index) != value) Data[JoinFestaData + 0x2A50 + index] = (byte)(value ? 1 : 0);
-        }
-
-        public byte GetFestPrizeReceived(int index) => Data[JoinFestaData + 0x53C + index];
-        public void SetFestaPrizeReceived(int index, byte value) => Data[JoinFestaData + 0x53C + index] = value;
-        private int FestaYear { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F0); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F0); }
-        private int FestaMonth { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F4); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F4); }
-        private int FestaDay { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F8); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F8); }
-        private int FestaHour { get => BitConverter.ToInt32(Data, JoinFestaData + 0x300); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x300); }
-        private int FestaMinute { get => BitConverter.ToInt32(Data, JoinFestaData + 0x304); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x304); }
-        private int FestaSecond { get => BitConverter.ToInt32(Data, JoinFestaData + 0x308); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x308); }
-
-        public DateTime? FestaDate
-        {
-            get => FestaYear >= 0 && FestaMonth > 0 && FestaDay > 0 && FestaHour >= 0 && FestaMinute >= 0 && FestaSecond >= 0 && Util.IsDateValid(FestaYear, FestaMonth, FestaDay)
-                ? new DateTime(FestaYear, FestaMonth, FestaDay, FestaHour, FestaMinute, FestaSecond)
-                : (DateTime?)null;
-            set
-            {
-                if (value.HasValue)
-                {
-                    DateTime dt = value.Value;
-                    FestaYear = dt.Year;
-                    FestaMonth = dt.Month;
-                    FestaDay = dt.Day;
-                    FestaHour = dt.Hour;
-                    FestaMinute = dt.Minute;
-                    FestaSecond = dt.Second;
-                }
-            }
+            get => Records.GetRecord(038);
+            set => Records.SetRecord(038, value);
         }
 
         public sealed class FashionItem
@@ -690,60 +366,9 @@ namespace PKHeX.Core
             }
         }
 
-        public override int PlayedHours
-        {
-            get => BitConverter.ToUInt16(Data, PlayTime);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime);
-        }
-
-        public override int PlayedMinutes
-        {
-            get => Data[PlayTime + 2];
-            set => Data[PlayTime + 2] = (byte)value;
-        }
-
-        public override int PlayedSeconds
-        {
-            get => Data[PlayTime + 3];
-            set => Data[PlayTime + 3] = (byte)value;
-        }
-
-        private uint LastSaved { get => BitConverter.ToUInt32(Data, PlayTime + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); }
-        private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
-        private int LastSavedMonth { get => (int)(LastSaved >> 12 & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | ((uint)value & 0xF) << 12; }
-        private int LastSavedDay { get => (int)(LastSaved >> 16 & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | ((uint)value & 0x1F) << 16; }
-        private int LastSavedHour { get => (int)(LastSaved >> 21 & 0x1F); set => LastSaved = (LastSaved & 0xFC1FFFFF) | ((uint)value & 0x1F) << 21; }
-        private int LastSavedMinute { get => (int)(LastSaved >> 26 & 0x3F); set => LastSaved = (LastSaved & 0x03FFFFFF) | ((uint)value & 0x3F) << 26; }
-        private string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
-
-        public DateTime? LastSavedDate
-        {
-            get => !Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay)
-                    ? (DateTime?)null
-                    : new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
-            set
-            {
-                // Only update the properties if a value is provided.
-                if (value.HasValue)
-                {
-                    var dt = value.Value;
-                    LastSavedYear = dt.Year;
-                    LastSavedMonth = dt.Month;
-                    LastSavedDay = dt.Day;
-                    LastSavedHour = dt.Hour;
-                    LastSavedMinute = dt.Minute;
-                }
-                else // Clear the date.
-                {
-                    // If code tries to access MetDate again, null will be returned.
-                    LastSavedYear = 0;
-                    LastSavedMonth = 0;
-                    LastSavedDay = 0;
-                    LastSavedHour = 0;
-                    LastSavedMinute = 0;
-                }
-            }
-        }
+        public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
+        public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
+        public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
         public int ResumeYear { get => BitConverter.ToInt32(Data, AdventureInfo + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x4); }
         public int ResumeMonth { get => Data[AdventureInfo + 0x8]; set => Data[AdventureInfo + 0x8] = (byte)value; }
@@ -758,119 +383,14 @@ namespace PKHeX.Core
 
         // Stat Records
         public int RecordCount => 200;
-
-        public int GetRecord(int recordID)
-        {
-            int ofs = Records.GetOffset(Record, recordID);
-            if (recordID < 100)
-                return BitConverter.ToInt32(Data, ofs);
-            if (recordID < 200)
-                return BitConverter.ToInt16(Data, ofs);
-            return 0;
-        }
-
-        public void SetRecord(int recordID, int value)
-        {
-            int ofs = Records.GetOffset(Record, recordID);
-            var maxes = USUM ? Records.MaxType_USUM: Records.MaxType_SM;
-            int max = Records.GetMax(recordID, maxes);
-            if (value > max)
-                value = max;
-            if (recordID < 100)
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
-            if (recordID < 200)
-                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
-        }
-
-        public int GetRecordMax(int recordID) => Records.GetMax(recordID, USUM ? Records.MaxType_USUM : Records.MaxType_SM);
-        public int GetRecordOffset(int recordID) => Records.GetOffset(Record, recordID);
-        public void AddRecord(int recordID) => SetRecord(recordID, GetRecord(recordID) + 1);
-
-        public ushort PokeFinderCameraVersion
-        {
-            get => BitConverter.ToUInt16(Data, PokeFinderSave + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x00);
-        }
-
-        public bool PokeFinderGyroFlag
-        {
-            get => BitConverter.ToUInt16(Data, PokeFinderSave + 0x02) == 1;
-            set => BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, PokeFinderSave + 0x02);
-        }
-
-        public uint PokeFinderSnapCount
-        {
-            get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x04);
-            set
-            {
-                if (value > 9999999) // Top bound is unchecked, check anyway
-                    value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x04);
-            }
-        }
-
-        public uint PokeFinderThumbsTotalValue
-        {
-            get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x0C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x0C);
-        }
-
-        public uint PokeFinderThumbsHighValue
-        {
-            get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x10);
-            set
-            {
-                if (value > 9_999_999)
-                    value = 9_999_999;
-                BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x10);
-
-                if (value > PokeFinderThumbsTotalValue)
-                    PokeFinderThumbsTotalValue = value;
-            }
-        }
-
-        public ushort PokeFinderTutorialFlags
-        {
-            get => BitConverter.ToUInt16(Data, PokeFinderSave + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x14);
-        }
+        public int GetRecord(int recordID) => Records.GetRecord(recordID);
+        public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
+        public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
+        public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
+        public void AddRecord(int recordID) => Records.AddRecord(recordID);
 
         // Inventory
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                var bag = GetPouches();
-                return bag.LoadAll(Data);
-            }
-            set => value.SaveAll(Data);
-        }
-
-        private InventoryPouch[] GetPouches()
-        {
-            if (SM)
-            {
-                return new InventoryPouch[]
-                {
-                    new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                    new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                    new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                    new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
-                };
-            }
-            return new InventoryPouch[] // USUM
-            {
-                new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
-                new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
-                new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
-                new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
-                new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
-                new InventoryPouch7(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
-            };
-        }
+        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Battle Tree
         public int GetTreeStreak(int battletype, bool super, bool max)
@@ -963,11 +483,6 @@ namespace PKHeX.Core
         {
             var data = Encoding.Unicode.GetBytes(value.PadRight(0x11, '\0'));
             SetData(data, PCLayout + (0x22 * box));
-        }
-
-        protected override PKM GetPKM(byte[] data)
-        {
-            return new PK7(data);
         }
 
         protected override void SetPKM(PKM pkm)
@@ -1108,7 +623,6 @@ namespace PKHeX.Core
                     formEnd = 3;
                     return true;
 
-
                 case 421: // Cherrim
                 case 555: // Darmanitan
                 case 648: // Meloetta
@@ -1231,11 +745,6 @@ namespace PKHeX.Core
             return false;
         }
 
-        protected override byte[] DecryptPKM(byte[] data)
-        {
-            return PKX.DecryptArray(data);
-        }
-
         public override int PartyCount
         {
             get => Data[Party + (6 * SIZE_PARTY)];
@@ -1324,211 +833,204 @@ namespace PKHeX.Core
             set => SetString(value, OTLength).CopyTo(Data, Trainer2 + 0x30);
         }
 
-        public override int DaycareSeedSize => 32; // 128 bits
-
-        public override int GetDaycareSlotOffset(int loc, int slot)
-        {
-            if (loc != 0)
-                return -1;
-            if (Daycare < 0)
-                return -1;
-            return Daycare + 1 + (slot * (SIZE_STORED + 1));
-        }
-
-        public override bool? IsDaycareOccupied(int loc, int slot)
-        {
-            if (loc != 0)
-                return null;
-            if (Daycare < 0)
-                return null;
-
-            return Data[Daycare + ((SIZE_STORED + 1) * slot)] != 0;
-        }
-
-        public override string GetDaycareRNGSeed(int loc)
-        {
-            if (loc != 0)
-                return null;
-            if (Daycare < 0)
-                return null;
-
-            var data = Data.Skip(Daycare + 0x1DC).Take(DaycareSeedSize / 2).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", string.Empty);
-        }
-
-        public override bool? IsDaycareHasEgg(int loc)
-        {
-            if (loc != 0)
-                return null;
-            if (Daycare < 0)
-                return null;
-
-            return Data[Daycare + 0x1D8] == 1;
-        }
-
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
-        {
-            if (loc != 0)
-                return;
-            if (Daycare < 0)
-                return;
-
-            Data[Daycare + ((SIZE_STORED + 1) * slot)] = (byte)(occupied ? 1 : 0);
-        }
-
-        public override void SetDaycareRNGSeed(int loc, string seed)
-        {
-            if (loc != 0)
-                return;
-            if (Daycare < 0)
-                return;
-            if (seed == null)
-                return;
-            if (seed.Length > DaycareSeedSize)
-                return;
-
-            Enumerable.Range(0, seed.Length)
-                 .Where(x => x % 2 == 0)
-                 .Reverse()
-                 .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
-                 .ToArray().CopyTo(Data, Daycare + 0x1DC);
-        }
-
-        public override void SetDaycareHasEgg(int loc, bool hasEgg)
-        {
-            if (loc != 0)
-                return;
-            if (Daycare < 0)
-                return;
-
-            Data[Daycare + 0x1D8] = (byte)(hasEgg ? 1 : 0);
-        }
+        public override int DaycareSeedSize => Daycare7.DaycareSeedSize; // 128 bits
+        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetDaycareSlotOffset(slot);
+        public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.GetIsOccupied(slot);
+        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.RNGSeed;
+        public override bool? IsDaycareHasEgg(int loc) => DaycareBlock.HasEgg;
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => DaycareBlock.SetOccupied(slot, occupied);
+        public override void SetDaycareRNGSeed(int loc, string seed) => DaycareBlock.RNGSeed = seed;
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => DaycareBlock.HasEgg = hasEgg;
 
         // Mystery Gift
-        protected override bool[] MysteryGiftReceivedFlags
+        protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
+        protected override MysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
+    }
+
+    public class SAV7SM : SAV7
+    {
+        public SAV7SM(byte[] data) : base(data) => Initialize();
+        public SAV7SM() : base(SaveUtil.SIZE_G7SM) => Initialize();
+        public override SaveFile Clone() => new SAV7SM((byte[])Data.Clone());
+
+        private void Initialize()
         {
-            get
-            {
-                if (WondercardData < 0 || WondercardFlags < 0)
-                    return Array.Empty<bool>();
-
-                bool[] result = new bool[(WondercardData-WondercardFlags)*8];
-                for (int i = 0; i < result.Length; i++)
-                    result[i] = (Data[WondercardFlags + (i>>3)] >> (i&7) & 0x1) == 1;
-                return result;
-            }
-            set
-            {
-                if (WondercardData < 0 || WondercardFlags < 0)
-                    return;
-                if (value == null || (WondercardData - WondercardFlags)*8 != value.Length)
-                    return;
-
-                byte[] data = new byte[value.Length/8];
-                for (int i = 0; i < value.Length; i++)
-                {
-                    if (value[i])
-                        data[i>>3] |= (byte)(1 << (i&7));
-                }
-
-                SetData(data, WondercardFlags);
-            }
+            Items = new MyItem7SM(this, Bag);
         }
 
-        protected override MysteryGift[] MysteryGiftCards
+        protected override int EventFlagMax => 3968;
+        public override int MaxMoveID => Legal.MaxMoveID_7;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_7;
+        public override int MaxItemID => Legal.MaxItemID_7;
+        public override int MaxAbilityID => Legal.MaxAbilityID_7;
+    }
+
+    public class SAV7USUM : SAV7
+    {
+        public SAV7USUM(byte[] data) : base(data) => Initialize();
+        public SAV7USUM() : base(SaveUtil.SIZE_G7USUM) => Initialize();
+        public override SaveFile Clone() => new SAV7USUM((byte[])Data.Clone());
+
+        private void Initialize()
         {
-            get
-            {
-                if (WondercardData < 0)
-                    return Array.Empty<MysteryGift>();
-                MysteryGift[] cards = new MysteryGift[GiftCountMax];
-                for (int i = 0; i < cards.Length; i++)
-                    cards[i] = GetWC7(i);
-
-                return cards;
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                if (value.Length > GiftCountMax)
-                    Array.Resize(ref value, GiftCountMax);
-
-                for (int i = 0; i < value.Length; i++)
-                    SetWC7(value[i], i);
-                for (int i = value.Length; i < GiftCountMax; i++)
-                    SetWC7(new WC7(), i);
-            }
+            Items = new MyItem7USUM(this, Bag);
         }
 
-        private WC7 GetWC7(int index)
-        {
-            if (WondercardData < 0)
-                throw new ArgumentException(nameof(WondercardData));
-            if (index < 0 || index > GiftCountMax)
-                throw new ArgumentException(nameof(index));
+        protected override int EventFlagMax => 4928;
+        public override int MaxMoveID => Legal.MaxMoveID_7_USUM;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
+        public override int MaxItemID => Legal.MaxItemID_7_USUM;
+        public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
+    }
 
-            return new WC7(GetData(WondercardData + (index * WC7.Size), WC7.Size));
+    public class FieldMoveModelSave7 : SaveBlock
+    {
+        public FieldMoveModelSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+
+        public int M { get => BitConverter.ToUInt16(Data, Offset + 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x00); }
+        public float X { get => BitConverter.ToSingle(Data, Offset + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08); }
+        public float Z { get => BitConverter.ToSingle(Data, Offset + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10); }
+        public float Y { get => (int)BitConverter.ToSingle(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18); }
+        public float R { get => (int)BitConverter.ToSingle(Data, Offset + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20); }
+    }
+
+    public class Situation7 : SaveBlock
+    {
+        public Situation7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+
+        // "StartLocation"
+        public int M { get => BitConverter.ToUInt16(Data, Offset + 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x00); }
+        public float X { get => BitConverter.ToSingle(Data, Offset + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08); }
+        public float Z { get => BitConverter.ToSingle(Data, Offset + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10); }
+        public float Y { get => (int)BitConverter.ToSingle(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18); }
+        public float R { get => (int)BitConverter.ToSingle(Data, Offset + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20); }
+
+        public void UpdateOverworldCoordinates()
+        {
+            var o = ((SAV7) SAV).OverworldBlock;
+            o.M = M;
+            o.X = X;
+            o.Z = Z;
+            o.Y = Y;
+            o.R = R;
         }
 
-        private void SetWC7(MysteryGift wc7, int index)
+        public int SpecialLocation
         {
-            if (WondercardData < 0)
-                return;
-            if (index < 0 || index > GiftCountMax)
-                return;
-
-            SetData(wc7.Data, WondercardData + (index * WC7.Size));
+            get => Data[Offset + 0x24];
+            set => Data[Offset + 0x24] = (byte)value;
         }
 
-        // Writeback Validity
-        public override string MiscSaveChecks()
+        public int WarpContinueRequest
         {
-            var sb = new StringBuilder();
-
-            // FFFF checks
-            for (int i = 0; i < Data.Length / 0x200; i++)
-            {
-                if (Data.Skip(i * 0x200).Take(0x200).Any(z => z != 0xFF))
-                    continue;
-                sb.Append("0x200 chunk @ 0x").AppendFormat("{0:X5}", i * 0x200).AppendLine(" is FF'd.");
-                sb.AppendLine("Cyber will screw up (as of August 31st 2014).");
-                sb.AppendLine();
-
-                // Check to see if it is in the Pokedex
-                if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
-                {
-                    sb.Append("Problem lies in the Pokedex. ");
-                    if (i * 0x200 == PokeDex + 0x400)
-                        sb.Append("Remove a language flag for a species < 585, ie Petilil");
-                }
-                break;
-            }
-            return sb.ToString();
+            get => Data[Offset + 0x6E];
+            set => Data[Offset + 0x6E] = (byte)value;
         }
 
-        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
-
-        public bool MegaUnlocked
+        public int StepCountEgg
         {
-            get => (Data[TrainerCard + 0x78] & 0x01) != 0;
-            set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & 0xFE) | (value ? 1 : 0)); // in battle
-            // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
+            get => BitConverter.ToInt32(Data, Offset + 0x70);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x70);
         }
 
-        public bool ZMoveUnlocked
+        public int LastZoneID
         {
-            get => (Data[TrainerCard + 0x78] & 2) != 0;
-            set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & ~2) | (value ? 2 : 0)); // in battle
+            get => BitConverter.ToUInt16(Data, Offset + 0x74);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x74);
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
-
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public int StepCountFriendship
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
+            get => BitConverter.ToUInt16(Data, Offset + 0x76);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x76);
+        }
+
+        public int StepCountAffection // Kawaigari
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 0x78);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x78);
+        }
+    }
+
+    public sealed class ConfigSave7 : SaveBlock
+    {
+        /* ===First 8 bits===
+         * talkSpeed:2      0,1
+         * battleAnim:1     2
+         * battleStyle:1    3
+         * unknown:9        4..12
+         * buttonMode:2     13,14
+         * boxStatus:1      15
+         * everything else: unknown
+         */
+
+
+        public ConfigSave7b(SAV7 sav, int offset) : base(sav) => Offset = offset;
+
+        public int ConfigValue
+        {
+            get => BitConverter.ToInt32(Data, Offset);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset);
+        }
+
+        public int TalkingSpeed
+        {
+            get => ConfigValue & 3;
+            set => ConfigValue = (ConfigValue & ~3) | (value & 3);
+        }
+
+        public int BattleAnimation
+        {
+            // Effects OFF = 1, Effects ON = 0
+            get => (ConfigValue >> 2) & 1;
+            set => ConfigValue = (ConfigValue & ~(1 << 2)) | (value << 2);
+        }
+
+        public int BattleStyle
+        {
+            // SET = 1, SWITCH = 0
+            get => (ConfigValue >> 3) & 1;
+            set => ConfigValue = (ConfigValue & ~(1 << 3)) | (value << 3);
+        }
+
+        // UNKNOWN?
+
+        public int ButtonMode
+        {
+            get => (ConfigValue >> 13) & 3;
+            set => ConfigValue = (ConfigValue & ~(1 << 13)) | (value << 13);
+        }
+
+        public int BoxStatus
+        {
+            // MANUAL = 1, AUTOMATIC = 0
+            get => (ConfigValue >> 15) & 1;
+            set => ConfigValue = (ConfigValue & ~(1 << 15)) | (value << 15);
+        }
+
+
+        /// <summary>
+        /// <see cref="LanguageID"/> for messages, stored with <see cref="LanguageID.UNUSED_6"/> skipped in the enumeration.
+        /// </summary>
+        public int Language
+        {
+            get => GetLanguageID((ConfigValue >> 4) & 0xF);
+            set => ConfigValue = ((ConfigValue & ~0xF0) | SetLanguageID(value) << 4);
+        }
+
+        private static int GetLanguageID(int i) => i >= (int)LanguageID.UNUSED_6 ? i + 1 : i; // sets langBank to LanguageID
+        private static int SetLanguageID(int i) => i > (int)LanguageID.UNUSED_6 ? i - 1 : i; // sets LanguageID to langBank
+
+        public enum BattleAnimationSetting
+        {
+            EffectsON,
+            EffectsOFF,
+        }
+
+        public enum BattleStyleSetting
+        {
+            SET,
+            SWITCH,
         }
     }
 }

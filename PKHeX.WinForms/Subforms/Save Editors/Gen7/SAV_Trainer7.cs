@@ -121,14 +121,14 @@ namespace PKHeX.WinForms
             if (CB_AlolaTime.SelectedValue == null)
                 CB_AlolaTime.Enabled = false;
 
-            NUD_M.Value = SAV.M;
+            NUD_M.Value = SAV.Situation.M;
             // Sanity Check Map Coordinates
             try
             {
-                NUD_X.Value = (decimal)SAV.X;
-                NUD_Z.Value = (decimal)SAV.Z;
-                NUD_Y.Value = (decimal)SAV.Y;
-                NUD_R.Value = (decimal)SAV.R;
+                NUD_X.Value = (decimal)SAV.Situation.X;
+                NUD_Z.Value = (decimal)SAV.Situation.Z;
+                NUD_Y.Value = (decimal)SAV.Situation.Y;
+                NUD_R.Value = (decimal)SAV.Situation.R;
             }
             catch { GB_Map.Enabled = false; }
 
@@ -137,10 +137,10 @@ namespace PKHeX.WinForms
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-            if (SAV.LastSavedDate.HasValue)
+            if (SAV.Played.LastSavedDate.HasValue)
             {
-                CAL_LastSavedDate.Value = SAV.LastSavedDate.Value;
-                CAL_LastSavedTime.Value = SAV.LastSavedDate.Value;
+                CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
+                CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
             }
             else
             {
@@ -154,15 +154,15 @@ namespace PKHeX.WinForms
             CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
 
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
-            NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
+            NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.Festa.FestaCoins);
 
             // Poké Finder
-            NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
-            NUD_ThumbsTotal.Value = Math.Min(NUD_ThumbsTotal.Maximum, SAV.PokeFinderThumbsTotalValue);
-            NUD_ThumbsRecord.Value = Math.Min(NUD_ThumbsRecord.Maximum, SAV.PokeFinderThumbsHighValue);
+            NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinder.SnapCount);
+            NUD_ThumbsTotal.Value = Math.Min(NUD_ThumbsTotal.Maximum, SAV.PokeFinder.ThumbsTotalValue);
+            NUD_ThumbsRecord.Value = Math.Min(NUD_ThumbsRecord.Maximum, SAV.PokeFinder.ThumbsHighValue);
 
-            CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
-            CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
+            CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinder.CameraVersion);
+            CHK_Gyro.Checked = SAV.PokeFinder.GyroFlag;
 
             // Battle Tree
             NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: false));
@@ -179,14 +179,14 @@ namespace PKHeX.WinForms
             NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: true));
             NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: true));
 
-            CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
-            TB_PlazaName.Text = SAV.FestivalPlazaName;
+            CB_SkinColor.SelectedIndex = SAV.MyStatus.DressUpSkinColor;
+            TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
             CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
             NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.DaysFromRefreshed);
 
-            if (SAV.BallThrowType >= 0 && SAV.BallThrowType < CB_BallThrowType.Items.Count)
-                CB_BallThrowType.SelectedIndex = SAV.BallThrowType;
+            if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
+                CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
 
             if (SAV.SM)
                 LoadThrowTypeLists();
@@ -201,8 +201,8 @@ namespace PKHeX.WinForms
             CHK_UnlockSuperDoubles.Checked = SAV.GetEventFlag(334);
             CHK_UnlockSuperMulti.Checked = SAV.GetEventFlag(335);
 
-            CHK_UnlockMega.Checked = SAV.MegaUnlocked;
-            CHK_UnlockZMove.Checked = SAV.ZMoveUnlocked;
+            CHK_UnlockMega.Checked = SAV.MyStatus.MegaUnlocked;
+            CHK_UnlockZMove.Checked = SAV.MyStatus.ZMoveUnlocked;
 
             LoadMapFlyToData();
         }
@@ -306,7 +306,7 @@ namespace PKHeX.WinForms
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SaveThrowType();
 
-            SAV.FestivalPlazaName = TB_PlazaName.Text;
+            SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
 
             // Vivillon
             if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
@@ -335,11 +335,12 @@ namespace PKHeX.WinForms
             // Copy Position
             if (GB_Map.Enabled && MapUpdated)
             {
-                SAV.M = (int)NUD_M.Value;
-                SAV.X = (float)NUD_X.Value;
-                SAV.Z = (float)NUD_Z.Value;
-                SAV.Y = (float)NUD_Y.Value;
-                SAV.R = (float)NUD_R.Value;
+                SAV.Situation.M = (int)NUD_M.Value;
+                SAV.Situation.X = (float)NUD_X.Value;
+                SAV.Situation.Z = (float)NUD_Z.Value;
+                SAV.Situation.Y = (float)NUD_Y.Value;
+                SAV.Situation.R = (float)NUD_R.Value;
+                SAV.Situation.UpdateOverworldCoordinates();
             }
 
             // Save PlayTime
@@ -358,21 +359,21 @@ namespace PKHeX.WinForms
             fame += (uint)(CAL_HoFTime.Value - epoch).TotalSeconds;
             SAV.SecondsToFame = fame;
 
-            if (SAV.LastSavedDate.HasValue)
-                SAV.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+            if (SAV.Played.LastSavedDate.HasValue)
+                SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
             SAV.BP = (uint)NUD_BP.Value;
-            SAV.FestaCoins = (uint)NUD_FC.Value;
+            SAV.Festa.FestaCoins = (int)NUD_FC.Value;
         }
 
         private void SavePokeFinder()
         {
-            SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
-            SAV.PokeFinderThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
-            SAV.PokeFinderThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
+            SAV.PokeFinder.SnapCount = (uint)NUD_SnapCount.Value;
+            SAV.PokeFinder.ThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
+            SAV.PokeFinder.ThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
 
-            SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
-            SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
+            SAV.PokeFinder.CameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
+            SAV.PokeFinder.GyroFlag = CHK_Gyro.Checked;
         }
 
         private void SaveBattleTree()
@@ -400,17 +401,17 @@ namespace PKHeX.WinForms
             string gStr = CB_Gender.Items[gender].ToString();
             string sStr = CB_Gender.Items[skin].ToString();
 
-            if (SAV.DressUpSkinColor == CB_SkinColor.SelectedIndex)
+            if (SAV.MyStatus.DressUpSkinColor == CB_SkinColor.SelectedIndex)
                 return;
 
             if (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?"))
-                SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
+                SAV.MyStatus.DressUpSkinColor = CB_SkinColor.SelectedIndex;
         }
 
         private void SaveThrowType()
         {
             if (CB_BallThrowType.SelectedIndex >= 0)
-                SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
+                SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
 
             if (!SAV.SM) // unlock flags are in flag editor instead
                 return;
@@ -431,8 +432,8 @@ namespace PKHeX.WinForms
             SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
             SAV.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
 
-            SAV.MegaUnlocked = CHK_UnlockMega.Checked;
-            SAV.ZMoveUnlocked = CHK_UnlockZMove.Checked;
+            SAV.MyStatus.MegaUnlocked = CHK_UnlockMega.Checked;
+            SAV.MyStatus.ZMoveUnlocked = CHK_UnlockZMove.Checked;
 
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
                 SAV.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));

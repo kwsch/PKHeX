@@ -489,8 +489,9 @@ namespace PKHeX.Core
                 case GameVersion.ORASDEMO: return new SAV6AODemo(data);
 
                 case GameVersion.SM:
+                    return new SAV7SM(data);
                 case GameVersion.USUM:
-                    return new SAV7(data);
+                    return new SAV7USUM(data);
 
                 // Side Games
                 case GameVersion.COLO:   return new SAV3Colosseum(data);
@@ -613,9 +614,9 @@ namespace PKHeX.Core
                     return new SAV6AO();
 
                 case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
-                    return new SAV7(SIZE_G7SM);
+                    return new SAV7SM();
                 case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
-                    return new SAV7(SIZE_G7USUM);
+                    return new SAV7USUM();
                 case GameVersion.GO:
                 case GameVersion.GP: case GameVersion.GE: case GameVersion.GG:
                     return new SAV7b();

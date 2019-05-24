@@ -56,7 +56,6 @@ namespace PKHeX.Core
         public MyStatus6 Status { get; protected set; }
         public Record6 Records { get; set; }
 
-
         // Blocks & Offsets
         private readonly int BlockInfoOffset;
         private readonly BlockInfo[] Blocks;
@@ -235,10 +234,24 @@ namespace PKHeX.Core
             protected set => Data[Party + (6 * SIZE_PARTY)] = (byte)value;
         }
 
+        private int LockedFlagOffset => BattleBox + (6 * SIZE_STORED);
+
         public override bool BattleBoxLocked
         {
-            get => Data[BattleBox + (6 * SIZE_STORED)] != 0;
-            set => Data[BattleBox + (6 * SIZE_STORED)] = (byte)(value ? 1 : 0);
+            get => BattleBoxLockedWiFiTournament || BattleBoxLockedLiveTournament;
+            set => BattleBoxLockedWiFiTournament = BattleBoxLockedLiveTournament = value;
+        }
+
+        public bool BattleBoxLockedWiFiTournament
+        {
+            get => (Data[LockedFlagOffset] & 1) != 0;
+            set => Data[LockedFlagOffset] = (byte)((Data[LockedFlagOffset] & ~1) | (value ? 1 : 0));
+        }
+
+        public bool BattleBoxLockedLiveTournament
+        {
+            get => (Data[LockedFlagOffset] & 2) != 0;
+            set => Data[LockedFlagOffset] = (byte)((Data[LockedFlagOffset] & ~2) | (value ? 2 : 0));
         }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString6(data, offset, length);
