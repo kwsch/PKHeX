@@ -135,15 +135,14 @@ namespace PKHeX.WinForms
                     control.Visible = true;
                 }
                 L_Coins.Text = "BP"; // no translation boo
-                MT_Coins.Text = s.BP.ToString();
+                MT_Coins.Text = s.BattleSubwayBlock.BP.ToString();
 
                 var pd = s.PlayerData;
                 NUD_M.Value = pd.M;
                 NUD_X.Value = pd.X;
                 NUD_Z.Value = pd.Z;
                 NUD_Y.Value = pd.Y;
-
-                badgeval = s.Badges;
+                badgeval = s.MiscBlock.Badges;
             }
 
             for (int i = 0; i < cba.Length; i++)
@@ -249,8 +248,8 @@ namespace PKHeX.WinForms
                     pd.Z = (int)NUD_Z.Value;
                     pd.Y = (int)NUD_Y.Value;
                 }
-                s.Badges = badgeval & 0xFF;
-                s.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
+                s.MiscBlock.Badges = badgeval & 0xFF;
+                s.BattleSubwayBlock.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
             SAV.SecondsToStart = GetSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
@@ -267,9 +266,10 @@ namespace PKHeX.WinForms
 
         private static uint GetSeconds(DateTimePicker date, DateTimePicker time)
         {
-            uint val = (uint)(date.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            var epoch = new DateTime(2000, 1, 1);
+            uint val = (uint)(date.Value - epoch).TotalSeconds;
             val -= val % 86400;
-            val += (uint)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            val += (uint)(time.Value - epoch).TotalSeconds;
             return val;
         }
 

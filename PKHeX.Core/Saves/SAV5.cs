@@ -61,21 +61,25 @@ namespace PKHeX.Core
             AdventureInfo = 0x1D900;
 
             HeldItems = Legal.HeldItems_BW;
+            BoxLayout = new BoxLayout5(this, PCLayout);
             MysteryBlock = new MysteryBlock5(this, WondercardData);
             PlayerData = new PlayerData5(this, Trainer1);
         }
 
         // Blocks & Offsets
-        public IReadOnlyList<BlockInfoNDS> Blocks;
+        protected IReadOnlyList<BlockInfoNDS> Blocks;
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
         public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
         public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
 
         protected MyItem Items { get; set; }
         public Zukan Zukan { get; protected set; }
+        public Misc5 MiscBlock { get; protected set; }
         private MysteryBlock5 MysteryBlock { get; set; }
         protected Daycare5 DaycareBlock { get; set; }
+        public BoxLayout5 BoxLayout { get; private set; }
         public PlayerData5 PlayerData { get; private set; }
+        public BattleSubway5 BattleSubwayBlock { get; protected set; }
 
         protected int CGearInfoOffset;
         protected int CGearDataOffset;
@@ -104,25 +108,10 @@ namespace PKHeX.Core
 
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30) + (box * 0x10);
         public override int GetPartyOffset(int slot) => Party + 8 + (SIZE_PARTY * slot);
-        private int GetBoxNameOffset(int box) => PCLayout + (0x28 * box) + 4;
-        protected override int GetBoxWallpaperOffset(int box) => PCLayout + 0x3C4 + box;
-
-        public override string GetBoxName(int box)
-        {
-            if (box >= BoxCount)
-                return string.Empty;
-            return GetString(GetBoxNameOffset(box), 0x14);
-        }
-
-        public override void SetBoxName(int box, string value)
-        {
-            if (value.Length > 0x26/2)
-                return;
-            var data = SetString(value + '\uFFFF', 0x14, 0x14, 0);
-            SetData(data, GetBoxNameOffset(box));
-        }
-
-        public override int CurrentBox { get => Data[PCLayout]; set => Data[PCLayout] = (byte)value; }
+        protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
+        public override string GetBoxName(int box) => BoxLayout[box];
+        public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+        public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
         public override bool BattleBoxLocked
         {
@@ -149,28 +138,10 @@ namespace PKHeX.Core
         public override int PlayedHours { get => PlayerData.PlayedHours; set => PlayerData.PlayedHours = value; }
         public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
         public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
-
-        public override uint Money
-        {
-            get => BitConverter.ToUInt32(Data, Trainer2);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer2);
-        }
-
-        public int Badges
-        {
-            get => Data[Trainer2 + 0x4];
-            set => Data[Trainer2 + 0x4] = (byte)value;
-        }
-
+        public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
         public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
-
-        public int BP
-        {
-            get => BitConverter.ToUInt16(Data, BattleSubway);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleSubway);
-        }
-
+        
         public override MysteryGiftAlbum GiftAlbum { get => MysteryBlock.GiftAlbum; set => MysteryBlock.GiftAlbum = value; }
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
@@ -200,7 +171,7 @@ namespace PKHeX.Core
         {
             get
             {
-                byte[] data = new byte[0x2600];
+                byte[] data = new byte[CGearBackground.SIZE_CGB];
                 if (CGearSkinPresent)
                     Array.Copy(Data, CGearDataOffset, data, 0, data.Length);
                 return data;

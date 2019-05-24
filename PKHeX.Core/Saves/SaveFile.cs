@@ -124,7 +124,6 @@ namespace PKHeX.Core
         public virtual bool HasParty => Party > -1;
         public bool HasBattleBox => BattleBox > -1;
         public bool HasFused => Fused > -1;
-        public bool HasGTS => GTS > -1;
         public bool HasDaycare => Daycare > -1;
         public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;

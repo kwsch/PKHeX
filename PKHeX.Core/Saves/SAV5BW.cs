@@ -27,8 +27,10 @@
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52000;
             EntreeForestOffset = 0x22C00;
+            MiscBlock = new Misc5(this, Trainer2);
             Zukan = new Zukan5(this, PokeDex, PokeDexLanguageFlags);
             DaycareBlock = new Daycare5(this, Daycare);
+            BattleSubwayBlock = new BattleSubway5(this, BattleSubway);
             // Inventory offsets are the same for each game.
         }
     }

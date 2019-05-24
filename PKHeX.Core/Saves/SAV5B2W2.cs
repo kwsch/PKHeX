@@ -29,7 +29,10 @@
             Zukan = new Zukan5(this, PokeDex, PokeDexLanguageFlags);
             DaycareBlock = new Daycare5(this, Daycare);
 
+            MiscBlock = new Misc5(this, Trainer2);
             PWTBlock = new PWTBlock5(this, 0x23700);
+            DaycareBlock = new Daycare5(this, Daycare);
+            BattleSubwayBlock = new BattleSubway5(this, BattleSubway);
         }
 
         public PWTBlock5 PWTBlock { get; private set; }
