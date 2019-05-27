@@ -111,7 +111,7 @@ namespace PKHeX.WinForms
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
-            var time = SAV.AlolaTime;
+            var time = SAV.GameTime.AlolaTime;
             if (time == 0)
                 time = 24 * 60 * 60; // Patch up any bad times from previous program versions.
             if (time == 9_999_999)
@@ -153,7 +153,7 @@ namespace PKHeX.WinForms
             CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
 
-            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.MiscBlock.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.Festa.FestaCoins);
 
             // Poké Finder
@@ -165,25 +165,26 @@ namespace PKHeX.WinForms
             CHK_Gyro.Checked = SAV.PokeFinder.GyroFlag;
 
             // Battle Tree
-            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: false));
-            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, SAV.GetTreeStreak(1, super: false, max: false));
-            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, SAV.GetTreeStreak(2, super: false, max: false));
-            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: true));
-            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, SAV.GetTreeStreak(1, super: false, max: true));
-            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, SAV.GetTreeStreak(2, super: false, max: true));
+            var bt = SAV.BattleTreeBlock;
+            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, bt.GetTreeStreak(0, super: false, max: false));
+            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, bt.GetTreeStreak(1, super: false, max: false));
+            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, bt.GetTreeStreak(2, super: false, max: false));
+            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, bt.GetTreeStreak(0, super: false, max: true));
+            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, bt.GetTreeStreak(1, super: false, max: true));
+            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, bt.GetTreeStreak(2, super: false, max: true));
 
-            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, SAV.GetTreeStreak(0, super: true, max: false));
-            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: false));
-            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: false));
-            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, SAV.GetTreeStreak(0, super: true, max: true));
-            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: true));
-            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: true));
+            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, bt.GetTreeStreak(0, super: true, max: false));
+            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, bt.GetTreeStreak(1, super: true, max: false));
+            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, bt.GetTreeStreak(2, super: true, max: false));
+            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, bt.GetTreeStreak(0, super: true, max: true));
+            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, bt.GetTreeStreak(1, super: true, max: true));
+            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, bt.GetTreeStreak(2, super: true, max: true));
 
             CB_SkinColor.SelectedIndex = SAV.MyStatus.DressUpSkinColor;
             TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
-            CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
-            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.DaysFromRefreshed);
+            CB_Vivillon.SelectedIndex = (SAV.MiscBlock.Vivillon < CB_Vivillon.Items.Count) ? SAV.MiscBlock.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.MiscBlock.DaysFromRefreshed);
 
             if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
                 CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
@@ -193,7 +194,7 @@ namespace PKHeX.WinForms
             else
                 CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible = LB_BallThrowTypeUnlocked.Visible = false;
 
-            uint stampBits = SAV.Stamps;
+            uint stampBits = SAV.MiscBlock.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
                 LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
@@ -289,12 +290,12 @@ namespace PKHeX.WinForms
 
         private void LoadUltraData()
         {
-            NUD_Surf0.Value = SAV.GetSurfScore(0);
-            NUD_Surf1.Value = SAV.GetSurfScore(1);
-            NUD_Surf2.Value = SAV.GetSurfScore(2);
-            NUD_Surf3.Value = SAV.GetSurfScore(3);
+            NUD_Surf0.Value = SAV.MiscBlock.GetSurfScore(0);
+            NUD_Surf1.Value = SAV.MiscBlock.GetSurfScore(1);
+            NUD_Surf2.Value = SAV.MiscBlock.GetSurfScore(2);
+            NUD_Surf3.Value = SAV.MiscBlock.GetSurfScore(3);
             TB_RotomOT.Font = TB_OTName.Font;
-            TB_RotomOT.Text = SAV.RotomOT;
+            TB_RotomOT.Text = SAV.FieldMenu.RotomOT;
         }
 
         private void Save()
@@ -303,13 +304,13 @@ namespace PKHeX.WinForms
             SavePokeFinder();
             SaveBattleTree();
             SaveTrainerAppearance();
-            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
+            SAV.MiscBlock.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SaveThrowType();
 
             SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
 
             // Vivillon
-            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.MiscBlock.Vivillon = CB_Vivillon.SelectedIndex;
 
             SaveFlags();
 
@@ -328,7 +329,7 @@ namespace PKHeX.WinForms
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             if (CB_AlolaTime.Enabled)
-            SAV.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
+            SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
 
@@ -362,7 +363,7 @@ namespace PKHeX.WinForms
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
-            SAV.BP = (uint)NUD_BP.Value;
+            SAV.MiscBlock.BP = (uint)NUD_BP.Value;
             SAV.Festa.FestaCoins = (int)NUD_FC.Value;
         }
 
@@ -378,19 +379,20 @@ namespace PKHeX.WinForms
 
         private void SaveBattleTree()
         {
-            SAV.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
-            SAV.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
-            SAV.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
-            SAV.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
-            SAV.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
-            SAV.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
+            var bt = SAV.BattleTreeBlock;
+            bt.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
+            bt.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
+            bt.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
+            bt.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
+            bt.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
+            bt.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
 
-            SAV.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
-            SAV.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
-            SAV.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
-            SAV.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
-            SAV.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
-            SAV.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
+            bt.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
+            bt.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
+            bt.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
+            bt.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
+            bt.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
+            bt.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
         }
 
         private void SaveTrainerAppearance()
@@ -426,7 +428,7 @@ namespace PKHeX.WinForms
 
         private void SaveFlags()
         {
-            SAV.Stamps = GetBits(LB_Stamps);
+            SAV.MiscBlock.Stamps = GetBits(LB_Stamps);
 
             SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
             SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
@@ -443,21 +445,21 @@ namespace PKHeX.WinForms
 
         private void SaveUltraData()
         {
-            SAV.SetSurfScore(0, (int)NUD_Surf0.Value);
-            SAV.SetSurfScore(1, (int)NUD_Surf1.Value);
-            SAV.SetSurfScore(2, (int)NUD_Surf2.Value);
-            SAV.SetSurfScore(3, (int)NUD_Surf3.Value);
+            SAV.MiscBlock.SetSurfScore(0, (int)NUD_Surf0.Value);
+            SAV.MiscBlock.SetSurfScore(1, (int)NUD_Surf1.Value);
+            SAV.MiscBlock.SetSurfScore(2, (int)NUD_Surf2.Value);
+            SAV.MiscBlock.SetSurfScore(3, (int)NUD_Surf3.Value);
 
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
                 && TB_OTName.Text != SAV.OT // manually changed
                 && DialogResult.Yes == // wants to update
                 WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rotom OT does not match OT name. Update Rotom OT name with OT name?"))
             {
-                SAV.RotomOT = TB_OTName.Text;
+                SAV.FieldMenu.RotomOT = TB_OTName.Text;
             }
             else
             {
-                SAV.RotomOT = TB_RotomOT.Text;
+                SAV.FieldMenu.RotomOT = TB_RotomOT.Text;
             }
         }
 
@@ -530,7 +532,7 @@ namespace PKHeX.WinForms
                 return;
 
             // Clear Block
-            new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
+            SAV.FashionBlock.Clear();
 
             // Write Payload
             // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)

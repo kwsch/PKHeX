@@ -108,7 +108,10 @@ namespace PKHeX.Core
 
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30) + (box * 0x10);
         public override int GetPartyOffset(int slot) => Party + 8 + (SIZE_PARTY * slot);
+
         protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
+        public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
+        public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
         public override string GetBoxName(int box) => BoxLayout[box];
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }

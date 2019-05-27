@@ -74,6 +74,11 @@ namespace PKHeX.Core
 
         protected override bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
         {
+            return SanitizeFormsToIterate(species, out formStart, out formEnd, formIn, SAV.USUM);
+        }
+
+        public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn, bool USUM)
+        {
             // 004AA370 in Moon
             // Simplified in terms of usage -- only overrides to give all the battle forms for a pkm
             switch (species)
@@ -83,6 +88,12 @@ namespace PKHeX.Core
                     formEnd = 3;
                     return true;
 
+                case 421: // Cherrim
+                case 555: // Darmanitan
+                case 648: // Meloetta
+                case 746: // Wishiwashi
+                case 778: // Mimikyu
+                // Alolans
                 case 020: // Raticate
                 case 105: // Marowak
                     formStart = 0;
@@ -100,22 +111,13 @@ namespace PKHeX.Core
                 case 744: // Rockruff
                     break;
 
-                case 421: // Cherrim
-                case 555: // Darmanitan
-                case 648: // Meloetta
-                case 746: // Wishiwashi
-                case 778: // Mimikyu
-                    formStart = 0;
-                    formEnd = 1;
-                    return true;
-
                 case 774 when formIn <= 6: // Minior
                     break; // don't give meteor forms except the first
 
                 case 718 when formIn > 1:
                     break;
                 default:
-                    int count = SAV.USUM ? DexFormUtil.GetDexFormCountUSUM(species) : DexFormUtil.GetDexFormCountSM(species);
+                    int count = USUM ? DexFormUtil.GetDexFormCountUSUM(species) : DexFormUtil.GetDexFormCountSM(species);
                     formStart = formEnd = 0;
                     return count < formIn;
             }

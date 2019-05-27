@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
             }
 
             var cc = SAV.Festa.FestaCoins;
-            var cu = SAV.UsedFestaCoins;
+            var cu = SAV.GetRecord(038);
             NUD_FC_Current.Value = Math.Min(cc, NUD_FC_Current.Maximum);
             NUD_FC_Used.Value = Math.Min(cu, NUD_FC_Used.Maximum);
             L_FC_CollectedV.Text = (cc + cu).ToString();
@@ -260,7 +260,7 @@ namespace PKHeX.WinForms
             for (int i = 1; i < CLB_Phrases.Items.Count; i++)
                 SAV.Festa.SetFestaPhraseUnlocked(i - 1, CLB_Phrases.GetItemChecked(i));
 
-            SAV.UsedFestaCoins = (int)NUD_FC_Used.Value;
+            SAV.SetRecord(038, (int)NUD_FC_Used.Value);
             SAV.Festa.FestaCoins = (int)NUD_FC_Current.Value;
             SAV.Festa.FestaDate = new DateTime(CAL_FestaStartDate.Value.Year, CAL_FestaStartDate.Value.Month, CAL_FestaStartDate.Value.Day, CAL_FestaStartTime.Value.Hour, CAL_FestaStartTime.Value.Minute, CAL_FestaStartTime.Value.Second);
 

@@ -7,8 +7,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class Records
     {
-        private const byte LargeRecordCount = 100;
-        private const byte SmallRecordCount = 100;
+        private const byte LargeRecordCount = 100; // int32
+        private const byte SmallRecordCount = 100; // int16
         private const byte Count = LargeRecordCount + SmallRecordCount;
 
         /// <summary>
@@ -27,9 +27,9 @@ namespace PKHeX.Core
         public static int GetOffset(int baseOfs, int recordID)
         {
             if (recordID < LargeRecordCount)
-                return baseOfs + (recordID * 4);
+                return baseOfs + (recordID * sizeof(int));
             if (recordID < Count)
-                return baseOfs + (recordID * 2) + 200; // first 100 are 4bytes, so bias the difference
+                return baseOfs + (recordID * sizeof(ushort)) + (LargeRecordCount * sizeof(int)); // first 100 are 4bytes, so bias the difference
             return -1;
         }
 

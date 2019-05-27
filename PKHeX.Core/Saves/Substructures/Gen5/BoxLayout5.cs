@@ -8,6 +8,20 @@
         public int GetBoxNameOffset(int box) => Offset + (0x28 * box) + 4;
         public int GetBoxWallpaperOffset(int box) => Offset + 0x3C4 + box;
 
+        public int GetBoxWallpaper(int box)
+        {
+            if ((uint)box > SAV.BoxCount)
+                return 0;
+            return Data[GetBoxWallpaperOffset(box)];
+        }
+
+        public void SetBoxWallpaper(int box, int value)
+        {
+            if ((uint)box > SAV.BoxCount)
+                return;
+            Data[GetBoxWallpaperOffset(box)] = (byte)value;
+        }
+
         public string GetBoxName(int box)
         {
             if (box >= SAV.BoxCount)

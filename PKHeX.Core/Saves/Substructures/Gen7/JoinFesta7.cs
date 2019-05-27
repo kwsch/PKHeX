@@ -16,7 +16,7 @@ namespace PKHeX.Core
                     value = 9999999;
                 BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x508);
 
-                TotalFestaCoins = ((SAV7)SAV).UsedFestaCoins + value;
+                TotalFestaCoins = ((SAV7)SAV).GetRecord(038) + value; // UsedFestaCoins
             }
         }
 
