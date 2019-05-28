@@ -195,8 +195,10 @@ namespace PKHeX.Core
                     itemcnt = byte.MaxValue;
                 else if (SAV.Generation >= 3 && itemcnt > ushort.MaxValue)
                     itemcnt = ushort.MaxValue;
+                return true;
             }
-            else if (itemcnt > MaxCount)
+
+            if (itemcnt > MaxCount)
             {
                 if (itemindex == 797 && itemcnt >= 2) // Edge case when for some reason the item count for Z-Ring was 2 in an unedited save and set 1 after using PKHeX
                     itemcnt = 2;
