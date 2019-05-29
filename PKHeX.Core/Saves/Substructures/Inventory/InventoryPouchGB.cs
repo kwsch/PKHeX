@@ -77,7 +77,7 @@ namespace PKHeX.Core
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
-            SlideItemsDown();
+            ClearCount0();
 
             switch (Type)
             {
@@ -108,19 +108,6 @@ namespace PKHeX.Core
                     Data[Offset + 1 + (2 * Count)] = 0xFF;
                     break;
             }
-        }
-
-        private void SlideItemsDown()
-        {
-            int ofs = 0;
-            for (int i = 0; i < Count; i++)
-            {
-                while (Items[ofs].Count == 0)
-                    ofs++;
-                Items[i] = Items[ofs++];
-            }
-            while (ofs < Items.Length)
-                Items[ofs++] = new InventoryItem();
         }
     }
 }

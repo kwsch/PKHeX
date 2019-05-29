@@ -64,8 +64,20 @@ namespace PKHeX.Core
                 if (Items[i].Valid(LegalItems, MaxItemID, HaX))
                     Items[ctr++] = Items[i];
             }
-            for (int i = ctr; i < Items.Length; i++)
-                Items[i] = new InventoryItem();
+            while (ctr < Items.Length)
+                Items[ctr++] = new InventoryItem();
+        }
+
+        public void ClearCount0()
+        {
+            int ctr = 0;
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i].Count != 0)
+                    Items[ctr++] = Items[i];
+            }
+            while (ctr < Items.Length)
+                Items[ctr++] = new InventoryItem();
         }
 
         public void RemoveAll()
