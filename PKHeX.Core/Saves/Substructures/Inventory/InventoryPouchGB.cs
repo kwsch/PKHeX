@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -85,10 +84,10 @@ namespace PKHeX.Core
                 case InventoryType.TMHMs:
                     foreach (InventoryItem t in Items)
                     {
-                        if (LegalItems.All(z => z != t.Index))
+                        int index = Array.FindIndex(LegalItems, it => t.Index == it);
+                        if (index < 0) // enforce correct pouch
                             continue;
-                        int index = Offset + Array.FindIndex(LegalItems, it => t.Index == it);
-                        Data[index] = (byte)t.Count;
+                        Data[Offset + index] = (byte)t.Count;
                     }
                     break;
                 case InventoryType.KeyItems:

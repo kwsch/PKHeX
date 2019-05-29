@@ -29,57 +29,43 @@ namespace PKHeX.Core
         public abstract void GetPouch(byte[] Data);
         public abstract void SetPouch(byte[] Data);
 
-        public void SortByCount(bool reverse = false)
+        public void SortByCount(bool reverse = false) => Array.Sort(Items, (x, y) => Compare(x.Count, y.Count, reverse));
+        public void SortByIndex(bool reverse = false) => Array.Sort(Items, (x, y) => Compare(x.Index, y.Index, reverse));
+        public void SortByName(string[] names, bool reverse = false) => Array.Sort(Items, (x, y) => Compare(x.Index, y.Index, names, reverse));
+        public void SortByEmpty() => Array.Sort(Items, (x, y) => (x.Count == 0).CompareTo(y.Count == 0));
+
+        private static int Compare<T>(int i1, int i2, IReadOnlyList<T> n, bool rev) where T : IComparable
         {
-            var list = Items.Where(item => item.Index != 0).OrderBy(item => item.Count == 0);
-            list = reverse
-                ? list.ThenByDescending(item => item.Count)
-                : list.ThenBy(item => item.Count);
-            Items = list.Concat(Items.Where(item => item.Index == 0)).ToArray();
+            if (i1 == 0 || i1 >= n.Count)
+                return 1;
+            if (i2 == 0 || i2 >= n.Count)
+                return -1;
+            return rev
+                ? n[i2].CompareTo(n[i1])
+                : n[i1].CompareTo(n[i2]);
         }
 
-        public void SortByIndex(bool reverse = false)
+        private static int Compare(int i1, int i2, bool rev)
         {
-            var list = Items.Where(item => item.Index != 0).OrderBy(item => item.Count == 0);
-            list = reverse
-                ? list.ThenByDescending(item => item.Index)
-                : list.ThenBy(item => item.Index);
-            Items = list.Concat(Items.Where(item => item.Index == 0)).ToArray();
+            if (i1 == 0)
+                return 1;
+            if (i2 == 0)
+                return -1;
+            return rev
+                ? i2.CompareTo(i1)
+                : i1.CompareTo(i2);
         }
 
-        public void SortByName(string[] names, bool reverse = false)
+        public void Sanitize(int MaxItemID, bool HaX = false)
         {
-            var list = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderBy(item => item.Count == 0);
-            list = reverse
-                ? list.ThenByDescending(item => names[item.Index])
-                : list.ThenBy(item => names[item.Index]);
-            Items = list.Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
-        }
-
-        public void Sanitize(bool HaX, int MaxItemID)
-        {
-            var x = GetValidItems(HaX, MaxItemID);
-            var count = PouchDataSize - x.Count;
-            Items = x.Concat(Enumerable.Range(0, count).Select(_ => new InventoryItem())).ToArray();
-        }
-
-        public IList<InventoryItem> GetValidItems(bool HaX, int MaxItemID)
-        {
-            return Items
-                .Where(item => item.Valid(LegalItems, HaX, MaxItemID))
-                .ToList();
-        }
-
-        public IList<InventoryItem> GetInvalidItems(bool HaX, int MaxItemID)
-        {
-            return Items
-                .Where(item => !item.Valid(LegalItems, HaX, MaxItemID))
-                .ToList();
-        }
-
-        public void MoveEmptySlots()
-        {
-            Items = Items.OrderBy(z => z.Count == 0).ToArray();
+            int ctr = 0;
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i].Valid(LegalItems, MaxItemID, HaX))
+                    Items[ctr++] = Items[i];
+            }
+            for (int i = ctr; i < Items.Length; i++)
+                Items[i] = new InventoryItem();
         }
 
         public void RemoveAll()
