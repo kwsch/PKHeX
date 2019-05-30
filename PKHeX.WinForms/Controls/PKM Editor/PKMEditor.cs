@@ -109,7 +109,7 @@ namespace PKHeX.WinForms.Controls
         private LegalityAnalysis Legality;
         private IReadOnlyList<string> gendersymbols = GameInfo.GenderSymbolUnicode;
         private readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
-        private HashSet<int> AllowedMoves = new HashSet<int>();
+        private readonly LegalMoveSource LegalMoveSource = new LegalMoveSource();
 
         public event EventHandler LegalityChanged;
         public event EventHandler UpdatePreviewSprite;
@@ -290,32 +290,9 @@ namespace PKHeX.WinForms.Controls
                 return;
             // Resort moves
             FieldsLoaded = false;
-            ReloadMoves(Legality.AllSuggestedMovesAndRelearn);
+            LegalMoveSource.ReloadMoves(Legality.AllSuggestedMovesAndRelearn);
             FieldsLoaded = true;
             LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
-        }
-
-        private IReadOnlyList<ComboItem> MoveDataAllowed = new List<ComboItem>();
-
-        private void ReloadMoves(IReadOnlyCollection<int> moves)
-        {
-            // check prior movepool to not needlessly refresh the dataset
-            if (AllowedMoves.Count <= moves.Count && moves.All(AllowedMoves.Contains))
-                return;
-
-            AllowedMoves = new HashSet<int>(moves);
-            MoveDataAllowed = GameInfo.Strings.MoveDataSource.OrderByDescending(m => AllowedMoves.Contains(m.Value)).ToList();
-
-            // defer repop until dropdown is opened; handled by dropdown event
-            for (int i = 0; i < IsMoveBoxOrdered.Count; i++)
-                IsMoveBoxOrdered[i] = false;
-        }
-
-        private void SetMoveDataSource(ComboBox c)
-        {
-            var index = WinFormsUtil.GetIndex(c);
-            c.DataSource = new BindingSource(MoveDataAllowed, null);
-            c.SelectedValue = index;
         }
 
         public void UpdateUnicode(IReadOnlyList<string> symbols)
@@ -428,7 +405,7 @@ namespace PKHeX.WinForms.Controls
 
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            CB_Ability.DataSource = GetAbilityList(pkm);
+            CB_Ability.DataSource = EditPKMUtil.GetAbilityList(pkm);
             CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
             FieldsLoaded = tmp;
         }
@@ -517,11 +494,8 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickGender(object sender, EventArgs e)
         {
-            // Get Gender Threshold
-            int gt = pkm.PersonalInfo.Gender;
-
-            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
-                return;
+            if (!pkm.PersonalInfo.IsDualGender)
+                return; // can't toggle
 
             int newGender = (PKX.GetGenderFromString(Label_Gender.Text) & 1) ^ 1;
             if (pkm.Format <= 2)
@@ -539,11 +513,11 @@ namespace PKHeX.WinForms.Controls
                 TB_PID.Text = pkm.PID.ToString("X8");
             }
             pkm.Gender = newGender;
-            Label_Gender.Text = gendersymbols[pkm.Gender];
-            Label_Gender.ForeColor = Draw.GetGenderColor(pkm.Gender);
+            Label_Gender.Text = gendersymbols[newGender];
+            Label_Gender.ForeColor = Draw.GetGenderColor(newGender);
 
             if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
-                CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
+                CB_Form.SelectedIndex = Math.Min(newGender, CB_Form.Items.Count - 1);
 
             UpdatePreviewSprite(Label_Gender, EventArgs.Empty);
         }
@@ -742,7 +716,7 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var suggestions = GetSuggestionMessage(pkm, level, location, minlvl);
+                var suggestions = EditPKMUtil.GetSuggestionMessage(pkm, level, location, minlvl);
                 if (suggestions.Count <= 1) // no suggestion
                     return false;
 
@@ -772,7 +746,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = Draw.GetGenderColor(pkm.Gender);
-            if (pkm.Species == 201 && !skipForm) // Unown
+            if (pkm.Species == (int)Species.Unown && !skipForm)
                 CB_Form.SelectedIndex = pkm.AltForm;
 
             UpdateIsShiny();
@@ -893,7 +867,7 @@ namespace PKHeX.WinForms.Controls
             SetAbilityList();
 
             // Gender Forms
-            if (WinFormsUtil.GetIndex(CB_Species) == 201 && FieldsLoaded)
+            if (WinFormsUtil.GetIndex(CB_Species) == (int)Species.Unown && FieldsLoaded)
             {
                 if (pkm.Format == 3)
                 {
@@ -1530,30 +1504,42 @@ namespace PKHeX.WinForms.Controls
             if (e.Index < 0)
                 return;
 
-            var i = (ComboItem)((ComboBox)sender).Items[e.Index];
-            var valid = AllowedMoves.Contains(i.Value) && !HaX;
-            var current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+            var item = (ComboItem)((ComboBox)sender).Items[e.Index];
+            var valid = LegalMoveSource.CanLearn(item.Value) && !HaX;
 
-            var rec = new Rectangle(e.Bounds.X - 1, e.Bounds.Y, e.Bounds.Width + 1, e.Bounds.Height + 0); // 1px left
+            var current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
             var brush = Draw.Brushes.GetBackground(valid, current);
+            var textColor = Draw.GetText(current);
+
+            DrawMoveRectangle(e, brush, item.Text, textColor);
+        }
+
+        private static void DrawMoveRectangle(DrawItemEventArgs e, Brush brush, string text, Color textColor)
+        {
+            var rec = new Rectangle(e.Bounds.X - 1, e.Bounds.Y, e.Bounds.Width + 1, e.Bounds.Height + 0); // 1px left
             e.Graphics.FillRectangle(brush, rec);
 
             const TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis | TextFormatFlags.ExpandTabs | TextFormatFlags.SingleLine;
-            TextRenderer.DrawText(e.Graphics, i.Text, e.Font, rec, Draw.GetText(current), flags);
+            TextRenderer.DrawText(e.Graphics, text, e.Font, rec, textColor, flags);
         }
 
         private void MeasureDropDownHeight(object sender, MeasureItemEventArgs e) => e.ItemHeight = CB_RelearnMove1.ItemHeight;
-
-        private readonly IList<bool> IsMoveBoxOrdered = new bool[4];
 
         private void ValidateMoveDropDown(object sender, EventArgs e)
         {
             var s = (ComboBox) sender;
             var index = Array.IndexOf(Moves, s);
-            if (IsMoveBoxOrdered[index])
+            if (LegalMoveSource.IsMoveBoxOrdered[index])
                 return;
             SetMoveDataSource(s);
-            IsMoveBoxOrdered[index] = true;
+            LegalMoveSource.IsMoveBoxOrdered[index] = true;
+        }
+
+        private void SetMoveDataSource(ComboBox c)
+        {
+            var index = WinFormsUtil.GetIndex(c);
+            c.DataSource = new BindingSource(LegalMoveSource.DataSource, null);
+            c.SelectedValue = index;
         }
 
         private void ValidateLocation(object sender, EventArgs e)
@@ -1786,32 +1772,12 @@ namespace PKHeX.WinForms.Controls
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            MoveDataAllowed = GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= sav.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= sav.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            LegalMoveSource.ReloadMoves(GameInfo.Strings.MoveDataSource);
             foreach (var cb in Moves.Concat(Relearn))
             {
                 cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
-        }
-
-        private static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minlvl)
-        {
-            var suggestion = new List<string> { MsgPKMSuggestionStart };
-            if (pkm.Format >= 3)
-            {
-                var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                var locstr = met_list.First(loc => loc.Value == location).Text;
-                suggestion.Add($"{MsgPKMSuggestionMetLocation} {locstr}");
-                suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");
-            }
-            if (pkm.CurrentLevel < minlvl)
-                suggestion.Add($"{MsgPKMSuggestionLevel} {minlvl}");
-            return suggestion;
-        }
-
-        private static IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)
-        {
-            var abils = pkm.PersonalInfo.Abilities;
-            return GameInfo.GetAbilityList(abils, pkm.Format);
         }
     }
 }
