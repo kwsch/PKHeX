@@ -3,7 +3,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Indicates the Availability of the Generation 2 Headbutt Tree
     /// </summary>
-    public enum TreeEncounterAvailable
+    public enum TreeEncounterAvailable : byte
     {
         /// <summary>
         /// Encounter is possible a reachable tree

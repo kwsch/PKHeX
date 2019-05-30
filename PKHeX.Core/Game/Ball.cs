@@ -3,7 +3,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Ball IDs for the corresponding English ball name.
     /// </summary>
-    public enum Ball
+    public enum Ball : byte
     {
         None = 0,
 
