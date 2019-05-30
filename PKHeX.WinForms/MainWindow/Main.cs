@@ -755,6 +755,8 @@ namespace PKHeX.WinForms
 
             var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
+            if (isBlank)
+                EditPKMUtil.TemplateFields(pk, sav);
             bool init = PKME_Tabs.pkm == null;
             PKME_Tabs.CurrentPKM = pk;
             if (init)
@@ -780,8 +782,6 @@ namespace PKHeX.WinForms
                 WinFormsUtil.TranslateInterface(this, CurrentLanguage);
 
             PKME_Tabs.PopulateFields(pk);
-            if (isBlank)
-                PKME_Tabs.TemplateFields(sav);
             if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
                 PKME_Tabs.FlickerInterface();
             foreach (var p in Plugins)

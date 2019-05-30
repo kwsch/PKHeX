@@ -1688,22 +1688,6 @@ namespace PKHeX.WinForms.Controls
             FLP_PKMEditors.Location = new Point((tabMain.TabPages[0].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
         }
 
-        // Loading Setup
-        public void TemplateFields(ITrainerInfo info)
-        {
-            if (CB_GameOrigin.Items.Count > 0)
-                CB_GameOrigin.SelectedIndex = 0;
-            CB_Move1.SelectedValue = 1;
-            SetDetailsOT(info);
-
-            CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
-            CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
-            CB_Species.SelectedValue = RequestSaveFile?.MaxSpeciesID ?? pkm.MaxSpeciesID;
-            CHK_Nicknamed.Checked = false;
-            LastData = null;
-            UpdateSprite();
-        }
-
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
         {
             AllowDrop = true;
