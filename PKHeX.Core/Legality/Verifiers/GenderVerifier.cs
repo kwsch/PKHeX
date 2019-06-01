@@ -78,11 +78,11 @@ namespace PKHeX.Core
         {
             switch (pkm.Species)
             {
-                case 292 when pkm.Format == 4: // Shedinja evolution gender glitch, should match original Gender
+                case (int)Species.Shedinja when pkm.Format == 4: // Shedinja evolution gender glitch, should match original Gender
                     return pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F); // 50M-50F
 
-                case 183 when pkm.Format >= 6:
-                case 184 when pkm.Format >= 6: // evolved from azurill after transferring to keep gender
+                case (int)Species.Marill    when pkm.Format >= 6:
+                case (int)Species.Azumarill when pkm.Format >= 6: // evolved from azurill after transferring to keep gender
                     return pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F;
 
                 default: return false;

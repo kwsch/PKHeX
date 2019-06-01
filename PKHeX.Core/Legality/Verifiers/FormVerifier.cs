@@ -49,13 +49,13 @@ namespace PKHeX.Core
 
             switch (pkm.Species)
             {
-                case 25 when Info.Generation == 6: // Pikachu Cosplay
+                case (int)Species.Pikachu when Info.Generation == 6: // Cosplay
                     bool isStatic = EncounterMatch is EncounterStatic;
                     if (isStatic != (pkm.AltForm != 0))
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
-                case 25 when Info.Generation == 7: // Pikachu Cap
+                case (int)Species.Pikachu when Info.Generation == 7: // Cap
                     bool IsValidPikachuCap()
                     {
                         switch (EncounterMatch)
@@ -73,17 +73,17 @@ namespace PKHeX.Core
                         return GetInvalid(msg);
                     }
                     break;
-                case 201 when Info.Generation == 2 && pkm.AltForm >= 26:
+                case (int)Species.Unown when Info.Generation == 2 && pkm.AltForm >= 26:
                     return GetInvalid(string.Format(LFormInvalidRange, "Z", pkm.AltForm == 26 ? "!" : "?"));
-                case 487 when pkm.AltForm == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
+                case (int)Species.Giratina when pkm.AltForm == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
                     return GetInvalid(LFormItemInvalid);
 
-                case 493: // Arceus
+                case (int)Species.Arceus:
                     {
                         int form = GetArceusFormFromHeldItem(pkm.HeldItem, pkm.Format);
                         return form != pkm.AltForm ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
-                case 647: // Keldeo
+                case (int)Species.Keldeo:
                 {
                     if (pkm.Gen5) // can mismatch in gen5 via BW tutor and transfer up
                         break;
@@ -93,26 +93,26 @@ namespace PKHeX.Core
                         Info.Moves[noSword ? 0 : index] = new CheckMoveResult(Info.Moves[noSword ? 0 : index], Severity.Invalid, LMoveKeldeoMismatch, CheckIdentifier.Move);
                     break;
                 }
-                case 649: // Genesect
+                case (int)Species.Genesect:
                     {
                         int form = GetGenesectFormFromHeldItem(pkm.HeldItem);
                         return form != pkm.AltForm ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
-                case 658: // Greninja
+                case (int)Species.Greninja:
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                         return GetInvalid(LFormBattle);
                     if (pkm.AltForm != 0 && !(EncounterMatch is MysteryGift)) // Formes are not breedable, MysteryGift already checked
                         return GetInvalid(string.Format(LFormInvalidRange, 0, pkm.AltForm));
                     break;
 
-                case 664: // Scatterbug
-                case 665: // Spewpa
+                case (int)Species.Scatterbug:
+                case (int)Species.Spewpa:
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                         return GetInvalid(LFormVivillonEventPre);
                     if (!Legal.CheckVivillonPattern(pkm.AltForm, pkm.Country, pkm.Region))
                         data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
                     break;
-                case 666: // Vivillon
+                case (int)Species.Vivillon:
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         if (!(EncounterMatch is MysteryGift))
@@ -123,43 +123,43 @@ namespace PKHeX.Core
                         data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
                     break;
 
-                case 670 when pkm.AltForm == 5: // Floette Eternal Flower -- Never Released
+                case (int)Species.Floette when pkm.AltForm == 5: // Floette Eternal Flower -- Never Released
                     if (!(EncounterMatch is MysteryGift))
                         return GetInvalid(LFormEternalInvalid);
                     return GetValid(LFormEternal);
-                case 678 when pkm.AltForm != pkm.Gender: // Meowstic
+                case (int)Species.Meowstic when pkm.AltForm != pkm.Gender:
                     return GetInvalid(LGenderInvalidNone);
 
-                case 773: // Silvally
+                case (int)Species.Silvally:
                     {
                         int form = GetSilvallyFormFromHeldItem(pkm.HeldItem);
                         return form != pkm.AltForm ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
 
-                case 744 when Info.EncounterMatch.EggEncounter && pkm.AltForm == 1 && pkm.SM:
-                case 745 when Info.EncounterMatch.EggEncounter && pkm.AltForm == 2 && pkm.SM:
+                case (int)Species.Lillipup when Info.EncounterMatch.EggEncounter && pkm.AltForm == 1 && pkm.SM:
+                case (int)Species.Lycanroc when Info.EncounterMatch.EggEncounter && pkm.AltForm == 2 && pkm.SM:
                     return GetInvalid(LFormInvalidGame);
 
                 // Impossible Egg forms
-                case 479 when pkm.IsEgg && pkm.AltForm != 0: // Rotom
-                case 676 when pkm.IsEgg && pkm.AltForm != 0: // Furfrou
+                case (int)Species.Rotom when pkm.IsEgg && pkm.AltForm != 0:
+                case (int)Species.Furfrou when pkm.IsEgg && pkm.AltForm != 0:
                     return GetInvalid(LEggSpecies);
 
                 // Party Only Forms
-                case 492: // Shaymin
-                case 676: // Furfrou
-                case 720: // Hoopa
+                case (int)Species.Shaymin:
+                case (int)Species.Furfrou:
+                case (int)Species.Hoopa:
                     if (pkm.AltForm != 0 && pkm.Box > -1 && pkm.Format <= 6) // has form but stored in box
                         return GetInvalid(LFormParty);
                     break;
 
                 // Battle only Forms with other legal forms allowed
-                case 718 when pkm.AltForm >= 4: // Zygarde Complete
-                case 774 when pkm.AltForm < 7: // Minior Shield
-                case 800 when pkm.AltForm == 3: // Ultra Necrozma
+                case (int)Species.Zygarde when pkm.AltForm >= 4: // Zygarde Complete
+                case (int)Species.Minior when pkm.AltForm < 7: // Minior Shield
+                case (int)Species.Necrozma when pkm.AltForm == 3: // Ultra Necrozma
                     return GetInvalid(LFormBattle);
-                case 800 when pkm.AltForm < 3: // Necrozma Fused forms & default
-                case 778 when pkm.AltForm == 2: // Totem disguise Mimikyu
+                case (int)Species.Necrozma when pkm.AltForm < 3: // Necrozma Fused forms & default
+                case (int)Species.Mimikyu when pkm.AltForm == 2: // Totem disguise Mimikyu
                     return VALID;
             }
 
@@ -218,18 +218,18 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             switch (pkm.Species)
             {
-                case 670 when !SafariFloette.Contains(pkm.AltForm): // Floette
-                case 671 when !SafariFloette.Contains(pkm.AltForm): // Florges
+                case (int)Species.Floette when !SafariFloette.Contains(pkm.AltForm): // Floette
+                case (int)Species.Florges when !SafariFloette.Contains(pkm.AltForm): // Florges
                     data.AddLine(GetInvalid(LFormSafariFlorgesColor));
                     break;
                 case 710 when pkm.AltForm != 0: // Pumpkaboo
-                case 711 when pkm.AltForm != 0: // Goregeist Average
+                case (int)Species.Gourgeist when pkm.AltForm != 0: // Average
                     data.AddLine(GetInvalid(LFormSafariPumpkabooAverage));
                     break;
-                case 423 when pkm.AltForm != 0: // Gastrodon West
+                case (int)Species.Gastrodon when pkm.AltForm != 0: // West
                     data.AddLine(GetInvalid(LFormSafariFlorgesColor));
                     break;
-                case 586 when pkm.AltForm != 0: // Sawsbuck
+                case (int)Species.Sawsbuck when pkm.AltForm != 0: // Sawsbuck
                     data.AddLine(GetInvalid(LFormSafariSawsbuckSpring));
                     break;
             }

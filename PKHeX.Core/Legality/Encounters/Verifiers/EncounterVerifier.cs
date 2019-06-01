@@ -296,17 +296,17 @@ namespace PKHeX.Core
                 case 3:
                     if (s is EncounterStaticShadow w && w.EReader && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
-                    if (pkm.Species == 151 && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
+                    if (pkm.Species == (int)Species.Mew && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
                         return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
                     break;
                 case 4:
                     switch (pkm.Species)
                     {
-                        case 491 when s.Location == 079 && !pkm.Pt: // DP Darkrai
+                        case (int)Species.Darkrai when s.Location == 079 && !pkm.Pt: // DP Darkrai
                             return new CheckResult(Severity.Invalid, LEncUnreleasedPtDarkrai, CheckIdentifier.Encounter);
-                        case 492 when s.Location == 063 && !pkm.Pt:// DP Shaymin
+                        case (int)Species.Shaymin when s.Location == 063 && !pkm.Pt:// DP Shaymin
                             return new CheckResult(Severity.Invalid, LEncUnreleasedPtShaymin, CheckIdentifier.Encounter);
-                        case 493 when s.Location == 086: // Azure Flute Arceus
+                        case (int)Species.Arceus when s.Location == 086: // Azure Flute Arceus
                             return new CheckResult(Severity.Invalid, LEncUnreleasedHoOArceus, CheckIdentifier.Encounter);
                     }
                     if (s.Location == 193 && s is EncounterStaticTyped t && t.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45

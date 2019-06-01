@@ -32,10 +32,10 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             switch (EncounterMatch.Species)
             {
-                case 133:
+                case (int)Species.Eevee:
                     valid = LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID); break;
-                case 196:
-                case 197:
+                case (int)Species.Espeon:
+                case (int)Species.Umbreon:
                     valid = pidiv.Type == PIDType.CXD_ColoStarter; break;
                 default:
                     return;

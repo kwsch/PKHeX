@@ -729,10 +729,10 @@ namespace PKHeX.Core
 
             switch (species)
             {
-                case 201 when !GetSeen(species): // Unown
+                case (int)Species.Unown when !GetSeen(species): // Unown
                     DexPIDUnown = pkm.PID;
                     break;
-                case 327 when !GetSeen(species): // Spinda
+                case (int)Species.Spinda when !GetSeen(species): // Spinda
                     DexPIDSpinda = pkm.PID;
                     break;
             }

@@ -231,12 +231,12 @@ namespace PKHeX.Core
             int lang = pkm.Language;
             switch (t.Species)
             {
-                case 25: // HGSS Pikachu
+                case (int)Species.Pikachu: // HGSS Pikachu
                     lang = DetectTradeLanguageG4SurgePikachu(pkm, t, lang);
                     // flag korean on gen4 saves since the pkm.Language is German
                     FlagKoreanIncompatibleSameGenTrade(data, pkm, lang);
                     break;
-                case 129: // DPPt Magikarp
+                case (int)Species.Magikarp: // DPPt Magikarp
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, t, lang);
                     // flag korean on gen4 saves since the pkm.Language is German
                     FlagKoreanIncompatibleSameGenTrade(data, pkm, lang);
@@ -291,7 +291,7 @@ namespace PKHeX.Core
 
             // All have German, regardless of origin version.
             var lang = DetectTradeLanguage(pkm.OT_Name, t, currentLanguageID);
-            if (lang == 2) // possible collision with FR/ES/DE. Check nickname
+            if (lang == (int)LanguageID.English) // possible collision with FR/ES/DE. Check nickname
                 return pkm.Nickname == t.Nicknames[(int)LanguageID.French] ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
 
             return lang;

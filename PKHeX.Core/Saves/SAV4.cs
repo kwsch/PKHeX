@@ -1012,15 +1012,15 @@ namespace PKHeX.Core
             int FormOffset1 = PokeDex + 4 + (4 * brSize) + 4;
             switch (species)
             {
-                case 422: // Shellos
+                case (int)Species.Shellos: // Shellos
                     return GetDexFormValues(Data[FormOffset1 + 0], 1, 2);
-                case 423: // Gastrodon
+                case (int)Species.Gastrodon: // Gastrodon
                     return GetDexFormValues(Data[FormOffset1 + 1], 1, 2);
-                case 412: // Burmy
+                case (int)Species.Burmy: // Burmy
                     return GetDexFormValues(Data[FormOffset1 + 2], 2, 3);
-                case 413: // Wormadam
+                case (int)Species.Wormadam: // Wormadam
                     return GetDexFormValues(Data[FormOffset1 + 3], 2, 3);
-                case 201: // Unown
+                case (int)Species.Unown: // Unown
                     return GetData(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
             }
             if (DP)
@@ -1030,13 +1030,13 @@ namespace PKHeX.Core
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
             switch (species)
             {
-                case 479: // Rotom
+                case (int)Species.Rotom: // Rotom
                     return GetDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6);
-                case 492: // Shaymin
+                case (int)Species.Shaymin: // Shaymin
                     return GetDexFormValues(Data[FormOffset2 + 4], 1, 2);
-                case 487: // Giratina
+                case (int)Species.Giratina: // Giratina
                     return GetDexFormValues(Data[FormOffset2 + 5], 1, 2);
-                case 172 when HGSS: // Pichu
+                case (int)Species.Pichu when HGSS: // Pichu
                     return GetDexFormValues(Data[FormOffset2 + 6], 2, 3);
             }
 
@@ -1048,7 +1048,7 @@ namespace PKHeX.Core
             const int brSize = 0x40;
             switch (spec)
             {
-                case 386: // Deoxys
+                case (int)Species.Deoxys: // Deoxys
                     uint newval = SetDexFormValues(forms, 4, 4);
                     Data[PokeDex + 0x4 + (1 * brSize) - 1] = (byte) (newval & 0xFF);
                     Data[PokeDex + 0x4 + (2 * brSize) - 1] = (byte) ((newval >> 8) & 0xFF);
@@ -1058,19 +1058,19 @@ namespace PKHeX.Core
             int FormOffset1 = PokeDex + 4 + (4 * brSize) + 4;
             switch (spec)
             {
-                case 422: // Shellos
+                case (int)Species.Shellos: // Shellos
                     Data[FormOffset1 + 0] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 423: // Gastrodon
+                case (int)Species.Gastrodon: // Gastrodon
                     Data[FormOffset1 + 1] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 412: // Burmy
+                case (int)Species.Burmy: // Burmy
                     Data[FormOffset1 + 2] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
-                case 413: // Wormadam
+                case (int)Species.Wormadam: // Wormadam
                     Data[FormOffset1 + 3] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
-                case 201: // Unown
+                case (int)Species.Unown: // Unown
                     int ofs = FormOffset1 + 4;
                     int len = forms.Length;
                     Array.Resize(ref forms, 0x1C);
@@ -1087,16 +1087,16 @@ namespace PKHeX.Core
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
             switch (spec)
             {
-                case 479: // Rotom
+                case (int)Species.Rotom: // Rotom
                     BitConverter.GetBytes(SetDexFormValues(forms, 3, 6)).CopyTo(Data, FormOffset2);
                     return;
-                case 492: // Shaymin
+                case (int)Species.Shaymin: // Shaymin
                     Data[FormOffset2 + 4] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 487: // Giratina
+                case (int)Species.Giratina: // Giratina
                     Data[FormOffset2 + 5] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 172 when HGSS: // Pichu
+                case (int)Species.Pichu when HGSS: // Pichu
                     Data[FormOffset2 + 6] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
             }

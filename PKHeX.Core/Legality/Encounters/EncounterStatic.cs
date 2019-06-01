@@ -187,8 +187,8 @@ namespace PKHeX.Core
                 return;
             switch (Species)
             {
-                case 491 when Location == 079: // DP Darkrai
-                case 492 when Location == 063: // DP Shaymin
+                case (int)Core.Species.Darkrai when Location == 079: // DP Darkrai
+                case (int)Core.Species.Shaymin when Location == 063: // DP Shaymin
                     version = GameVersion.Pt;
                     return;
             }
@@ -206,16 +206,16 @@ namespace PKHeX.Core
         {
             switch (pk.Format)
             {
-                case 1 when Species == 151 && Version == GameVersion.VCEvents: // VC Mew
+                case 1 when Species == (int)Core.Species.Mew && Version == GameVersion.VCEvents: // VC Mew
                     pk.TID = 22796;
                     pk.OT_Name = Legal.GetG1OT_GFMew(lang);
                     return lang;
                 case 1 when Version == GameVersion.EventsGBGen1:
                 case 2 when Version == GameVersion.EventsGBGen2:
                 case 3 when this is EncounterStaticShadow s && s.EReader:
-                case 3 when Species == 151:
+                case 3 when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";
-                    return 1; // Old Sea Map was only distributed to Japanese games.
+                    return (int)LanguageID.Japanese; // Old Sea Map was only distributed to Japanese games.
 
                 default:
                     return lang;
@@ -230,8 +230,8 @@ namespace PKHeX.Core
                     return PIDType.Method_1_Roamer;
                 case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
                     return PIDType.ChainShiny;
-                case 4 when Species == 172: // Spiky Eared Pichu
-                case 4 when Location == 233: // Pokéwalker
+                case 4 when Species == (int)Core.Species.Pichu: // Spiky Eared Pichu
+                case 4 when Location == Locations.PokeWalker4: // Pokéwalker
                     return PIDType.Pokewalker;
                 case 5 when Shiny == Shiny.Always:
                     return PIDType.G5MGShiny;

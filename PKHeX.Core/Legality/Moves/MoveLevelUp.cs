@@ -227,14 +227,15 @@ namespace PKHeX.Core
 
         private static Learnset GetDeoxysLearn3(int form, GameVersion ver = Any)
         {
+            const int index = (int)Species.Deoxys;
             if (ver == Any)
             {
                 switch (form)
                 {
-                    case 0: return LevelUpRS[386]; // Normal
-                    case 1: return LevelUpFR[386]; // Attack
-                    case 2: return LevelUpLG[386]; // Defense
-                    case 3: return LevelUpE[386]; // Speed
+                    case 0: return LevelUpRS[index]; // Normal
+                    case 1: return LevelUpFR[index]; // Attack
+                    case 2: return LevelUpLG[index]; // Defense
+                    case 3: return LevelUpE[index]; // Speed
                     default: return null;
                 }
             }
@@ -242,7 +243,7 @@ namespace PKHeX.Core
             var gen = ver.GetGeneration();
             if (gen != 3)
                 return GetDeoxysLearn3(form);
-            return GameData.GetLearnsets(ver)[386];
+            return GameData.GetLearnsets(ver)[index];
         }
 
         public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
