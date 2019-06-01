@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public enum MemoryArgType
+    public enum MemoryArgType : byte
     {
         None,
         GeneralLocation,

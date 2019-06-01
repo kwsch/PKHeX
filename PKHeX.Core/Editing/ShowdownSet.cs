@@ -613,29 +613,29 @@ namespace PKHeX.Core
 
             switch (spec)
             {
-                case 550 when form == "Blue":
+                case (int)Core.Species.Basculin when form == "Blue":
                     return "Blue-Striped";
-                case 666 when form == "Poké Ball":
-                    return "Pokeball"; // Vivillon
-                case 718: // Zygarde
+                case (int)Core.Species.Vivillon when form == "Poké Ball":
+                    return "Pokeball";
+                case (int)Core.Species.Zygarde:
                     form = form.Replace("-C", string.Empty);
                     return form.Replace("50%", string.Empty);
-                case 774: // Minior
+                case (int)Core.Species.Minior:
                     if (form.StartsWith("M-"))
                         return "Meteor";
                     return form.Replace("C-", string.Empty);
-                case 800 when form == "Dusk": // Necrozma
+                case (int)Core.Species.Necrozma when form == "Dusk":
                     return $"{form}-Mane";
-                case 800 when form == "Dawn": // Necrozma
+                case (int)Core.Species.Necrozma when form == "Dawn":
                     return $"{form}-Wings";
 
-                case 676: // Furfrou
-                case 658: // Greninja
-                case 744: // Rockruff
+                case (int)Core.Species.Furfrou:
+                case (int)Core.Species.Greninja:
+                case (int)Core.Species.Rockruff:
                     return string.Empty;
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
-                        return Legal.Totem_Alolan.Contains(spec) && spec != 778 ? "Alola-Totem" : "Totem";
+                        return Legal.Totem_Alolan.Contains(spec) && spec != (int)Core.Species.Mimikyu ? "Alola-Totem" : "Totem";
                     return form.Replace(' ', '-');
             }
         }
@@ -647,32 +647,32 @@ namespace PKHeX.Core
 
             switch (spec)
             {
-                case 550 when form == "Blue-Striped": // Basculin
+                case (int)Core.Species.Basculin when form == "Blue-Striped":
                     return "Blue";
-                case 658 when ability == 210: // Greninja
+                case (int)Core.Species.Greninja when ability == 210:
                     return "Ash"; // Battle Bond
-                case 666 when form == "Pokeball": // Vivillon
+                case (int)Core.Species.Vivillon when form == "Pokeball":
                     return "Poké Ball";
 
                 // Zygarde
-                case 718 when form.Length == 0:
+                case (int)Core.Species.Zygarde when form.Length == 0:
                     return ability == 211 ? "50%-C" : "50%";
-                case 718 when form == "Complete":
+                case (int)Core.Species.Zygarde when form == "Complete":
                     return form;
-                case 718 when ability == 211:
+                case (int)Core.Species.Zygarde when ability == 211:
                     return "-C"; // Power Construct
 
-                case 744 when ability == 020: // Rockruff-1
+                case (int)Core.Species.Rockruff when ability == 020: // Rockruff-1
                     return "Dusk";
 
                 // Minior
-                case 774 when form.Length != 0 && form != "Meteor":
+                case (int)Core.Species.Minior when form.Length != 0 && form != "Meteor":
                     return $"C-{form}";
 
                 // Necrozma
-                case 800 when form == "Dusk-Mane":
+                case (int)Core.Species.Necrozma when form == "Dusk-Mane":
                     return "Dusk";
-                case 800 when form == "Dawn-Wings":
+                case (int)Core.Species.Necrozma when form == "Dawn-Wings":
                     return "Dawn";
 
                 default:

@@ -1052,14 +1052,16 @@ namespace PKHeX.Core
         public void TransferPropertiesWithReflection(PKM Destination)
         {
             // Only transfer declared properties not defined in PKM.cs but in the actual type
-            var SourceProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(GetType());
-            var DestinationProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Destination.GetType());
+            var src_t = GetType();
+            var dst_t = Destination.GetType();
+            var SourceProperties = ReflectUtil.GetAllPropertyInfoPublic(src_t).Select(z => z.Name);
+            var DestinationProperties = ReflectUtil.GetAllPropertyInfoPublic(dst_t).Where(z => z.SetMethod != null).Select(z => z.Name);
 
             // Transfer properties in the order they are defined in the destination PKM format for best conversion
             var shared = DestinationProperties.Intersect(SourceProperties);
             foreach (string property in shared)
             {
-                BatchEditing.TryGetHasProperty(Destination, property, out var src);
+                BatchEditing.TryGetHasProperty(this, property, out var src);
                 var prop = src.GetValue(this);
                 if (prop != null && !(prop is byte[]) && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
                     ReflectUtil.SetValue(pi, Destination, prop);

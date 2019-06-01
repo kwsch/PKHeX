@@ -3,7 +3,7 @@
     /// <summary>
     /// Elemental type a move has; additionally, types a <see cref="PKM"/> can have.
     /// </summary>
-    public enum MoveType
+    public enum MoveType : sbyte
     {
         Any = -1,
         Normal,

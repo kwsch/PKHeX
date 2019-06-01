@@ -85,13 +85,13 @@ namespace PKHeX.Core
             // Crown met location must be present if transferred via lock capsule
             switch (pkm.Species)
             {
-                case 251: // Celebi
+                case (int)Species.Celebi:
                     if (loc != Locations.Transfer4_CelebiUnused && loc != Locations.Transfer4_CelebiUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
-                case 243: // Raikou
-                case 244: // Entei
-                case 245: // Suicune
+                case (int)Species.Raikou:
+                case (int)Species.Entei:
+                case (int)Species.Suicune:
                     if (loc != Locations.Transfer4_CrownUnused && loc != Locations.Transfer4_CrownUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
@@ -133,7 +133,7 @@ namespace PKHeX.Core
                 if (pkm.PersonalInfo.Gender == 31 && pkm.IsShiny) // impossible gender-shiny
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
-            else if (pkm.Species == 201) // unown
+            else if (pkm.Species == (int)Species.Unown)
             {
                 if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);

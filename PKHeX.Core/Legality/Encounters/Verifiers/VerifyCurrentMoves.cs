@@ -523,7 +523,7 @@ namespace PKHeX.Core
             {
                 // Vaporeon in Yellow learns Mist and Haze at level 42, Mist can only be learned if it leveled up in the daycare
                 // Vaporeon in Red/Blue learns Acid Armor at level 42 and level 47 in Yellow
-                case 134 when pkm.CurrentLevel < 47 && moves.Contains(151):
+                case (int)Species.Vaporeon when pkm.CurrentLevel < 47 && moves.Contains(151):
                 {
                     var incompatible = new List<int>(3);
                     if (moves.Contains(54))
@@ -537,7 +537,7 @@ namespace PKHeX.Core
 
                 // Flareon in Yellow learns Smog at level 42
                 // Flareon in Red Blue learns Leer at level 42 and level 47 in Yellow
-                case 136 when pkm.CurrentLevel < 47 && moves.Contains(43) && moves.Contains(123):
+                case (int)Species.Flareon when pkm.CurrentLevel < 47 && moves.Contains(43) && moves.Contains(123):
                     return new[] {43, 123};
 
                 default: return Array.Empty<int>();
@@ -632,26 +632,26 @@ namespace PKHeX.Core
             // Add the evolution moves to valid moves in case some of these moves could not be learned after evolving
             switch (pkm.Species)
             {
-                case 122: // Mr. Mime (Mime Jr with Mimic)
-                case 185: // Sudowoodo (Bonsly with Mimic)
+                case (int)Species.MrMime: // Mr. Mime (Mime Jr with Mimic)
+                case (int)Species.Sudowoodo: // Sudowoodo (Bonsly with Mimic)
                     ValidMoves.Add(102);
                     break;
-                case 424: // Ambipom (Aipom with Double Hit)
+                case (int)Species.Ambipom: // Ambipom (Aipom with Double Hit)
                     ValidMoves.Add(458);
                     break;
-                case 463: // Lickilicky (Lickitung with Rollout)
+                case (int)Species.Lickilicky: // Lickilicky (Lickitung with Rollout)
                     ValidMoves.Add(205);
                     break;
-                case 465: // Tangrowth (Tangela with Ancient Power)
-                case 469: // Yanmega (Yamma with Ancient Power)
-                case 473: // Mamoswine (Piloswine with Ancient Power)
+                case (int)Species.Tangrowth: // Tangrowth (Tangela with Ancient Power)
+                case (int)Species.Yanmega: // Yanmega (Yanma with Ancient Power)
+                case (int)Species.Mamoswine: // Mamoswine (Piloswine with Ancient Power)
                     ValidMoves.Add(246);
                     break;
-                case 700: // Sylveon (Eevee with Fairy Move)
+                case (int)Species.Sylveon: // Sylveon (Eevee with Fairy Move)
                     // Add every fairy moves without cheking if eevee learn it or not, pokemon moves are determined legal before this function
                     ValidMoves.AddRange(Legal.FairyMoves);
                     break;
-                case 763: // Tsareena (Steenee with Stomp)
+                case (int)Species.Tsareena: // Tsareena (Steenee with Stomp)
                     ValidMoves.Add(023);
                     break;
             }

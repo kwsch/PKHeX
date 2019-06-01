@@ -33,12 +33,14 @@ namespace PKHeX.Core
         /// Clears the <see cref="PKM.Nickname"/> to the default value.
         /// </summary>
         /// <param name="pk"></param>
-        public static void ClearNickname(this PKM pk)
+        public static string ClearNickname(this PKM pk)
         {
             pk.IsNicknamed = false;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+            string nick = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+            pk.Nickname = nick;
             if (pk is _K12 pk12)
                 pk12.SetNotNicknamed();
+            return nick;
         }
 
         /// <summary>
@@ -158,10 +160,11 @@ namespace PKHeX.Core
         /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
         public static void SetNature(this PKM pk, int nature)
         {
+            var value = Math.Min((int)Nature.Quirky, Math.Max((int)Nature.Hardy, nature));
             if (pk.Format <= 4)
-                pk.SetPIDNature(Math.Max(0, nature));
+                pk.SetPIDNature(value);
             else
-                pk.Nature = Math.Max(0, nature);
+                pk.Nature = value;
         }
 
         /// <summary>

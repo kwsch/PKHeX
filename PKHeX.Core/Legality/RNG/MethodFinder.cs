@@ -874,10 +874,10 @@ namespace PKHeX.Core
 
         private static bool IsCuteCharm4Valid(IEncounterable encounter, PKM pkm)
         {
-            if (pkm.Species == 183 || pkm.Species == 184)
+            if (pkm.Species == (int)Species.Marill || pkm.Species == (int)Species.Azumarill)
             {
                 return !IsCuteCharmAzurillMale(pkm.PID) // recognized as not Azurill
-                      || encounter.Species == 298; // encounter must be male Azurill
+                      || encounter.Species == (int)Species.Azurill; // encounter must be male Azurill
             }
 
             return true;
@@ -889,10 +889,10 @@ namespace PKHeX.Core
         {
             // There are some edge cases when the gender ratio changes across evolutions.
             species = pk.Species;
-            if (species == 292)
+            if (species == (int)Species.Ninjask)
             {
-                species = 290; // Nincada evo chain travels from M/F -> Genderless Shedinja
-                genderValue = PKX.GetGenderFromPID(290, pid);
+                species = (int)Species.Nincada; // Nincada evo chain travels from M/F -> Genderless Shedinja
+                genderValue = PKX.GetGenderFromPID(species, pid);
                 return;
             }
 
@@ -902,18 +902,18 @@ namespace PKHeX.Core
                 // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
                 // We can assume the re-mapped species's [gender ratio] is what was encountered.
 
-                case 413: species = 412; break; // Wormadam -> Burmy
-                case 414: species = 412; break; // Mothim -> Burmy
-                case 416: species = 415; break; // Vespiquen -> Combee
-                case 475: species = 281; break; // Gallade -> Kirlia/Ralts
-                case 478: species = 361; break; // Froslass -> Snorunt
+                case (int)Species.Wormadam: species = (int)Species.Burmy; break; // Wormadam -> Burmy
+                case (int)Species.Mothim: species = (int)Species.Burmy; break; // Mothim -> Burmy
+                case (int)Species.Vespiquen: species = (int)Species.Combee; break; // Vespiquen -> Combee
+                case (int)Species.Gallade: species = (int)Species.Kirlia; break; // Gallade -> Kirlia/Ralts
+                case (int)Species.Froslass: species = (int)Species.Snorunt; break; // Froslass -> Snorunt
 
                 // Changed gender ratio (25% M -> 50% M) needs special treatment.
                 // Double check the encounter species with IsCuteCharm4Valid afterwards.
-                case 183: case 184: // Azurill & Marill/Azumarill collision
+                case (int)Species.Marill: case (int)Species.Azumarill: // Azurill & Marill/Azumarill collision
                     if (IsCuteCharmAzurillMale(pid))
                     {
-                        species = 298;
+                        species = (int)Species.Azurill;
                         genderValue = 0;
                         return;
                     }

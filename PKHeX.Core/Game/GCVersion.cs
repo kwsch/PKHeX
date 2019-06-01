@@ -3,7 +3,7 @@
     /// <summary>
     /// <see cref="GameVersion"/> analogues used by Colosseum/XD instead of the main-series values.
     /// </summary>
-    public enum GCVersion
+    public enum GCVersion : byte
     {
         None = 0,
         FR = 1,

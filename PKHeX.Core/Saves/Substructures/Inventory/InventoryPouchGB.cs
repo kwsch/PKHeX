@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -78,17 +77,17 @@ namespace PKHeX.Core
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
-            SlideItemsDown();
+            ClearCount0();
 
             switch (Type)
             {
                 case InventoryType.TMHMs:
                     foreach (InventoryItem t in Items)
                     {
-                        if (LegalItems.All(z => z != t.Index))
+                        int index = Array.FindIndex(LegalItems, it => t.Index == it);
+                        if (index < 0) // enforce correct pouch
                             continue;
-                        int index = Offset + Array.FindIndex(LegalItems, it => t.Index == it);
-                        Data[index] = (byte)t.Count;
+                        Data[Offset + index] = (byte)t.Count;
                     }
                     break;
                 case InventoryType.KeyItems:
@@ -109,19 +108,6 @@ namespace PKHeX.Core
                     Data[Offset + 1 + (2 * Count)] = 0xFF;
                     break;
             }
-        }
-
-        private void SlideItemsDown()
-        {
-            int ofs = 0;
-            for (int i = 0; i < Count; i++)
-            {
-                while (Items[ofs].Count == 0)
-                    ofs++;
-                Items[i] = Items[ofs++];
-            }
-            while (ofs < Items.Length)
-                Items[ofs++] = new InventoryItem();
         }
     }
 }
