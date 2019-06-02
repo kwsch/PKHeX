@@ -90,9 +90,9 @@ namespace PKHeX.WinForms
         {
             var alolatime_list = new ComboItem[24];
             for (int i = 1; i < alolatime_list.Length; i++)
-                alolatime_list[i] = new ComboItem {Text = $"+{i:00} Hours", Value = i * 60 * 60};
-            alolatime_list[0] = new ComboItem {Text = "Sun Time", Value = 24 * 60 * 60};
-            alolatime_list[12] = new ComboItem {Text = "Moon Time", Value = 12 * 60 * 60};
+                alolatime_list[i] = new ComboItem($"+{i:00} Hours", i * 60 * 60);
+            alolatime_list[0] = new ComboItem("Sun Time", 24 * 60 * 60);
+            alolatime_list[12] = new ComboItem("Moon Time", 12 * 60 * 60);
             return alolatime_list;
         }
 

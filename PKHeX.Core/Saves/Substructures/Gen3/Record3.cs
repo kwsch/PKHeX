@@ -81,7 +81,11 @@ namespace PKHeX.Core
 
             var result = new ComboItem[values.Length];
             for (int i = 0; i < result.Length; i++)
-                result[i] = new ComboItem {Text = Util.ToTitleCase(names[i].Replace('_', ' ')), Value = values[i]};
+            {
+                var replaced = names[i].Replace('_', ' ');
+                var titled = Util.ToTitleCase(replaced);
+                result[i] = new ComboItem(titled, values[i]);
+            }
             return result;
         }
     }

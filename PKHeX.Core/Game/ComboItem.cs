@@ -1,14 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Key Value pair for a displayed <see cref="string"/> and underlying <see cref="int"/> value.
+    /// Key Value pair for a displayed <see cref="T:System.String" /> and underlying <see cref="T:System.Int32" /> value.
     /// </summary>
-    public struct ComboItem
+    public readonly struct ComboItem : IEquatable<int>
     {
-        public string Text { get; set; }
-        public int Value { get; set; }
+        public ComboItem(string text, int value)
+        {
+            Text = text;
+            Value = value;
+        }
+
+        public string Text { get; }
+        public int Value { get; }
+
+        public bool Equals(ComboItem other) => Value == other.Value && string.Equals(Text, other.Text);
+        public bool Equals(int other) => Value == other;
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            return obj is ComboItem other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Text?.GetHashCode() ?? 0) * 397) ^ Value;
+            }
+        }
     }
 
     public static class ComboItemExtensions

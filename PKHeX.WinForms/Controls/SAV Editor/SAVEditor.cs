@@ -1049,7 +1049,7 @@ namespace PKHeX.WinForms.Controls
             if (sav is SAV4BR br)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
-                var list = br.SaveNames.Select((z, i) => new ComboItem {Text = z, Value = i}).ToList();
+                var list = br.SaveNames.Select((z, i) => new ComboItem(z, i)).ToList();
                 CB_SaveSlot.InitializeBinding();
                 CB_SaveSlot.DataSource = new BindingSource(list, null);
                 CB_SaveSlot.SelectedValue = br.CurrentSlot;

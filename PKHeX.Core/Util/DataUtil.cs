@@ -257,7 +257,7 @@ namespace PKHeX.Core
 
                 var val = line.Substring(0, zeroth);
                 var text = GetNthEntry(line, index, zeroth);
-                var item = new ComboItem {Text = text, Value = Convert.ToInt32(val)};
+                var item = new ComboItem(text, Convert.ToInt32(val));
                 arr.Add(item);
             }
             return arr;
@@ -288,7 +288,7 @@ namespace PKHeX.Core
         {
             var list = new List<ComboItem>(inStrings.Count);
             for (int i = 0; i < inStrings.Count; i++)
-                list.Add(new ComboItem {Text = inStrings[i], Value = i});
+                list.Add(new ComboItem(inStrings[i], i));
             list.Sort(Comparer);
             return list;
         }
@@ -311,7 +311,7 @@ namespace PKHeX.Core
 
         public static void AddCBWithOffset(List<ComboItem> list, IReadOnlyList<string> inStrings, int offset, int index)
         {
-            var item = new ComboItem {Text = inStrings[index - offset], Value = index};
+            var item = new ComboItem(inStrings[index - offset], index);
             list.Add(item);
         }
 
@@ -321,7 +321,7 @@ namespace PKHeX.Core
             for (int i = 0; i < allowed.Length; i++)
             {
                 int index = allowed[i];
-                var item = new ComboItem {Text = inStrings[index - offset], Value = index};
+                var item = new ComboItem(inStrings[index - offset], index);
                 cbList.Add(item);
             }
             cbList.Sort(beginCount, allowed.Length, Comparer);
@@ -333,7 +333,7 @@ namespace PKHeX.Core
             for (int i = 0; i < allowed.Length; i++)
             {
                 int index = allowed[i];
-                var item = new ComboItem {Text = inStrings[index], Value = index};
+                var item = new ComboItem(inStrings[index], index);
                 cbList.Add(item);
             }
             cbList.Sort(beginCount, allowed.Length, Comparer);
@@ -344,9 +344,9 @@ namespace PKHeX.Core
             const int forcedTop = 3; // 3 Balls are preferentially first
             var list = new List<ComboItem>(forcedTop + stringNum.Length)
             {
-                new ComboItem {Text = inStrings[4], Value = (int)Ball.Poke},
-                new ComboItem {Text = inStrings[3], Value = (int)Ball.Great},
-                new ComboItem {Text = inStrings[2], Value = (int)Ball.Ultra},
+                new ComboItem(inStrings[4], (int)Ball.Poke),
+                new ComboItem(inStrings[3], (int)Ball.Great),
+                new ComboItem(inStrings[2], (int)Ball.Ultra),
             };
 
             for (int i = 0; i < stringNum.Length; i++)
@@ -354,7 +354,7 @@ namespace PKHeX.Core
                 int index = stringNum[i];
                 var val = stringVal[i];
                 var txt = inStrings[index];
-                list.Add(new ComboItem {Text = txt, Value = val});
+                list.Add(new ComboItem(txt, val));
             }
 
             list.Sort(forcedTop, stringNum.Length, Comparer);
@@ -363,7 +363,7 @@ namespace PKHeX.Core
         }
 
         private static readonly FunctorComparer<ComboItem> Comparer =
-            new FunctorComparer<ComboItem>((a, b) => string.Compare(a.Text, b.Text, StringComparison.Ordinal));
+            new FunctorComparer<ComboItem>((a, b) => string.CompareOrdinal(a.Text, b.Text));
 
         private sealed class FunctorComparer<T> : IComparer<T>
         {
