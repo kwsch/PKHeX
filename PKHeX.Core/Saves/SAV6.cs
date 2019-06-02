@@ -6,26 +6,17 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV6 : SaveFile, ITrainerStatRecord, ISecureValueStorage
+    public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
-        protected SAV6(byte[] data) : base(data)
-        {
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
-        }
-
-        protected SAV6(int size) : base(size)
-        {
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16_CCITT);
-            ClearBoxes();
-        }
+        protected SAV6(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset) { }
+        protected SAV6(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset) => ClearBoxes();
 
         // Configuration
-
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override PKM BlankPKM => new PK6();
@@ -55,26 +46,6 @@ namespace PKHeX.Core
         public PlayTime6 Played { get; protected set; }
         public MyStatus6 Status { get; protected set; }
         public Record6 Records { get; set; }
-
-        // Blocks & Offsets
-        private readonly int BlockInfoOffset;
-        private readonly BlockInfo[] Blocks;
-        protected override void SetChecksums() => Blocks.SetChecksums(Data);
-        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
-        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
-        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
-
-        public ulong TimeStampCurrent
-        {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14);
-        }
-
-        public ulong TimeStampPrevious
-        {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
-        }
 
         // Private Only
         protected int Trainer2 { get; set; } = int.MinValue;

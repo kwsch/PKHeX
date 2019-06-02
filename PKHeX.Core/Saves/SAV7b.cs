@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -8,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
     /// </summary>
-    public sealed class SAV7b : SaveFile, ISecureValueStorage
+    public sealed class SAV7b : SAV_BEEF
     {
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "savedata|*.bin";
@@ -22,25 +21,19 @@ namespace PKHeX.Core
 
         public override SaveFile Clone() => new SAV7b((byte[])Data.Clone());
 
-        public SAV7b() : base(SaveUtil.SIZE_G7GG)
+        public SAV7b() : base(SaveUtil.SIZE_G7GG, BlockInfoGG, 0xB8800)
         {
             Initialize();
             ClearBoxes();
         }
 
-        public SAV7b(byte[] data) : base(data)
+        public SAV7b(byte[] data) : base(data, BlockInfoGG, 0xB8800)
         {
             Initialize();
-            CanReadChecksums();
         }
 
         private void Initialize()
         {
-            const int len = 0xB8800; // 1mb always allocated
-            BlockInfoOffset = len - 0x1F0;
-            Blocks = !Exportable
-                ? BlockInfoGG
-                : BlockInfo3DS.GetBlockInfoData(Data, ref BlockInfoOffset, Checksums.CRC16NoInvert, len);
             Personal = PersonalTable.GG;
 
             Box = GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
@@ -100,53 +93,35 @@ namespace PKHeX.Core
         public override int BoxSlotCount => 25;
         public override int BoxCount => 40; // 1000/25
 
-        // Blocks & Offsets
-        private int BlockInfoOffset;
-        public BlockInfo[] Blocks;
-        public override bool ChecksumsValid => CanReadChecksums() && Blocks.GetChecksumsValid(Data);
-        public override string ChecksumInfo => CanReadChecksums() ? Blocks.GetChecksumInfo(Data) : string.Empty;
-
-        public BlockInfo GetBlock(BelugaBlockIndex index) => Blocks[(int)index >= Blocks.Length ? 0 : (int)index];
+        public BlockInfo GetBlock(BelugaBlockIndex index) => Blocks[(int)index];
         public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
+
+        private const int boGG = 0xB8800; // nowhere near 1MB (savedata.bin size)
 
         private static readonly BlockInfo[] BlockInfoGG =
         {
-            new BlockInfo3DS {Offset = 0x00000, Length = 0x00D90},
-            new BlockInfo3DS {Offset = 0x00E00, Length = 0x00200},
-            new BlockInfo3DS {Offset = 0x01000, Length = 0x00168},
-            new BlockInfo3DS {Offset = 0x01200, Length = 0x01800},
-            new BlockInfo3DS {Offset = 0x02A00, Length = 0x020E8},
-            new BlockInfo3DS {Offset = 0x04C00, Length = 0x00930},
-            new BlockInfo3DS {Offset = 0x05600, Length = 0x00004},
-            new BlockInfo3DS {Offset = 0x05800, Length = 0x00130},
-            new BlockInfo3DS {Offset = 0x05A00, Length = 0x00012},
-            new BlockInfo3DS {Offset = 0x05C00, Length = 0x3F7A0},
-            new BlockInfo3DS {Offset = 0x45400, Length = 0x00008},
-            new BlockInfo3DS {Offset = 0x45600, Length = 0x00E90},
-            new BlockInfo3DS {Offset = 0x46600, Length = 0x010A4},
-            new BlockInfo3DS {Offset = 0x47800, Length = 0x000F0},
-            new BlockInfo3DS {Offset = 0x47A00, Length = 0x06010},
-            new BlockInfo3DS {Offset = 0x4DC00, Length = 0x00200},
-            new BlockInfo3DS {Offset = 0x4DE00, Length = 0x00098},
-            new BlockInfo3DS {Offset = 0x4E000, Length = 0x00068},
-            new BlockInfo3DS {Offset = 0x4E200, Length = 0x69780},
-            new BlockInfo3DS {Offset = 0xB7A00, Length = 0x000B0},
-            new BlockInfo3DS {Offset = 0xB7C00, Length = 0x00940},
+            new BlockInfo7b(boGG, 00, 0x00000, 0x00D90),
+            new BlockInfo7b(boGG, 01, 0x00E00, 0x00200),
+            new BlockInfo7b(boGG, 02, 0x01000, 0x00168),
+            new BlockInfo7b(boGG, 03, 0x01200, 0x01800),
+            new BlockInfo7b(boGG, 04, 0x02A00, 0x020E8),
+            new BlockInfo7b(boGG, 05, 0x04C00, 0x00930),
+            new BlockInfo7b(boGG, 06, 0x05600, 0x00004),
+            new BlockInfo7b(boGG, 07, 0x05800, 0x00130),
+            new BlockInfo7b(boGG, 08, 0x05A00, 0x00012),
+            new BlockInfo7b(boGG, 09, 0x05C00, 0x3F7A0),
+            new BlockInfo7b(boGG, 10, 0x45400, 0x00008),
+            new BlockInfo7b(boGG, 11, 0x45600, 0x00E90),
+            new BlockInfo7b(boGG, 12, 0x46600, 0x010A4),
+            new BlockInfo7b(boGG, 13, 0x47800, 0x000F0),
+            new BlockInfo7b(boGG, 14, 0x47A00, 0x06010),
+            new BlockInfo7b(boGG, 15, 0x4DC00, 0x00200),
+            new BlockInfo7b(boGG, 16, 0x4DE00, 0x00098),
+            new BlockInfo7b(boGG, 17, 0x4E000, 0x00068),
+            new BlockInfo7b(boGG, 18, 0x4E200, 0x69780),
+            new BlockInfo7b(boGG, 19, 0xB7A00, 0x000B0),
+            new BlockInfo7b(boGG, 20, 0xB7C00, 0x00940),
         };
-
-        private bool CanReadChecksums()
-        {
-            if (Blocks.Length <= 3)
-            { Debug.WriteLine($"Not enough blocks ({Blocks.Length}), aborting {nameof(CanReadChecksums)}"); return false; }
-            return true;
-        }
-
-        protected override void SetChecksums()
-        {
-            if (!CanReadChecksums())
-                return;
-            Blocks.SetChecksums(Data);
-        }
 
         public bool FixPreWrite() => Storage.CompressStorage();
 
@@ -202,18 +177,6 @@ namespace PKHeX.Core
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
             return StringConverter.SetString7b(value, maxLength, Language, PadToSize, PadWith);
-        }
-
-        public ulong TimeStampCurrent
-        {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14);
-        }
-
-        public ulong TimeStampPrevious
-        {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
         }
 
         public override GameVersion Version

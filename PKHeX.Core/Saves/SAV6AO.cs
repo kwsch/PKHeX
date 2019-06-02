@@ -10,12 +10,76 @@ namespace PKHeX.Core
     /// <inheritdoc cref="SAV6" />
     public sealed class SAV6AO : SAV6, IPokePuff, IOPower, ILink
     {
-        public SAV6AO(byte[] data) : base(data) => Initialize();
-        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS) => Initialize();
+        public SAV6AO(byte[] data) : base(data, BlocksAO, boAO) => Initialize();
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, BlocksAO, boAO) => Initialize();
         public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+
+        private const int boAO = SaveUtil.SIZE_G6ORAS - 0x200;
+
+        public static readonly BlockInfo[] BlocksAO =
+        {
+            new BlockInfo6 (boAO, 00, 0x00000, 0x002C8),
+            new BlockInfo6 (boAO, 01, 0x00400, 0x00B90),
+            new BlockInfo6 (boAO, 02, 0x01000, 0x0002C),
+            new BlockInfo6 (boAO, 03, 0x01200, 0x00038),
+            new BlockInfo6 (boAO, 04, 0x01400, 0x00150),
+            new BlockInfo6 (boAO, 05, 0x01600, 0x00004),
+            new BlockInfo6 (boAO, 06, 0x01800, 0x00008),
+            new BlockInfo6 (boAO, 07, 0x01A00, 0x001C0),
+            new BlockInfo6 (boAO, 08, 0x01C00, 0x000BE),
+            new BlockInfo6 (boAO, 09, 0x01E00, 0x00024),
+            new BlockInfo6 (boAO, 10, 0x02000, 0x02100),
+            new BlockInfo6 (boAO, 11, 0x04200, 0x00130),
+            new BlockInfo6 (boAO, 12, 0x04400, 0x00440),
+            new BlockInfo6 (boAO, 13, 0x04A00, 0x00574),
+            new BlockInfo6 (boAO, 14, 0x05000, 0x04E28),
+            new BlockInfo6 (boAO, 15, 0x0A000, 0x04E28),
+            new BlockInfo6 (boAO, 16, 0x0F000, 0x04E28),
+            new BlockInfo6 (boAO, 17, 0x14000, 0x00170),
+            new BlockInfo6 (boAO, 18, 0x14200, 0x0061C),
+            new BlockInfo6 (boAO, 19, 0x14A00, 0x00504),
+            new BlockInfo6 (boAO, 20, 0x15000, 0x011CC),
+            new BlockInfo6 (boAO, 21, 0x16200, 0x00644),
+            new BlockInfo6 (boAO, 22, 0x16A00, 0x00104),
+            new BlockInfo6 (boAO, 23, 0x16C00, 0x00004),
+            new BlockInfo6 (boAO, 24, 0x16E00, 0x00420),
+            new BlockInfo6 (boAO, 25, 0x17400, 0x00064),
+            new BlockInfo6 (boAO, 26, 0x17600, 0x003F0),
+            new BlockInfo6 (boAO, 27, 0x17A00, 0x0070C),
+            new BlockInfo6 (boAO, 28, 0x18200, 0x00180),
+            new BlockInfo6 (boAO, 29, 0x18400, 0x00004),
+            new BlockInfo6 (boAO, 30, 0x18600, 0x0000C),
+            new BlockInfo6 (boAO, 31, 0x18800, 0x00048),
+            new BlockInfo6 (boAO, 32, 0x18A00, 0x00054),
+            new BlockInfo6 (boAO, 33, 0x18C00, 0x00644),
+            new BlockInfo6 (boAO, 34, 0x19400, 0x005C8),
+            new BlockInfo6 (boAO, 35, 0x19A00, 0x002F8),
+            new BlockInfo6 (boAO, 36, 0x19E00, 0x01B40),
+            new BlockInfo6 (boAO, 37, 0x1BA00, 0x001F4),
+            new BlockInfo6 (boAO, 38, 0x1BC00, 0x003E0),
+            new BlockInfo6 (boAO, 39, 0x1C000, 0x00216),
+            new BlockInfo6 (boAO, 40, 0x1C400, 0x00640),
+            new BlockInfo6 (boAO, 41, 0x1CC00, 0x01A90),
+            new BlockInfo6 (boAO, 42, 0x1E800, 0x00400),
+            new BlockInfo6 (boAO, 43, 0x1EC00, 0x00618),
+            new BlockInfo6 (boAO, 44, 0x1F400, 0x0025C),
+            new BlockInfo6 (boAO, 45, 0x1F800, 0x00834),
+            new BlockInfo6 (boAO, 46, 0x20200, 0x00318),
+            new BlockInfo6 (boAO, 47, 0x20600, 0x007D0),
+            new BlockInfo6 (boAO, 48, 0x20E00, 0x00C48),
+            new BlockInfo6 (boAO, 49, 0x21C00, 0x00078),
+            new BlockInfo6 (boAO, 50, 0x21E00, 0x00200),
+            new BlockInfo6 (boAO, 51, 0x22000, 0x00C84),
+            new BlockInfo6 (boAO, 52, 0x22E00, 0x00628),
+            new BlockInfo6 (boAO, 53, 0x23600, 0x00400),
+            new BlockInfo6 (boAO, 54, 0x23A00, 0x07AD0),
+            new BlockInfo6 (boAO, 55, 0x2B600, 0x078B0),
+            new BlockInfo6 (boAO, 56, 0x33000, 0x34AD0),
+            new BlockInfo6 (boAO, 57, 0x67C00, 0x0E058),
+        };
 
         private void Initialize()
         {

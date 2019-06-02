@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV7 : SaveFile, ITrainerStatRecord, ISecureValueStorage
+    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -20,16 +20,14 @@ namespace PKHeX.Core
             return gen <= 7 && f[1] != 'b'; // ignore PB7
         }).ToArray();
 
-        protected SAV7(byte[] data) : base(data)
+        protected SAV7(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset)
         {
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
-            CanReadChecksums();
             Initialize();
+            ClearMemeCrypto();
         }
 
-        protected SAV7(int size) : base(size)
+        protected SAV7(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset)
         {
-            Blocks = BlockInfo3DS.GetBlockInfoData(Data, out BlockInfoOffset, Checksums.CRC16);
             Initialize();
             ClearBoxes();
         }
@@ -37,10 +35,11 @@ namespace PKHeX.Core
         private void Initialize()
         {
             GetSAVOffsets();
+            ReloadBattleTeams();
+        }
 
-            HeldItems = USUM ? Legal.HeldItems_USUM : Legal.HeldItems_SM;
-            Personal = USUM ? PersonalTable.USUM : PersonalTable.SM;
-
+        private void ReloadBattleTeams()
+        {
             var demo = !USUM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
             if (demo || !Exportable)
             {
@@ -75,45 +74,25 @@ namespace PKHeX.Core
         // Feature Overrides
 
         // Blocks & Offsets
-        private readonly int BlockInfoOffset;
-        private readonly BlockInfo[] Blocks;
-        private bool IsMemeCryptoApplied = true;
         private const int MemeCryptoBlock = 36;
-        public override bool ChecksumsValid => CanReadChecksums() && Blocks.GetChecksumsValid(Data);
-        public override string ChecksumInfo => CanReadChecksums() ? Blocks.GetChecksumInfo(Data) : string.Empty;
 
-        private bool CanReadChecksums()
+        private void ClearMemeCrypto()
         {
-            if (Blocks.Length <= MemeCryptoBlock)
-            { Debug.WriteLine($"Not enough blocks ({Blocks.Length}), aborting {nameof(CanReadChecksums)}"); return false; }
-            if (!IsMemeCryptoApplied)
-                return true;
-            // clear memecrypto sig
             new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
-            IsMemeCryptoApplied = false;
-            return true;
         }
 
         protected override void SetChecksums()
         {
-            if (!CanReadChecksums())
-                return;
-            Blocks.SetChecksums(Data);
             BoxLayout.SaveBattleTeams();
-            Data = MemeCrypto.Resign7(Data);
-            IsMemeCryptoApplied = true;
+            Blocks.SetChecksums(Data);
         }
 
-        public ulong TimeStampCurrent
+        protected override byte[] GetFinalData()
         {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0x14);
-        }
-
-        public ulong TimeStampPrevious
-        {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset - 0xC);
+            SetChecksums();
+            var result = MemeCrypto.Resign7(Data);
+            Debug.Assert(result != Data);
+            return result;
         }
 
         private void GetSAVOffsets()

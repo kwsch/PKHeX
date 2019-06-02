@@ -6,12 +6,34 @@
     /// <inheritdoc cref="SAV6" />
     public sealed class SAV6AODemo : SAV6
     {
-        public SAV6AODemo(byte[] data) : base(data) => Initialize();
-        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO) => Initialize();
+        public SAV6AODemo(byte[] data) : base(data, BlocksAODemo, boAOdemo) => Initialize();
+        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO, BlocksAODemo, boAOdemo) => Initialize();
         public override SaveFile Clone() => new SAV6AODemo((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+
+        private const int boAOdemo = SaveUtil.SIZE_G6ORASDEMO - 0x200;
+
+        public static readonly BlockInfo[] BlocksAODemo =
+        {
+            new BlockInfo6 (boAOdemo, 00, 0x00000, 0x00B90),
+            new BlockInfo6 (boAOdemo, 01, 0x00C00, 0x0002C),
+            new BlockInfo6 (boAOdemo, 02, 0x00E00, 0x00038),
+            new BlockInfo6 (boAOdemo, 03, 0x01000, 0x00150),
+            new BlockInfo6 (boAOdemo, 04, 0x01200, 0x00004),
+            new BlockInfo6 (boAOdemo, 05, 0x01400, 0x00008),
+            new BlockInfo6 (boAOdemo, 06, 0x01600, 0x00024),
+            new BlockInfo6 (boAOdemo, 07, 0x01800, 0x02100),
+            new BlockInfo6 (boAOdemo, 08, 0x03A00, 0x00130),
+            new BlockInfo6 (boAOdemo, 09, 0x03C00, 0x00170),
+            new BlockInfo6 (boAOdemo, 10, 0x03E00, 0x0061C),
+            new BlockInfo6 (boAOdemo, 11, 0x04600, 0x00504),
+            new BlockInfo6 (boAOdemo, 12, 0x04C00, 0x00004),
+            new BlockInfo6 (boAOdemo, 13, 0x04E00, 0x00048),
+            new BlockInfo6 (boAOdemo, 14, 0x05000, 0x00400),
+            new BlockInfo6 (boAOdemo, 15, 0x05400, 0x0025C),
+        };
 
         private void Initialize()
         {
