@@ -141,7 +141,7 @@ namespace PKHeX.WinForms.Controls
         public event EventHandler RequestReloadSave;
 
         public Cursor GetDefaultCursor => DefaultCursor;
-        private Image GetSprite(PKM p, int slot) => p.Sprite(SAV, Box.CurrentBox, slot, Box.FlagIllegal);
+        private Image GetSprite(PKM p, int slot) => p.Sprite(SAV, -1, slot, Box.FlagIllegal);
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
         {
