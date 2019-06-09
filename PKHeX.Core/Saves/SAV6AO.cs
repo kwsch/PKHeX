@@ -153,6 +153,7 @@ namespace PKHeX.Core
             OPowerBlock = new OPower6(this, 0x17400);
             MysteryBlock = new MysteryBlock6(this, 0x1CC00);
             Records = new Record6(this, 0x1F400, Core.Records.MaxType_AO);
+            Sango = new SangoInfoBlock(this, 0x2B600);
 
             EventFlag = EventConst + 0x2FC;
             PokeDexLanguageFlags = PokeDex + 0x400;
@@ -173,6 +174,7 @@ namespace PKHeX.Core
         public OPower6 OPowerBlock { get; private set; }
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
+        public SangoInfoBlock Sango { get; set; }
 
         public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
         public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }

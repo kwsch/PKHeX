@@ -62,6 +62,16 @@ namespace PKHeX.Core
             if (wc6.Data.Length != WC6.Size)
                 throw new InvalidCastException(nameof(wc6));
 
+            if (wc6.CardID == 2048 && wc6.ItemID == 726) // Eon Ticket (OR/AS)
+            {
+                if (!(SAV is SAV6AO ao))
+                    return;
+                // Set the special received data
+                var info = ao.Sango;
+                info.ReceiveEon();
+                info.EnableSendEon();
+            }
+
             SAV.SetData(wc6.Data, GetGiftOffset(index));
         }
     }
