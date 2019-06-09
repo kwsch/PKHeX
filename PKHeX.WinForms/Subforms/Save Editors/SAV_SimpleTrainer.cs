@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
                 MT_PikaFriend.Text = sav1.PikaFriendship.ToString();
                 if (!sav1.Version.Contains(GameVersion.YW))
                 {
-                    MT_PikaFriend.Visible = false;
+                    L_PikaFriend.Visible = MT_PikaFriend.Visible = false;
                     CB_SoundType.Visible = LBL_SoundType.Visible = false;
                 }
             }

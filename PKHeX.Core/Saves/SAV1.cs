@@ -176,7 +176,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV1(Write());
+        public override SaveFile Clone() => new SAV1(Write(), Version);
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
         protected override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
