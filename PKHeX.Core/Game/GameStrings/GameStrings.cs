@@ -575,11 +575,8 @@ namespace PKHeX.Core
         public IReadOnlyList<ComboItem> GetAbilityDataSource(IEnumerable<int> abils)
         {
             return abils.Select(GetItem).ToList();
-            ComboItem GetItem(int ability, int index) => new ComboItem
-            {
-                Value = ability,
-                Text = abilitylist[ability] + abilIdentifier[index]
-            };
+            ComboItem GetItem(int ability, int index)
+                => new ComboItem(abilitylist[ability] + abilIdentifier[index], ability);
         }
     }
 }

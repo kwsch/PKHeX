@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
 
             var names = Enum.GetNames(typeof(TrainerSprite6));
             var values = (int[])Enum.GetValues(typeof(TrainerSprite6));
-            var data = names.Zip(values, (a, b) => new ComboItem {Text = a, Value = b})
+            var data = names.Zip(values, (a, b) => new ComboItem(a, b))
                 .Where(z => z.Value >= 2) // ignore Calem & Serena (no sprite)
                 .ToList();
 

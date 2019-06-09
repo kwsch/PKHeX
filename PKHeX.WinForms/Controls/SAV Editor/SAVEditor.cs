@@ -141,7 +141,7 @@ namespace PKHeX.WinForms.Controls
         public event EventHandler RequestReloadSave;
 
         public Cursor GetDefaultCursor => DefaultCursor;
-        private Image GetSprite(PKM p, int slot) => p.Sprite(SAV, Box.CurrentBox, slot, Box.FlagIllegal);
+        private Image GetSprite(PKM p, int slot) => p.Sprite(SAV, -1, slot, Box.FlagIllegal);
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
         {
@@ -1048,7 +1048,7 @@ namespace PKHeX.WinForms.Controls
             if (sav is SAV4BR br)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
-                var list = br.SaveNames.Select((z, i) => new ComboItem {Text = z, Value = i}).ToList();
+                var list = br.SaveNames.Select((z, i) => new ComboItem(z, i)).ToList();
                 CB_SaveSlot.InitializeBinding();
                 CB_SaveSlot.DataSource = new BindingSource(list, null);
                 CB_SaveSlot.SelectedValue = br.CurrentSlot;
