@@ -335,6 +335,9 @@ namespace PKHeX.Core
             set => Options = (byte)((Options & 0xF8) | (value & 7));
         }
 
+        // yellow only
+        public byte GBPrinterBrightness { get => Data[Offsets.PrinterBrightness]; set => Data[Offsets.PrinterBrightness] = value; }
+
         public override uint Money
         {
             get => (uint)BigEndian.BCDToInt32(Data, Offsets.Money, 3);

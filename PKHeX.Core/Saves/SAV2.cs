@@ -397,6 +397,40 @@ namespace PKHeX.Core
             set => Options = (byte)((Options & 0xF8) | (value & 7));
         }
 
+        public bool SaveFileExists
+        {
+            get => Data[Offsets.Options + 1] == 1;
+            set => Data[Offsets.Options + 1] = (byte)(value ? 1 : 0);
+        }
+
+        public int TextBoxFrame // 3bits
+        {
+            get => Data[Offsets.Options + 2] & 0b0000_0111;
+            set => Data[Offsets.Options + 2] = (byte)((Data[Offsets.Options + 2] & 0b1111_1000) | (value & 0b0000_0111));
+        }
+
+        public int TextBoxFlags { get => Data[Offsets.Options + 3]; set => Data[Offsets.Options + 3] = (byte)value; }
+
+        public bool TextBoxFrameDelay1 // bit 0
+        {
+            get => (TextBoxFlags & 0x01) == 0x01;
+            set => TextBoxFlags = (TextBoxFlags & ~0x01) | (value ? 0x01 : 0);
+        }
+
+        public bool TextBoxFrameDelayNone // bit 4
+        {
+            get => (TextBoxFlags & 0x10) == 0x10;
+            set => TextBoxFlags = (TextBoxFlags & ~0x10) | (value ? 0x10 : 0);
+        }
+
+        public byte GBPrinterBrightness { get => Data[Offsets.Options + 4]; set => Data[Offsets.Options + 4] = value; }
+
+        public bool MenuAccountOn
+        {
+            get => Data[Offsets.Options + 5] == 1;
+            set => Data[Offsets.Options + 5] = (byte)(value ? 1 : 0);
+        }
+
         public override uint Money
         {
             get => BigEndian.ToUInt32(Data, Offsets.Money - 1) & 0xFFFFFF;
@@ -670,5 +704,28 @@ namespace PKHeX.Core
                 return StringConverter2KOR.SetString2KOR(value, maxLength);
             return StringConverter12.SetString1(value, maxLength, Japanese);
         }
+
+        public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;
+        public bool IsGBMobileEnabled => Japanese && Enum.IsDefined(typeof(GBMobileCableColor), GBMobileCable);
+
+        public GBMobileCableColor GBMobileCable
+        {
+            get => (GBMobileCableColor) Data[0xE800];
+            set
+            {
+                Data[0xE800] = (byte)value;
+                Data[0x9000] = (byte)(0xFF - value);
+            }
+        }
+    }
+
+    public enum GBMobileCableColor : byte
+    {
+        None = 0,
+        Blue = 1,
+        Yellow = 2,
+        Green = 3,
+        Red = 4,
+        Debug = 0x81,
     }
 }

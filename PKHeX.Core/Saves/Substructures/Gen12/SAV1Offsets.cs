@@ -15,6 +15,7 @@
             Badges = 0x2602,
             TID = 0x2605,
             PikaFriendship = 0x271C,
+            PrinterBrightness = 0x2744,
             PCItems = 0x27E6,
             CurrentBoxIndex = 0x284C,
             Coin = 0x2850,
@@ -38,6 +39,7 @@
             Badges = 0x25F8,
             TID = 0x25FB,
             PikaFriendship = 0x2712,
+            PrinterBrightness = 0x273A,
             PCItems = 0x27DC,
             CurrentBoxIndex = 0x2842,
             Coin = 0x2846,
@@ -60,6 +62,7 @@
         public int Badges { get; private set; }
         public int TID { get; private set; }
         public int PikaFriendship { get; private set; }
+        public int PrinterBrightness { get; private set; }
         public int PCItems { get; private set; }
         public int CurrentBoxIndex { get; private set; }
         public int Coin { get; private set; }
