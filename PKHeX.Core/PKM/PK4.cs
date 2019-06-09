@@ -404,8 +404,8 @@ namespace PKHeX.Core
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
             pk5.Ball = Ball;
 
-            // Transfer Nickname and OT Name, update encoding
-            pk5.Nickname = Nickname;
+            // Transfer Nickname and OT Name, update encoding -- removes all caps if no nickname
+            pk5.Nickname = pk5.IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(pk5.Species, pk5.Language, 5);
             pk5.OT_Name = OT_Name;
 
             // Fix Level
