@@ -77,22 +77,23 @@ namespace PKHeX.Core
         /// <summary>Determines the type of the provided save data.</summary>
         /// <param name="data">Save data of which to determine the origins of</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetSAVGeneration(byte[] data)
+        private static GameVersion GetSAVType(byte[] data)
         {
-            if (GetIsG1SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen1;
-            if (GetIsG2SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen2;
-            if (GetIsG3SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen3;
-            if (GetIsG4SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen4;
-            if (GetIsG5SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen5;
-            if (GetIsG6SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen6;
-            if (GetIsG7SAV(data) != GameVersion.Invalid)
-                return GameVersion.Gen7;
+            GameVersion ver;
+            if ((ver = GetIsG1SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG2SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG3SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG4SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG5SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG6SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG7SAV(data)) != GameVersion.Invalid)
+                return ver;
 
             if (GetIsBelugaSAV(data) != GameVersion.Invalid)
                 return GameVersion.GG;
@@ -106,13 +107,13 @@ namespace PKHeX.Core
                 return GameVersion.BATREV;
 
             if (GetIsBank7(data)) // pokebank
-                return GameVersion.USUM;
+                return GameVersion.Gen7;
             if (GetIsBank4(data)) // pokestock
-                return GameVersion.HGSS;
+                return GameVersion.Gen4;
             if (GetIsBank3(data)) // pokestock
-                return GameVersion.RS;
+                return GameVersion.Gen3;
             if (GetIsRanch4(data)) // ranch
-                return GameVersion.DP;
+                return GameVersion.DPPt;
 
             return GameVersion.Invalid;
         }
@@ -464,16 +465,33 @@ namespace PKHeX.Core
 
         private static SaveFile GetVariantSAVInternal(byte[] data)
         {
-            switch (GetSAVGeneration(data))
+            switch (GetSAVType(data))
             {
                 // Main Games
-                case GameVersion.Gen1: return new SAV1(data);
-                case GameVersion.Gen2: return new SAV2(data);
-                case GameVersion.Gen3: return new SAV3(data);
-                case GameVersion.Gen4: return new SAV4(data);
-                case GameVersion.Gen5: return new SAV5(data);
-                case GameVersion.Gen6: return new SAV6(data);
-                case GameVersion.Gen7: return new SAV7(data);
+                case GameVersion.RBY: return new SAV1(data);
+
+                case GameVersion.GS:
+                case GameVersion.C: return new SAV2(data);
+
+                case GameVersion.RS:
+                case GameVersion.E:
+                case GameVersion.FRLG: return new SAV3(data);
+
+                case GameVersion.DP:
+                case GameVersion.Pt:
+                case GameVersion.HGSS: return new SAV4(data);
+
+                case GameVersion.BW: return new SAV5BW(data);
+                case GameVersion.B2W2: return new SAV5B2W2(data);
+
+                case GameVersion.XY: return new SAV6XY(data);
+                case GameVersion.ORAS: return new SAV6AO(data);
+                case GameVersion.ORASDEMO: return new SAV6AODemo(data);
+
+                case GameVersion.SM:
+                    return new SAV7SM(data);
+                case GameVersion.USUM:
+                    return new SAV7USUM(data);
 
                 // Side Games
                 case GameVersion.COLO:   return new SAV3Colosseum(data);
@@ -483,10 +501,10 @@ namespace PKHeX.Core
                 case GameVersion.GG:     return new SAV7b(data);
 
                 // Bulk Storage
-                case GameVersion.RS:     return new Bank3(data);
-                case GameVersion.DP:     return new SAV4Ranch(data);
-                case GameVersion.HGSS:   return new Bank4(data);
-                case GameVersion.USUM:   return Bank7.GetBank7(data);
+                case GameVersion.Gen3: return new Bank3(data);
+                case GameVersion.DPPt: return new SAV4Ranch(data);
+                case GameVersion.Gen4: return new Bank4(data);
+                case GameVersion.Gen7: return Bank7.GetBank7(data);
 
                 // No pattern matched
                 default: return null;
@@ -559,13 +577,13 @@ namespace PKHeX.Core
                     return new SAV2();
 
                 case GameVersion.R: case GameVersion.S: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
-                    return new SAV3(versionOverride: Game);
+                    return new SAV3(version: Game);
                 case GameVersion.FRLG:
-                    return new SAV3(versionOverride: GameVersion.FR);
+                    return new SAV3(version: GameVersion.FR);
                 case GameVersion.RS:
-                    return new SAV3(versionOverride: GameVersion.R);
+                    return new SAV3(version: GameVersion.R);
                 case GameVersion.RSE:
-                    return new SAV3(versionOverride: GameVersion.E);
+                    return new SAV3(version: GameVersion.E);
 
                 case GameVersion.CXD:
                 case GameVersion.COLO:
@@ -577,31 +595,31 @@ namespace PKHeX.Core
 
                 case GameVersion.D: case GameVersion.P: case GameVersion.DP:
                 case GameVersion.DPPt:
-                    return new SAV4(new byte[SIZE_G4RAW], GameVersion.DP);
+                    return new SAV4(GameVersion.DP);
                 case GameVersion.Pt:
-                    return new SAV4(new byte[SIZE_G4RAW], GameVersion.Pt);
+                    return new SAV4(GameVersion.Pt);
                 case GameVersion.HG: case GameVersion.SS: case GameVersion.HGSS:
-                    return new SAV4(new byte[SIZE_G4RAW], GameVersion.HGSS);
+                    return new SAV4(GameVersion.HGSS);
 
                 case GameVersion.B: case GameVersion.W: case GameVersion.BW:
-                    return new SAV5(new byte[SIZE_G5RAW], GameVersion.BW);
+                    return new SAV5BW();
                 case GameVersion.B2: case GameVersion.W2: case GameVersion.B2W2:
-                    return new SAV5(new byte[SIZE_G5RAW], GameVersion.B2W2);
+                    return new SAV5B2W2();
 
                 case GameVersion.X: case GameVersion.Y: case GameVersion.XY:
-                    return new SAV6(new byte[SIZE_G6XY]);
+                    return new SAV6XY();
                 case GameVersion.ORASDEMO:
-                    return new SAV6(new byte[SIZE_G6ORASDEMO]);
+                    return new SAV6AODemo();
                 case GameVersion.OR: case GameVersion.AS: case GameVersion.ORAS:
-                    return new SAV6(new byte[SIZE_G6ORAS]);
+                    return new SAV6AO();
 
                 case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
-                    return new SAV7(new byte[SIZE_G7SM]);
+                    return new SAV7SM();
                 case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
-                    return new SAV7(new byte[SIZE_G7USUM]);
+                    return new SAV7USUM();
                 case GameVersion.GO:
                 case GameVersion.GP: case GameVersion.GE: case GameVersion.GG:
-                    return new SAV7b(new byte[SIZE_G7GG]);
+                    return new SAV7b();
 
                 default:
                     return null;

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
@@ -90,6 +91,20 @@ namespace PKHeX.Core
             return result;
         }
 
+        public static byte[] GetBytesFromHexString(string seed)
+        {
+            return Enumerable.Range(0, seed.Length)
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
+                .Reverse().ToArray();
+        }
+
+        public static string GetHexStringFromBytes(byte[] data, int offset, int length)
+        {
+            data = data.Skip(offset).Take(length).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", string.Empty);
+        }
+
         private static bool IsNum(char c) => c >= '0' && c <= '9';
         private static bool IsHexUpper(char c) => c >= 'A' && c <= 'F';
         private static bool IsHexLower(char c) => c >= 'a' && c <= 'f';
@@ -127,6 +142,31 @@ namespace PKHeX.Core
         {
             int index = input.IndexOf(c);
             return index < 0 ? input : input.Substring(0, index);
+        }
+
+
+        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
+        {
+            bool[] result = new bool[count];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
+            return result;
+        }
+
+        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i])
+                    data[offset + (i >> 3)] |= (byte)(1 << (i & 7));
+            }
+        }
+
+        public static byte[] SetBitFlagArray(bool[] value)
+        {
+            byte[] data = new byte[value.Length / 8];
+            SetBitFlagArray(data, 0, value);
+            return data;
         }
     }
 }

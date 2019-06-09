@@ -13,34 +13,41 @@ namespace PKHeX.Core
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
-        public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+        public SAV4(GameVersion versionOverride = GameVersion.HGSS) : base(SaveUtil.SIZE_G4RAW)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G4RAW];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Version = versionOverride;
+            Initialize();
+            ClearBoxes();
+        }
 
+        public SAV4(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        {
             // Get Version
-            if (data == null)
-                Version = GameVersion.HGSS;
-            else if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else Version = SaveUtil.GetIsG4SAV(Data);
+            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG4SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             generalBlock = GetActiveGeneralBlock();
             storageBlock = GetActiveStorageBlock();
             GetSAVOffsets();
 
             switch (Version)
             {
-                case GameVersion.DP: Personal = PersonalTable.DP; break;
-                case GameVersion.Pt: Personal = PersonalTable.Pt; break;
-                case GameVersion.HGSS: Personal = PersonalTable.HGSS; break;
+                case GameVersion.DP:
+                    Personal = PersonalTable.DP;
+                    break;
+                case GameVersion.Pt:
+                    Personal = PersonalTable.Pt;
+                    break;
+                case GameVersion.HGSS:
+                    Personal = PersonalTable.HGSS;
+                    break;
             }
-
-            if (!Exportable)
-                ClearBoxes();
         }
 
         // Configuration
@@ -133,8 +140,8 @@ namespace PKHeX.Core
         }
 
         // Blocks & Offsets
-        private readonly int generalBlock = -1; // Small Block
-        private readonly int storageBlock = -1; // Big Block
+        private int generalBlock = -1; // Small Block
+        private int storageBlock = -1; // Big Block
         private int SBO => 0x40000 * storageBlock;
         public int GBO => 0x40000 * generalBlock;
 

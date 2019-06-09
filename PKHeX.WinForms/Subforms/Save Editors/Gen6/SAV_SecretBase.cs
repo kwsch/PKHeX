@@ -25,8 +25,7 @@ namespace PKHeX.WinForms
             CB_Ability.InitializeBinding();
 
             LB_Favorite.SelectedIndex = 0;
-            // MT_Flags.Text = BitConverter.ToUInt16(sav, 0x24800 + 0x140).ToString(); PSS Stat transmitted
-            MT_Flags.Text = BitConverter.ToUInt32(SAV.Data, SAV.SecretBase + 0x62C).ToString(); // read counter
+            MT_Flags.Text = SAV.Records.GetRecord(080).ToString(); // read counter; also present in the Secret Base data block
             B_SAV2FAV(null, EventArgs.Empty);
         }
 
@@ -215,7 +214,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             uint flags = Util.ToUInt32(MT_Flags.Text);
-            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.Record + 0x140, 4); // write pss
+            SAV.Records.SetRecord(080, (int)flags);
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
             Origin.SetData(SAV.Data, 0);
             Close();

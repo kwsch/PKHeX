@@ -73,7 +73,7 @@ namespace PKHeX.WinForms
             {
                 int start = j;
                 int end = j;
-                if (SAV7.SanitizeFormsToIterate(spec, out int s, out int n, j, Parent.USUM))
+                if (Zukan7.SanitizeFormsToIterate(spec, out int s, out int n, j, Parent.USUM))
                 {
                     start = s;
                     end = n;

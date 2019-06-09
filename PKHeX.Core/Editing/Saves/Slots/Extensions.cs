@@ -15,6 +15,7 @@ namespace PKHeX.Core
             else
                 sav.SetStoredSlot(pkm, slot.Offset);
         }
+
         public static IReadOnlyList<PKM> GetAllPKM(this SaveFile sav)
         {
             var pkms = new List<PKM>();
@@ -139,8 +140,8 @@ namespace PKHeX.Core
             if (!all)
                 return list;
 
-            for (int i = 0; i < SAV7.ResortCount; i++)
-                list.Add(new StorageSlotOffset { Type = StorageSlotType.Resort, Offset = sav.GetResortSlotOffset(i) });
+            for (int i = 0; i < ResortSave7.ResortCount; i++)
+                list.Add(new StorageSlotOffset { Type = StorageSlotType.Resort, Offset = sav.ResortSave.GetResortSlotOffset(i) });
             return list;
         }
     }

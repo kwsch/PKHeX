@@ -29,25 +29,34 @@ namespace PKHeX.Core
 
         private int SaveCount = -1;
         private int SaveIndex = -1;
-        private readonly StrategyMemo StrategyMemo;
+        private StrategyMemo StrategyMemo;
         public int MaxShadowID => 0x80; // 128
-        private readonly int Memo;
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne;
-        private readonly int OFS_PouchCologne;
+        private int Memo;
+        private ushort[] LegalItems;
+        private ushort[] LegalKeyItems;
+        private ushort[] LegalBalls;
+        private ushort[] LegalTMHMs;
+        private ushort[] LegalBerries;
+        private ushort[] LegalCologne;
+        private int OFS_PouchCologne;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
-        public SAV3Colosseum(byte[] data = null)
+        public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G3COLO];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Initialize();
+            ClearBoxes();
+        }
 
+        public SAV3Colosseum(byte[] data) : base(data)
+        {
+            InitializeData();
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             Personal = PersonalTable.RS;
             HeldItems = Legal.HeldItems_COLO;
-
-            if (SaveUtil.GetIsG3COLOSAV(Data) == GameVersion.COLO)
-                InitializeData();
-
             Trainer1 = 0x00078;
             Party = 0x000A8;
             OFS_PouchHeldItem = 0x007F8;
@@ -60,7 +69,7 @@ namespace PKHeX.Core
             Box = 0x00B90;
             Daycare = 0x08170;
             Memo = 0x082B0;
-            StrategyMemo = new StrategyMemo(Data, Memo, xd:false);
+            StrategyMemo = new StrategyMemo(Data, Memo, xd: false);
 
             LegalItems = Legal.Pouch_Items_COLO;
             LegalKeyItems = Legal.Pouch_Key_COLO;
@@ -68,9 +77,6 @@ namespace PKHeX.Core
             LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
             LegalBerries = Legal.Pouch_Berries_RS;
             LegalCologne = Legal.Pouch_Cologne_COLO;
-
-            if (!Exportable)
-                ClearBoxes();
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
