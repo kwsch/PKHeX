@@ -72,6 +72,9 @@ namespace PKHeX.Core
         public override int Gender { get => Status.Gender; set => Status.Gender = value; }
         public override int Language { get => Status.Language; set => Status.Language = value; }
         public override string OT { get => Status.OT; set => Status.OT = value; }
+        public override int SubRegion { get => Status.SubRegion; set => Status.SubRegion = value; }
+        public override int Country { get => Status.Country; set => Status.Country = value; }
+        public override int ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
 
         public override uint Money
         {
