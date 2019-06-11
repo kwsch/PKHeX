@@ -290,7 +290,6 @@ namespace PKHeX.Core
             083, // Farfetch'd
             084, // Doduo
             085, // Dodrio
-            095, // Onix
             100, // Voltorb
             101, // Electrode
             102, // Exeggcute
