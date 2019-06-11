@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.MessageStrings;
@@ -74,9 +73,7 @@ namespace PKHeX.Core
 
         private static void AddLinesPKM(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
-            int TID7() => (int)((uint)(gift.TID | (gift.SID << 16)) % 1000000);
-            int SID7() => (int)((uint)(gift.TID | (gift.SID << 16)) / 1000000);
-            var id = gift.Format < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{SID7():D4}]{TID7():D6}";
+            var id = gift.Format < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
 
             var first =
                 $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem]}  --- "
@@ -115,14 +112,11 @@ namespace PKHeX.Core
 
             if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!SAV.ORAS)
+                if (!(SAV is SAV6AO))
                 {
                     message = MsgMysteryGiftSlotSpecialReject;
                     return false;
                 }
-
-                // Set the special recieved data
-                BitConverter.GetBytes(WC6.EonTicketConst).CopyTo(SAV.Data, ((SAV6)SAV).EonTicket);
             }
 
             message = null;

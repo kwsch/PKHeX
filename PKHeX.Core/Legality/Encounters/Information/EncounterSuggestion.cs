@@ -57,9 +57,11 @@ namespace PKHeX.Core
                 case 3:
                     return 0;
                 case 4:
-                    return traded ? 2002 : 2000;
+                    return traded ? Locations.LinkTrade4 : Locations.Daycare4;
+                case 5:
+                    return traded ? Locations.LinkTrade5 : Locations.Daycare5;
                 default:
-                    return traded ? 30002 : 60002;
+                    return traded ? Locations.LinkTrade6 : Locations.Daycare5;
             }
         }
 
@@ -104,18 +106,18 @@ namespace PKHeX.Core
                         case 3:
                             return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
                         case 4:
-                            return Legal.Transfer3; // Pal Park
+                            return Locations.Transfer3; // Pal Park
                         default:
-                            return Legal.Transfer4; // Transporter
+                            return Locations.Transfer4; // Transporter
                     }
 
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.Pt:
-                    return pkm.Format > 4 ? Legal.Transfer4 /* Transporter */ : 4; // Solaceon Town
+                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : 4; // Solaceon Town
                 case GameVersion.HG:
                 case GameVersion.SS:
-                    return pkm.Format > 4 ? Legal.Transfer4 /* Transporter */ : 182; // Route 34
+                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : 182; // Route 34
 
                 case GameVersion.B:
                 case GameVersion.W:
@@ -164,7 +166,7 @@ namespace PKHeX.Core
             if (pkm.VC2)
                 return Legal.Transfer2;
             if (pkm.Format == 4) // Pal Park
-                return Legal.Transfer3;
+                return Locations.Transfer3;
 
             if (pkm.GenNumber >= 5)
                 return -1;

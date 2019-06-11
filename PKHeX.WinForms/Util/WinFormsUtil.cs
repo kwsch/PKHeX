@@ -28,8 +28,7 @@ namespace PKHeX.WinForms
         {
             while (true)
             {
-                var t = aParent as T;
-                if (t != null)
+                if (aParent is T t)
                     return t;
 
                 if (aParent.Parent != null)
@@ -159,6 +158,8 @@ namespace PKHeX.WinForms
             "fla", // flashcard
             "SaveRAM", // BizHawk
         };
+
+        public static bool IsFileExtensionSAV(string file) => CustomSaveExtensions.Contains(Path.GetExtension(file));
 
         private static string ExtraSaveExtensions => ";" + string.Join(";", CustomSaveExtensions.Select(z => $"*.{z}"));
 

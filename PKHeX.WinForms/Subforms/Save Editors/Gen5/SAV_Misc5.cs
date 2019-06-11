@@ -116,10 +116,10 @@ namespace PKHeX.WinForms
                 // Roamer
                 cbr = new[] { CB_Roamer642, CB_Roamer641 };
                 List<ComboItem> getStates() => new List<ComboItem> {
-                    new ComboItem { Text = "Not roamed", Value = 0 },
-                    new ComboItem { Text = "Roaming", Value = 1 },
-                    new ComboItem { Text = "Defeated", Value = 2 },
-                    new ComboItem { Text = "Captured", Value = 3 }
+                    new ComboItem("Not roamed", 0),
+                    new ComboItem("Roaming", 1),
+                    new ComboItem("Defeated", 2),
+                    new ComboItem("Captured", 3),
                 };
                 // CurrentStat:ComboboxSource
                 // Not roamed: Not roamed/Defeated/Captured
@@ -133,7 +133,7 @@ namespace PKHeX.WinForms
 
                     var states = getStates();
                     if (states.All(z => z.Value != c))
-                        states.Add(new ComboItem {Text = $"Unknown (0x{c:X2})", Value = c});
+                        states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
                     cbr[i].Items.Clear();
                     cbr[i].InitializeBinding();
                     cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), null);
@@ -327,7 +327,7 @@ namespace PKHeX.WinForms
                 55, 56, 57, 62,
                 39, 40, 41, 42, 43, 44, 45, 59, 61, 63
             };
-            ComboItem[] PassPowerB = PassPowerA.Zip(PassPowerC, (f, s) => new ComboItem { Text = f, Value = s }).ToArray();
+            ComboItem[] PassPowerB = PassPowerA.Zip(PassPowerC, (f, s) => new ComboItem(f, s)).ToArray();
             cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
             for (int i = 0; i < cba.Length; i++)
             {
@@ -557,7 +557,7 @@ namespace PKHeX.WinForms
             CHK_Area9.Checked = Forest.Unlock9thArea;
 
             var areas = AllSlots.Select(z => z.Area).Distinct()
-                .Select(z => new ComboItem {Text = z.ToString(), Value = (int) z}).ToList();
+                .Select(z => new ComboItem(z.ToString(), (int) z)).ToList();
 
             CB_Species.InitializeBinding();
             CB_Move.InitializeBinding();
@@ -680,13 +680,14 @@ namespace PKHeX.WinForms
             var list = new List<ComboItem>();
             if (pi.Genderless)
             {
-                list.Add(new ComboItem{Text = "Genderless", Value = 2});
+                list.Add(new ComboItem("Genderless", 2));
                 return list;
             }
+
             if (!pi.OnlyFemale)
-                list.Add(new ComboItem { Text = "Male", Value = 0 });
+                list.Add(new ComboItem("Male", 0));
             if (!pi.OnlyMale)
-                list.Add(new ComboItem { Text = "Female", Value = 1 });
+                list.Add(new ComboItem("Female", 1));
             return list;
         }
 

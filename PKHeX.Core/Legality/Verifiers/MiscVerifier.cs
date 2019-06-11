@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core
 {
@@ -9,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class MiscVerifier : Verifier
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
+        protected override CheckIdentifier Identifier => Misc;
 
         public override void Verify(LegalityAnalysis data)
         {
@@ -19,21 +20,21 @@ namespace PKHeX.Core
                 VerifyMiscEggCommon(data);
 
                 if (pkm is IContestStats s && s.HasContestStats())
-                    data.AddLine(GetInvalid(LEggContest, CheckIdentifier.Egg));
+                    data.AddLine(GetInvalid(LEggContest, Egg));
 
                 switch (pkm)
                 {
                     case PK5 pk5 when pk5.PokeStarFame != 0 && pk5.IsEgg:
-                        data.AddLine(GetInvalid(LEggShinyPokeStar, CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(LEggShinyPokeStar, Egg));
                         break;
                     case PK4 pk4 when pk4.ShinyLeaf != 0:
-                        data.AddLine(GetInvalid(LEggShinyLeaf, CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(LEggShinyLeaf, Egg));
                         break;
                     case PK4 pk4 when pk4.PokéathlonStat != 0:
-                        data.AddLine(GetInvalid(LEggPokeathlon, CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(LEggPokeathlon, Egg));
                         break;
                     case PK3 _ when pkm.Language != 1:  // All Eggs are Japanese and flagged specially for localized string
-                        data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pkm.Language), CheckIdentifier.Egg));
+                        data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pkm.Language), Egg));
                         break;
                 }
             }
@@ -53,7 +54,7 @@ namespace PKHeX.Core
             {
                 VerifyMiscEggCommon(data);
                 if (pkm.PKRS_Cured || pkm.PKRS_Infected)
-                    data.AddLine(GetInvalid(LEggPokerus, CheckIdentifier.Egg));
+                    data.AddLine(GetInvalid(LEggPokerus, Egg));
             }
 
             if (!(pkm is PK1 pk1))
@@ -67,14 +68,14 @@ namespace PKHeX.Core
         {
             var Type_A = pk1.Type_A;
             var Type_B = pk1.Type_B;
-            if (pk1.Species == 137) // Porygon
+            if (pk1.Species == (int)Species.Porygon)
             {
                 // Can have any type combination of any species by using Conversion.
-                if (!GBRestrictions.Types_Gen1.Contains(Type_A))
+                if (!GBRestrictions.TypeIDExists(Type_A))
                 {
                     data.AddLine(GetInvalid(LG1TypePorygonFail1));
                 }
-                else if (!GBRestrictions.Types_Gen1.Contains(Type_B))
+                if (!GBRestrictions.TypeIDExists(Type_B))
                 {
                     data.AddLine(GetInvalid(LG1TypePorygonFail2));
                 }
@@ -166,35 +167,35 @@ namespace PKHeX.Core
                     VerifyFatefulMysteryGift(data, g);
                     return;
                 case EncounterStatic s when s.Fateful: // ingame fateful
-                case EncounterSlot _ when pkm.Version == 15: // ingame pokespot
+                case EncounterSlot x when x.Version == GameVersion.XD: // ingame pokespot
                 case EncounterTrade t when t.Fateful:
                     VerifyFatefulIngameActive(data);
                     return;
             }
             if (pkm.FatefulEncounter)
-                data.AddLine(GetInvalid(LFatefulInvalid, CheckIdentifier.Fateful));
+                data.AddLine(GetInvalid(LFatefulInvalid, Fateful));
         }
 
         private static void VerifyMiscEggCommon(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Move1_PPUps > 0 || pkm.Move2_PPUps > 0 || pkm.Move3_PPUps > 0 || pkm.Move4_PPUps > 0)
-                data.AddLine(GetInvalid(LEggPPUp, CheckIdentifier.Egg));
+                data.AddLine(GetInvalid(LEggPPUp, Egg));
             if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0) || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
-                data.AddLine(GetInvalid(LEggPP, CheckIdentifier.Egg));
+                data.AddLine(GetInvalid(LEggPP, Egg));
 
             var EncounterMatch = data.EncounterOriginal;
             var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
             if (HatchCycles == 0 || HatchCycles == null)
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
             if (pkm.CurrentFriendship > HatchCycles)
-                data.AddLine(GetInvalid(LEggHatchCycles, CheckIdentifier.Egg));
+                data.AddLine(GetInvalid(LEggHatchCycles, Egg));
 
             if (pkm.Format >= 6 && EncounterMatch is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
             {
                 var moves = string.Join(", ", LegalityAnalysis.GetMoveNames(pkm.Moves));
                 var msg = string.Format(LMoveFExpect_0, moves);
-                data.AddLine(GetInvalid(msg, CheckIdentifier.Egg));
+                data.AddLine(GetInvalid(msg, Egg));
             }
         }
 
@@ -205,13 +206,13 @@ namespace PKHeX.Core
             {
                 var Info = data.Info;
                 Info.PIDIV = MethodFinder.Analyze(pkm);
-                if (Info.PIDIV.Type != PIDType.G5MGShiny && pkm.Egg_Location != 30003)
-                    data.AddLine(GetInvalid(LPIDTypeMismatch, CheckIdentifier.PID));
+                if (Info.PIDIV.Type != PIDType.G5MGShiny && pkm.Egg_Location != Locations.LinkTrade5)
+                    data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
             }
 
             var result = pkm.FatefulEncounter != pkm.WasLink
-                ? GetValid(LFatefulMystery, CheckIdentifier.Fateful)
-                : GetInvalid(LFatefulMysteryMissing, CheckIdentifier.Fateful);
+                ? GetValid(LFatefulMystery, Fateful)
+                : GetInvalid(LFatefulMysteryMissing, Fateful);
             data.AddLine(result);
         }
 
@@ -222,13 +223,13 @@ namespace PKHeX.Core
             {
                 case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
-                    data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin));
+                    data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), Language));
                     return;
                 case WC7 wc7 when wc7.RestrictLanguage != 0 && wc7.Language != wc7.RestrictLanguage:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), Language));
                     return;
             }
         }
@@ -237,24 +238,15 @@ namespace PKHeX.Core
         {
             // check for shiny locked gifts
             if (!g3.Shiny.IsValid(data.pkm))
-                data.AddLine(GetInvalid(LEncGiftShinyMismatch, CheckIdentifier.Fateful));
+                data.AddLine(GetInvalid(LEncGiftShinyMismatch, Fateful));
         }
 
         private static void VerifyFatefulIngameActive(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.Version == 15 && pkm is XK3 xk3 && data.Info.WasXD)
-            {
-                // can't have fateful until traded away, which clears ShadowID
-                if (xk3.FatefulEncounter && xk3.ShadowID != 0 && data.EncounterMatch is EncounterStaticShadow)
-                    data.AddLine(GetInvalid(LFatefulInvalid, CheckIdentifier.Fateful));
-
-                return; // fateful is set when transferred away
-            }
-
             var result = pkm.FatefulEncounter
-                ? GetValid(LFateful, CheckIdentifier.Fateful)
-                : GetInvalid(LFatefulMissing, CheckIdentifier.Fateful);
+                ? GetValid(LFateful, Fateful)
+                : GetInvalid(LFatefulMissing, Fateful);
             data.AddLine(result);
         }
 
@@ -273,7 +265,7 @@ namespace PKHeX.Core
                     bool Sun() => pkm.Version == (int)GameVersion.SN || pkm.Version == (int)GameVersion.US;
                     bool Moon() => pkm.Version == (int)GameVersion.MN || pkm.Version == (int)GameVersion.UM;
                     if (pkm.IsUntraded)
-                        data.AddLine(GetInvalid(LEvoTradeRequired, CheckIdentifier.Evolution));
+                        data.AddLine(GetInvalid(LEvoTradeRequired, Evolution));
                     break;
             }
         }
@@ -282,18 +274,18 @@ namespace PKHeX.Core
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
             if (!IsCloseEnough(pb7.HeightAbsolute, pb7.CalcHeightAbsolute))
-                data.AddLine(GetInvalid(LStatIncorrectHeight, CheckIdentifier.Encounter));
+                data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
             if (!IsCloseEnough(pb7.WeightAbsolute, pb7.CalcWeightAbsolute))
-                data.AddLine(GetInvalid(LStatIncorrectWeight, CheckIdentifier.Encounter));
+                data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarter(pb7))
-                data.AddLine(GetInvalid(LStatIncorrectCP, CheckIdentifier.Encounter));
+                data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
 
             if (IsTradeEvoRequired7b(data.EncounterOriginal, pb7))
             {
                 var unevolved = LegalityAnalysis.SpeciesStrings[pb7.Species];
                 var evolved = LegalityAnalysis.SpeciesStrings[pb7.Species + 1];
-                data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved), CheckIdentifier.Evolution));
+                data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved), Evolution));
             }
         }
 

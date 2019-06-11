@@ -38,7 +38,6 @@ namespace PKHeX.Core
 
         protected override void SetSpindaDexData(PKM pkm, bool alreadySeen)
         {
-
         }
 
         protected override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
@@ -82,13 +81,13 @@ namespace PKHeX.Core
         private void SetCaughtFlag(int bit, int origin)
         {
             // Owned quality flag
-            if (SAV.ORAS)
+            if (SAV is SAV6AO ao)
             {
                 SetFlag(OFS_CAUGHT, bit);
                 // Set DexNav count (only if not encountered previously)
-                var count = ((SAV6)SAV).GetEncounterCount(bit);
+                var count = ao.GetEncounterCount(bit);
                 if (count == 0)
-                    ((SAV6)SAV).SetEncounterCount(bit, 1);
+                    ao.SetEncounterCount(bit, 1);
             }
             else
             {

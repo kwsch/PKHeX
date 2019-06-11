@@ -47,6 +47,20 @@ namespace PKHeX.Core
         public virtual int MaxIV => 31;
         public ushort[] HeldItems { get; protected set; }
 
+        protected SaveFile(byte[] data)
+        {
+            Data = data;
+            BAK = (byte[])Data.Clone();
+            Exportable = true;
+        }
+
+        protected SaveFile(int size)
+        {
+            Data = new byte[size];
+            BAK = Data;
+            Exportable = false;
+        }
+
         // General SAV Properties
         public byte[] Write(ExportFlags flags = ExportFlags.None)
         {
@@ -105,13 +119,11 @@ namespace PKHeX.Core
         public bool HasHoF => HoF > -1;
         public bool HasSecretBase => SecretBase > -1;
         public bool HasPSS => PSS > -1;
-        public bool HasOPower => OPower > -1;
         public bool HasJPEG => JPEGData.Length > 0;
         public bool HasBox => Box > -1;
         public virtual bool HasParty => Party > -1;
         public bool HasBattleBox => BattleBox > -1;
         public bool HasFused => Fused > -1;
-        public bool HasGTS => GTS > -1;
         public bool HasDaycare => Daycare > -1;
         public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
@@ -150,7 +162,6 @@ namespace PKHeX.Core
         public int SecretBase { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
         public int BerryField { get; protected set; } = int.MinValue;
-        public int OPower { get; protected set; } = int.MinValue;
         public int HoF { get; protected set; } = int.MinValue;
 
         // SAV Properties
@@ -461,6 +472,7 @@ namespace PKHeX.Core
         public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotFlag.Locked);
         public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
         public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
+        public bool IsSlotOverwriteProtected(PKM pkm) => GetSlotFlags(pkm.Box, pkm.Slot).IsOverwriteProtected();
 
         public bool MoveBox(int box, int insertBeforeBox)
         {
@@ -622,7 +634,6 @@ namespace PKHeX.Core
             }
 
             SetData(pkm.EncryptedPartyData, offset);
-            Edited = true;
         }
 
         protected void UpdatePKM(PKM pkm, PKMImportSetting trade, PKMImportSetting dex)
@@ -665,7 +676,6 @@ namespace PKHeX.Core
             UpdatePKM(pkm, trade, dex);
             SetPartyValues(pkm, isParty: false);
             SetData(pkm.EncryptedBoxData, offset);
-            Edited = true;
         }
 
         public void DeletePartySlot(int slot)
@@ -717,8 +727,8 @@ namespace PKHeX.Core
             if (BoxEnd >= BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
-            Func<int, int, bool> skip = IsSlotSwapProtected;
-            Section = Section.Where(z => !skip(z.Box, z.Slot));
+            Func<PKM, bool> skip = IsSlotOverwriteProtected;
+            Section = Section.Where(z => !skip(z));
             var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
             if (reverse)
                 Sorted = Sorted.ReverseSort();

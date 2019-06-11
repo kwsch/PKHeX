@@ -18,26 +18,32 @@ namespace PKHeX.Core
         private const int SLOT_START = 0x6000;
         private const int SLOT_COUNT = 2;
 
-        private readonly int SaveCount = -1;
-        private readonly int SaveIndex = -1;
-        private readonly int Memo, Shadow;
-        private readonly StrategyMemo StrategyMemo;
-        private readonly ShadowInfoTableXD ShadowInfo;
+        private int SaveCount = -1;
+        private int SaveIndex = -1;
+        private int Memo;
+        private int Shadow;
+        private StrategyMemo StrategyMemo;
+        private ShadowInfoTableXD ShadowInfo;
         public int MaxShadowID => ShadowInfo.Count;
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
-        private readonly int OFS_PouchCologne, OFS_PouchDisc;
+        private int OFS_PouchCologne;
+        private int OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
-        public SAV3XD(byte[] data = null)
+        public SAV3XD() : base(SaveUtil.SIZE_G3XD)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G3XD];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Initialize();
+            ClearBoxes();
+        }
 
-            if (SaveUtil.GetIsG3XDSAV(Data) != GameVersion.XD)
-                return;
+        public SAV3XD(byte[] data) : base(data)
+        {
+            InitializeData();
+            Initialize();
+        }
 
+        private void InitializeData()
+        {
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
             {
@@ -71,6 +77,7 @@ namespace PKHeX.Core
                 subLength[i] = BigEndian.ToUInt16(Data, 0x20 + (2 * i));
                 subOffsets[i] = BigEndian.ToUInt16(Data, 0x40 + (4 * i)) | BigEndian.ToUInt16(Data, 0x40 + (4 * i) + 2) << 16;
             }
+
             // Offsets are displaced by the 0xA8 savedata region
             Trainer1 = subOffsets[1] + 0xA8;
             Party = Trainer1 + 0x30;
@@ -82,7 +89,10 @@ namespace PKHeX.Core
 
             StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
             ShadowInfo = new ShadowInfoTableXD(Data.Skip(Shadow).Take(subLength[7]).ToArray());
+        }
 
+        private void Initialize()
+        {
             OFS_PouchHeldItem = Trainer1 + 0x4C8;
             OFS_PouchKeyItem = Trainer1 + 0x540;
             OFS_PouchBalls = Trainer1 + 0x5EC;
@@ -90,20 +100,8 @@ namespace PKHeX.Core
             OFS_PouchBerry = Trainer1 + 0x72C;
             OFS_PouchCologne = Trainer1 + 0x7E4;
             OFS_PouchDisc = Trainer1 + 0x7F0;
-
-            LegalItems = Legal.Pouch_Items_XD;
-            LegalKeyItems = Legal.Pouch_Key_XD;
-            LegalBalls = Legal.Pouch_Ball_RS;
-            LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
-            LegalBerries = Legal.Pouch_Berries_RS;
-            LegalCologne = Legal.Pouch_Cologne_XD;
-            LegalDisc = Legal.Pouch_Disc_XD;
-
             Personal = PersonalTable.RS;
             HeldItems = Legal.HeldItems_XD;
-
-            if (!Exportable)
-                ClearBoxes();
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
@@ -329,13 +327,13 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch3GC(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
-                    new InventoryPouch3GC(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch3GC(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
-                    new InventoryPouch3GC(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
-                    new InventoryPouch3GC(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
-                    new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
-                    new InventoryPouch3GC(InventoryType.BattleItems, LegalDisc, 999, OFS_PouchDisc, 60)
+                    new InventoryPouch3GC(InventoryType.Items, Legal.Pouch_Items_XD, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
+                    new InventoryPouch3GC(InventoryType.KeyItems, Legal.Pouch_Key_XD, 1, OFS_PouchKeyItem, 43),
+                    new InventoryPouch3GC(InventoryType.Balls, Legal.Pouch_Ball_RS, 999, OFS_PouchBalls, 16),
+                    new InventoryPouch3GC(InventoryType.TMHMs, Legal.Pouch_TM_RS, 999, OFS_PouchTMHM, 64),
+                    new InventoryPouch3GC(InventoryType.Berries, Legal.Pouch_Berries_RS, 999, OFS_PouchBerry, 46),
+                    new InventoryPouch3GC(InventoryType.Medicine, Legal.Pouch_Cologne_XD, 999, OFS_PouchCologne, 3), // Cologne
+                    new InventoryPouch3GC(InventoryType.BattleItems, Legal.Pouch_Disc_XD, 999, OFS_PouchDisc, 60)
                 };
                 return pouch.LoadAll(Data);
             }

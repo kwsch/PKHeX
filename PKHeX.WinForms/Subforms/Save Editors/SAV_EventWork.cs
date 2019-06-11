@@ -134,7 +134,7 @@ namespace PKHeX.WinForms
                         DropDownWidth = Width + 100
                     };
                     cb.InitializeBinding();
-                    cb.DataSource = new BindingSource(f.Options.Select(z => new ComboItem{Text = z.Text, Value = z.Value}).ToList(), null);
+                    cb.DataSource = new BindingSource(f.Options.Select(z => new ComboItem(z.Text, z.Value)).ToList(), null);
                     cb.SelectedValue = f.Value;
                     if (cb.SelectedIndex < 0)
                         cb.SelectedIndex = 0;

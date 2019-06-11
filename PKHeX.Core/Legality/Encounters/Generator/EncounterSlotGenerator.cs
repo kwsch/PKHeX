@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
@@ -132,7 +131,7 @@ namespace PKHeX.Core
                 || slot.IsDeferredSport(IsSportBall);
         }
 
-        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !IsWurmpleEvoValid(pkm);
+        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !WurmpleUtil.IsWurmpleEvoValid(pkm);
         private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Type & SlotType.Safari) != 0);
         private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != ((slot.Type & SlotType.BugContest) != 0);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
@@ -341,34 +340,34 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 // Pikachu
-                case 25 when rate == 163:
-                case 26 when rate == 163:
+                case (int)Species.Pikachu when rate == 163:
+                case (int)Species.Raichu when rate == 163:
                     return false; // Yellow Pikachu is not a wild encounter
 
                 // Kadabra (YW)
-                case 64 when rate == 96:
-                case 65 when rate == 96:
-                    vs = vs.Where(s => s.Species == 64);
+                case (int)Species.Kadabra when rate == 96:
+                case (int)Species.Alakazam when rate == 96:
+                    vs = vs.Where(s => s.Species == (int)Species.Kadabra);
                     Gen1Version = GameVersion.YW;
                     return true;
 
                 // Kadabra (RB)
-                case 64 when rate == 100:
-                case 65 when rate == 100:
-                    vs = vs.Where(s => s.Species == 64);
+                case (int)Species.Kadabra when rate == 100:
+                case (int)Species.Alakazam when rate == 100:
+                    vs = vs.Where(s => s.Species == (int)Species.Kadabra);
                     Gen1Version = GameVersion.RB;
                     return true;
 
                 // Dragonair (YW)
-                case 148 when rate == 27:
-                case 149 when rate == 27:
-                    vs = vs.Where(s => s.Species == 148); // Yellow Dragonair, ignore Dratini encounters
+                case (int)Species.Dragonair when rate == 27:
+                case (int)Species.Dragonite when rate == 27:
+                    vs = vs.Where(s => s.Species == (int)Species.Dragonair); // Yellow Dragonair, ignore Dratini encounters
                     Gen1Version = GameVersion.YW;
                     return true;
 
                 // Dragonair (RB)
-                case 148:
-                case 149:
+                case (int)Species.Dragonair:
+                case (int)Species.Dragonite:
                     // Red blue dragonair have the same catch rate as dratini, it could also be a dratini from any game
                     vs = vs.Where(s => rate == PersonalTable.RB[s.Species].CatchRate);
                     RBDragonair = true;
@@ -420,13 +419,6 @@ namespace PKHeX.Core
             var slots = GetEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation || (pkm.Format == 2 && gameSource != GameVersion.C);
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
-        }
-
-        private static bool IsWurmpleEvoValid(PKM pkm)
-        {
-            uint evoVal = PKX.GetWurmpleEvoVal(pkm.EncryptionConstant);
-            int wIndex = Array.IndexOf(WurmpleEvolutions, pkm.Species) / 2;
-            return evoVal == wIndex;
         }
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)

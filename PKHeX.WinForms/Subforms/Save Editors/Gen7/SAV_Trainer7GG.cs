@@ -196,7 +196,7 @@ namespace PKHeX.WinForms
                 return;
             }
             var gp1 = new GP1();
-            data.CopyTo(gp1.Data);
+            data.CopyTo(gp1.Data, 0);
             Park[index] = gp1;
             UpdateGoSummary((int)NUD_GoIndex.Value);
         }

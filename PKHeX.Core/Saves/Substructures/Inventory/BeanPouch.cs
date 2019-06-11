@@ -47,7 +47,7 @@ namespace PKHeX.Core
         {
             int[] beans = new int[Count];
             for (int i = 0; i < beans.Length; i++)
-                beans[i] = SAV.GetPokebeanCount(i);
+                beans[i] = SAV.ResortSave.GetPokebeanCount(i);
             return beans;
         }
 
@@ -56,13 +56,13 @@ namespace PKHeX.Core
             if (beans.Count != Count)
                 return;
             for (int i = 0; i < beans.Count; i++)
-                SAV.SetPokebeanCount(i, beans[i]);
+                SAV.ResortSave.SetPokebeanCount(i, beans[i]);
         }
 
         public void SetCountAll(int val)
         {
             for (int i = 0; i < Count; i++)
-                SAV.SetPokebeanCount(i, val);
+                SAV.ResortSave.SetPokebeanCount(i, val);
         }
     }
 }

@@ -16,15 +16,26 @@ namespace PKHeX.Core
 
         private const int SAVE_COUNT = 4;
 
-        public SAV4BR(byte[] data = null)
+        public SAV4BR() : base(SaveUtil.SIZE_G4BR)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G4BR];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            ClearBoxes();
+            Initialize();
+        }
 
-            if (SaveUtil.GetIsG4BRSAV(Data) != GameVersion.BATREV)
-                return;
+        public SAV4BR(byte[] data) : base(data)
+        {
+            InitializeData(data);
+            Initialize();
+        }
 
+        private void Initialize()
+        {
+            Personal = PersonalTable.DP;
+            HeldItems = Legal.HeldItems_DP;
+        }
+
+        private void InitializeData(byte[] data)
+        {
             Data = DecryptPBRSaveData(data);
 
             // Detect active save
@@ -46,12 +57,6 @@ namespace PKHeX.Core
             }
 
             CurrentSlot = SaveSlots[0];
-
-            Personal = PersonalTable.DP;
-            HeldItems = Legal.HeldItems_DP;
-
-            if (!Exportable)
-                ClearBoxes();
         }
 
         private bool IsOTNamePresent(int i)
@@ -59,7 +64,7 @@ namespace PKHeX.Core
             return BitConverter.ToUInt16(Data, 0x390 + (0x6FF00 * i)) != 0;
         }
 
-        private readonly uint SaveCount;
+        private uint SaveCount;
 
         protected override byte[] GetFinalData()
         {

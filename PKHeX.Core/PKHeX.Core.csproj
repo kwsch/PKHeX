@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <Description>Pokémon C# Class Library</Description>
     <Company>Project Pokémon</Company>
     <Copyright>Kaphotics</Copyright>
@@ -10,6 +10,7 @@
     <PackageIconUrl>https://github.com/kwsch/PKHeX/blob/master/PKHeX.WinForms/icon.ico</PackageIconUrl>
     <PackageProjectUrl />
     <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

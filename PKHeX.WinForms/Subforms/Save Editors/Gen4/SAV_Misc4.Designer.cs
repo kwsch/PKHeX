@@ -101,8 +101,10 @@
             this.TAB_Walker = new System.Windows.Forms.TabPage();
             this.B_UnlockCourses = new System.Windows.Forms.Button();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
-            this.B_AllSealsLegal = new System.Windows.Forms.Button();
             this.B_AllSealsIllegal = new System.Windows.Forms.Button();
+            this.B_AllSealsLegal = new System.Windows.Forms.Button();
+            this.Tab_Poffins = new System.Windows.Forms.TabPage();
+            this.poffinCase4Editor1 = new PKHeX.WinForms.PoffinCase4Editor();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).BeginInit();
@@ -143,6 +145,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
             this.TAB_Walker.SuspendLayout();
             this.Tab_Misc.SuspendLayout();
+            this.Tab_Poffins.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -169,10 +172,14 @@
             // 
             // TC_Misc
             // 
+            this.TC_Misc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_Misc.Controls.Add(this.TAB_Main);
             this.TC_Misc.Controls.Add(this.TAB_BF);
             this.TC_Misc.Controls.Add(this.TAB_Walker);
             this.TC_Misc.Controls.Add(this.Tab_Misc);
+            this.TC_Misc.Controls.Add(this.Tab_Poffins);
             this.TC_Misc.Location = new System.Drawing.Point(12, 13);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
@@ -1166,6 +1173,16 @@
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
             // 
+            // B_AllSealsIllegal
+            // 
+            this.B_AllSealsIllegal.Location = new System.Drawing.Point(6, 49);
+            this.B_AllSealsIllegal.Name = "B_AllSealsIllegal";
+            this.B_AllSealsIllegal.Size = new System.Drawing.Size(120, 37);
+            this.B_AllSealsIllegal.TabIndex = 1;
+            this.B_AllSealsIllegal.Text = "Give All Seals (Illegal)";
+            this.B_AllSealsIllegal.UseVisualStyleBackColor = true;
+            this.B_AllSealsIllegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
+            // 
             // B_AllSealsLegal
             // 
             this.B_AllSealsLegal.Location = new System.Drawing.Point(6, 6);
@@ -1176,15 +1193,24 @@
             this.B_AllSealsLegal.UseVisualStyleBackColor = true;
             this.B_AllSealsLegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
             // 
-            // B_AllSealsIllegal
+            // Tab_Poffins
             // 
-            this.B_AllSealsIllegal.Location = new System.Drawing.Point(6, 49);
-            this.B_AllSealsIllegal.Name = "B_AllSealsIllegal";
-            this.B_AllSealsIllegal.Size = new System.Drawing.Size(120, 37);
-            this.B_AllSealsIllegal.TabIndex = 1;
-            this.B_AllSealsIllegal.Text = "Give All Seals (Illegal)";
-            this.B_AllSealsIllegal.UseVisualStyleBackColor = true;
-            this.B_AllSealsIllegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
+            this.Tab_Poffins.Controls.Add(this.poffinCase4Editor1);
+            this.Tab_Poffins.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Poffins.Name = "Tab_Poffins";
+            this.Tab_Poffins.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Poffins.Size = new System.Drawing.Size(373, 239);
+            this.Tab_Poffins.TabIndex = 4;
+            this.Tab_Poffins.Text = "Poffins";
+            this.Tab_Poffins.UseVisualStyleBackColor = true;
+            // 
+            // poffinCase4Editor1
+            // 
+            this.poffinCase4Editor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.poffinCase4Editor1.Location = new System.Drawing.Point(3, 3);
+            this.poffinCase4Editor1.Name = "poffinCase4Editor1";
+            this.poffinCase4Editor1.Size = new System.Drawing.Size(367, 233);
+            this.poffinCase4Editor1.TabIndex = 0;
             // 
             // SAV_Misc4
             // 
@@ -1241,6 +1267,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
             this.TAB_Walker.ResumeLayout(false);
             this.Tab_Misc.ResumeLayout(false);
+            this.Tab_Poffins.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1321,5 +1348,7 @@
         private System.Windows.Forms.TabPage Tab_Misc;
         private System.Windows.Forms.Button B_AllSealsIllegal;
         private System.Windows.Forms.Button B_AllSealsLegal;
+        private System.Windows.Forms.TabPage Tab_Poffins;
+        private PoffinCase4Editor poffinCase4Editor1;
     }
 }

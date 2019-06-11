@@ -16,16 +16,28 @@ namespace PKHeX.Core
 
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
-        public SAV3RSBox(byte[] data = null)
+        public SAV3RSBox() : base(SaveUtil.SIZE_G3BOX)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G3BOX];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Box = 0;
+            ClearBoxes();
+            Initialize();
+        }
 
-            if (SaveUtil.GetIsG3BOXSAV(Data) != GameVersion.RSBOX)
-                return;
+        public SAV3RSBox(byte[] data) : base(data)
+        {
+            InitializeData();
+            Initialize();
+        }
 
-            Blocks = new BlockInfoRSBOX[2*BLOCK_COUNT];
+        private void Initialize()
+        {
+            Personal = PersonalTable.RS;
+            HeldItems = Legal.HeldItems_RS;
+        }
+
+        private void InitializeData()
+        {
+            Blocks = new BlockInfoRSBOX[2 * BLOCK_COUNT];
             for (int i = 0; i < Blocks.Length; i++)
             {
                 int offset = BLOCK_SIZE + (i * BLOCK_SIZE);
@@ -33,10 +45,10 @@ namespace PKHeX.Core
             }
 
             // Detect active save
-            int[] SaveCounts = Blocks.Select(block => (int)block.SaveCount).ToArray();
+            int[] SaveCounts = Blocks.Select(block => (int) block.SaveCount).ToArray();
             SaveCount = SaveCounts.Max();
             int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
-            Blocks = Blocks.Skip(ActiveSAV*BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();
+            Blocks = Blocks.Skip(ActiveSAV * BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
@@ -45,17 +57,11 @@ namespace PKHeX.Core
             // Copy block to the allocated location
             const int copySize = BLOCK_SIZE - 0x10;
             foreach (var b in Blocks)
-                Array.Copy(Data, b.Offset + 0xC, Data, (int)(Box + (b.ID*copySize)), copySize);
-
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_RS;
-
-            if (!Exportable)
-                ClearBoxes();
+                Array.Copy(Data, b.Offset + 0xC, Data, (int) (Box + (b.ID * copySize)), copySize);
         }
 
-        private readonly BlockInfoRSBOX[] Blocks;
-        private readonly int SaveCount;
+        private BlockInfoRSBOX[] Blocks;
+        private int SaveCount;
         private const int BLOCK_COUNT = 23;
         private const int BLOCK_SIZE = 0x2000;
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data

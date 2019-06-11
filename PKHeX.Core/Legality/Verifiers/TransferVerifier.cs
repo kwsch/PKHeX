@@ -63,30 +63,36 @@ namespace PKHeX.Core
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.Format == 4 && pkm.Met_Location != Legal.Transfer3) // Pal Park
-                data.AddLine(GetInvalid(LEggLocationPalPark));
-            if (pkm.Format != 4 && pkm.Met_Location != Legal.Transfer4)
-                data.AddLine(GetInvalid(LTransferEggLocationTransporter));
+            if (pkm.Format == 4) // Pal Park (3->4)
+            {
+                if (pkm.Met_Location != Locations.Transfer3)
+                    data.AddLine(GetInvalid(LEggLocationPalPark));
+            }
+            else // Transporter (4->5)
+            {
+                if (pkm.Met_Location != Locations.Transfer4)
+                    data.AddLine(GetInvalid(LTransferEggLocationTransporter));
+            }
         }
 
         public void VerifyTransferLegalityG4(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             int loc = pkm.Met_Location;
-            if (loc == Legal.Transfer4)
+            if (loc == Locations.Transfer4)
                 return;
 
-            // Crown met location must be present
+            // Crown met location must be present if transferred via lock capsule
             switch (pkm.Species)
             {
-                case 251: // Celebi
-                    if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
+                case (int)Species.Celebi:
+                    if (loc != Locations.Transfer4_CelebiUnused && loc != Locations.Transfer4_CelebiUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
-                case 243: // Raikou
-                case 244: // Entei
-                case 245: // Suicune
-                    if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
+                case (int)Species.Raikou:
+                case (int)Species.Entei:
+                case (int)Species.Suicune:
+                    if (loc != Locations.Transfer4_CrownUnused && loc != Locations.Transfer4_CrownUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 default:
@@ -127,7 +133,7 @@ namespace PKHeX.Core
                 if (pkm.PersonalInfo.Gender == 31 && pkm.IsShiny) // impossible gender-shiny
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
-            else if (pkm.Species == 201) // unown
+            else if (pkm.Species == (int)Species.Unown)
             {
                 if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);

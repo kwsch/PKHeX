@@ -262,27 +262,27 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case 647: // Keldeo
+                case (int)Species.Keldeo: // Keldeo
                     r.Add(548); // Secret Sword
                     break;
-                case 648:
+                case (int)Species.Meloetta:
                     r.Add(547); // Relic Song
                     break;
-                case 25 when Generation == 6 && pkm.Format == 6:
+                case (int)Species.Pikachu when Generation == 6 && pkm.Format == 6:
                     int index = pkm.AltForm - 1;
                     if (index >= 0 && index < CosplayPikachuMoves.Length)
                         r.Add(CosplayPikachuMoves[index]);
                     break;
 
-                case 25 when Generation == 7 && pkm.AltForm == 8:
+                case (int)Species.Pikachu when Generation == 7 && pkm.AltForm == 8:
                     r.AddRange(Tutor_StarterPikachu);
                     break;
-                case 133 when Generation == 7 && pkm.AltForm == 1:
+                case (int)Species.Eevee when Generation == 7 && pkm.AltForm == 1:
                     r.AddRange(Tutor_StarterEevee);
                     break;
 
-                case 25 when Generation == 7 && !(pkm is PB7):
-                case 26 when Generation == 7 && !(pkm is PB7):
+                case (int)Species.Pikachu when Generation == 7 && !(pkm is PB7):
+                case (int)Species.Raichu  when Generation == 7 && !(pkm is PB7):
                     r.Add(344); // Volt Tackle
                     break;
             }
@@ -292,16 +292,16 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case 479 when Generation >= 4: // rotom
+                case (int)Species.Rotom when Generation >= 4: // rotom
                     r.Add(RotomMoves[pkm.AltForm]);
                     break;
-                case 718 when Generation == 7: // zygarde
+                case (int)Species.Zygarde when Generation == 7: // zygarde
                     r.AddRange(ZygardeMoves);
                     break;
-                case 800 when pkm.AltForm == 1: // Sun Necrozma
+                case (int)Species.Necrozma when pkm.AltForm == 1: // Sun Necrozma
                     r.Add(713);
                     break;
-                case 800 when pkm.AltForm == 2: // Moon Necrozma
+                case (int)Species.Necrozma when pkm.AltForm == 2: // Moon Necrozma
                     r.Add(714);
                     break;
             }

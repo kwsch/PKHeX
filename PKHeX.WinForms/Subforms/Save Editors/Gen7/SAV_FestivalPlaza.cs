@@ -17,7 +17,7 @@ namespace PKHeX.WinForms
             SAV = (SAV7)(Origin = sav).Clone();
             editing = true;
             typeMAX = SAV.USUM ? 0x7F : 0x7C;
-            TB_PlazaName.Text = SAV.FestivalPlazaName;
+            TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
             if (SAV.USUM)
             {
@@ -36,8 +36,8 @@ namespace PKHeX.WinForms
                 catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
             }
 
-            uint cc = SAV.FestaCoins;
-            uint cu = SAV.UsedFestaCoins;
+            var cc = SAV.Festa.FestaCoins;
+            var cu = SAV.GetRecord(038);
             NUD_FC_Current.Value = Math.Min(cc, NUD_FC_Current.Maximum);
             NUD_FC_Used.Value = Math.Min(cu, NUD_FC_Used.Maximum);
             L_FC_CollectedV.Text = (cc + cu).ToString();
@@ -72,18 +72,18 @@ namespace PKHeX.WinForms
                     break;
             }
             CLB_Phrases.Items.Clear();
-            CLB_Phrases.Items.Add(res.Last(), SAV.GetFestaPhraseUnlocked(106)); //add Lv100 before TentPhrases
+            CLB_Phrases.Items.Add(res.Last(), SAV.Festa.GetFestaPhraseUnlocked(106)); //add Lv100 before TentPhrases
             for (int i = 0; i < res.Length - 1; i++)
-                CLB_Phrases.Items.Add(res[i], SAV.GetFestaPhraseUnlocked(i));
+                CLB_Phrases.Items.Add(res[i], SAV.Festa.GetFestaPhraseUnlocked(i));
 
-            DateTime dt = SAV.FestaDate ?? new DateTime(2000, 1, 1);
+            DateTime dt = SAV.Festa.FestaDate ?? new DateTime(2000, 1, 1);
             CAL_FestaStartDate.Value = CAL_FestaStartTime.Value = dt;
 
             string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
             CLB_Reward.Items.Clear();
-            CLB_Reward.Items.Add(res2.Last(), (CheckState)RewardState[SAV.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
+            CLB_Reward.Items.Add(res2.Last(), (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
             for (int i = 0; i < res2.Length - 1; i++)
-                CLB_Reward.Items.Add(res2[i], (CheckState)RewardState[SAV.GetFestPrizeReceived(i)]);
+                CLB_Reward.Items.Add(res2[i], (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(i)]);
 
             for (int i = 0; i < 7; i++)
                 f[i] = new FestaFacility(SAV, i);
@@ -149,11 +149,11 @@ namespace PKHeX.WinForms
                     CB_LuckyResult.Items.Add($"{lv} {type}");
             }
 
-            NUD_Rank.Value = SAV.FestaRank;
-            LoadRankLabel(SAV.FestaRank);
+            NUD_Rank.Value = SAV.Festa.FestaRank;
+            LoadRankLabel(SAV.Festa.FestaRank);
             NUD_Messages = new[] { NUD_MyMessageMeet, NUD_MyMessagePart, NUD_MyMessageMoved, NUD_MyMessageDissapointed };
             for (int i = 0; i < NUD_Messages.Length; i++)
-                NUD_Messages[i].Value = SAV.GetFestaMessage(i);
+                NUD_Messages[i].Value = SAV.Festa.GetFestaMessage(i);
 
             LB_FacilityIndex.SelectedIndex = 0;
             CB_FacilityMessage.SelectedIndex = 0;
@@ -256,17 +256,17 @@ namespace PKHeX.WinForms
 
         private void Save()
         {
-            SAV.SetFestaPhraseUnlocked(106, CLB_Phrases.GetItemChecked(0));
+            SAV.Festa.SetFestaPhraseUnlocked(106, CLB_Phrases.GetItemChecked(0));
             for (int i = 1; i < CLB_Phrases.Items.Count; i++)
-                SAV.SetFestaPhraseUnlocked(i - 1, CLB_Phrases.GetItemChecked(i));
+                SAV.Festa.SetFestaPhraseUnlocked(i - 1, CLB_Phrases.GetItemChecked(i));
 
-            SAV.UsedFestaCoins = (uint)NUD_FC_Used.Value;
-            SAV.FestaCoins = (uint)NUD_FC_Current.Value;
-            SAV.FestaDate = new DateTime(CAL_FestaStartDate.Value.Year, CAL_FestaStartDate.Value.Month, CAL_FestaStartDate.Value.Day, CAL_FestaStartTime.Value.Hour, CAL_FestaStartTime.Value.Minute, CAL_FestaStartTime.Value.Second);
+            SAV.SetRecord(038, (int)NUD_FC_Used.Value);
+            SAV.Festa.FestaCoins = (int)NUD_FC_Current.Value;
+            SAV.Festa.FestaDate = new DateTime(CAL_FestaStartDate.Value.Year, CAL_FestaStartDate.Value.Month, CAL_FestaStartDate.Value.Day, CAL_FestaStartTime.Value.Hour, CAL_FestaStartTime.Value.Minute, CAL_FestaStartTime.Value.Second);
 
-            SAV.SetFestaPrizeReceived(10, RewardState[(int)CLB_Reward.GetItemCheckState(0)]);
+            SAV.Festa.SetFestaPrizeReceived(10, RewardState[(int)CLB_Reward.GetItemCheckState(0)]);
             for (int i = 1; i < CLB_Reward.Items.Count; i++)
-                SAV.SetFestaPrizeReceived(i - 1, RewardState[(int)CLB_Reward.GetItemCheckState(i)]);
+                SAV.Festa.SetFestaPrizeReceived(i - 1, RewardState[(int)CLB_Reward.GetItemCheckState(i)]);
 
             SaveFacility();
             foreach (FestaFacility facility in f)
@@ -330,7 +330,7 @@ namespace PKHeX.WinForms
             SAV.SetData(BitConverter.GetBytes((ushort)NUD_DefeatMon.Value), 0x6C558);
             for (int i = 0; i < NUD_Trainers.Length; i++)
                 SAV.SetData(BitConverter.GetBytes((ushort)NUD_Trainers[i].Value), 0x6C56C + (0x14 * i));
-            SAV.FestivalPlazaName = TB_PlazaName.Text;
+            SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
         }
 
         private void NUD_FC_ValueChanged(object sender, EventArgs e)
@@ -567,7 +567,7 @@ namespace PKHeX.WinForms
         {
             if (editing) return;
             int rank = (int)NUD_Rank.Value;
-            SAV.FestaRank = (ushort)rank;
+            SAV.Festa.FestaRank = (ushort)rank;
             LoadRankLabel(rank);
         }
 
@@ -578,7 +578,7 @@ namespace PKHeX.WinForms
             if (editing) return;
             int mmIndex = Array.IndexOf(NUD_Messages, (NumericUpDown)sender);
             if (mmIndex < 0) return;
-            SAV.SetFestaMessage(mmIndex, (ushort)((NumericUpDown)sender).Value);
+            SAV.Festa.SetFestaMessage(mmIndex, (ushort)((NumericUpDown)sender).Value);
         }
 
         private void CHK_FacilityIntroduced_CheckedChanged(object sender, EventArgs e)

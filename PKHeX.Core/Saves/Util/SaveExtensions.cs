@@ -121,6 +121,7 @@ namespace PKHeX.Core
             int startCount = boxStart * SAV.BoxSlotCount;
             int maxCount = SAV.SlotCount;
             int index = startCount;
+            int nonOverwriteImport = 0;
 
             foreach (var pk in compat)
             {
@@ -128,20 +129,23 @@ namespace PKHeX.Core
                 {
                     while (SAV.IsSlotOverwriteProtected(index))
                         ++index;
+
+                    SAV.SetBoxSlotAtIndex(pk, index, noSetb);
                 }
                 else
                 {
                     index = SAV.NextOpenBoxSlot(index-1);
                     if (index < 0) // Boxes full!
                         break;
-                }
 
-                SAV.SetBoxSlotAtIndex(pk, index, noSetb);
+                    SAV.SetBoxSlotAtIndex(pk, index, noSetb);
+                    nonOverwriteImport++;
+                }
 
                 if (++index == maxCount) // Boxes full!
                     break;
             }
-            return index - startCount; // actual imported count
+            return (overwrite) ? index - startCount : nonOverwriteImport; // actual imported count
         }
 
         public static IEnumerable<PKM> GetCompatible(this SaveFile SAV, IEnumerable<PKM> pks)

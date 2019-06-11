@@ -50,6 +50,7 @@ MsgFileWriteProtected = La localización del archivo está protegida contra escr
 MsgFileWriteProtectedAdvice = Si el archivo está en un disco extraíble (tarjeta SD), por favor asegúrate de que el interroptur de protección contra escritura no esté activado.
 MsgFileInUse = No se ha podido cargar el archivo. Puede que esté siendo usado por otro programa.
 MsgFileUnsupported = Se ha intentado cargar un tipo/tamaño de archivo no soportado.
+MsgPKMUnsupported = Attempted to load an unsupported file type/size. This could be caused by loading a different generation Pokemon file on an unsupported generation or your file is corrupt.
 MsgPKMConvertSuccess = Convertido de {0} a {1}.
 MsgPKMConvertFail = Conversión fallida.
 MsgPKMMysteryGiftFail = El Regalo Misterioso no es un Pokémon.

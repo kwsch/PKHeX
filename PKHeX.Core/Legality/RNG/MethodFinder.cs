@@ -212,7 +212,7 @@ namespace PKHeX.Core
                 {
                     // check for antishiny
                     // allow 2 different TSVs to proc antishiny for XD
-                    var tsv1 = (hi ^ lo) >> 3;
+                    var tsv1 = (int)((hi ^ lo) >> 3);
                     var tsv2 = -1;
                     while (true)
                     {
@@ -235,7 +235,7 @@ namespace PKHeX.Core
                         pidiv = new PIDIVTSV
                         {
                             OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXDAnti,
-                            TSV1 = (int)tsv1, TSV2 = tsv2,
+                            TSV1 = tsv1, TSV2 = tsv2,
                         };
                         return true;
                     }
@@ -341,7 +341,7 @@ namespace PKHeX.Core
                     return true;
                 case 1: // female
                     if (pid >= 25)
-                        break; // nope
+                        break; // nope, this isn't a valid nature
                     if (254 <= getRatio()) // no modification for PID
                         break;
 
@@ -460,12 +460,33 @@ namespace PKHeX.Core
             if (nature == 24) // impossible nature
                 return GetNonMatch(out pidiv);
 
-            uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, pk.Gender, pk.PersonalInfo.Gender);
+            var gender = pk.Gender;
+            uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, gender, pk.PersonalInfo.Gender);
 
             if (pid != oldpid)
-                return GetNonMatch(out pidiv);
+            {
+                if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, oldpid)))
+                    return GetNonMatch(out pidiv);
+            }
             pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.Pokewalker};
             return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint oldpid)
+        {
+            // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a F->M bend?
+            int spec = pk.Species;
+            if (spec != (int)Species.Marill && spec != (int)Species.Azumarill)
+                return false;
+
+            const int AzurillGenderRatio = 0xBF;
+            var gender = PKX.GetGenderFromPIDAndRatio(pk.PID, AzurillGenderRatio);
+            if (gender != 1)
+                return false;
+
+            var pid = PIDGenerator.GetPokeWalkerPID(pk.TID, pk.SID, nature, 1, AzurillGenderRatio);
+            return pid == oldpid;
         }
 
         private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
@@ -562,6 +583,7 @@ namespace PKHeX.Core
 
         private static PIDIV AnalyzeGB(PKM _)
         {
+            // not implemented; correlation between IVs and RNG hasn't been converted to code.
             return null;
         }
 
@@ -800,7 +822,7 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic s:
-                    if (s == Encounters4.SpikyEaredPichu || (s.Location == 233 && s.Gift)) // Pokewalker
+                    if (s == Encounters4.SpikyEaredPichu || (s.Location == Locations.PokeWalker4 && s.Gift)) // Pokewalker
                         return val == PIDType.Pokewalker;
                     if (s.Shiny == Shiny.Always)
                         return val == PIDType.ChainShiny;
@@ -852,10 +874,10 @@ namespace PKHeX.Core
 
         private static bool IsCuteCharm4Valid(IEncounterable encounter, PKM pkm)
         {
-            if (pkm.Species == 183 || pkm.Species == 184)
+            if (pkm.Species == (int)Species.Marill || pkm.Species == (int)Species.Azumarill)
             {
                 return !IsCuteCharmAzurillMale(pkm.PID) // recognized as not Azurill
-                      || encounter.Species == 298; // encounter must be male Azurill
+                      || encounter.Species == (int)Species.Azurill; // encounter must be male Azurill
             }
 
             return true;
@@ -867,10 +889,10 @@ namespace PKHeX.Core
         {
             // There are some edge cases when the gender ratio changes across evolutions.
             species = pk.Species;
-            if (species == 292)
+            if (species == (int)Species.Ninjask)
             {
-                species = 290; // Nincada evo chain travels from M/F -> Genderless Shedinja
-                genderValue = PKX.GetGenderFromPID(290, pid);
+                species = (int)Species.Nincada; // Nincada evo chain travels from M/F -> Genderless Shedinja
+                genderValue = PKX.GetGenderFromPID(species, pid);
                 return;
             }
 
@@ -880,18 +902,18 @@ namespace PKHeX.Core
                 // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
                 // We can assume the re-mapped species's [gender ratio] is what was encountered.
 
-                case 413: species = 412; break; // Wormadam -> Burmy
-                case 414: species = 412; break; // Mothim -> Burmy
-                case 416: species = 415; break; // Vespiquen -> Combee
-                case 475: species = 281; break; // Gallade -> Kirlia/Ralts
-                case 478: species = 361; break; // Froslass -> Snorunt
+                case (int)Species.Wormadam: species = (int)Species.Burmy; break; // Wormadam -> Burmy
+                case (int)Species.Mothim: species = (int)Species.Burmy; break; // Mothim -> Burmy
+                case (int)Species.Vespiquen: species = (int)Species.Combee; break; // Vespiquen -> Combee
+                case (int)Species.Gallade: species = (int)Species.Kirlia; break; // Gallade -> Kirlia/Ralts
+                case (int)Species.Froslass: species = (int)Species.Snorunt; break; // Froslass -> Snorunt
 
                 // Changed gender ratio (25% M -> 50% M) needs special treatment.
                 // Double check the encounter species with IsCuteCharm4Valid afterwards.
-                case 183: case 184: // Azurill & Marill/Azumarill collision
+                case (int)Species.Marill: case (int)Species.Azumarill: // Azurill & Marill/Azumarill collision
                     if (IsCuteCharmAzurillMale(pid))
                     {
-                        species = 298;
+                        species = (int)Species.Azurill;
                         genderValue = 0;
                         return;
                     }

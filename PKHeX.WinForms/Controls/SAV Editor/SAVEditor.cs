@@ -141,7 +141,7 @@ namespace PKHeX.WinForms.Controls
         public event EventHandler RequestReloadSave;
 
         public Cursor GetDefaultCursor => DefaultCursor;
-        private Image GetSprite(PKM p, int slot) => p.Sprite(SAV, Box.CurrentBox, slot, Box.FlagIllegal);
+        private Image GetSprite(PKM p, int slot) => p.Sprite(SAV, -1, slot, Box.FlagIllegal);
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
         {
@@ -582,19 +582,18 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation != 6)
-                return;
-            new SAV_OPower((SAV6)SAV).ShowDialog();
+            if (SAV is IOPower op)
+                new SAV_OPower(op).ShowDialog();
         }
 
         private void B_OpenFriendSafari_Click(object sender, EventArgs e)
         {
-            if (!SAV.XY)
+            if (!(SAV is SAV6XY xy))
                 return;
 
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6FriendSafari, MsgSaveGen6FriendSafariCheatDesc);
             if (dr == DialogResult.Yes)
-                ((SAV6)SAV).UnlockAllFriendSafariSlots();
+                xy.UnlockAllFriendSafariSlots();
         }
 
         private static Form GetPokeDexEditor(SaveFile sav)
@@ -1006,13 +1005,13 @@ namespace PKHeX.WinForms.Controls
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = sav.HasBattleBox;
                 GB_Daycare.Visible = sav.HasDaycare;
                 B_OpenSecretBase.Enabled = sav.HasSecretBase;
-                B_OpenPokepuffs.Enabled = sav is IPokePuff p && p.HasPuffData;
+                B_OpenPokepuffs.Enabled = sav is IPokePuff;
                 B_OUTPasserby.Enabled = sav.HasPSS;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
                 B_OpenSuperTraining.Enabled = sav.HasSuperTrain;
                 B_OpenHallofFame.Enabled = sav.HasHoF;
-                B_OpenOPowers.Enabled = sav.HasOPower;
+                B_OpenOPowers.Enabled = sav is IOPower;
                 B_OpenPokedex.Enabled = sav.HasPokeDex;
                 B_OpenBerryField.Enabled = sav.HasBerryField && sav.XY;
                 B_OpenFriendSafari.Enabled = sav.XY;
@@ -1049,7 +1048,7 @@ namespace PKHeX.WinForms.Controls
             if (sav is SAV4BR br)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
-                var list = br.SaveNames.Select((z, i) => new ComboItem {Text = z, Value = i}).ToList();
+                var list = br.SaveNames.Select((z, i) => new ComboItem(z, i)).ToList();
                 CB_SaveSlot.InitializeBinding();
                 CB_SaveSlot.DataSource = new BindingSource(list, null);
                 CB_SaveSlot.SelectedValue = br.CurrentSlot;

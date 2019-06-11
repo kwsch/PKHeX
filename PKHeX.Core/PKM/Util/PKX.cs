@@ -476,31 +476,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the Wurmple Evolution Value for a given <see cref="PKM.EncryptionConstant"/>
-        /// </summary>
-        /// <param name="EC">Encryption Constant</param>
-        /// <returns>Wurmple Evolution Value</returns>
-        public static uint GetWurmpleEvoVal(uint EC)
-        {
-            var evoVal = EC >> 16;
-            return evoVal % 10 / 5;
-        }
-
-        /// <summary>
-        /// Gets the Wurmple <see cref="PKM.EncryptionConstant"/> for a given Evolution Value
-        /// </summary>
-        /// <param name="evoVal">Wurmple Evolution Value</param>
-        /// <remarks>0 = Silcoon, 1 = Cascoon</remarks>
-        /// <returns>Encryption Constant</returns>
-        public static uint GetWurmpleEC(int evoVal)
-        {
-            uint EC;
-            do EC = Util.Rand32();
-            while (evoVal != GetWurmpleEvoVal(EC));
-            return EC;
-        }
-
-        /// <summary>
         /// Gets a random PID according to specifications.
         /// </summary>
         /// <param name="species">National Dex ID</param>
@@ -820,22 +795,6 @@ namespace PKHeX.Core
             return last == 'x' ? 6 : prefer;
         }
 
-        // Extensions
-        /// <summary>
-        /// Gets the Location Name for the <see cref="PKM"/>
-        /// </summary>
-        /// <param name="pk">PKM to fetch data for</param>
-        /// <param name="eggmet">Location requested is the egg obtained location, not met location.</param>
-        /// <returns>Location string</returns>
-        public static string GetLocationString(this PKM pk, bool eggmet)
-        {
-            if (pk.Format < 2)
-                return string.Empty;
-
-            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
-        }
-
         /// <summary>
         /// Copies a <see cref="PKM"/> list to the destination list, with an option to copy to a starting point.
         /// </summary>
@@ -844,29 +803,34 @@ namespace PKHeX.Core
         /// <param name="skip">Criteria for skipping a slot</param>
         /// <param name="start">Starting point to copy to</param>
         /// <returns>Count of <see cref="PKM"/> copied.</returns>
-        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<int, int, bool> skip, int start = 0)
+        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<PKM, bool> skip, int start = 0)
         {
             int ctr = start;
-            if (ctr >= dest.Count)
-                return 0;
-
             int skipped = 0;
             foreach (var z in list)
             {
                 // seek forward to next open slot
-                while (true)
-                {
-                    var exist = dest[ctr];
-                    if (exist == null || !skip(exist.Box, exist.Slot))
-                        break;
-                    skipped++;
-                    ctr++;
-                }
-                if (dest.Count <= ctr)
+                int next = FindNextSlot(dest, skip, ctr);
+                if (next == -1)
                     break;
+                skipped += next - ctr;
+                ctr = next;
                 dest[ctr++] = z;
             }
             return ctr - start - skipped;
+        }
+
+        private static int FindNextSlot(IList<PKM> dest, Func<PKM, bool> skip, int ctr)
+        {
+            while (true)
+            {
+                if (ctr >= dest.Count)
+                    return -1;
+                var exist = dest[ctr];
+                if (exist == null || !skip(exist))
+                    return ctr;
+                ctr++;
+            }
         }
 
         /// <summary>
@@ -882,7 +846,7 @@ namespace PKHeX.Core
             int ctr = start;
             foreach (var z in list)
             {
-                if (dest.Count <= ctr)
+                if (ctr >= dest.Count)
                     break;
                 dest[ctr++] = z;
             }

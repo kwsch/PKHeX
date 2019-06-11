@@ -150,7 +150,7 @@ namespace PKHeX.Core
             pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
             pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
 
-            if (pk.GenNumber >= 4)
+            if (Generation >= 4)
             {
                 bool traded = (int)Version == tr.Game;
                 pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
@@ -187,8 +187,8 @@ namespace PKHeX.Core
                 return;
             switch (Species)
             {
-                case 491 when Location == 079: // DP Darkrai
-                case 492 when Location == 063: // DP Shaymin
+                case (int)Core.Species.Darkrai when Location == 079: // DP Darkrai
+                case (int)Core.Species.Shaymin when Location == 063: // DP Shaymin
                     version = GameVersion.Pt;
                     return;
             }
@@ -206,16 +206,16 @@ namespace PKHeX.Core
         {
             switch (pk.Format)
             {
-                case 1 when Species == 151 && Version == GameVersion.VCEvents: // VC Mew
+                case 1 when Species == (int)Core.Species.Mew && Version == GameVersion.VCEvents: // VC Mew
                     pk.TID = 22796;
                     pk.OT_Name = Legal.GetG1OT_GFMew(lang);
                     return lang;
                 case 1 when Version == GameVersion.EventsGBGen1:
                 case 2 when Version == GameVersion.EventsGBGen2:
                 case 3 when this is EncounterStaticShadow s && s.EReader:
-                case 3 when Species == 151:
+                case 3 when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";
-                    return 1; // Old Sea Map was only distributed to Japanese games.
+                    return (int)LanguageID.Japanese; // Old Sea Map was only distributed to Japanese games.
 
                 default:
                     return lang;
@@ -230,8 +230,8 @@ namespace PKHeX.Core
                     return PIDType.Method_1_Roamer;
                 case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
                     return PIDType.ChainShiny;
-                case 4 when Species == 172: // Spiky Eared Pichu
-                case 4 when Location == 233: // Pokéwalker
+                case 4 when Species == (int)Core.Species.Pichu: // Spiky Eared Pichu
+                case 4 when Location == Locations.PokeWalker4: // Pokéwalker
                     return PIDType.Pokewalker;
                 case 5 when Shiny == Shiny.Always:
                     return PIDType.G5MGShiny;
@@ -244,17 +244,18 @@ namespace PKHeX.Core
         {
             if (Nature != Nature.Random && pkm.Nature != (int)Nature)
                 return false;
-            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && pkm.GenNumber > 3 && !pkm.IsEgg)
+
+            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && Generation > 3 && !pkm.IsEgg)
                 return false;
             if (this is EncounterStaticPID p && p.PID != pkm.PID)
                 return false;
 
-            if (pkm.Gen3 && EggLocation != 0) // Gen3 Egg
+            if (Generation == 3 && EggLocation != 0) // Gen3 Egg
             {
                 if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
                     return false;
             }
-            else if (pkm.VC || (pkm.GenNumber <= 2 && EggLocation != 0)) // Gen2 Egg
+            else if (Generation <= 2 && EggLocation != 0) // Gen2 Egg
             {
                 if (pkm.Format <= 2)
                 {
@@ -277,8 +278,8 @@ namespace PKHeX.Core
                                 break;
                         }
                     }
-                    if (pkm.Met_Level == 1)
-                        lvl = 5; // met @ 1, hatch @ 5.
+                    if (pkm.Met_Level == 1) // Gen2 Eggs are met at 1, and hatch at level 5.
+                        lvl = 5;
                 }
             }
             else if (EggLocation != pkm.Egg_Location)
@@ -290,16 +291,15 @@ namespace PKHeX.Core
                     if (pkm.Egg_Location != 0)
                         return false;
                 }
-                else if (pkm.Gen4)
+                else if (Generation == 4)
                 {
-                    if (pkm.Egg_Location != 2002) // Link Trade
+                    if (pkm.Egg_Location != Locations.LinkTrade4) // Link Trade
                     {
                         // check Pt/HGSS data
                         if (pkm.Format <= 4)
                             return false; // must match
-                        if (EggLocation >= 3000 || EggLocation <= 2010) // non-Pt/HGSS egg gift
+                        if (!Locations.IsPtHGSSLocationEgg(EggLocation)) // non-Pt/HGSS egg gift
                             return false;
-
                         // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
                         if (pkm.Egg_Location != 3002) // Faraway Place
                             return false;
@@ -307,14 +307,14 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    if (pkm.Egg_Location != 30002) // Link Trade
+                    if (pkm.Egg_Location != Locations.LinkTrade6) // Link Trade
                         return false;
                 }
             }
-            else if (EggLocation != 0 && pkm.Gen4)
+            else if (EggLocation != 0 && Generation == 4)
             {
                 // Check the inverse scenario for 4->5 eggs
-                if (EggLocation < 3000 && EggLocation > 2010) // Pt/HGSS egg gift
+                if (Locations.IsPtHGSSLocationEgg(EggLocation)) // egg gift
                 {
                     if (pkm.Format > 4)
                         return false; // locations match when it shouldn't
@@ -337,19 +337,26 @@ namespace PKHeX.Core
             }
 
             if (Gender != -1 && Gender != pkm.Gender)
-                return false;
+            {
+                if (Species == (int)Core.Species.Azurill && Generation == 4 && Location == 233 && pkm.Gender == 0)
+                {
+                    if (PKX.GetGenderFromPIDAndRatio(pkm.PID, 0xBF) != 1)
+                        return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
             if (Form != pkm.AltForm && !SkipFormCheck && !Legal.IsFormChangeable(pkm, Species))
                 return false;
-            if (EggLocation == 60002 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+            if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
             if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
             {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
-                        return false;
-                }
+                if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
+                    return false;
             }
 
             if (pkm is IContestStats s && s.IsContestBelow(this))

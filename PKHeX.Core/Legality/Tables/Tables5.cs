@@ -173,9 +173,9 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> EggLocations5 = new HashSet<int>
         {
-            30002, // Link Trade (NPC)
-            30003, // Link Trade
-            60002, // Daycare
+            Locations.LinkTrade5NPC,
+            Locations.LinkTrade5,
+            Locations.Daycare5,
             60003, // Breeder (NPC)
         };
 

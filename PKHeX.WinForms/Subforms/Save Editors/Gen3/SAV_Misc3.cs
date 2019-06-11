@@ -48,10 +48,9 @@ namespace PKHeX.WinForms
                                      346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
                      401,402,403,407,408,404,405,406,409,410
                 };
-                var speciesList = GameInfo.SpeciesDataSource.Where(v => v.Value <= SAV.MaxSpeciesID).Select(v => new ComboItem {
-                    Text = v.Text,
-                    Value = v.Value < 252 ? v.Value : HoennListMixed[v.Value - 252],
-                }).ToList();
+                var speciesList = GameInfo.SpeciesDataSource.Where(v => v.Value <= SAV.MaxSpeciesID).Select(v =>
+                    new ComboItem (v.Text, v.Value < 252 ? v.Value : HoennListMixed[v.Value - 252])
+                ).ToList();
                 int ofsTCM = SAV.GetBlockOffset(2) + 0x106;
                 for (int i = 0; i < cba.Length; i++)
                 {

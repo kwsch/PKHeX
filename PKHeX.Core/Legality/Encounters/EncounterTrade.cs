@@ -66,7 +66,13 @@ namespace PKHeX.Core
 
         public static readonly int[] DefaultMetLocation =
         {
-            0, 126, 254, 2001, 30002, 30001, 30001,
+            0,
+            Locations.LinkTrade2NPC,
+            Locations.LinkTrade3NPC,
+            Locations.LinkTrade4NPC,
+            Locations.LinkTrade5NPC,
+            Locations.LinkTrade6NPC,
+            Locations.LinkTrade6NPC, // 7 is same as 6
         };
 
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
@@ -186,28 +192,28 @@ namespace PKHeX.Core
         {
             switch (Generation)
             {
-                case 3 when Species == 124 && pkm.Version == (int) GameVersion.LG && pkm.Language == (int) LanguageID.Italian:
+                case 3 when Species == (int)Core.Species.Jynx && pkm.Version == (int) GameVersion.LG && pkm.Language == (int) LanguageID.Italian:
                     // Italian LG Jynx untranslated from English name
-                    pkm.OT_Name = GetOT(2);
-                    pkm.SetNickname(GetNickname(2));
+                    pkm.OT_Name = GetOT((int)LanguageID.English);
+                    pkm.SetNickname(GetNickname((int)LanguageID.English));
                     break;
 
-                case 4 when Version == GameVersion.DPPt && Species == 129: // Meister Magikarp
+                case 4 when Version == GameVersion.DPPt && Species == (int)Core.Species.Magikarp: // Meister Magikarp
                     // Has German Language ID for all except German origin, which is English
                     pkm.Language = (int)(pkm.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
                     break;
 
                 case 4 when Version == GameVersion.DPPt && (pkm.Version == (int)GameVersion.D || pkm.Version == (int)GameVersion.P):
                     // DP English origin are Japanese lang
-                    pkm.Language = 1;
+                    pkm.Language = (int)LanguageID.Japanese;
                     break;
 
-                case 4 when Version == GameVersion.HGSS && Species == 25: // Pikachu
+                case 4 when Version == GameVersion.HGSS && Species == (int)Core.Species.Pikachu: // Pikachu
                     // Has English Language ID for all except English origin, which is French
                     pkm.Language = (int)(pkm.Language == (int)LanguageID.English ? LanguageID.French : LanguageID.English);
                     break;
 
-                case 5 when Version == GameVersion.BW && pkm.Language == 1:
+                case 5 when Version == GameVersion.BW && pkm.Language == (int)LanguageID.Japanese:
                     // Trades for JPN games have language ID of 0, not 1.
                     pkm.Language = 0;
                     break;
@@ -226,11 +232,8 @@ namespace PKHeX.Core
         {
             if (IVs != null)
             {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (IVs[i] != -1 && IVs[i] != pkm.GetIV(i))
-                        return false;
-                }
+                if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
+                    return false;
             }
 
             if (this is EncounterTradePID p)

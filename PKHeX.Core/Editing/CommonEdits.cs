@@ -33,12 +33,14 @@ namespace PKHeX.Core
         /// Clears the <see cref="PKM.Nickname"/> to the default value.
         /// </summary>
         /// <param name="pk"></param>
-        public static void ClearNickname(this PKM pk)
+        public static string ClearNickname(this PKM pk)
         {
             pk.IsNicknamed = false;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+            string nick = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+            pk.Nickname = nick;
             if (pk is _K12 pk12)
                 pk12.SetNotNicknamed();
+            return nick;
         }
 
         /// <summary>
@@ -100,11 +102,19 @@ namespace PKHeX.Core
         public static void SetRandomEC(this PKM pk)
         {
             int gen = pk.GenNumber;
-            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pk.Species);
-            if (gen < 6 && gen > 2)
+            if (2 < gen && gen < 6)
+            {
                 pk.EncryptionConstant = pk.PID;
-            else
-                pk.EncryptionConstant = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex / 2);
+                return;
+            }
+
+            int wIndex = WurmpleUtil.GetWurmpleEvoGroup(pk.Species);
+            if (wIndex != -1)
+            {
+                pk.EncryptionConstant = WurmpleUtil.GetWurmpleEC(wIndex);
+                return;
+            }
+            pk.EncryptionConstant = Util.Rand32();
         }
 
         /// <summary>
@@ -150,10 +160,11 @@ namespace PKHeX.Core
         /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
         public static void SetNature(this PKM pk, int nature)
         {
+            var value = Math.Min((int)Nature.Quirky, Math.Max((int)Nature.Hardy, nature));
             if (pk.Format <= 4)
-                pk.SetPIDNature(Math.Max(0, nature));
+                pk.SetPIDNature(value);
             else
-                pk.Nature = Math.Max(0, nature);
+                pk.Nature = value;
         }
 
         /// <summary>
@@ -682,6 +693,22 @@ namespace PKHeX.Core
         {
             var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
             return arr[pk.PotentialRating];
+        }
+
+        // Extensions
+        /// <summary>
+        /// Gets the Location Name for the <see cref="PKM"/>
+        /// </summary>
+        /// <param name="pk">PKM to fetch data for</param>
+        /// <param name="eggmet">Location requested is the egg obtained location, not met location.</param>
+        /// <returns>Location string</returns>
+        public static string GetLocationString(this PKM pk, bool eggmet)
+        {
+            if (pk.Format < 2)
+                return string.Empty;
+
+            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
         }
     }
 }

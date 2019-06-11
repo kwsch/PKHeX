@@ -241,6 +241,20 @@ namespace PKHeX.Core
             return (int)LanguageID.English;
         }
 
+        /// <summary>
+        /// Tries to guess the source language ID when transferred to future generations (7+)
+        /// </summary>
+        /// <param name="destLanguage">Destination language ID</param>
+        /// <returns>Source language ID</returns>
+        protected int TransferLanguage(int destLanguage)
+        {
+            // if the Species name of the destination language matches the current nickname, transfer with that language.
+            var expect = PKX.GetSpeciesNameGeneration(Species, destLanguage, 2);
+            if (Nickname == expect)
+                return destLanguage;
+            return GuessedLanguage(destLanguage);
+        }
+
         public override ushort[] GetStats(PersonalInfo p)
         {
             var lv = Stat_Level;

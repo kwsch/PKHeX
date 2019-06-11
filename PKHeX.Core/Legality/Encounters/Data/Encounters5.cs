@@ -912,14 +912,21 @@ namespace PKHeX.Core
             new EncounterSlot{ Species = 507, LevelMin = 10, LevelMax = 15, }, // Herdier
             // Funfest Missions
             // todo : check the level
-            new EncounterSlot{Species = 133, LevelMin = 10, LevelMax = 60, }, //Eevee
-            new EncounterSlot{Species = 134, LevelMin = 10, LevelMax = 60, },
-            new EncounterSlot{Species = 135, LevelMin = 10, LevelMax = 60, },
-            new EncounterSlot{Species = 136, LevelMin = 10, LevelMax = 60, },
-            new EncounterSlot{Species = 196, LevelMin = 10, LevelMax = 60, },
-            new EncounterSlot{Species = 197, LevelMin = 10, LevelMax = 60, },
-            new EncounterSlot{Species = 470, LevelMin = 10, LevelMax = 60, },
-            new EncounterSlot{Species = 471, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 133, LevelMin = 15, LevelMax = 60, }, //Eevee
+            new EncounterSlot{Species = 134, LevelMin = 15, LevelMax = 60, },
+            new EncounterSlot{Species = 135, LevelMin = 15, LevelMax = 60, },
+            new EncounterSlot{Species = 136, LevelMin = 15, LevelMax = 60, },
+            new EncounterSlot{Species = 196, LevelMin = 15, LevelMax = 60, },
+            new EncounterSlot{Species = 197, LevelMin = 15, LevelMax = 60, },
+            new EncounterSlot{Species = 470, LevelMin = 15, LevelMax = 60, },
+            new EncounterSlot{Species = 471, LevelMin = 15, LevelMax = 60, },
+            // Funfest Week 3
+            // new EncounterSlot{Species = 60, LevelMin = 15, LevelMax = 60, }, // Poliwag
+            new EncounterSlot{Species = 113, LevelMin = 15, LevelMax = 60, }, // Chansey
+            new EncounterSlot{Species = 176, LevelMin = 15, LevelMax = 60, }, // Togetic
+            new EncounterSlot{Species = 82, LevelMin = 15, LevelMax = 60, }, // Magneton
+            new EncounterSlot{Species = 148, LevelMin = 15, LevelMax = 60, }, // Dragonair
+            new EncounterSlot{Species = 372, LevelMin = 15, LevelMax = 60, }, // Shelgon                      
         };
 
         private static readonly EncounterArea[] SlotsB2_HiddenGrotto =
@@ -929,7 +936,7 @@ namespace PKHeX.Core
                 Location = 143, // HiddenGrotto
                 Slots = SlotsB2W2_HiddenGrottoEncounterSlots.Concat(new[]{
                     new EncounterSlot{Species = 015, LevelMin = 55, LevelMax = 60 }, // Beedrill @ Pinwheel Forest
-                    new EncounterSlot{Species = 434, LevelMin = 10, LevelMax = 60 }, // Stunky from Funfest Missions
+                    new EncounterSlot{Species = 434, LevelMin = 15, LevelMax = 60 }, // Stunky from Funfest Missions
                 }).ToArray(),
             }
         };
@@ -941,7 +948,7 @@ namespace PKHeX.Core
                 Location = 143, // HiddenGrotto
                 Slots = SlotsB2W2_HiddenGrottoEncounterSlots.Concat(new[]{
                     new EncounterSlot{Species = 012, LevelMin = 55, LevelMax = 60 }, // Butterfree @ Pinwheel Forest
-                    new EncounterSlot{Species = 431, LevelMin = 10, LevelMax = 60 }, // Glameow from Funfest Missions
+                    new EncounterSlot{Species = 431, LevelMin = 15, LevelMax = 60 }, // Glameow from Funfest Missions
                 }).ToArray(),
             }
         };

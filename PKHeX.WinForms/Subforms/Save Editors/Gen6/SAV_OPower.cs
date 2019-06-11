@@ -6,15 +6,17 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_OPower : Form
     {
-        private readonly SAV6 Origin;
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
         private readonly OPower6 Data;
 
-        public SAV_OPower(SAV6 sav)
+        public SAV_OPower(IOPower sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            Origin = sav;
-            Data = sav.OPowerData;
+            Origin = (SaveFile)sav;
+            SAV = Origin.Clone();
+            Data = ((IOPower)SAV).OPowerBlock;
 
             Current = Types[0];
             foreach (var z in Types)
@@ -46,7 +48,8 @@ namespace PKHeX.WinForms
         {
             Data.MasterFlag = CHK_Master.Checked;
             SaveCurrent();
-            Origin.OPowerData = Data;
+            Origin.Data = SAV.Data;
+            Origin.Edited = true;
         }
 
         private void LoadCurrent()

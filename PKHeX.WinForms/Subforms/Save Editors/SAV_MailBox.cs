@@ -118,30 +118,30 @@ namespace PKHeX.WinForms
                 CB_AuthorVersion.InitializeBinding();
                 CB_AuthorVersion.DataSource = new BindingSource(Gen == 4
                     ? new[] {
-                        new ComboItem { Text = "Diamond", Value = (int)GameVersion.D },
-                        new ComboItem { Text = "Pearl", Value = (int)GameVersion.P },
-                        new ComboItem { Text = "Platinum", Value = (int)GameVersion.Pt },
-                        new ComboItem { Text = "HeartGold", Value = (int)GameVersion.HG },
-                        new ComboItem { Text = "SoulSilver", Value = (int)GameVersion.SS },
+                        new ComboItem("Diamond", (int)GameVersion.D),
+                        new ComboItem("Pearl", (int)GameVersion.P),
+                        new ComboItem("Platinum", (int)GameVersion.Pt),
+                        new ComboItem("HeartGold", (int)GameVersion.HG),
+                        new ComboItem("SoulSilver", (int)GameVersion.SS),
                     }.ToList()
                     : new[] {
-                        new ComboItem { Text = "Black", Value = (int)GameVersion.B },
-                        new ComboItem { Text = "White", Value = (int)GameVersion.W },
-                        new ComboItem { Text = "Black2", Value = (int)GameVersion.B2 },
-                        new ComboItem { Text = "White2", Value = (int)GameVersion.W2 },
+                        new ComboItem("Black", (int)GameVersion.B),
+                        new ComboItem("White", (int)GameVersion.W),
+                        new ComboItem("Black2", (int)GameVersion.B2),
+                        new ComboItem("White2", (int)GameVersion.W2),
                     }.ToList(), null);
 
-                CB_AuthorLang.Items.Clear();
+            CB_AuthorLang.Items.Clear();
                 CB_AuthorLang.InitializeBinding();
                 CB_AuthorLang.DataSource = new BindingSource(new[] {
                     // not sure
-                    new ComboItem { Text = "JPN", Value = 1 },
-                    new ComboItem { Text = "ENG", Value = 2 },
-                    new ComboItem { Text = "FRE", Value = 3 },
-                    new ComboItem { Text = "ITA", Value = 4 },
-                    new ComboItem { Text = "GER", Value = 5 },
-                    new ComboItem { Text = "ESP", Value = 7 },
-                    new ComboItem { Text = "KOR", Value = 8 },
+                    new ComboItem("JPN", 1),
+                    new ComboItem("ENG", 2),
+                    new ComboItem("FRE", 3),
+                    new ComboItem("ITA", 4),
+                    new ComboItem("GER", 5),
+                    new ComboItem("ESP", 7),
+                    new ComboItem("KOR", 8),
                 }.ToList(), null);
             }
 

@@ -67,12 +67,111 @@ namespace PKHeX.Core
             return chunkOffset;
         }
 
-        public SAV3(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+        public SAV3(GameVersion version = GameVersion.FRLG, bool japanese = false) : base(SaveUtil.SIZE_G3RAW)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G3RAW];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            if (version == GameVersion.FR || version == GameVersion.LG)
+                Version = GameVersion.FRLG;
+            else if (version == GameVersion.R || version == GameVersion.LG)
+                Version = GameVersion.RS;
+            else
+                Version = version;
+            Personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
+            Japanese = japanese;
 
+            LoadBlocks();
+            // spoof block offsets
+            BlockOfs = Enumerable.Range(0, BLOCK_COUNT).ToArray();
+
+            Initialize();
+            ClearBoxes();
+        }
+
+        public SAV3(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        {
+            LoadBlocks();
+            Version = versionOverride != GameVersion.Any ? versionOverride : GetVersion(Data, BlockOfs[0]);
+            Personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
+
+            // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
+            // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
+            // OT name is stored at the top of the first block.
+            Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0;
+
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            // Set up PC data buffer beyond end of save file.
+            Box = Data.Length;
+            Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
+
+            // Copy chunk to the allocated location
+            for (int i = 5; i < BLOCK_COUNT; i++)
+            {
+                int blockIndex = Array.IndexOf(BlockOrder, i);
+                if (blockIndex == -1) // block empty
+                    continue;
+                Array.Copy(Data, (blockIndex * SIZE_BLOCK) + ABO, Data, Box + ((i - 5) * 0xF80), chunkLength[i]);
+            }
+
+            PokeDex = BlockOfs[0] + 0x18;
+            switch (Version)
+            {
+                case GameVersion.RS:
+                    LegalKeyItems = Legal.Pouch_Key_RS;
+                    OFS_PCItem = BlockOfs[1] + 0x0498;
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x05B0;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0600;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0640;
+                    OFS_PouchBerry = BlockOfs[1] + 0x0740;
+                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
+                    EventFlag = BlockOfs[2] + 0x2A0;
+                    EventConst = EventFlag + (EventFlagMax / 8);
+                    Daycare = BlockOfs[4] + 0x11C;
+                    break;
+                case GameVersion.E:
+                    LegalKeyItems = Legal.Pouch_Key_E;
+                    OFS_PCItem = BlockOfs[1] + 0x0498;
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x05D8;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0650;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0690;
+                    OFS_PouchBerry = BlockOfs[1] + 0x0790;
+                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
+                    EventFlag = BlockOfs[2] + 0x2F0;
+                    EventConst = EventFlag + (EventFlagMax / 8);
+                    Daycare = BlockOfs[4] + 0x1B0;
+                    break;
+                case GameVersion.FRLG:
+                    LegalKeyItems = Legal.Pouch_Key_FRLG;
+                    OFS_PCItem = BlockOfs[1] + 0x0298;
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0430;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0464;
+                    OFS_PouchBerry = BlockOfs[1] + 0x054C;
+                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
+                    EventFlag = BlockOfs[1] + 0xEE0;
+                    EventConst = BlockOfs[2] + 0x80;
+                    Daycare = BlockOfs[4] + 0x100;
+                    break;
+            }
+
+            LoadEReaderBerryData();
+            LegalItems = Legal.Pouch_Items_RS;
+            LegalBalls = Legal.Pouch_Ball_RS;
+            LegalTMHMs = Legal.Pouch_TMHM_RS;
+            LegalBerries = Legal.Pouch_Berries_RS;
+            HeldItems = Legal.HeldItems_RS;
+
+            // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
+            SeenFlagOffsets = SeenFlagOffsets?.Where(z => z >= 0).ToArray();
+        }
+
+        private void LoadBlocks()
+        {
             int[] BlockOrder1 = GetBlockOrder(0);
             if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
@@ -92,97 +191,6 @@ namespace PKHeX.Core
                 int index = Array.IndexOf(BlockOrder, i);
                 BlockOfs[i] = index < 0 ? int.MinValue : (index * SIZE_BLOCK) + ABO;
             }
-
-            if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else if (data == null)
-                Version = GameVersion.FRLG;
-            else
-                Version = GetVersion(Data, BlockOfs[0]);
-
-            Personal = SaveUtil.GetG3Personal(Version);
-            if (data == null) // spoof block offsets
-            {
-                BlockOfs = Enumerable.Range(0, BLOCK_COUNT).ToArray();
-                if (Version == GameVersion.FR || Version == GameVersion.LG)
-                    Version = GameVersion.FRLG;
-                else if (Version == GameVersion.R || Version == GameVersion.LG)
-                    Version = GameVersion.RS;
-            }
-
-            // Set up PC data buffer beyond end of save file.
-            Box = Data.Length;
-            Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
-
-            // Copy chunk to the allocated location
-            for (int i = 5; i < BLOCK_COUNT; i++)
-            {
-                int blockIndex = Array.IndexOf(BlockOrder, i);
-                if (blockIndex == -1) // block empty
-                    continue;
-                Array.Copy(Data, (blockIndex * SIZE_BLOCK) + ABO, Data, Box + ((i - 5) * 0xF80), chunkLength[i]);
-            }
-
-            // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
-            // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
-            // OT name is stored at the top of the first block.
-            Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0 && Exportable;
-
-            PokeDex = BlockOfs[0] + 0x18;
-            switch (Version)
-            {
-                case GameVersion.RS:
-                    LegalKeyItems = Legal.Pouch_Key_RS;
-                    OFS_PCItem = BlockOfs[1] + 0x0498;
-                    OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
-                    OFS_PouchKeyItem = BlockOfs[1] + 0x05B0;
-                    OFS_PouchBalls = BlockOfs[1] + 0x0600;
-                    OFS_PouchTMHM = BlockOfs[1] + 0x0640;
-                    OFS_PouchBerry = BlockOfs[1] + 0x0740;
-                    SeenFlagOffsets = new[] { PokeDex + 0x44, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C };
-                    EventFlag = BlockOfs[2] + 0x2A0;
-                    EventConst = EventFlag + (EventFlagMax / 8);
-                    Daycare = BlockOfs[4] + 0x11C;
-                    break;
-                case GameVersion.E:
-                    LegalKeyItems = Legal.Pouch_Key_E;
-                    OFS_PCItem = BlockOfs[1] + 0x0498;
-                    OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
-                    OFS_PouchKeyItem = BlockOfs[1] + 0x05D8;
-                    OFS_PouchBalls = BlockOfs[1] + 0x0650;
-                    OFS_PouchTMHM = BlockOfs[1] + 0x0690;
-                    OFS_PouchBerry = BlockOfs[1] + 0x0790;
-                    SeenFlagOffsets = new[] { PokeDex + 0x44, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4 };
-                    EventFlag = BlockOfs[2] + 0x2F0;
-                    EventConst = EventFlag + (EventFlagMax / 8);
-                    Daycare = BlockOfs[4] + 0x1B0;
-                    break;
-                case GameVersion.FRLG:
-                    LegalKeyItems = Legal.Pouch_Key_FRLG;
-                    OFS_PCItem = BlockOfs[1] + 0x0298;
-                    OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
-                    OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
-                    OFS_PouchBalls = BlockOfs[1] + 0x0430;
-                    OFS_PouchTMHM = BlockOfs[1] + 0x0464;
-                    OFS_PouchBerry = BlockOfs[1] + 0x054C;
-                    SeenFlagOffsets = new[] { PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98 };
-                    EventFlag = BlockOfs[1] + 0xEE0;
-                    EventConst = BlockOfs[2] + 0x80;
-                    Daycare = BlockOfs[4] + 0x100;
-                    break;
-            }
-            LoadEReaderBerryData();
-            LegalItems = Legal.Pouch_Items_RS;
-            LegalBalls = Legal.Pouch_Ball_RS;
-            LegalTMHMs = Legal.Pouch_TMHM_RS;
-            LegalBerries = Legal.Pouch_Berries_RS;
-            HeldItems = Legal.HeldItems_RS;
-
-            // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
-            SeenFlagOffsets = SeenFlagOffsets?.Where(z => z >= 0).ToArray();
-
-            if (!Exportable)
-                ClearBoxes();
         }
 
         private int[] GetBlockOrder(int ofs)
@@ -239,13 +247,15 @@ namespace PKHeX.Core
             }
 
             SetChecksums();
-            return Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            var result = new byte[Data.Length - SIZE_RESERVED];
+            Buffer.BlockCopy(Data, 0, result, 0, result.Length);
+            return result;
         }
 
-        private readonly int ActiveSAV;
+        private int ActiveSAV;
         private int ABO => ActiveSAV*SIZE_BLOCK*0xE;
-        private readonly int[] BlockOrder;
-        private readonly int[] BlockOfs;
+        private int[] BlockOrder;
+        private int[] BlockOfs;
         public int GetBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
@@ -283,7 +293,10 @@ namespace PKHeX.Core
             for (int i = 0; i < BLOCK_COUNT; i++)
             {
                 int ofs = ABO + (i * SIZE_BLOCK);
-                int len = chunkLength[BlockOrder[i]];
+                var index = BlockOrder[i];
+                if (index == -1)
+                    continue;
+                int len = chunkLength[index];
                 ushort chk = Checksums.CRC32(Data, ofs, len);
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
@@ -579,7 +592,11 @@ namespace PKHeX.Core
             }
         }
 
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
+        private ushort[] LegalItems;
+        private ushort[] LegalKeyItems;
+        private ushort[] LegalBalls;
+        private ushort[] LegalTMHMs;
+        private ushort[] LegalBerries;
 
         public override InventoryPouch[] Inventory
         {
@@ -714,7 +731,7 @@ namespace PKHeX.Core
         }
 
         // Pokédex
-        private readonly int[] SeenFlagOffsets;
+        private int[] SeenFlagOffsets;
 
         protected override void SetDex(PKM pkm)
         {
@@ -724,10 +741,10 @@ namespace PKHeX.Core
 
             switch (species)
             {
-                case 201 when !GetSeen(species): // Unown
+                case (int)Species.Unown when !GetSeen(species): // Unown
                     DexPIDUnown = pkm.PID;
                     break;
-                case 327 when !GetSeen(species): // Spinda
+                case (int)Species.Spinda when !GetSeen(species): // Spinda
                     DexPIDSpinda = pkm.PID;
                     break;
             }

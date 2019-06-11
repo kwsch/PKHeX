@@ -14,21 +14,6 @@ namespace PKHeX.Core
         internal const int MaxBallID_4 = 0x18;
         internal const int MaxGameID_4 = 15; // CXD
 
-        /// <summary> Generation 4 -> Generation 5 Transfer Location (Poké Transporter) </summary>
-        public const int Transfer4 = 30001;
-
-        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Celebi - Event not activated in Gen 5) </summary>
-        public const int Transfer4_CelebiUnused = 30010;
-
-        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Celebi - Event activated in Gen 5) </summary>
-        public const int Transfer4_CelebiUsed = 30011;
-
-        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event not activated in Gen 5) </summary>
-        public const int Transfer4_CrownUnused = 30012;
-
-        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event activated in Gen 5) </summary>
-        public const int Transfer4_CrownUsed = 30013;
-
         internal static readonly int[] Met_HGSS_0 =
         {
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
@@ -287,11 +272,11 @@ namespace PKHeX.Core
             {
                 var spec = pk5.Species;
                 if (spec == 251) // Celebi
-                    return Transfer4_CelebiUnused;
+                    return Locations.Transfer4_CelebiUnused;
                 if (243 <= spec && spec <= 245) // Beast
-                    return Transfer4_CrownUnused;
+                    return Locations.Transfer4_CrownUnused;
             }
-            return Transfer4; // Pokétransfer (not Crown);
+            return Locations.Transfer4; // Pokétransfer (not Crown);
         }
 
         internal static int[] RemoveMovesHM45(int[] moves)

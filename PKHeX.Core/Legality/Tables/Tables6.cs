@@ -226,7 +226,7 @@ namespace PKHeX.Core
 
         #endregion
 
-        internal static readonly int[] EggLocations6 = {60002, 30002};
+        internal static readonly int[] EggLocations6 = {Locations.Daycare5, Locations.LinkTrade6};
 
         internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
         {
@@ -410,12 +410,6 @@ namespace PKHeX.Core
             496, 499, 502, //2
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
-        };
-
-        public static readonly int[] WurmpleEvolutions =
-        {
-            266, 267, // Silcoon Beautifly
-            268, 269, // Cascoon Dustox
         };
         #endregion
 

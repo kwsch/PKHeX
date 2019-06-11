@@ -223,36 +223,80 @@ namespace PKHeX.Core
         #endregion
 
         #region DataSource Providing
+
+        private static readonly string[] CountryRegionLanguages = {"ja", "en", "fr", "de", "it", "es", "ko", "zh"};
+
         public static List<ComboItem> GetCountryRegionList(string textfile, string lang)
         {
-            // Set up
             string[] inputCSV = GetStringList(textfile);
-
-            // Get Language we're fetching for
-            int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
-
-            // Gather our data from the input file
-            return inputCSV.Skip(1)
-                .Select(entry => entry.Split(','))
-                .Select(data => new ComboItem { Text = data[1 + index], Value = Convert.ToInt32(data[0]) })
-                .OrderBy(z => z.Text)
-                .ToList();
+            int index = Array.IndexOf(CountryRegionLanguages, lang);
+            return GetCBListCSVSorted(inputCSV, index);
         }
 
-        public static List<ComboItem> GetUnsortedCBList(string textfile)
+        private static List<ComboItem> GetCBListCSVSorted(string[] inputCSV, int index = 0)
+        {
+            var list = GetCBListFromCSV(inputCSV, index);
+            list.Sort(Comparer);
+            return list;
+        }
+
+        public static List<ComboItem> GetCSVUnsortedCBList(string textfile)
         {
             string[] inputCSV = GetStringList(textfile);
-            return inputCSV.Skip(1)
-                .Select(entry => entry.Split(','))
-                .Select(data => new ComboItem { Text = data[1], Value = Convert.ToInt32(data[0]) })
-                .ToList();
+            return GetCBListFromCSV(inputCSV, 0);
+        }
+
+        private static List<ComboItem> GetCBListFromCSV(IReadOnlyList<string> inputCSV, int index)
+        {
+            var arr = new List<ComboItem>(inputCSV.Count - 1); // skip header
+            index++;
+            for (int i = 1; i < inputCSV.Count; i++)
+            {
+                var line = inputCSV[i];
+                var zeroth = line.IndexOf(',');
+
+                var val = line.Substring(0, zeroth);
+                var text = GetNthEntry(line, index, zeroth);
+                var item = new ComboItem(text, Convert.ToInt32(val));
+                arr.Add(item);
+            }
+            return arr;
+        }
+
+        private static string GetNthEntry(string line, int nth, int start)
+        {
+            if (nth != 1)
+                start = line.IndexOfNth(',', nth - 1, start + 1);
+            var end = line.IndexOfNth(',', 1, start + 1);
+            return end < 0 ? line.Substring(start + 1) : line.Substring(start + 1, end - start - 1);
+        }
+
+        private static int IndexOfNth(this string s, char t, int n, int start)
+        {
+            int count = 0;
+            for (int i = start; i < s.Length; i++)
+            {
+                if (s[i] != t)
+                    continue;
+                if (++count == n)
+                    return i;
+            }
+            return -1;
         }
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
         {
             var list = new List<ComboItem>(inStrings.Count);
-            var items = inStrings.Select((t, i) => new ComboItem {Text = t, Value = i}).OrderBy(z => z.Text);
-            list.AddRange(items);
+            for (int i = 0; i < inStrings.Count; i++)
+                list.Add(new ComboItem(inStrings[i], i));
+            list.Sort(Comparer);
+            return list;
+        }
+
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, int index, int offset = 0)
+        {
+            var list = new List<ComboItem>();
+            AddCBWithOffset(list, inStrings, offset, index);
             return list;
         }
 
@@ -261,39 +305,71 @@ namespace PKHeX.Core
             var count = allowed.Sum(z => z.Length);
             var list = new List<ComboItem>(count);
             foreach (var arr in allowed)
-            {
-                var subset = arr
-                    .Select(z => new ComboItem {Text = inStrings[z], Value = z})
-                    .OrderBy(z => z.Text);
-                list.AddRange(subset);
-            }
+                AddCB(list, inStrings, arr);
             return list;
         }
 
-        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, int[] allowed)
+        public static void AddCBWithOffset(List<ComboItem> list, IReadOnlyList<string> inStrings, int offset, int index)
         {
-            var list = allowed
-                .Select(z => new ComboItem {Text = inStrings[z - offset], Value = z})
-                .OrderBy(z => z.Text);
+            var item = new ComboItem(inStrings[index - offset], index);
+            list.Add(item);
+        }
 
-            cbList.AddRange(list);
+        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, params int[] allowed)
+        {
+            int beginCount = cbList.Count;
+            for (int i = 0; i < allowed.Length; i++)
+            {
+                int index = allowed[i];
+                var item = new ComboItem(inStrings[index - offset], index);
+                cbList.Add(item);
+            }
+            cbList.Sort(beginCount, allowed.Length, Comparer);
+        }
+
+        public static void AddCB(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int[] allowed)
+        {
+            int beginCount = cbList.Count;
+            for (int i = 0; i < allowed.Length; i++)
+            {
+                int index = allowed[i];
+                var item = new ComboItem(inStrings[index], index);
+                cbList.Add(item);
+            }
+            cbList.Sort(beginCount, allowed.Length, Comparer);
         }
 
         public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)
         {
-            // First 3 Balls are always first
-            var newlist = new List<ComboItem>(3 + stringNum.Length)
+            const int forcedTop = 3; // 3 Balls are preferentially first
+            var list = new List<ComboItem>(forcedTop + stringNum.Length)
             {
-                new ComboItem {Text = inStrings[4], Value = (int)Ball.Poke},
-                new ComboItem {Text = inStrings[3], Value = (int)Ball.Great},
-                new ComboItem {Text = inStrings[2], Value = (int)Ball.Ultra},
+                new ComboItem(inStrings[4], (int)Ball.Poke),
+                new ComboItem(inStrings[3], (int)Ball.Great),
+                new ComboItem(inStrings[2], (int)Ball.Ultra),
             };
 
-            var ordered = stringNum
-                .Select((z, i) => new ComboItem {Text = inStrings[z], Value = stringVal[i]})
-                .OrderBy(z => z.Text);
-            newlist.AddRange(ordered);
-            return newlist;
+            for (int i = 0; i < stringNum.Length; i++)
+            {
+                int index = stringNum[i];
+                var val = stringVal[i];
+                var txt = inStrings[index];
+                list.Add(new ComboItem(txt, val));
+            }
+
+            list.Sort(forcedTop, stringNum.Length, Comparer);
+            return list
+;
+        }
+
+        private static readonly FunctorComparer<ComboItem> Comparer =
+            new FunctorComparer<ComboItem>((a, b) => string.CompareOrdinal(a.Text, b.Text));
+
+        private sealed class FunctorComparer<T> : IComparer<T>
+        {
+            private readonly Comparison<T> Comparison;
+            public FunctorComparer(Comparison<T> comparison) => Comparison = comparison;
+            public int Compare(T x, T y) => Comparison(x, y);
         }
         #endregion
     }

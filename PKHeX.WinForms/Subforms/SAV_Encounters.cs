@@ -154,7 +154,7 @@ namespace PKHeX.WinForms
             CB_Species.InitializeBinding();
             CB_GameOrigin.InitializeBinding();
 
-            var Any = new ComboItem {Text = MsgAny, Value = -1};
+            var Any = new ComboItem(MsgAny, -1);
 
             var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;

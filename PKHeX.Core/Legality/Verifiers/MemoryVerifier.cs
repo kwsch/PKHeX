@@ -200,36 +200,36 @@ namespace PKHeX.Core
 
         private CheckResult VerifyCommonMemory(PKM pkm, int handler)
         {
-            Memories.GetMemoryVariables(pkm, out int m, out int t, out int i, out int f, out string tr, handler);
-            int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], m);
+            var memory = MemoryVariableSet.Read(pkm, handler);
+            int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], memory.MemoryID);
             if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6))
-                return GetInvalid(string.Format(LMemoryArgBadMove, tr));
+                return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-            switch (m)
+            switch (memory.MemoryID)
             {
-                case 6 when !Memories.LocationsWithPKCenter.Contains(t):
-                    return GetInvalid(string.Format(LMemoryArgBadPokecenter, tr));
+                case 6 when !Memories.LocationsWithPKCenter.Contains(memory.Variable):
+                    return GetInvalid(string.Format(LMemoryArgBadPokecenter, memory.Handler));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = t, EXP = Experience.GetEXP(100, t, 0)}, 19, 6):
-                    return GetInvalid(string.Format(LMemoryArgBadMove, tr));
+                case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, memory.Variable, 0)}, 19, 6):
+                    return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 16 when t == 0 || !Legal.GetCanKnowMove(pkm, t, 6):
-                case 48 when t == 0 || !Legal.GetCanKnowMove(pkm, t, 6):
-                    return GetInvalid(string.Format(LMemoryArgBadMove, tr));
+                case 16 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, 6):
+                case 48 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, 6):
+                    return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                case 49 when t == 0 || !Legal.GetCanRelearnMove(pkm, t, 6):
-                    return GetInvalid(string.Format(LMemoryArgBadMove, tr));
+                case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, memory.Variable, 6):
+                    return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
 
-            if (!Memories.CanHaveIntensity(m, i))
-                return GetInvalid(string.Format(LMemoryIndexIntensityMin, tr, Memories.GetMinimumIntensity(m)));
+            if (!Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
+                return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
 
-            if (m != 4 && !Memories.CanHaveFeeling(m, f))
-                return GetInvalid(string.Format(LMemoryFeelInvalid, tr));
+            if (memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
+                return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
 
-            return GetValid(string.Format(LMemoryF_0_Valid, tr));
+            return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
         }
 
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)

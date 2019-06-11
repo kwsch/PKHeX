@@ -584,7 +584,9 @@ namespace PKHeX.WinForms
             if (obj != null && LoadFile(obj, path))
                 return;
 
-            WinFormsUtil.Error(MsgFileUnsupported,
+            bool isSAV = WinFormsUtil.IsFileExtensionSAV(path);
+            var msg = isSAV ? MsgFileUnsupported : MsgPKMUnsupported;
+            WinFormsUtil.Error(msg,
                 $"{MsgFileLoad}{Environment.NewLine}{path}",
                 $"{string.Format(MsgFileSize, input.Length)}{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
         }
@@ -670,9 +672,9 @@ namespace PKHeX.WinForms
                 return MC.SelectedGameVersion;
 
             var games = new List<ComboItem>();
-            if (MC.HasCOLO) games.Add(new ComboItem { Text = MsgGameColosseum, Value = (int)GameVersion.COLO });
-            if (MC.HasXD) games.Add(new ComboItem { Text = MsgGameXD, Value = (int)GameVersion.XD });
-            if (MC.HasRSBOX) games.Add(new ComboItem { Text = MsgGameRSBOX, Value = (int)GameVersion.RSBOX });
+            if (MC.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
+            if (MC.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
+            if (MC.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
 
             var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
             dialog.ShowDialog();
@@ -753,6 +755,8 @@ namespace PKHeX.WinForms
 
             var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
+            if (isBlank)
+                EditPKMUtil.TemplateFields(pk, sav);
             bool init = PKME_Tabs.pkm == null;
             PKME_Tabs.CurrentPKM = pk;
             if (init)
@@ -778,8 +782,6 @@ namespace PKHeX.WinForms
                 WinFormsUtil.TranslateInterface(this, CurrentLanguage);
 
             PKME_Tabs.PopulateFields(pk);
-            if (isBlank)
-                PKME_Tabs.TemplateFields(sav);
             if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
                 PKME_Tabs.FlickerInterface();
             foreach (var p in Plugins)

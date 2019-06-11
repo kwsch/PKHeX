@@ -73,6 +73,7 @@ namespace PKHeX.Core
         public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
         public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
         public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could mean PKHeX doesn't support your save file or your save file is corrupt.";
+        public static string MsgPKMUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could be caused by loading a different generation Pokemon file on an unsupported generation or your file is corrupt.";
 
         public static string MsgPKMConvertSuccess { get; set; } = "Converted from {0} to {1}.";
         public static string MsgPKMConvertFail { get; set; } = "Conversion failed.";
@@ -164,7 +165,7 @@ namespace PKHeX.Core
         public static string MsgSaveBoxImportModifyCurrent { get; set; } = "Cancel - Use current settings ({0})";
         public static string MsgSaveBoxImportModifyNo { get; set; } = "No - Don't modify .pk*";
         public static string MsgSaveBoxImportNoFiles { get; set; } = "No files loaded.";
-        public static string MsgSaveBoxImportSuccess { get; set; } = "Loaded  {0} files to boxes.";
+        public static string MsgSaveBoxImportSuccess { get; set; } = "Loaded {0} files to boxes.";
         public static string MsgSaveBoxImportClear { get; set; } = "Clear subsequent boxes when importing data?";
         public static string MsgSaveBoxImportClearNo { get; set; } = "If you only want to overwrite for new data, press no.";
         public static string MsgSaveBoxImportPCBinary { get; set; } = "PC Binary loaded.";

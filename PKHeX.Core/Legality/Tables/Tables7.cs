@@ -498,7 +498,7 @@ namespace PKHeX.Core
             743, // Ribombee
         };
 
-        internal static readonly int[] EggLocations7 = {60002, 30002};
+        internal static readonly int[] EggLocations7 = {Locations.Daycare5, Locations.LinkTrade6};
 
         internal static readonly HashSet<int> ValidMet_SM = new HashSet<int>
         {

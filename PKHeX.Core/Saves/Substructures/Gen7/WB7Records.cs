@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -74,12 +73,18 @@ namespace PKHeX.Core
             if (value)
                 Data[ofs] |= (byte)mask;
             else
-                Data[ofs] &= (byte)mask;
+                Data[ofs] &= (byte)~mask;
         }
 
         public bool[] Flags
         {
-            get => Enumerable.Range(0, FlagCountMax).Select(GetFlag).ToArray();
+            get
+            {
+                var value = new bool[FlagCountMax];
+                for (int i = 0; i < value.Length; i++)
+                    value[i] = GetFlag(i);
+                return value;
+            }
             set
             {
                 for (int i = 0; i < value.Length; i++)

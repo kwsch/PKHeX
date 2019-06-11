@@ -90,9 +90,9 @@ namespace PKHeX.WinForms
         {
             var alolatime_list = new ComboItem[24];
             for (int i = 1; i < alolatime_list.Length; i++)
-                alolatime_list[i] = new ComboItem {Text = $"+{i:00} Hours", Value = i * 60 * 60};
-            alolatime_list[0] = new ComboItem {Text = "Sun Time", Value = 24 * 60 * 60};
-            alolatime_list[12] = new ComboItem {Text = "Moon Time", Value = 12 * 60 * 60};
+                alolatime_list[i] = new ComboItem($"+{i:00} Hours", i * 60 * 60);
+            alolatime_list[0] = new ComboItem("Sun Time", 24 * 60 * 60);
+            alolatime_list[12] = new ComboItem("Moon Time", 12 * 60 * 60);
             return alolatime_list;
         }
 
@@ -111,7 +111,7 @@ namespace PKHeX.WinForms
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
-            var time = SAV.AlolaTime;
+            var time = SAV.GameTime.AlolaTime;
             if (time == 0)
                 time = 24 * 60 * 60; // Patch up any bad times from previous program versions.
             if (time == 9_999_999)
@@ -121,14 +121,14 @@ namespace PKHeX.WinForms
             if (CB_AlolaTime.SelectedValue == null)
                 CB_AlolaTime.Enabled = false;
 
-            NUD_M.Value = SAV.M;
+            NUD_M.Value = SAV.Situation.M;
             // Sanity Check Map Coordinates
             try
             {
-                NUD_X.Value = (decimal)SAV.X;
-                NUD_Z.Value = (decimal)SAV.Z;
-                NUD_Y.Value = (decimal)SAV.Y;
-                NUD_R.Value = (decimal)SAV.R;
+                NUD_X.Value = (decimal)SAV.Situation.X;
+                NUD_Z.Value = (decimal)SAV.Situation.Z;
+                NUD_Y.Value = (decimal)SAV.Situation.Y;
+                NUD_R.Value = (decimal)SAV.Situation.R;
             }
             catch { GB_Map.Enabled = false; }
 
@@ -137,10 +137,10 @@ namespace PKHeX.WinForms
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-            if (SAV.LastSavedDate.HasValue)
+            if (SAV.Played.LastSavedDate.HasValue)
             {
-                CAL_LastSavedDate.Value = SAV.LastSavedDate.Value;
-                CAL_LastSavedTime.Value = SAV.LastSavedDate.Value;
+                CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
+                CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
             }
             else
             {
@@ -153,47 +153,48 @@ namespace PKHeX.WinForms
             CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
 
-            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
-            NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.MiscBlock.BP);
+            NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.Festa.FestaCoins);
 
             // Poké Finder
-            NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
-            NUD_ThumbsTotal.Value = Math.Min(NUD_ThumbsTotal.Maximum, SAV.PokeFinderThumbsTotalValue);
-            NUD_ThumbsRecord.Value = Math.Min(NUD_ThumbsRecord.Maximum, SAV.PokeFinderThumbsHighValue);
+            NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinder.SnapCount);
+            NUD_ThumbsTotal.Value = Math.Min(NUD_ThumbsTotal.Maximum, SAV.PokeFinder.ThumbsTotalValue);
+            NUD_ThumbsRecord.Value = Math.Min(NUD_ThumbsRecord.Maximum, SAV.PokeFinder.ThumbsHighValue);
 
-            CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
-            CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
+            CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinder.CameraVersion);
+            CHK_Gyro.Checked = SAV.PokeFinder.GyroFlag;
 
             // Battle Tree
-            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: false));
-            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, SAV.GetTreeStreak(1, super: false, max: false));
-            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, SAV.GetTreeStreak(2, super: false, max: false));
-            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: true));
-            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, SAV.GetTreeStreak(1, super: false, max: true));
-            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, SAV.GetTreeStreak(2, super: false, max: true));
+            var bt = SAV.BattleTreeBlock;
+            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, bt.GetTreeStreak(0, super: false, max: false));
+            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, bt.GetTreeStreak(1, super: false, max: false));
+            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, bt.GetTreeStreak(2, super: false, max: false));
+            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, bt.GetTreeStreak(0, super: false, max: true));
+            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, bt.GetTreeStreak(1, super: false, max: true));
+            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, bt.GetTreeStreak(2, super: false, max: true));
 
-            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, SAV.GetTreeStreak(0, super: true, max: false));
-            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: false));
-            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: false));
-            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, SAV.GetTreeStreak(0, super: true, max: true));
-            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: true));
-            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: true));
+            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, bt.GetTreeStreak(0, super: true, max: false));
+            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, bt.GetTreeStreak(1, super: true, max: false));
+            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, bt.GetTreeStreak(2, super: true, max: false));
+            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, bt.GetTreeStreak(0, super: true, max: true));
+            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, bt.GetTreeStreak(1, super: true, max: true));
+            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, bt.GetTreeStreak(2, super: true, max: true));
 
-            CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
-            TB_PlazaName.Text = SAV.FestivalPlazaName;
+            CB_SkinColor.SelectedIndex = SAV.MyStatus.DressUpSkinColor;
+            TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
-            CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
-            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.DaysFromRefreshed);
+            CB_Vivillon.SelectedIndex = (SAV.MiscBlock.Vivillon < CB_Vivillon.Items.Count) ? SAV.MiscBlock.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.MiscBlock.DaysFromRefreshed);
 
-            if (SAV.BallThrowType >= 0 && SAV.BallThrowType < CB_BallThrowType.Items.Count)
-                CB_BallThrowType.SelectedIndex = SAV.BallThrowType;
+            if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
+                CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
 
             if (SAV.SM)
                 LoadThrowTypeLists();
             else
                 CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible = LB_BallThrowTypeUnlocked.Visible = false;
 
-            uint stampBits = SAV.Stamps;
+            uint stampBits = SAV.MiscBlock.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
                 LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
@@ -201,8 +202,8 @@ namespace PKHeX.WinForms
             CHK_UnlockSuperDoubles.Checked = SAV.GetEventFlag(334);
             CHK_UnlockSuperMulti.Checked = SAV.GetEventFlag(335);
 
-            CHK_UnlockMega.Checked = SAV.MegaUnlocked;
-            CHK_UnlockZMove.Checked = SAV.ZMoveUnlocked;
+            CHK_UnlockMega.Checked = SAV.MyStatus.MegaUnlocked;
+            CHK_UnlockZMove.Checked = SAV.MyStatus.ZMoveUnlocked;
 
             LoadMapFlyToData();
         }
@@ -289,12 +290,12 @@ namespace PKHeX.WinForms
 
         private void LoadUltraData()
         {
-            NUD_Surf0.Value = SAV.GetSurfScore(0);
-            NUD_Surf1.Value = SAV.GetSurfScore(1);
-            NUD_Surf2.Value = SAV.GetSurfScore(2);
-            NUD_Surf3.Value = SAV.GetSurfScore(3);
+            NUD_Surf0.Value = SAV.MiscBlock.GetSurfScore(0);
+            NUD_Surf1.Value = SAV.MiscBlock.GetSurfScore(1);
+            NUD_Surf2.Value = SAV.MiscBlock.GetSurfScore(2);
+            NUD_Surf3.Value = SAV.MiscBlock.GetSurfScore(3);
             TB_RotomOT.Font = TB_OTName.Font;
-            TB_RotomOT.Text = SAV.RotomOT;
+            TB_RotomOT.Text = SAV.FieldMenu.RotomOT;
         }
 
         private void Save()
@@ -303,13 +304,13 @@ namespace PKHeX.WinForms
             SavePokeFinder();
             SaveBattleTree();
             SaveTrainerAppearance();
-            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
+            SAV.MiscBlock.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SaveThrowType();
 
-            SAV.FestivalPlazaName = TB_PlazaName.Text;
+            SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
 
             // Vivillon
-            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.MiscBlock.Vivillon = CB_Vivillon.SelectedIndex;
 
             SaveFlags();
 
@@ -328,18 +329,19 @@ namespace PKHeX.WinForms
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             if (CB_AlolaTime.Enabled)
-            SAV.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
+            SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
 
             // Copy Position
             if (GB_Map.Enabled && MapUpdated)
             {
-                SAV.M = (int)NUD_M.Value;
-                SAV.X = (float)NUD_X.Value;
-                SAV.Z = (float)NUD_Z.Value;
-                SAV.Y = (float)NUD_Y.Value;
-                SAV.R = (float)NUD_R.Value;
+                SAV.Situation.M = (int)NUD_M.Value;
+                SAV.Situation.X = (float)NUD_X.Value;
+                SAV.Situation.Z = (float)NUD_Z.Value;
+                SAV.Situation.Y = (float)NUD_Y.Value;
+                SAV.Situation.R = (float)NUD_R.Value;
+                SAV.Situation.UpdateOverworldCoordinates();
             }
 
             // Save PlayTime
@@ -358,38 +360,39 @@ namespace PKHeX.WinForms
             fame += (uint)(CAL_HoFTime.Value - epoch).TotalSeconds;
             SAV.SecondsToFame = fame;
 
-            if (SAV.LastSavedDate.HasValue)
-                SAV.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+            if (SAV.Played.LastSavedDate.HasValue)
+                SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
-            SAV.BP = (uint)NUD_BP.Value;
-            SAV.FestaCoins = (uint)NUD_FC.Value;
+            SAV.MiscBlock.BP = (uint)NUD_BP.Value;
+            SAV.Festa.FestaCoins = (int)NUD_FC.Value;
         }
 
         private void SavePokeFinder()
         {
-            SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
-            SAV.PokeFinderThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
-            SAV.PokeFinderThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
+            SAV.PokeFinder.SnapCount = (uint)NUD_SnapCount.Value;
+            SAV.PokeFinder.ThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
+            SAV.PokeFinder.ThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
 
-            SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
-            SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
+            SAV.PokeFinder.CameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
+            SAV.PokeFinder.GyroFlag = CHK_Gyro.Checked;
         }
 
         private void SaveBattleTree()
         {
-            SAV.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
-            SAV.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
-            SAV.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
-            SAV.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
-            SAV.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
-            SAV.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
+            var bt = SAV.BattleTreeBlock;
+            bt.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
+            bt.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
+            bt.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
+            bt.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
+            bt.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
+            bt.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
 
-            SAV.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
-            SAV.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
-            SAV.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
-            SAV.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
-            SAV.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
-            SAV.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
+            bt.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
+            bt.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
+            bt.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
+            bt.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
+            bt.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
+            bt.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
         }
 
         private void SaveTrainerAppearance()
@@ -400,17 +403,17 @@ namespace PKHeX.WinForms
             string gStr = CB_Gender.Items[gender].ToString();
             string sStr = CB_Gender.Items[skin].ToString();
 
-            if (SAV.DressUpSkinColor == CB_SkinColor.SelectedIndex)
+            if (SAV.MyStatus.DressUpSkinColor == CB_SkinColor.SelectedIndex)
                 return;
 
             if (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?"))
-                SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
+                SAV.MyStatus.DressUpSkinColor = CB_SkinColor.SelectedIndex;
         }
 
         private void SaveThrowType()
         {
             if (CB_BallThrowType.SelectedIndex >= 0)
-                SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
+                SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
 
             if (!SAV.SM) // unlock flags are in flag editor instead
                 return;
@@ -425,14 +428,14 @@ namespace PKHeX.WinForms
 
         private void SaveFlags()
         {
-            SAV.Stamps = GetBits(LB_Stamps);
+            SAV.MiscBlock.Stamps = GetBits(LB_Stamps);
 
             SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
             SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
             SAV.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
 
-            SAV.MegaUnlocked = CHK_UnlockMega.Checked;
-            SAV.ZMoveUnlocked = CHK_UnlockZMove.Checked;
+            SAV.MyStatus.MegaUnlocked = CHK_UnlockMega.Checked;
+            SAV.MyStatus.ZMoveUnlocked = CHK_UnlockZMove.Checked;
 
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
                 SAV.SetEventFlag(SkipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
@@ -442,21 +445,21 @@ namespace PKHeX.WinForms
 
         private void SaveUltraData()
         {
-            SAV.SetSurfScore(0, (int)NUD_Surf0.Value);
-            SAV.SetSurfScore(1, (int)NUD_Surf1.Value);
-            SAV.SetSurfScore(2, (int)NUD_Surf2.Value);
-            SAV.SetSurfScore(3, (int)NUD_Surf3.Value);
+            SAV.MiscBlock.SetSurfScore(0, (int)NUD_Surf0.Value);
+            SAV.MiscBlock.SetSurfScore(1, (int)NUD_Surf1.Value);
+            SAV.MiscBlock.SetSurfScore(2, (int)NUD_Surf2.Value);
+            SAV.MiscBlock.SetSurfScore(3, (int)NUD_Surf3.Value);
 
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
                 && TB_OTName.Text != SAV.OT // manually changed
                 && DialogResult.Yes == // wants to update
                 WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rotom OT does not match OT name. Update Rotom OT name with OT name?"))
             {
-                SAV.RotomOT = TB_OTName.Text;
+                SAV.FieldMenu.RotomOT = TB_OTName.Text;
             }
             else
             {
-                SAV.RotomOT = TB_RotomOT.Text;
+                SAV.FieldMenu.RotomOT = TB_RotomOT.Text;
             }
         }
 
@@ -529,7 +532,7 @@ namespace PKHeX.WinForms
                 return;
 
             // Clear Block
-            new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
+            SAV.FashionBlock.Clear();
 
             // Write Payload
             // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)

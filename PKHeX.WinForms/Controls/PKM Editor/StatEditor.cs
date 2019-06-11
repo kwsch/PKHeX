@@ -258,8 +258,17 @@ namespace PKHeX.WinForms.Controls
             int index = Array.IndexOf(L_Stats, sender as Label);
             if (ModifierKeys.HasFlag(Keys.Alt)) // EV
             {
-                var value = e.Button != MouseButtons.Left ? 0 : pkm.GetMaximumEV(index);
-                MT_EVs[index].Text = value.ToString();
+                bool min = e.Button != MouseButtons.Left;
+                if (pkm is PB7)
+                {
+                    var value = min ? 0 : 200;
+                    MT_AVs[index].Text = value.ToString();
+                }
+                else
+                {
+                    var value = min ? 0 : pkm.GetMaximumEV(index);
+                    MT_EVs[index].Text = value.ToString();
+                }
             }
             else if (ModifierKeys.HasFlag(Keys.Control)) // IV
             {
@@ -514,8 +523,10 @@ namespace PKHeX.WinForms.Controls
 
         public void InitializeDataSources()
         {
+            ChangingFields = true;
             CB_HPType.InitializeBinding();
             CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray());
+            ChangingFields = false;
         }
     }
 }

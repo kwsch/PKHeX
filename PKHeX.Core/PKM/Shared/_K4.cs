@@ -47,7 +47,6 @@
 
         // Legality Extensions
         public override bool WasEvent => (Met_Location >= 3000 && Met_Location <= 3076) || FatefulEncounter;
-        public override bool WasIngameTrade => Met_Location == 2001; // Trade
         public override bool WasEventEgg => WasEgg && Species == 490; // Manaphy was the only generation 4 released event egg
 
         public abstract int ShinyLeaf { get; set; }

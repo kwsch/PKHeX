@@ -20,33 +20,44 @@ namespace PKHeX.Core
             return 1 <= gen && gen <= 2;
         }).ToArray();
 
-        public SAV2(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+        public SAV2(GameVersion versionOverride = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G2RAW_U];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Version = versionOverride;
+            switch (lang)
+            {
+                case LanguageID.Japanese:
+                    Japanese = true;
+                    break;
+                case LanguageID.Korean:
+                    Korean = true;
+                    break;
+                    // otherwise, both false
+            }
+            Offsets = new SAV2Offsets(this);
+            Initialize();
+            ClearBoxes();
+        }
 
-            if (data == null)
-                Version = GameVersion.C;
-            else if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else
-                Version = SaveUtil.GetIsG2SAV(Data);
-
+        public SAV2(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        {
+            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG2SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
-
             Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
             if (!Japanese)
                 Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
 
+            Offsets = new SAV2Offsets(this);
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
 
             Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
-
-            Offsets = new SAV2Offsets(this);
 
             LegalItems = Legal.Pouch_Items_GSC;
             LegalBalls = Legal.Pouch_Ball_GSC;
@@ -102,13 +113,17 @@ namespace PKHeX.Core
             {
                 int offset = Offsets.Daycare;
 
-                DaycareFlags[0] = Data[offset]; offset++;
+                DaycareFlags[0] = Data[offset];
+                offset++;
                 var pk1 = ReadPKMFromOffset(offset); // parent 1
                 var daycare1 = new PokeList2(pk1);
                 offset += (StringLength * 2) + 0x20; // nick/ot/pkm
-                DaycareFlags[1] = Data[offset]; offset++;
-                byte steps = Data[offset]; offset++;
-                byte BreedMotherOrNonDitto = Data[offset]; offset++;
+                DaycareFlags[1] = Data[offset];
+                offset++;
+                byte steps = Data[offset];
+                offset++;
+                byte BreedMotherOrNonDitto = Data[offset];
+                offset++;
                 var pk2 = ReadPKMFromOffset(offset); // parent 2
                 var daycare2 = new PokeList2(pk2);
                 offset += (StringLength * 2) + PKX.SIZE_2STORED; // nick/ot/pkm
@@ -126,9 +141,6 @@ namespace PKHeX.Core
             PokeDex = 0;
             EventFlag = Offsets.EventFlag;
             EventConst = Offsets.EventConst;
-
-            if (!Exportable)
-                ClearBoxes();
         }
 
         private PK2 ReadPKMFromOffset(int offset)
@@ -385,6 +397,40 @@ namespace PKHeX.Core
             set => Options = (byte)((Options & 0xF8) | (value & 7));
         }
 
+        public bool SaveFileExists
+        {
+            get => Data[Offsets.Options + 1] == 1;
+            set => Data[Offsets.Options + 1] = (byte)(value ? 1 : 0);
+        }
+
+        public int TextBoxFrame // 3bits
+        {
+            get => Data[Offsets.Options + 2] & 0b0000_0111;
+            set => Data[Offsets.Options + 2] = (byte)((Data[Offsets.Options + 2] & 0b1111_1000) | (value & 0b0000_0111));
+        }
+
+        public int TextBoxFlags { get => Data[Offsets.Options + 3]; set => Data[Offsets.Options + 3] = (byte)value; }
+
+        public bool TextBoxFrameDelay1 // bit 0
+        {
+            get => (TextBoxFlags & 0x01) == 0x01;
+            set => TextBoxFlags = (TextBoxFlags & ~0x01) | (value ? 0x01 : 0);
+        }
+
+        public bool TextBoxFrameDelayNone // bit 4
+        {
+            get => (TextBoxFlags & 0x10) == 0x10;
+            set => TextBoxFlags = (TextBoxFlags & ~0x10) | (value ? 0x10 : 0);
+        }
+
+        public byte GBPrinterBrightness { get => Data[Offsets.Options + 4]; set => Data[Offsets.Options + 4] = value; }
+
+        public bool MenuAccountOn
+        {
+            get => Data[Offsets.Options + 5] == 1;
+            set => Data[Offsets.Options + 5] = (byte)(value ? 1 : 0);
+        }
+
         public override uint Money
         {
             get => BigEndian.ToUInt32(Data, Offsets.Money - 1) & 0xFFFFFF;
@@ -405,7 +451,10 @@ namespace PKHeX.Core
             }
         }
 
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs;
+        private ushort[] LegalItems;
+        private ushort[] LegalKeyItems;
+        private ushort[] LegalBalls;
+        private ushort[] LegalTMHMs;
 
         public override InventoryPouch[] Inventory
         {
@@ -655,5 +704,28 @@ namespace PKHeX.Core
                 return StringConverter2KOR.SetString2KOR(value, maxLength);
             return StringConverter12.SetString1(value, maxLength, Japanese);
         }
+
+        public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;
+        public bool IsGBMobileEnabled => Japanese && Enum.IsDefined(typeof(GBMobileCableColor), GBMobileCable);
+
+        public GBMobileCableColor GBMobileCable
+        {
+            get => (GBMobileCableColor) Data[0xE800];
+            set
+            {
+                Data[0xE800] = (byte)value;
+                Data[0x9000] = (byte)(0xFF - value);
+            }
+        }
+    }
+
+    public enum GBMobileCableColor : byte
+    {
+        None = 0,
+        Blue = 1,
+        Yellow = 2,
+        Green = 3,
+        Red = 4,
+        Debug = 0x81,
     }
 }

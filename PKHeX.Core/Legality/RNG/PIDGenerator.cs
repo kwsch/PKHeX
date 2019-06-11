@@ -75,13 +75,13 @@ namespace PKHeX.Core
             var rng = RNG.XDRNG;
             switch (pk.Species)
             {
-                case 197: // Colo Umbreon
-                case 133: // XD Eevee
+                case (int)Species.Umbreon: // Colo Umbreon
+                case (int)Species.Eevee: // XD Eevee
                     pk.TID = (int)((seed = rng.Next(seed)) >> 16);
                     pk.SID = (int)((seed = rng.Next(seed)) >> 16);
                     seed = rng.Advance(seed, 2); // PID calls consumed
                     break;
-                case 196: // Colo Espeon
+                case (int)Species.Espeon: // Colo Espeon
                     pk.TID = (int)((seed = rng.Next(seed)) >> 16);
                     pk.SID = (int)((seed = rng.Next(seed)) >> 16);
                     seed = rng.Advance(seed, 9); // PID calls consumed, skip over Umbreon

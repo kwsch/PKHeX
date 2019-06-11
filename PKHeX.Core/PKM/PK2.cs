@@ -163,7 +163,7 @@ namespace PKHeX.Core
                 Geo1_Country = PKMConverter.Country,
                 Geo1_Region = PKMConverter.Region
             };
-            pk7.Language = GuessedLanguage(PKMConverter.Language);
+            pk7.Language = TransferLanguage(PKMConverter.Language);
             pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
             if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
                 pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];

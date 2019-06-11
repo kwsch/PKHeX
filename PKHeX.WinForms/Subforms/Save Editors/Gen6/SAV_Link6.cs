@@ -9,17 +9,17 @@ namespace PKHeX.WinForms
     public partial class SAV_Link6 : Form
     {
         private readonly SaveFile Origin;
-        private readonly SAV6 SAV;
+        private readonly ILink SAV;
 
         public SAV_Link6(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)(Origin = sav).Clone();
+            SAV = (ILink)(Origin = sav).Clone();
             foreach (var cb in TAB_Items.Controls.OfType<ComboBox>())
             {
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= SAV.MaxItemID).ToArray(), null);
+                cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= sav.MaxItemID).ToArray(), null);
             }
             byte[] data = SAV.LinkBlock;
             if (data == null)
@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(ccitt).CopyTo(data, data.Length - 4);
 
             SAV.LinkBlock = data;
-            Origin.SetData(SAV.Data, 0);
+            Origin.SetData(((SaveFile)SAV).Data, 0);
             Close();
         }
 

@@ -50,6 +50,7 @@ MsgFileWriteProtected = 文件路径有写入保护:
 MsgFileWriteProtectedAdvice = 如果文件在移动硬盘(SD卡)上，请确认没有打开写入保护。
 MsgFileInUse = 无法加载文件。可能被其他程序占用中。
 MsgFileUnsupported = 无法加载一个不支持的类型或大小的文件。
+MsgPKMUnsupported = Attempted to load an unsupported file type/size. This could be caused by loading a different generation Pokemon file on an unsupported generation or your file is corrupt.
 MsgPKMConvertSuccess = Converted from {0} to {1}.
 MsgPKMConvertFail = 格式转换失败。
 MsgPKMMysteryGiftFail = 神秘礼物不是一个宝可梦。

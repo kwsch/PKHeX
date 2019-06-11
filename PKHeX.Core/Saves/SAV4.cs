@@ -13,34 +13,41 @@ namespace PKHeX.Core
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
-        public SAV4(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+        public SAV4(GameVersion versionOverride = GameVersion.HGSS) : base(SaveUtil.SIZE_G4RAW)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G4RAW];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
+            Version = versionOverride;
+            Initialize();
+            ClearBoxes();
+        }
 
+        public SAV4(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
+        {
             // Get Version
-            if (data == null)
-                Version = GameVersion.HGSS;
-            else if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else Version = SaveUtil.GetIsG4SAV(Data);
+            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG4SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             generalBlock = GetActiveGeneralBlock();
             storageBlock = GetActiveStorageBlock();
             GetSAVOffsets();
 
             switch (Version)
             {
-                case GameVersion.DP: Personal = PersonalTable.DP; break;
-                case GameVersion.Pt: Personal = PersonalTable.Pt; break;
-                case GameVersion.HGSS: Personal = PersonalTable.HGSS; break;
+                case GameVersion.DP:
+                    Personal = PersonalTable.DP;
+                    break;
+                case GameVersion.Pt:
+                    Personal = PersonalTable.Pt;
+                    break;
+                case GameVersion.HGSS:
+                    Personal = PersonalTable.HGSS;
+                    break;
             }
-
-            if (!Exportable)
-                ClearBoxes();
         }
 
         // Configuration
@@ -133,8 +140,8 @@ namespace PKHeX.Core
         }
 
         // Blocks & Offsets
-        private readonly int generalBlock = -1; // Small Block
-        private readonly int storageBlock = -1; // Big Block
+        private int generalBlock = -1; // Small Block
+        private int storageBlock = -1; // Big Block
         private int SBO => 0x40000 * storageBlock;
         public int GBO => 0x40000 * generalBlock;
 
@@ -791,8 +798,7 @@ namespace PKHeX.Core
                         data[i >> 3] |= (byte)(1 << (i & 7));
                 }
 
-                data.CopyTo(Data, WondercardFlags);
-                Edited = true;
+                SetData(data, WondercardFlags);
             }
         }
 
@@ -1013,15 +1019,15 @@ namespace PKHeX.Core
             int FormOffset1 = PokeDex + 4 + (4 * brSize) + 4;
             switch (species)
             {
-                case 422: // Shellos
+                case (int)Species.Shellos: // Shellos
                     return GetDexFormValues(Data[FormOffset1 + 0], 1, 2);
-                case 423: // Gastrodon
+                case (int)Species.Gastrodon: // Gastrodon
                     return GetDexFormValues(Data[FormOffset1 + 1], 1, 2);
-                case 412: // Burmy
+                case (int)Species.Burmy: // Burmy
                     return GetDexFormValues(Data[FormOffset1 + 2], 2, 3);
-                case 413: // Wormadam
+                case (int)Species.Wormadam: // Wormadam
                     return GetDexFormValues(Data[FormOffset1 + 3], 2, 3);
-                case 201: // Unown
+                case (int)Species.Unown: // Unown
                     return GetData(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
             }
             if (DP)
@@ -1031,13 +1037,13 @@ namespace PKHeX.Core
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
             switch (species)
             {
-                case 479: // Rotom
+                case (int)Species.Rotom: // Rotom
                     return GetDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6);
-                case 492: // Shaymin
+                case (int)Species.Shaymin: // Shaymin
                     return GetDexFormValues(Data[FormOffset2 + 4], 1, 2);
-                case 487: // Giratina
+                case (int)Species.Giratina: // Giratina
                     return GetDexFormValues(Data[FormOffset2 + 5], 1, 2);
-                case 172 when HGSS: // Pichu
+                case (int)Species.Pichu when HGSS: // Pichu
                     return GetDexFormValues(Data[FormOffset2 + 6], 2, 3);
             }
 
@@ -1049,7 +1055,7 @@ namespace PKHeX.Core
             const int brSize = 0x40;
             switch (spec)
             {
-                case 386: // Deoxys
+                case (int)Species.Deoxys: // Deoxys
                     uint newval = SetDexFormValues(forms, 4, 4);
                     Data[PokeDex + 0x4 + (1 * brSize) - 1] = (byte) (newval & 0xFF);
                     Data[PokeDex + 0x4 + (2 * brSize) - 1] = (byte) ((newval >> 8) & 0xFF);
@@ -1059,19 +1065,19 @@ namespace PKHeX.Core
             int FormOffset1 = PokeDex + 4 + (4 * brSize) + 4;
             switch (spec)
             {
-                case 422: // Shellos
+                case (int)Species.Shellos: // Shellos
                     Data[FormOffset1 + 0] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 423: // Gastrodon
+                case (int)Species.Gastrodon: // Gastrodon
                     Data[FormOffset1 + 1] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 412: // Burmy
+                case (int)Species.Burmy: // Burmy
                     Data[FormOffset1 + 2] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
-                case 413: // Wormadam
+                case (int)Species.Wormadam: // Wormadam
                     Data[FormOffset1 + 3] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
-                case 201: // Unown
+                case (int)Species.Unown: // Unown
                     int ofs = FormOffset1 + 4;
                     int len = forms.Length;
                     Array.Resize(ref forms, 0x1C);
@@ -1088,16 +1094,16 @@ namespace PKHeX.Core
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
             switch (spec)
             {
-                case 479: // Rotom
+                case (int)Species.Rotom: // Rotom
                     BitConverter.GetBytes(SetDexFormValues(forms, 3, 6)).CopyTo(Data, FormOffset2);
                     return;
-                case 492: // Shaymin
+                case (int)Species.Shaymin: // Shaymin
                     Data[FormOffset2 + 4] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 487: // Giratina
+                case (int)Species.Giratina: // Giratina
                     Data[FormOffset2 + 5] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
-                case 172 when HGSS: // Pichu
+                case (int)Species.Pichu when HGSS: // Pichu
                     Data[FormOffset2 + 6] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
             }
@@ -1302,6 +1308,13 @@ namespace PKHeX.Core
         public byte[] SealCase { get => GetData(Seal, (int) Seal4.MAX); set => SetData(value, Seal); }
         public byte GetSealCount(Seal4 id) => Data[Seal + (int)id];
         public byte SetSealCount(Seal4 id, byte count) => Data[Seal + (int)id] = Math.Min(SealMaxCount, count);
-        public void SetAllSeals(byte count, bool unreleased = false) => Enumerable.Repeat(Math.Min(SealMaxCount, count), (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL)).CopyTo(Data, Seal);
+
+        public void SetAllSeals(byte count, bool unreleased = false)
+        {
+            var sealIndexCount = (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL);
+            var val = Math.Min(count, SealMaxCount);
+            for (int i = 0; i < sealIndexCount; i++)
+                Data[Seal + i] = val;
+        }
     }
 }

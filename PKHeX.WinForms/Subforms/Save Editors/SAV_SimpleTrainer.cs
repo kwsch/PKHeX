@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
                 MT_PikaFriend.Text = sav1.PikaFriendship.ToString();
                 if (!sav1.Version.Contains(GameVersion.YW))
                 {
-                    MT_PikaFriend.Visible = false;
+                    L_PikaFriend.Visible = MT_PikaFriend.Visible = false;
                     CB_SoundType.Visible = LBL_SoundType.Visible = false;
                 }
             }
@@ -135,14 +135,14 @@ namespace PKHeX.WinForms
                     control.Visible = true;
                 }
                 L_Coins.Text = "BP"; // no translation boo
-                MT_Coins.Text = s.BP.ToString();
+                MT_Coins.Text = s.BattleSubwayBlock.BP.ToString();
 
-                NUD_M.Value = s.M;
-                NUD_X.Value = s.X;
-                NUD_Z.Value = s.Z;
-                NUD_Y.Value = s.Y;
-
-                badgeval = s.Badges;
+                var pd = s.PlayerData;
+                NUD_M.Value = pd.M;
+                NUD_X.Value = pd.X;
+                NUD_Z.Value = pd.Z;
+                NUD_Y.Value = pd.Y;
+                badgeval = s.MiscBlock.Badges;
             }
 
             for (int i = 0; i < cba.Length; i++)
@@ -242,13 +242,14 @@ namespace PKHeX.WinForms
             {
                 if (MapUpdated)
                 {
-                    s.M = (int)NUD_M.Value;
-                    s.X = (int)NUD_X.Value;
-                    s.Z = (int)NUD_Z.Value;
-                    s.Y = (int)NUD_Y.Value;
+                    var pd = s.PlayerData;
+                    pd.M = (int)NUD_M.Value;
+                    pd.X = (int)NUD_X.Value;
+                    pd.Z = (int)NUD_Z.Value;
+                    pd.Y = (int)NUD_Y.Value;
                 }
-                s.Badges = badgeval & 0xFF;
-                s.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
+                s.MiscBlock.Badges = badgeval & 0xFF;
+                s.BattleSubwayBlock.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
             SAV.SecondsToStart = GetSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
@@ -265,9 +266,10 @@ namespace PKHeX.WinForms
 
         private static uint GetSeconds(DateTimePicker date, DateTimePicker time)
         {
-            uint val = (uint)(date.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            var epoch = new DateTime(2000, 1, 1);
+            uint val = (uint)(date.Value - epoch).TotalSeconds;
             val -= val % 86400;
-            val += (uint)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+            val += (uint)(time.Value - epoch).TotalSeconds;
             return val;
         }
 

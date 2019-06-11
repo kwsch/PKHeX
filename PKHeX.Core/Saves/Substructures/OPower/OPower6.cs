@@ -3,7 +3,7 @@ using static PKHeX.Core.OPower6Type;
 
 namespace PKHeX.Core
 {
-    public class OPower6
+    public class OPower6 : SaveBlock
     {
         private static readonly OPowerFlagSet[] Mapping =
         {
@@ -41,15 +41,7 @@ namespace PKHeX.Core
             }
         }
 
-        private readonly byte[] Data;
-        private readonly int Offset;
-
-        public OPower6(byte[] data, int offset)
-        {
-            Offset = offset;
-            Data = data;
-        }
-
+        public OPower6(SaveFile sav, int offset) : base(sav) => Offset = offset;
 
         private OPowerFlagSet this[OPower6Type type] => Array.Find(Mapping, t => t.Identifier == type);
         public int GetOPowerCount(OPower6Type type) => this[type].BaseCount;

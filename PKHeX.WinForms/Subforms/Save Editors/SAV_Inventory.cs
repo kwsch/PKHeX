@@ -184,7 +184,7 @@ namespace PKHeX.WinForms
                 if (!Main.HaX && incorrectPouch.Length > 0)
                     WinFormsUtil.Alert(string.Format(MsgItemPouchRemoved, pouch.Type), string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])), MsgItemPouchWarning);
 
-                pouch.Sanitize(Main.HaX, itemlist.Length - 1);
+                pouch.Sanitize(itemlist.Length - 1, Main.HaX);
                 GetBag(dgv, pouch);
             }
         }

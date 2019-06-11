@@ -120,7 +120,7 @@ namespace PKHeX.Core
                 // Eggs do not have any modifications done if they are traded
                 // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
                 if ((tr.OT != OT_Name) || (tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender))
-                    SetLinkTradeEgg(Day, Month, Year);
+                    SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
                 return;
             }
 
@@ -142,9 +142,9 @@ namespace PKHeX.Core
         }
 
         // Legality Properties
-        public override bool WasLink => Met_Location == 30011;
-        public override bool WasEvent => (Met_Location > 40000 && Met_Location < 50000) || FatefulEncounter;
-        public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
+        public override bool WasLink => Met_Location == Locations.LinkGift6;
+        public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
+        public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 
         // Maximums
         public override int MaxIV => 31;

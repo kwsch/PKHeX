@@ -157,7 +157,7 @@ namespace PKHeX.Core
             }
             else // Egg
             {
-                if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != 2002) // traded
+                if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != Locations.LinkTrade4) // traded
                     return false;
                 if (wc.CurrentLevel != pkm.Met_Level)
                     return false;

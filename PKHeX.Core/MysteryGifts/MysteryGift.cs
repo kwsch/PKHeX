@@ -32,6 +32,9 @@ namespace PKHeX.Core
 
             switch (data.Length)
             {
+                case WB7.SizeFull when ext == ".wb7full":
+                case WB7.Size when ext == ".wb7":
+                    return new WB7(data);
                 case WC7.SizeFull when ext == ".wc7full":
                 case WC7.Size when ext == ".wc7":
                     return new WC7(data);
@@ -177,5 +180,8 @@ namespace PKHeX.Core
         public virtual bool EggEncounter => IsEgg;
         public int Generation { get => Format; set {} }
         public abstract int EggLocation { get; set; }
+
+        public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
+        public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);
     }
 }

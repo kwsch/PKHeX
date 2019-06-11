@@ -305,11 +305,11 @@ namespace PKHeX.Core
                 case 4:
                     switch (pk.Species)
                     {
-                        case 491 when enc.Location == 079 && !pk.Pt: // DP Darkrai
+                        case (int)Species.Darkrai when enc.Location == 079 && !pk.Pt: // DP Darkrai
                             return true;
-                        case 492 when enc.Location == 063 && !pk.Pt: // DP Shaymin
+                        case (int)Species.Shaymin when enc.Location == 063 && !pk.Pt: // DP Shaymin
                             return true;
-                        case 493 when enc.Location == 086: // Azure Flute Arceus
+                        case (int)Species.Arceus when enc.Location == 086: // Azure Flute Arceus
                             return true;
                     }
                     break;

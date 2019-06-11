@@ -146,7 +146,7 @@ namespace PKHeX.WinForms
             if (!editing)
                 SAV.SetBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
 
-            PAN_BG.BackgroundImage = SAV.WallpaperImage(CB_BG.SelectedIndex);
+            PAN_BG.BackgroundImage = SAV.WallpaperImage(LB_BoxSelect.SelectedIndex);
         }
 
         private bool MoveItem(int direction)

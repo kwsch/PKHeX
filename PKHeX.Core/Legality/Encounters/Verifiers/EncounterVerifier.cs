@@ -128,10 +128,10 @@ namespace PKHeX.Core
                 case 1:
                 case 2: return new CheckResult(CheckIdentifier.Encounter); // no met location info
                 case 3: return pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm);
-                case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 02002) : VerifyEncounterEgg4(pkm);
-                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30003) : VerifyEncounterEgg5(pkm);
-                case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg6(pkm);
-                case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg7(pkm);
+                case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm);
+                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm);
+                case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm);
+                case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm);
 
                 default: // none of the above
                     return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
@@ -173,9 +173,9 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
             if (pkm.Egg_Location != 0)
                 return new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
-            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+            if (pkm.Format == 4 && pkm.Met_Location != Locations.Transfer3)
                 return new CheckResult(Severity.Invalid, LEggLocationPalPark, CheckIdentifier.Encounter);
-            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+            if (pkm.Format != 4 && pkm.Met_Location != Locations.Transfer4)
                 return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
 
             return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
@@ -187,11 +187,11 @@ namespace PKHeX.Core
                 return VerifyEncounterEggLevelLoc(pkm, 0, Legal.Met_HGSS_Hatch);
             if (pkm.IsEgg)
                 return new CheckResult(Severity.Invalid, LTransferEgg, CheckIdentifier.Encounter);
+
             // transferred
             if (pkm.Met_Level < 1)
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
-
-            if (pkm.Met_Location != 30001)
+            if (pkm.Met_Location != Locations.Transfer4)
                 return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
             return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
         }
@@ -296,24 +296,24 @@ namespace PKHeX.Core
                 case 3:
                     if (s is EncounterStaticShadow w && w.EReader && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
-                    if (pkm.Species == 151 && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
+                    if (pkm.Species == (int)Species.Mew && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
                         return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
                     break;
                 case 4:
                     switch (pkm.Species)
                     {
-                        case 491 when s.Location == 079 && !pkm.Pt: // DP Darkrai
+                        case (int)Species.Darkrai when s.Location == 079 && !pkm.Pt: // DP Darkrai
                             return new CheckResult(Severity.Invalid, LEncUnreleasedPtDarkrai, CheckIdentifier.Encounter);
-                        case 492 when s.Location == 063 && !pkm.Pt:// DP Shaymin
+                        case (int)Species.Shaymin when s.Location == 063 && !pkm.Pt:// DP Shaymin
                             return new CheckResult(Severity.Invalid, LEncUnreleasedPtShaymin, CheckIdentifier.Encounter);
-                        case 493 when s.Location == 086: // Azure Flute Arceus
+                        case (int)Species.Arceus when s.Location == 086: // Azure Flute Arceus
                             return new CheckResult(Severity.Invalid, LEncUnreleasedHoOArceus, CheckIdentifier.Encounter);
                     }
                     if (s.Location == 193 && s is EncounterStaticTyped t && t.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:
-                    if (s.EggLocation == 60002 && pkm.RelearnMoves.Any(m => m != 0))
+                    if (s.EggLocation == Locations.Daycare5 && pkm.RelearnMoves.Any(m => m != 0)) // eevee gift egg
                         return new CheckResult(Severity.Invalid, LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
                     break;
             }
@@ -329,7 +329,7 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounterTrade(PKM pkm, EncounterTrade trade)
         {
-            if (trade.Species == pkm.Species && trade.EvolveOnTrade)
+            if (trade.EvolveOnTrade && trade.Species == pkm.Species)
             {
                 // Pokemon that evolve on trade can not be in the phase evolution after the trade
                 // If the trade holds an everstone EvolveOnTrade will be false for the encounter

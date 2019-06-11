@@ -17,12 +17,20 @@ namespace PKHeX.Core
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="items">Item collection</param>
-        public static void Shuffle<T>(IList<T> items)
+        public static void Shuffle<T>(IList<T> items) => Shuffle(items, 0, items.Count);
+
+        /// <summary>
+        /// Shuffles the order of items within a collection of items.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="items">Item collection</param>
+        /// <param name="start">Starting position</param>
+        /// <param name="end">Ending position</param>
+        public static void Shuffle<T>(IList<T> items, int start, int end)
         {
-            int n = items.Count;
-            for (int i = 0; i < n; i++)
+            for (int i = start; i < end; i++)
             {
-                int index = i + Rand.Next(n-i);
+                int index = i + Rand.Next(end - i);
                 T t = items[index];
                 items[index] = items[i];
                 items[i] = t;

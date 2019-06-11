@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public static CheckResult[] VerifyRelearn(PKM pkm, LegalInfo info)
         {
-            if (info.Generation < 6 || pkm.VC1)
+            if (info.Generation < 6)
                 return VerifyRelearnNone(pkm, info);
 
             switch (info.EncounterMatch)

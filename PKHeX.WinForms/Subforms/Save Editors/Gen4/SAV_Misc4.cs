@@ -76,13 +76,22 @@ namespace PKHeX.WinForms
             ReadMain();
             ReadBattleFrontier();
             if (!SAV.HGSS)
+            {
                 TC_Misc.Controls.Remove(TAB_Walker);
+                poffinCase4Editor1.Initialize(SAV);
+            }
+            else
+            {
+                TC_Misc.Controls.Remove(Tab_Poffins);
+            }
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveMain();
             SaveBattleFrontier();
+            if (!SAV.HGSS)
+                poffinCase4Editor1.Save();
 
             Origin.SetData(SAV.Data, 0);
             Close();
