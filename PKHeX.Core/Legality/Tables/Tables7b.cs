@@ -277,9 +277,6 @@ namespace PKHeX.Core
             060, // Poliwag
             061, // Poliwhirl
             062, // Poliwrath
-            063, // Abra
-            064, // Kadabra
-            065, // Alakazam
             069, // Bellsprout
             070, // Weepinbell
             071, // Victreebel
@@ -304,8 +301,6 @@ namespace PKHeX.Core
             113, // Chansey
             114, // Tangela
             115, // Kangaskhan
-            116, // Horsea
-            117, // Seadra
             118, // Goldeen
             119, // Seaking
             120, // Staryu
