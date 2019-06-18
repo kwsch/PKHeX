@@ -32,7 +32,7 @@ namespace PKHeX.Core
             PokeDexLanguageFlags = langflag;
             DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) DexFormUtil.GetDexFormIndexSM : DexFormUtil.GetDexFormIndexSM;
             LoadDexList();
-            Debug.Assert(BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
+            Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
         protected void LoadDexList() => FormBaseSpecies = GetFormIndexBaseSpeciesList();
