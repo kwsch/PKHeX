@@ -83,6 +83,40 @@ namespace PKHeX.Core
             var reg = GetSeedsFromPID(RNG.LCRNG, top, bot);
             var iv1 = GetIVChunk(IVs, 0);
             var iv2 = GetIVChunk(IVs, 3);
+            if (GetLCRNGMatchMain(reg, iv1, iv2, out pidiv)) return true;
+            reg = GetSeedsFromPIDSkip(RNG.LCRNG, top, bot);
+            if (GetLCRNGMatchMain(reg, iv1, iv2, out pidiv))
+            {
+                switch (pidiv.Type)
+                {
+                    case PIDType.Method_2: pidiv.Type = PIDType.Method_2; break; // ACDE
+                }
+                return true;
+            }
+            return GetNonMatch(out pidiv);
+        }
+
+        private static bool GetLCRNGUnownMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        {
+            // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
+            var reg = GetSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
+            var iv1 = GetIVChunk(IVs, 0);
+            var iv2 = GetIVChunk(IVs, 3);
+            if (GetLCRNGMatchMain(reg, iv1, iv2, out pidiv))
+            {
+                switch (pidiv.Type)
+                {
+                    case PIDType.Method_1: pidiv.Type = PIDType.Method_1_Unown; break; // BACD
+                    case PIDType.Method_2: pidiv.Type = PIDType.Method_2_Unown; break; // BADE
+                    case PIDType.Method_4: pidiv.Type = PIDType.Method_4_Unown; break; // BACE
+                }
+                return true;
+            }
+            return GetNonMatch(out pidiv);
+        }
+
+        private static bool GetLCRNGMatchMain(IEnumerable<uint> reg, uint iv1, uint iv2, out PIDIV pidiv)
+        {
             foreach (var seed in reg)
             {
                 // A and B are already used by PID
@@ -97,7 +131,7 @@ namespace PKHeX.Core
                     var ivD = D >> 16 & 0x7FFF;
                     if (iv2 == ivD) // ABCD
                     {
-                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1};
+                        pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1 };
                         return true;
                     }
 
@@ -105,7 +139,7 @@ namespace PKHeX.Core
                     var ivE = E >> 16 & 0x7FFF;
                     if (iv2 == ivE) // ABCE
                     {
-                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4};
+                        pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4 };
                         return true;
                     }
                 }
@@ -120,58 +154,7 @@ namespace PKHeX.Core
                     var ivE = E >> 16 & 0x7FFF;
                     if (iv2 == ivE) // ABDE
                     {
-                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2};
-                        return true;
-                    }
-                }
-            }
-            return GetNonMatch(out pidiv);
-        }
-
-        private static bool GetLCRNGUnownMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
-        {
-            // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
-            var reg = GetSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
-            var iv1 = GetIVChunk(IVs, 0);
-            var iv2 = GetIVChunk(IVs, 3);
-            foreach (var seed in reg)
-            {
-                // A and B are already used by PID
-                var B = RNG.LCRNG.Advance(seed, 2);
-
-                // Method 1/2/4 can use 3 different RNG frames
-                var C = RNG.LCRNG.Next(B);
-                var ivC = C >> 16 & 0x7FFF;
-                if (iv1 == ivC)
-                {
-                    var D = RNG.LCRNG.Next(C);
-                    var ivD = D >> 16 & 0x7FFF;
-                    if (iv2 == ivD) // BACD
-                    {
-                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1_Unown};
-                        return true;
-                    }
-
-                    var E = RNG.LCRNG.Next(D);
-                    var ivE = E >> 16 & 0x7FFF;
-                    if (iv2 == ivE) // BACE
-                    {
-                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4_Unown};
-                        return true;
-                    }
-                }
-                else
-                {
-                    var D = RNG.LCRNG.Next(C);
-                    var ivD = D >> 16 & 0x7FFF;
-                    if (iv1 != ivD)
-                        continue;
-
-                    var E = RNG.LCRNG.Next(D);
-                    var ivE = E >> 16 & 0x7FFF;
-                    if (iv2 == ivE) // BADE
-                    {
-                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2_Unown};
+                        pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2 };
                         return true;
                     }
                 }
@@ -594,6 +577,15 @@ namespace PKHeX.Core
             uint second = a << 16;
             uint first = b << 16;
             return method.RecoverLower16Bits(first, second);
+        }
+
+        private static IEnumerable<uint> GetSeedsFromPIDSkip(RNG method, uint a, uint b)
+        {
+            Debug.Assert(a >> 16 == 0);
+            Debug.Assert(b >> 16 == 0);
+            uint third = a << 16;
+            uint first = b << 16;
+            return method.RecoverLower16BitsGap(first, third);
         }
 
         private static IEnumerable<uint> GetSeedsFromIVs(RNG method, uint a, uint b)
