@@ -113,15 +113,15 @@ namespace PKHeX.WinForms
         {
             switch (ver)
             {
-                case GameVersion.X: case GameVersion.Y: return "xy";
-                case GameVersion.OR: case GameVersion.AS: return "oras";
-                case GameVersion.SN: case GameVersion.MN: return "sm";
-                case GameVersion.US: case GameVersion.UM: return "usum";
-                case GameVersion.DP: return "dp";
-                case GameVersion.Pt: return "pt";
-                case GameVersion.HGSS: return "hgss";
-                case GameVersion.BW: return "bw";
-                case GameVersion.B2W2: return "b2w2";
+                case GameVersion.X: case GameVersion.Y: case GameVersion.XY: return "xy";
+                case GameVersion.OR: case GameVersion.AS: case GameVersion.ORAS: return "oras";
+                case GameVersion.SN: case GameVersion.MN: case GameVersion.SM: return "sm";
+                case GameVersion.US: case GameVersion.UM: case GameVersion.USUM: return "usum";
+                case GameVersion.D: case GameVersion.P: case GameVersion.DP: return "dp";
+                case GameVersion.Pt: case GameVersion.DPPt: return "pt";
+                case GameVersion.HG: case GameVersion.SS: case GameVersion.HGSS: return "hgss";
+                case GameVersion.B: case GameVersion.W: case GameVersion.BW: return "bw";
+                case GameVersion.B2: case GameVersion.W2: case GameVersion.B2W2: return "b2w2";
                 case GameVersion.R: case GameVersion.S: case GameVersion.RS: return "rs";
                 case GameVersion.E: return "e";
                 case GameVersion.FR: case GameVersion.LG: case GameVersion.FRLG: return "frlg";
