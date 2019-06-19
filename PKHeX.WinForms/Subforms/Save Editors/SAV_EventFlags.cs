@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -426,49 +425,24 @@ namespace PKHeX.WinForms
 
         private void DiffSaves()
         {
-            if (!File.Exists(TB_OldSAV.Text)) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
-            if (!File.Exists(TB_NewSAV.Text)) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
-            if (new FileInfo(TB_OldSAV.Text).Length > 0x100000) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
-            if (new FileInfo(TB_NewSAV.Text).Length > 0x100000) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
-
-            var s1 = SaveUtil.GetVariantSAV(TB_OldSAV.Text);
-            var s2 = SaveUtil.GetVariantSAV(TB_NewSAV.Text);
-            if (s1 == null) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 1)); return; }
-            if (s2 == null) { WinFormsUtil.Alert(string.Format(MsgSaveNumberInvalid, 2)); return; }
-
-            if (s1.GetType() != s2.GetType()) { WinFormsUtil.Alert(MsgSaveDifferentTypes, $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
-            if (s1.Version != s2.Version) { WinFormsUtil.Alert(MsgSaveDifferentVersions, $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
-
-            var tbIsSet = new List<int>();
-            var tbUnSet = new List<int>();
-            var result = new List<string>();
-            bool[] oldBits = s1.EventFlags;
-            bool[] newBits = s2.EventFlags;
-            var oldConst = s1.EventConsts;
-            var newConst = s2.EventConsts;
-
-            for (int i = 0; i < oldBits.Length; i++)
+            var diff = new EventBlockDiff(TB_OldSAV.Text, TB_NewSAV.Text);
+            if (diff.Message == null)
             {
-                if (oldBits[i] != newBits[i])
-                    (newBits[i] ? tbIsSet : tbUnSet).Add(i);
-            }
-            TB_IsSet.Text = string.Join(", ", tbIsSet.Select(z => $"{z:0000}"));
-            TB_UnSet.Text = string.Join(", ", tbUnSet.Select(z => $"{z:0000}"));
-
-            for (int i = 0; i < newConst.Length; i++)
-            {
-                if (oldConst[i] != newConst[i])
-                    result.Add($"{i}: {oldConst[i]}->{newConst[i]}");
+                WinFormsUtil.Alert(diff.Message);
+                return;
             }
 
-            if (result.Count == 0)
+            TB_IsSet.Text = string.Join(", ", diff.SetFlags.Select(z => $"{z:0000}"));
+            TB_UnSet.Text = string.Join(", ", diff.ClearedFlags.Select(z => $"{z:0000}"));
+
+            if (diff.WorkDiff.Count == 0)
             {
                 WinFormsUtil.Alert("No Event Constant diff found.");
                 return;
             }
 
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
-                Clipboard.SetText(string.Join(Environment.NewLine, result));
+                Clipboard.SetText(string.Join(Environment.NewLine, diff.WorkDiff));
         }
 
         private static void Main_DragEnter(object sender, DragEventArgs e)
