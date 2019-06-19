@@ -27,7 +27,14 @@ namespace PKHeX.Core
                 Array.Resize(ref Data, SIZE_PARTY);
         }
 
-        public override PKM Clone() => new PK3((byte[])Data.Clone()){Identifier = Identifier};
+        public override PKM Clone()
+        {
+            // Don't use the byte[] constructor, the CheckEncrypted call is based on checksum.
+            // An invalid checksum will shuffle the data; we already know it's un-shuffled. Set up manually.
+            var pk = new PK3 {Identifier = Identifier};
+            Data.CopyTo(pk.Data, 0);
+            return pk;
+        }
 
         private string GetString(int Offset, int Count) => StringConverter3.GetString3(Data, Offset, Count, Japanese);
         private byte[] SetString(string value, int maxLength) => StringConverter3.SetString3(value, maxLength, Japanese);
