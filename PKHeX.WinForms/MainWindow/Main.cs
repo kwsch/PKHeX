@@ -992,7 +992,8 @@ namespace PKHeX.WinForms
                         WinFormsUtil.Alert(MsgQRDeprecated, MsgQRAlternative);
                         QR6Notified = true;
                     }
-                    qr = QR.GetQRImage(pk.EncryptedBoxData, QR.GetQRServer(pk.Format));
+                    var qrmessage = QRMessageUtil.GetMessage(pk);
+                    qr = QR.GetQRImage(qrmessage);
                     break;
             }
 

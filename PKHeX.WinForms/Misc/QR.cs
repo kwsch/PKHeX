@@ -139,10 +139,8 @@ namespace PKHeX.WinForms
             return Convert.FromBase64String(pkstr);
         }
 
-        internal static Image GetQRImage(byte[] data, string server)
+        internal static Image GetQRImage(string message)
         {
-            string qrdata = Convert.ToBase64String(data);
-            string message = server + qrdata;
             string webURL = EncodeAPI + HttpUtility.UrlEncode(message);
 
             try

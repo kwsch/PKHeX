@@ -314,8 +314,8 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            const string server = "http://lunarcookies.github.io/wc.html#";
-            Image qr = QR.GetQRImage(mg.Data, server);
+            var qrmessage = QRMessageUtil.GetMessage(mg);
+            Image qr = QR.GetQRImage(qrmessage);
             if (qr == null)
                 return;
 
