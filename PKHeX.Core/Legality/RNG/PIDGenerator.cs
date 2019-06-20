@@ -9,25 +9,30 @@ namespace PKHeX.Core
             var rng = RNG.LCRNG;
             var A = rng.Next(seed);
             var B = rng.Next(A);
-            var pid = (B & 0xFFFF0000) | A >> 16;
-            if (type == PIDType.Method_1_Unown || type == PIDType.Method_2_Unown || type == PIDType.Method_4_Unown)
-                pk.PID = (pid >> 16) | (pid << 16); // swap halves
-            else
-                pk.PID = pid;
-
-            var skipIV1Frame = type == PIDType.Method_2 || type == PIDType.Method_2_Unown;
-            if (skipIV1Frame)
+            var skipBetweenPID = type == PIDType.Method_3 || type == PIDType.Method_3_Unown;
+            if (skipBetweenPID) // VBlank skip between PID rand() [RARE]
                 B = rng.Next(B);
-            var C = rng.Next(B);
-            var D = rng.Next(C);
 
+            var swappedPIDHalves = PIDType.Method_1_Unown <= type && type <= PIDType.Method_4_Unown;
+            if (swappedPIDHalves) // switched order of PID halves, "BA.."
+                pk.PID = (A & 0xFFFF0000) | B >> 16;
+            else
+                pk.PID = (B & 0xFFFF0000) | A >> 16;
+
+            var C = rng.Next(B);
+            var skipIV1Frame = type == PIDType.Method_2 || type == PIDType.Method_2_Unown;
+            if (skipIV1Frame) // VBlank skip after PID
+                C = rng.Next(C);
+
+            var D = rng.Next(C);
             var skipIV2Frame = type == PIDType.Method_4 || type == PIDType.Method_4_Unown;
-            if (skipIV2Frame)
+            if (skipIV2Frame) // VBlank skip between IVs
                 D = rng.Next(D);
 
             var IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
             if (type == PIDType.Method_1_Roamer)
             {
+                // Only store lowest 8 bits of IV data; zero out the other bits.
                 IVs[1] &= 7;
                 for (int i = 2; i < 6; i++)
                     IVs[i] = 0;
@@ -140,9 +145,11 @@ namespace PKHeX.Core
 
                 case PIDType.Method_1:
                 case PIDType.Method_2:
+                case PIDType.Method_3:
                 case PIDType.Method_4:
                 case PIDType.Method_1_Unown:
                 case PIDType.Method_2_Unown:
+                case PIDType.Method_3_Unown:
                 case PIDType.Method_4_Unown:
                 case PIDType.Method_1_Roamer:
                     return (pk, seed) => SetValuesFromSeedLCRNG(pk, t, seed);

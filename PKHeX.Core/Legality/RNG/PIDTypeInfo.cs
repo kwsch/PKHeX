@@ -16,6 +16,7 @@
                 case PIDType.CXDAnti:
                 case PIDType.Method_1_Unown:
                 case PIDType.Method_2_Unown:
+                case PIDType.Method_3_Unown:
                 case PIDType.Method_4_Unown:
                     return true;
                 default:
