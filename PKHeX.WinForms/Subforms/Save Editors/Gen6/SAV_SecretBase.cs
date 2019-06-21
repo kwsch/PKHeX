@@ -508,7 +508,7 @@ namespace PKHeX.WinForms
                 return;
 
             const int max = 29;
-            const int size = 0x3E0;
+            const int size = SecretBase6.SIZE;
             int offset = favoff + (index * size);
             if (index != max) Array.Copy(SAV.Data, offset + size, SAV.Data, offset, size * (max - index));
             // Ensure Last Entry is Cleared
@@ -527,6 +527,7 @@ namespace PKHeX.WinForms
             var ofs = GetSecretBaseOffset(currentIndex);
             var data = File.ReadAllBytes(path);
             SAV.SetData(data, ofs);
+            PopFavorite();
             LB_Favorite.SelectedIndex = currentIndex;
             B_SAV2FAV(sender, e); // load back from current index
         }
