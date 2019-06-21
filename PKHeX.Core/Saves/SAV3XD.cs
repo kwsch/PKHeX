@@ -277,7 +277,7 @@ namespace PKHeX.Core
             // Get Shadow Data
             var pk = (XK3)base.GetStoredSlot(offset);
             if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
-                pk.Purification = ShadowInfo[pk.ShadowID - 1].Purification;
+                pk.Purification = ShadowInfo[pk.ShadowID].Purification;
             return pk;
         }
 
@@ -295,7 +295,7 @@ namespace PKHeX.Core
             if (pk.ShadowID <= 0 || pk.ShadowID >= ShadowInfo.Count)
                 return;
 
-            var entry = ShadowInfo[pk.ShadowID - 1];
+            var entry = ShadowInfo[pk.ShadowID];
             entry.Purification = pk.Purification;
             entry.Species = pk.Species;
             entry.PID = pk.PID;
