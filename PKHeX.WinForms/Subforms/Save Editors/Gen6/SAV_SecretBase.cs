@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -81,33 +82,28 @@ namespace PKHeX.WinForms
             loading = true;
             int index = LB_Favorite.SelectedIndex;
             if (index < 0) return;
-            int offset = SAV.SecretBase + 0x25A;
+            var offset = GetSecretBaseOffset(index);
 
-            // Base Offset Changing
-            if (index == 0) offset = SAV.SecretBase + 0x326;
-            else offset += 0x3E0 * index;
+            var bdata = new SecretBase6(SAV.Data, offset);
 
-            string TrainerName = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x218, 0x1A));
-            TB_FOT.Text = TrainerName;
+            NUD_FBaseLocation.Value = bdata.BaseLocation;
 
-            TB_FT1.Text = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x232 + (0x22 * 0), 0x22));
-            TB_FT2.Text = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x232 + (0x22 * 1), 0x22));
+            TB_FOT.Text = bdata.TrainerName;
+            TB_FT1.Text = bdata.FlavorText1;
+            TB_FT2.Text = bdata.FlavorText2;
 
-            string saying1 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + (0x22 * 0), 0x22));
-            string saying2 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + (0x22 * 1), 0x22));
-            string saying3 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + (0x22 * 2), 0x22));
-            string saying4 = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, offset + 0x276 + (0x22 * 3), 0x22));
-
-            NUD_FBaseLocation.Value = BitConverter.ToInt16(SAV.Data, offset);
-
-            TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
+            TB_FSay1.Text = bdata.Saying1;
+            TB_FSay2.Text = bdata.Saying2;
+            TB_FSay3.Text = bdata.Saying3;
+            TB_FSay4.Text = bdata.Saying4;
 
             // Gather data for Object Array
+            byte[] data = SAV.Data;
             objdata = new byte[25, 12];
             for (int i = 0; i < 25; i++)
             {
                 for (int z = 0; z < 12; z++)
-                    objdata[i, z] = SAV.Data[offset + 2 + (12 * i) + z];
+                    objdata[i, z] = data[offset + 2 + (12 * i) + z];
             }
 
             NUD_FObject.Value = 1; // Trigger Update
@@ -130,6 +126,19 @@ namespace PKHeX.WinForms
             ChangeFavPKM(null, EventArgs.Empty); // Trigger Update
 
             loading = false;
+            B_Import.Enabled = B_Export.Enabled = index > 0;
+            currentIndex = index;
+        }
+
+        private int GetSecretBaseOffset(int index)
+        {
+            // OR/AS: Secret base @ 0x23A00
+            if (index == 0) // Self, 0x314 bytes? Doesn't store pokemon data
+                return SAV.SecretBase + 0x326;
+
+            --index;
+            // Received
+            return SAV.SecretBase + 0x63A + (index * SecretBase6.SIZE);
         }
 
         private byte[,] objdata;
@@ -148,42 +157,22 @@ namespace PKHeX.WinForms
             if (name == "* " || name == $"{index} Empty")
             { WinFormsUtil.Error("Sorry, no overwriting an empty base with someone else's."); return; }
             if (index < 0) return;
-            int offset = SAV.SecretBase + 0x25A;
+            int offset = GetSecretBaseOffset(index);
 
-            // Base Offset Changing
-            if (index == 0)
-                offset = SAV.SecretBase + 0x326;
-            else offset += 0x3E0 * index;
+            var bdata = new SecretBase6(SAV.Data, offset);
 
-            string TrainerName = TB_FOT.Text;
-            byte[] tr = Encoding.Unicode.GetBytes(TrainerName);
-            Array.Resize(ref tr, 0x22); Array.Copy(tr, 0, SAV.Data, offset + 0x218, 0x1A);
+            bdata.TrainerName = TB_FOT.Text;
+            bdata.FlavorText1 = TB_FT1.Text;
+            bdata.FlavorText2 = TB_FT2.Text;
 
-            string team1 = TB_FT1.Text;
-            string team2 = TB_FT2.Text;
-            byte[] t1 = Encoding.Unicode.GetBytes(team1);
-            Array.Resize(ref t1, 0x22); Array.Copy(t1, 0, SAV.Data, offset + 0x232 + (0x22 * 0), 0x22);
-            byte[] t2 = Encoding.Unicode.GetBytes(team2);
-            Array.Resize(ref t2, 0x22); Array.Copy(t2, 0, SAV.Data, offset + 0x232 + (0x22 * 1), 0x22);
-
-            string saying1 = TB_FSay1.Text;
-            string saying2 = TB_FSay2.Text;
-            string saying3 = TB_FSay3.Text;
-            string saying4 = TB_FSay4.Text;
-            byte[] s1 = Encoding.Unicode.GetBytes(saying1);
-            Array.Resize(ref s1, 0x22); Array.Copy(s1, 0, SAV.Data, offset + 0x276 + (0x22 * 0), 0x22);
-            byte[] s2 = Encoding.Unicode.GetBytes(saying2);
-            Array.Resize(ref s2, 0x22); Array.Copy(s2, 0, SAV.Data, offset + 0x276 + (0x22 * 1), 0x22);
-            byte[] s3 = Encoding.Unicode.GetBytes(saying3);
-            Array.Resize(ref s3, 0x22); Array.Copy(s3, 0, SAV.Data, offset + 0x276 + (0x22 * 2), 0x22);
-            byte[] s4 = Encoding.Unicode.GetBytes(saying4);
-            Array.Resize(ref s4, 0x22); Array.Copy(s4, 0, SAV.Data, offset + 0x276 + (0x22 * 3), 0x22);
+            bdata.Saying1 = TB_FSay1.Text;
+            bdata.Saying2 = TB_FSay2.Text;
+            bdata.Saying3 = TB_FSay3.Text;
+            bdata.Saying4 = TB_FSay4.Text;
 
             int baseloc = (int)NUD_FBaseLocation.Value;
             if (baseloc < 3) baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
-            Array.Copy(BitConverter.GetBytes(baseloc), 0, SAV.Data, offset, 2);
-
-            TB_FOT.Text = TrainerName; TB_FSay1.Text = saying1; TB_FSay2.Text = saying2; TB_FSay3.Text = saying3; TB_FSay4.Text = saying4;
+            bdata.BaseLocation = baseloc;
 
             // Copy back Objects
             for (int i = 0; i < 25; i++)
@@ -202,8 +191,10 @@ namespace PKHeX.WinForms
                 }
             }
             PopFavorite();
-            LB_Favorite.SelectedIndex = index;
+            LB_Favorite.SelectedIndex = currentIndex = index;
         }
+
+        private int currentIndex;
 
         // Button Specific
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -524,5 +515,102 @@ namespace PKHeX.WinForms
             Array.Copy(new byte[size], 0, SAV.Data, size * max, size);
             PopFavorite();
         }
+
+        private void B_Import_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+            var path = ofd.FileName;
+            if (new FileInfo(path).Length != SecretBase6.SIZE)
+                return;
+            var ofs = GetSecretBaseOffset(currentIndex);
+            var data = File.ReadAllBytes(path);
+            SAV.SetData(data, ofs);
+            LB_Favorite.SelectedIndex = currentIndex;
+            B_SAV2FAV(sender, e); // load back from current index
+        }
+
+        private void B_Export_Click(object sender, EventArgs e)
+        {
+            LB_Favorite.SelectedIndex = currentIndex;
+            B_FAV2SAV(sender, e); // save back to current index
+            var ofs = GetSecretBaseOffset(currentIndex);
+            var sb = new SecretBase6(SAV.Data, ofs);
+            var tr = sb.TrainerName;
+            if (string.IsNullOrWhiteSpace(tr))
+                tr = "Trainer";
+            var sfd = new SaveFileDialog {Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6"};
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var path = sfd.FileName;
+            var data = SAV.GetData(ofs, SecretBase6.SIZE);
+            File.WriteAllBytes(path, data);
+        }
+    }
+
+
+    public class SecretBase6
+    {
+        private readonly byte[] Data;
+        private readonly int Offset;
+        public const int SIZE = 0x3E0;
+
+        public int BaseLocation
+        {
+            get => BitConverter.ToInt16(Data, Offset);
+            set => BitConverter.GetBytes((short)value).CopyTo(Data, Offset);
+        }
+
+        public SecretBase6(byte[] data, int offset = 0)
+        {
+            Data = data;
+            Offset = offset;
+        }
+
+        public string TrainerName
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x218, 0x1A);
+            set => StringConverter.SetString6(TrainerName, 0x1A / 2).CopyTo(Data, Offset + 0x218);
+        }
+
+        public string FlavorText1
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 0), 0x22);
+            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 0));
+        }
+        public string FlavorText2
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 1), 0x22);
+            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 1));
+        }
+
+        public string Saying1
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 0), 0x22);
+            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 0));
+        }
+
+        public string Saying2
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 1), 0x22);
+            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 1));
+        }
+
+        public string Saying3
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 2), 0x22);
+            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 2));
+        }
+
+        public string Saying4
+        {
+            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 3), 0x22);
+            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 3));
+        }
+
+        public bool IsDummiedBaseLocation => !IsEmpty && BaseLocation < 3;
+        public bool IsEmpty => BaseLocation == 0;
     }
 }
