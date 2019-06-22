@@ -21,15 +21,8 @@ namespace PKHeX.Core
 
         private IList<int> FormBaseSpecies;
 
-        protected Zukan7()
+        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag - dex)
         {
-        }
-
-        public Zukan7(SaveFile sav, int dex, int langflag)
-        {
-            SAV = sav;
-            PokeDex = dex;
-            PokeDexLanguageFlags = langflag;
             DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) DexFormUtil.GetDexFormIndexSM : DexFormUtil.GetDexFormIndexSM;
             LoadDexList();
             Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);

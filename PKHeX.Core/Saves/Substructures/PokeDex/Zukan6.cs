@@ -10,11 +10,8 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
 
-        public Zukan6(SaveFile sav, int dex, int langflag)
+        public Zukan6(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag - dex)
         {
-            SAV = sav;
-            PokeDex = dex;
-            PokeDexLanguageFlags = langflag;
             var wrap = SAV.ORAS ? DexFormUtil.GetDexFormIndexORAS : (Func<int,int,int>)DexFormUtil.GetDexFormIndexXY;
             DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
         }

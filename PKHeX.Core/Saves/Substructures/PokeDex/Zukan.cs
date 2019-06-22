@@ -9,6 +9,15 @@ namespace PKHeX.Core
         protected int PokeDex { get; set; }
         protected int PokeDexLanguageFlags { get; set; }
 
+        protected Zukan(SaveFile sav, int dex, int langflag)
+        {
+            SAV = sav;
+            PokeDex = dex;
+            PokeDexLanguageFlags = langflag;
+            if (langflag > dex)
+                throw new ArgumentException(nameof(langflag));
+        }
+
         protected abstract int OFS_SEEN { get; }
         protected abstract int OFS_CAUGHT { get; }
         protected abstract int BitSeenSize { get; }
