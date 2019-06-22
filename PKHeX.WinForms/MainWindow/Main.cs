@@ -291,10 +291,10 @@ namespace PKHeX.WinForms
             #endif
 
             // Select Language
-            int lang = GameInfo.Language(settings.Language);
+            int lang = GameLanguage.GetLanguageIndex(settings.Language);
             if (lang < 0)
-                lang = GameInfo.Language();
-            CB_MainLanguage.SelectedIndex = lang >= 0 ? lang : (int)ProgramLanguage.English;
+                lang = GameLanguage.DefaultLanguageIndex;
+            CB_MainLanguage.SelectedIndex = lang;
         }
 
         private void FormLoadPlugins()
@@ -734,6 +734,7 @@ namespace PKHeX.WinForms
             Menu_Undo.Enabled = false;
             Menu_Redo.Enabled = false;
 
+            GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, HaX);
             ResetSAVPKMEditors(sav);
             C_SAV.M.Reset();
 
@@ -879,10 +880,7 @@ namespace PKHeX.WinForms
         public static void SetCountrySubRegion(ComboBox CB, string type)
         {
             int index = CB.SelectedIndex;
-            // fix for Korean / Chinese being swapped
             string cl = GameInfo.CurrentLanguage;
-            cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
-
             CB.DataSource = Util.GetCountryRegionList(type, cl);
 
             if (index > 0 && index < CB.Items.Count)
@@ -893,7 +891,7 @@ namespace PKHeX.WinForms
         private void ChangeMainLanguage(object sender, EventArgs e)
         {
             if (CB_MainLanguage.SelectedIndex < 8)
-                CurrentLanguage = GameInfo.Language2Char((uint)CB_MainLanguage.SelectedIndex);
+                CurrentLanguage = GameLanguage.Language2Char(CB_MainLanguage.SelectedIndex);
 
             // Set the culture (makes it easy to pass language to other forms)
             Settings.Default.Language = CurrentLanguage;
@@ -914,10 +912,12 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static void InitializeStrings()
+        private void InitializeStrings()
         {
             string l = CurrentLanguage;
             GameInfo.Strings = GameInfo.GetStrings(l);
+            if (C_SAV.SAV != null)
+                GameInfo.FilteredSources = new FilteredGameDataSource(C_SAV.SAV, GameInfo.Sources, HaX);
 
             // Update Legality Strings
             Task.Run(() => {

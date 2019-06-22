@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -249,7 +247,7 @@ namespace PKHeX.WinForms
         private static string[] GetStringList(GameVersion game, string type)
         {
             var gamePrefix = GetGameFilePrefix(game);
-            return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
+            return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
 
         private static string GetGameFilePrefix(GameVersion game)

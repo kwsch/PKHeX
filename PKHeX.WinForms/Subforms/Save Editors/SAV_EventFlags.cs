@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
         private string[] GetStringList(string type)
         {
             gamePrefix = GetResourceSuffix(SAV.Version);
-            return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
+            return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
 
         private static string GetResourceSuffix(GameVersion ver)

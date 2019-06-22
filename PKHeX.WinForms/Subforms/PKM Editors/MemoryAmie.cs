@@ -182,7 +182,7 @@ namespace PKHeX.WinForms
 
         private void GetLangStrings()
         {
-            var strings = GameInfo.Strings.Memories;
+            var strings = GameInfo.FilteredSources.Source.Memories;
             CB_OTMemory.InitializeBinding();
             CB_CTMemory.InitializeBinding();
             CB_OTMemory.DataSource = new BindingSource(strings.Memory, null);
@@ -207,7 +207,7 @@ namespace PKHeX.WinForms
         {
             int memory = WinFormsUtil.GetIndex((ComboBox) sender);
             var memIndex = Memories.GetMemoryArgType(memory);
-            var argvals = GameInfo.Strings.Memories.GetArgumentStrings(memIndex);
+            var argvals = GameInfo.Sources.Memories.GetArgumentStrings(memIndex);
             if (sender == CB_CTMemory)
             {
                 CB_CTVar.InitializeBinding();

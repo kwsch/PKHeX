@@ -245,7 +245,7 @@ namespace PKHeX.Core
         /// Gets the localized Text representation of the set details.
         /// </summary>
         /// <param name="lang">2 character language code</param>
-        public string LocalizedText(string lang) => LocalizedText(GameInfo.Language(lang));
+        public string LocalizedText(string lang) => LocalizedText(GameLanguage.GetLanguageIndex(lang));
 
         /// <summary>
         /// Gets the localized Text representation of the set details.

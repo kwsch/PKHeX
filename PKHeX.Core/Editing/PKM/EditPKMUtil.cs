@@ -22,12 +22,6 @@ namespace PKHeX.Core
             return suggestion;
         }
 
-        public static IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)
-        {
-            var abils = pkm.PersonalInfo.Abilities;
-            return GameInfo.GetAbilityList(abils, pkm.Format);
-        }
-
         /// <summary>
         /// Applies junk data to a <see cref="SaveFile.BlankPKM"/>, which is preferable to a completely empty entity.
         /// </summary>

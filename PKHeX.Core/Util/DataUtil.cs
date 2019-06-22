@@ -224,7 +224,7 @@ namespace PKHeX.Core
 
         #region DataSource Providing
 
-        private static readonly string[] CountryRegionLanguages = {"ja", "en", "fr", "de", "it", "es", "ko", "zh"};
+        private static readonly string[] CountryRegionLanguages = {"ja", "en", "fr", "de", "it", "es", "zh", "ko"};
 
         public static List<ComboItem> GetCountryRegionList(string textfile, string lang)
         {

@@ -432,7 +432,7 @@ namespace PKHeX.WinForms
             int formnum = CB_Form.SelectedIndex;
             int[] abils = PersonalTable.AO.GetAbilities(species, formnum);
 
-            CB_Ability.DataSource = GameInfo.Strings.GetAbilityDataSource(abils);
+            CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(abils, 6);
             CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
         }
 
