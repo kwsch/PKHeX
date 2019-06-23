@@ -360,8 +360,14 @@ namespace PKHeX.WinForms
             {
                 Parallel.ForEach(result, file =>
                 {
+                    try {
                     var sav = SaveUtil.GetVariantSAV(file);
-                    var path = EXTERNAL_SAV + new FileInfo(file).Name;
+                    if (sav == null)
+                    {
+                        Console.WriteLine("Unable to load SaveFile: " + file);
+                        return; // bad backup
+                    }
+                    var path = EXTERNAL_SAV + Path.GetFileName(file);
                     if (sav.HasBox)
                     {
                         foreach (var pk in sav.BoxData)
@@ -372,6 +378,12 @@ namespace PKHeX.WinForms
                     {
                         pk.Identifier = Path.Combine(path, pk.Identifier);
                         dbTemp.Add(pk);
+                    }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("ERROR: Unable to load SaveFile: " + file);
+                        Console.WriteLine(ex.Message);
                     }
                 });
             }
