@@ -128,8 +128,8 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly Dictionary<PersonalColor, Ball[]> BallColors = new Dictionary<PersonalColor, Ball[]>
         {
-            [PersonalColor.Red] =    new[] { Cherish, Repeat, Fast, Heal, Great, Dream },
-            [PersonalColor.Blue] =   new[] { Dive, Net, Great, Beast },
+            [PersonalColor.Red] =    new[] { Cherish, Repeat, Fast, Heal, Great, Dream, Lure },
+            [PersonalColor.Blue] =   new[] { Dive, Net, Great, Beast, Lure },
             [PersonalColor.Yellow] = new[] { Level, Ultra, Repeat, Quick, Moon },
             [PersonalColor.Green] =  new[] { Safari, Friend, Nest, Dusk },
             [PersonalColor.Black] =  new[] { Luxury, Heavy, Ultra, Moon, Net, Beast },
