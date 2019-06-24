@@ -349,7 +349,7 @@ namespace PKHeX.Core
                 return TrainerNames[(int)LanguageID.Korean] == OT;
 
             const int start = (int)LanguageID.English;
-            const int end = (int)LanguageID.Italian;
+            const int end = (int)LanguageID.Spanish;
             var index = Array.FindIndex(TrainerNames, start, end - start + 1, w => w == OT);
             return index >= 0;
         }
