@@ -191,20 +191,20 @@ namespace PKHeX.Core
 
         private static readonly EncounterStatic[] Encounter_USUM =
         {
-            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, },  // Rowlet
-            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 8, },  // Litten
-            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, },  // Popplio
-            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
-            // new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
-            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
-            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
-            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
-            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = 58, }, // Shieldon
-            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = 58, }, // Tirtouga
-            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = 58, }, // Archen
-            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt
-            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
+            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 008, }, // Rowlet
+            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 008, }, // Litten
+            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 008, }, // Popplio
+            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 058, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 058, }, // Kabuto
+            // new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 058, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 058, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 058, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 058, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = 058, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = 058, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = 058, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 058, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 058, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 01, EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = 116, }, // Porygon @ Route 15
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 188, FlawlessIVCount = 3, }, // Type: Null @ Aether Paradise
@@ -229,7 +229,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Version = GameVersion.US }, // Ribombee
             new EncounterStatic { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Version = GameVersion.UM }, // Kommo-o
 
-            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, }, // Zygarde @ Route 16
+            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, }, // Zygarde (10%) @ Route 16
 
             new EncounterStatic // Magearna (Bottle Cap)
             {
@@ -237,10 +237,10 @@ namespace PKHeX.Core
                 Fateful = true, RibbonWishing = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
             },
 
-            new EncounterStatic { Gift = true, Species = 718, Form = 0, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde
-            new EncounterStatic { Gift = true, Species = 718, Form = 1, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde
-            new EncounterStatic { Gift = true, Species = 718, Form = 2, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde
-            new EncounterStatic { Gift = true, Species = 718, Form = 3, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde
+            new EncounterStatic { Gift = true, Species = 718, Form = 0, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde (50%)
+            new EncounterStatic { Gift = true, Species = 718, Form = 1, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde (10%)
+            new EncounterStatic { Gift = true, Species = 718, Form = 2, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde (10%-C)
+            new EncounterStatic { Gift = true, Species = 718, Form = 3, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3, }, // Zygarde (50%-C)
 
             new EncounterStatic { Species = 791, Level = 60, Location = 028, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {713,322,242,428}, Version = GameVersion.US }, // Solgaleo @ Mahalo Trail (Plank Bridge)
             new EncounterStatic { Species = 792, Level = 60, Location = 028, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {714,322,539,585}, Version = GameVersion.UM }, // Lunala @ Mahalo Trail (Plank Bridge)
@@ -293,7 +293,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = Shiny.Never, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 800, Level = 65, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ Mount Lanakila
 
-            // Legendaries @ Ultra Space Wilds
+            // Legendaries
             new EncounterStatic { Species = 144, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {246,573,115,258}, }, // Articuno
             new EncounterStatic { Species = 145, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {246,435,365,240}, }, // Zapdos
             new EncounterStatic { Species = 146, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {246,053,403,241}, }, // Moltres
@@ -331,28 +331,31 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 646, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, }, // Kyurem
             new EncounterStatic { Species = 716, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {601,532,400,585}, Version = GameVersion.US }, // Xerneas
             new EncounterStatic { Species = 717, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {613,399,566,094}, Version = GameVersion.UM }, // Yveltal
+            new EncounterStatic { Species = 718, Level = 60, Location = 182, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {616,137,219,225}, }, // Zygarde @ Resolution Cave
 
-            new EncounterStatic { Species = 334, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Altaria @ Ultra Space Wilds
-            new EncounterStatic { Species = 469, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Yanmega @ Ultra Space Wilds
-            new EncounterStatic { Species = 561, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Sigilyph @ Ultra Space Wilds
-            new EncounterStatic { Species = 581, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Swanna @ Ultra Space Wilds
-            new EncounterStatic { Species = 277, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Swellow @ Ultra Space Wilds
-            new EncounterStatic { Species = 452, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Drapion @ Ultra Space Wilds
-            new EncounterStatic { Species = 531, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Audino @ Ultra Space Wilds
-            new EncounterStatic { Species = 695, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Heliolisk @ Ultra Space Wilds
-            new EncounterStatic { Species = 274, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Nuzleaf @ Ultra Space Wilds
-            new EncounterStatic { Species = 326, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Grumpig @ Ultra Space Wilds
-            new EncounterStatic { Species = 460, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Abomasnow @ Ultra Space Wilds
-            new EncounterStatic { Species = 308, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Medicham @ Ultra Space Wilds
-            new EncounterStatic { Species = 450, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Hippowdon @ Ultra Space Wilds
-            new EncounterStatic { Species = 558, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Crustle @ Ultra Space Wilds
-            new EncounterStatic { Species = 219, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Magcargo @ Ultra Space Wilds
-            new EncounterStatic { Species = 689, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Barbaracle @ Ultra Space Wilds
-            new EncounterStatic { Species = 271, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Lombre @ Ultra Space Wilds
-            new EncounterStatic { Species = 618, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Stunfisk @ Ultra Space Wilds
-            new EncounterStatic { Species = 419, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Floatzel @ Ultra Space Wilds
-            new EncounterStatic { Species = 195, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Quagsire @ Ultra Space Wilds
+            // Ultra Space Wilds
+            new EncounterStatic { Species = 334, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Altaria
+            new EncounterStatic { Species = 469, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Yanmega
+            new EncounterStatic { Species = 561, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Sigilyph
+            new EncounterStatic { Species = 581, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Swanna
+            new EncounterStatic { Species = 277, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Swellow
+            new EncounterStatic { Species = 452, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Drapion
+            new EncounterStatic { Species = 531, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Audino
+            new EncounterStatic { Species = 695, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Heliolisk
+            new EncounterStatic { Species = 274, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Nuzleaf
+            new EncounterStatic { Species = 326, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Grumpig
+            new EncounterStatic { Species = 460, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Abomasnow
+            new EncounterStatic { Species = 308, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Medicham
+            new EncounterStatic { Species = 450, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Hippowdon
+            new EncounterStatic { Species = 558, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Crustle
+            new EncounterStatic { Species = 219, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Magcargo
+            new EncounterStatic { Species = 689, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Barbaracle
+            new EncounterStatic { Species = 271, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Lombre
+            new EncounterStatic { Species = 618, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Stunfisk
+            new EncounterStatic { Species = 419, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Floatzel
+            new EncounterStatic { Species = 195, Level = 60, Location = 222, FlawlessIVCount = 3, }, // Quagsire
 
+            // Ultra Beasts
             new EncounterStatic { Species = 793, Level = 60, Location = 190, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {408,491,446,243}, }, // Nihilego @ Ultra Deep Sea
             new EncounterStatic { Species = 794, Level = 60, Location = 218, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.US }, // Buzzwole @ Ultra Jungle
             new EncounterStatic { Species = 795, Level = 60, Location = 214, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.UM }, // Pheromosa @ Ultra Desert
@@ -360,6 +363,17 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 797, Level = 60, Location = 212, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.UM }, // Celesteela @ Ultra Crater
             new EncounterStatic { Species = 798, Level = 60, Location = 216, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.US }, // Kartana @ Ultra Forest
             new EncounterStatic { Species = 799, Level = 60, Location = 220, Ability = 1, FlawlessIVCount = 3, }, // Guzzlord @ Ultra Ruin
+            new EncounterStatic { Species = 805, Level = 60, Location = 164, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.UM }, // Stakataka @ Poni Grove
+            new EncounterStatic { Species = 806, Level = 60, Location = 164, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.US }, // Blacephalon @ Poni Grove
+
+            // Ditto Five
+            new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,00,30,-1}, Nature = Nature.Bold }, // Ditto @ Route 9
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,31,30,-1}, Nature = Nature.Jolly }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,31,30,30,-1,-1}, Nature = Nature.Adamant }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,00,-1,-1,31,30}, Nature = Nature.Modest }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,30,-1,31,-1,30}, Nature = Nature.Timid }, // Ditto @ Konikoni City
+
+            // Miscellaneous Static
             new EncounterStatic { Species = 760, Level = 28, Location = 020, Shiny = Shiny.Never, }, // Bewear @ Hau’oli City (Shopping District)
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = Shiny.Never, Relearn = new[] {095,171,139,029}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = Shiny.Never, Relearn = new[] {417,060,050,139}, }, // Hypno @ Hau'oli City Police Station
@@ -368,14 +382,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 19, Location = 230, Shiny = Shiny.Never, Relearn = new[] {310,132,016,371}, }, // Drifloon @ Route 1 (Trainers’ School)
             new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = Shiny.Never, Relearn = new[] {310,523,072,328}, Version = GameVersion.UM, }, // Sandygast @ Route 15
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = Shiny.Never, Gender = 1, }, // Frillish @ Route 14
-            new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,00,30,-1}, Nature = Nature.Bold }, // Ditto @ Route 9
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,31,30,-1}, Nature = Nature.Jolly }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,31,30,30,-1,-1}, Nature = Nature.Adamant }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,00,-1,-1,31,30}, Nature = Nature.Modest }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,30,-1,31,-1,30}, Nature = Nature.Timid }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 718, Level = 60, Location = 182, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {616,137,219,225}, }, // Zygarde @ Resolution Cave
-            new EncounterStatic { Species = 805, Level = 60, Location = 164, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.UM }, // Stakataka @ Poni Grove
-            new EncounterStatic { Species = 806, Level = 60, Location = 164, Ability = 1, FlawlessIVCount = 3, Version = GameVersion.US }, // Blacephalon @ Poni Grove
             new EncounterStatic { Species = 101, Level = 60, Location = 224, Ability = 1, Shiny = Shiny.Never, }, // Electrode @ Team Rocket's Castle
 
             // Crabrawler in Berry Piles
