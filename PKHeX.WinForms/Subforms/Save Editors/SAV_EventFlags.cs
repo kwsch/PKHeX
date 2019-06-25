@@ -426,7 +426,7 @@ namespace PKHeX.WinForms
         private void DiffSaves()
         {
             var diff = new EventBlockDiff(TB_OldSAV.Text, TB_NewSAV.Text);
-            if (diff.Message == null)
+            if (!string.IsNullOrWhiteSpace(diff.Message))
             {
                 WinFormsUtil.Alert(diff.Message);
                 return;
