@@ -200,14 +200,17 @@ namespace PKHeX.Core
         #region Static Encounter/Gift Tables
         private static readonly EncounterStatic[] Encounter_XY =
         {
+            // Kalos Starters @ Aquacorde Town
             new EncounterStatic { Gift = true, Species = 650, Level = 5, Location = 10, }, // Chespin
             new EncounterStatic { Gift = true, Species = 653, Level = 5, Location = 10, }, // Fennekin
             new EncounterStatic { Gift = true, Species = 656, Level = 5, Location = 10, }, // Froakie
 
+            // Kanto Starters @ Lumiose City
             new EncounterStatic { Gift = true, Species = 1, Level = 10, Location = 22, }, // Bulbasaur
             new EncounterStatic { Gift = true, Species = 4, Level = 10, Location = 22, }, // Charmander
             new EncounterStatic { Gift = true, Species = 7, Level = 10, Location = 22, }, // Squirtle
 
+            // Fossils @ Ambrette Town
             new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 44, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 44, }, // Kabuto
             new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 44, }, // Aerodactyl
@@ -220,16 +223,21 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 44, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 44, }, // Amaura
 
-            new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = Shiny.Never }, // Lucario
-            new EncounterStatic { Species = 131, Level = 30, Location = 62, Ability = 1, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
+            // Gift
+            new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, IVs = new[] {06,25,16,31,25,19}, Nature = Nature.Hasty, Gender = 0, Gift = true, Shiny = Shiny.Never }, // Lucario
+            new EncounterStatic { Species = 131, Level = 30, Location = 62, Ability = 1, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Docile, Gift = true }, // Lapras
 
+            // Stationary
             new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = Shiny.Never, }, // Snorlax
+
+            // Shaking Trash Cans @ Lost Hotel
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
             new EncounterStatic { Species = 569, Level = 36, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 37, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 38, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 479, Level = 38, Location = 142 }, // Rotom
 
+            // Shaking Trash Cans @ Pokemon Village
             new EncounterStatic { Species = 569, Level = 46, Location = 98 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 47, Location = 98 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 48, Location = 98 }, // Garbodor
@@ -241,12 +249,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 354, Level = 49, Location = 98 }, // Banette
             new EncounterStatic { Species = 354, Level = 50, Location = 98 }, // Banette
 
+            // Stationary Legendary
             new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Xerneas
             new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Yveltal
             new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-
             new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mewtwo
-
             new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Articuno
             new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zapdos
             new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
@@ -254,6 +261,7 @@ namespace PKHeX.Core
 
         private static readonly EncounterStatic[] Encounter_AO_Regular =
         {
+            // Starters @ Route 101
             new EncounterStatic { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
             new EncounterStatic { Gift = true, Species = 255, Level = 5, Location = 204, }, // Torchic
             new EncounterStatic { Gift = true, Species = 258, Level = 5, Location = 204, }, // Mudkip
@@ -270,7 +278,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 498, Level = 5, Location = 204, }, // Tepig
             new EncounterStatic { Gift = true, Species = 501, Level = 5, Location = 204, }, // Oshawott
 
-            // Fossil
+            // Fossils @ Rustboro City
             new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 190, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 190, }, // Kabuto
             new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 190, }, // Aerodactyl
@@ -283,68 +291,65 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 190, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 190, }, // Amaura
 
+            // Hot Springs Eggs
             new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Wynaut
             new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Togepi
-            new EncounterStatic { Species = 374, Level = 1, Location = 196, Ability = 1, IVs = new[] {-1, -1, 31, -1, -1, 31}, Gift = true }, // Beldum
 
-            new EncounterStatic { Species = 351, Level = 30, Location = 240, Gender = 1, Ability = 1, Nature = Nature.Lax, IVs = new[] {-1, -1, -1, -1, 31, -1}, Contest = new[] {0,100,0,0,0,0}, Gift = true }, // Castform
-            new EncounterStatic { Species = 319, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
-            new EncounterStatic { Species = 323, Level = 40, Location = 318, Gender = 1, Ability = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
+            // Gift
+            new EncounterStatic { Species = 374, Level = 01, Location = 196, Ability = 1, IVs = new[] {-1,-1,31,-1,-1,31}, Gift = true }, // Beldum
+            new EncounterStatic { Species = 351, Level = 30, Location = 240, Ability = 1, IVs = new[] {-1,-1,-1,-1,31,-1}, Contest = new[] {0,100,0,0,0,0}, Gender = 1, Nature = Nature.Lax, Gift = true }, // Castform
+            new EncounterStatic { Species = 319, Level = 40, Location = 318, Ability = 1, Gender = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
+            new EncounterStatic { Species = 323, Level = 40, Location = 318, Ability = 1, Gender = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
+            new EncounterStatic { Species = 380, Level = 30, Location = 320, Ability = 1, Version = GameVersion.AS, Gift = true, FlawlessIVCount = 3 }, // Latias
+            new EncounterStatic { Species = 381, Level = 30, Location = 320, Ability = 1, Version = GameVersion.OR, Gift = true, FlawlessIVCount = 3 }, // Latios
 
-            new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.AS, Ability = 1, Gift = true, FlawlessIVCount = 3 }, // Latias
-            new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.OR, Ability = 1, Gift = true, FlawlessIVCount = 3 }, // Latios
-
+            // Stationary Legendary
+            new EncounterStatic { Species = 377, Level = 40, Location = 278, FlawlessIVCount = 3 }, // Regirock
+            new EncounterStatic { Species = 378, Level = 40, Location = 306, FlawlessIVCount = 3 }, // Regice
+            new EncounterStatic { Species = 379, Level = 40, Location = 308, FlawlessIVCount = 3 }, // Registeel
+            new EncounterStatic { Species = 486, Level = 50, Location = 306, FlawlessIVCount = 3 }, // Regigigas
             new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Kyogre
             new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Groudon
             new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Rayquaza
             new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3, Fateful = true }, // Deoxys
 
-            new EncounterStatic { Species = 377, Level = 40, Location = 278, FlawlessIVCount = 3 }, // Regirock
-            new EncounterStatic { Species = 378, Level = 40, Location = 306, FlawlessIVCount = 3 }, // Regice
-            new EncounterStatic { Species = 379, Level = 40, Location = 308, FlawlessIVCount = 3 }, // Registeel
-            new EncounterStatic { Species = 486, Level = 50, Location = 306, FlawlessIVCount = 3 }, // Regigigas
-
+            // Hoopa Rings
             new EncounterStatic { Species = 249, Level = 50, Location = 304, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Lugia
             new EncounterStatic { Species = 250, Level = 50, Location = 304, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Ho-Oh
-
             new EncounterStatic { Species = 483, Level = 50, Location = 348, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Dialga
             new EncounterStatic { Species = 484, Level = 50, Location = 348, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Palkia
-
             new EncounterStatic { Species = 644, Level = 50, Location = 340, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Zekrom
             new EncounterStatic { Species = 643, Level = 50, Location = 340, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Reshiram
-
             new EncounterStatic { Species = 642, Level = 50, Location = 348, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Thundurus
             new EncounterStatic { Species = 641, Level = 50, Location = 348, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Tornadus
-
-            new EncounterStatic { Species = 485, Level = 50, Location = 312, FlawlessIVCount = 3 }, // Heatran
-            new EncounterStatic { Species = 487, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Giratina
-            new EncounterStatic { Species = 488, Level = 50, Location = 344, FlawlessIVCount = 3 }, // Cresselia
-            new EncounterStatic { Species = 645, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Landorus
-            new EncounterStatic { Species = 646, Level = 50, Location = 342, FlawlessIVCount = 3 }, // Kyurem
-
             new EncounterStatic { Species = 243, Level = 50, Location = 334, FlawlessIVCount = 3 }, // Raikou
             new EncounterStatic { Species = 244, Level = 50, Location = 334, FlawlessIVCount = 3 }, // Entei
             new EncounterStatic { Species = 245, Level = 50, Location = 334, FlawlessIVCount = 3 }, // Suicune
-
             new EncounterStatic { Species = 480, Level = 50, Location = 338, FlawlessIVCount = 3 }, // Uxie
             new EncounterStatic { Species = 481, Level = 50, Location = 338, FlawlessIVCount = 3 }, // Mesprit
             new EncounterStatic { Species = 482, Level = 50, Location = 338, FlawlessIVCount = 3 }, // Azelf
-
+            new EncounterStatic { Species = 485, Level = 50, Location = 312, FlawlessIVCount = 3 }, // Heatran
+            new EncounterStatic { Species = 487, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Giratina
+            new EncounterStatic { Species = 488, Level = 50, Location = 344, FlawlessIVCount = 3 }, // Cresselia
             new EncounterStatic { Species = 638, Level = 50, Location = 336, FlawlessIVCount = 3 }, // Cobalion
             new EncounterStatic { Species = 639, Level = 50, Location = 336, FlawlessIVCount = 3 }, // Terrakion
             new EncounterStatic { Species = 640, Level = 50, Location = 336, FlawlessIVCount = 3 }, // Virizion
+            new EncounterStatic { Species = 645, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Landorus
+            new EncounterStatic { Species = 646, Level = 50, Location = 342, FlawlessIVCount = 3 }, // Kyurem
 
+            // Devon Scope Kecleon
             new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119
             new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120
             new EncounterStatic { Species = 352, Level = 40, Location = 176, Gender = 1, }, // Kecleon @ Lavaridge
             new EncounterStatic { Species = 352, Level = 45, Location = 196, Ability = 4, }, // Kecleon @ Mossdeep City
 
+            // Eon Ticket Lati@s
             new EncounterStatic { Species = 381, Level = 30, Location = 320, Version = GameVersion.AS, FlawlessIVCount = 3 }, // Latios
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Version = GameVersion.OR, FlawlessIVCount = 3 }, // Latias
 
+            // Stationary
             new EncounterStatic { Species = 101, Level = 40, Location = 292, Version = GameVersion.AS }, // Electrode
             new EncounterStatic { Species = 101, Level = 40, Location = 314, Version = GameVersion.OR }, // Electrode
-
             new EncounterStatic { Species = 100, Level = 20, Location = 302 }, // Voltorb @ Route 119
             new EncounterStatic { Species = 442, Level = 50, Location = 304 }, // Spiritomb @ Route 120
 
@@ -380,25 +385,25 @@ namespace PKHeX.Core
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_XY =
         {
-            new EncounterTrade { Species = 129, Level = 5, Ability = 1, Gender = 0, TID = 44285, Nature = Nature.Adamant, IVs = new[] {-1, 31, -1, -1, 31, -1 }, }, // Magikarp
-            new EncounterTrade { Species = 133, Level = 5, Ability = 1, Gender = 1, TID = 29294, Nature = Nature.Docile, }, // Eevee
+            new EncounterTrade { Species = 129, Level = 05, Ability = 1, TID = 44285, IVs = new[] {-1,31,-1,-1,31,-1}, Gender = 0, Nature = Nature.Adamant, }, // Magikarp
+            new EncounterTrade { Species = 133, Level = 05, Ability = 1, TID = 29294, Gender = 1, Nature = Nature.Docile, }, // Eevee
 
-            new EncounterTrade { Species = 83, Level = 10, Ability = 1, Gender = 0, TID = 00185, Nature = Nature.Jolly, IVs = new[] {-1, -1, -1, 31, -1, -1}, }, // Farfetch'd
-            new EncounterTrade { Species = 208, Level = 20, Ability = 1, Gender = 1, TID = 19250, Nature = Nature.Impish, IVs = new[] {-1, -1, 31, -1, -1, -1}, }, // Steelix
-            new EncounterTrade { Species = 625, Level = 50, Ability = 1, Gender = 0, TID = 03447, Nature = Nature.Adamant, IVs = new[] {-1, 31, -1, -1, -1, -1}, }, // Bisharp
+            new EncounterTrade { Species = 083, Level = 10, Ability = 1, TID = 00185, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 0, Nature = Nature.Jolly, }, // Farfetch'd
+            new EncounterTrade { Species = 208, Level = 20, Ability = 1, TID = 19250, IVs = new[] {-1,-1,31,-1,-1,-1}, Gender = 1, Nature = Nature.Impish, }, // Steelix
+            new EncounterTrade { Species = 625, Level = 50, Ability = 1, TID = 03447, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Adamant, }, // Bisharp
 
-            new EncounterTrade { Species = 656, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Jolly, IVs = new[] {20, 20, 20, 31, 20, 20}, }, // Froakie
-            new EncounterTrade { Species = 650, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Adamant, IVs = new[] {20, 31, 20, 20, 20, 20}, }, // Chespin
-            new EncounterTrade { Species = 653, Level = 5, Ability = 1, Gender = 0, TID = 00037, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 20, 31, 20}, }, // Fennekin
+            new EncounterTrade { Species = 656, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,31,20,20}, Gender = 0, Nature = Nature.Jolly, }, // Froakie
+            new EncounterTrade { Species = 650, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,31,20,20,20,20}, Gender = 0, Nature = Nature.Adamant, }, // Chespin
+            new EncounterTrade { Species = 653, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,20,31,20}, Gender = 0, Nature = Nature.Modest, }, // Fennekin
 
-            new EncounterTrade { Species = 280, Level = 5, Ability = 1, Gender = 1, TID = 37110, Nature = Nature.Modest, IVs = new[] {20, 20, 20, 31, 31, 20}, IsNicknamed = false, }, // Ralts
+            new EncounterTrade { Species = 280, Level = 05, Ability = 1, TID = 37110, IVs = new[] {20,20,20,31,31,20}, Gender = 1, Nature = Nature.Modest, IsNicknamed = false, }, // Ralts
         };
 
         internal static readonly EncounterTrade[] TradeGift_AO =
         {
-            new EncounterTrade { Species = 296, Level = 9, Ability = 2, Gender = 0, TID = 30724, Nature = Nature.Brave, IVs = new[] {-1, 31, -1, -1, -1, -1}, }, // Makuhita
-            new EncounterTrade { Species = 300, Level = 30, Ability = 1, Gender = 1, TID = 03239, Nature = Nature.Naughty, IVs = new[] {-1, -1, -1, 31, -1, -1}, }, // Skitty
-            new EncounterTrade { Species = 222, Level = 50, Ability = 4, Gender = 1, TID = 00325, Nature = Nature.Calm, IVs = new[] {31, -1, -1, -1, -1, 31}, }, // Corsola
+            new EncounterTrade { Species = 296, Level = 09, Ability = 2, TID = 30724, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Brave, }, // Makuhita
+            new EncounterTrade { Species = 300, Level = 30, Ability = 1, TID = 03239, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 1, Nature = Nature.Naughty, }, // Skitty
+            new EncounterTrade { Species = 222, Level = 50, Ability = 4, TID = 00325, IVs = new[] {31,-1,-1,-1,-1,31}, Gender = 1, Nature = Nature.Calm, }, // Corsola
         };
         #endregion
     }
