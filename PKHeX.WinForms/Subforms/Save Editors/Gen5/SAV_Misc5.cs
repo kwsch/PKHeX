@@ -62,6 +62,8 @@ namespace PKHeX.WinForms
             string[] FlyDestA = null;
             switch (SAV.Version)
             {
+                case GameVersion.B:
+                case GameVersion.W:
                 case GameVersion.BW:
                     ofsFly = 0x204B2;
                     FlyDestA = new[] {
@@ -77,6 +79,8 @@ namespace PKHeX.WinForms
                         10, 13, 12, 14
                     };
                     break;
+                case GameVersion.B2:
+                case GameVersion.W2:
                 case GameVersion.B2W2:
                     ofsFly = 0x20392;
                     FlyDestA = new[] {
