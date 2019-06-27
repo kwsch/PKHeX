@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
                 pkstr = pkstr.Substring(0, pkstr.IndexOf(qrcode, StringComparison.Ordinal));
             pkstr = pkstr.Substring(0, pkstr.IndexOf(cap, StringComparison.Ordinal)); // Trim outro
 
-            if (!pkstr.StartsWith("http") && !pkstr.StartsWith(QR6PathBad)) // G7
+            if (!pkstr.StartsWith("http") && !pkstr.StartsWith("null")) // G7
             {
                 string fstr = Regex.Unescape(pkstr);
                 byte[] raw = Encoding.Unicode.GetBytes(fstr);
@@ -139,10 +139,8 @@ namespace PKHeX.WinForms
             return Convert.FromBase64String(pkstr);
         }
 
-        internal static Image GetQRImage(byte[] data, string server)
+        internal static Image GetQRImage(string message)
         {
-            string qrdata = Convert.ToBase64String(data);
-            string message = server + qrdata;
             string webURL = EncodeAPI + HttpUtility.UrlEncode(message);
 
             try

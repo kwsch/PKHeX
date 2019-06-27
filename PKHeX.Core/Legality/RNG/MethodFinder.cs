@@ -125,6 +125,24 @@ namespace PKHeX.Core
                     }
                 }
             }
+            reg = GetSeedsFromPIDSkip(RNG.LCRNG, top, bot);
+            foreach (var seed in reg)
+            {
+                // A and B are already used by PID
+                var C = RNG.LCRNG.Advance(seed, 3);
+
+                // Method 3
+                var D = RNG.LCRNG.Next(C);
+                var ivD = D >> 16 & 0x7FFF;
+                if (iv1 != ivD)
+                    continue;
+                var E = RNG.LCRNG.Next(D);
+                var ivE = E >> 16 & 0x7FFF;
+                if (iv2 != ivE)
+                    continue;
+                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_3};
+                return true;
+            }
             return GetNonMatch(out pidiv);
         }
 
@@ -175,6 +193,24 @@ namespace PKHeX.Core
                         return true;
                     }
                 }
+            }
+            reg = GetSeedsFromPIDSkip(RNG.LCRNG, bot, top); // reversed!
+            foreach (var seed in reg)
+            {
+                // A and B are already used by PID
+                var C = RNG.LCRNG.Advance(seed, 3);
+
+                // Method 3
+                var D = RNG.LCRNG.Next(C);
+                var ivD = D >> 16 & 0x7FFF;
+                if (iv1 != ivD)
+                    continue;
+                var E = RNG.LCRNG.Next(D);
+                var ivE = E >> 16 & 0x7FFF;
+                if (iv2 != ivE)
+                    continue;
+                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_3_Unown};
+                return true;
             }
             return GetNonMatch(out pidiv);
         }
@@ -596,6 +632,15 @@ namespace PKHeX.Core
             return method.RecoverLower16Bits(first, second);
         }
 
+        private static IEnumerable<uint> GetSeedsFromPIDSkip(RNG method, uint a, uint b)
+        {
+            Debug.Assert(a >> 16 == 0);
+            Debug.Assert(b >> 16 == 0);
+            uint third = a << 16;
+            uint first = b << 16;
+            return method.RecoverLower16BitsGap(first, third);
+        }
+
         private static IEnumerable<uint> GetSeedsFromIVs(RNG method, uint a, uint b)
         {
             Debug.Assert(a >> 15 == 0);
@@ -793,12 +838,12 @@ namespace PKHeX.Core
                         case (int)GameVersion.LG:
                             return s.Roaming ? val.IsRoamerPIDIV(pkm) : val == PIDType.Method_1; // roamer glitch
                         default: // RS, roamer glitch && RSBox s/w emulation => method 4 available
-                            return s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Any(z => z == val);
+                            return s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val);
                     }
                 case EncounterSlot w:
                     if (pkm.Version == 15)
                         return val == PIDType.PokeSpot;
-                    return (w.Species == 201 ? MethodH_Unown : MethodH).Any(z => z == val);
+                    return (w.Species == 201 ? MethodH_Unown : MethodH).Contains(val);
                 default:
                     return val == PIDType.None;
             }
@@ -922,8 +967,8 @@ namespace PKHeX.Core
             genderValue = pk.Gender;
         }
 
-        private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };
+        private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_3, PIDType.Method_4 };
         private static readonly PIDType[] MethodH14 = { PIDType.Method_1, PIDType.Method_4 };
-        private static readonly PIDType[] MethodH_Unown = { PIDType.Method_1_Unown, PIDType.Method_2_Unown, PIDType.Method_4_Unown };
+        private static readonly PIDType[] MethodH_Unown = { PIDType.Method_1_Unown, PIDType.Method_2_Unown, PIDType.Method_3_Unown, PIDType.Method_4_Unown };
     }
 }

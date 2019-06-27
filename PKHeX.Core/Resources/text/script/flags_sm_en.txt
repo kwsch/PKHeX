@@ -5,3 +5,10 @@
 1216	Received Gift Cosmog
 0499	Received Gift Type: Null
 0160	Moone [0] / Sunne Portal [1]
+3114	Unlocked Tauros Charge
+3115	Unlocked Stoutland Search
+3116	Unlocked Machamp Shove
+3117	Unlocked Mudsdale Gallop
+3118	Unlocked Lapras Paddle
+3119	Unlocked Sharpedo Jet
+3120	Unlocked Charizard Glide

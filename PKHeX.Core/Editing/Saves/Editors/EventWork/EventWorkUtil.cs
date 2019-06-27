@@ -73,11 +73,9 @@ namespace PKHeX.Core
         /// <param name="after">Data after the event was triggered</param>
         /// <param name="on">List of flags that were turned on</param>
         /// <param name="off">List of flags that were turned off</param>
-        public static void DiffSavesFlag<T>(IEventWork<T> before, IEventWork<T> after, out IList<int> on, out IList<int> off)
+        public static void DiffSavesFlag<T>(IEventWork<T> before, IEventWork<T> after, List<int> on, List<int> off)
         {
             int max = before.MaxFlag;
-            on = new List<int>();
-            off = new List<int>();
             for (int i = 0; i < max; i++)
             {
                 var b = before.GetFlag(i);
@@ -98,11 +96,9 @@ namespace PKHeX.Core
         /// <param name="after">Data after the event was triggered</param>
         /// <param name="changed"><see cref="EventVar.RawIndex"/> values that changed</param>
         /// <param name="changes">Summary of the <see cref="EventWork{T}"/> value change</param>
-        public static void DiffSavesWork<T>(IEventWork<T> before, IEventWork<T> after, out IList<int> changed, out IList<string> changes)
+        public static void DiffSavesWork<T>(IEventWork<T> before, IEventWork<T> after, List<int> changed, List<string> changes)
         {
             int max = before.MaxWork;
-            changed = new List<int>();
-            changes = new List<string>();
             for (int i = 0; i < max; i++)
             {
                 var b = before.GetWork(i);

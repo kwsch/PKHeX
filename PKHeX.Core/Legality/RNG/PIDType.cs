@@ -13,6 +13,10 @@
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_2,
 
+        /// <summary> Method H3 </summary>
+        /// <remarks><see cref="RNG.LCRNG"/></remarks>
+        Method_3,
+
         /// <summary> Method H4 </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_4,
@@ -24,6 +28,10 @@
         /// <summary> Method H2_Unown (FRLG) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_2_Unown,
+
+        /// <summary> Method H3_Unown (FRLG) </summary>
+        /// <remarks><see cref="RNG.LCRNG"/></remarks>
+        Method_3_Unown,
 
         /// <summary> Method H4_Unown (FRLG) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>

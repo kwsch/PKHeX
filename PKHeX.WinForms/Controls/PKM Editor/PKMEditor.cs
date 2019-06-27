@@ -405,7 +405,7 @@ namespace PKHeX.WinForms.Controls
 
             bool tmp = FieldsLoaded;
             FieldsLoaded = false;
-            CB_Ability.DataSource = EditPKMUtil.GetAbilityList(pkm);
+            CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(pkm);
             CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
             FieldsLoaded = tmp;
         }
@@ -467,11 +467,7 @@ namespace PKHeX.WinForms.Controls
         private void SetCountrySubRegion(ComboBox CB, string type)
         {
             int index = CB.SelectedIndex;
-            // fix for Korean / Chinese being swapped
-            string cl = GameInfo.CurrentLanguage;
-            cl = cl == "zh" ? "ko" : cl == "ko" ? "zh" : cl;
-
-            CB.DataSource = Util.GetCountryRegionList(type, cl);
+            CB.DataSource = Util.GetCountryRegionList(type, GameInfo.CurrentLanguage);
 
             if (index > 0 && index < CB.Items.Count)
                 CB.SelectedIndex = index;
@@ -656,7 +652,8 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var movestrings = m.Select(v => v >= GameInfo.Strings.Move.Count ? MsgProgramError : GameInfo.Strings.Move[v]);
+                var mv = GameInfo.Strings.Move;
+                var movestrings = m.Select(v => (uint)v >= mv.Count ? MsgProgramError : mv[v]);
                 var msg = string.Join(Environment.NewLine, movestrings);
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, msg))
                     return false;
@@ -680,7 +677,8 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var movestrings = m.Select(v => v >= GameInfo.Strings.Move.Count ? MsgProgramError : GameInfo.Strings.Move[v]);
+                var mv = GameInfo.Strings.Move;
+                var movestrings = m.Select(v => (uint)v >= mv.Count ? MsgProgramError : mv[v]);
                 var msg = string.Join(Environment.NewLine, movestrings);
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, msg))
                     return false;
@@ -1710,7 +1708,7 @@ namespace PKHeX.WinForms.Controls
             PopulateFields(pk);
         }
 
-        public void ChangeLanguage(SaveFile sav, PKM pk)
+        public void ChangeLanguage(ITrainerInfo sav, PKM pk)
         {
             // Force an update to the met locations
             origintrack = GameVersion.Invalid;
@@ -1726,14 +1724,15 @@ namespace PKHeX.WinForms.Controls
             tabMain.SelectedTab = Tab_Main; // first tab
         }
 
-        private void InitializeLanguage(SaveFile sav)
+        private void InitializeLanguage(ITrainerInfo sav)
         {
+            var source = GameInfo.FilteredSources;
             // Set the various ComboBox DataSources up with their allowed entries
             SetCountrySubRegion(CB_Country, "countries");
-            CB_3DSReg.DataSource = GameInfo.Regions;
+            CB_3DSReg.DataSource = source.ConsoleRegions;
 
-            CB_EncounterType.DataSource = new BindingSource(GameInfo.EncounterTypeDataSource, null);
-            CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
+            CB_EncounterType.DataSource = new BindingSource(source.G4EncounterTypes, null);
+            CB_Nature.DataSource = new BindingSource(source.Natures, null);
 
             // Sub editors
             Stats.InitializeDataSources();
@@ -1741,27 +1740,24 @@ namespace PKHeX.WinForms.Controls
             PopulateFilteredDataSources(sav);
         }
 
-        private void PopulateFilteredDataSources(SaveFile sav)
+        private void PopulateFilteredDataSources(ITrainerInfo sav)
         {
-            GameInfo.Strings.SetItemDataSource(sav.Version, sav.Generation, sav.MaxItemID, sav.HeldItems, HaX);
+            var source = GameInfo.FilteredSources;
+
             if (sav.Generation > 1)
-                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= sav.MaxItemID).ToList(), null);
+                CB_HeldItem.DataSource = new BindingSource(source.Items, null);
 
-            CB_Language.DataSource = GameInfo.LanguageDataSource(sav.Generation);
+            CB_Language.DataSource = source.Languages;
 
-            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID).ToList(), null);
-            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList(), null);
-            var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
-            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList(), null);
+            CB_Ball.DataSource = new BindingSource(source.Balls, null);
+            CB_Species.DataSource = new BindingSource(source.Species, null);
+            DEV_Ability.DataSource = new BindingSource(source.Abilities, null);
+            CB_GameOrigin.DataSource = new BindingSource(source.Games, null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.Strings.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= sav.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
-            LegalMoveSource.ReloadMoves(GameInfo.Strings.MoveDataSource);
+            LegalMoveSource.ReloadMoves(source.Moves);
             foreach (var cb in Moves.Concat(Relearn))
-            {
-                cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
-            }
+                cb.DataSource = new BindingSource(source.Moves, null);
         }
     }
 }

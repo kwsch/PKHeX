@@ -162,8 +162,8 @@ namespace PKHeX.Core
             WondercardData = WondercardFlags + 0x100;
             Daycare2 = Daycare + 0x1F0;
 
-            HeldItems = Legal.HeldItem_XY;
-            Personal = PersonalTable.XY;
+            HeldItems = Legal.HeldItem_AO;
+            Personal = PersonalTable.AO;
         }
 
         public int EonTicket { get; private set; } = int.MinValue;

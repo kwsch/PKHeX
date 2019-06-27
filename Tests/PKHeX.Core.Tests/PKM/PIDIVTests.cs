@@ -40,6 +40,18 @@ namespace PKHeX.Tests.PKM
         }
 
         [Fact]
+        public void PIDIVMatchingTest3Method3()
+        {
+            // Method 3, reversed for Unown.
+            var m3R = new PK3 { PID = 0x3DD1BB49, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 001 }; // Regular
+            var m3t = MethodFinder.Analyze(m3R)?.Type;
+            Assert.Equal(PIDType.Method_3, m3t);
+            var m3u = new PK3 { PID = 0xBB493DD1, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 201 }; // Unown
+            var u3t = MethodFinder.Analyze(m3u)?.Type;
+            Assert.Equal(PIDType.Method_3_Unown, u3t);
+        }
+
+        [Fact]
         public void PIDIVMatchingTest3Misc()
         {
             // Colosseum / XD

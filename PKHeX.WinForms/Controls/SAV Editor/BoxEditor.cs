@@ -161,8 +161,7 @@ namespace PKHeX.WinForms.Controls
         {
             int box = CurrentBox;
             int boxoffset = SAV.GetBoxOffset(box);
-            int boxbgval = SAV.GetBoxWallpaper(box);
-            PAN_Box.BackgroundImage = SAV.WallpaperImage(boxbgval);
+            PAN_Box.BackgroundImage = SAV.WallpaperImage(box);
             M?.HoverWorker?.Stop();
 
             int slot = M?.ColorizedBox == box ? M.ColorizedSlot : -1;
