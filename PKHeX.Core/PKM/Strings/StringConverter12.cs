@@ -223,12 +223,40 @@ namespace PKHeX.Core
             {0xB7, 'x'},
             {0xB8, 'y'},
             {0xB9, 'z'},
+            
+            // unused characters
+            {0xBA, 'à'},
+            {0xBB, 'è'},
+            {0xBC, 'é'},
+            {0xBD, 'ù'},
+            {0xBE, 'À'},
+            {0xBF, 'Á'}, // Used in Spanish FALCÁN in-game trade, inaccessible from keyboard
+
             {0xC0, 'Ä'},
             {0xC1, 'Ö'},
             {0xC2, 'Ü'},
             {0xC3, 'ä'},
             {0xC4, 'ö'},
             {0xC5, 'ü'},
+
+            // unused characters
+            {0xC6, 'È'},
+            {0xC7, 'É'},
+            {0xC8, 'Ì'},
+            {0xC9, 'Í'}, // Used in Spanish MANÍA in-game trade, inaccessible from keyboard
+            {0xCA, 'Ñ'},
+            {0xCB, 'Ò'},
+            {0xCC, 'Ó'},
+            {0xCD, 'Ù'},
+            {0xCE, 'Ú'},
+            {0xCF, 'á'},
+            {0xD0, 'ì'},
+            {0xD1, 'í'},
+            {0xD2, 'ñ'},
+            {0xD3, 'ò'},
+            {0xD4, 'ó'},
+            {0xD5, 'ú'},
+
             {0xE0, '’'},
             {0xE1, '{'}, /* Pk */
             {0xE2, '}'}, /* Mn */
@@ -488,12 +516,40 @@ namespace PKHeX.Core
             {'x', 0xB7},
             {'y', 0xB8},
             {'z', 0xB9},
+            
+            // unused characters
+            {'à', 0xBA},
+            {'è', 0xBB},
+            {'é', 0xBC},
+            {'ù', 0xBD},
+            {'À', 0xBE},
+            {'Á', 0xBF}, // Used in Spanish FALCÁN in-game trade, inaccessible from keyboard
+
             {'Ä', 0xC0},
             {'Ö', 0xC1},
             {'Ü', 0xC2},
             {'ä', 0xC3},
             {'ö', 0xC4},
             {'ü', 0xC5},
+
+            // unused characters
+            {'È', 0xC6},
+            {'É', 0xC7},
+            {'Ì', 0xC8},
+            {'Í', 0xC9}, // Used in Spanish MANÍA in-game trade, inaccessible from keyboard
+            {'Ñ', 0xCA},
+            {'Ò', 0xCB},
+            {'Ó', 0xCC},
+            {'Ù', 0xCD},
+            {'Ú', 0xCE},
+            {'á', 0xCF},
+            {'ì', 0xD0},
+            {'í', 0xD1},
+            {'ñ', 0xD2},
+            {'ò', 0xD3},
+            {'ó', 0xD4},
+            {'ú', 0xD5},
+
             {'\'', 0xE0}, // Alias ' to ’ for Farfetch'd
             {'’', 0xE0},
             {'{', 0xE1}, /* Pk */
