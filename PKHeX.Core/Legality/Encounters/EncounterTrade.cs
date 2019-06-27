@@ -348,6 +348,27 @@ namespace PKHeX.Core
             if (pkm.Korean)
                 return TrainerNames[(int)LanguageID.Korean] == OT;
 
+            if (pkm.Format >= 7)
+            {
+                switch (Species)
+                {
+                    case (int)Core.Species.Voltorb:
+                        // Spanish FALCÁN trade loses the accented A on transfer
+                        if (OT == "FALCÁN")
+                            return false;
+                        if (OT == "FALC N")
+                            return true;
+                        break;
+                    case (int)Core.Species.Shuckle:
+                        // Spanish MANÍA trade loses the accented I on transfer
+                        if (OT == "MANÍA")
+                            return false;
+                        if (OT == "MAN A")
+                            return true;
+                        break;
+                }
+            }
+
             const int start = (int)LanguageID.English;
             const int end = (int)LanguageID.Spanish;
             var index = Array.FindIndex(TrainerNames, start, end - start + 1, w => w == OT);
