@@ -266,7 +266,7 @@ namespace PKHeX.Core
         public static void SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
         {
             var gv = seed >> 24;
-            var av = seed & 1;
+            var av = seed & 1; // arbitrary choice
             pk.PID = GetMG5ShinyPID(gv, av, pk.TID, pk.SID);
             SetRandomIVs(pk);
         }
@@ -377,8 +377,6 @@ namespace PKHeX.Core
                         seed ^= 1;
                 }
 
-                if (seed % 25 != nature)
-                    continue;
                 if (((seed >> 16) & 1) != ability)
                     continue;
 
