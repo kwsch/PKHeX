@@ -147,7 +147,8 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, vs, game))
             {
-                if (pkm.Format >= 7 && (t.Generation == 2 || t.GetOT(pkm.Language) != pkm.OT_Name)) // ot length collision
+                // some OTs are longer than the keyboard entry; don't defer these
+                if (pkm.Format >= 7 && pkm.OT_Name.Length <= (pkm.Japanese || pkm.Korean ? 5 : 7))
                 {
                     deferred.Add(t);
                     continue;
