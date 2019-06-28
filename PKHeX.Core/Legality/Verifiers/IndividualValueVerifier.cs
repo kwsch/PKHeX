@@ -119,10 +119,8 @@ namespace PKHeX.Core
                 return;
             var banlist = Legal.GoTransferSpeciesShinyBan;
 
-            // all Shiny Alola Forms are legal, while some of their respective Kantonian Forms are not
-            if (banlist.Contains(pkm.Species) && pkm.AltForm == 1)
-                return;
-            if (banlist.Contains(pkm.Species))
+            // all Shiny Alola Forms are legal, while some of their respective Kanto Forms are not
+            if (banlist.Contains(pkm.Species) && pkm.AltForm != 1)
                 data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
 
