@@ -332,11 +332,14 @@ namespace PKHeX.Core
             {
                 if (Gender >= 0 && Gender != pkm.Gender)
                     return false;
-                if (IVs != null && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm)) return false;
+                if (IVs != null && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                    return false;
             }
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                 return false;
 
+            if (0 != pkm.OT_Gender)
+                return false;
             return IsValidTradeOT12(pkm);
         }
 
