@@ -258,7 +258,7 @@ namespace PKHeX.Core
             022, // Fearow
             023, // Ekans
             024, // Arbok
-            032, // Nidoran-M
+            032, // Nidoran♂
             033, // Nidorino
             034, // Nidoking
             037, // Vulpix
@@ -312,26 +312,6 @@ namespace PKHeX.Core
             143, // Snorlax
             150, // Mewtwo
             151, // Mew
-        };
-
-        internal static readonly HashSet<int> GoTransferSpeciesShinyBanAlola = new HashSet<int>
-        {
-            019, // Rattata
-            020, // Raticate
-            027, // Sandshrew
-            028, // Sandslash
-            037, // Vulpix
-            038, // Ninetales
-            050, // Diglett
-            051, // Dugtrio
-            052, // Meowth
-            053, // Persian
-            074, // Geodude
-            075, // Graveler
-            076, // Golem
-            088, // Grimer
-            089, // Muk
-            103, // Exeggutor
         };
     }
 }
