@@ -86,8 +86,6 @@ namespace PKHeX.WinForms
         }
 
         // QR Utility
-        private const string QR6PathBad = "null/#"; // prefix to prevent URL from loading
-        private const string QR6Path = "http://lunarcookies.github.io/b1s1.html#";
         private const string DecodeAPI = "http://api.qrserver.com/v1/read-qr-code/?fileurl=";
         private const int QRSize = 365;
         private static readonly string EncodeAPI = $"http://chart.apis.google.com/chart?chs={QRSize}x{QRSize}&cht=qr&chl=";
@@ -185,15 +183,6 @@ namespace PKHeX.WinForms
             using (var qr_data = generator.CreateQRCode(data))
             using (var qr_code = new QRCode(qr_data))
                 return qr_code.GetGraphic(ppm);
-        }
-
-        public static string GetQRServer(int format)
-        {
-            switch (format)
-            {
-                case 6: return QR6Path;
-                default: return QR6PathBad;
-            }
         }
     }
 }
