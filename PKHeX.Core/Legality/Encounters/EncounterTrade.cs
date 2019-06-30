@@ -338,9 +338,21 @@ namespace PKHeX.Core
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                 return false;
 
-            if (0 != pkm.OT_Gender)
+            if (!IsValidTradeOT12Gender(pkm))
                 return false;
             return IsValidTradeOT12(pkm);
+        }
+
+        private bool IsValidTradeOT12Gender(PKM pkm)
+        {
+            if (OTGender == 1)
+            {
+                // Female, can be cleared if traded to RBY (clears met location)
+                if (pkm.Format <= 2)
+                    return pkm.OT_Gender == (pkm.Met_Location != 0 ? 1 : 0);
+                return pkm.OT_Gender == 0 || !pkm.VC1; // require male except if transferred from GSC
+            }
+            return pkm.OT_Gender == 0;
         }
 
         private bool IsValidTradeOT12(PKM pkm)
