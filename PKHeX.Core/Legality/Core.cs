@@ -503,11 +503,11 @@ namespace PKHeX.Core
 
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
-            var curr = EvolutionChain.GetValidPreEvolutions(pkm);
+            var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);
             var min = curr.FindLast(z => z.Species == minSpecies);
             if (min != null && min.Level < minLevel)
                 return false;
-            var poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            var poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, minLevel: minLevel, skipChecks: true);
 
             if (minSpecies != -1)
             {

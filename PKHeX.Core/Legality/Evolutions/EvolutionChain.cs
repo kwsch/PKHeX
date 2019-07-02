@@ -160,7 +160,7 @@ namespace PKHeX.Core
 
         private static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
         {
-            var vs = GetValidPreEvolutions(pkm);
+            var vs = GetValidPreEvolutions(pkm, minLevel: Encounter.LevelMin);
             if (Encounter.Species == maxspec)
             {
                 if (vs.Count != 1)
@@ -231,7 +231,7 @@ namespace PKHeX.Core
             }
         }
 
-        internal static List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
+        internal static List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, int minLevel = 1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
@@ -257,7 +257,7 @@ namespace PKHeX.Core
 
             int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
             var et = EvolutionTree.GetEvolutionTree(pkm, tree);
-            return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
+            return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, minLevel: minLevel);
         }
 
         private static int GetMinLevelGeneration(PKM pkm, int generation)
