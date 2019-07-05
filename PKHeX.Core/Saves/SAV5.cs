@@ -87,7 +87,7 @@ namespace PKHeX.Core
         protected int Trainer2;
         private int AdventureInfo;
         protected int BattleSubway;
-        public int PokeDexLanguageFlags;
+        protected int PokeDexLanguageFlags;
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
