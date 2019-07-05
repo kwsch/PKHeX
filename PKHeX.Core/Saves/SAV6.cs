@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public override string Extension => string.Empty;
 
         protected SAV6(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset) { }
-        protected SAV6(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset) => ClearBoxes();
+        protected SAV6(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset) { }
 
         // Configuration
         public override int SIZE_STORED => PKX.SIZE_6STORED;

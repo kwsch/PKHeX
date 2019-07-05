@@ -11,7 +11,13 @@ namespace PKHeX.Core
     public sealed class SAV6AO : SAV6, IPokePuff, IOPower, ILink
     {
         public SAV6AO(byte[] data) : base(data, BlocksAO, boAO) => Initialize();
-        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, BlocksAO, boAO) => Initialize();
+
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, BlocksAO, boAO)
+        {
+            Initialize();
+            ClearBoxes();
+        }
+
         public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
