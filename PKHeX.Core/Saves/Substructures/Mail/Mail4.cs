@@ -50,10 +50,10 @@ namespace PKHeX.Core
 
         public override void CopyTo(PK4 pk4) => pk4.HeldMailData = Data;
         public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
-        public ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
+        public override ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
         public override byte AuthorGender { get => Data[4]; set => Data[4] = value; }
-        public byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
-        public byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
+        public override byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
+        public override byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
         public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
         public override string AuthorName { get => StringConverter4.GetString4(Data, 8, 0x10); set => StringConverter4.SetString4(value, 7, 8, 0xFFFF).CopyTo(Data, 8); }
         public int GetAppearPKM(int index) => BitConverter.ToUInt16(Data, 0x1C - (index * 2));
