@@ -206,7 +206,7 @@ namespace PKHeX.WinForms
 
             // Fill Language arrays
             byte[] langdata = new byte[LangSize];
-            Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, LangSize);
+            Array.Copy(SAV.Data, SAV.PokeDex + SAV.PokeDexLanguageFlags, langdata, 0, LangSize);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < 493; b++)
             {
@@ -257,7 +257,7 @@ namespace PKHeX.WinForms
                         ldata[i>>3] |= (byte)(1 << (i&7));
                 }
 
-                ldata.CopyTo(SAV.Data, SAV.PokeDexLanguageFlags);
+                ldata.CopyTo(SAV.Data, SAV.PokeDex + SAV.PokeDexLanguageFlags);
             }
             int FormDex = SAV.PokeDex + 0x8 + (brSize * 9);
             formbools.CopyTo(SAV.Data, FormDex);

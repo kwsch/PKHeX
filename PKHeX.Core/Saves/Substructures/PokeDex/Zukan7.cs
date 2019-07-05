@@ -21,7 +21,7 @@ namespace PKHeX.Core
 
         private IList<int> FormBaseSpecies;
 
-        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag - dex)
+        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
             DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) DexFormUtil.GetDexFormIndexSM : DexFormUtil.GetDexFormIndexSM;
             LoadDexList();

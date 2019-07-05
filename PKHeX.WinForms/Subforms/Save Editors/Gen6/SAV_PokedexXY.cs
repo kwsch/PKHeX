@@ -210,7 +210,7 @@ namespace PKHeX.WinForms
 
             // Fill Language arrays
             byte[] langdata = new byte[0x280];
-            Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, 0x280);
+            Array.Copy(SAV.Data, SAV.PokeDex + SAV.PokeDexLanguageFlags, langdata, 0, 0x280);
             BitArray LangRegion = new BitArray(langdata);
             for (int b = 0; b < 721; b++) // 721 Species
             {
@@ -265,7 +265,7 @@ namespace PKHeX.WinForms
                         ldata[i / 8] |= (byte)(1 << i % 8);
                 }
 
-                ldata.CopyTo(SAV.Data, SAV.PokeDexLanguageFlags);
+                ldata.CopyTo(SAV.Data, SAV.PokeDex + SAV.PokeDexLanguageFlags);
             }
 
             formbools.CopyTo(SAV.Data, SAV.PokeDex + 0x368);
@@ -423,7 +423,7 @@ namespace PKHeX.WinForms
             SetEntry();
             SetData();
             if (mnuComplete == sender) // Turn off Italian Petlil
-                SAV.Data[SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
+                SAV.Data[SAV.PokeDex + SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
 
             GetData();
             GetEntry();

@@ -41,7 +41,7 @@ namespace PKHeX.WinForms
                 Displayed[i] = SetBits(Parent.Data, ofs, SeenDispLen);
                 ofs += SeenDispLen;
             }
-            LanguageFlags = SetBits(Parent.Data, Parent.PokeDexLanguageFlags, LanguageLen);
+            LanguageFlags = SetBits(Parent.Data, Parent.PokeDex + Parent.PokeDexLanguageFlags, LanguageLen);
         }
 
         public void Write()
@@ -63,7 +63,7 @@ namespace PKHeX.WinForms
                 SetBits(Displayed[i]).CopyTo(Parent.Data, ofs);
                 ofs += SeenDispLen;
             }
-            SetBits(LanguageFlags).CopyTo(Parent.Data, Parent.PokeDexLanguageFlags);
+            SetBits(LanguageFlags).CopyTo(Parent.Data, Parent.PokeDex + Parent.PokeDexLanguageFlags);
         }
 
         public IEnumerable<int> GetAllFormEntries(int spec)

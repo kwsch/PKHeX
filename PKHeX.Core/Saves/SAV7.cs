@@ -142,7 +142,7 @@ namespace PKHeX.Core
             EventFlag = EventConst + (EventConstMax * 2); // After Event Const (u16)*n
             HoF = EventFlag + (EventFlagMax / 8); // After Event Flags (1b)*(1u8/8b)*n
 
-            PokeDexLanguageFlags =  PokeDex + 0x550;
+            PokeDexLanguageFlags = 0x550;
             WondercardData = WondercardFlags + 0x100;
 
             Played = new PlayTime6(this, PlayTime);
@@ -202,7 +202,7 @@ namespace PKHeX.Core
         // Accessible as SAV7
         private int TrainerCard { get; set; } = 0x14000;
         private int Resort { get; set; }
-        public int PokeDexLanguageFlags { get; private set; } = int.MinValue;
+        public int PokeDexLanguageFlags { get; private set; }
         public int Fashion { get; set; } = int.MinValue;
         protected int Record { get; set; } = int.MinValue;
 

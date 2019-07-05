@@ -22,7 +22,7 @@
             EventFlag = EventConst + 0x27C;
             Daycare = 0x20E00;
             PokeDex = 0x21600;
-            PokeDexLanguageFlags = PokeDex + 0x320;
+            PokeDexLanguageFlags = 0x320;
             BattleSubway = 0x21D00;
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52000;
