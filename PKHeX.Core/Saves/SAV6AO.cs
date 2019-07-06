@@ -155,7 +155,7 @@ namespace PKHeX.Core
             Played = new PlayTime6(this, 0x01800);
             BoxLayout = new BoxLayout6(this, 0x04400);
             Status = new MyStatus6(this, 0x14000);
-            Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x400);
+            Zukan = new Zukan6AO(this, 0x15000, 0x400);
             OPowerBlock = new OPower6(this, 0x17400);
             MysteryBlock = new MysteryBlock6(this, 0x1CC00);
             Records = new Record6(this, 0x1F400, Core.Records.MaxType_AO);
@@ -164,7 +164,6 @@ namespace PKHeX.Core
             EventFlag = EventConst + 0x2FC;
             PokeDexLanguageFlags = PokeDex + 0x400;
             Spinda = PokeDex + 0x680;
-            EncounterCount = PokeDex + 0x686;
             WondercardData = WondercardFlags + 0x100;
             Daycare2 = Daycare + 0x1F0;
 
@@ -181,9 +180,6 @@ namespace PKHeX.Core
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
         public SangoInfoBlock Sango { get; set; }
-
-        public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
-        public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }
 
         public override GameVersion Version
         {
@@ -202,18 +198,7 @@ namespace PKHeX.Core
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
         public override void SetSeen(int species, bool seen) => Zukan.SetSeen(species, seen);
         public override void SetCaught(int species, bool caught) => Zukan.SetCaught(species, caught);
-
-        protected override void SetDex(PKM pkm)
-        {
-            Zukan.SetDex(pkm);
-            int index = pkm.Species - 1;
-            if ((uint)index >= (uint)MaxSpeciesID)
-                return;
-
-            // Set DexNav count (only if not encountered previously)
-            if (GetEncounterCount(index) == 0)
-                SetEncounterCount(index, 1);
-        }
+        protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
 
         // Daycare
         public override int DaycareSeedSize => 16;

@@ -60,7 +60,6 @@ namespace PKHeX.Core
         public int Accessories { get; protected set; } = int.MinValue;
         public int PokeDexLanguageFlags { get; protected set; } = int.MinValue;
         public int Spinda { get; protected set; } = int.MinValue;
-        public int EncounterCount { get; protected set; } = int.MinValue;
 
         protected internal const int LongStringLength = 0x22; // bytes, not characters
         protected internal const int ShortStringLength = 0x1A; // bytes, not characters

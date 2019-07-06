@@ -148,7 +148,7 @@ namespace PKHeX.Core
             Played = new PlayTime6(this, 0x01800);
             BoxLayout = new BoxLayout6(this, 0x4400);
             Status = new MyStatus6XY(this, 0x14000);
-            Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x3C8);
+            Zukan = new Zukan6XY(this, 0x15000, 0x3C8);
             OPowerBlock = new OPower6(this, 0x16A00);
             MysteryBlock = new MysteryBlock6(this, 0x1BC00);
             Records = new Record6(this, 0x1E400, Core.Records.MaxType_XY);
