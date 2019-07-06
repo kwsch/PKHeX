@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
 
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(SAV.Data, SAV.Spinda).ToString("X8");
+            TB_Spinda.Text = Zukan.SpindaPID.ToString("X8");
             CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
@@ -194,11 +194,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
-
-            // Store Spinda Spot
-            uint PID = Util.GetHexValue(TB_Spinda.Text);
-            BitConverter.GetBytes(PID).CopyTo(SAV.Data, SAV.Spinda);
-
+            Zukan.SpindaPID = Util.GetHexValue(TB_Spinda.Text);
             Origin.SetData(SAV.Data, 0);
             Close();
         }

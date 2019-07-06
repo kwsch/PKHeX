@@ -10,6 +10,7 @@ namespace PKHeX.Core
         protected override int BitSeenSize => 0x60;
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
+        protected int SpindaOffset { get; set; }
 
         protected Zukan6(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag) { }
 
@@ -117,6 +118,12 @@ namespace PKHeX.Core
             return false;
         }
 
+        public uint SpindaPID
+        {
+            get => BitConverter.ToUInt32(SAV.Data, PokeDex + SpindaOffset);
+            set => SAV.SetData(BitConverter.GetBytes(value), PokeDex + SpindaOffset);
+        }
+
         public bool[] GetLanguageBitflags(int species)
         {
             var result = new bool[DexLangIDCount];
@@ -166,6 +173,7 @@ namespace PKHeX.Core
         public Zukan6AO(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
             DexFormIndexFetcher = (spec, form, _) => DexFormUtil.GetDexFormIndexORAS(spec, form);
+            SpindaOffset = 0x680;
         }
 
         protected override void SetCaughtFlag(int bit, int origin)
@@ -194,6 +202,7 @@ namespace PKHeX.Core
         public Zukan6XY(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
             DexFormIndexFetcher = (spec, form, _) => DexFormUtil.GetDexFormIndexXY(spec, form);
+            SpindaOffset = 0x648;
         }
 
         protected override void SetCaughtFlag(int bit, int origin)

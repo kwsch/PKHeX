@@ -154,6 +154,7 @@ namespace PKHeX.Core
             Situation = new Situation6(this, 0x01400);
             Played = new PlayTime6(this, 0x01800);
             BoxLayout = new BoxLayout6(this, 0x04400);
+            BattleBoxBlock = new BattleBox6(this, 0x04A00);
             Status = new MyStatus6(this, 0x14000);
             Zukan = new Zukan6AO(this, 0x15000, 0x400);
             OPowerBlock = new OPower6(this, 0x17400);
@@ -162,8 +163,6 @@ namespace PKHeX.Core
             Sango = new SangoInfoBlock(this, 0x2B600);
 
             EventFlag = EventConst + 0x2FC;
-            PokeDexLanguageFlags = PokeDex + 0x400;
-            Spinda = PokeDex + 0x680;
             WondercardData = WondercardFlags + 0x100;
             Daycare2 = Daycare + 0x1F0;
 
@@ -171,8 +170,8 @@ namespace PKHeX.Core
             Personal = PersonalTable.AO;
         }
 
-        public int EonTicket { get; private set; } = int.MinValue;
-        public int Contest { get; private set; } = int.MinValue;
+        public int EonTicket { get; private set; }
+        public int Contest { get; private set; }
 
         public Zukan6 Zukan { get; private set; }
         public Puff6 PuffBlock { get; private set; }
@@ -180,6 +179,7 @@ namespace PKHeX.Core
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
         public SangoInfoBlock Sango { get; set; }
+        public BattleBox6 BattleBoxBlock { get; private set; }
 
         public override GameVersion Version
         {
@@ -338,5 +338,11 @@ namespace PKHeX.Core
         protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
+
+        public override bool BattleBoxLocked
+        {
+            get => BattleBoxBlock.Locked;
+            set => BattleBoxBlock.Locked = value;
+        }
     }
 }

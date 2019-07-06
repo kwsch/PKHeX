@@ -147,6 +147,7 @@ namespace PKHeX.Core
             Situation = new Situation6(this, 0x01400);
             Played = new PlayTime6(this, 0x01800);
             BoxLayout = new BoxLayout6(this, 0x4400);
+            BattleBoxBlock = new BattleBox6(this, 0x04A00);
             Status = new MyStatus6XY(this, 0x14000);
             Zukan = new Zukan6XY(this, 0x15000, 0x3C8);
             OPowerBlock = new OPower6(this, 0x16A00);
@@ -154,8 +155,6 @@ namespace PKHeX.Core
             Records = new Record6(this, 0x1E400, Core.Records.MaxType_XY);
 
             EventFlag = EventConst + 0x2FC;
-            PokeDexLanguageFlags = PokeDex + 0x3C8;
-            Spinda = PokeDex + 0x648;
             WondercardData = WondercardFlags + 0x100;
 
             HeldItems = Legal.HeldItem_XY;
@@ -167,6 +166,7 @@ namespace PKHeX.Core
         public OPower6 OPowerBlock { get; private set; }
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
+        public BattleBox6 BattleBoxBlock { get; private set; }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
 
@@ -307,5 +307,11 @@ namespace PKHeX.Core
         protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
+
+        public override bool BattleBoxLocked
+        {
+            get => BattleBoxBlock.Locked;
+            set => BattleBoxBlock.Locked = value;
+        }
     }
 }
