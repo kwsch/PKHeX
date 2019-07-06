@@ -16,6 +16,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV7)(Origin = sav).Clone();
+            Dex = SAV.Zukan;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9, };
 
@@ -27,9 +28,8 @@ namespace PKHeX.WinForms
 
             // Fill List
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
 
-            Dex = new PokeDex7(SAV);
             var Species = GameInfo.Strings.Species;
             var names = Dex.GetEntryNames(Species);
             foreach (var n in names)
@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
-        private readonly PokeDex7 Dex;
+        private readonly Zukan7 Dex;
         private bool editing;
         private bool allModifying;
         private int species = -1;
@@ -48,7 +48,8 @@ namespace PKHeX.WinForms
 
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
             SetEntry();
 
             editing = true;
@@ -62,21 +63,23 @@ namespace PKHeX.WinForms
 
         private void ChangeLBSpecies(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
             SetEntry();
 
             editing = true;
             species = LB_Species.SelectedIndex + 1;
             CB_Species.SelectedValue = species;
-            if (!allModifying) FillLBForms();
+            if (!allModifying)
+                FillLBForms();
             GetEntry();
             editing = false;
         }
 
         private void ChangeLBForms(object sender, EventArgs e)
         {
-            if (allModifying) return;
-            if (editing) return;
+            if (allModifying || editing)
+                return;
             SetEntry();
 
             editing = true;
@@ -88,11 +91,8 @@ namespace PKHeX.WinForms
                 int fc = SAV.Personal[bspecies].FormeCount;
                 if (fc > 1) // actually has forms
                 {
-                    int f = Dex.GetDexFormStart(bspecies, fc);
-                    if (f >= 0) // bit index valid
-                        species = f + form + 1;
-                    else
-                        species = bspecies;
+                    int f = Dex.GetDexFormIndex(bspecies, fc, form);
+                    species = f >= 0 ? f + 1 : bspecies;
                 }
                 else
                 {
@@ -113,7 +113,8 @@ namespace PKHeX.WinForms
 
         private bool FillLBForms()
         {
-            if (allModifying) return false;
+            if (allModifying)
+                return false;
             LB_Forms.DataSource = null;
             LB_Forms.Items.Clear();
 
@@ -121,7 +122,8 @@ namespace PKHeX.WinForms
             var bspecies = Dex.GetBaseSpecies(fspecies);
             bool hasForms = FormConverter.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
             LB_Forms.Enabled = hasForms;
-            if (!hasForms) return false;
+            if (!hasForms)
+                return false;
             var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
             {
@@ -146,7 +148,7 @@ namespace PKHeX.WinForms
                 if (fc <= 1)
                     return true;
 
-                int f = Dex.GetDexFormStart(bspecies, fc);
+                int f = Dex.GetDexFormIndex(bspecies, fc, 0);
                 if (f < 0)
                     return true; // bit index valid
 
@@ -198,7 +200,7 @@ namespace PKHeX.WinForms
             int pk = species - 1;
             editing = true;
             CHK_P1.Enabled = species <= SAV.MaxSpeciesID;
-            CHK_P1.Checked = CHK_P1.Enabled && Dex.Owned[pk];
+            CHK_P1.Checked = CHK_P1.Enabled && Dex.GetCaught(species);
 
             int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
@@ -206,15 +208,15 @@ namespace PKHeX.WinForms
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
 
             for (int i = 0; i < 4; i++)
-                CP[i + 1].Checked = Dex.Seen[i][pk];
+                CP[i + 1].Checked = Dex.GetSeen(species, i);
 
             for (int i = 0; i < 4; i++)
-                CP[i + 5].Checked = Dex.Displayed[i][pk];
+                CP[i + 5].Checked = Dex.GetDisplayed(pk, i);
 
             for (int i = 0; i < 9; i++)
             {
                 CL[i].Enabled = species <= SAV.MaxSpeciesID;
-                CL[i].Checked = CL[i].Enabled && Dex.LanguageFlags[(pk * 9) + i];
+                CL[i].Checked = CL[i].Enabled && Dex.GetLanguageFlag(pk, i);
             }
             editing = false;
         }
@@ -227,18 +229,18 @@ namespace PKHeX.WinForms
             int pk = species - 1;
 
             for (int i = 0; i < 4; i++)
-                Dex.Seen[i][pk] = CP[i + 1].Checked;
+                Dex.SetSeen(species, i, CP[i + 1].Checked);
 
             for (int i = 0; i < 4; i++)
-                Dex.Displayed[i][pk] = CP[i + 5].Checked;
+                Dex.SetDisplayed(pk, i, CP[i + 5].Checked);
 
             if (species > SAV.MaxSpeciesID)
                 return;
 
-            Dex.Owned[pk] = CHK_P1.Checked;
+            Dex.SetCaught(species, CHK_P1.Checked);
 
             for (int i = 0; i < 9; i++)
-                Dex.LanguageFlags[(pk * 9) + i] = CL[i].Checked;
+                Dex.SetLanguageFlag(pk, i, CL[i].Checked);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -249,8 +251,6 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
-            Dex.Write();
-
             Origin.SetData(SAV.Data, 0);
             Close();
         }
@@ -310,7 +310,7 @@ namespace PKHeX.WinForms
 
             SetEntry();
             // Turn off zh2 Petilil
-            Dex.LanguageFlags[(548 * 9) + 8] = false;
+            Dex.SetLanguageFlag((int)Species.Petilil - 1, 8, false);
             GetEntry();
             allModifying = false;
             LB_Forms.Enabled = LB_Forms.Visible = true;
