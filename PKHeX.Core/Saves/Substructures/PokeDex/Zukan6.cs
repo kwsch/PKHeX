@@ -199,7 +199,7 @@ namespace PKHeX.Core
         protected override void SetCaughtFlag(int bit, int origin)
         {
             // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
-            if (origin < 24 && bit < (int)Species.Genesect)
+            if (origin < (int)GameVersion.X && bit < (int)Species.Genesect)
                 SetForeignFlag(bit);
             else
                 SetFlag(OFS_CAUGHT, bit);
