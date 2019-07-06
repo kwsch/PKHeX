@@ -10,13 +10,13 @@ namespace PKHeX.WinForms
     public partial class SAV_SecretBase : Form
     {
         private readonly SaveFile Origin;
-        private readonly SAV6 SAV;
+        private readonly SAV6AO SAV;
 
         public SAV_SecretBase(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)(Origin = sav).Clone();
+            SAV = (SAV6AO)(Origin = sav).Clone();
             abilitylist = GameInfo.Strings.abilitylist;
 
             SetupComboBoxes();

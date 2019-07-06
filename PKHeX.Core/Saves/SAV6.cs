@@ -51,13 +51,19 @@ namespace PKHeX.Core
         protected int Trainer2 { get; set; } = int.MinValue;
         protected int WondercardFlags { get; set; } = int.MinValue;
         protected int PlayTime { get; set; } = int.MinValue;
-        protected int Daycare2 { get; set; } = int.MinValue;
         protected int LinkInfo { get; set; } = int.MinValue;
         protected int JPEG { get; set; } = int.MinValue;
+        public int SuperTrain { get; protected set; } = int.MinValue;
 
         // Accessible as SAV6
         public int MaisonStats { get; protected set; } = int.MinValue;
         public int Accessories { get; protected set; } = int.MinValue;
+        public int PSS { get; protected set; } = int.MinValue;
+        public int SUBE { get; protected set; } = int.MinValue;
+        public int BerryField { get; protected set; } = int.MinValue;
+
+        public virtual string JPEGTitle => string.Empty;
+        public virtual byte[] JPEGData => Array.Empty<byte>();
 
         protected internal const int LongStringLength = 0x22; // bytes, not characters
         protected internal const int ShortStringLength = 0x1A; // bytes, not characters

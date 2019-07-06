@@ -100,8 +100,8 @@ namespace PKHeX.Core
         public bool E => Version == GameVersion.E;
         public bool FRLG => Version == GameVersion.FRLG;
         public bool RS => Version == GameVersion.RS;
-        public bool GSC => Version == GameVersion.GS || Version == GameVersion.C;
-        public bool RBY => Version == GameVersion.RBY;
+        public bool GSC => Generation == 2;
+        public bool RBY => Generation == 1;
         public bool GameCube => new[] { GameVersion.COLO, GameVersion.XD, GameVersion.RSBOX }.Contains(Version);
 
         public abstract int MaxMoveID { get; }
@@ -114,23 +114,15 @@ namespace PKHeX.Core
 
         // Flags
         public bool HasWondercards => WondercardData > -1;
-        public bool HasSuperTrain => SuperTrain > -1;
-        public bool HasBerryField => BerryField > -1;
         public bool HasHoF => HoF > -1;
-        public bool HasSecretBase => SecretBase > -1;
-        public bool HasPSS => PSS > -1;
-        public bool HasJPEG => JPEGData.Length > 0;
         public bool HasBox => Box > -1;
         public virtual bool HasParty => Party > -1;
         public bool HasBattleBox => BattleBox > -1;
-        public bool HasFused => Fused > -1;
         public bool HasDaycare => Daycare > -1;
         public virtual bool HasPokeDex => PokeDex > -1;
         public virtual bool HasBoxWallpapers => GetBoxWallpaperOffset(0) > -1;
         public virtual bool HasNamableBoxes => HasBoxWallpapers;
-        public bool HasPokeBlock => ORAS && !ORASDEMO;
         public virtual bool HasEvents => EventFlags.Length != 0;
-        public bool HasLink => (ORAS && !ORASDEMO) || XY;
 
         // Counts
         protected virtual int GiftCountMax { get; } = int.MinValue;
@@ -156,12 +148,7 @@ namespace PKHeX.Core
         public int GTS { get; protected set; } = int.MinValue;
         public int BattleBox { get; protected set; } = int.MinValue;
         public int Fused { get; protected set; } = int.MinValue;
-        public int SUBE { get; protected set; } = int.MinValue;
         public int PokeDex { get; protected set; } = int.MinValue;
-        public int SuperTrain { get; protected set; } = int.MinValue;
-        public int SecretBase { get; protected set; } = int.MinValue;
-        public int PSS { get; protected set; } = int.MinValue;
-        public int BerryField { get; protected set; } = int.MinValue;
         public int HoF { get; protected set; } = int.MinValue;
 
         // SAV Properties
@@ -401,8 +388,6 @@ namespace PKHeX.Core
         }
 
         public virtual bool BattleBoxLocked { get => false; set { } }
-        public virtual string JPEGTitle => string.Empty;
-        public virtual byte[] JPEGData => Array.Empty<byte>();
         public virtual int Country { get => -1; set { } }
         public virtual int ConsoleRegion { get => -1; set { } }
         public virtual int SubRegion { get => -1; set { } }

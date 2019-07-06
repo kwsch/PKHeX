@@ -746,7 +746,7 @@ namespace PKHeX.Core
         /// <param name="sav">SaveFile data to force</param>
         /// <param name="ver">Version to retrieve for</param>
         /// <returns>New <see cref="SaveFile"/> object.</returns>
-        public static SaveFile GetG3SaveOverride(SaveFile sav, GameVersion ver)
+        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion ver)
         {
             switch (ver) // Reset save file info
             {

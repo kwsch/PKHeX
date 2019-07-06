@@ -678,13 +678,14 @@ namespace PKHeX.WinForms.Controls
 
         private void B_JPEG_Click(object sender, EventArgs e)
         {
-            byte[] jpeg = SAV.JPEGData;
-            if (SAV.JPEGData.Length == 0)
+            var s6 = (SAV6)SAV;
+            byte[] jpeg = s6.JPEGData;
+            if (s6.JPEGData.Length == 0)
             {
                 WinFormsUtil.Alert(MsgSaveJPEGExportFail);
                 return;
             }
-            string filename = $"{SAV.JPEGTitle}'s picture";
+            string filename = $"{s6.JPEGTitle}'s picture";
             var sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
@@ -1004,21 +1005,18 @@ namespace PKHeX.WinForms.Controls
             {
                 PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = sav.HasBattleBox;
                 GB_Daycare.Visible = sav.HasDaycare;
-                B_OpenSecretBase.Enabled = sav.HasSecretBase;
+                B_OpenPokeblocks.Enabled = sav is SAV6AO;
+                B_OpenSecretBase.Enabled = sav is SAV6AO;
                 B_OpenPokepuffs.Enabled = sav is IPokePuff;
-                B_OUTPasserby.Enabled = sav.HasPSS;
+                B_JPEG.Visible = B_OpenLinkInfo.Enabled = B_OpenSuperTraining.Enabled = B_OUTPasserby.Enabled = sav is SAV6XY || sav is SAV6AO;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
-                B_OpenSuperTraining.Enabled = sav.HasSuperTrain;
                 B_OpenHallofFame.Enabled = sav.HasHoF;
                 B_OpenOPowers.Enabled = sav is IOPower;
                 B_OpenPokedex.Enabled = sav.HasPokeDex;
-                B_OpenBerryField.Enabled = sav.HasBerryField && sav.XY;
+                B_OpenBerryField.Enabled = sav is SAV6XY; // oras undocumented
                 B_OpenFriendSafari.Enabled = sav.XY;
-                B_OpenPokeblocks.Enabled = sav.HasPokeBlock;
-                B_JPEG.Visible = sav.HasJPEG;
                 B_OpenEventFlags.Enabled = sav.HasEvents;
-                B_OpenLinkInfo.Enabled = sav.HasLink;
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
