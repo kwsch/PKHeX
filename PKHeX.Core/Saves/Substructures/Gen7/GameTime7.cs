@@ -11,8 +11,8 @@ namespace PKHeX.Core
         public int ResumeHour { get => Data[Offset + 0xB]; set => Data[Offset + 0xB] = (byte)value; }
         public int ResumeMinute { get => Data[Offset + 0xC]; set => Data[Offset + 0xC] = (byte)value; }
         public int ResumeSeconds { get => Data[Offset + 0xD]; set => Data[Offset + 0xD] = (byte)value; }
-        public uint SecondsToStart { get => BitConverter.ToUInt32(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x28); }
-        public uint SecondsToFame { get => BitConverter.ToUInt32(Data, Offset + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x30); }
+        public uint SecondsToStart { get => BitConverter.ToUInt32(Data, Offset + 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x28); }
+        public uint SecondsToFame { get => BitConverter.ToUInt32(Data, Offset + 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x30); }
 
         public ulong AlolaTime { get => BitConverter.ToUInt64(Data, Offset + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x48); }
     }
