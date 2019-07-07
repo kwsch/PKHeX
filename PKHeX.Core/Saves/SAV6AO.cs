@@ -148,7 +148,7 @@ namespace PKHeX.Core
             /* 56: 33000-67AD0, 34AD0 */ Box = 0x33000;
             /* 57: 67C00-75C58, 0E058 */ JPEG = 0x67C00;
 
-            Items = new MyItem6XY(this, 0x00400);
+            Items = new MyItem6AO(this, 0x00400);
             PuffBlock = new Puff6(this, 0x0000);
             GameTime = new GameTime6(this, 0x01200);
             Situation = new Situation6(this, 0x01400);
