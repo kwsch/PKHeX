@@ -67,24 +67,9 @@ namespace PKHeX.Core
         private void VerifyMedalsEvent(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var Info = data.Info;
             byte value = pkm.Data[0x3A];
-            if ((value & 0xC0) != 0) // 2 unused flags highest bits
-                data.AddLine(GetInvalid(LSuperUnused));
-
-            int TrainCount = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                if ((value & 1) != 0)
-                    TrainCount++;
-                value >>= 1;
-            }
-            if (pkm.IsEgg && TrainCount > 0)
-                data.AddLine(GetInvalid(LSuperEgg));
-            else if (TrainCount > 0 && Info.Generation > 6)
-                data.AddLine(GetInvalid(LSuperUnavailable));
-            else if (TrainCount > 0)
-                data.AddLine(Get(LSuperDistro, Severity.Fishy));
+            if (value != 0)
+                data.AddLine(GetInvalid(LSuperDistro));
         }
     }
 }
