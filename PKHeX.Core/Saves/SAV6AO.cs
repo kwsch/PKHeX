@@ -296,9 +296,6 @@ namespace PKHeX.Core
         {
             get
             {
-                if (SUBE < 0 || ORASDEMO)
-                    return Array.Empty<ushort[]>(); // no gym data
-
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
                 int ofs = SUBE - size - 4;
@@ -311,9 +308,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (SUBE < 0 || ORASDEMO)
-                    return; // no gym data
-
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
                 int ofs = SUBE - size - 4;
