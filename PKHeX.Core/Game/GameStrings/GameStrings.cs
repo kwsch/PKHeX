@@ -206,15 +206,45 @@ namespace PKHeX.Core
         private void SanitizeMetLocations()
         {
             // Fix up some of the Location strings to make them more descriptive
+            SanitizeMetG4HGSS();
             SanitizeMetG5BW();
             SanitizeMetG6XY();
             SanitizeMetG7SM();
+
+            if (lang == "es" || lang == "it")
+            {
+                // Campeonato Mundial duplicates
+                for (int i = 27; i < 34; i++)
+                    metXY_40000[i] += " (-)";
+
+                // Evento de Videojuegos -- first as duplicate
+                metXY_40000[34] += " (-)";
+                metSM_40000[37] += " (-)";
+                metGG_40000[26] += " (-)";
+            }
+
+            if (lang == "ko")
+            {
+                // Pokémon Ranger duplicate (should be Ranger Union)
+                metBW2_40000[70] += " (-)";
+            }
+        }
+
+        private void SanitizeMetG4HGSS()
+        {
+            metHGSS_00000[054] += " (DP/Pt)"; // Victory Road
+            metHGSS_00000[221] += " (HG/SS)"; // Victory Road
+
+            // German language duplicate; handle for all since it can be confused.
+            metHGSS_00000[104] += " (DP/Pt)"; // Vista Lighthouse
+            metHGSS_00000[212] += " (HG/SS)"; // Lighthouse
+
+            metHGSS_02000[1] += $" ({NPC})";     // Anything from an NPC
+            metHGSS_02000[2] += $" ({EggName})"; // Egg From Link Trade
         }
 
         private void SanitizeMetG5BW()
         {
-            metHGSS_02000[1] += $" ({NPC})";     // Anything from an NPC
-            metHGSS_02000[2] += $" ({EggName})"; // Egg From Link Trade
             metBW2_00000[36] = $"{metBW2_00000[84]}/{metBW2_00000[36]}"; // Cold Storage in BW = PWT in BW2
             metBW2_00000[40] += "(B/W)"; // Victory Road in BW
             metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
@@ -225,6 +255,9 @@ namespace PKHeX.Core
             // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
             if (metBW2_00000[2] == metBW2_40000[2 - 1])
                 metBW2_00000[2] += " (2)";
+
+            for (int i = 96; i < 108; i++)
+                metBW2_40000[i] += $" ({i - 96})";
 
             // Localize the Poketransfer to the language (30001)
             metBW2_30000[1 - 1] = GameLanguage.GetTransporterName(LanguageIndex);
@@ -248,6 +281,9 @@ namespace PKHeX.Core
             metXY_00000[298] += " (OR/AS)";    // Victory Road
             metXY_30000[0] += $" ({NPC})";     // Anything from an NPC
             metXY_30000[1] += $" ({EggName})"; // Egg From Link Trade
+
+            for (int i = 62; i < 69; i++)
+                metXY_40000[i] += $" ({i - 61})";
         }
 
         private void SanitizeMetG7SM()
@@ -269,6 +305,12 @@ namespace PKHeX.Core
             metSM_30000[1] += $" ({EggName})";  // Egg From Link Trade
             for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
                 metSM_30000[i] += " (-)";
+
+            for (int i = 58; i < 65; i++) // distinguish Event year duplicates
+                metSM_40000[i] += " (-)";
+
+            for (int i = 47; i < 54; i++) // distinguish Event year duplicates
+                metGG_40000[i] += " (-)";
         }
 
         public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)
