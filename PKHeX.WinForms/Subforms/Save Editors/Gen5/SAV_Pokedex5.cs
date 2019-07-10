@@ -180,15 +180,15 @@ namespace PKHeX.WinForms
                 return;
 
             for (int i = 0; i < CLB_FormsSeen.Items.Count/2; i++) // Seen
-                Dex.SetFormFlag(f, 0, CLB_FormsSeen.GetItemChecked(i));
+                Dex.SetFormFlag(f + i, 0, CLB_FormsSeen.GetItemChecked(i));
             for (int i = 0; i < CLB_FormsSeen.Items.Count/2; i++)  // Seen Shiny
-                Dex.SetFormFlag(f, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count/2)));
+                Dex.SetFormFlag(f + i, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count/2)));
 
             editing = true;
             for (int i = 0; i < CLB_FormDisplayed.Items.Count/2; i++) // Displayed
-                Dex.SetFormFlag(f, 2, CLB_FormDisplayed.GetItemChecked(i));
+                Dex.SetFormFlag(f + i, 2, CLB_FormDisplayed.GetItemChecked(i));
             for (int i = 0; i < CLB_FormDisplayed.Items.Count/2; i++)  // Displayed Shiny
-                Dex.SetFormFlag(f, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count/2)));
+                Dex.SetFormFlag(f + i, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count/2)));
             editing = false;
         }
 

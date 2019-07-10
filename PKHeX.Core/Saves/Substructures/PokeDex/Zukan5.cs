@@ -75,7 +75,7 @@ namespace PKHeX.Core
         private void SetCaughtFlag(int bit) => SetFlag(OFS_CAUGHT, bit);
 
         private int FormLen => SAV.B2W2 ? 0xB : 0x9;
-        private int FormDex => PokeDex + 0x8 + (BitSeenSize * 9);
+        private int FormDex => 0x8 + (BitSeenSize * 9);
 
         private void SetFormFlags(PKM pkm)
         {
