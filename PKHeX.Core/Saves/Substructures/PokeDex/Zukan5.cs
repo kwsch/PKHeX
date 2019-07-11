@@ -74,6 +74,24 @@ namespace PKHeX.Core
 
         private void SetCaughtFlag(int bit) => SetFlag(OFS_CAUGHT, bit);
 
+        protected override void SetDisplayedFlag(int baseBit, int formBit, bool value, int shift)
+        {
+            bool displayed = GetIsSpeciesAnyDisplayed(baseBit);
+            if (!displayed || !value)
+                SetFlag(OFS_SEEN + ((4 + shift) * BitSeenSize), baseBit, value);
+        }
+
+        private bool GetIsSpeciesAnyDisplayed(int baseBit)
+        {
+            // Check Displayed Status for base form
+            for (int i = 0; i < 4; i++)
+            {
+                if (GetDisplayed(baseBit, i))
+                    return true;
+            }
+            return false;
+        }
+
         private int FormLen => SAV.B2W2 ? 0xB : 0x9;
         private int FormDex => 0x8 + (BitSeenSize * 9);
 

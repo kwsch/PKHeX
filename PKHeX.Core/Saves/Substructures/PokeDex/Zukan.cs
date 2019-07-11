@@ -124,6 +124,11 @@ namespace PKHeX.Core
             SetFlag(OFS_SEEN + (shift * BitSeenSize), baseBit, value);
 
             // Set the Display flag if none are set
+            SetDisplayedFlag(baseBit, formBit, value, shift);
+        }
+
+        protected virtual void SetDisplayedFlag(int baseBit, int formBit, bool value, int shift)
+        {
             bool displayed = GetIsSpeciesFormAnyDisplayed(baseBit, formBit);
             if (!displayed || !value)
                 SetFlag(OFS_SEEN + ((4 + shift) * BitSeenSize), formBit, value);
