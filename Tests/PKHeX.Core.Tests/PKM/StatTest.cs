@@ -28,10 +28,11 @@ namespace PKHeX.Tests.PKM
                 Move3_PPUps = 3,
             };
 
-            pk.Heal();
-
+            pk.ResetPartyStats();
+            pk.Stat_Level.Should().Be(pk.CurrentLevel, "stat level");
             pk.Stat_HPCurrent.Should().Be(127, "stat re-calculation");
 
+            pk.HealPP();
             pk.Move1_PP.Should().Be(47, "pp calc oddity");
             pk.Move2_PP.Should().Be(54, "pp calc oddity");
             pk.Move3_PP.Should().Be(61, "pp calc oddity");

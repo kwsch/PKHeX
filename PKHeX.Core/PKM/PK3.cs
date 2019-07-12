@@ -205,7 +205,6 @@ namespace PKHeX.Core
 
         public PK4 ConvertToPK4()
         {
-            DateTime moment = DateTime.Now;
             PK4 pk4 = new PK4 // Convert away!
             {
                 PID = PID,
@@ -213,7 +212,9 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 EXP = IsEgg ? Experience.GetEXP(5, Species, 0) : EXP,
-                IsEgg = false,
+                Gender = PKX.GetGenderFromPID(Species, PID),
+                AltForm = AltForm,
+                // IsEgg = false, -- already false
                 OT_Friendship = 70,
                 Markings = Markings,
                 Language = Language,
@@ -249,13 +250,14 @@ namespace PKHeX.Core
                 PKRS_Strain = PKRS_Strain,
                 PKRS_Days = PKRS_Days,
                 OT_Gender = OT_Gender,
-                MetDate = moment,
+                MetDate = DateTime.Now,
+                Met_Level = CurrentLevel,
                 Met_Location = Locations.Transfer3, // Pal Park
 
                 RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
-                RibbonWinning     = RibbonWinning,
-                RibbonVictory     = RibbonVictory,
-                RibbonArtist        = RibbonArtist,
+                RibbonWinning = RibbonWinning,
+                RibbonVictory = RibbonVictory,
+                RibbonArtist = RibbonArtist,
                 RibbonEffort = RibbonEffort,
                 RibbonChampionBattle = RibbonChampionBattle,
                 RibbonChampionRegional = RibbonChampionRegional,
@@ -264,50 +266,47 @@ namespace PKHeX.Core
                 RibbonNational = RibbonNational,
                 RibbonEarth = RibbonEarth,
                 RibbonWorld = RibbonWorld,
+
+                // byte -> bool contest ribbons
+                RibbonG3Cool         = RibbonCountG3Cool > 0,
+                RibbonG3CoolSuper    = RibbonCountG3Cool > 1,
+                RibbonG3CoolHyper    = RibbonCountG3Cool > 2,
+                RibbonG3CoolMaster   = RibbonCountG3Cool > 3,
+
+                RibbonG3Beauty       = RibbonCountG3Beauty > 0,
+                RibbonG3BeautySuper  = RibbonCountG3Beauty > 1,
+                RibbonG3BeautyHyper  = RibbonCountG3Beauty > 2,
+                RibbonG3BeautyMaster = RibbonCountG3Beauty > 3,
+
+                RibbonG3Cute         = RibbonCountG3Cute > 0,
+                RibbonG3CuteSuper    = RibbonCountG3Cute > 1,
+                RibbonG3CuteHyper    = RibbonCountG3Cute > 2,
+                RibbonG3CuteMaster   = RibbonCountG3Cute > 3,
+
+                RibbonG3Smart        = RibbonCountG3Smart > 0,
+                RibbonG3SmartSuper   = RibbonCountG3Smart > 1,
+                RibbonG3SmartHyper   = RibbonCountG3Smart > 2,
+                RibbonG3SmartMaster  = RibbonCountG3Smart > 3,
+
+                RibbonG3Tough        = RibbonCountG3Tough > 0,
+                RibbonG3ToughSuper   = RibbonCountG3Tough > 1,
+                RibbonG3ToughHyper   = RibbonCountG3Tough > 2,
+                RibbonG3ToughMaster  = RibbonCountG3Tough > 3,
+
+                FatefulEncounter = FatefulEncounter,
             };
 
-            // Fix PP
-            pk4.HealPP();
-
-            pk4.FatefulEncounter = FatefulEncounter; // obedience flag
-
-            // Remaining Ribbons
-            pk4.RibbonG3Cool          |= RibbonCountG3Cool > 0;
-            pk4.RibbonG3CoolSuper     |= RibbonCountG3Cool > 1;
-            pk4.RibbonG3CoolHyper     |= RibbonCountG3Cool > 2;
-            pk4.RibbonG3CoolMaster    |= RibbonCountG3Cool > 3;
-            pk4.RibbonG3Beauty        |= RibbonCountG3Beauty > 0;
-            pk4.RibbonG3BeautySuper   |= RibbonCountG3Beauty > 1;
-            pk4.RibbonG3BeautyHyper   |= RibbonCountG3Beauty > 2;
-            pk4.RibbonG3BeautyMaster  |= RibbonCountG3Beauty > 3;
-            pk4.RibbonG3Cute          |= RibbonCountG3Cute > 0;
-            pk4.RibbonG3CuteSuper     |= RibbonCountG3Cute > 1;
-            pk4.RibbonG3CuteHyper     |= RibbonCountG3Cute > 2;
-            pk4.RibbonG3CuteMaster    |= RibbonCountG3Cute > 3;
-            pk4.RibbonG3Smart         |= RibbonCountG3Smart > 0;
-            pk4.RibbonG3SmartSuper    |= RibbonCountG3Smart > 1;
-            pk4.RibbonG3SmartHyper    |= RibbonCountG3Smart > 2;
-            pk4.RibbonG3SmartMaster   |= RibbonCountG3Smart > 3;
-            pk4.RibbonG3Tough         |= RibbonCountG3Tough > 0;
-            pk4.RibbonG3ToughSuper    |= RibbonCountG3Tough > 1;
-            pk4.RibbonG3ToughHyper    |= RibbonCountG3Tough > 2;
-            pk4.RibbonG3ToughMaster   |= RibbonCountG3Tough > 3;
-
-            // Yay for reusing string buffers!
+            // Yay for reusing string buffers! The game allocates a buffer and reuses it when creating strings.
+            // Trash from the {unknown source} is currently in buffer. Set it to the Nickname region.
             var trash = StringConverter345.G4TransferTrashBytes;
             if (pk4.Language < trash.Length)
                 trash[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
-            pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, pk4.Format) : Nickname;
+            pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
+            pk4.IsNicknamed = !IsEgg && IsNicknamed;
+
+            // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.
             Buffer.BlockCopy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
             pk4.OT_Name = OT_Name;
-
-            // Set Final Data
-            pk4.Met_Level = pk4.CurrentLevel;
-            pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
-            pk4.IsNicknamed = IsNicknamed;
-
-            // Unown Form
-            pk4.AltForm = AltForm;
 
             if (HeldItem > 0)
             {
@@ -326,6 +325,7 @@ namespace PKHeX.Core
 
             pk4.Moves = newMoves;
             pk4.FixMoves();
+            pk4.HealPP();
 
             pk4.RefreshChecksum();
             return pk4;
@@ -334,16 +334,14 @@ namespace PKHeX.Core
         public XK3 ConvertToXK3()
         {
             var pk = ConvertTo<XK3>();
-            pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
-            pk.Stat_Level = pk.CurrentLevel;
+            pk.ResetPartyStats();
             return pk;
         }
 
         public CK3 ConvertToCK3()
         {
             var pk = ConvertTo<CK3>();
-            pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
-            pk.Stat_Level = pk.CurrentLevel;
+            pk.ResetPartyStats();
             return pk;
         }
     }

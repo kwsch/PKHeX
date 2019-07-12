@@ -824,10 +824,16 @@ namespace PKHeX.Core
         /// <summary>
         /// Clears any status condition and refreshes the stats.
         /// </summary>
-        public void Heal()
+        public void ResetPartyStats()
         {
             SetStats(GetStats(PersonalInfo));
+            Stat_Level = CurrentLevel;
             Status_Condition = 0;
+        }
+
+        public void Heal()
+        {
+            ResetPartyStats();
             HealPP();
         }
 
@@ -850,7 +856,7 @@ namespace PKHeX.Core
         {
             if (PartyStatsPresent)
                 return false;
-            Heal();
+            ResetPartyStats();
             return true;
         }
 

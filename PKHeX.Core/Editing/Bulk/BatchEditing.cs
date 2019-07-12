@@ -359,7 +359,7 @@ namespace PKHeX.Core
                     return ModifyResult.Modified;
 
                 case nameof(PKM.Stats):
-                    pk.Heal();
+                    pk.ResetPartyStats();
                     return ModifyResult.Modified;
                 case nameof(IHyperTrain.HyperTrainFlags):
                     pk.SetSuggestedHyperTrainingData();

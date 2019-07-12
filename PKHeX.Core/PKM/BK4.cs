@@ -31,14 +31,14 @@ namespace PKHeX.Core
                 RefreshChecksum();
             if (Valid && Sanity == 0)
                 Sanity = 0x4000;
-            SetStats(GetStats(PersonalInfo));
+            ResetPartyStats();
         }
 
         public BK4()
         {
             Data = new byte[SIZE_PARTY];
             Sanity = 0x4000;
-            SetStats(GetStats(PersonalInfo));
+            ResetPartyStats();
         }
 
         public override PKM Clone() => new BK4((byte[])Encrypt().Clone()){Identifier = Identifier};
