@@ -118,7 +118,7 @@ namespace PKHeX.Core
 
         protected void SetDexFlags(int baseBit, int formBit, int gender, int shiny, bool value = true)
         {
-            int shift = gender | (shiny << 1);
+            int shift = (gender & 1) | (shiny << 1);
 
             // Set the [Species/Gender/Shiny] Seen Flag
             SetFlag(OFS_SEEN + (shift * BitSeenSize), baseBit, value);

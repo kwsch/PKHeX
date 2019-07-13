@@ -1,7 +1,8 @@
 ﻿using Xunit;
 using FluentAssertions;
+using PKHeX.Core;
 
-namespace PKHeX.Core.Tests.Saves
+namespace PKHeX.Tests.Saves
 {
     public static class PokeDex
     {
@@ -27,6 +28,7 @@ namespace PKHeX.Core.Tests.Saves
         private static void SetDexSpecies(SaveFile sav, int species, int regionSize)
         {
             var pk5 = new PK5 {Species = species, TID = 1337}; // non-shiny
+            pk5.Gender = pk5.GetSaneGender();
 
             int boxofs = sav.GetBoxSlotOffset(0, 0);
             sav.SetStoredSlot(pk5, boxofs);
