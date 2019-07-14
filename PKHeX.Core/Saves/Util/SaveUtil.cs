@@ -572,9 +572,10 @@ namespace PKHeX.Core
                 case GameVersion.RBY:
                     return new SAV1(versionOverride: Game);
 
-                case GameVersion.GD: case GameVersion.SV: case GameVersion.C:
-                case GameVersion.GS: case GameVersion.GSC:
-                    return new SAV2();
+                case GameVersion.GS: case GameVersion.GD: case GameVersion.SV:
+                    return new SAV2(versionOverride: GameVersion.GS);
+                case GameVersion.GSC: case GameVersion.C:
+                    return new SAV2(versionOverride: GameVersion.C);
 
                 case GameVersion.R: case GameVersion.S: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
                     return new SAV3(version: Game);
