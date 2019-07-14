@@ -109,14 +109,14 @@ namespace PKHeX.Core
 
         private static List<StorageSlotOffset> GetExtraSlots6(SAV6 sav)
         {
-            if (sav.ORASDEMO)
+            if (sav is SAV6AODemo)
                 return None;
             var list = new List<StorageSlotOffset>
             {
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
                 new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.Fused}
             };
-            if (sav.XY)
+            if (sav is SAV6XY)
                 list.Add(new StorageSlotOffset{Type = StorageSlotType.Misc, Offset = sav.SUBE});
             return list;
         }
@@ -128,7 +128,7 @@ namespace PKHeX.Core
                 new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
                 new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(0)}
             };
-            if (sav.USUM)
+            if (sav is SAV7USUM)
             {
                 list.AddRange(new[]
                {

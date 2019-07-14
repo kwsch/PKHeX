@@ -12,6 +12,8 @@ namespace PKHeX.Core
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+        public readonly bool Japanese;
+        public bool IndeterminateGame => Version == GameVersion.Unknown;
 
         /* SAV3 Structure:
          * 0xE000 per save file
@@ -259,7 +261,7 @@ namespace PKHeX.Core
         public int GetBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
-        public override SaveFile Clone() => new SAV3(Write(), Version) {Japanese = Japanese};
+        public override SaveFile Clone() => new SAV3(Write(), Version);
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;
         protected override int SIZE_PARTY => PKX.SIZE_3PARTY;
@@ -282,6 +284,10 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
         protected override int EventFlagMax => 8 * (E ? 300 : 288); // 0x960 E, else 0x900
         protected override int EventConstMax => 0x100;
+
+        public bool E => Version == GameVersion.E;
+        public bool FRLG => Version == GameVersion.FRLG;
+        public bool RS => Version == GameVersion.RS;
 
         public override bool HasParty => true;
 

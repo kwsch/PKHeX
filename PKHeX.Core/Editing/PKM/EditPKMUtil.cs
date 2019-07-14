@@ -5,6 +5,9 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Utility for editing a <see cref="PKM"/>
+    /// </summary>
     public static class EditPKMUtil
     {
         public static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minlvl)
@@ -59,8 +62,18 @@ namespace PKHeX.Core
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)
-            if (tr is SAV1 s1 && pk is PK1 p1) p1.OT_Trash = s1.OT_Trash;
-            else if (tr is SAV2 s2 && pk is PK2 p2) p2.OT_Trash = s2.OT_Trash;
+            if (pk is _K12 pk12)
+            {
+                switch (tr)
+                {
+                    case SAV1 s1:
+                        pk12.OT_Trash = s1.OT_Trash;
+                        break;
+                    case SAV2 s2:
+                        pk12.OT_Trash = s2.OT_Trash;
+                        break;
+                }
+            }
 
             pk.RefreshChecksum();
         }

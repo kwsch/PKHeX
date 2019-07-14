@@ -137,7 +137,7 @@ namespace PKHeX.WinForms
             CLB_FormDisplayed.Items.Clear();
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SAV.B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
+            int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
             string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
@@ -175,7 +175,7 @@ namespace PKHeX.WinForms
             }
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SAV.B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
+            int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
 

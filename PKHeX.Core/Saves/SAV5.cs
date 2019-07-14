@@ -162,12 +162,12 @@ namespace PKHeX.Core
         }
 
         // DLC
-        private int CGearSkinInfoOffset => CGearInfoOffset + (B2W2 ? 0x10 : 0) + 0x24;
+        private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;
 
         private bool CGearSkinPresent
         {
             get => Data[CGearSkinInfoOffset + 2] == 1;
-            set => Data[CGearSkinInfoOffset + 2] = Data[Trainer1 + (B2W2 ? 0x6C : 0x54)] = (byte) (value ? 1 : 0);
+            set => Data[CGearSkinInfoOffset + 2] = Data[Trainer1 + (this is SAV5B2W2 ? 0x6C : 0x54)] = (byte) (value ? 1 : 0);
         }
 
         public byte[] CGearSkinData

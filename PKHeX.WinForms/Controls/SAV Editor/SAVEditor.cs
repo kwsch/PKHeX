@@ -605,9 +605,9 @@ namespace PKHeX.WinForms.Controls
                 case SAV3 s3: return new SAV_SimplePokedex(s3);
                 case SAV4 s4: return new SAV_Pokedex4(s4);
                 case SAV5 s5: return new SAV_Pokedex5(s5);
-                case SAV6 s6 when s6.XY: return new SAV_PokedexXY(s6);
-                case SAV6 s6 when s6.ORAS: return new SAV_PokedexORAS(s6);
-                case SAV7 s7 when s7.SM || s7.USUM: return new SAV_PokedexSM(s7);
+                case SAV6XY xy: return new SAV_PokedexXY(xy);
+                case SAV6AO ao: return new SAV_PokedexORAS(ao);
+                case SAV7 s7: return new SAV_PokedexSM(s7);
                 case SAV7b b7: return new SAV_PokedexGG(b7);
 
                 default: return null;
@@ -751,7 +751,7 @@ namespace PKHeX.WinForms.Controls
             bool reload = SAV is SAV7b b && b.FixPreWrite();
             if (reload)
                 ReloadSlots();
-            return WinFormsUtil.SaveSAVDialog(SAV, SAV.CurrentBox);
+            return WinFormsUtil.ExportSAVDialog(SAV, SAV.CurrentBox);
         }
 
         public bool ExportBackup()
@@ -1015,7 +1015,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenOPowers.Enabled = sav is IOPower;
                 B_OpenPokedex.Enabled = sav.HasPokeDex;
                 B_OpenBerryField.Enabled = sav is SAV6XY; // oras undocumented
-                B_OpenFriendSafari.Enabled = sav.XY;
+                B_OpenFriendSafari.Enabled = sav is SAV6XY;
                 B_OpenEventFlags.Enabled = sav.HasEvents;
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
@@ -1024,10 +1024,9 @@ namespace PKHeX.WinForms.Controls
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;
 
-                B_OpenHoneyTreeEditor.Enabled = sav.DP || sav.Pt;
-                B_OpenApricorn.Enabled = sav.HGSS;
-                B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
-                B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
+                B_OpenHoneyTreeEditor.Enabled = B_OpenUGSEditor.Enabled = sav is SAV4 p4 && (p4.DP || p4.Pt);
+                B_OpenApricorn.Enabled = sav is SAV4 s4 && s4.HGSS;
+                B_OpenRTCEditor.Enabled = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);

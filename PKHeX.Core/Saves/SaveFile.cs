@@ -25,9 +25,7 @@ namespace PKHeX.Core
         public abstract string Filter { get; }
         public byte[] Footer { protected get; set; } = Array.Empty<byte>(); // .dsv
         public byte[] Header { protected get; set; } = Array.Empty<byte>(); // .gci
-        public bool Japanese { get; protected set; }
         public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
-        public bool IndeterminateGame => Version == GameVersion.Unknown;
         public abstract string Extension { get; }
 
         public virtual string[] PKMExtensions => PKM.Extensions.Where(f =>
@@ -78,31 +76,12 @@ namespace PKHeX.Core
             return Data;
         }
 
-        public virtual string MiscSaveChecks() => string.Empty;
         public virtual string MiscSaveInfo() => string.Empty;
         public virtual GameVersion Version { get; protected set; }
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
         public PersonalTable Personal { get; set; }
-
-        public bool GG => Data.Length == SaveUtil.SIZE_G7GG && GameVersion.GG.Contains(Version);
-        public bool USUM => Data.Length == SaveUtil.SIZE_G7USUM;
-        public bool SM => Data.Length == SaveUtil.SIZE_G7SM;
-        public bool ORASDEMO => Data.Length == SaveUtil.SIZE_G6ORASDEMO;
-        public bool ORAS => Data.Length == SaveUtil.SIZE_G6ORAS;
-        public bool XY => Data.Length == SaveUtil.SIZE_G6XY;
-        public bool B2W2 => this is SAV5B2W2;
-        public bool BW => this is SAV5BW;
-        public bool HGSS => Version == GameVersion.HGSS;
-        public bool Pt => Version == GameVersion.Pt;
-        public bool DP => Version == GameVersion.DP;
-        public bool E => Version == GameVersion.E;
-        public bool FRLG => Version == GameVersion.FRLG;
-        public bool RS => Version == GameVersion.RS;
-        public bool GSC => Generation == 2;
-        public bool RBY => Generation == 1;
-        public bool GameCube => new[] { GameVersion.COLO, GameVersion.XD, GameVersion.RSBOX }.Contains(Version);
 
         public abstract int MaxMoveID { get; }
         public abstract int MaxSpeciesID { get; }

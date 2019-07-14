@@ -47,15 +47,13 @@ namespace PKHeX.Core
         public MyStatus6 Status { get; protected set; }
         public Record6 Records { get; set; }
 
-        // Private Only
-        protected int Trainer2 { get; set; } = int.MinValue;
+        protected int Trainer2 { get; set; }
+
+        // XY/AO
         protected int WondercardFlags { get; set; } = int.MinValue;
-        protected int PlayTime { get; set; } = int.MinValue;
         protected int LinkInfo { get; set; } = int.MinValue;
         protected int JPEG { get; set; } = int.MinValue;
         public int SuperTrain { get; protected set; } = int.MinValue;
-
-        // Accessible as SAV6
         public int MaisonStats { get; protected set; } = int.MinValue;
         public int Accessories { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
@@ -96,13 +94,13 @@ namespace PKHeX.Core
             get
             {
                 int offset = Trainer2 + 0x3C;
-                if (ORAS) offset -= 0xC; // 0x30
+                if (this is SAV6AO) offset -= 0xC; // 0x30
                 return BitConverter.ToUInt16(Data, offset);
             }
             set
             {
                 int offset = Trainer2 + 0x3C;
-                if (ORAS) offset -= 0xC; // 0x30
+                if (this is SAV6AO) offset -= 0xC; // 0x30
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, offset);
             }
         }
@@ -112,13 +110,13 @@ namespace PKHeX.Core
             get
             {
                 int offset = Trainer2 + 0x50;
-                if (ORAS) offset -= 0xC; // 0x44
+                if (this is SAV6AO) offset -= 0xC; // 0x44
                 return Data[offset];
             }
             set
             {
                 int offset = Trainer2 + 0x50;
-                if (ORAS) offset -= 0xC; // 0x44
+                if (this is SAV6AO) offset -= 0xC; // 0x44
                 Data[offset] = (byte)value;
             }
         }
@@ -136,10 +134,8 @@ namespace PKHeX.Core
 
         // Daycare
         public override int DaycareSeedSize => 16;
-        public override bool HasTwoDaycares => ORAS;
 
         // Storage
-
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);

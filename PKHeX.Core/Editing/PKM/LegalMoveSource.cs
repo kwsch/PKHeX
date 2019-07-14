@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Legal Move information for a single <see cref="PKM"/>, for indicating if a move is legal or not.
+    /// </summary>
     public class LegalMoveSource
     {
         public readonly IList<bool> IsMoveBoxOrdered = new bool[4];

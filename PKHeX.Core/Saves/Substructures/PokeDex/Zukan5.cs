@@ -12,7 +12,7 @@ namespace PKHeX.Core
 
         public Zukan5(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            var wrap = SAV.BW ? DexFormUtil.GetDexFormIndexBW : (Func<int, int, int>)DexFormUtil.GetDexFormIndexB2W2;
+            var wrap = SAV is SAV5BW ? DexFormUtil.GetDexFormIndexBW : (Func<int, int, int>)DexFormUtil.GetDexFormIndexB2W2;
             DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
         }
 
@@ -92,7 +92,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private int FormLen => SAV.B2W2 ? 0xB : 0x9;
+        private int FormLen => SAV is SAV5B2W2 ? 0xB : 0x9;
         private int FormDex => 0x8 + (BitSeenSize * 9);
 
         private void SetFormFlags(PKM pkm)

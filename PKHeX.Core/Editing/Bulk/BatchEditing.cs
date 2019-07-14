@@ -9,6 +9,9 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for editing many <see cref="PKM"/> with user provided <see cref="StringInstruction"/> list.
+    /// </summary>
     public static class BatchEditing
     {
         public static readonly Type[] Types =
@@ -427,12 +430,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="cmd">Modification</param>
+        /// <returns>True if modified, false if no modifications done.</returns>
         private static bool SetComplexProperty(PKM pk, StringInstruction cmd)
         {
+            DateTime parseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
             if (cmd.PropertyName == nameof(PKM.MetDate))
-                pk.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                pk.MetDate = parseDate(cmd.PropertyValue);
             else if (cmd.PropertyName == nameof(PKM.EggMetDate))
-                pk.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                pk.EggMetDate = parseDate(cmd.PropertyValue);
             else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
                pk.EncryptionConstant = Util.Rand32();
             else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))

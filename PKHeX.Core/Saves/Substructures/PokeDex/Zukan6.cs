@@ -75,7 +75,7 @@ namespace PKHeX.Core
 
         protected abstract void SetCaughtFlag(int bit, int origin);
 
-        private int FormLen => SAV.ORAS ? 0x26 : 0x18;
+        private int FormLen => SAV is SAV6XY ? 0x18 : 0x26;
         private int FormDex => 0x8 + (BitSeenSize * 9);
         public bool GetFormFlag(int formIndex, int flagRegion) => GetFlag(FormDex + (FormLen * flagRegion), formIndex);
         public void SetFormFlag(int formIndex, int flagRegion, bool value = true) => SetFlag(FormDex + (FormLen * flagRegion), formIndex, value);

@@ -5,6 +5,15 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Batch Editing instruction
+    /// </summary>
+    /// <remarks>
+    /// Can be a filter (skip), or a modification instruction (modify)
+    /// </remarks>
+    /// <see cref="Exclude"/>
+    /// <see cref="Require"/>
+    /// <see cref="Apply"/>
     public class StringInstruction
     {
         public string PropertyName { get; private set; }
@@ -22,6 +31,15 @@ namespace PKHeX.Core
         private const char Require = '=';
         private const char Apply = '.';
         private const char SplitRange = ',';
+
+        /// <summary>
+        /// Character which divides a property and a value.
+        /// </summary>
+        /// <remarks>
+        /// Example:
+        /// =Species=1
+        /// The second = is the split.
+        /// </remarks>
         public const char SplitInstruction = '=';
 
         // Extra Functionality
@@ -66,6 +84,9 @@ namespace PKHeX.Core
                 select new StringInstruction { PropertyName = split[0], PropertyValue = split[1] };
         }
 
+        /// <summary>
+        /// Weeds out invalid lines and only returns those with a valid first character.
+        /// </summary>
         private static IEnumerable<string> GetRelevantStrings(IEnumerable<string> lines, params char[] pieces)
         {
             return lines.Where(line => !string.IsNullOrEmpty(line) && pieces.Any(z => z == line[0]));

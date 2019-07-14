@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
                 try
                 {
                     TB_OTName.Font = FontUtil.GetPKXFont(11);
-                    if (SAV.XY)
+                    if (SAV is SAV6XY)
                         TB_TRNick.Font = TB_OTName.Font;
                 }
                 catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
@@ -46,16 +46,16 @@ namespace PKHeX.WinForms
             cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
             pba = new [] { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
-            L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = SAV.ORAS;
-            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = SAV.ORAS;
-            PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV.ORAS;
+            L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled =
+            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible =
+            PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
 
-            L_Style.Visible = TB_Style.Visible = SAV.XY;
-            if (!SAV.XY)
+            L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
+            if (!(SAV is SAV6XY))
                 TC_Editor.TabPages.Remove(Tab_Appearance);
-            if (SAV.ORASDEMO)
+            if (SAV is SAV6AO)
                 TC_Editor.TabPages.Remove(Tab_Multiplayer);
-            if (SAV.MaisonStats < 0)
+            if (SAV is SAV6AODemo)
                 TC_Editor.TabPages.Remove(Tab_Maison);
 
             GetComboBoxes();
@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
 
         private void GetBadges()
         {
-            var bma = GetGen6BadgeSprites(SAV.ORAS);
+            var bma = GetGen6BadgeSprites(SAV is SAV6AO);
             for (int i = 0; i < 8; i++)
                 pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
         }

@@ -381,9 +381,9 @@ namespace PKHeX.WinForms.Controls
             if (noEgg && (pk.Species == 0 || pk.IsEgg))
                 return false;
 
-            if (PKMConverter.IsIncompatibleGB(pk.Format, SAV.Japanese, pk.Japanese))
+            if (SAV is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk.Format, il.Japanese, pk.Japanese))
             {
-                c = PKMConverter.GetIncompatibleGBMessage(pk, SAV.Japanese);
+                c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                 WinFormsUtil.Error(c);
                 Debug.WriteLine(c);
                 return false;

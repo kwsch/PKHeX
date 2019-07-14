@@ -40,7 +40,7 @@ namespace PKHeX.Core
 
         private void ReloadBattleTeams()
         {
-            var demo = !USUM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
+            var demo = this is SAV7SM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
             if (demo || !Exportable)
             {
                 BoxLayout.ClearBattleTeams();
@@ -166,18 +166,18 @@ namespace PKHeX.Core
         }
 
         // Private Only
-        protected int Bag { get; set; } = int.MinValue;
-        private int AdventureInfo { get; set; } = int.MinValue;
-        private int Trainer2 { get; set; } = int.MinValue;
-        public int Misc { get; private set; } = int.MinValue;
-        private int WondercardFlags { get; set; } = int.MinValue;
-        private int PlayTime { get; set; } = int.MinValue;
-        private int Overworld { get; set; } = int.MinValue;
-        public int JoinFestaData { get; private set; } = int.MinValue;
-        private int PokeFinderSave { get; set; } = int.MinValue;
-        private int BattleTree { get; set; } = int.MinValue;
-        private int ConfigSave { get; set; } = int.MinValue;
-        public int QRSaveData { get; set; } = int.MinValue;
+        protected int Bag { get; set; }
+        private int AdventureInfo { get; set; }
+        private int Trainer2 { get; set; }
+        public int Misc { get; private set; }
+        private int WondercardFlags { get; set; }
+        private int PlayTime { get; set; }
+        private int Overworld { get; set; }
+        public int JoinFestaData { get; private set; }
+        private int PokeFinderSave { get; set; }
+        private int BattleTree { get; set; }
+        private int ConfigSave { get; set; }
+        public int QRSaveData { get; set; }
 
         protected MyItem Items { private get; set; }
         protected MysteryBlock7 MysteryBlock { private get; set; }
@@ -342,7 +342,7 @@ namespace PKHeX.Core
             return val;
         }
 
-        private int FusedCount => USUM ? 3 : 1;
+        private int FusedCount => this is SAV7USUM ? 3 : 1;
 
         public int GetFusedSlotOffset(int slot)
         {

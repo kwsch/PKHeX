@@ -95,7 +95,7 @@ namespace PKHeX.Core
             /* 03: 01200-01238, 00038 */ // GameTime = 0x01200;
             /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
             /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
-            /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+            /* 06: 01800-01808, 00008 */ // PlayTime = 0x1800; // PlayTime
             /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
             /* 08: 01C00-01CBE, 000BE */ // amie minigame records
             /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)

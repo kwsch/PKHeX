@@ -76,6 +76,10 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_4;
         public override int MaxGameID => Legal.MaxGameID_4; // Colo/XD
 
+        public bool HGSS => Version == GameVersion.HGSS;
+        public bool Pt => Version == GameVersion.Pt;
+        public bool DP => Version == GameVersion.DP;
+
         // Checksums
         private static int[][] GetChecksumOffsets(GameVersion g)
         {

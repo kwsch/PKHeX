@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information wrapper used for Bulk Editing to apply suggested values.
+    /// </summary>
     internal sealed class PKMInfo
     {
         internal PKM pkm { get; }

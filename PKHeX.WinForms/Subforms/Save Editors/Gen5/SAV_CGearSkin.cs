@@ -105,8 +105,8 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            byte[] bgdata = bg.GetSkin(SAV.B2W2);
-            if (!bgdata.All(z => z == 0))
+            byte[] bgdata = bg.GetSkin(SAV is SAV5B2W2);
+            if (bgdata.Any(z => z != 0))
             {
                 SAV.CGearSkinData = bgdata;
                 Origin.SetData(SAV.Data, 0);

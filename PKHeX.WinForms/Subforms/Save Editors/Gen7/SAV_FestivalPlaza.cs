@@ -16,10 +16,10 @@ namespace PKHeX.WinForms
             InitializeComponent();
             SAV = (SAV7)(Origin = sav).Clone();
             editing = true;
-            typeMAX = SAV.USUM ? 0x7F : 0x7C;
+            typeMAX = SAV is SAV7USUM ? 0x7F : 0x7C;
             TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
-            if (SAV.USUM)
+            if (SAV is SAV7USUM)
             {
                 PBs = new[] { ppkx1, ppkx2, ppkx3 };
                 NUD_Trainers = new[] { NUD_Trainer1, NUD_Trainer2, NUD_Trainer3 };
@@ -121,7 +121,7 @@ namespace PKHeX.WinForms
             };
 
             CB_FacilityType.Items.Clear();
-            for (int k = 0; k < RES_FacilityLevelType.Length - (SAV.USUM ? 0 : 1); k++) //Exchange is USUM only
+            for (int k = 0; k < RES_FacilityLevelType.Length - (SAV is SAV7USUM ? 0 : 1); k++) //Exchange is USUM only
             {
                 for (int j = 0; j < RES_FacilityLevelType[k].Length; j++)
                 {
@@ -207,7 +207,7 @@ namespace PKHeX.WinForms
         }
 
         private int GetColorCount(int i) =>
-                i >= 0 && i < RES_FacilityColor.Length - (SAV.USUM ? 0 : 1)
+                i >= 0 && i < RES_FacilityColor.Length - (SAV is SAV7USUM ? 0 : 1)
                 ? RES_FacilityColor[i].Length - 1
                 : 3;
 
@@ -272,7 +272,7 @@ namespace PKHeX.WinForms
             foreach (FestaFacility facility in f)
                 facility.CopyTo(SAV);
 
-            if (SAV.USUM)
+            if (SAV is SAV7USUM)
                 SaveBattleAgency();
         }
 

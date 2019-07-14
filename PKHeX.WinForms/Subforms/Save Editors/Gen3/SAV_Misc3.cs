@@ -160,8 +160,6 @@ namespace PKHeX.WinForms
                 tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
             var p = Array.Find(Pouches, z => z.Type == InventoryType.KeyItems);
-            if (p == null)
-                return;
 
             // check for missing tickets
             var missing = tickets.Where(z => !p.Items.Any(item => item.Index == z && item.Count == 1)).ToList();
@@ -210,40 +208,30 @@ namespace PKHeX.WinForms
 
         private void ReadFerry()
         {
-            CHK_Catchable.Checked = IsFerryFlagActive(0x864);
-            CHK_ReachSouthern.Checked = IsFerryFlagActive(0x8B3);
-            CHK_ReachBirth.Checked = IsFerryFlagActive(0x8D5);
-            CHK_ReachFaraway.Checked = IsFerryFlagActive(0x8D6);
-            CHK_ReachNavel.Checked = IsFerryFlagActive(0x8E0);
-            CHK_ReachBF.Checked = IsFerryFlagActive(0x1D0);
-            CHK_InitialSouthern.Checked = IsFerryFlagActive(0x1AE);
-            CHK_InitialBirth.Checked = IsFerryFlagActive(0x1AF);
-            CHK_InitialFaraway.Checked = IsFerryFlagActive(0x1B0);
-            CHK_InitialNavel.Checked = IsFerryFlagActive(0x1DB);
-        }
-
-        private bool IsFerryFlagActive(int n)
-        {
-            return SAV.GetEventFlag(n);
-        }
-
-        private void SetFerryFlagFromNum(int n, bool b)
-        {
-            SAV.SetEventFlag(n, b);
+            CHK_Catchable.Checked       = SAV.GetEventFlag(0x864);
+            CHK_ReachSouthern.Checked   = SAV.GetEventFlag(0x8B3);
+            CHK_ReachBirth.Checked      = SAV.GetEventFlag(0x8D5);
+            CHK_ReachFaraway.Checked    = SAV.GetEventFlag(0x8D6);
+            CHK_ReachNavel.Checked      = SAV.GetEventFlag(0x8E0);
+            CHK_ReachBF.Checked         = SAV.GetEventFlag(0x1D0);
+            CHK_InitialSouthern.Checked = SAV.GetEventFlag(0x1AE);
+            CHK_InitialBirth.Checked    = SAV.GetEventFlag(0x1AF);
+            CHK_InitialFaraway.Checked  = SAV.GetEventFlag(0x1B0);
+            CHK_InitialNavel.Checked    = SAV.GetEventFlag(0x1DB);
         }
 
         private void SaveFerry()
         {
-            SetFerryFlagFromNum(0x864, CHK_Catchable.Checked);
-            SetFerryFlagFromNum(0x8B3, CHK_ReachSouthern.Checked);
-            SetFerryFlagFromNum(0x8D5, CHK_ReachBirth.Checked);
-            SetFerryFlagFromNum(0x8D6, CHK_ReachFaraway.Checked);
-            SetFerryFlagFromNum(0x8E0, CHK_ReachNavel.Checked);
-            SetFerryFlagFromNum(0x1D0, CHK_ReachBF.Checked);
-            SetFerryFlagFromNum(0x1AE, CHK_InitialSouthern.Checked);
-            SetFerryFlagFromNum(0x1AF, CHK_InitialBirth.Checked);
-            SetFerryFlagFromNum(0x1B0, CHK_InitialFaraway.Checked);
-            SetFerryFlagFromNum(0x1DB, CHK_InitialNavel.Checked);
+            SAV.SetEventFlag(0x864, CHK_Catchable.Checked);
+            SAV.SetEventFlag(0x8B3, CHK_ReachSouthern.Checked);
+            SAV.SetEventFlag(0x8D5, CHK_ReachBirth.Checked);
+            SAV.SetEventFlag(0x8D6, CHK_ReachFaraway.Checked);
+            SAV.SetEventFlag(0x8E0, CHK_ReachNavel.Checked);
+            SAV.SetEventFlag(0x1D0, CHK_ReachBF.Checked);
+            SAV.SetEventFlag(0x1AE, CHK_InitialSouthern.Checked);
+            SAV.SetEventFlag(0x1AF, CHK_InitialBirth.Checked);
+            SAV.SetEventFlag(0x1B0, CHK_InitialFaraway.Checked);
+            SAV.SetEventFlag(0x1DB, CHK_InitialNavel.Checked);
         }
         #endregion
 
@@ -265,9 +253,11 @@ namespace PKHeX.WinForms
 
         private void ChangeStat1(object sender, EventArgs e)
         {
-            if (loading) return;
+            if (loading)
+                return;
             int facility = CB_Stats1.SelectedIndex;
-            if (facility < 0 || facility >= BFN.Length) return;
+            if (facility < 0 || facility >= BFN.Length)
+                return;
             editingcont = true;
             CB_Stats2.Items.Clear();
             foreach (RadioButton rb in StatRBA)
@@ -294,7 +284,8 @@ namespace PKHeX.WinForms
 
         private void ChangeStat(object sender, EventArgs e)
         {
-            if (editingcont) return;
+            if (editingcont)
+                return;
             StatAddrControl(SetValToSav: -2, SetSavToVal: true);
         }
 
@@ -304,15 +295,20 @@ namespace PKHeX.WinForms
             if (Facility < 0) return;
 
             int BattleType = CB_Stats2.SelectedIndex;
-            if (BFT[BFF[Facility][1]] == null) BattleType = 0;
-            else if (BattleType < 0) return;
-            else if (BattleType >= BFT[BFF[Facility][1]].Length) return;
+            if (BFT[BFF[Facility][1]] == null)
+                BattleType = 0;
+            else if (BattleType < 0)
+                return;
+            else if (BattleType >= BFT[BFF[Facility][1]].Length)
+                return;
 
             int RBi = -1;
             for (int i = 0, j = 0; i < StatRBA.Length; i++)
             {
-                if (!StatRBA[i].Checked) continue;
-                if (++j > 1) return;
+                if (!StatRBA[i].Checked)
+                    continue;
+                if (++j > 1)
+                    return;
                 RBi = i;
             }
             if (RBi < 0) return;
@@ -349,15 +345,18 @@ namespace PKHeX.WinForms
 
         private void ChangeStatVal(object sender, EventArgs e)
         {
-            if (editingval) return;
+            if (editingval)
+                return;
             int n = Array.IndexOf(StatNUDA, sender);
-            if (n < 0) return;
+            if (n < 0)
+                return;
             StatAddrControl(SetValToSav: n, SetSavToVal: false);
         }
 
         private void CHK_Continue_CheckedChanged(object sender, EventArgs e)
         {
-            if (editingval) return;
+            if (editingval)
+                return;
             StatAddrControl(SetValToSav: -1, SetSavToVal: false);
         }
 
