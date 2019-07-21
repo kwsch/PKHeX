@@ -20,13 +20,13 @@ namespace PKHeX.Core
             return 1 <= gen && gen <= 2;
         }).ToArray();
 
-        public SAV1(GameVersion versionOverride = GameVersion.RBY, bool japanese = false) : base(SaveUtil.SIZE_G1RAW)
+        public SAV1(GameVersion version = GameVersion.RBY, bool japanese = false) : base(SaveUtil.SIZE_G1RAW)
         {
-            Version = versionOverride;
+            Version = version;
             Japanese = japanese;
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
-            Initialize(versionOverride);
+            Initialize(version);
             ClearBoxes();
         }
 

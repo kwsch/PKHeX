@@ -22,9 +22,9 @@ namespace PKHeX.Core
             return 1 <= gen && gen <= 2;
         }).ToArray();
 
-        public SAV2(GameVersion versionOverride = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
+        public SAV2(GameVersion version = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
         {
-            Version = versionOverride;
+            Version = version;
             switch (lang)
             {
                 case LanguageID.Japanese:
