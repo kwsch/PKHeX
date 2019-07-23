@@ -39,6 +39,7 @@
 0x060	Hitmonlee Overworld
 0x061	Hitmonchan Overworld
 0x057	Eevee Received
+0x246	Lapras Received
 0x2DA	Togepi Egg Received
 0x2DB	Togepi Egg Ready
 
@@ -58,7 +59,17 @@
 
 0x29B	Fame Checker received
 0x23F	Rocket Thief defeated (Cerulean City)
+0x241	Bike Voucher received (Pokémon Fan Club)
+0x2A5	Rocket Hideout elevator unlocked
 0x23C	Mr. Fuji rescued
 0x23D	Poké Flute received/enabled
+0x250	Master Ball received
+
+0x23B	Flash HM05 received (Oak's Aide)
 0x84A	MysticTicket received/enabled
 0x84B	AuroraTicket received/enabled
+
+0x24B	In-game trade done (Underground Tunnel)
+0x24D	In-game trade done (Vermilion City)
+0x248	In-game trade done (Route 2)
+0x274	In-game trade done (Cinnabar Lab)
