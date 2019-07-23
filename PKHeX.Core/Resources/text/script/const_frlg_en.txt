@@ -1,3 +1,6 @@
-0x4031	Starter
+0x4031	Starter	0:x,1:y,2:z
+0x405D	Rival Defeated (Pokémon Tower)	0:No,1:Yes
 	
 0x4024	Wild Pokémon in Altering Cave	0:Zubat,1:Mareep,2:Pineco,3:Houndour,4:Teddiursa,5:Aipom,6:Shuckle,7:Stantler,8:Smeargle
+
+0x4059	Marowak Ghost defeated	0:No,1:Yes

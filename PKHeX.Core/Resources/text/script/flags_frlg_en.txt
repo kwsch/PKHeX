@@ -55,5 +55,7 @@
 0x834	SYS_PC_BILL
 0x844	SYS_RSE_LINK
 
+0x23C	Mr. Fuji Rescued
+0x23D	Poké Flute Enabled
 0x84A	MysticTicket Enabled
 0x84B	AuroraTicket Enabled
