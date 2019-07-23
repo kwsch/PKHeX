@@ -42,15 +42,18 @@
 0x2DA	Togepi Egg Received
 0x2DB	Togepi Egg Ready
 
-0x820	BADGE01_GET
-0x821	BADGE02_GET
-0x822	BADGE03_GET
-0x823	BADGE04_GET
-0x824	BADGE05_GET
-0x825	BADGE06_GET
-0x826	BADGE07_GET
-0x827	BADGE08_GET
+0x820	BoulderBadge Owned
+0x821	CascadeBadge Owned
+0x822	ThunderBadge Owned
+0x823	RainbowBadge Owned
+0x824	SoulBadge Owned
+0x825	MarshBadge Owned
+0x826	VolcanoBadge Owned
+0x827	EarthBadge Owned
 
-0x82F	SYS_B_DASH
+0x82F	Running Shoes Owned
 0x834	SYS_PC_BILL
 0x844	SYS_RSE_LINK
+
+0x84A	MysticTicket Enabled
+0x84B	AuroraTicket Enabled
