@@ -51,11 +51,14 @@
 0x826	VolcanoBadge Owned
 0x827	EarthBadge Owned
 
-0x82F	Running Shoes Owned
+0x829	Pokédex received/enabled
+0x82F	Running Shoes received/enabled
 0x834	SYS_PC_BILL
 0x844	SYS_RSE_LINK
 
-0x23C	Mr. Fuji Rescued
-0x23D	Poké Flute Enabled
-0x84A	MysticTicket Enabled
-0x84B	AuroraTicket Enabled
+0x29B	Fame Checker received
+0x23F	Rocket Thief defeated (Cerulean City)
+0x23C	Mr. Fuji rescued
+0x23D	Poké Flute received/enabled
+0x84A	MysticTicket received/enabled
+0x84B	AuroraTicket received/enabled
