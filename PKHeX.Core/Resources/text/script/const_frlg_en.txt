@@ -1,1 +1,3 @@
 0x4031	Starter
+	
+0x4024	Wild Pokémon in Altering Cave	0:Zubat,1:Mareep,2:Pineco,3:Houndour,4:Teddiursa,5:Aipom,6:Shuckle,7:Stantler,8:Smeargle
