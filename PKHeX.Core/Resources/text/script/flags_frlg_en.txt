@@ -68,6 +68,7 @@
 0x2A5	Rocket Hideout elevator unlocked
 0x23C	Mr. Fuji rescued (Pokémon Tower)
 0x23D	Poké Flute received/enabled (Lavender Town)
+0x82C	League defeated
 0x2DD	Ruby found/enabled (Mount Ember)
 0x2D8	Sapphire found/stolen (Dotted Hole)
 0x2DC	Sapphire recovered/enabled (Rocket Warehouse)
@@ -95,4 +96,3 @@
 0x274	In-game trade done (Cinnabar Lab)
 
 0x189	?Gold Teeth giving to guardian enabled?
-0x82C	?League defeated yet? (used in PCC)
