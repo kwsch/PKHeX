@@ -12,21 +12,20 @@
 0x2CB	COUNTER Move Tutor used
 0x2CC	METRONOME Move Tutor used
 
-0x052	Moltres captured
-0x054	Snorlax captured (Route 12)
-0x05D	Zapdos captured
-0x080	Snorlax captured (Route 16)
-0x081	Mewtwo captured
-0x082	Articuno captured
+0x2BE	Articuno captured/defeated
+0x082	Articuno gone from overworld
+0x2BF	Zapdos captured/defeated
+0x05D	Zapdos gone from overworld
+0x2BD	Moltres captured/defeated
+0x052	Moltres gone from overworld
+0x054	Snorlax gone from overworld (Route 12)
+0x080	Snorlax gone from overworld (Route 16)
+0x081	Mewtwo gone from overworld
 0x09B	Lugia Overworld
 0x09C	Ho-Oh Overworld
 0x2E4	Deoxys captured
 0x2F2	Lugia captured
 0x2F3	Ho-Oh captured
-
-0x2BD	Moltres Defeated
-0x2BE	Articuno Defeated
-0x2BF	Zapdos Defeated
 0x2F5	Lugia Defeated
 0x2F6	Ho-Oh Defeated
 0x2F7	Deoxys Defeated
@@ -52,20 +51,35 @@
 0x826	VolcanoBadge owned
 0x827	EarthBadge owned
 
-0x829	Pokédex received/enabled
+0x829	Pokédex received/enabled (in menu), and multiplayer
 0x82F	Running Shoes received/enabled
-0x834	SYS_PC_BILL
-0x844	SYS_RSE_LINK
+0x834	Bill's PC name discovered
+0x2A1	Restored connectivity to Kanto (Sevii Islands)
+0x844	Restored connectivity to Hoenn (Sapphire delivered)
 
+0x232	Fossil obtained (Mount Moon)
+0x02F	Dome Fossil gone from overworld (Mount Moon)
+0x030	Helix Fossil gone from overworld (Mount Moon)
+0x05C	Team Rocket gone from overworld (Mount Moon)
 0x29B	Fame Checker received
 0x23F	Rocket Thief defeated (Cerulean City)
 0x241	Bike Voucher received (Pokémon Fan Club)
 0x2A5	Rocket Hideout elevator unlocked
-0x23C	Mr. Fuji rescued
-0x23D	Poké Flute received/enabled
-0x250	Master Ball received
+0x23C	Mr. Fuji rescued (Pokémon Tower)
+0x23D	Poké Flute received/enabled (Lavender Town)
+0x2DD	Ruby found/enabled (Mount Ember)
+0x2D8	Sapphire found/stolen (Dotted Hole)
+0x2DC	Sapphire recovered/enabled (Rocket Warehouse)
+0x05C	Cerulean Cave guard gone from overworld
 
+0x237	Cut HM01 received (SS Anne)
 0x23B	Flash HM05 received (Oak's Aide)
+0x239	Surf HM03 received (Safari Zone)
+0x23A	Strength HM04 received (Fuchsia City)
+
+0x25E	Old Amber received (Pewter Museum)
+0x244	Good Rod received (Fuchsia City)
+0x250	Master Ball received (Silph Corp)
 0x84A	MysticTicket received/enabled
 0x84B	AuroraTicket received/enabled
 
@@ -73,3 +87,6 @@
 0x24D	In-game trade done (Vermilion City)
 0x248	In-game trade done (Route 2)
 0x274	In-game trade done (Cinnabar Lab)
+
+0x189	?Gold Teeth giving to guardian enabled?
+0x82C	?League defeated yet? (used in PCC)
