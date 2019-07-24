@@ -1,28 +1,28 @@
-0x2C0	ROCK SLIDE Move Tutor Used
-0x2C1	THUNDER WAVE Move Tutor Used
-0x2C2	ROCK SLIDE Move Tutor Used
-0x2C3	EXPLOSION Move Tutor Used
-0x2C4	MEGA PUNCH Move Tutor Used
-0x2C5	MEGA KICK Move Tutor Used
-0x2C6	DREAM EATER Move Tutor Used
-0x2C7	SOFTBOILED Move Tutor Used
-0x2C8	SUBSTITUTE Move Tutor Used
-0x2C9	SWORDS DANCE Move Tutor Used
-0x2CA	SEISMIC TOSS Move Tutor Used
-0x2CB	COUNTER Move Tutor Used
-0x2CC	METRONOME Move Tutor Used
+0x2C0	ROCK SLIDE Move Tutor used
+0x2C1	THUNDER WAVE Move Tutor used
+0x2C2	ROCK SLIDE Move Tutor used
+0x2C3	EXPLOSION Move Tutor used
+0x2C4	MEGA PUNCH Move Tutor used
+0x2C5	MEGA KICK Move Tutor used
+0x2C6	DREAM EATER Move Tutor used
+0x2C7	SOFTBOILED Move Tutor used
+0x2C8	SUBSTITUTE Move Tutor used
+0x2C9	SWORDS DANCE Move Tutor used
+0x2CA	SEISMIC TOSS Move Tutor used
+0x2CB	COUNTER Move Tutor used
+0x2CC	METRONOME Move Tutor used
 
-0x052	Moltres Captured
-0x054	Snorlax Captured Route 12
-0x05D	Zapdos Captured
-0x080	Snorlax Captured Route 16
-0x081	Mewtwo Captured
-0x082	Articuno Captured
+0x052	Moltres captured
+0x054	Snorlax captured (Route 12)
+0x05D	Zapdos captured
+0x080	Snorlax captured (Route 16)
+0x081	Mewtwo captured
+0x082	Articuno captured
 0x09B	Lugia Overworld
 0x09C	Ho-Oh Overworld
-0x2E4	Deoxys Captured
-0x2F2	Lugia Captured
-0x2F3	Ho-Oh Captured
+0x2E4	Deoxys captured
+0x2F2	Lugia captured
+0x2F3	Ho-Oh captured
 
 0x2BD	Moltres Defeated
 0x2BE	Articuno Defeated
@@ -38,19 +38,19 @@
 
 0x060	Hitmonlee Overworld
 0x061	Hitmonchan Overworld
-0x057	Eevee Received
-0x246	Lapras Received
-0x2DA	Togepi Egg Received
+0x057	Eevee received
+0x246	Lapras received
+0x2DA	Togepi Egg received
 0x2DB	Togepi Egg Ready
 
-0x820	BoulderBadge Owned
-0x821	CascadeBadge Owned
-0x822	ThunderBadge Owned
-0x823	RainbowBadge Owned
-0x824	SoulBadge Owned
-0x825	MarshBadge Owned
-0x826	VolcanoBadge Owned
-0x827	EarthBadge Owned
+0x820	BoulderBadge owned
+0x821	CascadeBadge owned
+0x822	ThunderBadge owned
+0x823	RainbowBadge owned
+0x824	SoulBadge owned
+0x825	MarshBadge owned
+0x826	VolcanoBadge owned
+0x827	EarthBadge owned
 
 0x829	Pokédex received/enabled
 0x82F	Running Shoes received/enabled
