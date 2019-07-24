@@ -11,6 +11,8 @@
 0x2CA	SEISMIC TOSS Move Tutor used
 0x2CB	COUNTER Move Tutor used
 0x2CC	METRONOME Move Tutor used
+0x2CD	MIMIC Move Tutor used
+0x2CE	BODY SLAM Move Tutor used
 
 0x2BE	Articuno captured/defeated
 0x082	Articuno gone from overworld
@@ -35,12 +37,11 @@
 0x2D0	Electrode Defeated 1
 0x2D2	Electrode Defeated 2
 
-0x060	Hitmonlee Overworld
-0x061	Hitmonchan Overworld
-0x057	Eevee received
-0x246	Lapras received
-0x2DA	Togepi Egg received
-0x2DB	Togepi Egg Ready
+0x249	Magikarp bought (Mount Moon Center)
+0x057	Eevee received (Celadon Mansion)
+0x246	Lapras received (Silph Corp)
+0x2DA	Togepi Egg received (Water Labyrinth)
+0x2DB	Togepi Egg awaiting because party was full (Water Labyrinth)
 
 0x820	BoulderBadge owned
 0x821	CascadeBadge owned
@@ -66,12 +67,16 @@
 0x23F	Rocket Thief defeated (Cerulean City)
 0x241	Bike Voucher received (Pokémon Fan Club)
 0x2A5	Rocket Hideout elevator unlocked
+0x2A6	Tea received (Celadon Mansion)
 0x23C	Mr. Fuji rescued (Pokémon Tower)
 0x23D	Poké Flute received/enabled (Lavender Town)
 0x82C	League defeated
 0x2DD	Ruby found/enabled (Mount Ember)
+0x2E3	Dotted Hole door opened
 0x2D8	Sapphire found/stolen (Dotted Hole)
+0x2D6	Rocket Warehouse door opened
 0x2DC	Sapphire recovered/enabled (Rocket Warehouse)
+0x088	Team Rocket gone from overworld (Sevii Islands)
 0x05C	Cerulean Cave guard gone from overworld
 
 0x237	Cut HM01 received (SS Anne)
@@ -87,12 +92,19 @@
 0x25E	Old Amber received (Pewter Museum)
 0x244	Good Rod received (Fuchsia City)
 0x250	Master Ball received (Silph Corp)
+0x278	Karate Dojo prize claimed
+0x060	Hitmonlee gone from overworld (Karate Dojo)
+0x061	Hitmonchan gone from overworld (Karate Dojo)
+0x236	Lemonade donated to Tectonix (Memorial Pillar)
+0x2D7	Lemonade donated to Tectonix but TM bag full
+0x2D9	Heracross length record set
 0x84A	MysticTicket received/enabled
 0x84B	AuroraTicket received/enabled
 
 0x24B	In-game trade done (Underground Tunnel)
 0x24D	In-game trade done (Vermilion City)
 0x248	In-game trade done (Route 2)
+0x257	In-game trade done (Route 18)
 0x274	In-game trade done (Cinnabar Lab)
 
 0x189	?Gold Teeth giving to guardian enabled?
