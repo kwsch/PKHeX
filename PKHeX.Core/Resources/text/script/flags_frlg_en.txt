@@ -54,6 +54,7 @@
 0x829	Pokédex received/enabled (in menu), and multiplayer
 0x82F	Running Shoes received/enabled
 0x834	Bill's PC name discovered
+0x830	Bike dismounting prohibited
 0x2A1	Restored connectivity to Kanto (Sevii Islands)
 0x844	Restored connectivity to Hoenn (Sapphire delivered)
 
@@ -73,9 +74,14 @@
 0x05C	Cerulean Cave guard gone from overworld
 
 0x237	Cut HM01 received (SS Anne)
-0x23B	Flash HM05 received (Oak's Aide)
+0x238	Fly HM02 received (Secret House/Route 16)
 0x239	Surf HM03 received (Safari Zone)
 0x23A	Strength HM04 received (Fuchsia City)
+0x23B	Flash HM05 received (Oak's Aide/Route 2)
+0x2FD	Everstone received (Oak's Aide/Rock Tunnel Center)
+0x256	Itemfinder received (Oak's Aide/Route 11)
+0x2FD	Amulet Coin received (Oak's Aide/Route 16)
+0x256	Exp Share received (Oak's Aide/Route 15)
 
 0x25E	Old Amber received (Pewter Museum)
 0x244	Good Rod received (Fuchsia City)
