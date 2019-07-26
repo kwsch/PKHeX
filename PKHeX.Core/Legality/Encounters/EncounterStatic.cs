@@ -245,7 +245,7 @@ namespace PKHeX.Core
             if (Nature != Nature.Random && pkm.Nature != (int)Nature)
                 return false;
 
-            if (pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3 && Generation > 3 && !pkm.IsEgg)
+            if (Generation > 3 && pkm.Format > 3 && pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && !pkm.IsEgg)
                 return false;
             if (this is EncounterStaticPID p && p.PID != pkm.PID)
                 return false;

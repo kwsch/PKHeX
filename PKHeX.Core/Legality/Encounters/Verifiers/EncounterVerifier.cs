@@ -43,7 +43,6 @@ namespace PKHeX.Core
             var EncounterMatch = info.EncounterMatch;
             if (EncounterMatch.EggEncounter)
             {
-                pkm.WasEgg = true;
                 return VerifyEncounterEgg(pkm);
             }
             if (EncounterMatch is EncounterSlot1 l)
@@ -119,7 +118,6 @@ namespace PKHeX.Core
         // Eggs
         private static CheckResult VerifyEncounterEgg(PKM pkm)
         {
-            pkm.WasEgg = true;
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);

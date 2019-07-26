@@ -303,14 +303,12 @@ namespace PKHeX.Core
             return preevomoves.Except(evomoves).Distinct();
         }
 
-        internal static bool GetWasEgg23(PKM pkm)
+        internal static bool GetCanBeEgg23(PKM pkm)
         {
             if (pkm.IsEgg)
                 return true;
             if (pkm.Format > 2 && pkm.Ball != 4)
                 return false;
-            if (pkm.Format == 3)
-                return pkm.WasEgg;
 
             int lvl = pkm.CurrentLevel;
             if (lvl < 5)

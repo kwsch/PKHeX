@@ -524,7 +524,6 @@ namespace PKHeX.Core
         public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
         public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
         public virtual bool WasLink => false;
-        private bool _WasEgg;
 
         public bool WasEgg
         {
@@ -539,9 +538,8 @@ namespace PKHeX.Core
                     case 7: return Legal.EggLocations7.Contains(loc);
                 }
                 // Gen 1/2 and pal park Gen 3
-                return _WasEgg;
+                return false;
             }
-            set => _WasEgg = value;
         }
 
         public bool WasBredEgg
@@ -555,10 +553,9 @@ namespace PKHeX.Core
                     case 5: return loc == Locations.Daycare5 || loc == Locations.LinkTrade5;
                     case 6:
                     case 7: return loc == Locations.Daycare5 || loc == Locations.LinkTrade6;
-                    default: return _WasEgg; // Gen 1/2 and pal park Gen 3
+                    default: return false; // Gen 1/2 and pal park Gen 3
                 }
             }
-            set => _WasEgg = value;
         }
 
         public virtual bool WasGiftEgg
