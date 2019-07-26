@@ -285,12 +285,8 @@ namespace PKHeX.Core
             015, // Beedrill
             021, // Spearow
             022, // Fearow
-            023, // Ekans
-            024, // Arbok
             037, // Vulpix
             038, // Ninetales
-            041, // Zubat
-            042, // Golbat
             043, // Oddish
             044, // Gloom
             045, // Vileplume
@@ -320,8 +316,6 @@ namespace PKHeX.Core
             106, // Hitmonlee
             107, // Hitmonchan
             108, // Lickitung
-            109, // Koffing
-            110, // Weezing
             111, // Rhyhorn
             112, // Rhydon
             113, // Chansey
