@@ -1,32 +1,33 @@
-0x2C0	ROCK SLIDE Move Tutor Used
-0x2C1	THUNDER WAVE Move Tutor Used
-0x2C2	ROCK SLIDE Move Tutor Used
-0x2C3	EXPLOSION Move Tutor Used
-0x2C4	MEGA PUNCH Move Tutor Used
-0x2C5	MEGA KICK Move Tutor Used
-0x2C6	DREAM EATER Move Tutor Used
-0x2C7	SOFTBOILED Move Tutor Used
-0x2C8	SUBSTITUTE Move Tutor Used
-0x2C9	SWORDS DANCE Move Tutor Used
-0x2CA	SEISMIC TOSS Move Tutor Used
-0x2CB	COUNTER Move Tutor Used
-0x2CC	METRONOME Move Tutor Used
+0x2C0	ROCK SLIDE Move Tutor used
+0x2C1	THUNDER WAVE Move Tutor used
+0x2C2	ROCK SLIDE Move Tutor used
+0x2C3	EXPLOSION Move Tutor used
+0x2C4	MEGA PUNCH Move Tutor used
+0x2C5	MEGA KICK Move Tutor used
+0x2C6	DREAM EATER Move Tutor used
+0x2C7	SOFTBOILED Move Tutor used
+0x2C8	SUBSTITUTE Move Tutor used
+0x2C9	SWORDS DANCE Move Tutor used
+0x2CA	SEISMIC TOSS Move Tutor used
+0x2CB	COUNTER Move Tutor used
+0x2CC	METRONOME Move Tutor used
+0x2CD	MIMIC Move Tutor used
+0x2CE	BODY SLAM Move Tutor used
 
-0x052	Moltres Captured
-0x054	Snorlax Captured Route 12
-0x05D	Zapdos Captured
-0x080	Snorlax Captured Route 16
-0x081	Mewtwo Captured
-0x082	Articuno Captured
+0x2BE	Articuno captured/defeated
+0x082	Articuno gone from overworld
+0x2BF	Zapdos captured/defeated
+0x05D	Zapdos gone from overworld
+0x2BD	Moltres captured/defeated
+0x052	Moltres gone from overworld
+0x054	Snorlax gone from overworld (Route 12)
+0x080	Snorlax gone from overworld (Route 16)
+0x081	Mewtwo gone from overworld
 0x09B	Lugia Overworld
 0x09C	Ho-Oh Overworld
-0x2E4	Deoxys Captured
-0x2F2	Lugia Captured
-0x2F3	Ho-Oh Captured
-
-0x2BD	Moltres Defeated
-0x2BE	Articuno Defeated
-0x2BF	Zapdos Defeated
+0x2E4	Deoxys captured
+0x2F2	Lugia captured
+0x2F3	Ho-Oh captured
 0x2F5	Lugia Defeated
 0x2F6	Ho-Oh Defeated
 0x2F7	Deoxys Defeated
@@ -36,40 +37,74 @@
 0x2D0	Electrode Defeated 1
 0x2D2	Electrode Defeated 2
 
-0x060	Hitmonlee Overworld
-0x061	Hitmonchan Overworld
-0x057	Eevee Received
-0x246	Lapras Received
-0x2DA	Togepi Egg Received
-0x2DB	Togepi Egg Ready
+0x249	Magikarp bought (Mount Moon Center)
+0x057	Eevee received (Celadon Mansion)
+0x246	Lapras received (Silph Corp)
+0x2DA	Togepi Egg received (Water Labyrinth)
+0x2DB	Togepi Egg awaiting because party was full (Water Labyrinth)
 
-0x820	BoulderBadge Owned
-0x821	CascadeBadge Owned
-0x822	ThunderBadge Owned
-0x823	RainbowBadge Owned
-0x824	SoulBadge Owned
-0x825	MarshBadge Owned
-0x826	VolcanoBadge Owned
-0x827	EarthBadge Owned
+0x820	BoulderBadge owned
+0x821	CascadeBadge owned
+0x822	ThunderBadge owned
+0x823	RainbowBadge owned
+0x824	SoulBadge owned
+0x825	MarshBadge owned
+0x826	VolcanoBadge owned
+0x827	EarthBadge owned
 
-0x829	Pokédex received/enabled
+0x829	Pokédex received/enabled (in menu), and multiplayer
 0x82F	Running Shoes received/enabled
-0x834	SYS_PC_BILL
-0x844	SYS_RSE_LINK
+0x834	Bill's PC name discovered
+0x830	Bike dismounting prohibited
+0x2A1	Restored connectivity to Kanto (Sevii Islands)
+0x844	Restored connectivity to Hoenn (Sapphire delivered)
 
+0x232	Fossil obtained (Mount Moon)
+0x02F	Dome Fossil gone from overworld (Mount Moon)
+0x030	Helix Fossil gone from overworld (Mount Moon)
+0x05C	Team Rocket gone from overworld (Mount Moon)
 0x29B	Fame Checker received
 0x23F	Rocket Thief defeated (Cerulean City)
 0x241	Bike Voucher received (Pokémon Fan Club)
 0x2A5	Rocket Hideout elevator unlocked
-0x23C	Mr. Fuji rescued
-0x23D	Poké Flute received/enabled
-0x250	Master Ball received
+0x2A6	Tea received (Celadon Mansion)
+0x23C	Mr. Fuji rescued (Pokémon Tower)
+0x23D	Poké Flute received/enabled (Lavender Town)
+0x82C	League defeated
+0x2DD	Ruby found/enabled (Mount Ember)
+0x2E3	Dotted Hole door opened
+0x2D8	Sapphire found/stolen (Dotted Hole)
+0x2D6	Rocket Warehouse door opened
+0x2DC	Sapphire recovered/enabled (Rocket Warehouse)
+0x088	Team Rocket gone from overworld (Sevii Islands)
+0x05C	Cerulean Cave guard gone from overworld
 
-0x23B	Flash HM05 received (Oak's Aide)
+0x237	Cut HM01 received (SS Anne)
+0x238	Fly HM02 received (Secret House/Route 16)
+0x239	Surf HM03 received (Safari Zone)
+0x23A	Strength HM04 received (Fuchsia City)
+0x23B	Flash HM05 received (Oak's Aide/Route 2)
+0x2FD	Everstone received (Oak's Aide/Rock Tunnel Center)
+0x256	Itemfinder received (Oak's Aide/Route 11)
+0x2FD	Amulet Coin received (Oak's Aide/Route 16)
+0x256	Exp Share received (Oak's Aide/Route 15)
+
+0x25E	Old Amber received (Pewter Museum)
+0x244	Good Rod received (Fuchsia City)
+0x250	Master Ball received (Silph Corp)
+0x278	Karate Dojo prize claimed
+0x060	Hitmonlee gone from overworld (Karate Dojo)
+0x061	Hitmonchan gone from overworld (Karate Dojo)
+0x236	Lemonade donated to Tectonix (Memorial Pillar)
+0x2D7	Lemonade donated to Tectonix but TM bag full
+0x2D9	Heracross length record set
 0x84A	MysticTicket received/enabled
 0x84B	AuroraTicket received/enabled
 
 0x24B	In-game trade done (Underground Tunnel)
 0x24D	In-game trade done (Vermilion City)
 0x248	In-game trade done (Route 2)
+0x257	In-game trade done (Route 18)
 0x274	In-game trade done (Cinnabar Lab)
+
+0x189	?Gold Teeth giving to guardian enabled?
