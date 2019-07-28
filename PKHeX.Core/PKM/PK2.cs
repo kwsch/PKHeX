@@ -88,7 +88,7 @@ namespace PKHeX.Core
         public override bool IsEgg { get; set; }
 
         public override bool HasOriginalMetLocation => CaughtData != 0;
-        public override int Version { get => HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.GSC; set { } }
+        public override int Version { get => (int)GameVersion.GSC; set { } }
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_2;
@@ -136,7 +136,7 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
-                Version = CaughtData != 0 ? (int)GameVersion.C : (int)GameVersion.SV,
+                Version = HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.SV,
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,
