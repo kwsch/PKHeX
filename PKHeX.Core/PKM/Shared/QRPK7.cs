@@ -111,7 +111,7 @@ namespace PKHeX.Core
             };
 
             pk.RefreshAbility(AbilityIndex >> 1);
-            pk.Heal();
+            pk.ForcePartyData();
 
             pk.RefreshChecksum();
             return pk;

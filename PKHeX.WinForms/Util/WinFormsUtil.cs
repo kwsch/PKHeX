@@ -84,14 +84,14 @@ namespace PKHeX.WinForms
         /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.
         /// </summary>
         /// <param name="cb">ComboBox to retrieve value for.</param>
-        internal static int GetIndex(ComboBox cb)
+        internal static int GetIndex(ListControl cb)
         {
             return (int)(cb?.SelectedValue ?? 0);
         }
 
         public static void PanelScroll(object sender, ScrollEventArgs e)
         {
-            if (!(sender is Panel p) || e.NewValue < 0)
+            if (!(sender is ScrollableControl p) || e.NewValue < 0)
                 return;
             switch (e.ScrollOrientation)
             {
@@ -145,7 +145,12 @@ namespace PKHeX.WinForms
         /// Reads in custom extension types that allow the program to open more extensions.
         /// </summary>
         /// <param name="exts">Extensions to add</param>
-        public static void AddSaveFileExtensions(IEnumerable<string> exts) => CustomSaveExtensions.AddRange(exts.Except(CustomSaveExtensions));
+        public static void AddSaveFileExtensions(IEnumerable<string> exts)
+        {
+            // Only add new (unique) extensions
+            var newExtensions = exts.Distinct().Except(CustomSaveExtensions);
+            CustomSaveExtensions.AddRange(newExtensions);
+        }
 
         private static readonly List<string> CustomSaveExtensions = new List<string>
         {
@@ -254,16 +259,11 @@ namespace PKHeX.WinForms
         /// Opens a dialog to save a <see cref="SaveFile"/> file.
         /// </summary>
         /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
-        /// <param name="CurrentBox">Box the player will be greeted with when accessing the PC ingame.</param>
+        /// <param name="currentBox">Box the player will be greeted with when accessing the PC ingame.</param>
         /// <returns>Result of whether or not the file was saved.</returns>
-        public static bool SaveSAVDialog(SaveFile sav, int CurrentBox = 0)
+        public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
         {
-            // Chunk Error Checking
-            string err = sav.MiscSaveChecks();
-            if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, MsgSaveExportContinue) != DialogResult.Yes)
-                return false;
-
-            SaveFileDialog main = new SaveFileDialog
+            var sfd = new SaveFileDialog
             {
                 Filter = sav.Filter,
                 FileName = sav.FileName,
@@ -271,16 +271,16 @@ namespace PKHeX.WinForms
                 RestoreDirectory = true
             };
             if (Directory.Exists(sav.FileFolder))
-                main.InitialDirectory = sav.FileFolder;
+                sfd.InitialDirectory = sav.FileFolder;
 
-            // Export
-            if (main.ShowDialog() != DialogResult.OK)
+            if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
+            var path = sfd.FileName;
 
             if (sav.HasBox)
-                sav.CurrentBox = CurrentBox;
+                sav.CurrentBox = currentBox;
 
-            ExportSAV(sav, main.FileName);
+            ExportSAV(sav, path);
             return true;
         }
 
@@ -309,17 +309,17 @@ namespace PKHeX.WinForms
         /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
         /// <param name="origin">Game the gift originates from</param>
         /// <returns>Result of whether or not the file was saved.</returns>
-        public static bool SaveMGDialog(MysteryGift gift, GameVersion origin)
+        public static bool ExportMGDialog(MysteryGift gift, GameVersion origin)
         {
-            SaveFileDialog output = new SaveFileDialog
+            var sfd = new SaveFileDialog
             {
                 Filter = GetMysterGiftFilter(gift.Format, origin),
                 FileName = Util.CleanFileName(gift.FileName)
             };
-            if (output.ShowDialog() != DialogResult.OK)
+            if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
 
-            string path = output.FileName;
+            string path = sfd.FileName;
             SaveBackup(path);
 
             File.WriteAllBytes(path, gift.Data);
@@ -329,12 +329,12 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Gets the File Dialog filter for a Mystery Gift I/O operation.
         /// </summary>
-        /// <param name="Format">Format specifier for the </param>
+        /// <param name="format">Format specifier for the </param>
         /// <param name="origin">Game the format originated from/to</param>
-        public static string GetMysterGiftFilter(int Format, GameVersion origin)
+        public static string GetMysterGiftFilter(int format, GameVersion origin)
         {
             const string all = "|All Files|*.*";
-            switch (Format)
+            switch (format)
             {
                 case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all;
                 case 5: return "Gen5 Mystery Gift|*.pgf" + all;

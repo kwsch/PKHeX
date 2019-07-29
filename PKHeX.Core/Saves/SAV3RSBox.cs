@@ -13,6 +13,7 @@ namespace PKHeX.Core
         public override string Extension => this.GCExtension();
         public bool IsMemoryCardSave => MC != null;
         private readonly SAV3GCMemoryCard MC;
+        public readonly bool Japanese; // todo?
 
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 

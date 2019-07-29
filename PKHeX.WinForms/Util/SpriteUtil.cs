@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
         private static Image GetSprite(SaveFile sav)
         {
             string file = "tr_00";
-            if (sav.Generation == 6 && (sav.ORAS || sav.ORASDEMO))
+            if (sav is SAV6AO)
                 file = $"tr_{sav.MultiplayerSpriteID:00}";
             return Resources.ResourceManager.GetObject(file) as Image;
         }

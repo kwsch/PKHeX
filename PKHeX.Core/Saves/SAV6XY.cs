@@ -10,7 +10,13 @@ namespace PKHeX.Core
     public sealed class SAV6XY : SAV6, IPokePuff, IOPower, ILink
     {
         public SAV6XY(byte[] data) : base(data, BlocksXY, boXY) => Initialize();
-        public SAV6XY() : base(SaveUtil.SIZE_G6XY, BlocksXY, boXY) => Initialize();
+
+        public SAV6XY() : base(SaveUtil.SIZE_G6XY, BlocksXY, boXY)
+        {
+            Initialize();
+            ClearBoxes();
+        }
+
         public override SaveFile Clone() => new SAV6XY((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_XY;
         public override int MaxItemID => Legal.MaxItemID_6_XY;
@@ -85,7 +91,7 @@ namespace PKHeX.Core
             /* 03: 01200-01238, 00038 */ // GameTime = 0x01200;
             /* 04: 01400-01550, 00150 */ Trainer1 = 0x1400; // Situation
             /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
-            /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+            /* 06: 01800-01808, 00008 */ // PlayTime
             /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
             /* 08: 01C00-01CBE, 000BE */ // amie minigame records
             /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
@@ -141,15 +147,14 @@ namespace PKHeX.Core
             Situation = new Situation6(this, 0x01400);
             Played = new PlayTime6(this, 0x01800);
             BoxLayout = new BoxLayout6(this, 0x4400);
+            BattleBoxBlock = new BattleBox6(this, 0x04A00);
             Status = new MyStatus6XY(this, 0x14000);
-            Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x3C8);
+            Zukan = new Zukan6XY(this, 0x15000, 0x3C8);
             OPowerBlock = new OPower6(this, 0x16A00);
             MysteryBlock = new MysteryBlock6(this, 0x1BC00);
             Records = new Record6(this, 0x1E400, Core.Records.MaxType_XY);
 
             EventFlag = EventConst + 0x2FC;
-            PokeDexLanguageFlags = PokeDex + 0x3C8;
-            Spinda = PokeDex + 0x648;
             WondercardData = WondercardFlags + 0x100;
 
             HeldItems = Legal.HeldItem_XY;
@@ -161,6 +166,7 @@ namespace PKHeX.Core
         public OPower6 OPowerBlock { get; private set; }
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
+        public BattleBox6 BattleBoxBlock { get; private set; }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
 
@@ -200,9 +206,6 @@ namespace PKHeX.Core
         {
             get
             {
-                if (SUBE < 0 || ORASDEMO)
-                    return Array.Empty<ushort[]>(); // no gym data
-
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
                 int ofs = SUBE - size - 4;
@@ -215,9 +218,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (SUBE < 0 || ORASDEMO)
-                    return; // no gym data
-
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
                 int ofs = SUBE - size - 4;
@@ -231,9 +231,6 @@ namespace PKHeX.Core
 
         public void UnlockAllFriendSafariSlots()
         {
-            if (!XY)
-                return;
-
             // Unlock + reveal all safari slots if friend data is present
             const int start = 0x1E7FF;
             const int size = 0x15;
@@ -248,9 +245,6 @@ namespace PKHeX.Core
 
         public void UnlockAllAccessories()
         {
-            if (!XY)
-                return;
-
             SetData(AllAccessories, Accessories);
         }
 
@@ -301,5 +295,11 @@ namespace PKHeX.Core
         protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
+
+        public override bool BattleBoxLocked
+        {
+            get => BattleBoxBlock.Locked;
+            set => BattleBoxBlock.Locked = value;
+        }
     }
 }

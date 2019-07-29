@@ -37,9 +37,6 @@ namespace PKHeX.Core
             var restrict = new LevelUpRestriction(pkm, info);
             info.EncounterMoves = new ValidEncounterMoves(pkm, restrict);
 
-            if (info.Generation <= 3)
-                pkm.WasEgg = info.EncounterMatch.EggEncounter;
-
             List<int> defaultG1LevelMoves = null;
             List<int> defaultG2LevelMoves = null;
             var defaultTradeback = pkm.TradebackStatus;

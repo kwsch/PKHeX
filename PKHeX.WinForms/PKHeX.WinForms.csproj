@@ -308,7 +308,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Subforms\Misc\PKMPreview.cs" />
+    <Compile Include="Subforms\Misc\PKMSummaryImage.cs" />
     <Compile Include="Subforms\Misc\PropertyComparer.cs" />
     <Compile Include="Subforms\Save Editors\Gen4\PoffinCase4Editor.cs">
       <SubType>UserControl</SubType>

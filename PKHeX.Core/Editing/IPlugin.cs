@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Plugin interface used by an editor to notify third-party code providers.
+    /// </summary>
     public interface IPlugin
     {
         /// <summary>

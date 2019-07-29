@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public class SAV7SM : SAV7
     {
@@ -64,5 +66,14 @@
             new BlockInfo7 (boSM, 35, 0x6B800, 0x001C8),
             new BlockInfo7 (boSM, 36, 0x6BA00, 0x00200),
         };
+
+        private const ulong MagearnaConst = 0xCBE05F18356504AC;
+
+        public void UpdateMagearnaConstant()
+        {
+            var flag = GetEventFlag(3100);
+            ulong value = flag ? MagearnaConst : 0ul;
+            SetData(BitConverter.GetBytes(value), QRSaveData + 0x168);
+        }
     }
 }

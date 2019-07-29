@@ -117,10 +117,10 @@ namespace PKHeX.Core
 
             if (!pkm.IsShiny)
                 return;
-            var banlist = pkm.AltForm == 1 && Legal.EvolveToAlolanForms.Contains(pkm.Species)
-                ? Legal.GoTransferSpeciesShinyBanAlola
-                : Legal.GoTransferSpeciesShinyBan;
-            if (banlist.Contains(pkm.Species))
+            var banlist = Legal.GoTransferSpeciesShinyBan;
+
+            // all Shiny Alola Forms are legal, while some of their respective Kanto Forms are not
+            if (banlist.Contains(pkm.Species) && pkm.AltForm != 1)
                 data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
 

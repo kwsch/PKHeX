@@ -10,9 +10,9 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
 
-        public Zukan5(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag - dex)
+        public Zukan5(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            var wrap = SAV.BW ? DexFormUtil.GetDexFormIndexBW : (Func<int, int, int>)DexFormUtil.GetDexFormIndexB2W2;
+            var wrap = SAV is SAV5BW ? DexFormUtil.GetDexFormIndexBW : (Func<int, int, int>)DexFormUtil.GetDexFormIndexB2W2;
             DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
         }
 
@@ -74,8 +74,26 @@ namespace PKHeX.Core
 
         private void SetCaughtFlag(int bit) => SetFlag(OFS_CAUGHT, bit);
 
-        private int FormLen => SAV.B2W2 ? 0xB : 0x9;
-        private int FormDex => PokeDex + 0x8 + (BitSeenSize * 9);
+        protected override void SetDisplayedFlag(int baseBit, int formBit, bool value, int shift)
+        {
+            bool displayed = GetIsSpeciesAnyDisplayed(baseBit);
+            if (!displayed || !value)
+                SetFlag(OFS_SEEN + ((4 + shift) * BitSeenSize), baseBit, value);
+        }
+
+        private bool GetIsSpeciesAnyDisplayed(int baseBit)
+        {
+            // Check Displayed Status for base form
+            for (int i = 0; i < 4; i++)
+            {
+                if (GetDisplayed(baseBit, i))
+                    return true;
+            }
+            return false;
+        }
+
+        private int FormLen => SAV is SAV5B2W2 ? 0xB : 0x9;
+        private int FormDex => 0x8 + (BitSeenSize * 9);
 
         private void SetFormFlags(PKM pkm)
         {
@@ -95,21 +113,24 @@ namespace PKHeX.Core
             var bit = f + form;
 
             // Set Form Seen Flag
-            SetFlag(FormDex + (FormLen * shiny), bit, value);
+            SetFormFlag(bit, shiny, value);
 
             // Set Displayed Flag if necessary, check all flags
             if (!value || !GetIsFormDisplayed(f, fc))
-                SetFlag(FormDex + (FormLen * (2 + shiny)), bit, value);
+                SetFormFlag(bit, 2 + shiny, value);
         }
+
+        public bool GetFormFlag(int formIndex, int flagRegion) => GetFlag(FormDex + (FormLen * flagRegion), formIndex);
+        public void SetFormFlag(int formIndex, int flagRegion, bool value = true) => SetFlag(FormDex + (FormLen * flagRegion), formIndex, value);
 
         private bool GetIsFormDisplayed(int f, int fc)
         {
             for (int i = 0; i < fc; i++)
             {
-                var bit2 = f + i;
-                if (GetFlag(FormDex + (FormLen * 2), bit2)) // Nonshiny
+                var index = f + i;
+                if (GetFormFlag(index, 2)) // Nonshiny
                     return true; // already set
-                if (GetFlag(FormDex + (FormLen * 3), bit2)) // Shiny
+                if (GetFormFlag(index, 3)) // Shiny
                     return true; // already set
             }
             return false;

@@ -21,7 +21,7 @@
             EventFlag = EventConst + 0x35E;
             Daycare = 0x20D00;
             PokeDex = 0x21400;
-            PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
+            PokeDexLanguageFlags = 0x328; // forme flags size is + 8 from bw with new formes (therians)
             BattleSubway = 0x21B00;
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52800;

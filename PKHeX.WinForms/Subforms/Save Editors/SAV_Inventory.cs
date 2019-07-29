@@ -69,6 +69,8 @@ namespace PKHeX.WinForms
                 ControlGrids.Add(pouch.Type, dgv);
                 tab.Controls.Add(dgv);
                 tabControl1.TabPages.Add(tab);
+                tabControl1.ShowToolTips = true;
+                tab.ToolTipText = pouch.Type.ToString();
             }
         }
 

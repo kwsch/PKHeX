@@ -35,7 +35,7 @@ namespace PKHeX.WinForms
             TrainerStats.GetToolTipText = UpdateTip;
             CB_Fashion.SelectedIndex = 1;
 
-            if (SAV.USUM)
+            if (SAV is SAV7USUM)
                 LoadUltraData();
             else
                 TC_Editor.TabPages.Remove(Tab_Ultra);
@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
         private readonly List<string> BattleStyles = new List<string>(AllStyles);
 
         private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
-        private int SkipFlag => SAV.USUM ? 4160 : 3200; // FlagMax - 768
+        private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768
 
         private void GetComboBoxes()
         {
@@ -72,7 +72,7 @@ namespace PKHeX.WinForms
             CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
 
-            if (!SAV.USUM)
+            if (!(SAV is SAV7USUM))
                 BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
             foreach (string t in BattleStyles)
             {
@@ -189,7 +189,7 @@ namespace PKHeX.WinForms
             if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
                 CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
 
-            if (SAV.SM)
+            if (SAV is SAV7SM)
                 LoadThrowTypeLists();
             else
                 CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible = LB_BallThrowTypeUnlocked.Visible = false;
@@ -250,7 +250,7 @@ namespace PKHeX.WinForms
             };
             string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)", };
             CLB_FlyDest.Items.Clear();
-            for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV.USUM ? 0 : 6); i < m; i++)
+            for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV is SAV7USUM ? 0 : 6); i < m; i++)
             {
                 CLB_FlyDest.Items.Add(
                     FlyDestNameIndex[i] < 0
@@ -277,7 +277,7 @@ namespace PKHeX.WinForms
             };
             string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)", };
             CLB_MapUnmask.Items.Clear();
-            for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV.USUM ? 0 : 4); i < m; i++)
+            for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV is SAV7USUM ? 0 : 4); i < m; i++)
             {
                 CLB_MapUnmask.Items.Add(
                     MapUnmaskNameIndex[i] < 0
@@ -314,7 +314,7 @@ namespace PKHeX.WinForms
 
             SaveFlags();
 
-            if (SAV.USUM)
+            if (SAV is SAV7USUM)
                 SaveUltraData();
         }
 
@@ -415,7 +415,7 @@ namespace PKHeX.WinForms
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
 
-            if (!SAV.SM) // unlock flags are in flag editor instead
+            if (!(SAV is SAV7SM)) // unlock flags are in flag editor instead
                 return;
 
             const int unlockStart = 292;
@@ -541,7 +541,7 @@ namespace PKHeX.WinForms
             {
                 case 0: // Base Fashion
                 {
-                    var list = SAV.USUM
+                    var list = SAV is SAV7USUM
                         ? (SAV.Gender == 0
                             ? new[] {0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584}   // M
                             : new[] {0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8})  // F
@@ -554,13 +554,13 @@ namespace PKHeX.WinForms
                     break;
                 }
                 case 1: // Full Legal
-                    byte[] data1 = SAV.USUM
+                    byte[] data1 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
                     data1.CopyTo(SAV.Data, SAV.Fashion);
                     break;
                 case 2: // Everything
-                    byte[] data2 = SAV.USUM
+                    byte[] data2 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
                     data2.CopyTo(SAV.Data, SAV.Fashion);

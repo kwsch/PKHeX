@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -31,7 +30,13 @@ namespace PKHeX.Core
             set => Data[Offset + 5] = (byte)value;
         }
 
-        public int MultiplayerSpriteID
+        public int MultiplayerSpriteID_1
+        {
+            get => Data[Offset + 6];
+            set => Data[Offset + 6] = (byte)value;
+        }
+
+        public int MultiplayerSpriteID_2
         {
             get => Data[Offset + 7];
             set => Data[Offset + 7] = (byte)value;
@@ -41,22 +46,16 @@ namespace PKHeX.Core
 
         public string GameSyncID
         {
-            get
-            {
-                var data = Data.Skip(Offset + 8).Take(GameSyncIDSize / 2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", string.Empty);
-            }
+            get => Util.GetHexStringFromBytes(Data, Offset + 0x08, GameSyncIDSize / 2);
             set
             {
                 if (value == null)
                     return;
-                if (value.Length > GameSyncIDSize)
+                if (value.Length != GameSyncIDSize)
                     return;
-                Enumerable.Range(0, value.Length)
-                    .Where(x => x % 2 == 0)
-                    .Reverse()
-                    .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
-                    .ToArray().CopyTo(Data, Offset + 8);
+
+                var data = Util.GetBytesFromHexString(value);
+                SAV.SetData(data, Offset + 0x08);
             }
         }
 
@@ -70,6 +69,18 @@ namespace PKHeX.Core
         {
             get => Data[Offset + 0x27];
             set => Data[Offset + 0x27] = (byte)value;
+        }
+
+        public decimal Latitude // don't use the setters
+        {
+            get => (BitConverter.ToInt16(Data, Offset + 0x28) * 180m) / 0x8000;
+            set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x28);
+        }
+
+        public decimal Longitude // don't use the setters
+        {
+            get => (BitConverter.ToInt16(Data, Offset + 0x2A) * 180m) / 0x8000;
+            set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x2A);
         }
 
         public int ConsoleRegion

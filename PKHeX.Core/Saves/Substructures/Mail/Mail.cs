@@ -13,6 +13,9 @@ namespace PKHeX.Core
         public virtual void SetMessage(int index1, int index2, ushort value) { }
         public virtual string AuthorName { get; set; }
         public virtual ushort AuthorTID { get; set; }
+        public virtual ushort AuthorSID { get; set; }
+        public virtual byte AuthorVersion { get; set; }
+        public virtual byte AuthorLanguage { get; set; }
         public virtual byte AuthorGender { get; set; }
         public virtual int AppearPKM { get; set; }
         public virtual int MailType { get; set; }

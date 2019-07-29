@@ -94,29 +94,29 @@ namespace PKHeX.Core
                 inv_csum = 0;
         }
 
-        private uint VerifyChecksums()
+        private GCChecksumFlag VerifyChecksums()
         {
-            uint results = 0;
+            GCChecksumFlag results = 0;
 
             GetChecksum(Header_Block, 0, 0xFE, out ushort csum, out ushort csum_inv);
             if (Header_Checksum != csum || (Header_Checksum_Inv != csum_inv))
-                results |= 1;
+                results |= GCChecksumFlag.HeaderBad;
 
             GetChecksum(Directory_Block, 0, 0xFFE, out csum, out csum_inv);
             if (Directory_Checksum != csum || (Directory_Checksum_Inv != csum_inv))
-                results |= 2;
+                results |= GCChecksumFlag.DirectoryBad;
 
             GetChecksum(DirectoryBackup_Block, 0, 0xFFE, out csum, out csum_inv);
             if (DirectoryBAK_Checksum != csum || (DirectoryBAK_Checksum_Inv != csum_inv))
-                results |= 4;
+                results |= GCChecksumFlag.DirectoryBackupBad;
 
             GetChecksum(BlockAlloc_Block, 4, 0xFFE, out csum, out csum_inv);
             if (BlockAlloc_Checksum != csum || (BlockAlloc_Checksum_Inv != csum_inv))
-                results |= 8;
+                results |= GCChecksumFlag.BlockAllocBad;
 
             GetChecksum(BlockAllocBackup_Block, 4, 0xFFE, out csum, out csum_inv);
             if ((BlockAllocBAK_Checksum != csum) || BlockAllocBAK_Checksum_Inv != csum_inv)
-                results |= 16;
+                results |= GCChecksumFlag.BlockAllocBackupBad;
 
             return results;
         }
@@ -152,34 +152,48 @@ namespace PKHeX.Core
         private int EntryXD = -1;
         private int EntryRSBOX = -1;
         private int EntrySelected = -1;
-        public bool HasCOLO => EntryCOLO > -1;
-        public bool HasXD => EntryXD > -1;
-        public bool HasRSBOX => EntryRSBOX > -1;
+        public bool HasCOLO => EntryCOLO >= 0;
+        public bool HasXD => EntryXD >= 0;
+        public bool HasRSBOX => EntryRSBOX >= 0;
         public int SaveGameCount;
+
+        [Flags]
+        public enum GCChecksumFlag : uint
+        {
+            NoIssue = 0,
+            HeaderBad = 1 << 0,
+            DirectoryBad = 1 << 1,
+            DirectoryBackupBad = 1 << 2,
+            BlockAllocBad,
+            BlockAllocBackupBad
+        }
 
         private bool IsCorruptedMemoryCard()
         {
-            uint csums = VerifyChecksums();
+            var csums = VerifyChecksums();
 
-            if ((csums & 0x1) == 1) // Header checksum failed
+            if ((csums & GCChecksumFlag.HeaderBad) != 0)
                 return true;
 
-            if ((csums & 0x2) == 1)  // directory checksum error!
+            if ((csums & GCChecksumFlag.DirectoryBad) != 0)
             {
-                if ((csums & 0x4) == 1) // backup is also wrong
+                if ((csums & GCChecksumFlag.DirectoryBackupBad) != 0) // backup is also wrong
                     return true; // Directory checksum and directory backup checksum failed
 
-                RestoreBackup(); // backup is correct, restore
+                // backup is correct, restore
+                RestoreBackup();
                 csums = VerifyChecksums(); // update checksums
             }
 
-            if ((csums & 0x8) != 1)
-                return false;
-            if ((csums & 0x10) == 1) // backup is also wrong
-                return true;
+            if ((csums & GCChecksumFlag.BlockAllocBad) != 0)
+            {
+                if ((csums & GCChecksumFlag.BlockAllocBackupBad) != 0) // backup is also wrong
+                    return true;
 
-            // backup is correct, restore
-            RestoreBackup();
+                // backup is correct, restore
+                RestoreBackup();
+            }
+
             return false;
         }
 
@@ -225,21 +239,21 @@ namespace PKHeX.Core
 
                 if (SaveUtil.HEADER_COLO.Contains(GameCode))
                 {
-                    if (EntryCOLO > -1) // another entry already exists
+                    if (HasCOLO) // another entry already exists
                         return GCMemoryCardState.DuplicateCOLO;
                     EntryCOLO = i;
                     SaveGameCount++;
                 }
                 if (SaveUtil.HEADER_XD.Contains(GameCode))
                 {
-                    if (EntryXD > -1) // another entry already exists
+                    if (HasXD) // another entry already exists
                         return GCMemoryCardState.DuplicateXD;
                     EntryXD = i;
                     SaveGameCount++;
                 }
                 if (SaveUtil.HEADER_RSBOX.Contains(GameCode))
                 {
-                    if (EntryRSBOX > -1) // another entry already exists
+                    if (HasRSBOX) // another entry already exists
                         return GCMemoryCardState.DuplicateRSBOX;
                     EntryRSBOX = i;
                     SaveGameCount++;
@@ -251,12 +265,12 @@ namespace PKHeX.Core
             if (SaveGameCount > 1)
                 return GCMemoryCardState.MultipleSaveGame;
 
-            if (EntryCOLO > -1)
+            if (HasCOLO)
             {
                 EntrySelected = EntryCOLO;
                 return GCMemoryCardState.SaveGameCOLO;
             }
-            if (EntryXD > -1)
+            if (HasXD)
             {
                 EntrySelected = EntryXD;
                 return GCMemoryCardState.SaveGameXD;
@@ -269,11 +283,14 @@ namespace PKHeX.Core
         {
             get
             {
-                if (EntryCOLO > -1 && EntrySelected == EntryCOLO)
+                if (EntrySelected < 0)
+                    return GameVersion.Any;
+
+                if (EntrySelected == EntryCOLO)
                     return GameVersion.COLO;
-                if (EntryXD > -1 && EntrySelected == EntryXD)
+                if (EntrySelected == EntryXD)
                     return GameVersion.XD;
-                if (EntryRSBOX > -1 && EntrySelected == EntryRSBOX)
+                if (EntrySelected == EntryRSBOX)
                     return GameVersion.RSBOX;
                 return GameVersion.Any; //Default for no game selected
             }
@@ -283,9 +300,9 @@ namespace PKHeX.Core
         {
             switch (Game)
             {
-                case GameVersion.COLO: if (EntryCOLO > -1) EntrySelected = EntryCOLO; break;
-                case GameVersion.XD: if (EntryXD > -1) EntrySelected = EntryXD; break;
-                case GameVersion.RSBOX: if (EntryRSBOX > -1) EntrySelected = EntryRSBOX; break;
+                case GameVersion.COLO: if (HasCOLO) EntrySelected = EntryCOLO; break;
+                case GameVersion.XD: if (HasXD) EntrySelected = EntryXD; break;
+                case GameVersion.RSBOX: if (HasRSBOX) EntrySelected = EntryRSBOX; break;
             }
         }
 
@@ -305,7 +322,7 @@ namespace PKHeX.Core
 
         private byte[] ReadSaveGameData()
         {
-            if (EntrySelected == -1)
+            if (EntrySelected < 0)
                 return Array.Empty<byte>(); // No entry selected
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
@@ -320,7 +337,7 @@ namespace PKHeX.Core
 
         private void WriteSaveGameData(byte[] SaveData)
         {
-            if (EntrySelected == -1) // Can't write anywhere
+            if (EntrySelected < 0) // Can't write anywhere
                 return;
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);

@@ -96,7 +96,7 @@ namespace PKHeX.Core
         public BlockInfo GetBlock(BelugaBlockIndex index) => Blocks[(int)index];
         public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
 
-        private const int boGG = 0xB8800; // nowhere near 1MB (savedata.bin size)
+        private const int boGG = 0xB8800 - 0x200; // nowhere near 1MB (savedata.bin size)
 
         private static readonly BlockInfo[] BlockInfoGG =
         {

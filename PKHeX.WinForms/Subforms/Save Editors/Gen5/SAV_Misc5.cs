@@ -17,7 +17,8 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV5)(Origin = sav).Clone();
             ReadMain();
-            if (SAV.B2W2) ReadEntralink();
+            if (SAV is SAV5B2W2)
+                ReadEntralink();
             else TC_Misc.Controls.Remove(TAB_Entralink);
             LoadForest();
         }
@@ -30,7 +31,8 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SaveMain();
-            if (SAV.B2W2) SaveEntralink();
+            if (SAV is SAV5B2W2)
+                SaveEntralink();
             SaveForest();
             Origin.SetData(SAV.Data, 0);
             Close();
@@ -114,7 +116,7 @@ namespace PKHeX.WinForms
                     CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0);
             }
 
-            if (SAV.BW)
+            if (SAV is SAV5BW)
             {
                 GB_KeySystem.Visible = false;
                 // Roamer
@@ -149,7 +151,7 @@ namespace PKHeX.WinForms
                 bLibPass = BitConverter.ToUInt32(SAV.Data, ofsLibPass) == valLibPass;
                 CHK_LibertyPass.Checked = bLibPass;
             }
-            else if (SAV.B2W2)
+            else if (SAV is SAV5B2W2)
             {
                 GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
                 // KeySystem
@@ -196,7 +198,7 @@ namespace PKHeX.WinForms
             }
             BitConverter.GetBytes(valFly).CopyTo(SAV.Data, ofsFly);
 
-            if (SAV.BW)
+            if (SAV is SAV5BW)
             {
                 // Roamer
                 for (int i = 0; i < cbr.Length; i++)
@@ -217,7 +219,7 @@ namespace PKHeX.WinForms
                 if (CHK_LibertyPass.Checked ^ bLibPass)
                     BitConverter.GetBytes(bLibPass ? 0 : valLibPass).CopyTo(SAV.Data, ofsLibPass);
             }
-            else if (SAV.B2W2)
+            else if (SAV is SAV5B2W2)
             {
                 // KeySystem
                 for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
@@ -661,7 +663,7 @@ namespace PKHeX.WinForms
 
         private void B_RandForest_Click(object sender, EventArgs e)
         {
-            var source = (SAV.B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
+            var source = (SAV is SAV5B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
             foreach (var s in AllSlots)
             {
                 int index = Util.Rand.Next(source.Count);

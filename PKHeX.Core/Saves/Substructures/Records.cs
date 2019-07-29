@@ -29,7 +29,7 @@ namespace PKHeX.Core
             if (recordID < LargeRecordCount)
                 return baseOfs + (recordID * sizeof(int));
             if (recordID < Count)
-                return baseOfs + (recordID * sizeof(ushort)) + (LargeRecordCount * sizeof(int)); // first 100 are 4bytes, so bias the difference
+                return baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)); // first 100 are 4bytes, so bias the difference
             return -1;
         }
 

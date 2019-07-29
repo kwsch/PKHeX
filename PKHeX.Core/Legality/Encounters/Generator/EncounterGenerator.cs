@@ -47,7 +47,6 @@ namespace PKHeX.Core
 
             foreach (var z in GenerateFilteredEncounters12(pkm))
             {
-                pkm.WasEgg = z.EggEncounter;
                 info.Generation = z is IGeneration g ? g.Generation : 2;
                 info.Game = ((IVersion)z).Version;
                 yield return z;
@@ -147,7 +146,8 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, vs, game))
             {
-                if (pkm.Format >= 7 && (t.Generation == 2 || t.GetOT(pkm.Language) != pkm.OT_Name)) // ot length collision
+                // some OTs are longer than the keyboard entry; don't defer these
+                if (pkm.Format >= 7 && pkm.OT_Name.Length <= (pkm.Japanese || pkm.Korean ? 5 : 7))
                 {
                     deferred.Add(t);
                     continue;
@@ -178,10 +178,6 @@ namespace PKHeX.Core
                 }
                 yield return s;
             }
-            // clear egg flag
-            // necessary for static egg gifts which appear in wild, level 8 GS clefairy
-            // GetValidWildEncounters immediately returns empty otherwise
-            pkm.WasEgg = false;
             foreach (var e in GetValidWildEncounters12(pkm, vs, game))
             {
                 yield return e;
@@ -189,17 +185,8 @@ namespace PKHeX.Core
 
             if (gsc)
             {
-                bool WasEgg = !pkm.Gen1_NotTradeback && GetWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
-                if (WasEgg)
-                {
-                    // Further Filtering
-                    if (pkm.Format < 3)
-                    {
-                        WasEgg &= pkm.Met_Location == 0 || pkm.Met_Level == 1; // 2->1->2 clears met info
-                        WasEgg &= pkm.CurrentLevel >= 5;
-                    }
-                }
-                if (WasEgg)
+                var canBeEgg = GetCanBeEgg(pkm);
+                if (canBeEgg)
                 {
                     int eggspec = GetBaseEggSpecies(pkm);
                     if (ParseSettings.AllowGen2Crystal(pkm))
@@ -210,6 +197,22 @@ namespace PKHeX.Core
 
             foreach (var d in deferred)
                 yield return d;
+        }
+
+        private static bool GetCanBeEgg(PKM pkm)
+        {
+            bool canBeEgg = !pkm.Gen1_NotTradeback && GetCanBeEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
+            if (!canBeEgg)
+                return false;
+
+            // Further Filtering
+            if (pkm.Format < 3)
+            {
+                canBeEgg &= pkm.Met_Location == 0 || pkm.Met_Level == 1; // 2->1->2 clears met info
+                canBeEgg &= pkm.CurrentLevel >= 5;
+            }
+
+            return canBeEgg;
         }
 
         private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
@@ -429,7 +432,6 @@ namespace PKHeX.Core
             int species = pkm.Species;
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
-            pkm.WasEgg = false; // clear flag if set from static
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters34(pkm))
             {

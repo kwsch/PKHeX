@@ -103,7 +103,7 @@ namespace PKHeX.Core
                     PouchBall = 0x2465;
                     PouchPC   = 0x247F;
 
-                    EventFlag = 0x2600;
+                    EventFlag = CurrentBoxIndex - 0x100;
                     break;
 
                 default:
@@ -165,7 +165,7 @@ namespace PKHeX.Core
                     PouchBall = 0x2447;
                     PouchPC   = 0x2461;
 
-                    EventFlag = 0x1800;
+                    EventFlag = CurrentBoxIndex - 0x100;
                     break;
 
                 default:

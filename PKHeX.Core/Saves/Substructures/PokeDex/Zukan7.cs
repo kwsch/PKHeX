@@ -21,9 +21,9 @@ namespace PKHeX.Core
 
         private IList<int> FormBaseSpecies;
 
-        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag - dex)
+        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = SAV.USUM ? (Func<int, int, int, int>) DexFormUtil.GetDexFormIndexSM : DexFormUtil.GetDexFormIndexSM;
+            DexFormIndexFetcher = SAV is SAV7USUM ? (Func<int, int, int, int>)DexFormUtil.GetDexFormIndexUSUM : DexFormUtil.GetDexFormIndexSM;
             LoadDexList();
             Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
@@ -67,7 +67,7 @@ namespace PKHeX.Core
 
         protected override bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
         {
-            return SanitizeFormsToIterate(species, out formStart, out formEnd, formIn, SAV.USUM);
+            return SanitizeFormsToIterate(species, out formStart, out formEnd, formIn, SAV is SAV7USUM);
         }
 
         public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn, bool USUM)

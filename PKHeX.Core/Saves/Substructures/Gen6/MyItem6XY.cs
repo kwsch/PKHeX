@@ -7,6 +7,7 @@
         private const int TMHM = 0x7C0; // 2
         private const int Medicine = 0x968; // 3
         private const int Berry = 0xA68; // 4
+
         public MyItem6XY(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
         public override InventoryPouch[] Inventory

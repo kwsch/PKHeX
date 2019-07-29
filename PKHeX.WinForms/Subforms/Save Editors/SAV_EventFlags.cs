@@ -71,8 +71,6 @@ namespace PKHeX.WinForms
         private int constEntry = -1;
         private string gamePrefix = "unk";
 
-        private const ulong MagearnaConst = 0xCBE05F18356504AC;
-
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -85,21 +83,19 @@ namespace PKHeX.WinForms
                 flags[GetControlNum(flag)] = flag.Checked;
             SAV.EventFlags = flags;
 
-            HandleSpecialFlags();
-
             // Copy back Constants
             ChangeConstantIndex(null, EventArgs.Empty); // Trigger Saving
             SAV.EventConsts = Constants;
+
+            HandleSpecialFlags();
             Origin.SetData(SAV.Data, 0);
             Close();
         }
 
         private void HandleSpecialFlags()
         {
-            if (SAV.SM) // Ensure magearna event flag has magic constant
-            {
-                BitConverter.GetBytes(flags[3100] ? MagearnaConst : 0).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
-            }
+            if (SAV is SAV7SM s7) // Ensure magearna event flag has magic constant
+                s7.UpdateMagearnaConstant();
         }
 
         private string[] GetStringList(string type)

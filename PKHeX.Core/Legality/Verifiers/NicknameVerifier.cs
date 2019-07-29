@@ -112,7 +112,8 @@ namespace PKHeX.Core
 
             // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
             bool evolved = EncounterMatch.Species != pkm.Species;
-            if ((pkm.WasTradedEgg || evolved) && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+            bool canHaveAnyLanguage = evolved || pkm.WasTradedEgg;
+            if (canHaveAnyLanguage && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
                 return true;
 
             switch (EncounterMatch)
@@ -127,7 +128,7 @@ namespace PKHeX.Core
 
             if (pkm.Format == 5 && !pkm.IsNative) // transfer
             {
-                if (evolved)
+                if (canHaveAnyLanguage)
                    return !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, 4);
                 return PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
             }

@@ -40,12 +40,13 @@ namespace PKHeX.Core
                 case GO:
                     return GO;
 
-                // Gen1
-                case RBY: case RD: case BU: case YW: case GN:
-                    return RBY;
+                // VC Transfers
+                case RD: case BU: case YW: case GN:
+                case GD: case SV: case C:
+                    return USUM;
 
-                // Gen2
-                case GS: case GD: case SV: case C:
+                // Gen2 -- PK2
+                case GS: case GSC:
                     return GSC;
 
                 // Gen3

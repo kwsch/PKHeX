@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
 
         private void B_Output_Click(object sender, EventArgs e)
         {
-            WinFormsUtil.SaveMGDialog(mg, SAV.Version);
+            WinFormsUtil.ExportMGDialog(mg, SAV.Version);
         }
 
         private static int GetLastUnfilledByType(MysteryGift Gift, MysteryGiftAlbum Album)

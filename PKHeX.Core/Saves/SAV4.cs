@@ -13,9 +13,9 @@ namespace PKHeX.Core
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
-        public SAV4(GameVersion versionOverride = GameVersion.HGSS) : base(SaveUtil.SIZE_G4RAW)
+        public SAV4(GameVersion version = GameVersion.HGSS) : base(SaveUtil.SIZE_G4RAW)
         {
-            Version = versionOverride;
+            Version = version;
             Initialize();
             ClearBoxes();
         }
@@ -61,8 +61,8 @@ namespace PKHeX.Core
         public override int BoxCount => 18;
         public override int MaxEV => 255;
         public override int Generation => 4;
-        protected override int EventFlagMax => EventFlag > 0 ? 0xB60 : int.MinValue;
-        protected override int EventConstMax => EventConst > 0 ? (EventFlag - EventConst) >> 1 : int.MinValue;
+        protected override int EventFlagMax => 0xB60; // 2912
+        protected override int EventConstMax => (EventFlag - EventConst) >> 1;
         protected override int GiftCountMax => 11;
         public override int OTLength => 7;
         public override int NickLength => 10;
@@ -75,6 +75,10 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_4;
         public override int MaxBallID => Legal.MaxBallID_4;
         public override int MaxGameID => Legal.MaxGameID_4; // Colo/XD
+
+        public bool HGSS => Version == GameVersion.HGSS;
+        public bool Pt => Version == GameVersion.Pt;
+        public bool DP => Version == GameVersion.DP;
 
         // Checksums
         private static int[][] GetChecksumOffsets(GameVersion g)
@@ -371,8 +375,8 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x10 + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x10 + 0);
+            get => BitConverter.ToUInt16(Data, Trainer1 + 0x10);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x10);
         }
 
         public override int SID
@@ -385,12 +389,6 @@ namespace PKHeX.Core
         {
             get => BitConverter.ToUInt32(Data, Trainer1 + 0x14);
             set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14);
-        }
-
-        public uint Coin
-        {
-            get => BitConverter.ToUInt16(Data, Trainer1 + 0x20);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x20);
         }
 
         public override int Gender
@@ -433,6 +431,12 @@ namespace PKHeX.Core
                     return;
                 Data[Trainer1 + 0x1F] = (byte)value;
             }
+        }
+
+        public uint Coin
+        {
+            get => BitConverter.ToUInt16(Data, Trainer1 + 0x20);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x20);
         }
 
         public override int PlayedHours

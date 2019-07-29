@@ -1,20 +1,18 @@
 using System;
+using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    public class Zukan6 : Zukan
+    public abstract class Zukan6 : Zukan
     {
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
         protected override int OFS_CAUGHT => 0x8;
         protected override int BitSeenSize => 0x60;
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
+        protected int SpindaOffset { get; set; }
 
-        public Zukan6(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag - dex)
-        {
-            var wrap = SAV.ORAS ? DexFormUtil.GetDexFormIndexORAS : (Func<int,int,int>)DexFormUtil.GetDexFormIndexXY;
-            DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
-        }
+        protected Zukan6(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag) { }
 
         protected override int GetDexLangFlag(int lang)
         {
@@ -75,29 +73,12 @@ namespace PKHeX.Core
             SetFormFlags(pkm);
         }
 
-        private void SetCaughtFlag(int bit, int origin)
-        {
-            // Owned quality flag
-            if (SAV is SAV6AO ao)
-            {
-                SetFlag(OFS_CAUGHT, bit);
-                // Set DexNav count (only if not encountered previously)
-                var count = ao.GetEncounterCount(bit);
-                if (count == 0)
-                    ao.SetEncounterCount(bit, 1);
-            }
-            else
-            {
-                // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
-                if (origin < 24 && bit < 649)
-                    SetFlag(OFS_CAUGHT + 0x644, bit);
-                else
-                    SetFlag(OFS_CAUGHT, bit);
-            }
-        }
+        protected abstract void SetCaughtFlag(int bit, int origin);
 
-        private int FormLen => SAV.ORAS ? 0x26 : 0x18;
-        private int FormDex => PokeDex + 0x8 + (BitSeenSize * 9);
+        private int FormLen => SAV is SAV6XY ? 0x18 : 0x26;
+        private int FormDex => 0x8 + (BitSeenSize * 9);
+        public bool GetFormFlag(int formIndex, int flagRegion) => GetFlag(FormDex + (FormLen * flagRegion), formIndex);
+        public void SetFormFlag(int formIndex, int flagRegion, bool value = true) => SetFlag(FormDex + (FormLen * flagRegion), formIndex, value);
 
         private void SetFormFlags(PKM pkm)
         {
@@ -117,24 +98,30 @@ namespace PKHeX.Core
             var bit = f + form;
 
             // Set Form Seen Flag
-            SetFlag(FormDex + (FormLen * shiny), bit, value);
+            SetFormFlag(bit, shiny, value);
 
             // Set Displayed Flag if necessary, check all flags
             if (!value || !GetIsFormDisplayed(f, fc))
-                SetFlag(FormDex + (FormLen * (2 + shiny)), bit, value);
+                SetFormFlag(bit, 2 + shiny, value);
         }
 
         private bool GetIsFormDisplayed(int f, int fc)
         {
             for (int i = 0; i < fc; i++)
             {
-                var bit2 = f + i;
-                if (GetFlag(FormDex + (FormLen * 2), bit2)) // Nonshiny
+                var index = f + i;
+                if (GetFormFlag(index, 2)) // Nonshiny
                     return true; // already set
-                if (GetFlag(FormDex + (FormLen * 3), bit2)) // Shiny
+                if (GetFormFlag(index, 3)) // Shiny
                     return true; // already set
             }
             return false;
+        }
+
+        public uint SpindaPID
+        {
+            get => BitConverter.ToUInt32(SAV.Data, PokeDex + SpindaOffset);
+            set => SAV.SetData(BitConverter.GetBytes(value), PokeDex + SpindaOffset);
         }
 
         public bool[] GetLanguageBitflags(int species)
@@ -178,6 +165,65 @@ namespace PKHeX.Core
             for (int i = 0; i < DexLangIDCount; i++)
                 result[i] = value;
             return result;
+        }
+    }
+
+    public class Zukan6AO : Zukan6
+    {
+        public Zukan6AO(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        {
+            DexFormIndexFetcher = (spec, form, _) => DexFormUtil.GetDexFormIndexORAS(spec, form);
+            SpindaOffset = 0x680;
+        }
+
+        protected override void SetCaughtFlag(int bit, int origin)
+        {
+            SetFlag(OFS_CAUGHT, bit);
+            if (GetEncounterCount(bit) == 0)
+                SetEncounterCount(bit, 1);
+        }
+
+        public ushort GetEncounterCount(int index)
+        {
+            var ofs = PokeDex + 0x686 + (index * 2);
+            return BitConverter.ToUInt16(SAV.Data, ofs);
+        }
+
+        public void SetEncounterCount(int index, ushort value)
+        {
+            var ofs = PokeDex + 0x686 + (index * 2);
+            var data = BitConverter.GetBytes(value);
+            SAV.SetData(data, ofs);
+        }
+    }
+
+    public class Zukan6XY : Zukan6
+    {
+        public Zukan6XY(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        {
+            DexFormIndexFetcher = (spec, form, _) => DexFormUtil.GetDexFormIndexXY(spec, form);
+            SpindaOffset = 0x648;
+        }
+
+        protected override void SetCaughtFlag(int bit, int origin)
+        {
+            // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
+            if (origin < (int)GameVersion.X && bit < (int)Species.Genesect)
+                SetForeignFlag(bit);
+            else
+                SetFlag(OFS_CAUGHT, bit);
+        }
+
+        public bool GetForeignFlag(int bit)
+        {
+            Debug.Assert(bit < (int)Species.Genesect);
+            return GetFlag(0x64C, bit);
+        }
+
+        public void SetForeignFlag(int bit, bool value = true)
+        {
+            Debug.Assert(bit < (int)Species.Genesect);
+            SetFlag(0x64C, bit, value);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public override string Extension => string.Empty;
 
         protected SAV6(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset) { }
-        protected SAV6(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset) => ClearBoxes();
+        protected SAV6(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset) { }
 
         // Configuration
         public override int SIZE_STORED => PKX.SIZE_6STORED;
@@ -47,20 +47,21 @@ namespace PKHeX.Core
         public MyStatus6 Status { get; protected set; }
         public Record6 Records { get; set; }
 
-        // Private Only
-        protected int Trainer2 { get; set; } = int.MinValue;
+        protected int Trainer2 { get; set; }
+
+        // XY/AO
         protected int WondercardFlags { get; set; } = int.MinValue;
-        protected int PlayTime { get; set; } = int.MinValue;
-        protected int Daycare2 { get; set; } = int.MinValue;
         protected int LinkInfo { get; set; } = int.MinValue;
         protected int JPEG { get; set; } = int.MinValue;
-
-        // Accessible as SAV6
+        public int SuperTrain { get; protected set; } = int.MinValue;
         public int MaisonStats { get; protected set; } = int.MinValue;
         public int Accessories { get; protected set; } = int.MinValue;
-        public int PokeDexLanguageFlags { get; protected set; } = int.MinValue;
-        public int Spinda { get; protected set; } = int.MinValue;
-        public int EncounterCount { get; protected set; } = int.MinValue;
+        public int PSS { get; protected set; } = int.MinValue;
+        public int SUBE { get; protected set; } = int.MinValue;
+        public int BerryField { get; protected set; } = int.MinValue;
+
+        public virtual string JPEGTitle => string.Empty;
+        public virtual byte[] JPEGData => Array.Empty<byte>();
 
         protected internal const int LongStringLength = 0x22; // bytes, not characters
         protected internal const int ShortStringLength = 0x1A; // bytes, not characters
@@ -93,13 +94,13 @@ namespace PKHeX.Core
             get
             {
                 int offset = Trainer2 + 0x3C;
-                if (ORAS) offset -= 0xC; // 0x30
+                if (this is SAV6AO) offset -= 0xC; // 0x30
                 return BitConverter.ToUInt16(Data, offset);
             }
             set
             {
                 int offset = Trainer2 + 0x3C;
-                if (ORAS) offset -= 0xC; // 0x30
+                if (this is SAV6AO) offset -= 0xC; // 0x30
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, offset);
             }
         }
@@ -109,13 +110,13 @@ namespace PKHeX.Core
             get
             {
                 int offset = Trainer2 + 0x50;
-                if (ORAS) offset -= 0xC; // 0x44
+                if (this is SAV6AO) offset -= 0xC; // 0x44
                 return Data[offset];
             }
             set
             {
                 int offset = Trainer2 + 0x50;
-                if (ORAS) offset -= 0xC; // 0x44
+                if (this is SAV6AO) offset -= 0xC; // 0x44
                 Data[offset] = (byte)value;
             }
         }
@@ -133,10 +134,8 @@ namespace PKHeX.Core
 
         // Daycare
         public override int DaycareSeedSize => 16;
-        public override bool HasTwoDaycares => ORAS;
 
         // Storage
-
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
@@ -206,26 +205,6 @@ namespace PKHeX.Core
         {
             get => Data[Party + (6 * SIZE_PARTY)];
             protected set => Data[Party + (6 * SIZE_PARTY)] = (byte)value;
-        }
-
-        private int LockedFlagOffset => BattleBox + (6 * SIZE_STORED);
-
-        public override bool BattleBoxLocked
-        {
-            get => BattleBoxLockedWiFiTournament || BattleBoxLockedLiveTournament;
-            set => BattleBoxLockedWiFiTournament = BattleBoxLockedLiveTournament = value;
-        }
-
-        public bool BattleBoxLockedWiFiTournament
-        {
-            get => (Data[LockedFlagOffset] & 1) != 0;
-            set => Data[LockedFlagOffset] = (byte)((Data[LockedFlagOffset] & ~1) | (value ? 1 : 0));
-        }
-
-        public bool BattleBoxLockedLiveTournament
-        {
-            get => (Data[LockedFlagOffset] & 2) != 0;
-            set => Data[LockedFlagOffset] = (byte)((Data[LockedFlagOffset] & ~2) | (value ? 2 : 0));
         }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString6(data, offset, length);

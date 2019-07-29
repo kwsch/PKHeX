@@ -547,13 +547,14 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickTRGender(object sender, EventArgs e)
         {
-            Label lbl = sender as Label;
-            if (!string.IsNullOrWhiteSpace(lbl?.Text)) // set gender label (toggle M/F)
-            {
-                int gender = PKX.GetGenderFromString(lbl.Text) ^ 1;
-                lbl.Text = gendersymbols[gender];
-                lbl.ForeColor = Draw.GetGenderColor(gender);
-            }
+            if (!(sender is Label lbl))
+                return;
+            if (string.IsNullOrWhiteSpace(lbl.Text))
+                return;
+
+            int gender = PKX.GetGenderFromString(lbl.Text) ^ 1;
+            lbl.Text = gendersymbols[gender];
+            lbl.ForeColor = Draw.GetGenderColor(gender);
         }
 
         private void ClickBall(object sender, EventArgs e)
@@ -1067,10 +1068,6 @@ namespace PKHeX.WinForms.Controls
 
             // check if differs
             var group = GameUtil.GetMetLocationVersionGroup(Version);
-            if (group == GameVersion.GSC && pkm.Format >= 7)
-                group = GameVersion.USUM;
-            else if (pkm.Format < 3)
-                group = GameVersion.GSC;
 
             if (group != origintrack)
                 ReloadMetLocations(Version);

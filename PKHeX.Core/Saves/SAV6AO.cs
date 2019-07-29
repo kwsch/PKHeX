@@ -11,7 +11,13 @@ namespace PKHeX.Core
     public sealed class SAV6AO : SAV6, IPokePuff, IOPower, ILink
     {
         public SAV6AO(byte[] data) : base(data, BlocksAO, boAO) => Initialize();
-        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, BlocksAO, boAO) => Initialize();
+
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, BlocksAO, boAO)
+        {
+            Initialize();
+            ClearBoxes();
+        }
+
         public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
@@ -89,7 +95,7 @@ namespace PKHeX.Core
             /* 03: 01200-01238, 00038 */ // GameTime = 0x01200;
             /* 04: 01400-01550, 00150 */ Trainer1 = 0x01400; // Situation
             /* 05: 01600-01604, 00004 */ // RandomGroup (rand seeds)
-            /* 06: 01800-01808, 00008 */ PlayTime = 0x1800; // PlayTime
+            /* 06: 01800-01808, 00008 */ // PlayTime = 0x1800; // PlayTime
             /* 07: 01A00-01BC0, 001C0 */ Accessories = 0x1A00; // Fashion
             /* 08: 01C00-01CBE, 000BE */ // amie minigame records
             /* 09: 01E00-01E24, 00024 */ // temp variables (u32 id + 32 u8)
@@ -142,23 +148,21 @@ namespace PKHeX.Core
             /* 56: 33000-67AD0, 34AD0 */ Box = 0x33000;
             /* 57: 67C00-75C58, 0E058 */ JPEG = 0x67C00;
 
-            Items = new MyItem6XY(this, 0x00400);
+            Items = new MyItem6AO(this, 0x00400);
             PuffBlock = new Puff6(this, 0x0000);
             GameTime = new GameTime6(this, 0x01200);
             Situation = new Situation6(this, 0x01400);
             Played = new PlayTime6(this, 0x01800);
             BoxLayout = new BoxLayout6(this, 0x04400);
+            BattleBoxBlock = new BattleBox6(this, 0x04A00);
             Status = new MyStatus6(this, 0x14000);
-            Zukan = new Zukan6(this, 0x15000, 0x15000 + 0x400);
+            Zukan = new Zukan6AO(this, 0x15000, 0x400);
             OPowerBlock = new OPower6(this, 0x17400);
             MysteryBlock = new MysteryBlock6(this, 0x1CC00);
             Records = new Record6(this, 0x1F400, Core.Records.MaxType_AO);
             Sango = new SangoInfoBlock(this, 0x2B600);
 
             EventFlag = EventConst + 0x2FC;
-            PokeDexLanguageFlags = PokeDex + 0x400;
-            Spinda = PokeDex + 0x680;
-            EncounterCount = PokeDex + 0x686;
             WondercardData = WondercardFlags + 0x100;
             Daycare2 = Daycare + 0x1F0;
 
@@ -166,8 +170,10 @@ namespace PKHeX.Core
             Personal = PersonalTable.AO;
         }
 
-        public int EonTicket { get; private set; } = int.MinValue;
-        public int Contest { get; private set; } = int.MinValue;
+        public int EonTicket { get; private set; }
+        public int Contest { get; private set; }
+        private int Daycare2 { get; set; }
+        public int SecretBase { get; private set; }
 
         public Zukan6 Zukan { get; private set; }
         public Puff6 PuffBlock { get; private set; }
@@ -175,9 +181,7 @@ namespace PKHeX.Core
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
         public SangoInfoBlock Sango { get; set; }
-
-        public uint GetEncounterCount(int index) { return BitConverter.ToUInt16(Data, EncounterCount + (2 * index)); }
-        public void SetEncounterCount(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, EncounterCount + (2 * index)); }
+        public BattleBox6 BattleBoxBlock { get; private set; }
 
         public override GameVersion Version
         {
@@ -196,18 +200,7 @@ namespace PKHeX.Core
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
         public override void SetSeen(int species, bool seen) => Zukan.SetSeen(species, seen);
         public override void SetCaught(int species, bool caught) => Zukan.SetCaught(species, caught);
-
-        protected override void SetDex(PKM pkm)
-        {
-            Zukan.SetDex(pkm);
-            int index = pkm.Species - 1;
-            if ((uint)index >= (uint)MaxSpeciesID)
-                return;
-
-            // Set DexNav count (only if not encountered previously)
-            if (GetEncounterCount(index) == 0)
-                SetEncounterCount(index, 1);
-        }
+        protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
 
         // Daycare
         public override int DaycareSeedSize => 16;
@@ -303,9 +296,6 @@ namespace PKHeX.Core
         {
             get
             {
-                if (SUBE < 0 || ORASDEMO)
-                    return Array.Empty<ushort[]>(); // no gym data
-
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
                 int ofs = SUBE - size - 4;
@@ -318,9 +308,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (SUBE < 0 || ORASDEMO)
-                    return; // no gym data
-
                 const int teamsize = 2 * 6; // 2byte/species, 6species/team
                 const int size = teamsize * 8; // 8 gyms
                 int ofs = SUBE - size - 4;
@@ -347,5 +334,11 @@ namespace PKHeX.Core
         protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
+
+        public override bool BattleBoxLocked
+        {
+            get => BattleBoxBlock.Locked;
+            set => BattleBoxBlock.Locked = value;
+        }
     }
 }

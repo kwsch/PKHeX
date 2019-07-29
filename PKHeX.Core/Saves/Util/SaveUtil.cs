@@ -570,11 +570,12 @@ namespace PKHeX.Core
             {
                 case GameVersion.RD: case GameVersion.BU: case GameVersion.GN: case GameVersion.YW:
                 case GameVersion.RBY:
-                    return new SAV1(versionOverride: Game);
+                    return new SAV1(version: Game);
 
-                case GameVersion.GD: case GameVersion.SV: case GameVersion.C:
-                case GameVersion.GS: case GameVersion.GSC:
-                    return new SAV2();
+                case GameVersion.GS: case GameVersion.GD: case GameVersion.SV:
+                    return new SAV2(version: GameVersion.GS);
+                case GameVersion.GSC: case GameVersion.C:
+                    return new SAV2(version: GameVersion.C);
 
                 case GameVersion.R: case GameVersion.S: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
                     return new SAV3(version: Game);
@@ -595,11 +596,11 @@ namespace PKHeX.Core
 
                 case GameVersion.D: case GameVersion.P: case GameVersion.DP:
                 case GameVersion.DPPt:
-                    return new SAV4(GameVersion.DP);
+                    return new SAV4(version: GameVersion.DP);
                 case GameVersion.Pt:
-                    return new SAV4(GameVersion.Pt);
+                    return new SAV4(version: GameVersion.Pt);
                 case GameVersion.HG: case GameVersion.SS: case GameVersion.HGSS:
-                    return new SAV4(GameVersion.HGSS);
+                    return new SAV4(version: GameVersion.HGSS);
 
                 case GameVersion.B: case GameVersion.W: case GameVersion.BW:
                     return new SAV5BW();
@@ -746,7 +747,7 @@ namespace PKHeX.Core
         /// <param name="sav">SaveFile data to force</param>
         /// <param name="ver">Version to retrieve for</param>
         /// <returns>New <see cref="SaveFile"/> object.</returns>
-        public static SaveFile GetG3SaveOverride(SaveFile sav, GameVersion ver)
+        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion ver)
         {
             switch (ver) // Reset save file info
             {

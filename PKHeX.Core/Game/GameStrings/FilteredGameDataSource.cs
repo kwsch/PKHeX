@@ -12,6 +12,8 @@ namespace PKHeX.Core
         public FilteredGameDataSource(SaveFile sav, GameDataSource source, bool HaX = false)
         {
             Source = source;
+            Species = GetFilteredSpecies(sav, source, HaX).ToList();
+            Moves = GetFilteredMoves(sav, source, HaX).ToList();
             if (sav.Generation > 1)
             {
                 var items = Source.GetItemDataSource(sav.Version, sav.Generation, sav.MaxItemID, sav.HeldItems, HaX);
@@ -27,13 +29,43 @@ namespace PKHeX.Core
 
             Languages = GameDataSource.LanguageDataSource(sav.Generation);
             Balls = Source.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList();
-            Species = Source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID).ToList();
             Abilities = Source.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList();
 
-            var moves = HaX ? Source.HaXMoveDataSource : Source.LegalMoveDataSource; // Filter Z-Moves if appropriate
-            Moves = moves.Where(m => m.Value <= sav.MaxMoveID).ToList();
             G4EncounterTypes = Source.EncounterTypeDataSource;
             Natures = Source.NatureDataSource;
+        }
+
+        private static IEnumerable<ComboItem> GetFilteredSpecies(IGameValueLimit sav, GameDataSource source, bool HaX = false)
+        {
+            if (HaX)
+                return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
+
+            // Games cannot acquire every Species that exists. Some can only acquire a subset.
+            switch (sav)
+            {
+                case SAV7b _: // LGPE: Kanto 151, Meltan/Melmetal
+                    return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID
+                           && (s.Value <= (int)Core.Species.Mew || s.Value >= (int)Core.Species.Meltan));
+
+                default:
+                    return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
+            }
+        }
+
+        private static IEnumerable<ComboItem> GetFilteredMoves(IGameValueLimit sav, GameDataSource source, bool HaX = false)
+        {
+            if (HaX)
+                return source.HaXMoveDataSource.Where(m => m.Value <= sav.MaxMoveID);
+
+            var legal = source.LegalMoveDataSource;
+            switch (sav)
+            {
+                case SAV7b _: // LGPE: Not all moves are available
+                    return legal.Where(s => Legal.AllowedMovesGG.Contains((short)s.Value));
+
+                default:
+                    return legal.Where(m => m.Value <= sav.MaxMoveID);
+            }
         }
 
         public readonly GameDataSource Source;

@@ -25,24 +25,41 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LSuperUnused));
             int TrainCount = pkm.SuperTrainingMedalCount();
 
-            if (pkm.IsEgg && TrainCount > 0)
+            if (pkm.IsEgg)
             {
-                data.AddLine(GetInvalid(LSuperEgg));
-                return;
-            }
-            if (TrainCount > 0 && Info.Generation > 6)
-            {
-                data.AddLine(GetInvalid(LSuperUnavailable));
-                return;
-            }
-            if (pkm.Format >= 7)
-            {
+                // Can't have any super training data as an egg.
+                if (TrainCount > 0)
+                    data.AddLine(GetInvalid(LSuperEgg));
                 if (pkm.SecretSuperTrainingUnlocked)
                     data.AddLine(GetInvalid(LSuperNoUnlocked));
                 if (pkm.SecretSuperTrainingComplete)
                     data.AddLine(GetInvalid(LSuperNoComplete));
                 return;
             }
+
+            if (Info.Generation >= 7 || Info.Generation <= 2)
+            {
+                // Can't have any super training data if it never visited Gen6.
+                if (TrainCount > 0)
+                    data.AddLine(GetInvalid(LSuperUnavailable));
+                if (pkm.SecretSuperTrainingUnlocked)
+                    data.AddLine(GetInvalid(LSuperNoUnlocked));
+                if (pkm.SecretSuperTrainingComplete)
+                    data.AddLine(GetInvalid(LSuperNoComplete));
+                return;
+            }
+
+            if (pkm.Format >= 7)
+            {
+                // Gen6->Gen7 transfer wipes the two Secret flags.
+                if (pkm.SecretSuperTrainingUnlocked)
+                    data.AddLine(GetInvalid(LSuperNoUnlocked));
+                if (pkm.SecretSuperTrainingComplete)
+                    data.AddLine(GetInvalid(LSuperNoComplete));
+                return;
+            }
+
+            // Only reach here if Format==6.
             if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
                 data.AddLine(GetInvalid(LSuperComplete));
         }
@@ -50,24 +67,9 @@ namespace PKHeX.Core
         private void VerifyMedalsEvent(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var Info = data.Info;
             byte value = pkm.Data[0x3A];
-            if ((value & 0xC0) != 0) // 2 unused flags highest bits
-                data.AddLine(GetInvalid(LSuperUnused));
-
-            int TrainCount = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                if ((value & 1) != 0)
-                    TrainCount++;
-                value >>= 1;
-            }
-            if (pkm.IsEgg && TrainCount > 0)
-                data.AddLine(GetInvalid(LSuperEgg));
-            else if (TrainCount > 0 && Info.Generation > 6)
-                data.AddLine(GetInvalid(LSuperUnavailable));
-            else if (TrainCount > 0)
-                data.AddLine(Get(LSuperDistro, Severity.Fishy));
+            if (value != 0)
+                data.AddLine(GetInvalid(LSuperDistro));
         }
     }
 }

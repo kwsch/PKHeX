@@ -1,19 +1,23 @@
 using System.Collections.Generic;
-using System.Drawing;
-using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
-    public class PKMPreview
+    /// <summary>
+    /// Bindable summary object that can fetch strings that summarize a <see cref="PKM"/>.
+    /// </summary>
+    public class PKMSummary
     {
-        private readonly PKM pkm;
+        private static readonly IReadOnlyList<string> GenderSymbols = GameInfo.GenderSymbolASCII;
+
+        private readonly GameStrings Strings;
         private readonly ushort[] Stats;
+        protected readonly PKM pkm; // protected for children generating extra properties
+
         public string Position => pkm.Identifier;
-        public Image Sprite => pkm.Sprite();
         public string Nickname => pkm.Nickname;
         public string Species => Get(Strings.specieslist, pkm.Species);
         public string Nature => Get(Strings.natures, pkm.Nature);
-        public string Gender => Get(Main.GenderSymbols, pkm.Gender);
+        public string Gender => Get(GenderSymbols, pkm.Gender);
         public string ESV => pkm.PSV.ToString("0000");
         public string HP_Type => Get(Strings.types, pkm.HPType + 1);
         public string Ability => Get(Strings.abilitylist, pkm.Ability);
@@ -107,15 +111,19 @@ namespace PKHeX.WinForms
 
         #endregion
 
-        private readonly GameStrings Strings;
-
-        public PKMPreview(PKM p, GameStrings strings)
+        protected PKMSummary(PKM p, GameStrings strings)
         {
             pkm = p;
             Strings = strings;
             Stats = pkm.GetStats(pkm.PersonalInfo);
         }
 
-        private static string Get(IReadOnlyList<string> arr, int val) => arr?.Count > val && val >= 0 ? arr[val] : null;
+        /// <summary>
+        /// Safely fetches the string from the array.
+        /// </summary>
+        /// <param name="arr">Array of strings</param>
+        /// <param name="val">Index to fetch</param>
+        /// <returns>Null if array is null</returns>
+        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr?.Count ? arr[val] : null;
     }
 }

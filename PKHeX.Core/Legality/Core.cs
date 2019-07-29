@@ -303,14 +303,12 @@ namespace PKHeX.Core
             return preevomoves.Except(evomoves).Distinct();
         }
 
-        internal static bool GetWasEgg23(PKM pkm)
+        internal static bool GetCanBeEgg23(PKM pkm)
         {
             if (pkm.IsEgg)
                 return true;
             if (pkm.Format > 2 && pkm.Ball != 4)
                 return false;
-            if (pkm.Format == 3)
-                return pkm.WasEgg;
 
             int lvl = pkm.CurrentLevel;
             if (lvl < 5)
@@ -503,11 +501,11 @@ namespace PKHeX.Core
 
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
-            var curr = EvolutionChain.GetValidPreEvolutions(pkm);
+            var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);
             var min = curr.FindLast(z => z.Species == minSpecies);
             if (min != null && min.Level < minLevel)
                 return false;
-            var poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            var poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, minLevel: minLevel, skipChecks: true);
 
             if (minSpecies != -1)
             {

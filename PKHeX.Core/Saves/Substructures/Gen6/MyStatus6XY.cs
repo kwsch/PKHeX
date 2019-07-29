@@ -2,6 +2,10 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// XY specific features for <see cref="MyStatus6"/>
+    /// </summary>
+    /// <remarks>These properties are technically included in OR/AS but they are unused; assumed backwards compatibility for communications with XY</remarks>
     public sealed class MyStatus6XY : MyStatus6
     {
         public MyStatus6XY(SaveFile sav, int offset) : base(sav, offset) { }

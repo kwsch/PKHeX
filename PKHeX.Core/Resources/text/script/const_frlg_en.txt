@@ -1,1 +1,33 @@
-0x4031	Starter
+0x4031	Starter	0:x,1:Squirtle,2:z
+0x4050	Oak blocking Route 1	0:Yes,1:No
+0x4055	Oak's Lab status	0:New game,1:Escorted to lab by Oak,2:Pick a starter,3:Rival battle ready,4:Pickup Oak's Parcel,5:Deliver Oak's Parcel,6:Pokédex obtained,8:National Dex obtained
+0x4057	Oak's Parcel (Viridian Mart)	0:Not received,1:Picked up,2:Delivered
+0x4051	Old Man (Viridian) blocking Route 2	0:Yes,1:No
+0x4054	Rival status (Route 22)	0:No,1:Ready for battle,2:Defeated,3:Ready for battle (8 Badges),4:Defeated (8 Badges)
+0x4052	Rival defeated (Cerulean City)	0:No,1:Yes
+0x405B	Rival defeated (SS Anne)	0:No,1:Yes
+0x405C	Rival defeated (Silph Corp)	0:No,1:Yes
+0x405D	Rival defeated (Pokémon Tower)	0:No,1:Yes
+0x4089	Rival Met (Six Island Center)	0:No,1:Yes
+0x4086	Rival Met (Six Island Center) side effect	0:No,1:Yes
+
+0x4024	Wild Pokémon in Altering Cave	0:Zubat,1:Mareep,2:Pineco,3:Houndour,4:Teddiursa,5:Aipom,6:Shuckle,7:Stantler,8:Smeargle
+
+0x4049	Hall of Fame trainer card sticker	0:None,1:Level 1,2:Level 2,3:Level 3
+0x404A	Hatched Eggs trainer card sticker	0:None,1:Level 1,2:Level 2,3:Level 3
+0x404B	Link Battles trainer card sticker	0:None,1:Level 1,2:Level 2,3:Level 3
+
+0x408B	Fossils scientist defeated (Mount Moon)	0:No,1:Yes
+0x407E	SS Anne status	0:In Vermilion City,1:Ready to depart,2:Gone
+0x4059	Marowak Ghost defeated	0:No,1:Yes
+0x4062	Saffron City guards	0:Thirsty,1:Satisfied
+0x4060	Giovanni defeated (Silph Corp)	0:No,1:Yes
+0x4058	?Town Map status?	2:Islands 1+2+3 upgrade
+0x4075	?Bill's status?	0:x,2:First visit to First Island
+0x407C	Wireless Communication tutorial (Pokémon Centers top floor)	1:Unread,2:Read
+0x4076	PokéCom Center status	0:First visit,1:x,2:Meteorite delivered,3:x,4:Ruby research commissioned,5:Ruby traded for Seven Pass,6:Hoenn Link just accomplished (before re-entering map),7:Hoenn Link accomplished
+0x407F	Mt. Ember status	0:Initial,1:Team Rocket looking for Ruby,2:Ruby tunnel open (Found Team Rocket)
+0x4080	Icefall Cave status	0:New game,1:Lorelei rescued
+0x4084	Lostelle's status	0:In the cave,1:Outside home,2:Returned home
+
+0x405F	Badge check status (Routes 22 and 23)

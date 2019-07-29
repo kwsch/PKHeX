@@ -8,6 +8,9 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Extension methods for <see cref="SaveFile"/> syntax sugar.
+    /// </summary>
     public static class SaveExtensions
     {
         /// <summary>
@@ -15,10 +18,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format.
         /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
-        /// <param name="SAV">Save File target that the PKM will be injected.</param>
+        /// <param name="sav">Save File target that the PKM will be injected.</param>
         /// <param name="pk">PKM input that is to be injected into the Save File.</param>
         /// <returns>Indication whether or not the PKM is compatible.</returns>
-        public static bool IsPKMCompatibleWithModifications(this SaveFile SAV, PKM pk) => PKMConverter.IsPKMCompatibleWithModifications(pk, SAV);
+        public static bool IsPKMCompatibleWithModifications(this SaveFile sav, PKM pk) => PKMConverter.IsPKMCompatibleWithModifications(pk, sav);
 
         /// <summary>
         /// Sets the details of a path to a <see cref="SaveFile"/> object.
@@ -46,9 +49,8 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets suggested export options for the savefile.
         /// </summary>
-        /// <param name="sav"></param>
-        /// <param name="ext"></param>
-        /// <returns></returns>
+        /// <param name="sav">SaveFile to be exported</param>
+        /// <param name="ext">Selected export extension</param>
         public static ExportFlags GetSuggestedFlags(this SaveFile sav, string ext)
         {
             var flags = ExportFlags.None;
@@ -62,64 +64,63 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks a <see cref="PKM"/> file for compatibility to the <see cref="SaveFile"/>.
         /// </summary>
-        /// <param name="SAV"><see cref="SaveFile"/> that is being checked.</param>
+        /// <param name="sav"><see cref="SaveFile"/> that is being checked.</param>
         /// <param name="pkm"><see cref="PKM"/> that is being tested for compatibility.</param>
         /// <returns></returns>
-        public static IReadOnlyList<string> IsPKMCompatible(this SaveFile SAV, PKM pkm)
+        public static IReadOnlyList<string> IsPKMCompatible(this SaveFile sav, PKM pkm)
         {
-            IBasicStrings strings = GameInfo.Strings;
-            return SAV.GetSaveFileErrata(pkm, strings);
+            return sav.GetSaveFileErrata(pkm, GameInfo.Strings);
         }
 
-        private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile SAV, PKM pkm, IBasicStrings strings)
+        private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile sav, PKM pkm, IBasicStrings strings)
         {
             var errata = new List<string>();
-            if (SAV.Generation > 1)
+            if (sav.Generation > 1)
             {
                 ushort held = (ushort)pkm.HeldItem;
                 var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion) pkm.Version);
                 if (held > itemstr.Count)
                     errata.Add($"{MsgIndexItemRange} {held}");
-                else if (held > SAV.MaxItemID)
+                else if (held > sav.MaxItemID)
                     errata.Add($"{MsgIndexItemGame} {itemstr[held]}");
-                else if (!pkm.CanHoldItem(SAV.HeldItems))
+                else if (!pkm.CanHoldItem(sav.HeldItems))
                     errata.Add($"{MsgIndexItemHeld} {itemstr[held]}");
             }
 
             if (pkm.Species > strings.Species.Count)
                 errata.Add($"{MsgIndexSpeciesRange} {pkm.Species}");
-            else if (SAV.MaxSpeciesID < pkm.Species)
+            else if (sav.MaxSpeciesID < pkm.Species)
                 errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pkm.Species]}");
 
-            if (!SAV.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
-                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, SAV.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
+            if (!sav.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
+                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
 
             if (pkm.Moves.Any(m => m > strings.Move.Count))
                 errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pkm.Moves.Where(m => m > strings.Move.Count).Select(m => m.ToString()))}");
-            else if (pkm.Moves.Any(m => m > SAV.MaxMoveID))
-                errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pkm.Moves.Where(m => m > SAV.MaxMoveID).Select(m => strings.Move[m]))}");
+            else if (pkm.Moves.Any(m => m > sav.MaxMoveID))
+                errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pkm.Moves.Where(m => m > sav.MaxMoveID).Select(m => strings.Move[m]))}");
 
             if (pkm.Ability > strings.Ability.Count)
                 errata.Add($"{MsgIndexAbilityRange} {pkm.Ability}");
-            else if (pkm.Ability > SAV.MaxAbilityID)
+            else if (pkm.Ability > sav.MaxAbilityID)
                 errata.Add($"{MsgIndexAbilityGame} {strings.Ability[pkm.Ability]}");
 
             return errata;
         }
 
         /// <summary>
-        /// Imports compatible <see cref="PKM"/> data to the <see cref="SAV"/>, starting at the provided box.
+        /// Imports compatible <see cref="PKM"/> data to the <see cref="sav"/>, starting at the provided box.
         /// </summary>
-        /// <param name="SAV">Save File that will receive the <see cref="compat"/> data.</param>
-        /// <param name="compat">Compatible <see cref="PKM"/> data that can be set to the <see cref="SAV"/> without conversion.</param>
+        /// <param name="sav">Save File that will receive the <see cref="compat"/> data.</param>
+        /// <param name="compat">Compatible <see cref="PKM"/> data that can be set to the <see cref="sav"/> without conversion.</param>
         /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="boxStart">First box to start loading to. All prior boxes are not modified.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>Count of injected <see cref="PKM"/>.</returns>
-        public static int ImportPKMs(this SaveFile SAV, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
+        public static int ImportPKMs(this SaveFile sav, IEnumerable<PKM> compat, bool overwrite = false, int boxStart = 0, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
-            int startCount = boxStart * SAV.BoxSlotCount;
-            int maxCount = SAV.SlotCount;
+            int startCount = boxStart * sav.BoxSlotCount;
+            int maxCount = sav.SlotCount;
             int index = startCount;
             int nonOverwriteImport = 0;
 
@@ -127,30 +128,31 @@ namespace PKHeX.Core
             {
                 if (overwrite)
                 {
-                    while (SAV.IsSlotOverwriteProtected(index))
+                    while (sav.IsSlotOverwriteProtected(index))
                         ++index;
 
-                    SAV.SetBoxSlotAtIndex(pk, index, noSetb);
+                    sav.SetBoxSlotAtIndex(pk, index, noSetb);
                 }
                 else
                 {
-                    index = SAV.NextOpenBoxSlot(index-1);
+                    index = sav.NextOpenBoxSlot(index-1);
                     if (index < 0) // Boxes full!
                         break;
 
-                    SAV.SetBoxSlotAtIndex(pk, index, noSetb);
+                    sav.SetBoxSlotAtIndex(pk, index, noSetb);
                     nonOverwriteImport++;
                 }
 
                 if (++index == maxCount) // Boxes full!
                     break;
             }
-            return (overwrite) ? index - startCount : nonOverwriteImport; // actual imported count
+            return overwrite ? index - startCount : nonOverwriteImport; // actual imported count
         }
 
-        public static IEnumerable<PKM> GetCompatible(this SaveFile SAV, IEnumerable<PKM> pks)
+        public static IEnumerable<PKM> GetCompatible(this SaveFile sav, IEnumerable<PKM> pks)
         {
-            var savtype = SAV.PKMType;
+            var savtype = sav.PKMType;
+
             foreach (var temp in pks)
             {
                 var pk = PKMConverter.ConvertToType(temp, savtype, out string c);
@@ -160,14 +162,14 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                if (PKMConverter.IsIncompatibleGB(pk.Format, SAV.Japanese, pk.Japanese))
+                if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk.Format, il.Japanese, pk.Japanese))
                 {
-                    c = PKMConverter.GetIncompatibleGBMessage(pk, SAV.Japanese);
+                    c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                     Debug.WriteLine(c);
                     continue;
                 }
 
-                var compat = SAV.IsPKMCompatible(pk);
+                var compat = sav.IsPKMCompatible(pk);
                 if (compat.Count > 0)
                     continue;
 
@@ -188,7 +190,7 @@ namespace PKHeX.Core
             if (pk.Format < 3 && sav.Generation < 7)
             {
                 // gen1-2 compatibility check
-                if (pk.Japanese != sav.Japanese)
+                if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
                     return sav.BlankPKM;
                 if (sav is SAV2 s2 && s2.Korean != pk.Korean)
                     return sav.BlankPKM;
@@ -215,7 +217,7 @@ namespace PKHeX.Core
                 return blank;
 
             var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out path) ?? blank; // no sneaky plz; reuse string
+            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? blank;
         }
     }
 }

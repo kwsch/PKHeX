@@ -2,12 +2,19 @@ using System;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Inventory Pouch with 4 bytes per item (u16 ID, u16 count)
+    /// </summary>
     public sealed class InventoryPouch4 : InventoryPouch
     {
         public InventoryPouch4(InventoryType type, ushort[] legal, int maxcount, int offset)
             : base(type, legal, maxcount, offset)
         {
         }
+
+        // size: 32bit
+        // u16 id
+        // u16 count
 
         public override void GetPouch(byte[] Data)
         {

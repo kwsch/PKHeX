@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,13 +9,14 @@ namespace PKHeX.WinForms
     public partial class SAV_PokedexORAS : Form
     {
         private readonly SaveFile Origin;
-        private readonly SAV6 SAV;
+        private readonly SAV6AO SAV;
 
         public SAV_PokedexORAS(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)(Origin = sav).Clone();
+            SAV = (SAV6AO)(Origin = sav).Clone();
+            Zukan = (Zukan6AO)SAV.Zukan;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
 
@@ -27,26 +27,22 @@ namespace PKHeX.WinForms
 
             // Fill List
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
 
-            GetData();
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(SAV.Data, SAV.Spinda).ToString("X8");
+            TB_Spinda.Text = Zukan.SpindaPID.ToString("X8");
             CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
-        private readonly bool[,] specbools = new bool[9, 0x60 * 8];
-        private readonly bool[,] langbools = new bool[7, 0x60 * 8];
-        private BitArray formbools;
+        private readonly Zukan6AO Zukan;
         private bool editing;
         private int species = -1;
-        private const int FormLen = 0x26;
 
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
@@ -113,21 +109,25 @@ namespace PKHeX.WinForms
             // Load Bools for the data
             int pk = species;
 
-            L_Spinda.Visible = TB_Spinda.Visible = pk == 327;
+            L_Spinda.Visible = TB_Spinda.Visible = pk == (int)Species.Spinda;
 
             // Load Partitions
-            for (int i = 0; i < 9; i++)
-                CP[i].Checked = specbools[i, pk - 1];
-            for (int i = 0; i < 7; i++)
-                CL[i].Checked = langbools[i, pk - 1];
+            CP[0].Checked = Zukan.GetCaught(species);
+            for (int i = 0; i < 4; i++)
+                CP[i + 1].Checked = Zukan.GetSeen(species, i);
+
+            for (int i = 0; i < 4; i++)
+                CP[i + 5].Checked = Zukan.GetDisplayed(species - 1, i);
+
+            for (int i = 0; i < CL.Length; i++)
+                CL[i].Checked = Zukan.GetLanguageFlag(species - 1, i);
 
             int gt = SAV.Personal[pk].Gender;
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
 
-            // Load Encountered Count
-            MT_Count.Text = BitConverter.ToUInt16(SAV.Data, SAV.EncounterCount + ((pk - 1) * 2)).ToString();
+            MT_Count.Text = Zukan.GetEncounterCount(species - 1).ToString();
 
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
@@ -140,16 +140,15 @@ namespace PKHeX.WinForms
             if (forms.Length < 1)
                 return;
 
-            // 0x26 packs of bools
             for (int i = 0; i < forms.Length; i++) // Seen
-                CLB_FormsSeen.Items.Add(forms[i], formbools[f + i + (0 *FormLen*8)]);
+                CLB_FormsSeen.Items.Add(forms[i], Zukan.GetFormFlag(f + i, 0));
             for (int i = 0; i < forms.Length; i++) // Seen Shiny
-                CLB_FormsSeen.Items.Add($"* {forms[i]}", formbools[f + i + (1 *FormLen*8)]);
+                CLB_FormsSeen.Items.Add($"* {forms[i]}", Zukan.GetFormFlag(f + i, 1));
 
             for (int i = 0; i < forms.Length; i++) // Displayed
-                CLB_FormDisplayed.Items.Add(forms[i], formbools[f + i + (2 *FormLen*8)]);
+                CLB_FormDisplayed.Items.Add(forms[i], Zukan.GetFormFlag(f + i, 2));
             for (int i = 0; i < forms.Length; i++) // Displayed Shiny
-                CLB_FormDisplayed.Items.Add($"* {forms[i]}", formbools[f + i + (3 *FormLen*8)]);
+                CLB_FormDisplayed.Items.Add($"* {forms[i]}", Zukan.GetFormFlag(f + i, 3));
         }
 
         private void SetEntry()
@@ -157,25 +156,17 @@ namespace PKHeX.WinForms
             if (species < 0)
                 return;
 
-            specbools[0, species - 1] = CHK_P1.Checked;
-            specbools[1, species - 1] = CHK_P2.Checked;
-            specbools[2, species - 1] = CHK_P3.Checked;
-            specbools[3, species - 1] = CHK_P4.Checked;
-            specbools[4, species - 1] = CHK_P5.Checked;
-            specbools[5, species - 1] = CHK_P6.Checked;
-            specbools[6, species - 1] = CHK_P7.Checked;
-            specbools[7, species - 1] = CHK_P8.Checked;
-            specbools[8, species - 1] = CHK_P9.Checked;
+            Zukan.SetCaught(species, CP[0].Checked);
+            for (int i = 0; i < 4; i++)
+                Zukan.SetSeen(species, i, CP[i + 1].Checked);
+            for (int i = 0; i < 4; i++)
+                Zukan.SetDisplayed(species - 1, i, CP[i + 5].Checked);
 
-            langbools[0, species - 1] = CHK_L1.Checked;
-            langbools[1, species - 1] = CHK_L2.Checked;
-            langbools[2, species - 1] = CHK_L3.Checked;
-            langbools[3, species - 1] = CHK_L4.Checked;
-            langbools[4, species - 1] = CHK_L5.Checked;
-            langbools[5, species - 1] = CHK_L6.Checked;
-            langbools[6, species - 1] = CHK_L7.Checked;
+            for (int i = 0; i < CL.Length; i++)
+                Zukan.SetLanguageFlag(species - 1, i, CL[i].Checked);
 
-            BitConverter.GetBytes((ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text))).CopyTo(SAV.Data, SAV.EncounterCount + ((species - 1) * 2));
+            ushort count = (ushort) Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text));
+            Zukan.SetEncounterCount(species - 1, count);
 
             int fc = SAV.Personal[species].FormeCount;
             int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
@@ -183,87 +174,16 @@ namespace PKHeX.WinForms
                 return;
 
             for (int i = 0; i < CLB_FormsSeen.Items.Count/2; i++) // Seen
-                formbools[f + i + (0 *FormLen*8)] = CLB_FormsSeen.GetItemChecked(i);
+                Zukan.SetFormFlag(f, 0, CLB_FormsSeen.GetItemChecked(i));
             for (int i = 0; i < CLB_FormsSeen.Items.Count/2; i++)  // Seen Shiny
-                formbools[f + i + (1 *FormLen*8)] = CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count/2));
+                Zukan.SetFormFlag(f, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count/2)));
 
             editing = true;
             for (int i = 0; i < CLB_FormDisplayed.Items.Count/2; i++) // Displayed
-                formbools[f + i + (2 *FormLen*8)] = CLB_FormDisplayed.GetItemChecked(i);
+                Zukan.SetFormFlag(f, 2, CLB_FormDisplayed.GetItemChecked(i));
             for (int i = 0; i < CLB_FormDisplayed.Items.Count/2; i++)  // Displayed Shiny
-                formbools[f + i + (3 *FormLen*8)] = CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count/2));
+                Zukan.SetFormFlag(f, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count/2)));
             editing = false;
-        }
-
-        private void GetData()
-        {
-            // Fill Bit arrays
-            for (int i = 0; i < 9; i++)
-            {
-                byte[] data = new byte[0x60];
-                int offset = SAV.PokeDex + 0x8 + (0x60 * i);
-                Array.Copy(SAV.Data, offset, data, 0, data.Length);
-                BitArray BitRegion = new BitArray(data);
-                for (int b = 0; b < 0x60 * 8; b++)
-                    specbools[i, b] = BitRegion[b];
-            }
-
-            // Fill Language arrays
-            byte[] langdata = new byte[0x280];
-            Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, langdata.Length);
-            BitArray LangRegion = new BitArray(langdata);
-            for (int b = 0; b < SAV.MaxSpeciesID; b++) // 721 Species
-            {
-                for (int i = 0; i < 7; i++) // 7 Languages
-                    langbools[i, b] = LangRegion[(7 * b) + i];
-            }
-
-            byte[] formdata = new byte[FormLen*4];
-            Array.Copy(SAV.Data, SAV.PokeDex + 0x368, formdata, 0, formdata.Length);
-            formbools = new BitArray(formdata);
-        }
-
-        private void SetData()
-        {
-            // Save back the Species Bools
-            // Return to Byte Array
-            for (int p = 0; p < 9; p++)
-            {
-                byte[] sdata = new byte[0x60];
-
-                for (int i = 0; i < 0x60*8; i++)
-                {
-                    if (specbools[p, i])
-                        sdata[i/8] |= (byte) (1 << i%8);
-                }
-
-                sdata.CopyTo(SAV.Data, SAV.PokeDex + 8 + (0x60 * p));
-            }
-
-            // Build new bool array for the Languages
-            bool[] languagedata = new bool[0x27C*8];
-            for (int i = 0; i <= SAV.MaxSpeciesID; i++)
-            {
-                for (int l = 0; l < 7; l++)
-                    languagedata[(i * 7) + l] = langbools[l, i];
-            }
-
-            // Return to Byte Array
-            byte[] ldata = new byte[languagedata.Length/8];
-
-            for (int i = 0; i < languagedata.Length; i++)
-            {
-                if (languagedata[i])
-                    ldata[i/8] |= (byte) (1 << i%8);
-            }
-
-            ldata.CopyTo(SAV.Data, SAV.PokeDexLanguageFlags);
-
-            formbools.CopyTo(SAV.Data, SAV.PokeDex + 0x368);
-
-            // Store Spinda Spot
-            uint PID = Util.GetHexValue(TB_Spinda.Text);
-            BitConverter.GetBytes(PID).CopyTo(SAV.Data, SAV.Spinda);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -274,8 +194,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
-            SetData();
-
+            Zukan.SpindaPID = Util.GetHexValue(TB_Spinda.Text);
             Origin.SetData(SAV.Data, 0);
             Close();
         }
@@ -332,13 +251,13 @@ namespace PKHeX.WinForms
             if (mnuDexNav == sender)
             {
                 for (int i = 0; i < SAV.MaxSpeciesID; i++)
-                    BitConverter.GetBytes((ushort)999).CopyTo(SAV.Data, SAV.EncounterCount + (i * 2));
+                    Zukan.SetEncounterCount(i, 999);
                 return;
             }
             if (mnuResetNav == sender)
             {
                 for (int i = 0; i < SAV.MaxSpeciesID; i++)
-                    BitConverter.GetBytes((ushort)0).CopyTo(SAV.Data, SAV.EncounterCount + (i * 2));
+                    Zukan.SetEncounterCount(i, 0);
                 return;
             }
 
@@ -416,11 +335,8 @@ namespace PKHeX.WinForms
             }
 
             SetEntry();
-            SetData();
             if (mnuComplete == sender) // Turn off Italian Petlil
-                SAV.Data[SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
-
-            GetData();
+                Zukan.SetLanguageFlag((int)Species.Petilil - 1, (int)LanguageID.Italian - 1, false);
             GetEntry();
         }
 
@@ -448,13 +364,6 @@ namespace PKHeX.WinForms
 
         private void ModifyAllForms(object sender, EventArgs e)
         {
-            if (sender == mnuFormNone)
-            {
-                formbools = new BitArray(new bool[formbools.Length]); // reset false
-                GetEntry();
-                return;
-            }
-
             for (int i = 0; i < CB_Species.Items.Count; i++)
             {
                 LB_Species.SelectedIndex = i;
@@ -475,6 +384,13 @@ namespace PKHeX.WinForms
                         CLB_FormsSeen.SetItemChecked(f, true);
                     if (CLB_FormDisplayed.CheckedItems.Count == 0)
                         CLB_FormDisplayed.SetItemChecked(0, true);
+                }
+                else // none
+                {
+                    for (int f = 0; f < CLB_FormsSeen.Items.Count; f++)
+                        CLB_FormsSeen.SetItemChecked(f, false);
+                    for (int f = 0; f < CLB_FormDisplayed.Items.Count; f++)
+                        CLB_FormDisplayed.SetItemChecked(f, false);
                 }
             }
         }

@@ -660,6 +660,7 @@
             0,
             0,
             0});
+            this.NUD_MailID6.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM6
             // 
@@ -700,6 +701,7 @@
             0,
             0,
             0});
+            this.NUD_MailID5.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM5
             // 
@@ -740,6 +742,7 @@
             0,
             0,
             0});
+            this.NUD_MailID4.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM4
             // 
@@ -780,6 +783,7 @@
             0,
             0,
             0});
+            this.NUD_MailID3.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM3
             // 
@@ -820,6 +824,7 @@
             0,
             0,
             0});
+            this.NUD_MailID2.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM2
             // 
@@ -860,6 +865,7 @@
             0,
             0,
             0});
+            this.NUD_MailID1.ValueChanged += new System.EventHandler(this.NUD_MailIDn_ValueChanged);
             // 
             // L_PKM1
             // 

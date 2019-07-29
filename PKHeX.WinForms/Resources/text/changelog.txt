@@ -1,11 +1,26 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/05/15 - New Update:
+19/07/05 - New Update:
+ - Legality:
+ - - Added: Recognition for Method 3 encounters. Be suspicious if any of your Gen3 mons have this PID type :)
+ - - Fixed: Gen2 In-game trades checking is now more accurate. Thanks @WEERSOQUEER!
+ - - Fixed: Minor regressions have been fixed. Thanks @Ammako, @sora10pls, @SpiredMoth, @iiippppk!
+ - Added: Gen6 ORAS secret bases can now be dumped & shared. Special QR bases might not be supported completely.
+ - Changed: PK1/2 transferring to Gen7 will try and use the destination's language. Thanks @marcrobledo!
+ - Changed: Gen7 LGPE now hides unavailable moves/species from the PKM editor.
+ - Changed: Gen7 LGPE starter sprites have been revised for visual differences. Thanks @sora10pls!
+ - Changed: Updated Mailbox editor. Thanks @pokecal!
+ - Changed: Some logic has been refactored & extracted, for better reuse (in other projects).
+ - Fixed: Gen5 shiny mystery gifts no longer cause the program to freeze. Thanks @Ammako & Certesh!
+ - Fixed: The Box view now shows the correct wallpaper. Thanks @sora10pls!
+ - Fixed: Gen2 Crystal Japanese event flags now read/write from the correct offset. Thanks TheSlayer!
+
+19/05/15 - New Update: (93107) [1872993]
  - Legality:
  - - Added: Initial support for complete savefile cross-comparison checks. Control click the Checksums button in the SAV tab.
  - - Added: shiny check for Ash Greninja edge case. Thanks @WardenUnleashed & @DaWoblefet!
- - - Added: VC transfer nature checks (gained no/little XP after transfer). Thanks @SadisticMystic
+ - - Added: VC transfer nature checks (gained no/little XP after transfer). Thanks @SadisticMystic!
  - - Fixed: B2W2 French OT in-game trade name. Thanks @WEERSOQUEER!
  - - Fixed: Gen1 Machoke catch rate forced value is now correct. Thanks @Ninjistix!
  - Added: Gen7 LGPE wb7full drag&drop support. Thanks @ReignOfComputer!

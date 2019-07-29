@@ -6,11 +6,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 2 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV2 : SaveFile
+    public sealed class SAV2 : SaveFile, ILangDeviantSave
     {
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+        public bool Japanese { get; }
+        public bool Korean { get; }
 
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
@@ -20,9 +22,9 @@ namespace PKHeX.Core
             return 1 <= gen && gen <= 2;
         }).ToArray();
 
-        public SAV2(GameVersion versionOverride = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
+        public SAV2(GameVersion version = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
         {
-            Version = versionOverride;
+            Version = version;
             switch (lang)
             {
                 case LanguageID.Japanese:
@@ -157,7 +159,6 @@ namespace PKHeX.Core
         }
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
-        public bool Korean { get; }
         private readonly SAV2Offsets Offsets;
 
         private int GetBoxRawDataOffset(int i, int splitAtIndex)

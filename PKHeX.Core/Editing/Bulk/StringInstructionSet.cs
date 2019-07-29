@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Processes input of strings into a list of valid Filters and Instructions.
+    /// </summary>
     public class StringInstructionSet
     {
         public IList<StringInstruction> Filters { get; private set; }

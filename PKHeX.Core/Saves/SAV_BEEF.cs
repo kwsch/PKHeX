@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Footer checksum block layout <see cref="SaveFile"/>, marked with "BEEF" magic number.
+    /// </summary>
+    /// <remarks>Shared logic is used by Gen6 and Gen7 save files.</remarks>
     public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     {
         protected SAV_BEEF(byte[] data, BlockInfo[] blocks, int biOffset) : base(data)

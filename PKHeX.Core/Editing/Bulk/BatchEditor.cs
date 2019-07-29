@@ -6,6 +6,9 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Carries out a batch edit and contains information summarizing the results.
+    /// </summary>
     public class BatchEditor
     {
         private int Modified { get; set; }
