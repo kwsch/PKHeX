@@ -150,7 +150,7 @@ namespace PKHeX.Core
             PokeFinder = new PokeFinder7(this, PokeFinderSave);
             Festa = new JoinFesta7(this, JoinFestaData);
             DaycareBlock = new Daycare7(this, Daycare);
-            Situation = new Situation7(this, Overworld);
+            Situation = new Situation7(this, Trainer1);
             MyStatus = new MyStatus7(this, TrainerCard);
             OverworldBlock = new FieldMoveModelSave7(this, Overworld);
             Config = new ConfigSave7(this, ConfigSave);
