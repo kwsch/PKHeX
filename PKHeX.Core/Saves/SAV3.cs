@@ -73,7 +73,7 @@ namespace PKHeX.Core
         {
             if (version == GameVersion.FR || version == GameVersion.LG)
                 Version = GameVersion.FRLG;
-            else if (version == GameVersion.R || version == GameVersion.LG)
+            else if (version == GameVersion.R || version == GameVersion.S)
                 Version = GameVersion.RS;
             else
                 Version = version;
