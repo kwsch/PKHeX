@@ -296,9 +296,6 @@ namespace PKHeX.Core
             049, // Venomoth
             052, // Meowth
             053, // Persian
-            060, // Poliwag
-            061, // Poliwhirl
-            062, // Poliwrath
             069, // Bellsprout
             070, // Weepinbell
             071, // Victreebel
