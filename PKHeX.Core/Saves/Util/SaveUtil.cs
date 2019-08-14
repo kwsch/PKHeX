@@ -656,7 +656,9 @@ namespace PKHeX.Core
             try
             {
                 var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                var files = Directory.EnumerateFiles(folderPath, "*", searchOption);
+                // force evaluation so that an invalid path will throw before we return true/false.
+                // EnumerateFiles throws an exception while iterating, which won't be caught by the trycatch here.
+                var files = Directory.GetFiles(folderPath, "*", searchOption);
                 int safelen(string file)
                 {
                     try { return (int) new FileInfo(file).Length; }
