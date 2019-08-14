@@ -422,11 +422,20 @@ namespace PKHeX.Core
                 return new int[4];
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
                 return Legal.GetBaseEggMoves(pkm, pkm.Species, (GameVersion)pkm.Version, pkm.CurrentLevel);
-            if (!(tm || tutor || reminder) && (Info.Generation <= 2 || pkm.Species == EncounterOriginal.Species))
+
+            if (!tm && !tutor && !reminder)
             {
-                var lvl = Info.Generation <= 2 && pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
-                var ver = Info.Generation <= 2 && EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
-                return MoveLevelUp.GetEncounterMoves(pkm, lvl, ver);
+                // try to give current moves
+                if (Info.Generation <= 2)
+                {
+                    var lvl = pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
+                    var ver = EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
+                    return MoveLevelUp.GetEncounterMoves(EncounterOriginal.Species, 0, lvl, ver);
+                }
+                if (pkm.Species == EncounterOriginal.Species)
+                {
+                    return MoveLevelUp.GetEncounterMoves(pkm.Species, pkm.AltForm, pkm.CurrentLevel, (GameVersion)pkm.Version);
+                }
             }
             var evos = Info.EvoChainsAllGens;
             return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
