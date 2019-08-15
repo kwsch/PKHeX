@@ -580,7 +580,7 @@ namespace PKHeX.WinForms.Controls
             return path;
         }
 
-        private static string GetLocalizedPreviewText(PKM pk, string language)
+        public static string GetLocalizedPreviewText(PKM pk, string language)
         {
             var set = new ShowdownSet(pk);
             if (pk.Format <= 2) // Nature preview from IVs

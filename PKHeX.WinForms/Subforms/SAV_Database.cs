@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Searching;
 using PKHeX.WinForms.Controls;
+using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
@@ -68,6 +69,26 @@ namespace PKHeX.WinForms
                     else if (ModifierKeys == Keys.Shift)
                         ClickSet(sender, e);
                 };
+
+                if (Settings.Default.HoverSlotShowText)
+                {
+                    slot.MouseEnter += (sender, e) =>
+                    {
+                        int index = Array.IndexOf(PKXBOXES, slot);
+                        if (!GetShiftedIndex(ref index))
+                            return;
+
+                        var pk = Results[index];
+                        if (pk.Species == 0)
+                        {
+                            ShowSet.RemoveAll();
+                            return;
+                        }
+
+                        var text = SlotChangeManager.GetLocalizedPreviewText(pk, Settings.Default.Language);
+                        ShowSet.SetToolTip(slot, text);
+                    };
+                }
             }
 
             Counter = L_Count.Text;
@@ -113,19 +134,14 @@ namespace PKHeX.WinForms
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
         private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
+        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 200, IsBalloon = false};
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
         {
             sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
-            if (index >= RES_MAX)
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                return;
-            }
-            index += SCR_Box.Value * RES_MIN;
-            if (index >= Results.Count)
+            if (!GetShiftedIndex(ref index))
             {
                 System.Media.SystemSounds.Exclamation.Play();
                 return;
@@ -142,13 +158,7 @@ namespace PKHeX.WinForms
         {
             sender = WinFormsUtil.GetUnderlyingControl(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
-            if (index >= RES_MAX)
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                return;
-            }
-            index += SCR_Box.Value * RES_MIN;
-            if (index >= Results.Count)
+            if (!GetShiftedIndex(ref index))
             {
                 System.Media.SystemSounds.Exclamation.Play();
                 return;
@@ -233,6 +243,14 @@ namespace PKHeX.WinForms
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - (PKXBOXES.Length/6) + 1);
             FillPKXBoxes(SCR_Box.Value);
             WinFormsUtil.Alert(MsgDBAddFromTabsSuccess);
+        }
+
+        private bool GetShiftedIndex(ref int index)
+        {
+            if (index >= RES_MAX)
+                return false;
+            index += SCR_Box.Value * RES_MIN;
+            return index < Results?.Count;
         }
 
         private void PopulateComboBoxes()
