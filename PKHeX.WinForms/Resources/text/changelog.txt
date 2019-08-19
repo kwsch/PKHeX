@@ -1,7 +1,21 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/07/05 - New Update:
+19/08/19 - New Update:
+ - Legality:
+ - - Added: Super Training data for Eggs & GB era are now checked. Thanks @Narithegreat!
+ - - Added: More Colosseum met locations for shadow encounters. Thanks @ReignOfComputer!
+ - - Changed: Distribution Super Training missions are now flagged as Invalid (never released).
+ - Added: Hovering over a slot in the Database now shows a preview tooltip like the Box view. Thanks SadisticMystic!
+ - Changed: Misc internal changes to logic (migrating into PKHeX.Core and solidifying abstractions).
+ - Fixed: Bad filenames on external media no longer cause exceptions when detecting a savefile.
+ - Fixed: Suggesting moves for certain VC encounters no longer cause exceptions.
+ - Fixed: Celebrate, Happy Hour, Hold Hands, and partner moves are now allowed for LGPE move selection.
+ - Fixed: Reverted Gen4->5 decapitalization on nicknames. Thanks @Ammako!
+ - Updated: More event flags for gen3 have been added. Thanks @sora10pls & @rboninsegna!
+ - Updated: Spanish translation has been updated. Thanks @XxPhoenix1996xX!
+
+19/07/05 - New Update: (80492) [1953485]
  - Legality:
  - - Added: Recognition for Method 3 encounters. Be suspicious if any of your Gen3 mons have this PID type :)
  - - Fixed: Gen2 In-game trades checking is now more accurate. Thanks @WEERSOQUEER!
