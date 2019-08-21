@@ -1,12 +1,11 @@
 ﻿namespace PKHeX.Core
 {
-    public class SlotChangeInfo
+    public class SlotChangeInfo<T>
     {
         public bool LeftMouseIsDown { get; set; }
-        public bool RightMouseIsDown { get; set; }
         public bool DragDropInProgress { get; set; }
 
-        public object Cursor { get; set; }
+        public T Cursor { get; set; }
         public string CurrentPath { get; set; }
 
         public SlotChange Source { get; set; }
@@ -21,13 +20,20 @@
         }
 
         public bool SameSlot => Source.Slot == Destination.Slot && Source.Box == Destination.Box;
+        public bool EitherIsParty => Source.IsParty || Destination.IsParty;
 
         public void Reset()
         {
-            LeftMouseIsDown = RightMouseIsDown = DragDropInProgress = false;
+            LeftMouseIsDown = DragDropInProgress = false;
             Source = new SlotChange { PKM = Blank };
             Destination = new SlotChange();
-            Cursor = CurrentPath = null;
+            CurrentPath = null;
+            Cursor = default;
+        }
+
+        public void Invalidate()
+        {
+            Destination.Slot = -1;
         }
     }
 }

@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
         private void FormInitializeSecond()
         {
             var settings = Settings.Default;
-            Draw = C_SAV.M.Draw = PKME_Tabs.Draw = DrawConfig.GetConfig(settings.Draw);
+            Draw = C_SAV.M.Hover.Draw = PKME_Tabs.Draw = DrawConfig.GetConfig(settings.Draw);
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
@@ -433,7 +433,7 @@ namespace PKHeX.WinForms
             C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;
             CommonEdits.ShowdownSetIVMarkings = settings.ApplyMarkings;
             C_SAV.FlagIllegal = settings.FlagIllegal;
-            C_SAV.M.GlowHover = settings.HoverSlotGlowEdges;
+            C_SAV.M.Hover.GlowHover = settings.HoverSlotGlowEdges;
             SpriteBuilder.ShowEggSpriteAsItem = settings.ShowEggSpriteAsHeldItem;
             ParseSettings.AllowGen1Tradeback = settings.AllowGen1Tradeback;
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.HideSecretDetails;
@@ -1125,16 +1125,16 @@ namespace PKHeX.WinForms
             try
             {
                 File.WriteAllBytes(newfile, data);
-                C_SAV.M.DragInfo.Source.PKM = pk;
+                C_SAV.M.Drag.Info.Source.PKM = pk;
 
                 var pb = (PictureBox)sender;
                 if (pb.Image != null)
-                    C_SAV.M.DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
+                    C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
             { WinFormsUtil.Error("Drag && Drop Error", x); }
-            C_SAV.M.SetCursor(DefaultCursor, sender);
+            C_SAV.M.Drag.ResetCursor(this);
             File.Delete(newfile);
         }
 

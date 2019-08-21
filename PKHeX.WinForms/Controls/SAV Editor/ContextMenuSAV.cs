@@ -33,10 +33,10 @@ namespace PKHeX.WinForms.Controls
             if ((sender as PictureBox)?.Image == null)
             { System.Media.SystemSounds.Asterisk.Play(); return; }
 
-            m.HoverCancel();
+            m.Hover.Stop();
 
             m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false, true);
-            m.SetColor(info.Box, info.Slot, Resources.slotView);
+            m.SetColor(info.Box, info.Slot, SlotTouchType.Get);
         }
 
         private void ClickSet(object sender, EventArgs e)
@@ -61,7 +61,7 @@ namespace PKHeX.WinForms.Controls
             if (errata.Count > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
                 return;
 
-            m.HoverCancel();
+            m.Hover.Stop();
 
             if (info.Type == StorageSlotType.Party) // Party
             {
@@ -72,7 +72,7 @@ namespace PKHeX.WinForms.Controls
                     var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
                     info = view.GetSlotData(view.SlotPictureBoxes[sav.PartyCount]);
                 }
-                m.SetPKM(pk, info, true, Resources.slotSet);
+                m.SetPKM(pk, info, true, SlotTouchType.Set);
             }
             else if (info.Type == StorageSlotType.Box || m.SE.HaX)
             {
@@ -82,7 +82,7 @@ namespace PKHeX.WinForms.Controls
                     m.SE.Menu_Undo.Enabled = true;
                 }
 
-                m.SetPKM(pk, info, true, Resources.slotSet);
+                m.SetPKM(pk, info, true, SlotTouchType.Set);
             }
             else
             {
@@ -108,11 +108,11 @@ namespace PKHeX.WinForms.Controls
             if (sav.IsSlotLocked(info.Box, info.Slot))
             { WinFormsUtil.Alert(MsgSaveSlotLocked); return; }
 
-            m.HoverCancel();
+            m.Hover.Stop();
 
             if (info.Type == StorageSlotType.Party) // Party
             {
-                m.SetPKM(sav.BlankPKM, info, true, Resources.slotDel);
+                m.SetPKM(sav.BlankPKM, info, true, SlotTouchType.Delete);
                 return;
             }
             if (info.Type == StorageSlotType.Box || m.SE.HaX)
@@ -122,7 +122,7 @@ namespace PKHeX.WinForms.Controls
                     m.SE.UndoStack.Push(new SlotChange(info, sav));
                     m.SE.Menu_Undo.Enabled = true;
                 }
-                m.SetPKM(sav.BlankPKM, info, true, Resources.slotDel);
+                m.SetPKM(sav.BlankPKM, info, true, SlotTouchType.Delete);
             }
             else
             {

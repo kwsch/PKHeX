@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
                             return;
                         }
 
-                        var text = SlotChangeManager.GetLocalizedPreviewText(pk, Settings.Default.Language);
+                        var text = ShowdownSet.GetLocalizedPreviewText(pk, Settings.Default.Language);
                         ShowSet.SetToolTip(slot, text);
                     };
                 }
@@ -194,7 +194,7 @@ namespace PKHeX.WinForms
                     return;
                 }
                 var change = new SlotChange {Box = box, Offset = offset, Slot = slot};
-                BoxView.M.SetPKM(BoxView.SAV.BlankPKM, change, true, Properties.Resources.slotDel);
+                BoxView.M.SetPKM(BoxView.SAV.BlankPKM, change, true, SlotTouchType.Delete);
             }
             // Remove from database.
             RawDB.Remove(pk);

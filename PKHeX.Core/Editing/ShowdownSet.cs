@@ -733,5 +733,19 @@ namespace PKHeX.Core
         /// <param name="separator">Splitter between each set.</param>
         /// <returns>Single string containing all <see cref="Text"/> lines.</returns>
         public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownSets(data));
+
+        /// <summary>
+        /// Gets a localized string preview of the provided <see cref="pk"/>.
+        /// </summary>
+        /// <param name="pk">Pokémon data</param>
+        /// <param name="language">Language code</param>
+        /// <returns>Multi-line string</returns>
+        public static string GetLocalizedPreviewText(PKM pk, string language)
+        {
+            var set = new ShowdownSet(pk);
+            if (pk.Format <= 2) // Nature preview from IVs
+                set.Nature = Experience.GetNatureVC(pk.EXP);
+            return set.LocalizedText(language);
+        }
     }
 }

@@ -225,6 +225,10 @@
     <Compile Include="Controls\SAV Editor\ContextMenuSAV.Designer.cs">
       <DependentUpon>ContextMenuSAV.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\CryPlayer.cs" />
+    <Compile Include="Controls\SAV Editor\DragManager.cs" />
+    <Compile Include="Controls\SAV Editor\DropModifier.cs" />
+    <Compile Include="Controls\SAV Editor\SlotHoverHandler.cs" />
     <Compile Include="Controls\SAV Editor\SlotIndex.cs" />
     <Compile Include="Controls\SAV Editor\SlotChangeManager.cs" />
     <Compile Include="Controls\SAV Editor\SAVEditor.cs">
@@ -239,6 +243,9 @@
     <Compile Include="Controls\SAV Editor\SlotList.Designer.cs">
       <DependentUpon>SlotList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SAV Editor\SlotUtil.cs" />
+    <Compile Include="Controls\SAV Editor\SummaryPreviewer.cs" />
+    <Compile Include="Controls\SAV Editor\SlotTrackerImage.cs" />
     <Compile Include="Controls\SAV Editor\SlotViewer.cs" />
     <Compile Include="Controls\SAV Editor\BoxMenuStrip.cs">
       <SubType>Component</SubType>

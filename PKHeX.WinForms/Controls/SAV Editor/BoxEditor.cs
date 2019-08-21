@@ -18,7 +18,6 @@ namespace PKHeX.WinForms.Controls
         public SlotChangeManager M { get; set; }
         public bool FlagIllegal { get; set; }
         public bool CanSetCurrentBox { get; set; }
-        private const int SlotCount = 30;
 
         public BoxEditor()
         {
@@ -84,7 +83,13 @@ namespace PKHeX.WinForms.Controls
         public int CurrentBox
         {
             get => CB_BoxSelect.SelectedIndex;
-            set => CB_BoxSelect.SelectedIndex = value;
+            set
+            {
+                CB_BoxSelect.SelectedIndex = value;
+                if (value < 0)
+                    return;
+                Editor.LoadBox(value);
+            }
         }
 
         public string CurrentBoxName => CB_BoxSelect.Text;
@@ -107,6 +112,14 @@ namespace PKHeX.WinForms.Controls
         {
             if (pb == null)
                 pb = SlotPictureBoxes[slot];
+
+            if (p.Species == 0) // Nothing in slot
+            {
+                pb.Image = null;
+                pb.BackColor = Color.Transparent;
+                pb.Visible = true;
+                return;
+            }
             if (!p.Valid) // Invalid
             {
                 // Bad Egg present in slot.
@@ -120,8 +133,8 @@ namespace PKHeX.WinForms.Controls
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
 
-            if (M != null && M.ColorizedBox == box && M.ColorizedSlot == slot)
-                pb.BackgroundImage = M.ColorizedColor;
+            if (M != null && M.LastSlot.Box == box && M.LastSlot.Slot == slot)
+                pb.BackgroundImage = M.LastSlot.InteractionColor;
         }
 
         public void ResetBoxNames(int box = -1)
@@ -160,21 +173,20 @@ namespace PKHeX.WinForms.Controls
         public void ResetSlots()
         {
             int box = CurrentBox;
-            int boxoffset = SAV.GetBoxOffset(box);
             PAN_Box.BackgroundImage = SAV.WallpaperImage(box);
-            M?.HoverWorker?.Stop();
+            M?.Hover.Stop();
 
-            int slot = M?.ColorizedBox == box ? M.ColorizedSlot : -1;
+            int slot = M?.LastSlot.Box == box ? M.LastSlot.Slot : -1;
 
             int index = box * SAV.BoxSlotCount;
             for (int i = 0; i < BoxSlotCount; i++)
             {
                 var pb = SlotPictureBoxes[i];
                 if (i < SAV.BoxSlotCount && index + i < SAV.SlotCount)
-                    GetSlotFiller(boxoffset + (SAV.SIZE_STORED * i), pb, box, i);
+                    SetSlotFiller(Editor[i], box, slot, pb);
                 else
                     pb.Visible = false;
-                pb.BackgroundImage = slot == i ? M?.ColorizedColor : null;
+                pb.BackgroundImage = slot == i ? M?.LastSlot.InteractionColor : null;
             }
         }
 
@@ -219,39 +231,17 @@ namespace PKHeX.WinForms.Controls
 
         private void GetBox(object sender, EventArgs e)
         {
+            CurrentBox = CB_BoxSelect.SelectedIndex;
             if (SAV.CurrentBox != CurrentBox && CanSetCurrentBox)
                 SAV.CurrentBox = CurrentBox;
             ResetSlots();
-            M?.RefreshHoverSlot(this);
+            M?.Hover.Stop();
         }
 
-        private void ClickBoxLeft(object sender, EventArgs e) => MoveLeft(ModifierKeys == Keys.Control);
+        private void ClickBoxLeft(object sender, EventArgs e) => CurrentBox = Editor.MoveLeft(ModifierKeys == Keys.Control);
+        private void ClickBoxRight(object sender, EventArgs e) => CurrentBox = Editor.MoveRight(ModifierKeys == Keys.Control);
 
-        public void MoveLeft(bool max = false)
-        {
-            CurrentBox = max ? 0 : (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
-        }
-
-        private void ClickBoxRight(object sender, EventArgs e) => MoveRight(ModifierKeys == Keys.Control);
-
-        public void MoveRight(bool max = false)
-        {
-            CurrentBox = max ? SAV.BoxCount - 1 : (CurrentBox + 1) % SAV.BoxCount;
-        }
-
-        private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
-        {
-            if (!SAV.IsPKMPresent(offset))
-            {
-                // 00s present in slot.
-                pb.Image = null;
-                pb.BackColor = Color.Transparent;
-                pb.Visible = true;
-                return;
-            }
-            PKM p = SAV.GetStoredSlot(offset);
-            SetSlotFiller(p, box, slot, pb);
-        }
+        public BoxEdit Editor { get; set; }
 
         // Drag & Drop Handling
         private void BoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);
@@ -263,5 +253,12 @@ namespace PKHeX.WinForms.Controls
         private void BoxSlot_DragEnter(object sender, DragEventArgs e) => M?.DragEnter(sender, e);
         private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
         private void BoxSlot_DragDrop(object sender, DragEventArgs e) => M?.DragDrop(sender, e);
+
+        public void InitializeFromSAV(SaveFile sav)
+        {
+            Editor = new BoxEdit(sav);
+            Editor.LoadBox(sav.CurrentBox);
+            ResetBoxNames();   // Display the Box Names
+        }
     }
 }

@@ -170,7 +170,7 @@ namespace PKHeX.Core
             return data;
         }
 
-        private void AddBoxData(IList<PKM> data, int box, int index)
+        public void AddBoxData(IList<PKM> data, int box, int index)
         {
             int ofs = GetBoxOffset(box);
             var boxName = GetBoxName(box);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using PKHeX.Core;
 using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms
@@ -12,6 +13,7 @@ namespace PKHeX.WinForms
         {
             parent = p;
             InitializeComponent();
+            Box.Editor = new BoxEdit(m.SE.SAV);
             Box.Setup(m);
             Box.Reset();
             CenterToParent();
@@ -30,10 +32,7 @@ namespace PKHeX.WinForms
             {
                 if (parent.menu.mnuVSD.Visible)
                     return;
-                if (e.Delta > 1)
-                    Box.MoveLeft();
-                else
-                    Box.MoveRight();
+                Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
             };
 
             foreach (PictureBox pb in Box.SlotPictureBoxes)

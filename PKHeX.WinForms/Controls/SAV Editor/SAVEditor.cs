@@ -6,7 +6,6 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls
@@ -106,10 +105,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (menu.mnuVSD.Visible)
                     return;
-                if (e.Delta > 1)
-                    Box.MoveLeft();
-                else
-                    Box.MoveRight();
+                Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
             };
 
             GB_Daycare.Click += SwitchDaycare;
@@ -153,7 +149,7 @@ namespace PKHeX.WinForms.Controls
                 tab.DragEnter += enter;
                 tab.DragDrop += drop;
             }
-            M.RequestExternalDragDrop += drop;
+            M.Drag.RequestExternalDragDrop += drop;
         }
 
         // Generic Subfunctions //
@@ -190,8 +186,8 @@ namespace PKHeX.WinForms.Controls
             ResetNonBoxSlots();
 
             // Recoloring of a storage box slot (to not show for other storage boxes)
-            if (M?.ColorizedSlot >= (int)SlotIndex.Party && M.ColorizedSlot < SlotPictureBoxes.Count)
-                SlotPictureBoxes[M.ColorizedSlot].BackgroundImage = M.ColorizedColor;
+            if (M?.LastSlot.Slot >= (int)SlotIndex.Party && M.LastSlot.Slot < SlotPictureBoxes.Count)
+                SlotPictureBoxes[M.LastSlot.Slot].BackgroundImage = M.LastSlot.InteractionColor;
         }
 
         private void ResetNonBoxSlots()
@@ -288,7 +284,7 @@ namespace PKHeX.WinForms.Controls
                 PKM = SAV.GetStoredSlot(change.Offset)
             });
             UndoSlotChange(change);
-            M.SetColor(change.Box, change.Slot, Resources.slotSet);
+            M.SetColor(change.Box, change.Slot, SlotTouchType.Set);
         }
 
         public void ClickRedo()
@@ -308,7 +304,7 @@ namespace PKHeX.WinForms.Controls
                 PKM = SAV.GetStoredSlot(change.Offset)
             });
             UndoSlotChange(change);
-            M.SetColor(change.Box, change.Slot, Resources.slotSet);
+            M.SetColor(change.Box, change.Slot, SlotTouchType.Set);
         }
 
         public void SetClonesToBox(PKM pk)
@@ -359,7 +355,7 @@ namespace PKHeX.WinForms.Controls
                 Box.CurrentBox = change.Box;
             SAV.SetStoredSlot(pk, offset);
             Box.SetSlotFiller(pk, box, slot);
-            M?.SetColor(box, slot, Resources.slotSet);
+            M.SetColor(box, slot, SlotTouchType.Set);
 
             if (Menu_Undo != null)
                 Menu_Undo.Enabled = UndoStack.Count > 0;
@@ -924,8 +920,8 @@ namespace PKHeX.WinForms.Controls
             UndoStack.Clear();
             RedoStack.Clear();
             Box.M = M;
-            Box.ResetBoxNames();   // Display the Box Names
-            M.SetColor(-1, -1, null);
+            Box.InitializeFromSAV(SAV);
+            M.SetColor(-1, -1, SlotTouchType.None);
             SortMenu.ToggleVisibility();
         }
 
