@@ -579,7 +579,7 @@ namespace PKHeX.Core
         // Storage
         public override int CurrentBox
         {
-            get => Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4];
+            get => (sbyte)Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4];
             set => Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4] = (byte)value;
         }
 

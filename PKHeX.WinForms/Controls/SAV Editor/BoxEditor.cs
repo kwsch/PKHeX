@@ -257,7 +257,10 @@ namespace PKHeX.WinForms.Controls
         public void InitializeFromSAV(SaveFile sav)
         {
             Editor = new BoxEdit(sav);
-            Editor.LoadBox(sav.CurrentBox);
+            int box = sav.CurrentBox;
+            if ((uint)box >= sav.BoxCount)
+                box = 0;
+            Editor.LoadBox(box);
             ResetBoxNames();   // Display the Box Names
         }
     }
