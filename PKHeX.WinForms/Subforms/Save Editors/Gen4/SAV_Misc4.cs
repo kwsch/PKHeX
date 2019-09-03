@@ -82,7 +82,7 @@ namespace PKHeX.WinForms
             }
             else
             {
-                pokeGear4Editor1.Initialize((SAV4HGSS)sav);
+                pokeGear4Editor1.Initialize((SAV4HGSS)SAV);
                 TC_Misc.Controls.Remove(Tab_Poffins);
             }
         }
