@@ -87,13 +87,6 @@ namespace PKHeX.Core
         private static EncounterArea[] GetGoParkArea()
         {
             var area = new EncounterArea { Location = 50 };
-            IEnumerable<EncounterSlot> GetAllSlot(int species)
-            {
-                yield return GetSlot(species, 0);
-                if (Legal.AlolanOriginForms.Contains(species) || Legal.EvolveToAlolanForms.Contains(species))
-                    yield return GetSlot(species, 1);
-            }
-
             EncounterSlot GetSlot(int species, int form)
             {
                 return new EncounterSlot
@@ -108,11 +101,48 @@ namespace PKHeX.Core
                     Version = GameVersion.GO,
                 };
             }
-            area.Slots = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)).SelectMany(GetAllSlot).ToArray();
+
+            var obtainable = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)); // count : 152
+            var AlolanKanto = new byte[]
+            {
+                // Level 1+
+                019, // Rattata
+                020, // Raticate
+                027, // Sandshrew
+                028, // Sandslash
+                037, // Vulpix
+                038, // Ninetails
+                050, // Diglett
+                051, // Dugtrio
+                052, // Meowth
+                053, // Persian
+                074, // Geodude
+                075, // Graveler
+                076, // Golem
+                088, // Grimer
+                089, // Muk
+                103, // Exeggutor
+
+                // Level 20+
+                026, // Raichu
+                105, // Marowak
+            };
+
+            var regular = obtainable.Select(z => GetSlot(z, 0));
+            var alolan = AlolanKanto.Select(z => GetSlot(z, 1));
+            var slots = regular.Concat(alolan).ToArray();
+
+            slots[area.Slots.Length - 2].LevelMin = 20; // Raichu
+            slots[area.Slots.Length - 1].LevelMin = 20; // Marowak
+            slots[(int)Species.Mewtwo].LevelMin = 20;
+            slots[(int)Species.Articuno].LevelMin = 15;
+            slots[(int)Species.Zapdos].LevelMin = 15;
+            slots[(int)Species.Moltres].LevelMin = 15;
+
+            area.Slots = slots;
             return new[] {area};
         }
 
-        // todo: manual addition of slots
         private class RareSpawn
         {
             public int Species;
