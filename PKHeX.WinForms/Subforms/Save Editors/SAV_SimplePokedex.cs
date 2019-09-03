@@ -43,7 +43,7 @@ namespace PKHeX.WinForms
                 SAV.SetSeen(species, seen[i]);
                 SAV.SetCaught(species, caught[i]);
             }
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

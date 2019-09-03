@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
             SAV.EventConsts = Constants;
 
             HandleSpecialFlags();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

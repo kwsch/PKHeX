@@ -10,11 +10,11 @@ namespace PKHeX.Core
         {
             switch (sav.Version)
             {
-                case GameVersion.DP: DataOffset = (index * SIZE) + 0x4BEC + sav.GBO; break;
-                case GameVersion.Pt: DataOffset = (index * SIZE) + 0x4E80 + sav.GBO; break;
-                case GameVersion.HGSS: DataOffset = (index * SIZE) + 0x3FA8 + sav.GBO; break;
+                case GameVersion.DP: DataOffset = (index * SIZE) + 0x4BEC; break;
+                case GameVersion.Pt: DataOffset = (index * SIZE) + 0x4E80; break;
+                case GameVersion.HGSS: DataOffset = (index * SIZE) + 0x3FA8; break;
             }
-            Data = sav.GetData(DataOffset, SIZE);
+            Data = sav.General.Slice(DataOffset, SIZE);
         }
 
         public Mail4(byte[] data)
@@ -31,6 +31,8 @@ namespace PKHeX.Core
             if (ver != null) AuthorVersion = (byte)ver;
             ResetData();
         }
+
+        public override void CopyTo(SaveFile sav) => sav.SetData(((SAV4)sav).General, Data, DataOffset);
 
         private void ResetData()
         {

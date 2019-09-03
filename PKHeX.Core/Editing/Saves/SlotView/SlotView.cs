@@ -7,7 +7,7 @@ namespace PKHeX.Core
 {
     public abstract class SlotView : IList<PKM>
     {
-        public static readonly SlotArray Empty = new SlotArray(null, Array.Empty<StorageSlotOffset>(), true);
+        public static readonly SlotArray Empty = new SlotArray(null, Array.Empty<SlotInfoMisc>(), true);
 
         protected readonly SaveFile SAV;
         public StorageSlotType Type { get; internal set; }
@@ -23,14 +23,12 @@ namespace PKHeX.Core
         public IEnumerable<PKM> Stream => Indexes.Select(z => this[z]);
         public PKM[] Items => Stream.ToArray();
 
-        internal List<SlotChange> Changes { private get; set; }
-
         protected abstract int GetOffset(int index);
 
         protected bool IsPKMPresent(int index)
         {
             int offset = GetOffset(index);
-            return SAV.IsPKMPresent(offset);
+            return SAV.IsPKMPresent(SAV.Data, offset);
         }
 
         public int FirstEmptyIndex(int start = 0)
@@ -53,7 +51,7 @@ namespace PKHeX.Core
 
         #region IList Implementation
 
-        public virtual int Count => Offsets.Count(SAV.IsPKMPresent);
+        public virtual int Count => Offsets.Count(z => SAV.IsPKMPresent(SAV.Data, z));
         public bool Contains(PKM item) => IndexOf(item) >= 0;
         public IEnumerator<PKM> GetEnumerator() => Stream.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Stream.GetEnumerator();
@@ -71,8 +69,6 @@ namespace PKHeX.Core
 
             int offset = GetOffset(index);
 
-            Changes.Add(GetUndo(index, offset));
-
             if (!IsParty)
             {
                 SAV.SetStoredSlot(value, offset);
@@ -83,26 +79,13 @@ namespace PKHeX.Core
             SAV.SetPartySlot(value, offset);
         }
 
-        private SlotChange GetUndo(int index, int offset)
-        {
-            return new SlotChange
-            {
-                IsPartyFormat = IsParty,
-                Offset = offset,
-                Editable = IsReadOnly,
-                PKM = GetFromOffset(offset),
-                Box = index,
-                Type = Type,
-            };
-        }
-
         private PKM GetIndex(int index) => GetFromOffset(GetOffset(index));
         private PKM GetFromOffset(int offset) => IsParty ? SAV.GetPartySlot(offset) : SAV.GetStoredSlot(offset);
 
         public void Insert(int index, PKM item)
         {
             int offset = GetOffset(index);
-            if (SAV.IsPKMPresent(offset))
+            if (SAV.IsPKMPresent(SAV.Data, offset))
                 ShiftDown(index);
             this[index] = item;
         }
@@ -110,7 +93,7 @@ namespace PKHeX.Core
         public void RemoveAt(int index)
         {
             int offset = GetOffset(index);
-            if (SAV.IsPKMPresent(offset))
+            if (SAV.IsPKMPresent(SAV.Data, offset))
                 this[index] = SAV.BlankPKM;
             ShiftUp(index);
         }

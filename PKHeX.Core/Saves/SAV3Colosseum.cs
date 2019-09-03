@@ -38,7 +38,7 @@ namespace PKHeX.Core
         private ushort[] LegalTMHMs;
         private ushort[] LegalBerries;
         private ushort[] LegalCologne;
-        private int OFS_PouchCologne;
+        private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
         public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
@@ -170,7 +170,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
 
         public override int BoxCount => 3;
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGC(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(data, offset);
 
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();

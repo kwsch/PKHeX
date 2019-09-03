@@ -122,7 +122,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGBA(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGBA(data, offset);
 
         // Checksums
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
@@ -188,9 +188,9 @@ namespace PKHeX.Core
 
         protected override void SetDex(PKM pkm) { /* No Pokedex for this game, do nothing */ }
 
-        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+        protected override void WriteBoxSlot(PKM pkm, int offset)
         {
-            base.SetStoredSlot(pkm, offset, trade, dex);
+            SetBoxSlot(pkm, offset);
             BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + PKX.SIZE_3STORED + 0);
             BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + PKX.SIZE_3STORED + 2);
         }

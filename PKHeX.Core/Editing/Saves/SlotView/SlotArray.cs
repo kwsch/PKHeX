@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public class SlotArray : SlotList
     {
-        public SlotArray(SaveFile sav, IReadOnlyList<StorageSlotOffset> slots, bool isReadOnly)
+        public SlotArray(SaveFile sav, IReadOnlyList<SlotInfoMisc> slots, bool isReadOnly)
             : base(sav, slots, isReadOnly) { }
 
         protected override void ShiftDown(int startIndex) { }

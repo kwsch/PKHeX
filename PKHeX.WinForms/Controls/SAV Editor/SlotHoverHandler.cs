@@ -6,9 +6,11 @@ using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms.Controls
 {
+    /// <summary>
+    /// Handles Hovering operations for an editor, where only one (1) slot can be animated at a given time when hovering over it.
+    /// </summary>
     public class SlotHoverHandler : IDisposable
     {
-        public SaveFile SAV { private get; set; }
         public DrawConfig Draw { private get; set; }
         public bool GlowHover { private get; set; } = true;
 
@@ -23,7 +25,7 @@ namespace PKHeX.WinForms.Controls
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var data = view.GetSlotData(pb);
-            var pk = SAV.GetStoredSlot(data.Offset);
+            var pk = data.Read(view.SAV);
             Slot = pb;
 
             var orig = LastSlot.OriginalBackground = pb.BackgroundImage;

@@ -31,8 +31,7 @@ namespace PKHeX.Core
             set
             {
                 CurrentContents[index] = value;
-                int ofs = SAV.GetBoxSlotOffset(index);
-                SAV.SetStoredSlot(value, ofs);
+                SAV.SetBoxSlotAtIndex(value, index);
             }
         }
 

@@ -291,7 +291,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
 
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGBA(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGBA(data, offset);
 
         // Checksums
         protected override void SetChecksums()
@@ -598,11 +598,8 @@ namespace PKHeX.Core
             }
         }
 
-        private ushort[] LegalItems;
-        private ushort[] LegalKeyItems;
-        private ushort[] LegalBalls;
-        private ushort[] LegalTMHMs;
-        private ushort[] LegalBerries;
+        private ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
+        private int OFS_PCItem, OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry;
 
         public override InventoryPouch[] Inventory
         {
@@ -633,7 +630,7 @@ namespace PKHeX.Core
         public override int DaycareSeedSize => E ? 8 : 4; // 32bit, 16bit
         public override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Data, GetDaycareEXPOffset(slot));
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, GetDaycareEXPOffset(slot));
-        public override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(GetDaycareSlotOffset(loc, slot));
+        public override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(Data, GetDaycareSlotOffset(loc, slot));
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
         public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + (slot * DaycareSlotSize);
 
@@ -987,6 +984,15 @@ namespace PKHeX.Core
                 if (GameVersion.RS.Contains(Version))
                     SetFlag(BlockOfs[4] + 0x2B1, 0, value);
             }
+        }
+
+        public bool ResetPersonal(GameVersion g)
+        {
+            var pt = SaveUtil.GetG3Personal(g);
+            if (pt == null)
+                return false;
+            Personal = pt;
+            return true;
         }
     }
 }

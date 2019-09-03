@@ -10,9 +10,9 @@ namespace PKHeX.WinForms.Controls
         private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
         private readonly LabelType[] Labels = new LabelType[names.Length];
         private readonly List<PictureBox> slots = new List<PictureBox>();
-        private List<StorageSlotOffset> SlotOffsets = new List<StorageSlotOffset>();
+        private List<SlotInfoMisc> SlotOffsets = new List<SlotInfoMisc>();
         public int SlotCount { get; private set; }
-        public SlotChangeManager M { get; set; }
+        public SaveFile SAV { get; set; }
 
         public SlotList()
         {
@@ -26,7 +26,7 @@ namespace PKHeX.WinForms.Controls
         /// <param name="list">Extra slots to show</param>
         /// <param name="enableDragDropContext">Events to set up</param>
         /// <remarks>Uses an object pool for viewers (only generates as needed)</remarks>
-        public void Initialize(List<StorageSlotOffset> list, Action<Control> enableDragDropContext)
+        public void Initialize(List<SlotInfoMisc> list, Action<Control> enableDragDropContext)
         {
             SlotOffsets = list;
             LoadSlots(list.Count, enableDragDropContext);
@@ -37,25 +37,41 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         public void HideAllSlots() => LoadSlots(0, null);
 
-        public SlotChange GetSlotData(PictureBox view)
+        public void NotifySlotOld(ISlotInfo previous)
+        {
+            if (!(previous is SlotInfoMisc m))
+                return;
+            var index = SlotOffsets.FindIndex(z => m.Equals(z));
+            if (index < 0)
+                return;
+            var pb = slots[index];
+            pb.BackgroundImage = null;
+        }
+
+        public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm)
+        {
+            if (!(slot is SlotInfoMisc m))
+                return;
+            var index = GetViewIndex(m);
+            if (index < 0)
+                return;
+            var pb = slots[index];
+            SlotUtil.UpdateSlot(pb, slot, pkm, SAV, true, type);
+        }
+
+        public int GetViewIndex(ISlotInfo info) => SlotOffsets.FindIndex(info.Equals);
+
+        public ISlotInfo GetSlotData(PictureBox view)
         {
             int slot = GetSlot(view);
-            return new SlotChange
-            {
-                Slot = GetSlot(view),
-                Box = ViewIndex,
-                Offset = GetSlotOffset(slot),
-                Type = StorageSlotType.Misc,
-                IsPartyFormat = GetSlotIsParty(slot),
-                Editable = false,
-                Parent = FindForm(),
-            };
+            return GetSlotData(slot);
         }
+
+        public ISlotInfo GetSlotData(int slot) => SlotOffsets[slot];
 
         public IList<PictureBox> SlotPictureBoxes => slots;
         public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
         public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
-        public bool GetSlotIsParty(int _) => false;
         public int ViewIndex { get; set; } = -1;
 
         private IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)

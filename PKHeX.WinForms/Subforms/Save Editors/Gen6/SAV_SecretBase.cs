@@ -207,7 +207,7 @@ namespace PKHeX.WinForms
             uint flags = Util.ToUInt32(MT_Flags.Text);
             SAV.Records.SetRecord(080, (int)flags);
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

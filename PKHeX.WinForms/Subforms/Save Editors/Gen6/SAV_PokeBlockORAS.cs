@@ -35,7 +35,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < nup_spec.Length; i++)
                 BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV.Contest + (i * 4));
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

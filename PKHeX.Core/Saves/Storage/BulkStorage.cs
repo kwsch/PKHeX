@@ -50,7 +50,7 @@ namespace PKHeX.Core
         public bool IsBigEndian => blank is BK4 || blank is XK3 || blank is CK3;
 
         private readonly Func<byte[], int, bool> GetIsPKMPresent;
-        public override bool IsPKMPresent(int offset) => GetIsPKMPresent(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => GetIsPKMPresent(data, offset);
 
         public override int BoxCount { get; }
         protected override void SetChecksums() { }

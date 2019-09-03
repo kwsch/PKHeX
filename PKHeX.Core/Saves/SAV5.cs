@@ -88,11 +88,14 @@ namespace PKHeX.Core
         private int AdventureInfo;
         protected int BattleSubway;
         protected int PokeDexLanguageFlags;
+        private int PCLayout;
+        public int GTS { get; protected set; } = int.MinValue;
+        public int Fused { get; protected set; } = int.MinValue;
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
         public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.IsOccupied(slot);
-        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetOffset(slot);
+        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetPKMOffset(slot);
         public override uint? GetDaycareEXP(int loc, int slot) => DaycareBlock.GetEXP(slot);
         public override string GetDaycareRNGSeed(int loc) => DaycareBlock.GetSeed()?.ToString("X16");
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => DaycareBlock.SetEXP(slot, EXP);
@@ -144,7 +147,6 @@ namespace PKHeX.Core
         public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
         public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
-        
         public override MysteryGiftAlbum GiftAlbum { get => MysteryBlock.GiftAlbum; set => MysteryBlock.GiftAlbum = value; }
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 

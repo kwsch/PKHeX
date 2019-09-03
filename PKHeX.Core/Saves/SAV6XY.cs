@@ -167,6 +167,8 @@ namespace PKHeX.Core
         public BoxLayout6 BoxLayout { get; private set; }
         public MysteryBlock6 MysteryBlock { get; private set; }
         public BattleBox6 BattleBoxBlock { get; private set; }
+        public int GTS { get; private set; } = int.MinValue;
+        public int Fused { get; private set; } = int.MinValue;
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
 

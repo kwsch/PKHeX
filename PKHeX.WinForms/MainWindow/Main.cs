@@ -32,6 +32,7 @@ namespace PKHeX.WinForms
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
             InitializeComponent();
+            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(null) { PKMEditor = PKME_Tabs };
             FormLoadAddEvents();
             #if DEBUG // translation updater -- all controls are added at this point -- call translate now
             if (DevUtil.IsUpdatingTranslations)
@@ -143,7 +144,6 @@ namespace PKHeX.WinForms
 
         private void FormLoadAddEvents()
         {
-            C_SAV.PKME_Tabs = PKME_Tabs;
             C_SAV.Menu_Redo = Menu_Redo;
             C_SAV.Menu_Undo = Menu_Undo;
             dragout.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
@@ -752,7 +752,7 @@ namespace PKHeX.WinForms
         private void ResetSAVPKMEditors(SaveFile sav)
         {
             bool WindowToggleRequired = C_SAV.SAV?.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
-            C_SAV.SAV = sav;
+            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(sav) {PKMEditor = PKME_Tabs};
 
             var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
@@ -854,7 +854,11 @@ namespace PKHeX.WinForms
                     if (sav == null)
                         return false;
                     if (sav.Version == GameVersion.FRLG)
-                        sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
+                    {
+                        bool result = s3.ResetPersonal(dialog.Result);
+                        if (!result)
+                            return false;
+                    }
                 }
                 else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
                 {
@@ -866,11 +870,9 @@ namespace PKHeX.WinForms
                     var msg = string.Format(dual, "3", fr, lg);
                     var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
-
-                    var pt = SaveUtil.GetG3Personal(dialog.Result);
-                    if (pt == null)
+                    bool result = s3.ResetPersonal(dialog.Result);
+                    if (!result)
                         return false;
-                    sav.Personal = pt;
                 }
             }
 
@@ -1125,7 +1127,7 @@ namespace PKHeX.WinForms
             try
             {
                 File.WriteAllBytes(newfile, data);
-                C_SAV.M.Drag.Info.Source.PKM = pk;
+                C_SAV.M.Drag.Info.Source = new ExternalSlotInfo(pk);
 
                 var pb = (PictureBox)sender;
                 if (pb.Image != null)

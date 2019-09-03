@@ -5,39 +5,41 @@ namespace PKHeX.Core
     /// <summary>
     /// Pushes slot update notifications out to all subscribers.
     /// </summary>
-    public sealed class SlotPublisher
+    public sealed class SlotPublisher<T>
     {
         /// <summary>
-        /// All <see cref="ISlotViewer"/> instances that provide a view on individual <see cref="StorageSlotOffset"/> content.
+        /// All <see cref="ISlotViewer{T}"/> instances that provide a view on individual <see cref="ISlotInfo"/> content.
         /// </summary>
-        public List<ISlotViewer> Subscribers { get; } = new List<ISlotViewer>();
+        public List<ISlotViewer<T>> Subscribers { get; } = new List<ISlotViewer<T>>();
 
-        private SlotChange Previous;
-        private SlotTouchType PreviousType = SlotTouchType.None;
+        public ISlotInfo Previous { get; private set; }
+        public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;
+        public PKM PreviousPKM { get; private set; }
 
         /// <summary>
         /// Notifies all <see cref="Subscribers"/> with the latest slot change details.
         /// </summary>
         /// <param name="slot">Last interacted slot</param>
         /// <param name="type">Last interacted slot interaction type</param>
-        public void NotifySlotChanged(SlotChange slot, SlotTouchType type)
+        /// <param name="pkm">Last interacted slot interaction data</param>
+        public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm)
         {
             foreach (var sub in Subscribers)
-                ResetView(sub, slot, type);
+                ResetView(sub, slot, type, pkm);
             Previous = slot;
             PreviousType = type;
+            PreviousPKM = pkm;
         }
 
-        private void ResetView(ISlotViewer sub, SlotChange slot, SlotTouchType type)
+        private void ResetView(ISlotViewer<T> sub, ISlotInfo slot, SlotTouchType type, PKM pkm)
         {
-            if (Previous != null)
+            if (PreviousPKM != null)
                 sub.NotifySlotOld(Previous);
 
-            int index = sub.ViewIndex;
-            if (index == slot.Box)
-                sub.NotifySlotChanged(slot, type);
+            if (!(slot is SlotInfoBox b) || sub.ViewIndex == b.Box)
+                sub.NotifySlotChanged(slot, type, pkm);
         }
 
-        public void ResetView(ISlotViewer sub) => ResetView(sub, Previous, PreviousType);
+        public void ResetView(ISlotViewer<T> sub) => ResetView(sub, Previous, PreviousType, PreviousPKM);
     }
 }

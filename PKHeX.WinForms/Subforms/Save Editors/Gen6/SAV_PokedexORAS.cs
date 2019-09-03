@@ -195,7 +195,7 @@ namespace PKHeX.WinForms
         {
             SetEntry();
             Zukan.SpindaPID = Util.GetHexValue(TB_Spinda.Text);
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Different Flavors a Gen4 Poffin can have.
+    /// </summary>
     public enum PoffinFlavor4 : byte
     {
         Spicy,

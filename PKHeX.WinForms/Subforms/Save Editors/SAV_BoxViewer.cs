@@ -39,6 +39,7 @@ namespace PKHeX.WinForms
                 pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;
             Box.ResetBoxNames(); // fix box names
             Box.ResetSlots(); // refresh box background
+            p.EditEnv.Slots.Publisher.Subscribers.Add(Box);
         }
 
         public int CurrentBox => Box.CurrentBox;
@@ -57,6 +58,7 @@ namespace PKHeX.WinForms
         {
             // Remove viewer from manager list
             Box.M.Boxes.Remove(Box);
+            parent.EditEnv.Slots.Publisher.Subscribers.Remove(Box);
         }
     }
 }

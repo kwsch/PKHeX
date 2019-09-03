@@ -72,7 +72,7 @@ namespace PKHeX.WinForms
                 SAV.SetRecord(72, (int)NUD_Collected.Value);
 
             SAV.EventConsts = constants;
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
 
             Close();
         }

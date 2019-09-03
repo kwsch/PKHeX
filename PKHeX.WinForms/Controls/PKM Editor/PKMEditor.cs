@@ -138,8 +138,12 @@ namespace PKHeX.WinForms.Controls
                 ValidateChildren();
                 forceValidation = false;
             }
-            PKM pk = GetPKMfromFields();
-            return pk?.Clone() ?? pkm;
+            var pk = GetPKMfromFields();
+            if (pk == null)
+                return pkm;
+
+            LastData = pk.Data;
+            return pk.Clone();
         }
 
         public bool EditsComplete

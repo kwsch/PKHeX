@@ -6,17 +6,17 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Apricorn : Form
     {
-        public SAV_Apricorn(SaveFile sav)
+        public SAV_Apricorn(SAV4HGSS sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV4)(Origin = sav).Clone();
+            SAV = (SAV4HGSS)(Origin = sav).Clone();
 
             Setup();
         }
 
-        private readonly SaveFile Origin;
-        private readonly SAV4 SAV;
+        private readonly SAV4HGSS Origin;
+        private readonly SAV4HGSS SAV;
         private const int Count = 7;
         private static readonly string[] itemlist = {"Red", "Yellow", "Blue", "Green", "Pink", "White", "Black"};
 
@@ -83,7 +83,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < Count; i++)
                 SAV.SetApricornCount(i, (int)dgv.Rows[i].Cells[1].Value);
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
     }

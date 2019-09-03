@@ -4,9 +4,9 @@ namespace PKHeX.Core
 {
     public class SlotList : SlotView
     {
-        private readonly IReadOnlyList<StorageSlotOffset> Slots;
+        private readonly IReadOnlyList<SlotInfoMisc> Slots;
 
-        public SlotList(SaveFile sav, IReadOnlyList<StorageSlotOffset> slots, bool isReadOnly)
+        public SlotList(SaveFile sav, IReadOnlyList<SlotInfoMisc> slots, bool isReadOnly)
             : base(sav, slots.Count, isReadOnly) => Slots = slots;
 
         protected override int GetOffset(int index) => Slots[index].Offset;

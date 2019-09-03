@@ -27,10 +27,15 @@ namespace PKHeX.WinForms
             AddEvents();
             CenterToParent();
             Owner = p.ParentForm;
+            foreach (var b in Boxes)
+                m.Env.Slots.Publisher.Subscribers.Add(b);
             FormClosing += (sender, e) =>
             {
                 foreach (var b in Boxes)
+                {
                     b.M.Boxes.Remove(b);
+                    m.Env.Slots.Publisher.Subscribers.Remove(b);
+                }
             };
         }
 
@@ -53,6 +58,7 @@ namespace PKHeX.WinForms
                 foreach (PictureBox pb in boxEditor.SlotPictureBoxes)
                     pb.ContextMenuStrip = p.SlotPictureBoxes[0].ContextMenuStrip;
                 boxEditor.Setup(m);
+                boxEditor.Editor = new BoxEdit(sav);
                 boxEditor.Reset();
                 boxEditor.CurrentBox = i;
                 boxEditor.CB_BoxSelect.Enabled = false;

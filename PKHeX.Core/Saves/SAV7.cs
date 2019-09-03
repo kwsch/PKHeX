@@ -178,6 +178,10 @@ namespace PKHeX.Core
         private int BattleTree { get; set; }
         private int ConfigSave { get; set; }
         public int QRSaveData { get; set; }
+        private int PCLayout { get; set; }
+        public int HoF { get; private set; }
+        public int GTS { get; protected set; }
+        public int Fused { get; protected set; }
 
         protected MyItem Items { private get; set; }
         protected MysteryBlock7 MysteryBlock { private get; set; }
@@ -245,7 +249,7 @@ namespace PKHeX.Core
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
         public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
         public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
-        
+
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
@@ -272,6 +276,7 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
+        public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
 
         protected override void SetPKM(PKM pkm)
         {

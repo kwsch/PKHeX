@@ -268,7 +268,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
 
         protected override int EventConstMax => 0x100;
         protected override int EventFlagMax => 2000;

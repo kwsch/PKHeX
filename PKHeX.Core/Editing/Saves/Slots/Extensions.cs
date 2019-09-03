@@ -4,18 +4,6 @@ namespace PKHeX.Core
 {
     public static partial class Extensions
     {
-        public static PKM GetPKM(this SaveFile sav, StorageSlotOffset slot) => slot.IsPartyFormat
-            ? sav.GetPartySlot(slot.Offset)
-            : sav.GetStoredSlot(slot.Offset);
-
-        public static void SetPKM(this SaveFile sav, StorageSlotOffset slot, PKM pkm)
-        {
-            if (slot.IsPartyFormat)
-                sav.SetPartySlot(pkm, slot.Offset);
-            else
-                sav.SetStoredSlot(pkm, slot.Offset);
-        }
-
         public static IReadOnlyList<PKM> GetAllPKM(this SaveFile sav)
         {
             var pkms = new List<PKM>();
@@ -34,16 +22,16 @@ namespace PKHeX.Core
 
         public static PKM[] GetExtraPKM(this SaveFile sav) => sav.GetExtraPKM(sav.GetExtraSlots());
 
-        public static PKM[] GetExtraPKM(this SaveFile sav, IList<StorageSlotOffset> slots)
+        public static PKM[] GetExtraPKM(this SaveFile sav, IList<SlotInfoMisc> slots)
         {
             slots = slots ?? sav.GetExtraSlots();
             var arr = new PKM[slots.Count];
             for (int i = 0; i < slots.Count; i++)
-                arr[i] = sav.GetPKM(slots[i]);
+                arr[i] = slots[i].Read(sav);
             return arr;
         }
 
-        public static List<StorageSlotOffset> GetExtraSlots(this SaveFile sav, bool all = false)
+        public static List<SlotInfoMisc> GetExtraSlots(this SaveFile sav, bool all = false)
         {
             var slots = GetExtraSlotsUnsafe(sav, all);
             for (int i = 0; i < slots.Count;)
@@ -56,9 +44,9 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static readonly List<StorageSlotOffset> None = new List<StorageSlotOffset>();
+        private static readonly List<SlotInfoMisc> None = new List<SlotInfoMisc>();
 
-        private static List<StorageSlotOffset> GetExtraSlotsUnsafe(SaveFile sav, bool all)
+        private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all)
         {
             switch (sav)
             {
@@ -67,73 +55,79 @@ namespace PKHeX.Core
                 case SAV3 sav3: return GetExtraSlots3(sav3);
                 case SAV4 sav4: return GetExtraSlots4(sav4);
                 case SAV5 sav5: return GetExtraSlots5(sav5);
-                case SAV6 sav6: return GetExtraSlots6(sav6);
+                case SAV6XY xy: return GetExtraSlots6XY(xy);
+                case SAV6AO xy: return GetExtraSlots6AO(xy);
                 case SAV7 sav7: return GetExtraSlots7(sav7, all);
             }
         }
 
-        private static List<StorageSlotOffset> GetExtraSlots2(SAV2 sav)
+        private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)
         {
-            return new List<StorageSlotOffset>
+            return new List<SlotInfoMisc>
             {
-                new StorageSlotOffset {Type = StorageSlotType.Daycare, Offset = sav.GetDaycareSlotOffset(0, 2)} // egg
+                new SlotInfoMisc(0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare } // egg
             };
         }
 
-        private static List<StorageSlotOffset> GetExtraSlots3(SAV3 sav)
+        private static List<SlotInfoMisc> GetExtraSlots3(SAV3 sav)
         {
             if (!sav.FRLG)
                 return None;
-            return new List<StorageSlotOffset>
+            return new List<SlotInfoMisc>
             {
-                new StorageSlotOffset {Type = StorageSlotType.Daycare, Offset = sav.GetBlockOffset(4) + 0xE18}
+                new SlotInfoMisc(0, sav.GetBlockOffset(4) + 0xE18) {Type = StorageSlotType.Daycare }
             };
         }
 
-        private static List<StorageSlotOffset> GetExtraSlots4(SAV4 sav)
+        private static List<SlotInfoMisc> GetExtraSlots4(SAV4 sav)
         {
-            return new List<StorageSlotOffset>
+            return new List<SlotInfoMisc>
             {
-                new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
+                new SlotInfoMisc(0, sav.GTS) {Type = StorageSlotType.GTS },
             };
         }
 
-        private static List<StorageSlotOffset> GetExtraSlots5(SAV5 sav)
+        private static List<SlotInfoMisc> GetExtraSlots5(SAV5 sav)
         {
-            return new List<StorageSlotOffset>
+            return new List<SlotInfoMisc>
             {
-                new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
-                new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.Fused}
+                new SlotInfoMisc(0, sav.GTS) {Type = StorageSlotType.GTS},
+                new SlotInfoMisc(0, sav.Fused) {Type = StorageSlotType.Fused}
             };
         }
 
-        private static List<StorageSlotOffset> GetExtraSlots6(SAV6 sav)
+        private static List<SlotInfoMisc> GetExtraSlots6XY(SAV6XY sav)
         {
-            if (sav is SAV6AODemo)
-                return None;
-            var list = new List<StorageSlotOffset>
+            return new List<SlotInfoMisc>
             {
-                new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
-                new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.Fused}
+                new SlotInfoMisc(0, sav.GTS) {Type = StorageSlotType.GTS},
+                new SlotInfoMisc(0, sav.Fused) {Type = StorageSlotType.Fused},
+                new SlotInfoMisc(0, sav.SUBE) {Type = StorageSlotType.Misc},
             };
-            if (sav is SAV6XY)
-                list.Add(new StorageSlotOffset{Type = StorageSlotType.Misc, Offset = sav.SUBE});
-            return list;
         }
 
-        private static List<StorageSlotOffset> GetExtraSlots7(SAV7 sav, bool all)
+        private static List<SlotInfoMisc> GetExtraSlots6AO(SAV6AO sav)
         {
-            var list = new List<StorageSlotOffset>
+            return new List<SlotInfoMisc>
             {
-                new StorageSlotOffset {Type = StorageSlotType.GTS, Offset = sav.GTS},
-                new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(0)}
+                new SlotInfoMisc(0, sav.GTS) {Type = StorageSlotType.GTS},
+                new SlotInfoMisc(0, sav.Fused) {Type = StorageSlotType.Fused}
+            };
+        }
+
+        private static List<SlotInfoMisc> GetExtraSlots7(SAV7 sav, bool all)
+        {
+            var list = new List<SlotInfoMisc>
+            {
+                new SlotInfoMisc(0, sav.GTS) {Type = StorageSlotType.GTS},
+                new SlotInfoMisc(0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused}
             };
             if (sav is SAV7USUM)
             {
                 list.AddRange(new[]
                {
-                    new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(1)},
-                    new StorageSlotOffset {Type = StorageSlotType.Fused, Offset = sav.GetFusedSlotOffset(2)},
+                    new SlotInfoMisc(1, sav.GetFusedSlotOffset(1)) {Type = StorageSlotType.Fused},
+                    new SlotInfoMisc(2, sav.GetFusedSlotOffset(2)) {Type = StorageSlotType.Fused},
                 });
             }
 
@@ -141,7 +135,7 @@ namespace PKHeX.Core
                 return list;
 
             for (int i = 0; i < ResortSave7.ResortCount; i++)
-                list.Add(new StorageSlotOffset { Type = StorageSlotType.Resort, Offset = sav.ResortSave.GetResortSlotOffset(i) });
+                list.Add(new SlotInfoMisc(i, sav.ResortSave.GetResortSlotOffset(i)) { Type = StorageSlotType.Resort });
             return list;
         }
     }

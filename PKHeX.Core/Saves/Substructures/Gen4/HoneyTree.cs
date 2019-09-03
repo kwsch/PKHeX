@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Honey Tree in Sinnoh (Gen4)
+    /// </summary>
     public class HoneyTree
     {
         public const int Size = 8;

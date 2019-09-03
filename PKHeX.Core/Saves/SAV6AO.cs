@@ -174,6 +174,8 @@ namespace PKHeX.Core
         public int Contest { get; private set; }
         private int Daycare2 { get; set; }
         public int SecretBase { get; private set; }
+        public int GTS { get; private set; }
+        public int Fused { get; private set; }
 
         public Zukan6 Zukan { get; private set; }
         public Puff6 PuffBlock { get; private set; }

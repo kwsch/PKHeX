@@ -54,7 +54,7 @@ namespace PKHeX.WinForms
         {
             SetBags();
             SAV.Inventory = Pouches;
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

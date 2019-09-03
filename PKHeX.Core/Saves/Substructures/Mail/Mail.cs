@@ -4,7 +4,7 @@ namespace PKHeX.Core
     {
         protected byte[] Data;
         protected int DataOffset;
-        public void CopyTo(SaveFile sav) => sav.SetData(Data, DataOffset);
+        public virtual void CopyTo(SaveFile sav) => sav.SetData(Data, DataOffset);
         public virtual void CopyTo(PK4 pk4) { }
         public virtual void CopyTo(PK5 pk5) { }
         public virtual string GetMessage(bool isLastLine) => null;

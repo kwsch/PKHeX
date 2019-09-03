@@ -109,7 +109,7 @@ namespace PKHeX.WinForms
             if (bgdata.Any(z => z != 0))
             {
                 SAV.CGearSkinData = bgdata;
-                Origin.SetData(SAV.Data, 0);
+                Origin.CopyChangesFrom(SAV);
             }
             Close();
         }

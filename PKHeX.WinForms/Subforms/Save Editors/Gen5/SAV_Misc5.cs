@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV5B2W2)
                 SaveEntralink();
             SaveForest();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

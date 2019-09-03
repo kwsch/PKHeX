@@ -440,7 +440,6 @@
             this.C_SAV.FlagIllegal = false;
             this.C_SAV.Location = new System.Drawing.Point(292, 26);
             this.C_SAV.Name = "C_SAV";
-            this.C_SAV.SAV = null;
             this.C_SAV.Size = new System.Drawing.Size(310, 326);
             this.C_SAV.TabIndex = 104;
             this.C_SAV.ViewIndex = -1;

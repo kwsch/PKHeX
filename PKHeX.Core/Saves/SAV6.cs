@@ -59,6 +59,8 @@ namespace PKHeX.Core
         public int PSS { get; protected set; } = int.MinValue;
         public int SUBE { get; protected set; } = int.MinValue;
         public int BerryField { get; protected set; } = int.MinValue;
+        public int HoF { get; protected set; } = int.MinValue;
+        protected int PCLayout { private get; set; } = int.MinValue;
 
         public virtual string JPEGTitle => string.Empty;
         public virtual byte[] JPEGData => Array.Empty<byte>();

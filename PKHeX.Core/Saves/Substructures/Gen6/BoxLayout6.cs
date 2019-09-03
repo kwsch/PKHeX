@@ -2,11 +2,19 @@
 {
     public class BoxLayout6 : SaveBlock
     {
-        private const int PCBackgrounds = 0x41E;
-        private const int PCFlags = 0x43D;
-        private const int LastViewedBoxOffset = 0x43F;
+        // gfstr5[31] boxNames;
+        // byte[31] wallpapers;
+        // byte Flags:7;
+        // byte FinalBoxUnlocked:1;
+        // byte UnlockedCount;
+        // byte CurrentBox;
 
         private const int strlen = SAV6.LongStringLength / 2;
+        private const int BoxCount = 31;
+        private const int PCBackgrounds = BoxCount * (strlen * 2); // 0x41E;
+        private const int PCFlags = PCBackgrounds + BoxCount;      // 0x43D;
+        private const int Unlocked = PCFlags + 1;                  // 0x43E;
+        private const int LastViewedBoxOffset = Unlocked + 1;      // 0x43F;
 
         public BoxLayout6(SAV6 sav, int offset) : base(sav) => Offset = offset;
 
@@ -48,7 +56,20 @@
             }
         }
 
-        public int BoxesUnlocked { get => Data[Offset + PCFlags + 1] - 1; set => Data[Offset + PCFlags + 1] = (byte)(value + 1); }
+        public int BoxesUnlocked
+        {
+            get => Data[Offset + Unlocked];
+            set
+            {
+                if (value > BoxCount)
+                    value = BoxCount;
+                if (value == BoxCount)
+                    Data[Offset + PCFlags] |= 0x80; // set final box unlocked flag
+                else
+                    Data[Offset + PCFlags] &= 0x7F; // clear final box unlocked flag
+                Data[Offset + Unlocked] = (byte)value;
+            }
+        }
 
         public int CurrentBox { get => Data[Offset + LastViewedBoxOffset]; set => Data[Offset + LastViewedBoxOffset] = (byte)value; }
     }

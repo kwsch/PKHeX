@@ -14,7 +14,6 @@ namespace PKHeX.Core
         public readonly SaveFile SAV;
 
         private const int StackMax = 10;
-        private readonly List<SlotChange> Changes = new List<SlotChange>(StackMax);
 
         public SlotViewSet(SaveFile sav, bool HaX = false)
         {
@@ -38,8 +37,6 @@ namespace PKHeX.Core
 
         private void SetChangeOutput()
         {
-            foreach (var v in Viewers)
-                v.Changes = Changes;
         }
 
         private static SlotView[] GetOtherSlots(SaveFile sav, bool HaX)
@@ -65,9 +62,9 @@ namespace PKHeX.Core
             return new SlotList(sav, party, false) { Type = StorageSlotType.Party };
         }
 
-        private static StorageSlotOffset GetStorageDetails(int z, bool party, StorageSlotType type)
+        private static SlotInfoMisc GetStorageDetails(int z, bool party, StorageSlotType type)
         {
-            return new StorageSlotOffset {IsPartyFormat = party, Offset = z, Type = type};
+            return new SlotInfoMisc(-1, z, party) {Type = type};
         }
 
         public IEnumerable<SlotView> Viewers

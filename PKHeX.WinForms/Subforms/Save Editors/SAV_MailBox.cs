@@ -185,7 +185,7 @@ namespace PKHeX.WinForms
             LB_PartyHeld.BeginUpdate();
             LB_PartyHeld.Items.Clear();
             for (int i = 0; i < PartyBoxCount; i++)
-                LB_PartyHeld.Items.Add(getLBLabel(i));
+                LB_PartyHeld.Items.Add(GetLBLabel(i));
             LB_PartyHeld.EndUpdate();
         }
 
@@ -198,13 +198,13 @@ namespace PKHeX.WinForms
                 for (int i = PartyBoxCount, j = 0, boxsize = (int)NUD_BoxSize.Value; i < m.Length; i++, j++)
                 {
                     if (j < boxsize)
-                        LB_PCBOX.Items.Add(getLBLabel(i));
+                        LB_PCBOX.Items.Add(GetLBLabel(i));
                 }
             }
             else
             {
                 for (int i = PartyBoxCount; i < m.Length; i++)
-                    LB_PCBOX.Items.Add(getLBLabel(i));
+                    LB_PCBOX.Items.Add(GetLBLabel(i));
             }
             LB_PCBOX.EndUpdate();
         }
@@ -302,7 +302,7 @@ namespace PKHeX.WinForms
             }
             mail.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
             mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
-            mail.AuthorGender = (byte)(mail.AuthorGender & 0xFE | (LabelValue_GenderF ? 1 : 0));
+            mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (LabelValue_GenderF ? 1 : 0));
             switch (mail)
             {
                 case Mail4 m4:
@@ -405,11 +405,11 @@ namespace PKHeX.WinForms
             var Err = CheckValid();
             if (Err.Count != 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"{Err.Aggregate($"Validation Error. Save?{Environment.NewLine}", (tmp, v) => $"{tmp}{Environment.NewLine}{v}")}"))
                 return;
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
-        private string getLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
+        private string GetLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
         private bool ItemIsMail(int itemID) => Array.IndexOf(MailItemID, itemID) >= 0;
         private int MailTypeToCBIndex(Mail mail) => Gen <= 3 ? 1 + Array.IndexOf(MailItemID, mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
         private int CBIndexToMailType(int cbindex) => Gen <= 3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
@@ -473,7 +473,7 @@ namespace PKHeX.WinForms
             if (entry >= 0)
             {
                 TempSave();
-                if (getLBLabel(entry) != loadedLBItemLabel)
+                if (GetLBLabel(entry) != loadedLBItemLabel)
                     LoadList();
             }
             if (sender == LB_PartyHeld && partyIndex >= 0)
@@ -496,7 +496,7 @@ namespace PKHeX.WinForms
             if (entry >= 0)
             {
                 LoadMail();
-                loadedLBItemLabel = getLBLabel(entry);
+                loadedLBItemLabel = GetLBLabel(entry);
             }
         }
 

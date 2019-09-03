@@ -165,7 +165,7 @@ namespace PKHeX.Core
             027, // Sandshrew
             028, // Sandslash
             037, // Vulpix
-            038, // Ninetails
+            038, // Ninetales
             050, // Diglett
             051, // Dugtrio
             052, // Meowth

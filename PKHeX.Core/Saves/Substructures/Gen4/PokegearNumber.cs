@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// Caller IDs for the HeartGold//SoulSilver Pokégear feature.
+    /// Caller IDs for the HeartGold/SoulSilver Pokégear feature.
     /// </summary>
     public enum PokegearNumber : sbyte
     {

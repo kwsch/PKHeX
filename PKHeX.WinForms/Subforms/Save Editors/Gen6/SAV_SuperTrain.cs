@@ -134,7 +134,7 @@ namespace PKHeX.WinForms
                 SAV.SetData(BitConverter.GetBytes(t2), offsetTime + (4 * 31));
             SAV.SetData(BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)), offsetSpec + (4 * 30));
             bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

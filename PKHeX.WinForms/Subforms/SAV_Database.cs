@@ -185,16 +185,15 @@ namespace PKHeX.WinForms
                 // Data from Box: Delete from save file
                 int box = pk.Box-1;
                 int slot = pk.Slot-1;
-                int offset = SAV.GetBoxOffset(box) + (slot *SAV.SIZE_STORED);
-                PKM pkSAV = SAV.GetStoredSlot(offset);
+                var change = new SlotInfoBox(box, slot);
+                var pkSAV = change.Read(SAV);
 
                 if (!pkSAV.DecryptedBoxData.SequenceEqual(pk.DecryptedBoxData)) // data still exists in SAV, unmodified
                 {
                     WinFormsUtil.Error(MsgDBDeleteFailModified, MsgDBDeleteFailWarning);
                     return;
                 }
-                var change = new SlotChange {Box = box, Offset = offset, Slot = slot};
-                BoxView.M.SetPKM(BoxView.SAV.BlankPKM, change, true, SlotTouchType.Delete);
+                BoxView.EditEnv.Slots.Delete(change);
             }
             // Remove from database.
             RawDB.Remove(pk);

@@ -13,26 +13,25 @@ using PKHeX.WinForms.Properties;
 namespace PKHeX.WinForms.Controls
 {
     /// <summary>
-    /// Manager class for moving slots.
+    /// Orchestrates the movement of slots within the GUI.
     /// </summary>
     public sealed class SlotChangeManager : IDisposable
     {
         public readonly SAVEditor SE;
         public readonly SlotTrackerImage LastSlot = new SlotTrackerImage();
         public readonly DragManager Drag = new DragManager();
+        public SaveDataEditor<PictureBox> Env { get; set; }
 
         private SaveFile SAV => SE.SAV;
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
-        public readonly List<ISlotViewer<PictureBox>> OtherSlots = new List<ISlotViewer<PictureBox>>();
         public readonly SlotHoverHandler Hover = new SlotHoverHandler();
 
         public SlotChangeManager(SAVEditor se) => SE = se;
 
         public void Reset()
         {
-            Drag.Initialize(SAV);
+            Drag.Initialize();
             LastSlot.Reset();
-            Hover.SAV = SAV;
         }
 
         public void MouseEnter(object sender, EventArgs e)
@@ -99,7 +98,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var src = view.GetSlotData(pb);
-            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
+            if (!src.CanWriteTo(SAV))
                 return;
             bool encrypt = Control.ModifierKeys == Keys.Control;
             HandleMovePKM(pb, encrypt);
@@ -110,7 +109,7 @@ namespace PKHeX.WinForms.Controls
             PictureBox pb = (PictureBox)sender;
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var src = view.GetSlotData(pb);
-            if (!src.Editable || SAV.IsSlotLocked(src.Box, src.Slot))
+            if (!src.CanWriteTo(SAV))
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
@@ -135,7 +134,7 @@ namespace PKHeX.WinForms.Controls
 
             // Prepare Data
             Drag.Info.Source = GetViewParent(pb).GetSlotData(pb);
-            Drag.Info.Source.PKM = SAV.GetStoredSlot(Drag.Info.Source.Offset);
+            Drag.Info.Source.Read(SAV);
 
             // Make a new file name based off the PID
             string newfile = CreateDragDropPKM(pb, encrypt, out bool external);
@@ -149,7 +148,7 @@ namespace PKHeX.WinForms.Controls
             // Keep it to 10 seconds; Discord upload only stores the file path until you click Upload.
             int delay = external ? 10_000 : 0;
             DeleteAsync(newfile, delay);
-            if (Drag.Info.EitherIsParty)
+            if (Drag.Info.Source is SlotInfoParty || Drag.Info.Destination is SlotInfoParty)
                 SE.SetParty();
         }
 
@@ -163,7 +162,7 @@ namespace PKHeX.WinForms.Controls
         private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
         {
             // Make File
-            PKM pk = Drag.Info.Source.PKM;
+            PKM pk = Drag.Info.Source.Read(SAV);
             string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
@@ -191,8 +190,8 @@ namespace PKHeX.WinForms.Controls
             // Thread Blocks on DoDragDrop
             Drag.Info.CurrentPath = newfile;
             var result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-            var external = !Drag.Info.Source.IsValid || result != DragDropEffects.Link;
-            if (external || Drag.Info.SameSlot) // not dropped to another box slot, restore img
+            var external = Drag.Info.Source == null || result != DragDropEffects.Link;
+            if (external || Drag.Info.Source.Equals(Drag.Info.Destination)) // not dropped to another box slot, restore img
             {
                 pb.Image = img;
                 pb.BackgroundImage = LastSlot.OriginalBackground;
@@ -202,8 +201,8 @@ namespace PKHeX.WinForms.Controls
 
             if (result == DragDropEffects.Copy) // viewed in tabs or cloned
             {
-                if (!Drag.Info.Destination.IsValid) // apply 'view' highlight
-                    SetColor(Drag.Info.Source.Box, Drag.Info.Source.Slot, SlotTouchType.Get);
+                if (Drag.Info.Destination == null) // apply 'view' highlight
+                    Env.Slots.Get(Drag.Info.Source);
                 return false;
             }
             return true;
@@ -222,50 +221,25 @@ namespace PKHeX.WinForms.Controls
 
             // file
             Drag.Info.Destination = GetViewParent(pb).GetSlotData(pb);
-            if (Drag.Info.SameSlot)
+            if (Drag.Info.SameLocation)
             {
                 e.Effect = DragDropEffects.Link;
                 return;
             }
 
             var dest = Drag.Info.Destination;
-            if (SAV.IsSlotLocked(dest.Box, dest.Slot))
-            {
-                AlertInvalidate(MessageStrings.MsgSaveSlotLocked);
-                return;
-            }
 
-            bool badDest = IsDisallowedDrop(dest);
-            if (Drag.Info.Source.Offset < 0) // external source
+            if (Drag.Info.Source == null) // external source
             {
+                bool badDest = !dest.CanWriteTo(SAV);
                 if (!TryLoadFiles(files, e, badDest))
-                    AlertInvalidate(MessageStrings.MsgSaveSlotBadData);
-                return;
+                    WinFormsUtil.Alert(MessageStrings.MsgSaveSlotBadData);
             }
-
-            if (!TrySetPKMDestination(pb, mod, badDest))
+            else if (!TrySetPKMDestination(pb, mod))
             {
-                AlertInvalidate(MessageStrings.MsgSaveSlotEmpty);
-                return;
+                WinFormsUtil.Alert(MessageStrings.MsgSaveSlotEmpty);
             }
-
-            if (Drag.Info.Source.Parent == null) // internal file
-                Drag.Reset();
-        }
-
-        private bool IsDisallowedDrop(SlotChange dest)
-        {
-            if (SE.HaX)
-                return false;
-            if (!dest.IsParty)
-                return false;
-            return SE.SAV.IsPartyAllEggs(dest.Slot);
-        }
-
-        private void AlertInvalidate(string msg)
-        {
-            Drag.Info.Invalidate();
-            WinFormsUtil.Alert(msg);
+            Drag.Reset();
         }
 
         /// <summary>
@@ -320,139 +294,41 @@ namespace PKHeX.WinForms.Controls
                 }
             }
 
-            SetPKM(pk, Drag.Info.Destination, false, SlotTouchType.Set);
+            Env.Slots.Set(Drag.Info.Destination, pk);
             Debug.WriteLine(c);
             return true;
         }
 
-        private bool TrySetPKMDestination(PictureBox pb, DropModifier mod, bool badDest)
+        private bool TrySetPKMDestination(PictureBox pb, DropModifier mod)
         {
-            PKM pk = GetPKM(Drag.Info.Source);
-            if (badDest && (pk.Species == 0 || pk.IsEgg))
+            PKM pk = Drag.Info.Source.Read(SAV);
+            var msg = Drag.Info.Destination.CanWriteTo(SAV, pk);
+            if (msg != WriteBlockedMessage.None)
                 return false;
 
-            if (Drag.Info.Source.IsValid)
+            if (Drag.Info.Source != null)
                 TrySetPKMSource(pb, mod);
 
             // Copy from temp to destination slot.
-            SetPKM(pk, Drag.Info.Destination, false, SlotTouchType.Set);
+            Env.Slots.Set(Drag.Info.Destination, pk);
             Drag.ResetCursor(pb.FindForm());
             return true;
         }
 
         private bool TrySetPKMSource(PictureBox sender, DropModifier mod)
         {
-            if (!Drag.Info.Destination.IsValid || mod == DropModifier.Clone)
+            if (Drag.Info.Destination == null || mod == DropModifier.Clone)
                 return false;
 
-            switch (mod)
+            if (sender.Image == null || mod == DropModifier.Overwrite)
             {
-                case DropModifier.Overwrite:
-                    // overwrite delete old slot
-                    SetPKM(SAV.BlankPKM, Drag.Info.Source, true, SlotTouchType.Delete);
-                    return true;
-                default:
-                    // Load data from destination
-                    var pk = sender.Image == null
-                        ? SAV.BlankPKM
-                        : GetPKM(Drag.Info.Destination);
-
-                    // Set destination pokemon data to source slot
-                    SetPKM(pk, Drag.Info.Source, true, SlotTouchType.Set);
-                    return true;
-            }
-        }
-
-        public void SetColor(int box, int slot, SlotTouchType t)
-        {
-            var img = SlotUtil.GetTouchTypeBackground(t);
-            foreach (var boxview in Boxes)
-                updateView(boxview);
-            foreach (var other in OtherSlots)
-                updateView(other);
-
-            void updateView(ISlotViewer<PictureBox> view)
-            {
-                if (view.ViewIndex == LastSlot.Box && LastSlot.Slot >= 0)
-                    view.SlotPictureBoxes[LastSlot.Slot].BackgroundImage = null;
-                if (view.ViewIndex == box && slot >= 0)
-                    view.SlotPictureBoxes[slot].BackgroundImage = img;
+                Env.Slots.Delete(Drag.Info.Source);
+                return true;
             }
 
-            LastSlot.SetInteraction(box, slot, img);
-        }
-
-        // PKM Get Set
-        public PKM GetPKM(SlotChange slot)
-        {
-            if (slot.Offset < 0)
-                return slot.PKM;
-
-            var sav = SAV;
-            return PartySlot(slot, sav);
-        }
-
-        private static PKM PartySlot(SlotChange slot, SaveFile sav)
-        {
-            if (slot.IsParty)
-                return sav.GetPartySlot(slot.Offset);
-
-            var pk = sav.GetStoredSlot(slot.Offset);
-            pk.Slot = slot.Slot;
-            pk.Box = slot.Box;
-            return pk;
-        }
-
-        public void SetPKM(PKM pk, SlotChange slot, bool src, SlotTouchType type)
-        {
-            if (slot.IsParty)
-            {
-                SetPKMParty(pk, src, slot);
-                if (type == SlotTouchType.Delete)
-                    slot.Slot = SAV.PartyCount;
-                SetColor(slot.Box, slot.Slot, SlotTouchType.Set);
-                return;
-            }
-
-            int o = slot.Offset;
-            SAV.SetStoredSlot(pk, o);
-            if (slot.Type == StorageSlotType.Box)
-            {
-                foreach (var boxview in Boxes)
-                {
-                    if (boxview.CurrentBox != slot.Box)
-                        continue;
-                    Debug.WriteLine($"Setting to {boxview.Parent.Name}'s [{boxview.CurrentBox + 1:d2}]|{boxview.CurrentBoxName} at Slot {slot.Slot + 1}.");
-                    boxview.SetSlotFiller(pk, slot.Box, slot.Slot);
-                }
-            }
-
-            SetColor(slot.Box, slot.Slot, type);
-        }
-
-        private void SetPKMParty(PKM pk, bool src, SlotChange slot)
-        {
-            int o = slot.Offset;
-            if (src)
-            {
-                if (pk.Species == 0) // Empty Slot
-                {
-                    SAV.DeletePartySlot(slot.Slot);
-                    SE.SetParty();
-                    return;
-                }
-            }
-            else
-            {
-                if (SAV.PartyCount < slot.Slot)
-                {
-                    o = SAV.GetPartyOffset(SAV.PartyCount);
-                    slot.Slot = SAV.PartyCount;
-                }
-            }
-
-            SAV.SetPartySlot(pk, o);
-            SE.SetParty();
+            var pk = Drag.Info.Destination.Read(SAV);
+            Env.Slots.Set(Drag.Info.Source, pk);
+            return true;
         }
 
         // Utility
@@ -470,7 +346,6 @@ namespace PKHeX.WinForms.Controls
             SE?.Dispose();
             LastSlot.OriginalBackground?.Dispose();
             LastSlot.CurrentBackground?.Dispose();
-            LastSlot.InteractionColor?.Dispose();
         }
 
         private void UpdateBoxViewAtBoxIndexes(params int[] boxIndexes)

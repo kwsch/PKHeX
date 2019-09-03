@@ -210,7 +210,7 @@ namespace PKHeX.Core
         public override bool HasParty => true;
         private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
 
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
 
         // Checksums
         protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.OT, Offsets.ChecksumOfs);
@@ -491,12 +491,12 @@ namespace PKHeX.Core
             SetFlag(region + ofs, bit & 7, value);
         }
 
-        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+        protected override void WriteStoredSlot(PKM pkm, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
             ((PK1)pkm).Stat_LevelBox = pkm.CurrentLevel;
-            base.SetStoredSlot(pkm, offset, trade, dex);
+            SetStoredSlot(pkm, offset);
         }
 
         private const int SpawnFlagCount = 0xF0;

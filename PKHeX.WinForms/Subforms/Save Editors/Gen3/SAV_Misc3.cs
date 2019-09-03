@@ -91,7 +91,7 @@ namespace PKHeX.WinForms
                 SAV.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

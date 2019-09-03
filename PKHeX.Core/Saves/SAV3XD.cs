@@ -25,8 +25,7 @@ namespace PKHeX.Core
         private StrategyMemo StrategyMemo;
         private ShadowInfoTableXD ShadowInfo;
         public int MaxShadowID => ShadowInfo.Count;
-        private int OFS_PouchCologne;
-        private int OFS_PouchDisc;
+        private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
         public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
 
@@ -173,7 +172,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 8;
 
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGC(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(Data, offset);
 
         // Checksums
         protected override void SetChecksums()

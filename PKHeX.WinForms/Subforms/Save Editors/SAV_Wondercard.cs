@@ -239,7 +239,7 @@ namespace PKHeX.WinForms
             mga.Flags = flags;
             SAV.GiftAlbum = mga;
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

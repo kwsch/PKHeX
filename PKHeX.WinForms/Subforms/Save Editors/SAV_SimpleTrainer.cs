@@ -119,9 +119,9 @@ namespace PKHeX.WinForms
                 NUD_Y.Value = sav4.Y;
 
                 badgeval = sav4.Badges;
-                if (sav4.Version == GameVersion.HGSS)
+                if (sav4 is SAV4HGSS hgss)
                 {
-                    badgeval |= sav4.Badges16 << 8;
+                    badgeval |= hgss.Badges16 << 8;
                     cba = cba.Concat(new[] { CHK_H1, CHK_H2, CHK_H3, CHK_H4, CHK_H5, CHK_H6, CHK_H7, CHK_H8 }).ToArray();
                 }
             }
@@ -233,9 +233,9 @@ namespace PKHeX.WinForms
                     sav4.Y = (int)NUD_Y.Value;
                 }
                 sav4.Badges = badgeval & 0xFF;
-                if (sav4.Version == GameVersion.HGSS)
+                if (sav4 is SAV4HGSS hgss)
                 {
-                    sav4.Badges16 = badgeval >> 8;
+                    hgss.Badges16 = badgeval >> 8;
                 }
             }
             else if (SAV is SAV5 s)
@@ -255,7 +255,7 @@ namespace PKHeX.WinForms
             SAV.SecondsToStart = GetSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
             SAV.SecondsToFame = GetSeconds(CAL_HoFDate, CAL_HoFTime);
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

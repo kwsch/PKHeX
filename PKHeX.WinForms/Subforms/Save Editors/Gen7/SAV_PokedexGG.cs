@@ -308,7 +308,7 @@ namespace PKHeX.WinForms
         {
             SetEntry();
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

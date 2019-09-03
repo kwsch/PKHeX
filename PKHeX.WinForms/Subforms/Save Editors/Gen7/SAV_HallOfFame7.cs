@@ -74,7 +74,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV7USUM)
                 SAV.MiscBlock.StarterEncryptionConstant = Util.GetHexValue(TB_EC.Text);
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
     }
