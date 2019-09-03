@@ -129,7 +129,7 @@ namespace PKHeX.WinForms.Controls
                 catch { getBoxNamesDefault(); }
             }
 
-            if (box < 0 && SAV.CurrentBox < CB_BoxSelect.Items.Count)
+            if (box < 0 && (uint)SAV.CurrentBox < CB_BoxSelect.Items.Count)
                 CurrentBox = SAV.CurrentBox; // restore selected box
             else
                 CurrentBox = box;
