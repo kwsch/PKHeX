@@ -78,9 +78,11 @@ namespace PKHeX.WinForms
             {
                 TC_Misc.Controls.Remove(TAB_Walker);
                 poffinCase4Editor1.Initialize(s);
+                TC_Misc.Controls.Remove(Tab_PokeGear);
             }
             else
             {
+                pokeGear4Editor1.Initialize((SAV4HGSS)sav);
                 TC_Misc.Controls.Remove(Tab_Poffins);
             }
         }
@@ -89,7 +91,9 @@ namespace PKHeX.WinForms
         {
             SaveMain();
             SaveBattleFrontier();
-            if (!SAV.HGSS)
+            if (SAV is SAV4HGSS)
+                pokeGear4Editor1.Save();
+            else if (SAV is SAV4Sinnoh)
                 poffinCase4Editor1.Save();
 
             Origin.CopyChangesFrom(SAV);

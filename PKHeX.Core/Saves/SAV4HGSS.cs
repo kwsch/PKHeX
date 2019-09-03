@@ -160,9 +160,14 @@ namespace PKHeX.Core
                 SetCallerAtIndex(i, (PokegearNumber)i);
         }
 
+        public void PokeGearClearAllCallers(int start = 0)
+        {
+            for (int i = start; i < GearMaxCallers; i++)
+                SetCallerAtIndex(i, PokegearNumber.None);
+        }
+
         public void PokeGearUnlockAllCallersNoTrainers()
         {
-            Array.Clear(General, OFS_GearRolodex, GearMaxCallers);
             var nonTrainers = new[]
             {
                 PokegearNumber.Mother,
@@ -179,6 +184,9 @@ namespace PKHeX.Core
             };
             for (int i = 0; i < nonTrainers.Length; i++)
                 SetCallerAtIndex(i, nonTrainers[i]);
+
+            // clear remaining callers
+            PokeGearClearAllCallers(nonTrainers.Length);
         }
 
         // Apricorn Pouch

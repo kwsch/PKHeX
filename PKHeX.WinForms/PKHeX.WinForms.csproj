@@ -316,6 +316,12 @@
     </Compile>
     <Compile Include="Subforms\Misc\PKMSummaryImage.cs" />
     <Compile Include="Subforms\Misc\PropertyComparer.cs" />
+    <Compile Include="Subforms\Save Editors\Gen4\PokeGear4Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\PokeGear4Editor.Designer.cs">
+      <DependentUpon>PokeGear4Editor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen4\PoffinCase4Editor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -730,6 +736,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen4\PokeGear4Editor.resx">
+      <DependentUpon>PokeGear4Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\PoffinCase4Editor.resx">
       <DependentUpon>PoffinCase4Editor.cs</DependentUpon>
