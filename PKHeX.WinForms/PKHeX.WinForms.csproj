@@ -246,7 +246,6 @@
     <Compile Include="Controls\SAV Editor\SlotUtil.cs" />
     <Compile Include="Controls\SAV Editor\SummaryPreviewer.cs" />
     <Compile Include="Controls\SAV Editor\SlotTrackerImage.cs" />
-    <Compile Include="Controls\SAV Editor\SlotViewer.cs" />
     <Compile Include="Controls\SAV Editor\BoxMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
