@@ -111,7 +111,7 @@ namespace PKHeX.Core
                 027, // Sandshrew
                 028, // Sandslash
                 037, // Vulpix
-                038, // Ninetails
+                038, // Ninetales
                 050, // Diglett
                 051, // Dugtrio
                 052, // Meowth
@@ -134,10 +134,10 @@ namespace PKHeX.Core
 
             slots[slots.Length - 2].LevelMin = 20; // Raichu
             slots[slots.Length - 1].LevelMin = 20; // Marowak
-            slots[(int)Species.Mewtwo].LevelMin = 20;
-            slots[(int)Species.Articuno].LevelMin = 15;
-            slots[(int)Species.Zapdos].LevelMin = 15;
-            slots[(int)Species.Moltres].LevelMin = 15;
+            slots[(int)Species.Mewtwo - 1].LevelMin = 20;
+            slots[(int)Species.Articuno - 1].LevelMin = 15;
+            slots[(int)Species.Zapdos - 1].LevelMin = 15;
+            slots[(int)Species.Moltres - 1].LevelMin = 15;
 
             area.Slots = slots;
             return new[] {area};
