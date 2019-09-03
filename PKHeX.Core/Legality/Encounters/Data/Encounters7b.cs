@@ -132,8 +132,8 @@ namespace PKHeX.Core
             var alolan = AlolanKanto.Select(z => GetSlot(z, 1));
             var slots = regular.Concat(alolan).ToArray();
 
-            slots[area.Slots.Length - 2].LevelMin = 20; // Raichu
-            slots[area.Slots.Length - 1].LevelMin = 20; // Marowak
+            slots[slots.Length - 2].LevelMin = 20; // Raichu
+            slots[slots.Length - 1].LevelMin = 20; // Marowak
             slots[(int)Species.Mewtwo].LevelMin = 20;
             slots[(int)Species.Articuno].LevelMin = 15;
             slots[(int)Species.Zapdos].LevelMin = 15;
