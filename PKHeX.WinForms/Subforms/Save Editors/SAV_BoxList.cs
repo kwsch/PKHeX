@@ -74,13 +74,13 @@ namespace PKHeX.WinForms
                 {
                     int index = Boxes.FindIndex(z => z == ((Button)s).Parent);
                     int other = (index + Boxes.Count - 1) % Boxes.Count;
-                    m.SwapBoxes(index, other);
+                    m.SwapBoxes(index, other, p.SAV);
                 };
                 box.B_BoxRight.Click += (s, e) =>
                 {
                     int index = Boxes.FindIndex(z => z == ((Button)s).Parent);
                     int other = (index + 1) % Boxes.Count;
-                    m.SwapBoxes(index, other);
+                    m.SwapBoxes(index, other, p.SAV);
                 };
             }
         }

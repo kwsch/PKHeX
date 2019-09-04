@@ -1127,7 +1127,6 @@ namespace PKHeX.WinForms
             try
             {
                 File.WriteAllBytes(newfile, data);
-                C_SAV.M.Drag.Info.Source = new ExternalSlotInfo(pk);
 
                 var pb = (PictureBox)sender;
                 if (pb.Image != null)
