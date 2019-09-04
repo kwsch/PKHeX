@@ -83,9 +83,10 @@ namespace PKHeX.Core
         public bool DP => Version == GameVersion.DP;
 
         // Checksums
-        private static ushort CalcBlockChecksum(byte[] data) => Checksums.CRC16_CCITT(data, 0, data.Length - 0x14);
+        protected abstract int FooterSize { get; }
+        private ushort CalcBlockChecksum(byte[] data) => Checksums.CRC16_CCITT(data, 0, data.Length - FooterSize);
         private static ushort GetBlockChecksumSaved(byte[] data) => BitConverter.ToUInt16(data, data.Length - 2);
-        private static bool GetBlockChecksumValid(byte[] data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
+        private bool GetBlockChecksumValid(byte[] data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
 
         protected override void SetChecksums()
         {

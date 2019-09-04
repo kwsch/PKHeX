@@ -12,8 +12,9 @@ namespace PKHeX.Core
         protected override SAV4 CloneInternal() => Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
 
         protected override int GeneralSize => 0xF628;
-        protected override int StorageSize => 0x12300; // Start 0xF700, +0 starts box data
+        protected override int StorageSize => 0x12310; // Start 0xF700, +0 starts box data
         protected override int StorageStart => 0xF700; // unused section right after GeneralSize, alignment?
+        protected override int FooterSize => 0x10;
 
         private void Initialize()
         {

@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public abstract class SAV4Sinnoh : SAV4
     {
         protected override int StorageStart => GeneralSize;
+        protected override int FooterSize => 0x14;
         protected SAV4Sinnoh() { }
         protected SAV4Sinnoh(byte[] data) : base(data) { }
 
