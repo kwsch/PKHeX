@@ -22,7 +22,6 @@ namespace PKHeX.WinForms.Controls
         public readonly DragManager Drag = new DragManager();
         public SaveDataEditor<PictureBox> Env { get; set; }
 
-        private SaveFile SAV => SE.SAV;
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
         public readonly SlotHoverHandler Hover = new SlotHoverHandler();
 
@@ -79,7 +78,7 @@ namespace PKHeX.WinForms.Controls
 
         public void DragEnter(object sender, DragEventArgs e)
         {
-            if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
+            if (e.AllowedEffect.HasFlag(DragDropEffects.Copy)) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
@@ -142,6 +141,7 @@ namespace PKHeX.WinForms.Controls
             string newfile = CreateDragDropPKM(pb, encrypt, out bool external);
 
             // drop finished, clean up
+            Drag.Info.Source = null;
             Drag.Reset();
             Drag.ResetCursor(pb.FindForm());
 
@@ -230,7 +230,7 @@ namespace PKHeX.WinForms.Controls
 
             var dest = Drag.Info.Destination;
 
-            if (Drag.Info.Source?.Slot is ExternalSlotInfo) // external source
+            if (Drag.Info.Source == null) // external source
             {
                 bool badDest = !dest.CanWriteTo();
                 if (!TryLoadFiles(files, e, badDest))
@@ -255,7 +255,7 @@ namespace PKHeX.WinForms.Controls
             if (files.Count == 0)
                 return false;
 
-            var sav = SAV;
+            var sav = Drag.Info.Destination.View.SAV;
             var path = files[0];
             var temp = FileUtil.GetSingleFromPath(path, sav);
             if (temp == null)
@@ -333,7 +333,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Utility
-        public void SwapBoxes(int index, int other)
+        public void SwapBoxes(int index, int other, SaveFile SAV)
         {
             if (index == other)
                 return;

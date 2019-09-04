@@ -52,7 +52,6 @@ namespace PKHeX.WinForms.Controls
             LeftMouseIsDown = DragDropInProgress = false;
             CurrentPath = null;
             Cursor = default;
-            Source = Destination = null;
         }
 
         public bool SameLocation => Source?.Equals(Destination) ?? false;
