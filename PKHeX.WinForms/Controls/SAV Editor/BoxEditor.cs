@@ -158,10 +158,13 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < BoxSlotCount; i++)
             {
                 var pb = SlotPictureBoxes[i];
-                if (i < SAV.BoxSlotCount && index + i < SAV.SlotCount)
-                    SlotUtil.UpdateSlot(pb, (SlotInfoBox)GetSlotData(pb), Editor[i], SAV, FlagIllegal);
-                else
+                if (i >= SAV.BoxSlotCount || index + i >= SAV.SlotCount)
+                {
                     pb.Visible = false;
+                    continue;
+                }
+                pb.Visible = true;
+                SlotUtil.UpdateSlot(pb, (SlotInfoBox) GetSlotData(pb), Editor[i], SAV, FlagIllegal);
             }
 
             if (M.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)
