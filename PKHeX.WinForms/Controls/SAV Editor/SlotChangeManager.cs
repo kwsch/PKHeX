@@ -57,6 +57,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (e.Button == MouseButtons.Left)
                 Drag.Info.LeftMouseIsDown = false;
+            Drag.Info.Source = null;
         }
 
         public void MouseDown(object sender, MouseEventArgs e)
@@ -87,6 +88,13 @@ namespace PKHeX.WinForms.Controls
                 Drag.SetCursor(((Control)sender).FindForm(), Drag.Info.Cursor);
         }
 
+        private static SlotViewInfo<T> GetSlotInfo<T>(T pb) where T : Control
+        {
+            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
+            var src = view.GetSlotData(pb);
+            return new SlotViewInfo<T> { Slot = src, View = view };
+        }
+
         public void MouseMove(object sender, MouseEventArgs e)
         {
             if (!Drag.CanStartDrag)
@@ -96,9 +104,8 @@ namespace PKHeX.WinForms.Controls
             PictureBox pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
-            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-            var src = view.GetSlotData(pb);
-            if (!src.CanWriteTo(SAV))
+            var src = GetSlotInfo(pb);
+            if (!src.CanWriteTo())
                 return;
             bool encrypt = Control.ModifierKeys == Keys.Control;
             HandleMovePKM(pb, encrypt);
@@ -107,9 +114,8 @@ namespace PKHeX.WinForms.Controls
         public void DragDrop(object sender, DragEventArgs e)
         {
             PictureBox pb = (PictureBox)sender;
-            var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-            var src = view.GetSlotData(pb);
-            if (!src.CanWriteTo(SAV))
+            var info = GetSlotInfo(pb);
+            if (!info.CanWriteTo())
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
@@ -118,12 +124,9 @@ namespace PKHeX.WinForms.Controls
             }
 
             var mod = SlotUtil.GetDropModifier();
-            Drag.Info.Destination = src;
+            Drag.Info.Destination = info;
             HandleDropPKM(pb, e, mod);
         }
-
-        private static ISlotViewer<T> GetViewParent<T>(T pb) where T : Control
-            => WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
 
         private void HandleMovePKM(PictureBox pb, bool encrypt)
         {
@@ -133,8 +136,7 @@ namespace PKHeX.WinForms.Controls
             Drag.Info.DragDropInProgress = true;
 
             // Prepare Data
-            Drag.Info.Source = GetViewParent(pb).GetSlotData(pb);
-            Drag.Info.Source.Read(SAV);
+            Drag.Info.Source = GetSlotInfo(pb);
 
             // Make a new file name based off the PID
             string newfile = CreateDragDropPKM(pb, encrypt, out bool external);
@@ -148,7 +150,7 @@ namespace PKHeX.WinForms.Controls
             // Keep it to 10 seconds; Discord upload only stores the file path until you click Upload.
             int delay = external ? 10_000 : 0;
             DeleteAsync(newfile, delay);
-            if (Drag.Info.Source is SlotInfoParty || Drag.Info.Destination is SlotInfoParty)
+            if (Drag.Info.DragIsParty)
                 SE.SetParty();
         }
 
@@ -162,7 +164,7 @@ namespace PKHeX.WinForms.Controls
         private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
         {
             // Make File
-            PKM pk = Drag.Info.Source.Read(SAV);
+            PKM pk = Drag.Info.Source.ReadCurrent();
             string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
@@ -202,7 +204,7 @@ namespace PKHeX.WinForms.Controls
             if (result == DragDropEffects.Copy) // viewed in tabs or cloned
             {
                 if (Drag.Info.Destination == null) // apply 'view' highlight
-                    Env.Slots.Get(Drag.Info.Source);
+                    Env.Slots.Get(Drag.Info.Source.Slot);
                 return false;
             }
             return true;
@@ -220,7 +222,6 @@ namespace PKHeX.WinForms.Controls
             e.Effect = mod == DropModifier.Clone ? DragDropEffects.Copy : DragDropEffects.Link;
 
             // file
-            Drag.Info.Destination = GetViewParent(pb).GetSlotData(pb);
             if (Drag.Info.SameLocation)
             {
                 e.Effect = DragDropEffects.Link;
@@ -229,9 +230,9 @@ namespace PKHeX.WinForms.Controls
 
             var dest = Drag.Info.Destination;
 
-            if (Drag.Info.Source == null) // external source
+            if (Drag.Info.Source?.Slot is ExternalSlotInfo) // external source
             {
-                bool badDest = !dest.CanWriteTo(SAV);
+                bool badDest = !dest.CanWriteTo();
                 if (!TryLoadFiles(files, e, badDest))
                     WinFormsUtil.Alert(MessageStrings.MsgSaveSlotBadData);
             }
@@ -294,15 +295,15 @@ namespace PKHeX.WinForms.Controls
                 }
             }
 
-            Env.Slots.Set(Drag.Info.Destination, pk);
+            Env.Slots.Set(Drag.Info.Destination.Slot, pk);
             Debug.WriteLine(c);
             return true;
         }
 
         private bool TrySetPKMDestination(PictureBox pb, DropModifier mod)
         {
-            PKM pk = Drag.Info.Source.Read(SAV);
-            var msg = Drag.Info.Destination.CanWriteTo(SAV, pk);
+            PKM pk = Drag.Info.Source.ReadCurrent();
+            var msg = Drag.Info.Destination.CanWriteTo(pk);
             if (msg != WriteBlockedMessage.None)
                 return false;
 
@@ -310,7 +311,7 @@ namespace PKHeX.WinForms.Controls
                 TrySetPKMSource(pb, mod);
 
             // Copy from temp to destination slot.
-            Env.Slots.Set(Drag.Info.Destination, pk);
+            Env.Slots.Set(Drag.Info.Destination.Slot, pk);
             Drag.ResetCursor(pb.FindForm());
             return true;
         }
@@ -322,12 +323,12 @@ namespace PKHeX.WinForms.Controls
 
             if (sender.Image == null || mod == DropModifier.Overwrite)
             {
-                Env.Slots.Delete(Drag.Info.Source);
+                Env.Slots.Delete(Drag.Info.Source.Slot);
                 return true;
             }
 
-            var pk = Drag.Info.Destination.Read(SAV);
-            Env.Slots.Set(Drag.Info.Source, pk);
+            var pk = Drag.Info.Destination.ReadCurrent();
+            Env.Slots.Set(Drag.Info.Source.Slot, pk);
             return true;
         }
 

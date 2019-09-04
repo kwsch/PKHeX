@@ -6,7 +6,7 @@ namespace PKHeX.WinForms.Controls
 {
     public class DragManager
     {
-        public SlotChangeInfo<Cursor> Info { get; private set; }
+        public SlotChangeInfo<Cursor, PictureBox> Info { get; private set; }
         public event DragEventHandler RequestExternalDragDrop;
         public void RequestDD(object sender, DragEventArgs e) => RequestExternalDragDrop?.Invoke(sender, e);
 
@@ -22,7 +22,7 @@ namespace PKHeX.WinForms.Controls
 
         public void Initialize()
         {
-            Info = new SlotChangeInfo<Cursor>();
+            Info = new SlotChangeInfo<Cursor, PictureBox>();
         }
 
         public void Reset() => Info.Reset();
@@ -31,16 +31,16 @@ namespace PKHeX.WinForms.Controls
         public bool CanStartDrag => Info.LeftMouseIsDown && !Cursor.Position.Equals(MouseDownPosition);
     }
 
-    public class SlotChangeInfo<T>
+    public class SlotChangeInfo<TCursor, TImageSource>
     {
         public bool LeftMouseIsDown { get; set; }
         public bool DragDropInProgress { get; set; }
 
-        public T Cursor { get; set; }
+        public TCursor Cursor { get; set; }
         public string CurrentPath { get; set; }
 
-        public ISlotInfo Source { get; set; }
-        public ISlotInfo Destination { get; set; }
+        public SlotViewInfo<TImageSource> Source { get; set; }
+        public SlotViewInfo<TImageSource> Destination { get; set; }
 
         public SlotChangeInfo()
         {
@@ -52,8 +52,10 @@ namespace PKHeX.WinForms.Controls
             LeftMouseIsDown = DragDropInProgress = false;
             CurrentPath = null;
             Cursor = default;
+            Source = Destination = null;
         }
 
         public bool SameLocation => Source?.Equals(Destination) ?? false;
+        public bool DragIsParty => Source?.Slot is SlotInfoParty || Destination?.Slot is SlotInfoParty;
     }
 }

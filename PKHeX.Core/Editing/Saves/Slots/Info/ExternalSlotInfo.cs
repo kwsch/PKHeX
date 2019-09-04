@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -17,5 +18,19 @@ namespace PKHeX.Core
         public bool WriteTo(SaveFile sav, PKM pkm, PKMImportSetting setting = PKMImportSetting.UseDefault) => throw new InvalidOperationException();
 
         public PKM Read(SaveFile sav) => Data;
+    }
+
+    public sealed class SlotViewExternal<T> : ISlotViewer<T>
+    {
+        private readonly ExternalSlotInfo Slot;
+        public SlotViewExternal(ExternalSlotInfo slot) => Slot = slot;
+
+        public int ViewIndex { get; } = -1;
+        public void NotifySlotOld(ISlotInfo previous) { }
+        public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm) { }
+        public ISlotInfo GetSlotData(T view) => Slot;
+        public int GetViewIndex(ISlotInfo slot) => 0;
+        public IList<T> SlotPictureBoxes => null;
+        public SaveFile SAV => null;
     }
 }
