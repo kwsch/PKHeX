@@ -303,7 +303,6 @@ namespace PKHeX.Core
             073, // Tentacruel
             079, // Slowpoke
             080, // Slowbro
-            083, // Farfetch'd
             084, // Doduo
             085, // Dodrio
             100, // Voltorb
@@ -317,13 +316,10 @@ namespace PKHeX.Core
             112, // Rhydon
             113, // Chansey
             114, // Tangela
-            115, // Kangaskhan
             118, // Goldeen
             119, // Seaking
             120, // Staryu
             121, // Starmie
-            122, // Mr. Mime
-            128, // Tauros
             132, // Ditto
             137, // Porygon
             143, // Snorlax
