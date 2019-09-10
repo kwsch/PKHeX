@@ -65,6 +65,7 @@ namespace PKHeX.Core
                     if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
                         data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                     break;
+
                 case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm) && pkm.IsShiny:
                         data.AddLine(GetInvalid(LEncGiftShinyMismatch, CheckIdentifier.Shiny));
                     break;
@@ -105,6 +106,7 @@ namespace PKHeX.Core
 
             if (pkm.EncryptionConstant == 0)
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
+
             if (3 <= Info.Generation && Info.Generation <= 5)
             {
                 VerifyTransferEC(data);

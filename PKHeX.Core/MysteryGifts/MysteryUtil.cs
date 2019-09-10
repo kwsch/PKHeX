@@ -5,6 +5,9 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Utility logic for dealing with <see cref="MysteryGift"/> objects.
+    /// </summary>
     public static class MysteryUtil
     {
         /// <summary>

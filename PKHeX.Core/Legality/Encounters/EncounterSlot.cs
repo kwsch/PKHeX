@@ -159,17 +159,21 @@ namespace PKHeX.Core
 
         private static int GetWildAltForm(PKM pk, int form, ITrainerInfo SAV)
         {
-            if (form < 30)
+            if (form < 30) // specified form
             {
                 switch (pk.Species)
                 {
-                    case 774: return Util.Rand.Next(7, 14); // Minior
-                    default: return form;
+                    case (int)Core.Species.Minior:
+                        return Util.Rand.Next(7, 14);
+                    default:
+                        return form;
                 }
             }
-            if (form == 31)
+            if (form == 31) // flagged as totally random
                 return Util.Rand.Next(pk.PersonalInfo.FormeCount);
-            if (pk.Species == 664 || pk.Species == 665 || pk.Species == 666)
+
+            int spec = pk.Species;
+            if (spec == (int)Core.Species.Scatterbug || spec == (int)Core.Species.Spewpa || spec == (int)Core.Species.Vivillon)
                 return Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
             return 0;
         }

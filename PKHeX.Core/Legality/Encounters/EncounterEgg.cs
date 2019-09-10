@@ -71,12 +71,12 @@ namespace PKHeX.Core
         {
             switch (Species)
             {
-                case 774: // Minior
+                case (int)Core.Species.Minior:
                     pk.AltForm = Util.Rand.Next(7, 14);
                     break;
-                case 664: // Scatterbug
-                case 665:
-                case 666:
+                case (int)Core.Species.Scatterbug:
+                case (int)Core.Species.Spewpa:
+                case (int)Core.Species.Vivillon:
                     pk.AltForm = Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
                     break;
             }

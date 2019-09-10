@@ -5,7 +5,11 @@
     /// </summary>
     public sealed class EncounterTradePID : EncounterTrade
     {
+        /// <summary>
+        /// Fixed <see cref="PKM.PID"/> value the encounter must have.
+        /// </summary>
         public uint PID;
+
         public override Shiny Shiny { get; set; } = Shiny.FixedValue;
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)

@@ -24,7 +24,7 @@ namespace PKHeX.Core
         protected override ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < 0xE8; i += 2) // fixed value; pb7 overrides stored size
+            for (int i = 8; i < PKX.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
                 chk += BitConverter.ToUInt16(Data, i);
             return chk;
         }

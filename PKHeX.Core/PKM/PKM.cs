@@ -41,12 +41,7 @@ namespace PKHeX.Core
         public abstract byte[] OT_Trash { get; set; }
         public virtual byte[] HT_Trash { get; set; }
 
-        protected byte[] GetData(int Offset, int Length)
-        {
-            byte[] data = new byte[Length];
-            Array.Copy(Data, Offset, data, 0, Length);
-            return data;
-        }
+        protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
 
         protected virtual ushort CalculateChecksum()
         {
@@ -452,13 +447,15 @@ namespace PKHeX.Core
         public int[] RelearnMoves
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
-            set
-            {
-                RelearnMove1 = value.Length > 0 ? value[0] : 0;
-                RelearnMove2 = value.Length > 1 ? value[1] : 0;
-                RelearnMove3 = value.Length > 2 ? value[2] : 0;
-                RelearnMove4 = value.Length > 3 ? value[3] : 0;
-            }
+            set => SetRelearnMoves(value);
+        }
+
+        public void SetRelearnMoves(IReadOnlyList<int> value)
+        {
+            RelearnMove1 = value.Count > 0 ? value[0] : 0;
+            RelearnMove2 = value.Count > 1 ? value[1] : 0;
+            RelearnMove3 = value.Count > 2 ? value[2] : 0;
+            RelearnMove4 = value.Count > 3 ? value[3] : 0;
         }
 
         public int PIDAbility

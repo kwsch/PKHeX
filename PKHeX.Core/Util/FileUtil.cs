@@ -159,7 +159,7 @@ namespace PKHeX.Core
             var length = data.Length;
             if (PKX.IsPKM(length / SAV.SlotCount) || PKX.IsPKM(length / SAV.BoxSlotCount))
             {
-                pkms = PKX.GetPKMDataFromConcatenatedBinary(data, length);
+                pkms = ArrayUtil.EnumerateSplit(data, length);
                 return true;
             }
             pkms = Enumerable.Empty<byte[]>();

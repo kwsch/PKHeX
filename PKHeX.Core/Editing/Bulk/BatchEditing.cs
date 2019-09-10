@@ -368,7 +368,7 @@ namespace PKHeX.Core
                     pk.SetSuggestedHyperTrainingData();
                     return ModifyResult.Modified;
                 case nameof(PKM.RelearnMoves):
-                    pk.RelearnMoves = info.SuggestedRelearn;
+                    pk.SetRelearnMoves(info.SuggestedRelearn);
                     return ModifyResult.Modified;
                 case nameof(PKM.Met_Location):
                     var encounter = info.SuggestedEncounter;

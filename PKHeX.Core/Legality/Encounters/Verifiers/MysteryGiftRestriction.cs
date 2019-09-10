@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Restriction Flags for receiving 3DS/NDS era events.
+    /// </summary>
     [Flags]
     public enum MysteryGiftRestriction
     {
@@ -36,6 +39,11 @@ namespace PKHeX.Core
             return (value & flag) != 0;
         }
 
+        /// <summary>
+        /// Checks the flags to pick out a language that can receive the gift.
+        /// </summary>
+        /// <param name="value">Flag value</param>
+        /// <returns>Language ID; -1 if none</returns>
         public static int GetSuggestedLanguage(this MysteryGiftRestriction value)
         {
             for (int i = (int)LanguageID.Japanese; i <= (int)LanguageID.Korean; i++)

@@ -14,7 +14,7 @@ namespace PKHeX
     {
         private static readonly int[] G1CaterpieMoves = { 33, 81 };
         private static readonly int[] G1WeedleMoves = { 40, 81 };
-        private static readonly int[] G1MetapodMoves = { 33, 81, 106 };
+        //private static readonly int[] G1MetapodMoves = { 33, 81, 106 };
         private static readonly int[] G1KakunaMoves = { 40, 81, 106 };
         private static readonly int[] G1Exeggcute_IncompatibleMoves = { 78, 77, 79 };
 

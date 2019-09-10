@@ -15,6 +15,12 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyCurrentMoves
     {
+        /// <summary>
+        /// Verifies the current moves of the <see cref="pkm"/> data based on the provided <see cref="info"/>.
+        /// </summary>
+        /// <param name="pkm">Data to check</param>
+        /// <param name="info">Encounter conditions and legality info</param>
+        /// <returns>Validity of the <see cref="PKM.Moves"/></returns>
         public static CheckMoveResult[] VerifyMoves(PKM pkm, LegalInfo info)
         {
             int[] Moves = pkm.Moves;
@@ -339,12 +345,14 @@ namespace PKHeX.Core
                 else if (gen == info.Generation && learnInfo.Source.SpecialSource.Contains(move))
                     res[m] = new CheckMoveResult(Special, gen, Valid, LMoveSourceSpecial, Move);
 
-                if (gen >= 3 || res[m] == null || !res[m].Valid)
+                if (gen >= 3 || !IsCheckValid(res[m]))
                     continue;
 
                 // Gen1/Gen2 only below
                 if (gen == 2 && learnInfo.Source.NonTradeBackLevelUpMoves.Contains(m))
+                {
                     learnInfo.Gen2PreevoMoves.Add(m);
+                }
                 else if (gen == 1)
                 {
                     learnInfo.Gen1Moves.Add(m);
@@ -837,6 +845,9 @@ namespace PKHeX.Core
             EncounterMoves.LevelUpMoves[2] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
         }
 
+        /// <summary>
+        /// Gets the generation numbers in descending order for iterating over.
+        /// </summary>
         public static int[] GetGenMovesCheckOrder(PKM pkm)
         {
             if (pkm.Format < 3)

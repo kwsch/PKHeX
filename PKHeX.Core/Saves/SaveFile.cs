@@ -918,37 +918,12 @@ namespace PKHeX.Core
 
             var BD = BoxData;
             var entryLength = BlankPKM.EncryptedBoxData.Length;
-            var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, entryLength);
+            var pkdata = ArrayUtil.EnumerateSplit(data, entryLength);
             pkdata.Select(GetPKM).CopyTo(BD, IsSlotOverwriteProtected);
             BoxData = BD;
             return true;
         }
         #endregion
-    }
-
-    public static class ArrayUtil
-    {
-        public static bool IsRangeAll(this byte[] data, int value, int offset, int length)
-        {
-            int start = offset + length - 1;
-            int end = offset;
-            for (int i = start; i >= end; i--)
-            {
-                if (data[i] != value)
-                    return false;
-            }
-
-            return true;
-        }
-
-        public static byte[] Slice(this byte[] src, int offset, int length)
-        {
-            byte[] data = new byte[length];
-            Buffer.BlockCopy(src, offset, data, 0, length);
-            return data;
-        }
-
-        public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
     }
 
     public static class StorageUtil
@@ -998,22 +973,6 @@ namespace PKHeX.Core
             }
 
             return true;
-        }
-    }
-
-    public static class FlagUtil
-    {
-        public static bool GetFlag(byte[] arr, int offset, int bitIndex)
-        {
-            bitIndex &= 7; // ensure bit access is 0-7
-            return (arr[offset] >> bitIndex & 1) != 0;
-        }
-
-        public static void SetFlag(byte[] arr, int offset, int bitIndex, bool value)
-        {
-            bitIndex &= 7; // ensure bit access is 0-7
-            arr[offset] &= (byte)~(1 << bitIndex);
-            arr[offset] |= (byte)((value ? 1 : 0) << bitIndex);
         }
     }
 }

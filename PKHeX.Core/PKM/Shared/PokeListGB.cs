@@ -104,15 +104,14 @@ namespace PKHeX.Core
 
         private T GetEntry(int base_ofs, int i)
         {
-            byte[] dat = new byte[Entry_Size];
-            byte[] otname = new byte[StringLength];
-            byte[] nick = new byte[StringLength];
             int pkOfs = GetOffsetPKMData(base_ofs, i);
             int otOfs = GetOffsetPKMOT(base_ofs, i);
             int nkOfs = GetOffsetPKMNickname(base_ofs, i);
-            Buffer.BlockCopy(Data, pkOfs, dat, 0, Entry_Size);
-            Buffer.BlockCopy(Data, otOfs, otname, 0, StringLength);
-            Buffer.BlockCopy(Data, nkOfs, nick, 0, StringLength);
+
+            var dat = Data.Slice(pkOfs, Entry_Size);
+            var otname = Data.Slice(otOfs, StringLength);
+            var nick = Data.Slice(nkOfs, StringLength);
+
             return GetEntry(dat, otname, nick, Data[1 + i] == 0xFD);
         }
 

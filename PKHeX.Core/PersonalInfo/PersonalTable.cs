@@ -107,17 +107,6 @@ namespace PKHeX.Core
             return new PersonalTable(Util.GetBinaryResource($"personal_{game}"), format);
         }
 
-        private static byte[][] SplitBytes(byte[] data, int size)
-        {
-            byte[][] result = new byte[data.Length / size][];
-            for (int i = 0; i < data.Length; i += size)
-            {
-                result[i / size] = new byte[size];
-                Array.Copy(data, i, result[i / size], 0, size);
-            }
-            return result;
-        }
-
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
         {
             switch (format)
@@ -214,8 +203,8 @@ namespace PKHeX.Core
         {
             var get = GetConstructor(format);
             int size = GetEntrySize(format);
-            byte[][] entries = SplitBytes(data, size);
-            Table = new PersonalInfo[data.Length / size];
+            byte[][] entries = ArrayUtil.Split(data, size);
+            Table = new PersonalInfo[entries.Length];
             for (int i = 0; i < Table.Length; i++)
                 Table[i] = get(entries[i]);
 
@@ -310,7 +299,9 @@ namespace PKHeX.Core
             {
                 int FormCount = this[i].FormeCount;
                 FormList[i] = new string[FormCount];
-                if (FormCount <= 0) continue;
+                if (FormCount <= 0)
+                    continue;
+
                 FormList[i][0] = species[i];
                 for (int j = 1; j < FormCount; j++)
                     FormList[i][j] = $"{species[i]} {j}";

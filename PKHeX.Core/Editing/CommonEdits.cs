@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -12,6 +13,11 @@ namespace PKHeX.Core
         /// Setting which enables/disables automatic manipulation of <see cref="PKM.Markings"/> when importing from a <see cref="ShowdownSet"/>.
         /// </summary>
         public static bool ShowdownSetIVMarkings { get; set; } = true;
+
+        /// <summary>
+        /// Default <see cref="MarkingMethod"/> when applying markings.
+        /// </summary>
+        public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
 
         /// <summary>
         /// Sets the <see cref="PKM.Nickname"/> to the provided value.
@@ -179,11 +185,8 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPUps(this PKM pk, int[] Moves = null)
+        public static void SetMaximumPPUps(this PKM pk, int[] Moves)
         {
-            if (Moves == null)
-                Moves = pk.Moves;
-
             pk.Move1_PPUps = GetPPUpCount(Moves[0]);
             pk.Move2_PPUps = GetPPUpCount(Moves[1]);
             pk.Move3_PPUps = GetPPUpCount(Moves[2]);
@@ -192,6 +195,12 @@ namespace PKHeX.Core
             pk.SetMaximumPPCurrent(Moves);
             int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
         }
+
+        /// <summary>
+        /// Sets the individual PP Up count values depending if a Move is present in the moveslot or not.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void SetMaximumPPUps(this PKM pk) => pk.SetMaximumPPUps(pk.Moves);
 
         /// <summary>
         /// Updates the <see cref="PKM.Moves"/> and updates the current PP counts.
@@ -219,16 +228,19 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPCurrent(this PKM pk, int[] Moves = null)
+        public static void SetMaximumPPCurrent(this PKM pk, int[] Moves)
         {
-            if (Moves == null)
-                Moves = pk.Moves;
-
-            pk.Move1_PP = Moves.Length <= 0 ? 0 : pk.GetMovePP(Moves[0], pk.Move1_PPUps);
+            pk.Move1_PP = Moves.Length == 0 ? 0 : pk.GetMovePP(Moves[0], pk.Move1_PPUps);
             pk.Move2_PP = Moves.Length <= 1 ? 0 : pk.GetMovePP(Moves[1], pk.Move2_PPUps);
             pk.Move3_PP = Moves.Length <= 2 ? 0 : pk.GetMovePP(Moves[2], pk.Move3_PPUps);
             pk.Move4_PP = Moves.Length <= 3 ? 0 : pk.GetMovePP(Moves[3], pk.Move4_PPUps);
         }
+
+        /// <summary>
+        /// Updates the individual PP count values for each moveslot based on the maximum possible value.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void SetMaximumPPCurrent(this PKM pk) => pk.SetMaximumPPCurrent(pk.Moves);
 
         /// <summary>
         /// Sets the <see cref="PKM.Gender"/> value, with special consideration for the <see cref="PKM.Format"/> values which derive the <see cref="PKM.Gender"/> value.
@@ -272,9 +284,9 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="legal"><see cref="LegalityAnalysis"/> which contains parsed information pertaining to legality.</param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static int[] GetSuggestedRelearnMoves(this PKM pk, LegalityAnalysis legal)
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk, LegalityAnalysis legal)
         {
-            int[] m = legal.GetSuggestedRelearn();
+            var m = legal.GetSuggestedRelearn();
             if (m.Any(z => z != 0))
                 return m;
 
@@ -349,7 +361,7 @@ namespace PKHeX.Core
 
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
-                pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);
+                pk.SetRelearnMoves(pk.GetSuggestedRelearnMoves(legal));
             pk.RefreshChecksum();
         }
 
@@ -380,25 +392,26 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetMarkings(this PKM pk, int[] IVs = null)
+        public static void SetMarkings(this PKM pk, int[] IVs)
         {
             if (pk.Format <= 3)
                 return; // no markings (gen3 only has 4; can't mark stats intelligently
-
-            if (IVs == null)
-                IVs = pk.IVs;
-
-            if (MarkingMethod == null) // shouldn't ever happen
-                throw new ArgumentNullException(nameof(MarkingMethod));
 
             var markings = IVs.Select(MarkingMethod(pk)).ToArray();
             pk.Markings = PKX.ReorderSpeedLast(markings);
         }
 
         /// <summary>
-        /// Default <see cref="MarkingMethod"/> when applying <see cref="SetMarkings"/>.
+        /// Sets the <see cref="PKM.Markings"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
         /// </summary>
-        public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void SetMarkings(this PKM pk)
+        {
+            if (pk.Format <= 3)
+                return; // no markings (gen3 only has 4; can't mark stats intelligently
+
+            pk.SetMarkings(pk.IVs);
+        }
 
         private static Func<int, int, int> FlagHighLow(PKM pk)
         {
@@ -619,10 +632,8 @@ namespace PKHeX.Core
         /// <param name="index">Marking index to toggle</param>
         /// <param name="markings">Current marking values (optional)</param>
         /// <returns>Current marking values</returns>
-        public static int[] ToggleMarking(this PKM pk, int index, int[] markings = null)
+        public static int[] ToggleMarking(this PKM pk, int index, int[] markings)
         {
-            if (markings == null)
-                markings = pk.Markings;
             switch (pk.Format)
             {
                 case 3:
@@ -633,12 +644,20 @@ namespace PKHeX.Core
                     pk.Markings = markings;
                     break;
                 case 7: // 0 (none) | 1 (blue) | 2 (pink)
-                    markings[index] = (markings[index] + 1) % 3; // cycle
+                    markings[index] = (markings[index] + 1) % 3; // cycle 0->1->2->0...
                     pk.Markings = markings;
                     break;
             }
             return markings;
         }
+
+        /// <summary>
+        /// Toggles the marking at a given index.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="index">Marking index to toggle</param>
+        /// <returns>Current marking values</returns>
+        public static int[] ToggleMarking(this PKM pk, int index) => pk.ToggleMarking(index, pk.Markings);
 
         /// <summary>
         /// Sets the Memory details to a Hatched Egg's memories.
@@ -670,15 +689,19 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="la">Precomputed optional</param>
-        public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la = null)
+        public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la)
         {
-            if (la == null)
-                la = new LegalityAnalysis(pk);
             if (la.Parsed && la.EncounterOriginal is EncounterTrade t && t.HasNickname)
                 pk.SetNickname(t.GetNickname(pk.Language));
             else
                 pk.ClearNickname();
         }
+
+        /// <summary>
+        /// Sets the <see cref="PKM.Nickname"/> to its default value.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void SetDefaultNickname(this PKM pk) => pk.SetDefaultNickname(new LegalityAnalysis(pk));
 
         private static readonly string[] PotentialUnicode = { "★☆☆☆", "★★☆☆", "★★★☆", "★★★★" };
         private static readonly string[] PotentialNoUnicode = { "+", "++", "+++", "++++" };

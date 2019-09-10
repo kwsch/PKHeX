@@ -12,8 +12,6 @@ namespace PKHeX.Core
     /// </remarks>
     public class WC3 : MysteryGift, IRibbonSetEvent3, IVersion
     {
-        // Template Properties
-
         /// <summary>
         /// Matched <see cref="PIDIV"/> Type
         /// </summary>

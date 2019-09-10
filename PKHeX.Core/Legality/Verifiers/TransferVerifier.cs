@@ -105,7 +105,7 @@ namespace PKHeX.Core
         {
             // Check existing EncounterMatch
             if (encounter is EncounterInvalid || transfer == null)
-                yield break; // Avoid duplicate invaild message
+                yield break; // Avoid duplicate invalid message
 
             if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
             {

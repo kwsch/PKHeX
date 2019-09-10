@@ -243,12 +243,13 @@ namespace PKHeX.Core
                 };
             }
 
-            if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
+            // Shedinja's evolution case can be a little tricky; hard-code handling.
+            if (pkm.Species == (int)Species.Shedinja && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
             {
                 return new List<EvoCriteria>(2)
                 {
-                    new EvoCriteria { Species = 292, Level = lvl, MinLevel = 20 },
-                    new EvoCriteria { Species = 290, Level = lvl, MinLevel = 1 }
+                    new EvoCriteria { Species = (int)Species.Shedinja, Level = lvl, MinLevel = 20 },
+                    new EvoCriteria { Species = (int)Species.Nincada, Level = lvl, MinLevel = 1 }
                 };
             }
 
@@ -272,6 +273,7 @@ namespace PKHeX.Core
             if (!pkm.HasOriginalMetLocation && generation != origin)
                 return pkm.Met_Level;
 
+            // gen 3 and prior can't obtain anything at level 1
             if (origin <= 3)
                 return 2;
 

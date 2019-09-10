@@ -392,7 +392,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
         /// </summary>
-        public int[] GetSuggestedRelearn()
+        public IReadOnlyList<int> GetSuggestedRelearn()
         {
             if (Info?.RelearnBase == null || Info.Generation < 6)
                 return new int[4];

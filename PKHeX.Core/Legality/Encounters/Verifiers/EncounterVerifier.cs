@@ -121,10 +121,11 @@ namespace PKHeX.Core
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);
+
             switch (pkm.GenNumber)
             {
                 case 1:
-                case 2: return new CheckResult(CheckIdentifier.Encounter); // no met location info
+                case 2: return new CheckResult(CheckIdentifier.Encounter); // valid -- no met location info
                 case 3: return pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm);
                 case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm);
                 case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm);

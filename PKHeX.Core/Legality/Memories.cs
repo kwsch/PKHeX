@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 6 Memory parameters &amp; validation
+    /// </summary>
     public static class Memories
     {
         #region Tables

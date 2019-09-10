@@ -854,27 +854,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets an <see cref="Enumerable"/> list of PKM data from a concatenated byte array binary.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="len">Length of each PKM byte[]</param>
-        /// <param name="start">Starting offset to rip from. If omitted, will iterate from the start of the <see cref="data"/>.</param>
-        /// <param name="end">Ending offset to rip to. If omitted, will iterate to the end of the <see cref="data"/>.</param>
-        /// <returns>Enumerable list of PKM byte arrays</returns>
-        public static IEnumerable<byte[]> GetPKMDataFromConcatenatedBinary(byte[] data, int len, int start = 0, int end = -1)
-        {
-            if (end < 0)
-                end = data.Length;
-            // split up data to individual pkm
-            for (int i = start; i < end; i += len)
-            {
-                var pk = new byte[len];
-                Buffer.BlockCopy(data, i, pk, 0, len);
-                yield return pk;
-            }
-        }
-
-        /// <summary>
         /// Detects the language of a <see cref="PK1"/> or <see cref="PK2"/> by checking the current Species name against possible names.
         /// </summary>
         /// <param name="pk">PKM to fetch language for</param>

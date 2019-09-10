@@ -31,6 +31,7 @@ namespace PKHeX.Core
         {
             if (info.EvoChainsAllGens[pkm.Format].Count == 0)
                 return false; // Can't exist as current species
+
             int species = pkm.Species;
             if (info.EncounterMatch.Species == species)
                 return true;
@@ -42,8 +43,9 @@ namespace PKHeX.Core
 
             // If current species evolved with a move evolution and encounter species is not current species check if the evolution by move is valid
             // Only the evolution by move is checked, if there is another evolution before the evolution by move is covered in IsEvolutionValid
-            if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
+            if (Legal.SpeciesEvolutionWithMove.Contains(species))
                 return Legal.IsEvolutionValidWithMove(pkm, info);
+
             return true;
         }
     }

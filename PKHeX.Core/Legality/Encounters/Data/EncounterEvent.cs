@@ -30,29 +30,19 @@ namespace PKHeX.Core
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Length != 0;
 
-        private static IEnumerable<byte[]> GetData(byte[] bin, int size)
-        {
-            for (int i = 0; i < bin.Length; i += size)
-            {
-                byte[] data = new byte[size];
-                Buffer.BlockCopy(bin, i, data, 0, size);
-                yield return data;
-            }
-        }
+        private static HashSet<PCD> GetPCDDB(byte[] bin) => new HashSet<PCD>(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
 
-        private static HashSet<PCD> GetPCDDB(byte[] bin) => new HashSet<PCD>(GetData(bin, PCD.Size).Select(d => new PCD(d)));
-
-        private static HashSet<PGF> GetPGFDB(byte[] bin) => new HashSet<PGF>(GetData(bin, PGF.Size).Select(d => new PGF(d)));
+        private static HashSet<PGF> GetPGFDB(byte[] bin) => new HashSet<PGF>(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
 
         private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<WC6>(
-            GetData(wc6full, WC6.SizeFull).Select(d => new WC6(d))
-            .Concat(GetData(wc6bin, WC6.Size).Select(d => new WC6(d))));
+            ArrayUtil.EnumerateSplit(wc6full, WC6.SizeFull).Select(d => new WC6(d))
+            .Concat(ArrayUtil.EnumerateSplit(wc6bin, WC6.Size).Select(d => new WC6(d))));
 
         private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
-            GetData(wc7full, WC7.SizeFull).Select(d => new WC7(d))
-            .Concat(GetData(wc7bin, WC7.Size).Select(d => new WC7(d))));
+            ArrayUtil.EnumerateSplit(wc7full, WC7.SizeFull).Select(d => new WC7(d))
+            .Concat(ArrayUtil.EnumerateSplit(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
-        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(GetData(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
+        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
 
         public static void RefreshMGDB(params string[] paths)
         {
