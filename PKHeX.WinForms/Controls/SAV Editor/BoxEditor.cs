@@ -150,6 +150,7 @@ namespace PKHeX.WinForms.Controls
 
         public void ResetSlots()
         {
+            Editor.Reload();
             int box = CurrentBox;
             PAN_Box.BackgroundImage = SAV.WallpaperImage(box);
             M.Hover.Stop();

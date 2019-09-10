@@ -16,6 +16,8 @@ namespace PKHeX.Core
             CurrentContents = new PKM[sav.BoxSlotCount];
         }
 
+        public void Reload() => LoadBox(CurrentBox);
+
         public void LoadBox(int box)
         {
             if ((uint)box >= SAV.BoxCount)
