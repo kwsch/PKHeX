@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Database));
             this.SCR_Box = new System.Windows.Forms.VScrollBar();
             this.bpkx30 = new System.Windows.Forms.PictureBox();
@@ -159,6 +160,10 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
+            this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.hover = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bpkx30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx29)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx28)).BeginInit();
@@ -232,6 +237,7 @@
             this.TLP_Filters.SuspendLayout();
             this.FLP_Format.SuspendLayout();
             this.FLP_Level.SuspendLayout();
+            this.mnu.SuspendLayout();
             this.SuspendLayout();
             // 
             // SCR_Box
@@ -1625,6 +1631,7 @@
             this.L_Viewed.TabIndex = 117;
             this.L_Viewed.Text = "Last Viewed: {0}";
             this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.L_Viewed.MouseEnter += new System.EventHandler(this.L_Viewed_MouseEnter);
             // 
             // FLP_Egg
             // 
@@ -1845,6 +1852,28 @@
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 
+            // mnu
+            // 
+            this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuView,
+            this.mnuDelete});
+            this.mnu.Name = "mnu";
+            this.mnu.Size = new System.Drawing.Size(108, 48);
+            this.mnu.Click += new System.EventHandler(this.ClickView);
+            // 
+            // mnuView
+            // 
+            this.mnuView.Name = "mnuView";
+            this.mnuView.Size = new System.Drawing.Size(107, 22);
+            this.mnuView.Text = "View";
+            // 
+            // mnuDelete
+            // 
+            this.mnuDelete.Name = "mnuDelete";
+            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
+            this.mnuDelete.Text = "Delete";
+            this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
+            // 
             // SAV_Database
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1944,6 +1973,7 @@
             this.FLP_Format.ResumeLayout(false);
             this.FLP_Level.ResumeLayout(false);
             this.FLP_Level.PerformLayout();
+            this.mnu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2081,5 +2111,9 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchClones;
         private System.Windows.Forms.ToolStripMenuItem Menu_DeleteClones;
         private System.Windows.Forms.ToolStripMenuItem Menu_Import;
+        private System.Windows.Forms.ContextMenuStrip mnu;
+        private System.Windows.Forms.ToolStripMenuItem mnuView;
+        private System.Windows.Forms.ToolStripMenuItem mnuDelete;
+        private System.Windows.Forms.ToolTip hover;
     }
 }

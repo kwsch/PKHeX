@@ -36,8 +36,8 @@ namespace PKHeX.Core
                 Data = new byte[Data.Length]; // Invalidate
         }
 
-        public int RestrictLanguage { get; set; } = 0; // None
-        public byte RestrictVersion { get; set; } = 0; // Permit All
+        public int RestrictLanguage { get; set; } // None
+        public byte RestrictVersion { get; set; } // Permit All
 
         public bool CanBeReceivedByVersion(int v)
         {

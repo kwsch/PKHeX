@@ -205,7 +205,7 @@ namespace PKHeX.Core
             if (pk4.IV32 == 0)
             {
                 uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
-                uint iv2 = ((_ = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
+                uint iv2 = ((RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
                 pk4.IV32 = iv1 | iv2 << 15;
             }
         }

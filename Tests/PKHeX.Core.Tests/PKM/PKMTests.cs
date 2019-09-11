@@ -46,15 +46,15 @@ namespace PKHeX.Tests.PKM
                 CheckStringGetSet(nameof(pkm.Nickname), name_nidoran, pkm.Nickname, byte_nidoran, pkm.Nickname_Trash);
             }
 
-            private static void CheckStringGetSet(string check, string instr, string outstr, byte[] indata, byte[] outdata)
+            private static void CheckStringGetSet(string check, string instr, string outstr, byte[] indata,
+                byte[] outdata)
             {
-                Assert.Equal(instr, outstr);
+                instr.Should().BeEquivalentTo(outstr);
 
                 outdata = outdata.Take(indata.Length).ToArray();
 
-                Assert.True(indata.SequenceEqual(outdata),
-                    $"{check} did not set properly."
-                    + Environment.NewLine + string.Join(", ", outdata.Select(z => $"{z:X2}")));
+                indata.SequenceEqual(outdata).Should()
+                    .BeTrue($"expected {check} to set properly, instead got {string.Join(", ", outdata.Select(z => $"{z:X2}"))}");
             }
         }
 

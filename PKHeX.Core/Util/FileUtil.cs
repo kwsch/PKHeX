@@ -134,7 +134,7 @@ namespace PKHeX.Core
         {
             if (ext == ".pgt") // size collision with pk6
             {
-                pk = default(PKM);
+                pk = default;
                 return false;
             }
             var format = PKX.GetPKMFormatFromExtension(ext, sav?.Generation ?? 6);

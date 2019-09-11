@@ -55,12 +55,15 @@ namespace PKHeX.WinForms.Controls
             imgWidth = baseImage.Width;
             imgHeight = baseImage.Height;
             GlowData = glowData;
-            pb = pbox;
             GlowCounter = 0;
-            OriginalBackground = original;
             GlowCache = new Image[GlowFps];
             GlowInterval = 1000 / GlowFps;
             Interval = GlowInterval;
+            lock (Lock)
+            {
+                pb = pbox;
+                OriginalBackground = original;
+            }
             Enabled = true;
         }
 

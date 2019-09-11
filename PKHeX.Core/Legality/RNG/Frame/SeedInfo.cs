@@ -69,10 +69,12 @@ namespace PKHeX.Core
 
                 // Process Conditions
                 if (PKX.GetUnownForm(pid) == form) // matches form, does it match nature?
-                switch (VerifyPIDCriteria(pid, info))
                 {
-                    case LockInfo.Pass: // yes
-                        yield break;
+                    switch (VerifyPIDCriteria(pid, info))
+                    {
+                        case LockInfo.Pass: // yes
+                            yield break;
+                    }
                 }
 
                 s1 = pidiv.RNG.Prev(s2);

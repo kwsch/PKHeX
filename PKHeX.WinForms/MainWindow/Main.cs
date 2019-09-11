@@ -1105,10 +1105,8 @@ namespace PKHeX.WinForms
                 return;
             OpenQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
-
-            Cursor = DefaultCursor;
         }
-        // Decrypted Export
+
         private void Dragout_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && (ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift))

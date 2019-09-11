@@ -34,8 +34,8 @@ namespace PKHeX.Core
             RawDate = SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
         }
 
-        public int RestrictLanguage { get; set; } = 0; // None
-        public byte RestrictVersion { get; set; } = 0; // Permit All
+        public int RestrictLanguage { get; set; } // None
+        public byte RestrictVersion { get; set; } // Permit All
 
         public bool CanBeReceivedByVersion(int v)
         {

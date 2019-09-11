@@ -116,17 +116,16 @@ namespace PKHeX.Core
 
         public static string GetStringResource(string name)
         {
-            if (!resourceNameMap.ContainsKey(name))
+            if (!resourceNameMap.TryGetValue(name, out var resname))
             {
                 bool Match(string x) => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase);
-                var resname = Array.Find(manifestResourceNames, Match);
+                resname = Array.Find(manifestResourceNames, Match);
+                if (resname == null)
+                    return null;
                 resourceNameMap.Add(name, resname);
             }
 
-            if (resourceNameMap[name] == null)
-                return null;
-
-            using (var resource = thisAssembly.GetManifestResourceStream(resourceNameMap[name]))
+            using (var resource = thisAssembly.GetManifestResourceStream(resname))
             using (var reader = new StreamReader(resource))
                 return reader.ReadToEnd();
         }
@@ -318,9 +317,8 @@ namespace PKHeX.Core
         public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, params int[] allowed)
         {
             int beginCount = cbList.Count;
-            for (int i = 0; i < allowed.Length; i++)
+            foreach (var index in allowed)
             {
-                int index = allowed[i];
                 var item = new ComboItem(inStrings[index - offset], index);
                 cbList.Add(item);
             }
@@ -330,9 +328,8 @@ namespace PKHeX.Core
         public static void AddCB(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int[] allowed)
         {
             int beginCount = cbList.Count;
-            for (int i = 0; i < allowed.Length; i++)
+            foreach (var index in allowed)
             {
-                int index = allowed[i];
                 var item = new ComboItem(inStrings[index], index);
                 cbList.Add(item);
             }

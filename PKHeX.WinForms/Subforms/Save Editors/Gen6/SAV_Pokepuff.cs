@@ -24,7 +24,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly string[] pfa = GameInfo.Strings.puffs;
-        private int PuffCount { get; set; }
 
         private void Setup(int rowCount)
         {
@@ -58,7 +57,6 @@ namespace PKHeX.WinForms
 
         private void LoadPuffs(byte[] Puffs)
         {
-            PuffCount = Puffs.Length;
             for (int i = 0; i < Puffs.Length; i++)
             {
                 dgv.Rows[i].Cells[0].Value = (i + 1).ToString();

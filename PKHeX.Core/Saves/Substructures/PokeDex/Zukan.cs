@@ -214,13 +214,13 @@ namespace PKHeX.Core
                 {
                     SetAllDexSeenFlags(baseBit, f, 0, false, seen);
                     if (shinyToo)
-                    SetAllDexSeenFlags(baseBit, f, 0, true, seen);
+                        SetAllDexSeenFlags(baseBit, f, 0, true, seen);
                 }
                 if (!entry.OnlyMale && !entry.Genderless)
                 {
                     SetAllDexSeenFlags(baseBit, f, 1, false, seen);
                     if (shinyToo)
-                    SetAllDexSeenFlags(baseBit, f, 1, true, seen);
+                        SetAllDexSeenFlags(baseBit, f, 1, true, seen);
                 }
             }
         }

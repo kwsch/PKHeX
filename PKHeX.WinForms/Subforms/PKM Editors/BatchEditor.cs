@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -119,8 +118,6 @@ namespace PKHeX.WinForms
             RB_Path.Checked = true;
         }
 
-        private BackgroundWorker b;
-
         private void RunBackgroundWorker()
         {
             if (RTB_Instructions.Lines.Any(line => line.Length == 0))
@@ -167,7 +164,6 @@ namespace PKHeX.WinForms
         private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
         {
             editor = new Core.BatchEditor();
-            b = new BackgroundWorker { WorkerReportsProgress = true };
             b.DoWork += (sender, e) =>
             {
                 if (RB_Boxes.Checked)
@@ -193,7 +189,7 @@ namespace PKHeX.WinForms
             var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             SetupProgressBar(files.Length * sets.Count);
             foreach (var set in sets)
-            ProcessFolder(files, set.Filters, set.Instructions, destination);
+                ProcessFolder(files, set.Filters, set.Instructions, destination);
         }
 
         private void RunBatchEditSaveFile(IList<StringInstructionSet> sets, bool boxes = false, bool party = false)
@@ -207,7 +203,7 @@ namespace PKHeX.WinForms
             {
                 SetupProgressBar(d.Count * sets.Count);
                 foreach (var set in sets)
-                ProcessSAV(d, set.Filters, set.Instructions);
+                    ProcessSAV(d, set.Filters, set.Instructions);
                 return d.Count != 0;
             }
         }

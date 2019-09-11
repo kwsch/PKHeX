@@ -1,5 +1,4 @@
-﻿#define LOADALL
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,11 +25,7 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
 
-            ToolStripMenuItem mnuView = new ToolStripMenuItem {Name = "mnuView", Text = "View"};
-            ToolStripMenuItem mnuDelete = new ToolStripMenuItem {Name = "mnuDelete", Text = "Delete" };
-
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            ContextMenuStrip mnu = new ContextMenuStrip();
             mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
 
             SAV = saveditor.SAV;
@@ -62,47 +57,22 @@ namespace PKHeX.WinForms
                 // Enable Click
                 slot.MouseClick += (sender, e) =>
                 {
-                    if (ModifierKeys == Keys.Control)
-                        ClickView(sender, e);
-                    else if (ModifierKeys == Keys.Alt)
-                        ClickDelete(sender, e);
-                    else if (ModifierKeys == Keys.Shift)
-                        ClickSet(sender, e);
+                    switch (ModifierKeys)
+                    {
+                        case Keys.Control: ClickView(sender, e); break;
+                        case Keys.Alt: ClickDelete(sender, e); break;
+                        case Keys.Shift: ClickSet(sender, e); break;
+                    }
                 };
 
                 if (Settings.Default.HoverSlotShowText)
-                {
-                    slot.MouseEnter += (sender, e) =>
-                    {
-                        int index = Array.IndexOf(PKXBOXES, slot);
-                        if (!GetShiftedIndex(ref index))
-                            return;
-
-                        var pk = Results[index];
-                        if (pk.Species == 0)
-                        {
-                            ShowSet.RemoveAll();
-                            return;
-                        }
-
-                        var text = ShowdownSet.GetLocalizedPreviewText(pk, Settings.Default.Language);
-                        ShowSet.SetToolTip(slot, text);
-                    };
-                }
+                    slot.MouseEnter += ShowHoverTextForSlot;
             }
 
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
-            L_Viewed.Text = string.Empty; // invis for now
-            var hover = new ToolTip();
-            L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
+            L_Viewed.Text = string.Empty; // invisible for now
             PopulateComboBoxes();
-
-            // Assign event handlers
-            mnuView.Click += ClickView;
-            mnuDelete.Click += ClickDelete;
-
-            // Add to main context menu
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
@@ -134,7 +104,7 @@ namespace PKHeX.WinForms
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
         private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
-        private readonly ToolTip ShowSet = new ToolTip {InitialDelay = 200, IsBalloon = false};
+        private readonly SummaryPreviewer ShowSet = new SummaryPreviewer();
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -149,7 +119,7 @@ namespace PKHeX.WinForms
 
             PKME_Tabs.PopulateFields(Results[index], false);
             slotSelected = index;
-            slotColor = Properties.Resources.slotView;
+            slotColor = Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
         }
@@ -236,7 +206,7 @@ namespace PKHeX.WinForms
             // Refresh database view.
             L_Count.Text = string.Format(Counter, Results.Count);
             slotSelected = Results.Count - 1;
-            slotColor = Properties.Resources.slotSet;
+            slotColor = Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
                 SCR_Box.Maximum++;
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - (PKXBOXES.Length/6) + 1);
@@ -331,6 +301,14 @@ namespace PKHeX.WinForms
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBCreateReportPrompt, MsgDBCreateReportWarning) != DialogResult.Yes)
                 return;
 
+
+            var form = WinFormsUtil.FirstFormOfType<ReportGrid>();
+            if (form != null)
+            {
+                form.BringToFront();
+                form.CenterToForm(this);
+            }
+
             ReportGrid reportGrid = new ReportGrid();
             reportGrid.Show();
             reportGrid.PopulateData(Results.ToArray());
@@ -357,62 +335,68 @@ namespace PKHeX.WinForms
         private static List<PKM> LoadPKMSaves(string pkmdb, string savdb, string EXTERNAL_SAV, SaveFile SAV)
         {
             var dbTemp = new ConcurrentBag<PKM>();
-            var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
-            Parallel.ForEach(files, file =>
-            {
-                var fi = new FileInfo(file);
-                if (!extensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length)) return;
-                var data = File.ReadAllBytes(file);
-                var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
-                var pk = PKMConverter.GetPKMfromBytes(data, prefer);
-                if (!(pk?.Species > 0))
-                    return;
-                pk.Identifier = file;
-                dbTemp.Add(pk);
-            });
 
-#if LOADALL
+            var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
+            Parallel.ForEach(files, file => TryAddPKMsFromFolder(dbTemp, file, SAV, extensions));
+
             if (SaveUtil.GetSavesFromFolder(savdb, false, out IEnumerable<string> result))
-            {
-                Parallel.ForEach(result, file =>
-                {
-                    try {
-                    var sav = SaveUtil.GetVariantSAV(file);
-                    if (sav == null)
-                    {
-                        Console.WriteLine("Unable to load SaveFile: " + file);
-                        return; // bad backup
-                    }
-                    var path = EXTERNAL_SAV + Path.GetFileName(file);
-                    if (sav.HasBox)
-                    {
-                        foreach (var pk in sav.BoxData)
-                            addPKM(pk);
-                    }
-
-                    void addPKM(PKM pk)
-                    {
-                        pk.Identifier = Path.Combine(path, pk.Identifier);
-                        dbTemp.Add(pk);
-                    }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("ERROR: Unable to load SaveFile: " + file);
-                        Console.WriteLine(ex.Message);
-                    }
-                });
-            }
-#endif
+                Parallel.ForEach(result, file => TryAddPKMsFromSaveFilePath(dbTemp, file, EXTERNAL_SAV));
+      
             // Fetch from save file
             var savpkm = SAV.BoxData.Where(pk => pk.Species != 0);
 
             var bakpkm = dbTemp.Where(pk => pk.Species != 0).OrderBy(pk => pk.Identifier);
             var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
 
-            // Prepare Database
+            // Finalize the Database
             return new List<PKM>(db);
+        }
+
+        private static void TryAddPKMsFromFolder(ConcurrentBag<PKM> dbTemp, string file, ITrainerInfo dest, ICollection<string> validExtensions)
+        {
+            var fi = new FileInfo(file);
+            if (!validExtensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length))
+                return;
+
+            var data = File.ReadAllBytes(file);
+            var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
+            var pk = PKMConverter.GetPKMfromBytes(data, prefer);
+            if (!(pk?.Species > 0))
+                return;
+            pk.Identifier = file;
+            dbTemp.Add(pk);
+        }
+
+        private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<PKM> dbTemp, string file, string externalFilePrefix)
+        {
+            try
+            {
+                var sav = SaveUtil.GetVariantSAV(file);
+                if (sav == null)
+                {
+                    Console.WriteLine("Unable to load SaveFile: " + file);
+                    return;
+                }
+
+                var path = externalFilePrefix + Path.GetFileName(file);
+                if (sav.HasBox)
+                {
+                    foreach (var pk in sav.BoxData)
+                        addPKM(pk);
+                }
+
+                void addPKM(PKM pk)
+                {
+                    pk.Identifier = Path.Combine(path, pk.Identifier);
+                    dbTemp.Add(pk);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR: Unable to load SaveFile: " + file);
+                Console.WriteLine(ex.Message);
+            }
         }
 
         // IO Usage
@@ -596,9 +580,9 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
-                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Properties.Resources.slotView;
+                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Resources.slotView;
         }
 
         // Misc Update Methods
@@ -690,6 +674,18 @@ namespace PKHeX.WinForms
 
             WinFormsUtil.Alert(string.Format(MsgFileDeleteCount, deleted), MsgWindowClose);
             Close();
+        }
+
+        private void L_Viewed_MouseEnter(object sender, EventArgs e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
+
+        private void ShowHoverTextForSlot(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            int index = Array.IndexOf(PKXBOXES, pb);
+            if (!GetShiftedIndex(ref index))
+                return;
+
+            ShowSet.Show(pb, Results[index]);
         }
     }
 }

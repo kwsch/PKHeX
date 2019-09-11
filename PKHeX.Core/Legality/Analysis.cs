@@ -121,7 +121,7 @@ namespace PKHeX.Core
                 PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
                 ParseLegality();
 
-                if (Parse.Count <= 0)
+                if (Parse.Count == 0)
                     return;
 
                 Valid = Parse.All(chk => chk.Valid)
@@ -356,7 +356,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < 4; i++)
                 {
                     if (vRelearn[i].Valid)
-                    lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
+                        lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
                 }
             }
 

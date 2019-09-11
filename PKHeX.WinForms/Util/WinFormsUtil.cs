@@ -297,9 +297,16 @@ namespace PKHeX.WinForms
             }
             catch (Exception x)
             {
-                if (x is UnauthorizedAccessException || x is FileNotFoundException || x is IOException)
-                    Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
-                else throw;
+                switch (x)
+                {
+                    case UnauthorizedAccessException _:
+                    case FileNotFoundException _:
+                    case IOException _:
+                        Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
+                        break;
+                    default:
+                        throw;
+                }
             }
         }
 

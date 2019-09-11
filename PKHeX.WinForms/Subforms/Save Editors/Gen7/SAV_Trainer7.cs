@@ -329,7 +329,7 @@ namespace PKHeX.WinForms
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             if (CB_AlolaTime.Enabled)
-            SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
+                SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
 
