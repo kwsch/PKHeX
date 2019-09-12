@@ -143,30 +143,5 @@ namespace PKHeX.Core
             int index = input.IndexOf(c);
             return index < 0 ? input : input.Substring(0, index);
         }
-
-
-        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
-        {
-            bool[] result = new bool[count];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
-            return result;
-        }
-
-        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
-        {
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i])
-                    data[offset + (i >> 3)] |= (byte)(1 << (i & 7));
-            }
-        }
-
-        public static byte[] SetBitFlagArray(bool[] value)
-        {
-            byte[] data = new byte[value.Length / 8];
-            SetBitFlagArray(data, 0, value);
-            return data;
-        }
     }
 }

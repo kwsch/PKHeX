@@ -15,12 +15,12 @@ namespace PKHeX.Core
         // Mystery Gift
         public bool[] MysteryGiftReceivedFlags
         {
-            get => Util.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
+            get => ArrayUtil.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
             set
             {
                 if (value?.Length != MaxReceivedFlag)
                     return;
-                Util.SetBitFlagArray(Data, Offset + FlagStart, value);
+                ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
                 SAV.Edited = true;
             }
         }
