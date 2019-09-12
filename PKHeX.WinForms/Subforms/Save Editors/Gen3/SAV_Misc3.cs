@@ -256,7 +256,7 @@ namespace PKHeX.WinForms
             if (loading)
                 return;
             int facility = CB_Stats1.SelectedIndex;
-            if (facility < 0 || facility >= BFN.Length)
+            if ((uint)facility >= BFN.Length)
                 return;
             editingcont = true;
             CB_Stats2.Items.Clear();
@@ -292,7 +292,8 @@ namespace PKHeX.WinForms
         private void StatAddrControl(int SetValToSav = -2, bool SetSavToVal = false)
         {
             int Facility = CB_Stats1.SelectedIndex;
-            if (Facility < 0) return;
+            if (Facility < 0)
+                return;
 
             int BattleType = CB_Stats2.SelectedIndex;
             if (BFT[BFF[Facility][1]] == null)
@@ -311,13 +312,15 @@ namespace PKHeX.WinForms
                     return;
                 RBi = i;
             }
-            if (RBi < 0) return;
+            if (RBi < 0)
+                return;
 
             if (SetValToSav >= 0)
             {
                 ushort val = (ushort)StatNUDA[SetValToSav].Value;
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
-                if (SetValToSav < 0) return;
+                if (SetValToSav < 0)
+                    return;
                 if (val > 9999) val = 9999;
                 BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi));
                 return;
@@ -430,7 +433,8 @@ namespace PKHeX.WinForms
         private void BTN_Symbol_Click(object sender, EventArgs e)
         {
             int index = Array.IndexOf(SymbolButtonA, sender);
-            if (index < 0) return;
+            if (index < 0)
+                return;
 
             // 0 (none) | 1 (silver) | 2 (silver) | 3 (gold)
             // bit rotation 00 -> 01 -> 11 -> 00

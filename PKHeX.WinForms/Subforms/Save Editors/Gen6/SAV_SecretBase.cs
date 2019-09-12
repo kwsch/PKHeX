@@ -81,7 +81,8 @@ namespace PKHeX.WinForms
         {
             loading = true;
             int index = LB_Favorite.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0)
+                return;
             var offset = GetSecretBaseOffset(index);
 
             var bdata = new SecretBase6(SAV.Data, offset);
@@ -156,7 +157,8 @@ namespace PKHeX.WinForms
             var name = LB_Favorite.Items[index].ToString();
             if (name == "* " || name == $"{index} Empty")
             { WinFormsUtil.Error("Sorry, no overwriting an empty base with someone else's."); return; }
-            if (index < 0) return;
+            if (index < 0)
+                return;
             int offset = GetSecretBaseOffset(index);
 
             var bdata = new SecretBase6(SAV.Data, offset);
@@ -171,7 +173,8 @@ namespace PKHeX.WinForms
             bdata.Saying4 = TB_FSay4.Text;
 
             int baseloc = (int)NUD_FBaseLocation.Value;
-            if (baseloc < 3) baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
+            if (baseloc < 3)
+                baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
             bdata.BaseLocation = baseloc;
 
             // Copy back Objects

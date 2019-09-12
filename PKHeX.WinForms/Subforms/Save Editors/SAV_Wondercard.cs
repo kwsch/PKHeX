@@ -246,7 +246,8 @@ namespace PKHeX.WinForms
         // Delete Received Flag
         private void ClearRecievedFlag(object sender, EventArgs e)
         {
-            if (LB_Received.SelectedIndex < 0) return;
+            if (LB_Received.SelectedIndex < 0)
+                return;
 
             if (LB_Received.Items.Count > 0)
                 LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);

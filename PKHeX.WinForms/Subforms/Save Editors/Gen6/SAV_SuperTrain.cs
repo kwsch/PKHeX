@@ -105,7 +105,8 @@ namespace PKHeX.WinForms
         private void ChangeListRecordSelection(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0)
+                return;
             loading = true;
             TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * index)).ToString();
             TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + (4 * index)).ToString();

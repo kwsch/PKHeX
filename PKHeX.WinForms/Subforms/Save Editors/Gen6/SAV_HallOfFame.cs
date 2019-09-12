@@ -212,7 +212,8 @@ namespace PKHeX.WinForms
             int index = LB_DataEntry.SelectedIndex;
             int offset = (index * 0x1B4) + ((Convert.ToInt32(NUP_PartyIndex.Value)-1) * 0x48);
 
-            if (offset < 0) return;
+            if (offset < 0)
+                return;
 
             int species = BitConverter.ToUInt16(data, offset + 0x00);
             CB_Species.SelectedValue = species;

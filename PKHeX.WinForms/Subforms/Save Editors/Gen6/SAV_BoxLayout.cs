@@ -157,7 +157,7 @@ namespace PKHeX.WinForms
             int newIndex = LB_BoxSelect.SelectedIndex + direction;
 
             // Checking bounds of the range
-            if (newIndex < 0 || newIndex >= LB_BoxSelect.Items.Count)
+            if ((uint)newIndex >= LB_BoxSelect.Items.Count)
                 return false; // Index out of range - nothing to do
 
             object selected = LB_BoxSelect.SelectedItem;

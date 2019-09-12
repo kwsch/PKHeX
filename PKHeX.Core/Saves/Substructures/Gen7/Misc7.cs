@@ -58,14 +58,14 @@ namespace PKHeX.Core
 
         public int GetSurfScore(int recordID)
         {
-            if (recordID < 0 || recordID > 4)
+            if ((uint)recordID >= 4)
                 recordID = 0;
             return BitConverter.ToInt32(Data, Offset + 0x138 + (4 * recordID));
         }
 
         public void SetSurfScore(int recordID, int score)
         {
-            if (recordID < 0 || recordID > 4)
+            if ((uint)recordID >= 4)
                 recordID = 0;
             SAV.SetData(BitConverter.GetBytes(score), Offset + 0x138 + (4 * recordID));
         }

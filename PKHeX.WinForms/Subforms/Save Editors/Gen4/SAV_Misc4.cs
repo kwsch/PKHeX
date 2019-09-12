@@ -553,7 +553,8 @@ namespace PKHeX.WinForms
         private void BTN_Print_Click(object sender, EventArgs e)
         {
             int index = Array.IndexOf(PrintButtonA, sender);
-            if (index < 0) return;
+            if (index < 0)
+                return;
             Prints[index] = (Prints[index] + 1) % 3;
             SetPrints();
         }
@@ -653,7 +654,8 @@ namespace PKHeX.WinForms
                     BitConverter.GetBytes(val).CopyTo(SAV.General, addrFlag + TowerContinueCountOfs + (BattleType << 1));
 
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
-                if (SetValToSav < 0) return;
+                if (SetValToSav < 0)
+                    return;
                 BitConverter.GetBytes((ushort)(val > 9999 ? 9999 : val)).CopyTo(SAV.General, addrVal + (SetValToSav << 1));
                 return;
             }
@@ -785,7 +787,8 @@ namespace PKHeX.WinForms
 
         private void NUD_HallStreaks_ValueChanged(object sender, EventArgs e)
         {
-            if (editing || ofsHallStat < 0) return;
+            if (editing || ofsHallStat < 0)
+                return;
             BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
             HallStatUpdated = true;
         }

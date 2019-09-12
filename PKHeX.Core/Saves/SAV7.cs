@@ -351,7 +351,7 @@ namespace PKHeX.Core
 
         public int GetFusedSlotOffset(int slot)
         {
-            if (Fused < 0 || slot < 0 || slot >= FusedCount)
+            if ((uint)slot >= FusedCount)
                 return -1;
             return Fused + (PKX.SIZE_6PARTY * slot); // 0x104*slot
         }

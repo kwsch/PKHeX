@@ -91,12 +91,14 @@ namespace PKHeX.Core
         /// <remarks>Should only be used externally for message displays; for accurate in-game names use <see cref="GetSpeciesNameGeneration"/>.</remarks>
         public static string GetSpeciesName(int species, int lang)
         {
-            if (lang < 0 || SpeciesLang.Length <= lang)
-                return string.Empty;
-            if (species < 0 || SpeciesLang[0].Length <= species)
+            if ((uint)lang >= SpeciesLang.Length)
                 return string.Empty;
 
-            return SpeciesLang[lang][species];
+            var arr = SpeciesLang[lang];
+            if ((uint)species >= arr.Length)
+                return string.Empty;
+
+            return arr[species];
         }
 
         /// <summary>

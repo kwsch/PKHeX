@@ -449,10 +449,12 @@ namespace PKHeX.WinForms
 
         private void B_Delete_Click(object sender, EventArgs e)
         {
-            if (entry < 0) return;
+            if (entry < 0)
+                return;
             if (entry < p.Count)
             {
-                if (ModifyHeldItem() == DialogResult.Cancel) return;
+                if (ModifyHeldItem() == DialogResult.Cancel)
+                    return;
             }
             switch (m[entry])
             {

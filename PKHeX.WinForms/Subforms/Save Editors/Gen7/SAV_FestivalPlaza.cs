@@ -195,7 +195,7 @@ namespace PKHeX.WinForms
 
         private int TypeIndexToType(int typeIndex)
         {
-            if (typeIndex < 0 || typeIndex > typeMAX) return -1;
+            if ((uint)typeIndex > typeMAX + 1) return -1;
             if (typeIndex < 0x0F) return 0;
             if (typeIndex < 0x1E) return 1;
             if (typeIndex < 0x2F) return 2;
@@ -231,7 +231,8 @@ namespace PKHeX.WinForms
             {
                 case 5:
                     int lucky = (facility.UsedLuckyPlace * 3) + facility.UsedLuckyRank - 3;
-                    if (lucky < 0 || lucky >= CB_LuckyResult.Items.Count) lucky = 0;
+                    if ((uint)lucky >= CB_LuckyResult.Items.Count)
+                        lucky = 0;
                     CB_LuckyResult.SelectedIndex = lucky;
                     break;
                 case 7:
@@ -297,7 +298,7 @@ namespace PKHeX.WinForms
             {
                 int j = GetSavData16(0x6C56C + (0x14 * i));
                 var m = (int)NUD_Trainers[i].Maximum;
-                NUD_Trainers[i].Value = j < 0 || j > m ? m : j;
+                NUD_Trainers[i].Value = (uint)j > m ? m : j;
             }
             B_AgentGlass.Enabled = (SAV.GetData(SAV.Fashion + 0xD0, 1)[0] & 1) == 0;
         }
@@ -391,7 +392,8 @@ namespace PKHeX.WinForms
 
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
-            if (entry < 0) return;
+            if (entry < 0)
+                return;
             var b = f[entry].Gender;
             b ^= 1;
             f[entry].Gender = b;
@@ -402,10 +404,15 @@ namespace PKHeX.WinForms
 
         private void CB_FacilityMessage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
+
             int fmIndex = CB_FacilityMessage.SelectedIndex;
-            if (fmIndex < 0) return;
-            if (entry < 0) return;
+            if (fmIndex < 0)
+                return;
+            if (entry < 0)
+                return;
+
             editing = true;
             LoadFMessage(fmIndex);
             editing = false;
@@ -413,17 +420,25 @@ namespace PKHeX.WinForms
 
         private void NUD_FacilityMessage_ValueChanged(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
+
             int fmIndex = CB_FacilityMessage.SelectedIndex;
-            if (fmIndex < 0) return;
-            if (entry < 0) return;
+            if (fmIndex < 0)
+                return;
+            if (entry < 0)
+                return;
+
             f[entry].SetMessage(fmIndex, (ushort)NUD_FacilityMessage.Value);
         }
 
         private void HexTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
+
             string t = Util.GetOnlyHex(((TextBox)sender).Text);
             if (string.IsNullOrWhiteSpace(t))
                 t = "0";
@@ -458,11 +473,15 @@ namespace PKHeX.WinForms
 
         private void NUD_FacilityColor_ValueChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
             f[entry].Color = (byte)NUD_FacilityColor.Value;
             int type = TypeIndexToType(CB_FacilityType.SelectedIndex);
-            if (type < 0) return;
+            if (type < 0)
+                return;
+
             editing = true;
             LoadColorLabel(type);
             editing = false;
@@ -470,10 +489,15 @@ namespace PKHeX.WinForms
 
         private void CB_FacilityType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
+
             int typeIndex = CB_FacilityType.SelectedIndex;
-            if (typeIndex < 0) return;
+            if (typeIndex < 0)
+                return;
+
             var facility = f[entry];
             facility.Type = typeIndex;
             // reset color
@@ -575,32 +599,45 @@ namespace PKHeX.WinForms
 
         private void NUD_MyMessage_ValueChanged(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
+
             int mmIndex = Array.IndexOf(NUD_Messages, (NumericUpDown)sender);
-            if (mmIndex < 0) return;
+            if (mmIndex < 0)
+                return;
+
             SAV.Festa.SetFestaMessage(mmIndex, (ushort)((NumericUpDown)sender).Value);
         }
 
         private void CHK_FacilityIntroduced_CheckedChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
+
             f[entry].IsIntroduced = CHK_FacilityIntroduced.Checked;
         }
 
         private void TB_OTName_TextChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
+
             f[entry].OT_Name = TB_OTName.Text;
         }
 
         private void LB_FacilityIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
+
             SaveFacility();
             entry = LB_FacilityIndex.SelectedIndex;
-            if (entry < 0) return;
+            if (entry < 0)
+                return;
             LoadFacility();
         }
 
@@ -652,7 +689,8 @@ namespace PKHeX.WinForms
         {
             sender = WinFormsUtil.GetUnderlyingControl(sender);
             int i = Array.IndexOf(PBs, sender);
-            if (i < 0) return;
+            if (i < 0)
+                return;
             WinFormsUtil.SavePKMDialog(p[i]);
         }
 
@@ -669,17 +707,22 @@ namespace PKHeX.WinForms
 
         private void NUD_Exchangable_ValueChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
             f[entry].ExchangeLeftCount = (byte)NUD_Exchangable.Value;
         }
 
         private void CB_LuckyResult_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            if (entry < 0) return;
+            if (editing)
+                return;
+            if (entry < 0)
+                return;
             int lucky = CB_LuckyResult.SelectedIndex;
-            if (lucky-- < 0) return;
+            if (lucky-- < 0)
+                return;
             // both 0 if "none"
             f[entry].UsedLuckyRank = lucky < 0 ? 0 : (lucky % 3) + 1;
             f[entry].UsedLuckyPlace = lucky < 0 ? 0 : (lucky / 3) + 1;

@@ -69,7 +69,8 @@ namespace PKHeX.Core
         {
             get
             {
-                if (i > Capacity || i < 0) throw new ArgumentOutOfRangeException($"Invalid {nameof(PokeListGB<T>)} Access: {i}");
+                if ((uint)i > Capacity)
+                    throw new ArgumentOutOfRangeException($"Invalid {nameof(PokeListGB<T>)} Access: {i}");
                 return Pokemon[i];
             }
             set

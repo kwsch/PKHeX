@@ -466,14 +466,16 @@ namespace PKHeX.WinForms
         private void SetFMVal(int ofsB, int len, uint val)
         {
             int s = LB_FunfestMissions.SelectedIndex;
-            if (s < 0 || s >= FMUnlockConditions.Length) return;
+            if ((uint)s >= FMUnlockConditions.Length)
+                return;
             BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Data, ofsFM + (s << 2)) & ~(~(uint)0 >> (32 - len) << ofsB)) | val << ofsB).CopyTo(SAV.Data, ofsFM + (s << 2));
         }
 
         private void LB_FunfestMissions_SelectedIndexChanged(object sender, EventArgs e)
         {
             int s = LB_FunfestMissions.SelectedIndex;
-            if (s < 0 || s >= FMUnlockConditions.Length) return;
+            if ((uint)s >= FMUnlockConditions.Length)
+                return;
             editing = true;
             bool FirstMissionCleared = (SAV.Data[0x2025E + (2438 >> 3)] & 1 << (2438 & 7)) != 0;
             L_FMUnlocked.Visible = s == 0 ? !FirstMissionCleared : FirstMissionCleared && FMUnlockConditions[s]?.All(v => (SAV.Data[0x2025E + (v >> 3)] & 1 << (v & 7)) != 0) != false;
