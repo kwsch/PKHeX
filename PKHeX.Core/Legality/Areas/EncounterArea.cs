@@ -4,353 +4,37 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    /// <summary>
-    /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="EncounterSlot"/> data.
-    /// </summary>
-    public class EncounterArea
+    public sealed class EncounterArea4 : EncounterArea
     {
-        public int Location;
-        public EncounterSlot[] Slots;
+        /// <summary>
+        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Diamond, Pearl and Platinum data.
+        /// </summary>
+        /// <param name="entries">Raw data, one byte array per encounter area</param>
+        /// <param name="pt">Platinum flag (for Trophy Garden slot insertion)</param>
+        /// <returns>Array of encounter areas.</returns>
+        public static EncounterArea4[] GetArray4DPPt(byte[][] entries, bool pt = false)
+        {
+            return entries.Select(z => GetArea4DPPt(z, pt)).Where(Area => Area.Slots.Length != 0).ToArray();
+        }
 
         /// <summary>
-        /// Creates an empty encounter area ready for initialization.
+        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Heart Gold and Soul Silver data.
         /// </summary>
-        public EncounterArea() { }
+        /// <param name="entries">Raw data, one byte array per encounter area</param>
+        /// <returns>Array of encounter areas.</returns>
+        public static EncounterArea4[] GetArray4HGSS(byte[][] entries)
+        {
+            return entries.Select(GetArea4HGSS).Where(Area => Area.Slots.Length != 0).ToArray();
+        }
 
         /// <summary>
-        /// Creates an array of encounter data with a specified location ID.
+        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Heart Gold and Soul Silver Headbutt tree data.
         /// </summary>
-        /// <param name="data">Encounter data</param>
-        /// <remarks>
-        /// Encounter Data is stored in the following format: (u16 Location, n*[u16 Species/Form, u8 Min, u8 Max])
-        /// </remarks>
-        private EncounterArea(byte[] data)
+        /// <param name="entries">Raw data, one byte array per encounter area</param>
+        /// <returns>Array of encounter areas.</returns>
+        public static EncounterArea4[] GetArray4HGSS_Headbutt(byte[][] entries)
         {
-            Location = BitConverter.ToUInt16(data, 0);
-            Slots = new EncounterSlot[(data.Length - 2) / 4];
-            for (int i = 0; i < Slots.Length; i++)
-            {
-                int ofs = 2 + (i * 4);
-                ushort SpecForm = BitConverter.ToUInt16(data, ofs);
-                Slots[i] = new EncounterSlot
-                {
-                    Species = SpecForm & 0x7FF,
-                    Form = SpecForm >> 11,
-                    LevelMin = data[ofs + 2],
-                    LevelMax = data[ofs + 3],
-                };
-            }
-            foreach (var slot in Slots)
-                slot.Area = this;
-        }
-
-        public EncounterArea Clone(int location)
-        {
-            var Area = new EncounterArea
-            {
-                Location = location,
-                Slots = new EncounterSlot[Slots.Length]
-            };
-            for (int i = 0; i < Slots.Length; i++)
-            {
-                Area.Slots[i] = Slots[i].Clone();
-                Area.Slots[i].Area = Area;
-            }
-            return Area;
-        }
-
-        public EncounterArea[] Clone(int[] locations)
-        {
-            EncounterArea[] Areas = new EncounterArea[locations.Length];
-            for (int i = 0; i < locations.Length; i++)
-                Areas[i] = Clone(locations[i]);
-            return Areas;
-        }
-
-        private static IEnumerable<EncounterSlot1> GetSlots1GrassWater(byte[] data, ref int ofs, SlotType t)
-        {
-            int rate = data[ofs++];
-            return rate == 0 ? Enumerable.Empty<EncounterSlot1>() : ReadSlots1(data, ref ofs, 10, t, rate);
-        }
-
-        private static EncounterSlot1[] GetSlots1Fishing(byte[] data, ref int ofs)
-        {
-            int count = data[ofs++];
-            return ReadSlots1(data, ref ofs, count, SlotType.Super_Rod, -1);
-        }
-
-        private static EncounterSlot1[] GetSlots2GrassWater(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
-        {
-            byte[] rates = new byte[slotSets];
-            for (int i = 0; i < rates.Length; i++)
-                rates[i] = data[ofs++];
-
-            var slots = ReadSlots1(data, ref ofs, slotSets * slotCount, t, rates[0]);
-            if (slotSets <= 1)
-                return slots;
-
-            for (int i = 0; i < slotCount; i++)
-            {
-                slots[i].Time = EncounterTime.Morning;
-            }
-            for (int r = 1; r < slotSets; r++)
-            {
-                for (int i = 0; i < slotCount; i++)
-                {
-                    int index = i + (r * slotCount);
-                    slots[index].Rate = rates[r];
-                    slots[index].SlotNumber = i;
-                    slots[index].Time = r == 1 ? EncounterTime.Day : EncounterTime.Night;
-                }
-            }
-
-            return slots;
-        }
-
-        private static EncounterSlot1[] GetSlots2Fishing(byte[] data, ref int ofs, SlotType t)
-        {
-            // slot set ends with final slot having 0xFF 0x** 0x**
-            const int size = 3;
-            int end = ofs; // scan for count
-            while (data[end] != 0xFF)
-                end += size;
-            var count = ((end - ofs) / size) + 1;
-            var slots = new EncounterSlot1[count];
-            for (int i = 0; i < slots.Length; i++)
-            {
-                int rate = data[ofs++];
-                int species = data[ofs++];
-                int level = data[ofs++];
-
-                slots[i] = new EncounterSlot1
-                {
-                    Rate = rate,
-                    Species = species,
-                    LevelMin = level,
-                    LevelMax = level,
-                    SlotNumber = i,
-                    Type = species == 0 ? SlotType.Special : t // day/night specific
-                };
-            }
-            return slots;
-        }
-
-        private static EncounterSlot1[] GetSlots2Headbutt(byte[] data, ref int ofs, SlotType t)
-        {
-            // slot set ends in 0xFF
-            var slots = new List<EncounterSlot1>();
-            int tableCount = t == SlotType.Headbutt ? 2 : 1;
-            SlotType slottype = t;
-            while (tableCount != 0)
-            {
-                if (t == SlotType.Headbutt)
-                    slottype = tableCount == 2 ? SlotType.Headbutt_Special : SlotType.Headbutt;
-                int rate = data[ofs++];
-                if (rate == 0xFF) // end of table
-                {
-                    tableCount--;
-                    continue;
-                }
-
-                int species = data[ofs++];
-                int level = data[ofs++];
-
-                slots.Add(new EncounterSlot1
-                {
-                    Rate = rate,
-                    Species = species,
-                    LevelMin = level,
-                    LevelMax = level,
-                    Type = slottype
-                });
-            }
-            return slots.ToArray();
-        }
-
-        private static IEnumerable<EncounterArea> GetAreas2(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
-        {
-            var areas = new List<EncounterArea>();
-            while (data[ofs] != 0xFF) // end
-            {
-                var location = data[ofs++] << 8 | data[ofs++];
-                var slots = GetSlots2GrassWater(data, ref ofs, t, slotSets, slotCount);
-                var area = new EncounterArea
-                {
-                    Location = location,
-                    Slots = slots,
-                };
-                foreach (var slot in slots)
-                    slot.Area = area;
-                areas.Add(area);
-            }
-            ofs++;
-            return areas;
-        }
-
-        private static List<EncounterArea> GetAreas2Fishing(byte[] data, ref int ofs)
-        {
-            var areas = new List<EncounterArea>();
-            var types = new[] {SlotType.Old_Rod, SlotType.Good_Rod, SlotType.Super_Rod};
-            while (ofs != 0x18C)
-            {
-                areas.Add(new EncounterArea {
-                    Slots = GetSlots2Fishing(data, ref ofs, types[0])
-                    .Concat(GetSlots2Fishing(data, ref ofs, types[1]))
-                    .Concat(GetSlots2Fishing(data, ref ofs, types[2])).ToArray() });
-            }
-
-            // Read TimeFishGroups
-            var dl = new List<DexLevel>();
-            while (ofs < data.Length)
-                dl.Add(new DexLevel { Species = data[ofs++], Level = data[ofs++]});
-
-            // Add TimeSlots
-            foreach (var area in areas)
-            {
-                var slots = area.Slots;
-                for (int i = 0; i < slots.Length; i++)
-                {
-                    var slot = slots[i];
-                    if (slot.Type != SlotType.Special)
-                        continue;
-                    Array.Resize(ref slots, slots.Length + 1);
-                    Array.Copy(slots, i, slots, i+1, slots.Length - i - 1); // shift slots down
-                    slots[i+1] = slot.Clone(); // differentiate copied slot
-
-                    int index = slot.LevelMin*2;
-                    for (int j = 0; j < 2; j++) // load special slot info
-                    {
-                        var s = (EncounterSlot1)slots[i + j];
-                        s.Species = dl[index + j].Species;
-                        s.LevelMin = s.LevelMax = dl[index + j].Level;
-                        s.Type = slots[i - 1].Type; // special slots are never first in a set, so copy previous type
-                        s.Time = j == 0 ? EncounterTime.Morning | EncounterTime.Day : EncounterTime.Night;
-                    }
-                }
-                area.Slots = slots;
-            }
-            return areas;
-        }
-
-        private static IEnumerable<EncounterArea> GetAreas2Headbutt(byte[] data, ref int ofs)
-        {
-            // Read Location Table
-            var head = new List<EncounterArea>();
-            var headID = new List<int>();
-            while (data[ofs] != 0xFF)
-            {
-                head.Add(new EncounterArea
-                {
-                    Location = (data[ofs++] << 8) | data[ofs++],
-                    //Slots = null, // later
-                });
-                headID.Add(data[ofs++]);
-            }
-            ofs++;
-
-            var rock = new List<EncounterArea>();
-            var rockID = new List<int>();
-            while (data[ofs] != 0xFF)
-            {
-                rock.Add(new EncounterArea
-                {
-                    Location = (data[ofs++] << 8) | data[ofs++],
-                    //Slots = null, // later
-                });
-                rockID.Add(data[ofs++]);
-            }
-            ofs++;
-            ofs += 0x16; // jump over GetTreeMons
-
-            // Read ptr table
-            int[] ptr = new int[data.Length == 0x109 ? 6 : 9]; // GS : C
-            for (int i = 0; i < ptr.Length; i++)
-                ptr[i] = data[ofs++] | (data[ofs++] << 8);
-
-            int baseOffset = ptr.Min() - ofs;
-
-            // Read Tables
-            for (int i = 0; i < head.Count; i++)
-            {
-                int o = ptr[headID[i]] - baseOffset;
-                head[i].Slots = GetSlots2Headbutt(data, ref o, SlotType.Headbutt);
-            }
-            for (int i = 0; i < rock.Count; i++)
-            {
-                int o = ptr[rockID[i]] - baseOffset;
-                rock[i].Slots = GetSlots2Headbutt(data, ref o, SlotType.Rock_Smash);
-            }
-
-            return head.Concat(rock);
-        }
-
-        private static IEnumerable<EncounterSlot> GetSlots3(byte[] data, ref int ofs, int numslots, SlotType t)
-        {
-            var slots = new List<EncounterSlot>();
-            int Ratio = data[ofs];
-            //1 byte padding
-            if (Ratio > 0)
-            {
-                for (int i = 0; i < numslots; i++)
-                {
-                    int o = ofs + (i * 4);
-                    int Species = BitConverter.ToInt16(data, o + 4);
-                    if (Species <= 0)
-                        continue;
-
-                    slots.Add(new EncounterSlot
-                    {
-                        LevelMin = data[o + 2],
-                        LevelMax = data[o + 3],
-                        Species = Species,
-                        SlotNumber = i,
-                        Type = t
-                    });
-                }
-            }
-            ofs += 2 + (numslots * 4);
-            return slots;
-        }
-
-        private static IEnumerable<EncounterSlot> GetSlots3Fishing(byte[] data, ref int ofs, int numslots)
-        {
-            var slots = new List<EncounterSlot>();
-            int Ratio = data[ofs];
-            //1 byte padding
-            if (Ratio > 0)
-            {
-                for (int i = 0; i < numslots; i++)
-                {
-                    int Species = BitConverter.ToInt16(data, ofs + 4 + (i * 4));
-                    if (Species <= 0)
-                        continue;
-
-                    var slot = new EncounterSlot
-                    {
-                        LevelMin = data[ofs + 2 + (i * 4)],
-                        LevelMax = data[ofs + 3 + (i * 4)],
-                        Species = Species,
-                    };
-                    if (i < 2)
-                    {
-                        slot.Type = SlotType.Old_Rod;
-                        slot.SlotNumber = i; // 0,1
-                    }
-                    else if (i < 5)
-                    {
-                        slot.Type = SlotType.Good_Rod;
-                        slot.SlotNumber = i - 2; // 0,1,2
-                    }
-                    else
-                    {
-                        slot.Type = SlotType.Super_Rod;
-                        slot.SlotNumber = i - 5; // 0,1,2,3,4
-                    }
-                    slots.Add(slot);
-                }
-            }
-            ofs += 2 + (numslots * 4);
-            return slots;
+            return entries.Select(GetArea4HeadbuttHGSS).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         private static EncounterSlot[] GetSlots4GrassDPPt(byte[] data, int ofs, int numslots, SlotType t)
@@ -487,36 +171,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterArea GetArea3(byte[] data)
-        {
-            var HaveGrassSlots = data[1] == 1;
-            var HaveSurfSlots = data[2] == 1;
-            var HaveRockSmashSlots = data[3] == 1;
-            var HaveFishingSlots = data[4] == 1;
-
-            int offset = 5;
-            var slots = new List<EncounterSlot>();
-            if (HaveGrassSlots)
-                slots.AddRange(GetSlots3(data, ref offset, 12, SlotType.Grass));
-            if (HaveSurfSlots)
-                slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Surf));
-            if (HaveRockSmashSlots)
-                slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Rock_Smash));
-            if (HaveFishingSlots)
-                slots.AddRange(GetSlots3Fishing(data, ref offset, 10));
-
-            EncounterArea Area3 = new EncounterArea
-            {
-                Location = data[0],
-                Slots = slots.ToArray()
-            };
-            foreach (var slot in Area3.Slots)
-                slot.Area = Area3;
-
-            return Area3;
-        }
-
-        private static EncounterArea GetArea4DPPt(byte[] data, bool pt = false)
+        private static EncounterArea4 GetArea4DPPt(byte[] data, bool pt = false)
         {
             var Slots = new List<EncounterSlot>();
 
@@ -557,11 +212,11 @@ namespace PKHeX.Core
                 // Permute Static-Magnet Pull combinations
                 // [None/Swarm]-[None/Morning/Night]-[None/Radar]-[None/R/S/E/F/L] [None/TrophyGarden]
                 // 2 * 3 * 2 * 6 = 72 different combinations of slots (more with trophy garden)
-                var regular = new List<List<EncounterSlot>> {GrassSlots.Where(z => z.SlotNumber == 6 || z.SlotNumber == 7).ToList()}; // every other slot is in the product
-                var pair0 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Swarm.Contains(z.SlotNumber)).ToList()};
-                var pair1 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Time.Contains(z.SlotNumber)).ToList()};
-                var pair2 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Radar.Contains(z.SlotNumber)).ToList()};
-                var pair3 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Dual.Contains(z.SlotNumber)).ToList()};
+                var regular = new List<List<EncounterSlot>> { GrassSlots.Where(z => z.SlotNumber == 6 || z.SlotNumber == 7).ToList() }; // every other slot is in the product
+                var pair0 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Swarm.Contains(z.SlotNumber)).ToList() };
+                var pair1 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Time.Contains(z.SlotNumber)).ToList() };
+                var pair2 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Radar.Contains(z.SlotNumber)).ToList() };
+                var pair3 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Dual.Contains(z.SlotNumber)).ToList() };
                 if (swarm.Count != 0) pair0.Add(swarm);
                 if (morning.Count != 0) pair1.Add(morning); if (night.Count != 0) pair1.Add(night);
                 if (radar.Count != 0) pair2.Add(radar);
@@ -588,7 +243,7 @@ namespace PKHeX.Core
                     for (int i = 0; i < trophy.Length; i++)
                     {
                         for (int j = i + 1; j < trophy.Length; j++)
-                            regular.Add(new List<EncounterSlot>{trophy[i], trophy[j]});
+                            regular.Add(new List<EncounterSlot> { trophy[i], trophy[j] });
                     }
                 }
 
@@ -616,7 +271,7 @@ namespace PKHeX.Core
             if (SuperRodRatio > 0)
                 Slots.AddRange(GetSlots4WaterFishingDPPt(data, 0x182, 5, SlotType.Super_Rod));
 
-            EncounterArea Area4 = new EncounterArea
+            EncounterArea4 Area4 = new EncounterArea4
             {
                 Location = location,
                 Slots = Slots.ToArray()
@@ -640,7 +295,7 @@ namespace PKHeX.Core
             EncounterUtil.MarkEncountersStaticMagnetPullPermutation(grp, PersonalTable.HGSS, trackPermute);
         }
 
-        private static EncounterArea GetArea4HGSS(byte[] data)
+        private static EncounterArea4 GetArea4HGSS(byte[] data)
         {
             var Slots = new List<EncounterSlot>();
 
@@ -673,11 +328,11 @@ namespace PKHeX.Core
                 var grass3 = GrassSlots.Skip(24).ToList();
                 // Swarm slots do not displace electric/steel types, with exception of SoulSilver Mawile (which doesn't displace) -- handle separately
 
-                foreach (var time in new[] {grass1, grass2, grass3})
+                foreach (var time in new[] { grass1, grass2, grass3 })
                 {
                     // non radio
                     var regular = time.Where(z => !Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList(); // every other slot is in the product
-                    var radio = new List<List<EncounterSlot>> {time.Where(z => Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList()};
+                    var radio = new List<List<EncounterSlot>> { time.Where(z => Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList() };
                     if (hoenn.Count > 0)
                         radio.Add(hoenn);
                     if (sinnoh.Count > 0)
@@ -709,7 +364,7 @@ namespace PKHeX.Core
             if (data[0xC2] == 120) // Location = 182, 127, 130, 132, 167, 188, 210
                 Slots.AddRange(SlotsHGSS_Staryu);
 
-            EncounterArea Area4 = new EncounterArea
+            EncounterArea4 Area4 = new EncounterArea4
             {
                 Location = BitConverter.ToUInt16(data, 0x00),
                 Slots = Slots.ToArray()
@@ -725,10 +380,10 @@ namespace PKHeX.Core
            new EncounterSlot { Species = 120, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod },
         };
 
-        private static EncounterArea GetArea4HeadbuttHGSS(byte[] data)
+        private static EncounterArea4 GetArea4HeadbuttHGSS(byte[] data)
         {
             if (data.Length < 78)
-                return new EncounterArea(); // bad data
+                return new EncounterArea4(); // bad data
 
             //2 byte location ID (defer to end)
             //4 bytes padding
@@ -750,7 +405,7 @@ namespace PKHeX.Core
                 });
             }
 
-            var Area = new EncounterArea
+            var Area = new EncounterArea4
             {
                 Location = BitConverter.ToUInt16(data, 0),
                 Slots = Slots.ToArray()
@@ -760,36 +415,19 @@ namespace PKHeX.Core
             return Area;
         }
 
-        /// <summary>
-        /// RBY Format Slot Getter from data.
-        /// </summary>
-        /// <param name="data">Byte array containing complete slot data table.</param>
-        /// <param name="ofs">Offset to start reading from.</param>
-        /// <param name="count">Amount of slots to read.</param>
-        /// <param name="t">Type of encounter slot.</param>
-        /// <param name="rate">Slot type encounter rate.</param>
-        /// <returns>Array of encounter slots.</returns>
-        private static EncounterSlot1[] ReadSlots1(byte[] data, ref int ofs, int count, SlotType t, int rate)
+        private EncounterArea4 Clone(int location) => new EncounterArea4 {Slots = Slots, Location = location};
+
+        public EncounterArea4[] Clone(int[] locations)
         {
-            EncounterSlot1[] slots = new EncounterSlot1[count];
-            for (int i = 0; i < count; i++)
-            {
-                int lvl = data[ofs++];
-                int spec = data[ofs++];
-
-                slots[i] = new EncounterSlot1
-                {
-                    LevelMax = t == SlotType.Surf ? lvl + 4 : lvl,
-                    LevelMin = lvl,
-                    Species = spec,
-                    Type = t,
-                    Rate = rate,
-                    SlotNumber = i,
-                };
-            }
-            return slots;
+            var Areas = new EncounterArea4[locations.Length];
+            for (int i = 0; i < locations.Length; i++)
+                Areas[i] = Clone(locations[i]);
+            return Areas;
         }
+    }
 
+    public sealed class EncounterArea1 : EncounterAreaGB
+    {
         private static EncounterSlot1[] ReadSlots1FishingYellow(byte[] data, ref int ofs, int count, SlotType t, int rate)
         {
             // Convert byte to actual number
@@ -821,14 +459,14 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray1GrassWater(byte[] data)
+        public static EncounterArea1[] GetArray1GrassWater(byte[] data)
         {
             // RBY Format
             var ptr = new int[255];
             int count = 0;
             for (int i = 0; i < ptr.Length; i++)
             {
-                ptr[i] = BitConverter.ToInt16(data, i*2);
+                ptr[i] = BitConverter.ToInt16(data, i * 2);
                 if (ptr[i] != -1)
                     continue;
 
@@ -836,12 +474,12 @@ namespace PKHeX.Core
                 break;
             }
 
-            EncounterArea[] areas = new EncounterArea[count];
+            EncounterArea1[] areas = new EncounterArea1[count];
             for (int i = 0; i < areas.Length; i++)
             {
                 var grass = GetSlots1GrassWater(data, ref ptr[i], SlotType.Grass);
                 var water = GetSlots1GrassWater(data, ref ptr[i], SlotType.Surf);
-                areas[i] = new EncounterArea
+                areas[i] = new EncounterArea1
                 {
                     Location = i,
                     Slots = grass.Concat(water).ToArray()
@@ -855,15 +493,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray1FishingYellow(byte[] data)
+        public static EncounterArea1[] GetArray1FishingYellow(byte[] data)
         {
             const int size = 9;
-            int count = data.Length/size;
-            EncounterArea[] areas = new EncounterArea[count];
+            int count = data.Length / size;
+            EncounterArea1[] areas = new EncounterArea1[count];
             for (int i = 0; i < count; i++)
             {
                 int ofs = (i * size) + 1;
-                areas[i] = new EncounterArea
+                areas[i] = new EncounterArea1
                 {
                     Location = data[(i * size) + 0],
                     Slots = ReadSlots1FishingYellow(data, ref ofs, 4, SlotType.Super_Rod, -1)
@@ -877,7 +515,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray1Fishing(byte[] data)
+        public static EncounterArea1[] GetArray1Fishing(byte[] data)
         {
             var ptr = new int[255];
             var map = new int[255];
@@ -893,10 +531,10 @@ namespace PKHeX.Core
                 ptr[i] = BitConverter.ToInt16(data, (i * 3) + 1);
             }
 
-            EncounterArea[] areas = new EncounterArea[count];
+            EncounterArea1[] areas = new EncounterArea1[count];
             for (int i = 0; i < areas.Length; i++)
             {
-                areas[i] = new EncounterArea
+                areas[i] = new EncounterArea1
                 {
                     Location = map[i],
                     Slots = GetSlots1Fishing(data, ref ptr[i])
@@ -905,66 +543,390 @@ namespace PKHeX.Core
             return areas;
         }
 
+        private static IEnumerable<EncounterSlot1> GetSlots1GrassWater(byte[] data, ref int ofs, SlotType t)
+        {
+            int rate = data[ofs++];
+            return rate == 0 ? Enumerable.Empty<EncounterSlot1>() : ReadSlots1(data, ref ofs, 10, t, rate);
+        }
+
+        private static EncounterSlot1[] GetSlots1Fishing(byte[] data, ref int ofs)
+        {
+            int count = data[ofs++];
+            return ReadSlots1(data, ref ofs, count, SlotType.Super_Rod, -1);
+        }
+    }
+
+    public sealed class EncounterArea2 : EncounterAreaGB
+    {
         /// <summary>
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 2 Grass/Water data.
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray2GrassWater(byte[] data)
+        public static EncounterArea2[] GetArray2GrassWater(byte[] data)
         {
             int ofs = 0;
-            var areas = new List<EncounterArea>();
-            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Grass,     3, 7)); // Johto Grass
-            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Surf,      1, 3)); // Johto Water
-            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Grass,     3, 7)); // Kanto Grass
-            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Surf,      1, 3)); // Kanto Water
-            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Swarm,     3, 7)); // Swarm
-            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Special,   1, 3)); // Union Cave
+            var areas = new List<EncounterArea2>();
+            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Grass, 3, 7)); // Johto Grass
+            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Surf, 1, 3)); // Johto Water
+            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Grass, 3, 7)); // Kanto Grass
+            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Surf, 1, 3)); // Kanto Water
+            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Swarm, 3, 7)); // Swarm
+            areas.AddRange(GetAreas2(data, ref ofs, SlotType.Special, 1, 3)); // Union Cave
             return areas.ToArray();
         }
+
+        // Fishing Tables are not associated to a single map; a map picks a table to use.
+        // For all maps that use a table, create a new EncounterArea with reference to the table's slots.
+        private static readonly sbyte[] convMapIDtoFishLocationID =
+        {
+            -1,  1, -1,  0,  3,  3,  3, -1, 10,  3,  2, -1, -1,  2,  3,  0,
+            -1, -1,  3, -1, -1, -1,  3, -1, -1, -1, -1,  0, -1, -1,  0,  9,
+             1,  0,  2,  2, -1,  3,  7,  3, -1,  3,  4,  8,  2, -1,  2,  1,
+            -1,  3, -1, -1, -1, -1, -1,  0,  2,  2, -1, -1,  3,  1, -1, -1,
+            -1,  2, -1,  2, -1, -1, -1, -1, -1, -1, 10, 10, -1, -1, -1, -1,
+            -1,  7,  0,  1, -1,  1,  1,  3, -1, -1, -1,  1,  1,  2,  3, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        };
 
         /// <summary>
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 2 Grass/Water data.
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray2Fishing(byte[] data)
+        public static EncounterArea2[] GetArray2Fishing(byte[] data)
         {
             int ofs = 0;
             var f = GetAreas2Fishing(data, ref ofs);
 
-            // Fishing Tables are not associated to a single map; a map picks a table to use.
-            // For all maps that use a table, create a new EncounterArea with reference to the table's slots.
-            sbyte[] convMapIDtoFishLocationID =
-            {
-                -1,  1, -1,  0,  3,  3,  3, -1, 10,  3,  2, -1, -1,  2,  3,  0,
-                -1, -1,  3, -1, -1, -1,  3, -1, -1, -1, -1,  0, -1, -1,  0,  9,
-                 1,  0,  2,  2, -1,  3,  7,  3, -1,  3,  4,  8,  2, -1,  2,  1,
-                -1,  3, -1, -1, -1, -1, -1,  0,  2,  2, -1, -1,  3,  1, -1, -1,
-                -1,  2, -1,  2, -1, -1, -1, -1, -1, -1, 10, 10, -1, -1, -1, -1,
-                -1,  7,  0,  1, -1,  1,  1,  3, -1, -1, -1,  1,  1,  2,  3, -1,
-                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-            };
-            var areas = new List<EncounterArea>();
+            var areas = new List<EncounterArea2>();
             for (int i = 0; i < convMapIDtoFishLocationID.Length; i++)
             {
                 var loc = convMapIDtoFishLocationID[i];
                 if (loc == -1) // no table for map
                     continue;
-                areas.Add(new EncounterArea { Location = i, Slots = f[loc].Slots });
+                areas.Add(new EncounterArea2 { Location = i, Slots = f[loc].Slots });
             }
 
             // Some maps have two tables. Fortunately, there's only two. Add the second table.
-            areas.Add(new EncounterArea { Location = 0x1B, Slots = f[1].Slots }); // Olivine City (0: Harbor, 1: City)
-            areas.Add(new EncounterArea { Location = 0x2E, Slots = f[3].Slots }); // Silver Cave (2: Inside, 3: Outside)
+            areas.Add(new EncounterArea2 { Location = 0x1B, Slots = f[1].Slots }); // Olivine City (0: Harbor, 1: City)
+            areas.Add(new EncounterArea2 { Location = 0x2E, Slots = f[3].Slots }); // Silver Cave (2: Inside, 3: Outside)
             return areas.ToArray();
         }
 
-        public static EncounterArea[] GetArray2Headbutt(byte[] data)
+        public static EncounterArea2[] GetArray2Headbutt(byte[] data)
         {
             int ofs = 0;
             return GetAreas2Headbutt(data, ref ofs).ToArray();
+        }
+
+        private static EncounterSlot1[] GetSlots2GrassWater(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
+        {
+            byte[] rates = new byte[slotSets];
+            for (int i = 0; i < rates.Length; i++)
+                rates[i] = data[ofs++];
+
+            var slots = ReadSlots1(data, ref ofs, slotSets * slotCount, t, rates[0]);
+            if (slotSets <= 1)
+                return slots;
+
+            for (int i = 0; i < slotCount; i++)
+            {
+                slots[i].Time = EncounterTime.Morning;
+            }
+            for (int r = 1; r < slotSets; r++)
+            {
+                for (int i = 0; i < slotCount; i++)
+                {
+                    int index = i + (r * slotCount);
+                    slots[index].Rate = rates[r];
+                    slots[index].SlotNumber = i;
+                    slots[index].Time = r == 1 ? EncounterTime.Day : EncounterTime.Night;
+                }
+            }
+
+            return slots;
+        }
+
+        private static EncounterSlot1[] GetSlots2Fishing(byte[] data, ref int ofs, SlotType t)
+        {
+            // slot set ends with final slot having 0xFF 0x** 0x**
+            const int size = 3;
+            int end = ofs; // scan for count
+            while (data[end] != 0xFF)
+                end += size;
+            var count = ((end - ofs) / size) + 1;
+            var slots = new EncounterSlot1[count];
+            for (int i = 0; i < slots.Length; i++)
+            {
+                int rate = data[ofs++];
+                int species = data[ofs++];
+                int level = data[ofs++];
+
+                slots[i] = new EncounterSlot1
+                {
+                    Rate = rate,
+                    Species = species,
+                    LevelMin = level,
+                    LevelMax = level,
+                    SlotNumber = i,
+                    Type = species == 0 ? SlotType.Special : t // day/night specific
+                };
+            }
+            return slots;
+        }
+
+        private static EncounterSlot1[] GetSlots2Headbutt(byte[] data, ref int ofs, SlotType t)
+        {
+            // slot set ends in 0xFF
+            var slots = new List<EncounterSlot1>();
+            int tableCount = t == SlotType.Headbutt ? 2 : 1;
+            SlotType slottype = t;
+            while (tableCount != 0)
+            {
+                if (t == SlotType.Headbutt)
+                    slottype = tableCount == 2 ? SlotType.Headbutt_Special : SlotType.Headbutt;
+                int rate = data[ofs++];
+                if (rate == 0xFF) // end of table
+                {
+                    tableCount--;
+                    continue;
+                }
+
+                int species = data[ofs++];
+                int level = data[ofs++];
+
+                slots.Add(new EncounterSlot1
+                {
+                    Rate = rate,
+                    Species = species,
+                    LevelMin = level,
+                    LevelMax = level,
+                    Type = slottype
+                });
+            }
+            return slots.ToArray();
+        }
+
+        private static IEnumerable<EncounterArea2> GetAreas2(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
+        {
+            var areas = new List<EncounterArea2>();
+            while (data[ofs] != 0xFF) // end
+            {
+                var location = data[ofs++] << 8 | data[ofs++];
+                var slots = GetSlots2GrassWater(data, ref ofs, t, slotSets, slotCount);
+                var area = new EncounterArea2
+                {
+                    Location = location,
+                    Slots = slots,
+                };
+                foreach (var slot in slots)
+                    slot.Area = area;
+                areas.Add(area);
+            }
+            ofs++;
+            return areas;
+        }
+
+        private static List<EncounterArea2> GetAreas2Fishing(byte[] data, ref int ofs)
+        {
+            var areas = new List<EncounterArea2>();
+            var types = new[] { SlotType.Old_Rod, SlotType.Good_Rod, SlotType.Super_Rod };
+            while (ofs != 0x18C)
+            {
+                areas.Add(new EncounterArea2
+                {
+                    Slots = GetSlots2Fishing(data, ref ofs, types[0])
+                    .Concat(GetSlots2Fishing(data, ref ofs, types[1]))
+                    .Concat(GetSlots2Fishing(data, ref ofs, types[2])).ToArray()
+                });
+            }
+
+            // Read TimeFishGroups
+            var dl = new List<DexLevel>();
+            while (ofs < data.Length)
+                dl.Add(new DexLevel { Species = data[ofs++], Level = data[ofs++] });
+
+            // Add TimeSlots
+            foreach (var area in areas)
+            {
+                var slots = area.Slots;
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    var slot = slots[i];
+                    if (slot.Type != SlotType.Special)
+                        continue;
+                    Array.Resize(ref slots, slots.Length + 1);
+                    Array.Copy(slots, i, slots, i + 1, slots.Length - i - 1); // shift slots down
+                    slots[i + 1] = slot.Clone(); // differentiate copied slot
+
+                    int index = slot.LevelMin * 2;
+                    for (int j = 0; j < 2; j++) // load special slot info
+                    {
+                        var s = (EncounterSlot1)slots[i + j];
+                        s.Species = dl[index + j].Species;
+                        s.LevelMin = s.LevelMax = dl[index + j].Level;
+                        s.Type = slots[i - 1].Type; // special slots are never first in a set, so copy previous type
+                        s.Time = j == 0 ? EncounterTime.Morning | EncounterTime.Day : EncounterTime.Night;
+                    }
+                }
+                area.Slots = slots;
+            }
+            return areas;
+        }
+
+        private static IEnumerable<EncounterArea2> GetAreas2Headbutt(byte[] data, ref int ofs)
+        {
+            // Read Location Table
+            var head = new List<EncounterArea2>();
+            var headID = new List<int>();
+            while (data[ofs] != 0xFF)
+            {
+                head.Add(new EncounterArea2
+                {
+                    Location = (data[ofs++] << 8) | data[ofs++],
+                    //Slots = null, // later
+                });
+                headID.Add(data[ofs++]);
+            }
+            ofs++;
+
+            var rock = new List<EncounterArea2>();
+            var rockID = new List<int>();
+            while (data[ofs] != 0xFF)
+            {
+                rock.Add(new EncounterArea2
+                {
+                    Location = (data[ofs++] << 8) | data[ofs++],
+                    //Slots = null, // later
+                });
+                rockID.Add(data[ofs++]);
+            }
+            ofs++;
+            ofs += 0x16; // jump over GetTreeMons
+
+            // Read ptr table
+            int[] ptr = new int[data.Length == 0x109 ? 6 : 9]; // GS : C
+            for (int i = 0; i < ptr.Length; i++)
+                ptr[i] = data[ofs++] | (data[ofs++] << 8);
+
+            int baseOffset = ptr.Min() - ofs;
+
+            // Read Tables
+            for (int i = 0; i < head.Count; i++)
+            {
+                int o = ptr[headID[i]] - baseOffset;
+                head[i].Slots = GetSlots2Headbutt(data, ref o, SlotType.Headbutt);
+            }
+            for (int i = 0; i < rock.Count; i++)
+            {
+                int o = ptr[rockID[i]] - baseOffset;
+                rock[i].Slots = GetSlots2Headbutt(data, ref o, SlotType.Rock_Smash);
+            }
+
+            return head.Concat(rock);
+        }
+    }
+
+    public sealed class EncounterArea3 : EncounterArea
+    {
+        private static IEnumerable<EncounterSlot> GetSlots3(byte[] data, ref int ofs, int numslots, SlotType t)
+        {
+            var slots = new List<EncounterSlot>();
+            int Ratio = data[ofs];
+            //1 byte padding
+            if (Ratio > 0)
+            {
+                for (int i = 0; i < numslots; i++)
+                {
+                    int o = ofs + (i * 4);
+                    int Species = BitConverter.ToInt16(data, o + 4);
+                    if (Species <= 0)
+                        continue;
+
+                    slots.Add(new EncounterSlot
+                    {
+                        LevelMin = data[o + 2],
+                        LevelMax = data[o + 3],
+                        Species = Species,
+                        SlotNumber = i,
+                        Type = t
+                    });
+                }
+            }
+            ofs += 2 + (numslots * 4);
+            return slots;
+        }
+
+        private static IEnumerable<EncounterSlot> GetSlots3Fishing(byte[] data, ref int ofs, int numslots)
+        {
+            var slots = new List<EncounterSlot>();
+            int Ratio = data[ofs];
+            //1 byte padding
+            if (Ratio > 0)
+            {
+                for (int i = 0; i < numslots; i++)
+                {
+                    int Species = BitConverter.ToInt16(data, ofs + 4 + (i * 4));
+                    if (Species <= 0)
+                        continue;
+
+                    var slot = new EncounterSlot
+                    {
+                        LevelMin = data[ofs + 2 + (i * 4)],
+                        LevelMax = data[ofs + 3 + (i * 4)],
+                        Species = Species,
+                    };
+                    if (i < 2)
+                    {
+                        slot.Type = SlotType.Old_Rod;
+                        slot.SlotNumber = i; // 0,1
+                    }
+                    else if (i < 5)
+                    {
+                        slot.Type = SlotType.Good_Rod;
+                        slot.SlotNumber = i - 2; // 0,1,2
+                    }
+                    else
+                    {
+                        slot.Type = SlotType.Super_Rod;
+                        slot.SlotNumber = i - 5; // 0,1,2,3,4
+                    }
+                    slots.Add(slot);
+                }
+            }
+            ofs += 2 + (numslots * 4);
+            return slots;
+        }
+
+        private static EncounterArea3 GetArea3(byte[] data)
+        {
+            var HaveGrassSlots = data[1] == 1;
+            var HaveSurfSlots = data[2] == 1;
+            var HaveRockSmashSlots = data[3] == 1;
+            var HaveFishingSlots = data[4] == 1;
+
+            int offset = 5;
+            var slots = new List<EncounterSlot>();
+            if (HaveGrassSlots)
+                slots.AddRange(GetSlots3(data, ref offset, 12, SlotType.Grass));
+            if (HaveSurfSlots)
+                slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Surf));
+            if (HaveRockSmashSlots)
+                slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Rock_Smash));
+            if (HaveFishingSlots)
+                slots.AddRange(GetSlots3Fishing(data, ref offset, 10));
+
+            var area = new EncounterArea3
+            {
+                Location = data[0],
+                Slots = slots.ToArray()
+            };
+            foreach (var slot in area.Slots)
+                slot.Area = area;
+
+            return area;
         }
 
         /// <summary>
@@ -972,41 +934,109 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="entries">Raw data, one byte array per encounter area</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray3(byte[][] entries)
+        public static EncounterArea3[] GetArray3(byte[][] entries)
         {
             return entries.Select(GetArea3).Where(Area => Area.Slots.Length != 0).ToArray();
         }
+    }
+
+    public abstract class EncounterAreaGB : EncounterArea
+    {
+        /// <summary>
+        /// RBY Format Slot Getter from data.
+        /// </summary>
+        /// <param name="data">Byte array containing complete slot data table.</param>
+        /// <param name="ofs">Offset to start reading from.</param>
+        /// <param name="count">Amount of slots to read.</param>
+        /// <param name="t">Type of encounter slot.</param>
+        /// <param name="rate">Slot type encounter rate.</param>
+        /// <returns>Array of encounter slots.</returns>
+        protected static EncounterSlot1[] ReadSlots1(byte[] data, ref int ofs, int count, SlotType t, int rate)
+        {
+            EncounterSlot1[] slots = new EncounterSlot1[count];
+            for (int i = 0; i < count; i++)
+            {
+                int lvl = data[ofs++];
+                int spec = data[ofs++];
+
+                slots[i] = new EncounterSlot1
+                {
+                    LevelMax = t == SlotType.Surf ? lvl + 4 : lvl,
+                    LevelMin = lvl,
+                    Species = spec,
+                    Type = t,
+                    Rate = rate,
+                    SlotNumber = i,
+                };
+            }
+            return slots;
+        }
+    }
+
+    // Encounter Data is stored in the following format: (u16 Location, n*[u16 Species/Form, u8 Min, u8 Max])
+    public abstract class EncounterArea32 : EncounterArea
+    {
+        protected internal void LoadSlots(byte[] areaData)
+        {
+            var count = (areaData.Length - 2) / 4;
+            Location = BitConverter.ToUInt16(areaData, 0);
+            Slots = new EncounterSlot[count];
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                int ofs = 2 + (i * 4);
+                ushort SpecForm = BitConverter.ToUInt16(areaData, ofs);
+                Slots[i] = new EncounterSlot
+                {
+                    Species = SpecForm & 0x7FF,
+                    Form = SpecForm >> 11,
+                    LevelMin = areaData[ofs + 2],
+                    LevelMax = areaData[ofs + 3],
+                };
+            }
+            foreach (var slot in Slots)
+                slot.Area = this;
+        }
+    }
+
+    public sealed class EncounterArea5 : EncounterArea32
+    {
+    }
+
+    public sealed class EncounterArea6XY : EncounterArea32
+    {
+    }
+
+    public sealed class EncounterArea6AO : EncounterArea32
+    {
+    }
+
+    public sealed class EncounterArea7 : EncounterArea32
+    {
+    }
+
+    public sealed class EncounterArea7b : EncounterArea32
+    {
+    }
+
+    public sealed class EncounterArea7g : EncounterArea32
+    {
+    }
+
+    public sealed class EncounterAreaFake : EncounterArea
+    {
+    }
+
+    /// <summary>
+    /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="EncounterSlot"/> data.
+    /// </summary>
+    public abstract class EncounterArea
+    {
+        public int Location;
+        public EncounterSlot[] Slots;
 
         /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Diamond, Pearl and Platinum data.
+        /// Creates an empty encounter area ready for initialization.
         /// </summary>
-        /// <param name="entries">Raw data, one byte array per encounter area</param>
-        /// <param name="pt">Platinum flag (for Trophy Garden slot insertion)</param>
-        /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray4DPPt(byte[][] entries, bool pt = false)
-        {
-            return entries.Select(z => GetArea4DPPt(z, pt)).Where(Area => Area.Slots.Length != 0).ToArray();
-        }
-
-        /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Heart Gold and Soul Silver data.
-        /// </summary>
-        /// <param name="entries">Raw data, one byte array per encounter area</param>
-        /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray4HGSS(byte[][] entries)
-        {
-            return entries.Select(GetArea4HGSS).Where(Area => Area.Slots.Length != 0).ToArray();
-        }
-
-        /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Heart Gold and Soul Silver Headbutt tree data.
-        /// </summary>
-        /// <param name="entries">Raw data, one byte array per encounter area</param>
-        /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray4HGSS_Headbutt(byte[][] entries)
-        {
-            return entries.Select(GetArea4HeadbuttHGSS).Where(Area => Area.Slots.Length != 0).ToArray();
-        }
 
         /// <summary>
         /// Gets the encounter areas for species with same level range and same slottype at same location
@@ -1016,13 +1046,14 @@ namespace PKHeX.Core
         /// <param name="location">Location index of the encounter area.</param>
         /// <param name="t">Encounter slot type of the encounter area.</param>
         /// <returns></returns>
-        public static EncounterArea[] GetSimpleEncounterArea(int[] species, int[] lvls, int location, SlotType t)
+        public static T[] GetSimpleEncounterArea<T>(int[] species, int[] lvls, int location, SlotType t) where T : EncounterArea, new()
         {
             // levels data not paired
             if ((lvls.Length & 1) != 0)
-                return new[] { new EncounterArea { Location = location, Slots = Array.Empty<EncounterSlot>() } };
+                return new[] { new T { Location = location, Slots = Array.Empty<EncounterSlot>() } };
 
-            var slots = new EncounterSlot[species.Length * (lvls.Length / 2)];
+            var count = species.Length * (lvls.Length / 2);
+            var slots = new EncounterSlot[count];
             int ctr = 0;
             foreach (var s in species)
             {
@@ -1037,7 +1068,7 @@ namespace PKHeX.Core
                     };
                 }
             }
-            return new[] { new EncounterArea { Location = location, Slots = slots } };
+            return new[] { new T { Location = location, Slots = slots } };
         }
 
         /// <summary>
@@ -1045,11 +1076,14 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="entries">Simplified raw format of an Area</param>
         /// <returns>Array of areas</returns>
-        public static EncounterArea[] GetArray(byte[][] entries)
+        public static T[] GetArray<T>(byte[][] entries) where T : EncounterArea32, new()
         {
-            EncounterArea[] data = new EncounterArea[entries.Length];
+            T[] data = new T[entries.Length];
             for (int i = 0; i < data.Length; i++)
-                data[i] = new EncounterArea(entries[i]);
+            {
+                var loc = data[i] = new T();
+                loc.LoadSlots(entries[i]);
+            }
             return data;
         }
     }

@@ -75,6 +75,55 @@ namespace PKHeX.Core
         /// <returns>An array of strings whose indexes correspond to the IDs of each item.</returns>
         public static string[] GetItemsList(string language) => GetStringList("items", language);
 
+        public static string[][] GetLanguageStrings7(string fileName)
+        {
+            return new[]
+            {
+                Array.Empty<string>(), // 0 - None
+                GetStringList(fileName, "ja"), // 1
+                GetStringList(fileName, "en"), // 2
+                GetStringList(fileName, "fr"), // 3
+                GetStringList(fileName, "it"), // 4
+                GetStringList(fileName, "de"), // 5
+                Array.Empty<string>(), // 6 - None
+                GetStringList(fileName, "es"), // 7
+            };
+        }
+
+        public static string[][] GetLanguageStrings8(string fileName)
+        {
+            return new[]
+            {
+                Array.Empty<string>(), // 0 - None
+                GetStringList(fileName, "ja"), // 1
+                GetStringList(fileName, "en"), // 2
+                GetStringList(fileName, "fr"), // 3
+                GetStringList(fileName, "it"), // 4
+                GetStringList(fileName, "de"), // 5
+                Array.Empty<string>(), // 6 - None
+                GetStringList(fileName, "es"), // 7
+                GetStringList(fileName, "ko"), // 8
+            };
+        }
+
+        public static string[][] GetLanguageStrings10(string fileName)
+        {
+            return new[]
+            {
+                Array.Empty<string>(), // 0 - None
+                GetStringList(fileName, "ja"), // 1
+                GetStringList(fileName, "en"), // 2
+                GetStringList(fileName, "fr"), // 3
+                GetStringList(fileName, "it"), // 4
+                GetStringList(fileName, "de"), // 5
+                Array.Empty<string>(), // 6 - None
+                GetStringList(fileName, "es"), // 7
+                GetStringList(fileName, "ko"), // 8
+                GetStringList(fileName, "zh"), // 9
+                GetStringList(fileName, "zh"), // 10
+            };
+        }
+
         #endregion
 
         public static string[] GetStringList(string f)

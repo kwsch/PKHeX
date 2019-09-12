@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -9,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters7
     {
-        internal static readonly EncounterArea[] SlotsSN, SlotsMN, SlotsUS, SlotsUM;
+        internal static readonly EncounterArea7[] SlotsSN, SlotsMN, SlotsUS, SlotsUM;
         internal static readonly EncounterStatic[] StaticSN, StaticMN, StaticUS, StaticUM;
 
         static Encounters7()
@@ -19,10 +18,10 @@ namespace PKHeX.Core
             StaticUS = GetStaticEncounters(Encounter_USUM, GameVersion.US);
             StaticUM = GetStaticEncounters(Encounter_USUM, GameVersion.UM);
 
-            var REG_SN = GetEncounterTables(GameVersion.SN);
-            var REG_MN = GetEncounterTables(GameVersion.MN);
-            var SOS_SN = GetEncounterTables("sm", "sn_sos");
-            var SOS_MN = GetEncounterTables("sm", "mn_sos");
+            var REG_SN = GetEncounterTables<EncounterArea7>("sm", "sn");
+            var REG_MN = GetEncounterTables<EncounterArea7>("sm", "mn");
+            var SOS_SN = GetEncounterTables<EncounterArea7>("sm", "sn_sos");
+            var SOS_MN = GetEncounterTables<EncounterArea7>("sm", "mn_sos");
             MarkG7REGSlots(ref REG_SN);
             MarkG7REGSlots(ref REG_MN);
             MarkG7SMSlots(ref SOS_SN);
@@ -31,10 +30,10 @@ namespace PKHeX.Core
             SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, Encounter_Pelago_SN);
             SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, Encounter_Pelago_MN);
 
-            var REG_US = GetEncounterTables(GameVersion.US);
-            var REG_UM = GetEncounterTables(GameVersion.UM);
-            var SOS_US = GetEncounterTables("uu", "us_sos");
-            var SOS_UM = GetEncounterTables("uu", "um_sos");
+            var REG_US = GetEncounterTables<EncounterArea7>("uu", "us");
+            var REG_UM = GetEncounterTables<EncounterArea7>("uu", "um");
+            var SOS_US = GetEncounterTables<EncounterArea7>("uu", "us_sos");
+            var SOS_UM = GetEncounterTables<EncounterArea7>("uu", "um_sos");
             MarkG7REGSlots(ref REG_US);
             MarkG7REGSlots(ref REG_UM);
             MarkG7SMSlots(ref SOS_US);
@@ -62,12 +61,12 @@ namespace PKHeX.Core
             TradeGift_USUM.SetVersion(GameVersion.USUM);
         }
 
-        private static void MarkG7REGSlots(ref EncounterArea[] Areas)
+        private static void MarkG7REGSlots(ref EncounterArea7[] Areas)
         {
             ReduceAreasSize(ref Areas);
         }
 
-        private static void MarkG7SMSlots(ref EncounterArea[] Areas)
+        private static void MarkG7SMSlots(ref EncounterArea7[] Areas)
         {
             foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
                 s.Type = SlotType.SOS;
@@ -403,37 +402,12 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
         };
 
-        private static readonly string[][] TradeSM =
-        {
-            Array.Empty<string>(),               // 0 - None
-            Util.GetStringList("tradesm", "ja"), // 1
-            Util.GetStringList("tradesm", "en"), // 2
-            Util.GetStringList("tradesm", "fr"), // 3
-            Util.GetStringList("tradesm", "it"), // 4
-            Util.GetStringList("tradesm", "de"), // 5
-            Array.Empty<string>(),               // 6 - None
-            Util.GetStringList("tradesm", "es"), // 7
-            Util.GetStringList("tradesm", "ko"), // 8
-            Util.GetStringList("tradesm", "zh"), // 9
-            Util.GetStringList("tradesm", "zh"), // 10
-        };
+        private const string tradeSM = "tradeusum";
+        private const string tradeUSUM = "tradeusum";
+        private static readonly string[][] TradeSM = Util.GetLanguageStrings10(tradeSM);
+        private static readonly string[][] TradeUSUM = Util.GetLanguageStrings10(tradeUSUM);
 
-        private static readonly string[][] TradeUSUM =
-        {
-            Array.Empty<string>(),                 // 0 - None
-            Util.GetStringList("tradeusum", "ja"), // 1
-            Util.GetStringList("tradeusum", "en"), // 2
-            Util.GetStringList("tradeusum", "fr"), // 3
-            Util.GetStringList("tradeusum", "it"), // 4
-            Util.GetStringList("tradeusum", "de"), // 5
-            Array.Empty<string>(),                 // 6 - None
-            Util.GetStringList("tradeusum", "es"), // 7
-            Util.GetStringList("tradeusum", "ko"), // 8
-            Util.GetStringList("tradeusum", "zh"), // 9
-            Util.GetStringList("tradeusum", "zh"), // 10
-        };
-
-        private static EncounterArea[] Encounter_Pelago_SN, Encounter_Pelago_MN, Encounter_Pelago_US, Encounter_Pelago_UM;
+        private static EncounterArea7[] Encounter_Pelago_SN, Encounter_Pelago_MN, Encounter_Pelago_US, Encounter_Pelago_UM;
 
         private static void InitializePelagoAreas()
         {
@@ -463,10 +437,10 @@ namespace PKHeX.Core
             Encounter_Pelago_UM = GetPelagoArea(speciesUU, minLevels);
         }
 
-        private static EncounterArea[] GetPelagoArea(int[][] species, int[] min)
+        private static EncounterArea7[] GetPelagoArea(int[][] species, int[] min)
         {
             // Species that appear at a lower level than the current table show up too.
-            var area = new EncounterArea
+            var area = new EncounterArea7
             {
                 Location = 30016,
                 Slots = species.SelectMany((_, i) =>

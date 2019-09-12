@@ -445,7 +445,7 @@ namespace PKHeX.Core
             return (from area in GetEncounterSlots(pkm)
                 let slots = GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, ignoreLevel: true).ToArray()
                 where slots.Length != 0
-                select new EncounterArea
+                select new EncounterAreaFake
                 {
                     Location = area.Location,
                     Slots = slots,

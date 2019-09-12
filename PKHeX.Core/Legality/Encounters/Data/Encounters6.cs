@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -10,7 +9,8 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters6
     {
-        internal static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
+        internal static readonly EncounterArea6XY[] SlotsX, SlotsY;
+        internal static readonly EncounterArea6AO[] SlotsA, SlotsO;
         internal static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
         internal static readonly ILookup<int, EncounterSlot> FriendSafari;
 
@@ -21,16 +21,16 @@ namespace PKHeX.Core
             StaticA = GetStaticEncounters(Encounter_AO, GameVersion.AS);
             StaticO = GetStaticEncounters(Encounter_AO, GameVersion.OR);
 
-            var XSlots = GetEncounterTables(GameVersion.X);
-            var YSlots = GetEncounterTables(GameVersion.Y);
+            var XSlots = GetEncounterTables<EncounterArea6XY>("xy", "x");
+            var YSlots = GetEncounterTables<EncounterArea6XY>("xy", "y");
             MarkG6XYSlots(ref XSlots);
             MarkG6XYSlots(ref YSlots);
             MarkEncounterAreaArray(SlotsXYAlt);
             SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
             SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
 
-            SlotsA = GetEncounterTables(GameVersion.AS);
-            SlotsO = GetEncounterTables(GameVersion.OR);
+            SlotsA = GetEncounterTables<EncounterArea6AO>("ao", "a");
+            SlotsO = GetEncounterTables<EncounterArea6AO>("ao", "o");
             MarkG6AOSlots(ref SlotsA);
             MarkG6AOSlots(ref SlotsO);
 
@@ -54,7 +54,7 @@ namespace PKHeX.Core
 
         private static ILookup<int, EncounterSlot> GetFriendSafariArea()
         {
-            var area = new EncounterArea { Location = 148 };
+            var area = new EncounterAreaFake { Location = 148 };
             EncounterSlot FriendSafariSlot(int d)
             {
                 return new EncounterSlot
@@ -73,7 +73,7 @@ namespace PKHeX.Core
             return area.Slots.ToLookup(s => s.Species);
         }
 
-        private static void MarkG6XYSlots(ref EncounterArea[] Areas)
+        private static void MarkG6XYSlots(ref EncounterArea6XY[] Areas)
         {
             foreach (var area in Areas)
             {
@@ -84,7 +84,7 @@ namespace PKHeX.Core
             ReduceAreasSize(ref Areas);
         }
 
-        private static void MarkG6AOSlots(ref EncounterArea[] Areas)
+        private static void MarkG6AOSlots(ref EncounterArea6AO[] Areas)
         {
             foreach (var area in Areas)
             {
@@ -100,36 +100,15 @@ namespace PKHeX.Core
             ReduceAreasSize(ref Areas);
         }
 
-        private static readonly string[][] TradeXY =
-        {
-            Array.Empty<string>(),               // 0 - None
-            Util.GetStringList("tradexy", "ja"), // 1
-            Util.GetStringList("tradexy", "en"), // 2
-            Util.GetStringList("tradexy", "fr"), // 3
-            Util.GetStringList("tradexy", "it"), // 4
-            Util.GetStringList("tradexy", "de"), // 5
-            Array.Empty<string>(),               // 6 - None
-            Util.GetStringList("tradexy", "es"), // 7
-            Util.GetStringList("tradexy", "ko"), // 8
-        };
-
-        private static readonly string[][] TradeAO =
-        {
-            Array.Empty<string>(),               // 0 - None
-            Util.GetStringList("tradeao", "ja"), // 1
-            Util.GetStringList("tradeao", "en"), // 2
-            Util.GetStringList("tradeao", "fr"), // 3
-            Util.GetStringList("tradeao", "it"), // 4
-            Util.GetStringList("tradeao", "de"), // 5
-            Array.Empty<string>(),               // 6 - None
-            Util.GetStringList("tradeao", "es"), // 7
-            Util.GetStringList("tradeao", "ko"), // 8
-        };
+        private const string tradeXY = "tradexy";
+        private const string tradeAO = "tradeao";
+        private static readonly string[][] TradeXY = Util.GetLanguageStrings8(tradeXY);
+        private static readonly string[][] TradeAO = Util.GetLanguageStrings8(tradeAO);
 
         #region XY Alt Slots
-        private static readonly EncounterArea[] SlotsXYAlt =
+        private static readonly EncounterArea6XY[] SlotsXYAlt =
         {
-            new EncounterArea {
+            new EncounterArea6XY {
                 Location = 104, // Victory Road
                 Slots = new[]
                 {
@@ -143,7 +122,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 227, LevelMin = 57, LevelMax = 59, Form = 0 }, // Skarmory
                     new EncounterSlot { Species = 635, LevelMin = 59, LevelMax = 59, Form = 0 }, // Hydreigon
                 },},
-            new EncounterArea {
+            new EncounterArea6XY {
                 Location = 34, // Route 6
                 Slots = new[]
                 {
@@ -152,7 +131,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 531, LevelMin = 10, LevelMax = 12, Form = 0 }, // Audino
                 },},
 
-            new EncounterArea { Location = 38, // Route 7
+            new EncounterArea6XY { Location = 38, // Route 7
                 Slots = new[]
                 {
                     // Berry Field
@@ -164,7 +143,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 665, LevelMin = 14, LevelMax = 15, Form = 0 }, // Spewpa
                 },},
 
-            new EncounterArea { Location = 88, // Route 18
+            new EncounterArea6XY { Location = 88, // Route 18
                 Slots = new[]
                 {
                     // Rustling Bush
@@ -172,7 +151,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 631, LevelMin = 45, LevelMax = 45, Form = 0 }, // Heatmor
                 },},
 
-            new EncounterArea { Location = 132, // Glittering Cave
+            new EncounterArea6XY { Location = 132, // Glittering Cave
                 Slots = new[]
                 {
                     // Drops
@@ -180,7 +159,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 597, LevelMin = 15, LevelMax = 17, Form = 0 }, // Ferroseed
                 },},
 
-            new EncounterArea { Location = 56, // Reflection Cave
+            new EncounterArea6XY { Location = 56, // Reflection Cave
                 Slots = new[]
                 {
                     // Drops
@@ -188,7 +167,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 597, LevelMin = 21, LevelMax = 23, Form = 0 }, // Ferroseed
                 },},
 
-            new EncounterArea { Location = 140, // Terminus Cave
+            new EncounterArea6XY { Location = 140, // Terminus Cave
                 Slots = new[]
                 {
                     // Drops

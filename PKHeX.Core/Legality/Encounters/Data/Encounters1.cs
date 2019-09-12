@@ -33,13 +33,13 @@ namespace PKHeX.Core
 
         internal static readonly string[] TradeOTG1 = {null, "トレーナー", "Trainer", "Dresseur", "Allenatore", "Trainer", null, "Entrenador", "트레이너"};
 
-        private static EncounterArea[] GetAreas()
+        private static EncounterArea1[] GetAreas()
         {
-            var red_gw = EncounterArea.GetArray1GrassWater(Util.GetBinaryResource("encounter_red.pkl"));
-            var blu_gw = EncounterArea.GetArray1GrassWater(Util.GetBinaryResource("encounter_blue.pkl"));
-            var ylw_gw = EncounterArea.GetArray1GrassWater(Util.GetBinaryResource("encounter_yellow.pkl"));
-            var rb_fish = EncounterArea.GetArray1Fishing(Util.GetBinaryResource("encounter_rb_f.pkl"));
-            var ylw_fish = EncounterArea.GetArray1FishingYellow(Util.GetBinaryResource("encounter_yellow_f.pkl"));
+            var red_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_red.pkl"));
+            var blu_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_blue.pkl"));
+            var ylw_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_yellow.pkl"));
+            var rb_fish = EncounterArea1.GetArray1Fishing(Util.GetBinaryResource("encounter_rb_f.pkl"));
+            var ylw_fish = EncounterArea1.GetArray1FishingYellow(Util.GetBinaryResource("encounter_yellow_f.pkl"));
 
             MarkEncountersVersion(red_gw, GameVersion.RD);
             MarkEncountersVersion(blu_gw, GameVersion.BU);
@@ -200,10 +200,10 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 047, Level = 05, Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
         }).ToArray();
 
-        private static readonly EncounterArea FishOldGood_RBY = new EncounterArea
+        private static readonly EncounterArea1 FishOldGood_RBY = new EncounterArea1
         {
             Location = -1,
-            Slots = new EncounterSlot[]
+            Slots = new[]
             {
                 new EncounterSlot1 {Species = 129, LevelMin = 05, LevelMax = 05, Type = SlotType.Old_Rod,  Rate = -1, Version = GameVersion.RBY }, // Magikarp
                 new EncounterSlot1 {Species = 118, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, Version = GameVersion.RBY }, // Goldeen

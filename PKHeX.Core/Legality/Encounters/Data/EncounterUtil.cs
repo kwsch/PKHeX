@@ -20,43 +20,15 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the <see cref="EncounterArea"/> data for the input game via the program's resource streams.
-        /// </summary>
-        /// <param name="game">Game to fetch for</param>
-        /// <remarks> <see cref="EncounterSlot.SlotNumber"/> data is not marked, as the RNG seed is 64 bits (permitting sufficient randomness).</remarks>
-        /// <returns>Array of areas that are encounterable on the input game.</returns>
-        internal static EncounterArea[] GetEncounterTables(GameVersion game)
-        {
-            switch (game)
-            {
-                case GameVersion.B:  return GetEncounterTables("51", "b");
-                case GameVersion.W:  return GetEncounterTables("51", "w");
-                case GameVersion.B2: return GetEncounterTables("52", "b2");
-                case GameVersion.W2: return GetEncounterTables("52", "w2");
-                case GameVersion.X:  return GetEncounterTables("xy", "x");
-                case GameVersion.Y:  return GetEncounterTables("xy", "y");
-                case GameVersion.AS: return GetEncounterTables("ao", "a");
-                case GameVersion.OR: return GetEncounterTables("ao", "o");
-                case GameVersion.SN: return GetEncounterTables("sm", "sn");
-                case GameVersion.MN: return GetEncounterTables("sm", "mn");
-                case GameVersion.US: return GetEncounterTables("uu", "us");
-                case GameVersion.UM: return GetEncounterTables("uu", "um");
-                case GameVersion.GP: return GetEncounterTables("gg", "gp");
-                case GameVersion.GE: return GetEncounterTables("gg", "ge");
-            }
-            return null; // bad request
-        }
-
-        /// <summary>
         /// Direct fetch for <see cref="EncounterArea"/> data; can also be used to fetch supplementary encounter streams.
         /// </summary>
         /// <param name="ident">Unpacking identification ASCII characters (first two bytes of binary)</param>
         /// <param name="resource">Resource name (will be prefixed with "encounter_"</param>
         /// <returns>Array of encounter areas</returns>
-        internal static EncounterArea[] GetEncounterTables(string ident, string resource)
+        internal static T[] GetEncounterTables<T>(string ident, string resource) where T : EncounterArea32, new()
         {
             byte[] mini = Util.GetBinaryResource($"encounter_{resource}.pkl");
-            return EncounterArea.GetArray(Data.UnpackMini(mini, ident));
+            return EncounterArea.GetArray<T>(Data.UnpackMini(mini, ident));
         }
 
         /// <summary>
@@ -64,12 +36,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="tables">Input encounter areas to combine</param>
         /// <returns>Combined Array of encounter areas. No duplicate location IDs will be present.</returns>
-        internal static EncounterArea[] AddExtraTableSlots(params EncounterArea[][] tables)
+        internal static T[] AddExtraTableSlots<T>(params T[][] tables) where T : EncounterArea, new()
         {
             return tables.SelectMany(s => s).GroupBy(l => l.Location)
                 .Select(t => t.Count() == 1
                     ? t.First() // only one table, just return the area
-                    : new EncounterArea { Location = t.Key, Slots = t.SelectMany(s => s.Slots).ToArray() })
+                    : new T { Location = t.Key, Slots = t.SelectMany(s => s.Slots).ToArray() })
                 .ToArray();
         }
 
@@ -209,11 +181,11 @@ namespace PKHeX.Core
         /// <summary>
         /// Groups areas by location id, raw data has areas with different slots but the same location id.
         /// </summary>
-        /// <remarks>Similar to <see cref="AddExtraTableSlots"/>, this method combines a single array.</remarks>
+        /// <remarks>Similar to <see cref="AddExtraTableSlots{T}"/>, this method combines a single array.</remarks>
         /// <param name="Areas">Ingame encounter data</param>
-        internal static void ReduceAreasSize(ref EncounterArea[] Areas)
+        internal static void ReduceAreasSize<T>(ref T[] Areas) where T : EncounterArea, new()
         {
-            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
+            Areas = Areas.GroupBy(a => a.Location).Select(a => new T
             {
                 Location = a.Key,
                 Slots = a.SelectMany(m => m.Slots).ToArray()
@@ -222,13 +194,13 @@ namespace PKHeX.Core
 
         internal static T[] ConcatAll<T>(params IEnumerable<T>[] arr) => arr.SelectMany(z => z).ToArray();
 
-        internal static void MarkEncounterAreaArray(params EncounterArea[][] areas)
+        internal static void MarkEncounterAreaArray<T>(params T[][] areas) where T : EncounterArea
         {
             foreach (var area in areas)
                 MarkEncounterAreas(area);
         }
 
-        private static void MarkEncounterAreas(params EncounterArea[] areas)
+        private static void MarkEncounterAreas<T>(params T[] areas) where T : EncounterArea
         {
             foreach (var area in areas)
             {

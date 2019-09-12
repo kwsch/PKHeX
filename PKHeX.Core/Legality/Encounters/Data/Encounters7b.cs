@@ -7,10 +7,10 @@ namespace PKHeX.Core
 {
     internal static class Encounters7b
     {
-        internal static readonly EncounterArea[] SlotsGP = GetEncounterTables(GameVersion.GP);
-        internal static readonly EncounterArea[] SlotsGE = GetEncounterTables(GameVersion.GE);
+        internal static readonly EncounterArea7b[] SlotsGP = GetEncounterTables<EncounterArea7b>("gg", "gp");
+        internal static readonly EncounterArea7b[] SlotsGE = GetEncounterTables<EncounterArea7b>("gg", "ge");
         internal static readonly EncounterStatic[] StaticGP, StaticGE;
-        internal static readonly EncounterArea[] SlotsGO_GG = GetGoParkArea();
+        internal static readonly EncounterArea7g[] SlotsGO_GG = GetGoParkArea();
 
         static Encounters7b()
         {
@@ -84,9 +84,9 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Geodude @ Vermilion City, AV rand [0-5)
         };
 
-        private static EncounterArea[] GetGoParkArea()
+        private static EncounterArea7g[] GetGoParkArea()
         {
-            var area = new EncounterArea { Location = 50 };
+            var area = new EncounterArea7g { Location = 50 };
             EncounterSlot GetSlot(int species, int form)
             {
                 return new EncounterSlot

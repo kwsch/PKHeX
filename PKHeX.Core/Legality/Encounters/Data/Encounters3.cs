@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Encounters3Teams;
@@ -11,8 +10,8 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters3
     {
-        internal static readonly EncounterArea[] SlotsR, SlotsS, SlotsE;
-        internal static readonly EncounterArea[] SlotsFR, SlotsLG;
+        internal static readonly EncounterArea3[] SlotsR, SlotsS, SlotsE;
+        internal static readonly EncounterArea3[] SlotsFR, SlotsLG;
         internal static readonly EncounterStatic[] StaticR, StaticS, StaticE;
         internal static readonly EncounterStatic[] StaticFR, StaticLG;
 
@@ -27,8 +26,8 @@ namespace PKHeX.Core
             StaticFR = GetStaticEncounters(Encounter_FRLG, GameVersion.FR);
             StaticLG = GetStaticEncounters(Encounter_FRLG, GameVersion.LG);
 
-            EncounterArea[] get(string resource, string ident)
-                => EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
+            EncounterArea3[] get(string resource, string ident)
+                => EncounterArea3.GetArray3(Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
 
             var R_Slots = get("r", "ru");
             var S_Slots = get("s", "sa");
@@ -80,20 +79,20 @@ namespace PKHeX.Core
             SlotsXD.SetVersion(GameVersion.XD);
         }
 
-        private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
+        private static void MarkG3Slots_FRLG(ref EncounterArea3[] Areas)
         {
             // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
             // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.Where(a => a.Location < 188 || a.Location > 194).GroupBy(a => a.Location).Select(a => new EncounterArea
+            Areas = Areas.Where(a => a.Location < 188 || a.Location > 194).GroupBy(a => a.Location).Select(a => new EncounterArea3
             {
                 Location = a.First().Location,
                 Slots = a.SelectMany(m => m.Slots).ToArray()
             }).ToArray();
         }
 
-        private static void MarkG3SlotsSafariZones(ref EncounterArea[] Areas, int location)
+        private static void MarkG3SlotsSafariZones(ref EncounterArea3[] Areas, int location)
         {
-            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
+            foreach (var Area in Areas.Where(a => a.Location == location))
             {
                 foreach (EncounterSlot Slot in Area.Slots)
                     Slot.Type |= SlotType.Safari;
@@ -269,64 +268,45 @@ namespace PKHeX.Core
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
 
-        private static readonly string[][] TradeRSE =
-        {
-            Array.Empty<string>(),                // 0 - None
-            Util.GetStringList("traderse", "ja"), // 1
-            Util.GetStringList("traderse", "en"), // 2
-            Util.GetStringList("traderse", "fr"), // 3
-            Util.GetStringList("traderse", "it"), // 4
-            Util.GetStringList("traderse", "de"), // 5
-            Array.Empty<string>(),                // 6 - None
-            Util.GetStringList("traderse", "es"), // 7
-        };
-
-        private static readonly string[][] TradeFRLG =
-        {
-            Array.Empty<string>(),                 // 0 - None
-            Util.GetStringList("tradefrlg", "ja"), // 1
-            Util.GetStringList("tradefrlg", "en"), // 2
-            Util.GetStringList("tradefrlg", "fr"), // 3
-            Util.GetStringList("tradefrlg", "it"), // 4
-            Util.GetStringList("tradefrlg", "de"), // 5
-            Array.Empty<string>(),                 // 6 - None
-            Util.GetStringList("tradefrlg", "es"), // 7
-        };
+        private const string tradeRSE = "traderse";
+        private const string tradeFRLG = "tradefrlg";
+        private static readonly string[][] TradeRSE = Util.GetLanguageStrings7(tradeRSE);
+        private static readonly string[][] TradeFRLG = Util.GetLanguageStrings7(tradeFRLG);
 
         #region AltSlots
-        private static readonly EncounterArea[] SlotsRSEAlt =
+        private static readonly EncounterArea3[] SlotsRSEAlt =
         {
             // Swarm can be passed from R/S<->E via mixing records
             // Encounter Percent is a 50% call
-            new EncounterArea {
+            new EncounterArea3 {
                 Location = 17, // Route 102
                 Slots = new[]
                 {
                     new EncounterSlotMoves { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
                     new EncounterSlotMoves { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm, Moves = new[] {117, 106, 073} /* Bide, Harden, Leech Seed */ }, // Seedot (E)
                 },},
-            new EncounterArea {
+            new EncounterArea3 {
                 Location = 29, // Route 114
                 Slots = new[]
                 {
                     new EncounterSlotMoves { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
                     new EncounterSlotMoves { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {106, 074, 267, 073} /* Harden, Growth, Nature Power, Leech Seed */ }, // Nuzleaf (E)
                 },},
-            new EncounterArea {
+            new EncounterArea3 {
                 Location = 31, // Route 116
                 Slots = new[]
                 {
                     new EncounterSlotMoves { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {045, 033} /* Growl, Tackle */ }, // Skitty (R/S)
                     new EncounterSlotMoves { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm, Moves = new[] {045, 033, 039, 213} /* Growl, Tackle, Tail Whip, Attract */ }, // Skitty (E)
                 },},
-            new EncounterArea {
+            new EncounterArea3 {
                 Location = 32, // Route 117
                 Slots = new[]
                 {
                     new EncounterSlotMoves { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
                     new EncounterSlotMoves { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm, Moves = new[] {106, 074, 267, 073} /* Harden, Growth, Nature Power, Leech Seed */ }, // Seedot (E)
                 },},
-            new EncounterArea {
+            new EncounterArea3 {
                 Location = 35, // Route 120
                 Slots = new[]
                 {
@@ -335,7 +315,7 @@ namespace PKHeX.Core
                 },},
 
             // Feebas fishing spot
-            new EncounterArea {
+            new EncounterArea3 {
                 Location = 34, // Route 119
                 Slots = new[]
                 {
@@ -343,7 +323,7 @@ namespace PKHeX.Core
                 },},
         };
 
-        private static readonly EncounterArea[] SlotsFRLGUnown =
+        private static readonly EncounterArea3[] SlotsFRLGUnown =
         {
             GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,26 }), // 188 = Monean Chamber
             GetUnownArea(189, new[] { 02,02,02,03,03,03,07,07,07,20,20,14 }), // 189 = Liptoo Chamber
@@ -354,9 +334,9 @@ namespace PKHeX.Core
             GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,27 }), // 194 = Viapois Chamber
         };
 
-        private static EncounterArea GetUnownArea(int location, IReadOnlyList<int> SlotForms)
+        private static EncounterArea3 GetUnownArea(int location, IReadOnlyList<int> SlotForms)
         {
-            return new EncounterArea
+            return new EncounterArea3
             {
                 Location = location,
                 Slots = SlotForms.Select((_, i) => new EncounterSlot
@@ -603,23 +583,23 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Fateful = true, Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162, Locks = Dragonite }, // Dragonite: Wanderer Miror B. @ Gateon Port
         }.SelectMany(CloneMirorB).ToArray();
 
-        internal static readonly EncounterArea[] SlotsXD =
+        internal static readonly EncounterArea3[] SlotsXD =
         {
-            new EncounterArea { Location = 090, Slots = new[] // Rock
+            new EncounterArea3 { Location = 090, Slots = new[] // Rock
                 {
                     new EncounterSlot {Species = 027, LevelMin = 10, LevelMax = 23, SlotNumber = 0}, // Sandshrew
                     new EncounterSlot {Species = 207, LevelMin = 10, LevelMax = 20, SlotNumber = 1}, // Gligar
                     new EncounterSlot {Species = 328, LevelMin = 10, LevelMax = 20, SlotNumber = 2}, // Trapinch
                 }
             },
-            new EncounterArea { Location = 091, Slots = new[] // Oasis
+            new EncounterArea3 { Location = 091, Slots = new[] // Oasis
                 {
                     new EncounterSlot {Species = 187, LevelMin = 10, LevelMax = 20, SlotNumber = 0}, // Hoppip
                     new EncounterSlot {Species = 231, LevelMin = 10, LevelMax = 20, SlotNumber = 1}, // Phanpy
                     new EncounterSlot {Species = 283, LevelMin = 10, LevelMax = 20, SlotNumber = 2}, // Surskit
                 }
             },
-            new EncounterArea { Location = 092, Slots = new[] // Cave
+            new EncounterArea3 { Location = 092, Slots = new[] // Cave
                 {
                     new EncounterSlot {Species = 041, LevelMin = 10, LevelMax = 21, SlotNumber = 0}, // Zubat
                     new EncounterSlot {Species = 304, LevelMin = 10, LevelMax = 21, SlotNumber = 1}, // Aron

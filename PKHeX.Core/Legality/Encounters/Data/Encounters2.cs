@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters2
     {
-        internal static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
+        internal static readonly EncounterArea2[] SlotsGSC, SlotsGS, SlotsC;
         internal static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
         private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
 
@@ -39,12 +39,12 @@ namespace PKHeX.Core
             TradeGift_GSC.SetVersion(GameVersion.GSC);
         }
 
-        private static EncounterArea[] GetTables2(GameVersion Version)
+        private static EncounterArea2[] GetTables2(GameVersion Version)
         {
             // Fishing
-            var f = EncounterArea.GetArray2Fishing(Util.GetBinaryResource("encounter_gsc_f.pkl"));
+            var f = EncounterArea2.GetArray2Fishing(Util.GetBinaryResource("encounter_gsc_f.pkl"));
 
-            var Slots = Array.Empty<EncounterArea>();
+            var Slots = Array.Empty<EncounterArea2>();
             if (Version.Contains(GameVersion.GS))
                 Slots = GetSlots_GS(f);
             if (Version.Contains(GameVersion.C))
@@ -53,14 +53,14 @@ namespace PKHeX.Core
             return Slots;
         }
 
-        private static EncounterArea[] GetSlots_GS(EncounterArea[] f)
+        private static EncounterArea2[] GetSlots_GS(EncounterArea2[] f)
         {
             // Grass/Water
-            var g = EncounterArea.GetArray2GrassWater(Util.GetBinaryResource("encounter_gold.pkl"));
-            var s = EncounterArea.GetArray2GrassWater(Util.GetBinaryResource("encounter_silver.pkl"));
+            var g = EncounterArea2.GetArray2GrassWater(Util.GetBinaryResource("encounter_gold.pkl"));
+            var s = EncounterArea2.GetArray2GrassWater(Util.GetBinaryResource("encounter_silver.pkl"));
             // Headbutt/Rock Smash
-            var h_g = EncounterArea.GetArray2Headbutt(Util.GetBinaryResource("encounter_gold_h.pkl"));
-            var h_s = EncounterArea.GetArray2Headbutt(Util.GetBinaryResource("encounter_silver_h.pkl"));
+            var h_g = EncounterArea2.GetArray2Headbutt(Util.GetBinaryResource("encounter_gold_h.pkl"));
+            var h_s = EncounterArea2.GetArray2Headbutt(Util.GetBinaryResource("encounter_silver_h.pkl"));
             var safari_gs = EncounterSafari_GSC;
             var bcc_gs = EncounterBCC_GSC;
 
@@ -75,12 +75,12 @@ namespace PKHeX.Core
             return AddExtraTableSlots(g, s, h_g, h_s, f, bcc_gs, safari_gs);
         }
 
-        private static EncounterArea[] GetSlots_C(EncounterArea[] f)
+        private static EncounterArea2[] GetSlots_C(EncounterArea2[] f)
         {
             // Grass/Water
-            var c = EncounterArea.GetArray2GrassWater(Util.GetBinaryResource("encounter_crystal.pkl"));
+            var c = EncounterArea2.GetArray2GrassWater(Util.GetBinaryResource("encounter_crystal.pkl"));
             // Headbutt/Rock Smash
-            var h_c = EncounterArea.GetArray2Headbutt(Util.GetBinaryResource("encounter_crystal_h.pkl"));
+            var h_c = EncounterArea2.GetArray2Headbutt(Util.GetBinaryResource("encounter_crystal_h.pkl"));
             var safari_c = EncounterSafari_GSC;
             var bcc_c = EncounterBCC_GSC;
 
@@ -101,7 +101,7 @@ namespace PKHeX.Core
             25, 26, 34, 37, 39, 43, 45,
         };
 
-        private static readonly EncounterArea[] EncounterBCC_GSC = { new EncounterArea {
+        private static readonly EncounterArea2[] EncounterBCC_GSC = { new EncounterArea2 {
             Location = 19,
             Slots = new EncounterSlot[]
             {
@@ -118,7 +118,7 @@ namespace PKHeX.Core
             }
         }};
 
-        private static readonly EncounterArea[] EncounterSafari_GSC = { new EncounterArea {
+        private static readonly EncounterArea2[] EncounterSafari_GSC = { new EncounterArea2 {
             Location = 81,
             Slots = new EncounterSlot[]
             {
@@ -266,18 +266,8 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 213, Level = 15, TID = 00518 }, // Shuckle @ Cianwood City for free
         };
 
-        private static readonly string[][] TradeGift_GSC_OTs =
-        {
-            Array.Empty<string>(),                // 0 - None
-            Util.GetStringList("tradegsc", "ja"), // 1
-            Util.GetStringList("tradegsc", "en"), // 2
-            Util.GetStringList("tradegsc", "fr"), // 3
-            Util.GetStringList("tradegsc", "it"), // 4
-            Util.GetStringList("tradegsc", "de"), // 5
-            Array.Empty<string>(),                // 6 - None
-            Util.GetStringList("tradegsc", "es"), // 7
-            Util.GetStringList("tradegsc", "ko"), // 8
-        };
+        private const string tradeGSC = "tradegsc";
+        private static readonly string[][] TradeGift_GSC_OTs = Util.GetLanguageStrings8(tradeGSC);
 
         internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
         {
