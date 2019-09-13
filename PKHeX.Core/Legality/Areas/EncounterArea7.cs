@@ -2,6 +2,7 @@
 
 namespace PKHeX.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// <see cref="GameVersion.Gen7"/> encounter area
     /// </summary>

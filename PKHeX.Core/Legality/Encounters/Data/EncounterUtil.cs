@@ -28,7 +28,7 @@ namespace PKHeX.Core
         internal static T[] GetEncounterTables<T>(string ident, string resource) where T : EncounterArea32, new()
         {
             byte[] mini = Util.GetBinaryResource($"encounter_{resource}.pkl");
-            return EncounterArea.GetArray<T>(Data.UnpackMini(mini, ident));
+            return EncounterArea32.GetArray<T>(Data.UnpackMini(mini, ident));
         }
 
         /// <summary>

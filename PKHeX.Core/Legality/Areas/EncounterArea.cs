@@ -13,22 +13,17 @@ namespace PKHeX.Core
         public EncounterSlot[] Slots;
 
         /// <summary>
-        /// Creates an empty encounter area ready for initialization.
-        /// </summary>
-
-        /// <summary>
-        /// Gets the encounter areas for species with same level range and same slottype at same location
+        /// Gets the encounter areas for species with same level range and same slot type at same location
         /// </summary>
         /// <param name="species">List of species that exist in the Area.</param>
-        /// <param name="lvls">Paired LevelMins and LevelMaxs of the encounter slots.</param>
+        /// <param name="lvls">Paired min and max levels of the encounter slots.</param>
         /// <param name="location">Location index of the encounter area.</param>
         /// <param name="t">Encounter slot type of the encounter area.</param>
-        /// <returns></returns>
+        /// <returns>Encounter area with slots</returns>
         public static T[] GetSimpleEncounterArea<T>(int[] species, int[] lvls, int location, SlotType t) where T : EncounterArea, new()
         {
-            // levels data not paired
-            if ((lvls.Length & 1) != 0)
-                return new[] { new T { Location = location, Slots = Array.Empty<EncounterSlot>() } };
+            if ((lvls.Length & 1) != 0) // levels data not paired; expect multiple of 2
+                throw new ArgumentException(nameof(lvls));
 
             var count = species.Length * (lvls.Length / 2);
             var slots = new EncounterSlot[count];
@@ -47,22 +42,6 @@ namespace PKHeX.Core
                 }
             }
             return new[] { new T { Location = location, Slots = slots } };
-        }
-
-        /// <summary>
-        /// Gets an array of areas from an array of raw area data
-        /// </summary>
-        /// <param name="entries">Simplified raw format of an Area</param>
-        /// <returns>Array of areas</returns>
-        public static T[] GetArray<T>(byte[][] entries) where T : EncounterArea32, new()
-        {
-            T[] data = new T[entries.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                var loc = data[i] = new T();
-                loc.LoadSlots(entries[i]);
-            }
-            return data;
         }
 
         /// <summary>

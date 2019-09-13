@@ -11,7 +11,23 @@ namespace PKHeX.Core
     /// </remarks>
     public abstract class EncounterArea32 : EncounterArea
     {
-        protected internal void LoadSlots(byte[] areaData)
+        /// <summary>
+        /// Gets an array of areas from an array of raw area data
+        /// </summary>
+        /// <param name="entries">Simplified raw format of an Area</param>
+        /// <returns>Array of areas</returns>
+        public static T[] GetArray<T>(byte[][] entries) where T : EncounterArea32, new()
+        {
+            T[] data = new T[entries.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                var loc = data[i] = new T();
+                loc.LoadSlots(entries[i]);
+            }
+            return data;
+        }
+
+        private void LoadSlots(byte[] areaData)
         {
             var count = (areaData.Length - 2) / 4;
             Location = BitConverter.ToUInt16(areaData, 0);

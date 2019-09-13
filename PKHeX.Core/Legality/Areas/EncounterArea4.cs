@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <inheritdoc />
     /// <summary>
     /// <see cref="GameVersion.Gen4"/> encounter area
     /// </summary>

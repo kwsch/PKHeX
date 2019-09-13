@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// <see cref="GameVersion.DPPt"/> encounter area
+    /// </summary>
     public sealed class EncounterArea4DPPt : EncounterArea4
     {
         /// <summary>
