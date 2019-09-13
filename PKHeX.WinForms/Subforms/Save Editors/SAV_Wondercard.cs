@@ -250,7 +250,7 @@ namespace PKHeX.WinForms
                 return;
 
             if (LB_Received.Items.Count > 0)
-                LB_Received.Items.Remove(LB_Received.Items[LB_Received.SelectedIndex]);
+                LB_Received.Items.Remove(LB_Received.SelectedItem);
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
         }
