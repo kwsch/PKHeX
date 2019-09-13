@@ -11,6 +11,10 @@ namespace PKHeX.Core
         public int Form { get; set; }
         public int LevelMin { get; set; }
         public int LevelMax { get; set; }
+
+        public bool IsLevelWithinRange(int lvl) => LevelMin <= lvl && lvl <= LevelMax;
+        public bool IsLevelWithinRange(int min, int max) => LevelMin <= min && max <= LevelMax;
+
         public SlotType Type { get; set; } = SlotType.Any;
         public EncounterType TypeEncounter { get; set; } = EncounterType.None;
         public int SlotNumber { get; set; }

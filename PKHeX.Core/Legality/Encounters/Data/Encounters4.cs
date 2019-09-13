@@ -10,7 +10,8 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters4
     {
-        internal static readonly EncounterArea4[] SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS;
+        internal static readonly EncounterArea4DPPt[] SlotsD, SlotsP, SlotsPt;
+        internal static readonly EncounterArea4HGSS[] SlotsHG, SlotsSS;
         internal static readonly EncounterStatic[] StaticD, StaticP, StaticPt, StaticHG, StaticSS;
 
         static Encounters4()
@@ -26,16 +27,16 @@ namespace PKHeX.Core
             byte[][] get(string resource, string ident)
                 => Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
-            var D_Slots = EncounterArea4.GetArray4DPPt(get("d", "da"));
-            var P_Slots = EncounterArea4.GetArray4DPPt(get("p", "pe"));
-            var Pt_Slots = EncounterArea4.GetArray4DPPt(get("pt", "pt"), true);
-            var HG_Slots = EncounterArea4.GetArray4HGSS(get("hg", "hg"));
-            var SS_Slots = EncounterArea4.GetArray4HGSS(get("ss", "ss"));
+            var D_Slots = EncounterArea4DPPt.GetArray4DPPt(get("d", "da"));
+            var P_Slots = EncounterArea4DPPt.GetArray4DPPt(get("p", "pe"));
+            var Pt_Slots = EncounterArea4DPPt.GetArray4DPPt(get("pt", "pt"), true);
+            var HG_Slots = EncounterArea4HGSS.GetArray4HGSS(get("hg", "hg"));
+            var SS_Slots = EncounterArea4HGSS.GetArray4HGSS(get("ss", "ss"));
 
             var DP_Feebas = GetFeebasArea(D_Slots[10]);
             var Pt_Feebas = GetFeebasArea(Pt_Slots[10]);
-            var HG_Headbutt_Slots = EncounterArea4.GetArray4HGSS_Headbutt(get("hb_hg", "hg"));
-            var SS_Headbutt_Slots = EncounterArea4.GetArray4HGSS_Headbutt(get("hb_ss", "ss"));
+            var HG_Headbutt_Slots = EncounterArea4HGSS.GetArray4HGSS_Headbutt(get("hb_hg", "hg"));
+            var SS_Headbutt_Slots = EncounterArea4HGSS.GetArray4HGSS_Headbutt(get("hb_ss", "ss"));
 
             var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
             var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
@@ -58,9 +59,8 @@ namespace PKHeX.Core
             MarkG4SlotsGreatMarsh(P_Slots, 52);
             MarkG4SlotsGreatMarsh(Pt_Slots, 52);
 
-            MarkEncounterAreaArray(D_HoneyTrees_Slots, P_HoneyTrees_Slots, Pt_HoneyTrees_Slots,
-                DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Feebas, Pt_Feebas,
-                HG_Headbutt_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
+            MarkEncounterAreaArray(D_HoneyTrees_Slots, P_HoneyTrees_Slots, Pt_HoneyTrees_Slots, DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Feebas, Pt_Feebas);
+            MarkEncounterAreaArray(HG_Headbutt_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
             SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Feebas);
             SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Feebas);
@@ -98,7 +98,7 @@ namespace PKHeX.Core
             TradeGift_HGSS.SetVersion(GameVersion.HGSS);
         }
 
-        private static EncounterArea4[] GetFeebasArea(EncounterArea4 template)
+        private static EncounterArea4DPPt[] GetFeebasArea(EncounterArea4DPPt template)
         {
             Debug.Assert(template.Location == 50); // Mt Coronet
             Debug.Assert(template.Slots.Last().Species == 340); // Whiscash
@@ -110,7 +110,7 @@ namespace PKHeX.Core
                 s.TypeEncounter = EncounterType.Surfing_Fishing;
             }
 
-            var area = new EncounterArea4
+            var area = new EncounterArea4DPPt
             {
                 Location = template.Location,
                 Slots = slots,
@@ -1063,17 +1063,17 @@ namespace PKHeX.Core
             52, 202
         };
 
-        private static readonly EncounterArea4[] DPPt_Unown =
+        private static readonly EncounterArea4DPPt[] DPPt_Unown =
         {
-            new EncounterArea4 {
+            new EncounterArea4DPPt {
                 Location = 53, // Solaceon Ruins
                 Slots = new int[25].Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
         };
 
-        private static readonly EncounterArea4 SlotsHGSS_BCC =
+        private static readonly EncounterArea4HGSS SlotsHGSS_BCC =
 
-            new EncounterArea4
+            new EncounterArea4HGSS
             {
                 // Source http://bulbapedia.bulbagarden.net/wiki/Bug-Catching_Contest#Generation_IV
                 Location = 207, // National Park Catching Contest
@@ -1463,7 +1463,7 @@ namespace PKHeX.Core
             new EncounterSlot { Species = 418, LevelMin = 44, LevelMax = 45, Type = SlotType.Grass_Safari }, // Buizel
         };
 
-        private static readonly EncounterArea4 SlotsHGSS_SafariZone = new EncounterArea4
+        private static readonly EncounterArea4HGSS SlotsHGSS_SafariZone = new EncounterArea4HGSS
         {
             // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon
             // Supplement http://www.psypokes.com/hgss/safari_areas.php
@@ -1483,23 +1483,23 @@ namespace PKHeX.Core
                 SAFARIZONE_WETLAND)
         };
 
-        private static readonly EncounterArea4[] SlotsHGSSAlt =
+        private static readonly EncounterArea4HGSS[] SlotsHGSSAlt =
         {
             SlotsHGSS_BCC,
-            new EncounterArea4 {
+            new EncounterArea4HGSS {
                 Location = 209, // Ruins of Alph
                 Slots = new int[25].Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
             SlotsHGSS_SafariZone,
             //Some edge cases
-            new EncounterArea4
+            new EncounterArea4HGSS
             {
                 Location = 219, // Mt. Silver Cave 1F
                 Slots = new[]{new EncounterSlot { Species = 130, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod },}, // Gyarados at night
             },
         };
 
-        private static readonly EncounterArea4 SlotsPt_HoneyTree = new EncounterArea4
+        private static readonly EncounterArea4DPPt SlotsPt_HoneyTree = new EncounterArea4DPPt
         {
             Slots = new[]
             {
@@ -1513,7 +1513,7 @@ namespace PKHeX.Core
             },
         };
 
-        private static readonly EncounterArea4 SlotsD_HoneyTree = new EncounterArea4
+        private static readonly EncounterArea4DPPt SlotsD_HoneyTree = new EncounterArea4DPPt
         {
             Slots = SlotsPt_HoneyTree.Slots.Concat(new[]
             {
@@ -1521,7 +1521,7 @@ namespace PKHeX.Core
             }).ToArray()
         };
 
-        private static readonly EncounterArea4 SlotsP_HoneyTree = new EncounterArea4
+        private static readonly EncounterArea4DPPt SlotsP_HoneyTree = new EncounterArea4DPPt
         {
             Slots = SlotsPt_HoneyTree.Slots.Concat(new[]
             {
@@ -1540,7 +1540,7 @@ namespace PKHeX.Core
             046, 102, 115, 193, 285, 316, 452, 454 // Post-National Pokédex
         };
 
-        private static readonly EncounterArea4[] DP_GreatMarshAlt = EncounterArea.GetSimpleEncounterArea<EncounterArea4>(DP_GreatMarshAlt_Species, new[] { 22, 22, 24, 24, 26, 26 }, 52, SlotType.Grass_Safari);
+        private static readonly EncounterArea4DPPt[] DP_GreatMarshAlt = EncounterArea.GetSimpleEncounterArea<EncounterArea4DPPt>(DP_GreatMarshAlt_Species, new[] { 22, 22, 24, 24, 26, 26 }, 52, SlotType.Grass_Safari);
 
         private static readonly int[] Pt_GreatMarshAlt_Species =
         {
@@ -1549,7 +1549,7 @@ namespace PKHeX.Core
             046,102,115,285,316,352,452,454 // Post-National Pokédex
         };
 
-        private static readonly EncounterArea4[] Pt_GreatMarshAlt = EncounterArea.GetSimpleEncounterArea<EncounterArea4>(Pt_GreatMarshAlt_Species, new[] { 27, 30 }, 52, SlotType.Grass_Safari);
+        private static readonly EncounterArea4DPPt[] Pt_GreatMarshAlt = EncounterArea.GetSimpleEncounterArea<EncounterArea4DPPt>(Pt_GreatMarshAlt_Species, new[] { 27, 30 }, 52, SlotType.Grass_Safari);
 
         private static readonly int[] Shellos_EastSeaLocation_DP =
         {
@@ -1602,53 +1602,53 @@ namespace PKHeX.Core
             58, // Floaroma Meadow
         };
 
-        private static readonly EncounterArea4[] SlotsHGSS_Swarm =
+        private static readonly EncounterArea4HGSS[] SlotsHGSS_Swarm =
         {
-            new EncounterArea4 {Location = 143, Slots = new[]{new EncounterSlot {Species = 278, Type = SlotType.Surf },},}, // Wingull @ Vermillion City
-            new EncounterArea4 {Location = 149, Slots = new[]{new EncounterSlot {Species = 261, Type = SlotType.Grass },},}, // Poochyena @ Route 1
-            new EncounterArea4 {Location = 161, Slots = new[]{new EncounterSlot {Species = 113, Type = SlotType.Grass },},}, // Chansey @ Route 13
-            new EncounterArea4 {Location = 167, Slots = new[]{new EncounterSlot {Species = 366, Type = SlotType.Surf },},}, // Clamperl @ Route 19
-            new EncounterArea4 {Location = 173, Slots = new[]{new EncounterSlot {Species = 427, Type = SlotType.Grass },},}, // Buneary @ Route 25
-            new EncounterArea4 {Location = 175, Slots = new[]{new EncounterSlot {Species = 370, Type = SlotType.Surf },},}, // Luvdisc @ Route 27
-            new EncounterArea4 {Location = 182, Slots = new[]{new EncounterSlot {Species = 280, Type = SlotType.Grass },},}, // Ralts @ Route 34
-            new EncounterArea4 {Location = 183, Slots = new[]{new EncounterSlot {Species = 193, Type = SlotType.Grass },},}, // Yanma @ Route 35
-            new EncounterArea4 {Location = 186, Slots = new[]{new EncounterSlot {Species = 209, Type = SlotType.Grass },},}, // Snubbull @ Route 38
-            new EncounterArea4 {Location = 193, Slots = new[]{new EncounterSlot {Species = 333, Type = SlotType.Grass },},}, // Swablu @ Route 45
-            new EncounterArea4 {Location = 195, Slots = new[]{new EncounterSlot {Species = 132, Type = SlotType.Grass },},}, // Ditto @ Route 47
-            new EncounterArea4 {Location = 216, Slots = new[]{new EncounterSlot {Species = 183, Type = SlotType.Grass },},}, // Marill @ Mt. Mortar
-            new EncounterArea4 {Location = 220, Slots = new[]{new EncounterSlot {Species = 206, Type = SlotType.Grass },},}, // Dunsparce @ Dark Cave
-            new EncounterArea4 {Location = 224, Slots = new[]{new EncounterSlot {Species = 401, Type = SlotType.Grass },},}, // Kricketot @ Viridian Forest
+            new EncounterArea4HGSS {Location = 143, Slots = new[]{new EncounterSlot {Species = 278, Type = SlotType.Surf },},}, // Wingull @ Vermillion City
+            new EncounterArea4HGSS {Location = 149, Slots = new[]{new EncounterSlot {Species = 261, Type = SlotType.Grass },},}, // Poochyena @ Route 1
+            new EncounterArea4HGSS {Location = 161, Slots = new[]{new EncounterSlot {Species = 113, Type = SlotType.Grass },},}, // Chansey @ Route 13
+            new EncounterArea4HGSS {Location = 167, Slots = new[]{new EncounterSlot {Species = 366, Type = SlotType.Surf },},}, // Clamperl @ Route 19
+            new EncounterArea4HGSS {Location = 173, Slots = new[]{new EncounterSlot {Species = 427, Type = SlotType.Grass },},}, // Buneary @ Route 25
+            new EncounterArea4HGSS {Location = 175, Slots = new[]{new EncounterSlot {Species = 370, Type = SlotType.Surf },},}, // Luvdisc @ Route 27
+            new EncounterArea4HGSS {Location = 182, Slots = new[]{new EncounterSlot {Species = 280, Type = SlotType.Grass },},}, // Ralts @ Route 34
+            new EncounterArea4HGSS {Location = 183, Slots = new[]{new EncounterSlot {Species = 193, Type = SlotType.Grass },},}, // Yanma @ Route 35
+            new EncounterArea4HGSS {Location = 186, Slots = new[]{new EncounterSlot {Species = 209, Type = SlotType.Grass },},}, // Snubbull @ Route 38
+            new EncounterArea4HGSS {Location = 193, Slots = new[]{new EncounterSlot {Species = 333, Type = SlotType.Grass },},}, // Swablu @ Route 45
+            new EncounterArea4HGSS {Location = 195, Slots = new[]{new EncounterSlot {Species = 132, Type = SlotType.Grass },},}, // Ditto @ Route 47
+            new EncounterArea4HGSS {Location = 216, Slots = new[]{new EncounterSlot {Species = 183, Type = SlotType.Grass },},}, // Marill @ Mt. Mortar
+            new EncounterArea4HGSS {Location = 220, Slots = new[]{new EncounterSlot {Species = 206, Type = SlotType.Grass },},}, // Dunsparce @ Dark Cave
+            new EncounterArea4HGSS {Location = 224, Slots = new[]{new EncounterSlot {Species = 401, Type = SlotType.Grass },},}, // Kricketot @ Viridian Forest
 
-            new EncounterArea4 {Location = 128, Slots = new[]{ // Whiscash @ Violet City
+            new EncounterArea4HGSS {Location = 128, Slots = new[]{ // Whiscash @ Violet City
                 new EncounterSlot {Species = 340, Type = SlotType.Old_Rod },
                 new EncounterSlot {Species = 340, Type = SlotType.Good_Rod },
                 new EncounterSlot {Species = 340, Type = SlotType.Super_Rod },
             },},
-            new EncounterArea4 {Location = 160, Slots = new[]{ // Relicanth @ Route 12
+            new EncounterArea4HGSS {Location = 160, Slots = new[]{ // Relicanth @ Route 12
                 new EncounterSlot {Species = 369, Type = SlotType.Old_Rod },
                 new EncounterSlot {Species = 369, Type = SlotType.Good_Rod },
                 new EncounterSlot {Species = 369, Type = SlotType.Super_Rod },
             },},
-            new EncounterArea4 {Location = 180, Slots = new[]{ // Qwilfish @ Route 32
+            new EncounterArea4HGSS {Location = 180, Slots = new[]{ // Qwilfish @ Route 32
                 new EncounterSlot {Species = 211, Type = SlotType.Old_Rod },
                 new EncounterSlot {Species = 211, Type = SlotType.Good_Rod },
                 new EncounterSlot {Species = 211, Type = SlotType.Super_Rod },
             },},
-            new EncounterArea4 {Location = 192, Slots = new[]{ // Remoraid @ Route 44
+            new EncounterArea4HGSS {Location = 192, Slots = new[]{ // Remoraid @ Route 44
                 new EncounterSlot {Species = 223, Type = SlotType.Old_Rod },
                 new EncounterSlot {Species = 223, Type = SlotType.Good_Rod },
                 new EncounterSlot {Species = 223, Type = SlotType.Super_Rod },
             },},
         };
 
-        private static readonly EncounterArea4[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(new[] {
-            new EncounterArea4 {Location = 151, Slots = new[]{new EncounterSlot {Species = 343, Type = SlotType.Grass },},}, // Baltoy @ Route 3
-            new EncounterArea4 {Location = 157, Slots = new[]{new EncounterSlot {Species = 302, Type = SlotType.Grass },},}, // Sableye @ Route 9
+        private static readonly EncounterArea4HGSS[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(new[] {
+            new EncounterArea4HGSS {Location = 151, Slots = new[]{new EncounterSlot {Species = 343, Type = SlotType.Grass },},}, // Baltoy @ Route 3
+            new EncounterArea4HGSS {Location = 157, Slots = new[]{new EncounterSlot {Species = 302, Type = SlotType.Grass },},}, // Sableye @ Route 9
         }).ToArray();
 
-        private static readonly EncounterArea4[] SlotsSS_Swarm = SlotsHGSS_Swarm.Concat(new[] {
-            new EncounterArea4 {Location = 151, Slots = new[]{new EncounterSlot {Species = 316, Type = SlotType.Grass },},}, // Gulpin @ Route 3
-            new EncounterArea4 {Location = 157, Slots = new[]{new EncounterSlot {Species = 303, Type = SlotType.Grass },},}, // Mawile @ Route 9
+        private static readonly EncounterArea4HGSS[] SlotsSS_Swarm = SlotsHGSS_Swarm.Concat(new[] {
+            new EncounterArea4HGSS {Location = 151, Slots = new[]{new EncounterSlot {Species = 316, Type = SlotType.Grass },},}, // Gulpin @ Route 3
+            new EncounterArea4HGSS {Location = 157, Slots = new[]{new EncounterSlot {Species = 303, Type = SlotType.Grass },},}, // Mawile @ Route 9
         }).ToArray();
 
         #endregion
