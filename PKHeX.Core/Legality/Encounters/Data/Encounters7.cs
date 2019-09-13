@@ -402,7 +402,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
         };
 
-        private const string tradeSM = "tradeusum";
+        private const string tradeSM = "tradesm";
         private const string tradeUSUM = "tradeusum";
         private static readonly string[][] TradeSM = Util.GetLanguageStrings10(tradeSM);
         private static readonly string[][] TradeUSUM = Util.GetLanguageStrings10(tradeUSUM);
