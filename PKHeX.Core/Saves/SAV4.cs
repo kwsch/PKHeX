@@ -17,6 +17,8 @@ namespace PKHeX.Core
         private readonly int GeneralBlockPosition; // Small Block
         private readonly int StorageBlockPosition; // Big Block
 
+        protected override byte[] StorageData => Storage;
+
         protected SAV4()
         {
             Data = BAK = Array.Empty<byte>();

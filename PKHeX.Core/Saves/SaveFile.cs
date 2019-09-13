@@ -591,7 +591,7 @@ namespace PKHeX.Core
 
         public int NextOpenBoxSlot(int lastKnownOccupied = -1)
         {
-            var storage = Data;
+            var storage = StorageData;
             int count = BoxSlotCount * BoxCount;
             for (int i = lastKnownOccupied + 1; i < count; i++)
             {
@@ -652,6 +652,8 @@ namespace PKHeX.Core
         #endregion
 
         #region Storage Manipulations
+        protected virtual byte[] StorageData => Data;
+
         public bool MoveBox(int box, int insertBeforeBox)
         {
             if (box == insertBeforeBox) // no movement required
@@ -659,7 +661,7 @@ namespace PKHeX.Core
             if (box >= BoxCount || insertBeforeBox >= BoxCount) // invalid box positions
                 return false;
 
-            MoveBox(box, insertBeforeBox, Data);
+            MoveBox(box, insertBeforeBox, StorageData);
             return true;
         }
 
@@ -707,7 +709,7 @@ namespace PKHeX.Core
             if (!IsBoxAbleToMove(box1) || !IsBoxAbleToMove(box2))
                 return false;
 
-            SwapBox(box1, box2, Data);
+            SwapBox(box1, box2, StorageData);
             return true;
         }
 
@@ -785,7 +787,7 @@ namespace PKHeX.Core
         /// <param name="storedCount">Count of actual <see cref="PKM"/> stored.</param>
         /// <param name="slotPointers">Important slot pointers that need to be repointed if a slot moves.</param>
         /// <returns>True if <see cref="BoxData"/> was updated, false if no update done.</returns>
-        public bool CompressStorage(out int storedCount, params IList<int>[] slotPointers) => this.CompressStorage(Data, out storedCount, slotPointers);
+        public bool CompressStorage(out int storedCount, params IList<int>[] slotPointers) => this.CompressStorage(StorageData, out storedCount, slotPointers);
 
         /// <summary>
         /// Removes all <see cref="PKM"/> present within the range specified by <see cref="BoxStart"/> and <see cref="BoxEnd"/> if the provied <see cref="deleteCriteria"/> is satisfied.
@@ -796,7 +798,7 @@ namespace PKHeX.Core
         /// <returns>Count of deleted <see cref="PKM"/> slots.</returns>
         public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
         {
-            var storage = Data;
+            var storage = StorageData;
 
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
@@ -819,7 +821,7 @@ namespace PKHeX.Core
                             continue;
                     }
 
-                    SetData(blank, ofs);
+                    SetData(storage, blank, ofs);
                     ++deleted;
                 }
             }
@@ -835,7 +837,7 @@ namespace PKHeX.Core
         /// <returns>Count of modified <see cref="PKM"/> slots.</returns>
         public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
-            var storage = Data;
+            var storage = StorageData;
 
             if (action == null)
                 throw new ArgumentException(nameof(action));
