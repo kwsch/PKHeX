@@ -93,7 +93,7 @@ namespace PKHeX.Core
                 return null;
             }
 
-            int index = typeIndex -1 >= Props.Length ? 0 : typeIndex - 1; // All vs Specific
+            int index = typeIndex - 1 >= Props.Length ? 0 : typeIndex - 1; // All vs Specific
             var pr = Props[index];
             if (!pr.TryGetValue(propertyName, out var info))
                 return null;

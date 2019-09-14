@@ -40,13 +40,13 @@ namespace PKHeX.Core
             if (HaX)
                 return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
 
-            // Games cannot acquire every Species that exists. Some can only acquire a subset.
+            // Some games cannot acquire every Species that exists. Some can only acquire a subset.
             switch (sav)
             {
                 case SAV7b _: // LGPE: Kanto 151, Meltan/Melmetal
-                    return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID
-                           && (s.Value <= (int)Core.Species.Mew || s.Value >= (int)Core.Species.Meltan));
-
+                    return source.SpeciesDataSource.Where(s => s.Value <= (int)Core.Species.Mew
+                                                            || s.Value == (int)Core.Species.Meltan
+                                                            || s.Value == (int)Core.Species.Melmetal);
                 default:
                     return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
             }
