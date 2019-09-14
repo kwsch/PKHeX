@@ -7,7 +7,10 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 abstract <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV4 : DualBufferSAV
+    /// <remarks>
+    /// Storage data is stored in one contiguous block, and the remaining data is stored in another block.
+    /// </remarks>
+    public abstract class SAV4 : SaveFile
     {
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
@@ -17,7 +20,26 @@ namespace PKHeX.Core
         private readonly int GeneralBlockPosition; // Small Block
         private readonly int StorageBlockPosition; // Big Block
 
+        // SaveData is chunked into two pieces.
+        protected readonly byte[] Storage;
+        public readonly byte[] General;
         protected override byte[] StorageData => Storage;
+
+        protected abstract int StorageSize { get; }
+        protected abstract int GeneralSize { get; }
+        protected abstract int StorageStart { get; }
+
+        /// <inheritdoc />
+        public override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
+
+        /// <inheritdoc />
+        public override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
+
+        public override PKM GetPartySlot(int offset) => GetDecryptedPKM(General.Slice(offset, SIZE_PARTY));
+
+        protected override void WritePartySlot(PKM pkm, int offset) => SetData(General, pkm.EncryptedPartyData, offset);
+        protected override void WriteStoredSlot(PKM pkm, int offset) => SetData(General, pkm.EncryptedBoxData, offset);
+        protected override void WriteBoxSlot(PKM pkm, int offset) => SetData(Storage, pkm.EncryptedBoxData, offset);
 
         protected SAV4()
         {
