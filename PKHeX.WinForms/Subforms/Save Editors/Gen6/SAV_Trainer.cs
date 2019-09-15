@@ -53,7 +53,7 @@ namespace PKHeX.WinForms
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
             if (!(SAV is SAV6XY))
                 TC_Editor.TabPages.Remove(Tab_Appearance);
-            if (SAV is SAV6AO)
+            if (SAV is SAV6AODemo)
                 TC_Editor.TabPages.Remove(Tab_Multiplayer);
             if (SAV is SAV6AODemo)
                 TC_Editor.TabPages.Remove(Tab_Maison);
