@@ -53,10 +53,12 @@ namespace PKHeX.WinForms
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
             if (!(SAV is SAV6XY))
                 TC_Editor.TabPages.Remove(Tab_Appearance);
+
             if (SAV is SAV6AODemo)
+            {
                 TC_Editor.TabPages.Remove(Tab_Multiplayer);
-            if (SAV is SAV6AODemo)
                 TC_Editor.TabPages.Remove(Tab_Maison);
+            }
 
             GetComboBoxes();
             GetTextBoxes();
@@ -68,7 +70,7 @@ namespace PKHeX.WinForms
             CHK_MegaRayquazaUnlocked.Checked = status.IsMegaRayquazaUnlocked;
         }
 
-        private readonly bool editing = true;
+        private readonly bool editing;
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
@@ -217,11 +219,13 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            var epoch = new DateTime(2000, 1, 1);
-            CAL_AdventureStartDate.Value = epoch.AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = epoch.AddSeconds(SAV.SecondsToStart % 86400);
-            CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
+            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            CAL_AdventureStartDate.Value = date;
+            CAL_AdventureStartTime.Value = time;
+
+            Util.GetDateTime2000(SAV.SecondsToStart, out date, out time);
+            CAL_HoFDate.Value = date;
+            CAL_HoFTime.Value = time;
         }
 
         private void Save()
@@ -295,15 +299,8 @@ namespace PKHeX.WinForms
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
 
-            uint seconds = (uint)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            seconds -= seconds%86400;
-            seconds += (uint)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            SAV.SecondsToStart = seconds;
-
-            uint fame = (uint)(CAL_HoFDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            fame -= fame % 86400;
-            fame += (uint)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            SAV.SecondsToFame = fame;
+            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
@@ -360,8 +357,10 @@ namespace PKHeX.WinForms
         private void ChangeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
-            if (box.Text.Length == 0) box.Text = "0";
-            if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
+            if (box.Text.Length == 0)
+                box.Text = "0";
+            else if (Util.ToInt32(box.Text) > 65535)
+                box.Text = "65535";
         }
 
         private void GiveAllAccessories(object sender, EventArgs e)
@@ -401,26 +400,11 @@ namespace PKHeX.WinForms
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    var epoch = new DateTime(2000, 1, 1);
-                    int seconds = (int)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
-                    seconds -= seconds % 86400;
-                    seconds += (int)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
-                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;
             }
-        }
-
-        private static string ConvertDateValueToString(int value, int secondsBias = -1)
-        {
-            const int spd = 86400; // seconds per day
-            string tip = string.Empty;
-            if (value >= spd)
-                tip += (value / spd) + "d ";
-            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
-            if (secondsBias >= 0)
-                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
-            return tip;
         }
     }
 }

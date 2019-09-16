@@ -111,13 +111,13 @@ namespace PKHeX.WinForms
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
-            var time = SAV.GameTime.AlolaTime;
-            if (time == 0)
-                time = 24 * 60 * 60; // Patch up any bad times from previous program versions.
-            if (time == 9_999_999)
+            var timeA = SAV.GameTime.AlolaTime;
+            if (timeA == 0)
+                timeA = 24 * 60 * 60; // Patch up any bad times from previous program versions.
+            if (timeA == 9_999_999)
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
-                CB_AlolaTime.SelectedValue = (int)time;
+                CB_AlolaTime.SelectedValue = (int)timeA;
             if (CB_AlolaTime.SelectedValue == null)
                 CB_AlolaTime.Enabled = false;
 
@@ -147,11 +147,13 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            var epoch = new DateTime(2000, 1, 1);
-            CAL_AdventureStartDate.Value = epoch.AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = epoch.AddSeconds(SAV.SecondsToStart % 86400);
-            CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
+            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            CAL_AdventureStartDate.Value = date;
+            CAL_AdventureStartTime.Value = time;
+
+            Util.GetDateTime2000(SAV.SecondsToStart, out date, out time);
+            CAL_HoFDate.Value = date;
+            CAL_HoFTime.Value = time;
 
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.MiscBlock.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.Festa.FestaCoins);
@@ -349,16 +351,8 @@ namespace PKHeX.WinForms
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
-            var epoch = new DateTime(2000, 1, 1);
-            uint seconds = (uint)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
-            seconds -= seconds%86400;
-            seconds += (uint)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
-            SAV.SecondsToStart = seconds;
-
-            uint fame = (uint)(CAL_HoFDate.Value - epoch).TotalSeconds;
-            fame -= fame % 86400;
-            fame += (uint)(CAL_HoFTime.Value - epoch).TotalSeconds;
-            SAV.SecondsToFame = fame;
+            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
@@ -505,13 +499,6 @@ namespace PKHeX.WinForms
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
 
-        private void ChangeFFFF(object sender, EventArgs e)
-        {
-            MaskedTextBox box = (MaskedTextBox)sender;
-            if (box.Text.Length == 0) box.Text = "0";
-            if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
-        }
-
         private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!Loading)
@@ -535,35 +522,25 @@ namespace PKHeX.WinForms
             SAV.FashionBlock.Clear();
 
             // Write Payload
-            // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
 
             switch (CB_Fashion.SelectedIndex)
             {
                 case 0: // Base Fashion
                 {
-                    var list = SAV is SAV7USUM
-                        ? (SAV.Gender == 0
-                            ? new[] {0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584}   // M
-                            : new[] {0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8})  // F
-                        : (SAV.Gender == 0
-                            ? new[] {0x000, 0x0FB, 0x124, 0x28F, 0x3B4, 0x452, 0x517}   // M
-                            : new[] {0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517}); // F
-
-                    foreach (var ofs in list)
-                        SAV.Data[SAV.Fashion + ofs] = 3;
+                    SAV.FashionBlock.Reset();
                     break;
                 }
                 case 1: // Full Legal
                     byte[] data1 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                    data1.CopyTo(SAV.Data, SAV.Fashion);
+                    SAV.SetData(data1, SAV.Fashion);
                     break;
                 case 2: // Everything
                     byte[] data2 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                    data2.CopyTo(SAV.Data, SAV.Fashion);
+                    SAV.SetData(data2, SAV.Fashion);
                     break;
                 default:
                     return;
@@ -576,25 +553,11 @@ namespace PKHeX.WinForms
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-                    seconds -= seconds % 86400;
-                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;
             }
-        }
-
-        private static string ConvertDateValueToString(int value, int secondsBias = -1)
-        {
-            const int spd = 86400; // seconds per day
-            string tip = string.Empty;
-            if (value >= spd)
-                tip += (value / spd) + "d ";
-            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
-            if (secondsBias >= 0)
-                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
-            return tip;
         }
 
         private void UpdateBattleStyle(object sender, EventArgs e)

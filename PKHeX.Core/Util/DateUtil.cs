@@ -27,5 +27,33 @@ namespace PKHeX.Core
         {
             return year < int.MaxValue && month < int.MaxValue && day < int.MaxValue && IsDateValid((int)year, (int)month, (int)day);
         }
+
+        private static readonly DateTime Epoch2000 = new DateTime(2000, 1, 1);
+        private const int spd = 86400; // seconds per day
+
+        public static int GetSecondsFrom2000(DateTime date, DateTime time)
+        {
+            int seconds = (int)(date - Epoch2000).TotalSeconds;
+            seconds -= seconds % spd;
+            seconds += (int)(time - Epoch2000).TotalSeconds;
+            return seconds;
+        }
+
+        public static void GetDateTime2000(uint seconds, out DateTime date, out DateTime time)
+        {
+            date = Epoch2000.AddSeconds(seconds);
+            time = Epoch2000.AddSeconds(seconds % spd);
+        }
+
+        public static string ConvertDateValueToString(int value, int secondsBias = -1)
+        {
+            string tip = string.Empty;
+            if (value >= spd)
+                tip += (value / spd) + "d ";
+            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
+            if (secondsBias >= 0)
+                tip += Environment.NewLine + $"Date: {Epoch2000.AddSeconds(value + secondsBias)}";
+            return tip;
+        }
     }
 }

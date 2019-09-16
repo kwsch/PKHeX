@@ -151,10 +151,13 @@ namespace PKHeX.WinForms
                 cba[i].Checked = (badgeval & 1 << i) != 0;
             }
 
-            CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
-            CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
+            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            CAL_AdventureStartDate.Value = date;
+            CAL_AdventureStartTime.Value = time;
+
+            Util.GetDateTime2000(SAV.SecondsToStart, out date, out time);
+            CAL_HoFDate.Value = date;
+            CAL_HoFTime.Value = time;
 
             Loading = false;
         }
@@ -252,8 +255,8 @@ namespace PKHeX.WinForms
                 s.BattleSubwayBlock.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
-            SAV.SecondsToStart = GetSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
-            SAV.SecondsToFame = GetSeconds(CAL_HoFDate, CAL_HoFTime);
+            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             Origin.CopyChangesFrom(SAV);
             Close();
@@ -262,15 +265,6 @@ namespace PKHeX.WinForms
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private static uint GetSeconds(DateTimePicker date, DateTimePicker time)
-        {
-            var epoch = new DateTime(2000, 1, 1);
-            uint val = (uint)(date.Value - epoch).TotalSeconds;
-            val -= val % 86400;
-            val += (uint)(time.Value - epoch).TotalSeconds;
-            return val;
         }
 
         private void ChangeMapValue(object sender, EventArgs e)
