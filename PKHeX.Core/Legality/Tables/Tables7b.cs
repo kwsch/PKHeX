@@ -323,7 +323,6 @@ namespace PKHeX.Core
             132, // Ditto
             137, // Porygon
             143, // Snorlax
-            150, // Mewtwo
             151, // Mew
         };
     }
