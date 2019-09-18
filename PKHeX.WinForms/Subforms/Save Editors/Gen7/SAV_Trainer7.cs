@@ -151,7 +151,7 @@ namespace PKHeX.WinForms
             CAL_AdventureStartDate.Value = date;
             CAL_AdventureStartTime.Value = time;
 
-            Util.GetDateTime2000(SAV.SecondsToStart, out date, out time);
+            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             CAL_HoFDate.Value = date;
             CAL_HoFTime.Value = time;
 
