@@ -1,7 +1,21 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/08/19 - New Update:
+19/09/19 - New Update:
+ - Legality:
+ - - Updated GO shiny banlist.
+ - Refactoring prep work for SwSh has changed some internal behavior.
+ - - Changed: Slot drag & drop / update notifications has been rewritten.
+ - - Changed: SAV4 split into SAV4DP/SAV4Pt/SAV4HGSS
+ - - Changed: Encounter Area -> encounter slot yielding behavior is now unique per Area generation-type.
+ - - Changed: Some PKHeX.Core api method signatures have changed / will change in next update.
+ - Added: Undo/Redo of party slot changes.
+ - Added: Gen4 (HGSS) Pokegear rolodex editing. Thanks @sora10pls!
+ - Fixed: Gen5 daycare slot 2 reading, and EXP reading.
+ - Fixed: Gen6 Multiplayer tab (Mega/Rayquaza flag, message strings) is now visible again.
+ - Fixed: Gen7 box flags are now shown (unknown purpose). Form now hides the flag label if no flags exist for the SaveFile type.
+
+19/08/19 - New Update: (46394) [1999879]
  - Legality:
  - - Added: Super Training data for Eggs & GB era are now checked. Thanks @Narithegreat!
  - - Added: More Colosseum met locations for shadow encounters. Thanks @ReignOfComputer!
