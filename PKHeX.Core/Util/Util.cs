@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -142,6 +143,19 @@ namespace PKHeX.Core
         {
             int index = input.IndexOf(c);
             return index < 0 ? input : input.Substring(0, index);
+        }
+
+        public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray)
+        {
+            var result = new Dictionary<string, int>[nameArray.Count];
+            for (int i = 0; i < result.Length; i++)
+            {
+                var dict = result[i] = new Dictionary<string, int>();
+                var names = nameArray[i];
+                for (int j = 0; j < names.Count; j++)
+                    dict.Add(names[j], j);
+            }
+            return result;
         }
     }
 }

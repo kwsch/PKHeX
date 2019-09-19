@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -26,7 +25,10 @@ namespace PKHeX.WinForms
             foreach (var pair in pairs)
             {
                 var split = pair.Name.Split('_');
-                int species = Array.IndexOf(PKX.SpeciesLang[2], split[0].Substring(4));
+                var specName = split[0].Substring(4);
+
+                // convert species name to current localization language
+                int species = SpeciesName.GetSpeciesID(specName);
                 var pkmname = GameInfo.Strings.specieslist[species];
 
                 if (split.Length != 1)

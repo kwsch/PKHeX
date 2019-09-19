@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
@@ -59,124 +58,6 @@ namespace PKHeX.Core
         /// <param name="len">Data length of the file/array.</param>
         /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
         public static bool IsPKM(long len) => Sizes.Contains((int)len);
-
-        /// <summary>
-        /// Species name lists indexed by the <see cref="PKM.Language"/> value.
-        /// </summary>
-        public static readonly string[][] SpeciesLang =
-        {
-            Util.GetSpeciesList("ja"), // 0 (unused, invalid)
-            Util.GetSpeciesList("ja"), // 1
-            Util.GetSpeciesList("en"), // 2
-            Util.GetSpeciesList("fr"), // 3
-            Util.GetSpeciesList("it"), // 4
-            Util.GetSpeciesList("de"), // 5
-            Util.GetSpeciesList("es"), // 6 (reserved for Gen3 KO?, unused)
-            Util.GetSpeciesList("es"), // 7
-            Util.GetSpeciesList("ko"), // 8
-            Util.GetSpeciesList("zh"), // 9 Simplified
-            Util.GetSpeciesList("zh2"), // 10 Traditional
-        };
-
-        public static readonly Dictionary<string, int>[] SpeciesDict = SpeciesLang.Select(z => z
-            .Select((value, index) => new {value, index}).ToDictionary(pair => pair.value, pair => pair.index))
-            .ToArray();
-
-        /// <summary>
-        /// Gets a Pokémon's default name for the desired language ID.
-        /// </summary>
-        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="lang">Language ID of the Pokémon</param>
-        /// <returns>The Species name if within expected range, else an empty string.</returns>
-        /// <remarks>Should only be used externally for message displays; for accurate in-game names use <see cref="GetSpeciesNameGeneration"/>.</remarks>
-        public static string GetSpeciesName(int species, int lang)
-        {
-            if ((uint)lang >= SpeciesLang.Length)
-                return string.Empty;
-
-            var arr = SpeciesLang[lang];
-            if ((uint)species >= arr.Length)
-                return string.Empty;
-
-            return arr[species];
-        }
-
-        /// <summary>
-        /// Gets a Pokémon's default name for the desired language ID and generation.
-        /// </summary>
-        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="lang">Language ID of the Pokémon</param>
-        /// <param name="generation">Generation specific formatting option</param>
-        /// <returns>Generation specific default species name</returns>
-        public static string GetSpeciesNameGeneration(int species, int lang, int generation)
-        {
-            if (generation == 3 && species == 0)
-                return "タマゴ";
-
-            string nick = GetSpeciesName(species, lang);
-            if (generation == 2 && lang == (int)LanguageID.Korean)
-                return StringConverter2KOR.LocalizeKOR2(nick);
-
-            if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
-            {
-                nick = nick.ToUpper();
-                if (lang == (int)LanguageID.French)
-                    nick = StringConverter4.StripDiacriticsFR4(nick); // strips accents on E and I
-            }
-            if (generation < 3)
-                nick = nick.Replace(" ", string.Empty);
-            return nick;
-        }
-
-        /// <summary>
-        /// Checks if a nickname matches the species name of any language.
-        /// </summary>
-        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="nick">Current name</param>
-        /// <param name="generation">Generation specific formatting option</param>
-        /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation = Generation)
-        {
-            if (species == 083 && string.Equals(nick, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
-                return false;
-            var langs = GetAvailableGameLanguages(generation);
-            return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
-        }
-
-        private static ICollection<int> GetAvailableGameLanguages(int generation = Generation)
-        {
-            if (generation < 3)
-                return Legal.Languages_GB;
-            if (generation < 4)
-                return Legal.Languages_3;
-            if (generation < 7)
-                return Legal.Languages_46;
-            return Legal.Languages_7;
-        }
-
-        /// <summary>
-        /// Gets the Species name Language ID for the current name and generation.
-        /// </summary>
-        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="nick">Current name</param>
-        /// <param name="generation">Generation specific formatting option</param>
-        /// <param name="priorlang">Language ID with a higher priority</param>
-        /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int GetSpeciesNameLanguage(int species, string nick, int generation = Generation, int priorlang = -1)
-        {
-            var langs = GetAvailableGameLanguages(generation);
-
-            if (langs.Contains(priorlang) && GetSpeciesNameGeneration(species, priorlang, generation) == nick)
-                return priorlang;
-
-            foreach (var lang in langs)
-            {
-                if (GetSpeciesNameGeneration(species, lang, generation) == nick)
-                    return lang;
-            }
-
-            return -1;
-        }
 
         /// <summary>
         /// Gets randomized EVs for a given generation format
@@ -556,20 +437,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets a list of formes that the species can have.
-        /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
-        /// <param name="types">List of type names</param>
-        /// <param name="forms">List of form names</param>
-        /// <param name="genders">List of genders names</param>
-        /// <param name="generation">Generation number for exclusive formes</param>
-        /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
-        public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation = Generation)
-        {
-            return FormConverter.GetFormList(species, types, forms, genders, generation);
-        }
-
-        /// <summary>
         /// Gets the Unown Forme ID from PID.
         /// </summary>
         /// <param name="pid">Personality ID</param>
@@ -705,48 +572,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the Main Series language ID from a GameCube (C/XD) language ID.
-        /// </summary>
-        /// <param name="value">GameCube (C/XD) language ID.</param>
-        /// <returns>Main Series language ID.</returns>
-        public static byte GetMainLangIDfromGC(byte value)
-        {
-            if (value <= 2 || value > 7)
-                return value;
-            return (byte)GCtoMainSeries[(LanguageGC)value];
-        }
-
-        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new Dictionary<LanguageGC, LanguageID>
-        {
-            {LanguageGC.German, LanguageID.German},
-            {LanguageGC.French, LanguageID.French},
-            {LanguageGC.Italian, LanguageID.Italian},
-            {LanguageGC.Spanish, LanguageID.Spanish},
-            {LanguageGC.UNUSED_6, LanguageID.UNUSED_6},
-        };
-
-        /// <summary>
-        /// Gets the GameCube (C/XD) language ID from a Main Series language ID.
-        /// </summary>
-        /// <param name="value">Main Series language ID.</param>
-        /// <returns>GameCube (C/XD) language ID.</returns>
-        public static byte GetGCLangIDfromMain(byte value)
-        {
-            if (value <= 2 || value > 7)
-                return value;
-            return (byte)MainSeriesToGC[(LanguageID)value];
-        }
-
-        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new Dictionary<LanguageID, LanguageGC>
-        {
-            {LanguageID.German, LanguageGC.German},
-            {LanguageID.French, LanguageGC.French},
-            {LanguageID.Italian, LanguageGC.Italian},
-            {LanguageID.Spanish, LanguageGC.Spanish},
-            {LanguageID.UNUSED_6, LanguageGC.UNUSED_6},
-        };
-
-        /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
         /// </summary>
         /// <param name="maxGeneration">Maximum Generation to permit</param>
@@ -797,79 +622,6 @@ namespace PKHeX.Core
             return last == 'x' ? 6 : prefer;
         }
 
-        /// <summary>
-        /// Copies a <see cref="PKM"/> list to the destination list, with an option to copy to a starting point.
-        /// </summary>
-        /// <param name="list">Source list to copy from</param>
-        /// <param name="dest">Destination list/array</param>
-        /// <param name="skip">Criteria for skipping a slot</param>
-        /// <param name="start">Starting point to copy to</param>
-        /// <returns>Count of <see cref="PKM"/> copied.</returns>
-        public static int CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, Func<PKM, bool> skip, int start = 0)
-        {
-            int ctr = start;
-            int skipped = 0;
-            foreach (var z in list)
-            {
-                // seek forward to next open slot
-                int next = FindNextSlot(dest, skip, ctr);
-                if (next == -1)
-                    break;
-                skipped += next - ctr;
-                ctr = next;
-                dest[ctr++] = z;
-            }
-            return ctr - start - skipped;
-        }
-
-        private static int FindNextSlot(IList<PKM> dest, Func<PKM, bool> skip, int ctr)
-        {
-            while (true)
-            {
-                if (ctr >= dest.Count)
-                    return -1;
-                var exist = dest[ctr];
-                if (exist == null || !skip(exist))
-                    return ctr;
-                ctr++;
-            }
-        }
-
-        /// <summary>
-        /// Copies an <see cref="Enumerable"/> list to the destination list, with an option to copy to a starting point.
-        /// </summary>
-        /// <typeparam name="T">Typed object to copy</typeparam>
-        /// <param name="list">Source list to copy from</param>
-        /// <param name="dest">Destination list/array</param>
-        /// <param name="start">Starting point to copy to</param>
-        /// <returns>Count of <see cref="T"/> copied.</returns>
-        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, int start = 0)
-        {
-            int ctr = start;
-            foreach (var z in list)
-            {
-                if (ctr >= dest.Count)
-                    break;
-                dest[ctr++] = z;
-            }
-            return ctr - start;
-        }
-
-        /// <summary>
-        /// Detects the language of a <see cref="PK1"/> or <see cref="PK2"/> by checking the current Species name against possible names.
-        /// </summary>
-        /// <param name="pk">PKM to fetch language for</param>
-        /// <returns>Language ID best match (<see cref="LanguageID"/>)</returns>
-        public static int GetVCLanguage(PKM pk)
-        {
-            if (pk.Japanese)
-                return 1;
-            if (pk.Korean)
-                return 8;
-            int lang = GetSpeciesNameLanguage(pk.Species, pk.Nickname, pk.Format);
-            return lang > 0 ? lang : (int)LanguageID.English; // Default to ENG
-        }
-
         internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
         internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
         internal static bool IsPKMPresentGBA(byte[] data, int offset) => (data[offset + 0x13] & 0xFB) == 2; // ignore egg flag, must be FlagHasSpecies.
@@ -886,7 +638,7 @@ namespace PKHeX.Core
         /// Gets a function that can check a byte array (at an offset) to see if a <see cref="PKM"/> is possibly present.
         /// </summary>
         /// <param name="blank"></param>
-        /// <returns></returns>
+        /// <returns>Function that checks if a byte array (at an offset) has a <see cref="PKM"/> present</returns>
         public static Func<byte[], int, bool> GetFuncIsPKMPresent(PKM blank)
         {
             if (blank.Format >= 4)

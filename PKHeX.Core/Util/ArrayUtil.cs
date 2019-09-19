@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Byte array reusable logic
+    /// Array reusable logic
     /// </summary>
     public static class ArrayUtil
     {
@@ -74,6 +74,64 @@ namespace PKHeX.Core
             byte[] data = new byte[value.Length / 8];
             SetBitFlagArray(data, 0, value);
             return data;
+        }
+
+        /// <summary>
+        /// Copies a <see cref="T"/> list to the destination list, with an option to copy to a starting point.
+        /// </summary>
+        /// <param name="list">Source list to copy from</param>
+        /// <param name="dest">Destination list/array</param>
+        /// <param name="skip">Criteria for skipping a slot</param>
+        /// <param name="start">Starting point to copy to</param>
+        /// <returns>Count of <see cref="T"/> copied.</returns>
+        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, Func<T, bool> skip, int start = 0)
+        {
+            int ctr = start;
+            int skipped = 0;
+            foreach (var z in list)
+            {
+                // seek forward to next open slot
+                int next = FindNextValidIndex(dest, skip, ctr);
+                if (next == -1)
+                    break;
+                skipped += next - ctr;
+                ctr = next;
+                dest[ctr++] = z;
+            }
+            return ctr - start - skipped;
+        }
+
+        public static int FindNextValidIndex<T>(IList<T> dest, Func<T, bool> skip, int ctr)
+        {
+            while (true)
+            {
+                if ((uint)ctr >= dest.Count)
+                    return -1;
+                var exist = dest[ctr];
+                if (exist == null || !skip(exist))
+                    return ctr;
+                ctr++;
+            }
+        }
+
+        /// <summary>
+        /// Copies an <see cref="IEnumerable{T}"/> list to the destination list, with an option to copy to a starting point.
+        /// </summary>
+        /// <typeparam name="T">Typed object to copy</typeparam>
+        /// <param name="list">Source list to copy from</param>
+        /// <param name="dest">Destination list/array</param>
+        /// <param name="start">Starting point to copy to</param>
+        /// <returns>Count of <see cref="T"/> copied.</returns>
+        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, int start = 0)
+        {
+            int ctr = start;
+            foreach (var z in list)
+            {
+                if ((uint)ctr >= dest.Count)
+                    break;
+                dest[ctr++] = z;
+            }
+            return ctr - start;
         }
     }
 }

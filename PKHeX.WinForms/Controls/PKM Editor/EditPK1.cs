@@ -10,11 +10,11 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             LoadMisc1(pk1);
-            TID_Trainer.LoadIDValues(pkm);
+            TID_Trainer.LoadIDValues(pk1);
             CR_PK1.LoadPK1(pk1);
 
             // Attempt to detect language
-            CB_Language.SelectedValue = PKX.GetVCLanguage(pk1);
+            CB_Language.SelectedValue = pk1.GuessedLanguage();
 
             LoadPartyStats(pk1);
             UpdateStats();

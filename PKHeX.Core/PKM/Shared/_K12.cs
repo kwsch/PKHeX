@@ -75,7 +75,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var spName = PKX.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
+                var spName = SpeciesName.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
                 return Nickname != spName;
             }
         }
@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     return (int)LanguageID.Korean;
                 if (StringConverter12.IsG12German(otname))
                     return (int)LanguageID.German; // german
-                int lang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
+                int lang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
                 if (lang > 0)
                     return lang;
                 return 0;
@@ -223,7 +223,7 @@ namespace PKHeX.Core
 
         private IEnumerable<byte> GetNonNickname(int language)
         {
-            var name = PKX.GetSpeciesNameGeneration(Species, language, Format);
+            var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
             var bytes = SetString(name, StringLength);
             var data = bytes.Concat(Enumerable.Repeat((byte)0x50, nick.Length - bytes.Length));
             if (!Korean)
@@ -231,7 +231,7 @@ namespace PKHeX.Core
             return data;
         }
 
-        protected int GuessedLanguage(int fallback = (int)LanguageID.English)
+        public int GuessedLanguage(int fallback = (int)LanguageID.English)
         {
             int lang = Language;
             if (lang > 0)
@@ -249,7 +249,7 @@ namespace PKHeX.Core
         protected int TransferLanguage(int destLanguage)
         {
             // if the Species name of the destination language matches the current nickname, transfer with that language.
-            var expect = PKX.GetSpeciesNameGeneration(Species, destLanguage, 2);
+            var expect = SpeciesName.GetSpeciesNameGeneration(Species, destLanguage, 2);
             if (Nickname == expect)
                 return destLanguage;
             return GuessedLanguage(destLanguage);

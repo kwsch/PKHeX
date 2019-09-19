@@ -446,7 +446,7 @@ namespace PKHeX.WinForms
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();
-            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
         }
 
         private void UpdateSpecies(object sender, EventArgs e)

@@ -21,7 +21,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LNickLengthShort));
                 return;
             }
-            if (pkm.Species > PKX.SpeciesLang[0].Length)
+            if (pkm.Species > SpeciesName.SpeciesLang[0].Count)
             {
                 data.AddLine(Get(LNickLengthShort, Severity.Indeterminate));
                 return;
@@ -67,9 +67,9 @@ namespace PKHeX.Core
         {
             if (pkm.IsNicknamed)
             {
-                for (int i = 0; i < PKX.SpeciesLang.Length; i++)
+                for (int i = 0; i < SpeciesName.SpeciesLang.Count; i++)
                 {
-                    if (!PKX.SpeciesDict[i].TryGetValue(nickname, out int index))
+                    if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out int index))
                         continue;
                     var msg = index == pkm.Species && i != pkm.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
                     data.AddLine(Get(msg, Severity.Fishy));
@@ -107,13 +107,13 @@ namespace PKHeX.Core
 
         private bool IsNicknameValid(PKM pkm, IEncounterable EncounterMatch, string nickname)
         {
-            if (PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname)
+            if (SpeciesName.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname)
                 return true;
 
             // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
             bool evolved = EncounterMatch.Species != pkm.Species;
             bool canHaveAnyLanguage = evolved || pkm.WasTradedEgg;
-            if (canHaveAnyLanguage && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+            if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
                 return true;
 
             switch (EncounterMatch)
@@ -121,7 +121,7 @@ namespace PKHeX.Core
                 case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm):
                     return true;
                 case ILangNick loc:
-                    if (loc.Language != 0 && !loc.IsNicknamed && !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+                    if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
                         return true; // fixed language without nickname, nice job event maker!
                     break;
             }
@@ -129,8 +129,8 @@ namespace PKHeX.Core
             if (pkm.Format == 5 && !pkm.IsNative) // transfer
             {
                 if (canHaveAnyLanguage)
-                   return !PKX.IsNicknamedAnyLanguage(pkm.Species, nickname, 4);
-                return PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
+                   return !SpeciesName.IsNicknamedAnyLanguage(pkm.Species, nickname, 4);
+                return SpeciesName.GetSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
             }
 
             return false;
@@ -157,9 +157,9 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (pkm.Format == 2 && pkm.IsEgg && !PKX.IsNicknamedAnyLanguage(0, pkm.Nickname, 2))
+            if (pkm.Format == 2 && pkm.IsEgg && !SpeciesName.IsNicknamedAnyLanguage(0, pkm.Nickname, 2))
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
-            else if (PKX.GetSpeciesNameGeneration(0, pkm.Language, Info.Generation) != pkm.Nickname)
+            else if (SpeciesName.GetSpeciesNameGeneration(0, pkm.Language, Info.Generation) != pkm.Nickname)
                 data.AddLine(GetInvalid(LNickMatchLanguageEggFail, CheckIdentifier.Egg));
             else
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));

@@ -247,7 +247,7 @@ namespace PKHeX.Core
             }
 
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
+            pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             SetPINGA(pk, criteria);
 
@@ -264,7 +264,7 @@ namespace PKHeX.Core
         {
             pk.IsEgg = true;
             pk.EggMetDate = Date;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Format);
             pk.IsNicknamed = true;
         }
 

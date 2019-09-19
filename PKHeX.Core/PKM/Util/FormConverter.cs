@@ -11,13 +11,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a list of formes that the species can have.
         /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="species"><see cref="Species"/> of the Pokémon.</param>
         /// <param name="types">List of type names</param>
         /// <param name="forms">List of form names</param>
         /// <param name="genders">List of genders names</param>
         /// <param name="generation">Generation number for exclusive formes</param>
         /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
-        internal static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
+        public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
         {
             // Mega List
             if (IsFormListSingleMega(species))
@@ -667,7 +667,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static string[] GetFormsTotem  (int species,    IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsTotem  (int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             if ((Species)species == Mimikyu) // Mimikyu
             {
@@ -742,12 +742,12 @@ namespace PKHeX.Core
         /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.AltForm"/> value.
         /// </summary>
         /// <param name="pi">Game specific personal info</param>
-        /// <param name="species"><see cref="PKM.Species"/> ID</param>
+        /// <param name="species"><see cref="Species"/> ID</param>
         /// <param name="format"><see cref="PKM.AltForm"/> ID</param>
         /// <returns>True if has formes that can be provided by <see cref="GetFormList"/>, otherwise false for none.</returns>
         public static bool HasFormSelection(PersonalInfo pi, int species, int format)
         {
-            if (format <= 3 && species != 201)
+            if (format <= 3 && species != (int)Unown)
                 return false;
 
             if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
@@ -759,9 +759,9 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
         {
-            201, // Unown
-            414, // Mothim (Burmy forme carried over, not cleared)
-            664, 665, // Vivillon pre-evos
+            (int)Unown,
+            (int)Mothim, // (Burmy forme carried over, not cleared)
+            (int)Scatterbug, (int)Spewpa, // Vivillon pre-evos
         };
     }
 }

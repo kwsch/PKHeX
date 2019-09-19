@@ -91,7 +91,7 @@ namespace PKHeX.Core
         public override int Version { get => GetGBAVersionID(Data[0x34]); set => Data[0x34] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
-        public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = PKX.GetGCLangIDfromMain((byte)value); }
+        public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
         public override string OT_Name { get => GetString(0x38, 20); set => SetString(value, 10).CopyTo(Data, 0x38); } // +2 terminator
         public override string Nickname { get => GetString(0x4E, 20); set { SetString(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
         private string Nickname2 { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator

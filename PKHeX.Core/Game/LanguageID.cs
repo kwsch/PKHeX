@@ -62,24 +62,4 @@
         /// </summary>
         ChineseT = 10,
     }
-
-    public static partial class Extensions
-    {
-        public static string GetLanguage2CharName(this LanguageID lang)
-        {
-            switch (lang)
-            {
-                default: return "en";
-
-                case LanguageID.Japanese: return "ja";
-                case LanguageID.French: return "fr";
-                case LanguageID.Italian: return "it";
-                case LanguageID.German: return "de";
-                case LanguageID.Spanish: return "es";
-                case LanguageID.Korean: return "ko";
-                case LanguageID.ChineseS:
-                case LanguageID.ChineseT: return "zh";
-            }
-        }
-    }
 }

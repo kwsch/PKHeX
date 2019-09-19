@@ -385,8 +385,8 @@ namespace PKHeX.Core
             pk6.Nature = Nature;
 
             // Apply trash bytes for species name of current app language -- default to PKM's language if no match
-            int curLang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
-            pk6.Nickname = PKX.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
+            int curLang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
+            pk6.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
             if (IsNicknamed)
                 pk6.Nickname = Nickname;
 

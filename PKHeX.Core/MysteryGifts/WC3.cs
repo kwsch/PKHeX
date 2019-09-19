@@ -109,7 +109,7 @@ namespace PKHeX.Core
                 if (IsEgg)
                     pk.IsEgg = true; // lang should be set to japanese by IsEgg setter
             }
-            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
             var pi = pk.PersonalInfo;
             pk.OT_Friendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;

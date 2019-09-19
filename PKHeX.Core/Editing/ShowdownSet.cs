@@ -155,7 +155,7 @@ namespace PKHeX.Core
                 FormIndex = 0;
                 return;
             }
-            string[] formStrings = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms);
+            string[] formStrings = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
             FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
         }
 
@@ -327,7 +327,7 @@ namespace PKHeX.Core
         {
             if (Nickname.Length == 0)
                 return specForm;
-            var name = PKX.GetSpeciesNameGeneration(Species, LanguageID, Format);
+            var name = SpeciesName.GetSpeciesNameGeneration(Species, LanguageID, Format);
             if (name == Nickname)
                 return specForm;
             return $"{Nickname} ({specForm})";
@@ -408,7 +408,7 @@ namespace PKHeX.Core
                 Form = string.Empty;
                 return;
             }
-            var Forms = PKX.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
+            var Forms = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
             Form = FormIndex >= Forms.Length ? string.Empty : Forms[index];
         }
 

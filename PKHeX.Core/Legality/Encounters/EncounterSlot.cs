@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
-            int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation, Version);
             SAV.ApplyToPKM(pk);
@@ -68,7 +68,7 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
             pk.Ball = (int)Type.GetBall();
             pk.Language = lang;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;

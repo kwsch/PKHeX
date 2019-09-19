@@ -79,13 +79,13 @@ namespace PKHeX.Core
             pk.Species = Species;
             pk.AltForm = Form;
 
-            int lang = (int)Legal.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = LevelMin;
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             SanityCheckVersion(ref version);
 
             pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
-            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, lang, Generation);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
 
             pk.CurrentLevel = level;
             pk.Version = (int)version;

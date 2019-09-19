@@ -42,7 +42,7 @@ namespace PKHeX.Core
         public static string ClearNickname(this PKM pk)
         {
             pk.IsNicknamed = false;
-            string nick = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+            string nick = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
             pk.Nickname = nick;
             if (pk is _K12 pk12)
                 pk12.SetNotNicknamed();

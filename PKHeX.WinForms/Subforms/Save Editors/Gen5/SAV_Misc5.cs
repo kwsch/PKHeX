@@ -705,7 +705,7 @@ namespace PKHeX.WinForms
             L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();
-            var list = PKX.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             CB_Form.DataSource = new BindingSource(list, null);
         }
     }

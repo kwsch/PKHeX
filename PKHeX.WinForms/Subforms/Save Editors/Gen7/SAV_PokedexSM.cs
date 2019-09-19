@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
             LB_Forms.Enabled = hasForms;
             if (!hasForms)
                 return false;
-            var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
             {
                 // empty

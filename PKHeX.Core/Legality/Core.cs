@@ -823,32 +823,6 @@ namespace PKHeX.Core
         internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
         internal static bool IsMovesetRestricted(this PKM pkm) => (pkm.GG && pkm.Format == 7) || pkm.IsUntraded;
 
-        public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any)
-        {
-            switch (generation)
-            {
-                case 1:
-                case 2:
-                    if (Languages_GB.Contains((int)prefer) && (prefer != LanguageID.Korean || game == GameVersion.C))
-                        return prefer;
-                    return LanguageID.English;
-                case 3:
-                    if (Languages_3.Contains((int)prefer))
-                        return prefer;
-                    return LanguageID.English;
-                case 4:
-                case 5:
-                case 6:
-                    if (Languages_46.Contains((int)prefer))
-                        return prefer;
-                    return LanguageID.English;
-                default:
-                    if (Languages_7.Contains((int)prefer))
-                        return prefer;
-                    return LanguageID.English;
-            }
-        }
-
         public static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration)
         {
             if (originalGeneration < 3)

@@ -390,7 +390,7 @@ namespace PKHeX.WinForms.Controls
             if (!hasForms)
                 return;
 
-            var ds = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format);
+            var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format);
             if (ds.Length == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
                 CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
             else
@@ -1163,7 +1163,7 @@ namespace PKHeX.WinForms.Controls
             if (CHK_IsEgg.Checked)
                 species = 0; // get the egg name.
 
-            if (PKX.IsNicknamedAnyLanguage(species, TB_Nickname.Text, pkm.Format))
+            if (SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, pkm.Format))
                 CHK_Nicknamed.Checked = true;
         }
 
@@ -1194,10 +1194,10 @@ namespace PKHeX.WinForms.Controls
                 species = 0; // get the egg name.
 
             // If name is that of another language, don't replace the nickname
-            if (sender != CB_Language && species != 0 && !PKX.IsNicknamedAnyLanguage(species, TB_Nickname.Text, pkm.Format))
+            if (sender != CB_Language && species != 0 && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, pkm.Format))
                 return;
 
-            TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, lang, pkm.Format);
+            TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(species, lang, pkm.Format);
             if (pkm is _K12 pk)
                 pk.SetNotNicknamed();
         }
@@ -1282,7 +1282,7 @@ namespace PKHeX.WinForms.Controls
 
                 if (!CHK_Nicknamed.Checked)
                 {
-                    TB_Nickname.Text = PKX.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), pkm.Format);
+                    TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), pkm.Format);
                     if (pkm.Format != 4) // eggs in gen4 do not have nickname flag
                         CHK_Nicknamed.Checked = true;
                 }
@@ -1305,7 +1305,7 @@ namespace PKHeX.WinForms.Controls
                     GB_EggConditions.Enabled = false;
                 }
 
-                if (TB_Nickname.Text == PKX.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), pkm.Format))
+                if (TB_Nickname.Text == SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), pkm.Format))
                     CHK_Nicknamed.Checked = false;
             }
 

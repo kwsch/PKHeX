@@ -46,7 +46,7 @@ namespace PKHeX.Core
         public override int Version { get => GetGBAVersionID(Data[0x08]); set => Data[0x08] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
-        public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = PKX.GetGCLangIDfromMain((byte)value); }
+        public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = Core.Language.GetGCLangIDfromMain((byte)value); }
         public override int Met_Location { get => BigEndian.ToUInt16(Data, 0x0C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
         public override int Met_Level { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int Ball { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }

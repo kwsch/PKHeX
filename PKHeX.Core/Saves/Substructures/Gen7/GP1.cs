@@ -103,7 +103,7 @@ namespace PKHeX.Core
         public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
-        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? PKX.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
+        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? SpeciesName.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
         public string FileName => $"{FileNameWithoutExtension}.gp1";
 
         public string FileNameWithoutExtension
@@ -151,7 +151,7 @@ namespace PKHeX.Core
             }
             else
             {
-                pk.Nickname = PKX.GetSpeciesNameGeneration(Species, sav.Language, 7);
+                pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, 7);
             }
 
             pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;

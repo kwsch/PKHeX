@@ -221,7 +221,7 @@ namespace PKHeX.Core
         {
             pk4.IsEgg = true;
             pk4.IsNicknamed = false;
-            pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
+            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Format);
             pk4.MetDate = DateTime.Now;
         }
 

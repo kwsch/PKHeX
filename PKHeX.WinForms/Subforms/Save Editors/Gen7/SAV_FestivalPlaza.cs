@@ -663,7 +663,7 @@ namespace PKHeX.WinForms
             LoadFacility();
         }
 
-        private string GetSpeciesNameFromPKM(PKM pkm) => PKX.GetSpeciesName(pkm.Species, SAV.Language);
+        private string GetSpeciesNameFromPKM(PKM pkm) => SpeciesName.GetSpeciesName(pkm.Species, SAV.Language);
 
         private void B_ImportParty_Click(object sender, EventArgs e)
         {

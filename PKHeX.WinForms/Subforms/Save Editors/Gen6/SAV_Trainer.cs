@@ -99,7 +99,7 @@ namespace PKHeX.WinForms
 
             L_Vivillon.Text = GameInfo.Strings.specieslist[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
+            CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6);
         }
 
         private void GetBadges()

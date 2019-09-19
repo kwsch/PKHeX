@@ -12,13 +12,13 @@ namespace PKHeX.WinForms.Controls
             LoadMisc1(pk2);
             LoadMisc2(pk2);
 
-            TID_Trainer.LoadIDValues(pkm);
+            TID_Trainer.LoadIDValues(pk2);
             TB_MetLevel.Text = pk2.Met_Level.ToString();
             CB_MetLocation.SelectedValue = pk2.Met_Location;
             CB_MetTimeOfDay.SelectedIndex = pk2.Met_TimeOfDay;
 
             // Attempt to detect language
-            CB_Language.SelectedValue = PKX.GetVCLanguage(pk2);
+            CB_Language.SelectedValue = pk2.GuessedLanguage();
 
             LoadPartyStats(pk2);
             UpdateStats();

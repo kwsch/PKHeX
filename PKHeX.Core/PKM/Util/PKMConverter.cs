@@ -276,7 +276,7 @@ namespace PKHeX.Core
                 // Invalid
                 case PK2 pk2 when pk.Species > Legal.MaxSpeciesID_1:
                     var lang = pk2.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
-                    var name = PKX.GetSpeciesName(pk2.Species, lang);
+                    var name = SpeciesName.GetSpeciesName(pk2.Species, lang);
                     comment = string.Format(MsgPKMConvertFailFormat, name, PKMType.Name);
                     return null;
 

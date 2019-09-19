@@ -34,7 +34,7 @@ namespace PKHeX.Core
             SAV.ApplyToPKM(pk);
 
             pk.Species = Species;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(Species, SAV.Language, gen);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
             pk.Ball = 4;

@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
 
             L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
 
             if (!(SAV is SAV7USUM))
                 BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist

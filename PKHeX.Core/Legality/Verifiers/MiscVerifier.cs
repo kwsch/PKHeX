@@ -226,10 +226,10 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
                     return;
                 case WC7 wc7 when wc7.RestrictLanguage != 0 && wc7.Language != wc7.RestrictLanguage:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
                     return;
             }
         }

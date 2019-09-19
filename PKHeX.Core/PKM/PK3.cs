@@ -301,7 +301,7 @@ namespace PKHeX.Core
             var trash = StringConverter345.G4TransferTrashBytes;
             if (pk4.Language < trash.Length)
                 trash[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
-            pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
+            pk4.Nickname = IsEgg ? SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
             pk4.IsNicknamed = !IsEgg && IsNicknamed;
 
             // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.

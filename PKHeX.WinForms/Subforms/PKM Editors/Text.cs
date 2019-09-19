@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
 
         private void B_ApplyTrash_Click(object sender, EventArgs e)
         {
-            string species = PKX.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
+            string species = SpeciesName.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
                 WinFormsUtil.GetIndex(CB_Language), (int) NUD_Generation.Value);
 
             if (string.IsNullOrEmpty(species)) // no result

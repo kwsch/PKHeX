@@ -341,7 +341,7 @@ namespace PKHeX.WinForms
                 else
                 {
                     // get language
-                    TB_Nickname.Text = PKX.GetSpeciesNameGeneration(species, SAV.Language, 6);
+                    TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(species, SAV.Language, 6);
                 }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
@@ -356,7 +356,7 @@ namespace PKHeX.WinForms
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();
-            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
         }
 
         private void UpdateSpecies(object sender, EventArgs e)
