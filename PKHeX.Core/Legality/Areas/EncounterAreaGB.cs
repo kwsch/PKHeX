@@ -128,5 +128,14 @@ namespace PKHeX.Core
                     return slots;
             }
         }
+
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<DexLevel> vs, int minLevel)
+        {
+            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+
+            if (pkm.Format >= 7 || !(pkm is PK2 pk2 && pk2.CaughtData != 0)) // transferred to Gen7+, or does not have Crystal met data
+                return slots.Where(slot => slot.LevelMin <= minLevel);
+            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+        }
     }
 }
