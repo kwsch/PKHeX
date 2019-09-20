@@ -17,7 +17,7 @@ namespace PKHeX.Core
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin - FluteBoostMax)));
 
             int getMaxLevelBoost(EncounterSlot s) => s.Type == SlotType.Rock_Smash ? FluteBoostMax : DexNavBoost;
-            int fluteMinLevel = minLevel - FluteBoostMax;
+            int fluteMinLevel = minLevel + FluteBoostMax; // highest possible min-level of slot before flute decrease
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(fluteMinLevel, minLevel - getMaxLevelBoost(s)));
         }

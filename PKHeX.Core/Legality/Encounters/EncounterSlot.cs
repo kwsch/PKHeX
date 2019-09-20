@@ -12,7 +12,20 @@ namespace PKHeX.Core
         public int LevelMin { get; set; }
         public int LevelMax { get; set; }
 
+        /// <summary>
+        /// Gets if the specified level inputs are within range of the <see cref="LevelMin"/> and <see cref="LevelMax"/>
+        /// </summary>
+        /// <param name="lvl">Single level</param>
+        /// <returns>True if within slot's range, false if impossible.</returns>
+        /// <remarks>Use <see cref="IsLevelWithinRange(int, int)"/> if <see cref="lvl"/> can have a range of values</remarks>
         public bool IsLevelWithinRange(int lvl) => LevelMin <= lvl && lvl <= LevelMax;
+
+        /// <summary>
+        /// Gets if the specified level inputs are within range of the <see cref="LevelMin"/> and <see cref="LevelMax"/>
+        /// </summary>
+        /// <param name="min">Highest value the low end of levels can be</param>
+        /// <param name="max">Lowest value the high end of levels can be</param>
+        /// <returns>True if within slot's range, false if impossible.</returns>
         public bool IsLevelWithinRange(int min, int max) => LevelMin <= min && max <= LevelMax;
 
         public SlotType Type { get; set; } = SlotType.Any;
