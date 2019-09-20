@@ -16,7 +16,7 @@ namespace PKHeX.Core
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin - CatchComboBonus)));
 
             // Get slots where pokemon can exist with respect to level constraints
-            return slots.Where(s => s.IsLevelWithinRange(minLevel, minLevel - CatchComboBonus));
+            return slots.Where(s => s.IsLevelWithinRange(minLevel, minLevel, 0, CatchComboBonus));
         }
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)

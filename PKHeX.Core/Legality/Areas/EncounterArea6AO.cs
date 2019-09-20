@@ -9,17 +9,20 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea6AO : EncounterArea32
     {
-        private const int FluteBoostMax = 3; // Black Flute increases levels, White Flute decreases levels.
-        private const int DexNavBoost = 30;
+        private const int FluteBoostMin = 3; // White Flute decreases levels.
+        private const int FluteBoostMax = 3; // Black Flute increases levels.
+        private const int DexNavBoost = 30; // Maximum DexNav chain
 
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<DexLevel> vs, int minLevel)
         {
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin - FluteBoostMax)));
 
-            int getMaxLevelBoost(EncounterSlot s) => s.Type == SlotType.Rock_Smash ? FluteBoostMax : DexNavBoost;
-            int fluteMinLevel = minLevel + FluteBoostMax; // highest possible min-level of slot before flute decrease
+            // note: it's probably possible to determine a reduced DexNav boost based on the flawless IV count (no flawless = not chained)
+            // if someone wants to implement that logic to have the below method return a calculated max DexNavBoost, send a pull request :)
+            int getMaxLevelBoost(EncounterSlot s) => s.Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax; // DexNav encounters most likely
+
             // Get slots where pokemon can exist with respect to level constraints
-            return slots.Where(s => s.IsLevelWithinRange(fluteMinLevel, minLevel - getMaxLevelBoost(s)));
+            return slots.Where(s => s.IsLevelWithinRange(minLevel, minLevel, FluteBoostMin, getMaxLevelBoost(s)));
         }
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
