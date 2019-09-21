@@ -454,13 +454,8 @@ namespace PKHeX.Core
         public override uint SecondsToStart { get => BitConverter.ToUInt32(General, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(General, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x3C); }
 
-        public override PKM GetStoredSlot(int offset)
-        {
-            var bank = Storage; // terrible todo hack
-            if (offset == GTS || offset == GetDaycareSlotOffset(0, 0) || offset == GetDaycareSlotOffset(0, 1))
-                bank = General;
-            return GetDecryptedPKM(bank.Slice(offset, SIZE_STORED));
-        }
+        public override PKM GetStoredSlot(int offset) => GetDecryptedPKM(General.Slice(offset, SIZE_STORED));
+        public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(Storage.Slice(offset, SIZE_STORED));
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);

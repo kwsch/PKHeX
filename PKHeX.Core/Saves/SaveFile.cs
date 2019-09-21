@@ -454,6 +454,7 @@ namespace PKHeX.Core
         public virtual PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public virtual PKM GetPartySlot(int offset) => GetDecryptedPKM(GetData(offset, SIZE_PARTY));
         public virtual PKM GetStoredSlot(int offset) => GetDecryptedPKM(GetData(offset, SIZE_STORED));
+        public virtual PKM GetBoxSlot(int offset) => GetStoredSlot(offset);
         protected virtual void WritePartySlot(PKM pkm, int offset) => SetData(pkm.EncryptedPartyData, offset);
         protected virtual void WriteStoredSlot(PKM pkm, int offset) => SetData(pkm.EncryptedBoxData, offset);
 
@@ -622,7 +623,7 @@ namespace PKHeX.Core
         #region Storage Offsets and Indexing
         public abstract int GetBoxOffset(int box);
         public int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_STORED);
-        public PKM GetBoxSlotAtIndex(int box, int slot) => GetStoredSlot(GetBoxSlotOffset(box, slot));
+        public PKM GetBoxSlotAtIndex(int box, int slot) => GetBoxSlot(GetBoxSlotOffset(box, slot));
 
         public void GetBoxSlotFromIndex(int index, out int box, out int slot)
         {
@@ -816,7 +817,7 @@ namespace PKHeX.Core
                         continue;
                     if (deleteCriteria != null)
                     {
-                        var pk = GetStoredSlot(ofs);
+                        var pk = GetBoxSlotAtIndex(i, p);
                         if (!deleteCriteria(pk))
                             continue;
                     }
