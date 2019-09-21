@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
-    public sealed class PK7 : _K6, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain, IGeoTrack
+    public sealed class PK7 : _K6, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain, IGeoTrack, ISuperTrain
     {
         private static readonly byte[] Unused =
         {
@@ -147,6 +147,7 @@ namespace PKHeX.Core
         public bool SuperTrain7_2 { get => (ST4 & (1 << 5)) == 1 << 5; set => ST4 = (byte)((ST4 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
         public bool SuperTrain7_3 { get => (ST4 & (1 << 6)) == 1 << 6; set => ST4 = (byte)((ST4 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool SuperTrain8_1 { get => (ST4 & (1 << 7)) == 1 << 7; set => ST4 = (byte)((ST4 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
+        public uint SuperTrainBitFlags { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data); }
         private byte RIB0 { get => Data[0x30]; set => Data[0x30] = value; } // Ribbons are read as uints, but let's keep them per byte.
         private byte RIB1 { get => Data[0x31]; set => Data[0x31] = value; }
         private byte RIB2 { get => Data[0x32]; set => Data[0x32] = value; }
@@ -300,8 +301,8 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70);
         }
 
-        public override bool SecretSuperTrainingUnlocked { get => (Data[0x72] & 1) == 1; set => Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); }
-        public override bool SecretSuperTrainingComplete { get => (Data[0x72] & 2) == 2; set => Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); }
+        public bool SecretSuperTrainingUnlocked { get => (Data[0x72] & 1) == 1; set => Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); }
+        public bool SecretSuperTrainingComplete { get => (Data[0x72] & 2) == 2; set => Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); }
         public byte _0x73 { get => Data[0x73]; set => Data[0x73] = value; }
         private uint IV32 { get => BitConverter.ToUInt32(Data, 0x74); set => BitConverter.GetBytes(value).CopyTo(Data, 0x74); }
         public override int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
@@ -393,9 +394,9 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0xFC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFC); }
         #endregion
 
-        public override int SuperTrainingMedalCount(int maxCount = 30)
+        public int SuperTrainingMedalCount(int maxCount = 30)
         {
-            uint value = BitConverter.ToUInt32(Data, 0x2C);
+            uint value = SuperTrainBitFlags;
             int TrainCount = 0;
             value >>= 2;
             for (int i = 0; i < maxCount; i++)

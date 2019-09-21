@@ -597,10 +597,6 @@ namespace PKHeX.Core
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
 
-        public virtual bool SecretSuperTrainingUnlocked { get => false; set { } }
-        public virtual bool SecretSuperTrainingComplete { get => false; set { } }
-        public virtual int SuperTrainingMedalCount(int maxCount = 30) => 0;
-
         /// <summary>
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.
         /// </summary>

@@ -296,10 +296,11 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Traded(PKM pkm, IRibbonSetCommon6 s6)
         {
-            if (s6.RibbonTraining)
+            // Medal count is wiped on transfer to pk8
+            if (s6.RibbonTraining && pkm.Format <= 7)
             {
                 const int req = 12; // only first 12
-                int count = pkm.SuperTrainingMedalCount(req);
+                int count = ((ISuperTrain)pkm).SuperTrainingMedalCount(req);
                 if (count < req)
                     yield return new RibbonResult(nameof(s6.RibbonTraining));
             }

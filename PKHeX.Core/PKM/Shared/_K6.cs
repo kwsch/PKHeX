@@ -42,21 +42,6 @@ namespace PKHeX.Core
             set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }
         }
 
-        public override int SuperTrainingMedalCount(int maxCount = 30)
-        {
-            uint value = BitConverter.ToUInt32(Data, 0x2C);
-            int TrainCount = 0;
-            value >>= 2;
-            for (int i = 0; i < maxCount; i++)
-            {
-                if ((value & 1) != 0)
-                    TrainCount++;
-                value >>= 1;
-            }
-
-            return TrainCount;
-        }
-
         public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
         public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
@@ -151,5 +136,13 @@ namespace PKHeX.Core
         public override int MaxEV => 252;
         public override int OTLength => 12;
         public override int NickLength => 12;
+    }
+
+    public interface ISuperTrain
+    {
+        uint SuperTrainBitFlags { get; set; }
+        bool SecretSuperTrainingUnlocked { get; set; }
+        bool SecretSuperTrainingComplete { get; set; }
+        int SuperTrainingMedalCount(int maxCount = 30);
     }
 }
