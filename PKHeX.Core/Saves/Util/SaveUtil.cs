@@ -15,6 +15,7 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
+        public const int SIZE_G8SWSH = 0x845FED; // todo
         public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
@@ -58,6 +59,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> SIZES = new HashSet<int>(SIZES_2)
         {
+            SIZE_G8SWSH,
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
             SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
@@ -93,6 +95,8 @@ namespace PKHeX.Core
             if ((ver = GetIsG6SAV(data)) != GameVersion.Invalid)
                 return ver;
             if ((ver = GetIsG7SAV(data)) != GameVersion.Invalid)
+                return ver;
+            if ((ver = GetIsG8SAV(data)) != GameVersion.Invalid)
                 return ver;
 
             if (GetIsBelugaSAV(data) != GameVersion.Invalid)
@@ -432,6 +436,20 @@ namespace PKHeX.Core
             return GameVersion.GG;
         }
 
+        /// <summary>Checks to see if the data belongs to a Gen7 save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+        private static GameVersion GetIsG8SAV(byte[] data)
+        {
+            if (data.Length != SIZE_G8SWSH)
+                return GameVersion.Invalid;
+
+            if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
+                return GameVersion.Invalid;
+
+            return GameVersion.SWSH;
+        }
+
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
         private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
         private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
@@ -492,6 +510,9 @@ namespace PKHeX.Core
                     return new SAV7SM(data);
                 case GameVersion.USUM:
                     return new SAV7USUM(data);
+
+                case GameVersion.SWSH:
+                    return new SAV8SWSH(data);
 
                 // Side Games
                 case GameVersion.COLO:   return new SAV3Colosseum(data);
@@ -621,6 +642,9 @@ namespace PKHeX.Core
                 case GameVersion.GO:
                 case GameVersion.GP: case GameVersion.GE: case GameVersion.GG:
                     return new SAV7b();
+
+                case GameVersion.SW: case GameVersion.SH: case GameVersion.SWSH:
+                    return new SAV8SWSH();
 
                 default:
                     return null;

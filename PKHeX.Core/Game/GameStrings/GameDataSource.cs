@@ -54,11 +54,13 @@ namespace PKHeX.Core
         private IReadOnlyList<ComboItem> MetGen6 { get; set; }
         private IReadOnlyList<ComboItem> MetGen7 { get; set; }
         private IReadOnlyList<ComboItem> MetGen7GG { get; set; }
+        private IReadOnlyList<ComboItem> MetGen8 { get; set; }
 
         private IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {
             var list = s.gamelist;
             var ver = Util.GetCBList(list,
+                Legal.Games_8swsh,
                 Legal.Games_7gg,
                 Legal.Games_7usum, Legal.Games_7sm,
                 Legal.Games_6oras, Legal.Games_6xy,
@@ -141,6 +143,17 @@ namespace PKHeX.Core
                 Util.AddCBWithOffset(met_list, s.metGG_40000, 40001, Legal.Met_GG_4);
                 Util.AddCBWithOffset(met_list, s.metGG_60000, 60001, Legal.Met_GG_6);
                 MetGen7GG = met_list;
+            }
+            // Gen 8
+            {
+                var met_list = Util.GetCBList(s.metSWSH_00000, 0);
+                Util.AddCBWithOffset(met_list, s.metSWSH_60000, 60001, 60002);
+                Util.AddCBWithOffset(met_list, s.metSWSH_30000, 30001, Locations.LinkTrade6);
+                Util.AddCBWithOffset(met_list, s.metSWSH_00000, 00000, Legal.Met_SWSH_0);
+                Util.AddCBWithOffset(met_list, s.metSWSH_30000, 30001, Legal.Met_SWSH_3);
+                Util.AddCBWithOffset(met_list, s.metSWSH_40000, 40001, Legal.Met_SWSH_4);
+                Util.AddCBWithOffset(met_list, s.metSWSH_60000, 60001, Legal.Met_SWSH_6);
+                MetGen8 = met_list;
             }
         }
 
@@ -241,6 +254,10 @@ namespace PKHeX.Core
                 case GameVersion.GE:
                 case GameVersion.GO:
                     return MetGen7GG.Take(3).Concat(MetGen7GG.Skip(3).OrderByDescending(loc => loc.Value <= 54)).ToList(); // Pokémon League
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                    return MetGen8.Take(3).Concat(MetGen8.Skip(3).OrderByDescending(loc => loc.Value < 400)).ToList(); // todo
             }
 
             return GetLocationListModified(version, currentGen);

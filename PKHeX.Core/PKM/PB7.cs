@@ -612,5 +612,17 @@ namespace PKHeX.Core
             int unsigned = value & ~(value >> 31);
             return (byte)Math.Min(255, unsigned);
         }
+
+        public PK8 ConvertToPK8()
+        {
+            var pk8 = new PK8();
+
+            // todo: take from PK7.ConvertToPK8()
+
+            // Fix Checksum
+            pk8.RefreshChecksum();
+
+            return pk8; // Done!
+        }
     }
 }

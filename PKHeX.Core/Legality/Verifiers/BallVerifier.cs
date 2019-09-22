@@ -111,6 +111,7 @@ namespace PKHeX.Core
             {
                 case 6: return VerifyBallEggGen6(data); // Gen6 Inheritance Rules
                 case 7: return VerifyBallEggGen7(data); // Gen7 Inheritance Rules
+                case 8: return VerifyBallEggGen8(data);
                 default: return NONE;
             }
         }
@@ -246,6 +247,82 @@ namespace PKHeX.Core
                     return GetValid(LBallSpeciesPass);
                 // next statement catches all new alolans
             }
+
+            if (species > 721)
+                return VerifyBallEquals(data, Legal.WildPokeballs7);
+
+            if (ball > Beast)
+                return GetInvalid(LBallUnavailable);
+
+            return NONE;
+        }
+
+        private CheckResult VerifyBallEggGen8(LegalityAnalysis data)
+        {
+            // todo: pls gamefreak allow ball switching and remove ball inheritance
+            var pkm = data.pkm;
+            int species = data.EncounterMatch.Species;
+            if (810 <= species && species <= 818) // G8 Starters
+                return VerifyBallEquals(data, (int)Poke);
+
+            Ball ball = (Ball)pkm.Ball;
+
+            if (ball == Safari)
+            {
+                if (!(Legal.Inherit_Safari.Contains(species) || Legal.Inherit_SafariMale.Contains(species)))
+                    return GetInvalid(LBallSpecies);
+                if (pkm.AbilityNumber == 4 && Legal.Ban_SafariBallHidden_7.Contains(species))
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
+            }
+            if (ball.IsApricornBall()) // Apricorn Ball
+            {
+                if (!Legal.Inherit_Apricorn7.Contains(species))
+                    return GetInvalid(LBallSpecies);
+                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
+            }
+            if (ball == Sport) // Sport Ball
+            {
+                if (!Legal.Inherit_Sport.Contains(species))
+                    return GetInvalid(LBallSpecies);
+                if (pkm.AbilityNumber == 4 && (species == 313 || species == 314)) // Volbeat/Illumise
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
+            }
+            if (ball == Dream) // Dream Ball
+            {
+                if (Legal.Inherit_Dream.Contains(species) || Legal.Inherit_DreamMale.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
+            }
+            if (Dusk <= ball && ball <= Quick) // Dusk Heal Quick
+            {
+                if (!Legal.Ban_Gen4Ball_7.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
+            }
+            if (Ultra <= ball && ball <= Premier) // Don't worry, Safari was already checked.
+            {
+                if (!Legal.Ban_Gen3Ball_7.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
+            }
+
+            if (ball == Beast)
+            {
+                if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                    return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
+                if ((species > 731 && species <= 785) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
+                    return GetValid(LBallSpeciesPass);
+                if (Legal.PastGenAlolanScans.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                // next statement catches all new alolans
+            }
+
+            if (species > Legal.MaxSpeciesID_7_USUM)
+                return VerifyBallEquals(data, Legal.WildPokeballs8);
 
             if (species > 721)
                 return VerifyBallEquals(data, Legal.WildPokeballs7);

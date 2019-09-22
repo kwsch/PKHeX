@@ -69,6 +69,8 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
+                case PKX.SIZE_8STORED:
+                    return 8;
 
                 default:
                     return -1;
@@ -112,6 +114,8 @@ namespace PKHeX.Core
                 case 6:
                     var pkx = new PK6(data);
                     return CheckPKMFormat7(pkx, prefer);
+                case 8:
+                    return new PK8(data);
                 default:
                     return null;
             }
@@ -123,11 +127,13 @@ namespace PKHeX.Core
         /// <param name="pk">PKM to check</param>
         /// <param name="prefer">Prefer a certain generation over another</param>
         /// <returns>Updated PKM if actually PK7</returns>
-        private static PKM CheckPKMFormat7(PK6 pk, int prefer)
+        private static _K6 CheckPKMFormat7(PK6 pk, int prefer)
         {
             if (GameVersion.GG.Contains(pk.Version))
                 return new PB7(pk.Data);
-            return IsPK6FormatReallyPK7(pk, prefer) ? new PK7(pk.Data) : (PKM)pk;
+            if (IsPK6FormatReallyPK7(pk, prefer))
+                return new PK7(pk.Data);
+            return pk;
         }
 
         /// <summary>
@@ -290,6 +296,8 @@ namespace PKHeX.Core
                 case PK4 pk4: return pk4.ConvertToPK5();
                 case PK5 pk5: return pk5.ConvertToPK6();
                 case PK6 pk6: return pk6.ConvertToPK7();
+                case PK7 pk7: return pk7.ConvertToPK8();
+                case PB7 pb7: return pb7.ConvertToPK8();
 
                 // None
                 default:

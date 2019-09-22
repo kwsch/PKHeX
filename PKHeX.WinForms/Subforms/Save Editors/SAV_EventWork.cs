@@ -19,6 +19,10 @@ namespace PKHeX.WinForms
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
+            if (sav is SAV7b s7b)
+                SAV = s7b.EventWork;
+            else if (sav is SAV8SWSH s8ss)
+                SAV = s8ss.EventWork;
             SAV = ((SAV7b) sav).EventWork;
             Origin = sav;
 

@@ -316,6 +316,7 @@ namespace PKHeX.Core
         public bool VC1 => Version >= (int)GameVersion.RD && Version <= (int)GameVersion.YW;
         public bool VC2 => Version >= (int)GameVersion.GD && Version <= (int)GameVersion.C;
         public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE || Version == (int)GameVersion.GO;
+        public bool SWSH => Version == (int)GameVersion.SW || Version == (int)GameVersion.SH;
 
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
@@ -533,6 +534,7 @@ namespace PKHeX.Core
                     case 5: return Legal.EggLocations5.Contains(loc);
                     case 6: return Legal.EggLocations6.Contains(loc);
                     case 7: return Legal.EggLocations7.Contains(loc);
+                    case 8: return Legal.EggLocations8.Contains(loc);
                 }
                 // Gen 1/2 and pal park Gen 3
                 return false;
@@ -549,7 +551,9 @@ namespace PKHeX.Core
                     case 4: return loc == Locations.Daycare4 || loc == Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS); // faraway
                     case 5: return loc == Locations.Daycare5 || loc == Locations.LinkTrade5;
                     case 6:
-                    case 7: return loc == Locations.Daycare5 || loc == Locations.LinkTrade6;
+                    case 7:
+                    case 8:
+                        return loc == Locations.Daycare5 || loc == Locations.LinkTrade6;
                     default: return false; // Gen 1/2 and pal park Gen 3
                 }
             }
@@ -567,7 +571,9 @@ namespace PKHeX.Core
                     case 4: return Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS); // faraway
                     case 5: return loc == 60003;
                     case 6:
-                    case 7: return loc == 60004;
+                    case 7:
+                    case 8:
+                        return loc == 60004;
                 }
                 return false;
             }
@@ -639,6 +645,7 @@ namespace PKHeX.Core
                 case 5: return 3 <= gen && gen <= 5;
                 case 6: return 3 <= gen && gen <= 6;
                 case 7: return (3 <= gen && gen <= 7) || VC;
+                case 8: return (3 <= gen && gen <= 8) || VC;
                 default:
                     return false;
             }

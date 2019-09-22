@@ -131,6 +131,7 @@ namespace PKHeX.Core
                 case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm);
                 case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm);
                 case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm);
+                case 8: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm);
 
                 default: // none of the above
                     return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
@@ -217,6 +218,15 @@ namespace PKHeX.Core
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_SM);
             if (pkm.USUM)
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_USUM);
+
+            // no other games
+            return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        }
+
+        private static CheckResult VerifyEncounterEgg8(PKM pkm)
+        {
+            if (pkm.SWSH)
+                return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_SWSH);
 
             // no other games
             return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);

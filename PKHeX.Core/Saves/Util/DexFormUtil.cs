@@ -7,9 +7,11 @@ namespace PKHeX.Core
     /// </summary>
     public static class DexFormUtil
     {
+        public static int GetDexFormIndexSWSH(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_SWSH);
         public static int GetDexFormIndexSM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_SM);
         public static int GetDexFormIndexUSUM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_USUM);
         public static int GetDexFormIndexGG(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_GG);
+        public static int GetDexFormCountSWSH(int species) => GetDexFormCount(species, formtable_SWSH);
         public static int GetDexFormCountSM(int species) => GetDexFormCount(species, formtable_SM);
         public static int GetDexFormCountUSUM(int species) => GetDexFormCount(species, formtable_USUM);
         public static int GetDexFormCountGG(int species) => GetDexFormCount(species, formtable_GG);
@@ -92,6 +94,11 @@ namespace PKHeX.Core
             0x004C, 0x0002, 0x0050, 0x0002, 0x0058, 0x0002, 0x0059, 0x0002,
             0x005E, 0x0002, 0x0067, 0x0002, 0x0069, 0x0003, 0x0073, 0x0002,
             0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
+        };
+
+        private static readonly ushort[] formtable_SWSH = // u16 species, u16 formcount
+        {
+            // todo
         };
 
         private static int GetDexFormBitIndex(int species, int formct, int start, IReadOnlyList<ushort> formtable)

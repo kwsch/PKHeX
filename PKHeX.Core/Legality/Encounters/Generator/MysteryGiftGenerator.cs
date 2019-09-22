@@ -43,6 +43,8 @@ namespace PKHeX.Core
                     if (pkm.GG)
                         return MGDB_G7GG;
                     return MGDB_G7;
+                case 8:
+                    return MGDB_G8;
                 default: return Enumerable.Empty<MysteryGift>();
             }
         }

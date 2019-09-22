@@ -213,6 +213,10 @@ namespace PKHeX.WinForms.Controls
                             break;
                     }
                     break;
+                case 8:
+                    GetFieldsfromPKM = PopulateFieldsPK8;
+                    GetPKMfromFields = PreparePK8;
+                    break;
             }
         }
 
