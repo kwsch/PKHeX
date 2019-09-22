@@ -190,7 +190,7 @@ namespace PKHeX.Core
 
         protected override void WriteBoxSlot(PKM pkm, int offset)
         {
-            SetBoxSlot(pkm, offset);
+            base.WriteBoxSlot(pkm, offset);
             BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + PKX.SIZE_3STORED + 0);
             BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + PKX.SIZE_3STORED + 2);
         }
