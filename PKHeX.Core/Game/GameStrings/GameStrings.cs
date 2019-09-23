@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Repository of localized game strings for a given <see cref="LanguageID"/>.
+    /// </summary>
     public class GameStrings : IBasicStrings
     {
         // PKM Info
@@ -20,6 +23,7 @@ namespace PKHeX.Core
         public readonly string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000;
         public readonly string[] metSM_00000, metSM_30000, metSM_40000, metSM_60000;
         public readonly string[] metGG_00000, metGG_30000, metGG_40000, metGG_60000;
+        public readonly string[] metSWSH_00000, metSWSH_30000, metSWSH_40000, metSWSH_60000;
 
         // Misc
         public readonly string[] wallpapernames, puffs;
@@ -36,7 +40,6 @@ namespace PKHeX.Core
 
         private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
         private const string NPC = "NPC";
-        private static readonly string[] LanguageNames = GameDataSource.LanguageList.GetArray();
 
         public GameStrings(string l)
         {
@@ -121,6 +124,12 @@ namespace PKHeX.Core
             metGG_30000 = metSM_30000;
             metGG_40000 = Get("gg_40000");
             metGG_60000 = metSM_60000;
+
+            // todo
+            metSWSH_00000 = Enumerable.Range(1, 500).Select(z => $"a{z}").ToArray();
+            metSWSH_30000 = Enumerable.Range(1, 500).Select(z => $"b{z}").ToArray();
+            metSWSH_40000 = Enumerable.Range(1, 500).Select(z => $"c{z}").ToArray();
+            metSWSH_60000 = Enumerable.Range(1, 500).Select(z => $"d{z}").ToArray();
 
             Sanitize();
 
@@ -416,6 +425,8 @@ namespace PKHeX.Core
                     if (GameVersion.GG.Contains(version))
                         return GetLocationNames7GG(bankID);
                     return GetLocationNames7(bankID);
+                case 8:
+                    return GetLocationNames8(bankID);
                 default:
                     return Array.Empty<string>();
             }
@@ -476,6 +487,18 @@ namespace PKHeX.Core
                 case 3: return metGG_30000;
                 case 4: return metGG_40000;
                 case 6: return metGG_60000;
+                default: return Array.Empty<string>();
+            }
+        }
+
+        public IReadOnlyList<string> GetLocationNames8(int bankID)
+        {
+            switch (bankID)
+            {
+                case 0: return metSWSH_00000;
+                case 3: return metSWSH_30000;
+                case 4: return metSWSH_40000;
+                case 6: return metSWSH_60000;
                 default: return Array.Empty<string>();
             }
         }

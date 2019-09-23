@@ -77,8 +77,10 @@ namespace PKHeX.Core
                 case 5: return pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW;
                 case 6: return pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO;
                 case 7: return pkm.GG ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM;
+                case 8: return Encounters8.TradeGift_SWSH;
+                default:
+                    return null;
             }
-            return null;
         }
 
         private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource)

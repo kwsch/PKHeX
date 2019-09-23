@@ -110,6 +110,7 @@ namespace PKHeX.Core
                 case 5: return W2;
                 case 6: return AS;
                 case 7: return UM;
+                case 8: return SH;
                 default:
                     return Invalid;
             }
@@ -129,6 +130,7 @@ namespace PKHeX.Core
             if (Gen5.Contains(game)) return 5;
             if (Gen6.Contains(game)) return 6;
             if (Gen7.Contains(game)) return 7;
+            if (Gen8.Contains(game)) return 8;
             return -1;
         }
 
@@ -155,6 +157,7 @@ namespace PKHeX.Core
                     return Legal.MaxSpeciesID_7b;
                 return Legal.MaxSpeciesID_7_USUM;
             }
+            if (Gen8.Contains(game)) return Legal.MaxSpeciesID_8;
             return -1;
         }
 

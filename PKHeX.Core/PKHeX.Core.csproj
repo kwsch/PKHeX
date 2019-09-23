@@ -22,6 +22,7 @@
     <None Remove="Resources\byte\eggmove_hgss.pkl" />
     <None Remove="Resources\byte\eggmove_rs.pkl" />
     <None Remove="Resources\byte\eggmove_sm.pkl" />
+    <None Remove="Resources\byte\eggmove_swsh.pkl" />
     <None Remove="Resources\byte\eggmove_uu.pkl" />
     <None Remove="Resources\byte\eggmove_xy.pkl" />
     <None Remove="Resources\byte\encounter_a.pkl" />
@@ -49,11 +50,13 @@
     <None Remove="Resources\byte\encounter_rb_f.pkl" />
     <None Remove="Resources\byte\encounter_red.pkl" />
     <None Remove="Resources\byte\encounter_s.pkl" />
+    <None Remove="Resources\byte\encounter_sh.pkl" />
     <None Remove="Resources\byte\encounter_silver.pkl" />
     <None Remove="Resources\byte\encounter_silver_h.pkl" />
     <None Remove="Resources\byte\encounter_sn.pkl" />
     <None Remove="Resources\byte\encounter_sn_sos.pkl" />
     <None Remove="Resources\byte\encounter_ss.pkl" />
+    <None Remove="Resources\byte\encounter_sw.pkl" />
     <None Remove="Resources\byte\encounter_us.pkl" />
     <None Remove="Resources\byte\encounter_us_sos.pkl" />
     <None Remove="Resources\byte\encounter_um.pkl" />
@@ -74,6 +77,7 @@
     <None Remove="Resources\byte\evos_rby.pkl" />
     <None Remove="Resources\byte\evos_uu.pkl" />
     <None Remove="Resources\byte\evos_gg.pkl" />
+    <None Remove="Resources\byte\evos_swsh.pkl" />
     <None Remove="Resources\byte\hmtm_g3.pkl" />
     <None Remove="Resources\byte\lvlmove_ao.pkl" />
     <None Remove="Resources\byte\lvlmove_b2w2.pkl" />
@@ -90,6 +94,7 @@
     <None Remove="Resources\byte\lvlmove_rb.pkl" />
     <None Remove="Resources\byte\lvlmove_rs.pkl" />
     <None Remove="Resources\byte\lvlmove_sm.pkl" />
+    <None Remove="Resources\byte\lvlmove_swsh.pkl" />
     <None Remove="Resources\byte\lvlmove_uu.pkl" />
     <None Remove="Resources\byte\lvlmove_xy.pkl" />
     <None Remove="Resources\byte\lvlmove_y.pkl" />
@@ -109,6 +114,7 @@
     <None Remove="Resources\byte\personal_rb" />
     <None Remove="Resources\byte\personal_rs" />
     <None Remove="Resources\byte\personal_sm" />
+    <None Remove="Resources\byte\personal_swsh" />
     <None Remove="Resources\byte\personal_uu" />
     <None Remove="Resources\byte\personal_xy" />
     <None Remove="Resources\byte\personal_y" />
@@ -153,6 +159,10 @@
     <None Remove="Resources\text\de\text_sm_60000_de.txt" />
     <None Remove="Resources\text\de\text_Species_de.txt" />
     <None Remove="Resources\text\de\text_SuperTraining_de.txt" />
+    <None Remove="Resources\text\de\text_swsh_00000_de.txt" />
+    <None Remove="Resources\text\de\text_swsh_30000_de.txt" />
+    <None Remove="Resources\text\de\text_swsh_40000_de.txt" />
+    <None Remove="Resources\text\de\text_swsh_60000_de.txt" />
     <None Remove="Resources\text\de\text_tradeao_de.txt" />
     <None Remove="Resources\text\de\text_tradeb2w2_de.txt" />
     <None Remove="Resources\text\de\text_tradebw_de.txt" />
@@ -203,6 +213,10 @@
     <None Remove="Resources\text\en\text_sm_60000_en.txt" />
     <None Remove="Resources\text\en\text_Species_en.txt" />
     <None Remove="Resources\text\en\text_SuperTraining_en.txt" />
+    <None Remove="Resources\text\en\text_swsh_00000_en.txt" />
+    <None Remove="Resources\text\en\text_swsh_30000_en.txt" />
+    <None Remove="Resources\text\en\text_swsh_40000_en.txt" />
+    <None Remove="Resources\text\en\text_swsh_60000_en.txt" />
     <None Remove="Resources\text\en\text_tradeao_en.txt" />
     <None Remove="Resources\text\en\text_tradeb2w2_en.txt" />
     <None Remove="Resources\text\en\text_tradebw_en.txt" />
@@ -253,6 +267,10 @@
     <None Remove="Resources\text\es\text_sm_60000_es.txt" />
     <None Remove="Resources\text\es\text_Species_es.txt" />
     <None Remove="Resources\text\es\text_SuperTraining_es.txt" />
+    <None Remove="Resources\text\es\text_swsh_00000_es.txt" />
+    <None Remove="Resources\text\es\text_swsh_30000_es.txt" />
+    <None Remove="Resources\text\es\text_swsh_40000_es.txt" />
+    <None Remove="Resources\text\es\text_swsh_60000_es.txt" />
     <None Remove="Resources\text\es\text_tradeao_es.txt" />
     <None Remove="Resources\text\es\text_tradeb2w2_es.txt" />
     <None Remove="Resources\text\es\text_tradebw_es.txt" />
@@ -303,6 +321,10 @@
     <None Remove="Resources\text\fr\text_sm_60000_fr.txt" />
     <None Remove="Resources\text\fr\text_Species_fr.txt" />
     <None Remove="Resources\text\fr\text_SuperTraining_fr.txt" />
+    <None Remove="Resources\text\fr\text_swsh_00000_fr.txt" />
+    <None Remove="Resources\text\fr\text_swsh_30000_fr.txt" />
+    <None Remove="Resources\text\fr\text_swsh_40000_fr.txt" />
+    <None Remove="Resources\text\fr\text_swsh_60000_fr.txt" />
     <None Remove="Resources\text\fr\text_tradeao_fr.txt" />
     <None Remove="Resources\text\fr\text_tradeb2w2_fr.txt" />
     <None Remove="Resources\text\fr\text_tradebw_fr.txt" />
@@ -377,6 +399,10 @@
     <None Remove="Resources\text\it\text_sm_60000_it.txt" />
     <None Remove="Resources\text\it\text_Species_it.txt" />
     <None Remove="Resources\text\it\text_SuperTraining_it.txt" />
+    <None Remove="Resources\text\it\text_swsh_00000_it.txt" />
+    <None Remove="Resources\text\it\text_swsh_30000_it.txt" />
+    <None Remove="Resources\text\it\text_swsh_40000_it.txt" />
+    <None Remove="Resources\text\it\text_swsh_60000_it.txt" />
     <None Remove="Resources\text\it\text_tradeao_it.txt" />
     <None Remove="Resources\text\it\text_tradeb2w2_it.txt" />
     <None Remove="Resources\text\it\text_tradebw_it.txt" />
@@ -427,6 +453,10 @@
     <None Remove="Resources\text\ja\text_sm_60000_ja.txt" />
     <None Remove="Resources\text\ja\text_Species_ja.txt" />
     <None Remove="Resources\text\ja\text_SuperTraining_ja.txt" />
+    <None Remove="Resources\text\ja\text_swsh_00000_ja.txt" />
+    <None Remove="Resources\text\ja\text_swsh_30000_ja.txt" />
+    <None Remove="Resources\text\ja\text_swsh_40000_ja.txt" />
+    <None Remove="Resources\text\ja\text_swsh_60000_ja.txt" />
     <None Remove="Resources\text\ja\text_tradeao_ja.txt" />
     <None Remove="Resources\text\ja\text_tradeb2w2_ja.txt" />
     <None Remove="Resources\text\ja\text_tradebw_ja.txt" />
@@ -477,6 +507,10 @@
     <None Remove="Resources\text\ko\text_sm_60000_ko.txt" />
     <None Remove="Resources\text\ko\text_Species_ko.txt" />
     <None Remove="Resources\text\ko\text_SuperTraining_ko.txt" />
+    <None Remove="Resources\text\ko\text_swsh_00000_ko.txt" />
+    <None Remove="Resources\text\ko\text_swsh_30000_ko.txt" />
+    <None Remove="Resources\text\ko\text_swsh_40000_ko.txt" />
+    <None Remove="Resources\text\ko\text_swsh_60000_ko.txt" />
     <None Remove="Resources\text\ko\text_tradeao_ko.txt" />
     <None Remove="Resources\text\ko\text_tradeb2w2_ko.txt" />
     <None Remove="Resources\text\ko\text_tradebw_ko.txt" />
@@ -653,6 +687,7 @@
     <None Remove="Resources\text\script\const_sm_en.txt" />
     <None Remove="Resources\text\script\const_sm_ko.txt" />
     <None Remove="Resources\text\script\const_sm_zh.txt" />
+    <None Remove="Resources\text\script\const_swsh_en.txt" />
     <None Remove="Resources\text\script\const_usum_en.txt" />
     <None Remove="Resources\text\script\const_usum_ja.txt" />
     <None Remove="Resources\text\script\const_usum_ko.txt" />
@@ -691,6 +726,7 @@
     <None Remove="Resources\text\script\flags_sm_ja.txt" />
     <None Remove="Resources\text\script\flags_sm_ko.txt" />
     <None Remove="Resources\text\script\flags_sm_zh.txt" />
+    <None Remove="Resources\text\script\flags_swsh_en.txt" />
     <None Remove="Resources\text\script\flags_usum_en.txt" />
     <None Remove="Resources\text\script\flags_usum_ja.txt" />
     <None Remove="Resources\text\script\flags_usum_ko.txt" />
@@ -738,6 +774,10 @@
     <None Remove="Resources\text\zh\text_Species_zh.txt" />
     <None Remove="Resources\text\zh\text_Species_zh2.txt" />
     <None Remove="Resources\text\zh\text_SuperTraining_zh.txt" />
+    <None Remove="Resources\text\zh\text_swsh_00000_zh.txt" />
+    <None Remove="Resources\text\zh\text_swsh_30000_zh.txt" />
+    <None Remove="Resources\text\zh\text_swsh_40000_zh.txt" />
+    <None Remove="Resources\text\zh\text_swsh_60000_zh.txt" />
     <None Remove="Resources\text\zh\text_tradeao_zh.txt" />
     <None Remove="Resources\text\zh\text_tradesm_zh.txt" />
     <None Remove="Resources\text\zh\text_tradeusum_zh.txt" />
@@ -760,6 +800,7 @@
     <EmbeddedResource Include="Resources\byte\eggmove_hgss.pkl" />
     <EmbeddedResource Include="Resources\byte\eggmove_rs.pkl" />
     <EmbeddedResource Include="Resources\byte\eggmove_sm.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_swsh.pkl" />
     <EmbeddedResource Include="Resources\byte\eggmove_uu.pkl" />
     <EmbeddedResource Include="Resources\byte\eggmove_xy.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_a.pkl" />
@@ -787,11 +828,13 @@
     <EmbeddedResource Include="Resources\byte\encounter_rb_f.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_red.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_s.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_sh.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_silver.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_silver_h.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_sn.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_sn_sos.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_ss.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_sw.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_us.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_us_sos.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_um.pkl" />
@@ -812,6 +855,7 @@
     <EmbeddedResource Include="Resources\byte\evos_rby.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_uu.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_gg.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_swsh.pkl" />
     <EmbeddedResource Include="Resources\byte\hmtm_g3.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_ao.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_b2w2.pkl" />
@@ -828,6 +872,7 @@
     <EmbeddedResource Include="Resources\byte\lvlmove_rb.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_rs.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_sm.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_swsh.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_uu.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_xy.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_y.pkl" />
@@ -847,6 +892,7 @@
     <EmbeddedResource Include="Resources\byte\personal_rb" />
     <EmbeddedResource Include="Resources\byte\personal_rs" />
     <EmbeddedResource Include="Resources\byte\personal_sm" />
+    <EmbeddedResource Include="Resources\byte\personal_swsh" />
     <EmbeddedResource Include="Resources\byte\personal_uu" />
     <EmbeddedResource Include="Resources\byte\personal_xy" />
     <EmbeddedResource Include="Resources\byte\personal_y" />
@@ -891,6 +937,10 @@
     <EmbeddedResource Include="Resources\text\de\text_sm_60000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_Species_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_SuperTraining_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_swsh_00000_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_swsh_30000_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_swsh_40000_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_swsh_60000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradeao_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradeb2w2_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradebw_de.txt" />
@@ -941,6 +991,10 @@
     <EmbeddedResource Include="Resources\text\en\text_sm_60000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_Species_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_SuperTraining_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_swsh_00000_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_swsh_30000_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_swsh_40000_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_swsh_60000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradeao_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradeb2w2_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradebw_en.txt" />
@@ -991,6 +1045,10 @@
     <EmbeddedResource Include="Resources\text\es\text_sm_60000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Species_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_SuperTraining_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_swsh_00000_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_swsh_30000_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_swsh_40000_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_swsh_60000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradeao_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradeb2w2_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradebw_es.txt" />
@@ -1041,6 +1099,10 @@
     <EmbeddedResource Include="Resources\text\fr\text_sm_60000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_Species_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_SuperTraining_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_swsh_00000_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_swsh_30000_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_swsh_40000_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_swsh_60000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradeao_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradeb2w2_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradebw_fr.txt" />
@@ -1115,6 +1177,10 @@
     <EmbeddedResource Include="Resources\text\it\text_sm_60000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_Species_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_SuperTraining_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_swsh_00000_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_swsh_30000_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_swsh_40000_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_swsh_60000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradeao_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradeb2w2_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradebw_it.txt" />
@@ -1165,6 +1231,10 @@
     <EmbeddedResource Include="Resources\text\ja\text_sm_60000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_Species_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_SuperTraining_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_swsh_00000_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_swsh_30000_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_swsh_40000_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_swsh_60000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradeao_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradeb2w2_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradebw_ja.txt" />
@@ -1215,6 +1285,10 @@
     <EmbeddedResource Include="Resources\text\ko\text_sm_60000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Species_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_SuperTraining_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_swsh_00000_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_swsh_30000_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_swsh_40000_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_swsh_60000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_tradeao_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_tradeb2w2_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_tradebw_ko.txt" />
@@ -1391,6 +1465,7 @@
     <EmbeddedResource Include="Resources\text\script\const_sm_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_sm_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\const_sm_zh.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_swsh_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_ko.txt" />
@@ -1429,6 +1504,7 @@
     <EmbeddedResource Include="Resources\text\script\flags_sm_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_sm_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_sm_zh.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_swsh_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_usum_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_usum_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_usum_ko.txt" />
@@ -1476,6 +1552,10 @@
     <EmbeddedResource Include="Resources\text\zh\text_Species_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Species_zh2.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_SuperTraining_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_swsh_00000_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_swsh_30000_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_swsh_40000_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_swsh_60000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradeao_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradesm_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradeusum_zh.txt" />

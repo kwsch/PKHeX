@@ -154,6 +154,32 @@ namespace PKHeX.Core
             5, 5, 4, 4, 4, 5, 5, 4, 5, 5
         };
 
+        public static readonly IReadOnlyList<byte> MaxType_SWSH = new byte[]
+        {
+            // todo
+            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
+            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
+            0, 0, 0, 0, 0, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 4, 4, 4, 5, 5, 4, 5, 5
+        };
+
         public static readonly Dictionary<int, string> RecordList_6 = new Dictionary<int, string>
         {
             {000, "Steps Taken"},
@@ -519,6 +545,14 @@ namespace PKHeX.Core
             {196, "Photo Club Photo Shoots"},
             {197, "Highest Wormhole Travel Distance"},
             {198, "Highest Mantine Surf BP Earned"},
+        };
+
+        public static readonly Dictionary<int, string> RecordList_8 = new Dictionary<int, string>
+        {
+            // todo
+            {000, "Steps Taken"},
+            {001, "Times Saved"},
+            {002, "Storyline Completed Time"},
         };
     }
 }

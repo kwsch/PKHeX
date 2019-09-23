@@ -13,6 +13,11 @@ namespace PKHeX.Core
     public class PersonalTable
     {
         /// <summary>
+        /// Personal Table used in <see cref="GameVersion.SWSH"/>.
+        /// </summary>
+        public static readonly PersonalTable SWSH = GetTable("gg", GameVersion.SWSH); // todo
+
+        /// <summary>
         /// Personal Table used in <see cref="GameVersion.GG"/>.
         /// </summary>
         public static readonly PersonalTable GG = GetTable("gg", GameVersion.GG);
@@ -127,10 +132,12 @@ namespace PKHeX.Core
                     return z => new PersonalInfoXY(z);
                 case GameVersion.ORAS:
                     return z => new PersonalInfoORAS(z);
+                case GameVersion.SM: case GameVersion.USUM:
+                    return z => new PersonalInfoSM(z);
                 case GameVersion.GG:
                     return z => new PersonalInfoGG(z);
                 default:
-                    return z => new PersonalInfoSM(z);
+                    return z => new PersonalInfoSWSH(z);
             }
         }
 
@@ -157,6 +164,7 @@ namespace PKHeX.Core
                 case GameVersion.SM:
                 case GameVersion.USUM:
                 case GameVersion.GG: return PersonalInfoSM.SIZE;
+                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE; // todo
 
                 default: return -1;
             }
@@ -203,7 +211,7 @@ namespace PKHeX.Core
         {
             var get = GetConstructor(format);
             int size = GetEntrySize(format);
-            byte[][] entries = ArrayUtil.Split(data, size);
+            byte[][] entries = data.Split(size);
             Table = new PersonalInfo[entries.Length];
             for (int i = 0; i < Table.Length; i++)
                 Table[i] = get(entries[i]);

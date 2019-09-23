@@ -162,6 +162,8 @@ namespace PKHeX.Core
 
                 case 1: case 2:
                 case 7: ParsePK7(); return;
+
+                case 8: ParsePK8(); return;
             }
         }
 
@@ -217,6 +219,14 @@ namespace PKHeX.Core
         }
 
         private void ParsePK7()
+        {
+            UpdateInfo();
+            if (pkm.VC)
+                UpdateVCTransferInfo();
+            UpdateChecks();
+        }
+
+        private void ParsePK8()
         {
             UpdateInfo();
             if (pkm.VC)

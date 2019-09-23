@@ -16,6 +16,7 @@ namespace PKHeX.Core
     {
         public static readonly Type[] Types =
         {
+            typeof (PK8),
             typeof (PB7),
             typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
             typeof (PK3), typeof (XK3), typeof (CK3),

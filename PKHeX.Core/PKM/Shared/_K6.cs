@@ -68,7 +68,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray(Data);
+            return PKX.EncryptArray6(Data);
         }
 
         // General User-error Fixes

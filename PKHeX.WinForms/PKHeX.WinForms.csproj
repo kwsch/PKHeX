@@ -276,6 +276,9 @@
     <Compile Include="Controls\PKM Editor\EditPK7.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\PKM Editor\EditPK8.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\PKM Editor\PKMEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -557,6 +560,18 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.Designer.cs">
       <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen8\SAV_PokedexSWSH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen8\SAV_PokedexSWSH.Designer.cs">
+      <DependentUpon>SAV_PokedexSWSH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen8\SAV_Trainer8.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen8\SAV_Trainer8.Designer.cs">
+      <DependentUpon>SAV_Trainer8.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\SAV_BoxList.cs">
       <SubType>Form</SubType>
@@ -859,6 +874,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.resx">
       <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen8\SAV_PokedexSWSH.resx">
+      <DependentUpon>SAV_PokedexSWSH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen8\SAV_Trainer8.resx">
+      <DependentUpon>SAV_Trainer8.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxList.resx">
       <DependentUpon>SAV_BoxList.cs</DependentUpon>
@@ -4010,6 +4031,7 @@
       <Name>PKHeX.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

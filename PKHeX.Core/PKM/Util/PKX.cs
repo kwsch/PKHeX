@@ -41,6 +41,12 @@ namespace PKHeX.Core
         internal const int SIZE_6STORED = 0xE8;
         internal const int SIZE_6BLOCK = 56;
 
+        // Gen7 Format is the same size as Gen6.
+
+        internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK);
+        internal const int SIZE_8PARTY = SIZE_8STORED; // todo swsh
+        internal const int SIZE_8BLOCK = 72; // todo swsh
+
         private static readonly HashSet<int> Sizes = new HashSet<int>
         {
             SIZE_1JLIST, SIZE_1ULIST,
@@ -49,7 +55,8 @@ namespace PKHeX.Core
             SIZE_3CSTORED, SIZE_3XSTORED,
             SIZE_4STORED, SIZE_4PARTY,
             SIZE_5PARTY,
-            SIZE_6STORED, SIZE_6PARTY
+            SIZE_6STORED, SIZE_6PARTY,
+            SIZE_8STORED,
         };
 
         /// <summary>
@@ -228,12 +235,41 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Decrypts a Gen8 pkm byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
+        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
+        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
+        public static byte[] DecryptArray8(byte[] ekm)
+        {
+            uint pv = BitConverter.ToUInt32(ekm, 0);
+            uint sv = pv >> 13 & 31;
+
+            CryptPKM(ekm, pv, SIZE_8BLOCK);
+            return ShuffleArray(ekm, sv, SIZE_8BLOCK);
+        }
+
+        /// <summary>
+        /// Encrypts a Gen8 pkm byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
+        public static byte[] EncryptArray8(byte[] pkm)
+        {
+            uint pv = BitConverter.ToUInt32(pkm, 0);
+            uint sv = pv >> 13 & 31;
+
+            byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_8BLOCK);
+            CryptPKM(ekm, pv, SIZE_8BLOCK);
+            return ekm;
+        }
+
+        /// <summary>
         /// Decrypts a 232 byte + party stat byte array.
         /// </summary>
         /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
         /// <returns>Decrypted <see cref="PKM"/> data.</returns>
         /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] DecryptArray(byte[] ekm)
+        public static byte[] DecryptArray6(byte[] ekm)
         {
             uint pv = BitConverter.ToUInt32(ekm, 0);
             uint sv = pv >> 13 & 31;
@@ -246,7 +282,7 @@ namespace PKHeX.Core
         /// Encrypts a 232 byte + party stat byte array.
         /// </summary>
         /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
-        public static byte[] EncryptArray(byte[] pkm)
+        public static byte[] EncryptArray6(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = pv >> 13 & 31;
@@ -564,7 +600,11 @@ namespace PKHeX.Core
                 case 6:
                 case 7:
                     if (BitConverter.ToUInt16(pkm, 0xC8) != 0 && BitConverter.ToUInt16(pkm, 0x58) != 0)
-                        pkm = DecryptArray(pkm);
+                        pkm = DecryptArray6(pkm);
+                    return;
+                case 8:
+                    if (BitConverter.ToUInt16(pkm, 4) != 0) // todo swsh: find hint of encrypted data
+                        pkm = DecryptArray8(pkm);
                     return;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(format));

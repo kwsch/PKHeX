@@ -10,6 +10,7 @@ using static PKHeX.Core.Encounters5;
 using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
+using static PKHeX.Core.Encounters8;
 
 namespace PKHeX.Core
 {
@@ -249,6 +250,9 @@ namespace PKHeX.Core
 
                 case GameVersion.GP: return StaticGP;
                 case GameVersion.GE: return StaticGE;
+
+                case GameVersion.SW: return StaticSW;
+                case GameVersion.SH: return StaticSH;
 
                 default: return Enumerable.Empty<EncounterStatic>();
             }

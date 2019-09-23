@@ -71,7 +71,13 @@ namespace PKHeX.Core
             {
                 case 6: VerifyIVsGen6(data, w); break;
                 case 7: VerifyIVsGen7(data); break;
+                case 8: VerifyIVsGen8(data); break;
             }
+        }
+
+        private void VerifyIVsGen8(LegalityAnalysis data)
+        {
+            // todo special rules
         }
 
         private void VerifyIVsGen7(LegalityAnalysis data)

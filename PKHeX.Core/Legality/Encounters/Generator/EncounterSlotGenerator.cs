@@ -10,6 +10,7 @@ using static PKHeX.Core.Encounters5;
 using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
+using static PKHeX.Core.Encounters8;
 
 namespace PKHeX.Core
 {
@@ -238,6 +239,9 @@ namespace PKHeX.Core
                 case GameVersion.GP: return SlotsGP;
                 case GameVersion.GE: return SlotsGE;
                 case GameVersion.GO: return SlotsGO_GG;
+
+                case GameVersion.SW: return SlotsSW;
+                case GameVersion.SH: return SlotsSH;
 
                 default: return Enumerable.Empty<EncounterArea>();
             }

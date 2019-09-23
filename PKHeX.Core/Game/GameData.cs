@@ -49,6 +49,9 @@ namespace PKHeX.Core
             { GameVersion.GP, Legal.LevelUpGG },
             { GameVersion.GE, Legal.LevelUpGG },
 
+            { GameVersion.SW, Legal.LevelUpSWSH },
+            { GameVersion.SH, Legal.LevelUpSWSH },
+
             { GameVersion.RB, Legal.LevelUpRB },
             { GameVersion.RBY, Legal.LevelUpY },
             { GameVersion.GS, Legal.LevelUpGS },
@@ -68,6 +71,7 @@ namespace PKHeX.Core
             { GameVersion.USUM, Legal.LevelUpUSUM },
 
             { GameVersion.GG, Legal.LevelUpGG },
+            { GameVersion.SWSH, Legal.LevelUpSWSH },
 
             { GameVersion.Gen1, Legal.LevelUpY },
             { GameVersion.Gen2, Legal.LevelUpC },
@@ -76,6 +80,7 @@ namespace PKHeX.Core
             { GameVersion.Gen5, Legal.LevelUpB2W2 },
             { GameVersion.Gen6, Legal.LevelUpAO },
             { GameVersion.Gen7, Legal.LevelUpSM },
+            { GameVersion.Gen8, Legal.LevelUpSWSH },
             { GameVersion.VCEvents, Legal.LevelUpY },
 
             { GameVersion.Stadium, Legal.LevelUpY },
@@ -126,6 +131,9 @@ namespace PKHeX.Core
             { GameVersion.GP, PersonalTable.GG },
             { GameVersion.GE, PersonalTable.GG },
 
+            { GameVersion.SW, PersonalTable.SWSH },
+            { GameVersion.SH, PersonalTable.SWSH },
+
             { GameVersion.RB, PersonalTable.RB },
             { GameVersion.RBY, PersonalTable.Y },
             { GameVersion.GS, PersonalTable.GS },
@@ -143,6 +151,7 @@ namespace PKHeX.Core
             { GameVersion.ORAS, PersonalTable.AO },
             { GameVersion.SM, PersonalTable.SM },
             { GameVersion.USUM, PersonalTable.USUM },
+            { GameVersion.SWSH, PersonalTable.SWSH },
 
             { GameVersion.GG, PersonalTable.GG },
 
@@ -153,6 +162,7 @@ namespace PKHeX.Core
             { GameVersion.Gen5, PersonalTable.B2W2 },
             { GameVersion.Gen6, PersonalTable.AO },
             { GameVersion.Gen7, PersonalTable.SM },
+            { GameVersion.Gen8, PersonalTable.SWSH },
             { GameVersion.VCEvents, PersonalTable.Y },
 
             { GameVersion.Stadium, PersonalTable.Y },

@@ -104,7 +104,7 @@ namespace PKHeX.Core
                     switch (pkm.Format)
                     {
                         case 3:
-                            return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
+                            return pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
                         case 4:
                             return Locations.Transfer3; // Pal Park
                         default:
@@ -114,36 +114,40 @@ namespace PKHeX.Core
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.Pt:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : 4; // Solaceon Town
+                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationDPPt;
                 case GameVersion.HG:
                 case GameVersion.SS:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : 182; // Route 34
+                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationHGSS;
 
                 case GameVersion.B:
                 case GameVersion.W:
                 case GameVersion.B2:
                 case GameVersion.W2:
-                    return 16; // Route 3
+                    return Locations.HatchLocation5;
 
                 case GameVersion.X:
                 case GameVersion.Y:
-                    return 38; // Route 7
+                    return Locations.HatchLocation6XY;
                 case GameVersion.AS:
                 case GameVersion.OR:
-                    return 318; // Battle Resort
+                    return Locations.HatchLocation6AO;
 
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.US:
                 case GameVersion.UM:
-                    return 50; // Route 4
+                    return Locations.HatchLocation7;
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                    return Locations.HatchLocation8;
 
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
                 case GameVersion.GSC:
                 case GameVersion.RBY:
-                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : 16; // Goldenrod City (if crystal)
+                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC;
             }
             return -1;
         }

@@ -69,6 +69,7 @@ namespace PKHeX.Core
                 case 5: return VerifyAbility5(data, abilities);
                 case 6: return VerifyAbility6(data);
                 case 7: return VerifyAbility7(data);
+                case 8: return VerifyAbility8(data);
             }
 
             return CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch);
@@ -291,6 +292,18 @@ namespace PKHeX.Core
                     return GetInvalid(LAbilityMismatchSOS);
             }
             if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+                return GetInvalid(LAbilityHiddenUnavailable);
+
+            return VALID;
+        }
+
+        private CheckResult VerifyAbility8(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            var EncounterMatch = data.EncounterMatch;
+            if (EncounterMatch is EncounterSlot && pkm.AbilityNumber == 4)
+                return GetInvalid(LAbilityHiddenUnavailable);
+            if (Legal.Ban_NoHidden8.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
