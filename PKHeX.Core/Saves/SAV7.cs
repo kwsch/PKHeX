@@ -40,7 +40,7 @@ namespace PKHeX.Core
 
         private void ReloadBattleTeams()
         {
-            var demo = this is SAV7SM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
+            var demo = this is SAV7SM && Data.IsRangeAll(0, PCLayout, 0x4C4); // up to Battle Box values
             if (demo || !Exportable)
             {
                 BoxLayout.ClearBattleTeams();

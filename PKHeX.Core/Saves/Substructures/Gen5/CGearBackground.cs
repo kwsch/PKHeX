@@ -52,9 +52,9 @@ namespace PKHeX.Core
                 _cgb = data;
             }
 
-            byte[] Region1 = data.Take(0x1FE0).ToArray();
-            byte[] ColorData = data.Skip(0x1FE0).Take(0x20).ToArray();
-            byte[] Region2 = data.Skip(0x2000).Take(0x600).ToArray();
+            byte[] Region1 = data.Slice(0, 0x1FE0);
+            byte[] ColorData = data.Slice(0x1FE0, 0x20);
+            byte[] Region2 = data.Slice(0x2000, 0x600);
 
             ColorPalette = new int[0x10];
             for (int i = 0; i < 0x10; i++)

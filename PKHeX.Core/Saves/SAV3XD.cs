@@ -87,7 +87,7 @@ namespace PKHeX.Core
             // Purifier = subOffsets[14] + 0xA8;
 
             StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
-            ShadowInfo = new ShadowInfoTableXD(Data.Skip(Shadow).Take(subLength[7]).ToArray());
+            ShadowInfo = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
         }
 
         private void Initialize()

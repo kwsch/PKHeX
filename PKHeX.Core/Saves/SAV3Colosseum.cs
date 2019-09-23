@@ -132,7 +132,7 @@ namespace PKHeX.Core
             SetChecksums();
 
             // Get updated save slot data
-            byte[] digest = Data.Skip(Data.Length - 20).Take(20).ToArray();
+            byte[] digest = Data.Slice(Data.Length - 20, 20);
             byte[] newSAV = EncryptColosseum(Data, digest);
 
             // Put save slot back in original save data
@@ -275,7 +275,7 @@ namespace PKHeX.Core
                 newHC -= BigEndian.ToInt32(D, 0);
                 newHC -= BigEndian.ToInt32(D, 4);
 
-                byte[] chk = data.Skip(data.Length - 20).Take(20).ToArray();
+                byte[] chk = data.Slice(data.Length - 20, 20);
 
                 bool header = newHC == oldHC;
                 bool body = chk.SequenceEqual(checksum);

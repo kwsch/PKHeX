@@ -911,10 +911,10 @@ namespace PKHeX.Core
                 return false;
 
             int expectLength = BoxSlotCount * BlankPKM.EncryptedBoxData.Length;
-            return SetConcatenatedBinary(data, expectLength);
+            return SetConcatenatedBinary(data, expectLength, start);
         }
 
-        private bool SetConcatenatedBinary(byte[] data, int expectLength)
+        private bool SetConcatenatedBinary(byte[] data, int expectLength, int start = 0)
         {
             if (data.Length != expectLength)
                 return false;
@@ -922,7 +922,7 @@ namespace PKHeX.Core
             var BD = BoxData;
             var entryLength = BlankPKM.EncryptedBoxData.Length;
             var pkdata = ArrayUtil.EnumerateSplit(data, entryLength);
-            pkdata.Select(GetPKM).CopyTo(BD, IsSlotOverwriteProtected);
+            pkdata.Select(GetPKM).CopyTo(BD, IsSlotOverwriteProtected, start);
             BoxData = BD;
             return true;
         }
