@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
                 Close();
                 return;
             }
-            data = data.Skip(0x1FF).Take(PL6.Size).ToArray();
+            data = data.Slice(0x1FF, PL6.Size);
             LoadLinkData(data);
         }
 

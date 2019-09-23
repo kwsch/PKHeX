@@ -18,7 +18,7 @@ namespace PKHeX.Core
             int count = BigEndian.ToInt16(input, offset);
             if (count > 500)
                 count = 500;
-            _unk = input.Skip(offset + 2).Take(2).ToArray();
+            _unk = input.Slice(offset + 2, 2);
             for (int i = 0; i < count; i++)
             {
                 var entry = Read(input, offset, i);

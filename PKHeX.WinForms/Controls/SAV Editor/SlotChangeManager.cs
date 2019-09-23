@@ -216,6 +216,7 @@ namespace PKHeX.WinForms.Controls
             if (Directory.Exists(files[0])) // folder
             {
                 SE.LoadBoxes(out string _, files[0]);
+                Drag.Reset();
                 return;
             }
 

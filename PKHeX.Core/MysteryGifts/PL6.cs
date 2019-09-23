@@ -44,12 +44,12 @@ namespace PKHeX.Core
         public uint Flags_6 { get => BitConverter.ToUInt32(Data, 0x3E1); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3E1); }
 
         // Pokémon
-        public PL6_PKM Poke_1 { get => new PL6_PKM(Data.Skip(0x09D).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x09D); }
-        public PL6_PKM Poke_2 { get => new PL6_PKM(Data.Skip(0x145).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x145); }
-        public PL6_PKM Poke_3 { get => new PL6_PKM(Data.Skip(0x1ED).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x1ED); }
-        public PL6_PKM Poke_4 { get => new PL6_PKM(Data.Skip(0x295).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x295); }
-        public PL6_PKM Poke_5 { get => new PL6_PKM(Data.Skip(0x33D).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x33D); }
-        public PL6_PKM Poke_6 { get => new PL6_PKM(Data.Skip(0x3E5).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x3E5); }
+        public PL6_PKM Poke_1 { get => new PL6_PKM(Data.Slice(0x09D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x09D); }
+        public PL6_PKM Poke_2 { get => new PL6_PKM(Data.Slice(0x145, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x145); }
+        public PL6_PKM Poke_3 { get => new PL6_PKM(Data.Slice(0x1ED, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x1ED); }
+        public PL6_PKM Poke_4 { get => new PL6_PKM(Data.Slice(0x295, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x295); }
+        public PL6_PKM Poke_5 { get => new PL6_PKM(Data.Slice(0x33D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x33D); }
+        public PL6_PKM Poke_6 { get => new PL6_PKM(Data.Slice(0x3E5, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x3E5); }
 
         // Item Properties
         public int Item_1     { get => BitConverter.ToUInt16(Data, 0x489); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x489); }

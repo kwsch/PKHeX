@@ -44,19 +44,19 @@ namespace PKHeX.Core
 
         public byte[] Decorations
         {
-            get => Data.Skip(Offset + 0x12).Take(0x10).ToArray();
+            get => Data.Slice(Offset + 0x12, 0x10);
             set => value.CopyTo(Data, Offset + 0x12);
         }
 
         public byte[] DecorationCoordinates
         {
-            get => Data.Skip(Offset + 0x22).Take(0x10).ToArray();
+            get => Data.Slice(Offset + 0x22, 0x10);
             set => value.CopyTo(Data, Offset + 0x22);
         }
 
         public SecretBase3Team Team
         {
-            get => new SecretBase3Team(Data.Skip(Offset + 50).Take(72).ToArray());
+            get => new SecretBase3Team(Data.Slice(Offset + 50, 72));
             set => value.Write().CopyTo(Data, Offset + 50);
         }
 
