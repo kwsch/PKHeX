@@ -258,6 +258,7 @@ namespace PKHeX.WinForms
         {
             switch (game)
             {
+                case GameVersion.SW: case GameVersion.SH: case GameVersion.SWSH: return "swsh";
                 case GameVersion.GP: case GameVersion.GE: case GameVersion.GG: return "gg";
                 case GameVersion.X: case GameVersion.Y: return "xy";
                 case GameVersion.OR: case GameVersion.AS: return "oras";
