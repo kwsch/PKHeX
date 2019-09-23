@@ -45,7 +45,7 @@ namespace PKHeX.Core
 
         internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK);
         internal const int SIZE_8PARTY = SIZE_8STORED; // todo swsh
-        internal const int SIZE_8BLOCK = 64; // todo swsh
+        internal const int SIZE_8BLOCK = 72; // todo swsh
 
         private static readonly HashSet<int> Sizes = new HashSet<int>
         {
