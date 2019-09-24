@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// <see cref="PersonalInfo"/> class with values from the LGPE games.
+    /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.GG"/> games.
     /// </summary>
     public class PersonalInfoGG : PersonalInfoSM
     {

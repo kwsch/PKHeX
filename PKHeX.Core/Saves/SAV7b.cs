@@ -11,7 +11,7 @@ namespace PKHeX.Core
     {
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "savedata|*.bin";
-        public override string Extension => string.Empty;
+        public override string Extension => ".bin";
         public override string[] PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
 
         public override Type PKMType => typeof(PB7);
@@ -148,7 +148,7 @@ namespace PKHeX.Core
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
         protected override PKM GetPKM(byte[] data) => new PB7(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray6(data);
         public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_STORED);
         protected override IList<int>[] SlotPointers => new[] { Storage.PokeListInfo };
 

@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_6; // OR
 
         protected override PKM GetPKM(byte[] data) => new PK6(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
+        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray6(data);
 
         public MyItem Items { get; protected set; }
         public ItemInfo6 ItemInfo { get; protected set; }

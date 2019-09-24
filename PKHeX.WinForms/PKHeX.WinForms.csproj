@@ -443,9 +443,6 @@
     <Compile Update="Subforms\Save Editors\Gen7\SAV_ZygardeCell.Designer.cs">
       <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
     </Compile>
-    <Compile Update="Subforms\Save Editors\SAV_BoxList.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Subforms\Save Editors\SAV_BoxList.Designer.cs">
       <DependentUpon>SAV_BoxList.cs</DependentUpon>
     </Compile>
@@ -727,9 +724,6 @@
     <EmbeddedResource Update="Subforms\Save Editors\Gen7\SAV_ZygardeCell.resx">
       <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Update="Subforms\Save Editors\SAV_BoxList.resx">
-      <DependentUpon>SAV_BoxList.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Update="Subforms\Save Editors\SAV_BoxViewer.resx">
       <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -776,5 +770,4 @@
       <DependentUpon>SettingsEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>

@@ -4,10 +4,10 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    public class Record6 : SaveBlock
+    public class Record6 : RecordBlock
     {
         public const int RecordCount = 200;
-        protected readonly IReadOnlyList<byte> RecordMax;
+        protected override IReadOnlyList<byte> RecordMax { get; }
 
         public Record6(SAV6 sav, int offset, IReadOnlyList<byte> maxes) : base(sav)
         {
@@ -21,7 +21,7 @@ namespace PKHeX.Core
             RecordMax = maxes;
         }
 
-        public int GetRecord(int recordID)
+        public override int GetRecord(int recordID)
         {
             int ofs = Records.GetOffset(Offset, recordID);
             if (recordID < 100)
@@ -32,7 +32,7 @@ namespace PKHeX.Core
             return 0;
         }
 
-        public void SetRecord(int recordID, int value)
+        public override void SetRecord(int recordID, int value)
         {
             Debug.Assert(recordID < RecordCount);
             int ofs = GetRecordOffset(recordID);
@@ -46,9 +46,5 @@ namespace PKHeX.Core
             else
                 Trace.Fail(nameof(recordID));
         }
-
-        public int GetRecordMax(int recordID) => Records.GetMax(recordID, RecordMax);
-        public int GetRecordOffset(int recordID) => Records.GetOffset(Offset, recordID);
-        public void AddRecord(int recordID, int count = 1) => SetRecord(recordID, GetRecord(recordID) + count);
     }
 }

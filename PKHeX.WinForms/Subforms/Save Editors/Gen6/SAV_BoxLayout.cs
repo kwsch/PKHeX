@@ -46,6 +46,9 @@ namespace PKHeX.WinForms
                 case 7:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
                     return true;
+                case 8:
+                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
+                    return true;
                 default:
                     return false;
             }

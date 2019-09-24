@@ -18,6 +18,8 @@ namespace PKHeX.Core
         {
             switch (version.GetGeneration())
             {
+                case 8:
+                    return "swsh";
                 case 7:
                     return "xy";
                 case 6:
@@ -98,6 +100,8 @@ namespace PKHeX.Core
                         default:
                             return false;
                     }
+                case 8: // todo swsh
+                    return true;
                 default:
                     return false;
             }

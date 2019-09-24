@@ -19,6 +19,7 @@ namespace PKHeX.Core
         private static readonly EvolutionTree Evolves6;
         private static readonly EvolutionTree Evolves7;
         private static readonly EvolutionTree Evolves7b;
+        private static readonly EvolutionTree Evolves8;
 
         static EvolutionTree()
         {
@@ -34,6 +35,7 @@ namespace PKHeX.Core
             Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
             Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
             Evolves7b = new EvolutionTree(unpack("gg"), GameVersion.Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
+            Evolves8 = new EvolutionTree(unpack("gg"), GameVersion.Gen8, PersonalTable.SWSH, Legal.MaxSpeciesID_8);
 
             // There's always oddballs.
             Evolves7.FixEvoTreeSM();
@@ -49,8 +51,9 @@ namespace PKHeX.Core
                 case 4: return Evolves4;
                 case 5: return Evolves5;
                 case 6: return Evolves6;
+                case 7: return Evolves7;
                 default:
-                    return Evolves7;
+                    return Evolves8;
             }
         }
 
@@ -64,9 +67,13 @@ namespace PKHeX.Core
                 case 4: return Evolves4;
                 case 5: return Evolves5;
                 case 6: return Evolves6;
-                case 7 when pkm.GG: return Evolves7b;
-                default:
+                case 7:
+                    if (pkm.GG)
+                        return Evolves7b;
                     return Evolves7;
+
+                default:
+                    return Evolves8;
             }
         }
 
@@ -96,6 +103,7 @@ namespace PKHeX.Core
                 case GameVersion.Gen5: return EvolutionSet5.GetArray(data[0]);
                 case GameVersion.Gen6: return EvolutionSet6.GetArray(data);
                 case GameVersion.Gen7: return EvolutionSet7.GetArray(data);
+                case GameVersion.Gen8: return EvolutionSet7.GetArray(data);
                 default: throw new Exception();
             }
         }

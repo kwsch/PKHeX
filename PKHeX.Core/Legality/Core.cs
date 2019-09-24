@@ -57,6 +57,11 @@ namespace PKHeX.Core
         internal static readonly Learnset[] LevelUpUSUM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
         internal static readonly Learnset[] LevelUpGG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
 
+        // Gen 8
+        internal static readonly EggMoves[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
+        internal static readonly Learnset[] LevelUpSWSH = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+
+
         // Setup Help
         static Legal()
         {
@@ -255,6 +260,16 @@ namespace PKHeX.Core
                         return LevelUpUSUM[index].GetMoves(lvl);
                     }
                     break;
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                case GameVersion.SWSH:
+                    if (pkm.InhabitedGeneration(8))
+                    {
+                        int index = PersonalTable.SWSH.GetFormeIndex(species, pkm.AltForm);
+                        return LevelUpSWSH[index].GetMoves(lvl);
+                    }
+                    break;
             }
             return Array.Empty<int>();
         }
@@ -340,6 +355,7 @@ namespace PKHeX.Core
                 case 5: return MovePP_BW;
                 case 6: return MovePP_XY;
                 case 7: return MovePP_SM;
+                case 8: return MovePP_SWSH;
                 default: return Array.Empty<byte>();
             }
         }
@@ -355,6 +371,7 @@ namespace PKHeX.Core
                 case 5: return WildPokeBalls5;
                 case 6: return WildPokeballs6;
                 case 7: return pkm.GG ? WildPokeballs7b : WildPokeballs7;
+                case 8: return WildPokeballs8;
 
                 default: return Array.Empty<int>();
             }
@@ -368,10 +385,14 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 3: return SplitBreed_3;
+
                 case 4:
                 case 5:
                 case 6:
-                case 7: return SplitBreed;
+                case 7:
+                case 8:
+                    return SplitBreed;
+
                 default: return Array.Empty<int>();
             }
         }
@@ -396,6 +417,7 @@ namespace PKHeX.Core
                 case 5: return MaxSpeciesID_5;
                 case 6: return MaxSpeciesID_6;
                 case 7: return MaxSpeciesID_7b;
+                case 8: return MaxSpeciesID_8;
                 default: return -1;
             }
         }
@@ -429,6 +451,8 @@ namespace PKHeX.Core
                 return 6;
             if (species <= MaxSpeciesID_7b)
                 return 7;
+            if (species <= MaxSpeciesID_8)
+                return 8;
             return -1;
         }
 
@@ -445,6 +469,7 @@ namespace PKHeX.Core
                 case 6:
                     return (int)LanguageID.Korean;
                 case 7:
+                case 8:
                     return (int)LanguageID.ChineseT;
             }
             return -1;
@@ -460,6 +485,7 @@ namespace PKHeX.Core
                 case 5: return ReleasedHeldItems_5;
                 case 6: return ReleasedHeldItems_6;
                 case 7: return ReleasedHeldItems_7;
+                case 8: return ReleasedHeldItems_8;
                 default: return Array.Empty<bool>();
             }
         }

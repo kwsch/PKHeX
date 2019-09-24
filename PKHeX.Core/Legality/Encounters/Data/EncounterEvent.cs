@@ -27,6 +27,9 @@ namespace PKHeX.Core
         /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
         public static WB7[] MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
 
+        /// <summary>Event Database for Generation 7</summary>
+        public static WC7[] MGDB_G8 { get; private set; } = Array.Empty<WC7>(); // todo
+
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Length != 0;
 
@@ -44,6 +47,7 @@ namespace PKHeX.Core
 
         private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
 
+
         public static void RefreshMGDB(params string[] paths)
         {
             var g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
@@ -52,23 +56,15 @@ namespace PKHeX.Core
             var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
             var b7 = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
 
-            foreach (var path in paths.Where(Directory.Exists))
+            foreach (var gift in paths.Where(Directory.Exists).SelectMany(MysteryUtil.GetGiftsFromFolder))
             {
-                foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+                switch (gift)
                 {
-                    var fi = new FileInfo(file);
-                    if (!MysteryGift.IsMysteryGift(fi.Length))
-                        continue;
-
-                    var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
-                    switch (gift)
-                    {
-                        case PCD pcd: g4.Add(pcd); continue;
-                        case PGF pgf: g5.Add(pgf); continue;
-                        case WC6 wc6: g6.Add(wc6); continue;
-                        case WC7 wc7: g7.Add(wc7); continue;
-                        case WB7 wb7: b7.Add(wb7); continue;
-                    }
+                    case PCD pcd: g4.Add(pcd); continue;
+                    case PGF pgf: g5.Add(pgf); continue;
+                    case WC6 wc6: g6.Add(wc6); continue;
+                    case WC7 wc7: g7.Add(wc7); continue;
+                    case WB7 wb7: b7.Add(wb7); continue;
                 }
             }
 
@@ -89,6 +85,7 @@ namespace PKHeX.Core
                 MGDB_G6,
                 MGDB_G7,
                 MGDB_G7GG,
+                MGDB_G8,
             }.SelectMany(z => z);
             regular = regular.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0);
             var result = MGDB_G3.Concat(regular);

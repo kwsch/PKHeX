@@ -448,6 +448,7 @@ namespace PKHeX.Core
 
         #region Games
 
+        public static readonly int[] Games_8swsh = { 44, 45 };
         public static readonly int[] Games_7gg = { 42, 43 };
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
         public static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Green, Blue, Yellow

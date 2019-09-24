@@ -532,6 +532,9 @@ namespace PKHeX.WinForms.Controls
                 case SAV7b s:
                     form = new SAV_EventWork(s);
                     break;
+                case SAV8 s:
+                    form = new SAV_EventWork(s);
+                    break;
                 default:
                     form = new SAV_EventFlags(SAV);
                     break;
@@ -549,14 +552,21 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation < 6)
-                new SAV_SimpleTrainer(SAV).ShowDialog();
-            else if (SAV.Generation == 6)
-                new SAV_Trainer(SAV).ShowDialog();
-            else if (SAV is SAV7)
-                new SAV_Trainer7(SAV).ShowDialog();
-            else if (SAV is SAV7b b)
-                new SAV_Trainer7GG(b).ShowDialog();
+            using (var form = GetTrainerEditor(SAV))
+                form?.ShowDialog();
+        }
+
+        private static Form GetTrainerEditor(SaveFile sav)
+        {
+            switch (sav)
+            {
+                case SAV6 s6: return new SAV_Trainer(s6);
+                case SAV7 s7: return new SAV_Trainer7(s7);
+                case SAV7b b7: return new SAV_Trainer7GG(b7);
+                case SAV8SWSH swsh: return new SAV_PokedexSWSH(swsh);
+
+                default: return new SAV_SimpleTrainer(sav);
+            }
         }
 
         private void B_OpenOPowers_Click(object sender, EventArgs e)
@@ -588,6 +598,7 @@ namespace PKHeX.WinForms.Controls
                 case SAV6AO ao: return new SAV_PokedexORAS(ao);
                 case SAV7 s7: return new SAV_PokedexSM(s7);
                 case SAV7b b7: return new SAV_PokedexGG(b7);
+                case SAV8SWSH swsh: return new SAV_PokedexSWSH(swsh);
 
                 default: return null;
             }

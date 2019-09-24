@@ -60,6 +60,13 @@ namespace PKHeX.Core
                             return GetFormEggMoves(species, formnum, EggMovesSM);
                     }
 
+                case 8:
+                    switch (version)
+                    {
+                        default:
+                            return GetFormEggMoves(species, formnum, EggMovesSWSH);
+                    }
+
                 default:
                     return Array.Empty<int>();
             }
@@ -96,6 +103,10 @@ namespace PKHeX.Core
                 case GameVersion.US:
                 case GameVersion.UM:
                     return getMoves(LevelUpUSUM, PersonalTable.USUM);
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                    return getMoves(LevelUpSWSH, PersonalTable.SWSH);
             }
             return Array.Empty<int>();
 

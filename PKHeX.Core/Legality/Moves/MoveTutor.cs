@@ -18,6 +18,7 @@ namespace PKHeX.Core
                 case 5: return GetIsTutor5(pkm, species, form, specialTutors, move);
                 case 6: return GetIsTutor6(pkm, species, form, specialTutors, move);
                 case 7: return GetIsTutor7(pkm, species, form, specialTutors, move);
+                case 8: return GetIsTutor8(pkm, species, form, specialTutors, move);
                 default:
                     return NONE;
             }
@@ -166,6 +167,11 @@ namespace PKHeX.Core
             return NONE;
         }
 
+        private static GameVersion GetIsTutor8(PKM pkm, int species, int form, bool specialTutors, int move)
+        {
+            return NONE;
+        }
+
         public static IEnumerable<int> GetTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
             List<int> moves = new List<int>();
@@ -178,6 +184,7 @@ namespace PKHeX.Core
                 case 5: AddMovesTutor5(moves, species, form, pkm, specialTutors); break;
                 case 6: AddMovesTutor6(moves, species, form, pkm, specialTutors); break;
                 case 7: AddMovesTutor7(moves, species, form, pkm, specialTutors); break;
+                case 8: AddMovesTutor8(moves, species, form, pkm, specialTutors); break;
             }
             return moves.Distinct();
         }
@@ -244,6 +251,10 @@ namespace PKHeX.Core
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
             if (specialTutors && pkm.HasVisitedUSUM())
                 moves.AddRange(GetTutors(PersonalTable.USUM.GetFormeEntry(species, form), Tutors_USUM));
+        }
+
+        private static void AddMovesTutor8(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
+        {
         }
 
         private static IEnumerable<int> GetTutors(PersonalInfo pi, params int[][] tutors)

@@ -175,7 +175,9 @@ namespace PKHeX.Core
                 case 4: VerifyTrade4(data, t); return;
                 case 5: VerifyTrade5(data, t); return;
                 case 6:
-                case 7: VerifyTrade(data, t, data.pkm.Language); return;
+                case 7:
+                case 8:
+                    VerifyTrade(data, t, data.pkm.Language); return;
             }
         }
 

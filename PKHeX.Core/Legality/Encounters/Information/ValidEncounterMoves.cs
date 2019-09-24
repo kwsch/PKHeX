@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public List<int>[] TutorMoves { get; } = Empty;
         public int[] Relearn = Array.Empty<int>();
 
-        private const int EmptyCount = 7;
+        private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)
         private static readonly List<int>[] Empty = new int[EmptyCount].Select(_ => new List<int>()).ToArray();
 
         public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict)

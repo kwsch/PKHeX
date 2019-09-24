@@ -168,6 +168,11 @@ namespace PKHeX.Core
                 if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
                     return GetInvalid(LFormInvalidGame);
             }
+            if (pkm.Format >= 8 && Info.Generation < 8 && pkm.AltForm != 0)
+            {
+                if (pkm.Species == 25 || Legal.GalarOriginForms.Contains(pkm.Species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
+                    return GetInvalid(LFormInvalidGame);
+            }
 
             if (pkm.AltForm != 0 && BattleOnly.Contains(pkm.Species))
                 return GetInvalid(LFormBattle);

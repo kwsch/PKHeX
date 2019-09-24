@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using static PKHeX.Core.MessageStrings;
@@ -10,6 +11,23 @@ namespace PKHeX.Core
     /// </summary>
     public static class MysteryUtil
     {
+        /// <summary>
+        /// Gets <see cref="MysteryGift"/> objects from a folder.
+        /// </summary>
+        /// <param name="folder">Folder path</param>
+        /// <returns>Consumable list of gifts.</returns>
+        public static IEnumerable<MysteryGift> GetGiftsFromFolder(string folder)
+        {
+            foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+            {
+                var fi = new FileInfo(file);
+                if (!MysteryGift.IsMysteryGift(fi.Length))
+                    continue;
+
+                yield return MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
+            }
+        }
+
         /// <summary>
         /// Gets a description of the <see cref="MysteryGift"/> using the current default string data.
         /// </summary>
