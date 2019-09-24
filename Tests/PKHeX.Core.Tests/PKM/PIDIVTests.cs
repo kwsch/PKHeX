@@ -17,9 +17,9 @@ namespace PKHeX.Tests.PKM
             var ga1 = MethodFinder.Analyze(pk1);
             Assert.Equal(PIDType.Method_1, ga1.Type);
             var pk2 = new PK3 {PID = 0x5271E97E, IVs = new[] {02, 18, 03, 12, 22, 24}};
-            Assert.Equal(PIDType.Method_2, MethodFinder.Analyze(pk2)?.Type);
+            Assert.Equal(PIDType.Method_2, MethodFinder.Analyze(pk2).Type);
             var pk4 = new PK3 {PID = 0x31B05271, IVs = new[] {02, 18, 03, 05, 30, 11}};
-            Assert.Equal(PIDType.Method_4, MethodFinder.Analyze(pk4)?.Type);
+            Assert.Equal(PIDType.Method_4, MethodFinder.Analyze(pk4).Type);
 
             var gk1 = new PK3();
             PIDGenerator.SetValuesFromSeed(gk1, ga1.Type, ga1.OriginSeed);
@@ -32,11 +32,11 @@ namespace PKHeX.Tests.PKM
         {
             // Method 1/2/4, reversed for Unown.
             var pk1U = new PK3 {PID = 0x815549A2, IVs = new[] {02, 26, 30, 30, 11, 26}, Species = 201}; // Unown-C
-            Assert.Equal(PIDType.Method_1_Unown, MethodFinder.Analyze(pk1U)?.Type);
+            Assert.Equal(PIDType.Method_1_Unown, MethodFinder.Analyze(pk1U).Type);
             var pk2U = new PK3 {PID = 0x8A7B5190, IVs = new[] {14, 02, 21, 30, 29, 15}, Species = 201}; // Unown-M
-            Assert.Equal(PIDType.Method_2_Unown, MethodFinder.Analyze(pk2U)?.Type);
+            Assert.Equal(PIDType.Method_2_Unown, MethodFinder.Analyze(pk2U).Type);
             var pk4U = new PK3 {PID = 0x5FA80D70, IVs = new[] {02, 06, 03, 26, 04, 19}, Species = 201}; // Unown-A
-            Assert.Equal(PIDType.Method_4_Unown, MethodFinder.Analyze(pk4U)?.Type);
+            Assert.Equal(PIDType.Method_4_Unown, MethodFinder.Analyze(pk4U).Type);
         }
 
         [Fact]
@@ -44,10 +44,10 @@ namespace PKHeX.Tests.PKM
         {
             // Method 3, reversed for Unown.
             var m3R = new PK3 { PID = 0x3DD1BB49, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 001 }; // Regular
-            var m3t = MethodFinder.Analyze(m3R)?.Type;
+            var m3t = MethodFinder.Analyze(m3R).Type;
             Assert.Equal(PIDType.Method_3, m3t);
             var m3u = new PK3 { PID = 0xBB493DD1, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 201 }; // Unown
-            var u3t = MethodFinder.Analyze(m3u)?.Type;
+            var u3t = MethodFinder.Analyze(m3u).Type;
             Assert.Equal(PIDType.Method_3_Unown, u3t);
         }
 
@@ -57,7 +57,7 @@ namespace PKHeX.Tests.PKM
             // Colosseum / XD
             var pk3 = new PK3 {PID = 0x0985A297, IVs = new[] {06, 01, 00, 07, 17, 07}};
             var ak3 = MethodFinder.Analyze(pk3);
-            Assert.Equal(PIDType.CXD, MethodFinder.Analyze(pk3)?.Type);
+            Assert.Equal(PIDType.CXD, MethodFinder.Analyze(pk3).Type);
 
             var gk3 = new PK3();
             PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, ak3.OriginSeed);
@@ -80,25 +80,25 @@ namespace PKHeX.Tests.PKM
         {
             // Restricted: TID/SID are zero.
             var pkR = new PK3 {PID = 0x0000E97E, IVs = new[] {17, 19, 20, 16, 13, 12}};
-            Assert.Equal(PIDType.BACD_R, MethodFinder.Analyze(pkR)?.Type);
+            Assert.Equal(PIDType.BACD_R, MethodFinder.Analyze(pkR).Type);
 
             // Restricted Antishiny: PID is incremented 2 times to lose shininess.
             var pkRA = new PK3 {PID = 0x0000E980, IVs = new[] {17, 19, 20, 16, 13, 12}, TID = 01337, SID = 60486};
-            Assert.Equal(PIDType.BACD_R_A, MethodFinder.Analyze(pkRA)?.Type);
+            Assert.Equal(PIDType.BACD_R_A, MethodFinder.Analyze(pkRA).Type);
 
             // Unrestricted: TID/SID are zero.
             var pkU = new PK3 {PID = 0x67DBFC33, IVs = new[] {12, 25, 27, 30, 02, 31}};
-            Assert.Equal(PIDType.BACD_U, MethodFinder.Analyze(pkU)?.Type);
+            Assert.Equal(PIDType.BACD_U, MethodFinder.Analyze(pkU).Type);
 
             // Unrestricted Antishiny: PID is incremented 5 times to lose shininess.
             var pkUA = new PK3 {PID = 0x67DBFC38, IVs = new[] {12, 25, 27, 30, 02, 31}, TID = 01337, SID = 40657};
-            Assert.Equal(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA)?.Type);
+            Assert.Equal(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA).Type);
 
             // berry fix zigzagoon: seed 0x0020
             var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = new[] {00, 20, 28, 11, 19, 00}, TID = 30317, SID = 00000};
             var a_pkRS = MethodFinder.Analyze(pkRS);
-            Assert.Equal(PIDType.BACD_R_S, a_pkRS?.Type);
-            Assert.True(0x0020 == a_pkRS?.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
+            Assert.Equal(PIDType.BACD_R_S, a_pkRS.Type);
+            Assert.True(0x0020 == a_pkRS.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
 
             var gkRS = new PK3 { TID = 30317, SID = 00000 };
             PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);
@@ -108,7 +108,7 @@ namespace PKHeX.Tests.PKM
             // Unrestricted Antishiny nyx
             var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = new[] {00, 15, 05, 04, 21, 05}, TID = 80, SID = 0};
             var nyx_pkUA = MethodFinder.Analyze(nyxUA);
-            Assert.Equal(PIDType.BACD_U_AX, nyx_pkUA?.Type);
+            Assert.Equal(PIDType.BACD_U_AX, nyx_pkUA.Type);
         }
 
         [Fact]
@@ -116,15 +116,15 @@ namespace PKHeX.Tests.PKM
         {
             // Cute Charm: Male Bulbasaur
             var pkCC = new PK4 {PID = 0x00000037, IVs = new[] {16, 13, 12, 02, 18, 03}, Species = 1, Gender = 0};
-            Assert.Equal(PIDType.CuteCharm, MethodFinder.Analyze(pkCC)?.Type);
+            Assert.Equal(PIDType.CuteCharm, MethodFinder.Analyze(pkCC).Type);
 
             // Antishiny Mystery Gift: TID/SID are zero. Original PID of 0x5271E97E is rerolled.
             var pkASR = new PK4 {PID = 0x07578CB7, IVs = new[] {16, 13, 12, 02, 18, 03}};
-            Assert.Equal(PIDType.G4MGAntiShiny, MethodFinder.Analyze(pkASR)?.Type);
+            Assert.Equal(PIDType.G4MGAntiShiny, MethodFinder.Analyze(pkASR).Type);
 
             // Chain Shiny: TID/SID are zero.
             var pkCS = new PK4 {PID = 0xA9C1A9C6, IVs = new[] {22, 14, 23, 24, 11, 04}};
-            Assert.Equal(PIDType.ChainShiny, MethodFinder.Analyze(pkCS)?.Type);
+            Assert.Equal(PIDType.ChainShiny, MethodFinder.Analyze(pkCS).Type);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace PKHeX.Tests.PKM
         {
             // Shiny Mystery Gift PGF; IVs are unrelated.
             var pkS5 = new PK5 {PID = 0xBEEF0037, TID = 01337, SID = 48097};
-            Assert.Equal(PIDType.G5MGShiny, MethodFinder.Analyze(pkS5)?.Type);
+            Assert.Equal(PIDType.G5MGShiny, MethodFinder.Analyze(pkS5).Type);
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace PKHeX.Tests.PKM
                 new PK4 { Species = 025, PID = 0x59FFFFFE, TID = 51223, SID = 28044, Gender = 0}, // Pikachu
             };
             foreach (var pk in pkPW)
-                Assert.Equal(PIDType.Pokewalker, MethodFinder.Analyze(pk)?.Type);
+                Assert.Equal(PIDType.Pokewalker, MethodFinder.Analyze(pk).Type);
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace PKHeX.Tests.PKM
             // Modest Method 1
             var pk = new PK3 {PID = 0x6937DA48, IVs = new[] {31, 31, 31, 31, 31, 31}};
             var pidiv = MethodFinder.Analyze(pk);
-            Assert.Equal(PIDType.Method_1, pidiv?.Type);
+            Assert.Equal(PIDType.Method_1, pidiv.Type);
 
             // Test for Method J
             {
@@ -208,7 +208,6 @@ namespace PKHeX.Tests.PKM
         {
             var pk4 = new PK3 { PID = 0xFEE73213, IVs = new[] { 03, 29, 23, 30, 28, 24 } };
             var analysis = MethodFinder.Analyze(pk4);
-            analysis.Should().NotBeNull();
             analysis.Type.Should().Be(PIDType.Method_4);
 
             // See if any origin seed for the IVs matches what we expect

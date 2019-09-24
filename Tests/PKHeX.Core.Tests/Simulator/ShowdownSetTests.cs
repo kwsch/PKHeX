@@ -34,7 +34,7 @@ namespace PKHeX.Tests.Simulator
             pk7.HT_Name = "PKHeX";
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
             var first = encs.FirstOrDefault();
-            Assert.True(first != null);
+            Assert.NotNull(first);
 
             var egg = (EncounterEgg)first;
             var info = new SimpleTrainerInfo();
@@ -61,7 +61,7 @@ namespace PKHeX.Tests.Simulator
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
             var first = encs.FirstOrDefault();
-            Assert.True(first != null);
+            Assert.NotNull(first);
 
             var wc3 = (WC3)first;
             var info = new SimpleTrainerInfo();
@@ -80,7 +80,7 @@ namespace PKHeX.Tests.Simulator
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
             var first = encs.FirstOrDefault();
-            Assert.True(first != null);
+            Assert.NotNull(first);
 
             var enc = first;
             var info = new SimpleTrainerInfo();

@@ -46,7 +46,7 @@ namespace PKHeX.Tests.Simulator
         {
             const Species spec = Species.Haxorus;
             var pk = new PK5 {Species = (int) spec};
-            var ez = EncounterMovesetGenerator.GenerateEncounters(pk, null, GameVersion.W2).OfType<EncounterStatic>().FirstOrDefault();
+            var ez = EncounterMovesetGenerator.GenerateEncounters(pk, pk.Moves, GameVersion.W2).OfType<EncounterStatic>().First();
             ez.Should().NotBeNull("Shiny Haxorus stationary encounter exists for B2/W2");
 
             var criteria = new EncounterCriteria();

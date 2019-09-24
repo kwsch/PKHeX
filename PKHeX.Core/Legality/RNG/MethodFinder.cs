@@ -10,6 +10,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class MethodFinder
     {
+        private static readonly PIDIV NonMatch = new PIDIV {NoSeed = true, Type = PIDType.None};
+
         /// <summary>
         /// Analyzes a <see cref="PKM"/> to find a matching PIDIV method.
         /// </summary>
@@ -553,7 +555,7 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool GetNonMatch(out PIDIV pidiv)
         {
-            pidiv = null;
+            pidiv = NonMatch;
             return false;
         }
 
@@ -620,7 +622,7 @@ namespace PKHeX.Core
         private static PIDIV AnalyzeGB(PKM _)
         {
             // not implemented; correlation between IVs and RNG hasn't been converted to code.
-            return null;
+            return NonMatch;
         }
 
         private static IEnumerable<uint> GetSeedsFromPID(RNG method, uint a, uint b)
