@@ -64,8 +64,12 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < value.Length; i++)
             {
+                var ofs = offset + (i >> 3);
+                var mask = (1 << (i & 7));
                 if (value[i])
-                    data[offset + (i >> 3)] |= (byte)(1 << (i & 7));
+                    data[ofs] |= (byte)mask;
+                else
+                    data[ofs] &= (byte)~mask;
             }
         }
 
