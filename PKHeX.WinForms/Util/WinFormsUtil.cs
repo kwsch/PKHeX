@@ -38,7 +38,25 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static Control GetUnderlyingControl(object sender) => ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+        public static T GetUnderlyingControl<T>(object sender)
+        {
+            while (true)
+            {
+                switch (sender)
+                {
+                    case ToolStripItem t:
+                        sender = t.Owner;
+                        continue;
+                    case ContextMenuStrip c:
+                        sender = c.SourceControl;
+                        continue;
+                    case T p:
+                        return p;
+                    default:
+                        return default;
+                }
+            }
+        }
 
         #region Message Displays
         /// <summary>

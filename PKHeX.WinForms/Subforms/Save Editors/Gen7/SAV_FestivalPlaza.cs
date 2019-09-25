@@ -687,8 +687,8 @@ namespace PKHeX.WinForms
 
         private void MnuSave_Click(object sender, EventArgs e)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int i = Array.IndexOf(PBs, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int i = Array.IndexOf(PBs, pb);
             if (i < 0)
                 return;
             WinFormsUtil.SavePKMDialog(p[i]);

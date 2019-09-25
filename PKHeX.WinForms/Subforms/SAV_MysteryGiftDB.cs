@@ -144,8 +144,8 @@ namespace PKHeX.WinForms
 
         private int GetSenderIndex(object sender)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(PKXBOXES, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(PKXBOXES, pb);
             if (index >= RES_MAX)
             {
                 System.Media.SystemSounds.Exclamation.Play();

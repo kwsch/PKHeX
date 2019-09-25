@@ -70,7 +70,7 @@ namespace PKHeX.WinForms.Controls
         public ISlotInfo GetSlotData(int slot) => SlotOffsets[slot];
 
         public IList<PictureBox> SlotPictureBoxes => slots;
-        public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl<PictureBox>(sender));
         public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
         public int ViewIndex { get; set; } = -1;
 

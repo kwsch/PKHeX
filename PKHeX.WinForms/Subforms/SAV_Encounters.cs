@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
         // Important Events
         private void ClickView(object sender, EventArgs e)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
             int index = Array.IndexOf(PKXBOXES, sender);
             if (index >= RES_MAX)
             {

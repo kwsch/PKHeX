@@ -109,8 +109,8 @@ namespace PKHeX.WinForms
         // Important Events
         private void ClickView(object sender, EventArgs e)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(PKXBOXES, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(PKXBOXES, pb);
             if (!GetShiftedIndex(ref index))
             {
                 System.Media.SystemSounds.Exclamation.Play();
@@ -126,8 +126,8 @@ namespace PKHeX.WinForms
 
         private void ClickDelete(object sender, EventArgs e)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(PKXBOXES, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(PKXBOXES, pb);
             if (!GetShiftedIndex(ref index))
             {
                 System.Media.SystemSounds.Exclamation.Play();

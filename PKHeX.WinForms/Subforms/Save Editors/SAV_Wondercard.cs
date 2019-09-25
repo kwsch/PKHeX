@@ -157,8 +157,8 @@ namespace PKHeX.WinForms
         // Mystery Gift RW (window<->sav)
         private void ClickView(object sender, EventArgs e)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(pba, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(pba, pb);
 
             SetBackground(index, Properties.Resources.slotView);
             ViewGiftData(mga.Gifts[index]);
@@ -172,8 +172,8 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(pba, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(pba, pb);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = GetLastUnfilledByType(mg, mga);
@@ -197,8 +197,8 @@ namespace PKHeX.WinForms
 
         private void ClickDelete(object sender, EventArgs e)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(pba, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(pba, pb);
 
             mga.Gifts[index].Data = new byte[mga.Gifts[index].Data.Length];
 
