@@ -101,6 +101,16 @@ namespace PKHeX.Core
             }
         }
 
+        public void VerifyTransferLegalityG8(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            int species = pkm.Species;
+            if (!Legal.TransferrableGalar.Contains(species))
+                data.AddLine(GetInvalid(LTransferBad));
+
+            // todo: alternate forms disallowed?
+        }
+
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             // Check existing EncounterMatch

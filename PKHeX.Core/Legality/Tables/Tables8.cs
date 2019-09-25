@@ -105,6 +105,10 @@ namespace PKHeX.Core
         {
         };
 
+        internal static readonly HashSet<int> TransferrableGalar = new HashSet<int>
+        {
+        };
+
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
         {

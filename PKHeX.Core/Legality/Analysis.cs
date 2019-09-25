@@ -232,6 +232,8 @@ namespace PKHeX.Core
             if (pkm.VC)
                 UpdateVCTransferInfo();
             UpdateChecks();
+            if (Info.Generation <= 7)
+                Transfer.VerifyTransferLegalityG8(this);
         }
 
         /// <summary>
