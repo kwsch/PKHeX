@@ -25,7 +25,7 @@ namespace PKHeX.Core
         public string Move2 => Get(Strings.movelist, pkm.Move2);
         public string Move3 => Get(Strings.movelist, pkm.Move3);
         public string Move4 => Get(Strings.movelist, pkm.Move4);
-        public string HeldItem => Get(Strings.itemlist, pkm.HeldItem);
+        public string HeldItem => Get(Strings.GetItemStrings(pkm.Format), pkm.HeldItem);
         public string HP => Stats[0].ToString();
         public string ATK => Stats[1].ToString();
         public string DEF => Stats[2].ToString();
