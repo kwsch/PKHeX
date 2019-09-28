@@ -52,5 +52,6 @@ namespace PKHeX.Core
     public static class EvolutionTypeExtensions
     {
         public static bool IsTrade(this EvolutionType t) => t == Trade || t == TradeHeldItem || t == TradeSpecies;
+        public static bool IsLevelUpRequired(this EvolutionType t) => t.ToString().StartsWith("LevelUp"); // don't use this
     }
 }
