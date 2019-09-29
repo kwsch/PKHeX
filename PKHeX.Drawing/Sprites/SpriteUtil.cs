@@ -81,7 +81,7 @@ namespace PKHeX.Drawing
                 int item = gift.ItemID;
                 if (Legal.ZCrystalDictionary.TryGetValue(item, out int value))
                     item = value;
-                return (Image)(Resources.ResourceManager.GetObject($"item_{item}") ?? Resources._);
+                return (Image)(Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.Bag_Key);
             }
             return Resources.unknown;
         }
