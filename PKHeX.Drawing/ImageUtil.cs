@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Drawing
 {
     /// <summary>
     /// Image Layering/Blending Utility

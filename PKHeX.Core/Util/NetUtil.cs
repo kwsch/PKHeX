@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
     public static class NetUtil
     {
-        private static readonly Regex LatestGitTagRegex = new Regex("\\\"tag_name\"\\s*\\:\\s*\\\"([0-9]+\\.[0-9]+\\.[0-9]+)\\\""); // Match `"tag_name": "18.12.02"`. Group 1 is `18.12.02`
-
         public static string GetStringFromURL(string webURL)
         {
             try
@@ -37,19 +34,7 @@ namespace PKHeX.WinForms
             return httpWebResponse.GetResponseStream();
         }
 
-        public static Image GetImageFromURL(string webURL)
-        {
-            try
-            {
-                var stream = GetStreamFromURL(webURL);
-                return stream != null ? Image.FromStream(stream) : null;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
+        private static readonly Regex LatestGitTagRegex = new Regex("\\\"tag_name\"\\s*\\:\\s*\\\"([0-9]+\\.[0-9]+\\.[0-9]+)\\\""); // Match `"tag_name": "18.12.02"`. Group 1 is `18.12.02`
 
         /// <summary>
         /// Gets the latest version of PKHeX according to the Github API

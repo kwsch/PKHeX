@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
+using PKHeX.Drawing.Properties;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Drawing
 {
     public class SpriteBuilder : ISpriteBuilder<Image>
     {
@@ -31,13 +31,13 @@ namespace PKHeX.WinForms
 
         private static int GetDeoxysForm(GameVersion game)
         {
-            switch (game)
+            return game switch
             {
-                default: return 0;
-                case GameVersion.FR: return 1; // Attack
-                case GameVersion.LG: return 2; // Defense
-                case GameVersion.E: return 3; // Speed
-            }
+                GameVersion.FR => 1, // Attack
+                GameVersion.LG => 2, // Defense
+                GameVersion.E => 3, // Speed
+                _ => 0
+            };
         }
 
         public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false)

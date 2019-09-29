@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
+using PKHeX.Drawing;
 using System.ComponentModel;
 
 using static PKHeX.Core.MessageStrings;

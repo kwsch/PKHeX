@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using PKHeX.Drawing;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
@@ -315,19 +316,24 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            var qrmessage = QRMessageUtil.GetMessage(mg);
-            Image qr = QR.GetQRImage(qrmessage);
+            Image qr = QREncode.GenerateQRCode(mg);
             if (qr == null)
                 return;
 
             string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 
-            new QR(qr, PB_Preview.Image, null, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
+            new QR(qr, PB_Preview.Image, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
         }
 
         private void ImportQRToView(string url)
         {
-            byte[] data = QR.GetQRData(url);
+            var msg = QRDecode.GetQRData(url, out var data);
+            if (msg != 0)
+            {
+                WinFormsUtil.Alert(msg.ConvertMsg());
+                return;
+            }
+
             if (data.Length == 0)
                 return;
 

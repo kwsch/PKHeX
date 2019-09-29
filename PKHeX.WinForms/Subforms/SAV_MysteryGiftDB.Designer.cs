@@ -974,7 +974,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.box_wp_clean;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);

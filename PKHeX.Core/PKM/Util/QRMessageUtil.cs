@@ -38,13 +38,20 @@ namespace PKHeX.Core
             if (pkm is PK7 pk7)
             {
                 byte[] payload = QR7.GenerateQRData(pk7);
-                return string.Concat(payload.Select(z => (char)z));
+                return GetMessage(payload);
             }
 
             var server = GetExploitURLPrefixPKM(pkm.Format);
             var data = pkm.EncryptedBoxData;
             return GetMessageBase64(data, server);
         }
+
+        /// <summary>
+        /// Gets a QR Message from the input <see cref="byte"/> data.
+        /// </summary>
+        /// <param name="payload">Data to encode</param>
+        /// <returns>QR Message</returns>
+        public static string GetMessage(byte[] payload) => string.Concat(payload.Select(z => (char) z));
 
         /// <summary>
         /// Gets a QR Message from the input <see cref="MysteryGift"/> data.

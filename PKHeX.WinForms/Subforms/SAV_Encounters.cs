@@ -8,6 +8,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PKHeX.Drawing;
+using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
@@ -126,7 +128,7 @@ namespace PKHeX.WinForms
         private void ClickView(object sender, EventArgs e)
         {
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-            int index = Array.IndexOf(PKXBOXES, sender);
+            int index = Array.IndexOf(PKXBOXES, pb);
             if (index >= RES_MAX)
             {
                 System.Media.SystemSounds.Exclamation.Play();
@@ -144,7 +146,7 @@ namespace PKHeX.WinForms
             pk.RefreshChecksum();
             PKME_Tabs.PopulateFields(pk, false);
             slotSelected = index;
-            slotColor = Properties.Resources.slotView;
+            slotColor = Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
         }
 
@@ -305,9 +307,9 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
-                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Properties.Resources.slotView;
+                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Resources.slotView;
         }
 
         private static int GetForm(IEncounterable enc)
