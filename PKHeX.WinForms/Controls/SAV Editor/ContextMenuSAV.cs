@@ -134,6 +134,7 @@ namespace PKHeX.WinForms.Controls
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var loc = view.GetSlotData(pb);
+            sender = pb;
             return new SlotViewInfo<PictureBox> {Slot = loc, View = view};
         }
 
