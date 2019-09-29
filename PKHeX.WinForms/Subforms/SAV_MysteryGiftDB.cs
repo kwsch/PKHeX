@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
+using PKHeX.WinForms.Properties;
 using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
@@ -113,7 +115,7 @@ namespace PKHeX.WinForms
                 return;
             PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
             slotSelected = index;
-            slotColor = Properties.Resources.slotView;
+            slotColor = Resources.slotView;
             UpdateSlotColor(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
@@ -337,9 +339,9 @@ namespace PKHeX.WinForms
         private void UpdateSlotColor(int start)
         {
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < (RES_MIN * start) + RES_MAX)
-                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? Properties.Resources.slotView;
+                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? Resources.slotView;
         }
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)

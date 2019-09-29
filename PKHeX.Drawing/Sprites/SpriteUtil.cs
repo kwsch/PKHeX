@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
+using PKHeX.Drawing.Properties;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Drawing
 {
     public static class SpriteUtil
     {
@@ -43,14 +43,13 @@ namespace PKHeX.WinForms
 
             // Count ribbons
             string n = name.Replace("Count", string.Empty).ToLower();
-            switch (value)
+            return value switch
             {
-                case 2: return n + "super";
-                case 3: return n + "hyper";
-                case 4: return n + "master";
-                default:
-                    return n;
-            }
+                2 => n + "super",
+                3 => n + "hyper",
+                4 => n + "master",
+                _ => n
+            };
         }
 
         public static Image GetTypeSprite(int type, int generation = PKX.Generation)
@@ -193,6 +192,8 @@ namespace PKHeX.WinForms
             ImageUtil.GlowEdges(pixels, blue, green, red, baseSprite.Width);
             ImageUtil.RemovePixels(pixels, original);
         }
+
+        public static Image GetLegalIndicator(bool valid) => valid ? Resources.valid : Resources.warn;
 
         // Extension Methods
         public static Image WallpaperImage(this SaveFile sav, int box) => GetWallpaper(sav, box);

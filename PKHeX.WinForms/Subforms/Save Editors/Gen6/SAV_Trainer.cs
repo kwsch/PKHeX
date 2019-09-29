@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms
 {
@@ -44,7 +44,6 @@ namespace PKHeX.WinForms
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
             cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
-            pba = new [] { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled =
             L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible =
@@ -62,7 +61,6 @@ namespace PKHeX.WinForms
 
             GetComboBoxes();
             GetTextBoxes();
-            GetBadges();
             editing = false;
 
             var status = SAV.Status;
@@ -74,7 +72,6 @@ namespace PKHeX.WinForms
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
-        private readonly PictureBox[] pba;
         private bool MapUpdated;
 
         private void GetComboBoxes()
@@ -100,34 +97,6 @@ namespace PKHeX.WinForms
             L_Vivillon.Text = GameInfo.Strings.specieslist[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6);
-        }
-
-        private void GetBadges()
-        {
-            var bma = GetGen6BadgeSprites(SAV is SAV6AO);
-            for (int i = 0; i < 8; i++)
-                pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
-        }
-
-        private static Bitmap[] GetGen6BadgeSprites(bool ORAS)
-        {
-            if (ORAS)
-            {
-                return new[]
-                {
-                    Properties.Resources.badge_01, Properties.Resources.badge_02,
-                    Properties.Resources.badge_03, Properties.Resources.badge_04,
-                    Properties.Resources.badge_05, Properties.Resources.badge_06,
-                    Properties.Resources.badge_07, Properties.Resources.badge_08
-                };
-            }
-            return new[] // XY
-            {
-                Properties.Resources.badge_1, Properties.Resources.badge_2,
-                Properties.Resources.badge_3, Properties.Resources.badge_4,
-                Properties.Resources.badge_5, Properties.Resources.badge_6,
-                Properties.Resources.badge_7, Properties.Resources.badge_8,
-            };
         }
 
         private void GetTextBoxes()
@@ -342,11 +311,6 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void ChangeBadge(object sender, EventArgs e)
-        {
-            GetBadges();
-        }
-
         private void Change255(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
@@ -374,11 +338,6 @@ namespace PKHeX.WinForms
             int index;
             if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
                 Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
-        }
-
-        private void ToggleBadge(object sender, EventArgs e)
-        {
-            cba[Array.IndexOf(pba, sender)].Checked ^= true;
         }
 
         private void ChangeMapValue(object sender, EventArgs e)

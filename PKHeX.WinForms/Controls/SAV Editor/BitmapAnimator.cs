@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
+using PKHeX.Drawing;
 using Timer = System.Timers.Timer;
 
 namespace PKHeX.WinForms.Controls

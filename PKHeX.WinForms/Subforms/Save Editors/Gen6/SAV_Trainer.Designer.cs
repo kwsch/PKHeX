@@ -46,14 +46,6 @@ namespace PKHeX.WinForms
             this.CHK_Badge5 = new System.Windows.Forms.CheckBox();
             this.CHK_Badge7 = new System.Windows.Forms.CheckBox();
             this.CHK_Badge8 = new System.Windows.Forms.CheckBox();
-            this.PB_Badge8 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge6 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge4 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge2 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge7 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge5 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge3 = new System.Windows.Forms.PictureBox();
-            this.PB_Badge1 = new System.Windows.Forms.PictureBox();
             this.GB_Sayings = new System.Windows.Forms.GroupBox();
             this.L_Saying5 = new System.Windows.Forms.Label();
             this.L_Saying4 = new System.Windows.Forms.Label();
@@ -156,21 +148,13 @@ namespace PKHeX.WinForms
             this.L_X = new System.Windows.Forms.Label();
             this.CHK_Badge6 = new System.Windows.Forms.CheckBox();
             this.Tab_Multiplayer = new System.Windows.Forms.TabPage();
+            this.CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
             this.CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
             this.Tab_Maison = new System.Windows.Forms.TabPage();
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
             this.PG_CurrentAppearance = new System.Windows.Forms.PropertyGrid();
             this.L_TRNick = new System.Windows.Forms.Label();
             this.TB_TRNick = new System.Windows.Forms.TextBox();
-            this.CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge1)).BeginInit();
             this.GB_Sayings.SuspendLayout();
             this.GB_MaisonBest.SuspendLayout();
             this.GB_MaisonCurrent.SuspendLayout();
@@ -294,166 +278,72 @@ namespace PKHeX.WinForms
             // CHK_Badge1
             // 
             this.CHK_Badge1.AutoSize = true;
-            this.CHK_Badge1.Location = new System.Drawing.Point(304, 10);
+            this.CHK_Badge1.Location = new System.Drawing.Point(169, 20);
             this.CHK_Badge1.Name = "CHK_Badge1";
             this.CHK_Badge1.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge1.TabIndex = 10;
             this.CHK_Badge1.Text = "1";
             this.CHK_Badge1.UseVisualStyleBackColor = true;
-            this.CHK_Badge1.Visible = false;
-            this.CHK_Badge1.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge2
             // 
             this.CHK_Badge2.AutoSize = true;
-            this.CHK_Badge2.Location = new System.Drawing.Point(304, 33);
+            this.CHK_Badge2.Location = new System.Drawing.Point(169, 43);
             this.CHK_Badge2.Name = "CHK_Badge2";
             this.CHK_Badge2.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge2.TabIndex = 11;
             this.CHK_Badge2.Text = "2";
             this.CHK_Badge2.UseVisualStyleBackColor = true;
-            this.CHK_Badge2.Visible = false;
-            this.CHK_Badge2.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge3
             // 
             this.CHK_Badge3.AutoSize = true;
-            this.CHK_Badge3.Location = new System.Drawing.Point(304, 56);
+            this.CHK_Badge3.Location = new System.Drawing.Point(169, 66);
             this.CHK_Badge3.Name = "CHK_Badge3";
             this.CHK_Badge3.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge3.TabIndex = 12;
             this.CHK_Badge3.Text = "3";
             this.CHK_Badge3.UseVisualStyleBackColor = true;
-            this.CHK_Badge3.Visible = false;
-            this.CHK_Badge3.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge4
             // 
             this.CHK_Badge4.AutoSize = true;
-            this.CHK_Badge4.Location = new System.Drawing.Point(304, 79);
+            this.CHK_Badge4.Location = new System.Drawing.Point(169, 89);
             this.CHK_Badge4.Name = "CHK_Badge4";
             this.CHK_Badge4.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge4.TabIndex = 13;
             this.CHK_Badge4.Text = "4";
             this.CHK_Badge4.UseVisualStyleBackColor = true;
-            this.CHK_Badge4.Visible = false;
-            this.CHK_Badge4.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge5
             // 
             this.CHK_Badge5.AutoSize = true;
-            this.CHK_Badge5.Location = new System.Drawing.Point(342, 10);
+            this.CHK_Badge5.Location = new System.Drawing.Point(207, 20);
             this.CHK_Badge5.Name = "CHK_Badge5";
             this.CHK_Badge5.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge5.TabIndex = 14;
             this.CHK_Badge5.Text = "5";
             this.CHK_Badge5.UseVisualStyleBackColor = true;
-            this.CHK_Badge5.Visible = false;
-            this.CHK_Badge5.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge7
             // 
             this.CHK_Badge7.AutoSize = true;
-            this.CHK_Badge7.Location = new System.Drawing.Point(342, 56);
+            this.CHK_Badge7.Location = new System.Drawing.Point(207, 66);
             this.CHK_Badge7.Name = "CHK_Badge7";
             this.CHK_Badge7.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge7.TabIndex = 16;
             this.CHK_Badge7.Text = "7";
             this.CHK_Badge7.UseVisualStyleBackColor = true;
-            this.CHK_Badge7.Visible = false;
-            this.CHK_Badge7.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge8
             // 
             this.CHK_Badge8.AutoSize = true;
-            this.CHK_Badge8.Location = new System.Drawing.Point(342, 79);
+            this.CHK_Badge8.Location = new System.Drawing.Point(207, 89);
             this.CHK_Badge8.Name = "CHK_Badge8";
             this.CHK_Badge8.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge8.TabIndex = 17;
             this.CHK_Badge8.Text = "8";
             this.CHK_Badge8.UseVisualStyleBackColor = true;
-            this.CHK_Badge8.Visible = false;
-            this.CHK_Badge8.CheckedChanged += new System.EventHandler(this.ChangeBadge);
-            // 
-            // PB_Badge8
-            // 
-            this.PB_Badge8.Location = new System.Drawing.Point(248, 63);
-            this.PB_Badge8.Name = "PB_Badge8";
-            this.PB_Badge8.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge8.TabIndex = 25;
-            this.PB_Badge8.TabStop = false;
-            this.PB_Badge8.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge6
-            // 
-            this.PB_Badge6.Location = new System.Drawing.Point(142, 63);
-            this.PB_Badge6.Name = "PB_Badge6";
-            this.PB_Badge6.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge6.TabIndex = 24;
-            this.PB_Badge6.TabStop = false;
-            this.PB_Badge6.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge4
-            // 
-            this.PB_Badge4.Location = new System.Drawing.Point(248, 10);
-            this.PB_Badge4.Name = "PB_Badge4";
-            this.PB_Badge4.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge4.TabIndex = 23;
-            this.PB_Badge4.TabStop = false;
-            this.PB_Badge4.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge2
-            // 
-            this.PB_Badge2.Location = new System.Drawing.Point(142, 10);
-            this.PB_Badge2.Name = "PB_Badge2";
-            this.PB_Badge2.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge2.TabIndex = 22;
-            this.PB_Badge2.TabStop = false;
-            this.PB_Badge2.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge7
-            // 
-            this.PB_Badge7.Location = new System.Drawing.Point(195, 63);
-            this.PB_Badge7.Name = "PB_Badge7";
-            this.PB_Badge7.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge7.TabIndex = 21;
-            this.PB_Badge7.TabStop = false;
-            this.PB_Badge7.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge5
-            // 
-            this.PB_Badge5.Location = new System.Drawing.Point(89, 63);
-            this.PB_Badge5.Name = "PB_Badge5";
-            this.PB_Badge5.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge5.TabIndex = 20;
-            this.PB_Badge5.TabStop = false;
-            this.PB_Badge5.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge3
-            // 
-            this.PB_Badge3.Location = new System.Drawing.Point(195, 10);
-            this.PB_Badge3.Name = "PB_Badge3";
-            this.PB_Badge3.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge3.TabIndex = 19;
-            this.PB_Badge3.TabStop = false;
-            this.PB_Badge3.Click += new System.EventHandler(this.ToggleBadge);
-            // 
-            // PB_Badge1
-            // 
-            this.PB_Badge1.Location = new System.Drawing.Point(89, 10);
-            this.PB_Badge1.Name = "PB_Badge1";
-            this.PB_Badge1.Size = new System.Drawing.Size(50, 50);
-            this.PB_Badge1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PB_Badge1.TabIndex = 18;
-            this.PB_Badge1.TabStop = false;
-            this.PB_Badge1.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // GB_Sayings
             // 
@@ -1436,20 +1326,12 @@ namespace PKHeX.WinForms
             this.Tab_BadgeMap.Controls.Add(this.GB_Map);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge7);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge5);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge8);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge4);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge1);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge8);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge3);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge3);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge6);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge1);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge6);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge5);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge4);
             this.Tab_BadgeMap.Controls.Add(this.CHK_Badge2);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge7);
-            this.Tab_BadgeMap.Controls.Add(this.PB_Badge2);
             this.Tab_BadgeMap.Location = new System.Drawing.Point(4, 22);
             this.Tab_BadgeMap.Name = "Tab_BadgeMap";
             this.Tab_BadgeMap.Size = new System.Drawing.Size(386, 253);
@@ -1572,14 +1454,12 @@ namespace PKHeX.WinForms
             // CHK_Badge6
             // 
             this.CHK_Badge6.AutoSize = true;
-            this.CHK_Badge6.Location = new System.Drawing.Point(342, 33);
+            this.CHK_Badge6.Location = new System.Drawing.Point(207, 43);
             this.CHK_Badge6.Name = "CHK_Badge6";
             this.CHK_Badge6.Size = new System.Drawing.Size(32, 17);
             this.CHK_Badge6.TabIndex = 15;
             this.CHK_Badge6.Text = "6";
             this.CHK_Badge6.UseVisualStyleBackColor = true;
-            this.CHK_Badge6.Visible = false;
-            this.CHK_Badge6.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // Tab_Multiplayer
             // 
@@ -1596,6 +1476,16 @@ namespace PKHeX.WinForms
             this.Tab_Multiplayer.TabIndex = 1;
             this.Tab_Multiplayer.Text = "Multiplayer";
             this.Tab_Multiplayer.UseVisualStyleBackColor = true;
+            // 
+            // CHK_MegaRayquazaUnlocked
+            // 
+            this.CHK_MegaRayquazaUnlocked.AutoSize = true;
+            this.CHK_MegaRayquazaUnlocked.Location = new System.Drawing.Point(123, 230);
+            this.CHK_MegaRayquazaUnlocked.Name = "CHK_MegaRayquazaUnlocked";
+            this.CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(153, 17);
+            this.CHK_MegaRayquazaUnlocked.TabIndex = 77;
+            this.CHK_MegaRayquazaUnlocked.Text = "Mega Rayquaza Unlocked";
+            this.CHK_MegaRayquazaUnlocked.UseVisualStyleBackColor = true;
             // 
             // CHK_MegaUnlocked
             // 
@@ -1631,7 +1521,7 @@ namespace PKHeX.WinForms
             this.Tab_Appearance.Text = "Appearance";
             this.Tab_Appearance.UseVisualStyleBackColor = true;
             // 
-            // propertyGrid1
+            // PG_CurrentAppearance
             // 
             this.PG_CurrentAppearance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -1663,16 +1553,6 @@ namespace PKHeX.WinForms
             this.TB_TRNick.Text = "WWWWWWWWWWWW";
             this.TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // CHK_MegaRayquazaUnlocked
-            // 
-            this.CHK_MegaRayquazaUnlocked.AutoSize = true;
-            this.CHK_MegaRayquazaUnlocked.Location = new System.Drawing.Point(123, 230);
-            this.CHK_MegaRayquazaUnlocked.Name = "CHK_MegaRayquazaUnlocked";
-            this.CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(153, 17);
-            this.CHK_MegaRayquazaUnlocked.TabIndex = 77;
-            this.CHK_MegaRayquazaUnlocked.Text = "Mega Rayquaza Unlocked";
-            this.CHK_MegaRayquazaUnlocked.UseVisualStyleBackColor = true;
-            // 
             // SAV_Trainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1688,14 +1568,6 @@ namespace PKHeX.WinForms
             this.Name = "SAV_Trainer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Trainer Data Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Badge1)).EndInit();
             this.GB_Sayings.ResumeLayout(false);
             this.GB_Sayings.PerformLayout();
             this.GB_MaisonBest.ResumeLayout(false);
@@ -1745,14 +1617,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_Badge5;
         private System.Windows.Forms.CheckBox CHK_Badge7;
         private System.Windows.Forms.CheckBox CHK_Badge8;
-        private System.Windows.Forms.PictureBox PB_Badge1;
-        private System.Windows.Forms.PictureBox PB_Badge3;
-        private System.Windows.Forms.PictureBox PB_Badge5;
-        private System.Windows.Forms.PictureBox PB_Badge7;
-        private System.Windows.Forms.PictureBox PB_Badge2;
-        private System.Windows.Forms.PictureBox PB_Badge4;
-        private System.Windows.Forms.PictureBox PB_Badge6;
-        private System.Windows.Forms.PictureBox PB_Badge8;
         private System.Windows.Forms.GroupBox GB_Sayings;
         private System.Windows.Forms.Label L_Saying5;
         private System.Windows.Forms.Label L_Saying4;

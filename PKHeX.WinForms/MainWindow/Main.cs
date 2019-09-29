@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PKHeX.Core;
+using PKHeX.Drawing;
 using PKHeX.WinForms.Controls;
 using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
@@ -957,7 +958,13 @@ namespace PKHeX.WinForms
 
         private void ImportQRToTabs(string url)
         {
-            byte[] input = QR.GetQRData(url);
+            var msg = QRDecode.GetQRData(url, out var input);
+            if (msg != 0)
+            {
+                WinFormsUtil.Alert(msg.ConvertMsg());
+                return;
+            }
+
             if (input.Length == 0)
                 return;
 
@@ -980,25 +987,15 @@ namespace PKHeX.WinForms
         {
             if (!PKME_Tabs.EditsComplete)
                 return;
-            PKM pk = PreparePKM();
 
-            Image qr;
-            switch (pk.Format)
+            PKM pk = PreparePKM();
+            if (pk.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
             {
-                case 7 when pk is PK7 pk7:
-                    qr = QR.GenerateQRCode7(pk7);
-                    break;
-                default:
-                    if (pk.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
-                    {
-                        WinFormsUtil.Alert(MsgQRDeprecated, MsgQRAlternative);
-                        QR6Notified = true;
-                    }
-                    var qrmessage = QRMessageUtil.GetMessage(pk);
-                    qr = QR.GetQRImage(qrmessage);
-                    break;
+                WinFormsUtil.Alert(MsgQRDeprecated, MsgQRAlternative);
+                QR6Notified = true;
             }
 
+            var qr = QREncode.GenerateQRCode(pk);
             if (qr == null)
                 return;
 
@@ -1006,7 +1003,7 @@ namespace PKHeX.WinForms
             var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
             if (la.Parsed && pk.Species != 0)
             {
-                var img = la.Valid ? Resources.valid : Resources.warn;
+                var img = SpriteUtil.GetLegalIndicator(la.Valid);
                 sprite = ImageUtil.LayerImage(sprite, img, 24, 0);
             }
 
@@ -1081,7 +1078,7 @@ namespace PKHeX.WinForms
             }
 
             PB_Legal.Visible = true;
-            PB_Legal.Image = sender as bool? == false ? Resources.warn : Resources.valid;
+            PB_Legal.Image = SpriteUtil.GetLegalIndicator(sender as bool? != false);
         }
 
         private void PKME_Tabs_RequestShowdownExport(object sender, EventArgs e) => ClickShowdownExportPKM(sender, e);

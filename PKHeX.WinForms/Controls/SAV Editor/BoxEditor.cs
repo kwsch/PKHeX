@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 using static PKHeX.Core.MessageStrings;
 
