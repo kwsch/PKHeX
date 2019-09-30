@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BoxViewer));
             this.PB_BoxSwap = new System.Windows.Forms.PictureBox();
             this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             ((System.ComponentModel.ISupportInitialize)(this.PB_BoxSwap)).BeginInit();
@@ -65,7 +64,7 @@
             this.Controls.Add(this.PB_BoxSwap);
             this.Controls.Add(this.Box);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_BoxViewer";

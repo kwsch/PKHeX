@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_EventFlags));
             this.c_CustomFlag = new System.Windows.Forms.CheckBox();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.GB_FlagStatus = new System.Windows.Forms.GroupBox();
@@ -369,7 +368,7 @@
             this.Controls.Add(this.L_EventFlagWarn);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(670, 800);
             this.MinimizeBox = false;

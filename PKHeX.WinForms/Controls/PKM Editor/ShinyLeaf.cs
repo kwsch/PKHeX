@@ -12,35 +12,36 @@ namespace PKHeX.WinForms.Controls
         public ShinyLeaf()
         {
             InitializeComponent();
-            Flags = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C};
-            greyLeaf = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(CHK_1.Image), 0.4);
-            greyCrown = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(CHK_C.Image), 0.4);
-            foreach (var chk in Flags)
-                UpdateFlagState(chk, null);
         }
 
-        private readonly CheckBox[] Flags;
-        private readonly Bitmap greyLeaf, greyCrown;
-        public void CheckAll(bool all = true) => Value = all ? 0b00111111 : 0;
+        private CheckBox[] Flags;
+        private Bitmap greyLeaf;
+        private Bitmap greyCrown;
 
-        public int Value
+        public void CheckAll(bool all = true) => SetValue(all ? 0b00111111 : 0);
+
+        public void Initialize()
         {
-            get
-            {
-                int value = 0;
-                for (int i = 0; i < Flags.Length; i++)
-                {
-                    if (Flags[i].Checked)
-                        value |= 1 << i;
-                }
+            Flags = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C };
+            greyLeaf = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(Resources.leaf), 0.4);
+            greyCrown = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(Resources.crown), 0.4);
+        }
 
-                return value;
-            }
-            set
+        public int GetValue()
+        {
+            int value = 0;
+            for (int i = 0; i < Flags.Length; i++)
             {
-                for (int i = 0; i < Flags.Length; i++)
-                    Flags[i].Checked = (value >> i & 1) == 1;
+                if (Flags[i].Checked)
+                    value |= 1 << i;
             }
+            return value;
+        }
+
+        public void SetValue(int value)
+        {
+            for (int i = 0; i < Flags.Length; i++)
+                Flags[i].Checked = (value >> i & 1) == 1;
         }
 
         private void UpdateFlagState(object sender, EventArgs e)

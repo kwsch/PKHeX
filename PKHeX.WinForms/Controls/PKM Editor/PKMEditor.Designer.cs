@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PKMEditor));
             this.tabMain = new System.Windows.Forms.TabControl();
             this.Tab_Main = new System.Windows.Forms.TabPage();
             this.FLP_Main = new System.Windows.Forms.FlowLayoutPanel();
@@ -408,8 +407,8 @@
             // Label_IsShiny
             // 
             this.Label_IsShiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_IsShiny.Image = ((System.Drawing.Image)(resources.GetObject("Label_IsShiny.Image")));
-            this.Label_IsShiny.InitialImage = ((System.Drawing.Image)(resources.GetObject("Label_IsShiny.InitialImage")));
+            this.Label_IsShiny.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
+            this.Label_IsShiny.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.Label_IsShiny.Location = new System.Drawing.Point(36, 2);
             this.Label_IsShiny.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.Label_IsShiny.Name = "Label_IsShiny";
@@ -1329,7 +1328,6 @@
             this.ShinyLeaf.Name = "ShinyLeaf";
             this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
             this.ShinyLeaf.TabIndex = 116;
-            this.ShinyLeaf.Value = 0;
             // 
             // FLP_CatchRate
             // 
@@ -1830,7 +1828,7 @@
             // 
             // PB_WarnMove4
             // 
-            this.PB_WarnMove4.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove4.Image")));
+            this.PB_WarnMove4.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnMove4.Location = new System.Drawing.Point(8, 113);
             this.PB_WarnMove4.Name = "PB_WarnMove4";
             this.PB_WarnMove4.Size = new System.Drawing.Size(16, 16);
@@ -1840,7 +1838,7 @@
             // 
             // PB_WarnMove3
             // 
-            this.PB_WarnMove3.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove3.Image")));
+            this.PB_WarnMove3.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnMove3.Location = new System.Drawing.Point(8, 91);
             this.PB_WarnMove3.Name = "PB_WarnMove3";
             this.PB_WarnMove3.Size = new System.Drawing.Size(16, 16);
@@ -1850,7 +1848,7 @@
             // 
             // PB_WarnMove2
             // 
-            this.PB_WarnMove2.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove2.Image")));
+            this.PB_WarnMove2.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnMove2.Location = new System.Drawing.Point(8, 69);
             this.PB_WarnMove2.Name = "PB_WarnMove2";
             this.PB_WarnMove2.Size = new System.Drawing.Size(16, 16);
@@ -1860,7 +1858,7 @@
             // 
             // PB_WarnMove1
             // 
-            this.PB_WarnMove1.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnMove1.Image")));
+            this.PB_WarnMove1.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnMove1.Location = new System.Drawing.Point(8, 47);
             this.PB_WarnMove1.Name = "PB_WarnMove1";
             this.PB_WarnMove1.Size = new System.Drawing.Size(16, 16);
@@ -1887,7 +1885,7 @@
             // 
             // PB_WarnRelearn4
             // 
-            this.PB_WarnRelearn4.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn4.Image")));
+            this.PB_WarnRelearn4.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnRelearn4.Location = new System.Drawing.Point(22, 93);
             this.PB_WarnRelearn4.Name = "PB_WarnRelearn4";
             this.PB_WarnRelearn4.Size = new System.Drawing.Size(16, 16);
@@ -1897,7 +1895,7 @@
             // 
             // PB_WarnRelearn3
             // 
-            this.PB_WarnRelearn3.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn3.Image")));
+            this.PB_WarnRelearn3.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnRelearn3.Location = new System.Drawing.Point(22, 71);
             this.PB_WarnRelearn3.Name = "PB_WarnRelearn3";
             this.PB_WarnRelearn3.Size = new System.Drawing.Size(16, 16);
@@ -1907,7 +1905,7 @@
             // 
             // PB_WarnRelearn2
             // 
-            this.PB_WarnRelearn2.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn2.Image")));
+            this.PB_WarnRelearn2.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnRelearn2.Location = new System.Drawing.Point(22, 49);
             this.PB_WarnRelearn2.Name = "PB_WarnRelearn2";
             this.PB_WarnRelearn2.Size = new System.Drawing.Size(16, 16);
@@ -1917,7 +1915,7 @@
             // 
             // PB_WarnRelearn1
             // 
-            this.PB_WarnRelearn1.Image = ((System.Drawing.Image)(resources.GetObject("PB_WarnRelearn1.Image")));
+            this.PB_WarnRelearn1.Image = global::PKHeX.WinForms.Properties.Resources.warn;
             this.PB_WarnRelearn1.Location = new System.Drawing.Point(22, 27);
             this.PB_WarnRelearn1.Name = "PB_WarnRelearn1";
             this.PB_WarnRelearn1.Size = new System.Drawing.Size(16, 16);
@@ -2392,8 +2390,8 @@
             // 
             // PB_MarkVC
             // 
-            this.PB_MarkVC.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkVC.Image")));
-            this.PB_MarkVC.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkVC.InitialImage")));
+            this.PB_MarkVC.Image = global::PKHeX.WinForms.Properties.Resources.vc;
+            this.PB_MarkVC.InitialImage = global::PKHeX.WinForms.Properties.Resources.vc;
             this.PB_MarkVC.Location = new System.Drawing.Point(89, 15);
             this.PB_MarkVC.Name = "PB_MarkVC";
             this.PB_MarkVC.Size = new System.Drawing.Size(20, 20);
@@ -2403,8 +2401,8 @@
             // 
             // PB_MarkAlola
             // 
-            this.PB_MarkAlola.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkAlola.Image")));
-            this.PB_MarkAlola.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkAlola.InitialImage")));
+            this.PB_MarkAlola.Image = global::PKHeX.WinForms.Properties.Resources.alora;
+            this.PB_MarkAlola.InitialImage = global::PKHeX.WinForms.Properties.Resources.alora;
             this.PB_MarkAlola.Location = new System.Drawing.Point(68, 15);
             this.PB_MarkAlola.Name = "PB_MarkAlola";
             this.PB_MarkAlola.Size = new System.Drawing.Size(20, 20);
@@ -2414,8 +2412,8 @@
             // 
             // PB_Mark6
             // 
-            this.PB_Mark6.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.Image")));
-            this.PB_Mark6.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark6.InitialImage")));
+            this.PB_Mark6.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_06;
+            this.PB_Mark6.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_06;
             this.PB_Mark6.Location = new System.Drawing.Point(110, 36);
             this.PB_Mark6.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark6.Name = "PB_Mark6";
@@ -2427,8 +2425,8 @@
             // 
             // PB_MarkPentagon
             // 
-            this.PB_MarkPentagon.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.Image")));
-            this.PB_MarkPentagon.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.InitialImage")));
+            this.PB_MarkPentagon.Image = global::PKHeX.WinForms.Properties.Resources._6th;
+            this.PB_MarkPentagon.InitialImage = global::PKHeX.WinForms.Properties.Resources._6th;
             this.PB_MarkPentagon.Location = new System.Drawing.Point(47, 15);
             this.PB_MarkPentagon.Name = "PB_MarkPentagon";
             this.PB_MarkPentagon.Size = new System.Drawing.Size(20, 20);
@@ -2438,8 +2436,8 @@
             // 
             // PB_Mark3
             // 
-            this.PB_Mark3.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.Image")));
-            this.PB_Mark3.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark3.InitialImage")));
+            this.PB_Mark3.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_03;
+            this.PB_Mark3.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_03;
             this.PB_Mark3.Location = new System.Drawing.Point(47, 36);
             this.PB_Mark3.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark3.Name = "PB_Mark3";
@@ -2451,8 +2449,8 @@
             // 
             // PB_Mark5
             // 
-            this.PB_Mark5.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.Image")));
-            this.PB_Mark5.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark5.InitialImage")));
+            this.PB_Mark5.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_05;
+            this.PB_Mark5.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_05;
             this.PB_Mark5.Location = new System.Drawing.Point(89, 36);
             this.PB_Mark5.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark5.Name = "PB_Mark5";
@@ -2464,8 +2462,8 @@
             // 
             // PB_MarkCured
             // 
-            this.PB_MarkCured.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.Image")));
-            this.PB_MarkCured.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.InitialImage")));
+            this.PB_MarkCured.Image = global::PKHeX.WinForms.Properties.Resources.anti_pokerus_icon;
+            this.PB_MarkCured.InitialImage = global::PKHeX.WinForms.Properties.Resources.anti_pokerus_icon;
             this.PB_MarkCured.Location = new System.Drawing.Point(26, 15);
             this.PB_MarkCured.Name = "PB_MarkCured";
             this.PB_MarkCured.Size = new System.Drawing.Size(20, 20);
@@ -2475,8 +2473,8 @@
             // 
             // PB_Mark2
             // 
-            this.PB_Mark2.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.Image")));
-            this.PB_Mark2.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark2.InitialImage")));
+            this.PB_Mark2.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_02;
+            this.PB_Mark2.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_02;
             this.PB_Mark2.Location = new System.Drawing.Point(26, 36);
             this.PB_Mark2.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark2.Name = "PB_Mark2";
@@ -2488,8 +2486,8 @@
             // 
             // PB_MarkShiny
             // 
-            this.PB_MarkShiny.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.Image")));
-            this.PB_MarkShiny.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.InitialImage")));
+            this.PB_MarkShiny.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
+            this.PB_MarkShiny.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.PB_MarkShiny.Location = new System.Drawing.Point(5, 15);
             this.PB_MarkShiny.Name = "PB_MarkShiny";
             this.PB_MarkShiny.Size = new System.Drawing.Size(20, 20);
@@ -2499,8 +2497,8 @@
             // 
             // PB_Mark1
             // 
-            this.PB_Mark1.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark1.Image")));
-            this.PB_Mark1.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark1.InitialImage")));
+            this.PB_Mark1.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_01;
+            this.PB_Mark1.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_01;
             this.PB_Mark1.Location = new System.Drawing.Point(5, 36);
             this.PB_Mark1.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark1.Name = "PB_Mark1";
@@ -2512,8 +2510,8 @@
             // 
             // PB_Mark4
             // 
-            this.PB_Mark4.Image = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.Image")));
-            this.PB_Mark4.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_Mark4.InitialImage")));
+            this.PB_Mark4.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_04;
+            this.PB_Mark4.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_04;
             this.PB_Mark4.Location = new System.Drawing.Point(68, 36);
             this.PB_Mark4.Margin = new System.Windows.Forms.Padding(1);
             this.PB_Mark4.Name = "PB_Mark4";

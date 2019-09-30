@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BoxList));
             this.FLP_Boxes = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
@@ -49,7 +48,7 @@
             this.ClientSize = new System.Drawing.Size(250, 185);
             this.Controls.Add(this.FLP_Boxes);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_BoxList";

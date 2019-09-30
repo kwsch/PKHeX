@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorWindow));
             this.T_ExceptionDetails = new System.Windows.Forms.TextBox();
             this.L_Message = new System.Windows.Forms.Label();
             this.L_ProvideInfo = new System.Windows.Forms.Label();
@@ -113,7 +112,7 @@
             this.Controls.Add(this.L_ProvideInfo);
             this.Controls.Add(this.L_Message);
             this.Controls.Add(this.T_ExceptionDetails);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(515, 275);
             this.Name = "ErrorWindow";

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Encounters));
             this.SCR_Box = new System.Windows.Forms.VScrollBar();
             this.bpkx30 = new System.Windows.Forms.PictureBox();
             this.bpkx29 = new System.Windows.Forms.PictureBox();
@@ -1369,7 +1368,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.RTB_Instructions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(800, 440);
             this.MinimizeBox = false;

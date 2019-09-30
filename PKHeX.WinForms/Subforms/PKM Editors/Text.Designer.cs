@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrashEditor));
             this.TB_Text = new System.Windows.Forms.TextBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_Cancel = new System.Windows.Forms.Button();
@@ -227,7 +226,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TB_Text);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TrashEditor";

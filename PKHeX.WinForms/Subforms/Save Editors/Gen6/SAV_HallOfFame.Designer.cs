@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_HallOfFame));
             this.LB_DataEntry = new System.Windows.Forms.ListBox();
             this.RTB = new System.Windows.Forms.RichTextBox();
             this.B_Close = new System.Windows.Forms.Button();
@@ -571,7 +570,7 @@
             this.Controls.Add(this.RTB);
             this.Controls.Add(this.LB_DataEntry);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(620, 340);
             this.MinimizeBox = false;

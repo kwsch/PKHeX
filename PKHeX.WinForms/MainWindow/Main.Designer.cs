@@ -29,7 +29,6 @@
         
         public void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Open = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,7 +97,7 @@
             // 
             // Menu_Open
             // 
-            this.Menu_Open.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Open.Image")));
+            this.Menu_Open.Image = global::PKHeX.WinForms.Properties.Resources.open;
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
@@ -108,12 +107,12 @@
             // 
             // Menu_Save
             // 
-            this.Menu_Save.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Save.Image")));
+            this.Menu_Save.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
             this.Menu_Save.Size = new System.Drawing.Size(180, 22);
-            this.Menu_Save.Text = "&Save PK6...";
+            this.Menu_Save.Text = "&Save PKM...";
             this.Menu_Save.Click += new System.EventHandler(this.MainMenuSave);
             // 
             // Menu_ExportSAV
@@ -122,14 +121,14 @@
             this.Menu_ExportMAIN,
             this.Menu_ExportBAK});
             this.Menu_ExportSAV.Enabled = false;
-            this.Menu_ExportSAV.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ExportSAV.Image")));
+            this.Menu_ExportSAV.Image = global::PKHeX.WinForms.Properties.Resources.saveSAV;
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
             this.Menu_ExportSAV.Size = new System.Drawing.Size(180, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             // 
             // Menu_ExportMAIN
             // 
-            this.Menu_ExportMAIN.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ExportMAIN.Image")));
+            this.Menu_ExportMAIN.Image = global::PKHeX.WinForms.Properties.Resources.main;
             this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
             this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportMAIN.ShowShortcutKeys = false;
@@ -149,7 +148,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Exit.Image")));
+            this.Menu_Exit.Image = global::PKHeX.WinForms.Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -175,14 +174,14 @@
             this.Menu_ShowdownExportParty,
             this.Menu_ShowdownExportBattleBox,
             this.Menu_ShowdownExportCurrentBox});
-            this.Menu_Showdown.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Showdown.Image")));
+            this.Menu_Showdown.Image = global::PKHeX.WinForms.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
             this.Menu_Showdown.Size = new System.Drawing.Size(180, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
             // 
-            this.Menu_ShowdownImportPKM.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownImportPKM.Image")));
+            this.Menu_ShowdownImportPKM.Image = global::PKHeX.WinForms.Properties.Resources.import;
             this.Menu_ShowdownImportPKM.Name = "Menu_ShowdownImportPKM";
             this.Menu_ShowdownImportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
@@ -192,7 +191,7 @@
             // 
             // Menu_ShowdownExportPKM
             // 
-            this.Menu_ShowdownExportPKM.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportPKM.Image")));
+            this.Menu_ShowdownExportPKM.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_ShowdownExportPKM.Name = "Menu_ShowdownExportPKM";
             this.Menu_ShowdownExportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
@@ -203,7 +202,7 @@
             // 
             // Menu_ShowdownExportParty
             // 
-            this.Menu_ShowdownExportParty.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportParty.Image")));
+            this.Menu_ShowdownExportParty.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_ShowdownExportParty.Name = "Menu_ShowdownExportParty";
             this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
@@ -211,7 +210,7 @@
             // 
             // Menu_ShowdownExportBattleBox
             // 
-            this.Menu_ShowdownExportBattleBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportBattleBox.Image")));
+            this.Menu_ShowdownExportBattleBox.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_ShowdownExportBattleBox.Name = "Menu_ShowdownExportBattleBox";
             this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
@@ -219,7 +218,7 @@
             // 
             // Menu_ShowdownExportCurrentBox
             // 
-            this.Menu_ShowdownExportCurrentBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportCurrentBox.Image")));
+            this.Menu_ShowdownExportCurrentBox.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_ShowdownExportCurrentBox.Name = "Menu_ShowdownExportCurrentBox";
             this.Menu_ShowdownExportCurrentBox.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportCurrentBox.Text = "Export Current Box to Clipboard";
@@ -236,14 +235,14 @@
             this.Menu_MGDatabase,
             this.Menu_EncDatabase,
             this.Menu_BatchEditor});
-            this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
+            this.Menu_Data.Image = global::PKHeX.WinForms.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
             this.Menu_Data.Size = new System.Drawing.Size(180, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
             // 
-            this.Menu_LoadBoxes.Image = ((System.Drawing.Image)(resources.GetObject("Menu_LoadBoxes.Image")));
+            this.Menu_LoadBoxes.Image = global::PKHeX.WinForms.Properties.Resources.load;
             this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
             this.Menu_LoadBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_LoadBoxes.Text = "Load Boxes";
@@ -251,7 +250,7 @@
             // 
             // Menu_DumpBoxes
             // 
-            this.Menu_DumpBoxes.Image = ((System.Drawing.Image)(resources.GetObject("Menu_DumpBoxes.Image")));
+            this.Menu_DumpBoxes.Image = global::PKHeX.WinForms.Properties.Resources.dump;
             this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
             this.Menu_DumpBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
@@ -259,7 +258,7 @@
             // 
             // Menu_DumpBox
             // 
-            this.Menu_DumpBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_DumpBox.Image")));
+            this.Menu_DumpBox.Image = global::PKHeX.WinForms.Properties.Resources.dump;
             this.Menu_DumpBox.Name = "Menu_DumpBox";
             this.Menu_DumpBox.Size = new System.Drawing.Size(182, 22);
             this.Menu_DumpBox.Text = "Dump Box";
@@ -267,7 +266,7 @@
             // 
             // Menu_Report
             // 
-            this.Menu_Report.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Report.Image")));
+            this.Menu_Report.Image = global::PKHeX.WinForms.Properties.Resources.report;
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.Menu_Report.ShowShortcutKeys = false;
@@ -277,7 +276,7 @@
             // 
             // Menu_Database
             // 
-            this.Menu_Database.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Database.Image")));
+            this.Menu_Database.Image = global::PKHeX.WinForms.Properties.Resources.database;
             this.Menu_Database.Name = "Menu_Database";
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
@@ -287,7 +286,7 @@
             // 
             // Menu_MGDatabase
             // 
-            this.Menu_MGDatabase.Image = ((System.Drawing.Image)(resources.GetObject("Menu_MGDatabase.Image")));
+            this.Menu_MGDatabase.Image = global::PKHeX.WinForms.Properties.Resources.gift;
             this.Menu_MGDatabase.Name = "Menu_MGDatabase";
             this.Menu_MGDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
             this.Menu_MGDatabase.ShowShortcutKeys = false;
@@ -307,7 +306,7 @@
             // 
             // Menu_BatchEditor
             // 
-            this.Menu_BatchEditor.Image = ((System.Drawing.Image)(resources.GetObject("Menu_BatchEditor.Image")));
+            this.Menu_BatchEditor.Image = global::PKHeX.WinForms.Properties.Resources.settings;
             this.Menu_BatchEditor.Name = "Menu_BatchEditor";
             this.Menu_BatchEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.Menu_BatchEditor.ShowShortcutKeys = false;
@@ -341,7 +340,7 @@
             // 
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
-            this.Menu_Language.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Language.Image")));
+            this.Menu_Language.Image = global::PKHeX.WinForms.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
             this.Menu_Language.Size = new System.Drawing.Size(180, 22);
             this.Menu_Language.Text = "Language";
@@ -388,7 +387,7 @@
             // 
             // Menu_About
             // 
-            this.Menu_About.Image = ((System.Drawing.Image)(resources.GetObject("Menu_About.Image")));
+            this.Menu_About.Image = global::PKHeX.WinForms.Properties.Resources.about;
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
@@ -413,7 +412,7 @@
             // 
             // PB_Legal
             // 
-            this.PB_Legal.Image = ((System.Drawing.Image)(resources.GetObject("PB_Legal.Image")));
+            this.PB_Legal.Image = global::PKHeX.WinForms.Properties.Resources.valid;
             this.PB_Legal.Location = new System.Drawing.Point(226, 5);
             this.PB_Legal.Name = "PB_Legal";
             this.PB_Legal.Size = new System.Drawing.Size(16, 16);
@@ -478,7 +477,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.PKME_Tabs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "Main";

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Pokedex5));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Species = new System.Windows.Forms.ListBox();
             this.CHK_P1 = new System.Windows.Forms.CheckBox();
@@ -524,7 +523,7 @@
             this.Controls.Add(this.LB_Species);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_Pokedex5";

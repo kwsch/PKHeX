@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_GameSelect));
             this.CB_Game = new System.Windows.Forms.ComboBox();
             this.B_OK = new System.Windows.Forms.Button();
             this.L_Game = new System.Windows.Forms.Label();
@@ -101,7 +100,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.CB_Game);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

@@ -30,7 +30,6 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_FolderList));
             this.FLP_Buttons = new System.Windows.Forms.FlowLayoutPanel();
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Recent = new System.Windows.Forms.TabPage();
@@ -164,7 +163,7 @@
             this.Controls.Add(this.TB_FilterTextContains);
             this.Controls.Add(this.CB_FilterColumn);
             this.Controls.Add(this.TC_Tabs);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_FolderList";

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAVEditor));
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
             this.Box = new PKHeX.WinForms.Controls.BoxEditor();
@@ -171,6 +170,7 @@
             this.Box.ControlsEnabled = true;
             this.Box.ControlsVisible = true;
             this.Box.CurrentBox = -1;
+            this.Box.Editor = null;
             this.Box.FlagIllegal = false;
             this.Box.Location = new System.Drawing.Point(26, 7);
             this.Box.M = null;
@@ -196,7 +196,7 @@
             // 
             // PAN_BattleBox
             // 
-            this.PAN_BattleBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_BattleBox.BackgroundImage")));
+            this.PAN_BattleBox.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.party;
             this.PAN_BattleBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_BattleBox.Controls.Add(this.PB_Locked);
             this.PAN_BattleBox.Controls.Add(this.bbpkx1);
@@ -212,7 +212,7 @@
             // 
             // PB_Locked
             // 
-            this.PB_Locked.Image = ((System.Drawing.Image)(resources.GetObject("PB_Locked.Image")));
+            this.PB_Locked.Image = global::PKHeX.WinForms.Properties.Resources.locked;
             this.PB_Locked.Location = new System.Drawing.Point(76, 2);
             this.PB_Locked.Name = "PB_Locked";
             this.PB_Locked.Size = new System.Drawing.Size(32, 32);
@@ -306,7 +306,7 @@
             // 
             // PAN_Party
             // 
-            this.PAN_Party.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_Party.BackgroundImage")));
+            this.PAN_Party.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.party;
             this.PAN_Party.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Party.Controls.Add(this.ppkx1);
             this.PAN_Party.Controls.Add(this.ppkx2);
@@ -390,6 +390,7 @@
             this.SL_Extra.Dock = System.Windows.Forms.DockStyle.Right;
             this.SL_Extra.Location = new System.Drawing.Point(227, 0);
             this.SL_Extra.Name = "SL_Extra";
+            this.SL_Extra.SAV = null;
             this.SL_Extra.Size = new System.Drawing.Size(75, 199);
             this.SL_Extra.TabIndex = 30;
             this.SL_Extra.ViewIndex = -1;

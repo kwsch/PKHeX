@@ -44,6 +44,7 @@ namespace PKHeX.WinForms.Controls
             foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
+            ShinyLeaf.Initialize();
             Stats.MainEditor = this;
             LoadShowdownSet = LoadShowdownSetDefault;
             TID_Trainer.UpdatedID += Update_ID;

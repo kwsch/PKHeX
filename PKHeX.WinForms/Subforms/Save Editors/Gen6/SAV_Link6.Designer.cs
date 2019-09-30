@@ -18,7 +18,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Link6));
             this.TB_PKM1 = new System.Windows.Forms.TextBox();
             this.TB_PKM2 = new System.Windows.Forms.TextBox();
             this.TB_PKM3 = new System.Windows.Forms.TextBox();
@@ -562,7 +561,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.tabControl1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(350, 275);
             this.Name = "SAV_Link6";
