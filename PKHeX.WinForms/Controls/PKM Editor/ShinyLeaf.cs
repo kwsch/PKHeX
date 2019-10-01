@@ -12,20 +12,12 @@ namespace PKHeX.WinForms.Controls
         public ShinyLeaf()
         {
             InitializeComponent();
+            Flags = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C };
         }
 
-        private CheckBox[] Flags;
-        private Bitmap greyLeaf;
-        private Bitmap greyCrown;
+        private readonly CheckBox[] Flags;
 
         public void CheckAll(bool all = true) => SetValue(all ? 0b00111111 : 0);
-
-        public void Initialize()
-        {
-            Flags = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C };
-            greyLeaf = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(Resources.leaf), 0.4);
-            greyCrown = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(Resources.crown), 0.4);
-        }
 
         public int GetValue()
         {
@@ -49,18 +41,22 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is CheckBox c))
                 return;
 
+            Image resource;
             if (CHK_C == c)
             {
-                c.Image = c.Checked ? Resources.crown : greyCrown;
+                resource = Resources.crown;
             }
             else
             {
+                resource = Resources.leaf;
                 if (!c.Checked)
                     CHK_C.Checked = CHK_C.Enabled = false;
                 else if (Flags.Take(5).All(z => z.Checked))
                     CHK_C.Enabled = true;
-                c.Image = c.Checked ? Resources.leaf : greyLeaf;
             }
+            if (!c.Checked)
+                resource = ImageUtil.ChangeOpacity(resource, 0.4);
+            c.Image = resource;
         }
     }
 }
