@@ -12,35 +12,28 @@ namespace PKHeX.WinForms.Controls
         public ShinyLeaf()
         {
             InitializeComponent();
-            Flags = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C};
-            greyLeaf = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(CHK_1.Image), 0.4);
-            greyCrown = ImageUtil.ChangeOpacity(ImageUtil.ToGrayscale(CHK_C.Image), 0.4);
-            foreach (var chk in Flags)
-                UpdateFlagState(chk, null);
+            Flags = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C };
         }
 
         private readonly CheckBox[] Flags;
-        private readonly Bitmap greyLeaf, greyCrown;
-        public void CheckAll(bool all = true) => Value = all ? 0b00111111 : 0;
 
-        public int Value
+        public void CheckAll(bool all = true) => SetValue(all ? 0b00111111 : 0);
+
+        public int GetValue()
         {
-            get
+            int value = 0;
+            for (int i = 0; i < Flags.Length; i++)
             {
-                int value = 0;
-                for (int i = 0; i < Flags.Length; i++)
-                {
-                    if (Flags[i].Checked)
-                        value |= 1 << i;
-                }
+                if (Flags[i].Checked)
+                    value |= 1 << i;
+            }
+            return value;
+        }
 
-                return value;
-            }
-            set
-            {
-                for (int i = 0; i < Flags.Length; i++)
-                    Flags[i].Checked = (value >> i & 1) == 1;
-            }
+        public void SetValue(int value)
+        {
+            for (int i = 0; i < Flags.Length; i++)
+                Flags[i].Checked = (value >> i & 1) == 1;
         }
 
         private void UpdateFlagState(object sender, EventArgs e)
@@ -48,18 +41,22 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is CheckBox c))
                 return;
 
+            Image resource;
             if (CHK_C == c)
             {
-                c.Image = c.Checked ? Resources.crown : greyCrown;
+                resource = Resources.crown;
             }
             else
             {
+                resource = Resources.leaf;
                 if (!c.Checked)
                     CHK_C.Checked = CHK_C.Enabled = false;
                 else if (Flags.Take(5).All(z => z.Checked))
                     CHK_C.Enabled = true;
-                c.Image = c.Checked ? Resources.leaf : greyLeaf;
             }
+            if (!c.Checked)
+                resource = ImageUtil.ChangeOpacity(resource, 0.4);
+            c.Image = resource;
         }
     }
 }

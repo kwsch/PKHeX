@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BoxLayout));
             this.LB_BoxSelect = new System.Windows.Forms.ListBox();
             this.TB_BoxName = new System.Windows.Forms.TextBox();
             this.L_BoxName = new System.Windows.Forms.Label();
@@ -217,7 +216,7 @@
             this.Controls.Add(this.TB_BoxName);
             this.Controls.Add(this.LB_BoxSelect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_BoxLayout";

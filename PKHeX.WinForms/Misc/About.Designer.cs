@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.L_Thanks = new System.Windows.Forms.Label();
             this.TC_About = new System.Windows.Forms.TabControl();
             this.Tab_Shortcuts = new System.Windows.Forms.TabPage();
@@ -111,7 +110,7 @@
             this.ClientSize = new System.Drawing.Size(494, 372);
             this.Controls.Add(this.L_Thanks);
             this.Controls.Add(this.TC_About);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(910, 710);
             this.MinimizeBox = false;

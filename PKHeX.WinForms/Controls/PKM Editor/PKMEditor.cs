@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
 using PKHeX.Drawing;
 using System.ComponentModel;
 
@@ -109,7 +108,6 @@ namespace PKHeX.WinForms.Controls
         private Func<PKM> GetPKMfromFields;
         private LegalityAnalysis Legality;
         private IReadOnlyList<string> gendersymbols = GameInfo.GenderSymbolUnicode;
-        private readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
         private readonly LegalMoveSource LegalMoveSource = new LegalMoveSource();
 
         public event EventHandler LegalityChanged;
@@ -611,18 +609,13 @@ namespace PKHeX.WinForms.Controls
         {
             if (!GB_nOT.Visible)
                 return;
+
             if (sender == GB_OT)
-            {
                 pkm.CurrentHandler = 0;
-                GB_OT.BackgroundImage = mixedHighlight;
-                GB_nOT.BackgroundImage = null;
-            }
             else if (TB_OTt2.Text.Length > 0)
-            {
                 pkm.CurrentHandler = 1;
-                GB_OT.BackgroundImage = null;
-                GB_nOT.BackgroundImage = mixedHighlight;
-            }
+            UpadteHandlingTrainerBackground(pkm);
+
             TB_Friendship.Text = pkm.CurrentFriendship.ToString();
         }
 

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Underground));
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LU_PlayersMet = new System.Windows.Forms.Label();
@@ -258,7 +257,7 @@
             this.Controls.Add(this.LU_PlayersMet);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SAV_Underground";
             this.Text = "Underground Scores Editor";

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SimpleTrainer));
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_PikaFriend = new System.Windows.Forms.Label();
             this.MT_PikaFriend = new System.Windows.Forms.MaskedTextBox();
@@ -830,7 +829,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.GB_Map);
             this.Controls.Add(this.GB_Adventure);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MinimumSize = new System.Drawing.Size(400, 300);
             this.Name = "SAV_SimpleTrainer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

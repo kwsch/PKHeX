@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_FestivalPlaza));
             this.NUD_FC_Current = new System.Windows.Forms.NumericUpDown();
             this.L_FC_Current = new System.Windows.Forms.Label();
             this.GB_FC = new System.Windows.Forms.GroupBox();
@@ -1199,7 +1198,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_FestivalPlaza";

@@ -1,5 +1,7 @@
 ﻿using System;
 using PKHeX.Core;
+using PKHeX.Drawing;
+using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -312,15 +314,20 @@ namespace PKHeX.WinForms.Controls
             Label_CTGender.Text = string.IsNullOrEmpty(pk.HT_Name) ? string.Empty : gendersymbols[gender];
             Label_CTGender.ForeColor = Draw.GetGenderColor(gender);
 
-            // Indicate who is currently in posession of the PKM
+            // Indicate who is currently in possession of the PKM
+            UpadteHandlingTrainerBackground(pk);
+        }
+
+        private void UpadteHandlingTrainerBackground(PKM pk)
+        {
             if (pk.CurrentHandler == 0) // OT
             {
-                GB_OT.BackgroundImage = mixedHighlight;
+                GB_OT.BackgroundImage = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
                 GB_nOT.BackgroundImage = null;
             }
             else // Handling Trainer
             {
-                GB_nOT.BackgroundImage = mixedHighlight;
+                GB_nOT.BackgroundImage = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
                 GB_OT.BackgroundImage = null;
             }
         }

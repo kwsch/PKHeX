@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShinyLeaf));
-            this.CHK_1 = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.CHK_1 = new System.Windows.Forms.CheckBox();
             this.CHK_2 = new System.Windows.Forms.CheckBox();
             this.CHK_3 = new System.Windows.Forms.CheckBox();
             this.CHK_4 = new System.Windows.Forms.CheckBox();
@@ -38,18 +37,6 @@
             this.CHK_C = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // CHK_1
-            // 
-            this.CHK_1.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
-            this.CHK_1.Location = new System.Drawing.Point(3, 0);
-            this.CHK_1.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
-            this.CHK_1.Name = "CHK_1";
-            this.CHK_1.Size = new System.Drawing.Size(34, 28);
-            this.CHK_1.TabIndex = 0;
-            this.CHK_1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.CHK_1.UseVisualStyleBackColor = true;
-            this.CHK_1.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // flowLayoutPanel1
             // 
@@ -61,70 +48,80 @@
             this.flowLayoutPanel1.Controls.Add(this.CHK_C);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(140, 56);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // CHK_1
+            // 
+            this.CHK_1.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
+            this.CHK_1.Location = new System.Drawing.Point(0, 0);
+            this.CHK_1.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_1.Name = "CHK_1";
+            this.CHK_1.Size = new System.Drawing.Size(40, 30);
+            this.CHK_1.TabIndex = 0;
+            this.CHK_1.UseVisualStyleBackColor = true;
+            this.CHK_1.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // CHK_2
             // 
-            this.CHK_2.Image = ((System.Drawing.Image)(resources.GetObject("CHK_2.Image")));
-            this.CHK_2.Location = new System.Drawing.Point(41, 0);
-            this.CHK_2.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
+            this.CHK_2.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
+            this.CHK_2.Location = new System.Drawing.Point(40, 0);
+            this.CHK_2.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_2.Name = "CHK_2";
-            this.CHK_2.Size = new System.Drawing.Size(34, 28);
+            this.CHK_2.Size = new System.Drawing.Size(40, 30);
             this.CHK_2.TabIndex = 1;
             this.CHK_2.UseVisualStyleBackColor = true;
             this.CHK_2.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // CHK_3
             // 
-            this.CHK_3.Image = ((System.Drawing.Image)(resources.GetObject("CHK_3.Image")));
-            this.CHK_3.Location = new System.Drawing.Point(79, 0);
-            this.CHK_3.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
+            this.CHK_3.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
+            this.CHK_3.Location = new System.Drawing.Point(80, 0);
+            this.CHK_3.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_3.Name = "CHK_3";
-            this.CHK_3.Size = new System.Drawing.Size(34, 28);
+            this.CHK_3.Size = new System.Drawing.Size(40, 30);
             this.CHK_3.TabIndex = 2;
             this.CHK_3.UseVisualStyleBackColor = true;
             this.CHK_3.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // CHK_4
             // 
-            this.CHK_4.Image = ((System.Drawing.Image)(resources.GetObject("CHK_4.Image")));
-            this.CHK_4.Location = new System.Drawing.Point(3, 28);
-            this.CHK_4.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
+            this.CHK_4.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
+            this.CHK_4.Location = new System.Drawing.Point(0, 30);
+            this.CHK_4.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_4.Name = "CHK_4";
-            this.CHK_4.Size = new System.Drawing.Size(34, 28);
+            this.CHK_4.Size = new System.Drawing.Size(40, 30);
             this.CHK_4.TabIndex = 3;
             this.CHK_4.UseVisualStyleBackColor = true;
             this.CHK_4.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // CHK_5
             // 
-            this.CHK_5.Image = ((System.Drawing.Image)(resources.GetObject("CHK_5.Image")));
-            this.CHK_5.Location = new System.Drawing.Point(41, 28);
-            this.CHK_5.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
+            this.CHK_5.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
+            this.CHK_5.Location = new System.Drawing.Point(40, 30);
+            this.CHK_5.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_5.Name = "CHK_5";
-            this.CHK_5.Size = new System.Drawing.Size(34, 28);
+            this.CHK_5.Size = new System.Drawing.Size(40, 30);
             this.CHK_5.TabIndex = 4;
             this.CHK_5.UseVisualStyleBackColor = true;
             this.CHK_5.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // CHK_C
             // 
-            this.CHK_C.Enabled = false;
             this.CHK_C.Image = global::PKHeX.WinForms.Properties.Resources.crown;
-            this.CHK_C.Location = new System.Drawing.Point(79, 28);
-            this.CHK_C.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
+            this.CHK_C.Location = new System.Drawing.Point(80, 30);
+            this.CHK_C.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_C.Name = "CHK_C";
-            this.CHK_C.Size = new System.Drawing.Size(55, 28);
+            this.CHK_C.Size = new System.Drawing.Size(60, 28);
             this.CHK_C.TabIndex = 5;
             this.CHK_C.UseVisualStyleBackColor = true;
             this.CHK_C.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // ShinyLeaf
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ShinyLeaf";
             this.Size = new System.Drawing.Size(140, 56);
@@ -135,8 +132,8 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox CHK_1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.CheckBox CHK_1;
         private System.Windows.Forms.CheckBox CHK_2;
         private System.Windows.Forms.CheckBox CHK_3;
         private System.Windows.Forms.CheckBox CHK_4;

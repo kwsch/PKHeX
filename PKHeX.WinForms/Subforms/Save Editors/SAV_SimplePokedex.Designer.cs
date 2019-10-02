@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SimplePokedex));
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_CaughtNone = new System.Windows.Forms.Button();
@@ -152,7 +151,7 @@
             this.Controls.Add(this.CLB_Caught);
             this.Controls.Add(this.Label_Seen);
             this.Controls.Add(this.CLB_Seen);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximumSize = new System.Drawing.Size(300, 375);
             this.MinimumSize = new System.Drawing.Size(300, 375);
             this.Name = "SAV_SimplePokedex";

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BatchEditor));
             this.RB_Boxes = new System.Windows.Forms.RadioButton();
             this.RB_Path = new System.Windows.Forms.RadioButton();
             this.FLP_RB = new System.Windows.Forms.FlowLayoutPanel();
@@ -234,7 +233,7 @@
             this.Controls.Add(this.RTB_Instructions);
             this.Controls.Add(this.FLP_RB);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(410, 300);
             this.Name = "BatchEditor";

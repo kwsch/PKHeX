@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_MailBox));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.LB_PartyHeld = new System.Windows.Forms.ListBox();
@@ -1000,7 +999,7 @@
             this.Controls.Add(this.LB_PartyHeld);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Name = "SAV_MailBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MailBox Editor";

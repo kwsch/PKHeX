@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonEditor));
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_None = new System.Windows.Forms.Button();
@@ -160,7 +159,7 @@
             this.Controls.Add(this.B_All);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(540, 320);
             this.Name = "RibbonEditor";

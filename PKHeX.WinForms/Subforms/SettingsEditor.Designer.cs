@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsEditor));
             this.FLP_Blank = new System.Windows.Forms.FlowLayoutPanel();
             this.L_Blank = new System.Windows.Forms.Label();
             this.CB_Blank = new System.Windows.Forms.ComboBox();
@@ -142,7 +141,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.FLP_Blank);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

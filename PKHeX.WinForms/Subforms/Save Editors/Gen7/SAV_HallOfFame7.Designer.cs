@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_HallOfFame7));
             this.B_Close = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.CHK_Flag = new System.Windows.Forms.CheckBox();
@@ -434,7 +433,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Close);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_HallOfFame7";

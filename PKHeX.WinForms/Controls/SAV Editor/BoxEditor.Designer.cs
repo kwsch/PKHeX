@@ -97,6 +97,7 @@
             // 
             // PAN_Box
             // 
+            this.PAN_Box.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.box_wp_default;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx30);
             this.PAN_Box.Controls.Add(this.bpkx29);
@@ -135,6 +136,7 @@
             // 
             // bpkx30
             // 
+            this.bpkx30.BackColor = System.Drawing.Color.Transparent;
             this.bpkx30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx30.Location = new System.Drawing.Point(207, 126);
             this.bpkx30.Name = "bpkx30";
@@ -145,6 +147,7 @@
             // 
             // bpkx29
             // 
+            this.bpkx29.BackColor = System.Drawing.Color.Transparent;
             this.bpkx29.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx29.Location = new System.Drawing.Point(166, 126);
             this.bpkx29.Name = "bpkx29";
@@ -155,6 +158,7 @@
             // 
             // bpkx28
             // 
+            this.bpkx28.BackColor = System.Drawing.Color.Transparent;
             this.bpkx28.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx28.Location = new System.Drawing.Point(125, 126);
             this.bpkx28.Name = "bpkx28";
@@ -165,6 +169,7 @@
             // 
             // bpkx27
             // 
+            this.bpkx27.BackColor = System.Drawing.Color.Transparent;
             this.bpkx27.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx27.Location = new System.Drawing.Point(84, 126);
             this.bpkx27.Name = "bpkx27";
@@ -175,6 +180,7 @@
             // 
             // bpkx26
             // 
+            this.bpkx26.BackColor = System.Drawing.Color.Transparent;
             this.bpkx26.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx26.Location = new System.Drawing.Point(43, 126);
             this.bpkx26.Name = "bpkx26";
@@ -185,6 +191,7 @@
             // 
             // bpkx25
             // 
+            this.bpkx25.BackColor = System.Drawing.Color.Transparent;
             this.bpkx25.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx25.Location = new System.Drawing.Point(2, 126);
             this.bpkx25.Name = "bpkx25";
@@ -195,6 +202,7 @@
             // 
             // bpkx24
             // 
+            this.bpkx24.BackColor = System.Drawing.Color.Transparent;
             this.bpkx24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx24.Location = new System.Drawing.Point(207, 95);
             this.bpkx24.Name = "bpkx24";
@@ -205,6 +213,7 @@
             // 
             // bpkx23
             // 
+            this.bpkx23.BackColor = System.Drawing.Color.Transparent;
             this.bpkx23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx23.Location = new System.Drawing.Point(166, 95);
             this.bpkx23.Name = "bpkx23";
@@ -215,6 +224,7 @@
             // 
             // bpkx22
             // 
+            this.bpkx22.BackColor = System.Drawing.Color.Transparent;
             this.bpkx22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx22.Location = new System.Drawing.Point(125, 95);
             this.bpkx22.Name = "bpkx22";
@@ -225,6 +235,7 @@
             // 
             // bpkx21
             // 
+            this.bpkx21.BackColor = System.Drawing.Color.Transparent;
             this.bpkx21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx21.Location = new System.Drawing.Point(84, 95);
             this.bpkx21.Name = "bpkx21";
@@ -235,6 +246,7 @@
             // 
             // bpkx20
             // 
+            this.bpkx20.BackColor = System.Drawing.Color.Transparent;
             this.bpkx20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx20.Location = new System.Drawing.Point(43, 95);
             this.bpkx20.Name = "bpkx20";
@@ -245,6 +257,7 @@
             // 
             // bpkx19
             // 
+            this.bpkx19.BackColor = System.Drawing.Color.Transparent;
             this.bpkx19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx19.Location = new System.Drawing.Point(2, 95);
             this.bpkx19.Name = "bpkx19";
@@ -255,6 +268,7 @@
             // 
             // bpkx18
             // 
+            this.bpkx18.BackColor = System.Drawing.Color.Transparent;
             this.bpkx18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx18.Location = new System.Drawing.Point(207, 64);
             this.bpkx18.Name = "bpkx18";
@@ -265,6 +279,7 @@
             // 
             // bpkx17
             // 
+            this.bpkx17.BackColor = System.Drawing.Color.Transparent;
             this.bpkx17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx17.Location = new System.Drawing.Point(166, 64);
             this.bpkx17.Name = "bpkx17";
@@ -275,6 +290,7 @@
             // 
             // bpkx16
             // 
+            this.bpkx16.BackColor = System.Drawing.Color.Transparent;
             this.bpkx16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx16.Location = new System.Drawing.Point(125, 64);
             this.bpkx16.Name = "bpkx16";
@@ -285,6 +301,7 @@
             // 
             // bpkx15
             // 
+            this.bpkx15.BackColor = System.Drawing.Color.Transparent;
             this.bpkx15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx15.Location = new System.Drawing.Point(84, 64);
             this.bpkx15.Name = "bpkx15";
@@ -295,6 +312,7 @@
             // 
             // bpkx14
             // 
+            this.bpkx14.BackColor = System.Drawing.Color.Transparent;
             this.bpkx14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx14.Location = new System.Drawing.Point(43, 64);
             this.bpkx14.Name = "bpkx14";
@@ -305,6 +323,7 @@
             // 
             // bpkx13
             // 
+            this.bpkx13.BackColor = System.Drawing.Color.Transparent;
             this.bpkx13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx13.Location = new System.Drawing.Point(2, 64);
             this.bpkx13.Name = "bpkx13";
@@ -315,6 +334,7 @@
             // 
             // bpkx12
             // 
+            this.bpkx12.BackColor = System.Drawing.Color.Transparent;
             this.bpkx12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx12.Location = new System.Drawing.Point(207, 33);
             this.bpkx12.Name = "bpkx12";
@@ -325,6 +345,7 @@
             // 
             // bpkx11
             // 
+            this.bpkx11.BackColor = System.Drawing.Color.Transparent;
             this.bpkx11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx11.Location = new System.Drawing.Point(166, 33);
             this.bpkx11.Name = "bpkx11";
@@ -335,6 +356,7 @@
             // 
             // bpkx10
             // 
+            this.bpkx10.BackColor = System.Drawing.Color.Transparent;
             this.bpkx10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx10.Location = new System.Drawing.Point(125, 33);
             this.bpkx10.Name = "bpkx10";
@@ -345,6 +367,7 @@
             // 
             // bpkx9
             // 
+            this.bpkx9.BackColor = System.Drawing.Color.Transparent;
             this.bpkx9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx9.Location = new System.Drawing.Point(84, 33);
             this.bpkx9.Name = "bpkx9";
@@ -355,6 +378,7 @@
             // 
             // bpkx8
             // 
+            this.bpkx8.BackColor = System.Drawing.Color.Transparent;
             this.bpkx8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx8.Location = new System.Drawing.Point(43, 33);
             this.bpkx8.Name = "bpkx8";
@@ -365,6 +389,7 @@
             // 
             // bpkx7
             // 
+            this.bpkx7.BackColor = System.Drawing.Color.Transparent;
             this.bpkx7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx7.Location = new System.Drawing.Point(2, 33);
             this.bpkx7.Name = "bpkx7";
@@ -375,6 +400,7 @@
             // 
             // bpkx6
             // 
+            this.bpkx6.BackColor = System.Drawing.Color.Transparent;
             this.bpkx6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx6.Location = new System.Drawing.Point(207, 2);
             this.bpkx6.Name = "bpkx6";
@@ -385,6 +411,7 @@
             // 
             // bpkx5
             // 
+            this.bpkx5.BackColor = System.Drawing.Color.Transparent;
             this.bpkx5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx5.Location = new System.Drawing.Point(166, 2);
             this.bpkx5.Name = "bpkx5";
@@ -395,6 +422,7 @@
             // 
             // bpkx4
             // 
+            this.bpkx4.BackColor = System.Drawing.Color.Transparent;
             this.bpkx4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx4.Location = new System.Drawing.Point(125, 2);
             this.bpkx4.Name = "bpkx4";
@@ -405,6 +433,7 @@
             // 
             // bpkx3
             // 
+            this.bpkx3.BackColor = System.Drawing.Color.Transparent;
             this.bpkx3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx3.Location = new System.Drawing.Point(84, 2);
             this.bpkx3.Name = "bpkx3";
@@ -415,6 +444,7 @@
             // 
             // bpkx2
             // 
+            this.bpkx2.BackColor = System.Drawing.Color.Transparent;
             this.bpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx2.Location = new System.Drawing.Point(43, 2);
             this.bpkx2.Name = "bpkx2";
@@ -425,6 +455,7 @@
             // 
             // bpkx1
             // 
+            this.bpkx1.BackColor = System.Drawing.Color.Transparent;
             this.bpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bpkx1.Location = new System.Drawing.Point(2, 2);
             this.bpkx1.Name = "bpkx1";

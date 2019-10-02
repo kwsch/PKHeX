@@ -34,7 +34,6 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QR));
             this.PB_QR = new System.Windows.Forms.PictureBox();
             this.NUD_Box = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -178,7 +177,7 @@ namespace PKHeX.WinForms
             this.Controls.Add(this.NUD_Box);
             this.Controls.Add(this.PB_QR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "QR";
