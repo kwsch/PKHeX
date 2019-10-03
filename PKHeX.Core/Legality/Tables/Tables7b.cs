@@ -287,9 +287,6 @@ namespace PKHeX.Core
             022, // Fearow
             037, // Vulpix
             038, // Ninetales
-            043, // Oddish
-            044, // Gloom
-            045, // Vileplume
             046, // Paras
             047, // Parasect
             048, // Venonat
