@@ -11,10 +11,10 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     {
-        public IList<PictureBox> SlotPictureBoxes { get; }
+        public IList<PictureBox> SlotPictureBoxes { get; private set; }
         public SaveFile SAV => M?.SE.SAV;
 
-        public int BoxSlotCount { get; }
+        public int BoxSlotCount { get; private set; }
         public SlotChangeManager M { get; set; }
         public bool FlagIllegal { get; set; }
         public bool CanSetCurrentBox { get; set; }
@@ -22,14 +22,25 @@ namespace PKHeX.WinForms.Controls
         public BoxEditor()
         {
             InitializeComponent();
-            SlotPictureBoxes = new List<PictureBox>
+        }
+
+        internal bool InitializeGrid()
+        {
+            var count = SAV.BoxSlotCount;
+            var width = count / 5;
+            var height = count / width;
+            if (pokeGrid1.InitializeGrid(width, height))
             {
-                bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-            };
+                pokeGrid1.HorizontallyCenter(this);
+                InitializeSlots();
+                return true;
+            }
+            return false;
+        }
+
+        private void InitializeSlots()
+        {
+            SlotPictureBoxes = pokeGrid1.Entries;
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
@@ -153,7 +164,7 @@ namespace PKHeX.WinForms.Controls
         {
             Editor.Reload();
             int box = CurrentBox;
-            PAN_Box.BackgroundImage = SAV.WallpaperImage(box);
+            pokeGrid1.SetBackground(SAV.WallpaperImage(box));
             M.Hover.Stop();
 
             int index = box * SAV.BoxSlotCount;
@@ -237,14 +248,17 @@ namespace PKHeX.WinForms.Controls
         private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
         private void BoxSlot_DragDrop(object sender, DragEventArgs e) => M?.DragDrop(sender, e);
 
-        public void InitializeFromSAV(SaveFile sav)
+        public bool InitializeFromSAV(SaveFile sav)
         {
             Editor = new BoxEdit(sav);
+            bool result = InitializeGrid();
+
             int box = sav.CurrentBox;
             if ((uint)box >= sav.BoxCount)
                 box = 0;
             Editor.LoadBox(box);
             ResetBoxNames();   // Display the Box Names
+            return result;
         }
     }
 }

@@ -39,21 +39,9 @@ namespace PKHeX.WinForms
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
 
-            PKXBOXES = new[]
-            {
-                bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-
-                bpkx31,bpkx32,bpkx33,bpkx34,bpkx35,bpkx36,
-                bpkx37,bpkx38,bpkx39,bpkx40,bpkx41,bpkx42,
-                bpkx43,bpkx44,bpkx45,bpkx46,bpkx47,bpkx48,
-                bpkx49,bpkx50,bpkx51,bpkx52,bpkx53,bpkx54,
-                bpkx55,bpkx56,bpkx57,bpkx58,bpkx59,bpkx60,
-                bpkx61,bpkx62,bpkx63,bpkx64,bpkx65,bpkx66,
-            };
+            pokeGrid1.InitializeGrid(6, 11);
+            pokeGrid1.SetBackground(Resources.box_wp_clean);
+            PKXBOXES = pokeGrid1.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -379,7 +367,7 @@ namespace PKHeX.WinForms
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!PAN_Box.RectangleToScreen(PAN_Box.ClientRectangle).Contains(MousePosition))
+            if (!pokeGrid1.RectangleToScreen(pokeGrid1.ClientRectangle).Contains(MousePosition))
                 return;
             int oldval = SCR_Box.Value;
             int newval = oldval + (e.Delta < 0 ? 1 : -1);

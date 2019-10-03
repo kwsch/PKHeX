@@ -88,8 +88,6 @@ namespace PKHeX.WinForms.Controls
 
         private void InitializeEvents()
         {
-            foreach (PictureBox pb in Box.SlotPictureBoxes)
-                pb.ContextMenuStrip = menu.mnuVSD;
             foreach (PictureBox pb in SlotPictureBoxes)
             {
                 InitializeDragDrop(pb);
@@ -912,7 +910,13 @@ namespace PKHeX.WinForms.Controls
                 z.FindForm()?.Close();
 
             Box.M = M;
-            Box.InitializeFromSAV(SAV);
+            bool newSlots = Box.InitializeFromSAV(SAV);
+            if (newSlots)
+            {
+                foreach (var pb in Box.SlotPictureBoxes)
+                    pb.ContextMenuStrip = menu.mnuVSD;
+            }
+
             SortMenu.ToggleVisibility();
         }
 

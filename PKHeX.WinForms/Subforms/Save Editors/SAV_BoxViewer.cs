@@ -15,6 +15,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             Box.Editor = new BoxEdit(m.SE.SAV);
             Box.Setup(m);
+            Box.InitializeGrid();
             Box.Reset();
             CenterToParent();
 
@@ -44,7 +45,6 @@ namespace PKHeX.WinForms
 
         public int CurrentBox => Box.CurrentBox;
         private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.SwapBoxesViewer(Box.CurrentBox);
-        public void SetPKMBoxes() => Box.ResetSlots();
 
         private static void Main_DragEnter(object sender, DragEventArgs e)
         {
