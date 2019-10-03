@@ -20,7 +20,7 @@ namespace PKHeX.Core
             {
                 case 8:
                     return "swsh";
-                case 7:
+                case 7 when !GG.Contains(version):
                     return "xy";
                 case 6:
                     return ORAS.Contains(version) && index > 16 ? "ao" : "xy";
