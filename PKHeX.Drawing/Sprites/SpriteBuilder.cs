@@ -81,7 +81,7 @@ namespace PKHeX.Drawing
 
         private static Image GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
         {
-            var file = PKX.GetResourceStringSprite(species, form, gender, generation, shiny);
+            var file = SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
             return (Image)Resources.ResourceManager.GetObject(file);
         }
 

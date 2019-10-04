@@ -10,7 +10,7 @@ namespace PKHeX.Drawing
 
         public static Image GetBallSprite(int ball)
         {
-            string resource = PKX.GetResourceStringBall(ball);
+            string resource = SpriteName.GetResourceStringBall(ball);
             return (Image)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
         }
 

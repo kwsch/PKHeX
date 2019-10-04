@@ -428,7 +428,7 @@ namespace PKHeX.WinForms
             Draw.LoadBrushes();
             PKME_Tabs.Unicode = Unicode = settings.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
-            PKX.AllowShinySprite = settings.ShinySprites;
+            SpriteName.AllowShinySprite = settings.ShinySprites;
             SaveFile.SetUpdateDex = settings.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
             SaveFile.SetUpdatePKM = settings.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
             C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;

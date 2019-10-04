@@ -418,36 +418,6 @@ namespace PKHeX.Core
             }
         }
 
-        // Data Requests
-        public static string GetResourceStringBall(int ball) => $"_ball{ball}";
-        private const string ResourceSeparator = "_";
-        private const string ResourcePikachuCosplay = "c"; // osplay
-        private const string ResourceShiny = "s"; // hiny
-        private const string ResourceGGStarter = "p"; //artner
-        public static bool AllowShinySprite { get; set; }
-
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation = Generation, bool shiny = false)
-        {
-            if (Legal.SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
-                form = 0;
-
-            var sb = new System.Text.StringBuilder();
-            { sb.Append(ResourceSeparator); sb.Append(species); }
-            if (form > 0)
-            { sb.Append(ResourceSeparator); sb.Append(form); }
-            else if (gender == 1 && Legal.SpeciesGenderedSprite.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-            { sb.Append(ResourceSeparator); sb.Append(gender); }
-
-            if (species == 25 && form > 0 && generation == 6) // Cosplay Pikachu
-                sb.Append(ResourcePikachuCosplay);
-            else if (GameVersion.GG.Contains(PKMConverter.Trainer.Game) && (species == 25 || species == 133) && form != 0)
-                sb.Append(ResourceGGStarter);
-
-            if (shiny && AllowShinySprite)
-                sb.Append(ResourceShiny);
-            return sb.ToString();
-        }
-
         /// <summary>
         /// Gets the Unown Forme ID from PID.
         /// </summary>

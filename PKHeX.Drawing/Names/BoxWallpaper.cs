@@ -1,6 +1,8 @@
-﻿using static PKHeX.Core.GameVersion;
+﻿using PKHeX.Core;
 
-namespace PKHeX.Core
+using static PKHeX.Core.GameVersion;
+
+namespace PKHeX.Drawing
 {
     /// <summary>
     /// Retrieves Box Storage wallpaper metadata.
@@ -9,7 +11,7 @@ namespace PKHeX.Core
     {
         public static string GetWallpaperResourceName(GameVersion version, int index)
         {
-            index++;
+            index++; // start indexes at 1
             var suffix = GetResourceSuffix(version, index);
             return $"box_wp{index:00}{suffix}";
         }
@@ -54,52 +56,42 @@ namespace PKHeX.Core
                 case 3:
                     if (CXD.Contains(version))
                         return wallpaperID == 7; // flame pattern in XD
-                    switch (wallpaperID)
+
+                    return wallpaperID switch
                     {
-                        case 5: // Volcano
-                            return true;
-                        case 13: // PokéCenter
-                            return E == version;
-                        default:
-                            return false;
-                    }
+                        5 => true, // Volcano
+                        13 => E == version, // PokéCenter
+                        _ => false,
+                    };
                 case 4:
-                    switch (wallpaperID)
+                    return wallpaperID switch
                     {
-                        case 5: // Volcano
-                        case 12: // Checks
-                        case 13: // PokéCenter
-                        case 22: // Special
-                            return true;
-                        default:
-                            return false;
-                    }
+                        5 => true, // Volcano
+                        12 => true, // Checks
+                        13 => true, // PokéCenter
+                        22 => true, // Special
+                        _ => false
+                    };
                 case 5:
-                    switch (wallpaperID)
+                    return wallpaperID switch
                     {
-                        case 5: // Volcano
-                        case 12: // Checks
-                            return true;
-                        case 19: // PWT
-                        case 22: // Reshiram
-                            return B2W2.Contains(version);
-                        case 21: // Zoroark
-                        case 23: // Musical
-                            return BW.Contains(version);
-                        default:
-                            return false;
-                    }
+                        5 => true, // Volcano
+                        12 => true, // Checks
+                        19 => B2W2.Contains(version), // PWT
+                        22 => B2W2.Contains(version), // Reshiram
+                        21 => BW.Contains(version), // Zoroark
+                        23 => BW.Contains(version), // Musical
+                        _ => false
+                    };
                 case 6:
                 case 7:
-                    switch (wallpaperID)
+                    return wallpaperID switch
                     {
-                        case 5: // Volcano
-                        case 12: // PokéCenter
-                        case 20: // Special5 Flare/Magma
-                            return true;
-                        default:
-                            return false;
-                    }
+                        5 => true, // Volcano
+                        12 => true, // PokéCenter
+                        20 => true, // Special5 Flare/Magma
+                        _ => false
+                    };
                 case 8: // todo swsh
                     return true;
                 default:
