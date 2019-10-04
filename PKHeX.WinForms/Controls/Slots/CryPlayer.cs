@@ -27,11 +27,19 @@ namespace PKHeX.WinForms.Controls
 
         private static string GetCryPath(PKM pk, string cryFolder)
         {
-            var name = SpriteName.GetResourceStringSprite(pk.Species, pk.AltForm, pk.Gender, pk.Format).Replace('_', '-').Substring(1);
+            var name = GetCryFileName(pk);
             var path = Path.Combine(cryFolder, $"{name}.wav");
             if (!File.Exists(path))
                 path = Path.Combine(cryFolder, $"{pk.Species}.wav");
             return path;
+        }
+
+        private static string GetCryFileName(PKM pk)
+        {
+            // don't grab sprite of pkm, no gender specific cries
+            var res = SpriteName.GetResourceStringSprite(pk.Species, pk.AltForm, 0, pk.Format);
+            return res.Replace('_', '-') // people like - instead of _ file names ;)
+                .Substring(1); // skip leading underscore
         }
     }
 }
