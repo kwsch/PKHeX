@@ -61,7 +61,7 @@ namespace PKHeX.WinForms.Controls
 
         public void SetBackground(Image img) => BackgroundImage = img;
 
-        public PictureBox GetControl(int width, int height)
+        public static PictureBox GetControl(int width, int height)
         {
             return new PictureBox
             {

@@ -345,9 +345,7 @@ namespace PKHeX.Core
         private bool IsChunkValidHoF(int ofs)
         {
             ushort chk = Checksums.CRC32(Data, ofs, SIZE_BLOCK_USED);
-            if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF4))
-                return false;
-            return true;
+            return chk == BitConverter.ToUInt16(Data, ofs + 0xFF4);
         }
 
         private bool IsChunkValid(int i)
@@ -355,9 +353,7 @@ namespace PKHeX.Core
             int ofs = ABO + (i * SIZE_BLOCK);
             int len = chunkLength[BlockOrder[i]];
             ushort chk = Checksums.CRC32(Data, ofs, len);
-            if (chk != BitConverter.ToUInt16(Data, ofs + 0xFF6))
-                return false;
-            return true;
+            return chk == BitConverter.ToUInt16(Data, ofs + 0xFF6);
         }
 
         public override string ChecksumInfo

@@ -160,7 +160,7 @@ namespace PKHeX.Core
             pk.IV_SPE = Util.Rand.Next(32);
 
             var pi = pk.PersonalInfo;
-            int av = 3;
+            const int av = 3;
             pk.Gender = criteria.GetGender(Gender, pi);
             pk.Nature = (int)criteria.GetNature(Nature.Random);
             pk.RefreshAbility(criteria.GetAbility(av, pi));

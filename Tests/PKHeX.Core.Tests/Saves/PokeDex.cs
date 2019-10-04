@@ -54,7 +54,7 @@ namespace PKHeX.Tests.Saves
             var dex = sav.PokeDex;
             var data = sav.Data;
 
-            var formDex = dex + 8 + regionSize * 9;
+            var formDex = dex + 8 + (regionSize * 9);
 
             int fc = sav.Personal[species].FormeCount;
             var bit = ((SAV5)sav).Zukan.DexFormIndexFetcher(species, fc, 0);

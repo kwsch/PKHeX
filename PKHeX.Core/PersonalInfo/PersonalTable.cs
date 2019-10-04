@@ -335,9 +335,11 @@ namespace PKHeX.Core
             for (int i = 0; i <= MaxSpecies; i++)
             {
                 result[i] = species[i];
-                if (AltForms[i].Length == 0) continue;
+                if (AltForms[i].Length == 0)
+                    continue;
                 int altformpointer = this[i].FormStatsIndex;
-                if (altformpointer <= 0) continue;
+                if (altformpointer <= 0)
+                    continue;
                 for (int j = 1; j < AltForms[i].Length; j++)
                 {
                     int ptr = altformpointer + j - 1;

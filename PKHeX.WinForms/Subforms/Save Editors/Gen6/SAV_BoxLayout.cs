@@ -100,7 +100,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private NumericUpDown[] flagArr = new NumericUpDown[0];
+        private NumericUpDown[] flagArr = Array.Empty<NumericUpDown>();
         private bool editing;
         private bool renamingBox;
 

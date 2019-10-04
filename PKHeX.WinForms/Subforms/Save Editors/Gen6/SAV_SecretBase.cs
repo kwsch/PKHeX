@@ -584,6 +584,7 @@ namespace PKHeX.WinForms
             get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 0), 0x22);
             set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 0));
         }
+
         public string FlavorText2
         {
             get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 1), 0x22);

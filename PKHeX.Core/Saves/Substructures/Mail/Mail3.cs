@@ -7,6 +7,7 @@ namespace PKHeX.Core
     {
         private const int SIZE = 0x24;
         private readonly bool JP;
+
         public Mail3(SAV3 sav, int index)
         {
             JP = sav.Japanese;

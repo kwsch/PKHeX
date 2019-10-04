@@ -92,7 +92,6 @@ namespace PKHeX.Core
             };
             SetMoves(pk);
 
-
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg)
             {
@@ -140,18 +139,10 @@ namespace PKHeX.Core
 
         private int GetVersion(ITrainerInfo SAV)
         {
-            int version;
-            if (Version == 0)
-            {
-                bool gen3 = SAV.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)SAV.Game);
-                version = gen3 ? SAV.Game : (int)GameVersion.R;
-            }
-            else
-            {
-                version = (int)GetRandomVersion(Version);
-            }
-
-            return version;
+            if (Version != 0)
+                return (int) GetRandomVersion(Version);
+            bool gen3 = SAV.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)SAV.Game);
+            return gen3 ? SAV.Game : (int)GameVersion.R;
         }
 
         private void SetMoves(PK3 pk)

@@ -71,7 +71,7 @@ namespace PKHeX.Core
             return peek;
         }
 
-        public T PeekOrDefault() => !TryFetchPeek() ? default(T) : peek;
+        public T PeekOrDefault() => !TryFetchPeek() ? default : peek;
 
         /// <summary>
         /// Checks if a Next element exists
